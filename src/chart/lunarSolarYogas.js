@@ -834,6 +834,76 @@ function refineYogasByStrength(yogas, planetaryStrengths) {
   });
 }
 
+function refineYogaByCancellation(yogas, chart) {
+  // Phase 9: Apply classical yoga cancellation/negation rules
+  if (!chart) return yogas.map(y => ({ ...y, cancelled: false }));
+
+  return yogas.map(yoga => {
+    const refined = { ...yoga, cancelled: false, cancellationReason: null };
+
+    switch (yoga.name) {
+      case 'Kemadruma Yoga': {
+        const moonHouse = findPlanetHouse(chart, 'Moon');
+        const moonPos = chart.planetPositions?.Moon;
+        const moonSign = Math.floor(moonPos / 30);
+
+        // Check 1: Moon in angular house cancels Kemadruma
+        if (moonHouse && [1, 4, 7, 10].includes(moonHouse)) {
+          refined.cancelled = true;
+          refined.cancellationReason = `Moon in angular house (${moonHouse}) - cancellation rule applied`;
+          break;
+        }
+
+        // Check 2: Benefic aspect to Moon cancels Kemadruma
+        const jupiterHouse = findPlanetHouse(chart, 'Jupiter');
+        const venusHouse = findPlanetHouse(chart, 'Venus');
+
+        if (jupiterHouse && moonHouse) {
+          const jDiff = Math.abs(jupiterHouse - moonHouse);
+          if (jDiff === 7 || jDiff === 0) {  // 7th aspect or conjunction
+            refined.cancelled = true;
+            refined.cancellationReason = 'Jupiter aspects Moon - benefic cancellation';
+            break;
+          }
+        }
+
+        if (venusHouse && moonHouse) {
+          const vDiff = Math.abs(venusHouse - moonHouse);
+          if (vDiff === 7 || vDiff === 0) {
+            refined.cancelled = true;
+            refined.cancellationReason = 'Venus aspects Moon - benefic cancellation';
+            break;
+          }
+        }
+
+        // Check 3: Moon in own/exalted sign reduces intensity
+        const isExalted = moonSign === 1;  // Taurus
+        const isOwn = moonSign === 3;      // Cancer
+        if (isExalted || isOwn) {
+          refined.cancelled = true;
+          refined.cancellationReason = `Moon ${isExalted ? 'exalted' : 'in own sign'} - sign-based cancellation`;
+        }
+        break;
+      }
+
+      case 'Vosi Yoga': {
+        // Vosi cancelled if Mercury weak or debilitated
+        const mercuryPos = chart.planetPositions?.Mercury;
+        const mercurySign = Math.floor(mercuryPos / 30);
+        const isPisces = mercurySign === 11;  // Pisces (debilitation sign)
+
+        if (isPisces) {
+          refined.cancelled = true;
+          refined.cancellationReason = 'Mercury debilitated in Pisces - Vosi cancellation';
+        }
+        break;
+      }
+    }
+
+    return refined;
+  });
+}
+
 function calculateLunarSolarYogas(chart, planetaryStrengths) {
   const matchedYogas = [];
 
@@ -875,9 +945,12 @@ function calculateLunarSolarYogas(chart, planetaryStrengths) {
       refineYogasByStrength(matchedYogas, planetaryStrengths) :
       matchedYogas;
 
+    // Phase 9: Apply yoga cancellation rules
+    const cancelledYogas = refineYogaByCancellation(refinedYogas, chart);
+
     return attachSource({
-      yogas: refinedYogas,
-      totalMatched: refinedYogas.length,
+      yogas: cancelledYogas,
+      totalMatched: cancelledYogas.length,
     }, BPHS_LUNAR_SOLAR_SOURCE);
 
   } catch (error) {
