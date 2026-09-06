@@ -795,7 +795,46 @@ function enrichYogaMetadata(yogaKey, chart, baseYoga) {
   return enriched;
 }
 
-function calculateLunarSolarYogas(chart) {
+function refineYogasByStrength(yogas, planetaryStrengths) {
+  // Phase 8: Integrate planetary strength gates and effect scaling
+  if (!planetaryStrengths) return yogas;
+
+  return yogas.map(yoga => {
+    const refined = { ...yoga };
+
+    // Strength gates per yoga type
+    switch (yoga.name) {
+      case 'Sunapha Yoga': {
+        const mercuryStrength = planetaryStrengths.Mercury?.totalStrength || 0;
+        refined.strengthGate = mercuryStrength >= 50;
+        if (mercuryStrength >= 50) {
+          refined.effectsScaled = yoga.effects + ` [Strength: ${mercuryStrength.toFixed(0)}/100]`;
+        }
+        break;
+      }
+      case 'Hamsa Yoga': {
+        const jupiterStrength = planetaryStrengths.Jupiter?.totalStrength || 0;
+        refined.strengthGate = jupiterStrength >= 60;
+        if (jupiterStrength >= 60) {
+          refined.effectsScaled = yoga.effects + ` [Strength: ${jupiterStrength.toFixed(0)}/100]`;
+        }
+        break;
+      }
+      case 'Adhi Yoga': {
+        const moonStrength = planetaryStrengths.Moon?.totalStrength || 0;
+        refined.strengthGate = moonStrength >= 45;
+        if (moonStrength >= 45) {
+          refined.effectsScaled = yoga.effects + ` [Strength: ${moonStrength.toFixed(0)}/100]`;
+        }
+        break;
+      }
+    }
+
+    return refined;
+  });
+}
+
+function calculateLunarSolarYogas(chart, planetaryStrengths) {
   const matchedYogas = [];
 
   try {
@@ -830,6 +869,12 @@ function calculateLunarSolarYogas(chart) {
         }
       }
     }
+
+    // Phase 8: Refine by planetary strength
+    const refinedYogas = planetaryStrengths ?
+      refineYogasByStrength(matchedYogas, planetaryStrengths) :
+      matchedYogas;
+
   } catch (error) {
     console.error('Error in calculateLunarSolarYogas:', error);
   }
