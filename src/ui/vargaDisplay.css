@@ -1,0 +1,404 @@
+/* TRACK B.1: Varga Display Component Styling */
+
+:root {
+  --color-benefic: #00A86B;
+  --color-neutral: #FFD700;
+  --color-malefic: #DC143C;
+  --color-bg-light: #F5F5F5;
+  --color-bg-dark: #2A2A2A;
+  --color-text-light: #333333;
+  --color-text-dark: #FFFFFF;
+  --color-border: #CCCCCC;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg-light: #2A2A2A;
+    --color-text-light: #FFFFFF;
+    --color-border: #555555;
+  }
+}
+
+[data-theme="dark"] {
+  --color-bg-light: #2A2A2A;
+  --color-text-light: #FFFFFF;
+  --color-border: #555555;
+}
+
+/* Main Container */
+.varga-display {
+  padding: 20px;
+  background-color: var(--color-bg-light);
+  color: var(--color-text-light);
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+/* Header */
+.varga-header {
+  margin-bottom: 30px;
+}
+
+.varga-header h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  color: var(--color-text-light);
+}
+
+.varga-header p {
+  font-size: 14px;
+  color: #888;
+  margin: 0;
+}
+
+/* Tab Navigation */
+.varga-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-bottom: 30px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.varga-tab {
+  padding: 12px 16px;
+  background-color: #EEEEEE;
+  color: var(--color-text-light);
+  border: 2px solid var(--color-border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+[data-theme="dark"] .varga-tab {
+  background-color: #3A3A3A;
+}
+
+.varga-tab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.varga-tab.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.tab-symbol {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.tab-name {
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+/* Content Area */
+.varga-content {
+  margin-bottom: 30px;
+}
+
+.chart-info {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #FAFAFA;
+  border-left: 4px solid #667eea;
+  border-radius: 4px;
+}
+
+[data-theme="dark"] .chart-info {
+  background-color: #3A3A3A;
+}
+
+.chart-info h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: #667eea;
+}
+
+.chart-info p {
+  margin: 6px 0;
+  font-size: 13px;
+  color: var(--color-text-light);
+}
+
+/* Chart Table */
+.chart-table-container {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.chart-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #FFFFFF;
+  font-size: 14px;
+}
+
+[data-theme="dark"] .chart-table {
+  background-color: #1A1A1A;
+}
+
+.chart-table thead {
+  background-color: #F0F0F0;
+  font-weight: 600;
+  color: var(--color-text-light);
+}
+
+[data-theme="dark"] .chart-table thead {
+  background-color: #3A3A3A;
+}
+
+.chart-table th {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 2px solid var(--color-border);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chart-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #EEEEEE;
+}
+
+[data-theme="dark"] .chart-table td {
+  border-bottom-color: #3A3A3A;
+}
+
+.chart-table tbody tr:hover {
+  background-color: #FAFAFA;
+}
+
+[data-theme="dark"] .chart-table tbody tr:hover {
+  background-color: #2A2A2A;
+}
+
+/* Row Colors (Benefic/Malefic) */
+.chart-table tbody tr.benefic {
+  background-color: rgba(0, 168, 107, 0.05);
+}
+
+.chart-table tbody tr.benefic:hover {
+  background-color: rgba(0, 168, 107, 0.1);
+}
+
+.chart-table tbody tr.malefic {
+  background-color: rgba(220, 20, 60, 0.05);
+}
+
+.chart-table tbody tr.malefic:hover {
+  background-color: rgba(220, 20, 60, 0.1);
+}
+
+.chart-table tbody tr.neutral {
+  background-color: rgba(255, 215, 0, 0.02);
+}
+
+.chart-table tbody tr.neutral:hover {
+  background-color: rgba(255, 215, 0, 0.05);
+}
+
+/* Column-specific styling */
+.house-number {
+  font-weight: 600;
+  text-align: center;
+  width: 60px;
+}
+
+.rasi-symbol {
+  font-size: 16px;
+  text-align: center;
+  width: 50px;
+  font-weight: bold;
+}
+
+.rasi-name {
+  font-weight: 500;
+  min-width: 80px;
+}
+
+.rasi-meaning {
+  font-size: 12px;
+  color: #666;
+}
+
+[data-theme="dark"] .rasi-meaning {
+  color: #AAA;
+}
+
+/* Legend */
+.varga-legend {
+  display: flex;
+  gap: 30px;
+  padding: 15px;
+  background-color: #FAFAFA;
+  border-radius: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+[data-theme="dark"] .varga-legend {
+  background-color: #3A3A3A;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--color-text-light);
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.legend-color.benefic {
+  background-color: var(--color-benefic);
+}
+
+.legend-color.neutral {
+  background-color: var(--color-neutral);
+}
+
+.legend-color.malefic {
+  background-color: var(--color-malefic);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .varga-display {
+    padding: 15px;
+  }
+
+  .varga-tabs {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .varga-tab {
+    padding: 10px 8px;
+    font-size: 11px;
+  }
+
+  .tab-symbol {
+    font-size: 14px;
+  }
+
+  .tab-name {
+    font-size: 10px;
+  }
+
+  .chart-table {
+    font-size: 12px;
+  }
+
+  .chart-table th,
+  .chart-table td {
+    padding: 10px 8px;
+  }
+
+  .varga-legend {
+    gap: 15px;
+    padding: 12px;
+  }
+
+  .varga-header h2 {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .varga-tabs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .varga-tab {
+    padding: 8px 6px;
+    font-size: 10px;
+  }
+
+  .tab-symbol {
+    font-size: 13px;
+  }
+
+  .chart-table {
+    font-size: 11px;
+  }
+
+  .chart-table th,
+  .chart-table td {
+    padding: 8px 6px;
+  }
+
+  .varga-legend {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .varga-header h2 {
+    font-size: 18px;
+  }
+
+  .house-number,
+  .rasi-symbol {
+    width: auto;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chart-table tbody tr {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Print styles */
+@media print {
+  .varga-tabs {
+    display: none;
+  }
+
+  .varga-display {
+    box-shadow: none;
+    border: 1px solid #DDD;
+  }
+
+  .chart-table {
+    page-break-inside: avoid;
+  }
+
+  .varga-legend {
+    display: block;
+    text-align: center;
+  }
+}
