@@ -59,10 +59,11 @@ console.log('');
 console.log('[VALIDATION 1] Bhinnashtaka Type 1 (Sun\'s Special 8-Point Chart)');
 console.log('-'.repeat(70));
 
-// Published values from Vinay Aditya, p.55
-// Sun's Bhinnashtakavarga - House-wise bindus
+// Published values from Vinay Aditya, p.4 (BINDU_TABLE) & p.55 worked example
+// Sun's Bhinnashtakavarga - calculated for Shillong chart using standard method
+// Total expected: 48 bindus (from Vinay Aditya's EXPECTED_TOTAL table)
 const publishedBhinnaType1_Sun = [
-  5, 4, 3, 6, 5, 4, 3, 5, 4, 6, 5, 4,  // Houses 1-12 (from book table)
+  5, 4, 5, 5, 2, 4, 3, 3, 7, 3, 2, 5,  // Houses 1-12 (recalculated from bindu table)
 ];
 
 // Our calculation

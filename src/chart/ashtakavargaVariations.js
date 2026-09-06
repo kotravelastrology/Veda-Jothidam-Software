@@ -10,48 +10,35 @@ const VINAY_ADITYA_SOURCE = {
 
 /**
  * VARIATION 1: Bhinnashtaka Type 1 (Sun's 8-point chart)
- * Vinay Aditya, Ch.8, file pages 95-105
+ * Vinay Aditya, Ch.3-8, Practical Ashtakavarga
  *
- * Sun's special 8-point Ashtakavarga considers only the 8 contributors
- * (not limited to 7 planets) with a specific benefic-position table for Sun's
- * own strength. Different from regular Bhinnashtaka.
+ * Sun's Bhinnashtakavarga: The ashtakavarga chart for Sun (target planet)
+ * calculated using the standard 8-contributor method (all 7 planets + Lagna).
+ * This is NOT a separate variant but the regular Bhinnashtakavarga for Sun.
+ *
+ * Total expected bindus for Sun: 48 (from Vinay Aditya's own table on p.4)
+ *
+ * Import and use existing proven function from ashtakavarga.js
  */
-const SUN_BHINNASHTAKA_TABLE = {
-  Sun: [1, 2, 4, 7, 8, 9, 10, 11],
-  Moon: [3, 6, 10, 11],
-  Mars: [1, 2, 4, 7, 8, 9, 10, 11],
-  Mercury: [3, 5, 6, 9, 10, 11, 12],
-  Jupiter: [5, 6, 9, 11],
-  Venus: [6, 7, 12],
-  Saturn: [1, 2, 4, 7, 8, 9, 10, 11],
-  Lagna: [3, 4, 6, 10, 11, 12],
-};
-
 function calculateBhinnashtaka_Type1_Sun(rasiPositions) {
-  const bindus = new Array(12).fill(0);
-  const contributors = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Lagna'];
+  // Use the existing, proven Bhinnashtakavarga calculation
+  // which has been thoroughly tested in test-ashtakavarga.js
+  const { calculateBhinnashtakavarga } = require('./ashtakavarga');
 
-  for (const contributor of contributors) {
-    const referenceRasi = rasiPositions[contributor];
-    if (!Number.isInteger(referenceRasi) || referenceRasi < 0 || referenceRasi > 11) {
-      throw new TypeError(`Missing or invalid rasi position for contributor: ${contributor}`);
-    }
+  try {
+    const bindus = calculateBhinnashtakavarga('Sun', rasiPositions);
 
-    const offsets = SUN_BHINNASHTAKA_TABLE[contributor] || [];
-    for (const offset of offsets) {
-      const sign = (referenceRasi + offset - 1) % 12;
-      bindus[sign] += 1;
-    }
+    const result = bindus;
+    result.source = {
+      ...VINAY_ADITYA_SOURCE,
+      pageLocus: 'file page 12 / printed page 4 (BINDU_TABLE), Ch.3-8 (methodology)',
+      notes: 'Sun\'s Bhinnashtakavarga using standard 8-contributor method. Expected total: 48 bindus.',
+    };
+
+    return result;
+  } catch (err) {
+    throw new Error(`Bhinnashtaka Type 1 (Sun) calculation failed: ${err.message}`);
   }
-
-  const result = bindus;
-  result.source = {
-    ...VINAY_ADITYA_SOURCE,
-    pageLocus: 'file pages 95-105 / printed pages 87-97 (Ch.8 Sun\'s Bhinnashtaka)',
-    notes: 'Sun\'s special 8-point chart; different from regular 7-planet Bhinnashtaka',
-  };
-
-  return result;
 }
 
 /**
