@@ -834,6 +834,179 @@ function refineYogasByStrength(yogas, planetaryStrengths) {
   });
 }
 
+function calculateYogaSeverity(yoga, chart, planetaryStrengths) {
+  // Phase 10: Calculate severity score and rating based on multi-factor framework
+  let baseScore = 50;  // Default moderate severity
+  let strengthFactor = 0;
+  let cancellationFactor = 0;
+  let aspectSupport = 0;
+  let multiplier = 1.0;
+
+  // Step 1: Determine base severity from yoga type
+  switch (yoga.name) {
+    // CRITICAL BASE
+    case 'Adhi Yoga':
+    case 'Sunapha Yoga':
+    case 'Anapha Yoga':
+      baseScore = 90;
+      multiplier = 1.0;  // Benefic - no multiplier boost
+      break;
+
+    case 'Hamsa Yoga':
+    case 'Malavya Yoga':
+      baseScore = 85;
+      multiplier = 1.1;  // Strong beneficial
+      break;
+
+    // MAJOR BASE
+    case 'Vesi Yoga':
+    case 'Vosi Yoga':
+      baseScore = 75;
+      break;
+
+    case 'Ruchaka Yoga':
+    case 'Bhadra Yoga':
+    case 'Sasa Yoga':
+      baseScore = 70;
+      break;
+
+    // MODERATE BASE
+    case 'Kemadruma Yoga':
+      baseScore = 75;  // Adverse - higher concern
+      multiplier = 1.1;  // Emphasize threat
+      break;
+
+    case 'Chandraadhi Yoga':
+      baseScore = 50;
+      break;
+
+    // Default for other yogas
+    default:
+      baseScore = 45;
+      multiplier = 0.9;  // Reduce emphasis for rare/edge cases
+  }
+
+  // Step 2: Adjust by planetary strength (Phase 7 integration)
+  if (planetaryStrengths) {
+    const involvedPlanets = [];
+
+    // Identify key planets for this yoga
+    switch (yoga.name) {
+      case 'Sunapha Yoga':
+      case 'Anapha Yoga':
+        involvedPlanets.push('Mercury');
+        break;
+      case 'Hamsa Yoga':
+        involvedPlanets.push('Jupiter');
+        break;
+      case 'Malavya Yoga':
+        involvedPlanets.push('Venus');
+        break;
+      case 'Ruchaka Yoga':
+        involvedPlanets.push('Mars');
+        break;
+      case 'Bhadra Yoga':
+        involvedPlanets.push('Mercury');
+        break;
+      case 'Sasa Yoga':
+        involvedPlanets.push('Saturn');
+        break;
+      case 'Kemadruma Yoga':
+        involvedPlanets.push('Moon');
+        break;
+      case 'Adhi Yoga':
+        involvedPlanets.push('Moon');
+        break;
+      case 'Vesi Yoga':
+      case 'Vosi Yoga':
+        involvedPlanets.push('Sun');
+        break;
+    }
+
+    // Calculate average strength of involved planets
+    let totalStrength = 0;
+    let count = 0;
+    involvedPlanets.forEach(p => {
+      if (planetaryStrengths[p]) {
+        totalStrength += planetaryStrengths[p].totalStrength || 0;
+        count++;
+      }
+    });
+
+    const avgStrength = count > 0 ? totalStrength / count : 50;
+
+    // Apply strength factor (affects both benefic and adverse yogas)
+    if (yoga.name === 'Kemadruma Yoga') {
+      // For adverse yoga: higher strength = more severe
+      if (avgStrength >= 75) strengthFactor = 30;
+      else if (avgStrength >= 60) strengthFactor = 20;
+      else if (avgStrength >= 50) strengthFactor = 10;
+      else strengthFactor = -15;  // Weak planet reduces threat
+    } else {
+      // For benefic yogas: higher strength = better manifestation
+      if (avgStrength >= 75) strengthFactor = 30;
+      else if (avgStrength >= 60) strengthFactor = 20;
+      else if (avgStrength >= 50) strengthFactor = 10;
+      else strengthFactor = -10;  // Weak planet reduces benefit
+    }
+  }
+
+  // Step 3: Apply cancellation factor (Phase 9 integration)
+  if (yoga.cancelled) {
+    cancellationFactor = -35;  // Strongly reduce severity
+  } else if (yoga.cancellationReason) {
+    cancellationFactor = -15;  // Partially mitigate
+  }
+
+  // Step 4: Aspect support factor (simplified - not using full aspect matrix for now)
+  if (yoga.sunaphaStrength || yoga.hamsaStrength || yoga.bhadraStrength) {
+    aspectSupport = 5;  // Minor boost for enriched yogas
+  }
+
+  // Calculate final severity score
+  const severityScore = Math.max(0, Math.min(100,
+    (baseScore + strengthFactor + cancellationFactor + aspectSupport) * multiplier
+  ));
+
+  // Step 5: Assign rating tier
+  let rating = 'NEGLIGIBLE';
+  if (severityScore >= 80) rating = 'CRITICAL';
+  else if (severityScore >= 60) rating = 'MAJOR';
+  else if (severityScore >= 40) rating = 'MODERATE';
+  else if (severityScore >= 20) rating = 'MINOR';
+
+  // Generate breakdown explanation
+  let breakdown = `${rating}: `;
+  if (rating === 'CRITICAL') {
+    breakdown += yoga.name + ' with significant planetary influence';
+  } else if (rating === 'MAJOR') {
+    breakdown += yoga.name + ' with strong influence on life areas';
+  } else if (rating === 'MODERATE') {
+    breakdown += yoga.name + ' with noticeable but secondary influence';
+  } else if (rating === 'MINOR') {
+    breakdown += yoga.name + ' with subtle effects';
+  } else {
+    breakdown += yoga.name + ' with minimal practical influence';
+  }
+
+  if (yoga.cancelled) {
+    breakdown += ' (negated by cancellation)';
+  }
+
+  return {
+    score: Math.round(severityScore * 10) / 10,  // Round to 1 decimal
+    rating,
+    factors: {
+      base: baseScore,
+      strengthFactor: Math.round(strengthFactor * 10) / 10,
+      cancellationFactor: Math.round(cancellationFactor * 10) / 10,
+      aspectSupport: Math.round(aspectSupport * 10) / 10,
+      multiplier
+    },
+    breakdown
+  };
+}
+
 function refineYogaByCancellation(yogas, chart) {
   // Phase 9: Apply classical yoga cancellation/negation rules
   if (!chart) return yogas.map(y => ({ ...y, cancelled: false }));
@@ -948,9 +1121,17 @@ function calculateLunarSolarYogas(chart, planetaryStrengths) {
     // Phase 9: Apply yoga cancellation rules
     const cancelledYogas = refineYogaByCancellation(refinedYogas, chart);
 
+    // Phase 10: Calculate severity scores and ratings
+    const severityYogas = cancelledYogas.map(yoga =>
+      ({
+        ...yoga,
+        severity: calculateYogaSeverity(yoga, chart, planetaryStrengths)
+      })
+    );
+
     return attachSource({
-      yogas: cancelledYogas,
-      totalMatched: cancelledYogas.length,
+      yogas: severityYogas,
+      totalMatched: severityYogas.length,
     }, BPHS_LUNAR_SOLAR_SOURCE);
 
   } catch (error) {
