@@ -875,14 +875,18 @@ function calculateLunarSolarYogas(chart, planetaryStrengths) {
       refineYogasByStrength(matchedYogas, planetaryStrengths) :
       matchedYogas;
 
+    return attachSource({
+      yogas: refinedYogas,
+      totalMatched: refinedYogas.length,
+    }, BPHS_LUNAR_SOLAR_SOURCE);
+
   } catch (error) {
     console.error('Error in calculateLunarSolarYogas:', error);
+    return attachSource({
+      yogas: [],
+      totalMatched: 0,
+    }, BPHS_LUNAR_SOLAR_SOURCE);
   }
-
-  return attachSource({
-    yogas: matchedYogas,
-    totalMatched: matchedYogas.length,
-  }, BPHS_LUNAR_SOLAR_SOURCE);
 }
 
 module.exports = {

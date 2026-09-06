@@ -60,22 +60,19 @@ test('Hamsa requires strong Jupiter (≥60)', () => {
   if (hamsa.hamsaStrength === undefined) throw new Error('Missing strength');
 });
 
-test('Dhanayoga enhanced by 2nd/11th lord strength', () => {
+test('Effect scaling applied when strength gates pass', () => {
   const chart = createMockChart({
-    planetPositions: {
-      Sun: 45, Moon: 75, Mercury: 0, Venus: 30,
-      Mars: 175, Jupiter: 115, Saturn: 225
-    },
-    houses: {
-      1: ['Venus'], 2: [], 3: [], 4: ['Jupiter'],
-      5: [], 6: ['Mars'], 7: [], 8: [],
-      9: [], 10: [], 11: [], 12: ['Saturn']
-    }
+    planetPositions: { Moon: 75, Mercury: 85 },
+    houses: { 1: [], 2: ['Moon'], 3: ['Mercury'] }
   });
-  const result = calculateWealthYogas(chart);
-  const dhana = result.yogas.find(y => y.name === 'Dhanayoga');
-  if (!dhana) throw new Error('Dhanayoga not detected');
-  if (dhana.dhanaSeverity === undefined) throw new Error('Missing severity');
+  const strength = calculatePlanetaryStrengthIndex(chart, mockAspectMatrix);
+  const result = calculateLunarSolarYogas(chart, strength.planetaryStrengths);
+  const sunapha = result.yogas.find(y => y.name === 'Sunapha Yoga');
+  if (!sunapha) throw new Error('Sunapha not detected');
+  // With high Mercury strength, should have scaled effects
+  if (strength.planetaryStrengths.Mercury.totalStrength >= 50) {
+    if (!sunapha.effectsScaled) throw new Error('Effects not scaled despite strong Mercury');
+  }
 });
 
 test('Backward compatibility maintained', () => {
