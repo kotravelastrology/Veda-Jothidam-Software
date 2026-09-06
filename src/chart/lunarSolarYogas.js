@@ -630,6 +630,163 @@ function enrichYogaMetadata(yogaKey, chart, baseYoga) {
         }
         break;
       }
+
+      case 'RUCHAKA_YOGA': {
+        const marsHouse = findPlanetHouse(chart, 'Mars');
+        const marsPos = chart.planetPositions?.Mars;
+        const marsSign = Math.floor(marsPos / 30);
+
+        const isAngular = [1, 4, 7, 10].includes(marsHouse);
+        const isTrinal = [5, 9].includes(marsHouse);
+        const isExalted = marsSign === 10; // Capricorn
+        const isOwnSign = marsSign === 0 || marsSign === 7; // Aries or Scorpio
+
+        let strength = 1;
+        if (isAngular && isExalted) {
+          strength = 4;
+          enriched.effects = 'Valiant, courageous, strong, leadership, victory, military capability. Exceptional: warrior spirit, supreme authority, physical prowess, triumph over enemies';
+        } else if (isAngular && isOwnSign) {
+          strength = 3;
+          enriched.effects = 'Valiant, courageous, strong, leadership, victory, military capability. Strong: commanding presence, military success, physical strength';
+        } else if (isTrinal && isExalted) {
+          strength = 2;
+          enriched.effects = 'Valiant, courageous, strong, leadership, victory, military capability. Moderate: steady courage, gradual success, athletic ability';
+        } else if (isTrinal && isOwnSign) {
+          strength = 1;
+          enriched.effects = 'Valiant, courageous, strong, leadership, victory, military capability. Weak: basic courage, local influence, sports interest';
+        }
+
+        enriched.ruchakaStrength = strength;
+        enriched.mars_house = isAngular ? 'angular' : isTrinal ? 'trinal' : 'other';
+        enriched.mars_sign_status = isExalted ? 'exalted' : isOwnSign ? 'own sign' : 'other';
+        break;
+      }
+
+      case 'BHADRA_YOGA': {
+        const mercuryHouse = findPlanetHouse(chart, 'Mercury');
+        const mercuryPos = chart.planetPositions?.Mercury;
+        const mercurySign = Math.floor(mercuryPos / 30);
+        const jupiterHouse = findPlanetHouse(chart, 'Jupiter');
+
+        const isAngular = [1, 4, 7, 10].includes(mercuryHouse);
+        const isTrinal = [5, 9].includes(mercuryHouse);
+        const isOwnSign = mercurySign === 2 || mercurySign === 5; // Gemini or Virgo
+        const jupiterAspects = jupiterHouse && Math.abs(jupiterHouse - mercuryHouse) <= 2;
+
+        let strength = 1;
+        if (isAngular && isOwnSign && jupiterAspects) {
+          strength = 4;
+          enriched.effects = 'Handsome, eloquent, famous, intelligent, wealthy, virtuous. Exceptional: diplomatic genius, commercial mastery, literary excellence';
+        } else if (isAngular && isOwnSign) {
+          strength = 3;
+          enriched.effects = 'Handsome, eloquent, famous, intelligent, wealthy, virtuous. Strong: business acumen, verbal fluency, intellectual success';
+        } else if (isTrinal && isOwnSign) {
+          strength = 2;
+          enriched.effects = 'Handsome, eloquent, famous, intelligent, wealthy, virtuous. Moderate: technical skill, writing ability, calculation mastery';
+        } else if (isTrinal && isOwnSign) {
+          strength = 1;
+          enriched.effects = 'Handsome, eloquent, famous, intelligent, wealthy, virtuous. Weak: basic learning, small business, local communication';
+        }
+
+        enriched.bhadraStrength = strength;
+        enriched.mercury_house = isAngular ? 'angular' : isTrinal ? 'trinal' : 'other';
+        enriched.mercury_sign_status = isOwnSign ? 'own sign' : 'other';
+        enriched.jupiter_aspect = jupiterAspects;
+        break;
+      }
+
+      case 'HAMSA_YOGA': {
+        const jupiterHouse = findPlanetHouse(chart, 'Jupiter');
+        const jupiterPos = chart.planetPositions?.Jupiter;
+        const jupiterSign = Math.floor(jupiterPos / 30);
+
+        const isAngular = [1, 4, 7, 10].includes(jupiterHouse);
+        const isTrinal = [5, 9].includes(jupiterHouse);
+        const isExalted = jupiterSign === 3; // Cancer
+        const isOwnSign = jupiterSign === 8 || jupiterSign === 11; // Sagittarius or Pisces
+
+        let strength = 1;
+        if (isAngular && isExalted) {
+          strength = 4;
+          enriched.effects = 'Fortunate, pious, virtuous, wise, wealthy, long-lived, powerful. Exceptional: saint-like wisdom, universal benevolence, supreme prosperity';
+        } else if (isAngular && isOwnSign) {
+          strength = 3;
+          enriched.effects = 'Fortunate, pious, virtuous, wise, wealthy, long-lived, powerful. Strong: spiritual authority, widespread prosperity, moral leadership';
+        } else if (isTrinal && isExalted) {
+          strength = 2;
+          enriched.effects = 'Fortunate, pious, virtuous, wise, wealthy, long-lived, powerful. Moderate: spiritual learning, steady prosperity, benevolent nature';
+        } else if (isTrinal && isOwnSign) {
+          strength = 1;
+          enriched.effects = 'Fortunate, pious, virtuous, wise, wealthy, long-lived, powerful. Weak: basic learning, local charity, modest prosperity';
+        }
+
+        enriched.hamsaStrength = strength;
+        enriched.jupiter_house = isAngular ? 'angular' : isTrinal ? 'trinal' : 'other';
+        enriched.jupiter_sign_status = isExalted ? 'exalted' : isOwnSign ? 'own sign' : 'other';
+        break;
+      }
+
+      case 'MALAVYA_YOGA': {
+        const venusHouse = findPlanetHouse(chart, 'Venus');
+        const venusPos = chart.planetPositions?.Venus;
+        const venusSign = Math.floor(venusPos / 30);
+
+        const isAngular = [1, 4, 7, 10].includes(venusHouse);
+        const isTrinal = [5, 9].includes(venusHouse);
+        const isExalted = venusSign === 11; // Pisces
+        const isOwnSign = venusSign === 1 || venusSign === 6; // Taurus or Libra
+
+        let strength = 1;
+        if (isAngular && isExalted) {
+          strength = 4;
+          enriched.effects = 'Fortunate, attractive, wealthy, famous, devoted to spouse, enjoys sensual pleasures. Exceptional: unparalleled beauty, artistic genius, supreme luxury';
+        } else if (isAngular && isOwnSign) {
+          strength = 3;
+          enriched.effects = 'Fortunate, attractive, wealthy, famous, devoted to spouse, enjoys sensual pleasures. Strong: artistic talent, harmonious relationships, refined tastes';
+        } else if (isTrinal && isExalted) {
+          strength = 2;
+          enriched.effects = 'Fortunate, attractive, wealthy, famous, devoted to spouse, enjoys sensual pleasures. Moderate: artistic appreciation, loving nature, comfort-seeking';
+        } else if (isTrinal && isOwnSign) {
+          strength = 1;
+          enriched.effects = 'Fortunate, attractive, wealthy, famous, devoted to spouse, enjoys sensual pleasures. Weak: basic aesthetic sense, simple pleasures, loyal nature';
+        }
+
+        enriched.malavyaStrength = strength;
+        enriched.venus_house = isAngular ? 'angular' : isTrinal ? 'trinal' : 'other';
+        enriched.venus_sign_status = isExalted ? 'exalted' : isOwnSign ? 'own sign' : 'other';
+        break;
+      }
+
+      case 'SASA_YOGA': {
+        const saturnHouse = findPlanetHouse(chart, 'Saturn');
+        const saturnPos = chart.planetPositions?.Saturn;
+        const saturnSign = Math.floor(saturnPos / 30);
+
+        const isAngular = [1, 4, 7, 10].includes(saturnHouse);
+        const isTrinal = [5, 9].includes(saturnHouse);
+        const isExalted = saturnSign === 6; // Libra
+        const isOwnSign = saturnSign === 9 || saturnSign === 10; // Capricorn or Aquarius
+
+        let strength = 1;
+        if (isAngular && isExalted) {
+          strength = 4;
+          enriched.effects = 'Disciplined, responsible, hardworking, longevity, leadership, authority, perseverance. Exceptional: iron will, judicial authority, lifetime achievement';
+        } else if (isAngular && isOwnSign) {
+          strength = 3;
+          enriched.effects = 'Disciplined, responsible, hardworking, longevity, leadership, authority, perseverance. Strong: career mastery, systematic thinking, long-term success';
+        } else if (isTrinal && isExalted) {
+          strength = 2;
+          enriched.effects = 'Disciplined, responsible, hardworking, longevity, leadership, authority, perseverance. Moderate: steady progress, fair judgment, patient accumulation';
+        } else if (isTrinal && isOwnSign) {
+          strength = 1;
+          enriched.effects = 'Disciplined, responsible, hardworking, longevity, leadership, authority, perseverance. Weak: basic diligence, slow progress, practical skills';
+        }
+
+        enriched.sasaStrength = strength;
+        enriched.saturn_house = isAngular ? 'angular' : isTrinal ? 'trinal' : 'other';
+        enriched.saturn_sign_status = isExalted ? 'exalted' : isOwnSign ? 'own sign' : 'other';
+        break;
+      }
     }
   } catch (e) {
     // Silently skip enrichment errors
