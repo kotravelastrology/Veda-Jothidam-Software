@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { DualShadBalaComparison } from './DualShadBalaComparison';
 import { AspectOverlayRenderer } from './AspectOverlayRenderer';
 import { CompatibilityMatrix } from './CompatibilityMatrix';
+import { DashaOverlapAnalysis } from './DashaOverlapAnalysis';
+import { ComparisonInsights } from './ComparisonInsights';
 
 interface ChartComparisonReport {
   nativeChart: {
@@ -127,53 +129,26 @@ export function ChartComparisonDisplay({ report }: { report: ChartComparisonRepo
         )}
 
         {activeTab === 'dasha' && (
-          <div className="bg-surface border border-line rounded-lg p-6">
-            <h3 className="text-xl font-semibold text-ink mb-4">Dasha Period Overlap</h3>
-            <div className="space-y-4">
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
-                <p className="text-sm text-ink-soft">
-                  Timeline comparison showing Dasha/Bhukti periods for both natives,
-                  identifying concurrent periods and their combined strength.
-                </p>
-              </div>
-              <div className="text-center py-8 text-ink-soft">
-                <p className="mb-2">📅 Dasha Timeline Comparison</p>
-                <p className="text-sm">Coming in Phase 30.9.3</p>
-              </div>
-            </div>
-          </div>
+          <DashaOverlapAnalysis
+            report={{
+              nativeChart: { name: report.nativeChart.name, dasha: report.nativeChart as any },
+              comparisonChart: { name: report.comparisonChart.name, dasha: report.comparisonChart as any },
+              overlappingPeriods: [],
+            }}
+          />
         )}
 
         {activeTab === 'insights' && (
-          <div className="bg-surface border border-line rounded-lg p-6 space-y-6">
-            <div>
-              <h3 className="text-xl font-semibold text-ink mb-4">Comparison Insights</h3>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-200 dark:border-green-800">
-                <p className="text-sm font-semibold text-green-700 dark:text-green-300 mb-2">✓ Harmonious Aspects</p>
-                <p className="text-sm text-ink-soft">Areas of strength and compatibility</p>
-              </div>
-              <div className="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-4 border border-orange-200 dark:border-orange-800">
-                <p className="text-sm font-semibold text-orange-700 dark:text-orange-300 mb-2">⚠️ Challenging Aspects</p>
-                <p className="text-sm text-ink-soft">Areas requiring attention and understanding</p>
-              </div>
-            </div>
-
-            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
-              <p className="text-sm text-ink-soft">
-                Detailed interpretations of:
-              </p>
-              <ul className="text-sm text-ink-soft list-disc list-inside mt-2 space-y-1">
-                <li>Planetary strength differentials</li>
-                <li>Aspect configuration impact</li>
-                <li>Dasha period predictions</li>
-                <li>Growth and challenge periods</li>
-                <li>Remedial suggestions</li>
-              </ul>
-            </div>
-          </div>
+          <ComparisonInsights
+            report={{
+              nativeChart: { name: report.nativeChart.name },
+              comparisonChart: { name: report.comparisonChart.name },
+              analysisData: {
+                compatibilityScore: report.compatibilityScore,
+                comparisonType: report.comparisonType,
+              },
+            }}
+          />
         )}
       </div>
 

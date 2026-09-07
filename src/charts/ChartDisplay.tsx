@@ -16,6 +16,8 @@ import { ShadBalaRenderer } from './chart-renderers/ShadBalaRenderer';
 import { ChartComparisonDisplay } from './chart-renderers/ChartComparisonDisplay';
 import { AspectOverlayRenderer } from './chart-renderers/AspectOverlayRenderer';
 import { CompatibilityMatrix } from './chart-renderers/CompatibilityMatrix';
+import { DashaOverlapAnalysis } from './chart-renderers/DashaOverlapAnalysis';
+import { ComparisonInsights } from './chart-renderers/ComparisonInsights';
 
 type ReportData = any;
 
