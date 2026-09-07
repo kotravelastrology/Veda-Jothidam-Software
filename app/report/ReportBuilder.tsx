@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { computeReport, type BirthFormInput } from './actions';
+import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
 const CHART_POINTS = ['Lagna', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -732,12 +733,25 @@ export default function ReportBuilder() {
     });
   };
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleFormSubmit = async (birthData: BirthData) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await computeReport(form);
+      const formInput: BirthFormInput = {
+        name: birthData.name,
+        gender: birthData.gender,
+        year: parseInt(birthData.dateOfBirth.split('-')[0]),
+        month: parseInt(birthData.dateOfBirth.split('-')[1]),
+        day: parseInt(birthData.dateOfBirth.split('-')[2]),
+        hour: parseInt(birthData.timeOfBirth.split(':')[0]),
+        minute: parseInt(birthData.timeOfBirth.split(':')[1]),
+        placeName: birthData.place,
+        latitude: birthData.latitude,
+        longitude: birthData.longitude,
+        utcOffsetMinutes: birthData.utcOffset,
+        ianaTimeZone: 'Asia/Kolkata',
+      };
+      const result = await computeReport(formInput);
       setReport(result);
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -756,60 +770,10 @@ export default function ReportBuilder() {
       </header>
 
       <section className="max-w-3xl mx-auto px-6 py-8 print:hidden">
-        <form onSubmit={submit} className="grid grid-cols-2 gap-3 bg-surface border border-line rounded-2xl p-5 mb-6">
-          <label className="col-span-2 text-sm">பெயர்
-            <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
-              className="mt-1 w-full rounded border border-line px-2 py-1 bg-bg" />
-          </label>
-          <label className="text-sm">பாலினம்
-            <select value={form.gender} onChange={(e) => setForm({ ...form, gender: e.target.value })}
-              className="mt-1 w-full rounded border border-line px-2 py-1 bg-bg">
-              <option value="female">பெண்</option>
-              <option value="male">ஆண்</option>
-              <option value="other">மற்றவை</option>
-            </select>
-          </label>
-          <label className="text-sm">இடம் பெயர்
-            <input value={form.placeName} onChange={(e) => setForm({ ...form, placeName: e.target.value })}
-              className="mt-1 w-full rounded border border-line px-2 py-1 bg-bg" />
-          </label>
-          <label className="text-sm">தேதி
-            <input type="date" required
-              onChange={(e) => {
-                const [y, m, d] = e.target.value.split('-').map(Number);
-                setForm({ ...form, year: y, month: m, day: d });
-              }}
-              className="mt-1 w-full rounded border border-line px-2 py-1 bg-bg" />
-          </label>
-          <label className="text-sm">நேரம்
-            <input type="time" required
-              onChange={(e) => {
-                const [h, min] = e.target.value.split(':').map(Number);
-                setForm({ ...form, hour: h, minute: min });
-              }}
-              className="mt-1 w-full rounded border border-line px-2 py-1 bg-bg" />
-          </label>
-          <label className="text-sm">அட்சரேகை (latitude)
-            <input type="number" step="0.0001" value={form.latitude}
-              onChange={(e) => setForm({ ...form, latitude: Number(e.target.value) })}
-              className="mt-1 w-full rounded border border-line px-2 py-1 bg-bg" />
-          </label>
-          <label className="text-sm">தீர்க்கரேகை (longitude)
-            <input type="number" step="0.0001" value={form.longitude}
-              onChange={(e) => setForm({ ...form, longitude: Number(e.target.value) })}
-              className="mt-1 w-full rounded border border-line px-2 py-1 bg-bg" />
-          </label>
-          <label className="text-sm col-span-2">UTC offset (நிமிடங்கள்)
-            <input type="number" value={form.utcOffsetMinutes}
-              onChange={(e) => setForm({ ...form, utcOffsetMinutes: Number(e.target.value) })}
-              className="mt-1 w-full rounded border border-line px-2 py-1 bg-bg" />
-          </label>
-          <button type="submit" disabled={loading}
-            className="col-span-2 mt-2 rounded-lg bg-saffron text-white font-semibold py-2 disabled:opacity-50">
-            {loading ? 'கணக்கிடுகிறது…' : 'ஜாதகம் கணக்கிடு'}
-          </button>
-        </form>
-        {error && <p className="text-rose text-sm mb-4">பிழை: {error}</p>}
+        <div className="bg-surface border border-line rounded-2xl p-5 mb-6">
+          <BirthDataForm onSubmit={handleFormSubmit} isLoading={loading} />
+        </div>
+        {error && <p className="text-rose text-sm mb-4">⚠️ பிழை: {error}</p>}
 
         {report && (
           <div className="bg-surface border border-line rounded-2xl p-5">
