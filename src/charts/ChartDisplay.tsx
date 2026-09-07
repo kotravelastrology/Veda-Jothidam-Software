@@ -10,6 +10,8 @@ import { AshtakavargaHeatmapRenderer } from './chart-renderers/AshtakavargaHeatm
 import { VargaChakraRenderer } from './chart-renderers/VargaChakraRenderer';
 import { SudarshanaChakraRenderer } from './chart-renderers/SudarshanaChakraRenderer';
 import { SynastryChartRenderer } from './chart-renderers/SynastryChartRenderer';
+import { AspectMatrixRenderer } from './chart-renderers/AspectMatrixRenderer';
+import { YogasAndDoshasRenderer } from './chart-renderers/YogasAndDoshasRenderer';
 
 type ReportData = any;
 
@@ -58,6 +60,8 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
         {chartId === 'varga-chakra' && <VargaChakraRenderer report={report} />}
         {chartId === 'sudarshan-chakra' && <SudarshanaChakraRenderer report={report} />}
         {chartId === 'compatibility' && <SynastryChartRenderer report={report} />}
+        {chartId === 'aspect-matrix' && <AspectMatrixRenderer report={report} />}
+        {chartId === 'yogas' && <YogasAndDoshasRenderer report={report} />}
         {chartId === 'shadbala' && <ShadBalaDisplay report={report} />}
 
         {/* Default placeholder for unimplemented charts */}
@@ -74,6 +78,8 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
           'varga-chakra',
           'sudarshan-chakra',
           'compatibility',
+          'aspect-matrix',
+          'yogas',
           'shadbala',
         ].includes(chartId) && <ChartPlaceholder chartType={chartType} />}
       </div>
