@@ -1,0 +1,67 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.13.0
+2 info using node@v24.17.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:D:\KotravelAstrology\New-kottravelastrology-software\.npmrc
+5 silly config load:file:C:\Users\gvkot\.npmrc
+6 silly config load:file:C:\Users\gvkot\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install @swisseph/node
+8 verbose argv "install" "@swisseph/node" "--save" "--cache" ".npm-cache" "--prefer-online"
+9 verbose logfile logs-max:10 dir:D:\KotravelAstrology\New-kottravelastrology-software\.npm-cache\_logs\2026-09-04T18_53_48_252Z-
+10 verbose logfile D:\KotravelAstrology\New-kottravelastrology-software\.npm-cache\_logs\2026-09-04T18_53_48_252Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 silly idealTree buildDeps
+14 silly fetch manifest @swisseph/node@*
+15 silly packumentCache full:https://registry.npmjs.org/@swisseph%2fnode cache-miss
+16 http fetch GET 200 https://registry.npmjs.org/npm 223ms
+17 http fetch GET 200 https://registry.npmjs.org/@swisseph%2fnode 830ms (cache miss)
+18 silly packumentCache full:https://registry.npmjs.org/@swisseph%2fnode set size:undefined disposed:false
+19 silly placeDep ROOT @swisseph/node@1.3.1 OK for: new-kottravelastrology-software@1.0.0 want: *
+20 silly fetch manifest node-addon-api@^7.1.0
+21 silly packumentCache full:https://registry.npmjs.org/node-addon-api cache-miss
+22 silly fetch manifest node-gyp-build@^4.8.4
+23 silly packumentCache full:https://registry.npmjs.org/node-gyp-build cache-miss
+24 silly fetch manifest @swisseph/core@1.3.1
+25 silly packumentCache full:https://registry.npmjs.org/@swisseph%2fcore cache-miss
+26 http fetch GET 200 https://registry.npmjs.org/node-gyp-build 45ms (cache miss)
+27 silly packumentCache full:https://registry.npmjs.org/node-gyp-build set size:undefined disposed:false
+28 http fetch GET 200 https://registry.npmjs.org/node-addon-api 46ms (cache miss)
+29 silly packumentCache full:https://registry.npmjs.org/node-addon-api set size:undefined disposed:false
+30 http fetch GET 200 https://registry.npmjs.org/@swisseph%2fcore 831ms (cache miss)
+31 silly packumentCache full:https://registry.npmjs.org/@swisseph%2fcore set size:undefined disposed:false
+32 silly placeDep ROOT @swisseph/core@1.3.1 OK for: @swisseph/node@1.3.1 want: 1.3.1
+33 silly placeDep ROOT node-addon-api@7.1.1 OK for: @swisseph/node@1.3.1 want: ^7.1.0
+34 silly placeDep ROOT node-gyp-build@4.8.4 OK for: @swisseph/node@1.3.1 want: ^4.8.4
+35 silly reify moves {}
+36 silly audit bulk request {
+36 silly audit   '@swisseph/node': [ '1.3.1' ],
+36 silly audit   '@swisseph/core': [ '1.3.1' ],
+36 silly audit   'node-addon-api': [ '7.1.1' ],
+36 silly audit   'node-gyp-build': [ '4.8.4' ]
+36 silly audit }
+37 http fetch GET 200 https://registry.npmjs.org/node-gyp-build/-/node-gyp-build-4.8.4.tgz 54ms (cache miss)
+38 http fetch GET 200 https://registry.npmjs.org/node-addon-api/-/node-addon-api-7.1.1.tgz 73ms (cache miss)
+39 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 248ms
+40 silly audit report {}
+41 http fetch GET 200 https://registry.npmjs.org/@swisseph/core/-/core-1.3.1.tgz 412ms (cache miss)
+42 http fetch GET 200 https://registry.npmjs.org/@swisseph/node/-/node-1.3.1.tgz 636ms (cache miss)
+43 info run @swisseph/node@1.3.1 preinstall node_modules/@swisseph/node node scripts/setup-libswe.js
+44 info run @swisseph/node@1.3.1 preinstall { code: 0, signal: null }
+45 info run @swisseph/node@1.3.1 install node_modules/@swisseph/node node-gyp-build
+46 info run @swisseph/node@1.3.1 install { code: 0, signal: null }
+47 silly ADD node_modules/node-gyp-build
+48 silly ADD node_modules/node-addon-api
+49 silly ADD node_modules/@swisseph/core
+50 silly ADD node_modules/@swisseph/node
+51 verbose cwd D:\KotravelAstrology\New-kottravelastrology-software
+52 verbose os Windows_NT 10.0.26200
+53 verbose node v24.17.0
+54 verbose npm  v11.13.0
+55 notice
+55 notice New major version of npm available! 11.13.0 -> 12.0.2
+55 notice Changelog: https://github.com/npm/cli/releases/tag/v12.0.2
+55 notice To update run: npm install -g npm@12.0.2
+55 notice  { force: true, Symbol(proc-log.meta): true }
+56 verbose exit 0
+57 info ok

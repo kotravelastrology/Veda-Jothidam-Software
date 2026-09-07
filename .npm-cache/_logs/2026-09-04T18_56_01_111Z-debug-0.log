@@ -1,0 +1,28 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.13.0
+2 info using node@v24.17.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:D:\KotravelAstrology\New-kottravelastrology-software\.npmrc
+5 silly config load:file:C:\Users\gvkot\.npmrc
+6 silly config load:file:C:\Users\gvkot\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install
+8 verbose argv "install" "--package-lock-only" "--ignore-scripts" "--cache" ".npm-cache"
+9 verbose logfile logs-max:10 dir:D:\KotravelAstrology\New-kottravelastrology-software\.npm-cache\_logs\2026-09-04T18_56_01_111Z-
+10 verbose logfile D:\KotravelAstrology\New-kottravelastrology-software\.npm-cache\_logs\2026-09-04T18_56_01_111Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4496293888 maxSize:1124073472 maxEntrySize:562036736
+13 silly idealTree buildDeps
+14 silly audit bulk request {
+14 silly audit   '@swisseph/core': [ '1.3.1' ],
+14 silly audit   '@swisseph/node': [ '1.3.1' ],
+14 silly audit   'node-addon-api': [ '7.1.1' ],
+14 silly audit   'node-gyp-build': [ '4.8.4' ]
+14 silly audit }
+15 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 359ms
+16 silly audit report {}
+17 verbose cwd D:\KotravelAstrology\New-kottravelastrology-software
+18 verbose os Windows_NT 10.0.26200
+19 verbose node v24.17.0
+20 verbose npm  v11.13.0
+21 verbose exit 0
+22 info ok

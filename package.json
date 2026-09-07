@@ -1,0 +1,53 @@
+{
+  "name": "kotravel-vedic-astrology",
+  "version": "1.0.0",
+  "description": "Kotravel Vedic Astrology calculation foundation",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "node test-swiss-ephemeris.js && node test-chart-context.js && node test-tirukanita-panchangam.js && node test-vakya-panchangam.js && node test-muhurtham.js && node test-birth-profile.js && node test-parashari-chart.js && node test-vimshottari-dasha.js && node test-varga-chart.js && node test-ashtakavarga.js && node test-planetary-relationship.js && node test-aspect-strength.js && node test-planetary-war.js && node test-shadbala.js && node test-nabhasa-yoga.js && node test-report-data.js && node test-consultation-config.js && node test-karaka.js && node test-ashtakavarga-transit.js && node test-bhava-bala.js",
+    "test:ephemeris": "node test-swiss-ephemeris.js",
+    "test:chart-context": "node test-chart-context.js",
+    "test:panchangam": "node test-tirukanita-panchangam.js",
+    "test:vakya": "node test-vakya-panchangam.js",
+    "test:muhurtham": "node test-muhurtham.js",
+    "test:birth-profile": "node test-birth-profile.js",
+    "test:parashari-chart": "node test-parashari-chart.js",
+    "test:vimshottari-dasha": "node test-vimshottari-dasha.js",
+    "test:varga-chart": "node test-varga-chart.js",
+    "test:ashtakavarga": "node test-ashtakavarga.js",
+    "test:planetary-relationship": "node test-planetary-relationship.js",
+    "test:aspect-strength": "node test-aspect-strength.js",
+    "test:planetary-war": "node test-planetary-war.js",
+    "test:shadbala": "node test-shadbala.js",
+    "test:nabhasa-yoga": "node test-nabhasa-yoga.js",
+    "test:report-data": "node test-report-data.js",
+    "test:consultation-config": "node test-consultation-config.js",
+    "test:karaka": "node test-karaka.js",
+    "test:ashtakavarga-transit": "node test-ashtakavarga-transit.js",
+    "test:bhava-bala": "node test-bhava-bala.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@swisseph/node": "^1.3.1",
+    "next": "16.3.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.3.4",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.6.0"
+  }
+}

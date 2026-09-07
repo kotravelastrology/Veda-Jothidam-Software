@@ -1,0 +1,48 @@
+# S10-C — Saptavargaja Bala (closing the Sthana Bala gap)
+
+Status: Sthana Bala (one of Shadbala's six categories) is now FULLY RESOLVED — all five sub-components (Uchcha, Saptavargaja, Ojhayugmarasyamsa, Kendradi, Drekkana) are computed and source-verified. Shadbala overall remains partial (Kaala Bala still missing Ayana and Varsha-Masa-Dina-Hora; Cheshta Bala for 6 of 7 planets; Drik Bala; Yuddha Bala). Working tree only — no commit/push/backup (no git repository yet). This closes the specific gap named in S10 and S10-B: "Saptavargaja Bala -- needs the Panchadha Maitri (5-fold compound planetary relationship: natural + temporal friendship combined) ... not yet re-located and verified this session."
+
+## Source check
+
+Located and visually verified, in the already-admitted BPHS (R. Santhanam translation) copy, everything Saptavargaja Bala needs:
+
+- **v.55 (file p.30-31, printed p.20-21): Naisargika (natural, constant) Maitri.** The book's own printed friend/enemy/equal table for all 7 classical planets, including its worked examples for Mars ("Saturn becomes equal to Mars" via 11th-lord enmity + exaltation-lord friendship cancelling out) and Venus. Reproduced exactly, including the Moon's special case (no natural enemy, per the chapter's own quoted line from Parashara directly).
+- **v.56 (file p.31): Temporary (horoscopic) relationship.** A planet 2nd/3rd/4th/10th/11th/12th from another (whole-sign distance in the natal Rasi chart) is its temporary friend; the rest (1st/5th/6th/7th/8th/9th) are temporary enemies.
+- **v.57-58 (file p.32): Compound (Panchadha/5-fold) relationship**, with the book's own "Speculum of Compound Relationships" table combining natural + temporary into 5 tiers (great friend / friend / neutral / enemy / great enemy). Five of the six possible input combinations are printed explicitly; the sixth (neutral+neutral) is completed as "neutral" by the same additive pattern the other five follow -- documented in code as a transparent, standard completion, not a guess (see `src/chart/planetaryRelationship.js` for the full reasoning).
+- **v.51-54 (file p.29-30, printed p.19-20): Moolatrikona and Own-sign degree ranges**, one per planet (e.g. "the first one third of Sagittarius is the Moola-Trikona of Jupiter" = 0-10 degrees; "Venus divides Libra into two halves" = 0-15/15-30). Hand-verified against every one of the 7 planets' stated splits; the Moon's Moolatrikona (Taurus, her exaltation sign) correctly does NOT coincide with her own sign (Cancer) -- reproduced as the source states, not "corrected."
+- **v.2-4 of Ch.27 itself (file p.219, printed p.209): Saptavargaja Bala's own point scale** -- Moolatrikona 45, own sign 30, extreme friend's sign 20, friend's sign 15, neutral's sign 10, enemy's sign 4, extreme enemy's sign 2 -- applied identically across Rasi (D1), Hora (D2), Drekkana (D3), Saptamsa (D7), Navamsa (D9), Dvadasamsa (D12) and Trimsamsa (D30), then summed. Critically, this same passage states: "the compound relationships of two given planets, vide P. 42 supra... be seen in the Rashi chart only and not in the concerned divisional chart" -- i.e. dignity in every divisional chart is judged by the sign-lord's natal-Rasi-chart relationship to the planet, never recomputed per-varga. This is the rule that makes the whole technique tractable without inventing anything.
+
+## Design decisions made explicit (not left implicit in code)
+
+- For the 6 non-Rasi vargas (which carry no continuous degree information, only a discrete sign), "Moolatrikona" is read as sign-identity only (is this the planet's designated Moolatrikona sign, at all?) -- there is no way to sub-divide a varga sign by degree, since a varga placement is already a coarse, single-sign result. Rasi (D1) alone gets the finer-grained treatment, since it is the only one of the seven with fractional-degree resolution available (the natal longitude itself).
+- The "exaltation zone" that some planets' Moolatrikona-sign write-ups mention (e.g. Mercury's first 15 degrees of Virgo) is not a third Saptavargaja tier -- v.2-4's own point table only recognizes Moolatrikona and Own as the two "within a planet's own sign" tiers. Uchcha Bala (a separate Sthana Bala sub-component, already implemented in S10) is what actually rewards exact exaltation-degree proximity; Saptavargaja Bala's own-sign zones outside the stated Moolatrikona band are simply "own" (30), not a fabricated third category.
+
+## Implementation
+
+- `src/chart/planetaryRelationship.js` (new): `naturalRelation(planet, other)`, `temporaryRelation(planetRasiIndex, otherRasiIndex)`, `compoundRelationship(planet, other, rasiPositions)`, `relationToSignLord(planet, signIndex, rasiPositions)`. Self-contained, reusable module -- Panchadha Maitri is a foundational Parashari concept likely needed again by future stages (e.g. any future Ashtakavarga refinement, or other bala/yoga techniques that cite planetary friendship), so it is not buried inside `shadbala.js`.
+- `src/chart/shadbala.js`: added `OWN_SIGNS`, `MOOLATRIKONA`, `SAPTAVARGAJA_POINTS` tables and `dignityOfSign` / `d1Dignity` / `saptavargajaBala` functions, reusing `vargaChart.js`'s existing `equalDivisionVarga`/`calculateHora`/`calculateTrimsamsa` (no divisional-chart logic duplicated) and `karaka.js`'s `RASI_LORD`. `calculateShadbala` now computes `rasiPositions` for all 7 planets once per call (needed for every pairwise compound-relationship check) and wires `saptavargajaBala(...)` into `sthana.saptavargajaBala`, replacing the previous `sourceRequired(...)` refusal.
+- **Renamed `sthanaBalaPartial` to `sthanaBala`** throughout (`shadbala.js`, `test-shadbala.js`, `app/report/ReportBuilder.tsx`) -- now that all five Sthana Bala sub-components are resolved, calling it "partial" would itself be an inaccuracy in the opposite direction from the project's usual caution. `kaalaBalaPartial` is left as-is, since Kaala Bala genuinely still has two missing sub-components.
+- `app/report/ReportBuilder.tsx`: updated the Graha Bala breakdown table's header and footnote to stop listing Saptavargaja as a Sthana Bala gap (it isn't one anymore); the bar-chart totals and expandable table now include the real Saptavargaja contribution automatically via the renamed field.
+
+## Tests
+
+- `test-planetary-relationship.js` (new): `naturalRelation` checked against the book's own printed table for multiple pairs, including the worked Mars/Saturn and Mars/Venus "cancels to neutral" examples quoted directly from the chapter's own Notes; `temporaryRelation` checked at all the friend/enemy boundary distances; `compoundRelationship` checked against all 5 of BPHS's own printed compound-relationship combinations (great friend, neutral via friend+enemy, great enemy, neutral via enemy+friend, friend via neutral+friend, enemy via neutral+enemy).
+- `test-shadbala.js`: added Moolatrikona-table spot checks (Jupiter's one-third-of-a-sign, Venus's half-a-sign, matching the book's own stated fractions exactly) and a fully hand-worked `saptavargajaBala` integration case (Sun at Leo 25 degrees with every other planet conjunct in Leo, isolating the natural-relationship half of each dignity call since every temporary relationship becomes "same sign = enemy"): manually derived and confirmed D1=own(30), D2=neutral(10), D3=neutral(10), D7=greatEnemy(2), D9=neutral(10), D12=enemy(4), D30=greatEnemy(2), summing to 68, matching the function's output exactly. Updated the existing integration assertions for the renamed `sthanaBala` field and confirmed `sthana.saptavargajaBala` is now a finite number, not a refusal.
+- `test-report-data.js`: unaffected structurally (already asserted `shadbala.perPlanet` shape generically); re-run to confirm no regression.
+- Full suite: `npm test` → all 19 scripts pass (18 pre-existing + this stage's new `test-planetary-relationship.js`, wired into `package.json`'s `test` script and a new `test:planetary-relationship` entry).
+
+## TypeScript/lint/build
+
+`npm run build` → compiles, TypeScript check passes, all 4 routes prerender successfully.
+
+## Desktop/mobile validation
+
+Verified live via the dev server (Browser pane): resubmitted the same 1990-05-15 07:30 IST test birth input used in prior S10 verification passes. Confirmed via `read_console_messages` (zero errors) and `get_page_text` that the Graha Bala bar-chart totals increased for every planet (e.g. Sun 243.8 → 315.8 Virupas) by exactly the newly-added Saptavargaja Bala contribution, and that the expandable breakdown table's Sthana column now shows the higher, complete figure with no `ஆதாரம் தேவை` badge remaining for that column.
+
+## Backup
+
+Not performed — still no git repository.
+
+## Next workflow position
+
+Sthana Bala is complete. Shadbala overall is still partial: Kaala Bala (missing Ayana Bala -- a genuine, already-documented source-internal inconsistency -- and Varsha-Masa-Dina-Hora Bala), Cheshta Bala (6 of 7 planets, needs classical Seeghrocha/mean-motion), Drik Bala (needs Drishti Pinda aspect-strength table, not yet located), and Yuddha Bala (needs a planetary-war detection rule, not yet located) remain `ஆதாரம் தேவை`. Bhava Bala and the honest Shodasa Bala placeholder (from S10-B) are unaffected by this stage. Per WORKFLOW-REGISTER-001, S14 (Capacity expansion) is explicitly deferred pending separate future authorization and S15 (Validation/release) presumes the active core is substantially finished, so the next productive step remains closing more of S10's remaining Shadbala gaps -- Drik Bala (aspectual strength) is the most likely next tractable piece, since BPHS's own aspect verses are a bounded, well-known table (graded Vedic Drishti) rather than an unimplemented astronomical model like Cheshta/Ayana Bala's Seeghrocha requirement.

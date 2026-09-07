@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #fff8ed;
+  --surface: #ffffff;
+  --surface-2: #fdeed2;
+  --ink: #2b1b12;
+  --ink-soft: #6b5747;
+  --line: #ecdcc0;
+
+  --saffron: #c96a12;
+  --saffron-soft: #fbe4bf;
+  --indigo: #4b3f72;
+  --indigo-soft: #e8e3f5;
+  --rose: #b23a2e;
+  --rose-soft: #f6ddd8;
+  --teal: #1f7a5c;
+  --teal-soft: #dcf0e7;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17111c;
+    --surface: #241b2e;
+    --surface-2: #2c2138;
+    --ink: #f3e9da;
+    --ink-soft: #c9b8ce;
+    --line: #3a2d47;
+
+    --saffron: #f4a94a;
+    --saffron-soft: #3d2a13;
+    --indigo: #a395d6;
+    --indigo-soft: #2a2340;
+    --rose: #e8776a;
+    --rose-soft: #3a221e;
+    --teal: #5fcba0;
+    --teal-soft: #16302a;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-saffron: var(--saffron);
+  --color-saffron-soft: var(--saffron-soft);
+  --color-indigo: var(--indigo);
+  --color-indigo-soft: var(--indigo-soft);
+  --color-rose: var(--rose);
+  --color-rose-soft: var(--rose-soft);
+  --color-teal: var(--teal);
+  --color-teal-soft: var(--teal-soft);
+  --font-tamil-serif: var(--font-noto-serif-tamil);
+  --font-tamil-sans: var(--font-noto-sans-tamil);
+}
