@@ -14,6 +14,8 @@ import { AspectMatrixRenderer } from './chart-renderers/AspectMatrixRenderer';
 import { YogasAndDoshasRenderer } from './chart-renderers/YogasAndDoshasRenderer';
 import { ShadBalaRenderer } from './chart-renderers/ShadBalaRenderer';
 import { ChartComparisonDisplay } from './chart-renderers/ChartComparisonDisplay';
+import { AspectOverlayRenderer } from './chart-renderers/AspectOverlayRenderer';
+import { CompatibilityMatrix } from './chart-renderers/CompatibilityMatrix';
 
 type ReportData = any;
 
