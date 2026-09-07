@@ -6,6 +6,10 @@ import { NavamshaChartRenderer } from './chart-renderers/NavamshaChartRenderer';
 import { TransitChartRenderer } from './chart-renderers/TransitChartRenderer';
 import { DivisionalChartRenderer } from './chart-renderers/DivisionalChartRenderer';
 import { DashaTimelineRenderer } from './chart-renderers/DashaTimelineRenderer';
+import { AshtakavargaHeatmapRenderer } from './chart-renderers/AshtakavargaHeatmapRenderer';
+import { VargaChakraRenderer } from './chart-renderers/VargaChakraRenderer';
+import { SudarshanaChakraRenderer } from './chart-renderers/SudarshanaChakraRenderer';
+import { SynastryChartRenderer } from './chart-renderers/SynastryChartRenderer';
 
 type ReportData = any;
 
@@ -50,7 +54,10 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
           <DivisionalChartRenderer report={report} chartId={chartId} />
         )}
         {chartId === 'dasha-vimsottari' && <DashaTimelineRenderer report={report} />}
-        {chartId === 'ashtakavarga' && <AshtakavargaDisplay report={report} />}
+        {chartId === 'ashtakavarga' && <AshtakavargaHeatmapRenderer report={report} />}
+        {chartId === 'varga-chakra' && <VargaChakraRenderer report={report} />}
+        {chartId === 'sudarshana-chakra' && <SudarshanaChakraRenderer report={report} />}
+        {chartId === 'synastry' && <SynastryChartRenderer report={report} />}
         {chartId === 'shadbala' && <ShadBalaDisplay report={report} />}
 
         {/* Default placeholder for unimplemented charts */}
@@ -64,6 +71,9 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
           'dasha-vimsottari',
           'transit',
           'ashtakavarga',
+          'varga-chakra',
+          'sudarshana-chakra',
+          'synastry',
           'shadbala',
         ].includes(chartId) && <ChartPlaceholder chartType={chartType} />}
       </div>
@@ -71,23 +81,6 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
   );
 }
 
-function AshtakavargaDisplay({ report }: { report: ReportData }) {
-  return (
-    <div>
-      <h4 className="font-semibold text-ink mb-4">அஷ்டகவர்க்கம் (Ashtakavarga)</h4>
-      <div className="grid grid-cols-3 gap-2 text-sm">
-        {['Mesha', 'Vrishabha', 'Mithuna', 'Karkataka', 'Simha', 'Kanya', 'Tula', 'Vrischika', 'Dhanu', 'Makara', 'Kumbha', 'Meena'].map((rasi, idx) => (
-          <div key={rasi} className="bg-surface-soft rounded p-2 border border-line text-center">
-            <div className="text-xs text-ink-soft">{rasi}</div>
-            <div className="font-semibold text-indigo">
-              {report.ashtakavarga?.bhinnaAshtakavarga?.[idx + 1]?.total || '-'}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 function ShadBalaDisplay({ report }: { report: ReportData }) {
   return (
