@@ -12,6 +12,7 @@ import { SudarshanaChakraRenderer } from './chart-renderers/SudarshanaChakraRend
 import { SynastryChartRenderer } from './chart-renderers/SynastryChartRenderer';
 import { AspectMatrixRenderer } from './chart-renderers/AspectMatrixRenderer';
 import { YogasAndDoshasRenderer } from './chart-renderers/YogasAndDoshasRenderer';
+import { ShadBalaRenderer } from './chart-renderers/ShadBalaRenderer';
 
 type ReportData = any;
 
@@ -62,7 +63,7 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
         {chartId === 'compatibility' && <SynastryChartRenderer report={report} />}
         {chartId === 'aspect-matrix' && <AspectMatrixRenderer report={report} />}
         {chartId === 'yogas' && <YogasAndDoshasRenderer report={report} />}
-        {chartId === 'shadbala' && <ShadBalaDisplay report={report} />}
+        {chartId === 'shadbala' && <ShadBalaRenderer report={report} />}
 
         {/* Default placeholder for unimplemented charts */}
         {![
@@ -82,31 +83,6 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
           'yogas',
           'shadbala',
         ].includes(chartId) && <ChartPlaceholder chartType={chartType} />}
-      </div>
-    </div>
-  );
-}
-
-
-function ShadBalaDisplay({ report }: { report: ReportData }) {
-  return (
-    <div>
-      <h4 className="font-semibold text-ink mb-4">சட்பலம் (Shadbala - Six Strengths)</h4>
-      <div className="space-y-3">
-        {report.shadbala && Object.entries(report.shadbala).slice(0, 7).map(([planet, strength]: any) => (
-          <div key={planet} className="flex items-center gap-3 bg-surface-soft rounded p-3 border border-line">
-            <div className="w-24 font-semibold text-sm text-ink">{planet}</div>
-            <div className="flex-1 bg-line rounded h-2 overflow-hidden">
-              <div
-                className="bg-saffron h-full transition-all"
-                style={{ width: `${Math.min((strength?.total || 0) / 6, 100)}%` }}
-              />
-            </div>
-            <div className="text-sm font-mono text-ink-soft w-16 text-right">
-              {typeof strength === 'object' ? strength.total?.toFixed(1) : strength?.toFixed(1) || '-'}
-            </div>
-          </div>
-        ))}
       </div>
     </div>
   );
