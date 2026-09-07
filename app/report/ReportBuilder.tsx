@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { computeReport, type BirthFormInput } from './actions';
 
@@ -29,6 +29,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'dasha', label: 'விம்சோத்தரி தசா' },
   { id: 'varga', label: 'வர்க்க அட்டவணை (16)' },
   { id: 'ashtakavarga', label: 'அஷ்டகவர்க்கம்' },
+  { id: 'ashtakavargaDetail', label: 'அஷ்டகவர்க்கம் - விரிவுபடுத்தப்பட்ட பார்வை' },
   { id: 'transit', label: 'இன்றைய கோசரம் (Transit)' },
   { id: 'grahaBala', label: 'கிரக பலம் (சட்பலம்)' },
   { id: 'bhavaBala', label: 'பாவ பலம்' },
@@ -280,6 +281,151 @@ function AshtakavargaSection({ report }: { report: ReportData }) {
           </tbody>
         </table>
       </div>
+    </div>
+  );
+}
+
+function DetailedAshtakavargaSection({ report }: { report: ReportData }) {
+  const [expandedTab, setExpandedTab] = useState<'summary' | 'heatmap' | 'chakra'>('summary');
+
+  const sarva = report.ashtakavarga.sarva as number[];
+  const bhinna = report.ashtakavarga.bhinna as Record<string, number[]>;
+
+  const sarvaTotal = (sarva || []).reduce((a, b) => a + b, 0);
+  const sarvaAvg = sarvaTotal / 12;
+
+  const heatmapData = Object.entries(bhinna).map(([planet, bindus]) => ({
+    planet,
+    bindus,
+    total: bindus.reduce((a, b) => a + b, 0),
+  }));
+
+  const chakraGroups = [
+    { name: 'Kendra (H1, H4, H7, H10)', indices: [0, 3, 6, 9], label: 'கோண' },
+    { name: 'Panapara (H2, H5, H8, H11)', indices: [1, 4, 7, 10], label: 'পনপர' },
+    { name: 'Apoklima (H3, H6, H9, H12)', indices: [2, 5, 8, 11], label: 'অপোক्लिम' },
+  ];
+
+  const chakraData = chakraGroups.map(group => ({
+    ...group,
+    total: group.indices.reduce((sum, idx) => sum + (sarva[idx] || 0), 0),
+  }));
+
+  const maxChancha = Math.max(...chakraData.map(c => c.total));
+
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">அஷ்டகவர்க்கம் - விரிவுபடுத்தப்பட்ட பார்வை</h2>
+      <p className="text-sm text-ink-soft mb-4">பிந்து வலிமை (Heatmap), பாவ குழுக்கள் (Chancha Chakra), மற்றும் விரிவான பகுப்பாய்வு</p>
+
+      {/* Tab Navigation */}
+      <div className="flex gap-2 mb-4 border-b border-line">
+        <button
+          onClick={() => setExpandedTab('summary')}
+          className={`px-3 py-2 text-sm font-semibold border-b-2 transition-colors ${
+            expandedTab === 'summary'
+              ? 'border-saffron text-saffron'
+              : 'border-transparent text-ink-soft hover:text-ink'
+          }`}
+        >
+          சுருக்கம்
+        </button>
+        <button
+          onClick={() => setExpandedTab('heatmap')}
+          className={`px-3 py-2 text-sm font-semibold border-b-2 transition-colors ${
+            expandedTab === 'heatmap'
+              ? 'border-saffron text-saffron'
+              : 'border-transparent text-ink-soft hover:text-ink'
+          }`}
+        >
+          பிந்து உஷ்ணசக்திப்படம்
+        </button>
+        <button
+          onClick={() => setExpandedTab('chakra')}
+          className={`px-3 py-2 text-sm font-semibold border-b-2 transition-colors ${
+            expandedTab === 'chakra'
+              ? 'border-saffron text-saffron'
+              : 'border-transparent text-ink-soft hover:text-ink'
+          }`}
+        >
+          பாவ குழுக்கள்
+        </button>
+      </div>
+
+      {/* Summary Tab */}
+      {expandedTab === 'summary' && (
+        <div className="space-y-4">
+          <div className="bg-saffron-soft rounded-lg p-4 border border-saffron/30">
+            <p className="text-sm font-semibold text-ink mb-2">சர்வாஷ்டகவர்க்கம் சுருக்கம்</p>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div><span className="text-ink-soft">மொத்த பிந்து</span><br /><span className="font-mono font-bold text-lg">{sarvaTotal}</span></div>
+              <div><span className="text-ink-soft">சராசரி</span><br /><span className="font-mono font-bold text-lg">{sarvaAvg.toFixed(2)}</span></div>
+              <div><span className="text-ink-soft">அதிகபட்சம்</span><br /><span className="font-mono font-bold text-lg">{Math.max(...sarva)}</span></div>
+              <div><span className="text-ink-soft">குறைந்தபட்சம்</span><br /><span className="font-mono font-bold text-lg">{Math.min(...sarva)}</span></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Heatmap Tab */}
+      {expandedTab === 'heatmap' && (
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs border-collapse">
+            <thead>
+              <tr className="border-b border-line bg-saffron-soft">
+                <th className="py-2 px-2 text-left font-semibold">கிரகம்</th>
+                {sarva.map((_, i) => (
+                  <th key={i} className="py-1 px-1 text-center">{RASI_SHORT[Object.keys(RASI_SHORT)[i]]}</th>
+                ))}
+                <th className="py-2 px-2 text-right font-semibold">மொத்தம்</th>
+              </tr>
+            </thead>
+            <tbody>
+              {heatmapData.map((row) => (
+                <tr key={row.planet} className="border-b border-line/50">
+                  <td className="py-2 px-2 font-semibold">{POINT_LABEL[row.planet] || row.planet}</td>
+                  {row.bindus.map((bindu, i) => {
+                    const intensity = bindu / 8;
+                    const bgColor = bindu === 0 ? 'bg-bg' : `bg-saffron/[${Math.min(intensity, 1)}]`;
+                    return (
+                      <td key={i} className={`py-1 px-1 text-center text-xs font-mono ${bgColor}`}>
+                        {bindu}
+                      </td>
+                    );
+                  })}
+                  <td className="py-2 px-2 text-right font-mono font-bold">{row.total}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* Chakra Tab */}
+      {expandedTab === 'chakra' && (
+        <div className="space-y-4">
+          {chakraData.map((chakra) => (
+            <div key={chakra.name} className="border border-line rounded-lg p-4">
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <p className="font-semibold text-ink">{chakra.name}</p>
+                  <p className="text-xs text-ink-soft">{chakra.label}</p>
+                </div>
+                <div className="text-right">
+                  <p className="font-mono font-bold text-lg">{chakra.total}</p>
+                  <p className="text-xs text-ink-soft">{((chakra.total / sarvaTotal) * 100).toFixed(1)}%</p>
+                </div>
+              </div>
+              <div className="w-full bg-line rounded-full h-2">
+                <div
+                  className="bg-saffron h-2 rounded-full transition-all"
+                  style={{ width: `${(chakra.total / maxChancha) * 100}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -551,6 +697,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   dasha: DashaSection,
   varga: VargaSection,
   ashtakavarga: AshtakavargaSection,
+  ashtakavargaDetail: DetailedAshtakavargaSection,
   transit: TransitSection,
   grahaBala: GrahaBalaSection,
   bhavaBala: BhavaBalaSection,
