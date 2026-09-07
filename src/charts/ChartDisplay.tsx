@@ -4,6 +4,8 @@ import { getChartById } from './chartTypes';
 import { RasiChartRenderer } from './chart-renderers/RasiChartRenderer';
 import { NavamshaChartRenderer } from './chart-renderers/NavamshaChartRenderer';
 import { TransitChartRenderer } from './chart-renderers/TransitChartRenderer';
+import { DivisionalChartRenderer } from './chart-renderers/DivisionalChartRenderer';
+import { DashaTimelineRenderer } from './chart-renderers/DashaTimelineRenderer';
 
 type ReportData = any;
 
@@ -44,13 +46,26 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
         {chartId === 'D1-rasi' && <RasiChartRenderer report={report} />}
         {chartId === 'D9-navamsha' && <NavamshaChartRenderer report={report} />}
         {chartId === 'transit' && <TransitChartRenderer report={report} />}
+        {['D2-hora', 'D7-saptamsha', 'D10-dasamsha', 'D12-dwadashamsha'].includes(chartId) && (
+          <DivisionalChartRenderer report={report} chartId={chartId} />
+        )}
+        {chartId === 'dasha-vimsottari' && <DashaTimelineRenderer report={report} />}
         {chartId === 'ashtakavarga' && <AshtakavargaDisplay report={report} />}
         {chartId === 'shadbala' && <ShadBalaDisplay report={report} />}
 
         {/* Default placeholder for unimplemented charts */}
-        {!['D1-rasi', 'D9-navamsha', 'transit', 'ashtakavarga', 'shadbala'].includes(chartId) && (
-          <ChartPlaceholder chartType={chartType} />
-        )}
+        {![
+          'D1-rasi',
+          'D9-navamsha',
+          'D2-hora',
+          'D7-saptamsha',
+          'D10-dasamsha',
+          'D12-dwadashamsha',
+          'dasha-vimsottari',
+          'transit',
+          'ashtakavarga',
+          'shadbala',
+        ].includes(chartId) && <ChartPlaceholder chartType={chartType} />}
       </div>
     </div>
   );
