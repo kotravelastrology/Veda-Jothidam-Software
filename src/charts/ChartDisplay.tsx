@@ -1,6 +1,9 @@
 'use client';
 
 import { getChartById } from './chartTypes';
+import { RasiChartRenderer } from './chart-renderers/RasiChartRenderer';
+import { NavamshaChartRenderer } from './chart-renderers/NavamshaChartRenderer';
+import { TransitChartRenderer } from './chart-renderers/TransitChartRenderer';
 
 type ReportData = any;
 
@@ -38,84 +41,15 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
 
       {/* Chart Content Area */}
       <div className="space-y-6">
-        {/* TODO: Render chart based on type */}
-        {chartId === 'D1-rasi' && <RasiChartDisplay report={report} />}
-        {chartId === 'D9-navamsha' && <NavamshaChartDisplay report={report} />}
-        {chartId === 'transit' && <TransitChartDisplay report={report} />}
+        {chartId === 'D1-rasi' && <RasiChartRenderer report={report} />}
+        {chartId === 'D9-navamsha' && <NavamshaChartRenderer report={report} />}
+        {chartId === 'transit' && <TransitChartRenderer report={report} />}
         {chartId === 'ashtakavarga' && <AshtakavargaDisplay report={report} />}
         {chartId === 'shadbala' && <ShadBalaDisplay report={report} />}
 
         {/* Default placeholder for unimplemented charts */}
         {!['D1-rasi', 'D9-navamsha', 'transit', 'ashtakavarga', 'shadbala'].includes(chartId) && (
           <ChartPlaceholder chartType={chartType} />
-        )}
-      </div>
-    </div>
-  );
-}
-
-function RasiChartDisplay({ report }: { report: ReportData }) {
-  return (
-    <div>
-      <h4 className="font-semibold text-ink mb-4">ஜாதக ராசி (Birth Chart)</h4>
-      <div className="grid grid-cols-2 gap-4">
-        {/* Lagna */}
-        <div className="bg-surface-soft rounded p-3 border border-line">
-          <div className="text-xs text-ink-soft mb-1">லக்னம் (Lagna)</div>
-          <div className="font-semibold text-saffron text-lg">{report.chart.lagna.rasi}</div>
-          <div className="text-xs text-ink-soft">{report.chart.lagna.degreeInSign.toFixed(2)}°</div>
-        </div>
-
-        {/* Grahas */}
-        {Object.entries(report.chart.grahas).map(([planet, data]: any) => (
-          <div key={planet} className="bg-surface-soft rounded p-3 border border-line">
-            <div className="text-xs text-ink-soft mb-1">{planet}</div>
-            <div className="font-semibold text-indigo text-lg">{data.rasi}</div>
-            <div className="text-xs text-ink-soft">{data.degreeInSign.toFixed(2)}° House {data.house}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function NavamshaChartDisplay({ report }: { report: ReportData }) {
-  return (
-    <div>
-      <h4 className="font-semibold text-ink mb-4">நவாംश (Navamsha - D9)</h4>
-      <div className="grid grid-cols-2 gap-4">
-        {report.vargas.Lagna && (
-          <div className="bg-surface-soft rounded p-3 border border-line">
-            <div className="text-xs text-ink-soft mb-1">லக்னம் (Lagna)</div>
-            <div className="font-semibold text-saffron text-lg">{report.vargas.Lagna.D9}</div>
-          </div>
-        )}
-        {Object.entries(report.vargas).map(([planet, vargas]: any) => (
-          vargas.D9 && planet !== 'Lagna' && (
-            <div key={planet} className="bg-surface-soft rounded p-3 border border-line">
-              <div className="text-xs text-ink-soft mb-1">{planet}</div>
-              <div className="font-semibold text-indigo text-lg">{vargas.D9}</div>
-            </div>
-          )
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function TransitChartDisplay({ report }: { report: ReportData }) {
-  return (
-    <div>
-      <h4 className="font-semibold text-ink mb-4">இன்றைய கோசரம் (Current Transits)</h4>
-      <div className="bg-surface-soft rounded p-4 border border-line text-sm text-ink-soft">
-        <p className="mb-3">Current planetary positions and influence on your chart:</p>
-        {report.transit ? (
-          <div className="space-y-2">
-            <p>Transit Rasi positions calculated for today</p>
-            <p className="text-xs">Benefic/Malefic analysis: {report.transit.summary || 'Calculated'}</p>
-          </div>
-        ) : (
-          <p>Transit data not available</p>
         )}
       </div>
     </div>
