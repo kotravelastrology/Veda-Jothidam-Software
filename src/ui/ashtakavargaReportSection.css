@@ -1,0 +1,296 @@
+/* PHASE 29: Ashtakavarga Report Section Styling */
+
+.ashtakavarga-report-section {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: var(--color-bg-light, #f5f5f5);
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.ashtakavarga-report-section h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Report Tabs */
+.report-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #ddd;
+}
+
+.report-tabs .tab {
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.report-tabs .tab:hover {
+  color: #333;
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.report-tabs .tab.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+}
+
+/* Tab Content */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stats Table */
+.stats-table,
+.bhinna-table,
+.chakra-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.stats-table tr,
+.bhinna-table tr,
+.chakra-table tr {
+  border-bottom: 1px solid #eee;
+}
+
+.stats-table td,
+.bhinna-table th,
+.bhinna-table td,
+.chakra-table th,
+.chakra-table td {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.stats-table td:first-child,
+.bhinna-table th:first-child,
+.chakra-table th:first-child {
+  font-weight: 500;
+  color: #666;
+}
+
+.value {
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+  color: #667eea;
+}
+
+/* Strength Classes */
+.strength-excellent {
+  color: #00a86b;
+  font-weight: 600;
+}
+
+.strength-good {
+  color: #ffc107;
+  font-weight: 600;
+}
+
+.strength-average {
+  color: #ff8c00;
+  font-weight: 600;
+}
+
+.strength-below\ average {
+  color: #dc143c;
+  font-weight: 600;
+}
+
+/* Chart Bar */
+.chart-bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 250px;
+  margin: 2rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  gap: 0.5rem;
+}
+
+.bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  gap: 0.5rem;
+}
+
+.bar {
+  width: 100%;
+  min-width: 30px;
+  background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.bar:hover {
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+  transform: translateY(-2px);
+}
+
+.bar-value {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  padding: 4px;
+}
+
+.bar-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #666;
+  text-align: center;
+}
+
+/* Chakra Summary */
+.chakra-summary {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #fafafa;
+  border-radius: 6px;
+  border-left: 3px solid #667eea;
+}
+
+.chakra-summary p {
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.chakra-summary strong {
+  color: #667eea;
+}
+
+/* Bhinna Analysis */
+.bhinna-analysis {
+  padding: 1rem 0;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .ashtakavarga-report-section {
+    background: #2a2a2a;
+    color: #fff;
+  }
+
+  .ashtakavarga-report-section h3 {
+    color: #fff;
+  }
+
+  .report-tabs {
+    border-bottom-color: #444;
+  }
+
+  .report-tabs .tab {
+    color: #aaa;
+  }
+
+  .report-tabs .tab:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #fff;
+  }
+
+  .stats-table tr,
+  .bhinna-table tr,
+  .chakra-table tr {
+    border-bottom-color: #444;
+  }
+
+  .stats-table td:first-child,
+  .bhinna-table th:first-child,
+  .chakra-table th:first-child {
+    color: #aaa;
+  }
+
+  .bar-label {
+    color: #aaa;
+  }
+
+  .chart-bar {
+    border-top-color: #444;
+    border-bottom-color: #444;
+  }
+
+  .chakra-summary {
+    background: #3a3a3a;
+    border-left-color: #667eea;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .ashtakavarga-report-section {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+
+  .report-tabs {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .report-tabs .tab {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .stats-table,
+  .bhinna-table,
+  .chakra-table {
+    font-size: 0.75rem;
+  }
+
+  .stats-table td,
+  .bhinna-table th,
+  .bhinna-table td,
+  .chakra-table th,
+  .chakra-table td {
+    padding: 0.5rem;
+  }
+
+  .chart-bar {
+    height: 180px;
+    margin: 1rem 0;
+    gap: 0.25rem;
+  }
+
+  .bar-item {
+    gap: 0.25rem;
+  }
+}
