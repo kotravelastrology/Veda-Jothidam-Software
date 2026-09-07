@@ -157,32 +157,129 @@ function VargaSection({ report }: { report: ReportData }) {
 
 function AshtakavargaSection({ report }: { report: ReportData }) {
   const sarva = report.ashtakavarga.sarva as number[];
-  const max = Math.max(...sarva);
+  const bhinna = report.ashtakavarga.bhinna as Record<string, number[]>;
+  const vargas = report.vargas as Record<string, Record<string, { sign?: string }>>;
+
   return (
     <div className="mb-8">
-      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">அஷ்டகவர்க்கம் — சர்வாஷ்டகவர்க்கம்</h2>
-      <div className="flex items-end gap-1 h-32 mb-4">
-        {sarva.map((v, i) => (
-          <div key={i} className="flex-1 flex flex-col items-center justify-end">
-            <span className="text-xs font-mono">{v}</span>
-            <div className="w-full bg-saffron rounded-t" style={{ height: `${(v / max) * 100}%` }} />
-            <span className="text-[10px] text-ink-soft mt-1">{RASI_SHORT[Object.keys(RASI_SHORT)[i]]}</span>
-          </div>
-        ))}
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">அஷ்டகவர்க்கம்</h2>
+
+      {/* Tabs */}
+      <div className="flex gap-2 mb-4 border-b border-line">
+        <button
+          onClick={(e) => {
+            const tabs = (e.currentTarget.parentElement?.parentElement?.querySelectorAll('[data-tab-btn]') || []) as HTMLButtonElement[];
+            tabs.forEach(t => t.classList.remove('border-b-2', 'border-saffron'));
+            (e.currentTarget as HTMLButtonElement).classList.add('border-b-2', 'border-saffron');
+
+            const contents = (e.currentTarget.parentElement?.parentElement?.querySelectorAll('[data-tab-content]') || []) as HTMLDivElement[];
+            contents.forEach(c => c.classList.add('hidden'));
+            document.querySelector('[data-tab-content="sarva"]')?.classList.remove('hidden');
+          }}
+          data-tab-btn="sarva"
+          className="px-3 py-2 text-sm font-semibold border-b-2 border-saffron text-saffron"
+        >
+          சர்வாஷ்டகவர்க்கம்
+        </button>
+        <button
+          onClick={(e) => {
+            const tabs = (e.currentTarget.parentElement?.parentElement?.querySelectorAll('[data-tab-btn]') || []) as HTMLButtonElement[];
+            tabs.forEach(t => t.classList.remove('border-b-2', 'border-saffron'));
+            (e.currentTarget as HTMLButtonElement).classList.add('border-b-2', 'border-saffron');
+
+            const contents = (e.currentTarget.parentElement?.parentElement?.querySelectorAll('[data-tab-content]') || []) as HTMLDivElement[];
+            contents.forEach(c => c.classList.add('hidden'));
+            document.querySelector('[data-tab-content="bhinna"]')?.classList.remove('hidden');
+          }}
+          data-tab-btn="bhinna"
+          className="px-3 py-2 text-sm font-semibold text-ink-soft"
+        >
+          கிரக பலம்
+        </button>
+        <button
+          onClick={(e) => {
+            const tabs = (e.currentTarget.parentElement?.parentElement?.querySelectorAll('[data-tab-btn]') || []) as HTMLButtonElement[];
+            tabs.forEach(t => t.classList.remove('border-b-2', 'border-saffron'));
+            (e.currentTarget as HTMLButtonElement).classList.add('border-b-2', 'border-saffron');
+
+            const contents = (e.currentTarget.parentElement?.parentElement?.querySelectorAll('[data-tab-content]') || []) as HTMLDivElement[];
+            contents.forEach(c => c.classList.add('hidden'));
+            document.querySelector('[data-tab-content="chakra"]')?.classList.remove('hidden');
+          }}
+          data-tab-btn="chakra"
+          className="px-3 py-2 text-sm font-semibold text-ink-soft"
+        >
+          பாவ குழுக்கள்
+        </button>
       </div>
-      <table className="w-full text-xs">
-        <thead>
-          <tr className="border-b border-line text-left text-ink-soft"><th className="py-1">கிரகம்</th><th className="py-1">மொத்த பிந்து</th></tr>
-        </thead>
-        <tbody>
-          {Object.entries(report.ashtakavarga.bhinna as Record<string, number[]>).map(([planet, bindus]) => (
-            <tr key={planet} className="border-b border-line/50">
-              <td className="py-1">{POINT_LABEL[planet] ?? planet}</td>
-              <td className="py-1 font-mono">{bindus.reduce((a, b) => a + b, 0)}</td>
-            </tr>
+
+      {/* Sarvashtakavarga Tab */}
+      <div data-tab-content="sarva" className="mb-6">
+        <div className="flex items-end gap-1 h-32 mb-4">
+          {sarva.map((v, i) => (
+            <div key={i} className="flex-1 flex flex-col items-center justify-end">
+              <span className="text-xs font-mono">{v}</span>
+              <div className="w-full bg-saffron rounded-t" style={{ height: `${(v / Math.max(...sarva)) * 100}%` }} />
+              <span className="text-[10px] text-ink-soft mt-1">{RASI_SHORT[Object.keys(RASI_SHORT)[i]]}</span>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+        <table className="w-full text-xs">
+          <thead>
+            <tr className="border-b border-line text-left text-ink-soft"><th className="py-1">புள்ளி</th><th className="py-1">மதிப்பு</th></tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-line/50"><td className="py-1">மொத்த பிந்து</td><td className="py-1 font-mono">{sarva.reduce((a, b) => a + b, 0)}</td></tr>
+            <tr className="border-b border-line/50"><td className="py-1">சராசரி</td><td className="py-1 font-mono">{(sarva.reduce((a, b) => a + b, 0) / 12).toFixed(2)}</td></tr>
+            <tr className="border-b border-line/50"><td className="py-1">அதிகபட்சம்</td><td className="py-1 font-mono">{Math.max(...sarva)}</td></tr>
+            <tr><td className="py-1">குறைந்தபட்சம்</td><td className="py-1 font-mono">{Math.min(...sarva)}</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Bhinnashtakavarga Tab */}
+      <div data-tab-content="bhinna" className="hidden mb-6">
+        <table className="w-full text-xs">
+          <thead>
+            <tr className="border-b border-line text-left text-ink-soft"><th className="py-1">கிரகம்</th><th className="py-1">மொத்த பிந்து</th></tr>
+          </thead>
+          <tbody>
+            {Object.entries(bhinna).map(([planet, bindus]) => (
+              <tr key={planet} className="border-b border-line/50">
+                <td className="py-1">{POINT_LABEL[planet] ?? planet}</td>
+                <td className="py-1 font-mono">{bindus.reduce((a, b) => a + b, 0)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Chancha Chakra Tab */}
+      <div data-tab-content="chakra" className="hidden mb-6">
+        <p className="text-xs text-ink-soft mb-2">பாவங்களின் குழுக்கள்: கேந்திரம் (1,4,7,10), பணபாரம் (2,5,8,11), அபக்லிமம் (3,6,9,12)</p>
+        <table className="w-full text-xs">
+          <thead>
+            <tr className="border-b border-line text-left text-ink-soft"><th className="py-1">குழு</th><th className="py-1">பாவங்கள்</th><th className="py-1">மொத்தம்</th></tr>
+          </thead>
+          <tbody>
+            <tr className="border-b border-line/50">
+              <td className="py-1">கேந்திரம்</td>
+              <td className="py-1 font-mono">1, 4, 7, 10</td>
+              <td className="py-1 font-mono">{[sarva[0], sarva[3], sarva[6], sarva[9]].reduce((a, b) => a + b, 0)}</td>
+            </tr>
+            <tr className="border-b border-line/50">
+              <td className="py-1">பணபாரம்</td>
+              <td className="py-1 font-mono">2, 5, 8, 11</td>
+              <td className="py-1 font-mono">{[sarva[1], sarva[4], sarva[7], sarva[10]].reduce((a, b) => a + b, 0)}</td>
+            </tr>
+            <tr>
+              <td className="py-1">அபக்லிமம்</td>
+              <td className="py-1 font-mono">3, 6, 9, 12</td>
+              <td className="py-1 font-mono">{[sarva[2], sarva[5], sarva[8], sarva[11]].reduce((a, b) => a + b, 0)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
