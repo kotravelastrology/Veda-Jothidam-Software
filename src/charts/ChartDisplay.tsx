@@ -13,6 +13,7 @@ import { SynastryChartRenderer } from './chart-renderers/SynastryChartRenderer';
 import { AspectMatrixRenderer } from './chart-renderers/AspectMatrixRenderer';
 import { YogasAndDoshasRenderer } from './chart-renderers/YogasAndDoshasRenderer';
 import { ShadBalaRenderer } from './chart-renderers/ShadBalaRenderer';
+import { ChartComparisonDisplay } from './chart-renderers/ChartComparisonDisplay';
 
 type ReportData = any;
 
@@ -64,6 +65,7 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
         {chartId === 'aspect-matrix' && <AspectMatrixRenderer report={report} />}
         {chartId === 'yogas' && <YogasAndDoshasRenderer report={report} />}
         {chartId === 'shadbala' && <ShadBalaRenderer report={report} />}
+        {chartId === 'chart-comparison' && <ChartComparisonDisplay report={report} />}
 
         {/* Default placeholder for unimplemented charts */}
         {![
@@ -82,6 +84,7 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
           'aspect-matrix',
           'yogas',
           'shadbala',
+          'chart-comparison',
         ].includes(chartId) && <ChartPlaceholder chartType={chartType} />}
       </div>
     </div>
