@@ -1,0 +1,259 @@
+export type ChartCategory = 'standard' | 'divisional' | 'dasha' | 'analysis';
+
+export interface ChartType {
+  id: string;
+  label: string;
+  labelTamil: string;
+  category: ChartCategory;
+  icon: string;
+  description: string;
+  descriptionTamil: string;
+}
+
+export const CHART_TYPES: ChartType[] = [
+  // Standard Charts
+  {
+    id: 'D1-rasi',
+    label: 'Birth Chart (Rasi)',
+    labelTamil: 'ஜாதக ராசி',
+    category: 'standard',
+    icon: '📊',
+    description: 'Birth chart showing planetary positions in zodiac signs',
+    descriptionTamil: 'பிறப்புக் கட்டத்தில் கிரக நிலைகளைக் காட்டும் ராசி',
+  },
+  {
+    id: 'D9-navamsha',
+    label: 'Navamsha (D9)',
+    labelTamil: 'நவாংश (D9)',
+    category: 'divisional',
+    icon: '✨',
+    description: 'One-ninth divisional chart for marriage & progeny',
+    descriptionTamil: 'திருமணம் மற்றும் சந்ததியின் ஒன்பதாம் வகுப்பு அட்டவணை',
+  },
+  {
+    id: 'D2-hora',
+    label: 'Hora (D2)',
+    labelTamil: 'ஹோரா (D2)',
+    category: 'divisional',
+    icon: '💰',
+    description: 'Wealth and financial gains',
+    descriptionTamil: 'செல்வம் மற்றும் நிதி ஆதாயம்',
+  },
+  {
+    id: 'D3-drekkana',
+    label: 'Drekkana (D3)',
+    labelTamil: 'த்ரேக்கான (D3)',
+    category: 'divisional',
+    icon: '🏠',
+    description: 'Siblings and co-borns',
+    descriptionTamil: 'சகோதரர்கள் மற்றும் சகோதரிகள்',
+  },
+  {
+    id: 'D4-chaturthamsha',
+    label: 'Chaturthamsha (D4)',
+    labelTamil: 'சதுர்த்தாம்ச (D4)',
+    category: 'divisional',
+    icon: '🏡',
+    description: 'Property and real estate',
+    descriptionTamil: 'சொத்து மற்றும் நிலமை',
+  },
+  {
+    id: 'D7-saptamsha',
+    label: 'Saptamsha (D7)',
+    labelTamil: 'சப்தாம்ச (D7)',
+    category: 'divisional',
+    icon: '👶',
+    description: 'Children and progeny',
+    descriptionTamil: 'குழந்தைகள் மற்றும் சந்ததி',
+  },
+  {
+    id: 'D10-dasamsha',
+    label: 'Dasamsha (D10)',
+    labelTamil: 'தசாம்ச (D10)',
+    category: 'divisional',
+    icon: '💼',
+    description: 'Career and profession',
+    descriptionTamil: 'வேலை மற்றும் தொழிל்',
+  },
+  {
+    id: 'D12-dwadashamsha',
+    label: 'Dwadashamsha (D12)',
+    labelTamil: 'த்வாதசாம்ச (D12)',
+    category: 'divisional',
+    icon: '🏛️',
+    description: 'Parents and ancestors',
+    descriptionTamil: 'பெற்றோர் மற்றும் முன்னோர்கள்',
+  },
+  {
+    id: 'D16-shodashamsha',
+    label: 'Shodashamsha (D16)',
+    labelTamil: 'ஷோடசாம்ச (D16)',
+    category: 'divisional',
+    icon: '✨',
+    description: 'Auspiciousness and divine grace',
+    descriptionTamil: 'சுபம் மற்றும் தெய்வீக கிருபை',
+  },
+  {
+    id: 'D20-vimshamsha',
+    label: 'Vimshamsha (D20)',
+    labelTamil: 'விம்சாம்ச (D20)',
+    category: 'divisional',
+    icon: '🌟',
+    description: 'Spiritual pursuits',
+    descriptionTamil: 'ஆன்மீக முயற்சிகள்',
+  },
+  {
+    id: 'D24-chaturvimshamsha',
+    label: 'Chaturvimshamsha (D24)',
+    labelTamil: 'சதுர்விம்சாம்ச (D24)',
+    category: 'divisional',
+    icon: '📚',
+    description: 'Education and learning',
+    descriptionTamil: 'கல்வி மற்றும் கற்றல்',
+  },
+  {
+    id: 'D27-saptavimshamsha',
+    label: 'Saptavimshamsha (D27)',
+    labelTamil: 'சப்தவிம்சாம்ச (D27)',
+    category: 'divisional',
+    icon: '⭐',
+    description: 'Strength of planets',
+    descriptionTamil: 'கிரகங்களின் பலம்',
+  },
+  {
+    id: 'D30-trimshamsha',
+    label: 'Trimshamsha (D30)',
+    labelTamil: 'திரிம்சாம்ச (D30)',
+    category: 'divisional',
+    icon: '🔷',
+    description: 'Misfortune and losses',
+    descriptionTamil: 'துரதிர்ஷ்டம் மற்றும் நஷ்டங்கள்',
+  },
+  {
+    id: 'D40-khavedamsha',
+    label: 'Khavedamsha (D40)',
+    labelTamil: 'க்ஷவேதாம்ச (D40)',
+    category: 'divisional',
+    icon: '🏛️',
+    description: 'Humility and servitude',
+    descriptionTamil: '겸손 மற்றும் சேவை',
+  },
+  {
+    id: 'D45-akshavedamsha',
+    label: 'Akshavedamsha (D45)',
+    labelTamil: 'அக்ஷவேதாம்ச (D45)',
+    category: 'divisional',
+    icon: '🌙',
+    description: 'Long life and longevity',
+    descriptionTamil: 'நீண்ட வாழ்க்கை',
+  },
+  {
+    id: 'D60-shashtiamsha',
+    label: 'Shashtiamsha (D60)',
+    labelTamil: 'சாஷ்டியாம்ச (D60)',
+    category: 'divisional',
+    icon: '🔮',
+    description: 'Past karma and results',
+    descriptionTamil: 'கடந்த கர்மா மற்றும் பலன்கள்',
+  },
+  // Dasha Charts
+  {
+    id: 'dasha-vimsottari',
+    label: 'Vimsottari Dasha',
+    labelTamil: 'விம்சோத்தரி தசா',
+    category: 'dasha',
+    icon: '⏳',
+    description: 'Planetary periods (120-year cycle)',
+    descriptionTamil: 'கிரக சுபிடங்கள் (120 வருஷ சக்ரம்)',
+  },
+  {
+    id: 'dasha-ashtottari',
+    label: 'Ashtottari Dasha',
+    labelTamil: 'அஷ்டோத்தரி தசா',
+    category: 'dasha',
+    icon: '📅',
+    description: 'Alternative dasha system (108-year)',
+    descriptionTamil: 'மாற்று தசா முறை (108 வருஷம்)',
+  },
+  // Analysis Charts
+  {
+    id: 'transit',
+    label: 'Current Transits (Gochara)',
+    labelTamil: 'இன்றைய கோசரம்',
+    category: 'analysis',
+    icon: '🌍',
+    description: 'Present planetary positions and influences',
+    descriptionTamil: 'தற்போதைய கிரக நிலைகள் மற்றும் செல்வாக்குகள்',
+  },
+  {
+    id: 'aspect-matrix',
+    label: 'Aspect Matrix (Drishti)',
+    labelTamil: 'பார்ப்பு மேட்ரிக்ஸ்',
+    category: 'analysis',
+    icon: '🔀',
+    description: 'Planetary aspects and influences',
+    descriptionTamil: 'கிரக பார்ப்புகள் மற்றும் செல்வாக்குகள்',
+  },
+  {
+    id: 'ashtakavarga',
+    label: 'Ashtakavarga',
+    labelTamil: 'அஷ்டகவர்க்கம்',
+    category: 'analysis',
+    icon: '🎯',
+    description: 'Benefic point calculation for each sign',
+    descriptionTamil: 'ஒவ்வொரு ராசிக்கும் சுப புள்ளிகளின் கணக்கீடு',
+  },
+  {
+    id: 'shadbala',
+    label: 'Shadbala (Six Strengths)',
+    labelTamil: 'சட்பலம்',
+    category: 'analysis',
+    icon: '💪',
+    description: 'Comprehensive planetary strength analysis',
+    descriptionTamil: 'விரிவான கிரக பல பகுப்பாய்வு',
+  },
+  {
+    id: 'yogas',
+    label: 'Yogas & Doshas',
+    labelTamil: 'யோகங்கள் மற்றும் தோஷங்கள்',
+    category: 'analysis',
+    icon: '🌟',
+    description: 'Auspicious and inauspicious combinations',
+    descriptionTamil: 'சுப மற்றும் அசுப சேர்க்கைகள்',
+  },
+  {
+    id: 'varga-chakra',
+    label: 'Varga Chakra',
+    labelTamil: 'வர்க்க சக்கரம்',
+    category: 'divisional',
+    icon: '🔄',
+    description: 'All 16 divisional charts in circular view',
+    descriptionTamil: '16 வர்க்க அட்டவணைகள் வட்ட வடிவில்',
+  },
+  {
+    id: 'sudarshan-chakra',
+    label: 'Sudarshan Chakra',
+    labelTamil: 'சுதர்சன சக்கரம்',
+    category: 'analysis',
+    icon: '⭕',
+    description: 'Lunar mansion analysis for predictions',
+    descriptionTamil: 'நட்சத்திர பகுப்பாய்வு மற்றும் கணிப்புகள்',
+  },
+  {
+    id: 'compatibility',
+    label: 'Synastry (Compatibility)',
+    labelTamil: 'போராபhydnayatha (பொருத்தம்)',
+    category: 'analysis',
+    icon: '💕',
+    description: 'Relationship compatibility analysis',
+    descriptionTamil: 'உறவு பொருத்தம் பகுப்பாய்வு',
+  },
+];
+
+export const getChartsByCategory = (category: ChartCategory): ChartType[] => {
+  return CHART_TYPES.filter(chart => chart.category === category);
+};
+
+export const getChartById = (id: string): ChartType | undefined => {
+  return CHART_TYPES.find(chart => chart.id === id);
+};

@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { computeReport, type BirthFormInput } from './actions';
 import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
+import { ChartTypeSelector } from '@/src/charts/ChartTypeSelector';
+import { ChartDisplay } from '@/src/charts/ChartDisplay';
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
 const CHART_POINTS = ['Lagna', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -721,6 +723,7 @@ export default function ReportBuilder() {
     Object.fromEntries(SECTIONS.map((s) => [s.id, true])),
   );
   const [order, setOrder] = useState<string[]>(SECTIONS.map((s) => s.id));
+  const [selectedChartId, setSelectedChartId] = useState<string>('D1-rasi');
 
   const move = (id: string, dir: -1 | 1) => {
     setOrder((prev) => {
@@ -775,43 +778,59 @@ export default function ReportBuilder() {
         </div>
         {error && <p className="text-rose text-sm mb-4">⚠️ பிழை: {error}</p>}
 
-        {report && (
-          <div className="bg-surface border border-line rounded-2xl p-5">
-            <h3 className="font-semibold mb-3 text-ink">அறிக்கை பிரிவுகள்</h3>
-            <ul className="space-y-2">
-              {order.map((id, i) => {
-                const def = SECTIONS.find((s) => s.id === id)!;
-                return (
-                  <li key={id} className="flex items-center gap-3">
-                    <input type="checkbox" checked={enabled[id]} onChange={(e) => setEnabled({ ...enabled, [id]: e.target.checked })} />
-                    <span className="flex-1 text-sm">{def.label}</span>
-                    <button type="button" onClick={() => move(id, -1)} disabled={i === 0} className="text-ink-soft disabled:opacity-30">↑</button>
-                    <button type="button" onClick={() => move(id, 1)} disabled={i === order.length - 1} className="text-ink-soft disabled:opacity-30">↓</button>
-                  </li>
-                );
-              })}
-            </ul>
-            <div className="flex flex-wrap gap-3 mt-4 print:hidden">
-              <button type="button" onClick={() => window.print()}
-                className="rounded-lg bg-indigo text-white font-semibold py-2 px-4">
-                அச்சிடு / PDF ஆக சேமி
-              </button>
-              <Link href="/consultation"
-                className="rounded-lg bg-teal text-white font-semibold py-2 px-4">
-                தனிப்பட்ட ஆலோசனை வேண்டுமா?
-              </Link>
-            </div>
-          </div>
-        )}
       </section>
 
       {report && (
-        <section className="max-w-3xl mx-auto px-6 py-8">
-          {order.filter((id) => enabled[id]).map((id) => {
-            const Renderer = SECTION_RENDERERS[id];
-            return <Renderer key={id} report={report} />;
-          })}
-        </section>
+        <>
+          {/* Chart Type Selector */}
+          <section className="max-w-4xl mx-auto px-6 py-8 print:hidden">
+            <div className="bg-surface border border-line rounded-2xl p-6">
+              <h2 className="font-[family-name:var(--font-tamil-serif)] text-2xl font-bold mb-6 text-ink">
+                ⭐ அட்டவணைகளைத் தேர்ந்தெடுக்கவும் (Select Chart Type)
+              </h2>
+              <ChartTypeSelector selectedChartId={selectedChartId} onChartSelect={setSelectedChartId} />
+            </div>
+          </section>
+
+          {/* Chart Display */}
+          <section className="max-w-4xl mx-auto px-6 py-8 print:hidden">
+            <ChartDisplay chartId={selectedChartId} report={report} />
+          </section>
+
+          {/* Report Analysis Sections */}
+          <section className="max-w-3xl mx-auto px-6 py-8">
+            <div className="bg-surface border border-line rounded-2xl p-5 mb-6">
+              <h3 className="font-semibold mb-3 text-ink">அறிக்கை பிரிவுகள்</h3>
+              <ul className="space-y-2">
+                {order.map((id, i) => {
+                  const def = SECTIONS.find((s) => s.id === id)!;
+                  return (
+                    <li key={id} className="flex items-center gap-3">
+                      <input type="checkbox" checked={enabled[id]} onChange={(e) => setEnabled({ ...enabled, [id]: e.target.checked })} />
+                      <span className="flex-1 text-sm">{def.label}</span>
+                      <button type="button" onClick={() => move(id, -1)} disabled={i === 0} className="text-ink-soft disabled:opacity-30">↑</button>
+                      <button type="button" onClick={() => move(id, 1)} disabled={i === order.length - 1} className="text-ink-soft disabled:opacity-30">↓</button>
+                    </li>
+                  );
+                })}
+              </ul>
+              <div className="flex flex-wrap gap-3 mt-4 print:hidden">
+                <button type="button" onClick={() => window.print()}
+                  className="rounded-lg bg-indigo text-white font-semibold py-2 px-4">
+                  அச்சிடு / PDF ஆக சேமி
+                </button>
+                <Link href="/consultation"
+                  className="rounded-lg bg-teal text-white font-semibold py-2 px-4">
+                  தனிப்பட்ட ஆலோசனை வேண்டுமா?
+                </Link>
+              </div>
+            </div>
+            {order.filter((id) => enabled[id]).map((id) => {
+              const Renderer = SECTION_RENDERERS[id];
+              return <Renderer key={id} report={report} />;
+            })}
+          </section>
+        </>
       )}
     </main>
   );
