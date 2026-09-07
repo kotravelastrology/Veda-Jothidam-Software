@@ -1,7 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigation } from './navigationContext';
+import { useUIManager } from '../ui/useUIManager';
+import { SettingsPanel } from '../ui/SettingsPanel';
+import { ToolsPanel } from '../ui/ToolsPanel';
+import { HelpPanel } from '../ui/HelpPanel';
+import { useKeyboardShortcuts } from '../ui/useKeyboardShortcuts';
 
 interface MenuItem {
   label: string;
@@ -18,6 +23,7 @@ interface SubMenuItem {
 export function TopMenuBar() {
   const { currentMenu, setCurrentMenu, setBreadcrumb, setSidebarOpen, sidebarOpen } = useNavigation();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [uiState, uiActions] = useUIManager();
 
   const menus: MenuItem[] = [
     {
@@ -101,11 +107,10 @@ export function TopMenuBar() {
       label: 'Tools',
       key: 'tools',
       submenu: [
-        { label: 'Change Location', key: 'changeloc' },
-        { label: 'Change Time', key: 'changetime' },
-        { label: 'Chart Notes', key: 'chartnotes' },
-        { label: 'Worksheet', key: 'worksheet' },
-        { label: 'Chart Navigator', key: 'navigator' },
+        { label: 'Location Finder', key: 'changeloc' },
+        { label: 'Time Zone Converter', key: 'changetime' },
+        { label: 'Ayanamsha Calculator', key: 'ayanamsha' },
+        { label: 'Date Converter', key: 'dateconverter' },
       ],
     },
     {
@@ -122,6 +127,7 @@ export function TopMenuBar() {
       key: 'help',
       submenu: [
         { label: 'Help Contents', key: 'contents' },
+        { label: 'Keyboard Shortcuts', key: 'shortcuts' },
         { label: 'About', key: 'about' },
       ],
     },
@@ -133,10 +139,46 @@ export function TopMenuBar() {
     setOpenMenu(openMenu === menuKey ? null : menuKey);
   };
 
-  const handleSubmenuClick = (submenuKey: string) => {
-    // Handle submenu navigation
+  const handleSubmenuClick = useCallback((submenuKey: string) => {
     setOpenMenu(null);
-  };
+
+    switch (submenuKey) {
+      case 'settings':
+        uiActions.openSettings();
+        break;
+      case 'contents':
+        uiActions.openHelp('help');
+        break;
+      case 'shortcuts':
+        uiActions.openHelp('shortcuts');
+        break;
+      case 'about':
+        uiActions.openHelp('about');
+        break;
+      case 'changeloc':
+      case 'changetime':
+      case 'ayanamsha':
+      case 'dateconverter':
+        uiActions.openTools();
+        break;
+      case 'cascade':
+        uiActions.setWindowLayout('cascade');
+        break;
+      case 'tileh':
+      case 'tilev':
+        uiActions.setWindowLayout('tile');
+        break;
+      default:
+        break;
+    }
+  }, [uiActions]);
+
+  useKeyboardShortcuts({
+    onSettings: uiActions.openSettings,
+    onTools: uiActions.openTools,
+    onHelp: () => uiActions.openHelp('help'),
+    onClose: uiActions.closeAllPanels,
+  });
 
   return (
     <>
@@ -172,7 +214,7 @@ export function TopMenuBar() {
 
                 {/* Dropdown Submenu */}
                 {menu.submenu && (
-                  <div className="absolute left-0 mt-0 w-48 bg-surface border border-line shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 py-1 z-50">
+                  <div className="absolute left-0 mt-0 w-56 bg-surface border border-line shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 py-1 z-50">
                     {menu.submenu.map((submenu) =>
                       submenu.key === 'divider' ? (
                         <div key="divider" className="h-px bg-line my-1" />
@@ -182,7 +224,7 @@ export function TopMenuBar() {
                           onClick={() => handleSubmenuClick(submenu.key)}
                           className="w-full text-left px-4 py-2 text-sm hover:bg-saffron/10 text-ink transition-colors"
                         >
-                          {submenu.label}
+                          <span>{submenu.label}</span>
                         </button>
                       )
                     )}
@@ -192,17 +234,45 @@ export function TopMenuBar() {
             ))}
           </div>
 
-          {/* Right Side: Search/Settings */}
+          {/* Right Side: Quick Actions */}
           <div className="flex gap-2 ml-auto">
             <input
               type="text"
               placeholder="Search..."
               className="px-3 py-1 text-xs rounded bg-ink-soft/10 border border-ink-soft/20 text-surface placeholder-ink-soft/50 focus:outline-none focus:border-saffron/50 w-40"
             />
-            <button className="p-1 hover:bg-ink-soft/10 rounded text-sm">⚙️</button>
+            <button
+              onClick={uiActions.openTools}
+              className="p-1 hover:bg-ink-soft/10 rounded text-sm"
+              title="Tools (Ctrl+T)"
+            >
+              🛠️
+            </button>
+            <button
+              onClick={uiActions.openSettings}
+              className="p-1 hover:bg-ink-soft/10 rounded text-sm"
+              title="Settings (Ctrl+,)"
+            >
+              ⚙️
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Panels */}
+      <SettingsPanel
+        isOpen={uiState.settingsOpen}
+        onClose={uiActions.closeSettings}
+      />
+      <ToolsPanel
+        isOpen={uiState.toolsOpen}
+        onClose={uiActions.closeTools}
+      />
+      <HelpPanel
+        isOpen={uiState.helpOpen}
+        onClose={uiActions.closeHelp}
+        tab={uiState.helpTab}
+      />
     </>
   );
 }
