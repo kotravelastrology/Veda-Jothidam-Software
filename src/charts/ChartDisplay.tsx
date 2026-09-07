@@ -56,8 +56,8 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
         {chartId === 'dasha-vimsottari' && <DashaTimelineRenderer report={report} />}
         {chartId === 'ashtakavarga' && <AshtakavargaHeatmapRenderer report={report} />}
         {chartId === 'varga-chakra' && <VargaChakraRenderer report={report} />}
-        {chartId === 'sudarshana-chakra' && <SudarshanaChakraRenderer report={report} />}
-        {chartId === 'synastry' && <SynastryChartRenderer report={report} />}
+        {chartId === 'sudarshan-chakra' && <SudarshanaChakraRenderer report={report} />}
+        {chartId === 'compatibility' && <SynastryChartRenderer report={report} />}
         {chartId === 'shadbala' && <ShadBalaDisplay report={report} />}
 
         {/* Default placeholder for unimplemented charts */}
@@ -72,8 +72,8 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
           'transit',
           'ashtakavarga',
           'varga-chakra',
-          'sudarshana-chakra',
-          'synastry',
+          'sudarshan-chakra',
+          'compatibility',
           'shadbala',
         ].includes(chartId) && <ChartPlaceholder chartType={chartType} />}
       </div>
