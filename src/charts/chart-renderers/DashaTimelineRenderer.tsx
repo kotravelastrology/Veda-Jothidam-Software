@@ -1,7 +1,10 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
 interface DashaTimelineRendererProps {
   report: any;
+  enableAnimation?: boolean;
 }
 
 const DASHA_NAMES: Record<string, { tamil: string; color: string }> = {
@@ -16,8 +19,21 @@ const DASHA_NAMES: Record<string, { tamil: string; color: string }> = {
   Ketu: { tamil: 'கேது', color: 'bg-indigo-600' },
 };
 
-export function DashaTimelineRenderer({ report }: DashaTimelineRendererProps) {
+export function DashaTimelineRenderer({ report, enableAnimation = true }: DashaTimelineRendererProps) {
+  const [animationState, setAnimationState] = useState<Record<number, boolean>>({});
   const dasha = report.dasha;
+
+  useEffect(() => {
+    if (enableAnimation) {
+      // Stagger animation for timeline items
+      const periods = dasha?.periods || [];
+      periods.forEach((_: any, idx: number) => {
+        setTimeout(() => {
+          setAnimationState(prev => ({ ...prev, [idx]: true }));
+        }, idx * 100);
+      });
+    }
+  }, [dasha, enableAnimation]);
 
   if (!dasha || !dasha.periods) {
     return (
@@ -111,7 +127,18 @@ export function DashaTimelineRenderer({ report }: DashaTimelineRendererProps) {
                     : isPast
                     ? 'bg-surface-soft border-line opacity-60'
                     : 'bg-surface border-line hover:border-purple/50'
+                } ${
+                  enableAnimation && animationState[idx]
+                    ? 'animate-in fade-in slide-in-from-left duration-500'
+                    : enableAnimation
+                    ? 'opacity-0'
+                    : ''
                 }`}
+                style={{
+                  animation: enableAnimation && animationState[idx]
+                    ? `slideIn 0.5s ease-out ${idx * 0.05}s`
+                    : undefined,
+                }}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4 flex-1">
