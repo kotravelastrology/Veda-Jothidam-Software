@@ -167,7 +167,7 @@ export function ShadBalaRenderer({ report }: { report: ShadBalaReport }) {
                     <div>
                       <p className="font-semibold text-ink">{planet.planet}</p>
                       <p className="text-xs text-ink-soft font-[family-name:var(--font-tamil-serif)]">
-                        {planetInfo.tamilvClassName}
+                        {'நட்சத்திரம்'}
                       </p>
                     </div>
                   </div>

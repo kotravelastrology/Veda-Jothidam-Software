@@ -173,7 +173,7 @@ export function DualShadBalaComparison({ report }: { report: ComparisonReport })
                     </thead>
                     <tbody>
                       {COMPONENTS.map((component) => {
-                        const key = component.key as keyof typeof comparison.native;
+                        const key = component.key as keyof Omit<PlanetaryShadbala, 'planet'>;
                         const nativeVal = comparison.native[key];
                         const compVal = comparison.comparison[key];
                         const diff = comparison.differential[key];

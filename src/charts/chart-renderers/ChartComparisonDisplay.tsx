@@ -101,8 +101,14 @@ export function ChartComparisonDisplay({ report }: { report: ChartComparisonRepo
         {activeTab === 'shadbala' && (
           <DualShadBalaComparison
             report={{
-              nativeChart: report.nativeChart,
-              comparisonChart: report.comparisonChart,
+              nativeChart: {
+                name: report.nativeChart.name,
+                shadbala: report.nativeChart.shadbala || {},
+              },
+              comparisonChart: {
+                name: report.comparisonChart.name,
+                shadbala: report.comparisonChart.shadbala || {},
+              },
               comparisonType: report.comparisonType,
             }}
           />
@@ -113,7 +119,7 @@ export function ChartComparisonDisplay({ report }: { report: ChartComparisonRepo
             report={{
               nativeChart: { name: report.nativeChart.name, planets: report.nativeChart as any },
               comparisonChart: { name: report.comparisonChart.name, planets: report.comparisonChart as any },
-              aspects: report.aspects || [],
+              aspects: [],
               comparisonType: report.comparisonType,
             }}
           />

@@ -32,10 +32,14 @@ export function TopMenuBar() {
       submenu: [
         { label: 'New Chart', key: 'new' },
         { label: 'Open...', key: 'open' },
+        { label: 'Recent Charts', key: 'recent' },
+        { label: '', key: 'divider1' },
         { label: 'Save', key: 'save' },
         { label: 'Save As...', key: 'saveas' },
-        { label: '', key: 'divider' },
+        { label: '', key: 'divider2' },
+        { label: 'Export', key: 'export_submenu' },
         { label: 'Print', key: 'print' },
+        { label: '', key: 'divider3' },
         { label: 'Exit', key: 'exit' },
       ],
     },
@@ -46,6 +50,8 @@ export function TopMenuBar() {
         { label: 'Birth Data', key: 'birthdata' },
         { label: 'Chart Notes', key: 'notes' },
         { label: 'Events', key: 'events' },
+        { label: '', key: 'divider' },
+        { label: 'Preferences', key: 'preferences' },
       ],
     },
     {
@@ -111,6 +117,10 @@ export function TopMenuBar() {
         { label: 'Time Zone Converter', key: 'changetime' },
         { label: 'Ayanamsha Calculator', key: 'ayanamsha' },
         { label: 'Date Converter', key: 'dateconverter' },
+        { label: '', key: 'divider1' },
+        { label: 'Muhurta Finder', key: 'muhurta' },
+        { label: 'Transit Finder', key: 'transit_finder' },
+        { label: 'Rectification Tool', key: 'rectification_tool' },
       ],
     },
     {
@@ -129,6 +139,8 @@ export function TopMenuBar() {
         { label: 'Help Contents', key: 'contents' },
         { label: 'Keyboard Shortcuts', key: 'shortcuts' },
         { label: 'About', key: 'about' },
+        { label: '', key: 'divider' },
+        { label: 'Contact Support', key: 'contact' },
       ],
     },
   ];
@@ -143,9 +155,65 @@ export function TopMenuBar() {
     setOpenMenu(null);
 
     switch (submenuKey) {
+      // File Menu
+      case 'new':
+        // Navigate to home to start new chart
+        break;
+      case 'open':
+        // Handle: Open Chart dialog
+        alert('Open Chart - Coming in Phase 31.1');
+        break;
+      case 'recent':
+        // Handle: Recent Charts menu
+        alert('Recent Charts - Coming in Phase 31.1');
+        break;
+      case 'save':
+        // Handle: Save Chart
+        alert('Save Chart - Coming in Phase 31.1');
+        break;
+      case 'saveas':
+        // Handle: Save As dialog
+        alert('Save As - Coming in Phase 31.1');
+        break;
+      case 'export_submenu':
+        // Handle: Export submenu (PDF, PNG, SVG, Excel)
+        alert('Export options - Coming in Phase 34');
+        break;
+      case 'print':
+        // Handle: Print Chart
+        window.print();
+        break;
+      case 'exit':
+        // Handle: Exit application
+        if (confirm('Exit Kotravel?')) {
+          window.close();
+        }
+        break;
+
+      // Edit Menu
+      case 'birthdata':
+        // Open birth data form - Coming in Phase 31.2
+        alert('Birth Data Editor - Coming in Phase 31.2');
+        break;
+      case 'notes':
+        alert('Chart Notes - Coming in Phase 31.2');
+        break;
+      case 'events':
+        alert('Events - Coming in Phase 31.2');
+        break;
+      case 'preferences':
+        uiActions.openSettings();
+        break;
+
+      // Settings/Options
       case 'settings':
         uiActions.openSettings();
         break;
+      case 'preferences':
+        uiActions.openSettings();
+        break;
+
+      // Help Menu
       case 'contents':
         uiActions.openHelp('help');
         break;
@@ -155,12 +223,29 @@ export function TopMenuBar() {
       case 'about':
         uiActions.openHelp('about');
         break;
+      case 'contact':
+        // Handle: Contact Support
+        alert('Support contact: gvkotravel@gmail.com');
+        break;
+
+      // Tools Menu
       case 'changeloc':
       case 'changetime':
       case 'ayanamsha':
       case 'dateconverter':
         uiActions.openTools();
         break;
+      case 'muhurta':
+        alert('Muhurta Finder - Coming in Phase 35');
+        break;
+      case 'transit_finder':
+        alert('Transit Finder - Coming in Phase 35');
+        break;
+      case 'rectification_tool':
+        alert('Rectification Tool - Coming in Phase 35');
+        break;
+
+      // Windows Menu
       case 'cascade':
         uiActions.setWindowLayout('cascade');
         break;
@@ -168,10 +253,11 @@ export function TopMenuBar() {
       case 'tilev':
         uiActions.setWindowLayout('tile');
         break;
+
       default:
         break;
     }
-  }, [uiActions]);
+  }, [uiActions, setCurrentMenu]);
 
   useKeyboardShortcuts({
     onSettings: uiActions.openSettings,
