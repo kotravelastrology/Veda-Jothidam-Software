@@ -91,19 +91,20 @@ export class PerformanceMonitor {
    * Get page load metrics
    */
   getPageLoadMetrics(): Record<string, number> {
-    const navigationTiming = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+    const navigationTiming = performance.getEntriesByType('navigation')[0] as any;
     if (!navigationTiming) {
       return {};
     }
 
+    const navStart = navigationTiming.startTime || 0;
     return {
       dnsLookup: navigationTiming.domainLookupEnd - navigationTiming.domainLookupStart,
       tcpConnection: navigationTiming.connectEnd - navigationTiming.connectStart,
       timeToFirstByte: navigationTiming.responseStart - navigationTiming.requestStart,
       responseTime: navigationTiming.responseEnd - navigationTiming.responseStart,
-      domInteractive: navigationTiming.domInteractive - navigationTiming.navigationStart,
-      domComplete: navigationTiming.domComplete - navigationTiming.navigationStart,
-      loadComplete: navigationTiming.loadEventEnd - navigationTiming.navigationStart,
+      domInteractive: navigationTiming.domInteractive - navStart,
+      domComplete: navigationTiming.domComplete - navStart,
+      loadComplete: navigationTiming.loadEventEnd - navStart,
     };
   }
 
@@ -111,7 +112,7 @@ export class PerformanceMonitor {
    * Get Core Web Vitals
    */
   async getCoreWebVitals(): Promise<Record<string, number>> {
-    const vitals: Record<string, number> = {};
+    const vitals: Record<string, any> = {};
 
     // Largest Contentful Paint
     const paintEntries = performance.getEntriesByType('paint');
@@ -126,7 +127,7 @@ export class PerformanceMonitor {
 
     // Cumulative Layout Shift
     const cls = await this.measureCumulativeLayoutShift();
-    if (cls !== undefined) vitals.cls = cls;
+    if (cls !== null && cls !== undefined) vitals.cls = cls;
 
     return vitals;
   }
