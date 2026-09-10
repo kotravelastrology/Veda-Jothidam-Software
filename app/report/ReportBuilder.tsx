@@ -741,6 +741,18 @@ export default function ReportBuilder() {
     }
   }, []);
 
+  // Deep-link support: /report?section=<sectionId> scrolls to that section of the
+  // generated report (Reports menu navigation). Waits until the report renders.
+  useEffect(() => {
+    if (!report) return;
+    const sectionParam = new URLSearchParams(window.location.search).get('section');
+    if (!sectionParam) return;
+    const el = document.getElementById(`section-${sectionParam}`);
+    if (el) {
+      requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    }
+  }, [report]);
+
   const move = (id: string, dir: -1 | 1) => {
     setOrder((prev) => {
       const idx = prev.indexOf(id);
@@ -847,7 +859,11 @@ export default function ReportBuilder() {
             </div>
             {order.filter((id) => enabled[id]).map((id) => {
               const Renderer = SECTION_RENDERERS[id];
-              return <Renderer key={id} report={report} />;
+              return (
+                <div key={id} id={`section-${id}`} className="scroll-mt-4">
+                  <Renderer report={report} />
+                </div>
+              );
             })}
           </section>
         </>

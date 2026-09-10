@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import {
   CLASSICAL_REFERENCES_DB,
   searchReferences,
@@ -11,11 +11,22 @@ import {
 
 type CategoryFilter = 'all' | 'text' | 'yoga' | 'nakshatra' | 'planet' | 'house' | 'rashi';
 
+const VALID_CATEGORIES: CategoryFilter[] = ['all', 'text', 'yoga', 'nakshatra', 'planet', 'house', 'rashi'];
+
 export function ClassicalReferenceBrowser() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
   const [selectedReference, setSelectedReference] = useState<ClassicalText | null>(null);
   const [tabView, setTabView] = useState<'search' | 'browse'>('search');
+
+  // Deep-link: /references?category=yoga jumps straight to that category in browse view
+  useEffect(() => {
+    const param = new URLSearchParams(window.location.search).get('category');
+    if (param && VALID_CATEGORIES.includes(param as CategoryFilter)) {
+      setSelectedCategory(param as CategoryFilter);
+      setTabView('browse');
+    }
+  }, []);
 
   const allReferences = useMemo(() => {
     return [

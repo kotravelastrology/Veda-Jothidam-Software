@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 
 interface AuspiciousTime {
   date: string;
@@ -26,12 +26,22 @@ export function MuhurtaFinder() {
   const [filters, setFilters] = useState<MuhurtaFilters>({
     purpose: 'marriage',
     duration: 1,
-    startDate: new Date().toISOString().split('T')[0],
-    endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    startDate: '',
+    endDate: '',
   });
 
   const [selectedMuhurta, setSelectedMuhurta] = useState<AuspiciousTime | null>(null);
   const [isSearching, setIsSearching] = useState(false);
+
+  // Set the default 90-day date range on the client only — computing it during
+  // render would produce a server/client hydration mismatch.
+  useEffect(() => {
+    setFilters((f) => (f.startDate ? f : {
+      ...f,
+      startDate: new Date().toISOString().split('T')[0],
+      endDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    }));
+  }, []);
 
   // Vedic Muhurta Criteria by Purpose
   const muhurtaCriteria = {

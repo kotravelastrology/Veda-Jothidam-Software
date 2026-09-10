@@ -55,6 +55,29 @@ export function TopMenuBar() {
   // Not yet implemented anywhere in the app — kept as honest "coming soon" rather than a dead link
   const CHARTS_NOT_YET_BUILT = new Set(['ephemeris', 'rectification', 'composite']);
 
+  // Reports-menu keys → report builder deep links (section anchors or a chart type)
+  const REPORT_KEY_TO_PATH: Record<string, string> = {
+    horoscope: '/report',
+    calculations: '/report?section=lagnaGraha',
+    interpretations: '/report?section=nabhasaYoga',
+    dashas: '/report?section=dasha',
+    transits: '/report?section=transit',
+    compatibility: '/report?chart=compatibility',
+    astronomy: '/report?section=grahaBala',
+  };
+  const REPORTS_NOT_YET_BUILT = new Set(['varshaphala']);
+
+  // Classical References-menu keys → /references, with an optional category filter
+  const REFERENCE_KEY_TO_PATH: Record<string, string> = {
+    bphs: '/references',
+    saravali: '/references',
+    horasara: '/references',
+    gargahora: '/references',
+    karakas: '/references?category=planet',
+    nakshatras: '/references?category=nakshatra',
+    yogas: '/references?category=yoga',
+  };
+
   const menus: MenuItem[] = [
     {
       label: 'File',
@@ -194,6 +217,22 @@ export function TopMenuBar() {
       return;
     }
 
+    // Reports menu — deep-link into the report builder
+    if (REPORT_KEY_TO_PATH[submenuKey]) {
+      router.push(REPORT_KEY_TO_PATH[submenuKey]);
+      return;
+    }
+    if (REPORTS_NOT_YET_BUILT.has(submenuKey)) {
+      alert('Varshaphala (annual chart) report is not implemented yet — coming in a future phase.');
+      return;
+    }
+
+    // Classical References menu — open the reference browser
+    if (REFERENCE_KEY_TO_PATH[submenuKey]) {
+      router.push(REFERENCE_KEY_TO_PATH[submenuKey]);
+      return;
+    }
+
     switch (submenuKey) {
       // File Menu
       case 'new':
@@ -275,13 +314,13 @@ export function TopMenuBar() {
         uiActions.openTools();
         break;
       case 'muhurta':
-        alert('Muhurta Finder - Coming in Phase 35');
+        router.push('/muhurta');
         break;
       case 'transit_finder':
-        alert('Transit Finder - Coming in Phase 35');
+        router.push('/report?chart=transit');
         break;
       case 'rectification_tool':
-        alert('Rectification Tool - Coming in Phase 35');
+        alert('Rectification Tool - coming in a future phase.');
         break;
 
       // Windows Menu
