@@ -17,6 +17,9 @@ const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
 const { calculateUpagrahas } = require('./upagraha');
 const { calculateNumerology } = require('./numerology');
 const { calculateNadiCombinations } = require('./nadiCombinations');
+const { calculateBhriguProgressions } = require('./bhriguProgressions');
+
+const ALL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 
 const CLASSICAL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 
@@ -159,6 +162,16 @@ function buildReportData(birthInput) {
     nodeType: profile.chartContext.nodeType,
   });
 
+  const nowJd = Date.now() / 86400000 + 2440587.5;
+  const runningMaha = dasha.dashas.find((d) => nowJd >= d.startJulianDay && nowJd < d.endJulianDay);
+  const bhriguProgressions = calculateBhriguProgressions({
+    grahas: ALL_GRAHAS.map((id) => ({
+      id, sign: chart.grahas[id].rasiIndex, longitude: chart.grahas[id].longitude,
+    })),
+    birthISO: `${profile.chartContext.input.year}-${String(profile.chartContext.input.month).padStart(2, '0')}-${String(profile.chartContext.input.day).padStart(2, '0')}`,
+    mahadashaLord: runningMaha ? runningMaha.lord : null,
+  });
+
   const transitRasiPositions = currentTransitRasiPositions(
     profile.chartContext.input.latitude,
     profile.chartContext.input.longitude,
@@ -198,6 +211,7 @@ function buildReportData(birthInput) {
     upagraha,
     numerology,
     nadi,
+    bhriguProgressions,
     rajaYogas,
     doshas,
     lunarSolarYogas,

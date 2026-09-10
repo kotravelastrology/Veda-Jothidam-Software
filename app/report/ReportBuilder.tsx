@@ -54,6 +54,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'upagraha', label: 'உபகிரகங்கள்' },
   { id: 'numerology', label: 'எண் ஜோதிடம்' },
   { id: 'nadi', label: 'பிருகு நந்தி நாடி' },
+  { id: 'bhriguProgressions', label: 'பிருகு சக்கர / சரள பத்ததி' },
 ];
 
 function SourceRequiredBadge({ reason }: { reason?: string }) {
@@ -918,6 +919,89 @@ function NadiCombinationSection({ report }: { report: ReportData }) {
   );
 }
 
+const SIGN_TA = ['மேஷ', 'ரிஷப', 'மிது', 'கடக', 'சிம்', 'கன்னி', 'துலா', 'விரு', 'தனு', 'மகர', 'கும்ப', 'மீன'];
+
+function BhriguProgressionSection({ report }: { report: ReportData }) {
+  const bp = (report as any).bhriguProgressions;
+  if (!bp?.available) return null;
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">பிருகு சக்கர / சரள பத்ததி</h2>
+
+      <div className="text-sm mb-3">
+        <span className="text-ink-soft">நடப்பு வயது ஆண்டு: </span>
+        <span className="font-semibold text-saffron">{bp.runningYear}</span>
+        <span className="text-ink-soft"> · செயல்படும் BCP பாவம்: </span>
+        <span className="font-semibold">{bp.bcpHouse}</span>
+        <span className="text-ink-soft"> · சுழற்சி அதிபதி: </span>
+        <span>{POINT_LABEL[bp.bcpCycleRuler] ?? bp.bcpCycleRuler ?? '—'}</span>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-6">
+        <div>
+          <p className="text-xs font-semibold text-ink-soft mb-1">BCP வயது அட்டவணை</p>
+          <table className="text-xs w-full max-w-xs">
+            <thead><tr className="text-ink-soft border-b border-line"><th className="text-left py-1">ஆண்டு</th><th className="text-left py-1">பாவம்</th><th className="text-left py-1">சுழற்சி</th></tr></thead>
+            <tbody>
+              {bp.bcpTable.map((r: any) => (
+                <tr key={r.year} className={r.current ? 'bg-saffron/10 font-semibold' : ''}>
+                  <td className="py-0.5">{r.year}{r.current ? ' ·நடப்பு' : ''}</td>
+                  <td className="py-0.5">{r.house}</td>
+                  <td className="py-0.5">{POINT_LABEL[r.cycleRuler] ?? r.cycleRuler ?? '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {bp.dashaBcpFocus && (
+            <p className="text-xs text-ink-soft mt-2">
+              தசை–BCP மையம்: {POINT_LABEL[bp.dashaBcpFocus.mahadashaLord] ?? bp.dashaBcpFocus.mahadashaLord} →
+              {' '}{SIGN_TA[bp.dashaBcpFocus.focusSign]} → {POINT_LABEL[bp.dashaBcpFocus.focusSignLord] ?? bp.dashaBcpFocus.focusSignLord}
+            </p>
+          )}
+        </div>
+
+        <div>
+          <p className="text-xs font-semibold text-ink-soft mb-1">BSP விதிகள் (வயது → பாவம்)</p>
+          <table className="text-xs w-full">
+            <thead><tr className="text-ink-soft border-b border-line"><th className="text-left py-1">#</th><th className="text-left py-1">கிரகம்</th><th className="text-left py-1">வயது</th><th className="text-left py-1">பாவம் → ராசி</th></tr></thead>
+            <tbody>
+              {bp.bsp.map((r: any) => (
+                <tr key={r.no} className={r.active ? 'bg-saffron/10 font-semibold' : ''}>
+                  <td className="py-0.5">{r.no}</td>
+                  <td className="py-0.5">{POINT_LABEL[r.planet] ?? r.planet}</td>
+                  <td className="py-0.5">{r.age}{r.active ? ' ·நடப்பு' : ''}</td>
+                  <td className="py-0.5">{r.house} → {r.targetSign != null ? SIGN_TA[r.targetSign] : '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="mt-4">
+        <p className="text-xs font-semibold text-ink-soft mb-1">ஜீவ – சரீரம்</p>
+        <table className="text-xs">
+          <thead><tr className="text-ink-soft border-b border-line"><th className="text-left py-1 pr-4">கிரகம்</th><th className="text-left py-1 pr-4">ஜீவம்</th><th className="text-left py-1">சரீரம்</th></tr></thead>
+          <tbody>
+            {bp.jeeva.map((r: any) => (
+              <tr key={r.id}>
+                <td className="py-0.5 pr-4">{POINT_LABEL[r.id] ?? r.id}</td>
+                <td className="py-0.5 pr-4">{POINT_LABEL[r.jeeva] ?? r.jeeva}</td>
+                <td className="py-0.5">{POINT_LABEL[r.sharira] ?? r.sharira}{r.own ? ' (சுய நட்சத்திரம்)' : ''}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p className="text-[11px] text-ink-soft mt-2">
+        BCP: 1 ஆண்டு = 1 பாவம் · BSP: வயது→பாவ செயல்பாட்டு விதிகள் · முந்தைய kottravel-Nadi engine-லிருந்து port.
+        ஆய்வு உதவி — தானாக உறுதியான பலன் அல்ல.
+      </p>
+    </div>
+  );
+}
+
 const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData }>> = {
   profile: ProfileSection,
   lagnaGraha: LagnaGrahaSection,
@@ -934,6 +1018,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   upagraha: UpagrahaSection,
   numerology: NumerologySection,
   nadi: NadiCombinationSection,
+  bhriguProgressions: BhriguProgressionSection,
 };
 
 export default function ReportBuilder() {
