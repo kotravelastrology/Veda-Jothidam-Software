@@ -202,6 +202,7 @@ export function TopMenuBar() {
         { label: 'Muhurta Finder', key: 'muhurta' },
         { label: 'Transit Finder', key: 'transit_finder' },
         { label: 'Rectification Tool', key: 'rectification_tool' },
+        { label: 'Jamakkol Prasnam', key: 'jamakkol' },
       ],
     },
     {
@@ -409,6 +410,9 @@ export function TopMenuBar() {
         break;
       case 'rectification_tool':
         router.push('/rectification');
+        break;
+      case 'jamakkol':
+        router.push('/jamakkol');
         break;
 
       // Windows Menu — there is no MDI window system on the web, so these repurpose
