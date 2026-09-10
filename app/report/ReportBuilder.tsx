@@ -48,6 +48,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'ashtakavargaDetail', label: 'அஷ்டகவர்க்கம் - விரிவுபடுத்தப்பட்ட பார்வை' },
   { id: 'ashtakavargaShodhana', label: 'அஷ்டகவர்க்கம் — சோதனை / பிண்டம்' },
   { id: 'transit', label: 'இன்றைய கோசரம் (Transit)' },
+  { id: 'gocharaPhala', label: 'சந்திர கோசார பலன் + வேதை' },
   { id: 'grahaBala', label: 'கிரக பலம் (சட்பலம்)' },
   { id: 'bhavaBala', label: 'பாவ பலம்' },
   { id: 'shodasaBala', label: 'சோடச பலம்' },
@@ -309,6 +310,42 @@ function AshtakavargaSection({ report }: { report: ReportData }) {
           </tbody>
         </table>
       </div>
+    </div>
+  );
+}
+
+function GocharaPhalaSection({ report }: { report: ReportData }) {
+  const g = (report as any).gocharaPhala;
+  if (!g?.available) return null;
+  const style: Record<string, string> = { benefic: 'text-teal', vedha: 'text-rose', neutral: 'text-ink-soft' };
+  const label: Record<string, string> = { benefic: 'சுபம்', vedha: 'வேதை (தடை)', neutral: 'நடுநிலை' };
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">சந்திர கோசார பலன் + வேதை</h2>
+      <p className="text-sm text-ink-soft mb-2">ஜன்ம ராசி (சந்திரன்): <span className="text-ink font-medium">{RASI_SHORT[g.moonRasi] ?? g.moonRasi}</span> — இன்றைய கோசாரம் அதிலிருந்து.</p>
+      <table className="w-full text-sm max-w-lg">
+        <thead><tr className="text-ink-soft border-b border-line">
+          <th className="text-left py-1">கிரகம்</th><th className="text-center py-1">பாவம்</th>
+          <th className="text-left py-1">பலன்</th><th className="text-left py-1">வேதை</th>
+        </tr></thead>
+        <tbody>
+          {g.rows.map((r: any) => (
+            <tr key={r.graha} className="border-b border-line/40">
+              <td className="py-1">{POINT_LABEL[r.graha] ?? r.graha}</td>
+              <td className="py-1 text-center">{r.houseFromMoon}</td>
+              <td className={`py-1 ${style[r.verdict]}`}>{label[r.verdict]}</td>
+              <td className="py-1 text-ink-soft text-xs">
+                {r.isBenefic ? `${r.vedhaHouse}வது` : '—'}
+                {r.obstructedBy.length > 0 && ` · ${r.obstructedBy.map((x: string) => POINT_LABEL[x] ?? x).join(', ')}`}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="text-[11px] text-ink-soft mt-2">
+        பலதீபிகா ச.26 v.3-8 — சந்திரனிலிருந்து சுப கோசார பாவங்கள் + இணை வேதை பாவம் (சூரியன்↔சனி, சந்திரன்↔புதன் விதிவிலக்கு).
+        முந்தைய AstrologicLab gocharaPhala engine-லிருந்து port.
+      </p>
     </div>
   );
 }
@@ -1432,6 +1469,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   ashtakavargaDetail: DetailedAshtakavargaSection,
   ashtakavargaShodhana: AshtakavargaShodhanaSection,
   transit: TransitSection,
+  gocharaPhala: GocharaPhalaSection,
   grahaBala: GrahaBalaSection,
   bhavaBala: BhavaBalaSection,
   shodasaBala: ShodasaBalaSection,

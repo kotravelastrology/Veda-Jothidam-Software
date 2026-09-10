@@ -25,6 +25,8 @@ const { calculateJaimini } = require('./jaimini');
 const { calculateAvasthas } = require('./avasthas');
 const { calculateNakshatraExtras } = require('./nakshatraExtras');
 const { calculateAshtakavargaShodhana } = require('./ashtakavargaShodhana');
+const { computeGocharaPhala } = require('./gocharaPhala');
+const { computeTransitPositions } = require('./transitPositions');
 
 const ALL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 
@@ -201,6 +203,21 @@ function buildReportData(birthInput) {
     Object.fromEntries(ALL_GRAHAS.map((id) => [id, chart.grahas[id].longitude])),
   );
 
+  const _tp = computeTransitPositions(new Date(), {
+    latitude: profile.chartContext.input.latitude,
+    longitude: profile.chartContext.input.longitude,
+    ayanamsha: profile.chartContext.ayanamsha,
+    nodeType: profile.chartContext.nodeType,
+  });
+  const _transitRasiByGraha = Object.fromEntries(
+    _tp.planets.map((p) => [p.planet, Math.floor(((p.longitude % 360) + 360) % 360 / 30)]),
+  );
+  const gocharaPhala = {
+    available: true,
+    moonRasi: chart.grahas.Moon.rasi,
+    rows: computeGocharaPhala(chart.grahas.Moon.rasiIndex, _transitRasiByGraha),
+  };
+
   const jaimini = calculateJaimini({
     lagnaLongitude: chart.lagna.longitude,
     grahaLongitudes: Object.fromEntries(
@@ -246,6 +263,7 @@ function buildReportData(birthInput) {
     vargas,
     ashtakavarga,
     ashtakavargaShodhana,
+    gocharaPhala,
     transit,
     shadbala,
     bhavaBala,
