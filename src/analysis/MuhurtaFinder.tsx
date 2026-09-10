@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { computeMuhurtaSearch } from '@/app/muhurta/actions';
 
 interface AuspiciousTime {
   date: string;
@@ -89,65 +90,48 @@ export function MuhurtaFinder() {
     },
   };
 
-  // Generate auspicious times (mock data - integrates with real calculations)
-  const auspiciousTimes = useMemo(() => {
-    if (!filters.startDate || !filters.endDate) return [];
+  // Real electional results (from the src/report/muhurtaSearch engine via a
+  // server action). No mock — computed on demand from the Swiss Ephemeris.
+  const [auspiciousTimes, setAuspiciousTimes] = useState<AuspiciousTime[]>([]);
+  const [searchError, setSearchError] = useState<string | null>(null);
 
-    const times: AuspiciousTime[] = [];
-    const startDate = new Date(filters.startDate);
-    const endDate = new Date(filters.endDate);
-    const criteria = muhurtaCriteria[filters.purpose];
-
-    // Mock generation of auspicious times
-    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-      const dayOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][d.getDay()];
-
-      // Skip filtered day if specified
-      if (filters.preferredDayOfWeek && dayOfWeek !== filters.preferredDayOfWeek) {
-        continue;
-      }
-
-      // Generate 2-3 muhurta windows per day based on nakshatra/yoga
-      const nakshatras = ['Ashwini', 'Bharani', 'Kritika', 'Rohini', 'Mrigashira'];
-      const yogas = criteria.favorable_yogas;
-      const randomNakshatra = nakshatras[Math.floor(Math.random() * nakshatras.length)];
-      const randomYoga = yogas[Math.floor(Math.random() * yogas.length)];
-
-      const quality = Math.random() > 0.3 ? 75 + Math.random() * 25 : 50 + Math.random() * 25;
-
-      // Skip if nakshatra/tithi is avoided
-      if (criteria.avoid_nakshatras.includes(randomNakshatra)) continue;
-
-      const hour = 6 + Math.floor(Math.random() * 12);
-      const startTime = `${String(hour).padStart(2, '0')}:00`;
-      const endHour = hour + Math.ceil(criteria.duration_hours);
-      const endTime = `${String(endHour).padStart(2, '0')}:00`;
-
-      times.push({
-        date: d.toISOString().split('T')[0],
-        startTime,
-        endTime,
-        muhurtaType: quality > 80 ? 'abhijit' : quality > 70 ? 'auspicious' : 'neutral',
-        yogaQuality: Math.round(quality),
-        tithi: 'Krishna Tritiya',
-        nakshatra: randomNakshatra,
-        dayOfWeek,
-        notes: `${randomYoga} Yoga - ${criteria.duration_hours}h duration`,
-      });
-    }
-
-    return times.sort((a, b) => {
-      // Sort by quality and date
-      if (b.yogaQuality !== a.yogaQuality) return b.yogaQuality - a.yogaQuality;
-      return new Date(a.date).getTime() - new Date(b.date).getTime();
-    });
-  }, [filters]);
+  const PURPOSE_TO_ENGINE: Record<string, string> = {
+    marriage: 'marriage', business: 'business', travel: 'travel',
+    surgery: 'medical', ritual: 'education', houseWarming: 'griha',
+  };
 
   const handleSearch = async () => {
+    if (!filters.startDate || !filters.endDate) return;
     setIsSearching(true);
+    setSearchError(null);
     try {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      console.log('Searching muhurtas with filters:', filters);
+      const res: any = await computeMuhurtaSearch({
+        startDate: filters.startDate,
+        endDate: filters.endDate,
+        purpose: PURPOSE_TO_ENGINE[filters.purpose] ?? 'marriage',
+        latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330,
+      });
+      const dur = muhurtaCriteria[filters.purpose].duration_hours;
+      const mapped: AuspiciousTime[] = (res.days || []).flatMap((d: any) => {
+        const dayOfWeek = d.weekday.slice(0, 3);
+        if (filters.preferredDayOfWeek && dayOfWeek !== filters.preferredDayOfWeek) return [];
+        const w = d.windows[0];
+        return [{
+          date: d.date,
+          startTime: w ? w.from : '06:00',
+          endTime: w ? w.to : '07:30',
+          muhurtaType: d.score >= 80 ? 'abhijit' : d.score >= 62 ? 'auspicious' : 'neutral',
+          yogaQuality: d.score,
+          tithi: d.tithi,
+          nakshatra: d.nakshatra,
+          dayOfWeek,
+          notes: `${d.rating}${d.notes?.length ? ' · ' + d.notes.join('; ') : ''} · ${dur}h`,
+        }];
+      });
+      setAuspiciousTimes(mapped);
+    } catch (e) {
+      setSearchError(e instanceof Error ? e.message : String(e));
+      setAuspiciousTimes([]);
     } finally {
       setIsSearching(false);
     }
@@ -264,9 +248,10 @@ export function MuhurtaFinder() {
           {/* Results List */}
           <div className="bg-surface-soft rounded-lg p-6 border border-line space-y-3">
             <h4 className="font-semibold text-ink mb-4">
-              {auspiciousTimes.length > 0
-                ? `${auspiciousTimes.length} Auspicious Times Found`
-                : 'No muhurtas found - adjust filters'}
+              {isSearching ? 'கணக்கிடுகிறது…'
+                : searchError ? `⚠️ ${searchError}`
+                : auspiciousTimes.length > 0 ? `${auspiciousTimes.length} நாட்கள் — சிறந்தது முதலில்`
+                : 'தேதி வரம்பு + நோக்கம் தேர்ந்து "Find Muhurtas" அழுத்தவும் (சூரிய உதயத்தின் உண்மையான பஞ்சாங்கம்)'}
             </h4>
 
             <div className="max-h-96 overflow-y-auto space-y-3">
