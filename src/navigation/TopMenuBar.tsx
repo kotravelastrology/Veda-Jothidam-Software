@@ -89,10 +89,11 @@ export function TopMenuBar() {
     interpretations: '/report?section=nabhasaYoga',
     dashas: '/report?section=dasha',
     transits: '/report?section=transit',
+    varshaphala: '/varshaphala',
     compatibility: '/report?chart=compatibility',
     astronomy: '/report?section=grahaBala',
   };
-  const REPORTS_NOT_YET_BUILT = new Set(['varshaphala']);
+  const REPORTS_NOT_YET_BUILT = new Set<string>([]);
 
   // Classical References-menu keys → /references, with an optional category filter
   const REFERENCE_KEY_TO_PATH: Record<string, string> = {
