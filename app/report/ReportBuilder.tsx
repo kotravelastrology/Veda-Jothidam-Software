@@ -52,6 +52,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'nabhasaYoga', label: 'நபஸ யோகங்கள்' },
   { id: 'karaka', label: 'காரகங்கள்' },
   { id: 'upagraha', label: 'உபகிரகங்கள்' },
+  { id: 'numerology', label: 'எண் ஜோதிடம்' },
 ];
 
 function SourceRequiredBadge({ reason }: { reason?: string }) {
@@ -749,6 +750,50 @@ function UpagrahaSection({ report }: { report: ReportData }) {
   );
 }
 
+function NumerologySection({ report }: { report: ReportData }) {
+  const n = (report as any).numerology;
+  if (!n) return null;
+  const Card = ({ title, num, detail }: { title: string; num: any; detail: any }) => (
+    <div className="border border-line rounded-lg p-3">
+      <p className="text-ink-soft text-xs mb-1">{title}</p>
+      <p className="text-2xl font-bold text-saffron">{num?.single ?? '–'}
+        {num?.compound && num.compound !== num.single && <span className="text-sm text-ink-soft"> ({num.compound})</span>}
+      </p>
+      {detail && (
+        <div className="text-xs text-ink-soft mt-1 space-y-0.5">
+          <p><span className="text-ink">அதிபதி:</span> {detail.planet}</p>
+          <p><span className="text-ink">நல்ல நாள்:</span> {detail.lucky?.day} · <span className="text-ink">நிறம்:</span> {detail.lucky?.color}</p>
+          <p><span className="text-ink">கல்:</span> {detail.lucky?.stone}</p>
+        </div>
+      )}
+    </div>
+  );
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">எண் ஜோதிடம்</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl">
+        <Card title="மூலாங்கம் (பிறந்த தேதி)" num={n.moolank} detail={n.moolankDetail} />
+        <Card title="பாக்யாங்கம் (முழு தேதி)" num={n.bhagyank} detail={n.bhagyankDetail} />
+        <Card title="பெயர் எண் (Chaldean)" num={n.nameNumber} detail={n.nameDetail} />
+      </div>
+      {n.compatibility && (
+        <p className="text-sm mt-3">
+          <span className="text-ink-soft">மூலாங்கம் ↔ பாக்யாங்கம்: </span>
+          <span className={n.compatibility.friendly ? 'text-teal font-medium' : 'text-rose font-medium'}>
+            {n.compatibility.verdict}
+          </span>
+        </p>
+      )}
+      {n.moolankDetail && (
+        <p className="text-xs text-ink-soft mt-2 max-w-2xl">{n.moolankDetail.trait}</p>
+      )}
+      <p className="text-[11px] text-ink-soft mt-2">
+        Chaldean எண் முறை + மூலாங்கம்/பாக்யாங்கம் — பொது வழிகாட்டுதல் மட்டுமே.
+      </p>
+    </div>
+  );
+}
+
 const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData }>> = {
   profile: ProfileSection,
   lagnaGraha: LagnaGrahaSection,
@@ -763,6 +808,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   nabhasaYoga: NabhasaYogaSection,
   karaka: KarakaSection,
   upagraha: UpagrahaSection,
+  numerology: NumerologySection,
 };
 
 export default function ReportBuilder() {

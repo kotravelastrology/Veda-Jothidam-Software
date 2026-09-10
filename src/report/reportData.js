@@ -15,6 +15,7 @@ const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
 const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
 const { calculateUpagrahas } = require('./upagraha');
+const { calculateNumerology } = require('./numerology');
 
 const CLASSICAL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 
@@ -145,6 +146,13 @@ function buildReportData(birthInput) {
     ayanamsha: profile.chartContext.ayanamsha,
   });
 
+  const numerology = calculateNumerology({
+    name: profile.name,
+    year: profile.chartContext.input.year,
+    month: profile.chartContext.input.month,
+    day: profile.chartContext.input.day,
+  });
+
   const transitRasiPositions = currentTransitRasiPositions(
     profile.chartContext.input.latitude,
     profile.chartContext.input.longitude,
@@ -182,6 +190,7 @@ function buildReportData(birthInput) {
     nabhasaYoga,
     karaka,
     upagraha,
+    numerology,
     rajaYogas,
     doshas,
     lunarSolarYogas,
