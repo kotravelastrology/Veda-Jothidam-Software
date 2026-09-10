@@ -19,6 +19,7 @@ const { calculateNumerology } = require('./numerology');
 const { calculateNadiCombinations } = require('./nadiCombinations');
 const { calculateBhriguProgressions } = require('./bhriguProgressions');
 const { calculateKpSystem } = require('./kpSystem');
+const { buildYoginiDasha, buildAshtottariDasha } = require('../dasha/altDashas');
 
 const ALL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 
@@ -175,6 +176,13 @@ function buildReportData(birthInput) {
 
   const kp = calculateKpSystem(profile.chartContext.input, { nodeType: profile.chartContext.nodeType });
 
+  const bi = profile.chartContext.input;
+  const birthMs = Date.UTC(bi.year, bi.month - 1, bi.day, bi.hour, bi.minute || 0, bi.second || 0) - (bi.utcOffsetMinutes || 0) * 60000;
+  const altDashas = {
+    yogini: buildYoginiDasha(longitudes.Moon, birthMs),
+    ashtottari: buildAshtottariDasha(longitudes.Moon, birthMs),
+  };
+
   const transitRasiPositions = currentTransitRasiPositions(
     profile.chartContext.input.latitude,
     profile.chartContext.input.longitude,
@@ -216,6 +224,7 @@ function buildReportData(birthInput) {
     nadi,
     bhriguProgressions,
     kp,
+    altDashas,
     rajaYogas,
     doshas,
     lunarSolarYogas,

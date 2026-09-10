@@ -42,6 +42,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'profile', label: 'பிறப்பு விவரங்கள்' },
   { id: 'lagnaGraha', label: 'லக்னம் & கிரக நிலைகள்' },
   { id: 'dasha', label: 'விம்சோத்தரி தசா' },
+  { id: 'altDashas', label: 'மாற்று தசைகள் (யோகினி / அஷ்டோத்தரி)' },
   { id: 'varga', label: 'வர்க்க அட்டவணை (16)' },
   { id: 'ashtakavarga', label: 'அஷ்டகவர்க்கம்' },
   { id: 'ashtakavargaDetail', label: 'அஷ்டகவர்க்கம் - விரிவுபடுத்தப்பட்ட பார்வை' },
@@ -1103,6 +1104,54 @@ function KpSystemSection({ report }: { report: ReportData }) {
   );
 }
 
+function AltDashaSection({ report }: { report: ReportData }) {
+  const alt = (report as any).altDashas;
+  const [sys, setSys] = useState<'yogini' | 'ashtottari'>('yogini');
+  if (!alt) return null;
+  const data = alt[sys];
+  const nowMs = Date.now();
+  const curIdx = data.periods.findIndex((p: any) => p.startMs <= nowMs && nowMs < p.endMs);
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">மாற்று தசைகள்</h2>
+      <div className="flex gap-1 mb-3 text-xs print:hidden">
+        {([['yogini', 'யோகினி (36)'], ['ashtottari', 'அஷ்டோத்தரி (108)']] as const).map(([k, l]) => (
+          <button key={k} onClick={() => setSys(k)}
+            className={`px-2 py-1 rounded ${sys === k ? 'bg-saffron text-ink' : 'bg-surface border border-line text-ink-soft'}`}>{l}</button>
+        ))}
+      </div>
+      <table className="w-full text-sm">
+        <thead><tr className="text-ink-soft border-b border-line">
+          <th className="text-left py-1">{sys === 'yogini' ? 'யோகினி' : ''}</th>
+          <th className="text-left py-1">அதிபதி</th>
+          <th className="text-right py-1">ஆண்டு</th>
+          <th className="text-left py-1 pl-4">காலம்</th>
+          <th className="text-left py-1 pl-3">நடப்பு உட்பிரிவு</th>
+        </tr></thead>
+        <tbody>
+          {data.periods.slice(0, sys === 'yogini' ? 12 : 8).map((p: any, i: number) => {
+            const isCur = i === curIdx;
+            const curSub = isCur ? p.subs.find((s: any) => s.startMs <= nowMs && nowMs < s.endMs) : null;
+            return (
+              <tr key={i} className={`border-b border-line/40 ${isCur ? 'bg-saffron/10 font-semibold' : ''}`}>
+                <td className="py-1">{sys === 'yogini' ? p.yoginiTa : '—'}</td>
+                <td className="py-1">{POINT_LABEL[p.lord] ?? p.lord}</td>
+                <td className="py-1 text-right tabular-nums">{p.years}</td>
+                <td className="py-1 pl-4 text-ink-soft">{p.start} → {p.end}</td>
+                <td className="py-1 pl-3 text-ink-soft">
+                  {curSub ? `${sys === 'yogini' ? curSub.yoginiTa + ' / ' : ''}${POINT_LABEL[curSub.lord] ?? curSub.lord} (${curSub.start}→${curSub.end})` : ''}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      {sys === 'ashtottari' && <p className="text-[11px] text-ink-soft mt-2">{data.note}</p>}
+      <p className="text-[11px] text-ink-soft mt-1">முந்தைய AstrologicLab engine-லிருந்து port · 365.25-நாள் ஆண்டு.</p>
+    </div>
+  );
+}
+
 const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData }>> = {
   profile: ProfileSection,
   lagnaGraha: LagnaGrahaSection,
@@ -1121,6 +1170,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   nadi: NadiCombinationSection,
   bhriguProgressions: BhriguProgressionSection,
   kp: KpSystemSection,
+  altDashas: AltDashaSection,
 };
 
 export default function ReportBuilder() {
