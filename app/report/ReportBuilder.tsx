@@ -55,6 +55,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'numerology', label: 'எண் ஜோதிடம்' },
   { id: 'nadi', label: 'பிருகு நந்தி நாடி' },
   { id: 'bhriguProgressions', label: 'பிருகு சக்கர / சரள பத்ததி' },
+  { id: 'kp', label: 'KP ஜோதிடம்' },
 ];
 
 function SourceRequiredBadge({ reason }: { reason?: string }) {
@@ -1002,6 +1003,106 @@ function BhriguProgressionSection({ report }: { report: ReportData }) {
   );
 }
 
+function KpSystemSection({ report }: { report: ReportData }) {
+  const kp = (report as any).kp;
+  const [tab, setTab] = useState<'planets' | 'cusps' | 'sig'>('planets');
+  if (!kp?.available) return null;
+  const chain = (o: any, levels: string[]) => levels.map((k) => POINT_LABEL[o[k]] ?? o[k]).join(' · ');
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">KP ஜோதிடம் (கிருஷ்ணமூர்த்தி பத்ததி)</h2>
+
+      <div className="text-sm mb-3 space-y-1">
+        <div>
+          <span className="text-ink-soft">ஆளும் கிரகங்கள் (Ruling Planets): </span>
+          {kp.rulingPlanets.factors.map((f: string[], i: number) => (
+            <span key={i} className="mr-2">{f[0].replace(/ Lord$/, '')}: <span className="font-medium">{POINT_LABEL[f[1]] ?? f[1]}</span></span>
+          ))}
+        </div>
+        <div>
+          <span className="text-ink-soft">தனித்த வரிசை: </span>
+          <span className="font-medium text-saffron">{kp.rulingPlanets.unique.map((p: string) => POINT_LABEL[p] ?? p).join(' → ')}</span>
+        </div>
+        <div className="text-ink-soft">
+          பாதக பாவம் ({kp.obstruction.modality}): <span className="text-ink">{kp.obstruction.badhaka}</span> · மாரக: 2, 7
+        </div>
+      </div>
+
+      <div className="flex gap-1 mb-2 text-xs print:hidden">
+        {([['planets', 'கிரகங்கள்'], ['cusps', 'பாவ சந்திகள்'], ['sig', 'சூசகர்கள்']] as const).map(([k, l]) => (
+          <button key={k} onClick={() => setTab(k)}
+            className={`px-2 py-1 rounded ${tab === k ? 'bg-saffron text-ink' : 'bg-surface border border-line text-ink-soft'}`}>{l}</button>
+        ))}
+      </div>
+
+      <div className="overflow-x-auto">
+        {tab === 'planets' && (
+          <table className="w-full text-xs">
+            <thead><tr className="text-ink-soft border-b border-line">
+              <th className="text-left py-1">கிரகம்</th><th className="text-left py-1">ராசி</th><th className="text-left py-1">நட்சத்திரம்</th><th className="text-center py-1">பாவம்</th>
+              <th className="text-left py-1">ராசி·நட்·துணை·துணை²·துணை³</th>
+            </tr></thead>
+            <tbody>
+              {kp.positions.map((p: any) => (
+                <tr key={p.name} className="border-b border-line/40">
+                  <td className="py-1">{POINT_LABEL[p.name] ?? p.name}{p.retrograde && <span className="text-rose"> ℞</span>}</td>
+                  <td className="py-1">{p.sign.slice(0, 3)} {p.degreeInSign.toFixed(2)}°</td>
+                  <td className="py-1">{p.nakshatra}-{p.pada}</td>
+                  <td className="py-1 text-center">{p.house}</td>
+                  <td className="py-1">{chain(p, ['signLord', 'starLord', 'sub', 'subSub', 'subSubSub'])}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+        {tab === 'cusps' && (
+          <table className="w-full text-xs">
+            <thead><tr className="text-ink-soft border-b border-line">
+              <th className="text-left py-1">பாவம்</th><th className="text-left py-1">ராசி</th><th className="text-left py-1">நட்சத்திரம்</th>
+              <th className="text-left py-1">ராசி·நட்·துணை·துணை²</th>
+            </tr></thead>
+            <tbody>
+              {kp.cusps.map((c: any) => (
+                <tr key={c.number} className="border-b border-line/40">
+                  <td className="py-1">{c.number}</td>
+                  <td className="py-1">{c.sign.slice(0, 3)} {c.degreeInSign.toFixed(2)}°</td>
+                  <td className="py-1">{c.nakshatra}</td>
+                  <td className="py-1">{chain(c, ['signLord', 'starLord', 'sub', 'subSub'])}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+        {tab === 'sig' && (
+          <table className="w-full text-xs">
+            <thead><tr className="text-ink-soft border-b border-line">
+              <th className="text-left py-1">கிரகம்</th><th className="text-left py-1">அமர்ந்த</th><th className="text-left py-1">சொந்த</th>
+              <th className="text-left py-1">நட்·அமர்</th><th className="text-left py-1">நட்·சொந்த</th><th className="text-left py-1">மொத்தம் (4-fold)</th>
+            </tr></thead>
+            <tbody>
+              {kp.significators.map((s: any) => (
+                <tr key={s.name} className="border-b border-line/40">
+                  <td className="py-1">{POINT_LABEL[s.name] ?? s.name}</td>
+                  <td className="py-1">{s.occupied ?? '—'}</td>
+                  <td className="py-1">{s.owned.join(',') || '—'}</td>
+                  <td className="py-1">{s.starOccupied ?? '—'}</td>
+                  <td className="py-1">{s.starOwned.join(',') || '—'}</td>
+                  <td className="py-1 font-medium">{s.total.join(', ') || '—'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+
+      <p className="text-[11px] text-ink-soft mt-2">
+        கிருஷ்ணமூர்த்தி அயனாம்சம் + Placidus பாவ சந்திகள் (report அமைப்பைப் பொருட்படுத்தாமல்) · விம்சோத்தரி விகிதத்தில் நட்சத்திர உட்பிரிவு.
+        முந்தைய kp-muhurat engine-லிருந்து port.
+      </p>
+    </div>
+  );
+}
+
 const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData }>> = {
   profile: ProfileSection,
   lagnaGraha: LagnaGrahaSection,
@@ -1019,6 +1120,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   numerology: NumerologySection,
   nadi: NadiCombinationSection,
   bhriguProgressions: BhriguProgressionSection,
+  kp: KpSystemSection,
 };
 
 export default function ReportBuilder() {
