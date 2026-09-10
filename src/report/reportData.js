@@ -1,6 +1,8 @@
 const { calculateChart } = require('../ephemeris/swissEphemeris');
 const { createBirthProfile } = require('../contracts/birthProfile');
 const { calculateParashariChart, rasiFromLongitude } = require('../chart/parashariChart');
+const { sunriseJulianDay } = require('../ephemeris/siderealPositions');
+const { julianDay: sweJulianDay } = require('@swisseph/node');
 const { buildVimshottariDasha } = require('../dasha/vimshottariDasha');
 const { calculateVargas } = require('../chart/vargaChart');
 const { calculateAshtakavarga } = require('../chart/ashtakavarga');
@@ -188,7 +190,17 @@ function buildReportData(birthInput) {
   const kp = calculateKpSystem(profile.chartContext.input, { nodeType: profile.chartContext.nodeType });
   const kpEvents = calculateKpEvents(kp);
 
-  const avasthas = calculateAvasthas(Object.fromEntries(CLASSICAL_GRAHAS.map((id) => [id, chart.grahas[id].longitude])));
+  const _jdMidnightUt = sweJulianDay(bi.year, bi.month, bi.day, -(bi.utcOffsetMinutes || 0) / 60);
+  const _sunriseJd = sunriseJulianDay(_jdMidnightUt, bi.latitude, bi.longitude);
+  const _ghatisSinceSunrise = ((chart.julianDay - _sunriseJd) * 24 * 60) / 24; // ghatis (1 = 24 min); may be negative for pre-sunrise births
+  const avasthas = calculateAvasthas(
+    Object.fromEntries(CLASSICAL_GRAHAS.map((id) => [id, chart.grahas[id].longitude])),
+    {
+      moonNakSerial: Math.floor(((chart.grahas.Moon.longitude % 360) + 360) % 360 / (360 / 27)) + 1,
+      ghatisSinceSunrise: ((_ghatisSinceSunrise % 60) + 60) % 60,
+      lagnaRasi0: chart.lagna.rasiIndex,
+    },
+  );
 
   const _nowT = new Date();
   const _transitChart = calculateChart({

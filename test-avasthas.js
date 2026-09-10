@@ -22,16 +22,34 @@ assert.equal(deeptadi('Mercury', { ...PL, Sun: 20, Mercury: 22 }), 'விகல
 // war-defeat: two tara-grahas in the same sign within 1deg, the further one loses
 assert.equal(deeptadi('Jupiter', { ...PL, Jupiter: 100.5, Venus: 100.0 }), 'நிபீடித (கிரக யுத்தம்)');
 
-// ── Full block ─────────────────────────────────────────────────────────
+// ── Full block (3 families only, no Shayana opts) ─────────────────────
 const a = calculateAvasthas(PL);
 assert.equal(a.available, true);
 assert.equal(a.rows.length, 7);
+assert.equal(a.hasFullSet, false);
 for (const r of a.rows) {
   assert.ok(r.jagradadi && r.baladi && r.deeptadi, `${r.planet} states`);
+  assert.equal(r.shayanadi, undefined);
+}
+
+// ── Full 5-family block ──────────────────────────────────────────────
+const { shayanadi, lajjitadi } = require('./src/report/avasthas');
+// Shayanadi is deterministic given S,P,c,A,G,R.
+const s1 = shayanadi('Sun', 30.27, 20, 15, 3); // arbitrary but fixed inputs
+assert.ok(s1.index >= 1 && s1.index <= 12);
+assert.ok(typeof s1.name === 'string' && s1.name.length > 0);
+// Lajjitadi: an exalted planet with no affliction -> Garvit.
+assert.equal(lajjitadi('Mars', PL, 1), 'கர்வித (பெருமிதம்)'); // Mars in Capricorn (exalted)
+
+const full = calculateAvasthas(PL, { moonNakSerial: 20, ghatisSinceSunrise: 15, lagnaRasi0: 1 });
+assert.equal(full.hasFullSet, true);
+for (const r of full.rows) {
+  assert.ok(r.shayanadi && r.lajjitadi, `${r.planet} full states`);
 }
 
 console.log(JSON.stringify({
   pass: true,
   mars: a.rows.find((r) => r.planet === 'Mars').deeptadi,
   saturn: a.rows.find((r) => r.planet === 'Saturn').deeptadi,
+  venusLajjitadi: full.rows.find((r) => r.planet === 'Venus').lajjitadi,
 }, null, 2));

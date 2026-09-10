@@ -1342,25 +1342,30 @@ function AvasthaSection({ report }: { report: ReportData }) {
   return (
     <div className="mb-8">
       <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">கிரக அவஸ்தைகள்</h2>
-      <table className="w-full text-sm">
-        <thead><tr className="text-ink-soft border-b border-line">
-          <th className="text-left py-1">கிரகம்</th><th className="text-left py-1">ஜாக்ரதாதி</th>
-          <th className="text-left py-1">பாலாதி</th><th className="text-left py-1">தீப்தாதி</th>
-        </tr></thead>
-        <tbody>
-          {a.rows.map((r: any) => (
-            <tr key={r.planet} className="border-b border-line/40">
-              <td className="py-1.5">{POINT_LABEL[r.planet] ?? r.planet}</td>
-              <td className="py-1.5">{r.jagradadi}</td>
-              <td className="py-1.5">{r.baladi}</td>
-              <td className="py-1.5">{r.deeptadi}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs">
+          <thead><tr className="text-ink-soft border-b border-line">
+            <th className="text-left py-1">கிரகம்</th><th className="text-left py-1">ஜாக்ரதாதி</th>
+            <th className="text-left py-1">பாலாதி</th><th className="text-left py-1">தீப்தாதி</th>
+            {a.hasFullSet && <><th className="text-left py-1">சயனாதி</th><th className="text-left py-1">லஜ்ஜிதாதி</th></>}
+          </tr></thead>
+          <tbody>
+            {a.rows.map((r: any) => (
+              <tr key={r.planet} className="border-b border-line/40">
+                <td className="py-1.5">{POINT_LABEL[r.planet] ?? r.planet}</td>
+                <td className="py-1.5">{r.jagradadi}</td>
+                <td className="py-1.5">{r.baladi}</td>
+                <td className="py-1.5">{r.deeptadi}</td>
+                {a.hasFullSet && <><td className="py-1.5">{r.shayanadi}</td><td className="py-1.5">{r.lajjitadi}</td></>}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <p className="text-[11px] text-ink-soft mt-2">
-        3 அவஸ்தை முறை (ஜாக்ரதாதி 3 · பாலாதி 5 · தீப்தாதி 9) — நிலை/பாகை/நட்பு அடிப்படையில்.
-        முந்தைய AstrologicLab avasthas engine-லிருந்து port. (சயனாதி 12 + லஜ்ஜிதாதி 6 பின்னர்)
+        5 அவஸ்தை முறை (ஜாக்ரதாதி 3 · பாலாதி 5 · தீப்தாதி 9 · சயனாதி 12 · லஜ்ஜிதாதி 6).
+        சயனாதி = (S·P·c)+(A+G+R) mod 12; லஜ்ஜிதாதி = வெளிப்படுத்தப்பட்ட synthesis (இணைப்பு/திருஷ்டி/நிலை).
+        முந்தைய AstrologicLab avasthas engine-லிருந்து port.
       </p>
     </div>
   );
