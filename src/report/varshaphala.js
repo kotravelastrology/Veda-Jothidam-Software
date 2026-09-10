@@ -23,7 +23,7 @@
 const { calculateChart } = require('../ephemeris/swissEphemeris');
 const { calculateParashariChart, rasiFromLongitude } = require('../chart/parashariChart');
 const { calculateSahams } = require('./sahams');
-const { calculateTajikaYogas } = require('./tajikaYogas');
+const { calculateTajikaYogas, calculateExtendedTajikaYogas } = require('./tajikaYogas');
 
 // Mesha..Meena rasi lords
 const RASI_LORDS = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter'];
@@ -181,6 +181,9 @@ function calculateVarshaphala(birthInput, age) {
     isDayBirth: daytime,
   });
   const tajikaYogas = calculateTajikaYogas({ grahaLon: planetLons, retro });
+  const extendedTajikaYogas = calculateExtendedTajikaYogas({
+    grahaLon: planetLons, grahaRasi0, retro, lagnaRasi0: varshaLagnaRasi0,
+  });
 
   return {
     yearsElapsed,
@@ -208,6 +211,7 @@ function calculateVarshaphala(birthInput, age) {
     patyayiniDasha,
     sahams,
     tajikaYogas,
+    extendedTajikaYogas,
   };
 }
 

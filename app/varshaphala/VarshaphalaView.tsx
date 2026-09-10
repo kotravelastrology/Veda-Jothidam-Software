@@ -17,7 +17,14 @@ interface VarshaResult {
   patyayiniDasha: Array<{ lord: string; days: number; start: string; end: string }>;
   sahams: Array<{ key: string; name: string; longitude: number; rasi: string; degreeInSign: number; corrected: boolean }>;
   tajikaYogas: Array<{ planetA: string; planetB: string; aspectAngle: number; phase: string; orb: number; kambool: boolean; manau: string | null }>;
+  extendedTajikaYogas: Array<{ name: string; planets: string[]; nature: string; note: string }>;
 }
+
+const NATURE_STYLE: Record<string, string> = {
+  benefic: 'bg-teal-soft text-teal',
+  malefic: 'bg-rose-soft text-rose',
+  neutral: 'bg-surface-soft text-ink-soft',
+};
 
 export default function VarshaphalaView() {
   const [age, setAge] = useState(30);
@@ -184,6 +191,30 @@ export default function VarshaphalaView() {
                     <strong>{y.planetA}–{y.planetB}</strong> · {y.aspectAngle}° · {y.phase} <span className="text-ink-soft">(orb {y.orb}°)</span>
                     {y.kambool && <span className="ml-1 text-xs px-1.5 py-0.5 rounded bg-teal-soft text-teal">Kambool</span>}
                     {y.manau && <span className="ml-1 text-xs px-1.5 py-0.5 rounded bg-rose-soft text-rose">Manau: {y.manau}</span>}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+
+          {/* Extended named Tajika yogas */}
+          <section className="bg-surface border border-line rounded-lg p-5">
+            <h3 className="font-semibold text-ink mb-1">தாஜிக யோகங்கள் — பெயரிடப்பட்டவை (Named Tajika Yogas)</h3>
+            <p className="text-xs text-ink-soft mb-3">
+              Radda · Duhphali-Kutta · Durupha · Duttota · Kamboola · Nakta / Yamaya · Khallasara · Kutta ·
+              Thambira / Gairi-Kamboola · Ishkavala / Induvara — via Pancha-Vargeeya-Bala strength.
+            </p>
+            {result.extendedTajikaYogas.length === 0 ? (
+              <p className="text-sm text-ink-soft">No named Tajika yoga forms in this year&apos;s chart.</p>
+            ) : (
+              <ul className="space-y-2">
+                {result.extendedTajikaYogas.map((y, i) => (
+                  <li key={i} className="text-sm">
+                    <span className={`text-xs font-bold px-2 py-0.5 rounded ${NATURE_STYLE[y.nature] || NATURE_STYLE.neutral}`}>
+                      {y.name}
+                    </span>
+                    {y.planets.length > 0 && <span className="text-ink-soft ml-2">{y.planets.join(', ')}</span>}
+                    <p className="text-ink-soft mt-0.5">{y.note}</p>
                   </li>
                 ))}
               </ul>
