@@ -22,6 +22,8 @@
  */
 const { calculateChart } = require('../ephemeris/swissEphemeris');
 const { calculateParashariChart, rasiFromLongitude } = require('../chart/parashariChart');
+const { calculateSahams } = require('./sahams');
+const { calculateTajikaYogas } = require('./tajikaYogas');
 
 // Mesha..Meena rasi lords
 const RASI_LORDS = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter'];
@@ -158,14 +160,27 @@ function calculateVarshaphala(birthInput, age) {
   const varshesha = [...new Set(roles)].reduce((best, p) =>
     (counts.get(p) || 0) > (counts.get(best) || 0) ? p : best, roles[0]);
 
-  const planetLons = Object.fromEntries(
-    ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn']
-      .map((p) => [p, varsha.grahas[p].longitude]),
-  );
+  const SEVEN = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+  const planetLons = Object.fromEntries(SEVEN.map((p) => [p, varsha.grahas[p].longitude]));
   const patyayiniDasha = calculatePatyayiniDasha(
     { lagnaLon: varsha.lagna.longitude, planetLons },
     returnUtcMs,
   );
+
+  // Retrograde flags at the Varsha Pravesha (needed for Ithāsāla direction)
+  const varshaRaw = calculateChart({ ...varshaInput, ayanamsa: 'Lahiri', houseSystem: 'Placidus' });
+  const retro = Object.fromEntries(SEVEN.map((p) => [p, (varshaRaw.positions[p]?.longitudeSpeed ?? 0) < 0]));
+
+  const grahaRasi0 = Object.fromEntries(SEVEN.map((p) => [p, varsha.grahas[p].rasiIndex]));
+  const sahams = calculateSahams({
+    lagnaLon: varsha.lagna.longitude,
+    lagnaRasi0: varshaLagnaRasi0,
+    cusps: varsha.cusps,
+    grahaLon: planetLons,
+    grahaRasi0,
+    isDayBirth: daytime,
+  });
+  const tajikaYogas = calculateTajikaYogas({ grahaLon: planetLons, retro });
 
   return {
     yearsElapsed,
@@ -191,6 +206,8 @@ function calculateVarshaphala(birthInput, age) {
       moonRasiLord: roles[4],
     },
     patyayiniDasha,
+    sahams,
+    tajikaYogas,
   };
 }
 

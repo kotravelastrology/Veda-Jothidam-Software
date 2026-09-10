@@ -15,6 +15,8 @@ interface VarshaResult {
   varshesha: string;
   varsheshaRoles: Record<string, string>;
   patyayiniDasha: Array<{ lord: string; days: number; start: string; end: string }>;
+  sahams: Array<{ key: string; name: string; longitude: number; rasi: string; degreeInSign: number; corrected: boolean }>;
+  tajikaYogas: Array<{ planetA: string; planetB: string; aspectAngle: number; phase: string; orb: number; kambool: boolean; manau: string | null }>;
 }
 
 export default function VarshaphalaView() {
@@ -159,6 +161,60 @@ export default function VarshaphalaView() {
                       <td className="px-3 py-2 text-right text-ink">{d.days}</td>
                       <td className="px-3 py-2 text-ink-soft">{d.start}</td>
                       <td className="px-3 py-2 text-ink-soft">{d.end}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          {/* Tajika Yogas */}
+          <section className="bg-surface border border-line rounded-lg p-5">
+            <h3 className="font-semibold text-ink mb-1">தாஜிக யோகங்கள் (Tajika Yogas — pair aspects)</h3>
+            <p className="text-xs text-ink-soft mb-3">
+              Ithāsāla (applying) / Īsarpha (separating) between graha pairs, with Kambool (Moon involved)
+              and Manau (Mars/Saturn obstructing) riders. Extended named yogas not yet ported.
+            </p>
+            {result.tajikaYogas.length === 0 ? (
+              <p className="text-sm text-ink-soft">No pair is within orb of a Tajika aspect this year.</p>
+            ) : (
+              <ul className="text-sm space-y-1">
+                {result.tajikaYogas.map((y, i) => (
+                  <li key={i} className="text-ink">
+                    <strong>{y.planetA}–{y.planetB}</strong> · {y.aspectAngle}° · {y.phase} <span className="text-ink-soft">(orb {y.orb}°)</span>
+                    {y.kambool && <span className="ml-1 text-xs px-1.5 py-0.5 rounded bg-teal-soft text-teal">Kambool</span>}
+                    {y.manau && <span className="ml-1 text-xs px-1.5 py-0.5 rounded bg-rose-soft text-rose">Manau: {y.manau}</span>}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+
+          {/* Sahams */}
+          <section className="bg-surface border border-line rounded-lg p-5">
+            <h3 className="font-semibold text-ink mb-1">தஜக சகங்கள் (Sahams — {result.sahams.length} sensitive points)</h3>
+            <p className="text-xs text-ink-soft mb-3">
+              Saham = A − B + C (day birth) / B − A + C (night birth), +30° when C is outside the B→A arc (marked ✚).
+            </p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-ink-soft border-b border-line">
+                    <th className="px-3 py-2 text-left">Saham</th>
+                    <th className="px-3 py-2 text-right">Longitude</th>
+                    <th className="px-3 py-2 text-left">Rasi</th>
+                    <th className="px-3 py-2 text-right">°</th>
+                    <th className="px-3 py-2 text-center">±30</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {result.sahams.map((s) => (
+                    <tr key={s.key} className="border-b border-line even:bg-surface-soft/40">
+                      <td className="px-3 py-1.5 text-ink">{s.name}</td>
+                      <td className="px-3 py-1.5 text-right text-ink-soft">{s.longitude.toFixed(2)}°</td>
+                      <td className="px-3 py-1.5 text-indigo font-medium">{s.rasi}</td>
+                      <td className="px-3 py-1.5 text-right text-ink-soft">{s.degreeInSign.toFixed(1)}</td>
+                      <td className="px-3 py-1.5 text-center">{s.corrected ? '✚' : ''}</td>
                     </tr>
                   ))}
                 </tbody>
