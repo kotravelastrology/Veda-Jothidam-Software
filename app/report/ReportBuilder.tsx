@@ -786,9 +786,23 @@ export default function ReportBuilder() {
       };
       const result = await computeReport(formInput);
       setReport(result);
-      // Bridge for the global menu bar (File > Save / Export need the current chart)
+      // Bridge for the global menu bar (File > Save / Export, Edit > Notes / Events).
+      // Preserve notes/events/libraryId when the same person's chart is recalculated.
       try {
-        localStorage.setItem('kotravel_current_chart', JSON.stringify({ birthData, selectedChartId, savedAt: Date.now() }));
+        let prior: any = null;
+        try { prior = JSON.parse(localStorage.getItem('kotravel_current_chart') || 'null'); } catch { /* ignore */ }
+        const samePerson = prior?.birthData
+          && prior.birthData.dateOfBirth === birthData.dateOfBirth
+          && prior.birthData.timeOfBirth === birthData.timeOfBirth
+          && (prior.birthData.name || '') === (birthData.name || '');
+        localStorage.setItem('kotravel_current_chart', JSON.stringify({
+          birthData,
+          selectedChartId,
+          savedAt: Date.now(),
+          notes: samePerson ? prior.notes : undefined,
+          events: samePerson ? prior.events : undefined,
+          libraryId: samePerson ? prior.libraryId : undefined,
+        }));
       } catch { /* storage unavailable — non-fatal */ }
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -827,6 +841,14 @@ export default function ReportBuilder() {
         setInitialChartCategory(match.category);
       }
     }
+    // Seed the working-chart stash with this chart's saved notes/events so
+    // Edit → Notes / Events show them (handleFormSubmit will preserve them).
+    try {
+      localStorage.setItem('kotravel_current_chart', JSON.stringify({
+        birthData: bd, selectedChartId: saved.chartTypes?.[0] ?? 'D1-rasi',
+        savedAt: Date.now(), notes: saved.notes, events: saved.events, libraryId: saved.id,
+      }));
+    } catch { /* non-fatal */ }
     handleFormSubmit(bd);
   }, []);
 

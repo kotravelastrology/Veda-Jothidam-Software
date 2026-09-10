@@ -1,6 +1,12 @@
 // Chart Library Manager
 // Manages user's saved charts, favorites, and collections
 
+export interface ChartEvent {
+  id: string;
+  date: string; // YYYY-MM-DD
+  description: string;
+}
+
 export interface SavedChart {
   id: string;
   userId: string;
@@ -23,6 +29,7 @@ export interface SavedChart {
   updatedAt: number;
   size: number; // bytes
   notes?: string;
+  events?: ChartEvent[];
 }
 
 export interface ChartCollection {

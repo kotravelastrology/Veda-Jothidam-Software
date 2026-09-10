@@ -9,6 +9,7 @@ export interface UIState {
   helpTab: 'help' | 'about' | 'shortcuts';
   chartDialogOpen: boolean;
   chartDialogMode: 'all' | 'recent';
+  annotationDialog: 'none' | 'notes' | 'events';
   sideByView: boolean;
   windowLayout: 'single' | 'sidebyside' | 'cascade' | 'tile';
   chartHistory: string[];
@@ -28,6 +29,8 @@ export interface UIActions {
   toggleHelp: () => void;
   openChartDialog: (mode?: 'all' | 'recent') => void;
   closeChartDialog: () => void;
+  openAnnotations: (kind: 'notes' | 'events') => void;
+  closeAnnotations: () => void;
   setSideByView: (enabled: boolean) => void;
   setWindowLayout: (layout: 'single' | 'sidebyside' | 'cascade' | 'tile') => void;
   addToChartHistory: (chartId: string) => void;
@@ -44,6 +47,7 @@ const DEFAULT_UI_STATE: UIState = {
   helpTab: 'help',
   chartDialogOpen: false,
   chartDialogMode: 'all',
+  annotationDialog: 'none',
   sideByView: false,
   windowLayout: 'single',
   chartHistory: [],
@@ -99,6 +103,14 @@ export function useUIManager(): [UIState, UIActions] {
       setUIState((prev) => ({ ...prev, chartDialogOpen: false }));
     }, []),
 
+    openAnnotations: useCallback((kind: 'notes' | 'events') => {
+      setUIState((prev) => ({ ...prev, annotationDialog: kind }));
+    }, []),
+
+    closeAnnotations: useCallback(() => {
+      setUIState((prev) => ({ ...prev, annotationDialog: 'none' }));
+    }, []),
+
     setSideByView: useCallback((enabled: boolean) => {
       setUIState((prev) => ({
         ...prev,
@@ -141,6 +153,7 @@ export function useUIManager(): [UIState, UIActions] {
         toolsOpen: false,
         helpOpen: false,
         chartDialogOpen: false,
+        annotationDialog: 'none',
       }));
     }, []),
   };

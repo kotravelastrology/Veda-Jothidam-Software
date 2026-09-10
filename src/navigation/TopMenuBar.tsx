@@ -6,7 +6,7 @@ import { useNavigation } from './navigationContext';
 import { getChartLibrary } from '../portal/ChartLibraryManager';
 
 /** The last chart calculated on /report, stashed by ReportBuilder for the menu bar. */
-function readCurrentChart(): { birthData: any; selectedChartId?: string } | null {
+function readCurrentChart(): { birthData: any; selectedChartId?: string; notes?: string; events?: any[]; libraryId?: string } | null {
   try {
     const raw = localStorage.getItem('kotravel_current_chart');
     return raw ? JSON.parse(raw) : null;
@@ -31,6 +31,7 @@ import { SettingsPanel } from '../ui/SettingsPanel';
 import { ToolsPanel } from '../ui/ToolsPanel';
 import { HelpPanel } from '../ui/HelpPanel';
 import { OpenChartDialog } from '../ui/OpenChartDialog';
+import { ChartAnnotationsDialog } from '../ui/ChartAnnotationsDialog';
 import { useKeyboardShortcuts } from '../ui/useKeyboardShortcuts';
 
 interface MenuItem {
@@ -282,7 +283,7 @@ export function TopMenuBar() {
           : defaultName;
         if (submenuKey === 'saveas' && !chartName) break; // user cancelled
         try {
-          getChartLibrary().saveChart({
+          const saved = getChartLibrary().saveChart({
             userId: 'local',
             name: chartName,
             birthData: {
@@ -298,7 +299,13 @@ export function TopMenuBar() {
             tags: [],
             isFavorite: false,
             isShared: false,
+            notes: current.notes,
+            events: current.events,
           });
+          // Link the working chart to its library entry so later Notes/Events edits sync
+          try {
+            localStorage.setItem('kotravel_current_chart', JSON.stringify({ ...current, libraryId: saved.id }));
+          } catch { /* non-fatal */ }
           alert(`Saved "${chartName}" to your chart library.`);
         } catch (e) {
           alert('Could not save chart: ' + (e instanceof Error ? e.message : String(e)));
@@ -335,10 +342,10 @@ export function TopMenuBar() {
         router.push('/report');
         break;
       case 'notes':
-        alert('Chart Notes - Coming in Phase 31.2');
+        uiActions.openAnnotations('notes');
         break;
       case 'events':
-        alert('Events - Coming in Phase 31.2');
+        uiActions.openAnnotations('events');
         break;
 
       // Options / Settings — Preferences, Chart Style, Colors & Fonts and Language
@@ -511,6 +518,10 @@ export function TopMenuBar() {
         isOpen={uiState.chartDialogOpen}
         mode={uiState.chartDialogMode}
         onClose={uiActions.closeChartDialog}
+      />
+      <ChartAnnotationsDialog
+        kind={uiState.annotationDialog}
+        onClose={uiActions.closeAnnotations}
       />
     </>
   );
