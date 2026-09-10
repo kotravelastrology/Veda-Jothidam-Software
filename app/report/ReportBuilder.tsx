@@ -57,6 +57,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'nadi', label: 'பிருகு நந்தி நாடி' },
   { id: 'bhriguProgressions', label: 'பிருகு சக்கர / சரள பத்ததி' },
   { id: 'kp', label: 'KP ஜோதிடம்' },
+  { id: 'kpEvents', label: 'KP முகூர்த்தம் (80 நிகழ்வு)' },
 ];
 
 function SourceRequiredBadge({ reason }: { reason?: string }) {
@@ -1152,6 +1153,65 @@ function AltDashaSection({ report }: { report: ReportData }) {
   );
 }
 
+const KP_GRADE_STYLE: Record<string, string> = {
+  DARK_GREEN: 'bg-teal text-white', GREEN: 'bg-teal-soft text-teal',
+  RED: 'bg-rose-soft text-rose', REVIEW: 'bg-surface-soft text-ink-soft',
+};
+
+function KpEventsSection({ report }: { report: ReportData }) {
+  const ke = (report as any).kpEvents;
+  const [filter, setFilter] = useState<'all' | 'GREEN' | 'RED'>('all');
+  const [open, setOpen] = useState<string | null>(null);
+  if (!ke?.available) return null;
+  const list = ke.events.filter((e: any) =>
+    filter === 'all' ? true : filter === 'GREEN' ? (e.grade.code === 'GREEN' || e.grade.code === 'DARK_GREEN') : e.grade.code === 'RED');
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">KP முகூர்த்தம் — நிகழ்வுப் பொருத்தம்</h2>
+      <div className="flex gap-1 mb-3 text-xs print:hidden">
+        {([['all', `அனைத்து (${ke.count})`], ['GREEN', 'ஏற்றவை'], ['RED', 'தவிர்க்க']] as const).map(([k, l]) => (
+          <button key={k} onClick={() => setFilter(k)}
+            className={`px-2 py-1 rounded ${filter === k ? 'bg-saffron text-ink' : 'bg-surface border border-line text-ink-soft'}`}>{l}</button>
+        ))}
+      </div>
+      <div className="max-h-[28rem] overflow-y-auto border border-line rounded-lg divide-y divide-line/50">
+        {list.map((e: any) => (
+          <div key={e.key}>
+            <button onClick={() => setOpen(open === e.key ? null : e.key)}
+              className="w-full flex items-center justify-between gap-2 px-3 py-2 text-sm text-left hover:bg-surface-soft/50">
+              <span className="flex-1">{e.nameTa || e.name}</span>
+              <span className="text-xs text-ink-soft tabular-nums">{e.grade.passed}/{e.grade.total}</span>
+              <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${KP_GRADE_STYLE[e.grade.code]}`}>{e.grade.labelTa}</span>
+            </button>
+            {open === e.key && (
+              <div className="px-3 pb-2 text-xs bg-surface-soft/30">
+                {e.remarks && <p className="text-ink-soft italic mb-1">{e.remarks}</p>}
+                <table className="w-full">
+                  <tbody>
+                    {e.rows.map((r: any, i: number) => (
+                      <tr key={i} className="border-b border-line/30">
+                        <td className="py-0.5 pr-2">{r.target}</td>
+                        <td className="py-0.5 pr-2">{POINT_LABEL[r.subLord] ?? r.subLord}</td>
+                        <td className="py-0.5 pr-2 text-ink-soft">→ {r.significators.join(',') || '—'}</td>
+                        <td className="py-0.5 pr-2 text-ink-soft">✓{r.favorable.join(',') || '–'} ✗{r.unfavorable.join(',') || '–'}</td>
+                        <td className={`py-0.5 ${r.color === 'red' ? 'text-rose' : 'text-teal'}`}>{r.resultCode} {r.statusTa}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <p className="text-[11px] text-ink-soft mt-2">
+        80-நிகழ்வு KP legacy catalog · பாவ சந்தி துணை-அதிபதி (rules 1-12) + ஜனன DBAS (101-104) சூசகங்கள் vs சாதக/பாதக பாவங்கள்.
+        முழு நேர-வருடல் (sub-lord transition scan) + நிகழ்வு-சார் சிறப்பு விதிகள் பின்னர். (kp-muhurat engine port)
+      </p>
+    </div>
+  );
+}
+
 const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData }>> = {
   profile: ProfileSection,
   lagnaGraha: LagnaGrahaSection,
@@ -1170,6 +1230,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   nadi: NadiCombinationSection,
   bhriguProgressions: BhriguProgressionSection,
   kp: KpSystemSection,
+  kpEvents: KpEventsSection,
   altDashas: AltDashaSection,
 };
 

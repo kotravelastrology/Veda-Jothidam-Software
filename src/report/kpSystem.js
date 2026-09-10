@@ -31,6 +31,28 @@ const NAKSHATRAS = [
 // Python's date.weekday(): Mon=0..Sun=6 -> weekday lord.
 const WEEKDAY_LORDS = ['Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Sun'];
 const NADI_PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
+const VIM_ORDER = ['Ketu', 'Venus', 'Sun', 'Moon', 'Mars', 'Rahu', 'Jupiter', 'Saturn', 'Mercury'];
+const VIM_YEARS = { Ketu: 7, Venus: 20, Sun: 6, Moon: 10, Mars: 7, Rahu: 18, Jupiter: 16, Saturn: 19, Mercury: 17 };
+
+/** Running Vimshottari lords from the Moon's longitude (Dasa/Bhukti/Antara/Sukshma). */
+function vimshottariLevels(moonLongitude, depth = 4) {
+  const nakSpan = 360 / 27;
+  const nakIndex = Math.floor(norm(moonLongitude) / nakSpan);
+  let lord = VIM_ORDER[nakIndex % 9];
+  let fraction = ((norm(moonLongitude) % nakSpan) / nakSpan) % 1;
+  const levels = [lord];
+  for (let d = 0; d < depth - 1; d += 1) {
+    const start = VIM_ORDER.indexOf(lord);
+    let elapsed = 0;
+    for (let step = 0; step < 9; step += 1) {
+      const cand = VIM_ORDER[(start + step) % 9];
+      const span = VIM_YEARS[cand] / 120;
+      if (fraction < elapsed + span + 1e-12) { fraction = (fraction - elapsed) / span; lord = cand; levels.push(lord); break; }
+      elapsed += span;
+    }
+  }
+  return levels;
+}
 
 /** Full KP chain for a longitude: nakshatra + pada + 5 lords + nak progress. */
 function kpChain(longitude) {
@@ -143,6 +165,7 @@ function calculateKpSystem(birthInput, { nodeType = 'mean' } = {}) {
     ayanamsha: 'Krishnamurti',
     houseSystem: 'Placidus',
     ascendant: norm(chart.houses.ascendant),
+    dbas: vimshottariLevels(moon.longitude, 4),
     positions: positions.map((p) => ({
       name: p.name, longitude: p.longitude, sign: p.sign, degreeInSign: p.degreeInSign,
       nakshatra: p.nakshatra, pada: p.pada, house: p.house, retrograde: p.retrograde,
@@ -160,5 +183,5 @@ function calculateKpSystem(birthInput, { nodeType = 'mean' } = {}) {
 
 module.exports = {
   calculateKpSystem, kpChain, houseForLongitude, obstructionHouses,
-  rulingPlanets, significatorBreakdown,
+  rulingPlanets, significatorBreakdown, vimshottariLevels, SIGN_LORDS, SIGNS,
 };
