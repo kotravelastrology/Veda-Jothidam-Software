@@ -26,6 +26,7 @@ const { calculateSahams } = require('./sahams');
 const { calculateTajikaYogas, calculateExtendedTajikaYogas } = require('./tajikaYogas');
 const { panchaVargeeyaBala, tajikaAspectOnPoint } = require('./panchaVargeeyaBala');
 const { EXALTATION, MOOLATRIKONA, OWN_SIGNS } = require('../chart/shadbala');
+const { calculateCharaDasha } = require('./jaimini');
 
 // ── Tripataki Chakra (vijayalur.com "Tri Pataki Chakra") ──────────────────
 // D = completed years + 1. Moon: D mod 9 (0→9) forward from natal Moon.
@@ -144,6 +145,68 @@ function calculatePatyayiniDasha(v, startMs) {
       end: fmtIst(endMsX).date,
     };
   });
+}
+
+// ── Varsha Vimsottari Dasa (Mudda Dasa of "Vedic Astrology: An Integrated
+//    Approach" ch.30.4) — natal nakshatra Vimshottari compressed onto the
+//    ~360 solar days of the year: dasa_days = dasa_years × 3 (Table 76).
+//    Starting lord: number the 9 lords 1-9 cyclically FROM SUN, take the natal
+//    Vimshottari starting lord's number, + completed years, mod 9 (0→9).
+//    Balance: the natal Moon's own "fraction of birth-nakshatra yet to run"
+//    applied to the starting planet's day count.
+const VV_KETU_FIRST = ['Ketu', 'Venus', 'Sun', 'Moon', 'Mars', 'Rahu', 'Jupiter', 'Saturn', 'Mercury'];
+const VV_SUN_FIRST = ['Sun', 'Moon', 'Mars', 'Rahu', 'Jupiter', 'Saturn', 'Mercury', 'Ketu', 'Venus'];
+const VV_DAYS = { Sun: 18, Moon: 30, Mars: 21, Rahu: 54, Jupiter: 48, Saturn: 57, Mercury: 51, Ketu: 21, Venus: 60 };
+
+function calculateVarshaVimsottariDasa(natalMoonLongitude, yearsElapsed, praveshMs) {
+  const NAK = 360 / 27;
+  const nakIndex = Math.floor(norm360(natalMoonLongitude) / NAK) % 27;
+  const natalStartLord = VV_KETU_FIRST[nakIndex % 9];
+  const remainingFraction = 1 - (norm360(natalMoonLongitude) % NAK) / NAK;
+
+  const sum = (VV_SUN_FIRST.indexOf(natalStartLord) + 1) + Math.floor(yearsElapsed);
+  const rem = sum % 9 === 0 ? 9 : sum % 9;
+  const startPlanet = VV_SUN_FIRST[rem - 1];
+  const startIdx = VV_KETU_FIRST.indexOf(startPlanet);
+
+  const out = [];
+  let cursor = praveshMs;
+  const firstDays = remainingFraction * VV_DAYS[startPlanet];
+  out.push({ lord: startPlanet, days: Math.round(firstDays * 10) / 10, start: fmtIst(cursor).date, end: fmtIst(cursor + firstDays * 86400000).date });
+  cursor += firstDays * 86400000;
+
+  const oneYearMs = 365.2425 * 86400000;
+  for (let i = 1; cursor - praveshMs < oneYearMs && i < 20; i += 1) {
+    const p = VV_KETU_FIRST[(startIdx + i) % 9];
+    const days = VV_DAYS[p];
+    out.push({ lord: p, days, start: fmtIst(cursor).date, end: fmtIst(cursor + days * 86400000).date });
+    cursor += days * 86400000;
+  }
+  return { startLord: startPlanet, natalStartLord, periods: out };
+}
+
+// ── Varsha Narayana Dasa ("Vedic Astrology: An Integrated Approach" ch.30.5,
+//    "the best dasa for Tajaka annual charts") — the natal Chara/Narayana
+//    engine run on the VARSHA chart's own graha positions, but with Muntha
+//    (progressed natal Lagna, +1 rasi/elapsed year) in place of the varsha
+//    Lagna. Each rasi's length compresses years→days ×3, dated from Pravesha.
+//    SCOPE: rasi-chart version only (the book also re-runs it on divisionals).
+function calculateVarshaNarayanaDasa(natalLagnaRasi0, yearsElapsed, varshaChart, praveshMs) {
+  const munthaRasi0 = (natalLagnaRasi0 + Math.floor(yearsElapsed)) % 12;
+  const munthaLongitude = munthaRasi0 * 30 + 15;
+  const planetLons = {};
+  ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu']
+    .forEach((p) => { if (varshaChart.grahas[p]) planetLons[p] = varshaChart.grahas[p].longitude; });
+  const { direction, periods } = calculateCharaDasha(munthaLongitude, planetLons, praveshMs);
+
+  let cursor = praveshMs;
+  const out = periods.map((p) => {
+    const days = Math.round(p.years * 3 * 10) / 10;
+    const row = { rasiIndex: p.rasiIndex, rasi: p.rasi, days, start: fmtIst(cursor).date, end: fmtIst(cursor + days * 86400000).date };
+    cursor += days * 86400000;
+    return row;
+  });
+  return { direction, munthaRasiIndex: munthaRasi0, munthaRasi: RASI_NAMES[munthaRasi0], periods: out };
 }
 
 /**
@@ -291,6 +354,8 @@ function calculateVarshaphala(birthInput, age) {
       luminaryRasiLord: roles[4],
     },
     patyayiniDasha,
+    varshaVimsottariDasa: calculateVarshaVimsottariDasa(natal.grahas.Moon.longitude, yearsElapsed, returnUtcMs),
+    varshaNarayanaDasa: calculateVarshaNarayanaDasa(natalLagnaRasi0, yearsElapsed, varsha, returnUtcMs),
     sahams,
     tajikaYogas,
     extendedTajikaYogas,
@@ -305,4 +370,4 @@ function calculateVarshaphala(birthInput, age) {
   };
 }
 
-module.exports = { calculateVarshaphala };
+module.exports = { calculateVarshaphala, calculateVarshaVimsottariDasa, calculateVarshaNarayanaDasa };

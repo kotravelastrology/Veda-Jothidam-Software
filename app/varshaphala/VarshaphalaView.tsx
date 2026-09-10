@@ -205,6 +205,74 @@ export default function VarshaphalaView() {
             </div>
           </section>
 
+          {/* Varsha Vimsottari Dasa */}
+          {(result as any).varshaVimsottariDasa && (
+            <section className="bg-surface border border-line rounded-lg p-5">
+              <h3 className="font-semibold text-ink mb-1">வர்ஷ விம்சோத்தரி தசை (Varsha Vimsottari / book&apos;s Mudda Dasa)</h3>
+              <p className="text-xs text-ink-soft mb-3">
+                ஜனன விம்சோத்தரி (நட்சத்திர) தசை ~360 சூரிய நாட்களாக சுருக்கப்பட்டது (ஆண்டு×3). தொடக்க அதிபதி:
+                ஜனன தொடக்க அதிபதி {(result as any).varshaVimsottariDasa.natalStartLord} → {(result as any).varshaVimsottariDasa.startLord}.
+                (Vedic Astrology: An Integrated Approach ch.30.4)
+              </p>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-ink-soft border-b border-line">
+                      <th className="px-3 py-2 text-left">Lord</th>
+                      <th className="px-3 py-2 text-right">Days</th>
+                      <th className="px-3 py-2 text-left">Start</th>
+                      <th className="px-3 py-2 text-left">End</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(result as any).varshaVimsottariDasa.periods.map((d: any, i: number) => (
+                      <tr key={i} className="border-b border-line even:bg-surface-soft/40">
+                        <td className="px-3 py-2 font-medium text-indigo">{d.lord}</td>
+                        <td className="px-3 py-2 text-right text-ink">{d.days}</td>
+                        <td className="px-3 py-2 text-ink-soft">{d.start}</td>
+                        <td className="px-3 py-2 text-ink-soft">{d.end}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
+
+          {/* Varsha Narayana Dasa */}
+          {(result as any).varshaNarayanaDasa && (
+            <section className="bg-surface border border-line rounded-lg p-5">
+              <h3 className="font-semibold text-ink mb-1">வர்ஷ நாராயண தசை (Varsha Narayana Dasa)</h3>
+              <p className="text-xs text-ink-soft mb-3">
+                வர்ஷ சக்கரத்தின் கிரக நிலைகளில் சர (நாராயண) தசை, ஆனால் லக்னத்திற்குப் பதிலாக முந்தா
+                ({(result as any).varshaNarayanaDasa.munthaRasi}) — திசை {(result as any).varshaNarayanaDasa.direction === 'direct' ? 'நேர்' : 'எதிர்'}.
+                ராசி நீளம் ஆண்டு×3 நாட்கள். (ch.30.5 — “the best dasa for Tajaka annual charts”)
+              </p>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-ink-soft border-b border-line">
+                      <th className="px-3 py-2 text-left">ராசி</th>
+                      <th className="px-3 py-2 text-right">Days</th>
+                      <th className="px-3 py-2 text-left">Start</th>
+                      <th className="px-3 py-2 text-left">End</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(result as any).varshaNarayanaDasa.periods.map((d: any, i: number) => (
+                      <tr key={i} className="border-b border-line even:bg-surface-soft/40">
+                        <td className="px-3 py-2 font-medium text-indigo">{d.rasi}</td>
+                        <td className="px-3 py-2 text-right text-ink">{d.days}</td>
+                        <td className="px-3 py-2 text-ink-soft">{d.start}</td>
+                        <td className="px-3 py-2 text-ink-soft">{d.end}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
+
           {/* Tajika Yogas */}
           <section className="bg-surface border border-line rounded-lg p-5">
             <h3 className="font-semibold text-ink mb-1">தாஜிக யோகங்கள் (Tajika Yogas — pair aspects)</h3>
