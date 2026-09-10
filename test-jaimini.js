@@ -68,3 +68,20 @@ console.log(JSON.stringify({
   karkamsha: j.karkamsha.rasi, arudhaLagna: j.bhavaArudhas[0].rasi,
   charaDir: j.charaDasha.direction, charaFirst: j.charaDasha.periods[0].rasi,
 }, null, 2));
+
+// ── The other 9 Jaimini rasi dashas ──────────────────────────────────
+const rd = j.rasiDashas;
+assert.equal(Object.keys(rd).length, 10);
+for (const k of Object.keys(rd)) assert.equal(rd[k].periods.length, 12, `${k} has 12 periods`);
+// Sthira: cardinal 7 + fixed 8 + dual 9, four of each -> 96.
+assert.ok(Math.abs(rd.sthira.periods.reduce((s, x) => s + x.years, 0) - 96) < 0.1, 'Sthira total 96');
+// Niryana Shoola: 9 years each -> 108.
+assert.ok(Math.abs(rd.shoola.periods.reduce((s, x) => s + x.years, 0) - 108) < 0.1, 'Shoola total 108');
+// Kendradi: kendras first (Vrishabha lagna -> Vrishabha, Simha, Vrischika, Kumbha).
+assert.deepEqual(rd.kendradi.periods.slice(0, 4).map((x) => x.rasi), ['Vrishabha', 'Simha', 'Vrischika', 'Kumbha']);
+// Karaka dasha starts from the Atmakaraka's sign (Moon = AK here, in Dhanu).
+assert.equal(rd.karaka.atmakaraka, 'Moon');
+assert.equal(rd.karaka.startRasi, 'Dhanu');
+// Yogardha = per-sign average of Chara and Sthira years.
+assert.ok(rd.yogardha.periods.every((x) => x.years > 0 && x.years <= 12));
+console.log(JSON.stringify({ rasiDashaPass: true, sthira96: true, shoola108: true, karakaAK: rd.karaka.atmakaraka }, null, 2));

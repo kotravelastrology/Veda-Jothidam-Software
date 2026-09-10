@@ -144,24 +144,87 @@ function charaYears(rashi0, PL, direction) {
   return years === 0 ? 12 : years;
 }
 
-function calculateCharaDasha(lagnaLongitude, grahaLongitudes, birthMs) {
-  const lagna0 = sign0(lagnaLongitude);
-  const direction = lagna0 % 2 === 0 ? 'direct' : 'indirect'; // odd 1-indexed sign → direct
-  const seq = Array.from({ length: 12 }, (_, i) => (direction === 'direct' ? (lagna0 + i) % 12 : (lagna0 - i + 12) % 12));
+const charaDirection = (lagna0) => (lagna0 % 2 === 0 ? 'direct' : 'indirect'); // odd 1-indexed → direct
+const consecutiveSeq = (start0, dir) => Array.from({ length: 12 }, (_, i) => (dir === 'direct' ? (start0 + i) % 12 : (start0 - i + 12) % 12));
+
+function buildRasiDasha(seq, birthMs, yearsFn) {
   let cursor = birthMs;
-  const periods = seq.map((r0) => {
-    const years = charaYears(r0, grahaLongitudes, direction);
+  return seq.map((r0) => {
+    const years = yearsFn(r0);
     const startMs = cursor;
     const endMs = cursor + years * MS_PER_YEAR;
     cursor = endMs;
     return {
-      rasiIndex: r0, rasi: RASI_NAMES[r0], years,
+      rasiIndex: r0, rasi: RASI_NAMES[r0], years: Math.round(years * 100) / 100,
       start: new Date(startMs).toISOString().slice(0, 10),
       end: new Date(endMs).toISOString().slice(0, 10),
       startMs, endMs,
     };
   });
-  return { direction, periods };
+}
+
+function calculateCharaDasha(lagnaLongitude, grahaLongitudes, birthMs) {
+  const lagna0 = sign0(lagnaLongitude);
+  const direction = charaDirection(lagna0);
+  return { direction, periods: buildRasiDasha(consecutiveSeq(lagna0, direction), birthMs, (r0) => charaYears(r0, grahaLongitudes, direction)) };
+}
+
+// ── The other 8 Jaimini rasi dashas (jaimuni.ts M-08b) ──────────────────
+const sthiraYears = (r0) => (r0 % 3 === 0 ? 7 : r0 % 3 === 1 ? 8 : 9); // cardinal/fixed/dual
+
+function rashiStrength(r0, PL) {
+  let cnt = 0; let maxDeg = 0;
+  for (const lon of Object.values(PL)) {
+    if (sign0(lon) === r0) { cnt += 1; const d = degInSign(lon); if (d > maxDeg) maxDeg = d; }
+  }
+  return cnt * 30 + maxDeg;
+}
+const strongerOfLagnaSeventh = (lagna0, PL) => {
+  const seventh0 = (lagna0 + 6) % 12;
+  return rashiStrength(seventh0, PL) > rashiStrength(lagna0, PL) ? seventh0 : lagna0;
+};
+function brahmaSign0(lagna0, PL) {
+  const base0 = strongerOfLagnaSeventh(lagna0, PL);
+  const cands = [2, 5, 8, 11].map((h) => RASI_LORDS[(base0 + h - 1) % 12]);
+  let best = cands[0]; let bestDeg = degInSign(PL[best]);
+  for (const c of cands) { const d = degInSign(PL[c]); if (d > bestDeg) { best = c; bestDeg = d; } }
+  return sign0(PL[best]);
+}
+function toNavamsaLon(lon) {
+  const arcsec = sign0(lon) * 0; // unused
+  const a = ((lon % 360) + 360) % 360 * 3600;
+  const nsign = Math.floor(a / 12000) % 12;
+  return nsign * 30 + ((a % 12000) / 12000) * 30;
+}
+
+const KENDRADI_ORDER = [0, 3, 6, 9, 1, 4, 7, 10, 2, 5, 8, 11];
+const MANDUKA_ORDER = [0, 2, 4, 6, 8, 10, 1, 3, 5, 7, 9, 11];
+const TRIKONA_ORDER = [0, 4, 8, 1, 5, 9, 2, 6, 10, 3, 7, 11];
+
+function calculateRasiDashas(lagnaLongitude, PL, birthMs) {
+  const lagna0 = sign0(lagnaLongitude);
+  const dir = charaDirection(lagna0);
+  const cy = (r0) => charaYears(r0, PL, dir);
+  const grouped = (order) => ({ direction: dir, periods: buildRasiDasha(order.map((o) => (lagna0 + o) % 12), birthMs, cy) });
+
+  const sthiraStart = strongerOfLagnaSeventh(lagna0, PL);
+  const brahma0 = brahmaSign0(lagna0, PL);
+  const ak = calculateCharaKarakas(PL)[0].planet;
+  const ak0 = sign0(PL[ak]);
+  const d9PL = Object.fromEntries(Object.entries(PL).map(([k, v]) => [k, toNavamsaLon(v)]));
+
+  return {
+    chara: calculateCharaDasha(lagnaLongitude, PL, birthMs),
+    sthira: { direction: dir, startRasi: RASI_NAMES[sthiraStart], brahmaRasi: RASI_NAMES[brahma0], periods: buildRasiDasha(consecutiveSeq(sthiraStart, dir), birthMs, sthiraYears) },
+    shoola: { direction: dir, startRasi: RASI_NAMES[sthiraStart], periods: buildRasiDasha(consecutiveSeq(sthiraStart, dir), birthMs, () => 9) },
+    kendradi: grouped(KENDRADI_ORDER),
+    manduka: grouped(MANDUKA_ORDER),
+    trikona: grouped(TRIKONA_ORDER),
+    brahma: { direction: dir, startRasi: RASI_NAMES[brahma0], periods: buildRasiDasha(consecutiveSeq(brahma0, dir), birthMs, cy) },
+    karaka: { direction: dir, atmakaraka: ak, startRasi: RASI_NAMES[ak0], periods: buildRasiDasha(consecutiveSeq(ak0, dir), birthMs, cy) },
+    yogardha: { direction: dir, periods: buildRasiDasha(consecutiveSeq(lagna0, dir), birthMs, (r0) => (charaYears(r0, PL, dir) + sthiraYears(r0)) / 2) },
+    navamsa: calculateCharaDasha(toNavamsaLon(lagnaLongitude), d9PL, birthMs),
+  };
 }
 
 /**
@@ -179,11 +242,12 @@ function calculateJaimini(opts) {
     bhavaArudhas: calculateBhavaArudhas(lagnaLongitude, grahaLongitudes),
     karkamsha: calculateKarkamsha(grahaLongitudes),
     charaDasha: calculateCharaDasha(lagnaLongitude, grahaLongitudes, birthMs),
+    rasiDashas: calculateRasiDashas(lagnaLongitude, grahaLongitudes, birthMs),
     rashiDrishti: calculateRashiDrishti(),
   };
 }
 
 module.exports = {
   calculateJaimini, calculateCharaKarakas, calculateBhavaArudhas, calculateKarkamsha,
-  calculateCharaDasha, calculateRashiDrishti, STHIRA_KARAKATVAM,
+  calculateCharaDasha, calculateRasiDashas, calculateRashiDrishti, STHIRA_KARAKATVAM,
 };
