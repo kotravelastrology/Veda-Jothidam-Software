@@ -208,6 +208,7 @@ export function TopMenuBar() {
         { label: 'Nalla Neram (Gowri/Hora)', key: 'nallaneram' },
         { label: 'Tamil Calendar & Festivals', key: 'tamilcalendar' },
         { label: 'Baby Names (Nakshatra)', key: 'babynames' },
+        { label: 'Classical Muhurta (Pancha-Pakshi / Yatra / Eclipse)', key: 'classicalmuhurta' },
       ],
     },
     {
@@ -427,6 +428,9 @@ export function TopMenuBar() {
         break;
       case 'babynames':
         router.push('/baby-names');
+        break;
+      case 'classicalmuhurta':
+        router.push('/classical-muhurta');
         break;
 
       // Windows Menu — there is no MDI window system on the web, so these repurpose
