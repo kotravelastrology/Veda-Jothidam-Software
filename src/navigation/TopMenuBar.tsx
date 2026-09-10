@@ -91,6 +91,7 @@ export function TopMenuBar() {
     transits: '/report?section=transit',
     varshaphala: '/varshaphala',
     compatibility: '/porutham',
+    kelvi: '/kelvi',
     astronomy: '/report?section=grahaBala',
   };
   const REPORTS_NOT_YET_BUILT = new Set<string>([]);
@@ -163,6 +164,7 @@ export function TopMenuBar() {
         { label: 'Transits', key: 'transits' },
         { label: 'Varshaphala', key: 'varshaphala' },
         { label: 'Compatibility', key: 'compatibility' },
+        { label: 'Prashna (கேள்வி–விடை)', key: 'kelvi' },
         { label: 'Astronomy', key: 'astronomy' },
       ],
     },
