@@ -326,16 +326,30 @@ export function TopMenuBar() {
         });
         break;
       }
-      case 'print':
-        // Handle: Print Chart
-        window.print();
-        break;
-      case 'exit':
-        // Handle: Exit application
-        if (confirm('Exit Kotravel?')) {
-          window.close();
+      case 'print': {
+        // Only the report page has a print stylesheet worth printing.
+        if (window.location.pathname === '/report') {
+          window.print();
+          break;
+        }
+        const cur = readCurrentChart();
+        if (cur?.birthData) {
+          const q = cur.libraryId ? `load=${encodeURIComponent(cur.libraryId)}&print=1` : 'print=1';
+          router.push(`/report?${q}`); // ReportBuilder auto-prints once the report renders
+        } else {
+          alert('Nothing to print yet. Open a chart (File → New Chart or Open…), then Print.');
         }
         break;
+      }
+      case 'exit': {
+        if (!confirm('Exit Kotravel? Your saved charts and notes stay in this browser.')) break;
+        uiActions.closeAllPanels();
+        setOpenMenu(null);
+        try { window.close(); } catch { /* not a script-opened window */ }
+        // window.close() is a no-op for the main tab — return to the home screen instead
+        router.push('/');
+        break;
+      }
 
       // Edit Menu
       case 'birthdata':

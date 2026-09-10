@@ -755,6 +755,30 @@ export default function ReportBuilder() {
     }
   }, [report]);
 
+  // /report?print=1 without ?load: pull the working chart from the stash so
+  // File → Print from another page still has something to print.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('print') !== '1' || params.get('load')) return;
+    try {
+      const stash = JSON.parse(localStorage.getItem('kotravel_current_chart') || 'null');
+      if (stash?.birthData?.dateOfBirth) {
+        setLoadedBirthData(stash.birthData);
+        handleFormSubmit(stash.birthData);
+      }
+    } catch { /* no stash */ }
+  }, []);
+
+  // /report?print=1: once the report has rendered, fire the print dialog once.
+  const printedRef = useRef(false);
+  useEffect(() => {
+    if (!report || printedRef.current) return;
+    if (new URLSearchParams(window.location.search).get('print') !== '1') return;
+    printedRef.current = true;
+    const t = setTimeout(() => window.print(), 400);
+    return () => clearTimeout(t);
+  }, [report]);
+
   const move = (id: string, dir: -1 | 1) => {
     setOrder((prev) => {
       const idx = prev.indexOf(id);
