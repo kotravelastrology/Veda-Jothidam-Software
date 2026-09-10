@@ -408,7 +408,7 @@ export function TopMenuBar() {
         router.push('/report?chart=transit');
         break;
       case 'rectification_tool':
-        alert('Rectification Tool - coming in a future phase.');
+        router.push('/rectification');
         break;
 
       // Windows Menu — there is no MDI window system on the web, so these repurpose
