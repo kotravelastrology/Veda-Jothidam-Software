@@ -14,6 +14,10 @@ interface VarshaResult {
   muntha: { rasi: string; lord: string; house: number };
   varshesha: string;
   varsheshaRoles: Record<string, string>;
+  varsheshaSelection: {
+    tier: string;
+    candidates: Array<{ planet: string; roles: string[]; pvb: number; lagnaAspect: string | null }>;
+  };
   patyayiniDasha: Array<{ lord: string; days: number; start: string; end: string }>;
   sahams: Array<{ key: string; name: string; longitude: number; rasi: string; degreeInSign: number; corrected: boolean }>;
   tajikaYogas: Array<{ planetA: string; planetB: string; aspectAngle: number; phase: string; orb: number; kambool: boolean; manau: string | null }>;
@@ -114,19 +118,45 @@ export default function VarshaphalaView() {
             </div>
           </section>
 
-          {/* Varshesha candidate roles */}
+          {/* Varshesha candidates + classical selection */}
           <section className="bg-surface-soft rounded-lg p-5 border border-line">
-            <h3 className="font-semibold text-ink mb-3">Panchadhikari candidates</h3>
-            <ul className="text-sm space-y-1 text-ink">
-              <li>1. Varsha-Lagna lord — <strong>{result.varsheshaRoles.varshaLagnaLord}</strong></li>
-              <li>2. Natal-Lagna lord — <strong>{result.varsheshaRoles.natalLagnaLord}</strong></li>
-              <li>3. Muntha lord — <strong>{result.varsheshaRoles.munthaLord}</strong></li>
-              <li>4. Day → Sun&apos;s rasi lord / night → Moon&apos;s — <strong>{result.varsheshaRoles.luminaryRasiLord}</strong></li>
-              <li>5. Varsha-Moon rasi lord — <strong>{result.varsheshaRoles.moonRasiLord}</strong></li>
+            <h3 className="font-semibold text-ink mb-1">Panchadhikari candidates &amp; selection</h3>
+            <ul className="text-sm space-y-0.5 text-ink-soft mb-3">
+              <li>1. Varsha-Lagna lord — {result.varsheshaRoles.varshaLagnaLord}</li>
+              <li>2. Natal-Lagna lord — {result.varsheshaRoles.natalLagnaLord}</li>
+              <li>3. Trirasi lord (Varsha-Lagna rasi) — {result.varsheshaRoles.trirasiLord}</li>
+              <li>4. Muntha-rasi lord — {result.varsheshaRoles.munthaLord}</li>
+              <li>5. Day → Sun&apos;s rasi lord / night → Moon&apos;s — {result.varsheshaRoles.luminaryRasiLord}</li>
             </ul>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-ink-soft border-b border-line">
+                    <th className="px-2 py-1.5 text-left">Candidate</th>
+                    <th className="px-2 py-1.5 text-left">Fills roles</th>
+                    <th className="px-2 py-1.5 text-right">PVB</th>
+                    <th className="px-2 py-1.5 text-left">Lagna aspect</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {result.varsheshaSelection.candidates.map((c) => (
+                    <tr key={c.planet} className={`border-b border-line ${c.planet === result.varshesha ? 'bg-saffron/10 font-semibold' : ''}`}>
+                      <td className="px-2 py-1.5 text-ink">{c.planet}{c.planet === result.varshesha ? ' ★' : ''}</td>
+                      <td className="px-2 py-1.5 text-ink-soft text-xs">{c.roles.length}</td>
+                      <td className="px-2 py-1.5 text-right text-ink">{c.pvb.toFixed(2)}</td>
+                      <td className="px-2 py-1.5">
+                        {c.lagnaAspect
+                          ? <span className={`text-xs px-1.5 py-0.5 rounded ${c.lagnaAspect === 'benefic' ? 'bg-teal-soft text-teal' : 'bg-rose-soft text-rose'}`}>{c.lagnaAspect}</span>
+                          : <span className="text-xs text-ink-soft">none</span>}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <p className="text-xs text-ink-soft mt-2">
-              Selection = candidate filling the most roles (Varsha-Lagna lord breaks ties). Full Pancha-Vargeeya-Bala
-              + Tajika-aspect selection is not yet implemented.
+              Selected via: <strong>{result.varsheshaSelection.tier}</strong> (Integrated Approach ch.28.6 fallback chain;
+              Varsha-Lagna lord breaks a final tie).
             </p>
           </section>
 

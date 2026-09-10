@@ -95,4 +95,28 @@ function panchaVargeeyaBala(planet, lon) {
   return Math.round((total / 4) * 100) / 100;
 }
 
-module.exports = { panchaVargeeyaBala, isOwnHadda, exaltLon, d3Rashi, d9Rashi };
+// ── Tajika aspect on a point ("Integrated Approach" ch.28.2) ────────────────
+// house-offset (aspecting planet → target point) → aspect kind. Only the 5
+// classical Ptolemaic aspects (offsets 0/2/3/4/6/8/9/10); 1 & 11 (semi-sextile,
+// 2nd/12th) and 5 & 7 (6-8) cast no Tajika aspect.
+const ASPECT_BY_OFFSET = {
+  0: 'malefic', 2: 'benefic', 3: 'malefic', 4: 'benefic',
+  6: 'malefic', 8: 'benefic', 9: 'malefic', 10: 'benefic',
+};
+const DEEPTAMSA = { Sun: 15, Moon: 12, Mars: 8, Mercury: 7, Jupiter: 9, Venus: 7, Saturn: 9 };
+
+/** Does `planet` at `planetLon` cast a Tajika aspect on `targetLon`? 'benefic'|'malefic'|null. */
+function tajikaAspectOnPoint(planet, planetLon, targetLon) {
+  const pR = Math.floor(((planetLon % 360) + 360) % 360 / 30) % 12;
+  const tR = Math.floor(((targetLon % 360) + 360) % 360 / 30) % 12;
+  const offset = (((tR - pR) % 12) + 12) % 12;
+  const kind = ASPECT_BY_OFFSET[offset];
+  if (!kind) return null;
+  const sameDegTarget = tR * 30 + (planetLon % 30);
+  const orb = DEEPTAMSA[planet] || 0;
+  const diff = Math.abs(targetLon - sameDegTarget);
+  if (Math.min(diff, 360 - diff) > orb) return null;
+  return kind;
+}
+
+module.exports = { panchaVargeeyaBala, isOwnHadda, exaltLon, d3Rashi, d9Rashi, tajikaAspectOnPoint };
