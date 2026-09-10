@@ -206,6 +206,7 @@ export function TopMenuBar() {
         { label: 'Rectification Tool', key: 'rectification_tool' },
         { label: 'Jamakkol Prasnam', key: 'jamakkol' },
         { label: 'Nalla Neram (Gowri/Hora)', key: 'nallaneram' },
+        { label: 'Tamil Calendar & Festivals', key: 'tamilcalendar' },
       ],
     },
     {
@@ -419,6 +420,9 @@ export function TopMenuBar() {
         break;
       case 'nallaneram':
         router.push('/nallaneram');
+        break;
+      case 'tamilcalendar':
+        router.push('/tamil-calendar');
         break;
 
       // Windows Menu — there is no MDI window system on the web, so these repurpose
