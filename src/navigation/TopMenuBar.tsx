@@ -90,7 +90,7 @@ export function TopMenuBar() {
     dashas: '/report?section=dasha',
     transits: '/report?section=transit',
     varshaphala: '/varshaphala',
-    compatibility: '/report?chart=compatibility',
+    compatibility: '/porutham',
     astronomy: '/report?section=grahaBala',
   };
   const REPORTS_NOT_YET_BUILT = new Set<string>([]);
