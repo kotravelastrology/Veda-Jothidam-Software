@@ -13,6 +13,7 @@ function deriveChartId(chartContext) {
   const canonical = JSON.stringify({
     year, month, day, hour, minute, second, latitude, longitude, utcOffsetMinutes,
     ayanamsha: chartContext.ayanamsha, houseSystem: chartContext.houseSystem,
+    nodeType: chartContext.nodeType,
   });
   return crypto.createHash('sha256').update(canonical).digest('hex').slice(0, 16);
 }

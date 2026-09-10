@@ -1,5 +1,5 @@
 const { calculateChart } = require('../ephemeris/swissEphemeris');
-const { meanNodeLongitude } = require('../ephemeris/siderealPositions');
+const { nodeLongitude } = require('../ephemeris/siderealPositions');
 
 /**
  * The 12 Rasi in order from Mesha. This is the universal sidereal-zodiac
@@ -65,7 +65,7 @@ function houseOfLongitude(longitude, cusps) {
  * before this was implemented.
  */
 function calculateParashariChart(chartContext) {
-  const { input, ayanamsha, houseSystem } = chartContext;
+  const { input, ayanamsha, houseSystem, nodeType = 'mean' } = chartContext;
   const chart = calculateChart({ ...input, ayanamsa: ayanamsha, houseSystem });
 
   const lagnaLongitude = chart.houses.ascendant;
@@ -82,7 +82,7 @@ function calculateParashariChart(chartContext) {
     ]),
   );
 
-  const rahuLongitude = meanNodeLongitude(chart.julianDay, ayanamsha);
+  const rahuLongitude = nodeLongitude(chart.julianDay, ayanamsha, nodeType);
   const ketuLongitude = (rahuLongitude + 180) % 360;
   grahas.Rahu = {
     longitude: rahuLongitude,
@@ -101,6 +101,7 @@ function calculateParashariChart(chartContext) {
     julianDay: chart.julianDay,
     ayanamsha,
     houseSystem,
+    nodeType,
     lagna,
     mc: chart.houses.mc,
     cusps: chart.houses.cusps,

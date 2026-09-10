@@ -61,7 +61,35 @@ for (const name of expectedGrahas) {
 
 // Bhava now uses the Porphyrius (= Sripati Paddhati) house system by S2's default.
 assert.equal(chart.houseSystem, 'Porphyrius');
+assert.equal(chart.nodeType, 'mean');
 assert.equal(chart.cusps.length, 13); // 1-indexed, index 0 unused
+
+// Regression pin — the Lagna and cusps are SIDEREAL. @swisseph/node's
+// calculateHouses returns tropical angles, so swissEphemeris.js subtracts the
+// ayanamsha; without that the Lagna lands ~24deg (a whole sign) adrift of the
+// sidereal grahas. For this 1990-05-15 07:30 IST Erode / Lahiri chart the Sun
+// is at sidereal Vrishabha 0.27deg and rose ~1.5h earlier, so it sits in the
+// 12th house and the Lagna is Vrishabha ~22.5deg (NOT Mithuna, which is the
+// tropical value mistakenly read as sidereal).
+assert.equal(chart.lagna.rasi, 'Vrishabha');
+assert.ok(Math.abs(chart.lagna.longitude - 52.5456) < 0.01, `Lagna longitude ${chart.lagna.longitude}`);
+assert.equal(chart.grahas.Sun.rasi, 'Vrishabha');
+assert.equal(chart.grahas.Sun.house, 12);
+assert.ok(Math.abs(chart.grahas.Sun.longitude - 30.2685) < 0.01, `Sun longitude ${chart.grahas.Sun.longitude}`);
+
+// Selecting a different ayanamsha shifts the whole sidereal frame (grahas and
+// Lagna together) by the ayanamsha difference — Lahiri vs Raman ~1.45deg here.
+const ramanChart = calculateParashariChart({ ...profile.chartContext, ayanamsha: 'Raman' });
+const lagnaShift = ((ramanChart.lagna.longitude - chart.lagna.longitude) % 360 + 360) % 360;
+assert.ok(lagnaShift > 1.2 && lagnaShift < 1.7, `Lahiri->Raman Lagna shift ${lagnaShift}`);
+const sunShift = ((ramanChart.grahas.Sun.longitude - chart.grahas.Sun.longitude) % 360 + 360) % 360;
+assert.ok(Math.abs(sunShift - lagnaShift) < 1e-6, 'Sun and Lagna shift by the same ayanamsha delta');
+
+// True-node option moves Rahu off the mean-node value (by up to ~1.5deg here).
+const trueNodeChart = calculateParashariChart({ ...profile.chartContext, nodeType: 'true' });
+assert.equal(trueNodeChart.nodeType, 'true');
+assert.notEqual(trueNodeChart.grahas.Rahu.longitude, chart.grahas.Rahu.longitude);
+assert.ok(Math.abs(trueNodeChart.grahas.Rahu.longitude - chart.grahas.Rahu.longitude) < 2);
 
 // Ketu is always exactly opposite Rahu (Mean Node convention).
 const expectedKetu = (chart.grahas.Rahu.longitude + 180) % 360;

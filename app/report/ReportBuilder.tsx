@@ -8,6 +8,16 @@ import { ChartTypeSelector } from '@/src/charts/ChartTypeSelector';
 import { ChartDisplay } from '@/src/charts/ChartDisplay';
 import { getChartById, type ChartCategory } from '@/src/charts/chartTypes';
 import { getChartLibrary } from '@/src/portal/ChartLibraryManager';
+import { useSettings } from '@/src/ui/SettingsPanel';
+
+// Settings values (lowercase UI keys) → the governed chart-context names
+// (@swisseph/node SiderealMode / HouseSystem keys) the engine expects.
+const AYANAMSHA_MAP: Record<string, string> = {
+  lahiri: 'Lahiri', raman: 'Raman', krishnamurti: 'Krishnamurti', truecitra: 'TrueCitra',
+};
+const HOUSE_SYSTEM_MAP: Record<string, string> = {
+  porphyrius: 'Porphyrius', placidus: 'Placidus', whole: 'WholeSign', equal: 'Equal', koch: 'Koch',
+};
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
 const CHART_POINTS = ['Lagna', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -61,6 +71,8 @@ function ProfileSection({ report }: { report: ReportData }) {
         <dt className="text-ink-soft">தேதி/நேரம்</dt>
         <dd>{report.input.year}-{String(report.input.month).padStart(2, '0')}-{String(report.input.day).padStart(2, '0')} {String(report.input.hour).padStart(2, '0')}:{String(report.input.minute).padStart(2, '0')}</dd>
         <dt className="text-ink-soft">இடம்</dt><dd>{report.input.placeName ?? `${report.input.latitude}, ${report.input.longitude}`}</dd>
+        <dt className="text-ink-soft">அயனாம்சம் / பாவம்</dt>
+        <dd>{report.chart.ayanamsha} · {report.chart.houseSystem} · {report.chart.nodeType === 'true' ? 'true node' : 'mean node'}</dd>
         <dt className="text-ink-soft">Chart ID</dt><dd className="font-mono text-xs">{report.profile.chartId}</dd>
       </dl>
     </div>
@@ -721,6 +733,7 @@ export default function ReportBuilder() {
   const [report, setReport] = useState<ReportData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { settings } = useSettings();
   const [enabled, setEnabled] = useState<Record<string, boolean>>(
     Object.fromEntries(SECTIONS.map((s) => [s.id, true])),
   );
@@ -823,6 +836,9 @@ export default function ReportBuilder() {
         longitude: birthData.longitude,
         utcOffsetMinutes: birthData.utcOffset,
         ianaTimeZone: 'Asia/Kolkata',
+        ayanamsha: AYANAMSHA_MAP[settings.ayanamsha] ?? 'Lahiri',
+        houseSystem: HOUSE_SYSTEM_MAP[settings.houseSystem] ?? 'Porphyrius',
+        nodeType: settings.nodeType === 'true' ? 'true' : 'mean',
       };
       const result = await computeReport(formInput);
       setReport(result);

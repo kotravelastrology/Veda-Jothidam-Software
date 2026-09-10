@@ -15,6 +15,11 @@ export interface BirthFormInput {
   latitude: number;
   longitude: number;
   placeName: string;
+  /** Optional calculation options from Settings; each defaults inside the
+   * governed chart context (Lahiri / Porphyrius / mean node) when omitted. */
+  ayanamsha?: string;
+  houseSystem?: string;
+  nodeType?: 'mean' | 'true';
 }
 
 export async function computeReport(input: BirthFormInput) {

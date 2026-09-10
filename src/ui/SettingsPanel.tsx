@@ -6,8 +6,9 @@ export interface Settings {
   theme: 'light' | 'dark' | 'system';
   fontSize: 'small' | 'medium' | 'large';
   language: 'en' | 'ta';
-  ayanamsha: 'lahiri' | 'raman' | 'krishnamurti' | 'true' | 'sayana';
-  houseSystem: 'placidus' | 'koch' | 'regiomontanus' | 'campanus' | 'equal' | 'whole';
+  ayanamsha: 'lahiri' | 'raman' | 'krishnamurti' | 'truecitra';
+  houseSystem: 'porphyrius' | 'placidus' | 'whole' | 'equal' | 'koch';
+  nodeType: 'mean' | 'true';
   dashaSystem: 'vimshottari' | 'ashtottari' | 'yogini' | 'kalachakra';
   reportFormat: 'detailed' | 'summary' | 'minimal';
   decimalPlaces: 2 | 3 | 4 | 5;
@@ -21,7 +22,8 @@ const DEFAULT_SETTINGS: Settings = {
   fontSize: 'medium',
   language: 'en',
   ayanamsha: 'lahiri',
-  houseSystem: 'placidus',
+  houseSystem: 'porphyrius',
+  nodeType: 'mean',
   dashaSystem: 'vimshottari',
   reportFormat: 'detailed',
   decimalPlaces: 2,
@@ -38,7 +40,9 @@ export function useSettings() {
     const stored = localStorage.getItem('kotravel-settings');
     if (stored) {
       try {
-        setSettings(JSON.parse(stored));
+        // Merge over defaults so keys added in newer versions (e.g. nodeType)
+        // are never left undefined for someone with older stored settings.
+        setSettings({ ...DEFAULT_SETTINGS, ...JSON.parse(stored) });
       } catch (e) {
         console.error('Failed to load settings:', e);
       }
@@ -141,11 +145,10 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   onChange={(e) => updateSettings({ ayanamsha: e.target.value as any })}
                   className="px-3 py-1 text-sm bg-ink-soft/10 border border-line rounded"
                 >
-                  <option value="lahiri">Lahiri (1950)</option>
+                  <option value="lahiri">Lahiri / Chitrapaksha (default)</option>
                   <option value="raman">Raman</option>
-                  <option value="krishnamurti">Krishnamurti</option>
-                  <option value="true">True (Nirayana)</option>
-                  <option value="sayana">Sayana (Tropical)</option>
+                  <option value="krishnamurti">Krishnamurti (KP)</option>
+                  <option value="truecitra">True Chitrapaksha</option>
                 </select>
               </div>
 
@@ -156,12 +159,23 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   onChange={(e) => updateSettings({ houseSystem: e.target.value as any })}
                   className="px-3 py-1 text-sm bg-ink-soft/10 border border-line rounded"
                 >
+                  <option value="porphyrius">Porphyry / Sripati (default)</option>
                   <option value="placidus">Placidus</option>
-                  <option value="koch">Koch</option>
-                  <option value="regiomontanus">Regiomontanus</option>
-                  <option value="campanus">Campanus</option>
-                  <option value="equal">Equal</option>
                   <option value="whole">Whole Sign</option>
+                  <option value="equal">Equal</option>
+                  <option value="koch">Koch</option>
+                </select>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-ink">Lunar Node (Rahu/Ketu)</label>
+                <select
+                  value={settings.nodeType}
+                  onChange={(e) => updateSettings({ nodeType: e.target.value as any })}
+                  className="px-3 py-1 text-sm bg-ink-soft/10 border border-line rounded"
+                >
+                  <option value="mean">Mean node (default)</option>
+                  <option value="true">True node</option>
                 </select>
               </div>
 

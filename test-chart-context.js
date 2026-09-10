@@ -29,10 +29,20 @@ for (const field of ['year', 'latitude', 'longitude', 'utcOffsetMinutes', 'ianaT
 
 assert.throws(() => createChartContext({ ...baseInput, latitude: 91 }), UnsupportedInputError);
 assert.throws(() => createChartContext({ ...baseInput, longitude: -181 }), UnsupportedInputError);
-assert.throws(() => createChartContext({ ...baseInput, ayanamsha: 'Raman' }), UnsupportedInputError);
-assert.throws(() => createChartContext({ ...baseInput, houseSystem: 'Koch' }), UnsupportedInputError);
-assert.equal(createChartContext({ ...baseInput, houseSystem: 'Placidus' }).houseSystem, 'Placidus');
+assert.throws(() => createChartContext({ ...baseInput, ayanamsha: 'FaganBradley' }), UnsupportedInputError);
+assert.throws(() => createChartContext({ ...baseInput, houseSystem: 'Regiomontanus' }), UnsupportedInputError);
+assert.throws(() => createChartContext({ ...baseInput, nodeType: 'osculating' }), UnsupportedInputError);
 assert.throws(() => createChartContext({ ...baseInput, calendarMode: 'gregorian-only' }), UnsupportedInputError);
+// Default node convention plus the user-selectable ayanamsha / house / node options
+assert.equal(context.nodeType, 'mean');
+assert.equal(createChartContext({ ...baseInput, ayanamsha: 'Raman' }).ayanamsha, 'Raman');
+assert.equal(createChartContext({ ...baseInput, ayanamsha: 'Krishnamurti' }).ayanamsha, 'Krishnamurti');
+assert.equal(createChartContext({ ...baseInput, ayanamsha: 'TrueCitra' }).ayanamsha, 'TrueCitra');
+assert.equal(createChartContext({ ...baseInput, houseSystem: 'Placidus' }).houseSystem, 'Placidus');
+assert.equal(createChartContext({ ...baseInput, houseSystem: 'WholeSign' }).houseSystem, 'WholeSign');
+assert.equal(createChartContext({ ...baseInput, houseSystem: 'Equal' }).houseSystem, 'Equal');
+assert.equal(createChartContext({ ...baseInput, houseSystem: 'Koch' }).houseSystem, 'Koch');
+assert.equal(createChartContext({ ...baseInput, nodeType: 'true' }).nodeType, 'true');
 
 const source = {
   title: 'Panchangam Calculations', author: 'Karanam Ramakumar',

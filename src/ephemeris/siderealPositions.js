@@ -20,25 +20,35 @@ function sunMoonLongitudes(julianDay, ayanamsha = 'Lahiri') {
 }
 
 /**
- * Rahu's sidereal longitude, as the Mean lunar node — S6's follow-up source
- * check (*Rahu & Kethu in Bhrigu Astrology*, Srinivasan Shastry, 2009, file
- * page 5 / printed page xii) describes Rahu/Ketu's motion as "always
- * retrograde" at a constant "rate of 19 degrees 20 minutes per year": the
- * Mean Node's defining behaviour (~19.355 deg/year, a smooth constant
- * regression). The True Node's motion is not constant and periodically
- * turns direct for short spells, which this source's description does not
- * allow for — so Mean Node, not True Node, is this project's convention.
+ * Rahu's sidereal longitude. `nodeType` selects the lunar-node model:
+ *
+ *  - `'mean'` (project default) — S6's follow-up source check (*Rahu & Kethu
+ *    in Bhrigu Astrology*, Srinivasan Shastry, 2009, file page 5 / printed
+ *    page xii) describes Rahu/Ketu's motion as "always retrograde" at a
+ *    constant "rate of 19 degrees 20 minutes per year": the Mean Node's
+ *    defining behaviour (~19.355 deg/year, a smooth constant regression).
+ *  - `'true'` — the osculating (true) lunar node, whose motion is not
+ *    constant and periodically turns direct for short spells. Offered as an
+ *    explicit opt-in because many KP and modern-Vedic practitioners cast the
+ *    nodes from the true node (e.g. *Krishnamurti Paddhati*, K. S. Krishnamurti).
+ *
  * Ketu is always exactly Rahu + 180 degrees, kept separate from `PLANETS`
  * in swissEphemeris.js since Ashtakavarga/Shadbala/Nabhasa-Yoga/Karaka each
  * have their own BPHS citation excluding the nodes from those calculations.
  */
-function meanNodeLongitude(julianDay, ayanamsha = 'Lahiri') {
+function nodeLongitude(julianDay, ayanamsha = 'Lahiri', nodeType = 'mean') {
   const siderealMode = SiderealMode[ayanamsha];
   if (siderealMode === undefined) throw new RangeError(`Unsupported ayanamsa: ${ayanamsha}`);
+  const body = nodeType === 'true' ? LunarPoint.TrueNode : LunarPoint.MeanNode;
   setSiderealMode(siderealMode);
   const flags = CalculationFlag.SwissEphemeris | CalculationFlag.Sidereal;
-  const rahu = calculatePosition(julianDay, LunarPoint.MeanNode, flags);
+  const rahu = calculatePosition(julianDay, body, flags);
   return rahu.longitude;
+}
+
+/** Back-compat alias — the mean node is the project default (see nodeLongitude). */
+function meanNodeLongitude(julianDay, ayanamsha = 'Lahiri') {
+  return nodeLongitude(julianDay, ayanamsha, 'mean');
 }
 
 /**
@@ -65,5 +75,5 @@ function sunsetJulianDay(julianDayAtOrAfterSunrise, latitude, longitude, altitud
 }
 
 module.exports = {
-  sunMoonLongitudes, meanNodeLongitude, sunriseJulianDay, sunsetJulianDay,
+  sunMoonLongitudes, nodeLongitude, meanNodeLongitude, sunriseJulianDay, sunsetJulianDay,
 };

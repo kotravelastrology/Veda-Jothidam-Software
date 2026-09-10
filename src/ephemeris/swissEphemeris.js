@@ -3,11 +3,37 @@ const {
   calculatePosition,
   calculateHouses,
   setSiderealMode,
+  getAyanamsa,
   Planet,
   HouseSystem,
   SiderealMode,
   CalculationFlag,
 } = require('@swisseph/node');
+
+const norm360 = (deg) => ((deg % 360) + 360) % 360;
+
+/**
+ * `@swisseph/node`'s `calculateHouses` wraps `swe_houses()`, which has no
+ * flags parameter and therefore always returns TROPICAL cusps/angles —
+ * it does not honour the ambient `swe_set_sid_mode`. Swiss Ephemeris's
+ * documented manual equivalent of `swe_houses_ex(..., SEFLG_SIDEREAL)` is
+ * to subtract the ayanamsha (from `swe_get_ayanamsa_ut`, which does honour
+ * the sidereal mode) from every angle and cusp. Without this the Lagna and
+ * all Bhava placements come out ~24 degrees adrift of the sidereal grahas.
+ */
+function siderealizeHouses(houses, jd) {
+  const ayanamsa = getAyanamsa(jd);
+  const shift = (deg) => norm360(deg - ayanamsa);
+  const cusps = houses.cusps.map((c, i) => (i === 0 ? c : shift(c))); // cusps is 1-indexed; [0] is unused
+  return {
+    ...houses,
+    ayanamsaApplied: ayanamsa,
+    cusps,
+    ascendant: shift(houses.ascendant),
+    mc: shift(houses.mc),
+    armc: houses.armc, // sidereal-time value, not an ecliptic longitude — left as-is
+  };
+}
 // Read @swisseph/node's own version for display purposes only. Avoids
 // require.resolve('@swisseph/node') (it does not reliably return a real
 // filesystem path when a bundler, e.g. a Next.js Server Action build,
@@ -53,7 +79,7 @@ function calculateChart({ year, month, day, hour, minute = 0, second = 0,
   setSiderealMode(siderealMode);
   const flags = CalculationFlag.SwissEphemeris | CalculationFlag.Speed | CalculationFlag.Sidereal;
   const positions = Object.fromEntries(PLANETS.map(([name, body]) => [name, calculatePosition(jd, body, flags)]));
-  const houses = calculateHouses(jd, latitude, longitude, system);
+  const houses = siderealizeHouses(calculateHouses(jd, latitude, longitude, system), jd);
   return {
     engine: '@swisseph/node',
     engineVersion: packageMetadata.version,

@@ -1,11 +1,26 @@
-const SUPPORTED_AYANAMSHAS = ['Lahiri'];
+// Ayanamsha options are named exactly as @swisseph/node's `SiderealMode` keys.
+// 'Lahiri' (Chitrapaksha) stays the project default and the only one required
+// for the governed S6-S12 calculators; the others are user-selectable
+// alternatives, each a standard, widely-published ayanamsha:
+//   'Raman'       — B. V. Raman's ayanamsha (Raman's ephemerides / *A Manual
+//                   of Hindu Astrology*).
+//   'Krishnamurti'— the KP ayanamsha (SE_SIDM_KRISHNAMURTI), used by
+//                   *Krishnamurti Paddhati* practice.
+//   'TrueCitra'   — true Chitrapaksha (Spica fixed at 180deg 00'), the modern
+//                   "true Lahiri" variant.
+const SUPPORTED_AYANAMSHAS = ['Lahiri', 'Raman', 'Krishnamurti', 'TrueCitra'];
 // 'Porphyrius' is the engine's name for simple ecliptic-arc trisection between
 // the four angular cusps, which S6's follow-up source check (Sripatipaddhati,
 // V. Subrahmanya Sastri translation) confirmed is mathematically identical to
-// Sripati Paddhati -- reproduces that source's own worked example exactly.
-// 'Placidus' remains supported but is not used as the default by any current
-// calculator (see S6-BHAVA-001.md).
-const SUPPORTED_HOUSE_SYSTEMS = ['Placidus', 'Porphyrius'];
+// Sripati Paddhati -- reproduces that source's own worked example exactly, and
+// stays the default. 'Placidus' (semi-arc), 'WholeSign' (sign = house, the
+// classical North/East-Indian bhava), 'Equal' (30deg from Lagna) and 'Koch'
+// are standard alternative house systems offered as user choices.
+const SUPPORTED_HOUSE_SYSTEMS = ['Porphyrius', 'Placidus', 'WholeSign', 'Equal', 'Koch'];
+// Lunar-node model — see nodeLongitude() in ephemeris/siderealPositions.js.
+// 'mean' is the project default; 'true' (osculating node) is the KP / modern
+// opt-in.
+const SUPPORTED_NODE_TYPES = ['mean', 'true'];
 const SUPPORTED_CALENDAR_MODES = ['tirukanita', 'vakya'];
 const SUPPORTED_DAY_BOUNDARIES = ['sunrise'];
 
@@ -27,7 +42,7 @@ function createChartContext({
   year, month, day, hour, minute = 0, second = 0,
   ianaTimeZone, utcOffsetMinutes,
   latitude, longitude, placeName,
-  ayanamsha = 'Lahiri', houseSystem = 'Porphyrius',
+  ayanamsha = 'Lahiri', houseSystem = 'Porphyrius', nodeType = 'mean',
   calendarMode, dayBoundary = 'sunrise',
 }) {
   const required = { year, month, day, hour, latitude, longitude, utcOffsetMinutes, ianaTimeZone, calendarMode };
@@ -48,6 +63,9 @@ function createChartContext({
   if (!SUPPORTED_HOUSE_SYSTEMS.includes(houseSystem)) {
     throw new UnsupportedInputError(`Unsupported house system: ${houseSystem}`, 'houseSystem');
   }
+  if (!SUPPORTED_NODE_TYPES.includes(nodeType)) {
+    throw new UnsupportedInputError(`Unsupported node type: ${nodeType}`, 'nodeType');
+  }
   if (!SUPPORTED_CALENDAR_MODES.includes(calendarMode)) {
     throw new UnsupportedInputError(`Unsupported calendar mode: ${calendarMode}`, 'calendarMode');
   }
@@ -63,6 +81,7 @@ function createChartContext({
     }),
     ayanamsha,
     houseSystem,
+    nodeType,
     calendarMode,
     dayBoundary,
     contextVersion: 'S2-001',
@@ -104,6 +123,7 @@ module.exports = {
   UnsupportedInputError,
   SUPPORTED_AYANAMSHAS,
   SUPPORTED_HOUSE_SYSTEMS,
+  SUPPORTED_NODE_TYPES,
   SUPPORTED_CALENDAR_MODES,
   SUPPORTED_DAY_BOUNDARIES,
 };
