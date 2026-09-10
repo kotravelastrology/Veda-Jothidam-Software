@@ -83,13 +83,15 @@ export function DivisionalChartRenderer({ report, chartId }: DivisionalChartRend
 
   const theme = THEME_COLORS[chartInfo.theme as keyof typeof THEME_COLORS];
 
-  // Get D-chart positions from vargas
-  const lagnaD = report.vargas.Lagna?.[vargaKey];
+  // report.vargas[planet][vargaKey] is { name, signIndex, sign } — extract the sign string for display
+  const lagnaD = report.vargas.Lagna?.[vargaKey]?.sign;
   const grahasD = Object.fromEntries(
-    Object.entries(report.vargas).map(([planet, vargas]: any) => [
-      planet,
-      vargas?.[vargaKey],
-    ]).filter(([, d]) => d)
+    Object.entries(report.vargas)
+      .filter(([planet]) => planet !== 'Lagna')
+      .map(([planet, vargas]: any) => [
+        planet,
+        vargas?.[vargaKey]?.sign,
+      ]).filter(([, d]) => d)
   );
 
   return (

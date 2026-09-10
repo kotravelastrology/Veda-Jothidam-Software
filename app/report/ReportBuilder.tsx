@@ -6,6 +6,7 @@ import { computeReport, type BirthFormInput } from './actions';
 import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
 import { ChartTypeSelector } from '@/src/charts/ChartTypeSelector';
 import { ChartDisplay } from '@/src/charts/ChartDisplay';
+import { getChartById, type ChartCategory } from '@/src/charts/chartTypes';
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
 const CHART_POINTS = ['Lagna', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -724,6 +725,21 @@ export default function ReportBuilder() {
   );
   const [order, setOrder] = useState<string[]>(SECTIONS.map((s) => s.id));
   const [selectedChartId, setSelectedChartId] = useState<string>('D1-rasi');
+  const [initialChartCategory, setInitialChartCategory] = useState<ChartCategory | undefined>(undefined);
+
+  // Deep-link support: /report?chart=<chartId> jumps straight to that chart's
+  // category and pre-selects it once a report is available (menu bar navigation).
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const chartParam = params.get('chart');
+    if (chartParam) {
+      const match = getChartById(chartParam);
+      if (match) {
+        setSelectedChartId(match.id);
+        setInitialChartCategory(match.category);
+      }
+    }
+  }, []);
 
   const move = (id: string, dir: -1 | 1) => {
     setOrder((prev) => {
@@ -788,7 +804,11 @@ export default function ReportBuilder() {
               <h2 className="font-[family-name:var(--font-tamil-serif)] text-2xl font-bold mb-6 text-ink">
                 ⭐ அட்டவணைகளைத் தேர்ந்தெடுக்கவும் (Select Chart Type)
               </h2>
-              <ChartTypeSelector selectedChartId={selectedChartId} onChartSelect={setSelectedChartId} />
+              <ChartTypeSelector
+                selectedChartId={selectedChartId}
+                onChartSelect={setSelectedChartId}
+                initialCategory={initialChartCategory}
+              />
             </div>
           </section>
 

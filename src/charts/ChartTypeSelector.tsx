@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { CHART_TYPES, getChartsByCategory, type ChartType, type ChartCategory } from './chartTypes';
 
 interface ChartTypeSelectorProps {
   selectedChartId?: string;
   onChartSelect: (chartId: string) => void;
+  initialCategory?: ChartCategory;
 }
 
 const CATEGORIES: { value: ChartCategory; label: string; labelTamil: string }[] = [
@@ -15,9 +16,15 @@ const CATEGORIES: { value: ChartCategory; label: string; labelTamil: string }[] 
   { value: 'analysis', label: 'Analysis Charts', labelTamil: 'பகுப்பாய்வு அட்டவணைகள்' },
 ];
 
-export function ChartTypeSelector({ selectedChartId, onChartSelect }: ChartTypeSelectorProps) {
-  const [activeCategory, setActiveCategory] = useState<ChartCategory>('standard');
+export function ChartTypeSelector({ selectedChartId, onChartSelect, initialCategory }: ChartTypeSelectorProps) {
+  const [activeCategory, setActiveCategory] = useState<ChartCategory>(initialCategory || 'standard');
   const chartsInCategory = getChartsByCategory(activeCategory);
+
+  useEffect(() => {
+    if (initialCategory) {
+      setActiveCategory(initialCategory);
+    }
+  }, [initialCategory]);
 
   return (
     <div className="space-y-4">

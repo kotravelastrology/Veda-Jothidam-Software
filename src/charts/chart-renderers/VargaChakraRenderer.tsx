@@ -26,7 +26,12 @@ const VARGAS = [
 ];
 
 export function VargaChakraRenderer({ report }: VargaChakraRendererProps) {
-  const lagnaPositions = report.vargas || {};
+  // report.vargas is keyed by planet (Lagna, Sun, ...), each holding { D1: {sign,...}, D9: {sign,...}, ... }.
+  // This chakra shows the Lagna's sign per D-chart, so read report.vargas.Lagna and unwrap `.sign`.
+  const lagnaVargas = report.vargas?.Lagna || {};
+  const lagnaPositions = Object.fromEntries(
+    Object.entries(lagnaVargas).map(([key, v]: any) => [key, v?.sign])
+  );
 
   // Get all implemented vargas
   const implementedVargas = VARGAS.filter(v => lagnaPositions[v.name]);

@@ -7,12 +7,15 @@ interface NavamshaChartRendererProps {
 }
 
 export function NavamshaChartRenderer({ report }: NavamshaChartRendererProps) {
-  const lagnaD9 = report.vargas.Lagna?.D9;
+  // report.vargas[planet].D9 is { name, signIndex, sign } — extract the sign string for display
+  const lagnaD9 = report.vargas.Lagna?.D9?.sign;
   const grahasD9 = Object.fromEntries(
-    Object.entries(report.vargas).map(([planet, vargas]: any) => [
-      planet,
-      vargas?.D9,
-    ]).filter(([, d9]) => d9)
+    Object.entries(report.vargas)
+      .filter(([planet]) => planet !== 'Lagna')
+      .map(([planet, vargas]: any) => [
+        planet,
+        vargas?.D9?.sign,
+      ]).filter(([, d9]) => d9)
   );
 
   return (

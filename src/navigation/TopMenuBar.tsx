@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useNavigation } from './navigationContext';
 import { useUIManager } from '../ui/useUIManager';
 import { SettingsPanel } from '../ui/SettingsPanel';
@@ -24,6 +25,35 @@ export function TopMenuBar() {
   const { currentMenu, setCurrentMenu, setBreadcrumb, setSidebarOpen, sidebarOpen } = useNavigation();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [uiState, uiActions] = useUIManager();
+  const router = useRouter();
+  const menuBarRef = useRef<HTMLDivElement>(null);
+
+  // Click-outside-to-close: the dropdown is driven by `openMenu` state (click-based),
+  // not CSS :hover, so it works reliably with mouse, touch, and automated testing.
+  useEffect(() => {
+    if (!openMenu) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuBarRef.current && !menuBarRef.current.contains(event.target as Node)) {
+        setOpenMenu(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openMenu]);
+
+  // Maps Charts-menu keys to real chart ids from src/charts/chartTypes.ts
+  const CHART_KEY_TO_ID: Record<string, string> = {
+    rasi: 'D1-rasi',
+    navamsha: 'D9-navamsha',
+    divisional: 'D9-navamsha',
+    varga: 'varga-chakra',
+    sudarshan: 'sudarshan-chakra',
+    dasha: 'dasha-vimsottari',
+    transit: 'transit',
+    ashtakavarga: 'ashtakavarga',
+  };
+  // Not yet implemented anywhere in the app — kept as honest "coming soon" rather than a dead link
+  const CHARTS_NOT_YET_BUILT = new Set(['ephemeris', 'rectification', 'composite']);
 
   const menus: MenuItem[] = [
     {
@@ -154,10 +184,20 @@ export function TopMenuBar() {
   const handleSubmenuClick = useCallback((submenuKey: string) => {
     setOpenMenu(null);
 
+    // Charts menu — navigate straight to the report builder with the chart pre-selected
+    if (CHART_KEY_TO_ID[submenuKey]) {
+      router.push(`/report?chart=${CHART_KEY_TO_ID[submenuKey]}`);
+      return;
+    }
+    if (CHARTS_NOT_YET_BUILT.has(submenuKey)) {
+      alert('This chart type is not implemented yet — coming in a future phase.');
+      return;
+    }
+
     switch (submenuKey) {
       // File Menu
       case 'new':
-        // Navigate to home to start new chart
+        router.push('/report');
         break;
       case 'open':
         // Handle: Open Chart dialog
@@ -192,8 +232,7 @@ export function TopMenuBar() {
 
       // Edit Menu
       case 'birthdata':
-        // Open birth data form - Coming in Phase 31.2
-        alert('Birth Data Editor - Coming in Phase 31.2');
+        router.push('/report');
         break;
       case 'notes':
         alert('Chart Notes - Coming in Phase 31.2');
@@ -257,7 +296,7 @@ export function TopMenuBar() {
       default:
         break;
     }
-  }, [uiActions, setCurrentMenu]);
+  }, [uiActions, setCurrentMenu, router]);
 
   useKeyboardShortcuts({
     onSettings: uiActions.openSettings,
@@ -286,11 +325,12 @@ export function TopMenuBar() {
           </span>
 
           {/* Menu Items */}
-          <div className="flex gap-1 ml-4 flex-1">
+          <div ref={menuBarRef} className="flex gap-1 ml-4 flex-1">
             {menus.map((menu) => (
               <div key={menu.key} className="relative group">
                 <button
                   onClick={() => handleMenuClick(menu.key)}
+                  aria-expanded={openMenu === menu.key}
                   className={`px-3 py-2 text-sm font-medium rounded hover:bg-ink-soft/10 transition-colors ${
                     currentMenu === menu.key ? 'bg-saffron text-ink' : ''
                   }`}
@@ -298,9 +338,14 @@ export function TopMenuBar() {
                   {menu.label}
                 </button>
 
-                {/* Dropdown Submenu */}
+                {/* Dropdown Submenu — visibility driven by click state (openMenu),
+                    with :hover as a bonus for mouse users who hover across the bar */}
                 {menu.submenu && (
-                  <div className="absolute left-0 mt-0 w-56 bg-surface border border-line shadow-lg rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-150 py-1 z-50">
+                  <div
+                    className={`absolute left-0 mt-0 w-56 bg-surface border border-line shadow-lg rounded-md transition-all duration-150 py-1 z-50 group-hover:opacity-100 group-hover:visible ${
+                      openMenu === menu.key ? 'opacity-100 visible' : 'opacity-0 invisible'
+                    }`}
+                  >
                     {menu.submenu.map((submenu) =>
                       submenu.key === 'divider' ? (
                         <div key="divider" className="h-px bg-line my-1" />
