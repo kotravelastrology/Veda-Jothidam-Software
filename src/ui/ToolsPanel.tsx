@@ -214,8 +214,115 @@ function DateConverter() {
   );
 }
 
+// ── KP Horary 1–249 ──────────────────────────────────────────────────────
+// Pure arithmetic (no ephemeris): the 249 Sign–Star–Sub intervals are the
+// 13 sign boundaries + 27 nakshatra starts + 9 Vimshottari-proportional sub
+// boundaries per nakshatra. Ported from the prior kp-muhurat-workspace
+// (birth_chart_app.py horary_number_detail).
+const KP_SIGNS = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+const KP_SIGN_LORDS = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter'];
+const KP_NAKS = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'Purva Phalguni', 'Uttara Phalguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Mula', 'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'];
+const KP_VIM_ORDER = ['Ketu', 'Venus', 'Sun', 'Moon', 'Mars', 'Rahu', 'Jupiter', 'Saturn', 'Mercury'];
+const KP_VIM_YEARS: Record<string, number> = { Ketu: 7, Venus: 20, Sun: 6, Moon: 10, Mars: 7, Rahu: 18, Jupiter: 16, Saturn: 19, Mercury: 17 };
+
+function kpDetailAt(lon: number) {
+  const l = ((lon % 360) + 360) % 360;
+  const span = 360 / 27;
+  const nak = Math.min(Math.floor(l / span), 26);
+  const starLord = KP_VIM_ORDER[nak % 9];
+  const within = l - nak * span;
+  let elapsed = 0;
+  const first = KP_VIM_ORDER.indexOf(starLord);
+  for (let step = 0; step < 9; step += 1) {
+    const lord = KP_VIM_ORDER[(first + step) % 9];
+    const sub = span * KP_VIM_YEARS[lord] / 120;
+    if (within < elapsed + sub + 1e-10) return { nakshatra: KP_NAKS[nak], starLord, subLord: lord };
+    elapsed += sub;
+  }
+  return { nakshatra: KP_NAKS[nak], starLord, subLord: KP_VIM_ORDER[(first + 8) % 9] };
+}
+
+const KP_249_INTERVALS = (() => {
+  const span = 360 / 27;
+  const set = new Set<number>();
+  for (let s = 0; s <= 12; s += 1) set.add(s * 30);
+  for (let nak = 0; nak < 27; nak += 1) {
+    const start = nak * span;
+    set.add(start);
+    const first = KP_VIM_ORDER.indexOf(KP_VIM_ORDER[nak % 9]);
+    let cursor = start;
+    for (let step = 0; step < 9; step += 1) {
+      cursor += span * KP_VIM_YEARS[KP_VIM_ORDER[(first + step) % 9]] / 120;
+      set.add(Math.round(cursor * 1e10) / 1e10);
+    }
+  }
+  const pts = [...set].sort((a, b) => a - b);
+  const iv: [number, number][] = [];
+  for (let i = 0; i < pts.length - 1; i += 1) if (pts[i + 1] - pts[i] > 1e-8) iv.push([pts[i], pts[i + 1]]);
+  return iv;
+})();
+
+function dms(v: number) {
+  const d = Math.floor(v);
+  const mF = (v - d) * 60;
+  const m = Math.floor(mF);
+  const s = Math.round((mF - m) * 60);
+  return `${d}°${String(m).padStart(2, '0')}'${String(s).padStart(2, '0')}"`;
+}
+
+function kpHoraryNumber(n: number) {
+  if (!Number.isInteger(n) || n < 1 || n > 249) return null;
+  const [start, end] = KP_249_INTERVALS[n - 1];
+  const mid = (start + end) / 2;
+  const detail = kpDetailAt(mid);
+  const signIndex = Math.floor(mid / 30);
+  return {
+    number: n,
+    startLongitude: dms(start),
+    endLongitude: dms(end),
+    sign: KP_SIGNS[signIndex],
+    signLord: KP_SIGN_LORDS[signIndex],
+    ...detail,
+  };
+}
+
+function KpHoraryNumberTool() {
+  const [num, setNum] = useState('1');
+  const n = parseInt(num, 10);
+  const detail = kpHoraryNumber(n);
+  return (
+    <div className="space-y-3">
+      <div>
+        <label className="block text-sm font-medium text-ink mb-2">KP Horary Number (1–249)</label>
+        <input
+          type="number" min={1} max={249} value={num}
+          onChange={(e) => setNum(e.target.value)}
+          className="w-full px-3 py-2 text-sm bg-ink-soft/10 border border-line rounded focus:outline-none focus:border-saffron"
+        />
+      </div>
+      {detail ? (
+        <div className="p-3 bg-saffron/10 border border-saffron/30 rounded text-sm">
+          <div className="font-medium text-ink mb-2">எண் {detail.number} — Sign · Star · Sub</div>
+          <div className="text-xs text-ink-soft space-y-1">
+            <div>பகுதி: <span className="text-ink">{detail.startLongitude} – {detail.endLongitude}</span></div>
+            <div>ராசி: <span className="text-saffron font-medium">{detail.sign}</span> (அதிபதி {detail.signLord})</div>
+            <div>நட்சத்திரம்: <span className="text-ink">{detail.nakshatra}</span></div>
+            <div>நட்சத்திர அதிபதி: <span className="text-saffron font-medium">{detail.starLord}</span></div>
+            <div>துணை அதிபதி (Sub Lord): <span className="text-saffron font-medium">{detail.subLord}</span></div>
+          </div>
+          <p className="text-[11px] text-ink-soft mt-2">
+            துல்லிய 1–249 Sign–Star–Sub பகுதி. முழு Horary cusp பலன் தனி கட்டம். (kp-muhurat engine port)
+          </p>
+        </div>
+      ) : (
+        <p className="text-sm text-rose">1 முதல் 249 வரை ஒரு எண் தேவை.</p>
+      )}
+    </div>
+  );
+}
+
 export function ToolsPanel({ isOpen, onClose }: ToolsPanelProps) {
-  const [activeTab, setActiveTab] = useState<'location' | 'timezone' | 'ayanamsha' | 'date'>('location');
+  const [activeTab, setActiveTab] = useState<'location' | 'timezone' | 'ayanamsha' | 'date' | 'kphorary'>('location');
 
   if (!isOpen) return null;
 
@@ -224,6 +331,7 @@ export function ToolsPanel({ isOpen, onClose }: ToolsPanelProps) {
     { id: 'timezone', label: 'Time Zone Converter', component: TimeZoneConverter },
     { id: 'ayanamsha', label: 'Ayanamsha Calculator', component: AyanamshaCalculator },
     { id: 'date', label: 'Date Converter', component: DateConverter },
+    { id: 'kphorary', label: 'KP Horary (1–249)', component: KpHoraryNumberTool },
   ];
 
   return (
@@ -263,6 +371,7 @@ export function ToolsPanel({ isOpen, onClose }: ToolsPanelProps) {
           {activeTab === 'timezone' && <TimeZoneConverter />}
           {activeTab === 'ayanamsha' && <AyanamshaCalculator />}
           {activeTab === 'date' && <DateConverter />}
+          {activeTab === 'kphorary' && <KpHoraryNumberTool />}
         </div>
 
         {/* Footer */}
