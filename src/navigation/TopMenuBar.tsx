@@ -203,6 +203,7 @@ export function TopMenuBar() {
         { label: 'Transit Finder', key: 'transit_finder' },
         { label: 'Rectification Tool', key: 'rectification_tool' },
         { label: 'Jamakkol Prasnam', key: 'jamakkol' },
+        { label: 'Nalla Neram (Gowri/Hora)', key: 'nallaneram' },
       ],
     },
     {
@@ -413,6 +414,9 @@ export function TopMenuBar() {
         break;
       case 'jamakkol':
         router.push('/jamakkol');
+        break;
+      case 'nallaneram':
+        router.push('/nallaneram');
         break;
 
       // Windows Menu — there is no MDI window system on the web, so these repurpose
