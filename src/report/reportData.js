@@ -16,6 +16,7 @@ const { calculateWealthYogas } = require('../chart/wealthYogas');
 const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
 const { calculateUpagrahas } = require('./upagraha');
 const { calculateNumerology } = require('./numerology');
+const { calculateNadiCombinations } = require('./nadiCombinations');
 
 const CLASSICAL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 
@@ -153,6 +154,11 @@ function buildReportData(birthInput) {
     day: profile.chartContext.input.day,
   });
 
+  const nadi = calculateNadiCombinations(profile.chartContext.input, {
+    ayanamsha: profile.chartContext.ayanamsha,
+    nodeType: profile.chartContext.nodeType,
+  });
+
   const transitRasiPositions = currentTransitRasiPositions(
     profile.chartContext.input.latitude,
     profile.chartContext.input.longitude,
@@ -191,6 +197,7 @@ function buildReportData(birthInput) {
     karaka,
     upagraha,
     numerology,
+    nadi,
     rajaYogas,
     doshas,
     lunarSolarYogas,

@@ -53,6 +53,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'karaka', label: 'காரகங்கள்' },
   { id: 'upagraha', label: 'உபகிரகங்கள்' },
   { id: 'numerology', label: 'எண் ஜோதிடம்' },
+  { id: 'nadi', label: 'பிருகு நந்தி நாடி' },
 ];
 
 function SourceRequiredBadge({ reason }: { reason?: string }) {
@@ -794,6 +795,129 @@ function NumerologySection({ report }: { report: ReportData }) {
   );
 }
 
+const NADI_PATTERN_LABEL: Record<string, string> = {
+  '1579': '1·5·7·9', '159': '1·5·9', '311': '3·11', '10': '10',
+};
+
+function NadiCombinationSection({ report }: { report: ReportData }) {
+  const nadi = (report as any).nadi;
+  const [view, setView] = useState<'A' | 'B'>('A');
+  const [pattern, setPattern] = useState<string>('1579');
+  const [mode, setMode] = useState<'AP' | 'BP'>('AP');
+  if (!nadi?.available) {
+    return (
+      <div className="mb-8">
+        <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">பிருகு நந்தி நாடி</h2>
+        <p className="text-sm text-ink-soft">இந்த அட்சரேகையில் Placidus பாவம் கிடைக்கவில்லை — நாடி சேர்க்கை காட்ட முடியவில்லை.</p>
+      </div>
+    );
+  }
+  const bPattern = pattern === '311' || pattern === '10' ? '1579' : pattern;
+  const aData = nadi.nadiCombinations?.[pattern]?.[mode];
+  const bData = nadi.bhavaCombinations?.[bPattern]?.[mode];
+  const pct = (v: number) => (
+    <span className={v >= 75 ? 'text-teal font-semibold' : v >= 40 ? 'text-ink' : 'text-ink-soft'}>{v}%</span>
+  );
+
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">பிருகு நந்தி நாடி</h2>
+      <div className="flex flex-wrap gap-2 mb-3 text-xs print:hidden">
+        <div className="flex rounded overflow-hidden border border-line">
+          {(['A', 'B'] as const).map((v) => (
+            <button key={v} onClick={() => setView(v)}
+              className={`px-2 py-1 ${view === v ? 'bg-saffron text-ink' : 'bg-surface text-ink-soft'}`}>
+              {v === 'A' ? 'கிரக சேர்க்கை (A)' : 'பாவ சேர்க்கை (B)'}
+            </button>
+          ))}
+        </div>
+        <select value={pattern} onChange={(e) => setPattern(e.target.value)}
+          className="px-2 py-1 bg-surface border border-line rounded text-ink">
+          {(view === 'A' ? ['1579', '159', '311', '10'] : ['1579', '159']).map((p) => (
+            <option key={p} value={p}>{NADI_PATTERN_LABEL[p]}</option>
+          ))}
+        </select>
+        <div className="flex rounded overflow-hidden border border-line">
+          {(['AP', 'BP'] as const).map((m) => (
+            <button key={m} onClick={() => setMode(m)}
+              className={`px-2 py-1 ${mode === m ? 'bg-saffron text-ink' : 'bg-surface text-ink-soft'}`}>
+              {m === 'AP' ? 'AP (பரிவர்த்தனை)' : 'BP'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {view === 'A' && aData?.available && (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-ink-soft border-b border-line">
+                <th className="text-left py-1">கிரகம்</th>
+                <th className="text-left py-1">அடுத்து</th>
+                <th className="text-right py-1">மீதம்</th>
+                <th className="text-left py-1 pl-4">சேரும் கிரகங்கள் (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {aData.rows.map((row: any) => (
+                <tr key={row.id} className="border-b border-line/40 align-top">
+                  <td className="py-1.5 font-medium">{POINT_LABEL[row.id] ?? row.id}{row.retrograde && <span className="text-rose"> ℞</span>}</td>
+                  <td className="py-1.5 text-ink-soft">{POINT_LABEL[row.next] ?? row.next}</td>
+                  <td className="py-1.5 text-right tabular-nums text-ink-soft">{row.remaining}%</td>
+                  <td className="py-1.5 pl-4">
+                    {row.planets.slice(0, 6).map((e: any, i: number) => (
+                      <span key={i} className="inline-block mr-3 whitespace-nowrap">
+                        {POINT_LABEL[e.id] ?? e.id}{e.aspect ? `·${e.aspect}` : ''} {pct(e.percentage)}
+                      </span>
+                    ))}
+                    {row.planets.length === 0 && <span className="text-ink-soft">—</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {view === 'B' && bData?.available && (
+        <div className="overflow-x-auto">
+          {bData.exchanges?.length > 0 && (
+            <p className="text-xs text-ink-soft mb-2">பரிவர்த்தனை: {bData.exchanges.map((x: string[]) => x.map((p) => POINT_LABEL[p] ?? p).join('↔')).join(', ')}</p>
+          )}
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="text-ink-soft border-b border-line">
+                <th className="text-left py-1">பாவம்</th>
+                <th className="text-left py-1 pl-4">செயல்படுத்தும் கிரகங்கள் (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bData.rows.map((row: any) => (
+                <tr key={row.house} className="border-b border-line/40 align-top">
+                  <td className="py-1.5 font-medium">{row.house}</td>
+                  <td className="py-1.5 pl-4">
+                    {row.planets.slice(0, 7).map((e: any, i: number) => (
+                      <span key={i} className="inline-block mr-3 whitespace-nowrap">
+                        {POINT_LABEL[e.id] ?? e.id}{e.aspect ? `·${e.aspect}` : ''}{e.overlap ? '⁺' : ''} {pct(e.percentage)}
+                      </span>
+                    ))}
+                    {row.planets.length === 0 && <span className="text-ink-soft">—</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      <p className="text-[11px] text-ink-soft mt-2">
+        R. G. Rao பிருகு நந்தி நாடி முறை · KP-Placidus பாவ இடைவெளிகள் · AP = பரிவர்த்தனை (mutual sign-lord exchange) பொருந்திய பிறகு.
+        முந்தைய kottravel-Nadi engine-லிருந்து port செய்யப்பட்டது.
+      </p>
+    </div>
+  );
+}
+
 const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData }>> = {
   profile: ProfileSection,
   lagnaGraha: LagnaGrahaSection,
@@ -809,6 +933,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   karaka: KarakaSection,
   upagraha: UpagrahaSection,
   numerology: NumerologySection,
+  nadi: NadiCombinationSection,
 };
 
 export default function ReportBuilder() {
