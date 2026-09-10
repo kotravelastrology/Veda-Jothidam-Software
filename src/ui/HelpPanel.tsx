@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface HelpPanelProps {
   isOpen: boolean;
@@ -207,6 +207,12 @@ function ShortcutsContent() {
 
 export function HelpPanel({ isOpen, onClose, tab = 'help' }: HelpPanelProps) {
   const [activeTab, setActiveTab] = useState(tab);
+
+  // The panel instance stays mounted while closed, so `useState(tab)` alone would
+  // keep the first tab forever. Re-sync to the requested tab each time it opens.
+  useEffect(() => {
+    if (isOpen) setActiveTab(tab);
+  }, [tab, isOpen]);
 
   if (!isOpen) return null;
 
