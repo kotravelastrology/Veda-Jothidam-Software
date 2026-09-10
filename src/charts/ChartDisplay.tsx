@@ -18,6 +18,8 @@ import { AspectOverlayRenderer } from './chart-renderers/AspectOverlayRenderer';
 import { CompatibilityMatrix } from './chart-renderers/CompatibilityMatrix';
 import { DashaOverlapAnalysis } from './chart-renderers/DashaOverlapAnalysis';
 import { ComparisonInsights } from './chart-renderers/ComparisonInsights';
+import { EphemerisRenderer } from './chart-renderers/EphemerisRenderer';
+import { RectificationChartRenderer } from './chart-renderers/RectificationChartRenderer';
 
 type ReportData = any;
 
@@ -70,6 +72,8 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
         {chartId === 'yogas' && <YogasAndDoshasRenderer report={report} />}
         {chartId === 'shadbala' && <ShadBalaRenderer report={report} />}
         {chartId === 'chart-comparison' && <ChartComparisonDisplay report={report} />}
+        {chartId === 'ephemeris' && <EphemerisRenderer report={report} />}
+        {chartId === 'rectification' && <RectificationChartRenderer report={report} />}
 
         {/* Default placeholder for unimplemented charts */}
         {![
@@ -89,6 +93,8 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
           'yogas',
           'shadbala',
           'chart-comparison',
+          'ephemeris',
+          'rectification',
         ].includes(chartId) && <ChartPlaceholder chartType={chartType} />}
       </div>
     </div>

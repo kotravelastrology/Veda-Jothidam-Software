@@ -248,6 +248,24 @@ export const CHART_TYPES: ChartType[] = [
     description: 'Relationship compatibility analysis',
     descriptionTamil: 'உறவு பொருத்தம் பகுப்பாய்வு',
   },
+  {
+    id: 'ephemeris',
+    label: 'Ephemeris',
+    labelTamil: 'பஞ்சாங்க கிரக நிலைகள்',
+    category: 'analysis',
+    icon: '🗓️',
+    description: 'Planetary longitudes over a date range',
+    descriptionTamil: 'கால வரிசையில் கிரக நிலைகள்',
+  },
+  {
+    id: 'rectification',
+    label: 'Birth Time Rectification',
+    labelTamil: 'ஜனன கால திருத்தம்',
+    category: 'analysis',
+    icon: '⏱️',
+    description: 'Refine birth time against known life events',
+    descriptionTamil: 'வாழ்க்கை நிகழ்வுகளுடன் ஜனன நேரத்தை சரிசெய்தல்',
+  },
 ];
 
 export const getChartsByCategory = (category: ChartCategory): ChartType[] => {

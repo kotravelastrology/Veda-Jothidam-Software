@@ -76,9 +76,11 @@ export function TopMenuBar() {
     dasha: 'dasha-vimsottari',
     transit: 'transit',
     ashtakavarga: 'ashtakavarga',
+    ephemeris: 'ephemeris',
+    rectification: 'rectification',
+    composite: 'compatibility', // Synastry chart doubles as the composite/relationship view
   };
-  // Not yet implemented anywhere in the app — kept as honest "coming soon" rather than a dead link
-  const CHARTS_NOT_YET_BUILT = new Set(['ephemeris', 'rectification', 'composite']);
+  const CHARTS_NOT_YET_BUILT = new Set<string>([]);
 
   // Reports-menu keys → report builder deep links (section anchors or a chart type)
   const REPORT_KEY_TO_PATH: Record<string, string> = {
