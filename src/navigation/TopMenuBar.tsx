@@ -483,8 +483,8 @@ export function TopMenuBar() {
                     }`}
                   >
                     {menu.submenu.map((submenu) =>
-                      submenu.key === 'divider' ? (
-                        <div key="divider" className="h-px bg-line my-1" />
+                      submenu.key.startsWith('divider') ? (
+                        <div key={submenu.key} className="h-px bg-line my-1" />
                       ) : (
                         <button
                           key={submenu.key}
