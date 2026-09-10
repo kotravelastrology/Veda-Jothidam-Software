@@ -227,15 +227,136 @@ function calculateRasiDashas(lagnaLongitude, PL, birthMs) {
   };
 }
 
+// ─── 18 Jaimini special lagnas (ஜைமினி விசேஷ லக்னங்கள்) ────────────────────
+// Ported from the prior AstrologicLab `jaimuni.ts` calculateJaimuniLagnas
+// (itself a verbatim port of the source workbook's 18-formula table),
+// re-keyed to English graha names. Arithmetic only — no ephemeris call here;
+// the caller supplies the Sun's sidereal longitude at the sunrise before
+// birth and the elapsed hours since that sunrise.
+// Sources: Jaimini Upadeśa Sūtras 1.1 (Ārūḍha, exception 1.1.29-31) ·
+// BPHS ch.29 (Ārūḍha) · classical special-lagna definitions (Bhāva/Horā/
+// Ghaṭikā/Prāṇapada/Śrī/Indu/Varṇada).
+const KALA_WEIGHT = { Sun: 30, Moon: 16, Mars: 6, Mercury: 8, Jupiter: 10, Venus: 12, Saturn: 1 };
+const RANK_SCAN_ORDER = ['Sun', 'Moon', 'Venus', 'Jupiter', 'Mercury', 'Mars', 'Saturn'];
+
+const LAGNA_META = [
+  { key: 'janma', name: 'ஜென்ம லக்னம்', meaning: 'உடல் அமைப்பு, இயல்பான குணம், அழகு' },
+  { key: 'surya', name: 'சூரிய லக்னம்', meaning: 'ஆன்ம பலம், தலைமைத்துவம், தைரியம், வெற்றி' },
+  { key: 'chandra', name: 'சந்திர லக்னம்', meaning: 'மன நிலை, விடாமுயற்சி, வெற்றி' },
+  { key: 'amsa', name: 'அம்ச லக்னம்', meaning: 'வாழ்க்கையில் நிகழும் நல்ல/தீய நிகழ்வுகள்' },
+  { key: 'bhava', name: 'பாவ லக்னம்', meaning: 'இயல்பான சுபாவம்' },
+  { key: 'bhaga', name: 'பாக லக்னம்', meaning: 'வேலையில் திறமை, புத்தி நுட்பம்' },
+  { key: 'tara', name: 'நட்சத்திர (தாரா) லக்னம்', meaning: 'பெறும் அதிர்ஷ்டம்/நல்வாழ்த்துகள்' },
+  { key: 'karaka', name: 'காரக லக்னம்', meaning: 'காரக லக்னாதிபதி வலுவாக செயல்படுதல்' },
+  { key: 'ghatika', name: 'கடிகா லக்னம்', meaning: 'வாழ்க்கைத் தரம், பிறருடன் பழகும் விதம்' },
+  { key: 'hora', name: 'ஓரா லக்னம்', meaning: 'வருமானம், செலவு, சேமிப்பு' },
+  { key: 'pranapada', name: 'பிராண பாத லக்னம்', meaning: 'முழுமை/குறைபாடுகள்' },
+  { key: 'upapada', name: 'உப பாத லக்னம்', meaning: 'திருமண முறை, உறவினர் ஆதரவு' },
+  { key: 'arudha', name: 'ஆருட லக்னம்', meaning: 'உலகம் பார்க்கும்/நடத்தும் விதம்' },
+  { key: 'indu', name: 'இந்து லக்னம்', meaning: 'செல்வத்தின் அளவு' },
+  { key: 'sri', name: 'ஸ்ரீ லக்னம்', meaning: 'லக்ஷ்மி கடாக்ஷம்/அதிர்ஷ்டம்' },
+  { key: 'adarisha', name: 'ஆதரிச லக்னம்', meaning: 'மனைவியின் நலன்/குணங்கள்' },
+  { key: 'vayuru', name: 'வாயுறு லக்னம்', meaning: 'ஆயுள்' },
+  { key: 'varnada', name: 'வர்னாட் லக்னம்', meaning: 'சமூகத்துடனான பந்தம்' },
+];
+
+/**
+ * @param opts.lagnaLongitude          sidereal, 0-359
+ * @param opts.grahaLongitudes         { Sun..Saturn : sidereal longitude }
+ * @param opts.sunLongitudeAtSunrise   Sun's sidereal longitude at the last sunrise before birth
+ * @param opts.hoursSinceSunrise       elapsed hours since that sunrise (0-24)
+ */
+function calculateJaiminiLagnas(opts) {
+  const { lagnaLongitude, grahaLongitudes: PL, sunLongitudeAtSunrise, hoursSinceSunrise } = opts;
+  const moonLon = PL.Moon;
+  const sunLon = PL.Sun;
+
+  const lagna0 = sign0(lagnaLongitude);
+  const lagna1 = lagna0 + 1;
+  const moon0 = sign0(moonLon);
+  const sun1 = sign0(sunLon) + 1;
+  const elapsedSec = hoursSinceSunrise * 3600;
+
+  // ranking graha: most degrees-of-progress within its own sign, ties by scan order
+  const progressVal = {};
+  for (const p of RANK_SCAN_ORDER) progressVal[p] = (norm360(PL[p]) % 30) * 60;
+  const maxVal = Math.max(...RANK_SCAN_ORDER.map((p) => progressVal[p]));
+  let winner = RANK_SCAN_ORDER[0];
+  for (const p of RANK_SCAN_ORDER) { if (progressVal[p] === maxVal) { winner = p; break; } }
+
+  const janma = lagna1;
+  const surya = sun1;
+  const chandra = moon0 + 1;
+
+  const amsa = navamsa0(PL[winner]) + 1;
+
+  const bhava = Math.floor(norm360(sunLongitudeAtSunrise + hoursSinceSunrise * 15) / 30) + 1;
+  const ghatika = Math.floor(norm360(sunLongitudeAtSunrise + hoursSinceSunrise * 75) / 30) + 1;
+  const hora = Math.floor(norm360(sunLongitudeAtSunrise + hoursSinceSunrise * 30) / 30) + 1;
+
+  const bhaga = sign0(PL[RASI_LORDS[(lagna1 - 1 + 12) % 12]]) + 1;
+
+  const elapsedInNakDeg = norm360(moonLon) % (800 / 60);
+  const elapsedArcmin = elapsedInNakDeg * 60; // 0-800
+
+  const taraOffset = Math.floor((elapsedArcmin * 12) / 800);
+  const tara = wrapRaw(lagna1 + taraOffset);
+
+  const ghatiQuot = Math.floor(elapsedSec / 1440);
+  const ghatiNum = elapsedSec % 1440 === 0 ? ghatiQuot : ghatiQuot + 1;
+  const timeTerm = ((ghatiNum % 5) + 5) % 5;
+
+  const winnerRasi1 = sign0(PL[winner]) + 1;
+  const karaka = wrapRaw(timeTerm + winnerRasi1);
+
+  const branchMod = ((sun1 % 3) + 3) % 3; // 1 movable, 2 fixed, 0 dual
+  const branchOffsetDeg = branchMod === 1 ? 0 : branchMod === 2 ? 240 : 120;
+  const xq = elapsedSec / 360;
+  const pranapadaOffsetDeg = (Math.floor(xq) % 12) * 30 + Math.round((xq - Math.floor(xq)) * 30);
+  const pranapada = Math.floor(norm360(sunLongitudeAtSunrise + pranapadaOffsetDeg + branchOffsetDeg) / 30) + 1;
+
+  const arudha = arudhaOf(lagna0, PL);
+  const house12_0 = ((lagna0 - 1) % 12 + 12) % 12;
+  const upapada = arudhaOf(house12_0, PL);
+
+  const ninthLagna1 = wrapRaw(lagna0 + 9);
+  const ninthMoon1 = wrapRaw(moon0 + 9);
+  const indu = wrapRaw(moon0 + KALA_WEIGHT[RASI_LORDS[ninthLagna1 - 1]] + KALA_WEIGHT[RASI_LORDS[ninthMoon1 - 1]]);
+
+  const sriOffsetDeg = (elapsedArcmin / 800) * 360;
+  const sri = Math.floor(norm360(lagnaLongitude + sriOffsetDeg) / 30) + 1;
+
+  const adarisha = wrapRaw(lagna1 + 6);
+
+  const vayuru = wrapRaw(timeTerm + navamsa0(moonLon));
+
+  const fold = (n) => (n % 2 !== 0 ? n : 13 - n);
+  const foldL = fold(lagna1);
+  const foldH = fold(hora);
+  const varnada = foldL % 2 === foldH % 2 ? wrapRaw(foldL + foldH) : 13 - Math.abs(foldL - foldH);
+
+  const rashis = [janma, surya, chandra, amsa, bhava, bhaga, tara, karaka, ghatika,
+    hora, pranapada, upapada, arudha, indu, sri, adarisha, vayuru, varnada];
+
+  return LAGNA_META.map((meta, i) => ({
+    ...meta,
+    number: i + 1,
+    rasiIndex: rashis[i] - 1,
+    rasi: RASI_NAMES[rashis[i] - 1],
+  }));
+}
+
 /**
  * @param opts.lagnaLongitude
  * @param opts.grahaLongitudes  { Sun..Saturn (+ Rahu, Ketu) : sidereal longitude }
  * @param opts.birthMs          epoch ms of birth
+ * @param opts.sunLongitudeAtSunrise  optional — enables the 18 special lagnas
+ * @param opts.hoursSinceSunrise      optional — enables the 18 special lagnas
  */
 function calculateJaimini(opts) {
-  const { lagnaLongitude, grahaLongitudes, birthMs } = opts;
+  const { lagnaLongitude, grahaLongitudes, birthMs, sunLongitudeAtSunrise, hoursSinceSunrise } = opts;
   const charaKarakas = calculateCharaKarakas(grahaLongitudes);
-  return {
+  const out = {
     available: true,
     charaKarakas,
     sthiraKarakatvam: STHIRA_KARAKATVAM,
@@ -245,9 +366,16 @@ function calculateJaimini(opts) {
     rasiDashas: calculateRasiDashas(lagnaLongitude, grahaLongitudes, birthMs),
     rashiDrishti: calculateRashiDrishti(),
   };
+  if (typeof sunLongitudeAtSunrise === 'number' && typeof hoursSinceSunrise === 'number') {
+    out.specialLagnas = calculateJaiminiLagnas({
+      lagnaLongitude, grahaLongitudes, sunLongitudeAtSunrise, hoursSinceSunrise,
+    });
+  }
+  return out;
 }
 
 module.exports = {
   calculateJaimini, calculateCharaKarakas, calculateBhavaArudhas, calculateKarkamsha,
-  calculateCharaDasha, calculateRasiDashas, calculateRashiDrishti, STHIRA_KARAKATVAM,
+  calculateCharaDasha, calculateRasiDashas, calculateRashiDrishti, calculateJaiminiLagnas,
+  STHIRA_KARAKATVAM,
 };

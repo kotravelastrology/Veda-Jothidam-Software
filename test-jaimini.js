@@ -49,7 +49,11 @@ const c = calculateParashariChart(p.chartContext);
 const grahaLongitudes = {};
 for (const g of ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu']) grahaLongitudes[g] = c.grahas[g].longitude;
 const birthMs = Date.UTC(1990, 4, 15, 7, 30) - 330 * 60000;
-const j = calculateJaimini({ lagnaLongitude: c.lagna.longitude, grahaLongitudes, birthMs });
+const j = calculateJaimini({
+  lagnaLongitude: c.lagna.longitude, grahaLongitudes, birthMs,
+  sunLongitudeAtSunrise: c.grahas.Sun.longitude - 1.7,   // ~sunrise ≈ 2h before a 07:30 birth
+  hoursSinceSunrise: 1.9,
+});
 
 assert.equal(j.available, true);
 assert.equal(j.charaKarakas[0].planet, 'Moon');
@@ -85,3 +89,26 @@ assert.equal(rdd.karaka.startRasi, 'Dhanu');
 // Yogardha = per-sign average of Chara and Sthira years.
 assert.ok(rdd.yogardha.periods.every((x) => x.years > 0 && x.years <= 12));
 console.log(JSON.stringify({ rasiDashaPass: true, sthira96: true, shoola108: true, karakaAK: rdd.karaka.atmakaraka }, null, 2));
+
+// ── 18 Jaimini special lagnas ────────────────────────────────────────
+const sl = j.specialLagnas;
+assert.equal(sl.length, 18);
+assert.deepEqual(sl.map((x) => x.number), Array.from({ length: 18 }, (_, i) => i + 1));
+for (const x of sl) {
+  assert.ok(x.rasiIndex >= 0 && x.rasiIndex < 12, `${x.key} rasiIndex in range`);
+  assert.equal(x.rasi, ['Mesha', 'Vrishabha', 'Mithuna', 'Karkataka', 'Simha', 'Kanya',
+    'Tula', 'Vrischika', 'Dhanu', 'Makara', 'Kumbha', 'Meena'][x.rasiIndex]);
+  assert.ok(x.name && x.meaning, `${x.key} labelled`);
+}
+// anchored identities
+const lagna0 = Math.floor(((c.lagna.longitude % 360) + 360) % 360 / 30);
+assert.equal(sl[0].key, 'janma');
+assert.equal(sl[0].rasiIndex, lagna0);                                   // 1: Janma = lagna
+assert.equal(sl[1].rasiIndex, Math.floor(c.grahas.Sun.longitude / 30) % 12);   // 2: Surya = Sun's sign
+assert.equal(sl[2].rasiIndex, Math.floor(c.grahas.Moon.longitude / 30) % 12);  // 3: Chandra = Moon's sign
+assert.equal(sl[15].key, 'adarisha');
+assert.equal(sl[15].rasiIndex, (lagna0 + 6) % 12);                       // 16: Adarisha = 7th from lagna
+// omitting the sunrise inputs suppresses the block
+const jNoSun = calculateJaimini({ lagnaLongitude: c.lagna.longitude, grahaLongitudes, birthMs });
+assert.equal(jNoSun.specialLagnas, undefined);
+console.log(JSON.stringify({ specialLagnasPass: true, count: sl.length, varnada: sl[17].rasi }, null, 2));

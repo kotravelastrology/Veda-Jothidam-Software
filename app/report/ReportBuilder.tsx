@@ -1439,7 +1439,7 @@ function AvasthaSection({ report }: { report: ReportData }) {
 
 function JaiminiSection({ report }: { report: ReportData }) {
   const j = (report as any).jaimini;
-  const [tab, setTab] = useState<'karakas' | 'arudha' | 'chara' | 'rasi' | 'drishti'>('karakas');
+  const [tab, setTab] = useState<'karakas' | 'arudha' | 'chara' | 'rasi' | 'drishti' | 'lagnas'>('karakas');
   const [rasiSys, setRasiSys] = useState<string>('sthira');
   if (!j?.available) return null;
   const nowMs = Date.now();
@@ -1453,7 +1453,7 @@ function JaiminiSection({ report }: { report: ReportData }) {
     <div className="mb-8">
       <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">ஜைமினி ஜோதிடம்</h2>
       <div className="flex gap-1 mb-3 text-xs print:hidden">
-        {([['karakas', 'சர காரகர்'], ['arudha', 'ஆருடம் A1-A12'], ['chara', 'சர (நாராயண) தசை'], ['rasi', 'மற்ற ராசி தசைகள்'], ['drishti', 'ராசி திருஷ்டி']] as const).map(([k, l]) => (
+        {([['karakas', 'சர காரகர்'], ['arudha', 'ஆருடம் A1-A12'], ['lagnas', '18 விசேஷ லக்னம்'], ['chara', 'சர (நாராயண) தசை'], ['rasi', 'மற்ற ராசி தசைகள்'], ['drishti', 'ராசி திருஷ்டி']] as const).map(([k, l]) => (
           <button key={k} onClick={() => setTab(k)}
             className={`px-2 py-1 rounded ${tab === k ? 'bg-saffron text-ink' : 'bg-surface border border-line text-ink-soft'}`}>{l}</button>
         ))}
@@ -1546,6 +1546,24 @@ function JaiminiSection({ report }: { report: ReportData }) {
             </tbody>
           </table>
         </>
+      )}
+
+      {tab === 'lagnas' && (
+        j.specialLagnas ? (
+          <table className="text-sm w-full max-w-2xl">
+            <thead><tr className="text-ink-soft border-b border-line"><th className="text-left py-1">#</th><th className="text-left py-1">லக்னம்</th><th className="text-left py-1">ராசி</th><th className="text-left py-1">பொருள்</th></tr></thead>
+            <tbody>
+              {j.specialLagnas.map((l: any) => (
+                <tr key={l.key} className="border-b border-line/40">
+                  <td className="py-1 text-ink-soft tabular-nums">{l.number}</td>
+                  <td className="py-1">{l.name}</td>
+                  <td className="py-1 font-medium">{RASI_SHORT[l.rasi] ?? l.rasi}</td>
+                  <td className="py-1 text-ink-soft text-xs">{l.meaning}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : <p className="text-sm text-ink-soft">சூரிய உதய நேரத் தரவு இல்லாததால் கணக்கிட முடியவில்லை.</p>
       )}
 
       {tab === 'drishti' && (

@@ -1,7 +1,7 @@
 const { calculateChart } = require('../ephemeris/swissEphemeris');
 const { createBirthProfile } = require('../contracts/birthProfile');
 const { calculateParashariChart, rasiFromLongitude } = require('../chart/parashariChart');
-const { sunriseJulianDay } = require('../ephemeris/siderealPositions');
+const { sunriseJulianDay, sunMoonLongitudes } = require('../ephemeris/siderealPositions');
 const { julianDay: sweJulianDay } = require('@swisseph/node');
 const { buildVimshottariDasha } = require('../dasha/vimshottariDasha');
 const { calculateVargas } = require('../chart/vargaChart');
@@ -245,12 +245,16 @@ function buildReportData(birthInput) {
     ascBeneficAspect: false,
   });
 
+  const _sunLonAtSunrise = sunMoonLongitudes(_sunriseJd, profile.chartContext.ayanamsha).sunLongitude;
+  const _hoursSinceSunrise = (chart.julianDay - _sunriseJd) * 24;
   const jaimini = calculateJaimini({
     lagnaLongitude: chart.lagna.longitude,
     grahaLongitudes: Object.fromEntries(
       ALL_GRAHAS.map((id) => [id, chart.grahas[id].longitude]),
     ),
     birthMs,
+    sunLongitudeAtSunrise: _sunLonAtSunrise,
+    hoursSinceSunrise: _hoursSinceSunrise,
   });
 
   const altDashas = {
