@@ -54,6 +54,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'shodasaBala', label: 'சோடச பலம்' },
   { id: 'nabhasaYoga', label: 'நபஸ யோகங்கள்' },
   { id: 'karaka', label: 'காரகங்கள்' },
+  { id: 'ayurdaya', label: 'ஆயுர்தாயம்' },
   { id: 'jaimini', label: 'ஜைமினி ஜோதிடம்' },
   { id: 'avasthas', label: 'கிரக அவஸ்தைகள்' },
   { id: 'nakshatraExtras', label: 'நட்சத்திரக் கூறுகள்' },
@@ -310,6 +311,48 @@ function AshtakavargaSection({ report }: { report: ReportData }) {
           </tbody>
         </table>
       </div>
+    </div>
+  );
+}
+
+function AyurdayaSection({ report }: { report: ReportData }) {
+  const a = (report as any).ayurdaya;
+  if (!a?.available) return null;
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">ஆயுர்தாயம்</h2>
+      <p className="text-sm mb-2">
+        <span className="text-ink-soft">முறை: </span><span className="font-medium">{a.systemTa}</span>
+        <span className="text-ink-soft"> (லக்னம் {a.strengths.lagna} · சூரியன் {a.strengths.sun} · சந்திரன் {a.strengths.moon})</span>
+      </p>
+      <table className="w-full text-sm max-w-2xl">
+        <thead><tr className="text-ink-soft border-b border-line">
+          <th className="text-left py-1">கிரகம்</th><th className="text-right py-1">அடிப்படை</th>
+          <th className="text-right py-1">நிகர</th><th className="text-left py-1 pl-3">ஹரணம்</th>
+        </tr></thead>
+        <tbody>
+          {a.contributions.map((c: any) => (
+            <tr key={c.planet} className="border-b border-line/40">
+              <td className="py-1">{POINT_LABEL[c.planet] ?? c.planet}</td>
+              <td className="py-1 text-right tabular-nums text-ink-soft">{c.basicYears.toFixed(2)}</td>
+              <td className="py-1 text-right tabular-nums font-medium">{c.netYears.toFixed(2)}</td>
+              <td className="py-1 pl-3 text-xs text-ink-soft">{c.reason}</td>
+            </tr>
+          ))}
+          <tr className="border-b border-line/40">
+            <td className="py-1">லக்னம்</td><td /><td className="py-1 text-right tabular-nums font-medium">{a.ascendantYears.toFixed(2)}</td><td />
+          </tr>
+        </tbody>
+      </table>
+      <p className="text-sm mt-2">
+        மொத்தம்: <span className="font-semibold">{a.totalSaura}</span> சவுர ஆண்டு
+        <span className="text-ink-soft"> ({a.totalSavana} சாவன) · </span>
+        <span className="font-medium text-saffron">{a.category}</span>
+      </p>
+      <p className="text-[11px] text-ink-soft mt-2">
+        BPHS ச.43 — 3 முறை (பிண்டாயு/நைசர்க்காயு/அம்சாயு), லக்னம்/சூரியன்/சந்திரன் பலத்தால் தேர்வு · 4 ஹரணத்தில் மிக உயர்ந்தது மட்டும்.
+        முந்தைய AstrologicLab ayurdaya engine-லிருந்து port. வெளிப்படுத்தப்பட்ட எளிமைப்படுத்தல்கள் உள்ளன — சோதனை மட்டுமே.
+      </p>
     </div>
   );
 }
@@ -1480,6 +1523,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   shodasaBala: ShodasaBalaSection,
   nabhasaYoga: NabhasaYogaSection,
   karaka: KarakaSection,
+  ayurdaya: AyurdayaSection,
   jaimini: JaiminiSection,
   avasthas: AvasthaSection,
   nakshatraExtras: NakshatraExtrasSection,

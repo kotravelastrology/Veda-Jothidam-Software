@@ -28,6 +28,7 @@ const { calculateAvasthas } = require('./avasthas');
 const { calculateNakshatraExtras } = require('./nakshatraExtras');
 const { calculateAshtakavargaShodhana } = require('./ashtakavargaShodhana');
 const { computeGocharaPhala } = require('./gocharaPhala');
+const { calculateAyurdaya } = require('./ayurdaya');
 const { computeTransitPositions } = require('./transitPositions');
 
 const ALL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
@@ -230,6 +231,20 @@ function buildReportData(birthInput) {
     rows: computeGocharaPhala(chart.grahas.Moon.rasiIndex, _transitRasiByGraha),
   };
 
+  const _natalSpeed = calculateChart({ ...profile.chartContext.input, ayanamsa: profile.chartContext.ayanamsha, houseSystem: 'WholeSign' });
+  const ayurdaya = calculateAyurdaya({
+    grahas: CLASSICAL_GRAHAS.map((id) => ({
+      planet: id,
+      longitude: chart.grahas[id].longitude,
+      retrograde: (_natalSpeed.positions[id]?.longitudeSpeed ?? 0) < 0,
+      houseFromLagna: ((chart.grahas[id].rasiIndex - chart.lagna.rasiIndex + 12) % 12) + 1,
+    })),
+    sunLongitude: chart.grahas.Sun.longitude,
+    ascendantLongitude: chart.lagna.longitude,
+    lagnaRasi0: chart.lagna.rasiIndex,
+    ascBeneficAspect: false,
+  });
+
   const jaimini = calculateJaimini({
     lagnaLongitude: chart.lagna.longitude,
     grahaLongitudes: Object.fromEntries(
@@ -276,6 +291,7 @@ function buildReportData(birthInput) {
     ashtakavarga,
     ashtakavargaShodhana,
     gocharaPhala,
+    ayurdaya,
     transit,
     shadbala,
     bhavaBala,
