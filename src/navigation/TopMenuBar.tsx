@@ -279,16 +279,19 @@ export function TopMenuBar() {
       case 'events':
         alert('Events - Coming in Phase 31.2');
         break;
-      case 'preferences':
-        uiActions.openSettings();
-        break;
 
-      // Settings/Options
+      // Options / Settings — Preferences, Chart Style, Colors & Fonts and Language
+      // are all controlled from the Settings panel's Display section
       case 'settings':
+      case 'preferences':
+      case 'chartstyle':
+      case 'colors':
+      case 'language':
         uiActions.openSettings();
         break;
-      case 'preferences':
-        uiActions.openSettings();
+      // Calculator — the astrology calculators/converters live in the Tools panel
+      case 'calculator':
+        uiActions.openTools();
         break;
 
       // Help Menu
