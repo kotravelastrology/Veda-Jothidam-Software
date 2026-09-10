@@ -282,6 +282,57 @@ export default function VarshaphalaView() {
               </table>
             </div>
           </section>
+
+          {/* Harsha Bala */}
+          {(result as any).harshaBala && (
+            <section className="bg-surface border border-line rounded-lg p-5">
+              <h3 className="font-semibold text-ink mb-1">ஹர்ஷ பலம் (Harsha Bala — 0-20)</h3>
+              <p className="text-xs text-ink-soft mb-3">4 காரணி × 5 புள்ளி (all-or-nothing): ஸ்தான · உச்ச-ஸ்வக்ஷேத்ர · ஸ்திரீ-புருஷ · தின-ராத்ரி (varsha லக்னத்திலிருந்து பாவம்).</p>
+              <table className="w-full text-sm">
+                <thead><tr className="text-ink-soft border-b border-line">
+                  <th className="px-2 py-1 text-left">கிரகம்</th><th className="px-2 py-1 text-right">ஸ்தான</th>
+                  <th className="px-2 py-1 text-right">உச்ச</th><th className="px-2 py-1 text-right">ஸ்திரீ-பு</th>
+                  <th className="px-2 py-1 text-right">தின-ரா</th><th className="px-2 py-1 text-right">மொத்தம்</th>
+                </tr></thead>
+                <tbody>
+                  {(result as any).harshaBala.map((h: any) => (
+                    <tr key={h.planet} className="border-b border-line/50">
+                      <td className="px-2 py-1">{h.planet}</td>
+                      <td className="px-2 py-1 text-right">{h.sthana}</td>
+                      <td className="px-2 py-1 text-right">{h.uchcha}</td>
+                      <td className="px-2 py-1 text-right">{h.striPurusha}</td>
+                      <td className="px-2 py-1 text-right">{h.dinaRatri}</td>
+                      <td className="px-2 py-1 text-right font-semibold text-saffron">{h.total}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          )}
+
+          {/* Tripataki Chakra */}
+          {(result as any).tripataki && (
+            <section className="bg-surface border border-line rounded-lg p-5">
+              <h3 className="font-semibold text-ink mb-1">திரிபதாகி சக்கரம் (Tripataki Chakra)</h3>
+              <p className="text-xs text-ink-soft mb-3">D = முடிந்த ஆண்டு + 1. சந்திரன் D mod 9, சூரிய-குழு D mod 4, செவ்வாய் D mod 6 (முன்), ராகு D mod 6 (பின்).</p>
+              <table className="w-full text-sm max-w-md">
+                <thead><tr className="text-ink-soft border-b border-line">
+                  <th className="px-2 py-1 text-left">கிரகம்</th><th className="px-2 py-1 text-left">ஜன்ம ராசி</th>
+                  <th className="px-2 py-1 text-left">திரிபதாகி ராசி</th>
+                </tr></thead>
+                <tbody>
+                  {(result as any).tripataki.map((t: any) => (
+                    <tr key={t.planet} className="border-b border-line/50">
+                      <td className="px-2 py-1">{t.planet}</td>
+                      <td className="px-2 py-1 text-ink-soft">{['மேஷ', 'ரிஷப', 'மிது', 'கடக', 'சிம்', 'கன்னி', 'துலா', 'விரு', 'தனு', 'மகர', 'கும்ப', 'மீன'][t.natalRasiIndex]}</td>
+                      <td className="px-2 py-1 font-medium">{['மேஷ', 'ரிஷப', 'மிது', 'கடக', 'சிம்', 'கன்னி', 'துலா', 'விரு', 'தனு', 'மகர', 'கும்ப', 'மீன'][t.tripatakiRasiIndex]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <p className="text-[11px] text-ink-soft mt-2">முந்தைய AstrologicLab varshaphala engine-லிருந்து port.</p>
+            </section>
+          )}
         </div>
       )}
     </main>

@@ -25,6 +25,44 @@ const { calculateParashariChart, rasiFromLongitude } = require('../chart/parasha
 const { calculateSahams } = require('./sahams');
 const { calculateTajikaYogas, calculateExtendedTajikaYogas } = require('./tajikaYogas');
 const { panchaVargeeyaBala, tajikaAspectOnPoint } = require('./panchaVargeeyaBala');
+const { EXALTATION, MOOLATRIKONA, OWN_SIGNS } = require('../chart/shadbala');
+
+// ── Tripataki Chakra (vijayalur.com "Tri Pataki Chakra") ──────────────────
+// D = completed years + 1. Moon: D mod 9 (0→9) forward from natal Moon.
+// Sun/Mercury/Jupiter/Venus/Saturn: D mod 4 (0→4) forward. Mars: D mod 6 (0→6)
+// forward. Rahu: D mod 6 backward. Ketu: 7th from Tripataki-Rahu.
+function calculateTripataki(natalRasi0, completedYears) {
+  const d = completedYears + 1;
+  const rem = (n) => { const r = d % n; return r === 0 ? n : r; };
+  const fwd = (r0, k) => (r0 + (k - 1)) % 12;
+  const bwd = (r0, k) => ((r0 - (k - 1)) % 12 + 12) % 12;
+  const rem9 = rem(9); const rem4 = rem(4); const rem6 = rem(6);
+  const out = [];
+  const push = (p, t0) => out.push({ planet: p, natalRasiIndex: natalRasi0[p], tripatakiRasiIndex: t0, tripatakiRasi: RASI_NAMES[t0] });
+  push('Moon', fwd(natalRasi0.Moon, rem9));
+  for (const p of ['Sun', 'Mercury', 'Jupiter', 'Venus', 'Saturn']) push(p, fwd(natalRasi0[p], rem4));
+  push('Mars', fwd(natalRasi0.Mars, rem6));
+  const tRahu = bwd(natalRasi0.Rahu, rem6);
+  push('Rahu', tRahu);
+  push('Ketu', (tRahu + 6) % 12);
+  return out;
+}
+
+// ── Harsha Bala (jothishi.com "Harsha Bala") ──────────────────────────────
+const HARSHA_STHANA_HOUSE = { Sun: 9, Moon: 3, Mars: 6, Mercury: 1, Jupiter: 11, Venus: 5, Saturn: 12 };
+const HARSHA_MASCULINE = new Set(['Sun', 'Mars', 'Jupiter']);
+const HARSHA_MASC_HOUSES = new Set([4, 5, 6, 10, 11, 12]);
+
+function harshaBala(planet, longitude, houseFromVarshaLagna, isDayBirth) {
+  const s = Math.floor(((longitude % 360) + 360) % 360 / 30);
+  const sthana = HARSHA_STHANA_HOUSE[planet] === houseFromVarshaLagna ? 5 : 0;
+  const dignified = s === EXALTATION[planet].sign || s === MOOLATRIKONA[planet].sign || (OWN_SIGNS[planet] || []).includes(s);
+  const uchcha = dignified ? 5 : 0;
+  const pMasc = HARSHA_MASCULINE.has(planet);
+  const striPurusha = pMasc === HARSHA_MASC_HOUSES.has(houseFromVarshaLagna) ? 5 : 0;
+  const dinaRatri = pMasc === !!isDayBirth ? 5 : 0;
+  return { planet, sthana, uchcha, striPurusha, dinaRatri, total: sthana + uchcha + striPurusha + dinaRatri };
+}
 
 // Mesha..Meena rasi lords
 const RASI_LORDS = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter'];
@@ -256,6 +294,14 @@ function calculateVarshaphala(birthInput, age) {
     sahams,
     tajikaYogas,
     extendedTajikaYogas,
+    tripataki: calculateTripataki(
+      Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu']
+        .map((p) => [p, natal.grahas[p].rasiIndex])),
+      yearsElapsed - 1,
+    ),
+    harshaBala: SEVEN.map((p) => harshaBala(
+      p, varsha.grahas[p].longitude, varsha.grahas[p].house, daytime,
+    )),
   };
 }
 
