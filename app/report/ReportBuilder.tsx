@@ -728,6 +728,22 @@ export default function ReportBuilder() {
   const [selectedChartId, setSelectedChartId] = useState<string>('D1-rasi');
   const [initialChartCategory, setInitialChartCategory] = useState<ChartCategory | undefined>(undefined);
   const [loadedBirthData, setLoadedBirthData] = useState<Partial<BirthData> | null>(null);
+  const [reportLayout, setReportLayout] = useState<'single' | 'two' | 'three'>('single');
+
+  // Windows menu (Cascade / Tile Horizontally / Tile Vertically) sets this via a
+  // localStorage flag + a custom event; apply it to the analysis-section grid.
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('kotravel_report_layout');
+      if (saved === 'single' || saved === 'two' || saved === 'three') setReportLayout(saved);
+    } catch { /* ignore */ }
+    const onLayout = (e: Event) => {
+      const mode = (e as CustomEvent).detail;
+      if (mode === 'single' || mode === 'two' || mode === 'three') setReportLayout(mode);
+    };
+    window.addEventListener('kotravel:report-layout', onLayout);
+    return () => window.removeEventListener('kotravel:report-layout', onLayout);
+  }, []);
 
   // Deep-link support: /report?chart=<chartId> jumps straight to that chart's
   // category and pre-selects it once a report is available (menu bar navigation).
@@ -915,7 +931,7 @@ export default function ReportBuilder() {
           </section>
 
           {/* Report Analysis Sections */}
-          <section className="max-w-3xl mx-auto px-6 py-8">
+          <section className={`${reportLayout === 'single' ? 'max-w-3xl' : reportLayout === 'two' ? 'max-w-6xl' : 'max-w-7xl'} mx-auto px-6 py-8`}>
             <div className="bg-surface border border-line rounded-2xl p-5 mb-6">
               <h3 className="font-semibold mb-3 text-ink">அறிக்கை பிரிவுகள்</h3>
               <ul className="space-y-2">
@@ -942,14 +958,24 @@ export default function ReportBuilder() {
                 </Link>
               </div>
             </div>
-            {order.filter((id) => enabled[id]).map((id) => {
-              const Renderer = SECTION_RENDERERS[id];
-              return (
-                <div key={id} id={`section-${id}`} className="scroll-mt-4">
-                  <Renderer report={report} />
-                </div>
-              );
-            })}
+            <div
+              className={
+                reportLayout === 'single'
+                  ? ''
+                  : reportLayout === 'two'
+                    ? 'grid gap-6 md:grid-cols-2 items-start'
+                    : 'grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start'
+              }
+            >
+              {order.filter((id) => enabled[id]).map((id) => {
+                const Renderer = SECTION_RENDERERS[id];
+                return (
+                  <div key={id} id={`section-${id}`} className="scroll-mt-4">
+                    <Renderer report={report} />
+                  </div>
+                );
+              })}
+            </div>
           </section>
         </>
       )}

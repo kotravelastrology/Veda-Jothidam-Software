@@ -408,14 +408,23 @@ export function TopMenuBar() {
         alert('Rectification Tool - coming in a future phase.');
         break;
 
-      // Windows Menu
+      // Windows Menu — there is no MDI window system on the web, so these repurpose
+      // as report-layout density presets applied to the /report analysis sections.
       case 'cascade':
-        uiActions.setWindowLayout('cascade');
-        break;
       case 'tileh':
-      case 'tilev':
-        uiActions.setWindowLayout('tile');
+      case 'tilev': {
+        const mode = submenuKey === 'cascade' ? 'single' : submenuKey === 'tileh' ? 'two' : 'three';
+        uiActions.setWindowLayout(submenuKey === 'cascade' ? 'cascade' : 'tile');
+        try {
+          localStorage.setItem('kotravel_report_layout', mode);
+        } catch { /* storage unavailable */ }
+        window.dispatchEvent(new CustomEvent('kotravel:report-layout', { detail: mode }));
+        if (window.location.pathname !== '/report') {
+          const label = mode === 'single' ? 'single column' : mode === 'two' ? '2 columns' : '3 columns';
+          alert(`Report layout set to ${label}. Open a chart report to see it.`);
+        }
         break;
+      }
 
       default:
         break;
