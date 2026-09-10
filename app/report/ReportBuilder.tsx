@@ -46,6 +46,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'varga', label: 'வர்க்க அட்டவணை (16)' },
   { id: 'ashtakavarga', label: 'அஷ்டகவர்க்கம்' },
   { id: 'ashtakavargaDetail', label: 'அஷ்டகவர்க்கம் - விரிவுபடுத்தப்பட்ட பார்வை' },
+  { id: 'ashtakavargaShodhana', label: 'அஷ்டகவர்க்கம் — சோதனை / பிண்டம்' },
   { id: 'transit', label: 'இன்றைய கோசரம் (Transit)' },
   { id: 'grahaBala', label: 'கிரக பலம் (சட்பலம்)' },
   { id: 'bhavaBala', label: 'பாவ பலம்' },
@@ -308,6 +309,54 @@ function AshtakavargaSection({ report }: { report: ReportData }) {
           </tbody>
         </table>
       </div>
+    </div>
+  );
+}
+
+function AshtakavargaShodhanaSection({ report }: { report: ReportData }) {
+  const sh = (report as any).ashtakavargaShodhana;
+  if (!sh?.available) return null;
+  const planets = Object.keys(sh.pinda);
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">அஷ்டகவர்க்கம் — சோதனை &amp; பிண்டம்</h2>
+      <p className="text-xs font-semibold text-ink-soft mb-1">சோதனை பிறகு பிந்துக்கள் (திரிகோண + ஏகாதிபத்ய குறைப்பு)</p>
+      <div className="overflow-x-auto mb-4">
+        <table className="text-xs">
+          <tbody>
+            {planets.map((p) => (
+              <tr key={p} className="border-b border-line/40">
+                <td className="py-1 pr-3 font-medium">{POINT_LABEL[p] ?? p}</td>
+                {sh.reduced[p].map((b: number, i: number) => (
+                  <td key={i} className={`py-1 px-1.5 text-center ${b === 0 ? 'text-ink-soft/40' : 'text-ink'}`}>{b}</td>
+                ))}
+                <td className="py-1 pl-2 text-ink-soft">Σ{sh.reduced[p].reduce((a: number, b: number) => a + b, 0)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-xs font-semibold text-ink-soft mb-1">பிண்டம் (Rāśi / Graha / Sodhya)</p>
+      <table className="text-sm">
+        <thead><tr className="text-ink-soft border-b border-line">
+          <th className="text-left py-1 pr-4">கிரகம்</th><th className="text-right py-1 pr-4">ராசி பிண்டம்</th>
+          <th className="text-right py-1 pr-4">கிரக பிண்டம்</th><th className="text-right py-1">சோத்ய பிண்டம்</th>
+        </tr></thead>
+        <tbody>
+          {planets.map((p) => (
+            <tr key={p} className="border-b border-line/40">
+              <td className="py-1 pr-4">{POINT_LABEL[p] ?? p}</td>
+              <td className="py-1 pr-4 text-right tabular-nums">{sh.pinda[p].rashiPinda}</td>
+              <td className="py-1 pr-4 text-right tabular-nums">{sh.pinda[p].grahaPinda}</td>
+              <td className="py-1 text-right tabular-nums font-semibold text-saffron">{sh.pinda[p].sodhyaPinda}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="text-[11px] text-ink-soft mt-2">
+        BPHS ச.66 — திரிகோண சோதனை (குழு-குறைந்தபட்சம்) + ஏகாதிபத்ய சோதனை (சொந்த-ஜோடி வித்தியாசம்); பிண்டம் = Σ(பிந்து × குணகாரம்).
+        முந்தைய AstrologicLab ashtakavarga engine-லிருந்து port.
+      </p>
     </div>
   );
 }
@@ -1381,6 +1430,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   varga: VargaSection,
   ashtakavarga: AshtakavargaSection,
   ashtakavargaDetail: DetailedAshtakavargaSection,
+  ashtakavargaShodhana: AshtakavargaShodhanaSection,
   transit: TransitSection,
   grahaBala: GrahaBalaSection,
   bhavaBala: BhavaBalaSection,

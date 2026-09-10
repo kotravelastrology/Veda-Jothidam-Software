@@ -24,6 +24,7 @@ const { calculateKpEvents } = require('./kpEvents');
 const { calculateJaimini } = require('./jaimini');
 const { calculateAvasthas } = require('./avasthas');
 const { calculateNakshatraExtras } = require('./nakshatraExtras');
+const { calculateAshtakavargaShodhana } = require('./ashtakavargaShodhana');
 
 const ALL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 
@@ -126,6 +127,7 @@ function buildReportData(birthInput) {
   };
 
   const ashtakavarga = calculateAshtakavarga(rasiPositions);
+  const ashtakavargaShodhana = calculateAshtakavargaShodhana(ashtakavarga.bhinna, rasiPositions);
 
   const shadbala = calculateShadbala({
     longitudes,
@@ -243,6 +245,7 @@ function buildReportData(birthInput) {
     dasha,
     vargas,
     ashtakavarga,
+    ashtakavargaShodhana,
     transit,
     shadbala,
     bhavaBala,
