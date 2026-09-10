@@ -30,6 +30,7 @@ const { calculateAshtakavargaShodhana } = require('./ashtakavargaShodhana');
 const { computeGocharaPhala } = require('./gocharaPhala');
 const { calculateAyurdaya } = require('./ayurdaya');
 const { computeTransitPositions } = require('./transitPositions');
+const { calculateBnnLiterature, fromReportData: fromBnnReportData } = require('./bnnLiterature');
 
 const ALL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 
@@ -231,6 +232,11 @@ function buildReportData(birthInput) {
     rows: computeGocharaPhala(chart.grahas.Moon.rasiIndex, _transitRasiByGraha),
   };
 
+  const bnnLiterature = calculateBnnLiterature(fromBnnReportData(
+    { chart, dasha },
+    _tp,
+  ));
+
   const _natalSpeed = calculateChart({ ...profile.chartContext.input, ayanamsa: profile.chartContext.ayanamsha, houseSystem: 'WholeSign' });
   const ayurdaya = calculateAyurdaya({
     grahas: CLASSICAL_GRAHAS.map((id) => ({
@@ -304,6 +310,7 @@ function buildReportData(birthInput) {
     upagraha,
     numerology,
     nadi,
+    bnnLiterature,
     bhriguProgressions,
     kp,
     kpEvents,

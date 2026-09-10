@@ -1,0 +1,589 @@
+{
+ "nodeRules": {
+  "Rahu:Rahu": [
+   "வெளிநாட்டு வேலை, புதிய நட்பு மற்றும் புதிய தொடக்கம்.",
+   "இடமாற்றம், பழைய பணிமுறையில் மாற்றம்.",
+   "Foreign work, new friendships and a new beginning.",
+   "Relocation and changes to previous work.",
+   73
+  ],
+  "Rahu:Ketu": [
+   "ஆன்மிக ஈடுபாடு, புதிய உறவு.",
+   "பழைய உறவுகளில் இடைவெளி அல்லது கருத்து வேறுபாடு.",
+   "Spiritual interests and new relationships.",
+   "Distance or disagreements in existing relationships.",
+   75
+  ],
+  "Ketu:Sun": [
+   "ஆன்மிகக் கற்றல், பதவி மாற்றத்தில் முன்னேற்ற வாய்ப்பு.",
+   "அதிகாரம் மற்றும் தொழில் பொறுப்புகளில் மாற்றம்.",
+   "Spiritual learning and potential progress through a role change.",
+   "Changes in authority and work responsibilities.",
+   154
+  ],
+  "Ketu:Moon": [
+   "குடும்ப ஒற்றுமை, உள்ளுணர்வு மற்றும் மனத் தெளிவு.",
+   "குழப்பம், தேவையற்ற கவலை, குடும்ப அமைதியில் சிக்கல்.",
+   "Family harmony, intuition and clarity.",
+   "Confusion, worry and family tension.",
+   158
+  ],
+  "Ketu:Mars": [
+   "ஆன்மிக முயற்சி, உள்மாற்றம்.",
+   "அவசர முடிவு மற்றும் கோபம்.",
+   "Spiritual effort and inner change.",
+   "Hasty decisions and anger.",
+   163
+  ],
+  "Ketu:Mercury": [
+   "ஆய்வு, எழுத்து, புதிய அறிவு.",
+   "தகவல் பிழை மற்றும் ஆவணக் குழப்பம்.",
+   "Research, writing and new knowledge.",
+   "Communication errors and document confusion.",
+   167
+  ],
+  "Rahu:Sun": [
+   "அங்கீகாரம், தலைமை வாய்ப்பு.",
+   "அதிகார மோதல், பெருமிதத்தால் குழப்பம்.",
+   "Recognition and leadership opportunities.",
+   "Authority conflicts and overconfidence.",
+   28
+  ],
+  "Rahu:Moon": [
+   "குடும்ப ஆதரவு, பொதுமக்கள் தொடர்பு மேம்பாடு.",
+   "தேவையற்ற கவலை, குடும்பக் கருத்து வேறுபாடு.",
+   "Family support and public connections.",
+   "Worry and family disagreements.",
+   32
+  ],
+  "Rahu:Mars": [
+   "முயற்சிகளில் முன்னேற்றம்; செயல்திறன் அதிகரிப்பு.",
+   "அவசர முடிவுகள், கோபம்.",
+   "Progress through initiative and action.",
+   "Hasty decisions and anger.",
+   40
+  ],
+  "Rahu:Mercury": [
+   "கல்வி, ஆராய்ச்சி, தகவல் தொழில்நுட்ப வாய்ப்புகள்.",
+   "சிந்தனையில் குழப்பம்.",
+   "Learning, research and technology opportunities.",
+   "Confusion in thinking.",
+   46
+  ],
+  "Rahu:Jupiter": [
+   "உயர்கல்வி, புதிய அறிவு, வழிகாட்டுதல்.",
+   "தவறான ஆலோசனை, கல்வி அல்லது வருமானத் தடை.",
+   "Higher learning, new knowledge and guidance.",
+   "Misleading advice or education/income obstacles.",
+   52
+  ],
+  "Rahu:Venus": [
+   "கலை, உறவு, வசதி மற்றும் இணையத் தொழில் வளர்ச்சி.",
+   "உறவுச் சிக்கல், ஆடம்பரச் செலவு.",
+   "Arts, relationships, comforts and digital work.",
+   "Relationship strain and luxury spending.",
+   59
+  ],
+  "Rahu:Saturn": [
+   "உழைப்புக்கான அங்கீகாரம், தொழில் வளர்ச்சி.",
+   "வேலைச்சுமை, தொழில் சோதனைகள்.",
+   "Recognition for effort and career growth.",
+   "Work pressure and professional challenges.",
+   67
+  ],
+  "Ketu:Saturn": [
+   "பொறுப்புகளை எளிமைப்படுத்துதல்; ஆன்மிக ஈடுபாடு.",
+   "வேலையில் நிறைவின்மை, வருமானத் தாமதம்.",
+   "Simplifying responsibilities and spiritual interests.",
+   "Work dissatisfaction or delayed income.",
+   177
+  ],
+  "Ketu:Venus": [
+   "ஆடம்பரச் செலவைக் குறைத்தல், ஆன்மிகக் கலை.",
+   "உறவுக் கருத்து வேறுபாடு.",
+   "Reduced luxury spending and spiritual art.",
+   "Relationship disagreements.",
+   175
+  ],
+  "Ketu:Jupiter": [
+   "ஆன்மிகக் கற்றல், புதிய வழிகாட்டியைத் தேடுதல்.",
+   "முன்னைய நம்பிக்கைகளை மறுபரிசீலனை செய்யும் மாற்றம்.",
+   "Spiritual learning and seeking guidance.",
+   "Reassessment of earlier beliefs.",
+   168
+  ],
+  "Ketu:Rahu": [
+   "ஆன்மிகத் தேடல், வாழ்க்கை நோக்கத்தை மறுபரிசீலனை செய்தல்.",
+   "ஆசைகள் மற்றும் பழைய பற்றுதல்களுடன் போராட்டம்.",
+   "Spiritual inquiry and reassessing life goals.",
+   "Tension around desires and attachments.",
+   185
+  ],
+  "Ketu:Ketu": [
+   "உள்மாற்றம், ஆன்மிக வளர்ச்சி.",
+   "பழைய வாழ்க்கை நோக்கங்களில் ஆழமான மாற்றம்.",
+   "Inner change and spiritual development.",
+   "Deep changes in previous life priorities.",
+   189
+  ]
+ },
+ "houseRules": {
+  "Saturn": [
+   [
+    "புதிய தொடக்கம், வேலை வாய்ப்பு.",
+    "முன்னுரிமைகள் மாறுதல்.",
+    "New beginnings and work opportunities.",
+    "Changing priorities.",
+    44
+   ],
+   [
+    "வருமான வளர்ச்சி.",
+    "வருமான வழி மற்றும் குடும்பப் பேச்சில் மாற்றம்.",
+    "Income growth.",
+    "Changes in income sources and family communication.",
+    44
+   ],
+   [
+    "சகோதரர் முன்னேற்றம், தொடர்புத் துறை வளர்ச்சி.",
+    "பயணப் பரபரப்பு.",
+    "Sibling progress and communication work.",
+    "Busy travel schedules.",
+    45
+   ],
+   [
+    "வீடு புதுப்பித்தல், குடியிருப்பு மேம்பாடு.",
+    "இடமாற்றத்திற்கான ஏற்பாடுகள்.",
+    "Home improvement.",
+    "Adjustments for relocation.",
+    45
+   ],
+   [
+    "கல்வி, திறமைக்கு அங்கீகாரம்.",
+    "கூடுதல் பொறுப்புகள்.",
+    "Learning and recognition of skills.",
+    "Additional responsibilities.",
+    45
+   ],
+   [
+    "",
+    "பணியிட மோதல், கடன் மற்றும் வேலைத் தடைகள்.",
+    "",
+    "Workplace conflicts, debt and work obstacles.",
+    45
+   ],
+   [
+    "கூட்டாண்மை, துணையின் தொழில் முன்னேற்றம்.",
+    "",
+    "Partnerships and a partner’s career progress.",
+    "",
+    46
+   ],
+   [
+    "",
+    "வேலை, வருமானம் அல்லது கல்வியில் சவால்கள்.",
+    "",
+    "Work, income or study challenges.",
+    46
+   ],
+   [
+    "தடைகள் குறைதல், கல்வி முன்னேற்றம்.",
+    "மேலதிகாரி அல்லது வழிகாட்டி மாற்றம்.",
+    "Easing obstacles and educational progress.",
+    "A change in supervisor or mentor.",
+    46
+   ],
+   [
+    "புதிய வேலை, பொறுப்பு உயர்வு.",
+    "வேலைப் பிரிவு அல்லது பணிமுறை மாற்றம்.",
+    "New work and increased responsibility.",
+    "A change of department or role.",
+    47
+   ],
+   [
+    "நட்பு வட்டம், வாடிக்கையாளர் மற்றும் வருமான வளர்ச்சி.",
+    "",
+    "Growth in networks, clients and income.",
+    "",
+    47
+   ],
+   [
+    "",
+    "எதிர்பாராத செலவு, பணப்புழக்கச் சிக்கல்.",
+    "",
+    "Unexpected costs and cash-flow pressure.",
+    47
+   ]
+  ],
+  "Jupiter": [
+   [
+    "தன்னம்பிக்கை, புதிய வாய்ப்புகள்.",
+    "",
+    "Confidence and new opportunities.",
+    "",
+    48
+   ],
+   [
+    "இணக்கமான பேச்சு, குடும்ப ஒற்றுமை.",
+    "",
+    "Constructive communication and family harmony.",
+    "",
+    48
+   ],
+   [
+    "சகோதர உறவு, பயணம் மற்றும் தொடர்பு மேம்பாடு.",
+    "",
+    "Improved sibling relationships, travel and communication.",
+    "",
+    48
+   ],
+   [
+    "வீட்டு மேம்பாடு, புதிய திறன் கற்றல்.",
+    "",
+    "Home improvements and learning skills.",
+    "",
+    48
+   ],
+   [
+    "படைப்பாற்றல், கல்வி, புதிய சிந்தனை.",
+    "",
+    "Creativity, learning and new ideas.",
+    "",
+    49
+   ],
+   [
+    "கருத்து வேறுபாடுகளைத் தீர்க்க உதவி.",
+    "",
+    "Help resolving conflicts.",
+    "",
+    49
+   ],
+   [
+    "உறவு மற்றும் கூட்டாண்மையில் ஒத்துழைப்பு.",
+    "",
+    "Cooperation in relationships and partnerships.",
+    "",
+    49
+   ],
+   [
+    "ஆழமான ஆய்வு, பழைய சிக்கல்களில் நிவாரணம்.",
+    "தொழில் வளர்ச்சி மெதுவாக இருக்கலாம்.",
+    "Deep study and relief from old difficulties.",
+    "Career growth may be slow.",
+    49
+   ],
+   [
+    "மூத்தோர் ஆதரவு, ஆன்மிகக் கற்றல்.",
+    "யாத்திரைக்காக வீட்டை விட்டு விலகியிருத்தல்.",
+    "Support from elders and spiritual learning.",
+    "Time away from home for pilgrimage.",
+    50
+   ],
+   [
+    "பணியிட ஒத்துழைப்பு, பழைய சிக்கலுக்குத் தீர்வு.",
+    "",
+    "Workplace cooperation and resolving old problems.",
+    "",
+    50
+   ],
+   [
+    "நட்பு வட்டம் மற்றும் தொழில் விரிவாக்கம்.",
+    "",
+    "Expanding networks and business.",
+    "",
+    50
+   ],
+   [
+    "செலவுக் கட்டுப்பாடு, ஆன்மிக ஈடுபாடு.",
+    "செலவுகள் தொடரலாம்.",
+    "Expense control and spiritual interests.",
+    "Expenses may continue.",
+    50
+   ]
+  ]
+ },
+ "matrix": {
+  "Saturn": {
+   "Saturn": [
+    "வாழ்க்கையில் பெரிய மாற்றங்கள்.",
+    "Major life changes."
+   ],
+   "Jupiter": [
+    "வாழ்க்கையில் பெரிய மாற்றங்கள்.",
+    "Major life changes."
+   ],
+   "Rahu": [
+    "சவாலான அனுபவங்கள்.",
+    "Challenging experiences."
+   ],
+   "Ketu": [
+    "தடைகள் மற்றும் சிரமங்கள்.",
+    "Obstacles and difficulties."
+   ]
+  },
+  "Jupiter": {
+   "Saturn": [
+    "முன்னேற்றமும் வாழ்க்கை மாற்றங்களும்.",
+    "Progress and life changes."
+   ],
+   "Jupiter": [
+    "முன்னேற்ற வாய்ப்புகள்.",
+    "Opportunities for progress."
+   ],
+   "Rahu": [
+    "சவாலான வெளிப்பாடுகள்.",
+    "Challenging outcomes."
+   ],
+   "Ketu": [
+    "ஆன்மிக நாட்டம்.",
+    "Spiritual interests."
+   ]
+  }
+ },
+ "natalRules": {
+  "Sun:Moon": [
+   "தன்னம்பிக்கை, சுய சிந்தனை.",
+   "உணர்ச்சி ஏற்ற இறக்கம்.",
+   "Confidence and independent thinking.",
+   "Emotional fluctuations.",
+   "12–13"
+  ],
+  "Sun:Mars": [
+   "தலைமை, செயல்திறன்.",
+   "கோபம், மோதல்.",
+   "Leadership and initiative.",
+   "Anger and conflicts.",
+   "15–16"
+  ],
+  "Sun:Mercury": [
+   "கணிதம், நிர்வாகம், எழுத்துத் திறன்.",
+   "அதிக சிந்தனை.",
+   "Mathematical, administrative and writing skills.",
+   "Overthinking.",
+   "16–17"
+  ],
+  "Sun:Jupiter": [
+   "கல்வி, வழிகாட்டுதல், தர்ம சிந்தனை.",
+   "தனது கருத்தே சரி என்ற பிடிவாதம்.",
+   "Education, guidance and ethical interests.",
+   "Insistence on one’s own views.",
+   17
+  ],
+  "Sun:Venus": [
+   "கலை, இசை, அழகியல்.",
+   "ஆடம்பரம், குடும்பச் சிக்கல்.",
+   "Art, music and aesthetics.",
+   "Extravagance and family difficulties.",
+   18
+  ],
+  "Sun:Saturn": [
+   "கடின உழைப்பு, நிர்வாகம்.",
+   "தந்தையுடன் கருத்து வேறுபாடு, தாமதம்.",
+   "Hard work and administration.",
+   "Disagreements with father and delays.",
+   19
+  ],
+  "Sun:Rahu": [
+   "புதுமை, தொழில்நுட்பத் திறன்.",
+   "அதிகாரச் சிக்கல், பெருமிதம்.",
+   "Innovation and technical skills.",
+   "Authority difficulties and pride.",
+   "19–20"
+  ],
+  "Sun:Ketu": [
+   "தியானம், ஆன்மிக நாட்டம்.",
+   "குடும்பத்திலிருந்து விலகியிருக்கும் போக்கு.",
+   "Meditation and spiritual interests.",
+   "Withdrawal from family life.",
+   20
+  ],
+  "Moon:Mars": [
+   "துணிவு, தொழில்முனைவு.",
+   "அவசரம், குடும்ப வாக்குவாதம்.",
+   "Courage and enterprise.",
+   "Haste and family arguments.",
+   23
+  ],
+  "Moon:Mercury": [
+   "மொழி, எழுத்து, கற்பனைத் திறன்.",
+   "அதிக சிந்தனை, முடிவில் தாமதம்.",
+   "Language, writing and imagination.",
+   "Overthinking and delayed decisions.",
+   24
+  ],
+  "Moon:Jupiter": [
+   "உயர்கல்வி, நல்ல பெயர்.",
+   "அளவுக்கு மீறிய நம்பிக்கை, சோம்பல்.",
+   "Higher education and reputation.",
+   "Overconfidence and inertia.",
+   25
+  ],
+  "Moon:Venus": [
+   "இசை, கவிதை, உறவின் இனிமை.",
+   "அதிக செலவு, உறவுச் சிக்கல்.",
+   "Music, poetry and affection.",
+   "Overspending and relationship difficulties.",
+   26
+  ],
+  "Moon:Saturn": [
+   "பொறுமை, ஆய்வு, சமூக சேவை.",
+   "தனிமை உணர்வு, தாமதம்.",
+   "Patience, research and service.",
+   "Loneliness and delays.",
+   27
+  ],
+  "Moon:Rahu": [
+   "கண்டுபிடிப்பு, தொழில்நுட்பம், ஊடகம்.",
+   "குழப்பம், தேவையற்ற பயம்.",
+   "Invention, technology and media.",
+   "Confusion and worry.",
+   28
+  ],
+  "Moon:Ketu": [
+   "தியானம், தத்துவ ஆய்வு.",
+   "குடும்ப ஈடுபாடு குறைதல்.",
+   "Meditation and philosophical study.",
+   "Reduced family engagement.",
+   29
+  ],
+  "Mars:Mercury": [
+   "பொறியியல், தர்க்கம், தொழில்முனைவு.",
+   "கடுமையான பேச்சு, அவசர முடிவு.",
+   "Engineering, reasoning and enterprise.",
+   "Harsh speech and haste.",
+   32
+  ],
+  "Mars:Jupiter": [
+   "கல்வி, தலைமை, நீதிநெறி.",
+   "அளவுக்கு மீறிய தன்னம்பிக்கை.",
+   "Education, leadership and justice.",
+   "Overconfidence.",
+   33
+  ],
+  "Mars:Venus": [
+   "கட்டிடக்கலை, வடிவமைப்பு, படைப்பாற்றல்.",
+   "உணர்ச்சி வேகம், அதிக செலவு.",
+   "Architecture, design and creativity.",
+   "Impulsiveness and spending.",
+   34
+  ],
+  "Mars:Saturn": [
+   "பொறியியல், கட்டுப்பாடான நிர்வாகம்.",
+   "தாமதம், தொழில் தடை.",
+   "Engineering and disciplined administration.",
+   "Delays and work obstacles.",
+   35
+  ],
+  "Mars:Rahu": [
+   "தொழில்நுட்ப ஆய்வு, பாதுகாப்புத் துறை.",
+   "அவசர முடிவு, கோபம்.",
+   "Technical research and security work.",
+   "Hasty decisions and anger.",
+   36
+  ],
+  "Mars:Ketu": [
+   "தற்காப்புக் கலை, தியானம், ஆய்வு.",
+   "திடீர் கோபம், உறவில் விலகல்.",
+   "Martial arts, meditation and research.",
+   "Sudden anger and withdrawal.",
+   37
+  ],
+  "Mercury:Jupiter": [
+   "உயர்கல்வி, எழுத்து, கற்பித்தல்.",
+   "அதிக விவாதம், முடிவில் தாமதம்.",
+   "Higher study, writing and teaching.",
+   "Excessive debate and indecision.",
+   40
+  ],
+  "Mercury:Venus": [
+   "மொழி, கலை, வணிகப் படைப்பாற்றல்.",
+   "அதிக செலவு, உறவுச் சிக்கல்.",
+   "Language, art and commercial creativity.",
+   "Overspending and relationship difficulties.",
+   "41–42"
+  ],
+  "Mercury:Saturn": [
+   "திட்டமிடல், கணக்காய்வு, தரவு ஆய்வு.",
+   "தொடர்புச் சிக்கல், முடிவில் தாமதம்.",
+   "Planning, auditing and data research.",
+   "Communication issues and delayed decisions.",
+   42
+  ],
+  "Mercury:Rahu": [
+   "நவீன தொழில்நுட்பம், இணைய வணிகம்.",
+   "தவறான தகவல், குழப்பம்.",
+   "Modern technology and digital business.",
+   "Misinformation and confusion.",
+   43
+  ],
+  "Mercury:Ketu": [
+   "ஆய்வு, நிரலாக்கம், தத்துவம்.",
+   "தொடர்பில் விலகல், நடைமுறைச் சிக்கல்.",
+   "Research, programming and philosophy.",
+   "Reduced communication and practical difficulties.",
+   44
+  ],
+  "Jupiter:Venus": [
+   "கல்வி, இலக்கியம், குடும்ப வளம்.",
+   "ஆடம்பரம், செலவு.",
+   "Education, literature and family wellbeing.",
+   "Extravagance and spending.",
+   48
+  ],
+  "Jupiter:Saturn": [
+   "நிதானமான முன்னேற்றம், சமூகப் பொறுப்பு.",
+   "தாமதம், அதிக பொறுப்பு.",
+   "Steady progress and social responsibility.",
+   "Delays and heavy responsibilities.",
+   49
+  ],
+  "Jupiter:Rahu": [
+   "வெளிநாட்டுக் கல்வி, புதிய ஆய்வு.",
+   "தவறான வழிகாட்டுதல், அளவுக்கு மீறிய ஆசை.",
+   "International study and new research.",
+   "Misleading guidance and excessive desire.",
+   50
+  ],
+  "Jupiter:Ketu": [
+   "ஆன்மிக ஆய்வு, உள்ளுணர்வு.",
+   "குடும்பப் பொறுப்பில் ஈடுபாடு குறைதல்.",
+   "Spiritual study and intuition.",
+   "Reduced engagement with family responsibilities.",
+   51
+  ],
+  "Venus:Saturn": [
+   "நிதானமான உறவு, சேமிப்பு, நீண்டகால நிலைத்தன்மை.",
+   "திருமணத் தாமதம், உணர்வுகளை வெளிப்படுத்தத் தயக்கம்.",
+   "Patient relationships, saving and stability.",
+   "Marriage delays and reserved emotional expression.",
+   "55–56"
+  ],
+  "Venus:Rahu": [
+   "கலை, ஊடகம், வெளிநாட்டுத் தொடர்பு.",
+   "அதிக ஆசை, ஆடம்பரச் செலவு.",
+   "Arts, media and international connections.",
+   "Excessive desire and luxury spending.",
+   "56–57"
+  ],
+  "Venus:Ketu": [
+   "பக்தி இசை, எளிமையான வாழ்க்கை.",
+   "உறவில் விலகல், உணர்ச்சி வெளிப்பாடு குறைதல்.",
+   "Devotional music and simple living.",
+   "Withdrawal and reserved expression.",
+   "58–59"
+  ],
+  "Saturn:Rahu": [
+   "விடாமுயற்சி, தொழில்நுட்ப ஆய்வு.",
+   "வேலை அழுத்தம், தவறான வழிகாட்டுதல்.",
+   "Persistence and technical research.",
+   "Work pressure and misleading guidance.",
+   "62–63"
+  ],
+  "Saturn:Ketu": [
+   "ஆன்மிகம், வரலாறு, ஆழ்ந்த ஆய்வு.",
+   "தனிமை, வேலை முன்னேற்றத்தில் தாமதம்.",
+   "Spiritual, historical and deep study.",
+   "Loneliness and slow career progress.",
+   "64–65"
+  ]
+ }
+}

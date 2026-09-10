@@ -61,6 +61,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'upagraha', label: 'உபகிரகங்கள்' },
   { id: 'numerology', label: 'எண் ஜோதிடம்' },
   { id: 'nadi', label: 'பிருகு நந்தி நாடி' },
+  { id: 'bnnLiterature', label: 'பிருகு நந்தி நாடி — இலக்கியம்' },
   { id: 'bhriguProgressions', label: 'பிருகு சக்கர / சரள பத்ததி' },
   { id: 'kp', label: 'KP ஜோதிடம்' },
   { id: 'kpEvents', label: 'KP முகூர்த்தம் (80 நிகழ்வு)' },
@@ -1056,6 +1057,81 @@ function NadiCombinationSection({ report }: { report: ReportData }) {
 
 const SIGN_TA = ['மேஷ', 'ரிஷப', 'மிது', 'கடக', 'சிம்', 'கன்னி', 'துலா', 'விரு', 'தனு', 'மகர', 'கும்ப', 'மீன'];
 
+function BnnLiteratureSection({ report }: { report: ReportData }) {
+  const b = (report as any).bnnLiterature;
+  const [tab, setTab] = useState<'karakas' | 'natal' | 'Saturn' | 'Jupiter' | 'Rahu' | 'Ketu'>('karakas');
+  if (!b?.available) return null;
+
+  const contactCard = (c: any) => (
+    <article key={`${c.from}-${c.to}-${c.offset}`} className="border border-line rounded p-3 mb-2 bg-surface">
+      <div className="flex items-baseline justify-between gap-2">
+        <h4 className="font-medium text-ink">{c.fromTa} {tab === 'natal' ? '+' : '→'} {c.toTa}</h4>
+        <span className="text-xs text-ink-soft">{c.relation.ta} · {c.gap}°</span>
+      </div>
+      <p className="text-[11px] text-ink-soft mb-1">
+        பிறப்புப் பாவம் {c.natalHouse} · அதிபத்தியம் {c.ownedHouses.join(', ') || '—'}
+        {c.dashaLordMatch.length ? ` · ${c.dashaLordMatch.join(' + ')} அதிபதி` : ''}
+      </p>
+      {c.readings.length === 0 && <p className="text-xs text-ink-soft">இந்தத் தொடர்புக்கு நூல் உரை இல்லை.</p>}
+      {c.readings.map((r: any, i: number) => (
+        <div key={i} className="text-sm mt-1.5">
+          {r.support.ta && <p className="text-emerald-700"><b>வாய்ப்பு / மாற்றம்: </b>{r.support.ta}</p>}
+          {r.challenge.ta && <p className="text-rose-700"><b>சவால் / சரிசெய்தல்: </b>{r.challenge.ta}</p>}
+          <p className="text-[11px] text-ink-soft">
+            {r.basis === 'lord' ? `${r.house}-ஆம் பாவ அதிபதி · ` : r.basis === 'matrix' ? 'நூல் சுருக்கம் · ' : ''}
+            {r.source.title} · PDF {r.source.page}
+          </p>
+          {r.method && <p className="text-[11px] text-ink-soft italic">{r.method.ta}</p>}
+        </div>
+      ))}
+    </article>
+  );
+
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">பிருகு நந்தி நாடி — இலக்கியம்</h2>
+      <div className="flex flex-wrap gap-1 mb-3 text-xs print:hidden">
+        {([['karakas', 'காரக இலக்கியம்'], ['natal', 'பிறப்பு இணைவுகள்'], ['Saturn', 'சனி கோச்சாரம்'], ['Jupiter', 'குரு கோச்சாரம்'], ['Rahu', 'ராகு கோச்சாரம்'], ['Ketu', 'கேது கோச்சாரம்']] as const).map(([k, l]) => (
+          <button key={k} onClick={() => setTab(k)}
+            className={`px-2 py-1 rounded ${tab === k ? 'bg-saffron text-ink' : 'bg-surface border border-line text-ink-soft'}`}>{l}</button>
+        ))}
+      </div>
+
+      {tab === 'karakas' && (
+        <div className="space-y-3">
+          {Object.entries(b.karakas).map(([id, k]: [string, any]) => (
+            <details key={id} className="border border-line rounded p-3 bg-surface">
+              <summary className="font-medium text-ink cursor-pointer">{id} <span className="text-xs text-ink-soft">PDF {k.pages.join(', ')}</span></summary>
+              <div className="text-sm mt-2 space-y-1.5">
+                <p><b className="text-ink-soft">Rao: </b>{k.rao[0]}</p>
+                <p><b className="text-ink-soft">Character: </b>{k.gemini[0]}</p>
+                <p><b className="text-ink-soft">இணைப்பு: </b>{k.synthesis[0]}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      )}
+
+      {tab === 'natal' && (
+        b.natalConjunctions.length
+          ? b.natalConjunctions.map(contactCard)
+          : <p className="text-sm text-ink-soft">இந்த ஜாதகத்தில் ஒரே ராசி கிரக இணைவு இல்லை.</p>
+      )}
+
+      {['Saturn', 'Jupiter', 'Rahu', 'Ketu'].includes(tab) && (
+        b.transitContacts[tab]?.length
+          ? b.transitContacts[tab].map(contactCard)
+          : <p className="text-sm text-ink-soft">இன்றைய கோச்சாரத்தில் {tab} தொடர்பு இல்லை.</p>
+      )}
+
+      <p className="text-[11px] text-ink-soft mt-3">
+        <b>மேலும் மதிப்பிட வேண்டியவை: </b>{b.caveat.ta}
+        {' '}முந்தைய kottravel-Nadi nadi-literature.js / transit-insights.js-லிருந்து port.
+      </p>
+    </div>
+  );
+}
+
 function BhriguProgressionSection({ report }: { report: ReportData }) {
   const bp = (report as any).bhriguProgressions;
   if (!bp?.available) return null;
@@ -1611,6 +1687,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   upagraha: UpagrahaSection,
   numerology: NumerologySection,
   nadi: NadiCombinationSection,
+  bnnLiterature: BnnLiteratureSection,
   bhriguProgressions: BhriguProgressionSection,
   kp: KpSystemSection,
   kpEvents: KpEventsSection,
