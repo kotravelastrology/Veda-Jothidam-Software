@@ -23,6 +23,7 @@ const { buildYoginiDasha, buildAshtottariDasha } = require('../dasha/altDashas')
 const { calculateKpEvents } = require('./kpEvents');
 const { calculateJaimini } = require('./jaimini');
 const { calculateAvasthas } = require('./avasthas');
+const { calculateNakshatraExtras } = require('./nakshatraExtras');
 
 const ALL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 
@@ -185,6 +186,19 @@ function buildReportData(birthInput) {
 
   const avasthas = calculateAvasthas(Object.fromEntries(CLASSICAL_GRAHAS.map((id) => [id, chart.grahas[id].longitude])));
 
+  const _nowT = new Date();
+  const _transitChart = calculateChart({
+    year: _nowT.getUTCFullYear(), month: _nowT.getUTCMonth() + 1, day: _nowT.getUTCDate(),
+    hour: _nowT.getUTCHours(), minute: _nowT.getUTCMinutes(), second: _nowT.getUTCSeconds(),
+    latitude: profile.chartContext.input.latitude, longitude: profile.chartContext.input.longitude,
+    utcOffsetMinutes: 0, ayanamsa: profile.chartContext.ayanamsha,
+  });
+  const nakshatraExtras = calculateNakshatraExtras(
+    chart.grahas.Moon.longitude,
+    _transitChart.positions.Moon.longitude,
+    Object.fromEntries(ALL_GRAHAS.map((id) => [id, chart.grahas[id].longitude])),
+  );
+
   const jaimini = calculateJaimini({
     lagnaLongitude: chart.lagna.longitude,
     grahaLongitudes: Object.fromEntries(
@@ -242,6 +256,7 @@ function buildReportData(birthInput) {
     kpEvents,
     jaimini,
     avasthas,
+    nakshatraExtras,
     altDashas,
     rajaYogas,
     doshas,

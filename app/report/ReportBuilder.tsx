@@ -54,6 +54,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'karaka', label: 'காரகங்கள்' },
   { id: 'jaimini', label: 'ஜைமினி ஜோதிடம்' },
   { id: 'avasthas', label: 'கிரக அவஸ்தைகள்' },
+  { id: 'nakshatraExtras', label: 'நட்சத்திரக் கூறுகள்' },
   { id: 'upagraha', label: 'உபகிரகங்கள்' },
   { id: 'numerology', label: 'எண் ஜோதிடம்' },
   { id: 'nadi', label: 'பிருகு நந்தி நாடி' },
@@ -1214,6 +1215,41 @@ function KpEventsSection({ report }: { report: ReportData }) {
   );
 }
 
+function NakshatraExtrasSection({ report }: { report: ReportData }) {
+  const n = (report as any).nakshatraExtras;
+  if (!n?.available) return null;
+  const sh = n.shashtiamsa || {};
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">நட்சத்திரக் கூறுகள்</h2>
+      <div className="text-sm mb-3 space-y-1">
+        <div>ஜன்ம நட்சத்திரம்: <span className="font-medium">{n.janmaNakshatra}</span> — பாதம் {n.janmaPada}</div>
+        <div>பெயர் எழுத்து (name syllable): <span className="font-medium text-saffron">{n.nameSyllable}</span>
+          <span className="text-ink-soft"> · 4 பாத எழுத்துகள்: {n.nakshatraSyllables.join(' · ')}</span></div>
+        {n.todayTaraBala && (
+          <div>இன்று ({n.todayNakshatra}) தாரா பலம்: <span className={n.todayTaraBala.favorable ? 'text-teal font-medium' : 'text-rose font-medium'}>
+            {n.todayTaraBala.nameTa}</span> <span className="text-ink-soft">(#{n.todayTaraBala.distance})</span></div>
+        )}
+      </div>
+      <p className="text-xs font-semibold text-ink-soft mb-1">ஷஷ்டியம்சம் (D60) அதிதேவதை</p>
+      <table className="w-full text-sm max-w-md">
+        <tbody>
+          {Object.entries(sh).map(([id, d]: [string, any]) => (
+            <tr key={id} className="border-b border-line/40">
+              <td className="py-1">{POINT_LABEL[id] ?? id}</td>
+              <td className="py-1">#{d.number} {d.nameTa}</td>
+              <td className={`py-1 text-xs ${d.benefic ? 'text-teal' : 'text-rose'}`}>{d.benefic ? 'சுபம்' : 'பாபம்'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="text-[11px] text-ink-soft mt-2">
+        தாரா பலம் 9-மடங்கு · 108-பாத பெயர் எழுத்து · D60 அதிதேவதை (BPHS ச.6 v.32) · முந்தைய AstrologicLab-லிருந்து port.
+      </p>
+    </div>
+  );
+}
+
 function AvasthaSection({ report }: { report: ReportData }) {
   const a = (report as any).avasthas;
   if (!a?.available) return null;
@@ -1353,6 +1389,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   karaka: KarakaSection,
   jaimini: JaiminiSection,
   avasthas: AvasthaSection,
+  nakshatraExtras: NakshatraExtrasSection,
   upagraha: UpagrahaSection,
   numerology: NumerologySection,
   nadi: NadiCombinationSection,

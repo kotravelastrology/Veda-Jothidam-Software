@@ -148,6 +148,43 @@ function calculateShashtiamsa(rasiIndex, degreeInSign) {
   return (rasiIndex + offset) % 12;
 }
 
+/**
+ * The 60 Shashtiamsa deities (BPHS Ch.6 v.32). The D60 SIGN is uniform for
+ * odd/even (calculateShashtiamsa); what reverses is the ORDER of the 60
+ * deities: odd (viṣama) signs count 1→60 direct, even (yugma) signs 60→1
+ * reverse ("oje krameṇa … yugme vyutkramataḥ"). Deity list + benefic/malefic
+ * nature ported from the prior AstrologicLab `shashtiamsa.ts` (its corpus-C30
+ * "D60_Shashtiamsha_Master_Guide" transcription).
+ */
+const SHASHTIAMSA_DEITIES = [
+  ['Ghora', 0, 'கோரம்'], ['Rakshasa', 0, 'ராக்ஷசம்'], ['Deva', 1, 'தேவம்'], ['Kubera', 1, 'குபேரம்'],
+  ['Yaksha', 1, 'யக்ஷம்'], ['Kinnara', 1, 'கின்னரம்'], ['Bhrashta', 0, 'ப்ரஷ்டம்'], ['Kulisa', 0, 'குலிசம்'],
+  ['Garuda', 1, 'கருடம்'], ['Agni', 0, 'அக்னி'], ['Maya', 0, 'மாயா'], ['Preta', 0, 'ப்ரேதம்'],
+  ['Purisha', 0, 'புரீஷம்'], ['Apampati', 1, 'அபாம்பதி'], ['Marutwan', 1, 'மருத்வான்'], ['Kaala', 0, 'காலம்'],
+  ['Sarpa', 0, 'சர்ப்பம்'], ['Amrita', 1, 'அமிர்தம்'], ['Indumukhi', 1, 'இந்துமுகி'], ['Mridu', 1, 'மிருது'],
+  ['Komala', 1, 'கோமளம்'], ['Heramba', 1, 'ஹேரம்பம்'], ['Brahma', 1, 'பிரஹ்மா'], ['Vishnu', 1, 'விஷ்ணு'],
+  ['Maheshwara', 1, 'மகேஸ்வரன்'], ['Deva/Sudha', 1, 'தேவா/சுதா'], ['Kalinasa', 1, 'கலிநாசம்'], ['Kshitishwara', 1, 'க்ஷிதீஸ்வரன்'],
+  ['Kamalakara', 1, 'கமலாக்கரன்'], ['Gulika', 0, 'குளிகன்'], ['Mrityu', 0, 'மிருத்யு'], ['Kaala', 0, 'காலம்'],
+  ['Davagni', 0, 'தவாக்னி'], ['Ghora', 0, 'கோரம்'], ['Yama', 0, 'யமன்'], ['Kantaka', 0, 'கண்டகம்'],
+  ['Sudha', 1, 'சுதா'], ['Amrita', 1, 'அமிர்தம்'], ['Purnachandra', 1, 'பூர்ணசந்திரன்'], ['Vishadagdha', 0, 'விஷதத்தம்'],
+  ['Kulanasa', 0, 'குலநாசம்'], ['Mukhya', 1, 'முக்யம்'], ['Maya', 0, 'மாயா'], ['Pretapuri', 0, 'ப்ரேதபுரி'],
+  ['Dhanta', 1, 'தாந்தம்'], ['Indra', 1, 'இந்திரன்'], ['Devaguru', 1, 'தேவகுரு'], ['Chandra', 1, 'சந்திரன்'],
+  ['Yamaghataka', 0, 'யமகண்டகம்'], ['Satru', 0, 'சத்ரு'], ['Kalinasa', 1, 'கலிநாசம்'], ['Mukhya', 1, 'முக்யம்'],
+  ['Gulika', 0, 'குளிகன்'], ['Utpata', 0, 'உத்பாதம்'], ['Kaalarupa', 0, 'காலரூபம்'], ['Mrityu', 0, 'மிருத்யு'],
+  ['Susheetala', 1, 'சுசீதளம்'], ['Sudha', 1, 'சுதா'], ['Amrita', 1, 'அமிர்தம்'], ['Indurekha/Kshiti', 1, 'இந்துரேகா/க்ஷிதி'],
+];
+
+/** @param longitude sidereal longitude → { number, name, nameTa, benefic }. */
+function shashtiamsaDeity(longitude) {
+  const L = ((longitude % 360) + 360) % 360;
+  const sign = Math.floor(L / 30) % 12;
+  const idx = Math.min(59, Math.floor((L % 30) / 0.5));
+  const oddSign = sign % 2 === 0;
+  const number = oddSign ? idx + 1 : 60 - idx;
+  const [name, benefic, nameTa] = SHASHTIAMSA_DEITIES[number - 1];
+  return { number, name, nameTa, benefic: benefic === 1 };
+}
+
 const VARGA_KEYS = ['D1', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D40', 'D45'];
 
 /**
@@ -180,6 +217,7 @@ module.exports = {
   calculateHora,
   calculateTrimsamsa,
   calculateShashtiamsa,
+  shashtiamsaDeity,
   equalDivisionVarga,
   EQUAL_DIVISION_VARGAS,
   movability,
