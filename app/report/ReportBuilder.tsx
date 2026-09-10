@@ -51,6 +51,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'shodasaBala', label: 'சோடச பலம்' },
   { id: 'nabhasaYoga', label: 'நபஸ யோகங்கள்' },
   { id: 'karaka', label: 'காரகங்கள்' },
+  { id: 'upagraha', label: 'உபகிரகங்கள்' },
 ];
 
 function SourceRequiredBadge({ reason }: { reason?: string }) {
@@ -708,6 +709,46 @@ function KarakaSection({ report }: { report: ReportData }) {
   );
 }
 
+const UPAGRAHA_LABEL: Record<string, string> = {
+  Dhuma: 'தூமன்', Vyatipata: 'வியதீபாதன்', Parivesha: 'பரிவேஷன்',
+  Indrachapa: 'இந்திரசாபம்', Upaketu: 'உபகேது', Gulika: 'குளிகன்', Mandi: 'மாந்தி',
+};
+
+function UpagrahaSection({ report }: { report: ReportData }) {
+  const up = (report as any).upagraha;
+  if (!up?.upagrahas) return null;
+  const rows = Object.entries(up.upagrahas) as [string, any][];
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">உபகிரகங்கள்</h2>
+      <table className="w-full text-sm max-w-lg">
+        <thead>
+          <tr className="text-ink-soft border-b border-line">
+            <th className="text-left py-1">உபகிரகம்</th>
+            <th className="text-left py-1">ராசி</th>
+            <th className="text-right py-1">பாகை</th>
+            <th className="text-left py-1 pl-3">அதிபதி</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([name, v]) => (
+            <tr key={name} className="border-b border-line/50">
+              <td className="py-1">{UPAGRAHA_LABEL[name] ?? name}</td>
+              <td className="py-1">{RASI_SHORT[v.rasi] ?? v.rasi}</td>
+              <td className="py-1 text-right tabular-nums">{v.degreeInSign.toFixed(2)}°</td>
+              <td className="py-1 pl-3 text-ink-soft">{POINT_LABEL[v.parent] ?? v.parent}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="text-xs text-ink-soft mt-2">
+        தூமன்–உபகேது சூரிய தீர்க்கத்திலிருந்து (BPHS ச.3). குளிகன்/மாந்தி: பலதீபிகா ச.25 —
+        {' '}{up.birthPeriod === 'night' ? 'இரவு' : 'பகல்'} பிறப்பு, லக்ன உதயம்.
+      </p>
+    </div>
+  );
+}
+
 const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData }>> = {
   profile: ProfileSection,
   lagnaGraha: LagnaGrahaSection,
@@ -721,6 +762,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   shodasaBala: ShodasaBalaSection,
   nabhasaYoga: NabhasaYogaSection,
   karaka: KarakaSection,
+  upagraha: UpagrahaSection,
 };
 
 export default function ReportBuilder() {

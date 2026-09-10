@@ -92,4 +92,18 @@ function calculateChart({ year, month, day, hour, minute = 0, second = 0,
   };
 }
 
-module.exports = { calculateChart };
+/**
+ * Sidereal Ascendant (Lagna longitude) for a raw Julian Day — used by
+ * time-slot calculations (Gulika/Mandi and other kāla-based upagrahas) that
+ * need the rising sign at instants between sunrise and sunset rather than a
+ * full chart. Same tropical→sidereal correction as `siderealizeHouses`.
+ */
+function siderealAscendant(jd, latitude, longitude, ayanamsa = 'Lahiri') {
+  const siderealMode = SiderealMode[ayanamsa];
+  if (siderealMode === undefined) throw new RangeError(`Unsupported ayanamsa: ${ayanamsa}`);
+  setSiderealMode(siderealMode);
+  const houses = calculateHouses(jd, latitude, longitude, HouseSystem.Porphyrius);
+  return norm360(houses.ascendant - getAyanamsa(jd));
+}
+
+module.exports = { calculateChart, siderealAscendant };
