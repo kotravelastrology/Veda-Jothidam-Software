@@ -30,6 +30,7 @@ import { useUIManager } from '../ui/useUIManager';
 import { SettingsPanel } from '../ui/SettingsPanel';
 import { ToolsPanel } from '../ui/ToolsPanel';
 import { HelpPanel } from '../ui/HelpPanel';
+import { OpenChartDialog } from '../ui/OpenChartDialog';
 import { useKeyboardShortcuts } from '../ui/useKeyboardShortcuts';
 
 interface MenuItem {
@@ -262,12 +263,10 @@ export function TopMenuBar() {
         router.push('/report');
         break;
       case 'open':
-        // Handle: Open Chart dialog
-        alert('Open Chart - Coming in Phase 31.1');
+        uiActions.openChartDialog('all');
         break;
       case 'recent':
-        // Handle: Recent Charts menu
-        alert('Recent Charts - Coming in Phase 31.1');
+        uiActions.openChartDialog('recent');
         break;
       case 'save':
       case 'saveas': {
@@ -507,6 +506,11 @@ export function TopMenuBar() {
         isOpen={uiState.helpOpen}
         onClose={uiActions.closeHelp}
         tab={uiState.helpTab}
+      />
+      <OpenChartDialog
+        isOpen={uiState.chartDialogOpen}
+        mode={uiState.chartDialogMode}
+        onClose={uiActions.closeChartDialog}
       />
     </>
   );

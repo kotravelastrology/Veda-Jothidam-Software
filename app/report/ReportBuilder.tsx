@@ -7,6 +7,7 @@ import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
 import { ChartTypeSelector } from '@/src/charts/ChartTypeSelector';
 import { ChartDisplay } from '@/src/charts/ChartDisplay';
 import { getChartById, type ChartCategory } from '@/src/charts/chartTypes';
+import { getChartLibrary } from '@/src/portal/ChartLibraryManager';
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
 const CHART_POINTS = ['Lagna', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -726,6 +727,7 @@ export default function ReportBuilder() {
   const [order, setOrder] = useState<string[]>(SECTIONS.map((s) => s.id));
   const [selectedChartId, setSelectedChartId] = useState<string>('D1-rasi');
   const [initialChartCategory, setInitialChartCategory] = useState<ChartCategory | undefined>(undefined);
+  const [loadedBirthData, setLoadedBirthData] = useState<Partial<BirthData> | null>(null);
 
   // Deep-link support: /report?chart=<chartId> jumps straight to that chart's
   // category and pre-selects it once a report is available (menu bar navigation).
@@ -795,6 +797,39 @@ export default function ReportBuilder() {
     }
   };
 
+  // Deep-link: /report?load=<chartId> pulls a saved chart from the library
+  // (File → Open / Recent Charts), fills the form and calculates it.
+  useEffect(() => {
+    const loadId = new URLSearchParams(window.location.search).get('load');
+    if (!loadId) return;
+    const saved = getChartLibrary().getChart(loadId);
+    if (!saved) {
+      setError('That saved chart could not be found — it may have been deleted.');
+      return;
+    }
+    const bd: BirthData = {
+      name: saved.birthData.name || '',
+      fatherName: '',
+      motherName: '',
+      gender: (saved.birthData as any).gender || 'male',
+      dateOfBirth: saved.birthData.dateOfBirth,
+      timeOfBirth: saved.birthData.timeOfBirth,
+      place: saved.birthData.place,
+      latitude: saved.birthData.latitude,
+      longitude: saved.birthData.longitude,
+      utcOffset: saved.birthData.utcOffset,
+    };
+    setLoadedBirthData(bd);
+    if (saved.chartTypes?.[0]) {
+      const match = getChartById(saved.chartTypes[0]);
+      if (match) {
+        setSelectedChartId(match.id);
+        setInitialChartCategory(match.category);
+      }
+    }
+    handleFormSubmit(bd);
+  }, []);
+
   return (
     <main className="min-h-screen">
       <header className="bg-gradient-to-br from-indigo-soft via-bg to-saffron-soft px-6 py-8 border-b border-line print:hidden">
@@ -806,7 +841,7 @@ export default function ReportBuilder() {
 
       <section className="max-w-3xl mx-auto px-6 py-8 print:hidden">
         <div className="bg-surface border border-line rounded-2xl p-5 mb-6">
-          <BirthDataForm onSubmit={handleFormSubmit} isLoading={loading} />
+          <BirthDataForm onSubmit={handleFormSubmit} isLoading={loading} initialData={loadedBirthData} />
         </div>
         {error && <p className="text-rose text-sm mb-4">⚠️ பிழை: {error}</p>}
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 
 export interface BirthData {
   name: string;
@@ -18,9 +18,10 @@ export interface BirthData {
 export interface BirthDataFormProps {
   onSubmit: (data: BirthData) => void;
   isLoading?: boolean;
+  initialData?: Partial<BirthData> | null;
 }
 
-export function BirthDataForm({ onSubmit, isLoading = false }: BirthDataFormProps) {
+export function BirthDataForm({ onSubmit, isLoading = false, initialData = null }: BirthDataFormProps) {
   const [formData, setFormData] = useState<BirthData>({
     name: 'Test Person',
     fatherName: '',
@@ -32,7 +33,15 @@ export function BirthDataForm({ onSubmit, isLoading = false }: BirthDataFormProp
     latitude: 11.341,
     longitude: 77.7172,
     utcOffset: 330,
+    ...(initialData ?? {}),
   });
+
+  // Populate the form when a saved chart is loaded (File → Open / Recent Charts)
+  useEffect(() => {
+    if (initialData) {
+      setFormData((prev) => ({ ...prev, ...initialData }));
+    }
+  }, [initialData]);
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
