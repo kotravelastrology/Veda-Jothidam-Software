@@ -21,6 +21,7 @@ const { calculateBhriguProgressions } = require('./bhriguProgressions');
 const { calculateKpSystem } = require('./kpSystem');
 const { buildYoginiDasha, buildAshtottariDasha } = require('../dasha/altDashas');
 const { calculateKpEvents } = require('./kpEvents');
+const { calculateJaimini } = require('./jaimini');
 
 const ALL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 
@@ -175,11 +176,20 @@ function buildReportData(birthInput) {
     mahadashaLord: runningMaha ? runningMaha.lord : null,
   });
 
+  const bi = profile.chartContext.input;
+  const birthMs = Date.UTC(bi.year, bi.month - 1, bi.day, bi.hour, bi.minute || 0, bi.second || 0) - (bi.utcOffsetMinutes || 0) * 60000;
+
   const kp = calculateKpSystem(profile.chartContext.input, { nodeType: profile.chartContext.nodeType });
   const kpEvents = calculateKpEvents(kp);
 
-  const bi = profile.chartContext.input;
-  const birthMs = Date.UTC(bi.year, bi.month - 1, bi.day, bi.hour, bi.minute || 0, bi.second || 0) - (bi.utcOffsetMinutes || 0) * 60000;
+  const jaimini = calculateJaimini({
+    lagnaLongitude: chart.lagna.longitude,
+    grahaLongitudes: Object.fromEntries(
+      ALL_GRAHAS.map((id) => [id, chart.grahas[id].longitude]),
+    ),
+    birthMs,
+  });
+
   const altDashas = {
     yogini: buildYoginiDasha(longitudes.Moon, birthMs),
     ashtottari: buildAshtottariDasha(longitudes.Moon, birthMs),
@@ -227,6 +237,7 @@ function buildReportData(birthInput) {
     bhriguProgressions,
     kp,
     kpEvents,
+    jaimini,
     altDashas,
     rajaYogas,
     doshas,

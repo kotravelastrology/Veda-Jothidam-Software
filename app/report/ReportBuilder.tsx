@@ -52,6 +52,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'shodasaBala', label: 'சோடச பலம்' },
   { id: 'nabhasaYoga', label: 'நபஸ யோகங்கள்' },
   { id: 'karaka', label: 'காரகங்கள்' },
+  { id: 'jaimini', label: 'ஜைமினி ஜோதிடம்' },
   { id: 'upagraha', label: 'உபகிரகங்கள்' },
   { id: 'numerology', label: 'எண் ஜோதிடம்' },
   { id: 'nadi', label: 'பிருகு நந்தி நாடி' },
@@ -1212,6 +1213,100 @@ function KpEventsSection({ report }: { report: ReportData }) {
   );
 }
 
+function JaiminiSection({ report }: { report: ReportData }) {
+  const j = (report as any).jaimini;
+  const [tab, setTab] = useState<'karakas' | 'arudha' | 'chara' | 'drishti'>('karakas');
+  if (!j?.available) return null;
+  const nowMs = Date.now();
+  const curD = j.charaDasha.periods.findIndex((p: any) => p.startMs <= nowMs && nowMs < p.endMs);
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">ஜைமினி ஜோதிடம்</h2>
+      <div className="flex gap-1 mb-3 text-xs print:hidden">
+        {([['karakas', 'சர காரகர்'], ['arudha', 'ஆருடம் A1-A12'], ['chara', 'சர (நாராயண) தசை'], ['drishti', 'ராசி திருஷ்டி']] as const).map(([k, l]) => (
+          <button key={k} onClick={() => setTab(k)}
+            className={`px-2 py-1 rounded ${tab === k ? 'bg-saffron text-ink' : 'bg-surface border border-line text-ink-soft'}`}>{l}</button>
+        ))}
+      </div>
+
+      {tab === 'karakas' && (
+        <div className="grid md:grid-cols-2 gap-6">
+          <table className="text-sm w-full">
+            <thead><tr className="text-ink-soft border-b border-line"><th className="text-left py-1">சர காரகன்</th><th className="text-left py-1">கிரகம்</th><th className="text-right py-1">பாகை</th></tr></thead>
+            <tbody>
+              {j.charaKarakas.map((k: any) => (
+                <tr key={k.role} className="border-b border-line/40">
+                  <td className="py-1">{k.roleTa}</td>
+                  <td className="py-1">{POINT_LABEL[k.planet] ?? k.planet}</td>
+                  <td className="py-1 text-right tabular-nums">{k.degreeInSign}°</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="text-sm">
+            <p className="text-ink-soft mb-1">கார்காம்சம் (Karkamsha)</p>
+            <p>ஆத்மகாரகன் <span className="font-medium">{POINT_LABEL[j.karkamsha.atmakaraka] ?? j.karkamsha.atmakaraka}</span> → நவாம்சம் <span className="font-medium">{RASI_SHORT[j.karkamsha.rasi] ?? j.karkamsha.rasi}</span></p>
+            <p className="mt-1">இஷ்ட தேவதை: <span className="text-saffron">{j.karkamsha.ishtaDevata.devata}</span> ({POINT_LABEL[j.karkamsha.ishtaDevata.planet] ?? j.karkamsha.ishtaDevata.planet})</p>
+            <p>தர்ம தேவதை: <span className="text-saffron">{j.karkamsha.dharmaDevata.devata}</span> ({POINT_LABEL[j.karkamsha.dharmaDevata.planet] ?? j.karkamsha.dharmaDevata.planet})</p>
+          </div>
+        </div>
+      )}
+
+      {tab === 'arudha' && (
+        <table className="text-sm w-full max-w-md">
+          <thead><tr className="text-ink-soft border-b border-line"><th className="text-left py-1">பதம்</th><th className="text-left py-1">ராசி</th></tr></thead>
+          <tbody>
+            {j.bhavaArudhas.map((a: any) => (
+              <tr key={a.label} className="border-b border-line/40">
+                <td className="py-1">{a.label}</td>
+                <td className="py-1">{RASI_SHORT[a.rasi] ?? a.rasi}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      {tab === 'chara' && (
+        <>
+          <p className="text-xs text-ink-soft mb-2">திசை: {j.charaDasha.direction === 'direct' ? 'நேர்' : 'எதிர்'}</p>
+          <table className="text-sm w-full">
+            <thead><tr className="text-ink-soft border-b border-line"><th className="text-left py-1">ராசி</th><th className="text-right py-1">ஆண்டு</th><th className="text-left py-1 pl-4">காலம்</th></tr></thead>
+            <tbody>
+              {j.charaDasha.periods.map((d: any, i: number) => (
+                <tr key={i} className={`border-b border-line/40 ${i === curD ? 'bg-saffron/10 font-semibold' : ''}`}>
+                  <td className="py-1">{RASI_SHORT[d.rasi] ?? d.rasi}{i === curD ? ' ·நடப்பு' : ''}</td>
+                  <td className="py-1 text-right tabular-nums">{d.years}</td>
+                  <td className="py-1 pl-4 text-ink-soft">{d.start} → {d.end}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
+
+      {tab === 'drishti' && (
+        <table className="text-sm w-full">
+          <thead><tr className="text-ink-soft border-b border-line"><th className="text-left py-1">ராசி</th><th className="text-left py-1">வகை</th><th className="text-left py-1">பார்க்கும் ராசிகள்</th></tr></thead>
+          <tbody>
+            {j.rashiDrishti.map((r: any) => (
+              <tr key={r.rasiIndex} className="border-b border-line/40">
+                <td className="py-1">{RASI_SHORT[r.rasi] ?? r.rasi}</td>
+                <td className="py-1 text-ink-soft">{r.type}</td>
+                <td className="py-1">{r.aspects.map((a: string) => RASI_SHORT[a] ?? a).join(', ')}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      <p className="text-[11px] text-ink-soft mt-2">
+        சர காரகன் = ராசிக்குள் அதிக பாகை வரிசை · ஆருட பதம் 1st/7th விதிவிலக்குடன் · சர தசை: ஒற்றை/இரட்டை லக்னம் → நேர்/எதிர் திசை.
+        முந்தைய AstrologicLab jaimuni engine-லிருந்து port.
+      </p>
+    </div>
+  );
+}
+
 const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData }>> = {
   profile: ProfileSection,
   lagnaGraha: LagnaGrahaSection,
@@ -1225,6 +1320,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   shodasaBala: ShodasaBalaSection,
   nabhasaYoga: NabhasaYogaSection,
   karaka: KarakaSection,
+  jaimini: JaiminiSection,
   upagraha: UpagrahaSection,
   numerology: NumerologySection,
   nadi: NadiCombinationSection,
