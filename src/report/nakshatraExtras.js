@@ -10,6 +10,45 @@
  */
 const { shashtiamsaDeity } = require('../chart/vargaChart');
 
+// ── Nadiamsa (Deva Keralam's 150-part-per-rasi / 1800-total micro-division) ──
+// Source: "Deva Keralam (Chandra Kala Nadi)", tr. R. Santhanam — Table 1/2.
+// Each rasi -> 150 slots of 12' (0.2°); which of the 150 NAMES a slot carries
+// depends on the sign's modality (movable direct, fixed reverse, dual
+// 76-150 then 1-75). Each 12' slot splits into 4 Kalas of 3'
+// (Vipra/Kshatriya/Vaisya/Soodra). The name table is SPARSE — only OCR-legible
+// entries from the scanned source; missing indices return null, never guessed.
+const NADIAMSA_NAMES = {
+  1: 'Vasudha', 2: 'Vaishnavi', 3: 'Braahi', 4: 'Kalakoota', 5: 'Sankari',
+  6: 'Sudhakarasama', 7: 'Saumya', 8: 'Suraa', 9: 'Maaya', 10: 'Manoharaa',
+  11: 'Maadhavi', 13: 'Ghoraa', 15: 'Kutilaa', 17: 'Paraa', 19: 'Maala',
+  21: 'Jarjhari', 22: 'Dhruvaa', 23: 'Musalaa', 24: 'Mudgala', 25: 'Pasaa',
+  26: 'Chambaka', 28: 'Mahi', 30: 'Kamalaa', 31: 'Kanthaa', 34: 'Kshamaa',
+  35: 'Durdharaa', 38: 'Visirnaa', 42: 'Sukhaprada', 43: 'Snigdha', 47: 'Kaala',
+  50: 'Kundini', 51: 'Kanthaa', 52: 'Vishakhya', 53: 'Vishanaasini', 54: 'Nirmada',
+  55: 'Seethala', 56: 'Nimnaa', 57: 'Preeta', 58: 'Priyavivardhani', 59: 'Manaadha',
+  62: 'Vichitra', 64: 'Bhoopa', 65: 'Gadaaharaa', 75: 'Trailokyamohanakari', 78: 'Sukhadaa',
+  79: 'Suprabhaa', 88: 'Sootana', 89: 'Sumanoharaa', 91: 'Somalatha', 92: 'Mangala',
+  94: 'Sudha', 95: 'Melaa', 101: 'Nirgathaa', 103: 'Samagaa', 105: 'Samaa',
+  109: 'Kunyarakrithi', 121: 'Haarini', 125: 'Dhanada', 126: 'Kachchapa', 130: 'Raudri',
+  134: 'Mukundaa', 140: 'Kokilamsa', 143: 'Viraprasoo', 144: 'Sangaraa', 146: 'Sataavari',
+  147: 'Sragvi', 149: 'Naagapankaja', 150: 'Parameswari',
+};
+const NADIAMSA_KALAS = ['Vipra', 'Kshatriya', 'Vaisya', 'Soodra'];
+
+function calculateNadiamsa(longitude) {
+  const l = ((longitude % 360) + 360) % 360;
+  const s0 = Math.floor(l / 30);
+  const deg = l - s0 * 30;
+  const mod = ((s0 % 3) + 3) % 3; // 0 movable, 1 fixed, 2 dual
+  const modality = mod === 0 ? 'movable' : mod === 1 ? 'fixed' : 'dual';
+  const EPS = 1e-9;
+  const slot = Math.min(150, Math.floor(deg / 0.2 + EPS) + 1);
+  const nameIndex = mod === 0 ? slot : mod === 1 ? 151 - slot : (slot > 75 ? slot - 75 : slot + 75);
+  const minsIn = (deg - (slot - 1) * 0.2) * 60;
+  const kala = NADIAMSA_KALAS[Math.min(3, Math.floor(minsIn / 3 + EPS))];
+  return { slot, nameIndex, modality, name: NADIAMSA_NAMES[nameIndex] || null, kala };
+}
+
 const NAKSHATRA_NAMES = [
   'Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu',
   'Pushya', 'Ashlesha', 'Magha', 'Purva Phalguni', 'Uttara Phalguni', 'Hasta',
@@ -77,8 +116,11 @@ function calculateNakshatraExtras(moonLongitude, transitMoonLongitude, grahaLong
     out.shashtiamsa = Object.fromEntries(
       Object.entries(grahaLongitudes).map(([id, lon]) => [id, shashtiamsaDeity(lon)]),
     );
+    out.nadiamsa = Object.fromEntries(
+      Object.entries(grahaLongitudes).map(([id, lon]) => [id, calculateNadiamsa(lon)]),
+    );
   }
   return out;
 }
 
-module.exports = { calculateNakshatraExtras, taraBala, PADA_SYLLABLES, NAKSHATRA_NAMES };
+module.exports = { calculateNakshatraExtras, taraBala, calculateNadiamsa, PADA_SYLLABLES, NAKSHATRA_NAMES };

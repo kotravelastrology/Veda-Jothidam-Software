@@ -49,3 +49,23 @@ console.log(JSON.stringify({
   pass: true, janma: e.janmaNakshatra, syllable: e.nameSyllable,
   todayTara: e.todayTaraBala.name, sunD60: e.shashtiamsa.Sun.name,
 }, null, 2));
+
+// ── Nadiamsa (Deva Keralam 150-part) ─────────────────────────────────
+const { calculateNadiamsa } = require('./src/report/nakshatraExtras');
+// The book's own worked example: 10°52' -> slot 55.
+const mov = calculateNadiamsa(10 + 52 / 60);            // Aries (movable): name-index = slot
+assert.equal(mov.slot, 55);
+assert.equal(mov.nameIndex, 55);
+assert.equal(mov.name, 'Seethala');
+const dual = calculateNadiamsa(60 + 10 + 52 / 60);      // Gemini (dual): slot 55 -> name-index 55+75 = 130
+assert.equal(dual.nameIndex, 130);
+assert.equal(dual.name, 'Raudri');
+const fix = calculateNadiamsa(30 + 10 + 52 / 60);       // Taurus (fixed): name-index = 151-55 = 96
+assert.equal(fix.nameIndex, 96);
+assert.equal(fix.name, null);                            // OCR gap -> never guessed
+// boundaries: 0° -> slot 1, just under 30° -> slot 150; 4 Kalas of 3'
+assert.equal(calculateNadiamsa(0).slot, 1);
+assert.equal(calculateNadiamsa(29.999).slot, 150);
+assert.equal(calculateNadiamsa(0).kala, 'Vipra');
+assert.equal(calculateNadiamsa(0.075).kala, 'Kshatriya'); // 4.5' into the sign = 2nd 3' Kala (3'-6')
+console.log(JSON.stringify({ nadiamsaPass: true, movExample: mov.name, dualExample: dual.name }, null, 2));

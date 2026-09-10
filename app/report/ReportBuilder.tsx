@@ -1372,8 +1372,31 @@ function NakshatraExtrasSection({ report }: { report: ReportData }) {
           ))}
         </tbody>
       </table>
+
+      {(report as any).nakshatraExtras?.nadiamsa && (
+        <>
+          <p className="text-xs font-semibold text-ink-soft mb-1 mt-4">நாடியம்சம் (Deva Keralam 150/ராசி · 1800 மொத்தம்)</p>
+          <table className="w-full text-xs max-w-lg">
+            <thead><tr className="text-ink-soft border-b border-line">
+              <th className="text-left py-1">கிரகம்</th><th className="text-right py-1">பகுதி</th>
+              <th className="text-left py-1">பெயர்</th><th className="text-left py-1">கலா</th>
+            </tr></thead>
+            <tbody>
+              {Object.entries((report as any).nakshatraExtras.nadiamsa).map(([id, n]: [string, any]) => (
+                <tr key={id} className="border-b border-line/40">
+                  <td className="py-1">{POINT_LABEL[id] ?? id}</td>
+                  <td className="py-1 text-right tabular-nums">{n.nameIndex}/150</td>
+                  <td className="py-1">{n.name ?? <span className="text-ink-soft/50">—</span>}</td>
+                  <td className="py-1 text-ink-soft">{n.kala}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
       <p className="text-[11px] text-ink-soft mt-2">
-        தாரா பலம் 9-மடங்கு · 108-பாத பெயர் எழுத்து · D60 அதிதேவதை (BPHS ச.6 v.32) · முந்தைய AstrologicLab-லிருந்து port.
+        தாரா பலம் 9-மடங்கு · 108-பாத பெயர் எழுத்து · D60 அதிதேவதை (BPHS ச.6 v.32) · நாடியம்சம் (Deva Keralam) — முந்தைய AstrologicLab-லிருந்து port.
+        நாடியம்ச பெயர்கள் OCR-ல் தெளிவானவை மட்டுமே; மற்றவை "—".
       </p>
     </div>
   );
