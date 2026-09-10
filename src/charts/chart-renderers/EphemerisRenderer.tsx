@@ -1,11 +1,13 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { TransitCalculator } from '@/src/analysis/TransitCalculator';
+import { useEffect, useState } from 'react';
+import { computeEphemerisRange } from '@/app/report/transitActions';
 
 interface EphemerisRendererProps {
   report: any;
 }
+
+type Row = { date: Date; byPlanet: Record<string, { sign: string; degree: number; retro: boolean }> };
 
 const PLANETS = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Rahu', 'Ketu'] as const;
 const PLANET_GLYPH: Record<string, string> = {
@@ -30,27 +32,33 @@ export function EphemerisRenderer({ report }: EphemerisRendererProps) {
     birthDob || new Date().toISOString().split('T')[0],
   );
   const [intervalIdx, setIntervalIdx] = useState(0);
+  const [rows, setRows] = useState<Row[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const interval = INTERVALS[intervalIdx];
+  const lat = Number(report?.input?.latitude) || 0;
+  const lng = Number(report?.input?.longitude) || 0;
+  const ayanamsha = report?.chart?.ayanamsha || 'Lahiri';
+  const nodeType = report?.chart?.nodeType === 'true' ? 'true' : 'mean';
 
-  const rows = useMemo(() => {
-    const base = new Date(startDate + 'T12:00:00');
-    if (isNaN(base.getTime())) return [];
-    return Array.from({ length: interval.rows }, (_, i) => {
-      const d = new Date(base);
-      d.setDate(d.getDate() + i * interval.days);
-      const transit = TransitCalculator.calculateTransits(d);
-      const byPlanet: Record<string, { sign: string; degree: number; retro: boolean }> = {};
-      transit.planets.forEach((p) => {
-        byPlanet[p.planet] = {
-          sign: p.sign ?? '',
-          degree: Number.isFinite(p.degree) ? p.degree : 0,
-          retro: !!p.isRetrograde,
-        };
-      });
-      return { date: d, byPlanet };
-    });
-  }, [startDate, interval]);
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
+    computeEphemerisRange(startDate, interval.days, interval.rows, { latitude: lat, longitude: lng, ayanamsha, nodeType })
+      .then((data: any[]) => {
+        if (cancelled) return;
+        setRows(data.map((t) => {
+          const byPlanet: Row['byPlanet'] = {};
+          t.planets.forEach((p: any) => {
+            byPlanet[p.planet] = { sign: p.sign ?? '', degree: Number.isFinite(p.degree) ? p.degree : 0, retro: !!p.isRetrograde };
+          });
+          return { date: new Date(`${t.date}T12:00:00Z`), byPlanet };
+        }));
+      })
+      .catch(() => { if (!cancelled) setRows([]); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [startDate, interval.days, interval.rows, lat, lng, ayanamsha, nodeType]);
 
   return (
     <div className="space-y-5">
@@ -95,6 +103,8 @@ export function EphemerisRenderer({ report }: EphemerisRendererProps) {
         )}
       </div>
 
+      {loading && <p className="text-sm text-ink-soft">கணக்கிடுகிறது… / Calculating positions…</p>}
+
       {/* Table */}
       <div className="overflow-x-auto border border-line rounded-lg">
         <table className="w-full text-sm">
@@ -135,8 +145,7 @@ export function EphemerisRenderer({ report }: EphemerisRendererProps) {
       </div>
 
       <p className="text-xs text-ink-soft">
-        Positions use the Phase 35 sidereal transit model (mean motion). For precise ephemeris work, cross-check against a
-        Swiss-ephemeris table.
+        Sidereal longitudes from the Swiss Ephemeris ({ayanamsha} ayanamsha, {nodeType} node), computed at 12:00 UTC on each date.
       </p>
     </div>
   );

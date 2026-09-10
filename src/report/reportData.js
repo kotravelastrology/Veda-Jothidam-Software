@@ -55,7 +55,7 @@ function buildYogasDoshasChart(chart, rasiPositions) {
  * matters here in that different observers see negligibly different
  * geocentric longitudes, so the birth place is reused rather than adding a
  * separate "current location" input. */
-function currentTransitRasiPositions(latitude, longitude) {
+function currentTransitRasiPositions(latitude, longitude, ayanamsha = 'Lahiri') {
   const now = new Date();
   const chart = calculateChart({
     year: now.getUTCFullYear(),
@@ -67,6 +67,7 @@ function currentTransitRasiPositions(latitude, longitude) {
     latitude,
     longitude,
     utcOffsetMinutes: 0,
+    ayanamsa: ayanamsha,
   });
   return Object.fromEntries(
     Object.entries(chart.positions).map(([planet, position]) => [
@@ -134,6 +135,7 @@ function buildReportData(birthInput) {
   const transitRasiPositions = currentTransitRasiPositions(
     profile.chartContext.input.latitude,
     profile.chartContext.input.longitude,
+    profile.chartContext.ayanamsha,
   );
   const transit = calculateTransitContext(transitRasiPositions, ashtakavarga);
   const bhavaBala = calculateBhavaBala(chart.lagna.rasiIndex, rasiPositions, ashtakavarga);
