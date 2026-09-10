@@ -22,6 +22,7 @@ const { calculateKpSystem } = require('./kpSystem');
 const { buildYoginiDasha, buildAshtottariDasha } = require('../dasha/altDashas');
 const { calculateKpEvents } = require('./kpEvents');
 const { calculateJaimini } = require('./jaimini');
+const { calculateAvasthas } = require('./avasthas');
 
 const ALL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 
@@ -182,6 +183,8 @@ function buildReportData(birthInput) {
   const kp = calculateKpSystem(profile.chartContext.input, { nodeType: profile.chartContext.nodeType });
   const kpEvents = calculateKpEvents(kp);
 
+  const avasthas = calculateAvasthas(Object.fromEntries(CLASSICAL_GRAHAS.map((id) => [id, chart.grahas[id].longitude])));
+
   const jaimini = calculateJaimini({
     lagnaLongitude: chart.lagna.longitude,
     grahaLongitudes: Object.fromEntries(
@@ -238,6 +241,7 @@ function buildReportData(birthInput) {
     kp,
     kpEvents,
     jaimini,
+    avasthas,
     altDashas,
     rajaYogas,
     doshas,

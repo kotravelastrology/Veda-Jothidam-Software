@@ -53,6 +53,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'nabhasaYoga', label: 'நபஸ யோகங்கள்' },
   { id: 'karaka', label: 'காரகங்கள்' },
   { id: 'jaimini', label: 'ஜைமினி ஜோதிடம்' },
+  { id: 'avasthas', label: 'கிரக அவஸ்தைகள்' },
   { id: 'upagraha', label: 'உபகிரகங்கள்' },
   { id: 'numerology', label: 'எண் ஜோதிடம்' },
   { id: 'nadi', label: 'பிருகு நந்தி நாடி' },
@@ -1213,6 +1214,36 @@ function KpEventsSection({ report }: { report: ReportData }) {
   );
 }
 
+function AvasthaSection({ report }: { report: ReportData }) {
+  const a = (report as any).avasthas;
+  if (!a?.available) return null;
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">கிரக அவஸ்தைகள்</h2>
+      <table className="w-full text-sm">
+        <thead><tr className="text-ink-soft border-b border-line">
+          <th className="text-left py-1">கிரகம்</th><th className="text-left py-1">ஜாக்ரதாதி</th>
+          <th className="text-left py-1">பாலாதி</th><th className="text-left py-1">தீப்தாதி</th>
+        </tr></thead>
+        <tbody>
+          {a.rows.map((r: any) => (
+            <tr key={r.planet} className="border-b border-line/40">
+              <td className="py-1.5">{POINT_LABEL[r.planet] ?? r.planet}</td>
+              <td className="py-1.5">{r.jagradadi}</td>
+              <td className="py-1.5">{r.baladi}</td>
+              <td className="py-1.5">{r.deeptadi}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="text-[11px] text-ink-soft mt-2">
+        3 அவஸ்தை முறை (ஜாக்ரதாதி 3 · பாலாதி 5 · தீப்தாதி 9) — நிலை/பாகை/நட்பு அடிப்படையில்.
+        முந்தைய AstrologicLab avasthas engine-லிருந்து port. (சயனாதி 12 + லஜ்ஜிதாதி 6 பின்னர்)
+      </p>
+    </div>
+  );
+}
+
 function JaiminiSection({ report }: { report: ReportData }) {
   const j = (report as any).jaimini;
   const [tab, setTab] = useState<'karakas' | 'arudha' | 'chara' | 'drishti'>('karakas');
@@ -1321,6 +1352,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   nabhasaYoga: NabhasaYogaSection,
   karaka: KarakaSection,
   jaimini: JaiminiSection,
+  avasthas: AvasthaSection,
   upagraha: UpagrahaSection,
   numerology: NumerologySection,
   nadi: NadiCombinationSection,
