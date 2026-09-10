@@ -44,3 +44,19 @@ console.log(JSON.stringify({
   pass: true, sunrise: r.sunrise, sunset: r.sunset,
   chogFirst: r.choghadiya.day[0].name, gowriFirst: r.gowri.day[0].gowri, horaFirst: r.hora.day[0].lord,
 }, null, 2));
+
+// ── Panchaka / Nakshatra Karma / Panchaka Rahitam ────────────────────
+{
+  const d = calculateDailyMuhurta({ year: 2026, month: 9, day: 13, latitude: 13.08, longitude: 80.27, utcOffsetMinutes: 330 });
+  assert.ok(typeof d.panchaka.active === 'boolean');
+  assert.ok(d.panchaka.moonNakshatraIndex >= 0 && d.panchaka.moonNakshatraIndex < 27);
+  // Panchaka active iff Moon is in one of the last 5 nakshatras (22..26).
+  assert.equal(d.panchaka.active, d.panchaka.moonNakshatraIndex >= 22);
+  // Nakshatra Karma: one of the 7 classes, with suitable-activities text.
+  assert.ok(['sthira', 'chara', 'ugra', 'mishra', 'kshipra', 'mridu', 'tikshna'].includes(d.nakshatraKarma.key));
+  assert.ok(d.nakshatraKarma.suitable.length > 0);
+  // Panchaka Rahitam: remainder 0-8, classified; 1/2/4/6/8 inauspicious, 0/3/5/7 auspicious.
+  assert.ok(d.panchakaRahitam.remainder >= 0 && d.panchakaRahitam.remainder <= 8);
+  assert.equal(d.panchakaRahitam.ok, [0, 3, 5, 7].includes(d.panchakaRahitam.remainder));
+}
+console.log(JSON.stringify({ panchakaExtrasPass: true }, null, 2));

@@ -73,6 +73,28 @@ export default function NallaNeramView() {
       {result?.available && (
         <div className="bg-surface border border-line rounded-2xl p-5">
           <p className="text-sm text-ink-soft mb-3">சூரிய உதயம் {result.sunrise} · அஸ்தமனம் {result.sunset}</p>
+
+          {result.panchakaRahitam && (
+            <div className="mb-4 grid sm:grid-cols-3 gap-3 text-sm">
+              <div className="border border-line rounded-lg p-3">
+                <p className="text-xs text-ink-soft mb-1">பஞ்சகம் (சந்திரன்)</p>
+                <p className={result.panchaka.active ? (result.panchaka.type?.severity === 'good' ? 'text-teal font-medium' : 'text-rose font-medium') : 'text-ink-soft'}>
+                  {result.panchaka.active ? result.panchaka.type?.name : 'இல்லை'}
+                </p>
+                {result.panchaka.active && <p className="text-[11px] text-ink-soft mt-1">{result.panchaka.type?.note}</p>}
+              </div>
+              <div className="border border-line rounded-lg p-3">
+                <p className="text-xs text-ink-soft mb-1">நக்ஷத்திர கர்மம்</p>
+                <p className="font-medium">{result.nakshatraKarma.nameTa}</p>
+                <p className="text-[11px] text-ink-soft mt-1">{result.nakshatraKarma.suitable}</p>
+              </div>
+              <div className="border border-line rounded-lg p-3">
+                <p className="text-xs text-ink-soft mb-1">பஞ்சக ரஹிதம் (லக்ன சுத்தி) — மீதி {result.panchakaRahitam.remainder}</p>
+                <p className={result.panchakaRahitam.ok ? 'text-teal font-medium' : 'text-rose font-medium'}>{result.panchakaRahitam.ta}</p>
+                <p className="text-[11px] text-ink-soft mt-1">{result.panchakaRahitam.effect}</p>
+              </div>
+            </div>
+          )}
           <div className="flex gap-1 mb-3 text-xs">
             {([['gowri', 'கௌரி'], ['chog', 'சோகதியா'], ['hora', 'ஹோரை']] as const).map(([k, l]) => (
               <button key={k} onClick={() => setTab(k)}
