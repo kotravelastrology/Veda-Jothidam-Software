@@ -784,6 +784,10 @@ export default function ReportBuilder() {
       };
       const result = await computeReport(formInput);
       setReport(result);
+      // Bridge for the global menu bar (File > Save / Export need the current chart)
+      try {
+        localStorage.setItem('kotravel_current_chart', JSON.stringify({ birthData, selectedChartId, savedAt: Date.now() }));
+      } catch { /* storage unavailable — non-fatal */ }
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     } finally {

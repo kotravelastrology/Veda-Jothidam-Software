@@ -3,6 +3,29 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useNavigation } from './navigationContext';
+import { getChartLibrary } from '../portal/ChartLibraryManager';
+
+/** The last chart calculated on /report, stashed by ReportBuilder for the menu bar. */
+function readCurrentChart(): { birthData: any; selectedChartId?: string } | null {
+  try {
+    const raw = localStorage.getItem('kotravel_current_chart');
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+function downloadJson(filename: string, data: unknown) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
 import { useUIManager } from '../ui/useUIManager';
 import { SettingsPanel } from '../ui/SettingsPanel';
 import { ToolsPanel } from '../ui/ToolsPanel';
@@ -247,17 +270,56 @@ export function TopMenuBar() {
         alert('Recent Charts - Coming in Phase 31.1');
         break;
       case 'save':
-        // Handle: Save Chart
-        alert('Save Chart - Coming in Phase 31.1');
+      case 'saveas': {
+        const current = readCurrentChart();
+        if (!current?.birthData) {
+          alert('No chart to save yet. Open File → New Chart, enter birth details and calculate first.');
+          break;
+        }
+        const bd = current.birthData;
+        const defaultName = bd.name?.trim() || 'Untitled chart';
+        const chartName = submenuKey === 'saveas'
+          ? (prompt('Save chart as:', defaultName) || '').trim()
+          : defaultName;
+        if (submenuKey === 'saveas' && !chartName) break; // user cancelled
+        try {
+          getChartLibrary().saveChart({
+            userId: 'local',
+            name: chartName,
+            birthData: {
+              name: bd.name ?? '',
+              dateOfBirth: bd.dateOfBirth ?? '',
+              timeOfBirth: bd.timeOfBirth ?? '',
+              place: bd.place ?? '',
+              latitude: Number(bd.latitude) || 0,
+              longitude: Number(bd.longitude) || 0,
+              utcOffset: Number(bd.utcOffset) || 0,
+            },
+            chartTypes: current.selectedChartId ? [current.selectedChartId] : ['D1-rasi'],
+            tags: [],
+            isFavorite: false,
+            isShared: false,
+          });
+          alert(`Saved "${chartName}" to your chart library.`);
+        } catch (e) {
+          alert('Could not save chart: ' + (e instanceof Error ? e.message : String(e)));
+        }
         break;
-      case 'saveas':
-        // Handle: Save As dialog
-        alert('Save As - Coming in Phase 31.1');
+      }
+      case 'export_submenu': {
+        const current = readCurrentChart();
+        if (!current?.birthData) {
+          alert('Nothing to export yet. Open File → New Chart, enter birth details and calculate first.');
+          break;
+        }
+        const safeName = (current.birthData.name?.trim() || 'chart').replace(/[^\w-]+/g, '_');
+        downloadJson(`kotravel_${safeName}_${new Date().toISOString().split('T')[0]}.json`, {
+          exportedAt: new Date().toISOString(),
+          birthData: current.birthData,
+          selectedChart: current.selectedChartId ?? null,
+        });
         break;
-      case 'export_submenu':
-        // Handle: Export submenu (PDF, PNG, SVG, Excel)
-        alert('Export options - Coming in Phase 34');
-        break;
+      }
       case 'print':
         // Handle: Print Chart
         window.print();
