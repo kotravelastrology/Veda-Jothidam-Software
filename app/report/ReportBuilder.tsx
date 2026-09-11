@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import Link from 'next/link';
 import { computeReport, type BirthFormInput } from './actions';
 import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
@@ -43,6 +43,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'lagnaGraha', label: 'லக்னம் & கிரக நிலைகள்' },
   { id: 'dasha', label: 'விம்சோத்தரி தசா' },
   { id: 'altDashas', label: 'மாற்று தசைகள் (யோகினி / அஷ்டோத்தரி)' },
+  { id: 'kalachakraDasha', label: 'காலச்சக்கர தசை' },
   { id: 'varga', label: 'வர்க்க அட்டவணை (16)' },
   { id: 'ashtakavarga', label: 'அஷ்டகவர்க்கம்' },
   { id: 'ashtakavargaDetail', label: 'அஷ்டகவர்க்கம் - விரிவுபடுத்தப்பட்ட பார்வை' },
@@ -1361,6 +1362,79 @@ function AltDashaSection({ report }: { report: ReportData }) {
   );
 }
 
+function KalachakraDashaSection({ report }: { report: ReportData }) {
+  const k = (report as any).kalachakraDasha;
+  const [open, setOpen] = useState<number | null>(null);
+  if (!k?.available) return null;
+  const nowMs = Date.now();
+  const curIdx = k.mahas.findIndex((m: any) => m.startMs <= nowMs && nowMs < m.endMs);
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">காலச்சக்கர தசை</h2>
+      <p className="text-sm text-ink-soft mb-3">
+        ஜன்ம நட்சத்திரம் <span className="text-ink font-medium">{k.nakshatra}</span> பாதம் {k.pada}
+        {' · '}{k.roleTa} · <span className="text-ink font-medium">{k.directionTa}</span>
+        {' · தொடக்க ராசி '}<span className="text-ink font-medium">{k.startRasi}</span>
+        {' · மொத்தம் '}{k.totalYears} ஆண்டுகள்
+      </p>
+      <table className="w-full text-sm">
+        <thead><tr className="text-ink-soft border-b border-line">
+          <th className="text-left py-1">ராசி</th><th className="text-left py-1">அதிபதி</th>
+          <th className="text-right py-1">ஆண்டு</th><th className="text-left py-1 pl-4">காலம்</th>
+          <th className="text-left py-1 pl-3">உடல் / உயிர் ராசி</th>
+        </tr></thead>
+        <tbody>
+          {k.mahas.map((m: any, i: number) => (
+            <Fragment key={i}>
+              <tr
+                className={`border-b border-line/40 cursor-pointer hover:bg-surface-soft/50 ${i === curIdx ? 'bg-saffron/10 font-semibold' : ''}`}
+                onClick={() => setOpen(open === i ? null : i)}
+              >
+                <td className="py-1">{open === i ? '▾' : '▸'} {m.rasi}</td>
+                <td className="py-1">{m.lordTa}</td>
+                <td className="py-1 text-right tabular-nums">{m.years}</td>
+                <td className="py-1 pl-4 text-ink-soft">{m.start} → {m.end}</td>
+                <td className="py-1 pl-3 text-ink-soft">{m.dehaRasi} / {m.jeevaRasi}</td>
+              </tr>
+              {open === i && (
+                <tr>
+                  <td colSpan={5} className="bg-surface-soft/30 px-3 py-2">
+                    <table className="w-full text-xs">
+                      <thead><tr className="text-ink-soft border-b border-line/50">
+                        <th className="text-left py-1">Bhukti ராசி</th><th className="text-left py-1">அதிபதி</th>
+                        <th className="text-right py-1">ஆண்டு</th><th className="text-left py-1 pl-4">காலம்</th>
+                      </tr></thead>
+                      <tbody>
+                        {m.Bhukti.map((b: any, j: number) => {
+                          const isCurB = i === curIdx && b.startMs <= nowMs && nowMs < b.endMs;
+                          return (
+                            <tr key={j} className={`border-b border-line/20 ${isCurB ? 'bg-saffron/20 font-semibold' : ''}`}>
+                              <td className="py-0.5">{b.rasi}</td>
+                              <td className="py-0.5">{b.lordTa}</td>
+                              <td className="py-0.5 text-right tabular-nums">{b.years}</td>
+                              <td className="py-0.5 pl-4 text-ink-soft">{b.start} → {b.end}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              )}
+            </Fragment>
+          ))}
+        </tbody>
+      </table>
+      <p className="text-[11px] text-ink-soft mt-2">
+        {k.source}. நட்சத்திரம் சவ்ய(வலவோட்டு)/அபசவ்யம்(இடவோட்டு) என வகைப்படும்; 108-பாத அட்டவணை வழி தொடக்க ராசி + திசை நிர்ணயிக்கப்படும்.
+        Bhukti (உட்பிரிவு) நடை மூல நூலின் 8 சவ்ய மகா-தசைகளுக்கு (மேஷம்-விருச்சிகம்) நேரடியாக எழுதப்பட்டது; மீதமுள்ள 4
+        (தனுசு/மகரம்/கும்பம்/மீனம்) அதே பட்டியலை நேரடியாக மீள்பயன்படுத்துகின்றன (மூலநூல் கூற்றுப்படி); அபசவ்ய நடை ஒவ்வொரு
+        ராசியின் சவ்ய நடையின் துல்லிய தலைகீழ் வரிசை. அந்தரம் (3rd level) இன்னும் கணக்கிடப்படவில்லை.
+      </p>
+    </div>
+  );
+}
+
 const KP_GRADE_STYLE: Record<string, string> = {
   DARK_GREEN: 'bg-teal text-white', GREEN: 'bg-teal-soft text-teal',
   RED: 'bg-rose-soft text-rose', REVIEW: 'bg-surface-soft text-ink-soft',
@@ -1713,6 +1787,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   kp: KpSystemSection,
   kpEvents: KpEventsSection,
   altDashas: AltDashaSection,
+  kalachakraDasha: KalachakraDashaSection,
 };
 
 export default function ReportBuilder() {

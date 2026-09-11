@@ -31,6 +31,7 @@ const { computeGocharaPhala } = require('./gocharaPhala');
 const { calculateAyurdaya } = require('./ayurdaya');
 const { computeTransitPositions } = require('./transitPositions');
 const { calculateBnnLiterature, fromReportData: fromBnnReportData } = require('./bnnLiterature');
+const { calculateKalachakraDasha } = require('./kalachakraDasha');
 
 const ALL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 
@@ -268,6 +269,8 @@ function buildReportData(birthInput) {
     ashtottari: buildAshtottariDasha(longitudes.Moon, birthMs),
   };
 
+  const kalachakraDasha = calculateKalachakraDasha({ moonLongitude: longitudes.Moon, birthMs });
+
   const transitRasiPositions = currentTransitRasiPositions(
     profile.chartContext.input.latitude,
     profile.chartContext.input.longitude,
@@ -318,6 +321,7 @@ function buildReportData(birthInput) {
     avasthas,
     nakshatraExtras,
     altDashas,
+    kalachakraDasha,
     rajaYogas,
     doshas,
     lunarSolarYogas,
