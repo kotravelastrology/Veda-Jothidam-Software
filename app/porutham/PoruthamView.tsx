@@ -105,6 +105,44 @@ export default function PoruthamView() {
           </p>
         </div>
       )}
+
+      {result?.extended && (
+        <div className="bg-surface border border-line rounded-2xl p-5 mt-4">
+          <div className="flex items-baseline justify-between mb-4">
+            <h2 className="text-sm font-semibold text-ink">விரிவான நட்சத்திரப் பொருத்தம் (15)</h2>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-saffron">{result.extended.passed}/{result.extended.total}</div>
+              <div className="text-xs text-ink-soft">{result.extended.level}{result.extended.partial ? ` (+${result.extended.partial} மத்திமம்)` : ''}</div>
+            </div>
+          </div>
+          <table className="w-full text-sm">
+            <thead><tr className="text-ink-soft border-b border-line">
+              <th className="text-left py-1">பொருத்தம்</th><th className="text-center py-1">முடிவு</th><th className="text-left py-1 pl-4">விவரம்</th>
+            </tr></thead>
+            <tbody>
+              {result.extended.rows.map((r: any) => (
+                <tr key={r.name} className="border-b border-line/40">
+                  <td className="py-1.5">{r.name}</td>
+                  <td className="py-1.5 text-center">
+                    <span className={`text-xs font-bold px-2 py-0.5 rounded ${
+                      r.verdict === 'உத்தமம்' ? 'bg-teal-soft text-teal' : r.verdict === 'மத்திமம்' ? 'bg-amber-100 text-amber-700' : 'bg-rose-soft text-rose'
+                    }`}>
+                      {r.verdict}
+                    </span>
+                  </td>
+                  <td className="py-1.5 pl-4 text-ink-soft">{r.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="text-[11px] text-ink-soft mt-3">
+            10 தச கூடத்திலிருந்து தனியான, இரண்டாவது 15-உறுப்பு பொருத்த முறை (ஏக தினம் · ராசி வர்ணம் · நட்சத்திர ஜாதி/கோத்திரம் ·
+            சந்திரயோக வர்க்கம் · யோகினி · ஆய · விருட்சம் · பஞ்சபட்சி · லிங்கம் · விருத்தி · ஆயுள் · தசா சந்தி · நாடி · பஞ்சபூதம்).
+            &ldquo;ஏக தினம்&rdquo; ஒரு எளிமைப்படுத்தப்பட்ட பட்டியல் (மூல நூலின் தசை/நிலை விதிவிலக்குகள் முழுமையாகக் கண்டறியப்படவில்லை).
+            முந்தைய AstrologicLab matching engine-லிருந்து port.
+          </p>
+        </div>
+      )}
     </main>
   );
 }
