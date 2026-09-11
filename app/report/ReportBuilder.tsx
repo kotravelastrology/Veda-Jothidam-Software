@@ -1407,14 +1407,34 @@ function KpEventsSection({ report }: { report: ReportData }) {
                     ))}
                   </tbody>
                 </table>
+                {!!e.specialConditions?.length && (
+                  <div className="mt-2">
+                    <p className="text-ink-soft font-semibold mb-1">சிறப்பு நிபந்தனைகள் (special conditions)</p>
+                    <table className="w-full">
+                      <tbody>
+                        {e.specialConditions.map((s: any, i: number) => (
+                          <tr key={i} className="border-b border-line/30">
+                            <td className="py-0.5 pr-2 w-24">{s.object}</td>
+                            <td className="py-0.5 pr-2 text-ink-soft">{s.condition}</td>
+                            <td className={`py-0.5 whitespace-nowrap ${s.color === 'red' ? 'text-rose' : s.color === 'amber' ? 'text-amber-600' : 'text-teal'}`}>
+                              {s.code} {s.labelTa}{s.affectsResult ? ' *' : ''}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <p className="text-[10px] text-ink-soft mt-0.5">* = கட்டாயம் (grade-ஐ பாதிக்கிறது); மற்றவை ஆலோசனை மட்டும்.</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
         ))}
       </div>
       <p className="text-[11px] text-ink-soft mt-2">
-        80-நிகழ்வு KP legacy catalog · பாவ சந்தி துணை-அதிபதி (rules 1-12) + ஜனன DBAS (101-104) சூசகங்கள் vs சாதக/பாதக பாவங்கள்.
-        முழு நேர-வருடல் (sub-lord transition scan) + நிகழ்வு-சார் சிறப்பு விதிகள் பின்னர். (kp-muhurat engine port)
+        80-நிகழ்வு KP legacy catalog · பாவ சந்தி துணை-அதிபதி (rules 1-12) + ஜனன DBAS (101-104) சூசகங்கள் vs சாதக/பாதக பாவங்கள்
+        + நிகழ்வு-சார் சிறப்பு நிபந்தனைகள் (grade-ஐ பாதிக்கும் கட்டாய நிபந்தனைகள் உட்பட). நேரம்-scan (sub-lord transition search):
+        Tools → KP Muhurta Time Scan. (kp-muhurat engine port)
       </p>
     </div>
   );

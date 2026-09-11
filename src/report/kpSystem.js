@@ -133,6 +133,39 @@ function significatorBreakdown(positions, cusps) {
 }
 
 /**
+ * KP significators of `lord`: its own direct houses + its star lord's + its
+ * sub lord's. Direct houses = the house it occupies + the houses whose cusp
+ * it lords. Rahu/Ketu also contribute their sign lord's direct houses.
+ * Ported from kp_muhurat/events.py planet_significators.
+ * @param kp  { positions:[{name,longitude,starLord,sub}], cusps:[{number,signLord}] }
+ */
+function planetSignificators(lordName, kp) {
+  const byName = Object.fromEntries(kp.positions.map((p) => [p.name, p]));
+  if (!byName[lordName]) return [];
+
+  const baseDirect = (name) => {
+    const p = byName[name];
+    if (!p) return new Set();
+    const houses = new Set([houseForLongitude(p.longitude, kp.cusps)]);
+    for (const c of kp.cusps) if (c.signLord === name) houses.add(c.number);
+    return houses;
+  };
+  const direct = (name) => {
+    const houses = baseDirect(name);
+    const p = byName[name];
+    if (p && (name === 'Rahu' || name === 'Ketu')) {
+      const sl = SIGN_LORDS[Math.floor(norm(p.longitude) / 30)];
+      for (const h of baseDirect(sl)) houses.add(h);
+    }
+    return houses;
+  };
+
+  const p = byName[lordName];
+  const all = new Set([...direct(lordName), ...direct(p.starLord), ...direct(p.sub)]);
+  return [...all].sort((a, b) => a - b);
+}
+
+/**
  * @param birthInput  the governed chart-context input (year..utcOffsetMinutes, lat, lng)
  * @param nodeType    'mean' | 'true'
  */
@@ -183,5 +216,5 @@ function calculateKpSystem(birthInput, { nodeType = 'mean' } = {}) {
 
 module.exports = {
   calculateKpSystem, kpChain, houseForLongitude, obstructionHouses,
-  rulingPlanets, significatorBreakdown, vimshottariLevels, SIGN_LORDS, SIGNS,
+  rulingPlanets, significatorBreakdown, planetSignificators, vimshottariLevels, SIGN_LORDS, SIGNS,
 };

@@ -60,3 +60,54 @@ console.log(JSON.stringify({
   pass: true, events: ev.count, dbas: kp.dbas.join(','),
   surgicalGrade: surg.grade.code, surgicalCusp1: `${surg.rows[0].subLord} ${surg.rows[0].positiveCode}`,
 }, null, 2));
+
+// ── Special conditions (kp_muhurat/events.py evaluate_special_conditions) ──
+const { evaluateSpecialConditions } = require('./src/report/kpSpecialConditions');
+
+// Surgical Operation: Ascendant modality check (Vrishabha/Taurus lagna here -> Fixed -> suitable).
+const surgSpecial = evaluateSpecialConditions(loadEvents().find((e) => e.name === 'Surgical Operation'), kp);
+assert.equal(surgSpecial.length, 1);
+assert.equal(surgSpecial[0].object, 'Ascendant');
+assert.equal(surgSpecial[0].affectsResult, false);
+assert.equal(surgSpecial[0].color, 'darkgreen');   // Taurus is Fixed, not Movable
+assert.ok(surgSpecial[0].labelTa && surgSpecial[0].reasonTa);
+
+// Second Marriage: the two catalog entries carry different numbers of checks.
+const smMandatoryOnly = evaluateSpecialConditions(events0().find((e) => e.key === '054'), kp);
+assert.equal(smMandatoryOnly.length, 1);
+const smFull = evaluateSpecialConditions(events0().find((e) => e.key === '008'), kp);
+assert.equal(smFull.length, 3);
+assert.ok(smFull.every((r) => r.object));
+function events0() { return loadEvents(); }
+
+// Adopting a Child: one advisory row per Dasa/Bhukti/Antara/Sukshma level.
+const adoptSpecial = evaluateSpecialConditions(loadEvents().find((e) => e.name === 'Adopting a Child'), kp);
+assert.equal(adoptSpecial.length, 4);
+assert.deepEqual(adoptSpecial.map((r) => r.object), ['Dasa', 'Bhukti', 'Antara', 'Sukshma']);
+
+// Attainment of Siddhi Initiation: mandatory Ketu/Saturn cusp 1 & 11 sub lords.
+const siddhi = evaluateSpecialConditions(loadEvents().find((e) => e.name === 'Attainment of Siddhi Initiation'), kp);
+assert.equal(siddhi.length, 2);
+assert.ok(siddhi.every((r) => r.affectsResult === true));
+
+// gradeEvent: a red MANDATORY special condition forces RED even when every
+// cusp/DBAS row is Excellent; an advisory (non-mandatory) red does not.
+const allExcellent = [{ status: 'Excellent', color: 'green' }, { status: 'Excellent', color: 'green' }];
+assert.equal(gradeEvent(allExcellent, [{ affectsResult: true, color: 'red' }]).code, 'RED');
+assert.equal(gradeEvent(allExcellent, [{ affectsResult: false, color: 'red' }]).code, 'DARK_GREEN');
+// DARK_GREEN additionally requires every mandatory condition to be darkgreen.
+assert.equal(gradeEvent(allExcellent, [{ affectsResult: true, color: 'green' }]).code, 'GREEN');
+assert.equal(gradeEvent(allExcellent, [{ affectsResult: true, color: 'darkgreen' }]).code, 'DARK_GREEN');
+
+// calculateKpEvents wires specialConditions + the mandatory-gated grade in.
+const evWithSpecial = calculateKpEvents(kp);
+const surgFull = evWithSpecial.events.find((e) => e.name === 'Surgical Operation');
+assert.ok(Array.isArray(surgFull.specialConditions) && surgFull.specialConditions.length === 1);
+const withMandatory = evWithSpecial.events.filter((e) => e.specialConditions.some((r) => r.affectsResult));
+assert.ok(withMandatory.length >= 10, `at least 10 events carry a mandatory special condition, got ${withMandatory.length}`);
+
+console.log(JSON.stringify({
+  specialConditionsPass: true,
+  totalEventsWithSpecial: evWithSpecial.events.filter((e) => e.specialConditions.length).length,
+  mandatoryEvents: withMandatory.length,
+}, null, 2));

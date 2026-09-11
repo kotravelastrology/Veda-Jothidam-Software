@@ -209,6 +209,7 @@ export function TopMenuBar() {
         { label: 'Tamil Calendar & Festivals', key: 'tamilcalendar' },
         { label: 'Baby Names (Nakshatra)', key: 'babynames' },
         { label: 'Classical Muhurta (Pancha-Pakshi / Yatra / Eclipse)', key: 'classicalmuhurta' },
+        { label: 'KP Muhurta Time Scan', key: 'kptimescan' },
       ],
     },
     {
@@ -431,6 +432,9 @@ export function TopMenuBar() {
         break;
       case 'classicalmuhurta':
         router.push('/classical-muhurta');
+        break;
+      case 'kptimescan':
+        router.push('/kp-time-scan');
         break;
 
       // Windows Menu — there is no MDI window system on the web, so these repurpose

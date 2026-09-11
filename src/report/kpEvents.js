@@ -13,7 +13,7 @@
  * ported yet — this evaluates a fixed chart's cuspal sub-lord significators
  * against each event's favorable / unfavorable house lists.
  */
-const { houseForLongitude, vimshottariLevels } = require('./kpSystem');
+const { vimshottariLevels, planetSignificators } = require('./kpSystem');
 
 // Pre-parsed from `data/kp-events.txt` + `kp-event-names-ta.json` at commit
 // time via `parseEventsTxt` below — bundlers reliably include a required
@@ -59,43 +59,16 @@ function loadEvents() {
   return PARSED_EVENTS;
 }
 
-/**
- * KP significators of `lord`: its own direct houses + its star lord's +
- * its sub lord's. Direct houses = the house it occupies + the houses whose
- * cusp it lords. Rahu/Ketu also contribute their sign lord's direct houses.
- * @param kp  the object from calculateKpSystem (positions[], cusps[])
- */
-function planetSignificators(lordName, kp) {
-  const byName = Object.fromEntries(kp.positions.map((p) => [p.name, p]));
-  if (!byName[lordName]) return [];
-
-  const baseDirect = (name) => {
-    const p = byName[name];
-    if (!p) return new Set();
-    const houses = new Set([houseForLongitude(p.longitude, kp.cusps)]);
-    for (const c of kp.cusps) if (c.signLord === name) houses.add(c.number);
-    return houses;
-  };
-  const direct = (name) => {
-    const houses = baseDirect(name);
-    const p = byName[name];
-    if (p && (name === 'Rahu' || name === 'Ketu')) {
-      const signLord = kp.cusps.length ? null : null; // unused
-      const sl = require('./kpSystem').SIGN_LORDS[Math.floor(((p.longitude % 360) + 360) % 360 / 30)];
-      for (const h of baseDirect(sl)) houses.add(h);
-    }
-    return houses;
-  };
-
-  const p = byName[lordName];
-  const all = new Set([...direct(lordName), ...direct(p.starLord), ...direct(p.sub)]);
-  return [...all].sort((a, b) => a - b);
-}
-
 const STATUS_TA = { Excellent: 'மிகச் சிறப்பு', Pass: 'ஏற்றது', Avoid: 'தவிர்க்கவும்', 'Not Applicable': 'பொருந்தாது' };
 const PERIOD_NAMES = { 101: 'Dasa', 102: 'Bhukti', 103: 'Antara', 104: 'Sukshma' };
 
-function evaluateEvent(event, kp, periods) {
+const FOREIGN_EVENTS = new Set(['Foreign Settlement', 'Going Abroad', 'Migrating to a Foreign Country']);
+
+/**
+ * @param opts.monetaryGain  for "Apply for Getting an Award/Prize": whether
+ *   the purpose is a monetary award (house 2 included) or not (excluded).
+ */
+function evaluateEvent(event, kp, periods, opts = {}) {
   const dbas = periods || kp.dbas || vimshottariLevels(
     kp.positions.find((p) => p.name === 'Moon').longitude, 4,
   );
@@ -113,7 +86,21 @@ function evaluateEvent(event, kp, periods) {
       continue;
     }
     const signs = planetSignificators(lord, kp);
-    const favorable = rule.favorable;
+    let favorable = rule.favorable;
+    let adjustment = '';
+    // Legacy per-event rule adjustments (kp_muhurat/events.py evaluate_event).
+    if (FOREIGN_EVENTS.has(event.name) && rule.target === 1 && kp.obstruction && kp.obstruction.modality === 'Dual') {
+      favorable = favorable.filter((h) => h !== 9);
+      adjustment = ' Dual Lagna rule applied: house 9 excluded from Ascendant sub-lord analysis.';
+    }
+    if (event.name === 'Apply for Getting an Award/Prize' && [10, 11, 101, 102, 103, 104].includes(rule.target)) {
+      if (opts.monetaryGain) {
+        adjustment = ' Monetary-gain purpose selected: house 2 included.';
+      } else {
+        favorable = favorable.filter((h) => h !== 2);
+        adjustment = ' Non-monetary award purpose selected: house 2 excluded.';
+      }
+    }
     const goodHits = signs.filter((h) => favorable.includes(h));
     const badHits = signs.filter((h) => rule.unfavorable.includes(h));
 
@@ -135,34 +122,50 @@ function evaluateEvent(event, kp, periods) {
       target: label, subLord: lord, significators: signs,
       favorable, unfavorable: rule.unfavorable, goodHits, badHits,
       positiveCode, negativeCode, resultCode: positiveCode + negativeCode,
-      status, color, statusTa: STATUS_TA[status] || status,
+      status, color, statusTa: STATUS_TA[status] || status, adjustment: adjustment || null,
     });
   }
   return rows;
 }
 
-function gradeEvent(rows) {
+/**
+ * @param specialConditions  rows from kpSpecialConditions.evaluateSpecialConditions
+ *   (optional). Mandatory ones (affects_result / affectsResult) gate the grade:
+ *   a red mandatory condition forces RED; DARK_GREEN additionally requires
+ *   every mandatory condition to be darkgreen. Matches kp_muhurat grade_event.
+ */
+function gradeEvent(rows, specialConditions) {
   const active = rows.filter((r) => r.status !== 'Not Applicable');
-  if (!active.length) return { code: 'REVIEW', labelTa: 'மீள் ஆய்வு தேவை', color: 'amber', passed: 0, total: 0 };
+  const mandatory = (specialConditions || []).filter((r) => r.affectsResult);
+  const specialFailed = mandatory.some((r) => r.color === 'red');
+  const specialAllExcellent = !mandatory.length || mandatory.every((r) => r.color === 'darkgreen');
+  if (!active.length && !mandatory.length) return { code: 'REVIEW', labelTa: 'மீள் ஆய்வு தேவை', color: 'amber', passed: 0, total: 0 };
   const failed = active.filter((r) => r.color === 'red');
   const excellent = active.filter((r) => r.status === 'Excellent');
   const passed = active.filter((r) => r.color === 'green');
   let code;
   let labelTa;
   let color;
-  if (failed.length) { code = 'RED'; labelTa = 'ஏற்றதல்ல'; color = 'red'; } else if (excellent.length === active.length) { code = 'DARK_GREEN'; labelTa = 'மிகச் சிறந்த முகூர்த்தம்'; color = 'darkgreen'; } else if (passed.length === active.length) { code = 'GREEN'; labelTa = 'நல்ல முகூர்த்தம்'; color = 'green'; } else { code = 'REVIEW'; labelTa = 'மீள் ஆய்வு தேவை'; color = 'amber'; }
+  if (failed.length || specialFailed) { code = 'RED'; labelTa = 'ஏற்றதல்ல'; color = 'red'; } else if (excellent.length === active.length && specialAllExcellent) { code = 'DARK_GREEN'; labelTa = 'மிகச் சிறந்த முகூர்த்தம்'; color = 'darkgreen'; } else if (passed.length === active.length) { code = 'GREEN'; labelTa = 'நல்ல முகூர்த்தம்'; color = 'green'; } else { code = 'REVIEW'; labelTa = 'மீள் ஆய்வு தேவை'; color = 'amber'; }
   return { code, labelTa, color, passed: passed.length, total: active.length };
 }
 
-/** Evaluate every catalog event against a chart's KP block. */
+/** Evaluate every catalog event against a chart's KP block, including any
+ *  event-specific special conditions (kpSpecialConditions.js) that gate the
+ *  grade. */
 function calculateKpEvents(kp) {
   if (!kp || !kp.available) return { available: false };
+  const { evaluateSpecialConditions } = require('./kpSpecialConditions');
   const events = loadEvents();
   const results = events
     .filter((e) => e.rules.length)
     .map((e) => {
       const rows = evaluateEvent(e, kp);
-      return { key: e.key, name: e.name, nameTa: e.nameTa, remarks: e.remarks, rows, grade: gradeEvent(rows) };
+      const specialConditions = evaluateSpecialConditions(e, kp);
+      return {
+        key: e.key, name: e.name, nameTa: e.nameTa, remarks: e.remarks, rows,
+        specialConditions, grade: gradeEvent(rows, specialConditions),
+      };
     });
   return { available: true, count: results.length, events: results };
 }
