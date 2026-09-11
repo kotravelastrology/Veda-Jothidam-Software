@@ -1523,6 +1523,7 @@ function JaiminiSection({ report }: { report: ReportData }) {
   const RASI_DASHA_LABEL: Record<string, string> = {
     sthira: 'ஸ்திர', shoola: 'சூல (நிர்யாண)', kendradi: 'கேந்திராதி', manduka: 'மண்டூக',
     trikona: 'திரிகோண', brahma: 'பிரம்ம', karaka: 'காரக', yogardha: 'யோகார்த்த', navamsa: 'நவாம்ச',
+    varnada: 'வர்னாட்',
   };
   const rd = j.rasiDashas?.[rasiSys];
   return (

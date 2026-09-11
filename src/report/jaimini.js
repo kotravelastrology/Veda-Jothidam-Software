@@ -370,6 +370,15 @@ function calculateJaimini(opts) {
     out.specialLagnas = calculateJaiminiLagnas({
       lagnaLongitude, grahaLongitudes, sunLongitudeAtSunrise, hoursSinceSunrise,
     });
+    // Varṇada Dasha — rāśi dasha from the Varṇada Lagna, direction by its
+    // odd/even, Chara years. (JUS; needs the sunrise-derived Varṇada Lagna.)
+    const varnada0 = out.specialLagnas.find((l) => l.key === 'varnada').rasiIndex;
+    const vdir = charaDirection(varnada0);
+    out.rasiDashas.varnada = {
+      direction: vdir,
+      startRasi: RASI_NAMES[varnada0],
+      periods: buildRasiDasha(consecutiveSeq(varnada0, vdir), birthMs, (r0) => charaYears(r0, grahaLongitudes, vdir)),
+    };
   }
   return out;
 }

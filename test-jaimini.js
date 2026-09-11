@@ -75,7 +75,10 @@ console.log(JSON.stringify({
 
 // ── The other 9 Jaimini rasi dashas ──────────────────────────────────
 const rdd = j.rasiDashas;
-assert.equal(Object.keys(rdd).length, 10);
+// 10 core systems (+ varnada added below when the special lagnas are computed)
+for (const k of ['chara', 'sthira', 'shoola', 'kendradi', 'manduka', 'trikona', 'brahma', 'karaka', 'yogardha', 'navamsa']) {
+  assert.ok(rdd[k], `${k} present`);
+}
 for (const k of Object.keys(rdd)) assert.equal(rdd[k].periods.length, 12, `${k} has 12 periods`);
 // Sthira: cardinal 7 + fixed 8 + dual 9, four of each -> 96.
 assert.ok(Math.abs(rdd.sthira.periods.reduce((s, x) => s + x.years, 0) - 96) < 0.1, 'Sthira total 96');
@@ -112,3 +115,16 @@ assert.equal(sl[15].rasiIndex, (lagna0 + 6) % 12);                       // 16: 
 const jNoSun = calculateJaimini({ lagnaLongitude: c.lagna.longitude, grahaLongitudes, birthMs });
 assert.equal(jNoSun.specialLagnas, undefined);
 console.log(JSON.stringify({ specialLagnasPass: true, count: sl.length, varnada: sl[17].rasi }, null, 2));
+
+// ── Varṇada Dasha (from the Varṇada Lagna) ──────────────────────────
+const vd = j.rasiDashas.varnada;
+assert.ok(vd, 'varnada dasha present when sunrise inputs supplied');
+assert.equal(vd.periods.length, 12);
+const varnadaLagna0 = sl.find((x) => x.key === 'varnada').rasiIndex;
+assert.equal(vd.periods[0].rasiIndex, varnadaLagna0);   // starts from the Varṇada Lagna sign
+assert.equal(vd.startRasi, vd.periods[0].rasi);
+assert.ok(['direct', 'indirect'].includes(vd.direction));
+for (const d of vd.periods) assert.ok(d.years >= 1 && d.years <= 12);
+// absent without the sunrise inputs
+assert.equal(jNoSun.rasiDashas.varnada, undefined);
+console.log(JSON.stringify({ varnadaPass: true, start: vd.startRasi, dir: vd.direction }, null, 2));
