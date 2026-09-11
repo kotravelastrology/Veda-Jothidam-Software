@@ -54,6 +54,23 @@ for (const p of r.points) {
   assert.ok(p.nokki.pct >= 0 && p.nokki.pct <= 100, `${p.label} nokki pct`);
 }
 
+// ── Today's transiting grahas (for the chart box) ────────────────────
+assert.equal(r.transitPlanets.length, 9);
+const ids = r.transitPlanets.map((p) => p.id);
+for (const id of ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu']) {
+  assert.ok(ids.includes(id), `transitPlanets has ${id}`);
+}
+for (const p of r.transitPlanets) {
+  assert.ok(p.rasiIndex >= 0 && p.rasiIndex < 12, `${p.id} rasiIndex in range`);
+  assert.ok(p.degreeInSign >= 0 && p.degreeInSign < 30, `${p.id} degreeInSign in range`);
+  assert.equal(typeof p.retrograde, 'boolean');
+}
+// Rahu/Ketu are always exactly opposite.
+const rahu = r.transitPlanets.find((p) => p.id === 'Rahu');
+const ketu = r.transitPlanets.find((p) => p.id === 'Ketu');
+assert.equal((rahu.rasiIndex + 6) % 12, ketu.rasiIndex);
+assert.equal(r.lagnaRasiIndex, r.points.find((p) => p.label === 'லக்னம்').rasi);
+
 console.log(JSON.stringify({
   pass: true, weekday: r.weekday, sunrise: Number(r.sunriseHr.toFixed(2)),
   activeJama: r.activeJama, arudam: `${arPoint.rasi}/${arPoint.deg.toFixed(1)}`,

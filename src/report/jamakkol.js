@@ -14,6 +14,7 @@
 const { julianDay, HouseSystem, SiderealMode, setSiderealMode, calculateHouses, getAyanamsa } = require('@swisseph/node');
 const { sunMoonLongitudes, sunriseJulianDay, sunsetJulianDay } = require('../ephemeris/siderealPositions');
 const { kpChain } = require('./kpSystem');
+const { computeTransitPositions } = require('./transitPositions');
 
 const norm = (n) => ((n % 360) + 360) % 360;
 
@@ -179,6 +180,15 @@ function calculateJamakkol(q) {
   const lagnaLon = siderealAscAt(jd, q.latitude, q.longitude);
   const lagna = placed(lagnaLon);
 
+  // Today's transiting grahas (கோசாரம்) at the query instant, for the chart box.
+  const queryInstant = new Date(Date.UTC(q.year, q.month - 1, q.day, q.hour, q.minute, second) - offMin * 60000);
+  const transitPlanets = computeTransitPositions(queryInstant, {
+    latitude: q.latitude, longitude: q.longitude, ayanamsha: 'Lahiri', nodeType: 'mean',
+  }).planets.map((p) => {
+    const r = Math.floor(p.longitude / 30) % 12;
+    return { id: p.planet, rasiIndex: r, degreeInSign: p.longitude - r * 30, retrograde: p.isRetrograde };
+  });
+
   const point = (label, p) => ({
     label,
     rasi: p.rasi, rasiName: RASI_TA[p.rasi], deg: p.degInRasi ?? p.deg,
@@ -207,6 +217,8 @@ function calculateJamakkol(q) {
     kavippu: kv,
     jamas,
     activeJama: activeI + 1,
+    lagnaRasiIndex: lagna.rasi,
+    transitPlanets,
   };
 }
 

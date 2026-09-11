@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { computeJamakkol, type JamakkolQuery } from './actions';
+import { JamakkolChartBox } from '@/src/charts/kattam/JamakkolChartBox';
 
 const POINT_TA: Record<string, string> = {
   Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்',
@@ -80,6 +81,16 @@ export default function JamakkolView() {
         <div className="space-y-6">
           <div className="text-sm text-ink-soft">
             சூரிய உதயம் {hm(result.sunriseHr)} · அஸ்தமனம் {hm(result.sunsetHr)} · {result.isNight ? 'இரவு' : 'பகல்'} · நடப்பு ஜாமம் {result.activeJama}
+          </div>
+
+          <div className="bg-surface border border-line rounded-2xl p-5">
+            <JamakkolChartBox
+              points={result.points}
+              jamas={result.jamas}
+              transitPlanets={result.transitPlanets}
+              lagnaRasiIndex={result.lagnaRasiIndex}
+              title="ஜாமக்கோள் கட்டம்"
+            />
           </div>
 
           <div className="bg-surface border border-line rounded-2xl p-5">
