@@ -58,10 +58,14 @@ function buildYogasDoshasChart(chart, rasiPositions) {
     }
   }
 
-  // Build planetPositions (0-360 degrees)
+  // Build planetPositions (0-360 degrees). Rahu/Ketu longitudes are included
+  // here (but not in `houses`, which only the classical 7 populate) solely so
+  // Kala Sarpa Dosha's axis check has real node positions to read.
   const planetPositions = Object.fromEntries(
     CLASSICAL_GRAHAS.map(planet => [planet, chart.grahas[planet].longitude % 360])
   );
+  if (chart.grahas.Rahu) planetPositions.Rahu = chart.grahas.Rahu.longitude % 360;
+  if (chart.grahas.Ketu) planetPositions.Ketu = chart.grahas.Ketu.longitude % 360;
 
   // Build planets object for edge-case and specialized yogas
   const planets = Object.fromEntries(

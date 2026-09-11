@@ -14,6 +14,21 @@ const BPHS_DOSHAS_SOURCE = {
   pageLocus: 'file pages TBD / printed pages TBD (Ch.83) — S11-B',
 };
 
+// Mangal/Kuja Dosha and Kala Sarpa Dosha are not BPHS Ch.83 items — they are
+// the popular Parashari-tradition vivaha/graha-dosha conventions used
+// uniformly across mainstream Vedic software (house-position rule; Rahu-Ketu
+// axis rule). Cited separately and honestly rather than folded into the
+// BPHS_DOSHAS_SOURCE citation above; page-verified classical citation is a
+// follow-up, same TBD convention as BPHS_DOSHAS_SOURCE.pageLocus.
+const TRADITIONAL_DOSHA_SOURCE = {
+  title: 'Kuja (Mangal) Dosha & Kala Sarpa Dosha — traditional vivaha/graha-dosha rules',
+  author: 'Popular Parashari-tradition convention (not a single BPHS verse)',
+  file: null,
+  tradition: 'Parashari (popular convention)',
+  convention: 'Mangal: Mars in 1/2/4/7/8/12 from Lagna or Moon. Kala Sarpa: all 7 classical grahas confined to one side of the Rahu-Ketu axis.',
+  pageLocus: 'widely-practiced traditional rule; page-verified classical citation TBD',
+};
+
 // Helper: Find which house a planet is in
 function findPlanetHouse(chart, planet) {
   for (let house = 1; house <= 12; house++) {
@@ -297,6 +312,69 @@ const DOSHAS_CATALOG = {
       }
     },
   },
+
+  // ============ Traditional Mangal & Kala Sarpa Dosha ============
+
+  // 9. Mangal (Kuja) Dosha
+  MANGAL_DOSHA: {
+    name: 'Mangal Dosha (Kuja Dosha)',
+    chapter: null,
+    formation_rule: 'Mars in 1st, 2nd, 4th, 7th, 8th or 12th house from Lagna, or from Moon',
+    effects: 'திருமணத் தாமதம் / துணையுடன் முரண்பாடு அபாயம் எனப் பாரம்பரியமாகக் கருதப்படுகிறது. Classically several cancellation (parihara) conditions exist — e.g. Mars in its own/exalted sign, or matching Mangal Dosha in both charts — which are not modeled here.',
+    severity: 'High',
+    remedies: 'செவ்வாய் பூஜை, மங்கள தோஷ நிவாரண பூஜை; இறுதி முடிவுக்கு முன் ஜோதிடர் ஆலோசனை பரிந்துரைக்கப்படுகிறது (parihara நிபந்தனைகள் இங்கு சரிபார்க்கப்படவில்லை)',
+    detection(chart) {
+      try {
+        const doshaHouses = new Set([1, 2, 4, 7, 8, 12]);
+
+        const marsHouseFromLagna = findPlanetHouse(chart, 'Mars');
+        if (marsHouseFromLagna && doshaHouses.has(marsHouseFromLagna)) return true;
+
+        const marsPos = chart.planetPositions?.Mars;
+        const moonPos = chart.planetPositions?.Moon;
+        if (typeof marsPos === 'number' && typeof moonPos === 'number') {
+          const marsSign = Math.floor(marsPos / 30);
+          const moonSign = Math.floor(moonPos / 30);
+          const houseFromMoon = ((marsSign - moonSign + 12) % 12) + 1;
+          if (doshaHouses.has(houseFromMoon)) return true;
+        }
+
+        return false;
+      } catch (e) {
+        return false;
+      }
+    },
+  },
+
+  // 10. Kala Sarpa Dosha
+  KALA_SARPA_DOSHA: {
+    name: 'Kala Sarpa Dosha',
+    chapter: null,
+    formation_rule: 'All 7 classical grahas (Sun–Saturn) confined to one side of the Rahu-Ketu axis',
+    effects: 'தடையான, தாமதமான பலன்கள் எனப் பாரம்பரியமாகக் கருதப்படுகிறது. Classically there are 12 named variants (Anantha, Kulika ... Sheshanaga) by which house the axis falls in — variant identification is not modeled here, only the base yes/no formation.',
+    severity: 'Major',
+    remedies: 'ராகு-கேது சாந்தி, நாக தோஷ பரிகாரம்; இறுதி முடிவுக்கு முன் ஜோதிடர் ஆலோசனை பரிந்துரைக்கப்படுகிறது',
+    detection(chart) {
+      try {
+        const rahuPos = chart.planetPositions?.Rahu;
+        const ketuPos = chart.planetPositions?.Ketu;
+        if (typeof rahuPos !== 'number' || typeof ketuPos !== 'number') return false;
+
+        const arcFromRahu = (pos) => (((pos - rahuPos) % 360) + 360) % 360;
+        const distances = PLANETS.map((p) => {
+          const pos = chart.planetPositions?.[p];
+          return typeof pos === 'number' ? arcFromRahu(pos) : null;
+        });
+        if (distances.some((d) => d === null)) return false;
+
+        const allOnRahuSide = distances.every((d) => d <= 180);
+        const allOnKetuSide = distances.every((d) => d >= 180);
+        return allOnRahuSide || allOnKetuSide;
+      } catch (e) {
+        return false;
+      }
+    },
+  },
 };
 
 function calculateDoshas(chart) {
@@ -344,4 +422,5 @@ module.exports = {
   calculateDoshas,
   DOSHAS_CATALOG,
   BPHS_DOSHAS_SOURCE,
+  TRADITIONAL_DOSHA_SOURCE,
 };
