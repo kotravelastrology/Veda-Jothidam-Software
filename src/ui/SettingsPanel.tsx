@@ -32,33 +32,55 @@ const DEFAULT_SETTINGS: Settings = {
   showHints: true,
 };
 
+const SETTINGS_CHANGED_EVENT = 'kotravel:settings-changed';
+
+function readStoredSettings(): Settings {
+  try {
+    const stored = localStorage.getItem('kotravel-settings');
+    // Merge over defaults so keys added in newer versions (e.g. nodeType)
+    // are never left undefined for someone with older stored settings.
+    return stored ? { ...DEFAULT_SETTINGS, ...JSON.parse(stored) } : DEFAULT_SETTINGS;
+  } catch (e) {
+    console.error('Failed to load settings:', e);
+    return DEFAULT_SETTINGS;
+  }
+}
+
 export function useSettings() {
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem('kotravel-settings');
-    if (stored) {
-      try {
-        // Merge over defaults so keys added in newer versions (e.g. nodeType)
-        // are never left undefined for someone with older stored settings.
-        setSettings({ ...DEFAULT_SETTINGS, ...JSON.parse(stored) });
-      } catch (e) {
-        console.error('Failed to load settings:', e);
-      }
-    }
+    setSettings(readStoredSettings());
     setLoaded(true);
+
+    // Every `useSettings()` call site (SettingsPanel, ReportBuilder, ...) owns
+    // its own React state seeded from localStorage once on mount — with no
+    // shared context, one instance saving a change never reached another
+    // already-mounted instance. Concretely: open Settings, change Ayanamsha,
+    // Close, then Calculate Chart without reloading the page — the report
+    // silently used the ayanamsha ReportBuilder had at ITS mount time, not
+    // the one just saved. Broadcasting on save and re-reading here on every
+    // instance (mirroring the existing `kotravel:report-layout` custom-event
+    // pattern already used for the Windows-menu layout toggle) keeps every
+    // `useSettings()` instance in the same tab in sync without introducing a
+    // new context/provider.
+    const onChanged = () => setSettings(readStoredSettings());
+    window.addEventListener(SETTINGS_CHANGED_EVENT, onChanged);
+    return () => window.removeEventListener(SETTINGS_CHANGED_EVENT, onChanged);
   }, []);
 
   const updateSettings = (newSettings: Partial<Settings>) => {
     const updated = { ...settings, ...newSettings };
     setSettings(updated);
     localStorage.setItem('kotravel-settings', JSON.stringify(updated));
+    window.dispatchEvent(new Event(SETTINGS_CHANGED_EVENT));
   };
 
   const resetSettings = () => {
     setSettings(DEFAULT_SETTINGS);
     localStorage.setItem('kotravel-settings', JSON.stringify(DEFAULT_SETTINGS));
+    window.dispatchEvent(new Event(SETTINGS_CHANGED_EVENT));
   };
 
   return { settings, updateSettings, resetSettings, loaded };
