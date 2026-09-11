@@ -65,6 +65,18 @@ for (const p of r.transitPlanets) {
   assert.ok(p.degreeInSign >= 0 && p.degreeInSign < 30, `${p.id} degreeInSign in range`);
   assert.equal(typeof p.retrograde, 'boolean');
 }
+// Every jama graha carries its own nakshatra lord (star lord of its degree)
+// plus the classical graha-kadir/rasi-kadir constants (from the verified
+// Jamakkol-Arudam source engine), for the outer chart box.
+for (const j of r.jamas) {
+  assert.ok(j.nakLord && j.nakLordTa, `jama ${j.jamaNum} has a nakLord`);
+  assert.ok(j.grahaKadir > 0, `jama ${j.jamaNum} grahaKadir positive`);
+  assert.ok(j.rasiKadir > 0, `jama ${j.jamaNum} rasiKadir positive`);
+}
+// Fixed classical constants, spot-checked against the source table.
+assert.equal(r.jamas.find((j) => j.lord === 'Moon').grahaKadir, 21);
+assert.equal(r.jamas.find((j) => j.lord === 'Saturn').grahaKadir, 4);
+
 // Rahu/Ketu are always exactly opposite.
 const rahu = r.transitPlanets.find((p) => p.id === 'Rahu');
 const ketu = r.transitPlanets.find((p) => p.id === 'Ketu');

@@ -3,8 +3,11 @@
 import { useEffect, useState } from 'react';
 import { RASI_TA_SHORT, GRAHA_TA_SHORT, fmtDegMin, loadChartStyle, saveChartStyle, type ChartStyle } from './rasiNames';
 
-interface RefPoint { label: string; rasi: number; deg: number; }
-interface JamaItem { jamaNum: number; lord: string; lordTa: string; rasi: number; degInRasi: number; active: boolean; }
+interface RefPoint { label: string; rasi: number; deg: number; nokki?: { lord: string; pct: number }; }
+interface JamaItem {
+  jamaNum: number; lord: string; lordTa: string; rasi: number; degInRasi: number; active: boolean;
+  nakLordTa?: string; grahaKadir?: number | null; rasiKadir?: number;
+}
 interface TransitPlanet { id: string; rasiIndex: number; degreeInSign: number; retrograde?: boolean; }
 
 interface Props {
@@ -50,13 +53,21 @@ function InnerLabels({ points, transits, rasiIndex }: { points: RefPoint[]; tran
   );
 }
 
-function OuterJama({ items }: { items: JamaItem[] }) {
+function OuterJama({ items, udayamPct }: { items: JamaItem[]; udayamPct?: number }) {
   if (!items.length) return null;
   return (
     <div className="flex flex-col items-center leading-tight">
       {items.map((j) => (
-        <div key={j.jamaNum} className={`text-[9px] whitespace-nowrap rounded px-1 mb-0.5 ${j.active ? 'bg-saffron text-white font-bold' : 'border border-saffron/50 text-saffron'}`}>
-          {j.jamaNum}.{j.lordTa} <span className={j.active ? 'text-white/80' : 'text-ink-soft'}>{fmtDegMin(j.degInRasi)}</span>
+        <div key={j.jamaNum} className={`text-[9px] whitespace-nowrap rounded px-1 mb-0.5 text-center ${j.active ? 'bg-saffron text-white font-bold' : 'border border-saffron/50 text-saffron'}`}>
+          <div>{j.jamaNum}.{j.lordTa} <span className={j.active ? 'text-white/80' : 'text-ink-soft'}>{fmtDegMin(j.degInRasi)}</span></div>
+          {(j.nakLordTa || j.grahaKadir != null) && (
+            <div className={`text-[7px] font-normal ${j.active ? 'text-white/70' : 'text-indigo'}`}>
+              {j.nakLordTa}{j.grahaKadir != null && <> ✳{j.grahaKadir} ◆{j.rasiKadir}</>}
+            </div>
+          )}
+          {udayamPct != null && (
+            <div className={`text-[7px] font-semibold ${j.active ? 'text-white/80' : 'text-ink-soft'}`}>{udayamPct.toFixed(1)}%</div>
+          )}
         </div>
       ))}
     </div>
@@ -65,6 +76,7 @@ function OuterJama({ items }: { items: JamaItem[] }) {
 
 function SouthJamakkol({ points, jamas, transitPlanets, lagnaRasiIndex, title }: Props) {
   const outer = (rasiIndex: number) => jamas.filter((j) => j.rasi === rasiIndex);
+  const udayamPct = points.find((p) => p.label === 'உதயம்')?.nokki?.pct;
   // 12 outer edge slots, one per rāśi, no overlaps: left{Meena,Kumbha,Makara,Dhanusu},
   // right{Mithuna,Kataka,Simha,Kanni}, top{Mesha,Vrishabha}, bottom{Vrischika,Tula}.
   const leftRasis = [11, 10, 9, 8], rightRasis = [2, 3, 4, 5], topRasis = [0, 1], bottomRasis = [7, 6];
@@ -72,8 +84,8 @@ function SouthJamakkol({ points, jamas, transitPlanets, lagnaRasiIndex, title }:
     <div className="flex flex-col items-center">
       {title && <p className="text-center text-xs font-bold text-ink-soft mb-1">{title}</p>}
       <div className="grid" style={{ gridTemplateColumns: 'auto repeat(4, minmax(0,1fr)) auto', gridTemplateRows: 'auto repeat(4, minmax(0,1fr)) auto', width: '100%', maxWidth: 480 }}>
-        <div /><div style={{ gridColumn: 3 }} className="flex items-end justify-center pb-0.5"><OuterJama items={outer(0)} /></div>
-        <div style={{ gridColumn: 4 }} className="flex items-end justify-center pb-0.5"><OuterJama items={outer(1)} /></div><div /><div />
+        <div /><div style={{ gridColumn: 3 }} className="flex items-end justify-center pb-0.5"><OuterJama items={outer(0)} udayamPct={udayamPct} /></div>
+        <div style={{ gridColumn: 4 }} className="flex items-end justify-center pb-0.5"><OuterJama items={outer(1)} udayamPct={udayamPct} /></div><div /><div />
 
         <div className="border-2 border-ink/70 grid grid-cols-4 grid-rows-4" style={{ gridColumn: '2 / span 4', gridRow: '2 / span 4', aspectRatio: '1/1' }}>
           <div className="flex items-center justify-center text-center px-1" style={{ gridColumn: '2 / span 2', gridRow: '2 / span 2' }}>
@@ -88,22 +100,22 @@ function SouthJamakkol({ points, jamas, transitPlanets, lagnaRasiIndex, title }:
           ))}
         </div>
 
-        <div style={{ gridColumn: 1, gridRow: 2 }} className="flex items-center justify-end pr-1"><OuterJama items={outer(leftRasis[0])} /></div>
-        <div style={{ gridColumn: 1, gridRow: 3 }} className="flex items-center justify-end pr-1"><OuterJama items={outer(leftRasis[1])} /></div>
-        <div style={{ gridColumn: 1, gridRow: 4 }} className="flex items-center justify-end pr-1"><OuterJama items={outer(leftRasis[2])} /></div>
-        <div style={{ gridColumn: 1, gridRow: 5 }} className="flex items-center justify-end pr-1"><OuterJama items={outer(leftRasis[3])} /></div>
+        <div style={{ gridColumn: 1, gridRow: 2 }} className="flex items-center justify-end pr-1"><OuterJama items={outer(leftRasis[0])} udayamPct={udayamPct} /></div>
+        <div style={{ gridColumn: 1, gridRow: 3 }} className="flex items-center justify-end pr-1"><OuterJama items={outer(leftRasis[1])} udayamPct={udayamPct} /></div>
+        <div style={{ gridColumn: 1, gridRow: 4 }} className="flex items-center justify-end pr-1"><OuterJama items={outer(leftRasis[2])} udayamPct={udayamPct} /></div>
+        <div style={{ gridColumn: 1, gridRow: 5 }} className="flex items-center justify-end pr-1"><OuterJama items={outer(leftRasis[3])} udayamPct={udayamPct} /></div>
 
-        <div style={{ gridColumn: 6, gridRow: 2 }} className="flex items-center justify-start pl-1"><OuterJama items={outer(rightRasis[0])} /></div>
-        <div style={{ gridColumn: 6, gridRow: 3 }} className="flex items-center justify-start pl-1"><OuterJama items={outer(rightRasis[1])} /></div>
-        <div style={{ gridColumn: 6, gridRow: 4 }} className="flex items-center justify-start pl-1"><OuterJama items={outer(rightRasis[2])} /></div>
-        <div style={{ gridColumn: 6, gridRow: 5 }} className="flex items-center justify-start pl-1"><OuterJama items={outer(rightRasis[3])} /></div>
+        <div style={{ gridColumn: 6, gridRow: 2 }} className="flex items-center justify-start pl-1"><OuterJama items={outer(rightRasis[0])} udayamPct={udayamPct} /></div>
+        <div style={{ gridColumn: 6, gridRow: 3 }} className="flex items-center justify-start pl-1"><OuterJama items={outer(rightRasis[1])} udayamPct={udayamPct} /></div>
+        <div style={{ gridColumn: 6, gridRow: 4 }} className="flex items-center justify-start pl-1"><OuterJama items={outer(rightRasis[2])} udayamPct={udayamPct} /></div>
+        <div style={{ gridColumn: 6, gridRow: 5 }} className="flex items-center justify-start pl-1"><OuterJama items={outer(rightRasis[3])} udayamPct={udayamPct} /></div>
 
-        <div /><div style={{ gridColumn: 3, gridRow: 6 }} className="flex items-start justify-center pt-0.5"><OuterJama items={outer(bottomRasis[0])} /></div>
-        <div style={{ gridColumn: 4, gridRow: 6 }} className="flex items-start justify-center pt-0.5"><OuterJama items={outer(bottomRasis[1])} /></div><div />
+        <div /><div style={{ gridColumn: 3, gridRow: 6 }} className="flex items-start justify-center pt-0.5"><OuterJama items={outer(bottomRasis[0])} udayamPct={udayamPct} /></div>
+        <div style={{ gridColumn: 4, gridRow: 6 }} className="flex items-start justify-center pt-0.5"><OuterJama items={outer(bottomRasis[1])} udayamPct={udayamPct} /></div><div />
       </div>
       <p className="text-[10px] text-ink-soft mt-1 text-center">
         <span className="font-bold text-ink">உள்ளே</span>: இன்றைய கோசார கிரகங்கள் + உதயம்/ஆரூடம்/கவிப்பு/ராகுகாலம்/எமகண்டம்/ம்ருத்யு/குளிகன் &nbsp;|&nbsp;
-        <span className="font-bold text-saffron">வெளியே</span>: 8 ஜாமக்கோள் கிரகங்கள் (செயலில் உள்ளது தூரிதமாக)
+        <span className="font-bold text-saffron">வெளியே</span>: 8 ஜாமக்கோள் கிரகங்கள் + நட்சத்திர நாதன் + ✳கிரககதிர்/◆ராசிகதிர் + உதயம்-நெருக்கம் % (செயலில் உள்ளது தூரிதமாக)
       </p>
     </div>
   );
@@ -111,6 +123,7 @@ function SouthJamakkol({ points, jamas, transitPlanets, lagnaRasiIndex, title }:
 
 function NorthJamakkol({ points, jamas, transitPlanets, lagnaRasiIndex, title }: Props) {
   const BOX = 400;
+  const udayamPct = points.find((p) => p.label === 'உதயம்')?.nokki?.pct;
   const HOUSE_LABEL_POS: [number, number][] = [
     [200, 100], [100, 50], [50, 100], [100, 200], [50, 300], [100, 350],
     [200, 300], [300, 350], [350, 300], [300, 200], [350, 100], [300, 50],
@@ -153,8 +166,13 @@ function NorthJamakkol({ points, jamas, transitPlanets, lagnaRasiIndex, title }:
         </p>
         <div className="flex flex-wrap gap-1">
           {jamas.map((j) => (
-            <span key={j.jamaNum} className={`text-[10px] px-1.5 py-0.5 rounded ${j.active ? 'bg-saffron text-white font-bold' : 'border border-saffron/50 text-saffron'}`}>
+            <span key={j.jamaNum} className={`text-[10px] px-1.5 py-0.5 rounded leading-tight ${j.active ? 'bg-saffron text-white font-bold' : 'border border-saffron/50 text-saffron'}`}>
               {j.jamaNum}.{j.lordTa} {RASI_TA_SHORT[j.rasi]} {fmtDegMin(j.degInRasi)}
+              {(j.nakLordTa || j.grahaKadir != null) && (
+                <span className={`block text-[8px] font-normal ${j.active ? 'text-white/70' : 'text-indigo'}`}>
+                  {j.nakLordTa}{j.grahaKadir != null && <> ✳{j.grahaKadir} ◆{j.rasiKadir}</>}{udayamPct != null && ` · ${udayamPct.toFixed(1)}%`}
+                </span>
+              )}
             </span>
           ))}
         </div>

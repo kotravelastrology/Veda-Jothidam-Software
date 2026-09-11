@@ -16,6 +16,11 @@ const { sunMoonLongitudes, sunriseJulianDay, sunsetJulianDay } = require('../eph
 const { kpChain } = require('./kpSystem');
 const { computeTransitPositions } = require('./transitPositions');
 
+// கிரககதிர் / ராசிகதிர் — Jamakkol-Arudam-Project's source-engine.js (the same
+// verified reference used for the rest of this port), JK_GRAHA_KADIR / JK_RASI_KADIR.
+const JK_GRAHA_KADIR = { Sun: 5, Moon: 21, Mars: 7, Mercury: 9, Jupiter: 10, Venus: 16, Saturn: 4, Rahu: 4, Ketu: 4 };
+const JK_RASI_KADIR = [8, 8, 5, 3, 8, 11, 2, 4, 6, 8, 8, 27];
+
 const norm = (n) => ((n % 360) + 360) % 360;
 
 const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
@@ -160,9 +165,13 @@ function calculateJamakkol(q) {
     const endHr = isNight
       ? (sunsetHr + (i + 1) * nightJama) % 24
       : (sunriseHr + (i + 1) * dayJama) % 24;
+    const nakLord = kpChain(p.deg360).starLord;
     return {
       jamaNum: i + 1, lord, lordTa: PLANET_TA[lord], ...p,
       startHr, endHr, active: i === activeI,
+      nakLord, nakLordTa: PLANET_TA[nakLord],
+      grahaKadir: JK_GRAHA_KADIR[lord] ?? null,
+      rasiKadir: JK_RASI_KADIR[p.rasi],
     };
   });
 
