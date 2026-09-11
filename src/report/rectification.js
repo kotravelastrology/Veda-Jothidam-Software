@@ -190,6 +190,7 @@ function tattwa(birthInput) {
 
 function calculateRectification(birthInput) {
   return {
+    chart: calculateParashariChart({ input: birthInput, ayanamsha: 'Lahiri', houseSystem: 'Placidus' }),
     pranaDeha: pranaDehaChain(birthInput),
     kunda: kunda(birthInput),
     tattwa: tattwa(birthInput),

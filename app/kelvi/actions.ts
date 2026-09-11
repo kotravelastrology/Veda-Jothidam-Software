@@ -18,7 +18,8 @@ export async function listTopics() {
 /**
  * Build the native's report, then adjudicate `question` against it at `whenISO`
  * (default: now), including the gochara stage from real Swiss-Ephemeris transits.
- * Returns only the reading — not the whole report.
+ * Returns the reading plus the D1 chart (for the question view's chart box) —
+ * not the whole report.
  */
 export async function computeAnswer(input: BirthFormInput, question: string, whenISO?: string) {
   if (!question || !question.trim()) {
@@ -48,5 +49,5 @@ export async function computeAnswer(input: BirthFormInput, question: string, whe
   for (const p of tp.planets) transitRasis[p.planet] = Math.floor(norm360(p.longitude) / 30);
 
   const result = answerQuestion(report, question, { nowMs, transitRasis });
-  return JSON.parse(JSON.stringify({ ...result, whenISO: when.toISOString() }));
+  return JSON.parse(JSON.stringify({ ...result, whenISO: when.toISOString(), chart: report.chart }));
 }

@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
-import { RasiChartRenderer } from '@/src/charts/chart-renderers/RasiChartRenderer';
+import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
+import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeVarshaphala } from './actions';
 import type { BirthFormInput } from '../report/actions';
 
@@ -163,19 +164,9 @@ export default function VarshaphalaView() {
           {/* Varsha Rasi chart */}
           <section className="bg-surface border border-line rounded-lg p-5">
             <h3 className="font-semibold text-ink mb-4">வருஷ ராசி (Varsha Rasi chart)</h3>
-            <RasiChartRenderer
-              report={{
-                chart: result.varshaChart,
-                input: {
-                  year: Number(result.solarReturn.date.slice(0, 4)),
-                  month: Number(result.solarReturn.date.slice(5, 7)),
-                  day: Number(result.solarReturn.date.slice(8, 10)),
-                  hour: Number(result.solarReturn.time.slice(0, 2)),
-                  minute: Number(result.solarReturn.time.slice(3, 5)),
-                  placeName: 'Varsha Pravesha',
-                },
-              }}
-            />
+            <div className="flex justify-center">
+              <VedicChartBox {...fromParashariChart(result.varshaChart)} title="வருஷப்ரவேச கட்டம்" />
+            </div>
           </section>
 
           {/* Patyayini dasha */}

@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
+import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
+import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeAnswer } from './actions';
 import type { BirthFormInput } from '../report/actions';
 
@@ -120,6 +122,13 @@ export default function KelviView() {
       </section>
 
       {error && <p className="text-rose-700 text-sm mb-4">⚠️ {error}</p>}
+
+      {result && result.chart && (
+        <section className="mb-6 flex flex-col items-center bg-surface-soft border border-line rounded-lg p-5">
+          <h2 className="font-semibold text-ink mb-2 self-start">ராசி கட்டம் (D1)</h2>
+          <VedicChartBox {...fromParashariChart(result.chart)} />
+        </section>
+      )}
 
       {result && !result.matched && (
         <p className="text-amber-700 text-sm bg-amber-50 border border-amber-200 rounded p-3">

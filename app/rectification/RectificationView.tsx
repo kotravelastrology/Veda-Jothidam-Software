@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
+import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
+import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeRectification } from './actions';
 import type { BirthFormInput } from '../report/actions';
 
@@ -60,6 +62,12 @@ export default function RectificationView() {
 
       {result && (
         <div className="space-y-6">
+          {/* பதிவு செய்யப்பட்ட நேரத்தின் ராசி கட்டம் — 3 சோதனைகளும் இதை அடிப்படையாகக் கொண்டவை */}
+          <section className="bg-surface-soft rounded-lg p-5 border border-line flex flex-col items-center">
+            <h2 className="font-semibold text-ink mb-3 self-start">பதிவு நேர ராசி கட்டம் (D1)</h2>
+            <VedicChartBox {...fromParashariChart(result.chart)} />
+          </section>
+
           {/* ① Prāṇa / Deha */}
           <section className="bg-surface-soft rounded-lg p-5 border border-line">
             <h2 className="font-semibold text-ink mb-3">① பிராண / தேக தசை (Prāṇa / Deha daśā at birth)</h2>

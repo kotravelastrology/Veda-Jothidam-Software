@@ -7,6 +7,8 @@ import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
 import { ChartTypeSelector } from '@/src/charts/ChartTypeSelector';
 import { ChartDisplay } from '@/src/charts/ChartDisplay';
 import { getChartById, type ChartCategory } from '@/src/charts/chartTypes';
+import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
+import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { getChartLibrary } from '@/src/portal/ChartLibraryManager';
 import { useSettings } from '@/src/ui/SettingsPanel';
 
@@ -102,6 +104,9 @@ function LagnaGrahaSection({ report }: { report: ReportData }) {
   return (
     <div className="mb-8">
       <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">லக்னம் & கிரக நிலைகள்</h2>
+      <div className="flex justify-center mb-6">
+        <VedicChartBox {...fromParashariChart(report.chart)} title="ராசி கட்டம் (D1)" />
+      </div>
       <table className="w-full text-sm border-collapse">
         <thead>
           <tr className="border-b border-line text-left text-ink-soft">

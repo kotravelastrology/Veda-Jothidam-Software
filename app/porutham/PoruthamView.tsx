@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
+import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
+import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computePorutham } from './actions';
 import type { BirthFormInput } from '../report/actions';
 
@@ -69,6 +71,17 @@ export default function PoruthamView() {
       </div>
       {!result && <p className="text-sm text-ink-soft mb-4">இரு படிவங்களையும் நிரப்பி "கணக்கிடு" அழுத்தவும்.</p>}
       {error && <p className="text-rose text-sm mb-4">⚠️ {error}</p>}
+
+      {result?.girlChart && result?.boyChart && (
+        <div className="grid md:grid-cols-2 gap-4 mb-4">
+          <div className="bg-surface border border-line rounded-2xl p-4 flex flex-col items-center">
+            <VedicChartBox {...fromParashariChart(result.girlChart)} title="மணமகள் ராசி கட்டம் (D1)" size={340} />
+          </div>
+          <div className="bg-surface border border-line rounded-2xl p-4 flex flex-col items-center">
+            <VedicChartBox {...fromParashariChart(result.boyChart)} title="மணமகன் ராசி கட்டம் (D1)" size={340} />
+          </div>
+        </div>
+      )}
 
       {result && (
         <div className="bg-surface border border-line rounded-2xl p-5">

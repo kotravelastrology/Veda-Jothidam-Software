@@ -17,6 +17,7 @@ function moonStarAndSun(input: BirthFormInput) {
     ...moonToStar(chart.grahas.Moon.longitude),
     moonLongitude: chart.grahas.Moon.longitude,
     sunLongitude: chart.grahas.Sun.longitude,
+    chart,
   };
 }
 
@@ -26,5 +27,5 @@ export async function computePorutham(girl: BirthFormInput, boy: BirthFormInput)
   const b = moonStarAndSun(boy);
   const result = calculateTamilPorutham(g, b);
   const extended = calculateExtendedPorutham(g, b);
-  return JSON.parse(JSON.stringify({ ...result, extended }));
+  return JSON.parse(JSON.stringify({ ...result, extended, girlChart: g.chart, boyChart: b.chart }));
 }
