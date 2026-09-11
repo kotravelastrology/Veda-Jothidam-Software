@@ -24,7 +24,7 @@ export const CHART_TYPES: ChartType[] = [
   {
     id: 'D9-navamsha',
     label: 'Navamsha (D9)',
-    labelTamil: 'நவாংश (D9)',
+    labelTamil: 'நவாம்ச (D9)',
     category: 'divisional',
     icon: '✨',
     description: 'One-ninth divisional chart for marriage & progeny',
@@ -136,7 +136,7 @@ export const CHART_TYPES: ChartType[] = [
     category: 'divisional',
     icon: '🏛️',
     description: 'Humility and servitude',
-    descriptionTamil: '겸손 மற்றும் சேவை',
+    descriptionTamil: 'பணிவு மற்றும் சேவை',
   },
   {
     id: 'D45-akshavedamsha',
@@ -242,7 +242,7 @@ export const CHART_TYPES: ChartType[] = [
   {
     id: 'compatibility',
     label: 'Synastry (Compatibility)',
-    labelTamil: 'போராபhydnayatha (பொருத்தம்)',
+    labelTamil: 'இணக்கப் பொருத்தம்',
     category: 'analysis',
     icon: '💕',
     description: 'Relationship compatibility analysis',

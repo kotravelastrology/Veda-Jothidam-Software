@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useNavigation, ChartType, ReportType } from './navigationContext';
+import { useNavigation, ReportType } from './navigationContext';
 
 interface SidebarSection {
   title: string;
@@ -16,36 +16,46 @@ interface SidebarItem {
 }
 
 export function Sidebar() {
-  const { sidebarOpen, setSidebarOpen, currentMenu, setCurrentMenu, setCurrentChart, setCurrentReport, setBreadcrumb } =
+  const { sidebarOpen, setSidebarOpen, currentMenu, setCurrentMenu, setCurrentReport, setBreadcrumb } =
     useNavigation();
 
+  // Every href below is a real chart id from src/charts/chartTypes.ts, deep-linking
+  // to /report's own chart-type selector (ReportBuilder.tsx reads ?chart= on mount).
+  // Previously these were `action: () => setCurrentChart(...)` writing into
+  // navigationContext's currentChart — a value nothing in the app ever reads, so
+  // every click here was a dead no-op (and 'd5' / Panchamsa isn't a real chart at
+  // all). Kept as a curated subset — same shape TopMenuBar's own Charts submenu
+  // uses — rather than the full ~25-entry catalog, which /report's own selector
+  // already lists in full.
   const chartSections: SidebarSection[] = [
     {
       title: 'Standard Charts',
       items: [
-        { label: 'Birth Chart (Rasi)', icon: '📊', action: () => setCurrentChart('rasi' as ChartType) },
-        { label: 'Navamsha (D9)', icon: '📈', action: () => setCurrentChart('navamsha' as ChartType) },
-        { label: 'Drekkana (D3)', icon: '🔷', action: () => setCurrentChart('d3' as ChartType) },
+        { label: 'Birth Chart (Rasi)', icon: '📊', href: '/report?chart=D1-rasi' },
+        { label: 'Navamsha (D9)', icon: '📈', href: '/report?chart=D9-navamsha' },
+        { label: 'Drekkana (D3)', icon: '🔷', href: '/report?chart=D3-drekkana' },
       ],
     },
     {
       title: 'Divisional Charts (Vargas)',
       items: [
-        { label: 'D2 (Hora)', icon: '💰', action: () => setCurrentChart('d2' as ChartType) },
-        { label: 'D4 (Chatushpad)', icon: '🏠', action: () => setCurrentChart('d4' as ChartType) },
-        { label: 'D5 (Panchamsa)', icon: '👶', action: () => setCurrentChart('d5' as ChartType) },
-        { label: 'D7 (Saptamsa)', icon: '👨‍👩‍👧‍👦', action: () => setCurrentChart('d7' as ChartType) },
-        { label: 'D10 (Dasamsa)', icon: '💼', action: () => setCurrentChart('d10' as ChartType) },
-        { label: 'D12 (Dwadasamsa)', icon: '👴', action: () => setCurrentChart('d12' as ChartType) },
+        { label: 'D2 (Hora)', icon: '💰', href: '/report?chart=D2-hora' },
+        { label: 'D4 (Chaturthamsha)', icon: '🏠', href: '/report?chart=D4-chaturthamsha' },
+        { label: 'D7 (Saptamsha)', icon: '👨‍👩‍👧‍👦', href: '/report?chart=D7-saptamsha' },
+        { label: 'D10 (Dasamsha)', icon: '💼', href: '/report?chart=D10-dasamsha' },
+        { label: 'D12 (Dwadashamsha)', icon: '👴', href: '/report?chart=D12-dwadashamsha' },
+        { label: 'Varga Chakra (16-in-1)', icon: '🔄', href: '/report?chart=varga-chakra' },
       ],
     },
     {
       title: 'Analysis Charts',
       items: [
-        { label: 'Sudarshan Chakra', icon: '🌀', action: () => setCurrentChart('sudarshan' as ChartType) },
-        { label: 'Transits (Gochara)', icon: '🔄', action: () => setCurrentChart('transit' as ChartType) },
-        { label: 'Ashtakavarga', icon: '📉', action: () => setCurrentChart('ashtakavarga' as ChartType) },
-        { label: 'Ephemeris', icon: '📋', action: () => setCurrentChart('ephemeris' as ChartType) },
+        { label: 'Sudarshan Chakra', icon: '🌀', href: '/report?chart=sudarshan-chakra' },
+        { label: 'Transits (Gochara)', icon: '🔄', href: '/report?chart=transit' },
+        { label: 'Ashtakavarga', icon: '📉', href: '/report?chart=ashtakavarga' },
+        { label: 'Shadbala', icon: '💪', href: '/report?chart=shadbala' },
+        { label: 'Yogas & Doshas', icon: '🌟', href: '/report?chart=yogas' },
+        { label: 'Ephemeris', icon: '📋', href: '/report?chart=ephemeris' },
       ],
     },
   ];
