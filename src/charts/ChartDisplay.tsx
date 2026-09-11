@@ -60,7 +60,11 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
         {chartId === 'D1-rasi' && <RasiChartRenderer report={report} />}
         {chartId === 'D9-navamsha' && <NavamshaChartRenderer report={report} />}
         {chartId === 'transit' && <TransitChartRenderer report={report} />}
-        {['D2-hora', 'D7-saptamsha', 'D10-dasamsha', 'D12-dwadashamsha'].includes(chartId) && (
+        {[
+          'D2-hora', 'D3-drekkana', 'D4-chaturthamsha', 'D7-saptamsha', 'D10-dasamsha', 'D12-dwadashamsha',
+          'D16-shodashamsha', 'D20-vimshamsha', 'D24-chaturvimshamsha', 'D27-saptavimshamsha',
+          'D30-trimshamsha', 'D40-khavedamsha', 'D45-akshavedamsha', 'D60-shashtiamsha',
+        ].includes(chartId) && (
           <DivisionalChartRenderer report={report} chartId={chartId} />
         )}
         {chartId === 'dasha-vimsottari' && <DashaTimelineRenderer report={report} />}
@@ -80,9 +84,19 @@ export function ChartDisplay({ chartId, report }: ChartDisplayProps) {
           'D1-rasi',
           'D9-navamsha',
           'D2-hora',
+          'D3-drekkana',
+          'D4-chaturthamsha',
           'D7-saptamsha',
           'D10-dasamsha',
           'D12-dwadashamsha',
+          'D16-shodashamsha',
+          'D20-vimshamsha',
+          'D24-chaturvimshamsha',
+          'D27-saptavimshamsha',
+          'D30-trimshamsha',
+          'D40-khavedamsha',
+          'D45-akshavedamsha',
+          'D60-shashtiamsha',
           'dasha-vimsottari',
           'transit',
           'ashtakavarga',

@@ -1,74 +1,33 @@
 'use client';
 
-import { RASI_SHORT, POINT_LABEL, RASI_FULL } from './chartConstants';
+import { VedicChartBox } from '../kattam/VedicChartBox';
+import { fromVargas, RASI_TA_FULL } from '../kattam/rasiNames';
 
 interface NavamshaChartRendererProps {
   report: any;
 }
 
 export function NavamshaChartRenderer({ report }: NavamshaChartRendererProps) {
-  // report.vargas[planet].D9 is { name, signIndex, sign } — extract the sign string for display
-  const lagnaD9 = report.vargas.Lagna?.D9?.sign;
-  const grahasD9 = Object.fromEntries(
-    Object.entries(report.vargas)
-      .filter(([planet]) => planet !== 'Lagna')
-      .map(([planet, vargas]: any) => [
-        planet,
-        vargas?.D9?.sign,
-      ]).filter(([, d9]) => d9)
-  );
+  const box = fromVargas(report.vargas, 'D9');
+  const venusD9 = report.vargas.Venus?.D9?.signIndex;
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="bg-gradient-to-r from-purple-soft/30 to-indigo-soft/30 rounded-lg p-6 border-l-4 border-indigo">
-        <h3 className="text-xl font-bold text-ink mb-2">நவாംச (Navamsha - D9)</h3>
+        <h3 className="text-xl font-bold text-ink mb-2">நவாம்ச (Navamsha - D9)</h3>
         <p className="text-sm text-ink-soft">
           One-ninth divisional chart showing Marriage, partnership, and spouse characteristics
         </p>
       </div>
 
-      {/* D9 Lagna */}
-      <div>
-        <h4 className="font-semibold text-ink mb-3">D9 லக்னம் (Navamsha Ascendant)</h4>
-        <div className="bg-surface-soft rounded-lg p-6 border-2 border-indigo/30">
-          <div className="flex items-end gap-4">
-            <div>
-              <div className="text-xs text-ink-soft mb-1">Navamsha Sign</div>
-              <div className="text-4xl font-bold text-indigo mb-2">{RASI_SHORT[lagnaD9] || lagnaD9}</div>
-              <div className="text-sm text-ink-soft">{RASI_FULL[lagnaD9] || lagnaD9}</div>
-            </div>
-            <div className="flex-1 bg-gradient-to-r from-indigo/20 to-purple/20 rounded p-4">
-              <div className="text-xs text-ink-soft mb-2">Significance</div>
-              <ul className="text-sm space-y-1 text-ink">
-                <li>• Marriage & Partnership quality</li>
-                <li>• Spouse characteristics</li>
-                <li>• Marital harmony indicators</li>
-              </ul>
-            </div>
-          </div>
+      {box ? (
+        <div className="flex justify-center">
+          <VedicChartBox {...box} title="D9 நவாம்ச கட்டம்" />
         </div>
-      </div>
-
-      {/* D9 Planetary Positions */}
-      <div>
-        <h4 className="font-semibold text-ink mb-4">கிரக நிலைகள் (Planetary Positions in D9)</h4>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-          {Object.entries(grahasD9).map(([planet, d9Sign]: any) => (
-            <div key={planet} className="bg-surface-soft rounded-lg p-4 border border-indigo/30 hover:border-indigo/60 transition-colors">
-              <div className="text-xs font-semibold text-ink-soft mb-2 uppercase">
-                {POINT_LABEL[planet] || planet}
-              </div>
-              <div className="text-2xl font-bold text-indigo mb-1">
-                {RASI_SHORT[d9Sign] || d9Sign}
-              </div>
-              <div className="text-xs text-ink-soft">
-                {RASI_FULL[d9Sign] || d9Sign}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      ) : (
+        <p className="text-sm text-ink-soft">D9 தரவு கிடைக்கவில்லை.</p>
+      )}
 
       {/* Marriage Analysis Section */}
       <div className="bg-surface border border-line rounded-lg p-6 space-y-4">
@@ -79,7 +38,7 @@ export function NavamshaChartRenderer({ report }: NavamshaChartRendererProps) {
           <div className="bg-pink-soft/20 rounded p-4 border border-pink-soft/50">
             <div className="text-sm text-ink-soft mb-2">சுக்கிரன் D9 (Venus in Navamsha)</div>
             <div className="text-lg font-semibold text-ink">
-              {grahasD9['Venus'] ? `${RASI_SHORT[grahasD9['Venus']]} (${grahasD9['Venus']})` : 'Analysis pending'}
+              {venusD9 != null ? RASI_TA_FULL[venusD9] : 'Analysis pending'}
             </div>
             <div className="text-xs text-ink-soft mt-1">
               Indicates spouse's romantic nature and relationship approach
@@ -89,9 +48,7 @@ export function NavamshaChartRenderer({ report }: NavamshaChartRendererProps) {
           {/* 7th House Lord */}
           <div className="bg-rose-soft/20 rounded p-4 border border-rose-soft/50">
             <div className="text-sm text-ink-soft mb-2">7வது பாவ குரு (7th Lord)</div>
-            <div className="text-lg font-semibold text-ink">
-              Calculated in reports
-            </div>
+            <div className="text-lg font-semibold text-ink">Calculated in reports</div>
             <div className="text-xs text-ink-soft mt-1">
               Determines marriage timing and spouse characteristics
             </div>

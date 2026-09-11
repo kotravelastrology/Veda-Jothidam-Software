@@ -78,3 +78,24 @@ export function fromParashariChart(chart: {
   }));
   return { lagnaRasiIndex: chart.lagna.rasiIndex, grahas };
 }
+
+/**
+ * Convert `buildReportData`'s `report.vargas` (Shodasavarga — 16 divisions,
+ * `{ Lagna, Sun, Moon, ... }` each `{ D1, D2, ..., D60 }`, from
+ * `src/chart/vargaChart.js` `calculateVargas`) into a ChartGraha[] for ONE
+ * divisional chart. D2 (Hora) has no `signIndex` — it is a Sun/Moon lord
+ * split, not a rāśi placement — callers should render it separately (a
+ * small lord table), never through this adapter.
+ */
+export function fromVargas(
+  vargas: Record<string, Record<string, { signIndex?: number }>>,
+  vargaKey: string,
+): { lagnaRasiIndex: number; grahas: ChartGraha[] } | null {
+  const lagnaRasiIndex = vargas.Lagna?.[vargaKey]?.signIndex;
+  if (lagnaRasiIndex == null) return null;
+  const grahas: ChartGraha[] = Object.entries(vargas)
+    .filter(([planet]) => planet !== 'Lagna')
+    .map(([planet, byVarga]) => ({ id: planet, rasiIndex: byVarga?.[vargaKey]?.signIndex }))
+    .filter((g): g is ChartGraha => g.rasiIndex != null);
+  return { lagnaRasiIndex, grahas };
+}

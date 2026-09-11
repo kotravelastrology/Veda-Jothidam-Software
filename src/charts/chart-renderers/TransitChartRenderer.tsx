@@ -1,20 +1,20 @@
 'use client';
 
-import { RASI_SHORT, POINT_LABEL } from './chartConstants';
+import { VedicChartBox } from '../kattam/VedicChartBox';
+import { fromParashariChart, GRAHA_TA_FULL, type ChartGraha } from '../kattam/rasiNames';
 
 interface TransitChartRendererProps {
   report: any;
 }
 
-export function TransitChartRenderer({ report }: TransitChartRendererProps) {
-  const birthRasiPositions = Object.fromEntries(
-    ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].map(planet => [
-      planet,
-      report.chart.grahas[planet]?.rasiIndex || 0,
-    ])
-  );
+const CLASSICAL = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 
-  const transitRasiPositions = report.transit?.transitRasiPositions || {};
+export function TransitChartRenderer({ report }: TransitChartRendererProps) {
+  const natal = fromParashariChart(report.chart);
+  const transitRasiPositions: Record<string, number> = report.transitRasiPositions || {};
+  const transitGrahas: ChartGraha[] = Object.entries(transitRasiPositions)
+    .filter(([planet]) => CLASSICAL.includes(planet))
+    .map(([id, rasiIndex]) => ({ id, rasiIndex }));
 
   return (
     <div className="space-y-6">
@@ -22,29 +22,25 @@ export function TransitChartRenderer({ report }: TransitChartRendererProps) {
       <div className="bg-gradient-to-r from-teal-soft/30 to-cyan-soft/30 rounded-lg p-6 border-l-4 border-teal">
         <h3 className="text-xl font-bold text-ink mb-2">இன்றைய கோசரம் (Current Transits - Gochara)</h3>
         <p className="text-sm text-ink-soft">
-          Present planetary positions and their influence on your birth chart. Updated for today's date.
+          {new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' })} —
+          ஜாதக கிரகங்கள் (கருப்பு) மேல் இன்றைய கோசார கிரகங்கள் (சிவப்பு) அடுக்கப்பட்டு காட்டப்படுகிறது.
         </p>
       </div>
 
-      {/* Today's Date & Time */}
-      <div className="bg-surface-soft rounded-lg p-4 border border-teal/30">
-        <div className="text-sm text-ink-soft mb-1">Calculation Date</div>
-        <div className="text-lg font-semibold text-ink">
-          {new Date().toLocaleDateString('en-IN', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            weekday: 'long',
-          })}
+      {transitGrahas.length > 0 ? (
+        <div className="flex justify-center">
+          <VedicChartBox {...natal} transitGrahas={transitGrahas} />
         </div>
-      </div>
+      ) : (
+        <p className="text-sm text-ink-soft">இன்றைய கோசார தரவு கிடைக்கவில்லை.</p>
+      )}
 
       {/* Transit Analysis Grid */}
       <div>
         <h4 className="font-semibold text-ink mb-4">கிரக கோசர நிலைகள் (Transit Positions)</h4>
         <div className="space-y-3">
-          {['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].map(planet => {
-            const birthRasi = birthRasiPositions[planet];
+          {CLASSICAL.map((planet) => {
+            const birthRasi = report.chart.grahas[planet]?.rasiIndex;
             const transitRasi = transitRasiPositions[planet];
             const isSameRasi = birthRasi === transitRasi;
 
@@ -52,43 +48,31 @@ export function TransitChartRenderer({ report }: TransitChartRendererProps) {
               <div
                 key={planet}
                 className={`rounded-lg p-4 border-2 transition-colors ${
-                  isSameRasi
-                    ? 'bg-teal-soft/20 border-teal/50'
-                    : 'bg-surface-soft border-line hover:border-teal/30'
+                  isSameRasi ? 'bg-teal-soft/20 border-teal/50' : 'bg-surface-soft border-line hover:border-teal/30'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-16">
-                      <div className="text-xs text-ink-soft mb-1">{POINT_LABEL[planet]}</div>
-                      <div className="font-bold text-ink">{planet}</div>
+                    <div className="w-20">
+                      <div className="font-bold text-ink">{GRAHA_TA_FULL[planet] ?? planet}</div>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="text-center">
-                        <div className="text-xs text-ink-soft mb-1">Birth</div>
-                        <div className="text-sm font-semibold text-ink-soft">
-                          Rasi {birthRasi + 1}
-                        </div>
+                        <div className="text-xs text-ink-soft mb-1">ஜாதகம்</div>
+                        <div className="text-sm font-semibold text-ink-soft">{birthRasi != null ? `Rasi ${birthRasi + 1}` : '—'}</div>
                       </div>
                       <div className="text-ink-soft">→</div>
                       <div className="text-center">
-                        <div className="text-xs text-ink-soft mb-1">Transit</div>
-                        <div className="text-sm font-bold text-teal">
-                          Rasi {transitRasi + 1}
-                        </div>
+                        <div className="text-xs text-ink-soft mb-1">கோசாரம்</div>
+                        <div className="text-sm font-bold text-teal">{transitRasi != null ? `Rasi ${transitRasi + 1}` : '—'}</div>
                       </div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    {isSameRasi && (
-                      <div className="text-xs bg-teal text-white px-3 py-1 rounded-full font-semibold">
-                        Current position
-                      </div>
-                    )}
-                  </div>
+                  {isSameRasi && (
+                    <div className="text-xs bg-teal text-white px-3 py-1 rounded-full font-semibold">Current position</div>
+                  )}
                 </div>
 
-                {/* Transit Effect Summary */}
                 <div className="mt-2 text-xs text-ink-soft">
                   {planet === 'Moon' && 'Moon transit changes daily — check lunar days (Tithi) for immediate effects'}
                   {planet === 'Mercury' && 'Mercury retrograde periods can cause communication delays'}
@@ -104,28 +88,11 @@ export function TransitChartRenderer({ report }: TransitChartRendererProps) {
         </div>
       </div>
 
-      {/* Interpretation Guide */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-teal-soft/10 rounded-lg p-4 border border-teal/30">
-          <div className="font-semibold text-ink mb-2">🟢 Beneficial Transit</div>
-          <div className="text-sm text-ink-soft">
-            When transit planet is in same sign as birth placement or in harmonious aspect, expect favorable results in that area.
-          </div>
-        </div>
-
-        <div className="bg-rose-soft/10 rounded-lg p-4 border border-rose/30">
-          <div className="font-semibold text-ink mb-2">🔴 Challenging Transit</div>
-          <div className="text-sm text-ink-soft">
-            When transit planet aspects birth planets unfavorably, expect challenges requiring extra effort and wisdom.
-          </div>
-        </div>
-      </div>
-
       {/* Note */}
       <div className="bg-gradient-to-r from-blue-soft/10 to-teal-soft/10 rounded-lg p-4 border-l-4 border-blue">
         <div className="text-sm text-ink-soft">
-          <span className="font-semibold text-ink">ℹ️ Note:</span> Transit analysis is most accurate when combined with birth chart strength (Shadbala)
-          and current dasha periods. For personalized predictions, consult with a Vedic astrologer.
+          <span className="font-semibold text-ink">ℹ️ Note:</span> Transit analysis is most accurate when combined with
+          birth chart strength (Shadbala) and current dasha periods.
         </div>
       </div>
     </div>

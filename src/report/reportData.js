@@ -306,6 +306,7 @@ function buildReportData(birthInput) {
     gocharaPhala,
     ayurdaya,
     transit,
+    transitRasiPositions,
     shadbala,
     bhavaBala,
     nabhasaYoga,
