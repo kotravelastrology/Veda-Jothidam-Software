@@ -59,6 +59,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'nabhasaYoga', label: 'நபஸ யோகங்கள்' },
   { id: 'sarvatobhadra', label: 'சர்வதோபத்ர சக்கரம்' },
   { id: 'nadiChakra', label: 'நாடி சக்கரம்' },
+  { id: 'dashaChakra', label: 'தாசா சக்கரம்' },
   { id: 'karaka', label: 'காரகங்கள்' },
   { id: 'ayurdaya', label: 'ஆயுர்தாயம்' },
   { id: 'jaimini', label: 'ஜைமினி ஜோதிடம்' },
@@ -825,6 +826,14 @@ function NadiChakraSection({ report }: { report: ReportData }) {
   const nadi = (report as any).nadiChakra;
   if (!nadi) return null;
   return <NadiChakraRenderer data={nadi} />;
+}
+
+function DashaChakraSection({ report }: { report: ReportData }) {
+  // Dynamically import the renderer to avoid circular dependencies
+  const DashaChakraRenderer = require('@/src/charts/chart-renderers/DashaChakraRenderer').DashaChakraRenderer;
+  const dasha = (report as any).dashaChakra;
+  if (!dasha) return null;
+  return <DashaChakraRenderer data={dasha} />;
 }
 
 function KarakaSection({ report }: { report: ReportData }) {
@@ -1800,6 +1809,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   nabhasaYoga: NabhasaYogaSection,
   sarvatobhadra: SarvatobhadraChakraSection,
   nadiChakra: NadiChakraSection,
+  dashaChakra: DashaChakraSection,
   karaka: KarakaSection,
   ayurdaya: AyurdayaSection,
   jaimini: JaiminiSection,
