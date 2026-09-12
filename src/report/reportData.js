@@ -24,6 +24,7 @@ const { calculateElementalChakra } = require('../chart/elementalChakra');
 const { calculateTransitChakra } = require('../chart/transitChakra');
 const { calculateMuhurtaEnhancements } = require('../chart/muhurtaEnhancements');
 const { calculatePredictions } = require('../chart/predictionEngine');
+const { generateReportSummary } = require('./reportRefinements');
 const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
 const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
@@ -390,6 +391,30 @@ function buildReportData(birthInput) {
     muhurtaEnhancements
   );
 
+  // Phase 13: Report Refinements (export & formatting)
+  // Build complete report data object for summary
+  const completeReportData = {
+    profile,
+    chart,
+    dasha,
+    sarvatobhadraChakra,
+    nadiChakra,
+    dashaChakra,
+    rashiChakra,
+    yantraChakra,
+    divisionalCharts,
+    bhavaChakra,
+    elementalChakra,
+    transitChakra,
+    muhurtaEnhancements,
+    predictions,
+    rajaYogas,
+    doshas,
+    karaka
+  };
+
+  const reportRefinements = generateReportSummary(completeReportData);
+
   // S11-C: Lunar/Solar/Pancha Maha Purusha (14 formations)
   const lunarSolarYogas = calculateLunarSolarYogas(yogaChartContext);
 
@@ -440,6 +465,7 @@ function buildReportData(birthInput) {
     transitChakra,
     muhurtaEnhancements,
     predictions,
+    reportRefinements,
     lunarSolarYogas,
     wealthYogas,
     edgeCaseYogas,
