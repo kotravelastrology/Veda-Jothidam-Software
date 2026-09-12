@@ -17,6 +17,7 @@ const { calculateSarvatobhadraChakra } = require('../chart/sarvatobhadraChakra')
 const { calculateNadiChakra } = require('../chart/nadiChakra');
 const { calculateDashaChakra } = require('../chart/dashaChakra');
 const { calculateRashiChakra } = require('../chart/rashiChakra');
+const { calculateYantraChakra } = require('../chart/yantras');
 const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
 const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
@@ -328,6 +329,14 @@ function buildReportData(birthInput) {
     chart.lagna.longitude
   );
 
+  // S11-B-YC: Yantra Chakra (9-zone sacred geometric grid with planetary placements)
+  const yantraChakra = calculateYantraChakra(
+    Object.fromEntries(
+      ALL_GRAHAS.map((planet) => [planet, chart.grahas[planet].longitude])
+    ),
+    chart.lagna.longitude
+  );
+
   // S11-C: Lunar/Solar/Pancha Maha Purusha (14 formations)
   const lunarSolarYogas = calculateLunarSolarYogas(yogaChartContext);
 
@@ -371,6 +380,7 @@ function buildReportData(birthInput) {
     nadiChakra,
     dashaChakra,
     rashiChakra,
+    yantraChakra,
     lunarSolarYogas,
     wealthYogas,
     edgeCaseYogas,
