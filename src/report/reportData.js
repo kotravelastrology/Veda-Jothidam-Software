@@ -14,6 +14,7 @@ const { calculateBhavaBala } = require('../chart/bhavaBala');
 const { calculateRajaYogas } = require('../chart/rajaYogas');
 const { calculateDoshas } = require('../chart/doshas');
 const { calculateSarvatobhadraChakra } = require('../chart/sarvatobhadraChakra');
+const { calculateNadiChakra } = require('../chart/nadiChakra');
 const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
 const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
@@ -299,6 +300,14 @@ function buildReportData(birthInput) {
     chart.lagna.longitude
   );
 
+  // S11-B-NC: Nadi Chakra (Nadi-classified muhurta grid)
+  const nadiChakra = calculateNadiChakra(
+    Object.fromEntries(
+      ALL_GRAHAS.map((planet) => [planet, chart.grahas[planet].longitude])
+    ),
+    chart.lagna.longitude
+  );
+
   // S11-C: Lunar/Solar/Pancha Maha Purusha (14 formations)
   const lunarSolarYogas = calculateLunarSolarYogas(yogaChartContext);
 
@@ -339,6 +348,7 @@ function buildReportData(birthInput) {
     rajaYogas,
     doshas,
     sarvatobhadraChakra,
+    nadiChakra,
     lunarSolarYogas,
     wealthYogas,
     edgeCaseYogas,
