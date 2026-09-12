@@ -13,6 +13,7 @@ const { calculateKarakas } = require('../chart/karaka');
 const { calculateBhavaBala } = require('../chart/bhavaBala');
 const { calculateRajaYogas } = require('../chart/rajaYogas');
 const { calculateDoshas } = require('../chart/doshas');
+const { calculateSarvatobhadraChakra } = require('../chart/sarvatobhadraChakra');
 const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
 const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
@@ -290,6 +291,14 @@ function buildReportData(birthInput) {
   // S11-B: Doshas/Curses (8 formations)
   const doshas = calculateDoshas(yogaChartContext);
 
+  // S11-B-SBC: Sarvatobhadra Chakra (classical muhurta grid)
+  const sarvatobhadraChakra = calculateSarvatobhadraChakra(
+    Object.fromEntries(
+      ALL_GRAHAS.map((planet) => [planet, chart.grahas[planet].longitude])
+    ),
+    chart.lagna.longitude
+  );
+
   // S11-C: Lunar/Solar/Pancha Maha Purusha (14 formations)
   const lunarSolarYogas = calculateLunarSolarYogas(yogaChartContext);
 
@@ -329,6 +338,7 @@ function buildReportData(birthInput) {
     kalachakraDasha,
     rajaYogas,
     doshas,
+    sarvatobhadraChakra,
     lunarSolarYogas,
     wealthYogas,
     edgeCaseYogas,

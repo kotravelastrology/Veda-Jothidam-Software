@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, Fragment } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { computeReport, type BirthFormInput } from './actions';
 import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
 import { ChartTypeSelector } from '@/src/charts/ChartTypeSelector';
@@ -56,6 +57,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'bhavaBala', label: 'பாவ பலம்' },
   { id: 'shodasaBala', label: 'சோடச பலம்' },
   { id: 'nabhasaYoga', label: 'நபஸ யோகங்கள்' },
+  { id: 'sarvatobhadra', label: 'சர்வதோபத்ர சக்கரம்' },
   { id: 'karaka', label: 'காரகங்கள்' },
   { id: 'ayurdaya', label: 'ஆயுர்தாயம்' },
   { id: 'jaimini', label: 'ஜைமினி ஜோதிடம்' },
@@ -806,6 +808,14 @@ function NabhasaYogaSection({ report }: { report: ReportData }) {
       )}
     </div>
   );
+}
+
+function SarvatobhadraChakraSection({ report }: { report: ReportData }) {
+  // Dynamically import the renderer to avoid circular dependencies
+  const SarvatobhadraChakraRenderer = require('@/src/charts/chart-renderers/SarvatobhadraChakraRenderer').SarvatobhadraChakraRenderer;
+  const sbc = (report as any).sarvatobhadraChakra;
+  if (!sbc) return null;
+  return <SarvatobhadraChakraRenderer data={sbc} />;
 }
 
 function KarakaSection({ report }: { report: ReportData }) {
@@ -1779,6 +1789,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   bhavaBala: BhavaBalaSection,
   shodasaBala: ShodasaBalaSection,
   nabhasaYoga: NabhasaYogaSection,
+  sarvatobhadra: SarvatobhadraChakraSection,
   karaka: KarakaSection,
   ayurdaya: AyurdayaSection,
   jaimini: JaiminiSection,
@@ -1814,6 +1825,8 @@ export default function ReportBuilder() {
   const [initialChartCategory, setInitialChartCategory] = useState<ChartCategory | undefined>(undefined);
   const [loadedBirthData, setLoadedBirthData] = useState<Partial<BirthData> | null>(null);
   const [reportLayout, setReportLayout] = useState<'single' | 'two' | 'three'>('single');
+  const searchParams = useSearchParams();
+  const chartParam = searchParams.get('chart');
 
   // Windows menu (Cascade / Tile Horizontally / Tile Vertically) sets this via a
   // localStorage flag + a custom event; apply it to the analysis-section grid.
@@ -1832,17 +1845,18 @@ export default function ReportBuilder() {
 
   // Deep-link support: /report?chart=<chartId> jumps straight to that chart's
   // category and pre-selects it once a report is available (menu bar navigation).
+  // Reads the reactive useSearchParams() value (not window.location.search) so a
+  // menu/sidebar click that only changes the query string — a soft client-side
+  // navigation within the already-mounted /report page — still re-runs this,
+  // instead of only firing once on the page's initial mount.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const chartParam = params.get('chart');
-    if (chartParam) {
-      const match = getChartById(chartParam);
-      if (match) {
-        setSelectedChartId(match.id);
-        setInitialChartCategory(match.category);
-      }
+    if (!chartParam) return;
+    const match = getChartById(chartParam);
+    if (match) {
+      setSelectedChartId(match.id);
+      setInitialChartCategory(match.category);
     }
-  }, []);
+  }, [chartParam]);
 
   // Deep-link support: /report?section=<sectionId> scrolls to that section of the
   // generated report (Reports menu navigation). Waits until the report renders.
