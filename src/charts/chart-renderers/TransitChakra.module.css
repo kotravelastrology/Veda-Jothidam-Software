@@ -1,0 +1,242 @@
+.container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.container h3 {
+  margin: 0 0 10px 0;
+  color: #0066cc;
+  font-size: 1.3em;
+}
+
+.timestamp {
+  margin-bottom: 15px;
+  text-align: right;
+  color: #999;
+  font-size: 0.85em;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ddd;
+}
+
+.tab {
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 600;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  margin-bottom: -2px;
+}
+
+.tab:hover {
+  color: #0066cc;
+}
+
+.tab.active {
+  color: #0066cc;
+  border-bottom-color: #0066cc;
+}
+
+.tabContent {
+  padding: 15px 0;
+}
+
+.tabContent h4 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 1em;
+}
+
+.transitList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.transitRow {
+  display: flex;
+  gap: 15px;
+  padding: 12px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.planetBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  min-width: 80px;
+  text-align: center;
+}
+
+.transitInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.transitInfo div {
+  font-size: 0.9em;
+  color: #333;
+}
+
+.transitInfo strong {
+  color: #666;
+  font-weight: 600;
+}
+
+.aspectsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.aspectRow {
+  display: flex;
+  gap: 15px;
+  padding: 12px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  align-items: center;
+}
+
+.aspectPlanets {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 200px;
+}
+
+.tPlanet,
+.nPlanet {
+  padding: 6px 10px;
+  border-radius: 3px;
+  color: white;
+  font-size: 0.85em;
+  font-weight: bold;
+}
+
+.aspectBadge {
+  padding: 6px 10px;
+  border-radius: 3px;
+  color: white;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+.aspectDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.aspectDetail div {
+  font-size: 0.9em;
+  color: #333;
+}
+
+.orbLabel {
+  font-size: 0.85em;
+  color: #666;
+}
+
+.houseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.houseBox {
+  padding: 12px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.houseNum {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: #0066cc;
+  margin-bottom: 8px;
+}
+
+.housePlanets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: center;
+}
+
+.housePlanet {
+  padding: 3px 6px;
+  border-radius: 3px;
+  color: white;
+  font-size: 0.75em;
+  font-weight: bold;
+}
+
+.bhuktiBox {
+  padding: 15px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.bhuktiLord {
+  font-size: 1.1em;
+  color: #0066cc;
+  margin-bottom: 8px;
+}
+
+.bhuktiDates {
+  font-size: 0.9em;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.bhuktiDays {
+  font-size: 0.95em;
+  color: #333;
+  padding: 8px;
+  background: #f0f8ff;
+  border-radius: 4px;
+}
+
+.source {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  color: #666;
+}
+
+.source small {
+  font-size: 0.8em;
+  color: #999;
+}
+
+.empty {
+  color: #999;
+  text-align: center;
+  padding: 20px;
+}

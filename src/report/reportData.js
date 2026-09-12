@@ -21,6 +21,7 @@ const { calculateYantraChakra } = require('../chart/yantras');
 const { calculateAllDCharts } = require('../chart/divisionalCharts');
 const { calculateBhavaChakra } = require('../chart/bhavaChakra');
 const { calculateElementalChakra } = require('../chart/elementalChakra');
+const { calculateTransitChakra } = require('../chart/transitChakra');
 const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
 const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
@@ -359,6 +360,16 @@ function buildReportData(birthInput) {
     )
   );
 
+  // Phase 10: Transit Chakra (real-time planetary movements)
+  const transitChakra = calculateTransitChakra(
+    Object.fromEntries(
+      ALL_GRAHAS.map((planet) => [planet, { longitude: chart.grahas[planet].longitude, house: chart.grahas[planet].house }])
+    ),
+    Object.fromEntries(
+      ALL_GRAHAS.map((planet) => [planet, { longitude: _transitChart.positions[planet]?.longitude || chart.grahas[planet].longitude }])
+    )
+  );
+
   // S11-C: Lunar/Solar/Pancha Maha Purusha (14 formations)
   const lunarSolarYogas = calculateLunarSolarYogas(yogaChartContext);
 
@@ -406,6 +417,7 @@ function buildReportData(birthInput) {
     divisionalCharts,
     bhavaChakra,
     elementalChakra,
+    transitChakra,
     lunarSolarYogas,
     wealthYogas,
     edgeCaseYogas,

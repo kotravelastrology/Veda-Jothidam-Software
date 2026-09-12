@@ -65,6 +65,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'divisionalCharts', label: 'வர்ग சக்கரங்கள் (D-Charts)' },
   { id: 'bhavaChakra', label: 'பாவ சக்கரம் (பனிரண்டு பாவங்கள்)' },
   { id: 'elementalChakra', label: 'பஞ்ச பூத சக்கரம் (அ, ம, வ, ந)' },
+  { id: 'transitChakra', label: 'கோசார சக்கரம் (நிகழ் கிரக நிலைகள்)' },
   { id: 'karaka', label: 'காரகங்கள்' },
   { id: 'ayurdaya', label: 'ஆயுர்தாயம்' },
   { id: 'jaimini', label: 'ஜைமினி ஜோதிடம்' },
@@ -879,6 +880,14 @@ function ElementalChakraSection({ report }: { report: ReportData }) {
   const elemental = (report as any).elementalChakra;
   if (!elemental) return null;
   return <ElementalChakraRenderer data={elemental} />;
+}
+
+function TransitChakraSection({ report }: { report: ReportData }) {
+  // Dynamically import the renderer to avoid circular dependencies
+  const TransitChakraRenderer = require('@/src/charts/chart-renderers/TransitChakraRenderer').TransitChakraRenderer;
+  const transit = (report as any).transitChakra;
+  if (!transit) return null;
+  return <TransitChakraRenderer data={transit} />;
 }
 
 function KarakaSection({ report }: { report: ReportData }) {
@@ -1860,6 +1869,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   divisionalCharts: DivisionalChartsSection,
   bhavaChakra: BhavaChakraSection,
   elementalChakra: ElementalChakraSection,
+  transitChakra: TransitChakraSection,
   karaka: KarakaSection,
   ayurdaya: AyurdayaSection,
   jaimini: JaiminiSection,
