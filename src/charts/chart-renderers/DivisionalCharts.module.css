@@ -1,0 +1,115 @@
+.container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.container h3 {
+  margin: 0 0 20px 0;
+  color: #0066cc;
+  font-size: 1.3em;
+}
+
+.info {
+  margin-bottom: 15px;
+}
+
+.info strong {
+  display: block;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.chartButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chartBtn {
+  padding: 8px 12px;
+  border: 1px solid #0066cc;
+  border-radius: 4px;
+  background: white;
+  color: #0066cc;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.chartBtn:hover {
+  background: #f0f8ff;
+}
+
+.chartBtn.active {
+  background: #0066cc;
+  color: white;
+}
+
+.placements {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.placementRow {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  border-left: 3px solid #0066cc;
+}
+
+.grahaName {
+  font-weight: bold;
+  min-width: 80px;
+  color: #333;
+}
+
+.placementInfo {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+}
+
+.chartName {
+  font-size: 0.9em;
+  color: #0066cc;
+  font-weight: bold;
+}
+
+.division {
+  font-size: 0.85em;
+  color: #666;
+}
+
+.degrees {
+  font-size: 0.85em;
+  color: #999;
+}
+
+.source {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  color: #666;
+}
+
+.source small {
+  font-size: 0.8em;
+  color: #999;
+}
+
+.empty {
+  color: #999;
+}

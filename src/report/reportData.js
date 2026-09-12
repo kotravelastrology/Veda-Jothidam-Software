@@ -18,6 +18,7 @@ const { calculateNadiChakra } = require('../chart/nadiChakra');
 const { calculateDashaChakra } = require('../chart/dashaChakra');
 const { calculateRashiChakra } = require('../chart/rashiChakra');
 const { calculateYantraChakra } = require('../chart/yantras');
+const { calculateAllDCharts } = require('../chart/divisionalCharts');
 const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
 const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
@@ -337,6 +338,11 @@ function buildReportData(birthInput) {
     chart.lagna.longitude
   );
 
+  // S11-B-DC: Divisional Charts (D1-D60 planetary placements across 13 main divisions)
+  const divisionalCharts = Object.fromEntries(
+    ALL_GRAHAS.map((planet) => [planet, calculateAllDCharts(chart.grahas[planet].longitude)])
+  );
+
   // S11-C: Lunar/Solar/Pancha Maha Purusha (14 formations)
   const lunarSolarYogas = calculateLunarSolarYogas(yogaChartContext);
 
@@ -381,6 +387,7 @@ function buildReportData(birthInput) {
     dashaChakra,
     rashiChakra,
     yantraChakra,
+    divisionalCharts,
     lunarSolarYogas,
     wealthYogas,
     edgeCaseYogas,
