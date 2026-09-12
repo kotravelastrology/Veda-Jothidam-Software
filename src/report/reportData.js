@@ -19,6 +19,7 @@ const { calculateDashaChakra } = require('../chart/dashaChakra');
 const { calculateRashiChakra } = require('../chart/rashiChakra');
 const { calculateYantraChakra } = require('../chart/yantras');
 const { calculateAllDCharts } = require('../chart/divisionalCharts');
+const { calculateBhavaChakra } = require('../chart/bhavaChakra');
 const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
 const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
@@ -343,6 +344,13 @@ function buildReportData(birthInput) {
     ALL_GRAHAS.map((planet) => [planet, calculateAllDCharts(chart.grahas[planet].longitude)])
   );
 
+  // Phase 8: Bhava Chakra (12 houses with strength analysis)
+  const bhavaChakra = calculateBhavaChakra(
+    Object.fromEntries(
+      ALL_GRAHAS.map((planet) => [planet, { name: planet, longitude: chart.grahas[planet].longitude, house: chart.grahas[planet].house }])
+    )
+  );
+
   // S11-C: Lunar/Solar/Pancha Maha Purusha (14 formations)
   const lunarSolarYogas = calculateLunarSolarYogas(yogaChartContext);
 
@@ -388,6 +396,7 @@ function buildReportData(birthInput) {
     rashiChakra,
     yantraChakra,
     divisionalCharts,
+    bhavaChakra,
     lunarSolarYogas,
     wealthYogas,
     edgeCaseYogas,

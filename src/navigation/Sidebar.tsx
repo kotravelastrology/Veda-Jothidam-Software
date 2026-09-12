@@ -16,7 +16,7 @@ interface SidebarItem {
 }
 
 export function Sidebar() {
-  const { sidebarOpen, setSidebarOpen, currentMenu, setCurrentMenu, setCurrentReport, setBreadcrumb } =
+  const { sidebarOpen, setSidebarOpen, currentMenu, setCurrentMenu, setCurrentReport, setBreadcrumb, uiActions } =
     useNavigation();
 
   // Every href below is a real chart id from src/charts/chartTypes.ts, deep-linking
@@ -181,12 +181,18 @@ export function Sidebar() {
             <Link href="/" className="block px-3 py-2 rounded hover:bg-ink/5 text-sm text-ink">
               🏠 Home
             </Link>
-            <Link href="/settings" className="block px-3 py-2 rounded hover:bg-ink/5 text-sm text-ink">
+            <button
+              onClick={uiActions.openSettings}
+              className="w-full text-left px-3 py-2 rounded hover:bg-ink/5 text-sm text-ink"
+            >
               ⚙️ Settings
-            </Link>
-            <Link href="/help" className="block px-3 py-2 rounded hover:bg-ink/5 text-sm text-ink">
+            </button>
+            <button
+              onClick={() => uiActions.openHelp('help')}
+              className="w-full text-left px-3 py-2 rounded hover:bg-ink/5 text-sm text-ink"
+            >
               ❓ Help
-            </Link>
+            </button>
           </div>
         </div>
       </aside>

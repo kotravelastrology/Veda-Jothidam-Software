@@ -1,0 +1,166 @@
+.container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.container h3 {
+  margin: 0 0 20px 0;
+  color: #0066cc;
+  font-size: 1.3em;
+}
+
+.houseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.houseCard {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.houseCard:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.houseNumber {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #0066cc;
+  margin-bottom: 8px;
+}
+
+.houseName {
+  font-weight: bold;
+  color: #333;
+  font-size: 1em;
+  margin-bottom: 4px;
+}
+
+.houseDomain {
+  font-size: 0.85em;
+  color: #666;
+  margin-bottom: 12px;
+  line-height: 1.4;
+}
+
+.strengthBar {
+  width: 100%;
+  height: 24px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 6px;
+  border: 1px solid #ddd;
+}
+
+.strengthFill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.strengthLabel {
+  text-align: center;
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.planetsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.planet {
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 0.75em;
+  font-weight: bold;
+  color: white;
+  white-space: nowrap;
+}
+
+.placements {
+  margin-top: 30px;
+  padding: 20px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.placements h4 {
+  margin: 0 0 15px 0;
+  color: #0066cc;
+  font-size: 1.1em;
+}
+
+.placementRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  border-left: 3px solid #0066cc;
+}
+
+.grahaIndicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.placementInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.placementInfo strong {
+  color: #333;
+  font-size: 0.95em;
+}
+
+.house {
+  font-size: 0.85em;
+  color: #0066cc;
+  font-weight: 600;
+}
+
+.degree {
+  font-size: 0.8em;
+  color: #666;
+}
+
+.source {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  color: #666;
+}
+
+.source small {
+  font-size: 0.8em;
+  color: #999;
+}
+
+.empty {
+  color: #999;
+  text-align: center;
+  padding: 20px;
+}

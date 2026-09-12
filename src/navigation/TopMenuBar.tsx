@@ -26,7 +26,6 @@ function downloadJson(filename: string, data: unknown) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
-import { useUIManager } from '../ui/useUIManager';
 import { SettingsPanel } from '../ui/SettingsPanel';
 import { ToolsPanel } from '../ui/ToolsPanel';
 import { HelpPanel } from '../ui/HelpPanel';
@@ -47,9 +46,9 @@ interface SubMenuItem {
 }
 
 export function TopMenuBar() {
-  const { currentMenu, setCurrentMenu, setBreadcrumb, setSidebarOpen, sidebarOpen } = useNavigation();
+  const { currentMenu, setCurrentMenu, setBreadcrumb, setSidebarOpen, sidebarOpen, uiState, uiActions } =
+    useNavigation();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
-  const [uiState, uiActions] = useUIManager();
   const router = useRouter();
   const menuBarRef = useRef<HTMLDivElement>(null);
 
