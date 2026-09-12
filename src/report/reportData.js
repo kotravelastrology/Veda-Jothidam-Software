@@ -16,6 +16,7 @@ const { calculateDoshas } = require('../chart/doshas');
 const { calculateSarvatobhadraChakra } = require('../chart/sarvatobhadraChakra');
 const { calculateNadiChakra } = require('../chart/nadiChakra');
 const { calculateDashaChakra } = require('../chart/dashaChakra');
+const { calculateRashiChakra } = require('../chart/rashiChakra');
 const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
 const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
@@ -319,6 +320,14 @@ function buildReportData(birthInput) {
     currentMahadashaLord
   );
 
+  // S11-B-RC: Rashi Chakra (12-sign house grid with lagna at top)
+  const rashiChakra = calculateRashiChakra(
+    Object.fromEntries(
+      ALL_GRAHAS.map((planet) => [planet, chart.grahas[planet].longitude])
+    ),
+    chart.lagna.longitude
+  );
+
   // S11-C: Lunar/Solar/Pancha Maha Purusha (14 formations)
   const lunarSolarYogas = calculateLunarSolarYogas(yogaChartContext);
 
@@ -361,6 +370,7 @@ function buildReportData(birthInput) {
     sarvatobhadraChakra,
     nadiChakra,
     dashaChakra,
+    rashiChakra,
     lunarSolarYogas,
     wealthYogas,
     edgeCaseYogas,
