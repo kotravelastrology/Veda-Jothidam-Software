@@ -1,0 +1,230 @@
+.container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.container h3 {
+  margin: 0 0 20px 0;
+  color: #0066cc;
+  font-size: 1.3em;
+}
+
+.distribution {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.distribution h4 {
+  margin: 0 0 15px 0;
+  color: #0066cc;
+  font-size: 1em;
+}
+
+.elementBars {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.elementBar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.elementName {
+  font-weight: bold;
+  min-width: 70px;
+  color: #333;
+  font-size: 0.95em;
+}
+
+.barContainer {
+  flex: 1;
+  height: 24px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.barFill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.barLabel {
+  font-size: 0.85em;
+  color: #666;
+  min-width: 100px;
+  text-align: right;
+}
+
+.matrixSection {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.matrixSection h4 {
+  margin: 0 0 15px 0;
+  color: #0066cc;
+  font-size: 1em;
+}
+
+.matrix {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.matrix th,
+.matrix td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+  font-weight: 600;
+}
+
+.matrix th {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.matrixCell {
+  font-family: monospace;
+  font-size: 0.85em;
+  background-color: #f9f9f9;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+}
+
+.matrixCell:hover {
+  transform: scale(1.05);
+}
+
+.pairsSection {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.pairsSection h4 {
+  margin: 0 0 15px 0;
+  color: #0066cc;
+  font-size: 1em;
+}
+
+.filterButtons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.filterBtn {
+  padding: 8px 12px;
+  border: 1px solid #0066cc;
+  border-radius: 4px;
+  background: white;
+  color: #0066cc;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.filterBtn:hover {
+  background: #f0f8ff;
+}
+
+.filterBtn.active {
+  background: #0066cc;
+  color: white;
+}
+
+.pairsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pairRow {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  border-left: 3px solid #0066cc;
+}
+
+.pairGrahas {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 200px;
+}
+
+.graha {
+  padding: 6px 10px;
+  border-radius: 3px;
+  font-size: 0.85em;
+  font-weight: bold;
+  color: white;
+}
+
+.pairArrow {
+  color: #666;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.pairInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.elements {
+  font-size: 0.85em;
+  color: #666;
+  font-weight: 500;
+}
+
+.compatibility {
+  font-size: 0.9em;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.source {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  color: #666;
+}
+
+.source small {
+  font-size: 0.8em;
+  color: #999;
+}
+
+.empty {
+  color: #999;
+  text-align: center;
+  padding: 20px;
+}

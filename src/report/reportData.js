@@ -20,6 +20,7 @@ const { calculateRashiChakra } = require('../chart/rashiChakra');
 const { calculateYantraChakra } = require('../chart/yantras');
 const { calculateAllDCharts } = require('../chart/divisionalCharts');
 const { calculateBhavaChakra } = require('../chart/bhavaChakra');
+const { calculateElementalChakra } = require('../chart/elementalChakra');
 const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
 const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
@@ -351,6 +352,13 @@ function buildReportData(birthInput) {
     )
   );
 
+  // Phase 9: Elemental Chakra (element compatibility analysis)
+  const elementalChakra = calculateElementalChakra(
+    Object.fromEntries(
+      ALL_GRAHAS.map((planet) => [planet, { longitude: chart.grahas[planet].longitude }])
+    )
+  );
+
   // S11-C: Lunar/Solar/Pancha Maha Purusha (14 formations)
   const lunarSolarYogas = calculateLunarSolarYogas(yogaChartContext);
 
@@ -397,6 +405,7 @@ function buildReportData(birthInput) {
     yantraChakra,
     divisionalCharts,
     bhavaChakra,
+    elementalChakra,
     lunarSolarYogas,
     wealthYogas,
     edgeCaseYogas,
