@@ -67,6 +67,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'elementalChakra', label: 'பஞ்ச பூத சக்கரம் (அ, ம, வ, ந)' },
   { id: 'transitChakra', label: 'கோசார சக்கரம் (நிகழ் கிரக நிலைகள்)' },
   { id: 'muhurtaEnhancements', label: 'முகூர்த்த (குறிப்பிட்ட நேர சிபாரிசு)' },
+  { id: 'predictions', label: 'ভবিষ्यद्বाणी (जीवन घटना पूर्वानुमान)' },
   { id: 'karaka', label: 'காரகங்கள்' },
   { id: 'ayurdaya', label: 'ஆயுர்தாயம்' },
   { id: 'jaimini', label: 'ஜைமினி ஜோதிடம்' },
@@ -897,6 +898,14 @@ function MuhurtaEnhancementsSection({ report }: { report: ReportData }) {
   const muhurta = (report as any).muhurtaEnhancements;
   if (!muhurta) return null;
   return <MuhurtaEnhancementsRenderer data={muhurta} />;
+}
+
+function PredictionEngineSection({ report }: { report: ReportData }) {
+  // Dynamically import the renderer to avoid circular dependencies
+  const PredictionEngineRenderer = require('@/src/charts/chart-renderers/PredictionEngineRenderer').PredictionEngineRenderer;
+  const pred = (report as any).predictions;
+  if (!pred) return null;
+  return <PredictionEngineRenderer data={pred} />;
 }
 
 function KarakaSection({ report }: { report: ReportData }) {
@@ -1880,6 +1889,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   elementalChakra: ElementalChakraSection,
   transitChakra: TransitChakraSection,
   muhurtaEnhancements: MuhurtaEnhancementsSection,
+  predictions: PredictionEngineSection,
   karaka: KarakaSection,
   ayurdaya: AyurdayaSection,
   jaimini: JaiminiSection,
