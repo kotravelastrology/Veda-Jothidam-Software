@@ -22,6 +22,7 @@ const { calculateAllDCharts } = require('../chart/divisionalCharts');
 const { calculateBhavaChakra } = require('../chart/bhavaChakra');
 const { calculateElementalChakra } = require('../chart/elementalChakra');
 const { calculateTransitChakra } = require('../chart/transitChakra');
+const { calculateMuhurtaEnhancements } = require('../chart/muhurtaEnhancements');
 const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
 const { calculateEdgeCaseYogas } = require('../chart/edgeCaseYogas');
@@ -370,6 +371,12 @@ function buildReportData(birthInput) {
     )
   );
 
+  // Phase 11: Muhurta Enhancements (auspicious timing & remedies)
+  const muhurtaEnhancements = calculateMuhurtaEnhancements({
+    aspects: transitChakra.aspects,
+    bhuktis: transitChakra.bhuktis
+  });
+
   // S11-C: Lunar/Solar/Pancha Maha Purusha (14 formations)
   const lunarSolarYogas = calculateLunarSolarYogas(yogaChartContext);
 
@@ -418,6 +425,7 @@ function buildReportData(birthInput) {
     bhavaChakra,
     elementalChakra,
     transitChakra,
+    muhurtaEnhancements,
     lunarSolarYogas,
     wealthYogas,
     edgeCaseYogas,

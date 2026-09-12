@@ -66,6 +66,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'bhavaChakra', label: 'பாவ சக்கரம் (பனிரண்டு பாவங்கள்)' },
   { id: 'elementalChakra', label: 'பஞ்ச பூத சக்கரம் (அ, ம, வ, ந)' },
   { id: 'transitChakra', label: 'கோசார சக்கரம் (நிகழ் கிரக நிலைகள்)' },
+  { id: 'muhurtaEnhancements', label: 'முகூர்த்த (குறிப்பிட்ட நேர சிபாரிசு)' },
   { id: 'karaka', label: 'காரகங்கள்' },
   { id: 'ayurdaya', label: 'ஆயுர்தாயம்' },
   { id: 'jaimini', label: 'ஜைமினி ஜோதிடம்' },
@@ -888,6 +889,14 @@ function TransitChakraSection({ report }: { report: ReportData }) {
   const transit = (report as any).transitChakra;
   if (!transit) return null;
   return <TransitChakraRenderer data={transit} />;
+}
+
+function MuhurtaEnhancementsSection({ report }: { report: ReportData }) {
+  // Dynamically import the renderer to avoid circular dependencies
+  const MuhurtaEnhancementsRenderer = require('@/src/charts/chart-renderers/MuhurtaEnhancementsRenderer').MuhurtaEnhancementsRenderer;
+  const muhurta = (report as any).muhurtaEnhancements;
+  if (!muhurta) return null;
+  return <MuhurtaEnhancementsRenderer data={muhurta} />;
 }
 
 function KarakaSection({ report }: { report: ReportData }) {
@@ -1870,6 +1879,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   bhavaChakra: BhavaChakraSection,
   elementalChakra: ElementalChakraSection,
   transitChakra: TransitChakraSection,
+  muhurtaEnhancements: MuhurtaEnhancementsSection,
   karaka: KarakaSection,
   ayurdaya: AyurdayaSection,
   jaimini: JaiminiSection,
