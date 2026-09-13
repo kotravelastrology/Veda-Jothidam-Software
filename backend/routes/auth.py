@@ -28,27 +28,29 @@ def signup():
         try:
             email = EmailValidator.validate(data.get('email', ''))
             password = PasswordValidator.validate(data.get('password', ''))
-            name = StringValidator.validate_name(data.get('name', '')) if data.get('name') else 'User'
-            language = data.get('language', 'Tamil')
+            full_name = StringValidator.validate_name(data.get('full_name', '')) if data.get('full_name') else 'User'
+            language = data.get('language', 'tamil')
             timezone = data.get('timezone', 'Asia/Kolkata')
         except ValidationError as e:
             logger.warning(f"Signup validation failed: {str(e)}")
             return jsonify({'error': str(e)}), 400
 
-        # Check if user already exists
-        existing_user = User.query.filter_by(email=email).first()
+        # Check if user already exists (by email or username)
+        username = data.get('username') or email.split('@')[0]  # Use provided username or derive from email
+        existing_user = User.query.filter((User.email == email) | (User.username == username)).first()
         if existing_user:
-            logger.warning(f"Signup attempt with existing email: {email}")
-            return jsonify({'error': 'Email already registered'}), 409
+            logger.warning(f"Signup attempt with existing email/username: {email}")
+            return jsonify({'error': 'Email or username already registered'}), 409
 
         # Create new user
         user = User(
-            id=str(uuid.uuid4()),
             email=email,
+            username=username,
             password_hash=generate_password_hash(password, method='pbkdf2:sha256', salt_length=32),
-            name=name,
+            full_name=full_name,
             language=language,
-            timezone=timezone
+            timezone=timezone,
+            is_active=True
         )
 
         db.session.add(user)

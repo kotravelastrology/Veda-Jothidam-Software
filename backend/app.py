@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from backend.database import db, init_db, get_db_path
-from backend.models import User, Chart, PhaseData
+from backend.models import User, Chart, Consultation, PhaseData
 from backend.config import get_config
 from backend.security_headers import add_security_headers, token_blacklist_loader
 from backend.jwt_handler import JWTHandler
