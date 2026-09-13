@@ -1,0 +1,810 @@
+﻿
+> kotravel-vedic-astrology@1.0.0 test
+> node test-swiss-ephemeris.js && node test-chart-context.js && node test-tirukanita-panchangam.js && node test-vakya-panchangam.js && node test-muhurtham.js && node test-birth-profile.js && node test-parashari-chart.js && node test-vimshottari-dasha.js && node test-varga-chart.js && node test-ashtakavarga.js && node test-planetary-relationship.js && node test-aspect-strength.js && node test-planetary-war.js && node test-shadbala.js && node test-nabhasa-yoga.js && node test-report-data.js && node test-consultation-config.js && node test-karaka.js && node test-ashtakavarga-transit.js && node test-bhava-bala.js && node test-transit-positions.js && node test-upagraha.js && node test-numerology.js && node test-nadi-combinations.js && node test-bhrigu-progressions.js && node test-kp-system.js && node test-alt-dashas.js && node test-tamil-porutham.js && node test-jamakkol.js && node test-kp-events.js && node test-jaimini.js && node test-avasthas.js && node test-nakshatra-extras.js && node test-daily-muhurta.js && node test-ashtakavarga-shodhana.js && node test-gochara-phala.js && node test-ayurdaya.js && node test-varshaphala-extras.js && node test-muhurta-search.js && node test-answer-engine.js && node test-tamil-calendar.js && node test-bnn-literature.js && node test-baby-names.js && node test-classical-muhurta.js && node test-kp-time-scan.js && node test-extended-porutham.js && node test-kalachakra-dasha.js
+
+{
+  "pass": true,
+  "engine": "@swisseph/node",
+  "version": "1.3.1",
+  "julianDay": 2448026.5833333335,
+  "sunLongitude": 30.26853543108162,
+  "ascendant": 52.54562425040979
+}
+{
+  "pass": true,
+  "checks": "chartContext contract validated"
+}
+{
+  "pass": true,
+  "checks": "tirukanitaPanchangam validated against drikpanchang.com cross-check",
+  "result": {
+    "date": "2026-09-05",
+    "sunriseLocal": "2026-09-05 06:09",
+    "sunriseJulianDay": 2461288.526973169,
+    "vara": "Shanivara",
+    "tithi": {
+      "name": "Navami",
+      "index": 23,
+      "startLocal": "2026-09-05 00:14",
+      "endLocal": "2026-09-05 21:54",
+      "startJulianDay": 2461288.2806260306,
+      "endJulianDay": 2461289.183477523
+    },
+    "nakshatra": {
+      "name": "Mrigashira",
+      "index": 4,
+      "startLocal": "2026-09-04 23:04",
+      "endLocal": "2026-09-05 21:31",
+      "startJulianDay": 2461288.2322598044,
+      "endJulianDay": 2461289.16739674
+    },
+    "yoga": {
+      "name": "Vajra",
+      "index": 14,
+      "startLocal": "2026-09-04 15:44",
+      "endLocal": "2026-09-05 12:47",
+      "startJulianDay": 2461287.9264204567,
+      "endJulianDay": 2461288.8035874953
+    },
+    "karana": {
+      "name": "Taitila",
+      "index": 46,
+      "startLocal": "2026-09-05 00:14",
+      "endLocal": "2026-09-05 11:05",
+      "startJulianDay": 2461288.2806260306,
+      "endJulianDay": 2461288.7326056203
+    },
+    "source": {
+      "title": "Panchangam Calculations",
+      "author": "Karanam Ramakumar",
+      "file": "Panchangam Calculations.pdf",
+      "tradition": "Hindu Panchangam",
+      "convention": "tirukanita",
+      "pageLocus": "file pages 1, 10, 13, 15, 18 (S1-B)"
+    }
+  }
+}
+{
+  "pass": true,
+  "checks": "vakyaPanchangam correctly refuses with SOURCE_REQUIRED",
+  "result": {
+    "status": "SOURCE_REQUIRED",
+    "reason": "Vakya Panchangam not yet admitted: Chandravakya table (Vakyakarana, Kuppanna Sastri & Sarma 1962, Appendix II) is source-verified (S4) but not yet digitized, and the Ahargana/Sun-equation/locality-correction chain is not yet implemented or cross-checked. See S4-VAKYA-SOURCE-VERIFICATION-001.md.",
+    "message": "ஆதாரம் தேவை / SOURCE REQUIRED"
+  }
+}
+{
+  "pass": true,
+  "checks": "muhurtham validated against the book's own Shillong 2009-06-21 worked example",
+  "shillongResult": {
+    "date": "2009-06-21",
+    "vara": "Ravivara",
+    "sunriseLocal": "2009-06-21 04:32",
+    "rahuKalam": {
+      "startLocal": "2009-06-21 16:33",
+      "endLocal": "2009-06-21 18:17"
+    },
+    "gulikaKalam": {
+      "startLocal": "2009-06-21 14:50",
+      "endLocal": "2009-06-21 16:33"
+    },
+    "yamagandam": {
+      "startLocal": "2009-06-21 11:24",
+      "endLocal": "2009-06-21 13:07"
+    },
+    "durmuhurtham": [
+      {
+        "startLocal": "2009-06-21 16:27",
+        "endLocal": "2009-06-21 17:22"
+      }
+    ],
+    "amritKaal": {
+      "startLocal": "2009-06-21 02:50",
+      "endLocal": "2009-06-21 04:17"
+    },
+    "varjyam": [
+      {
+        "startLocal": "2009-06-20 18:03",
+        "endLocal": "2009-06-20 19:31"
+      }
+    ],
+    "abhijitMuhurta": {
+      "status": "SOURCE_REQUIRED",
+      "reason": "Abhijit Muhurta is not covered by any source verified so far (S1-B pages 1-27 do not include it).",
+      "message": "ஆதாரம் தேவை / SOURCE REQUIRED"
+    }
+  },
+  "result": {
+    "date": "2026-09-05",
+    "vara": "Shanivara",
+    "sunriseLocal": "2026-09-05 06:09",
+    "rahuKalam": {
+      "startLocal": "2026-09-05 09:13",
+      "endLocal": "2026-09-05 10:46"
+    },
+    "gulikaKalam": {
+      "startLocal": "2026-09-05 06:09",
+      "endLocal": "2026-09-05 07:41"
+    },
+    "yamagandam": {
+      "startLocal": "2026-09-05 13:50",
+      "endLocal": "2026-09-05 15:22"
+    },
+    "durmuhurtham": [
+      {
+        "startLocal": "2026-09-05 07:47",
+        "endLocal": "2026-09-05 08:36"
+      }
+    ],
+    "amritKaal": {
+      "startLocal": "2026-09-05 13:17",
+      "endLocal": "2026-09-05 14:47"
+    },
+    "varjyam": [
+      {
+        "startLocal": "2026-09-05 04:19",
+        "endLocal": "2026-09-05 05:48"
+      }
+    ],
+    "abhijitMuhurta": {
+      "status": "SOURCE_REQUIRED",
+      "reason": "Abhijit Muhurta is not covered by any source verified so far (S1-B pages 1-27 do not include it).",
+      "message": "ஆதாரம் தேவை / SOURCE REQUIRED"
+    }
+  }
+}
+{
+  "pass": true,
+  "chartId": "bcb459a534a2393b"
+}
+{
+  "pass": true,
+  "lagna": {
+    "longitude": 52.54562425040979,
+    "rasiIndex": 1,
+    "rasi": "Vrishabha",
+    "degreeInSign": 22.545624250409787
+  },
+  "moon": {
+    "longitude": 268.3078433986382,
+    "rasiIndex": 8,
+    "rasi": "Dhanu",
+    "degreeInSign": 28.30784339863817,
+    "house": 8
+  },
+  "rahu": {
+    "longitude": 287.63541893875794,
+    "rasiIndex": 9,
+    "rasi": "Makara",
+    "degreeInSign": 17.635418938757994,
+    "house": 9
+  },
+  "ketu": {
+    "longitude": 107.63541893875794,
+    "rasiIndex": 3,
+    "rasi": "Karkataka",
+    "degreeInSign": 17.635418938757937,
+    "house": 3
+  }
+}
+{
+  "pass": true,
+  "startingLord": "Mars",
+  "firstMahadasha": {
+    "lord": "Ketu",
+    "durationYears": 7,
+    "startYears": 0,
+    "endYears": 7,
+    "startJulianDay": 2451545,
+    "endJulianDay": 2454101.75,
+    "startLocal": "2000-01-01 17:30",
+    "endLocal": "2007-01-01 11:30",
+    "Bhukti": [
+      {
+        "lord": "Ketu",
+        "durationYears": 0.4083333333333333,
+        "startYears": 0,
+        "endYears": 0.4083333333333333,
+        "startJulianDay": 2451545,
+        "endJulianDay": 2451694.14375,
+        "startLocal": "2000-01-01 17:30",
+        "endLocal": "2000-05-29 20:57"
+      },
+      {
+        "lord": "Venus",
+        "durationYears": 1.1666666666666667,
+        "startYears": 0.4083333333333333,
+        "endYears": 1.5750000000000002,
+        "startJulianDay": 2451694.14375,
+        "endJulianDay": 2452120.26875,
+        "startLocal": "2000-05-29 20:57",
+        "endLocal": "2001-07-29 23:57"
+      },
+      {
+        "lord": "Sun",
+        "durationYears": 0.35,
+        "startYears": 1.5750000000000002,
+        "endYears": 1.9250000000000003,
+        "startJulianDay": 2452120.26875,
+        "endJulianDay": 2452248.10625,
+        "startLocal": "2001-07-29 23:57",
+        "endLocal": "2001-12-04 20:03"
+      },
+      {
+        "lord": "Moon",
+        "durationYears": 0.5833333333333334,
+        "startYears": 1.9250000000000003,
+        "endYears": 2.5083333333333337,
+        "startJulianDay": 2452248.10625,
+        "endJulianDay": 2452461.16875,
+        "startLocal": "2001-12-04 20:03",
+        "endLocal": "2002-07-05 21:33"
+      },
+      {
+        "lord": "Mars",
+        "durationYears": 0.4083333333333333,
+        "startYears": 2.5083333333333337,
+        "endYears": 2.916666666666667,
+        "startJulianDay": 2452461.16875,
+        "endJulianDay": 2452610.3125,
+        "startLocal": "2002-07-05 21:33",
+        "endLocal": "2002-12-02 01:00"
+      },
+      {
+        "lord": "Rahu",
+        "durationYears": 1.05,
+        "startYears": 2.916666666666667,
+        "endYears": 3.966666666666667,
+        "startJulianDay": 2452610.3125,
+        "endJulianDay": 2452993.825,
+        "startLocal": "2002-12-02 01:00",
+        "endLocal": "2003-12-20 13:18"
+      },
+      {
+        "lord": "Jupiter",
+        "durationYears": 0.9333333333333333,
+        "startYears": 3.966666666666667,
+        "endYears": 4.9,
+        "startJulianDay": 2452993.825,
+        "endJulianDay": 2453334.725,
+        "startLocal": "2003-12-20 13:18",
+        "endLocal": "2004-11-25 10:54"
+      },
+      {
+        "lord": "Saturn",
+        "durationYears": 1.1083333333333334,
+        "startYears": 4.9,
+        "endYears": 6.008333333333334,
+        "startJulianDay": 2453334.725,
+        "endJulianDay": 2453739.54375,
+        "startLocal": "2004-11-25 10:54",
+        "endLocal": "2006-01-04 06:33"
+      },
+      {
+        "lord": "Mercury",
+        "durationYears": 0.9916666666666667,
+        "startYears": 6.008333333333334,
+        "endYears": 7,
+        "startJulianDay": 2453739.54375,
+        "endJulianDay": 2454101.75,
+        "startLocal": "2006-01-04 06:33",
+        "endLocal": "2007-01-01 11:30"
+      }
+    ]
+  }
+}
+{
+  "pass": true,
+  "aries10deg": {
+    "D1": {
+      "name": "Rashi",
+      "signIndex": 0,
+      "sign": "Mesha"
+    },
+    "D3": {
+      "name": "Drekkana",
+      "signIndex": 4,
+      "sign": "Simha"
+    },
+    "D4": {
+      "name": "Chathurthamsa",
+      "signIndex": 3,
+      "sign": "Karkataka"
+    },
+    "D7": {
+      "name": "Saptamsa",
+      "signIndex": 2,
+      "sign": "Mithuna"
+    },
+    "D9": {
+      "name": "Navamsa",
+      "signIndex": 3,
+      "sign": "Karkataka"
+    },
+    "D10": {
+      "name": "Dashamsa",
+      "signIndex": 3,
+      "sign": "Karkataka"
+    },
+    "D12": {
+      "name": "Dvadasamsa",
+      "signIndex": 4,
+      "sign": "Simha"
+    },
+    "D16": {
+      "name": "Shodasamsa",
+      "signIndex": 5,
+      "sign": "Kanya"
+    },
+    "D20": {
+      "name": "Vimsamsa",
+      "signIndex": 6,
+      "sign": "Tula"
+    },
+    "D24": {
+      "name": "Chaturvimsamsa",
+      "signIndex": 0,
+      "sign": "Mesha"
+    },
+    "D27": {
+      "name": "Saptavimsamsa",
+      "signIndex": 9,
+      "sign": "Makara"
+    },
+    "D40": {
+      "name": "Khavedamsa",
+      "signIndex": 1,
+      "sign": "Vrishabha"
+    },
+    "D45": {
+      "name": "Akshavedamsa",
+      "signIndex": 3,
+      "sign": "Karkataka"
+    },
+    "D2": {
+      "name": "Hora",
+      "lord": "Sun"
+    },
+    "D30": {
+      "name": "Trimsamsa",
+      "signIndex": 8,
+      "sign": "Dhanu"
+    },
+    "D60": {
+      "name": "Shashtiamsa",
+      "signIndex": 8,
+      "sign": "Dhanu"
+    },
+    "source": {
+      "title": "Brihat Parashara Hora Shastra (BPHS)",
+      "author": "R. Santhanam (translation)",
+      "file": "C23_BPHS_Santhanam.pdf",
+      "tradition": "Parashari",
+      "convention": "Shodasavarga (16 divisions), Ch.6",
+      "pageLocus": "file pages 53-66 / printed pages 43-56 (Ch.6 vv.1-41, all sixteen varga definitions) — S8"
+    }
+  }
+}
+{
+  "pass": true,
+  "sarvaTotal": 337,
+  "sunBhinna": [
+    5,
+    6,
+    3,
+    5,
+    4,
+    4,
+    4,
+    5,
+    3,
+    4,
+    4,
+    1
+  ]
+}
+{
+  "pass": true
+}
+{
+  "pass": true
+}
+{
+  "pass": true,
+  "marsLat": 0.3585797269128587,
+  "saturnLat": 2.0804490933318247
+}
+{
+  "pass": true,
+  "sunShadbala": {
+    "sthana": {
+      "uchchaBala": 50.75,
+      "ojhayugmarasyamsaBala": 15,
+      "kendradiBala": 15,
+      "drekkanaBala": 0,
+      "saptavargajaBala": 100
+    },
+    "sthanaBala": 180.75,
+    "digBala": 20.75,
+    "kaala": {
+      "pakshaBala": 20.75,
+      "tribhagaBala": 0,
+      "nathonnataBala": 37.5,
+      "ayanaBala": -59.01443150552249,
+      "varshaMasaDinaHoraBala": 30
+    },
+    "kaalaBala": 29.235568494477512,
+    "naisargikaBala": 60,
+    "cheshtaBala": -59.01443150552249,
+    "drikBala": 4.84375,
+    "shadbalaTotal": {
+      "status": "SOURCE_REQUIRED",
+      "reason": "Cannot be honestly totalled while Ayana Bala remains a source-internal contradiction (BPHS v.15-17 formula and table do not reconcile; Sthana, Dig, Kaala-except-Ayana, Naisargika, Cheshta and Drik Bala are all now fully resolved, Yuddha uses partial totals)",
+      "message": "ஆதாரம் தேவை / SOURCE REQUIRED"
+    },
+    "yuddhaBala": 0
+  },
+  "moonCheshta": 78.5
+}
+{
+  "pass": true,
+  "rajju": [
+    "Rajju",
+    "Gada",
+    "Sakata",
+    "Sringataka",
+    "Kamala",
+    "Yupa",
+    "Danda",
+    "Nauka",
+    "Chatra",
+    "Chapa",
+    "Chakra"
+  ],
+  "sringataka": [
+    "Sringataka",
+    "Chakra"
+  ],
+  "kamala": [
+    "Rajju",
+    "Kamala"
+  ],
+  "soola": [
+    "Soola"
+  ]
+}
+{
+  "pass": true,
+  "name": "Test Native",
+  "lagna": "Vrishabha",
+  "moonRasi": "Dhanu",
+  "startingDashaLord": "Sun",
+  "nabhasaYogas": [
+    "Veena"
+  ],
+  "rajaYogas": [
+    "Exalted Planets Yoga (1-3 planets)",
+    "Jupiter-Venus-Mercury Exaltation Yoga"
+  ],
+  "doshas": [
+    "Pitra Dosha",
+    "Matri Dosha",
+    "Bhuta Dosha"
+  ],
+  "lunarSolarYogas": [
+    "Adhi Yoga",
+    "Vesi Yoga"
+  ],
+  "wealthYogas": [
+    "Shubha Yoga",
+    "Ashubha Yoga",
+    "Dhana Yoga Variant B"
+  ]
+}
+{
+  "pass": true,
+  "configured": {
+    "whatsappNumber": "+919363947790",
+    "upiId": "9363947790@axisbank",
+    "upiPayeeName": "Kotravel Vedic Astrology",
+    "feeInr": 1000
+  }
+}
+{
+  "pass": true,
+  "ariesYoga": [
+    "Mars"
+  ],
+  "taurusYoga": [
+    "Venus",
+    "Saturn"
+  ]
+}
+{
+  "pass": true,
+  "saturnTransitInGemini": {
+    "rasiIndex": 2,
+    "rasi": "Mithuna",
+    "bhinnaBindus": 3,
+    "bhinnaClassification": "Tolerable",
+    "sarvaBindus": 29,
+    "sarvaClassification": "Average"
+  }
+}
+{
+  "pass": true,
+  "firstHouse": {
+    "rasiIndex": 4,
+    "houseSarvaBindus": 31,
+    "lord": {
+      "planet": "Sun",
+      "sarvaBindus": 22,
+      "bhinnaBindus": 5
+    },
+    "karaka": {
+      "planet": "Sun",
+      "sarvaBindus": 22,
+      "bhinnaBindus": 5
+    }
+  },
+  "fourthHouse": {
+    "rasiIndex": 7,
+    "houseSarvaBindus": 34,
+    "lord": {
+      "planet": "Mars",
+      "sarvaBindus": 34,
+      "bhinnaBindus": 4
+    },
+    "karaka": {
+      "planet": "Moon",
+      "sarvaBindus": 27,
+      "bhinnaBindus": 5
+    }
+  }
+}
+{
+  "pass": true,
+  "date": "2026-09-10",
+  "tithi": "Krishna Amavasya",
+  "vaara": "Thursday",
+  "sun": "Leo 23",
+  "saturn": "Pisces 18 R"
+}
+{
+  "pass": true,
+  "birthPeriod": "day",
+  "gulika": "Simha 17.16",
+  "dhuma": "Kanya 13.60"
+}
+{
+  "pass": true,
+  "moolank": 6,
+  "bhagyank": 3,
+  "name": {
+    "compound": 36,
+    "single": 9
+  },
+  "verdict": "நல்ல இணக்கம் (Friendly)"
+}
+{
+  "pass": true,
+  "ascendant": 52.64,
+  "sunTop": "Saturn 92.9%",
+  "house1Top": "Rahu 92.5%",
+  "prsssSun": "Venus:Sun:Rahu:Mercury:Saturn"
+}
+{
+  "pass": true,
+  "runningYear": 37,
+  "bcpHouse": 1,
+  "cycleRuler": "Sun",
+  "focus": "Saturn"
+}
+{
+  "pass": true,
+  "ascendant": 52.64,
+  "dayLord": "Mars",
+  "badhaka": 9,
+  "rpUnique": "Mars,Jupiter,Sun,Venus,Moon",
+  "sunChain": "Venus:Sun:Rahu:Mercury:Saturn"
+}
+{
+  "pass": true,
+  "yoginiStart": "Sankata",
+  "yoginiFirstLord": "Rahu",
+  "ashtottariStart": "Saturn",
+  "yoginiNow": "Sankata",
+  "ashtottariNow": "Rahu"
+}
+{
+  "pass": true,
+  "passed": 7,
+  "level": "மத்திமம்",
+  "dhinam": false,
+  "mahendram": true
+}
+{
+  "pass": true,
+  "weekday": 4,
+  "sunrise": 5.96,
+  "activeJama": 6,
+  "arudam": "7/26.0",
+  "jama1": "3/10.33"
+}
+{
+  "pass": true,
+  "events": 80,
+  "dbas": "Sun,Moon,Sun,Rahu",
+  "surgicalGrade": "RED",
+  "surgicalCusp1": "Venus P"
+}
+{
+  "specialConditionsPass": true,
+  "totalEventsWithSpecial": 39,
+  "mandatoryEvents": 16
+}
+{
+  "pass": true,
+  "atmakaraka": "Moon",
+  "karkamsha": "Dhanu",
+  "arudhaLagna": "Makara",
+  "charaDir": "indirect",
+  "charaFirst": "Vrishabha"
+}
+{
+  "rasiDashaPass": true,
+  "sthira96": true,
+  "shoola108": true,
+  "karakaAK": "Moon"
+}
+{
+  "specialLagnasPass": true,
+  "count": 18,
+  "varnada": "Vrishabha"
+}
+{
+  "varnadaPass": true,
+  "start": "Vrishabha",
+  "dir": "indirect"
+}
+{
+  "pass": true,
+  "mars": "தீப்த (உச்சம்)",
+  "saturn": "ஸ்வஸ்த (சொந்த வீடு)",
+  "venusLajjitadi": "கர்வித (பெருமிதம்)"
+}
+{
+  "pass": true,
+  "janma": "Uttara Ashadha",
+  "syllable": "Bhe",
+  "todayTara": "Kshema",
+  "sunD60": "Indurekha/Kshiti"
+}
+{
+  "nadiamsaPass": true,
+  "movExample": "Seethala",
+  "dualExample": "Raudri"
+}
+{
+  "pass": true,
+  "sunrise": "05:58",
+  "sunset": "18:14",
+  "chogFirst": "Shubh",
+  "gowriFirst": "laabam",
+  "horaFirst": "Jupiter"
+}
+{
+  "panchakaExtrasPass": true
+}
+{
+  "pass": true,
+  "sunReduced": "0,0,0,3,2,0,0,1,0,0,0,1",
+  "venusSodhya": 200
+}
+{
+  "pass": true
+}
+{
+  "pass": true,
+  "system": "அம்சாயு",
+  "totalSaura": 26.65,
+  "category": "அல்பாயுள் (Alpāyu)"
+}
+{
+  "pass": true,
+  "moonTripataki": "Mithuna",
+  "saturnHarsha": 15
+}
+{
+  "varshaDashaPass": true,
+  "vvStart": "Ketu",
+  "vvNatalStart": "Sun",
+  "vvPeriods": 10,
+  "vnDir": "indirect",
+  "vnMuntha": "Meena",
+  "vnDays": 216
+}
+{
+  "pass": true,
+  "scanned": 15,
+  "topDay": "2026-09-21",
+  "topWeekday": "Monday",
+  "topNak": "Uttara Ashadha",
+  "topTithi": "Shukla Dashami",
+  "topScore": 97,
+  "topRating": "உத்தமம்"
+}
+{
+  "pass": true,
+  "topics": 12,
+  "careerStanding": "strongly-supported",
+  "careerScore": 48,
+  "careerSteps": 23,
+  "runningDasha": "Dasha:Rahu / Bhukti:Venus"
+}
+{
+  "pass": true,
+  "samvatsara": "Parabhava",
+  "todayMonth": "Aavani",
+  "todayTithi": "சதுர்த்தசி",
+  "festivals": 20,
+  "pongal": "2026-01-14",
+  "deepavali": "2026-11-08"
+}
+{
+  "pass": true,
+  "natalConjunctions": 1,
+  "saturn": 4,
+  "jupiter": 4,
+  "rahu": 2,
+  "ketu": 3,
+  "dashaLords": [
+    "Rahu",
+    "Venus"
+  ]
+}
+{
+  "pass": true,
+  "syllableKeys": 32,
+  "totalNames": 185,
+  "ashwiniP2": "ச",
+  "ashwiniP2Count": 10
+}
+{
+  "pass": true,
+  "ppBird": "Owl",
+  "yatraOverall": "avoid",
+  "eclipses2026": [
+    "2026-02-17 solar Annular",
+    "2026-03-03 lunar Total",
+    "2026-08-12 solar Total",
+    "2026-08-28 lunar Partial"
+  ]
+}
+{
+  "pass": true,
+  "intervals": 150,
+  "windows": 4,
+  "best": {
+    "start": "11:00:48",
+    "end": "11:09:04",
+    "code": "GREEN",
+    "recommended": "11:04:56"
+  }
+}
+{
+  "pass": true,
+  "rows": 15,
+  "passed": 6,
+  "partial": 1,
+  "level": "சாதாரணம்"
+}
+{
+  "pass": true,
+  "direction": "savya",
+  "startRasi": "தனுசு",
+  "totalYears": 118,
+  "maha1": "தனுசு 10y 1990-05-15->2000-05-14",
+  "deha": "மேஷம்",
+  "jeeva": "தனுசு"
+}
