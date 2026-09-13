@@ -381,3 +381,188 @@ class ChartDataValidator:
             raise ValidationError("Invalid timezone")
 
         return validated
+
+
+class ConsultationValidator:
+    """Validates consultation data."""
+
+    MAX_NOTES_LENGTH = 5000
+    MAX_RECOMMENDATIONS_LENGTH = 5000
+    MAX_REMEDIES_LENGTH = 5000
+
+    @staticmethod
+    def validate_consultation_date(date_str: str) -> datetime:
+        """
+        Validate consultation date/time.
+
+        Args:
+            date_str: ISO format datetime string
+
+        Returns:
+            datetime object
+
+        Raises:
+            ValidationError: If invalid
+        """
+        if not date_str or not isinstance(date_str, str):
+            raise ValidationError("Consultation date is required")
+
+        try:
+            return datetime.fromisoformat(date_str)
+        except ValueError:
+            raise ValidationError("Consultation date must be in ISO format (YYYY-MM-DDTHH:MM:SS)")
+
+    @staticmethod
+    def validate_follow_up_date(date_str: str) -> 'date':
+        """
+        Validate follow-up date.
+
+        Args:
+            date_str: ISO format date string
+
+        Returns:
+            date object
+
+        Raises:
+            ValidationError: If invalid
+        """
+        if date_str is None:
+            return None
+
+        if not isinstance(date_str, str):
+            raise ValidationError("Follow-up date must be a string")
+
+        try:
+            return datetime.fromisoformat(date_str).date()
+        except ValueError:
+            raise ValidationError("Follow-up date must be in ISO format (YYYY-MM-DD)")
+
+    @staticmethod
+    def validate_notes(notes: str) -> str:
+        """
+        Validate consultation notes.
+
+        Args:
+            notes: Notes text
+
+        Returns:
+            Validated notes
+
+        Raises:
+            ValidationError: If invalid
+        """
+        if notes is None:
+            return None
+
+        if not isinstance(notes, str):
+            raise ValidationError("Notes must be a string")
+
+        notes = notes.strip()
+
+        if len(notes) > ConsultationValidator.MAX_NOTES_LENGTH:
+            raise ValidationError(
+                f"Notes too long (max {ConsultationValidator.MAX_NOTES_LENGTH} characters)"
+            )
+
+        return notes
+
+    @staticmethod
+    def validate_recommendations(recommendations: str) -> str:
+        """
+        Validate recommendations.
+
+        Args:
+            recommendations: Recommendations text
+
+        Returns:
+            Validated recommendations
+
+        Raises:
+            ValidationError: If invalid
+        """
+        if recommendations is None:
+            return None
+
+        if not isinstance(recommendations, str):
+            raise ValidationError("Recommendations must be a string")
+
+        recommendations = recommendations.strip()
+
+        if len(recommendations) > ConsultationValidator.MAX_RECOMMENDATIONS_LENGTH:
+            raise ValidationError(
+                f"Recommendations too long (max {ConsultationValidator.MAX_RECOMMENDATIONS_LENGTH} characters)"
+            )
+
+        return recommendations
+
+    @staticmethod
+    def validate_remedies(remedies: str) -> str:
+        """
+        Validate remedies.
+
+        Args:
+            remedies: Remedies text
+
+        Returns:
+            Validated remedies
+
+        Raises:
+            ValidationError: If invalid
+        """
+        if remedies is None:
+            return None
+
+        if not isinstance(remedies, str):
+            raise ValidationError("Remedies must be a string")
+
+        remedies = remedies.strip()
+
+        if len(remedies) > ConsultationValidator.MAX_REMEDIES_LENGTH:
+            raise ValidationError(
+                f"Remedies too long (max {ConsultationValidator.MAX_REMEDIES_LENGTH} characters)"
+            )
+
+        return remedies
+
+    @staticmethod
+    def validate_consultation_data(data: dict) -> dict:
+        """
+        Validate complete consultation data.
+
+        Args:
+            data: Consultation data dictionary
+
+        Returns:
+            Validated consultation data
+
+        Raises:
+            ValidationError: If any field is invalid
+        """
+        if not isinstance(data, dict):
+            raise ValidationError("Consultation data must be a dictionary")
+
+        validated = {}
+
+        # Optional fields
+        if 'consultation_date' in data:
+            validated['consultation_date'] = ConsultationValidator.validate_consultation_date(
+                data['consultation_date']
+            )
+
+        if 'follow_up_date' in data:
+            validated['follow_up_date'] = ConsultationValidator.validate_follow_up_date(
+                data['follow_up_date']
+            )
+
+        if 'notes' in data:
+            validated['notes'] = ConsultationValidator.validate_notes(data['notes'])
+
+        if 'recommendations' in data:
+            validated['recommendations'] = ConsultationValidator.validate_recommendations(
+                data['recommendations']
+            )
+
+        if 'remedies' in data:
+            validated['remedies'] = ConsultationValidator.validate_remedies(data['remedies'])
+
+        return validated

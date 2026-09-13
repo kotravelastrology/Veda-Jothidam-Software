@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from backend.database import db
 from backend.models import Chart, Consultation, User
-from backend.validators import ChartDataValidator, ValidationError
+from backend.validators import ChartDataValidator, ConsultationValidator, ValidationError
 from datetime import datetime, time
 import uuid
 import logging
@@ -137,14 +137,21 @@ def create_consultation(chart_id):
         if not chart:
             return jsonify({'error': 'Chart not found or access denied'}), 404
 
+        # Validate consultation data
+        try:
+            validated_data = ConsultationValidator.validate_consultation_data(data)
+        except ValidationError as e:
+            logger.warning(f"Consultation validation failed for chart {chart_id}: {str(e)}")
+            return jsonify({'error': str(e)}), 400
+
         # Create consultation
         consultation = Consultation(
             chart_id=chart_id,
-            consultation_date=datetime.fromisoformat(data.get('consultation_date')) if data.get('consultation_date') else datetime.utcnow(),
-            notes=data.get('notes'),
-            recommendations=data.get('recommendations'),
-            remedies=data.get('remedies'),
-            follow_up_date=datetime.fromisoformat(data.get('follow_up_date')).date() if data.get('follow_up_date') else None
+            consultation_date=validated_data.get('consultation_date', datetime.utcnow()),
+            notes=validated_data.get('notes'),
+            recommendations=validated_data.get('recommendations'),
+            remedies=validated_data.get('remedies'),
+            follow_up_date=validated_data.get('follow_up_date')
         )
 
         db.session.add(consultation)
@@ -237,17 +244,24 @@ def update_consultation(chart_id, consultation_id):
         if not consultation:
             return jsonify({'error': 'Consultation not found'}), 404
 
+        # Validate consultation data
+        try:
+            validated_data = ConsultationValidator.validate_consultation_data(data)
+        except ValidationError as e:
+            logger.warning(f"Consultation validation failed for {consultation_id}: {str(e)}")
+            return jsonify({'error': str(e)}), 400
+
         # Update fields
-        if 'notes' in data:
-            consultation.notes = data['notes']
-        if 'recommendations' in data:
-            consultation.recommendations = data['recommendations']
-        if 'remedies' in data:
-            consultation.remedies = data['remedies']
-        if 'follow_up_date' in data:
-            consultation.follow_up_date = datetime.fromisoformat(data['follow_up_date']).date() if data['follow_up_date'] else None
-        if 'consultation_date' in data:
-            consultation.consultation_date = datetime.fromisoformat(data['consultation_date'])
+        if 'notes' in validated_data:
+            consultation.notes = validated_data['notes']
+        if 'recommendations' in validated_data:
+            consultation.recommendations = validated_data['recommendations']
+        if 'remedies' in validated_data:
+            consultation.remedies = validated_data['remedies']
+        if 'follow_up_date' in validated_data:
+            consultation.follow_up_date = validated_data['follow_up_date']
+        if 'consultation_date' in validated_data:
+            consultation.consultation_date = validated_data['consultation_date']
 
         db.session.commit()
 
