@@ -23,16 +23,13 @@ def init_db(app):
     """
     Initialize database with Flask app.
 
-    - Initializes SQLAlchemy with the app
     - Creates all tables based on models
     - Logs database connection info
     - Performs basic health check
 
     Args:
-        app: Flask application instance
+        app: Flask application instance (db.init_app should be called before this)
     """
-    db.init_app(app)
-
     with app.app_context():
         try:
             # Create all tables
@@ -122,7 +119,7 @@ def get_database_stats():
     """
     try:
         # Import models to get table names
-        from backend.models import User, Chart, Consultation, PhaseData
+        from models import User, Chart, Consultation, PhaseData
 
         stats = {
             'status': 'connected',

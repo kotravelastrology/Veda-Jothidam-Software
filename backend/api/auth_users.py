@@ -23,7 +23,7 @@ import uuid
 import re
 from functools import wraps
 
-from backend.models.database import db, User, Subscription
+from models.database import db, User, Subscription
 
 # Create blueprint
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')

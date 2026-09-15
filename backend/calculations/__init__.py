@@ -1,1 +1,1 @@
-﻿"""Calculations module for Veda Jothidam Backend"""
+"""Calculations module for Veda Jothidam Backend"""

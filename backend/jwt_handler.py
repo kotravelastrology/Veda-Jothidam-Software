@@ -7,7 +7,7 @@ import os
 from datetime import datetime, timedelta
 from typing import Tuple, Optional, Dict, Any
 from flask_jwt_extended import create_access_token, create_refresh_token
-from backend.database import db
+from database import db
 from sqlalchemy import Column, String, DateTime
 
 class TokenBlacklist(db.Model):

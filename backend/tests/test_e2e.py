@@ -14,9 +14,9 @@ import pytest
 import json
 import time
 from datetime import datetime, timedelta
-from backend.calculations.dasha import VimshottariDashaCalculator
-from backend.calculations.planetary_strength import ShadbalaCalculator
-from backend.app import create_app
+from calculations.dasha import VimshottariDashaCalculator
+from calculations.planetary_strength import ShadbalaCalculator
+from app import create_app
 
 
 @pytest.fixture

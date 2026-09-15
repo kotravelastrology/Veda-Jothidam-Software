@@ -4,9 +4,9 @@
 import sys
 sys.path.insert(0, '.')
 
-from backend.app import create_app
-from backend.database import db
-from backend.models import User
+from app import create_app
+from database import db
+from models import User
 import json
 
 app = create_app()

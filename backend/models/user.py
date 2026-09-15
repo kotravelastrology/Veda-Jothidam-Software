@@ -5,7 +5,7 @@ Handles user accounts, authentication, and profile information.
 Each user can have multiple birth charts and consultations.
 """
 
-from backend.database import db
+from database import db
 from datetime import datetime
 import uuid
 

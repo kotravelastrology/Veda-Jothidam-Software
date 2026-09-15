@@ -1,13 +1,13 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
-from backend.database import db
-from backend.models import User
-from backend.validators import (
+from database import db
+from models import User
+from validators import (
     EmailValidator, PasswordValidator, StringValidator, ValidationError
 )
-from backend.jwt_handler import JWTHandler
-from backend.security_headers import require_secure_headers
+from jwt_handler import JWTHandler
+from security_headers import require_secure_headers
 import uuid
 import logging
 

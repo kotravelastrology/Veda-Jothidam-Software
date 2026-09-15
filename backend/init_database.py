@@ -28,8 +28,8 @@ logger = logging.getLogger(__name__)
 
 def init_database():
     """Initialize the database."""
-    from backend.app import create_app
-    from backend.database import init_db, test_connection
+    from app import create_app
+    from database import init_db, test_connection
 
     logger.info("=" * 60)
     logger.info("Veda Jothidam Database Initialization")
@@ -64,8 +64,8 @@ def init_database():
 
 def test_database():
     """Test database connection."""
-    from backend.app import create_app
-    from backend.database import test_connection, get_database_stats
+    from app import create_app
+    from database import test_connection, get_database_stats
 
     logger.info("=" * 60)
     logger.info("Database Connection Test")
@@ -106,8 +106,8 @@ def test_database():
 
 def reset_database():
     """Reset the database (warning: destructive)."""
-    from backend.app import create_app
-    from backend.database import reset_database as db_reset
+    from app import create_app
+    from database import reset_database as db_reset
 
     env = os.getenv('FLASK_ENV', 'development')
 
@@ -152,8 +152,8 @@ def reset_database():
 
 def show_stats():
     """Show database statistics."""
-    from backend.app import create_app
-    from backend.database import get_database_stats
+    from app import create_app
+    from database import get_database_stats
 
     logger.info("=" * 60)
     logger.info("Database Statistics")

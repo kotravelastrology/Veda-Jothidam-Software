@@ -13,13 +13,13 @@ from datetime import datetime
 from typing import Dict, List, Any
 import traceback
 
-from backend.calculations.dasha import (
+from calculations.dasha import (
     VimshottariDashaCalculator,
     DashaPeriod,
     BhuktiPeriod,
     AntaraPeriod,
 )
-from backend.calculations.planetary_strength import (
+from calculations.planetary_strength import (
     ShadbalaCalculator,
     PlanetaryStrength,
 )

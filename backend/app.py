@@ -8,11 +8,11 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-from backend.database import db, init_db, get_db_path
-from backend.models import User, Chart, Consultation, PhaseData
-from backend.config import get_config
-from backend.security_headers import add_security_headers, token_blacklist_loader
-from backend.jwt_handler import JWTHandler
+from database import db, init_db, get_db_path
+from models import User, Chart, Consultation, PhaseData
+from config import get_config
+from security_headers import add_security_headers, token_blacklist_loader
+from jwt_handler import JWTHandler
 
 def create_app(config_name=None):
     """Factory function to create Flask app with security hardening."""
@@ -33,10 +33,10 @@ def create_app(config_name=None):
         raise
 
     # Set database URI
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
-        'DATABASE_URL',
-        get_db_path()
-    )
+    database_url = os.getenv('DATABASE_URL')
+    if not database_url:
+        database_url = get_db_path()
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 
     # Initialize extensions
     db.init_app(app)
@@ -66,7 +66,7 @@ def create_app(config_name=None):
         init_db(app)
 
     # Register blueprints
-    from backend.routes import auth, charts
+    from routes import auth, charts
     app.register_blueprint(auth.bp)
     app.register_blueprint(charts.bp)
 
@@ -107,7 +107,7 @@ def create_app(config_name=None):
     def health():
         return {
             'status': 'OK',
-            'message': 'Taara Vedic Backend is running',
+            'message': 'Veda Jothidam Backend is running',
             'version': '1.0.0'
         }, 200
 

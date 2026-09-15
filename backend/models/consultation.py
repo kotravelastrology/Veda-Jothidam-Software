@@ -5,7 +5,7 @@ Stores consultation records linked to birth charts.
 Tracks notes, recommendations, and follow-up dates.
 """
 
-from backend.database import db
+from database import db
 from datetime import datetime
 import uuid
 

@@ -5,7 +5,7 @@ Tests for email, password, date, time, coordinate, and chart validation.
 """
 
 import unittest
-from backend.validators import (
+from validators import (
     EmailValidator, PasswordValidator, DateValidator, TimeValidator,
     CoordinateValidator, StringValidator, SelectiveFieldValidator,
     ChartDataValidator, ValidationError

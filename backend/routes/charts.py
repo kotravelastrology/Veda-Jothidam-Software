@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from backend.database import db
-from backend.models import Chart, Consultation, User
-from backend.validators import ChartDataValidator, ConsultationValidator, ValidationError
+from database import db
+from models import Chart, Consultation, User
+from validators import ChartDataValidator, ConsultationValidator, ValidationError
 from datetime import datetime, time
 import uuid
 import logging

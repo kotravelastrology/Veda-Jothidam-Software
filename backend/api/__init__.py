@@ -1,1 +1,1 @@
-﻿"""API module for Veda Jothidam Backend"""
+"""API module for Veda Jothidam Backend"""

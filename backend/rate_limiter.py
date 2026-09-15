@@ -8,7 +8,7 @@ from functools import wraps
 from datetime import datetime, timedelta
 from typing import Dict, Tuple, Optional
 from flask import request, jsonify
-from backend.database import db
+from database import db
 from sqlalchemy import Column, String, DateTime, Integer, func
 
 class RateLimitRecord(db.Model):

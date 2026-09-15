@@ -13,15 +13,15 @@ Tests:
 import pytest
 import json
 from datetime import datetime, timedelta
-from backend.calculations.dasha import (
+from calculations.dasha import (
     VimshottariDashaCalculator,
     DashaPeriod,
 )
-from backend.calculations.planetary_strength import (
+from calculations.planetary_strength import (
     ShadbalaCalculator,
     PlanetaryStrength,
 )
-from backend.app import create_app
+from app import create_app
 
 
 # ==================== FIXTURES ====================

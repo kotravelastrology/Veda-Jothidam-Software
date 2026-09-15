@@ -8,9 +8,9 @@ through the REST API with authentication.
 import pytest
 import json
 from datetime import datetime, date, time
-from backend.app import create_app
-from backend.database import db
-from backend.models import User, Chart, Consultation
+from app import create_app
+from database import db
+from models import User, Chart, Consultation
 
 
 @pytest.fixture(scope='function')

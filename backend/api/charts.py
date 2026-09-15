@@ -25,7 +25,7 @@ from datetime import datetime
 import uuid
 from sqlalchemy import or_
 
-from backend.models.database import db, BirthChart, User
+from models.database import db, BirthChart, User
 
 # Create blueprint
 charts_bp = Blueprint('charts', __name__, url_prefix='/api/charts')
@@ -153,7 +153,7 @@ def create_chart():
 
         if user.is_premium:
             # Get from subscription
-            from backend.models.database import Subscription
+            from models.database import Subscription
             subscription = Subscription.query.filter_by(user_id=user_id).first()
             if subscription:
                 max_charts = subscription.max_charts

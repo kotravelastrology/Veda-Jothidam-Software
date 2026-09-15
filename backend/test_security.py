@@ -5,12 +5,12 @@ Tests input validation, JWT, rate limiting, and security headers.
 
 import pytest
 import json
-from backend.validators import (
+from validators import (
     EmailValidator, PasswordValidator, DateValidator, TimeValidator,
     CoordinateValidator, StringValidator, ChartDataValidator, ValidationError
 )
-from backend.jwt_handler import JWTHandler
-from backend.rate_limiter import RateLimiter
+from jwt_handler import JWTHandler
+from rate_limiter import RateLimiter
 
 
 class TestInputValidation:
@@ -176,7 +176,7 @@ class TestSecurityHeaders:
 
     def test_csp_header_generation(self):
         """Test CSP header generation."""
-        from backend.security_headers import SecurityHeaderConfig
+        from security_headers import SecurityHeaderConfig
 
         csp = SecurityHeaderConfig.get_csp_header()
         assert "default-src 'self'" in csp
@@ -185,7 +185,7 @@ class TestSecurityHeaders:
 
     def test_hsts_header_generation(self):
         """Test HSTS header generation."""
-        from backend.security_headers import SecurityHeaderConfig
+        from security_headers import SecurityHeaderConfig
 
         hsts = SecurityHeaderConfig.get_hsts_header()
         assert "max-age=31536000" in hsts
@@ -273,7 +273,7 @@ class TestCoordinateValidation:
 @pytest.fixture
 def client():
     """Provide Flask test client."""
-    from backend.app import create_app
+    from app import create_app
     app = create_app('testing')
     with app.test_client() as client:
         yield client

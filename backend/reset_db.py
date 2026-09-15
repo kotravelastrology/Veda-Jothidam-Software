@@ -5,8 +5,8 @@ import sys
 import os
 sys.path.insert(0, '.')
 
-from backend.app import create_app
-from backend.database import db, get_db_path
+from app import create_app
+from database import db, get_db_path
 
 def reset_database():
     """Delete all tables and recreate them."""

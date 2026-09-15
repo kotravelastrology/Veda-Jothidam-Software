@@ -1,0 +1,166 @@
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: veda-db
+    environment:
+      POSTGRES_USER: ${DB_USER:-veda_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secure_password}
+      POSTGRES_DB: ${DB_NAME:-veda_jothidam}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-veda_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - veda-network
+    restart: unless-stopped
+
+  # Redis Cache (Optional)
+  redis:
+    image: redis:7-alpine
+    container_name: veda-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - veda-network
+    restart: unless-stopped
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: veda-backend
+    environment:
+      # Database
+      DATABASE_URL: postgresql://${DB_USER:-veda_user}:${DB_PASSWORD:-secure_password}@db:5432/${DB_NAME:-veda_jothidam}
+
+      # JWT
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-change-me-in-production}
+
+      # Flask
+      FLASK_ENV: ${FLASK_ENV:-production}
+      FLASK_APP: app.py
+
+      # Redis
+      REDIS_URL: redis://redis:6379/0
+
+      # Email
+      SMTP_SERVER: ${SMTP_SERVER:-smtp.gmail.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SENDER_EMAIL: ${SENDER_EMAIL:-noreply@vedajothidam.com}
+      SENDER_PASSWORD: ${SENDER_PASSWORD:-}
+      SMTP_USE_TLS: ${SMTP_USE_TLS:-true}
+
+      # AWS (Optional)
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+
+      # Application
+      APP_ENV: production
+      DEBUG: "false"
+
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+    ports:
+      - "5000:5000"
+
+    volumes:
+      - ./backend:/app
+      - backend_logs:/app/logs
+
+    networks:
+      - veda-network
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/auth/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend Web Server
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: veda-frontend
+    depends_on:
+      - backend
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - ./frontend:/app
+
+    networks:
+      - veda-network
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  backend_logs:
+    driver: local
+
+networks:
+  veda-network:
+    driver: bridge
+
+# ============ USAGE ============
+# Start all services:
+#   docker-compose up -d
+#
+# Stop all services:
+#   docker-compose down
+#
+# View logs:
+#   docker-compose logs -f backend
+#   docker-compose logs -f frontend
+#
+# Run database migrations:
+#   docker-compose exec backend flask db upgrade
+#
+# Create admin user:
+#   docker-compose exec backend flask create-admin
+#
+# Rebuild images:
+#   docker-compose build --no-cache
+#
+# Database backup:
+#   docker-compose exec db pg_dump -U veda_user veda_jothidam > backup.sql
+#
+# Database restore:
+#   docker-compose exec -T db psql -U veda_user veda_jothidam < backup.sql

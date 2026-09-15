@@ -7,8 +7,8 @@ Covers: instantiation, field validation, relationships, serialization.
 
 import unittest
 from datetime import datetime, date, time
-from backend.database import db
-from backend.models import User, Chart, Consultation
+from database import db
+from models import User, Chart, Consultation
 
 
 class TestUserModel(unittest.TestCase):

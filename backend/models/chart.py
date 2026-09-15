@@ -5,7 +5,7 @@ Stores natal charts and all calculated astrological data.
 Supports multiple ayanamsa systems and calculation methods.
 """
 
-from backend.database import db
+from database import db
 from datetime import datetime
 import uuid
 import json

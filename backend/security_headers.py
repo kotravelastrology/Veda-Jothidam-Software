@@ -4,6 +4,7 @@ Implements OWASP recommended security headers.
 """
 
 from flask import Flask, request, jsonify
+from flask_jwt_extended import verify_jwt_in_request, get_jwt
 from functools import wraps
 from typing import Dict, Any
 
@@ -208,3 +209,17 @@ def remove_sensitive_headers(response) -> None:
 
     for header in sensitive_headers:
         response.headers.pop(header, None)
+
+
+def token_blacklist_loader(jwt):
+    """
+    Configure JWT blacklist checking with Flask-JWT-Extended.
+
+    Args:
+        jwt: JWTManager instance from Flask-JWT-Extended
+    """
+    @jwt.token_in_blocklist_loader
+    def check_if_token_revoked(jwt_header, jwt_data):
+        from jwt_handler import TokenBlacklist
+        jti = jwt_data['jti']
+        return TokenBlacklist.query.filter_by(token_jti=jti).first() is not None

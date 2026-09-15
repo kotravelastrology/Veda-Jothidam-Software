@@ -1,0 +1,339 @@
+version: '3.8'
+
+# Veda Jothidam - Production Deployment Configuration
+#
+# Usage:
+#   docker-compose -f docker-compose.production.yml up -d
+#
+# Notes:
+#   - Use managed services for database and cache (recommended)
+#   - This config includes production best practices
+#   - Adjust resource limits based on your infrastructure
+#   - Enable monitoring and logging
+#
+
+services:
+  # ============================================================================
+  # FRONTEND SERVICE - Nginx reverse proxy + static files
+  # ============================================================================
+  frontend:
+    image: nginx:latest
+    container_name: veda-frontend-prod
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      # Static frontend files
+      - ./frontend:/usr/share/nginx/html:ro
+
+      # Nginx configuration
+      - ./nginx.prod.conf:/etc/nginx/nginx.conf:ro
+
+      # SSL certificates
+      - /etc/letsencrypt/live/yourdomain.com/fullchain.pem:/etc/nginx/ssl/cert.pem:ro
+      - /etc/letsencrypt/live/yourdomain.com/privkey.pem:/etc/nginx/ssl/key.pem:ro
+
+      # Logs
+      - /var/log/veda-jothidam/nginx:/var/log/nginx
+
+    environment:
+      TZ: UTC
+
+    networks:
+      - veda-network
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+    restart: always
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ============================================================================
+  # BACKEND SERVICE - Flask API with Gunicorn
+  # ============================================================================
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+
+    container_name: veda-backend-prod
+
+    # Override CMD for production
+    command: >
+      gunicorn
+      --bind 0.0.0.0:5000
+      --workers 4
+      --worker-class gthread
+      --threads 2
+      --timeout 30
+      --keep-alive 2
+      --max-requests 1000
+      --max-requests-jitter 100
+      --access-logfile -
+      --error-logfile -
+      --log-level info
+      wsgi:app
+
+    env_file:
+      - .env.production
+
+    environment:
+      FLASK_ENV: production
+      FLASK_DEBUG: "False"
+      PYTHONUNBUFFERED: "1"
+
+    volumes:
+      # Application code (read-only in production)
+      - ./backend:/app:ro
+
+      # Logs
+      - /var/log/veda-jothidam/backend:/var/log/backend
+
+    networks:
+      - veda-network
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+    restart: always
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+        reservations:
+          cpus: '1'
+          memory: 512M
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  # ============================================================================
+  # DATABASE SERVICE - PostgreSQL
+  # ============================================================================
+  # RECOMMENDED: Use managed PostgreSQL service instead (AWS RDS, Cloud SQL, etc.)
+  # This is included for reference only
+  # ============================================================================
+  db:
+    image: postgres:15-alpine
+    container_name: veda-db-prod
+
+    environment:
+      POSTGRES_USER: prod_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: veda_jothidam_prod
+      POSTGRES_INITDB_ARGS: --encoding UTF8
+      TZ: UTC
+
+    volumes:
+      # Persistent data volume
+      - postgres-data-prod:/var/lib/postgresql/data
+
+      # Custom PostgreSQL configuration
+      - ./postgresql.prod.conf:/etc/postgresql.conf:ro
+
+      # Initialization scripts
+      - ./db-init:/docker-entrypoint-initdb.d:ro
+
+      # Logs
+      - /var/log/veda-jothidam/postgresql:/var/log/postgresql
+
+    networks:
+      - veda-network
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U prod_user -d veda_jothidam_prod"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+    restart: always
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  # ============================================================================
+  # CACHE SERVICE - Redis
+  # ============================================================================
+  # RECOMMENDED: Use managed Redis service instead (AWS ElastiCache, etc.)
+  # This is included for reference only
+  # ============================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: veda-redis-prod
+
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD}
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --appendonly yes
+      --appendfsync everysec
+
+    volumes:
+      # Persistent data volume
+      - redis-data-prod:/data
+
+      # Logs
+      - /var/log/veda-jothidam/redis:/var/log/redis
+
+    networks:
+      - veda-network
+
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 20s
+
+    restart: always
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  # ============================================================================
+  # MONITORING - Optional: Prometheus (metrics collection)
+  # ============================================================================
+  # Uncomment if using Prometheus for metrics collection
+  # ============================================================================
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: veda-prometheus
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  #     - prometheus-data:/prometheus
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--storage.tsdb.path=/prometheus'
+  #   ports:
+  #     - "9090:9090"
+  #   networks:
+  #     - veda-network
+  #   restart: always
+
+# ============================================================================
+# VOLUMES
+# ============================================================================
+volumes:
+  postgres-data-prod:
+    driver: local
+  redis-data-prod:
+    driver: local
+  # prometheus-data:
+  #   driver: local
+
+# ============================================================================
+# NETWORKS
+# ============================================================================
+networks:
+  veda-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+
+# ============================================================================
+# DEPLOYMENT NOTES
+# ============================================================================
+#
+# 1. BEFORE DEPLOYMENT:
+#    - Set environment variables in .env.production
+#    - Generate SSL certificates (Let's Encrypt)
+#    - Configure Nginx (nginx.prod.conf)
+#    - Backup any existing data
+#
+# 2. DATABASE:
+#    - For production, use managed service (recommended)
+#    - If using Docker, ensure daily backups
+#    - Enable SSL/TLS connections
+#    - Set up read replicas if needed
+#
+# 3. CACHE:
+#    - For production, use managed Redis service
+#    - If using Docker, enable persistence
+#    - Monitor memory usage
+#
+# 4. SECURITY:
+#    - Change default passwords immediately
+#    - Enable HTTPS with valid certificate
+#    - Configure firewall rules
+#    - Keep Docker images updated
+#
+# 5. SCALING:
+#    - Use load balancer (Nginx, HAProxy)
+#    - Run multiple backend instances
+#    - Use managed services for database/cache
+#    - Enable auto-scaling in Kubernetes
+#
+# 6. MONITORING:
+#    - Set up log aggregation (ELK, CloudWatch)
+#    - Configure error tracking (Sentry)
+#    - Monitor resource usage
+#    - Set up alerts for critical events
+#
+# 7. BACKUPS:
+#    - Daily database backups
+#    - Test restore procedures
+#    - Keep backups off-site
+#    - Document recovery procedures
+#
