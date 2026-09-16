@@ -275,27 +275,30 @@
                 <input type="text" id="chart-name" placeholder="My Birth Chart">
             </div>
 
-            <!-- Birth Date (DD-MM-YYYY) with Auto-Advance -->
-            <div class="form-group">
-                <label>Birth Date (DD-MM-YYYY):</label>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; align-items: center;">
-                    <input type="text" id="birth-date-day" placeholder="DD" maxlength="2" style="text-align: center; font-size: 16px; padding: 10px;">
-                    <span style="text-align: center; font-weight: bold;">-</span>
-                    <input type="text" id="birth-date-month" placeholder="MM" maxlength="2" style="text-align: center; font-size: 16px; padding: 10px;">
-                    <span style="text-align: center; font-weight: bold;">-</span>
-                    <input type="text" id="birth-date-year" placeholder="YYYY" maxlength="4" style="text-align: center; font-size: 16px; padding: 10px;">
+            <!-- Birth Date & Time on Same Line -->
+            <div class="grid-2">
+                <!-- Birth Date (DD-MM-YYYY) with Auto-Advance -->
+                <div class="form-group">
+                    <label for="birth-date-day">Birth Date (DD-MM-YYYY):</label>
+                    <div style="display: grid; grid-template-columns: 0.7fr 0.2fr 0.7fr 0.2fr 0.9fr; gap: 5px; align-items: center;">
+                        <input type="text" id="birth-date-day" placeholder="DD" maxlength="2" style="text-align: center; font-size: 14px; padding: 8px;">
+                        <span style="text-align: center; font-weight: bold; color: #667eea;">-</span>
+                        <input type="text" id="birth-date-month" placeholder="MM" maxlength="2" style="text-align: center; font-size: 14px; padding: 8px;">
+                        <span style="text-align: center; font-weight: bold; color: #667eea;">-</span>
+                        <input type="text" id="birth-date-year" placeholder="YYYY" maxlength="4" style="text-align: center; font-size: 14px; padding: 8px;">
+                    </div>
                 </div>
-            </div>
 
-            <!-- Birth Time (HH:MM:SS) with Auto-Advance -->
-            <div class="form-group">
-                <label>Birth Time (HH:MM:SS):</label>
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; align-items: center;">
-                    <input type="text" id="birth-time-hour" placeholder="HH" maxlength="2" style="text-align: center; font-size: 16px; padding: 10px;">
-                    <span style="text-align: center; font-weight: bold;">:</span>
-                    <input type="text" id="birth-time-minute" placeholder="MM" maxlength="2" style="text-align: center; font-size: 16px; padding: 10px;">
-                    <span style="text-align: center; font-weight: bold;">:</span>
-                    <input type="text" id="birth-time-second" placeholder="SS" maxlength="2" style="text-align: center; font-size: 16px; padding: 10px;">
+                <!-- Birth Time (HH:MM:SS) with Auto-Advance -->
+                <div class="form-group">
+                    <label for="birth-time-hour">Birth Time (HH:MM:SS):</label>
+                    <div style="display: grid; grid-template-columns: 0.7fr 0.2fr 0.7fr 0.2fr 0.7fr; gap: 5px; align-items: center;">
+                        <input type="text" id="birth-time-hour" placeholder="HH" maxlength="2" style="text-align: center; font-size: 14px; padding: 8px;">
+                        <span style="text-align: center; font-weight: bold; color: #667eea;">:</span>
+                        <input type="text" id="birth-time-minute" placeholder="MM" maxlength="2" style="text-align: center; font-size: 14px; padding: 8px;">
+                        <span style="text-align: center; font-weight: bold; color: #667eea;">:</span>
+                        <input type="text" id="birth-time-second" placeholder="SS" maxlength="2" style="text-align: center; font-size: 14px; padding: 8px;">
+                    </div>
                 </div>
             </div>
 
