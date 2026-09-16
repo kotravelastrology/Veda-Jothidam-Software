@@ -274,35 +274,60 @@
                 <label for="chart-name">Chart Name:</label>
                 <input type="text" id="chart-name" placeholder="My Birth Chart">
             </div>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label for="birth-date">Birth Date (YYYY-MM-DD):</label>
-                    <input type="text" id="birth-date" placeholder="1990-05-15">
-                </div>
-                <div class="form-group">
-                    <label for="birth-time">Birth Time (HH:MM:SS):</label>
-                    <input type="text" id="birth-time" placeholder="14:30:00">
+
+            <!-- Birth Date (DD-MM-YYYY) with Auto-Advance -->
+            <div class="form-group">
+                <label>Birth Date (DD-MM-YYYY):</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; align-items: center;">
+                    <input type="text" id="birth-date-day" placeholder="DD" maxlength="2" style="text-align: center; font-size: 16px; padding: 10px;">
+                    <span style="text-align: center; font-weight: bold;">-</span>
+                    <input type="text" id="birth-date-month" placeholder="MM" maxlength="2" style="text-align: center; font-size: 16px; padding: 10px;">
+                    <span style="text-align: center; font-weight: bold;">-</span>
+                    <input type="text" id="birth-date-year" placeholder="YYYY" maxlength="4" style="text-align: center; font-size: 16px; padding: 10px;">
                 </div>
             </div>
-            <div class="grid-2">
-                <div class="form-group">
-                    <label for="birth-place">Birth Place:</label>
-                    <input type="text" id="birth-place" placeholder="New York, USA">
+
+            <!-- Birth Time (HH:MM:SS) with Auto-Advance -->
+            <div class="form-group">
+                <label>Birth Time (HH:MM:SS):</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; align-items: center;">
+                    <input type="text" id="birth-time-hour" placeholder="HH" maxlength="2" style="text-align: center; font-size: 16px; padding: 10px;">
+                    <span style="text-align: center; font-weight: bold;">:</span>
+                    <input type="text" id="birth-time-minute" placeholder="MM" maxlength="2" style="text-align: center; font-size: 16px; padding: 10px;">
+                    <span style="text-align: center; font-weight: bold;">:</span>
+                    <input type="text" id="birth-time-second" placeholder="SS" maxlength="2" style="text-align: center; font-size: 16px; padding: 10px;">
                 </div>
+            </div>
+
+            <!-- Birth Place with Autocomplete -->
+            <div class="form-group">
+                <label for="birth-place">Birth Place (Type 3+ letters for suggestions):</label>
+                <input type="text" id="birth-place" placeholder="e.g., New York, India, Chennai..." autocomplete="off">
+                <div id="birth-place-suggestions" style="border: 1px solid #ddd; border-top: none; max-height: 200px; overflow-y: auto; display: none; background: white;">
+                    <ul id="suggestions-list" style="list-style: none; padding: 0; margin: 0;"></ul>
+                </div>
+            </div>
+
+            <div class="grid-2">
                 <div class="form-group">
                     <label for="birth-latitude">Latitude:</label>
-                    <input type="number" id="birth-latitude" placeholder="40.7128" step="0.0001">
+                    <input type="number" id="birth-latitude" placeholder="40.7128" step="0.0001" readonly style="background-color: #f5f5f5;">
                 </div>
-            </div>
-            <div class="grid-2">
                 <div class="form-group">
                     <label for="birth-longitude">Longitude:</label>
-                    <input type="number" id="birth-longitude" placeholder="-74.0060" step="0.0001">
+                    <input type="number" id="birth-longitude" placeholder="-74.0060" step="0.0001" readonly style="background-color: #f5f5f5;">
                 </div>
-                <div class="form-group">
-                    <label for="birth-timezone">Timezone:</label>
-                    <input type="text" id="birth-timezone" placeholder="America/New_York">
-                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="birth-timezone">Timezone (Auto-detected):</label>
+                <input type="text" id="birth-timezone" placeholder="Asia/Kolkata" readonly style="background-color: #f5f5f5;">
+            </div>
+
+            <!-- GPS Marking Feature (Info) -->
+            <div class="form-group" style="background: #e3f2fd; padding: 15px; border-radius: 5px; border-left: 4px solid #667eea;">
+                <label style="margin-bottom: 10px; color: #667eea; font-weight: bold;">📍 GPS Marking Feature</label>
+                <p style="margin: 0; font-size: 14px; color: #555;">Location coordinates are automatically fetched based on birth place name. For manual GPS marking, click on the location name and a map interface will appear (coming soon).</p>
             </div>
             <div class="button-group">
                 <button class="btn-primary" onclick="createChart()">Create Chart</button>
@@ -528,39 +553,7 @@ ${JSON.stringify(data, null, 2)}</div>`;
             document.getElementById('login-password').value = '';
         }
 
-        // Chart Functions
-        async function createChart() {
-            if (!getToken()) {
-                alert('Please login first');
-                return;
-            }
-
-            const chartData = {
-                name: document.getElementById('chart-name').value,
-                birth_date: document.getElementById('birth-date').value,
-                birth_time: document.getElementById('birth-time').value,
-                birth_place: document.getElementById('birth-place').value,
-                latitude: parseFloat(document.getElementById('birth-latitude').value),
-                longitude: parseFloat(document.getElementById('birth-longitude').value),
-                timezone: document.getElementById('birth-timezone').value
-            };
-
-            if (!chartData.name || !chartData.birth_date || !chartData.birth_time) {
-                alert('Please fill required fields');
-                return;
-            }
-
-            const result = await apiCall('/charts/create', 'POST', chartData);
-
-            if (result.status === 201) {
-                showResponse('chart-response', result.data);
-                localStorage.setItem('last-chart-id', result.data.chart.id);
-                document.getElementById('chart-id').value = result.data.chart.id;
-                alert('Chart created successfully!');
-            } else {
-                showResponse('chart-response', result.data, true);
-            }
-        }
+        // Chart Functions (will be overridden with improved version below)
 
         async function listCharts() {
             if (!getToken()) {
@@ -598,15 +591,7 @@ ${JSON.stringify(data, null, 2)}</div>`;
             }
         }
 
-        function clearChartForm() {
-            document.getElementById('chart-name').value = '';
-            document.getElementById('birth-date').value = '';
-            document.getElementById('birth-time').value = '';
-            document.getElementById('birth-place').value = '';
-            document.getElementById('birth-latitude').value = '';
-            document.getElementById('birth-longitude').value = '';
-            document.getElementById('birth-timezone').value = '';
-        }
+        // clearChartForm will be overridden with improved version below
 
         // Consultation Functions
         async function createConsultation() {
@@ -665,6 +650,174 @@ ${JSON.stringify(data, null, 2)}</div>`;
             document.getElementById('consultation-remedies').value = '';
             document.getElementById('follow-up-date').value = '';
         }
+
+        // ===== AUTO-ADVANCE INPUT HANDLING =====
+        // Date auto-advance: DD → MM → YYYY
+        document.getElementById('birth-date-day').addEventListener('input', function(e) {
+            if (this.value.length === 2) {
+                document.getElementById('birth-date-month').focus();
+            }
+        });
+
+        document.getElementById('birth-date-month').addEventListener('input', function(e) {
+            if (this.value.length === 2) {
+                document.getElementById('birth-date-year').focus();
+            }
+        });
+
+        // Time auto-advance: HH → MM → SS
+        document.getElementById('birth-time-hour').addEventListener('input', function(e) {
+            if (this.value.length === 2) {
+                document.getElementById('birth-time-minute').focus();
+            }
+        });
+
+        document.getElementById('birth-time-minute').addEventListener('input', function(e) {
+            if (this.value.length === 2) {
+                document.getElementById('birth-time-second').focus();
+            }
+        });
+
+        // ===== LOCATION AUTOCOMPLETE =====
+        const indianCities = [
+            {name: 'Chennai', lat: 13.0827, lon: 80.2707, tz: 'Asia/Kolkata'},
+            {name: 'Mumbai', lat: 19.0760, lon: 72.8777, tz: 'Asia/Kolkata'},
+            {name: 'Delhi', lat: 28.6139, lon: 77.2090, tz: 'Asia/Kolkata'},
+            {name: 'Bangalore', lat: 12.9716, lon: 77.5946, tz: 'Asia/Kolkata'},
+            {name: 'Hyderabad', lat: 17.3850, lon: 78.4867, tz: 'Asia/Kolkata'},
+            {name: 'Kolkata', lat: 22.5726, lon: 88.3639, tz: 'Asia/Kolkata'},
+            {name: 'Pune', lat: 18.5204, lon: 73.8567, tz: 'Asia/Kolkata'},
+            {name: 'Ahmedabad', lat: 23.0225, lon: 72.5714, tz: 'Asia/Kolkata'},
+            {name: 'Jaipur', lat: 26.9124, lon: 75.7873, tz: 'Asia/Kolkata'},
+            {name: 'Lucknow', lat: 26.8467, lon: 80.9462, tz: 'Asia/Kolkata'},
+            {name: 'Chandigarh', lat: 30.7333, lon: 76.7794, tz: 'Asia/Kolkata'},
+            {name: 'Erode', lat: 11.3411, lon: 77.7172, tz: 'Asia/Kolkata'},
+            {name: 'Madurai', lat: 9.9252, lon: 78.1198, tz: 'Asia/Kolkata'},
+            {name: 'Coimbatore', lat: 11.0081, lon: 76.9958, tz: 'Asia/Kolkata'},
+            {name: 'Thiruvananthapuram', lat: 8.5241, lon: 76.9366, tz: 'Asia/Kolkata'},
+            {name: 'Kochi', lat: 9.9312, lon: 76.2673, tz: 'Asia/Kolkata'},
+            {name: 'New York', lat: 40.7128, lon: -74.0060, tz: 'America/New_York'},
+            {name: 'London', lat: 51.5074, lon: -0.1278, tz: 'Europe/London'},
+            {name: 'Paris', lat: 48.8566, lon: 2.3522, tz: 'Europe/Paris'},
+            {name: 'Tokyo', lat: 35.6762, lon: 139.6503, tz: 'Asia/Tokyo'},
+            {name: 'Sydney', lat: -33.8688, lon: 151.2093, tz: 'Australia/Sydney'},
+        ];
+
+        let currentSuggestions = [];
+
+        document.getElementById('birth-place').addEventListener('input', function(e) {
+            const input = this.value.trim().toLowerCase();
+            const suggestionsDiv = document.getElementById('birth-place-suggestions');
+            const suggestionsList = document.getElementById('suggestions-list');
+
+            if (input.length < 3) {
+                suggestionsDiv.style.display = 'none';
+                return;
+            }
+
+            // Filter cities based on input
+            currentSuggestions = indianCities.filter(city =>
+                city.name.toLowerCase().includes(input)
+            );
+
+            if (currentSuggestions.length > 0) {
+                suggestionsList.innerHTML = currentSuggestions.map(city => `
+                    <li style="padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; hover:"
+                        onclick="selectLocation('${city.name}', ${city.lat}, ${city.lon}, '${city.tz}')">
+                        ${city.name}
+                    </li>
+                `).join('');
+                suggestionsDiv.style.display = 'block';
+            } else {
+                suggestionsList.innerHTML = '<li style="padding: 10px; color: #999;">No cities found</li>';
+                suggestionsDiv.style.display = 'block';
+            }
+        });
+
+        function selectLocation(name, lat, lon, tz) {
+            document.getElementById('birth-place').value = name;
+            document.getElementById('birth-latitude').value = lat.toFixed(4);
+            document.getElementById('birth-longitude').value = lon.toFixed(4);
+            document.getElementById('birth-timezone').value = tz;
+            document.getElementById('birth-place-suggestions').style.display = 'none';
+        }
+
+        // Hide suggestions when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.id !== 'birth-place') {
+                document.getElementById('birth-place-suggestions').style.display = 'none';
+            }
+        });
+
+        // ===== CHART CREATION FUNCTION =====
+        async function createChart() {
+            // Format date and time from separate inputs
+            const day = document.getElementById('birth-date-day').value.padStart(2, '0');
+            const month = document.getElementById('birth-date-month').value.padStart(2, '0');
+            const year = document.getElementById('birth-date-year').value;
+
+            const hour = document.getElementById('birth-time-hour').value.padStart(2, '0');
+            const minute = document.getElementById('birth-time-minute').value.padStart(2, '0');
+            const second = document.getElementById('birth-time-second').value.padStart(2, '0');
+
+            // Validate date
+            if (!day || !month || !year || day > 31 || month > 12) {
+                alert('Invalid date. Please enter valid day (01-31) and month (01-12)');
+                return;
+            }
+
+            // Validate time
+            if (!hour || !minute || !second || hour > 23 || minute > 59 || second > 59) {
+                alert('Invalid time. Please enter valid hour (00-23), minute (00-59), and second (00-59)');
+                return;
+            }
+
+            const chartData = {
+                name: document.getElementById('chart-name').value,
+                birth_date: `${year}-${month}-${day}`,
+                birth_time: `${hour}:${minute}:${second}`,
+                birth_place: document.getElementById('birth-place').value,
+                latitude: parseFloat(document.getElementById('birth-latitude').value),
+                longitude: parseFloat(document.getElementById('birth-longitude').value),
+                timezone: document.getElementById('birth-timezone').value
+            };
+
+            if (!chartData.name || !chartData.birth_date || !chartData.birth_time) {
+                alert('Please fill all required fields');
+                return;
+            }
+
+            if (!chartData.latitude || !chartData.longitude) {
+                alert('Please select a valid birth place with coordinates');
+                return;
+            }
+
+            const result = await apiCall('/charts/create', 'POST', chartData);
+
+            if (result.status === 201) {
+                showResponse('chart-response', result.data);
+                localStorage.setItem('last-chart-id', result.data.chart.id);
+                document.getElementById('chart-id').value = result.data.chart.id;
+                alert('Chart created successfully!');
+            } else {
+                showResponse('chart-response', result.data, true);
+            }
+        };
+
+        // ===== CLEAR CHART FUNCTION =====
+        function clearChartForm() {
+            document.getElementById('chart-name').value = '';
+            document.getElementById('birth-date-day').value = '';
+            document.getElementById('birth-date-month').value = '';
+            document.getElementById('birth-date-year').value = '';
+            document.getElementById('birth-time-hour').value = '';
+            document.getElementById('birth-time-minute').value = '';
+            document.getElementById('birth-time-second').value = '';
+            document.getElementById('birth-place').value = '';
+            document.getElementById('birth-latitude').value = '';
+            document.getElementById('birth-longitude').value = '';
+            document.getElementById('birth-timezone').value = '';
+        };
 
         // Initialize on page load
         window.addEventListener('load', function() {
