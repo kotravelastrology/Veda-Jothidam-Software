@@ -724,12 +724,21 @@ ${JSON.stringify(data, null, 2)}</div>`;
             );
 
             if (currentSuggestions.length > 0) {
-                suggestionsList.innerHTML = currentSuggestions.map(city => `
-                    <li style="padding: 10px; cursor: pointer; border-bottom: 1px solid #eee; hover:"
-                        onclick="selectLocation('${city.name}', ${city.lat}, ${city.lon}, '${city.tz}')">
+                suggestionsList.innerHTML = currentSuggestions.map((city, index) => `
+                    <li style="padding: 10px; cursor: pointer; border-bottom: 1px solid #eee;" data-city-index="${index}">
                         ${city.name}
                     </li>
                 `).join('');
+
+                // Attach event listeners to dropdown items
+                suggestionsList.querySelectorAll('li').forEach((item, index) => {
+                    item.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const city = currentSuggestions[index];
+                        selectLocation(city.name, city.lat, city.lon, city.tz);
+                    });
+                });
+
                 suggestionsDiv.style.display = 'block';
             } else {
                 suggestionsList.innerHTML = '<li style="padding: 10px; color: #999;">No cities found</li>';
