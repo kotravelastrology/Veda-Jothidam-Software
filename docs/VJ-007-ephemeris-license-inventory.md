@@ -1,6 +1,6 @@
 # VJ-007 — Swiss Ephemeris dependency, license and data inventory
 
-**Compiled:** 2026-09-26 · **Status:** inventory complete, **decision outstanding**
+**Compiled:** 2026-09-26 · **Status:** inventory complete; decision **deferred to pre-release** (see section 8)
 
 This records what the project depends on and what each licence requires. It is
 **not legal advice**, and it does not make the choice. The choice belongs to
@@ -132,20 +132,54 @@ product — **Option B is the likely fit**, but the cost is unknown until
 Astrodienst is contacted. That contact is the immediate next action, and it is
 the owner's to make.
 
-## 8. Decision record — to be completed by the owner
+## 8. Decision record
+
+**2026-09-26 — owner decision: defer the licence choice; continue development.**
 
 ```
-Chosen model:      [ ] A: AGPL-3.0     [ ] B: Professional License
-Decided by:        ____________________
-Date:              ____________________
-Evidence:          ____________________   (contract ref, or LICENSE commit)
-package.json fix:  ____________________
-Data files:        confirmed covered?  [ ] yes  [ ] no
+Chosen model:      [ ] A: AGPL-3.0   [ ] B: Professional License   [x] DEFERRED
+Decided by:        Kotravel (owner), 2026-09-26
+Rationale:         Build the software to completion first, then obtain the
+                   licence before release.
+Review by:         before the first public deployment or distributed build
 ```
 
-Until this block is filled in, no installer should be published and no public
-deployment activated. `docs/AUDIT-phase30-claims.md` release gate item 10
-("dependency/content rights … ready") stays **unmet**.
+This is a sound position, because **development is not distribution**.
+Astrodienst's trigger is "distributes software … to others" and "any public
+service … activated". Building, testing and running locally require no
+licence under either model.
+
+**Verified clean as of 2026-09-26:** no Astrodienst code is in the public
+repository. `node_modules/` is gitignored (0 tracked files) and nothing under
+`libswe/`, no `.se1` data and no compiled `.node` binary is committed.
+`src/ephemeris/swissEphemeris.js` is this project's own wrapper, not upstream
+source.
+
+### The line that must not be crossed unnoticed
+
+Development may continue freely. Any **one** of these is a distribution or
+activation event and requires the choice to be made **first**:
+
+1. Deploying the web app to a public URL. The engine runs server-side through
+   16 Server Action files, so hosting alone activates a public service.
+2. Sending an installer or build to anyone outside the team, including beta
+   testers (`BETA_TEST_INSTRUCTIONS.md` exists — a beta counts).
+3. Committing `node_modules/`, any `libswe/` source, `.se1` data or a compiled
+   `.node` binary to the public repository.
+4. Publishing the app to any store or download page.
+
+Building an Electron or Android package **for internal testing** is not
+distribution. Handing that package to someone else is.
+
+### Still to do before release
+
+- Contact Astrodienst (astro.com/swisseph) for Professional Edition terms and
+  cost, and compare against the replacement cost estimated in section 6.
+- Decide A or B, fill in the block above, add a `LICENSE` file and correct
+  `package.json`, which currently declares `"UNLICENSED"`.
+
+Release gate item 10 ("dependency/content rights … ready") remains **unmet**
+until then, by design rather than by oversight.
 
 ## 9. Sources
 
