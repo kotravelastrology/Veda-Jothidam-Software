@@ -276,55 +276,32 @@ export class ReportGenerator {
     options: ExportOptions = DEFAULT_EXPORT_OPTIONS
   ): Promise<Blob> {
     switch (options.format) {
-      case 'pdf':
-        return this.generatePDF(html, options);
       case 'html':
         return new Blob([html], { type: 'text/html' });
+      case 'pdf':
+        return this.notImplemented('PDF', 'jsPDF or the backend report service');
       case 'png':
-        return this.generatePNG(html, options);
+        return this.notImplemented('PNG', 'html2canvas');
       case 'svg':
-        return this.generateSVG(html, options);
+        return this.notImplemented('SVG', 'a vector renderer');
       case 'excel':
-        return this.generateExcel(html, options);
+        return this.notImplemented('Excel', 'the xlsx library');
       default:
         return new Blob([html], { type: 'text/html' });
     }
   }
 
   /**
-   * Generate PDF (using library integration point)
+   * PDF, PNG, SVG and Excel are not implemented. Each previously returned the
+   * report's HTML bytes under that format's MIME type, so a saved
+   * `report.pdf` was an HTML file no reader could open. Refuse instead of
+   * handing back a file that lies about what it is; `html` export works.
    */
-  private static generatePDF(html: string, options: ExportOptions): Blob {
-    // PDF generation will use jsPDF or similar library
-    // This is a placeholder for the integration
-    console.log('PDF generation initiated for:', options.filename);
-    return new Blob([html], { type: 'application/pdf' });
-  }
-
-  /**
-   * Generate PNG (chart to image conversion)
-   */
-  private static generatePNG(html: string, options: ExportOptions): Blob {
-    // PNG generation will use html2canvas or similar
-    console.log('PNG generation initiated for:', options.filename);
-    return new Blob([html], { type: 'image/png' });
-  }
-
-  /**
-   * Generate SVG (vector format)
-   */
-  private static generateSVG(html: string, options: ExportOptions): Blob {
-    console.log('SVG generation initiated for:', options.filename);
-    return new Blob([html], { type: 'image/svg+xml' });
-  }
-
-  /**
-   * Generate Excel export
-   */
-  private static generateExcel(html: string, options: ExportOptions): Blob {
-    // Excel generation will use xlsx library
-    console.log('Excel generation initiated for:', options.filename);
-    return new Blob([html], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+  private static notImplemented(format: string, library: string): never {
+    throw new Error(
+      `${format} export is not implemented yet (needs ${library}). `
+      + 'Use the "html" format, or generate the PDF through the report service.',
+    );
   }
 
   /**
