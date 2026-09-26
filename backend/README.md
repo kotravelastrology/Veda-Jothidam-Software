@@ -29,7 +29,7 @@ curl http://localhost:5000/api/health
 .venv/Scripts/python.exe -m pytest tests/ -q
 ```
 
-As of 2026-09-26 this is **149 passing, 40 failing** — see below. The three
+As of 2026-09-26 this is **156 passing, 33 failing** — see below. The three
 `test_*.py` files in this directory (not in `tests/`) are not pytest suites;
 they are manual scripts that expect a server already running on port 5000.
 
@@ -57,7 +57,7 @@ Two code fixes were needed alongside the upgrade:
 
 ## Known state of the test suite
 
-`149 passed, 40 failed`. The failures are pre-existing and fall into two
+`156 passed, 33 failed`. The failures are pre-existing and fall into two
 groups:
 
 1. **~28 assert 404/405 == 200.** Those tests target `/api/dasha/*`,
@@ -66,10 +66,16 @@ groups:
    only by `app_integration_3_5.py`, which nothing references. There are two
    parallel API implementations here and the tests target the unregistered
    one.
-2. **~12 model failures.** `to_dict()` calls `.isoformat()` on `created_at` /
-   `updated_at` before the row is flushed, so it raises `AttributeError:
-   'NoneType' object has no attribute 'isoformat'`. Column defaults are
-   applied by the database on insert, not at construction.
+2. **4 model failures.** These assert that column defaults (`language`,
+   `timezone`, `ayanamsa`) are readable immediately after construction. They
+   are not: SQLAlchemy applies `default=` at INSERT, so the attribute is
+   None until the row is flushed. Either the tests should flush first, or the
+   models should set these in `__init__` — a behaviour decision, not a bug.
+
+   The `to_dict()` crash that used to account for ~12 of these was fixed on
+   2026-09-26: it called `.isoformat()` on timestamps that are still None
+   before flush, raising `AttributeError`. All date/time fields in
+   `models/` are now guarded the same way `models/database.py` already did.
 
 Neither group is an environment problem. See
 `docs/VJ-002-phase30-claims-audit.md`.
