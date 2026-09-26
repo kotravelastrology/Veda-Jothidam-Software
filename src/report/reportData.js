@@ -23,7 +23,7 @@ const { calculateBhavaChakra } = require('../chart/bhavaChakra');
 const { calculateElementalChakra } = require('../chart/elementalChakra');
 const { calculateTransitChakra } = require('../chart/transitChakra');
 const { calculateMuhurtaEnhancements } = require('../chart/muhurtaEnhancements');
-const { calculatePredictions } = require('../chart/predictionEngine');
+const { sourceRequired } = require('../contracts/chartContext');
 const { generateReportSummary } = require('./reportRefinements');
 const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
@@ -379,16 +379,12 @@ function buildReportData(birthInput) {
     bhuktis: transitChakra.bhuktis
   });
 
-  // Phase 12: Prediction Engine (life event forecasting)
-  const predictions = calculatePredictions(
-    {
-      lagna: chart.lagna,
-      grahas: Object.fromEntries(
-        ALL_GRAHAS.map((planet) => [planet, { rasi: chart.grahas[planet].rasi, rasiIndex: chart.grahas[planet].rasiIndex }])
-      )
-    },
-    dasha,
-    muhurtaEnhancements
+  // Life-event predictions are withheld: the former predictionEngine picked
+  // which events to forecast with Math.random() and invented "accuracy"
+  // percentages, so its output was neither reproducible nor sourced.
+  const predictions = sourceRequired(
+    'Life-event forecasting has no verified classical source yet; the previous '
+    + 'implementation selected events and confidence scores at random',
   );
 
   // Phase 13: Report Refinements (export & formatting)
@@ -472,4 +468,4 @@ function buildReportData(birthInput) {
   };
 }
 
-module.exports = { buildReportData, CLASSICAL_GRAHAS };
+module.exports = { buildReportData, buildYogasDoshasChart, CLASSICAL_GRAHAS };
