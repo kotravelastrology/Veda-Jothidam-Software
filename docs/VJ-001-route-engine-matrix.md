@@ -138,7 +138,8 @@ Deleted: `app/api/charts/compute`, `.../yogas/detect`, `.../bhava-bala/analyze`,
 | F03 | P0 | **RESOLVED 2026-09-26** — four mock proxies deleted; `reports/generate` returns structured 502/503 errors instead of a placeholder PDF. | all five |
 | F04 | P0 | **RESOLVED 2026-09-26** — `backend/calculators/` deleted; Swiss Ephemeris is the only engine. | `/yoga-detection`, `/house-analysis`, `/dasha-timeline` |
 | F05 | P1 | `reportGenerator` exports HTML bytes with PDF/PNG MIME labels | `/pdf-reports` |
-| F12 | P2 | `Math.random` in security helpers (APIKeyManager, TwoFactorAuth, etc.) | Enterprise modules |
+| F05 | P1 | **RESOLVED 2026-09-26** — `exportReport` returned HTML bytes under PDF/PNG/SVG/Excel MIME types; unimplemented formats now throw. | `/pdf-reports` |
+| F12 | P2 | **RESOLVED 2026-09-26** — the modules holding `Math.random` API keys, TOTP secrets and webhook signing secrets were unreachable and have been deleted. Every remaining `Math.random` in live code generates a local object id. | (none — was unreachable) |
 
 ---
 
@@ -146,7 +147,8 @@ Deleted: `app/api/charts/compute`, `.../yogas/detect`, `.../bhava-bala/analyze`,
 
 - ~~Delete `backend/calculators/astro_engine.py`~~ — done 2026-09-26; the whole `backend/calculators` package was removed (no Flask blueprint imported it). Swiss Ephemeris is now the only calculation engine in the repo.
 - ~~Settings not reaching the Server Actions~~ — done 2026-09-26; `toEngineOptions(settings)` in `src/ui/SettingsPanel.tsx` is the single mapping from the UI's ayanamsha / house-system / node-type keys to the engine's names, used by `ReportBuilder` and all four migrated pages. Verified: switching Lahiri→Krishnamurti moves Sun 0°23'→0°29'.
-- F05 (`reportGenerator` HTML bytes labelled PDF/PNG) and F12 (`Math.random` in security helpers) are still open.
+- Real PDF export is still unimplemented: `/pdf-reports` proxies Flask, and the Flask backend does not start on Python 3.14 (SQLAlchemy raises `AssertionError: Class SQLCoreOperations directly inherits TypingOnly`). That blocks testing the one remaining proxy.
+- `src/reports/ReportBuilder.tsx` was deleted with the rest of the unreachable tree; it had alerted "Report exported" and "Report sent to <email>" while only calling `console.log`.
 - `tests/integration.test.ts` targets the deleted proxy endpoints and needs rewriting against the Server Actions; `vitest` is not installed.
 
 Target architecture: **One calculation path** — Swiss Ephemeris via Server Actions for all pages.
