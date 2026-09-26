@@ -87,3 +87,31 @@ export async function listChartRevisions(profileId: string) {
 export async function deleteChart(profileId: string) {
   return withLibrary((lib) => lib.deleteProfile(profileId));
 }
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { createArchive, verifyArchive, restoreArchive } = require('../../src/library/archive');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const nodePath = require('node:path');
+
+/** Default backup location, beside the library rather than inside the repo. */
+function defaultArchivePath() {
+  const stamp = new Date().toISOString().slice(0, 10);
+  return nodePath.join(
+    nodePath.dirname(resolveLibraryPath()),
+    'backups',
+    `veda-library-${stamp}.json`,
+  );
+}
+
+export async function backupLibrary(archivePath?: string) {
+  return createArchive(resolveLibraryPath(), archivePath ?? defaultArchivePath());
+}
+
+/** Validates an archive without writing anything, for a restore preview. */
+export async function inspectBackup(archivePath: string) {
+  return verifyArchive(archivePath);
+}
+
+export async function restoreLibrary(archivePath: string, overwrite = false) {
+  return restoreArchive(archivePath, resolveLibraryPath(), { overwrite });
+}

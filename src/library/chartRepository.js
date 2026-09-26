@@ -381,6 +381,90 @@ function openLibrary(filePath) {
       return info.changes > 0;
     },
 
+    /** Every row, for VJ-012 archives. Raw column shape on purpose: an
+     *  archive should round-trip storage, not a presentation view. */
+    exportAll() {
+      return {
+        profiles: db.prepare('SELECT * FROM profiles ORDER BY profile_id').all(),
+        revisions: db.prepare('SELECT * FROM profile_revisions ORDER BY profile_id, revision').all(),
+        snapshots: db.prepare('SELECT * FROM snapshots ORDER BY snapshot_id').all(),
+      };
+    },
+
+    countProfiles() {
+      return db.prepare('SELECT COUNT(*) AS n FROM profiles').get().n;
+    },
+
+    /**
+     * Restores exported rows. Runs in one transaction so a failure part-way
+     * leaves the library as it was rather than half-populated.
+     *
+     * Rows from an older schema simply lack the newer columns, which arrive
+     * as null — the reason the archive stores a schemaVersion.
+     */
+    importAll(payload, { overwrite = false } = {}) {
+      if (!payload || !Array.isArray(payload.profiles) || !Array.isArray(payload.revisions)) {
+        throw new UnsupportedInputError('payload must contain profiles and revisions', 'payload');
+      }
+      if (!overwrite && this.countProfiles() > 0) {
+        throw new UnsupportedInputError(
+          'target library already contains profiles; pass overwrite to replace them',
+          'overwrite',
+        );
+      }
+
+      db.exec('BEGIN');
+      try {
+        if (overwrite) {
+          db.exec('DELETE FROM snapshots; DELETE FROM profile_revisions; DELETE FROM profiles; DELETE FROM profile_search;');
+        }
+        for (const p of payload.profiles) {
+          db.prepare(
+            'INSERT INTO profiles (profile_id, created_at, updated_at, current_revision) VALUES (?, ?, ?, ?)',
+          ).run(p.profile_id, p.created_at, p.updated_at, p.current_revision);
+        }
+        for (const r of payload.revisions) {
+          db.prepare(`INSERT INTO profile_revisions
+            (profile_id, revision, name, gender, place_name, birth_date, birth_input, settings, note, email, phone, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          ).run(r.profile_id, r.revision, r.name, r.gender ?? null, r.place_name ?? null,
+            r.birth_date ?? null, r.birth_input, r.settings, r.note ?? null,
+            r.email ?? null, r.phone ?? null, r.created_at);
+        }
+        for (const s of payload.snapshots ?? []) {
+          db.prepare(`INSERT INTO snapshots
+            (snapshot_id, profile_id, revision, engine_version, settings, values_json, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)`,
+          ).run(s.snapshot_id, s.profile_id, s.revision, s.engine_version,
+            s.settings, s.values_json, s.created_at);
+        }
+
+        // Rebuild the search index from the restored rows rather than trusting
+        // an index shipped inside the archive.
+        db.exec('DELETE FROM profile_search');
+        const current = db.prepare(`
+          SELECT r.profile_id, r.name, r.place_name, r.note, r.email, r.phone
+          FROM profile_revisions r
+          JOIN profiles p ON p.profile_id = r.profile_id AND p.current_revision = r.revision`).all();
+        const insert = db.prepare(
+          'INSERT INTO profile_search (name, place_name, note, email, phone, profile_id) VALUES (?, ?, ?, ?, ?, ?)',
+        );
+        for (const r of current) {
+          insert.run(r.name, r.place_name ?? '', r.note ?? '', r.email ?? '', r.phone ?? '', r.profile_id);
+        }
+        db.exec('COMMIT');
+      } catch (error) {
+        db.exec('ROLLBACK');
+        throw error;
+      }
+
+      return {
+        profiles: payload.profiles.length,
+        revisions: payload.revisions.length,
+        snapshots: (payload.snapshots ?? []).length,
+      };
+    },
+
     close() { db.close(); },
   };
 }
