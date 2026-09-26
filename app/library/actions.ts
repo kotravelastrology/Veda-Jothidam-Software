@@ -115,3 +115,59 @@ export async function inspectBackup(archivePath: string) {
 export async function restoreLibrary(archivePath: string, overwrite = false) {
   return restoreArchive(archivePath, resolveLibraryPath(), { overwrite });
 }
+
+// ---------------------------------------------------------- VJ-022 ----------
+
+export async function recordConsultation(params: {
+  profileId: string;
+  snapshotId?: string;
+  occurredAt?: string;
+  summary?: string;
+  notes?: string;
+  recommendations?: string;
+  remedies?: string;
+  evidence?: any[];
+}) {
+  return withLibrary((lib) => lib.saveConsultation(params));
+}
+
+export async function editConsultationNotes(consultationId: string, changes: {
+  summary?: string; notes?: string; recommendations?: string; remedies?: string;
+}) {
+  return withLibrary((lib) => lib.updateConsultationNotes(consultationId, changes));
+}
+
+export async function listConsultations(profileId: string) {
+  return withLibrary((lib) => lib.listConsultations(profileId));
+}
+
+export async function getConsultation(consultationId: string) {
+  return withLibrary((lib) => lib.getConsultation(consultationId));
+}
+
+export async function addJournalEvent(params: {
+  profileId: string; eventDate: string; category?: string; description: string;
+}) {
+  return withLibrary((lib) => lib.addJournalEvent(params));
+}
+
+export async function listJournalEvents(profileId: string) {
+  return withLibrary((lib) => lib.listJournalEvents(profileId));
+}
+
+export async function deleteJournalEvent(eventId: string) {
+  return withLibrary((lib) => lib.deleteJournalEvent(eventId));
+}
+
+/** Autosave for an unsent consultation note. */
+export async function saveDraft(draftKey: string, payload: unknown, profileId?: string) {
+  return withLibrary((lib) => lib.saveDraft(draftKey, payload, profileId ?? null));
+}
+
+export async function getDraft(draftKey: string) {
+  return withLibrary((lib) => lib.getDraft(draftKey));
+}
+
+export async function discardDraft(draftKey: string) {
+  return withLibrary((lib) => lib.discardDraft(draftKey));
+}

@@ -178,7 +178,7 @@ legacy.prepare(`INSERT INTO profile_revisions
 legacy.close();
 
 const upgraded = openLibrary(legacyPath);
-assert.equal(upgraded.schemaVersion, 2);
+assert.equal(upgraded.schemaVersion, SCHEMA_VERSION, "an old library is upgraded to the current schema");
 
 const migrated = upgraded.getProfile('legacy-1');
 assert.equal(migrated.name, 'Old Client', 'v1 rows survive the upgrade');
@@ -197,7 +197,7 @@ upgraded.close();
 
 // Reopening an already-migrated library must be a no-op, not a second upgrade.
 const reMigrated = openLibrary(legacyPath);
-assert.equal(reMigrated.schemaVersion, 2);
+assert.equal(reMigrated.schemaVersion, SCHEMA_VERSION);
 assert.equal(reMigrated.getProfile('legacy-1').email, 'old@example.com');
 assert.equal(reMigrated.listRevisions('legacy-1').length, 2);
 reMigrated.close();

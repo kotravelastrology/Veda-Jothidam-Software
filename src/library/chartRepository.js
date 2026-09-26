@@ -26,7 +26,7 @@ const { assertChartSnapshot } = require('../contracts/chartSnapshot');
  * earlier ones stay readable.
  */
 
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS library_meta (
@@ -77,6 +77,58 @@ CREATE INDEX IF NOT EXISTS idx_revisions_name  ON profile_revisions(name);
 CREATE INDEX IF NOT EXISTS idx_revisions_date  ON profile_revisions(birth_date);
 CREATE INDEX IF NOT EXISTS idx_revisions_place ON profile_revisions(place_name);
 CREATE INDEX IF NOT EXISTS idx_snapshots_profile ON snapshots(profile_id, revision);
+
+-- A consultation session. Bound to the revision (and, where one exists, the
+-- exact snapshot) that was on screen when the reading was given, so later
+-- corrections cannot silently rewrite what a past consultation was about.
+CREATE TABLE IF NOT EXISTS consultations (
+  consultation_id TEXT PRIMARY KEY,
+  profile_id      TEXT NOT NULL,
+  revision        INTEGER NOT NULL,
+  snapshot_id     TEXT,
+  occurred_at     TEXT NOT NULL,
+  summary         TEXT,
+  notes           TEXT,
+  recommendations TEXT,
+  remedies        TEXT,
+  created_at      TEXT NOT NULL,
+  updated_at      TEXT NOT NULL,
+  FOREIGN KEY (profile_id) REFERENCES profiles(profile_id) ON DELETE CASCADE
+);
+
+-- Which doctrinal rules a consultation was reasoning from (VJ-006
+-- RuleEvidence), so a note can be traced back to the page it rests on.
+CREATE TABLE IF NOT EXISTS consultation_evidence (
+  consultation_id TEXT NOT NULL,
+  rule_id         TEXT NOT NULL,
+  rule_name       TEXT,
+  status          TEXT NOT NULL,
+  evidence_json   TEXT NOT NULL,
+  PRIMARY KEY (consultation_id, rule_id),
+  FOREIGN KEY (consultation_id) REFERENCES consultations(consultation_id) ON DELETE CASCADE
+);
+
+-- Life events recorded against a person, independent of any consultation.
+CREATE TABLE IF NOT EXISTS journal_events (
+  event_id    TEXT PRIMARY KEY,
+  profile_id  TEXT NOT NULL,
+  event_date  TEXT NOT NULL,
+  category    TEXT,
+  description TEXT NOT NULL,
+  created_at  TEXT NOT NULL,
+  FOREIGN KEY (profile_id) REFERENCES profiles(profile_id) ON DELETE CASCADE
+);
+
+-- Autosaved, unsent text. Survives a crash or a navigation away.
+CREATE TABLE IF NOT EXISTS drafts (
+  draft_key  TEXT PRIMARY KEY,
+  profile_id TEXT,
+  payload    TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_consultations_profile ON consultations(profile_id, occurred_at);
+CREATE INDEX IF NOT EXISTS idx_journal_profile ON journal_events(profile_id, event_date);
 
 -- Indexed local search over the current revision of each profile.
 CREATE VIRTUAL TABLE IF NOT EXISTS profile_search USING fts5(
@@ -160,6 +212,8 @@ function openLibrary(filePath) {
   db.exec(SCHEMA);
 
   if (foundVersion !== null && foundVersion < 2) migrateToV2(db);
+  // v2 -> v3 adds only new tables, which the schema above already created
+  // with IF NOT EXISTS; there is nothing to move, so no data migration runs.
 
   if (foundVersion === null) {
     db.prepare('INSERT INTO library_meta (key, value) VALUES (?, ?)')
@@ -381,6 +435,155 @@ function openLibrary(filePath) {
       return info.changes > 0;
     },
 
+    /**
+     * VJ-022 — records a consultation against the revision that was actually
+     * on screen. Revision and snapshot are captured at write time and never
+     * recomputed, so correcting a birth time later cannot rewrite what a past
+     * reading was about.
+     */
+    saveConsultation({
+      profileId, snapshotId = null, occurredAt = null,
+      summary = null, notes = null, recommendations = null, remedies = null,
+      evidence = [],
+    }) {
+      const profile = db.prepare('SELECT * FROM profiles WHERE profile_id = ?').get(profileId);
+      if (!profile) throw new UnsupportedInputError(`unknown profile: ${profileId}`, 'profileId');
+      if (snapshotId && !db.prepare('SELECT 1 FROM snapshots WHERE snapshot_id = ?').get(snapshotId)) {
+        throw new UnsupportedInputError(`unknown snapshot: ${snapshotId}`, 'snapshotId');
+      }
+
+      const consultationId = crypto.randomUUID();
+      const at = nowIso();
+      db.exec('BEGIN');
+      try {
+        db.prepare(`INSERT INTO consultations
+          (consultation_id, profile_id, revision, snapshot_id, occurred_at,
+           summary, notes, recommendations, remedies, created_at, updated_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        ).run(consultationId, profileId, profile.current_revision, snapshotId,
+          occurredAt ?? at, summary, notes, recommendations, remedies, at, at);
+
+        for (const e of evidence) {
+          if (!e || !e.ruleId) throw new UnsupportedInputError('evidence entries need a ruleId', 'evidence');
+          db.prepare(`INSERT OR REPLACE INTO consultation_evidence
+            (consultation_id, rule_id, rule_name, status, evidence_json) VALUES (?, ?, ?, ?, ?)`,
+          ).run(consultationId, e.ruleId, e.name ?? e.ruleId, e.status ?? 'APPLIED', JSON.stringify(e));
+        }
+        db.exec('COMMIT');
+      } catch (error) {
+        db.exec('ROLLBACK');
+        throw error;
+      }
+      return { consultationId, revision: profile.current_revision, snapshotId };
+    },
+
+    /** Edits a consultation's text. The revision and snapshot it was recorded
+     *  against are deliberately not editable. */
+    updateConsultationNotes(consultationId, changes = {}) {
+      const existing = db.prepare('SELECT * FROM consultations WHERE consultation_id = ?').get(consultationId);
+      if (!existing) throw new UnsupportedInputError(`unknown consultation: ${consultationId}`, 'consultationId');
+      db.prepare(`UPDATE consultations
+        SET summary = ?, notes = ?, recommendations = ?, remedies = ?, updated_at = ?
+        WHERE consultation_id = ?`,
+      ).run(
+        changes.summary ?? existing.summary,
+        changes.notes ?? existing.notes,
+        changes.recommendations ?? existing.recommendations,
+        changes.remedies ?? existing.remedies,
+        nowIso(), consultationId,
+      );
+      return this.getConsultation(consultationId);
+    },
+
+    getConsultation(consultationId) {
+      const row = db.prepare('SELECT * FROM consultations WHERE consultation_id = ?').get(consultationId);
+      if (!row) return null;
+      const evidence = db.prepare(
+        'SELECT evidence_json FROM consultation_evidence WHERE consultation_id = ? ORDER BY rule_id',
+      ).all(consultationId).map((e) => JSON.parse(e.evidence_json));
+      return {
+        consultationId: row.consultation_id,
+        profileId: row.profile_id,
+        revision: row.revision,
+        snapshotId: row.snapshot_id,
+        occurredAt: row.occurred_at,
+        summary: row.summary,
+        notes: row.notes,
+        recommendations: row.recommendations,
+        remedies: row.remedies,
+        createdAt: row.created_at,
+        updatedAt: row.updated_at,
+        evidence,
+      };
+    },
+
+    listConsultations(profileId) {
+      return db.prepare(
+        `SELECT consultation_id, revision, snapshot_id, occurred_at, summary, updated_at
+         FROM consultations WHERE profile_id = ? ORDER BY occurred_at DESC`,
+      ).all(profileId).map((r) => ({
+        consultationId: r.consultation_id,
+        revision: r.revision,
+        snapshotId: r.snapshot_id,
+        occurredAt: r.occurred_at,
+        summary: r.summary,
+        updatedAt: r.updated_at,
+      }));
+    },
+
+    addJournalEvent({ profileId, eventDate, category = null, description }) {
+      if (!db.prepare('SELECT 1 FROM profiles WHERE profile_id = ?').get(profileId)) {
+        throw new UnsupportedInputError(`unknown profile: ${profileId}`, 'profileId');
+      }
+      if (!eventDate) throw new UnsupportedInputError('eventDate is required', 'eventDate');
+      if (!description) throw new UnsupportedInputError('description is required', 'description');
+      const eventId = crypto.randomUUID();
+      db.prepare(
+        'INSERT INTO journal_events (event_id, profile_id, event_date, category, description, created_at) VALUES (?, ?, ?, ?, ?, ?)',
+      ).run(eventId, profileId, eventDate, category, description, nowIso());
+      return { eventId };
+    },
+
+    listJournalEvents(profileId) {
+      return db.prepare(
+        'SELECT * FROM journal_events WHERE profile_id = ? ORDER BY event_date DESC',
+      ).all(profileId).map((r) => ({
+        eventId: r.event_id,
+        eventDate: r.event_date,
+        category: r.category,
+        description: r.description,
+        createdAt: r.created_at,
+      }));
+    },
+
+    deleteJournalEvent(eventId) {
+      return db.prepare('DELETE FROM journal_events WHERE event_id = ?').run(eventId).changes > 0;
+    },
+
+    /** Draft recovery: autosaved text that outlives a crash or navigation. */
+    saveDraft(draftKey, payload, profileId = null) {
+      if (!draftKey) throw new UnsupportedInputError('draftKey is required', 'draftKey');
+      db.prepare(
+        'INSERT OR REPLACE INTO drafts (draft_key, profile_id, payload, updated_at) VALUES (?, ?, ?, ?)',
+      ).run(draftKey, profileId, JSON.stringify(payload), nowIso());
+      return { draftKey };
+    },
+
+    getDraft(draftKey) {
+      const row = db.prepare('SELECT * FROM drafts WHERE draft_key = ?').get(draftKey);
+      if (!row) return null;
+      return {
+        draftKey: row.draft_key,
+        profileId: row.profile_id,
+        payload: JSON.parse(row.payload),
+        updatedAt: row.updated_at,
+      };
+    },
+
+    discardDraft(draftKey) {
+      return db.prepare('DELETE FROM drafts WHERE draft_key = ?').run(draftKey).changes > 0;
+    },
+
     /** Every row, for VJ-012 archives. Raw column shape on purpose: an
      *  archive should round-trip storage, not a presentation view. */
     exportAll() {
@@ -388,6 +591,9 @@ function openLibrary(filePath) {
         profiles: db.prepare('SELECT * FROM profiles ORDER BY profile_id').all(),
         revisions: db.prepare('SELECT * FROM profile_revisions ORDER BY profile_id, revision').all(),
         snapshots: db.prepare('SELECT * FROM snapshots ORDER BY snapshot_id').all(),
+        consultations: db.prepare('SELECT * FROM consultations ORDER BY consultation_id').all(),
+        consultationEvidence: db.prepare('SELECT * FROM consultation_evidence ORDER BY consultation_id, rule_id').all(),
+        journalEvents: db.prepare('SELECT * FROM journal_events ORDER BY event_id').all(),
       };
     },
 
@@ -416,7 +622,9 @@ function openLibrary(filePath) {
       db.exec('BEGIN');
       try {
         if (overwrite) {
-          db.exec('DELETE FROM snapshots; DELETE FROM profile_revisions; DELETE FROM profiles; DELETE FROM profile_search;');
+          db.exec(`DELETE FROM consultation_evidence; DELETE FROM consultations;
+                   DELETE FROM journal_events; DELETE FROM snapshots;
+                   DELETE FROM profile_revisions; DELETE FROM profiles; DELETE FROM profile_search;`);
         }
         for (const p of payload.profiles) {
           db.prepare(
@@ -437,6 +645,28 @@ function openLibrary(filePath) {
             VALUES (?, ?, ?, ?, ?, ?, ?)`,
           ).run(s.snapshot_id, s.profile_id, s.revision, s.engine_version,
             s.settings, s.values_json, s.created_at);
+        }
+
+        // Consultations and journal entries are part of a backup: an archive
+        // that silently dropped them would lose the practitioner's own notes.
+        for (const c of payload.consultations ?? []) {
+          db.prepare(`INSERT INTO consultations
+            (consultation_id, profile_id, revision, snapshot_id, occurred_at,
+             summary, notes, recommendations, remedies, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          ).run(c.consultation_id, c.profile_id, c.revision, c.snapshot_id ?? null, c.occurred_at,
+            c.summary ?? null, c.notes ?? null, c.recommendations ?? null, c.remedies ?? null,
+            c.created_at, c.updated_at);
+        }
+        for (const e of payload.consultationEvidence ?? []) {
+          db.prepare(`INSERT INTO consultation_evidence
+            (consultation_id, rule_id, rule_name, status, evidence_json) VALUES (?, ?, ?, ?, ?)`,
+          ).run(e.consultation_id, e.rule_id, e.rule_name ?? null, e.status, e.evidence_json);
+        }
+        for (const j of payload.journalEvents ?? []) {
+          db.prepare(`INSERT INTO journal_events
+            (event_id, profile_id, event_date, category, description, created_at) VALUES (?, ?, ?, ?, ?, ?)`,
+          ).run(j.event_id, j.profile_id, j.event_date, j.category ?? null, j.description, j.created_at);
         }
 
         // Rebuild the search index from the restored rows rather than trusting
@@ -462,6 +692,8 @@ function openLibrary(filePath) {
         profiles: payload.profiles.length,
         revisions: payload.revisions.length,
         snapshots: (payload.snapshots ?? []).length,
+        consultations: (payload.consultations ?? []).length,
+        journalEvents: (payload.journalEvents ?? []).length,
       };
     },
 
