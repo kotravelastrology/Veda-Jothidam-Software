@@ -3,7 +3,7 @@
 import type { BirthFormInput } from '../report/actions';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { createChartContext } = require('../../src/contracts/chartContext');
+const { createCalculationRequest } = require('../../src/contracts/calculationRequest');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { calculateParashariChart, RASI_NAMES } = require('../../src/chart/parashariChart');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -14,8 +14,12 @@ const { calculateShadbala } = require('../../src/chart/shadbala');
 const CLASSICAL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 
 export async function analyzeHouses(input: BirthFormInput) {
-  const ctx = createChartContext({ ...input, calendarMode: 'tirukanita' });
-  const chart = calculateParashariChart(ctx);
+  const request = createCalculationRequest({
+    input,
+    settings: { ayanamsha: input.ayanamsha, houseSystem: input.houseSystem, nodeType: input.nodeType },
+    outputs: ['parashariChart', 'ashtakavarga', 'shadbala'],
+  });
+  const chart = calculateParashariChart(request.chartContext);
 
   const longitudes = Object.fromEntries(
     CLASSICAL_GRAHAS.map(p => [p, chart.grahas[p].longitude]),

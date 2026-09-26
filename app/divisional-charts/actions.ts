@@ -3,7 +3,7 @@
 import type { BirthFormInput } from '../report/actions';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { createChartContext } = require('../../src/contracts/chartContext');
+const { createCalculationRequest } = require('../../src/contracts/calculationRequest');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { calculateParashariChart } = require('../../src/chart/parashariChart');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -12,8 +12,12 @@ const { calculateVargas } = require('../../src/chart/vargaChart');
 const ALL_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 
 export async function computeDivisionalCharts(input: BirthFormInput) {
-  const ctx = createChartContext({ ...input, calendarMode: 'tirukanita' });
-  const chart = calculateParashariChart(ctx);
+  const request = createCalculationRequest({
+    input,
+    settings: { ayanamsha: input.ayanamsha, houseSystem: input.houseSystem, nodeType: input.nodeType },
+    outputs: ['parashariChart', 'vargas'],
+  });
+  const chart = calculateParashariChart(request.chartContext);
 
   const vargas: Record<string, ReturnType<typeof calculateVargas>> = {
     Lagna: calculateVargas(chart.lagna.rasiIndex, chart.lagna.degreeInSign),

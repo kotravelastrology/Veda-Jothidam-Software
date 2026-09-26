@@ -3,7 +3,7 @@
 import type { BirthFormInput } from '../report/actions';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { createChartContext } = require('../../src/contracts/chartContext');
+const { createCalculationRequest } = require('../../src/contracts/calculationRequest');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { calculateParashariChart } = require('../../src/chart/parashariChart');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -22,8 +22,12 @@ const { calculateEdgeCaseYogas } = require('../../src/chart/edgeCaseYogas');
 const { calculateDoshas } = require('../../src/chart/doshas');
 
 export async function detectYogas(input: BirthFormInput) {
-  const ctx = createChartContext({ ...input, calendarMode: 'tirukanita' });
-  const chart = calculateParashariChart(ctx);
+  const request = createCalculationRequest({
+    input,
+    settings: { ayanamsha: input.ayanamsha, houseSystem: input.houseSystem, nodeType: input.nodeType },
+    outputs: ['parashariChart', 'yogas', 'doshas'],
+  });
+  const chart = calculateParashariChart(request.chartContext);
 
   const rasiPositions: Record<string, number> = {
     ...Object.fromEntries(

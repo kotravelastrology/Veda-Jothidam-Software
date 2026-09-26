@@ -1,6 +1,7 @@
 const crypto = require('node:crypto');
 
-const { createChartContext } = require('../src/contracts/chartContext');
+const { createCalculationRequest } = require('../src/contracts/calculationRequest');
+const { createChartSnapshot } = require('../src/contracts/chartSnapshot');
 const { calculateParashariChart } = require('../src/chart/parashariChart');
 const { calculateVargas } = require('../src/chart/vargaChart');
 const { calculateAshtakavarga } = require('../src/chart/ashtakavarga');
@@ -19,8 +20,13 @@ const round6 = (n) => Number(n.toFixed(6));
  * a fixture's hash is stable forever rather than until tomorrow.
  */
 function computeFixture(fixture) {
-  const ctx = createChartContext({ ...fixture.input, ...fixture.settings });
-  const chart = calculateParashariChart(ctx);
+  const request = createCalculationRequest({
+    input: fixture.input,
+    settings: fixture.settings,
+    outputs: ['parashariChart', 'vargas', 'ashtakavarga', 'vimshottari'],
+    requestedBy: `fixture:${fixture.fixtureId}`,
+  });
+  const chart = calculateParashariChart(request.chartContext);
 
   const grahas = {};
   for (const planet of ALL_GRAHAS) {
@@ -112,4 +118,18 @@ function hashResult(result) {
     .digest('hex');
 }
 
-module.exports = { computeFixture, hashResult };
+/**
+ * The same computation as a VJ-006 ChartSnapshot: values plus the request,
+ * settings and engine version that produced them, identified by content hash.
+ */
+function snapshotFixture(fixture) {
+  const request = createCalculationRequest({
+    input: fixture.input,
+    settings: fixture.settings,
+    outputs: ['parashariChart', 'vargas', 'ashtakavarga', 'vimshottari'],
+    requestedBy: `fixture:${fixture.fixtureId}`,
+  });
+  return createChartSnapshot({ request, values: computeFixture(fixture) });
+}
+
+module.exports = { computeFixture, hashResult, snapshotFixture };

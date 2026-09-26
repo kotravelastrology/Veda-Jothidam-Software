@@ -3,7 +3,7 @@
 import type { BirthFormInput } from '../report/actions';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { createChartContext } = require('../../src/contracts/chartContext');
+const { createCalculationRequest } = require('../../src/contracts/calculationRequest');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { calculateParashariChart } = require('../../src/chart/parashariChart');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -27,8 +27,12 @@ function yearMonth(local: string): { year: number; month: number } {
 }
 
 export async function computeDashaTimeline(input: BirthFormInput) {
-  const ctx = createChartContext({ ...input, calendarMode: 'tirukanita' });
-  const chart = calculateParashariChart(ctx);
+  const request = createCalculationRequest({
+    input,
+    settings: { ayanamsha: input.ayanamsha, houseSystem: input.houseSystem, nodeType: input.nodeType },
+    outputs: ['parashariChart', 'vimshottari'],
+  });
+  const chart = calculateParashariChart(request.chartContext);
 
   const dasha = buildVimshottariDasha(
     chart.julianDay,
