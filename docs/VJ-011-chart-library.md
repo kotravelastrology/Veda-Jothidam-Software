@@ -81,10 +81,37 @@ because the claim being made is "the data was still there after restarting".
 Also covered: missing parent directories, unknown-profile errors, snapshot
 round-trip across a restart, FTS injection, and cascade on delete.
 
-## Not done yet
+## Wired to /client-management
 
-The Server Actions exist and are tested, but **no UI calls them**. The obvious
-consumer is `/client-management`, which the Phase 30 audit found has CRUD that
-lives only in React state, so adding a client and refreshing the page loses
-them. Wiring that page to this library is the next step, and is what turns
-VJ-011 into something a user can see.
+The page the Phase 30 audit found doing CRUD purely in React state — add a
+client, refresh, it is gone — now reads and writes this library. Verified in
+the browser: a saved client survives a reload, FTS search finds it by place,
+and editing produces **v2** with the earlier revision intact rather than
+overwriting.
+
+The form collects latitude, longitude and UTC offset alongside the birth date
+and time, so a stored client carries a complete birth input and a chart can be
+recomputed later without re-entering anything.
+
+## node:sqlite under Next.js
+
+`require('node:sqlite')` fails inside the Next server bundle with *"Cannot
+find module 'node:sqlite': Unsupported external type Url for commonjs
+reference"* — the bundler tries to resolve the bare specifier. The repository
+uses `process.getBuiltinModule('node:sqlite')` instead, which reaches the
+builtin at runtime and works identically under plain Node.
+
+Worth recording because the Node tests passed throughout: this only appeared
+when the page was actually loaded in a browser.
+
+## Schema v2
+
+v2 added `email` and `phone` for the client view. FTS5 columns cannot be
+altered, so the migration drops and rebuilds the index from
+`profile_revisions`, which stays the source of truth, inside a transaction so
+a failure leaves the library on v1 rather than half-migrated.
+
+The test builds a v1 database by hand and asserts the upgrade preserves rows,
+rebuilds the search index over pre-existing data, accepts writes to the new
+columns, and is a no-op when reopened. That exercises the migration path
+VJ-012 will depend on.

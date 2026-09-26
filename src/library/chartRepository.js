@@ -1,4 +1,12 @@
-const { DatabaseSync } = require('node:sqlite');
+// `process.getBuiltinModule` rather than `require('node:sqlite')`: Next.js's
+// bundler tries to resolve the bare require and fails with "Unsupported
+// external type Url for commonjs reference", which breaks every Server Action
+// that touches the library. This reaches the builtin at runtime instead, so
+// the module works identically under plain Node and inside the Next server.
+const { DatabaseSync } = process.getBuiltinModule
+  ? process.getBuiltinModule('node:sqlite')
+  // eslint-disable-next-line global-require
+  : require('node:sqlite');
 const path = require('node:path');
 const fs = require('node:fs');
 const crypto = require('node:crypto');
@@ -18,7 +26,7 @@ const { assertChartSnapshot } = require('../contracts/chartSnapshot');
  * earlier ones stay readable.
  */
 
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS library_meta (
@@ -45,6 +53,8 @@ CREATE TABLE IF NOT EXISTS profile_revisions (
   birth_input TEXT    NOT NULL,
   settings    TEXT    NOT NULL,
   note        TEXT,
+  email       TEXT,
+  phone       TEXT,
   created_at  TEXT    NOT NULL,
   PRIMARY KEY (profile_id, revision),
   FOREIGN KEY (profile_id) REFERENCES profiles(profile_id) ON DELETE CASCADE
@@ -70,9 +80,45 @@ CREATE INDEX IF NOT EXISTS idx_snapshots_profile ON snapshots(profile_id, revisi
 
 -- Indexed local search over the current revision of each profile.
 CREATE VIRTUAL TABLE IF NOT EXISTS profile_search USING fts5(
-  name, place_name, note, profile_id UNINDEXED, tokenize = 'unicode61'
+  name, place_name, note, email, phone, profile_id UNINDEXED, tokenize = 'unicode61'
 );
 `;
+
+/**
+ * v1 -> v2: contact details for the client-management view, and an FTS index
+ * that covers them. FTS5 columns cannot be altered, so the index is dropped
+ * and rebuilt from profile_revisions, which remains the source of truth.
+ *
+ * ADR-08 requires migrations to be versioned and recoverable; this runs inside
+ * a transaction so a failure leaves the library on v1 rather than half-migrated.
+ */
+function migrateToV2(db) {
+  const columns = db.prepare('PRAGMA table_info(profile_revisions)').all().map((c) => c.name);
+  db.exec('BEGIN');
+  try {
+    if (!columns.includes('email')) db.exec('ALTER TABLE profile_revisions ADD COLUMN email TEXT');
+    if (!columns.includes('phone')) db.exec('ALTER TABLE profile_revisions ADD COLUMN phone TEXT');
+
+    db.exec('DROP TABLE IF EXISTS profile_search');
+    db.exec(`CREATE VIRTUAL TABLE profile_search USING fts5(
+      name, place_name, note, email, phone, profile_id UNINDEXED, tokenize = 'unicode61'
+    )`);
+    const rows = db.prepare(`
+      SELECT r.profile_id, r.name, r.place_name, r.note, r.email, r.phone
+      FROM profile_revisions r
+      JOIN profiles p ON p.profile_id = r.profile_id AND p.current_revision = r.revision`).all();
+    const insert = db.prepare(
+      'INSERT INTO profile_search (name, place_name, note, email, phone, profile_id) VALUES (?, ?, ?, ?, ?, ?)',
+    );
+    for (const r of rows) {
+      insert.run(r.name, r.place_name ?? '', r.note ?? '', r.email ?? '', r.phone ?? '', r.profile_id);
+    }
+    db.exec('COMMIT');
+  } catch (error) {
+    db.exec('ROLLBACK');
+    throw error;
+  }
+}
 
 const nowIso = () => new Date().toISOString();
 
@@ -92,24 +138,42 @@ function openLibrary(filePath) {
 
   const db = new DatabaseSync(filePath);
   db.exec('PRAGMA foreign_keys = ON');
-  db.exec(SCHEMA);
 
-  const existing = db.prepare('SELECT value FROM library_meta WHERE key = ?').get('schemaVersion');
-  if (!existing) {
-    db.prepare('INSERT INTO library_meta (key, value) VALUES (?, ?)')
-      .run('schemaVersion', String(SCHEMA_VERSION));
-  } else if (Number(existing.value) > SCHEMA_VERSION) {
+  // Read the version before applying the schema, so an existing v1 library is
+  // recognised rather than silently left without the v2 columns (CREATE TABLE
+  // IF NOT EXISTS would skip it and every later write would fail).
+  const hasMeta = db.prepare(
+    "SELECT 1 FROM sqlite_master WHERE type='table' AND name='library_meta'",
+  ).get();
+  const existing = hasMeta
+    ? db.prepare('SELECT value FROM library_meta WHERE key = ?').get('schemaVersion')
+    : null;
+  const foundVersion = existing ? Number(existing.value) : null;
+
+  if (foundVersion !== null && foundVersion > SCHEMA_VERSION) {
     throw new UnsupportedInputError(
-      `library schema v${existing.value} is newer than this build (v${SCHEMA_VERSION}); upgrade before opening`,
+      `library schema v${foundVersion} is newer than this build (v${SCHEMA_VERSION}); upgrade before opening`,
       'schemaVersion',
     );
+  }
+
+  db.exec(SCHEMA);
+
+  if (foundVersion !== null && foundVersion < 2) migrateToV2(db);
+
+  if (foundVersion === null) {
+    db.prepare('INSERT INTO library_meta (key, value) VALUES (?, ?)')
+      .run('schemaVersion', String(SCHEMA_VERSION));
+  } else if (foundVersion < SCHEMA_VERSION) {
+    db.prepare('UPDATE library_meta SET value = ? WHERE key = ?')
+      .run(String(SCHEMA_VERSION), 'schemaVersion');
   }
 
   const reindex = (profileId, rev) => {
     db.prepare('DELETE FROM profile_search WHERE profile_id = ?').run(profileId);
     db.prepare(
-      'INSERT INTO profile_search (name, place_name, note, profile_id) VALUES (?, ?, ?, ?)',
-    ).run(rev.name, rev.place_name ?? '', rev.note ?? '', profileId);
+      'INSERT INTO profile_search (name, place_name, note, email, phone, profile_id) VALUES (?, ?, ?, ?, ?, ?)',
+    ).run(rev.name, rev.place_name ?? '', rev.note ?? '', rev.email ?? '', rev.phone ?? '', profileId);
   };
 
   const readRevision = (profileId, revision) => db.prepare(
@@ -126,6 +190,8 @@ function openLibrary(filePath) {
     input: JSON.parse(row.birth_input),
     settings: JSON.parse(row.settings),
     note: row.note,
+    email: row.email ?? null,
+    phone: row.phone ?? null,
     createdAt: row.created_at,
   } : null);
 
@@ -139,7 +205,7 @@ function openLibrary(filePath) {
     schemaVersion: SCHEMA_VERSION,
 
     /** First save of a person. Returns revision 1. */
-    saveProfile({ name, gender = null, input, settings, note = null }) {
+    saveProfile({ name, gender = null, input, settings, note = null, email = null, phone = null }) {
       if (!name) throw new UnsupportedInputError('name is required to save a profile', 'name');
       if (!input) throw new UnsupportedInputError('input is required', 'input');
       if (!settings) throw new UnsupportedInputError('settings is required', 'settings');
@@ -151,12 +217,12 @@ function openLibrary(filePath) {
         'INSERT INTO profiles (profile_id, created_at, updated_at, current_revision) VALUES (?, ?, ?, 1)',
       ).run(profileId, at, at);
       db.prepare(`INSERT INTO profile_revisions
-        (profile_id, revision, name, gender, place_name, birth_date, birth_input, settings, note, created_at)
-        VALUES (?, 1, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        (profile_id, revision, name, gender, place_name, birth_date, birth_input, settings, note, email, phone, created_at)
+        VALUES (?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       ).run(profileId, name, gender, input.placeName ?? null, isoDate(input),
-        JSON.stringify(input), JSON.stringify(settings), note, at);
+        JSON.stringify(input), JSON.stringify(settings), note, email, phone, at);
 
-      reindex(profileId, { name, place_name: input.placeName ?? '', note });
+      reindex(profileId, { name, place_name: input.placeName ?? '', note, email, phone });
       return { profileId, revision: 1 };
     },
 
@@ -175,19 +241,25 @@ function openLibrary(filePath) {
         input: changes.input ?? previous.input,
         settings: changes.settings ?? previous.settings,
         note: changes.note ?? previous.note,
+        email: changes.email ?? previous.email,
+        phone: changes.phone ?? previous.phone,
       };
       const revision = profile.current_revision + 1;
       const at = nowIso();
 
       db.prepare(`INSERT INTO profile_revisions
-        (profile_id, revision, name, gender, place_name, birth_date, birth_input, settings, note, created_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        (profile_id, revision, name, gender, place_name, birth_date, birth_input, settings, note, email, phone, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       ).run(profileId, revision, next.name, next.gender, next.input.placeName ?? null,
-        isoDate(next.input), JSON.stringify(next.input), JSON.stringify(next.settings), next.note, at);
+        isoDate(next.input), JSON.stringify(next.input), JSON.stringify(next.settings),
+        next.note, next.email, next.phone, at);
       db.prepare('UPDATE profiles SET current_revision = ?, updated_at = ? WHERE profile_id = ?')
         .run(revision, at, profileId);
 
-      reindex(profileId, { name: next.name, place_name: next.input.placeName ?? '', note: next.note });
+      reindex(profileId, {
+        name: next.name, place_name: next.input.placeName ?? '',
+        note: next.note, email: next.email, phone: next.phone,
+      });
       return { profileId, revision };
     },
 
@@ -208,7 +280,8 @@ function openLibrary(filePath) {
 
     listProfiles({ limit = 50, offset = 0 } = {}) {
       return db.prepare(`
-        SELECT p.profile_id, p.current_revision, p.updated_at, r.name, r.birth_date, r.place_name
+        SELECT p.profile_id, p.current_revision, p.updated_at, r.name, r.birth_date,
+               r.place_name, r.email, r.phone, r.note, r.gender
         FROM profiles p
         JOIN profile_revisions r
           ON r.profile_id = p.profile_id AND r.revision = p.current_revision
@@ -219,6 +292,10 @@ function openLibrary(filePath) {
         name: r.name,
         birthDate: r.birth_date,
         placeName: r.place_name,
+        email: r.email,
+        phone: r.phone,
+        note: r.note,
+        gender: r.gender,
         updatedAt: r.updated_at,
       }));
     },
@@ -228,7 +305,8 @@ function openLibrary(filePath) {
       const match = toMatchQuery(query);
       if (!match) return [];
       return db.prepare(`
-        SELECT s.profile_id, r.name, r.birth_date, r.place_name, p.current_revision
+        SELECT s.profile_id, r.name, r.birth_date, r.place_name, r.email, r.phone,
+               r.note, r.gender, p.current_revision, p.updated_at
         FROM profile_search s
         JOIN profiles p ON p.profile_id = s.profile_id
         JOIN profile_revisions r
@@ -241,6 +319,11 @@ function openLibrary(filePath) {
         name: r.name,
         birthDate: r.birth_date,
         placeName: r.place_name,
+        email: r.email,
+        phone: r.phone,
+        note: r.note,
+        gender: r.gender,
+        updatedAt: r.updated_at,
       }));
     },
 

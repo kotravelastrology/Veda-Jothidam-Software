@@ -33,6 +33,8 @@ export async function saveChart(params: {
   gender?: string;
   input: BirthFormInput;
   note?: string;
+  email?: string;
+  phone?: string;
 }) {
   return withLibrary((lib) => lib.saveProfile({
     name: params.name,
@@ -40,6 +42,8 @@ export async function saveChart(params: {
     input: params.input,
     settings: settingsOf(params.input),
     note: params.note ?? null,
+    email: params.email ?? null,
+    phone: params.phone ?? null,
   }));
 }
 
@@ -49,6 +53,8 @@ export async function updateChart(profileId: string, changes: {
   gender?: string;
   input?: BirthFormInput;
   note?: string;
+  email?: string;
+  phone?: string;
 }) {
   return withLibrary((lib) => lib.updateProfile(profileId, {
     ...changes,
