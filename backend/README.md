@@ -95,4 +95,4 @@ They were a second, unregistered implementation, and its astrology was wrong:
 
 Registering it would have made 28 tests pass by asserting against fabricated
 output. Swiss Ephemeris under `src/` remains the single calculation engine.
-See `docs/VJ-002-phase30-claims-audit.md`.
+See `docs/AUDIT-phase30-claims.md`.
