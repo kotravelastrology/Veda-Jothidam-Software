@@ -40,10 +40,13 @@ feature pages.
 - `routes/charts.py` — 8 routes
 - `app.py` inline — `/api/health`, `/api/config`
 
-**17 endpoints are actually served.** A further 41 routes exist under
-`backend/api/` (`auth_users.py` 11, `calculations.py` 9, `charts.py` 9,
-`consultations.py` 8, `dashboard.py` 4). They are imported only by
-`app_integration_3_5.py`, which nothing references — an orphan entrypoint.
+**17 endpoints are actually served.** A further 41 routes existed under
+`backend/api/`, imported only by the orphan entrypoint
+`app_integration_3_5.py`. **Resolved 2026-09-26:** that package,
+`backend/calculations/` and the two test files covering them were deleted
+after inspection showed the implementation was wrong — a Vimshottari with no
+balance at birth, a nakshatra lookup that silently fell back to Ketu, and an
+invented Shadbala. See `backend/README.md`.
 
 ### 2. "All 23 endpoints documented" — FALSE
 
@@ -149,14 +152,16 @@ or that anything was executed.
 
 ## Suggested order of work
 
-1. Pin a Python the backend can run, or unpin SQLAlchemy, then actually run
-   the 228 backend tests. Nothing about the API layer is trustworthy until
-   this is possible.
+1. ~~Pin a Python the backend can run~~ — done 2026-09-26. The backend runs
+   on Python 3.14 and the suite is at 119 passed / 6 failed.
 2. Apply `@rate_limit` to the auth routes, or delete `rate_limiter.py`.
 3. Wire `logger.py` in, or delete it.
 4. Add the 32 passing orphan test files to `npm test`; fix or quarantine the
    2 failures.
-5. Decide on `backend/api/` (41 orphan routes): register it or delete it.
+5. ~~Decide on `backend/api/`~~ — done 2026-09-26: deleted. It was not
+   abandoned scaffolding but an actively-tested parallel implementation, and
+   its calculations were fabricated; registering it would have turned 28
+   tests green against wrong output.
 6. Give Client Management real persistence, or relabel it a demo.
 7. Correct `API-DOCUMENTATION.md` — remove the 4 phantom endpoints, add the
    5 real consultation ones.
