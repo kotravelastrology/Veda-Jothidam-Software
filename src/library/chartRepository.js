@@ -26,7 +26,7 @@ const { assertChartSnapshot } = require('../contracts/chartSnapshot');
  * earlier ones stay readable.
  */
 
-const SCHEMA_VERSION = 3;
+const SCHEMA_VERSION = 4;
 
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS library_meta (
@@ -130,6 +130,19 @@ CREATE TABLE IF NOT EXISTS drafts (
 CREATE INDEX IF NOT EXISTS idx_consultations_profile ON consultations(profile_id, occurred_at);
 CREATE INDEX IF NOT EXISTS idx_journal_profile ON journal_events(profile_id, event_date);
 
+-- VJ-023: what each import created, so it can be undone exactly rather than
+-- by guessing which profiles looked recent.
+CREATE TABLE IF NOT EXISTS imports (
+  import_id     TEXT PRIMARY KEY,
+  source_path   TEXT NOT NULL,
+  profile_ids   TEXT NOT NULL,
+  skipped       INTEGER NOT NULL DEFAULT 0,
+  rejected      INTEGER NOT NULL DEFAULT 0,
+  loss_report   TEXT,
+  rolled_back   INTEGER NOT NULL DEFAULT 0,
+  created_at    TEXT NOT NULL
+);
+
 -- Indexed local search over the current revision of each profile.
 CREATE VIRTUAL TABLE IF NOT EXISTS profile_search USING fts5(
   name, place_name, note, email, phone, profile_id UNINDEXED, tokenize = 'unicode61'
@@ -212,8 +225,9 @@ function openLibrary(filePath) {
   db.exec(SCHEMA);
 
   if (foundVersion !== null && foundVersion < 2) migrateToV2(db);
-  // v2 -> v3 adds only new tables, which the schema above already created
-  // with IF NOT EXISTS; there is nothing to move, so no data migration runs.
+  // v2 -> v3 and v3 -> v4 add only new tables, which the schema above already
+  // created with IF NOT EXISTS; there is nothing to move, so no data
+  // migration runs for either.
 
   if (foundVersion === null) {
     db.prepare('INSERT INTO library_meta (key, value) VALUES (?, ?)')
@@ -560,6 +574,46 @@ function openLibrary(filePath) {
       return db.prepare('DELETE FROM journal_events WHERE event_id = ?').run(eventId).changes > 0;
     },
 
+    /** VJ-023 — what an import created, for an exact rollback. */
+    recordImport(importId, { sourcePath, profileIds, skipped = 0, rejected = 0, lossReport = null }) {
+      db.prepare(`INSERT INTO imports
+        (import_id, source_path, profile_ids, skipped, rejected, loss_report, rolled_back, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, 0, ?)`,
+      ).run(importId, sourcePath, JSON.stringify(profileIds), skipped, rejected,
+        lossReport ? JSON.stringify(lossReport) : null, nowIso());
+      return { importId };
+    },
+
+    getImport(importId) {
+      const row = db.prepare('SELECT * FROM imports WHERE import_id = ?').get(importId);
+      if (!row) return null;
+      return {
+        importId: row.import_id,
+        sourcePath: row.source_path,
+        profileIds: JSON.parse(row.profile_ids),
+        skipped: row.skipped,
+        rejected: row.rejected,
+        lossReport: row.loss_report ? JSON.parse(row.loss_report) : null,
+        rolledBack: row.rolled_back === 1,
+        createdAt: row.created_at,
+      };
+    },
+
+    listImports() {
+      return db.prepare('SELECT import_id, source_path, profile_ids, rolled_back, created_at FROM imports ORDER BY created_at DESC')
+        .all().map((r) => ({
+          importId: r.import_id,
+          sourcePath: r.source_path,
+          count: JSON.parse(r.profile_ids).length,
+          rolledBack: r.rolled_back === 1,
+          createdAt: r.created_at,
+        }));
+    },
+
+    markImportRolledBack(importId) {
+      db.prepare('UPDATE imports SET rolled_back = 1 WHERE import_id = ?').run(importId);
+    },
+
     /** Draft recovery: autosaved text that outlives a crash or navigation. */
     saveDraft(draftKey, payload, profileId = null) {
       if (!draftKey) throw new UnsupportedInputError('draftKey is required', 'draftKey');
@@ -594,6 +648,7 @@ function openLibrary(filePath) {
         consultations: db.prepare('SELECT * FROM consultations ORDER BY consultation_id').all(),
         consultationEvidence: db.prepare('SELECT * FROM consultation_evidence ORDER BY consultation_id, rule_id').all(),
         journalEvents: db.prepare('SELECT * FROM journal_events ORDER BY event_id').all(),
+        imports: db.prepare('SELECT * FROM imports ORDER BY created_at').all(),
       };
     },
 
@@ -623,7 +678,7 @@ function openLibrary(filePath) {
       try {
         if (overwrite) {
           db.exec(`DELETE FROM consultation_evidence; DELETE FROM consultations;
-                   DELETE FROM journal_events; DELETE FROM snapshots;
+                   DELETE FROM journal_events; DELETE FROM imports; DELETE FROM snapshots;
                    DELETE FROM profile_revisions; DELETE FROM profiles; DELETE FROM profile_search;`);
         }
         for (const p of payload.profiles) {
@@ -667,6 +722,14 @@ function openLibrary(filePath) {
           db.prepare(`INSERT INTO journal_events
             (event_id, profile_id, event_date, category, description, created_at) VALUES (?, ?, ?, ?, ?, ?)`,
           ).run(j.event_id, j.profile_id, j.event_date, j.category ?? null, j.description, j.created_at);
+        }
+
+        for (const im of payload.imports ?? []) {
+          db.prepare(`INSERT INTO imports
+            (import_id, source_path, profile_ids, skipped, rejected, loss_report, rolled_back, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+          ).run(im.import_id, im.source_path, im.profile_ids, im.skipped, im.rejected,
+            im.loss_report ?? null, im.rolled_back, im.created_at);
         }
 
         // Rebuild the search index from the restored rows rather than trusting

@@ -27,7 +27,7 @@ const chennai = {
 const settings = { ayanamsha: 'Lahiri', houseSystem: 'Porphyrius', nodeType: 'mean', calendarMode: 'tirukanita' };
 
 let lib = openLibrary(dbPath);
-assert.equal(lib.schemaVersion, 3, 'consultations arrive with schema v3');
+assert.equal(lib.schemaVersion, SCHEMA_VERSION, 'the library opens at the current schema');
 
 const { profileId } = lib.saveProfile({ name: 'Ravi Kumar', input: chennai, settings });
 
