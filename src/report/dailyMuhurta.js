@@ -11,6 +11,7 @@
 const { julianDay } = require('@swisseph/node');
 const { sunriseJulianDay, sunsetJulianDay, sunMoonLongitudes } = require('../ephemeris/siderealPositions');
 const { siderealAscendant } = require('../ephemeris/swissEphemeris');
+const { formatOffset, formatLatitude, formatLongitude } = require('./matchParties');
 
 // ── Choghaḍiyā ──────────────────────────────────────────────────────────
 const CHOGHADIYA_CYCLE = ['Udveg', 'Chal', 'Labh', 'Amrit', 'Kaal', 'Shubh', 'Rog'];
@@ -30,6 +31,16 @@ const GOWRI_NIGHT_START = [1, 5, 3, 0, 7, 2, 4];
 // ── Hōrai ───────────────────────────────────────────────────────────────
 const CHALDEAN = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'];
 const WEEKDAY_LORD = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+const WEEKDAY_TA = ['ஞாயிறு', 'திங்கள்', 'செவ்வாய்', 'புதன்', 'வியாழன்', 'வெள்ளி', 'சனி'];
+
+/**
+ * The ayanamsha this day-level reckoning uses for the Moon, the tithi and the
+ * sunrise lagna. Named rather than written inline at each call site so the
+ * value reported in `context.method` cannot drift from the value actually
+ * used — VJ-018 asks for the method to be visible, which is worth something
+ * only if what is shown is what ran.
+ */
+const PANCHANGAM_AYANAMSHA = 'Lahiri';
 const HORA_QUALITY = { Jupiter: 'good', Venus: 'good', Mercury: 'good', Moon: 'good', Sun: 'neutral', Saturn: 'bad', Mars: 'bad' };
 const HORA_NOTE = {
   Sun: 'அரசு/அதிகாரப் பணி', Moon: 'பயணம், நீர்/விவசாயம்', Mars: 'வழக்கு/போட்டி (சுபம் தவிர்)',
@@ -74,9 +85,19 @@ const PANCHAKA_RAHITAM = {
 };
 
 const toLocalHr = (jd, offMin) => ((((jd - 2440587.5) * 86400000 + offMin * 60000) % 86400000) + 86400000) % 86400000 / 3600000;
+/**
+ * Rounds to whole minutes *first*, then splits into hours and minutes.
+ *
+ * Taking the hour and the minute separately loses an hour at every boundary
+ * that rounds up: 11.9999 floors to hour 11 while its minute rounds to 60 and
+ * then wraps to 0, printing "11:00" for what is really 12:00. On this screen
+ * that showed as a 31-minute Gowri slot followed by a 150-minute one, in a
+ * table whose whole point is that the eight slots are equal.
+ */
 const fmtHr = (h) => {
-  const H = Math.floor(((h % 24) + 24) % 24);
-  const M = Math.round((h - Math.floor(h)) * 60) % 60;
+  const minutes = Math.round((((h % 24) + 24) % 24) * 60);
+  const H = Math.floor(minutes / 60) % 24;
+  const M = minutes % 60;
   return `${String(H).padStart(2, '0')}:${String(M).padStart(2, '0')}`;
 };
 
@@ -97,12 +118,12 @@ function calculateDailyMuhurta(q) {
   const wd = new Date(Date.UTC(q.year, q.month - 1, q.day)).getUTCDay(); // 0 = Sun
 
   // ── Moon-nakshatra / tithi / lagna at sunrise (day-level convention) ──
-  const { sunLongitude, moonLongitude } = sunMoonLongitudes(sunrise, 'Lahiri');
+  const { sunLongitude, moonLongitude } = sunMoonLongitudes(sunrise, PANCHANGAM_AYANAMSHA);
   const norm = (d) => ((d % 360) + 360) % 360;
   const moonNak = Math.floor(norm(moonLongitude) / (360 / 27)) % 27;
   const elong = norm(moonLongitude - sunLongitude);
   const tithiNum = Math.floor(elong / 12) + 1; // 1-30
-  const lagnaSunrise = siderealAscendant(sunrise, q.latitude, q.longitude, 'Lahiri');
+  const lagnaSunrise = siderealAscendant(sunrise, q.latitude, q.longitude, PANCHANGAM_AYANAMSHA);
   const lagnaNum = Math.floor(norm(lagnaSunrise) / 30) + 1; // 1-12
   const vaaraNum = wd + 1; // 1 = Sun
 
@@ -137,6 +158,32 @@ function calculateDailyMuhurta(q) {
     sunrise: fmtHr(srHr),
     sunset: fmtHr(ssHr % 24),
     weekday: wd,
+    /**
+     * Which day, at which place, under which method (VJ-018).
+     *
+     * The offset matters more here than on a birth chart: every slot below is
+     * a *clock time*, cut from sunrise and sunset at these coordinates. Read
+     * the same table with the wrong offset and every row is wrong by that
+     * amount while still looking entirely reasonable.
+     *
+     * The weekday is part of the method, not decoration — all three cycles
+     * start from the weekday's lord, so a date off by one shifts the whole
+     * day's sequence.
+     */
+    context: {
+      date: `${q.year}-${String(q.month).padStart(2, '0')}-${String(q.day).padStart(2, '0')}`,
+      weekdayTa: WEEKDAY_TA[wd],
+      weekdayLord: WEEKDAY_LORD[wd],
+      placeName: q.placeName ?? null,
+      latitude: formatLatitude(q.latitude),
+      longitude: formatLongitude(q.longitude),
+      utcOffset: formatOffset(off),
+      method: {
+        ayanamsha: PANCHANGAM_AYANAMSHA,
+        dayBoundary: 'sunrise',
+        division: 'பகல் = உதயம்→அஸ்தமனம் ÷ 8 (ஹோரை ÷ 12); இரவு = அஸ்தமனம்→மறுநாள் உதயம் ÷ 8 (÷ 12)',
+      },
+    },
     panchaka,
     nakshatraKarma,
     panchakaRahitam,

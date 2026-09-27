@@ -10,6 +10,8 @@
  * poruthams are asymmetric — several count from the girl's star).
  */
 
+const { describePorutham, poruthamEvidence } = require('./poruthamFactors');
+
 const NAKSHATRA_NAMES = [
   'Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu',
   'Pushya', 'Ashlesha', 'Magha', 'Purva Phalguni', 'Uttara Phalguni', 'Hasta',
@@ -44,44 +46,99 @@ function getVedha(n1, n2) {
   return VEDHA_PAIRS.some(([a, b]) => (a === n1 && b === n2) || (a === n2 && b === n1));
 }
 
-/** @returns array of 10 { name, result, note } rows. */
+/**
+ * @returns array of 10 { id, name, result, note, measure } rows.
+ *
+ * `measure` carries the exact quantity the verdict was decided on — the count,
+ * the two group names, the gap — so a reader can be shown *why* a factor
+ * passed or failed rather than only that it did (VJ-018). `describePorutham`
+ * in `poruthamFactors.js` turns it into a sentence; nothing here formats prose.
+ */
 function calcPorutham(girlNak, boyNak, girlRashi, boyRashi) {
   const rows = [];
 
   const dhin = ((boyNak - girlNak + 27) % 27) + 1;
-  rows.push({ name: 'தினம்', result: ![2, 4, 6, 8, 9].includes(dhin % 9 || 9), note: `எண்: ${dhin}` });
+  const dinaRemainder = dhin % 9 || 9;
+  const DINA_REJECTED = [2, 4, 6, 8, 9];
+  rows.push({
+    id: 'DINA', name: 'தினம்',
+    result: !DINA_REJECTED.includes(dinaRemainder), note: `எண்: ${dhin}`,
+    measure: { count: dhin, remainder: dinaRemainder, rejected: DINA_REJECTED },
+  });
 
   const gG = NAKSHATRA_GANA[girlNak];
   const gB = NAKSHATRA_GANA[boyNak];
   const ganaOk = gG === gB || (gG === 0 && gB === 1) || (gG === 1 && gB === 0);
-  rows.push({ name: 'கணம்', result: ganaOk, note: `பெண்: ${GANA_NAMES[gG]}, ஆண்: ${GANA_NAMES[gB]}` });
+  rows.push({
+    id: 'GANA', name: 'கணம்',
+    result: ganaOk, note: `பெண்: ${GANA_NAMES[gG]}, ஆண்: ${GANA_NAMES[gB]}`,
+    measure: { girl: GANA_NAMES[gG], boy: GANA_NAMES[gB], same: gG === gB },
+  });
 
   const mah = ((boyNak - girlNak + 27) % 27) + 1;
-  rows.push({ name: 'மகேந்திரம்', result: [4, 7, 10, 13, 16, 19, 22, 25].includes(mah), note: `எண்: ${mah}` });
+  const MAHENDRA_ACCEPTED = [4, 7, 10, 13, 16, 19, 22, 25];
+  rows.push({
+    id: 'MAHENDRA', name: 'மகேந்திரம்',
+    result: MAHENDRA_ACCEPTED.includes(mah), note: `எண்: ${mah}`,
+    measure: { count: mah, accepted: MAHENDRA_ACCEPTED },
+  });
 
   const stree = ((boyNak - girlNak + 27) % 27) + 1;
-  rows.push({ name: 'ஸ்திரீ தீர்க்கம்', result: stree >= 7, note: `எண்: ${stree}` });
+  rows.push({
+    id: 'STREE_DEERGHA', name: 'ஸ்திரீ தீர்க்கம்',
+    result: stree >= 7, note: `எண்: ${stree}`,
+    measure: { count: stree, minimum: 7 },
+  });
 
   const yG = NAKSHATRA_YONI[girlNak % 27];
   const yB = NAKSHATRA_YONI[boyNak % 27];
-  rows.push({ name: 'யோனி', result: yG === yB || Math.abs(yG - yB) <= 1, note: `பெண்: ${yG}, ஆண்: ${yB}` });
+  rows.push({
+    id: 'YONI', name: 'யோனி',
+    result: yG === yB || Math.abs(yG - yB) <= 1, note: `பெண்: ${yG}, ஆண்: ${yB}`,
+    measure: { girl: yG, boy: yB, gap: Math.abs(yG - yB), groups: 9 },
+  });
 
   const rashiDiff = ((boyRashi - girlRashi + 12) % 12) + 1;
-  rows.push({ name: 'ராசி', result: [1, 2, 5, 6, 7, 11].includes(rashiDiff), note: `இடைவெளி: ${rashiDiff}` });
+  const RASI_ACCEPTED = [1, 2, 5, 6, 7, 11];
+  rows.push({
+    id: 'RASI', name: 'ராசி',
+    result: RASI_ACCEPTED.includes(rashiDiff), note: `இடைவெளி: ${rashiDiff}`,
+    measure: { gap: rashiDiff, accepted: RASI_ACCEPTED },
+  });
 
   const gL = RASHI_LORD[girlRashi];
   const bL = RASHI_LORD[boyRashi];
-  rows.push({ name: 'ராசி அதிபதி', result: gL !== bL, note: `பெண்: ${LORD_TA[gL]}, ஆண்: ${LORD_TA[bL]}` });
+  rows.push({
+    id: 'RASI_ADHIPATHI', name: 'ராசி அதிபதி',
+    result: gL !== bL, note: `பெண்: ${LORD_TA[gL]}, ஆண்: ${LORD_TA[bL]}`,
+    measure: { girl: LORD_TA[gL], boy: LORD_TA[bL], same: gL === bL },
+  });
 
   const vasya = (VASYA[girlRashi] || []).includes(boyRashi) || (VASYA[boyRashi] || []).includes(girlRashi);
-  rows.push({ name: 'வசியம்', result: !!vasya, note: vasya ? 'பொருந்தும்' : 'பொருந்தாது' });
+  rows.push({
+    id: 'VASYA', name: 'வசியம்',
+    result: !!vasya, note: vasya ? 'பொருந்தும்' : 'பொருந்தாது',
+    measure: {
+      found: !!vasya,
+      girlControlsBoy: (VASYA[girlRashi] || []).includes(boyRashi),
+      boyControlsGirl: (VASYA[boyRashi] || []).includes(girlRashi),
+    },
+  });
 
   const gR = RAJJU_GROUP[girlNak % 27];
   const bR = RAJJU_GROUP[boyNak % 27];
-  rows.push({ name: 'ரஜ்ஜு', result: gR !== bR, note: `பெண்: ${RAJJU_TA[gR]}, ஆண்: ${RAJJU_TA[bR]}` });
+  rows.push({
+    id: 'RAJJU', name: 'ரஜ்ஜு',
+    result: gR !== bR, note: `பெண்: ${RAJJU_TA[gR]}, ஆண்: ${RAJJU_TA[bR]}`,
+    measure: { girl: RAJJU_TA[gR], boy: RAJJU_TA[bR], same: gR === bR },
+  });
 
   const vedha = getVedha(girlNak, boyNak);
-  rows.push({ name: 'வேதை', result: !vedha, note: vedha ? 'வேதை உண்டு' : 'வேதை இல்லை' });
+  rows.push({
+    id: 'VEDHA', name: 'வேதை',
+    result: !vedha, note: vedha ? 'வேதை உண்டு' : 'வேதை இல்லை',
+    measure: { present: vedha },
+  });
 
   return rows;
 }
@@ -91,7 +148,10 @@ function calcPorutham(girlNak, boyNak, girlRashi, boyRashi) {
  * @param boy   { nakshatraIndex, rasiIndex, nakshatra }
  */
 function calculateTamilPorutham(girl, boy) {
-  const rows = calcPorutham(girl.nakshatraIndex, boy.nakshatraIndex, girl.rasiIndex, boy.rasiIndex);
+  const raw = calcPorutham(girl.nakshatraIndex, boy.nakshatraIndex, girl.rasiIndex, boy.rasiIndex);
+  // Every row leaves here explained. A verdict shown without its reasoning is
+  // the defect VJ-018 removes, so there is no unexplained path out.
+  const rows = describePorutham(raw);
   const passed = rows.filter((r) => r.result).length;
   const level = passed >= 8 ? 'உத்தமம்' : passed >= 6 ? 'மத்திமம்' : passed >= 4 ? 'சாதாரணம்' : 'குறைவு';
   return {
@@ -101,6 +161,11 @@ function calculateTamilPorutham(girl, boy) {
     passed,
     total: rows.length,
     level,
+    // All ten rule tables are unsourced (see poruthamFactors.js), so the
+    // verdicts travel with that fact attached rather than depending on the UI
+    // to remember it.
+    evidence: poruthamEvidence(raw),
+    sourceStatus: 'SOURCE_REQUIRED',
   };
 }
 

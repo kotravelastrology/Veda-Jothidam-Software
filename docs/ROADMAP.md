@@ -1,7 +1,7 @@
 # Roadmap — remaining work from the Codex implementation plan
 
 **Updated:** 2026-09-27 · Source: `Veda-Jothidam-Implementation-Plan-2026-09-26`
-· **10 of 30 delivered**
+· **19 of 30 delivered**
 
 Ordered by what actually unblocks what, not by ID.
 
@@ -18,33 +18,47 @@ Ordered by what actually unblocks what, not by ID.
 | VJ-005 | Proxy fallbacks replaced with structured errors | commit `184b3df` |
 | VJ-006 | CalculationRequest / ChartSnapshot / RuleEvidence | commit `803ba9c` |
 | VJ-007 | Ephemeris licence inventory (decision **deferred**) | `docs/VJ-007-…md` |
+| VJ-008 | Windows Electron native worker proof | `docs/VJ-008-…md` |
 | VJ-011 | Local chart library with profile revisions | `docs/VJ-011-…md` |
 | VJ-012 | Backup, archive, restore | `docs/VJ-012-…md` |
+| VJ-013 | Cache policy and storage records | `docs/VJ-013-…md` |
+| VJ-014 | Ephemeris request isolation | `docs/VJ-014-…md` |
+| VJ-015 | Workspace shell, command palette, active profile | `docs/VJ-015-…md` |
+| VJ-016 | Natal / varga / bala evidence panels | `docs/VJ-016-…md` |
+| VJ-017 | Deterministic dasha / transit timeline | `docs/VJ-017-…md` |
+| VJ-018 | Matching and Tamil timing journeys | `docs/VJ-018-…md` |
+| VJ-019 | ReportDocument and PDF export | `docs/VJ-019-…md` |
 | VJ-022 | Consultation notes, evidence links, event journal | `docs/VJ-022-…md` |
+| VJ-023 | Parashara's Light 9 import | `docs/VJ-023-…md` |
 
 ---
 
 ## The shape of what remains
 
-**VJ-008 and VJ-009 are the chokepoint.** Of the 20 remaining items, 13 are
-blocked behind them, directly or transitively:
+The desktop branch is clear: VJ-008 unblocked VJ-014 → VJ-017, and
+VJ-015 → VJ-016 → VJ-018/VJ-019 are all delivered. **VJ-009 (Android) is now
+the only chokepoint**, holding VJ-020 and VJ-021, which VJ-029 waits on.
 
 ```
-VJ-008 (Electron)  ─┬─> VJ-014 ─┬─> VJ-017, VJ-027, VJ-028
-VJ-009 (Android)   ─┘           │
-                                │
-VJ-008 + VJ-010 ───> VJ-015 ────┴─> VJ-016 ─> VJ-018, VJ-019 ─> VJ-029 ─> VJ-030
-VJ-009 + VJ-010 ───> VJ-020 ──────> VJ-021 ──────────────────────^
+VJ-009 (Android) + VJ-010 ──> VJ-020 ──> VJ-021 ──┐
+                                                  ├─> VJ-029 ─> VJ-030
+VJ-024, VJ-025, VJ-026, VJ-027, VJ-028 ───────────┘
 ```
 
-Seven items are **ready now** with no blocker: VJ-008, VJ-009, VJ-010,
-VJ-013, VJ-023, VJ-024, VJ-026.
+Eleven remain: VJ-009, VJ-010, VJ-020, VJ-021, VJ-024, VJ-025, VJ-026,
+VJ-027, VJ-028, VJ-029, VJ-030 — plus VJ-002's domain sign-off and VJ-007's
+licence decision, both of which need the user rather than code.
+
+Ready now with no blocker: **VJ-024, VJ-025, VJ-026, VJ-027, VJ-028**.
+VJ-009 and VJ-010 need hardware and testers.
 
 ---
 
 ## Phase A — unblock the tree
 
-### VJ-008 · Windows Electron native worker proof
+> VJ-008 is delivered; VJ-009 and VJ-010 remain.
+
+### ~~VJ-008~~ **DELIVERED** · Windows Electron native worker proof
 *Deps met. Acceptance: clean Windows install; airplane mode; Node addon ABI verified.*
 
 The single highest-value item, for two reasons beyond the plan's own:
@@ -83,16 +97,18 @@ mobile shells on assumption.
 
 ## Phase B — ready now, independent of the spikes
 
+> VJ-013 and VJ-023 are delivered; VJ-024, VJ-025 and VJ-026 remain.
+
 These can proceed in any order while Phase A is in progress.
 
-### VJ-013 · Separate cache from records
+### ~~VJ-013~~ **DELIVERED** · Separate cache from records
 *Acceptance: cache purge cannot remove charts or notes; quota failure visible.*
 
 Small and protective. The library now holds real user data — saved clients,
 consultations, journal entries — and nothing currently distinguishes it from
 disposable cache. Worth doing before there is more to lose.
 
-### VJ-023 · PL9 XML import wizard
+### ~~VJ-023~~ **DELIVERED** · PL9 XML import wizard
 *Acceptance: test copies only; field mapping, duplicate detection, loss report, rollback.*
 
 Highest practical value of the ready items: it lets existing Parashara's Light
@@ -119,6 +135,8 @@ are real.
 
 ## Phase C — desktop experience (after VJ-008, VJ-010)
 
+> **All delivered** — VJ-015, VJ-016, VJ-017, VJ-018, VJ-019.
+
 - **VJ-015** workspace shell — keyboard, command search, saved layouts. This is
   also where backup/restore finally get a File menu; VJ-012 has working
   actions that no UI calls.
@@ -136,6 +154,8 @@ are real.
   VJ-021 needs physical devices.
 
 ## Phase E — advanced (after VJ-014)
+
+> VJ-014 is delivered; VJ-027 and VJ-028 remain and are unblocked.
 
 - **VJ-014** ephemeris request isolation, **VJ-027** rare dashas/Tajika,
   **VJ-028** research predicates and cohorts.
