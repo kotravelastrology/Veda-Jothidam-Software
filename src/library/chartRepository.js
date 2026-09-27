@@ -26,7 +26,7 @@ const { assertChartSnapshot } = require('../contracts/chartSnapshot');
  * earlier ones stay readable.
  */
 
-const SCHEMA_VERSION = 4;
+const SCHEMA_VERSION = 5;
 
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS library_meta (
@@ -143,6 +143,21 @@ CREATE TABLE IF NOT EXISTS imports (
   created_at    TEXT NOT NULL
 );
 
+-- VJ-028: a saved research cohort — the predicate and the settings it was run
+-- under, plus the signature of its last run, so a replay can be compared
+-- rather than merely re-counted.
+CREATE TABLE IF NOT EXISTS cohorts (
+  cohort_id      TEXT PRIMARY KEY,
+  name           TEXT NOT NULL,
+  predicate      TEXT NOT NULL,
+  predicate_hash TEXT NOT NULL,
+  settings       TEXT NOT NULL,
+  last_signature TEXT,
+  last_counts    TEXT,
+  last_run_at    TEXT,
+  created_at     TEXT NOT NULL
+);
+
 -- Indexed local search over the current revision of each profile.
 CREATE VIRTUAL TABLE IF NOT EXISTS profile_search USING fts5(
   name, place_name, note, email, phone, profile_id UNINDEXED, tokenize = 'unicode61'
@@ -225,9 +240,9 @@ function openLibrary(filePath) {
   db.exec(SCHEMA);
 
   if (foundVersion !== null && foundVersion < 2) migrateToV2(db);
-  // v2 -> v3 and v3 -> v4 add only new tables, which the schema above already
-  // created with IF NOT EXISTS; there is nothing to move, so no data
-  // migration runs for either.
+  // v2 -> v3, v3 -> v4 and v4 -> v5 add only new tables, which the schema
+  // above already created with IF NOT EXISTS; there is nothing to move, so no
+  // data migration runs for any of them.
 
   if (foundVersion === null) {
     db.prepare('INSERT INTO library_meta (key, value) VALUES (?, ?)')
@@ -262,6 +277,18 @@ function openLibrary(filePath) {
     phone: row.phone ?? null,
     createdAt: row.created_at,
   } : null);
+
+  const hydrateCohort = (row) => ({
+    cohortId: row.cohort_id,
+    name: row.name,
+    predicate: JSON.parse(row.predicate),
+    predicateHash: row.predicate_hash,
+    settings: JSON.parse(row.settings),
+    lastSignature: row.last_signature ?? null,
+    lastCounts: row.last_counts ? JSON.parse(row.last_counts) : null,
+    lastRunAt: row.last_run_at ?? null,
+    createdAt: row.created_at,
+  });
 
   /** ISO date from a birth input, for range search and display. */
   const isoDate = (input) => {
@@ -582,6 +609,52 @@ function openLibrary(filePath) {
       ).run(importId, sourcePath, JSON.stringify(profileIds), skipped, rejected,
         lossReport ? JSON.stringify(lossReport) : null, nowIso());
       return { importId };
+    },
+
+    // ── VJ-028: saved research cohorts ──────────────────────────────────
+    //
+    // A cohort stores the predicate and the settings, never the member list.
+    // Members are whatever the library holds *now*: freezing them would turn a
+    // saved question into a stale answer, and the whole point of a replay is
+    // to see what changed. `last_signature` is what makes that comparison
+    // exact rather than a matter of counting rows.
+
+    saveCohort(cohortId, { name, predicate, predicateHash, settings }) {
+      if (!cohortId) throw new UnsupportedInputError('cohortId is required', 'cohortId');
+      if (!name) throw new UnsupportedInputError('a cohort needs a name to be found again', 'name');
+      db.prepare(`INSERT INTO cohorts
+        (cohort_id, name, predicate, predicate_hash, settings, created_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+        ON CONFLICT(cohort_id) DO UPDATE SET
+          name = excluded.name, predicate = excluded.predicate,
+          predicate_hash = excluded.predicate_hash, settings = excluded.settings`,
+      ).run(cohortId, name, JSON.stringify(predicate), predicateHash,
+        JSON.stringify(settings), nowIso());
+      return { cohortId };
+    },
+
+    /** Records what a run produced, so the next run can be compared with it. */
+    recordCohortRun(cohortId, { signature, counts, runAt = nowIso() }) {
+      const changes = db.prepare(
+        'UPDATE cohorts SET last_signature = ?, last_counts = ?, last_run_at = ? WHERE cohort_id = ?',
+      ).run(signature, JSON.stringify(counts), runAt, cohortId).changes;
+      if (changes === 0) {
+        throw new UnsupportedInputError(`no cohort ${cohortId}`, 'cohortId');
+      }
+      return { cohortId, signature };
+    },
+
+    getCohort(cohortId) {
+      const row = db.prepare('SELECT * FROM cohorts WHERE cohort_id = ?').get(cohortId);
+      return row ? hydrateCohort(row) : null;
+    },
+
+    listCohorts() {
+      return db.prepare('SELECT * FROM cohorts ORDER BY created_at DESC').all().map(hydrateCohort);
+    },
+
+    deleteCohort(cohortId) {
+      return { deleted: db.prepare('DELETE FROM cohorts WHERE cohort_id = ?').run(cohortId).changes };
     },
 
     getImport(importId) {
