@@ -58,6 +58,8 @@ export default function DashaTimelineView() {
     moonNakshatraLord: string;
     balanceYearsAtBirth: number;
   } | null>(null);
+  const [activeChain, setActiveChain] = useState<any[]>([]);
+  const [asOf, setAsOf] = useState<string>(() => new Date().toISOString().slice(0, 10));
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [expandedPlanet, setExpandedPlanet] = useState<string | null>(null);
@@ -81,6 +83,7 @@ export default function DashaTimelineView() {
       const timeParts = birthData.time.split(':').map(Number);
 
 
+      const asOfMs = Date.parse(`${asOf}T12:00:00.000Z`);
       const result = await computeDashaTimeline(override ?? {
         name: '',
         gender: 'male',
@@ -93,9 +96,10 @@ export default function DashaTimelineView() {
         longitude: parseFloat(birthData.longitude),
         placeName: '',
         ...toEngineOptions(settings),
-      });
+      }, Number.isFinite(asOfMs) ? asOfMs : undefined);
 
       setDashas(result.dashas);
+      setActiveChain(result.activeChain || []);
       setMeta({
         moonNakshatra: result.moonNakshatra,
         moonNakshatraLord: result.moonNakshatraLord,
@@ -190,6 +194,42 @@ export default function DashaTimelineView() {
               </div>
             </div>
           )}
+
+          <div className="bg-surface border border-line rounded-2xl p-5 mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-end gap-3 mb-3">
+              <label className="flex-1">
+                <span className="block text-xs font-medium text-ink-soft mb-1">
+                  எந்த தேதியில் என்ன நடந்தது (replay)
+                </span>
+                <input type="date" value={asOf}
+                  onChange={(e) => setAsOf(e.target.value)}
+                  className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded text-sm" />
+              </label>
+              <button onClick={() => calculate()} disabled={loading}
+                className="px-4 py-2 bg-info/10 text-info rounded font-medium text-sm disabled:opacity-50">
+                அந்த தேதிக்கு மீண்டும் காட்டு
+              </button>
+            </div>
+            {activeChain.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2">
+                {activeChain.map((c: any, i: number) => (
+                  <span key={c.level} className="flex items-center gap-2">
+                    {i > 0 && <span className="text-ink-soft">›</span>}
+                    <span className="px-2 py-1 rounded bg-ink-soft/10 text-xs">
+                      <span className="text-ink-soft">{c.level}</span>{' '}
+                      <strong className="text-ink">{c.planet ?? c.lord}</strong>
+                      <span className="block text-[10px] text-ink-soft tabular-nums">
+                        {String(c.startLocal).slice(0, 10)} → {String(c.endLocal).slice(0, 10)}
+                      </span>
+                    </span>
+                  </span>
+                ))}
+              </div>
+            )}
+            <p className="text-[11px] text-ink-soft mt-2">
+              ஒரே தேதி எப்போதும் ஒரே முடிவைத் தரும் — கணக்கீடு கடிகாரத்தைப் படிப்பதில்லை.
+            </p>
+          </div>
 
           {currentDasha && (
             <div className="bg-info/10 border-2 border-info rounded-lg p-5 mb-6">

@@ -12,14 +12,10 @@ const { calculateParashariChart } = require('../../src/chart/parashariChart');
 const { buildVimshottariDasha, NAKSHATRA_LORDS } = require('../../src/dasha/vimshottariDasha');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { NAKSHATRA_NAMES } = require('../../src/panchangam/tirukanitaPanchangam');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { julianDayFromMs, statusAt, chainAtJulianDay } = require('../../src/dasha/timeline');
 
 type Status = 'past' | 'current' | 'future';
-
-function statusOf(nowJd: number, startJd: number, endJd: number): Status {
-  if (nowJd >= endJd) return 'past';
-  if (nowJd >= startJd) return 'current';
-  return 'future';
-}
 
 /** [Y, M] from a "YYYY-MM-DD HH:mm" local string as vimshottariDasha emits it. */
 function yearMonth(local: string): { year: number; month: number } {
@@ -28,7 +24,13 @@ function yearMonth(local: string): { year: number; month: number } {
   return { year, month };
 }
 
-export async function computeDashaTimeline(input: BirthFormInput) {
+/**
+ * `asOfMs` is the instant the timeline is reported against. It is a parameter,
+ * not a clock read: VJ-017 requires the same request to produce the same
+ * result, and this function used to call Date.now() mid-computation so its
+ * output changed every day.
+ */
+export async function computeDashaTimeline(input: BirthFormInput, asOfMs?: number) {
   const request = createCalculationRequest({
     input,
     settings: { ayanamsha: input.ayanamsha, houseSystem: input.houseSystem, nodeType: input.nodeType },
@@ -46,7 +48,8 @@ export async function computeDashaTimeline(input: BirthFormInput) {
       { depth: 2 },
     );
 
-    const nowJd = Date.now() / 86400000 + 2440587.5;
+    const referenceMs = asOfMs ?? Date.now();
+    const nowJd = julianDayFromMs(referenceMs);
 
     const dashas = dasha.dashas.map((d: any) => {
       const start = yearMonth(d.startLocal);
@@ -58,7 +61,7 @@ export async function computeDashaTimeline(input: BirthFormInput) {
         endYear: end.year,
         endMonth: end.month,
         duration: Number(d.durationYears.toFixed(2)),
-        status: statusOf(nowJd, d.startJulianDay, d.endJulianDay),
+        status: statusAt(nowJd, d.startJulianDay, d.endJulianDay),
         bhuktis: (d.Bhukti || []).map((b: any) => {
           const bStart = yearMonth(b.startLocal);
           const bEnd = yearMonth(b.endLocal);
@@ -69,7 +72,7 @@ export async function computeDashaTimeline(input: BirthFormInput) {
             endYear: bEnd.year,
             endMonth: bEnd.month,
             duration: Number(b.durationYears.toFixed(2)),
-            status: statusOf(nowJd, b.startJulianDay, b.endJulianDay),
+            status: statusAt(nowJd, b.startJulianDay, b.endJulianDay),
           };
         }),
       };
@@ -81,6 +84,8 @@ export async function computeDashaTimeline(input: BirthFormInput) {
       moonNakshatraIndex: dasha.birthNakshatraIndex,
       moonNakshatraLord: NAKSHATRA_LORDS[dasha.birthNakshatraIndex],
       startingLord: dasha.startingLord,
+      asOfMs: referenceMs,
+      activeChain: chainAtJulianDay(dasha, nowJd),
       balanceYearsAtBirth: Number(dasha.balanceYearsAtBirth.toFixed(3)),
       source: dasha.source,
     }));
