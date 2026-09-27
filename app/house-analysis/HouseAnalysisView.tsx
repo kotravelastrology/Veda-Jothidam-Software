@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
+import { useActiveBirthInput } from '@/src/workspace/useActiveBirthInput';
 import { analyzeHouses } from './actions';
 
 const HOUSE_NAMES = [
@@ -37,6 +38,7 @@ export default function HouseAnalysisView() {
     longitude: '80.2707',
   });
   const { settings } = useSettings();
+  const { profile, input: profileInput, fields: profileFields } = useActiveBirthInput();
   const [houses, setHouses] = useState<House[]>([]);
   const [total, setTotal] = useState(0);
   const [lagnaRasi, setLagnaRasi] = useState('');
@@ -44,14 +46,26 @@ export default function HouseAnalysisView() {
   const [error, setError] = useState<string | null>(null);
   const [selectedHouse, setSelectedHouse] = useState<number | null>(null);
 
-  const analyze = async () => {
+  // When the workspace has a profile open, fill this page's form from it
+  // and compute straight away, so the details are not re-entered. The
+  // stored input is passed through rather than re-derived from the form,
+  // which would drop the ayanamsha the profile was saved with.
+  useEffect(() => {
+    if (!profileFields || !profileInput) return;
+    setBirthData(profileFields);
+    analyze(profileInput);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileFields, profileInput]);
+
+  const analyze = async (override?: any) => {
     setLoading(true);
     setError(null);
     try {
       const [year, month, day] = birthData.date.split('-').map(Number);
       const timeParts = birthData.time.split(':').map(Number);
 
-      const result = await analyzeHouses({
+
+      const result = await analyzeHouses(override ?? {
         name: '',
         gender: 'male',
         year, month, day,
@@ -109,6 +123,13 @@ export default function HouseAnalysisView() {
           {lagnaRasi && <> லக்னம்: <strong>{lagnaRasi}</strong></>}
         </p>
       </header>
+
+      {profile && (
+        <div className="bg-saffron/10 border border-saffron/40 rounded-lg px-4 py-2 mb-4 text-xs text-ink-soft">
+          <strong className="text-ink">{profile.name}</strong> (v{profile.revision}) இன் விவரங்கள்
+          தானாக நிரப்பப்பட்டுள்ளன. கீழே மாற்றினால் அந்த ஒரு கணக்கீட்டுக்கு மட்டும் பொருந்தும்.
+        </div>
+      )}
 
       <div className="bg-surface border border-line rounded-2xl p-5 mb-6">
         <div className="grid sm:grid-cols-2 gap-4 mb-4">

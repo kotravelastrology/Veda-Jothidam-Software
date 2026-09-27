@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
+import { useActiveBirthInput } from '@/src/workspace/useActiveBirthInput';
 import { computeDashaTimeline } from './actions';
 
 interface Bhukti {
@@ -50,6 +51,7 @@ export default function DashaTimelineView() {
     longitude: '80.2707',
   });
   const { settings } = useSettings();
+  const { profile, input: profileInput, fields: profileFields } = useActiveBirthInput();
   const [dashas, setDashas] = useState<DashaPeriod[]>([]);
   const [meta, setMeta] = useState<{
     moonNakshatra: string | null;
@@ -60,14 +62,26 @@ export default function DashaTimelineView() {
   const [error, setError] = useState<string | null>(null);
   const [expandedPlanet, setExpandedPlanet] = useState<string | null>(null);
 
-  const calculate = async () => {
+  // When the workspace has a profile open, fill this page's form from it
+  // and compute straight away, so the details are not re-entered. The
+  // stored input is passed through rather than re-derived from the form,
+  // which would drop the ayanamsha the profile was saved with.
+  useEffect(() => {
+    if (!profileFields || !profileInput) return;
+    setBirthData(profileFields);
+    calculate(profileInput);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profileFields, profileInput]);
+
+  const calculate = async (override?: any) => {
     setLoading(true);
     setError(null);
     try {
       const [year, month, day] = birthData.date.split('-').map(Number);
       const timeParts = birthData.time.split(':').map(Number);
 
-      const result = await computeDashaTimeline({
+
+      const result = await computeDashaTimeline(override ?? {
         name: '',
         gender: 'male',
         year, month, day,
@@ -113,6 +127,13 @@ export default function DashaTimelineView() {
           Swiss Ephemeris சந்திர நிலை அடிப்படையில் BPHS Ch.46/Ch.51 தசை–புக்தி கணக்கு.
         </p>
       </header>
+
+      {profile && (
+        <div className="bg-saffron/10 border border-saffron/40 rounded-lg px-4 py-2 mb-4 text-xs text-ink-soft">
+          <strong className="text-ink">{profile.name}</strong> (v{profile.revision}) இன் விவரங்கள்
+          தானாக நிரப்பப்பட்டுள்ளன. கீழே மாற்றினால் அந்த ஒரு கணக்கீட்டுக்கு மட்டும் பொருந்தும்.
+        </div>
+      )}
 
       <div className="bg-surface border border-line rounded-2xl p-5 mb-6">
         <div className="grid sm:grid-cols-2 gap-4 mb-4">

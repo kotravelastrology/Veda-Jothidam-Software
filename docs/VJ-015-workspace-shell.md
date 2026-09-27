@@ -87,12 +87,33 @@ chart listed, selected it, and checked that:
 
 Test data was removed from the user library afterwards.
 
+## Pages consume the profile
+
+`useActiveBirthInput()` gives a page the open profile in two shapes:
+
+- `fields` fills the page's own form, so the values stay visible and can be
+  overridden for a one-off calculation.
+- `input` is the **stored** birth input, carrying the time zone and the
+  ayanamsha / house system the profile was saved with. Pages compute from this
+  rather than re-deriving from `fields`, which would silently drop those
+  settings back to defaults — the same class of silent downgrade VJ-008 found
+  in packaging.
+
+`/divisional-charts`, `/yoga-detection`, `/house-analysis` and
+`/dasha-timeline` now fill in and compute on arrival, with a banner saying
+whose details were used and that editing applies to that calculation only.
+Opening a person once replaces four rounds of data entry.
+
+Verified end to end: saved a Madurai 2004-08-31 04:12 chart, opened it from
+the palette, and all four pages computed with no typing and no button press.
+The output matched the VJ-002 `madurai-2004-08-31-sandhi` fixture exactly —
+Lagna Karkataka, Sun Simha, Moon Kumbha — which checks the whole chain from
+stored profile through Server Action to screen.
+
 ## Not done yet
 
-- **Pages do not consume the active profile.** The context is set and visible,
-  but `/dasha-timeline` and the others still have their own birth forms. Making
-  each page prefer the workspace profile is the obvious follow-up and is what
-  turns this from plumbing into time saved.
+- Restore is still not in the palette; it needs a file picker and a
+  confirmation step, which belongs with a real File menu.
 - Backup is in the palette but restore is not; restore needs a file picker and
   a confirmation step, which belongs with a real File menu.
 - `WindowManager.tsx` remains unused. Saved *window* layouts, as opposed to
