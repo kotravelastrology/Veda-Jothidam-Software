@@ -158,7 +158,7 @@ export default function HouseAnalysisView() {
               className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded" />
           </label>
         </div>
-        <button onClick={analyze} disabled={loading}
+        <button onClick={() => analyze()} disabled={loading}
           className="w-full px-4 py-2 bg-saffron text-ink rounded font-medium disabled:opacity-50 hover:bg-saffron/90">
           {loading ? 'Swiss Ephemeris பகுப்பாய்வு…' : 'பாவ பலம் பகுப்பாய்வு'}
         </button>

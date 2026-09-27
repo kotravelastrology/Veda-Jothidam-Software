@@ -5,6 +5,8 @@ import type { BirthFormInput } from '../report/actions';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { createCalculationRequest } = require('../../src/contracts/calculationRequest');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const { withEphemeris } = require('../../src/ephemeris/isolation');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { createChartSnapshot } = require('../../src/contracts/chartSnapshot');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { createRuleEvidence } = require('../../src/contracts/ruleEvidence');
@@ -39,108 +41,112 @@ export async function computeEvidenceSnapshot(input: BirthFormInput) {
     },
     outputs: ['parashariChart', 'vargas', 'ashtakavarga', 'shadbala'],
   });
-  const chart = calculateParashariChart(request.chartContext);
+  // VJ-014: the ayanamsha lives in Swiss Ephemeris's global state, so the
+  // whole computation runs inside one isolated session.
+  return withEphemeris({ ayanamsha: request.settings.ayanamsha }, async () => {
+    const chart = calculateParashariChart(request.chartContext);
 
-  const natal = ALL.map((id) => {
-    const g = chart.grahas[id];
-    return {
-      id,
-      longitude: g.longitude,
-      rasi: g.rasi,
-      rasiIndex: g.rasiIndex,
-      degreeInSign: g.degreeInSign,
-      house: g.house,
+    const natal = ALL.map((id) => {
+      const g = chart.grahas[id];
+      return {
+        id,
+        longitude: g.longitude,
+        rasi: g.rasi,
+        rasiIndex: g.rasiIndex,
+        degreeInSign: g.degreeInSign,
+        house: g.house,
+      };
+    });
+
+    const vargaBy: Record<string, any> = {};
+    for (const id of ALL) {
+      const g = chart.grahas[id];
+      vargaBy[id] = calculateVargas(g.rasiIndex, g.degreeInSign);
+    }
+    const lagnaVargas = calculateVargas(chart.lagna.rasiIndex, chart.lagna.degreeInSign);
+    const vargaKeys = Object.keys(lagnaVargas).filter((k) => k !== 'source' && k !== 'D2');
+
+    const rasiPositions: Record<string, number> = {
+      ...Object.fromEntries(CLASSICAL.map((p) => [p, chart.grahas[p].rasiIndex])),
+      Lagna: chart.lagna.rasiIndex,
     };
-  });
+    const ashtakavarga = calculateAshtakavarga(rasiPositions);
 
-  const vargaBy: Record<string, any> = {};
-  for (const id of ALL) {
-    const g = chart.grahas[id];
-    vargaBy[id] = calculateVargas(g.rasiIndex, g.degreeInSign);
-  }
-  const lagnaVargas = calculateVargas(chart.lagna.rasiIndex, chart.lagna.degreeInSign);
-  const vargaKeys = Object.keys(lagnaVargas).filter((k) => k !== 'source' && k !== 'D2');
+    const shadbala = calculateShadbala({
+      longitudes: Object.fromEntries(CLASSICAL.map((p) => [p, chart.grahas[p].longitude])),
+      lagnaRasiIndex: chart.lagna.rasiIndex,
+      ascendant: chart.lagna.longitude,
+      mc: chart.mc,
+      birthJd: chart.julianDay,
+      latitude: input.latitude,
+      longitude: input.longitude,
+      year: input.year,
+      month: input.month,
+      day: input.day,
+      utcOffsetMinutes: input.utcOffsetMinutes,
+    });
 
-  const rasiPositions: Record<string, number> = {
-    ...Object.fromEntries(CLASSICAL.map((p) => [p, chart.grahas[p].rasiIndex])),
-    Lagna: chart.lagna.rasiIndex,
-  };
-  const ashtakavarga = calculateAshtakavarga(rasiPositions);
+    // Each panel's governing rule, carried as VJ-006 RuleEvidence so the UI can
+    // show where a number comes from and a consultation can cite it.
+    const evidence = [
+      createRuleEvidence({
+        ruleId: 'PARASHARI_CHART',
+        name: 'Parashari natal chart',
+        outcome: { lagna: chart.lagna.rasi, houseSystem: chart.houseSystem, ayanamsha: chart.ayanamsha },
+        source: {
+          title: 'Brihat Parashara Hora Shastra (BPHS)',
+          author: 'R. Santhanam (translation)',
+          file: 'C23_BPHS_Santhanam.pdf',
+          tradition: 'Parashari',
+          convention: 'Natal chart, Ch.3-4',
+          pageLocus: 'Ch.3-4 — S6 (Lagna and the seven classical grahas)',
+        },
+      }),
+      createRuleEvidence({
+        ruleId: 'VARGAS',
+        name: 'Divisional charts',
+        outcome: { divisions: vargaKeys },
+        source: lagnaVargas.source,
+      }),
+      createRuleEvidence({
+        ruleId: 'ASHTAKAVARGA',
+        name: 'Ashtakavarga',
+        outcome: { sarva: ashtakavarga.sarva, total: ashtakavarga.sarva.reduce((a: number, b: number) => a + b, 0) },
+        source: ashtakavarga.source,
+      }),
+      createRuleEvidence({
+        ruleId: 'SHADBALA',
+        name: 'Shadbala',
+        outcome: { planets: CLASSICAL },
+        source: shadbala.source,
+      }),
+    ];
 
-  const shadbala = calculateShadbala({
-    longitudes: Object.fromEntries(CLASSICAL.map((p) => [p, chart.grahas[p].longitude])),
-    lagnaRasiIndex: chart.lagna.rasiIndex,
-    ascendant: chart.lagna.longitude,
-    mc: chart.mc,
-    birthJd: chart.julianDay,
-    latitude: input.latitude,
-    longitude: input.longitude,
-    year: input.year,
-    month: input.month,
-    day: input.day,
-    utcOffsetMinutes: input.utcOffsetMinutes,
-  });
-
-  // Each panel's governing rule, carried as VJ-006 RuleEvidence so the UI can
-  // show where a number comes from and a consultation can cite it.
-  const evidence = [
-    createRuleEvidence({
-      ruleId: 'PARASHARI_CHART',
-      name: 'Parashari natal chart',
-      outcome: { lagna: chart.lagna.rasi, houseSystem: chart.houseSystem, ayanamsha: chart.ayanamsha },
-      source: {
-        title: 'Brihat Parashara Hora Shastra (BPHS)',
-        author: 'R. Santhanam (translation)',
-        file: 'C23_BPHS_Santhanam.pdf',
-        tradition: 'Parashari',
-        convention: 'Natal chart, Ch.3-4',
-        pageLocus: 'Ch.3-4 — S6 (Lagna and the seven classical grahas)',
+    const snapshot = createChartSnapshot({
+      request,
+      values: {
+        lagna: {
+          longitude: chart.lagna.longitude,
+          rasi: chart.lagna.rasi,
+          rasiIndex: chart.lagna.rasiIndex,
+          degreeInSign: chart.lagna.degreeInSign,
+        },
+        natal,
+        vargaKeys,
+        vargas: vargaBy,
+        lagnaVargas,
+        ashtakavarga: {
+          sarva: ashtakavarga.sarva,
+          bhinna: ashtakavarga.bhinna,
+          total: ashtakavarga.sarva.reduce((a: number, b: number) => a + b, 0),
+        },
+        shadbala: shadbala.perPlanet,
       },
-    }),
-    createRuleEvidence({
-      ruleId: 'VARGAS',
-      name: 'Divisional charts',
-      outcome: { divisions: vargaKeys },
-      source: lagnaVargas.source,
-    }),
-    createRuleEvidence({
-      ruleId: 'ASHTAKAVARGA',
-      name: 'Ashtakavarga',
-      outcome: { sarva: ashtakavarga.sarva, total: ashtakavarga.sarva.reduce((a: number, b: number) => a + b, 0) },
-      source: ashtakavarga.source,
-    }),
-    createRuleEvidence({
-      ruleId: 'SHADBALA',
-      name: 'Shadbala',
-      outcome: { planets: CLASSICAL },
-      source: shadbala.source,
-    }),
-  ];
+      evidence,
+    });
 
-  const snapshot = createChartSnapshot({
-    request,
-    values: {
-      lagna: {
-        longitude: chart.lagna.longitude,
-        rasi: chart.lagna.rasi,
-        rasiIndex: chart.lagna.rasiIndex,
-        degreeInSign: chart.lagna.degreeInSign,
-      },
-      natal,
-      vargaKeys,
-      vargas: vargaBy,
-      lagnaVargas,
-      ashtakavarga: {
-        sarva: ashtakavarga.sarva,
-        bhinna: ashtakavarga.bhinna,
-        total: ashtakavarga.sarva.reduce((a: number, b: number) => a + b, 0),
-      },
-      shadbala: shadbala.perPlanet,
-    },
-    evidence,
+    return JSON.parse(JSON.stringify(snapshot));
   });
-
-  return JSON.parse(JSON.stringify(snapshot));
 }
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

@@ -162,7 +162,7 @@ export default function DashaTimelineView() {
               className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded" />
           </label>
         </div>
-        <button onClick={calculate} disabled={loading}
+        <button onClick={() => calculate()} disabled={loading}
           className="w-full px-4 py-2 bg-saffron text-ink rounded font-medium disabled:opacity-50 hover:bg-saffron/90">
           {loading ? 'Swiss Ephemeris கணக்கிடுகிறது…' : 'தசை கால கணக்கிடு'}
         </button>
