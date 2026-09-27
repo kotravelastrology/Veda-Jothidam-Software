@@ -5,6 +5,7 @@ import {
   WorkspaceContext, ActiveProfile, WorkspaceLayout,
   DEFAULT_LAYOUT, WORKSPACE_STORAGE_KEY,
 } from './workspaceContext';
+import { readJson, writeJson, StoreFailure } from './persistentStore';
 
 /**
  * VJ-015 — the workspace shell's state.
@@ -20,27 +21,25 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [layout, setLayout] = useState<WorkspaceLayout>(DEFAULT_LAYOUT);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [restored, setRestored] = useState(false);
+  const [storageFailure, setStorageFailure] = useState<StoreFailure | null>(null);
 
   // Read once on mount. localStorage is unavailable during SSR and can throw
   // in a private window, so a failure falls back to defaults rather than
   // taking the app down.
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(WORKSPACE_STORAGE_KEY);
-      if (raw) {
-        const saved = JSON.parse(raw);
-        if (saved.activeProfile?.profileId) setActiveProfileState(saved.activeProfile);
-        if (saved.layout) setLayout({ ...DEFAULT_LAYOUT, ...saved.layout });
-      }
-    } catch { /* defaults are fine */ }
+    const { value, failure } = readJson<any>(WORKSPACE_STORAGE_KEY, null);
+    if (value?.activeProfile?.profileId) setActiveProfileState(value.activeProfile);
+    if (value?.layout) setLayout({ ...DEFAULT_LAYOUT, ...value.layout });
+    if (failure) setStorageFailure(failure);
     setRestored(true);
   }, []);
 
+  // A failed write is reported, not swallowed: otherwise the user keeps
+  // working, nothing persists, and they only find out after a restart.
   useEffect(() => {
     if (!restored) return;
-    try {
-      localStorage.setItem(WORKSPACE_STORAGE_KEY, JSON.stringify({ activeProfile, layout }));
-    } catch { /* a full or blocked store must not break the workspace */ }
+    const result = writeJson(WORKSPACE_STORAGE_KEY, { activeProfile, layout });
+    setStorageFailure(result.ok ? null : result.failure);
   }, [activeProfile, layout, restored]);
 
   const setActiveProfile = useCallback((profile: ActiveProfile | null) => {
@@ -56,7 +55,9 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     layout, updateLayout,
     commandPaletteOpen, setCommandPaletteOpen,
     restored,
-  }), [activeProfile, setActiveProfile, layout, updateLayout, commandPaletteOpen, restored]);
+    storageFailure,
+    dismissStorageFailure: () => setStorageFailure(null),
+  }), [activeProfile, setActiveProfile, layout, updateLayout, commandPaletteOpen, restored, storageFailure]);
 
   return <WorkspaceContext.Provider value={value}>{children}</WorkspaceContext.Provider>;
 }

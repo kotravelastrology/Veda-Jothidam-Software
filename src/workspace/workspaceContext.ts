@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+import type { StoreFailure } from './persistentStore';
 
 /** The person whose chart the whole workspace is currently working on. */
 export interface ActiveProfile {
@@ -26,6 +27,10 @@ export interface WorkspaceContextType {
   /** False until the persisted state has been read, so the first paint does
    *  not flash a default layout over the user's saved one. */
   restored: boolean;
+  /** VJ-013: a storage failure the user must be told about, rather than a
+   *  swallowed exception that loses preferences silently. */
+  storageFailure: StoreFailure | null;
+  dismissStorageFailure: () => void;
 }
 
 export const WorkspaceContext = createContext<WorkspaceContextType | undefined>(undefined);

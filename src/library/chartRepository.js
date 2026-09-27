@@ -638,6 +638,93 @@ function openLibrary(filePath) {
       return db.prepare('DELETE FROM drafts WHERE draft_key = ?').run(draftKey).changes > 0;
     },
 
+    /**
+     * VJ-013 — what is disposable and what is not.
+     *
+     * Records are the practitioner's own work and are never purged: profiles,
+     * their revisions, consultations and the evidence cited in them, journal
+     * entries, imports and unsent drafts.
+     *
+     * Cache is anything this app can recompute: chart snapshots, and the FTS
+     * index. The one subtlety is that a snapshot **cited by a consultation is
+     * not cache** — ADR-07 makes a report a snapshot rendering, so dropping it
+     * would break the immutable association VJ-022 exists to provide.
+     */
+    purgeCache({ dryRun = false } = {}) {
+      const cited = new Set(
+        db.prepare('SELECT DISTINCT snapshot_id FROM consultations WHERE snapshot_id IS NOT NULL')
+          .all().map((r) => r.snapshot_id),
+      );
+      const all = db.prepare('SELECT snapshot_id FROM snapshots').all().map((r) => r.snapshot_id);
+      const disposable = all.filter((id) => !cited.has(id));
+
+      if (dryRun) {
+        return { removedSnapshots: 0, wouldRemove: disposable.length, protectedSnapshots: cited.size };
+      }
+
+      db.exec('BEGIN');
+      try {
+        const del = db.prepare('DELETE FROM snapshots WHERE snapshot_id = ?');
+        for (const id of disposable) del.run(id);
+        db.exec('COMMIT');
+      } catch (error) {
+        db.exec('ROLLBACK');
+        throw error;
+      }
+
+      return {
+        removedSnapshots: disposable.length,
+        protectedSnapshots: cited.size,
+        // Stated explicitly so a caller cannot mistake this for a data reset.
+        recordsRemoved: 0,
+      };
+    },
+
+    /** Rebuilds the FTS index from the revisions, which remain the source of
+     *  truth. Safe to call after a purge or if search ever looks wrong. */
+    rebuildSearchIndex() {
+      db.exec('DELETE FROM profile_search');
+      const rows = db.prepare(`
+        SELECT r.profile_id, r.name, r.place_name, r.note, r.email, r.phone
+        FROM profile_revisions r
+        JOIN profiles p ON p.profile_id = r.profile_id AND p.current_revision = r.revision`).all();
+      const insert = db.prepare(
+        'INSERT INTO profile_search (name, place_name, note, email, phone, profile_id) VALUES (?, ?, ?, ?, ?, ?)',
+      );
+      for (const r of rows) {
+        insert.run(r.name, r.place_name ?? '', r.note ?? '', r.email ?? '', r.phone ?? '', r.profile_id);
+      }
+      return { indexed: rows.length };
+    },
+
+    /** Row counts and file size, so storage pressure is visible before a
+     *  write fails rather than after (VJ-013: "quota failure visible"). */
+    storageReport() {
+      const count = (table) => db.prepare(`SELECT COUNT(*) AS n FROM ${table}`).get().n;
+      const cited = db.prepare('SELECT COUNT(DISTINCT snapshot_id) AS n FROM consultations WHERE snapshot_id IS NOT NULL').get().n;
+      let bytes = null;
+      try {
+        if (filePath !== ':memory:') bytes = fs.statSync(filePath).size;
+      } catch { /* a missing file is reported as unknown rather than zero */ }
+      return {
+        path: filePath,
+        bytes,
+        records: {
+          profiles: count('profiles'),
+          revisions: count('profile_revisions'),
+          consultations: count('consultations'),
+          journalEvents: count('journal_events'),
+          drafts: count('drafts'),
+          imports: count('imports'),
+        },
+        cache: {
+          snapshots: count('snapshots'),
+          citedSnapshots: cited,
+          purgeableSnapshots: count('snapshots') - cited,
+        },
+      };
+    },
+
     /** Every row, for VJ-012 archives. Raw column shape on purpose: an
      *  archive should round-trip storage, not a presentation view. */
     exportAll() {
