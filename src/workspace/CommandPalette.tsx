@@ -14,6 +14,7 @@ interface Command {
 }
 
 const PAGES: Array<[string, string]> = [
+  ['/evidence', 'ஆதாரப் பலகைகள்'],
   ['/report', 'ஜாதக அறிக்கை'],
   ['/divisional-charts', 'வர்க கட்டங்கள்'],
   ['/yoga-detection', 'யோக பகுப்பாய்வு'],

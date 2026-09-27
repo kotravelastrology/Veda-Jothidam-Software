@@ -7,14 +7,36 @@ const { assertCalculationRequest } = require('./calculationRequest');
 
 const CHART_SNAPSHOT_VERSION = 'VJ006-SNAP-001';
 
-/** Read off disk because the package does not export its package.json. */
+/**
+ * The package does not export its package.json, so resolve the module and
+ * walk up to it. Resolving beats a path relative to __dirname, which does not
+ * survive bundling — under Next.js that returned 'unknown', and since the
+ * engine version is part of the snapshot id, the same chart would otherwise
+ * get different identities in the app and in tests.
+ */
 function engineVersion() {
+  const candidates = [];
   try {
-    const pkg = path.join(__dirname, '..', '..', 'node_modules', '@swisseph', 'node', 'package.json');
-    return JSON.parse(fs.readFileSync(pkg, 'utf8')).version;
-  } catch {
-    return 'unknown';
+    const entry = require.resolve('@swisseph/node');
+    let dir = path.dirname(entry);
+    for (let i = 0; i < 4; i += 1) {
+      candidates.push(path.join(dir, 'package.json'));
+      dir = path.dirname(dir);
+    }
+  } catch { /* fall through to the path guesses */ }
+  // Next.js bundles this module, so __dirname is not the source tree and
+  // require.resolve may not reach the external package. The server process
+  // runs from the project root, where node_modules is.
+  candidates.push(path.join(process.cwd(), 'node_modules', '@swisseph', 'node', 'package.json'));
+  candidates.push(path.join(__dirname, '..', '..', 'node_modules', '@swisseph', 'node', 'package.json'));
+
+  for (const candidate of candidates) {
+    try {
+      const pkg = JSON.parse(fs.readFileSync(candidate, 'utf8'));
+      if (pkg.name === '@swisseph/node' && pkg.version) return pkg.version;
+    } catch { /* try the next candidate */ }
   }
+  return 'unknown';
 }
 
 /** Key-order-independent, so reordering fields is not mistaken for a change. */
