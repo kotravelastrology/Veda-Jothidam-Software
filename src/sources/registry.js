@@ -110,6 +110,29 @@ const SOURCES = [
     },
   },
   {
+    id: 'KALACHAKRAM_THILLAINAYAKA',
+    title: 'காலச்சக்கரம் (தெளிவான உரையுடன்) — தில்லைநாயகப் புலவர்',
+    titleTa: 'காலச்சக்கரம் (தெளிவான உரையுடன்)',
+    author: 'தில்லைநாயகப் புலவர்; பதிப்பாசிரியர் வித்துவான் அடிகளாசிரியர்',
+    file: 'தஞ்சாவூர் சரசுவதி மகால் நூலகம் வெளியீடு எண். 125, 7th edn. 2007 '
+      + '(digitised: Tamil Digital Library / Internet Archive, TVA_BOK_0008536)',
+    tradition: 'Tamil classical — rasi dasha keyed to nakshatra padas',
+    rights: {
+      status: 'UNVERIFIED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A Saraswathi Mahal Library edition, digitised and publicly readable on '
+        + 'the Internet Archive — which makes the scan accessible but does not by '
+        + 'itself grant redistribution. The underlying text is old; the 2007 '
+        + 'edition\'s introduction and commentary, which is exactly the part the '
+        + 'engine was read against (pp.1-13), is modern editorial work.',
+      verified: false,
+      toConfirm: 'Check the Saraswathi Mahal edition\'s terms and the Internet '
+        + 'Archive item\'s rights statement. The distinction that matters is between '
+        + 'the old text and the 2007 editorial apparatus.',
+    },
+  },
+  {
     id: 'TRADITIONAL_CONVENTION',
     title: 'Widely-practised traditional convention (no single classical verse)',
     titleTa: 'மரபு வழக்கம் (ஒரே செய்யுள் ஆதாரம் இல்லை)',

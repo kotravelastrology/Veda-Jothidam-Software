@@ -1,11 +1,11 @@
 # Roadmap — finishing the Codex implementation plan
 
 **Updated:** 2026-09-28 · Source: `Veda-Jothidam-Implementation-Plan-2026-09-26`
-· **21 of 30 delivered, 9 remaining**
+· **22 of 30 delivered, 8 remaining**
 
 ---
 
-## Delivered (21)
+## Delivered (22)
 
 | ID | What | Record |
 |---|---|---|
@@ -29,14 +29,15 @@
 | VJ-022 | Consultation notes, evidence links, event journal | `docs/VJ-022-…md` |
 | VJ-023 | Parashara's Light 9 import | `docs/VJ-023-…md` |
 | VJ-026 | Source-aware glossary (term ↔ rule ↔ locator ↔ rights) | `docs/VJ-026-…md` |
+| VJ-027 | Dasha coverage labels + Tribhagi (worked example) | `docs/VJ-027-…md` |
 | VJ-028 | Research predicates and saved cohorts | `docs/VJ-028-…md` |
 
 ---
 
 ## The honest shape of what is left
 
-Nine items remain, and they do not all belong to the same person. **Three I can
-finish at this keyboard, plus half of a fourth. Five cannot be completed without hardware, testers, or
+Eight items remain, and they do not all belong to the same person. **Two I can
+finish at this keyboard, plus half of a third. Five cannot be completed without hardware, testers, or
 a decision that is yours.** Saying otherwise would produce items marked "done"
 that no device has ever run.
 
@@ -44,7 +45,6 @@ that no device has ever run.
 
 | ID | What | Size | State |
 |---|---|---|---|
-| **VJ-027** | Rare dasha / Tajika expansion | **large** | not started — 4 of ~23 dasha systems exist |
 | **VJ-024** | Optional auth / sync service | **large** | not started |
 | **VJ-025** | Conflict-resolution UI | medium | not started (needs 024) |
 
@@ -74,12 +74,10 @@ Also outstanding, and yours rather than mine:
 
 ## Order
 
-1. **VJ-027** — the largest remaining calculation gap, and the one the PL9
-   audit showed most sharply: 4 dasha systems against PL9's ~23.
-2. **VJ-024 → VJ-025** — sync and conflict resolution. The largest items;
+1. **VJ-024 → VJ-025** — sync and conflict resolution. The largest items;
    ADR-05 makes them optional and the product works fully without an account,
    so they come last among the ones I can do.
-3. **VJ-029 (part)** — packaging and diagnostics.
+2. **VJ-029 (part)** — packaging and diagnostics.
 
 Then the PL9 425-row comparison audit.
 
