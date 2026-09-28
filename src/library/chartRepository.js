@@ -26,7 +26,7 @@ const { assertChartSnapshot } = require('../contracts/chartSnapshot');
  * earlier ones stay readable.
  */
 
-const SCHEMA_VERSION = 6;
+const SCHEMA_VERSION = 7;
 
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS library_meta (
@@ -189,6 +189,28 @@ CREATE TABLE IF NOT EXISTS sync_devices (
   last_sync_at TEXT
 );
 
+-- VJ-025: a conflict awaiting a person's decision.
+--
+-- Conflicts are durable rather than living in the result of whichever drain
+-- found them: a page reload must not be able to lose the fact that two
+-- devices disagree about a birth time. Both sides are stored in full, and
+-- resolving records which was chosen WITHOUT deleting the other, so "no
+-- silent loss" is a property of the schema rather than a promise about the UI.
+CREATE TABLE IF NOT EXISTS sync_conflicts (
+  conflict_id   TEXT PRIMARY KEY,
+  op_id         TEXT NOT NULL,
+  resource_id   TEXT NOT NULL,
+  operation     TEXT NOT NULL,
+  local_payload TEXT NOT NULL,
+  remote_payload TEXT,
+  remote_version INTEGER,
+  state         TEXT NOT NULL DEFAULT 'open',
+  resolution    TEXT,
+  resolved_at   TEXT,
+  detected_at   TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_conflicts_state ON sync_conflicts(state, detected_at);
+
 -- Indexed local search over the current revision of each profile.
 CREATE VIRTUAL TABLE IF NOT EXISTS profile_search USING fts5(
   name, place_name, note, email, phone, profile_id UNINDEXED, tokenize = 'unicode61'
@@ -271,7 +293,7 @@ function openLibrary(filePath) {
   db.exec(SCHEMA);
 
   if (foundVersion !== null && foundVersion < 2) migrateToV2(db);
-  // v2 -> v3 through v5 -> v6 add only new tables, which the schema above
+  // v2 -> v3 through v6 -> v7 add only new tables, which the schema above
   // already created with IF NOT EXISTS; there is nothing to move, so no data
   // migration runs for any of them.
 
@@ -308,6 +330,20 @@ function openLibrary(filePath) {
     phone: row.phone ?? null,
     createdAt: row.created_at,
   } : null);
+
+  const hydrateConflict = (row) => ({
+    conflictId: row.conflict_id,
+    opId: row.op_id,
+    resourceId: row.resource_id,
+    operation: row.operation,
+    localPayload: JSON.parse(row.local_payload),
+    remotePayload: row.remote_payload ? JSON.parse(row.remote_payload) : null,
+    remoteVersion: row.remote_version ?? null,
+    state: row.state,
+    resolution: row.resolution ?? null,
+    resolvedAt: row.resolved_at ?? null,
+    detectedAt: row.detected_at,
+  });
 
   const hydrateOutbox = (row) => ({
     opId: row.op_id,
@@ -755,6 +791,57 @@ function openLibrary(filePath) {
     noteDeviceSync(deviceId, { at = nowIso() } = {}) {
       db.prepare('UPDATE sync_devices SET last_sync_at = ? WHERE device_id = ?').run(at, deviceId);
       return { deviceId, at };
+    },
+
+    // ── VJ-025: conflicts awaiting a decision ───────────────────────────
+
+    recordConflict(conflictId, { opId, resourceId, operation, localPayload, remote }) {
+      if (!conflictId) throw new UnsupportedInputError('conflictId is required', 'conflictId');
+      if (!opId) throw new UnsupportedInputError('opId is required', 'opId');
+      db.prepare(`INSERT INTO sync_conflicts
+        (conflict_id, op_id, resource_id, operation, local_payload, remote_payload,
+         remote_version, state, detected_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, 'open', ?)
+        ON CONFLICT(conflict_id) DO NOTHING`,
+      ).run(conflictId, opId, resourceId ?? '', operation ?? '',
+        JSON.stringify(localPayload ?? null),
+        remote ? JSON.stringify(remote.payload ?? null) : null,
+        remote?.version ?? null, nowIso());
+      return { conflictId };
+    },
+
+    /**
+     * Records the decision. The losing side is *not* deleted — both payloads
+     * stay in the row, so a resolution can always be explained and the
+     * discarded edit can always be read back.
+     */
+    resolveConflict(conflictId, { resolution, resolvedAt = nowIso() }) {
+      if (!resolution) throw new UnsupportedInputError('a resolution is required', 'resolution');
+      const changes = db.prepare(
+        "UPDATE sync_conflicts SET state = 'resolved', resolution = ?, resolved_at = ? "
+        + "WHERE conflict_id = ? AND state = 'open'",
+      ).run(resolution, resolvedAt, conflictId).changes;
+      if (changes === 0) {
+        throw new UnsupportedInputError(
+          `no open conflict ${conflictId} (already resolved, or unknown)`, 'conflictId',
+        );
+      }
+      return { conflictId, resolution };
+    },
+
+    openConflicts() {
+      return db.prepare("SELECT * FROM sync_conflicts WHERE state = 'open' ORDER BY detected_at")
+        .all().map(hydrateConflict);
+    },
+
+    listConflicts({ limit = 100 } = {}) {
+      return db.prepare('SELECT * FROM sync_conflicts ORDER BY detected_at DESC LIMIT ?')
+        .all(limit).map(hydrateConflict);
+    },
+
+    getConflict(conflictId) {
+      const row = db.prepare('SELECT * FROM sync_conflicts WHERE conflict_id = ?').get(conflictId);
+      return row ? hydrateConflict(row) : null;
     },
 
     // ── VJ-028: saved research cohorts ──────────────────────────────────

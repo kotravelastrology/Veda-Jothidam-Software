@@ -1,11 +1,11 @@
 # Roadmap — finishing the Codex implementation plan
 
 **Updated:** 2026-09-28 · Source: `Veda-Jothidam-Implementation-Plan-2026-09-26`
-· **23 of 30 delivered, 7 remaining**
+· **24 of 30 delivered, 6 remaining**
 
 ---
 
-## Delivered (23)
+## Delivered (24)
 
 | ID | What | Record |
 |---|---|---|
@@ -30,6 +30,7 @@
 | VJ-023 | Parashara's Light 9 import | `docs/VJ-023-…md` |
 | VJ-026 | Source-aware glossary (term ↔ rule ↔ locator ↔ rights) | `docs/VJ-026-…md` |
 | VJ-024 | Sync: scopes, outbox, idempotency, revocation (client half) | `docs/VJ-024-…md` |
+| VJ-025 | Conflict resolution — explicit review, no silent loss | `docs/VJ-025-…md` |
 | VJ-027 | Dasha coverage labels + Tribhagi (worked example) | `docs/VJ-027-…md` |
 | VJ-028 | Research predicates and saved cohorts | `docs/VJ-028-…md` |
 
@@ -37,16 +38,16 @@
 
 ## The honest shape of what is left
 
-Seven items remain, and they do not all belong to the same person. **One I can
-finish at this keyboard, plus half of a second. Five cannot be completed without hardware, testers, or
+Six items remain, and they do not all belong to the same person. **Half of one I can
+finish at this keyboard. Five cannot be completed without hardware, testers, or
 a decision that is yours.** Saying otherwise would produce items marked "done"
 that no device has ever run.
 
 ### A · Finishable here, with no external dependency
 
-| ID | What | Size | State |
-|---|---|---|---|
-| **VJ-025** | Conflict-resolution UI | medium | not started — VJ-024 now surfaces conflicts for it |
+Only VJ-029's first half remains in this group; everything else needs the
+blockers below.
+
 
 VJ-029 (installer / update / rollback / support pack) is **half** in this
 group: packaging and diagnostic redaction are doable here; proving an
@@ -74,9 +75,8 @@ Also outstanding, and yours rather than mine:
 
 ## Order
 
-1. **VJ-025** — conflict resolution — VJ-024 collects conflicts and hands
-   them on; this is the screen that puts them in front of a person.
-2. **VJ-029 (part)** — packaging and diagnostics.
+1. **VJ-029 (part)** — packaging and diagnostic redaction. Proving an
+   interrupted update rolls back needs a real install on a real machine.
 
 Then the PL9 425-row comparison audit.
 
