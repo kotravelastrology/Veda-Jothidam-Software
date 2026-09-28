@@ -139,6 +139,18 @@ instance of that trap after `chartSnapshot` and `citationScan`. And the
 astronomy page was showing Swiss Ephemeris's raw house-system code (`O`)
 instead of the name.
 
+### 5. Solar returns generalised (2026-09-28)
+
+`docs/solar-returns.md` · `/solar-returns`. Closes roughly 25 worksheet rows
+(061-066, 072-085). The annual return at the birthplace was the only one of
+eighteen PL9 solar-return worksheets this software had; monthly and daily steps
+and the natal/local place pair are now one module.
+
+The astronomy is exact (1e-6 degrees, checked by asking the ephemeris back) and
+the *conventions* behind the monthly and daily steps are declared, labelled
+`CONVENTION_UNVERIFIED`, and gated — the VJ-027 pattern. Annual is VERIFIED
+because it is unambiguous.
+
 ## Suggested order
 
 1. **Remove the fabricated Ashtakoota** — small, and it is currently producing
@@ -147,7 +159,7 @@ instead of the name.
 3. **Wire the PDF export to a button** — closes most of 9 rows; the hard part
    (Tamil shaping in real PDF bytes) is done and proven.
 4. **Astronomy pages** — 8 rows, presentation over existing data.
-5. **Generalise Varshaphala to monthly and daily returns** — ~25 rows.
+5. ~~Generalise Varshaphala to monthly and daily returns~~ — **done**, see above.
 6. **Start the remedies domain** — 15 rows; needs sourcing before coding.
 7. **The 28 rare dashas wait on the BPHS pages** — same blocker as the 8
    unverified locators. One session with the book unblocks both.
