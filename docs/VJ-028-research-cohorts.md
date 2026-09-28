@@ -21,7 +21,10 @@ Two refusals are load-bearing:
 
 - **There is no retrograde predicate.** `calculateParashariChart` returns no
   retrograde flag, so one would have to be guessed, and a cohort built on a
-  guessed fact means nothing. Every predicate reads a fact the engines really
+  guessed fact means nothing. (Later note: the ephemeris layer beneath it does
+  compute `longitudeSpeed`, whose sign is what retrogression means — see
+  `/astronomy`. Adding the predicate means carrying that field up through
+  `chartFacts`, not inventing it.) Every predicate reads a fact the engines really
   compute.
 - **Unknown fields are an error, not ignored.** A typo like `houze: 8` would
   otherwise silently widen the cohort while the run still looked successful.

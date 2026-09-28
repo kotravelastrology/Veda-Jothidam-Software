@@ -10,7 +10,11 @@
  * Every predicate here reads a fact from `chartFacts()`. If the engine does
  * not compute something, there is no predicate for it: there is no
  * retrograde test, because `calculateParashariChart` returns no retrograde
- * flag, and a predicate that guessed one would quietly produce a cohort whose
+ * flag. (The ephemeris layer beneath it *does* compute `longitudeSpeed`, whose
+ * sign is what retrogression means — `/astronomy` reads it directly. Adding
+ * the predicate is therefore a matter of carrying that field up through
+ * `chartFacts`, not of inventing anything.) Until it is carried up, a
+ * predicate that guessed at it would quietly produce a cohort whose
  * membership meant nothing.
  */
 

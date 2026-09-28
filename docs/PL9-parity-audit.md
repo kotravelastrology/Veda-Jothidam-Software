@@ -107,6 +107,38 @@ above: a menu that names a feature is not the feature.
 Re-run with `node scripts/pl9-parity-audit.js`. The rules are one table in
 that file; disagreeing with a verdict means editing one line and re-running.
 
+## Done since this audit (2026-09-28)
+
+Items 1-4 of the order below are complete — commit `a516b3d`..HEAD:
+
+1. **Fabricated Ashtakoota removed.** Worse than the audit found: the call site
+   passed `rashi: 0, nakshatra: 0, moon: { sign: 0 }` for *both* charts, so the
+   arithmetic ran on zeros and every couple received the same **26/36 (72.2%)**
+   whoever they were. A constant, not a calculation. `ComparisonInsights` had
+   the same defect in a second form — `|| 50` as a fallback score, and 50 clears
+   the 32 threshold, so it declared an "Excellent Match" with personalised prose
+   for two charts that had never been compared. Both now render
+   `SourceRequiredPanel`, which states what was removed and links to
+   `/porutham`.
+2. **Six menu links fixed.** Rectification pointed one directory too deep at a
+   page that exists. Change Location and Change Time are genuinely absent and
+   are gone from the menu rather than listed. `test-navigation-links.js` now
+   fails the build if any navigation href stops resolving.
+3. **PDF export wired.** `/pdf-reports` no longer POSTs to Flask; it builds the
+   VJ-019 `ChartSnapshot` → `ReportDocument` → printable HTML here and prints
+   that document itself. The iframe shows the print input, not a copy of it.
+4. **Astronomy built.** `/astronomy`. The ephemeris layer already computed
+   celestial latitude, distance and `longitudeSpeed` for all seven grahas and
+   `calculateParashariChart` discarded them, so nothing in the product ever
+   showed retrogression. It does now, derived from the sign of the speed.
+
+Two further bugs surfaced while doing it: `readSwissephVersion` used a lone
+`__dirname`, which is a placeholder inside the Next bundle, so every chart
+computed through a page reported `engineVersion: "unknown"` — the **third**
+instance of that trap after `chartSnapshot` and `citationScan`. And the
+astronomy page was showing Swiss Ephemeris's raw house-system code (`O`)
+instead of the name.
+
 ## Suggested order
 
 1. **Remove the fabricated Ashtakoota** — small, and it is currently producing
