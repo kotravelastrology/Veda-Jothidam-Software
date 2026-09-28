@@ -1,11 +1,11 @@
 # Roadmap — finishing the Codex implementation plan
 
 **Updated:** 2026-09-28 · Source: `Veda-Jothidam-Implementation-Plan-2026-09-26`
-· **22 of 30 delivered, 8 remaining**
+· **23 of 30 delivered, 7 remaining**
 
 ---
 
-## Delivered (22)
+## Delivered (23)
 
 | ID | What | Record |
 |---|---|---|
@@ -29,6 +29,7 @@
 | VJ-022 | Consultation notes, evidence links, event journal | `docs/VJ-022-…md` |
 | VJ-023 | Parashara's Light 9 import | `docs/VJ-023-…md` |
 | VJ-026 | Source-aware glossary (term ↔ rule ↔ locator ↔ rights) | `docs/VJ-026-…md` |
+| VJ-024 | Sync: scopes, outbox, idempotency, revocation (client half) | `docs/VJ-024-…md` |
 | VJ-027 | Dasha coverage labels + Tribhagi (worked example) | `docs/VJ-027-…md` |
 | VJ-028 | Research predicates and saved cohorts | `docs/VJ-028-…md` |
 
@@ -36,8 +37,8 @@
 
 ## The honest shape of what is left
 
-Eight items remain, and they do not all belong to the same person. **Two I can
-finish at this keyboard, plus half of a third. Five cannot be completed without hardware, testers, or
+Seven items remain, and they do not all belong to the same person. **One I can
+finish at this keyboard, plus half of a second. Five cannot be completed without hardware, testers, or
 a decision that is yours.** Saying otherwise would produce items marked "done"
 that no device has ever run.
 
@@ -45,8 +46,7 @@ that no device has ever run.
 
 | ID | What | Size | State |
 |---|---|---|---|
-| **VJ-024** | Optional auth / sync service | **large** | not started |
-| **VJ-025** | Conflict-resolution UI | medium | not started (needs 024) |
+| **VJ-025** | Conflict-resolution UI | medium | not started — VJ-024 now surfaces conflicts for it |
 
 VJ-029 (installer / update / rollback / support pack) is **half** in this
 group: packaging and diagnostic redaction are doable here; proving an
@@ -74,9 +74,8 @@ Also outstanding, and yours rather than mine:
 
 ## Order
 
-1. **VJ-024 → VJ-025** — sync and conflict resolution. The largest items;
-   ADR-05 makes them optional and the product works fully without an account,
-   so they come last among the ones I can do.
+1. **VJ-025** — conflict resolution — VJ-024 collects conflicts and hands
+   them on; this is the screen that puts them in front of a person.
 2. **VJ-029 (part)** — packaging and diagnostics.
 
 Then the PL9 425-row comparison audit.
@@ -99,9 +98,10 @@ Not plan items, but real, and they should not be discovered at release:
   `lagnaSpecificYogas`, `lunarSolarYogas`, `edgeCaseYogas`, `chartQuality`,
   `doshas` (×2) say `file pages TBD`. Chapter and verse known, page never
   checked. Needs the BPHS PDF — VJ-002 work. Asserted at exactly 8 by test.
-- **`backend/.env` is tracked and on a public remote.** Its `JWT_SECRET_KEY`
-  must be treated as compromised and rotated before any auth work (VJ-024)
-  lands.
+- **`backend/.env` — untracked in VJ-024, but the secret is still exposed.**
+  It was in `.gitignore` yet still tracked; `git rm --cached` fixed that, but
+  the history and the `backup/pre-env-strip` refs still hold it. The
+  `JWT_SECRET_KEY` is a real 39-character secret and **must be rotated**.
 - **The ten porutham rule tables have no cited source.** VJ-018 discloses this
   on screen; closing it is VJ-002 work.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used

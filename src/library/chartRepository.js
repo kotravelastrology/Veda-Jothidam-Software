@@ -26,7 +26,7 @@ const { assertChartSnapshot } = require('../contracts/chartSnapshot');
  * earlier ones stay readable.
  */
 
-const SCHEMA_VERSION = 5;
+const SCHEMA_VERSION = 6;
 
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS library_meta (
@@ -158,6 +158,37 @@ CREATE TABLE IF NOT EXISTS cohorts (
   created_at     TEXT NOT NULL
 );
 
+-- VJ-024: the device outbox. Local changes queue here and drain to a sync
+-- service when one is configured; the product works with this table empty and
+-- never drained (ADR-05). op_id is the idempotency key: the server records
+-- which op_ids it has applied, so a redelivered row is a no-op rather than a
+-- duplicate. attempts and last_error are kept so a row that cannot be sent is
+-- visible instead of retrying forever in silence.
+CREATE TABLE IF NOT EXISTS outbox (
+  op_id       TEXT PRIMARY KEY,
+  operation   TEXT NOT NULL,
+  resource_id TEXT NOT NULL,
+  payload     TEXT NOT NULL,
+  state       TEXT NOT NULL DEFAULT 'pending',
+  attempts    INTEGER NOT NULL DEFAULT 0,
+  last_error  TEXT,
+  created_at  TEXT NOT NULL,
+  sent_at     TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_outbox_state ON outbox(state, created_at);
+
+-- VJ-024: devices granted sync access, and what each may do. A revoked device
+-- keeps its row — deleting it would lose the record that it ever had access,
+-- which is the first thing anyone asks after revoking one.
+CREATE TABLE IF NOT EXISTS sync_devices (
+  device_id   TEXT PRIMARY KEY,
+  label       TEXT NOT NULL,
+  scopes      TEXT NOT NULL,
+  created_at  TEXT NOT NULL,
+  revoked_at  TEXT,
+  last_sync_at TEXT
+);
+
 -- Indexed local search over the current revision of each profile.
 CREATE VIRTUAL TABLE IF NOT EXISTS profile_search USING fts5(
   name, place_name, note, email, phone, profile_id UNINDEXED, tokenize = 'unicode61'
@@ -240,9 +271,9 @@ function openLibrary(filePath) {
   db.exec(SCHEMA);
 
   if (foundVersion !== null && foundVersion < 2) migrateToV2(db);
-  // v2 -> v3, v3 -> v4 and v4 -> v5 add only new tables, which the schema
-  // above already created with IF NOT EXISTS; there is nothing to move, so no
-  // data migration runs for any of them.
+  // v2 -> v3 through v5 -> v6 add only new tables, which the schema above
+  // already created with IF NOT EXISTS; there is nothing to move, so no data
+  // migration runs for any of them.
 
   if (foundVersion === null) {
     db.prepare('INSERT INTO library_meta (key, value) VALUES (?, ?)')
@@ -277,6 +308,27 @@ function openLibrary(filePath) {
     phone: row.phone ?? null,
     createdAt: row.created_at,
   } : null);
+
+  const hydrateOutbox = (row) => ({
+    opId: row.op_id,
+    operation: row.operation,
+    resourceId: row.resource_id,
+    payload: JSON.parse(row.payload),
+    state: row.state,
+    attempts: row.attempts,
+    lastError: row.last_error ?? null,
+    createdAt: row.created_at,
+    sentAt: row.sent_at ?? null,
+  });
+
+  const hydrateDevice = (row) => ({
+    deviceId: row.device_id,
+    label: row.label,
+    scopes: JSON.parse(row.scopes),
+    createdAt: row.created_at,
+    revokedAt: row.revoked_at ?? null,
+    lastSyncAt: row.last_sync_at ?? null,
+  });
 
   const hydrateCohort = (row) => ({
     cohortId: row.cohort_id,
@@ -609,6 +661,100 @@ function openLibrary(filePath) {
       ).run(importId, sourcePath, JSON.stringify(profileIds), skipped, rejected,
         lossReport ? JSON.stringify(lossReport) : null, nowIso());
       return { importId };
+    },
+
+    // ── VJ-024: device outbox and sync grants ───────────────────────────
+    //
+    // `enqueue` is idempotent on `op_id`: enqueuing the same operation twice
+    // is one row. That matters because the caller generating op_ids may
+    // itself be retried — a crash between writing a profile and enqueuing its
+    // sync row must be safe to repeat.
+
+    enqueue(opId, { operation, resourceId, payload }) {
+      if (!opId) throw new UnsupportedInputError('opId is required', 'opId');
+      if (!operation) throw new UnsupportedInputError('operation is required', 'operation');
+      db.prepare(`INSERT INTO outbox (op_id, operation, resource_id, payload, state, created_at)
+        VALUES (?, ?, ?, ?, 'pending', ?)
+        ON CONFLICT(op_id) DO NOTHING`,
+      ).run(opId, operation, resourceId ?? '', JSON.stringify(payload ?? null), nowIso());
+      return { opId };
+    },
+
+    /** Oldest first, so changes reach the server in the order they were made. */
+    pendingOutbox({ limit = 100 } = {}) {
+      return db.prepare(
+        "SELECT * FROM outbox WHERE state = 'pending' ORDER BY created_at, rowid LIMIT ?",
+      ).all(limit).map(hydrateOutbox);
+    },
+
+    markSent(opId, { sentAt = nowIso() } = {}) {
+      db.prepare("UPDATE outbox SET state = 'sent', sent_at = ?, last_error = NULL WHERE op_id = ?")
+        .run(sentAt, opId);
+      return { opId };
+    },
+
+    /** A failure keeps the row pending and records why, so it stays visible. */
+    markFailed(opId, reason) {
+      db.prepare(
+        'UPDATE outbox SET attempts = attempts + 1, last_error = ? WHERE op_id = ?',
+      ).run(String(reason ?? 'unknown'), opId);
+      return { opId };
+    },
+
+    /** Parked: refused for a reason retrying cannot fix, such as a lost scope. */
+    markBlocked(opId, reason) {
+      db.prepare(
+        "UPDATE outbox SET state = 'blocked', attempts = attempts + 1, last_error = ? WHERE op_id = ?",
+      ).run(String(reason ?? 'unknown'), opId);
+      return { opId };
+    },
+
+    outboxStatus() {
+      const rows = db.prepare('SELECT state, COUNT(*) AS n FROM outbox GROUP BY state').all();
+      const byState = Object.fromEntries(rows.map((r) => [r.state, r.n]));
+      return {
+        pending: byState.pending ?? 0,
+        sent: byState.sent ?? 0,
+        blocked: byState.blocked ?? 0,
+        total: rows.reduce((a, r) => a + r.n, 0),
+      };
+    },
+
+    getOutboxEntry(opId) {
+      const row = db.prepare('SELECT * FROM outbox WHERE op_id = ?').get(opId);
+      return row ? hydrateOutbox(row) : null;
+    },
+
+    registerDevice(deviceId, { label, scopes }) {
+      if (!deviceId) throw new UnsupportedInputError('deviceId is required', 'deviceId');
+      if (!label) throw new UnsupportedInputError('a device needs a label to be revoked later', 'label');
+      db.prepare(`INSERT INTO sync_devices (device_id, label, scopes, created_at)
+        VALUES (?, ?, ?, ?)
+        ON CONFLICT(device_id) DO UPDATE SET label = excluded.label, scopes = excluded.scopes`,
+      ).run(deviceId, label, JSON.stringify(scopes ?? []), nowIso());
+      return { deviceId };
+    },
+
+    /** Revocation keeps the row: losing it would lose the record of access. */
+    revokeDevice(deviceId, { revokedAt = nowIso() } = {}) {
+      const changes = db.prepare(
+        'UPDATE sync_devices SET revoked_at = ? WHERE device_id = ? AND revoked_at IS NULL',
+      ).run(revokedAt, deviceId).changes;
+      return { deviceId, revoked: changes === 1 };
+    },
+
+    getDevice(deviceId) {
+      const row = db.prepare('SELECT * FROM sync_devices WHERE device_id = ?').get(deviceId);
+      return row ? hydrateDevice(row) : null;
+    },
+
+    listDevices() {
+      return db.prepare('SELECT * FROM sync_devices ORDER BY created_at').all().map(hydrateDevice);
+    },
+
+    noteDeviceSync(deviceId, { at = nowIso() } = {}) {
+      db.prepare('UPDATE sync_devices SET last_sync_at = ? WHERE device_id = ?').run(at, deviceId);
+      return { deviceId, at };
     },
 
     // ── VJ-028: saved research cohorts ──────────────────────────────────
