@@ -133,6 +133,29 @@ const SOURCES = [
     },
   },
   {
+    id: 'CHOODAMANI_ULLAMUDAIYAN',
+    title: 'சூடாமணி உள்ளமுடையான் : உரையுடன் (சோதிட நூல்)',
+    titleTa: 'சூடாமணி உள்ளமுடையான்',
+    author: 'ஓலைச்சுவடி மூலம்; தஞ்சாவூர் சரசுவதி மகால் நூலகப் பதிப்பு',
+    file: 'தஞ்சாவூர் சரசுவதி மகால் நூலகம், 2007 edn. '
+      + '(digitised: Internet Archive / Tamil Digital Library, TVA_BOK_0008543)',
+    tradition: 'Tamil classical — muhurta, omens, natal, transit and marriage matching',
+    rights: {
+      status: 'UNVERIFIED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A Saraswathi Mahal edition, digitised and publicly readable on the '
+        + 'Internet Archive, which states no licence for the item. The underlying '
+        + 'text is an old palm-leaf work; the 2007 edition\'s commentary and '
+        + 'editorial apparatus are modern. Same posture as the Kalachakra source '
+        + 'from the same series.',
+      verified: false,
+      toConfirm: 'Check the Saraswathi Mahal edition\'s terms and the Internet '
+        + 'Archive item\'s rights statement, distinguishing the old text from the '
+        + '2007 editorial apparatus.',
+    },
+  },
+  {
     id: 'TRADITIONAL_CONVENTION',
     title: 'Widely-practised traditional convention (no single classical verse)',
     titleTa: 'மரபு வழக்கம் (ஒரே செய்யுள் ஆதாரம் இல்லை)',
