@@ -161,11 +161,25 @@ function calculateTamilPorutham(girl, boy) {
     passed,
     total: rows.length,
     level,
-    // All ten rule tables are unsourced (see poruthamFactors.js), so the
-    // verdicts travel with that fact attached rather than depending on the UI
-    // to remember it.
+    // The verdicts travel with how each rule compares to the one primary text
+    // held (see poruthamFactors.js), rather than depending on the UI to
+    // remember it. The overall score below is only as good as the rules that
+    // produce it, which is why the count is here and not just per row.
     evidence: poruthamEvidence(raw),
-    sourceStatus: 'SOURCE_REQUIRED',
+    sourceSummary: summariseSources(rows),
+    sourceStatus: rows.some((r) => r.sourceStatus === 'MATCHES_SOURCE')
+      ? 'PARTIALLY_SOURCED' : 'SOURCE_REQUIRED',
+  };
+}
+
+/** How many of the rows agree with, diverge from, or cannot be compared with the book. */
+function summariseSources(rows) {
+  const count = (status) => rows.filter((r) => r.sourceStatus === status).length;
+  return {
+    matches: count('MATCHES_SOURCE'),
+    diverges: count('DIVERGES_FROM_SOURCE'),
+    differentModel: count('DIFFERENT_MODEL'),
+    total: rows.length,
   };
 }
 

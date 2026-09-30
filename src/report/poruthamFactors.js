@@ -9,16 +9,32 @@
  *
  * ## On sources
  *
- * None of the ten rule tables has a verified classical locator. They were
- * ported from the prior AstrologicLab matching screen, whose own note cites
- * only "the Marriage reference workbook" — not an edition, not a page. Under
- * PLAN-001 that is `sourceRequired`, so every factor here emits
- * `withheldEvidence`, and the UI shows the verdicts next to the statement that
- * the rule behind them is unverified.
+ * The ten rule tables were ported from the prior AstrologicLab matching
+ * screen, whose own note cites only "the Marriage reference workbook" — not an
+ * edition, not a page. VJ-018 could only say so.
  *
- * The verdicts themselves are not withheld: they are a real computation from a
- * real table, not a fabricated substitute. What must not happen is a reader
- * taking "our software says ✓" for "the classical text says ✓".
+ * Since then a primary text has been acquired: the Sudamani Ullamudaiyan
+ * edition prints all ten poruthams (பொருத்தவியல், verses 183-199). Each rule
+ * was read from the rendered page and compared against this code over every
+ * possible input (`poruthamSourceComparison.js`). The result is per factor and
+ * is recorded in `SOURCE_COMPARISON` below:
+ *
+ *   MATCHES_SOURCE        Rajju — identical on all 729 star pairs, and the
+ *                         grouping of all 27 stars is the same.
+ *   DIVERGES_FROM_SOURCE  eight factors — see each entry.
+ *   DIFFERENT_MODEL       Yoni — a different construction, not comparable.
+ *
+ * Only Rajju therefore emits `createRuleEvidence`. The rest stay
+ * `withheldEvidence`, now with a reason that says what the one held source
+ * actually prints instead of "no source". A divergence is a finding to decide
+ * on, not proof our rule is wrong — this is one Tamil text and practitioners
+ * follow other traditions — with one exception: the Gana table contradicts
+ * both this text and the 9/9/9 split of the stars, which makes it an error.
+ *
+ * The verdicts themselves are not withheld: they are a real computation. What
+ * must not happen is a reader taking "our software says ✓" for "the classical
+ * text says ✓". `test-porutham-source.js` asserts every status against the
+ * live comparison, so none can go stale.
  *
  * ## On divergences
  *
@@ -28,17 +44,96 @@
  * disclosure cannot quietly go stale when a table is edited.
  */
 
-const { withheldEvidence } = require('../contracts/ruleEvidence');
+const { withheldEvidence, createRuleEvidence } = require('../contracts/ruleEvidence');
 
 const list = (a) => a.join(', ');
 
 /**
- * The reason attached to every withheld factor. One string, because the gap is
- * one gap: the whole table came from an uncited workbook.
+ * Where these rules came from, for the factors that lack any other source.
+ * Kept because it is still true of the code — the ported tables have no
+ * locator of their own — and explains why a divergence is possible at all.
  */
 const UNVERIFIED = 'விதி அட்டவணை முந்தைய AstrologicLab matching screen-லிருந்து '
   + 'port செய்யப்பட்டது; அதன் ஆதாரக் குறிப்பு "Marriage reference workbook" மட்டுமே — '
-  + 'பதிப்போ பக்கமோ இல்லை. செம்மையான நூல் ஒப்பீடு நிலுவையில் உள்ளது.';
+  + 'பதிப்போ பக்கமோ இல்லை.';
+
+/**
+ * The one primary text held for these rules, in the shape `attachSource` and
+ * `createRuleEvidence` demand. Registered in `sources/registry.js`.
+ */
+const CHOODAMANI = Object.freeze({
+  title: 'சூடாமணி உள்ளமுடையான் : உரையுடன் (சோதிட நூல்)',
+  author: 'ஓலைச்சுவடி மூலம்; தஞ்சாவூர் சரசுவதி மகால் நூலகப் பதிப்பு',
+  file: 'choodamani-ullamudaiyan/raw-scans/full-scan.pdf',
+  tradition: 'Tamil classical',
+});
+
+/**
+ * How each factor compares with that text. Statuses are asserted against the
+ * live comparison in `test-porutham-source.js`; the figures are quoted from it.
+ *
+ * `summary` says what the book prints against what this code does, in plain
+ * terms, because it is what a practitioner is shown on screen.
+ */
+const SOURCE_COMPARISON = {
+  DINA: {
+    status: 'DIVERGES_FROM_SOURCE', verses: '183-184', printedPage: 78,
+    summary: 'நூல் ஒரு பட்டியலைத் தருகிறது: எண்ணிக்கை 2, 4, 6, 8, 9, 12, 14, 16, 19, 22, 23, 25, 29 '
+      + 'நன்று. இங்கே 9-ஆல் வகுத்த மீதி 2, 4, 6, 8, 9 வந்தால் தள்ளப்படுகிறது — அதாவது 2–9 '
+      + 'எண்ணிக்கைகளில் நூல் ஏற்பதை இது தள்ளுகிறது, நூல் தள்ளுவதை (3, 5, 7) ஏற்கிறது. '
+      + '(எண்ணிக்கை 1 என்பது ஒரே நட்சத்திரம்; அதை நூல் நட்சத்திரத்தின் அடிப்படையில் தனியாகத் தரம் பிரிக்கிறது.)',
+  },
+  GANA: {
+    status: 'DIVERGES_FROM_SOURCE', verses: '186-187', printedPage: 78,
+    summary: 'விதி நூலுடன் ஒன்றே; ஆனால் நட்சத்திரங்களின் கண வகைப்பாட்டில் 8 பிழை. நூலில் '
+      + '9-9-9; இங்கே 12 தேவர் · 5 மனிதர் · 10 இராட்சதர். உரோகணி, திருவாதிரை, உத்திரம், '
+      + 'உத்திராடம், உத்திரட்டாதி (நூலில் மனிதர்), விசாகம், கேட்டை (இராட்சதர்), அனுசம் (தேவர்) '
+      + 'தவறான கணத்தில் உள்ளன. இது மரபு வேறுபாடு அல்ல — பிழை.',
+    isError: true,
+  },
+  MAHENDRA: {
+    status: 'DIVERGES_FROM_SOURCE', verses: '188', printedPage: 79,
+    summary: 'நூல் 1, 4, 7, 10, 13, 16, 19, 20, 22, 25 என்கிறது. இங்கே 4, 7, 10, 13, 16, 19, 22, 25 — '
+      + 'எண்ணிக்கை 1 (ஒரே நட்சத்திரம்), 20 விடுபட்டுள்ளன. (நூலின் 20 செய்யுளின் கணக்கால் '
+      + 'தெளிவாகவில்லை; அச்சிட்டபடி பதிவு.)',
+  },
+  STREE_DEERGHA: {
+    status: 'DIVERGES_FROM_SOURCE', verses: '188', printedPage: 79,
+    summary: 'நூல்: 13 அல்லது அதற்கு மேல் நன்று. இங்கே: 7 அல்லது அதற்கு மேல்.',
+  },
+  YONI: {
+    status: 'DIFFERENT_MODEL', verses: '189-192', printedPage: 80,
+    summary: 'நூல் ஒவ்வொரு நட்சத்திரத்துக்கும் ஒரு விலங்கும் பாலும் தந்து, பகை விலங்குகளையும் '
+      + '(யானை–மனிதர், குதிரை–பசு, புலி–எருமை/மான், பாம்பு–ஆடு, குரங்கு–நாய், எலி–பூனை) '
+      + 'ஆண்–ஆண் பகை என்ற பால் விதியையும் சொல்கிறது. இங்கே 9 எண் குழுக்களும் அருகாமைச் '
+      + 'சோதனையும் — வேறு அமைப்பு, ஒப்பிட முடியாது. நூலிலும் அனுசத்தின் விலங்கு விடுபட்டுள்ளது.',
+  },
+  RASI: {
+    status: 'DIVERGES_FROM_SOURCE', verses: '192', printedPage: 81,
+    summary: 'நூல்: மணமகள் ராசியிலிருந்து 7 அல்லது அதற்கு மேல் உத்தமம், 7-க்குக் குறைந்தால் ஆகாது. '
+      + 'இங்கே 1, 2, 5, 6, 7, 11 மட்டுமே — 144 ராசி ஜோடிகளில் மூன்றில் ஒன்றில் மட்டுமே நூலுடன் ஒத்துப்போகிறது.',
+  },
+  RASI_ADHIPATHI: {
+    status: 'DIVERGES_FROM_SOURCE', verses: '193-194', printedPage: 81,
+    summary: 'நூல் ஒவ்வொரு ராசிக்கும் நட்பு ராசிகளின் பட்டியலைத் தருகிறது. இங்கே இரு அதிபதிகளும் '
+      + 'வேறுபட்டால் போதும் என்ற எளிய சோதனை.',
+  },
+  VASYA: {
+    status: 'DIVERGES_FROM_SOURCE', verses: '195-196', printedPage: 82,
+    summary: 'நூலின் வசிய அட்டவணை (எ.கா. மேடம்–சிங்கம், விருச்சிகம்) இங்குள்ளதிலிருந்து முற்றிலும் '
+      + 'வேறு (இங்கே மேடம்–கடகம், தனுசு).',
+  },
+  RAJJU: {
+    status: 'MATCHES_SOURCE', verses: '197-198', printedPage: 83, printedPages: '82–83',
+    summary: 'நூலுடன் முழுமையாகப் பொருந்துகிறது — 27 நட்சத்திரங்களின் ஐந்து ரஜ்ஜுப் பிரிவும், '
+      + 'ஒரே பிரிவு என்றால் ஆகாது என்ற விதியும். 729 நட்சத்திர ஜோடிகளிலும் ஒரே முடிவு.',
+  },
+  VEDHA: {
+    status: 'DIVERGES_FROM_SOURCE', verses: '199', printedPage: 84,
+    summary: 'நூலின் வேதை ஜோடிகள் (பரணி–கேட்டை, கார்த்திகை–அனுசம், உரோகணி–விசாகம்… மற்றும் '
+      + 'அசுபதி–மகம்–மூலம் மூவர்) இங்குள்ள ஜோடிகளுடன் ஒன்றுகூடப் பொருந்தவில்லை.',
+  },
+};
 
 const FACTORS = [
   {
@@ -173,13 +268,23 @@ function describePorutham(rows) {
     if (!factor) {
       throw new Error(`no factor description for porutham row "${row.id ?? row.name}"`);
     }
+    const comparison = SOURCE_COMPARISON[row.id];
+    if (!comparison) {
+      throw new Error(`no source comparison for porutham row "${row.id}"`);
+    }
     return {
       ...row,
       governs: factor.governs,
       rule: factor.rule,
       why: factor.why(row.measure, row.result),
       divergence: factor.divergence ?? null,
-      sourceStatus: 'SOURCE_REQUIRED',
+      sourceStatus: comparison.status,
+      sourceComparison: {
+        ...comparison,
+        source: comparison.status === 'MATCHES_SOURCE'
+          ? `${CHOODAMANI.title}, செய்யுள் ${comparison.verses}, அச்சுப் பக்கம் ${comparison.printedPage}`
+          : null,
+      },
     };
   });
 }
@@ -188,23 +293,51 @@ function describePorutham(rows) {
  * The same ten factors as VJ-006 RuleEvidence, for the evidence panel and for
  * citing a match into a consultation record.
  *
- * All ten are withheld. `appliedTo` still carries the measurement, so the
- * record shows what was computed and that its rule is unverified — a gap must
- * not read as a finding.
+ * Rajju is the first porutham with evidence that is actually *applied*: its
+ * rule was read from the printed page and reproduces on every input. The other
+ * nine stay withheld, and now say why in terms of what the book prints —
+ * "the one source we hold disagrees" is a finding; "no source" was only a gap.
+ *
+ * `appliedTo` carries the measurement either way, so the record shows what was
+ * computed even where its rule is not backed.
  */
 function poruthamEvidence(rows) {
   return rows.map((row) => {
     const factor = BY_ID.get(row.id);
-    if (!factor) {
+    const comparison = SOURCE_COMPARISON[row.id];
+    if (!factor || !comparison) {
       throw new Error(`no factor description for porutham row "${row.id ?? row.name}"`);
     }
+    const appliedTo = { measure: row.measure, computedResult: row.result };
+
+    if (comparison.status === 'MATCHES_SOURCE') {
+      return createRuleEvidence({
+        ruleId: `PORUTHAM_${row.id}`,
+        name: row.name,
+        outcome: { passed: row.result, measure: row.measure },
+        source: {
+          ...CHOODAMANI,
+          pageLocus: `செய்யுள் ${comparison.verses}, அச்சுப் பக்கம் ${comparison.printedPages ?? comparison.printedPage} `
+            + '(scan பக்கம் = அச்சுப் பக்கம் + 25); பக்கப் படத்திலிருந்து நேரடியாகச் சரிபார்க்கப்பட்டது',
+          convention: 'ஐந்து ரஜ்ஜுப் பிரிவு (அடி · குறங்கு · வயிறு · கழுத்து · சிரசு); இருவரும் ஒரே பிரிவெனில் ஆகாது',
+        },
+        appliedTo,
+        notes: comparison.summary,
+      });
+    }
+
+    const reason = comparison.status === 'DIFFERENT_MODEL'
+      ? `ஒப்பிட முடியாது: ${comparison.summary}`
+      : `கையிலுள்ள ஒரே நூலுடன் (சூடாமணி, செய்யுள் ${comparison.verses}) பொருந்தவில்லை: ${comparison.summary}`;
     return withheldEvidence({
       ruleId: `PORUTHAM_${row.id}`,
       name: row.name,
-      reason: factor.divergence ? `${UNVERIFIED} கூடுதல் வேறுபாடு: ${factor.divergence}` : UNVERIFIED,
-      appliedTo: { measure: row.measure, computedResult: row.result },
+      reason: `${reason} · ${UNVERIFIED}`,
+      appliedTo,
     });
   });
 }
 
-module.exports = { describePorutham, poruthamEvidence, FACTORS, UNVERIFIED };
+module.exports = {
+  describePorutham, poruthamEvidence, FACTORS, SOURCE_COMPARISON, CHOODAMANI, UNVERIFIED,
+};

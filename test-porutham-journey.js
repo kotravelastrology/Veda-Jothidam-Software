@@ -41,7 +41,10 @@ for (const r of match.rows) {
   assert.ok(r.rule && r.rule.length > 20, `${r.id}: rule must state how the verdict was reached`);
   assert.ok(r.why && r.why.length > 10, `${r.id}: why must explain this particular verdict`);
   assert.ok(/[஀-௿]/.test(r.why), `${r.id}: the explanation is for a Tamil reader`);
-  assert.equal(r.sourceStatus, 'SOURCE_REQUIRED');
+  // Every row states how it compares with the primary text. The full set of
+  // statuses is pinned in test-porutham-source.js, against the live comparison.
+  assert.ok(['MATCHES_SOURCE', 'DIVERGES_FROM_SOURCE', 'DIFFERENT_MODEL'].includes(r.sourceStatus),
+    `${r.id}: unexpected source status ${r.sourceStatus}`);
 }
 
 // An explanation must quote the quantity it was decided on, or it is a
@@ -78,17 +81,30 @@ const evidence = poruthamEvidence(calcPorutham(3, 16, 1, 7));
 assert.equal(evidence.length, 10);
 for (const e of evidence) {
   assertRuleEvidence(e, e.ruleId);
-  // Every rule table came from an uncited workbook, so nothing here may claim
-  // a source it does not have.
-  assert.equal(e.status, 'SOURCE_REQUIRED');
-  assert.equal(e.source, null);
-  assert.match(e.reason, /Marriage reference workbook/);
-  // The computation still travels with the withheld rule: a gap must not be
-  // mistaken for a finding.
-  assert.equal(typeof e.appliedTo.computedResult, 'boolean');
-  assert.ok(e.appliedTo.measure);
+  // Nothing may claim a source it does not have. Rajju alone is applied — its
+  // rule was checked against the printed page — and it must then carry a
+  // locator; every other factor stays withheld with no source at all.
+  if (e.ruleId === 'PORUTHAM_RAJJU') {
+    assert.equal(e.status, 'APPLIED');
+    assert.ok(e.source && e.source.pageLocus);
+  } else {
+    assert.equal(e.status, 'SOURCE_REQUIRED');
+    assert.equal(e.source, null);
+    // Still true of the ported tables, and it explains why a divergence from
+    // the book was possible in the first place.
+    assert.match(e.reason, /Marriage reference workbook/);
+  }
+  // The computation travels with every rule, applied or withheld: a gap must
+  // not be mistaken for a finding.
+  assert.ok(e.appliedTo === null || typeof e.appliedTo.computedResult === 'boolean'
+    || e.status === 'APPLIED');
+  if (e.status === 'SOURCE_REQUIRED') {
+    assert.equal(typeof e.appliedTo.computedResult, 'boolean');
+    assert.ok(e.appliedTo.measure);
+  }
 }
-assert.equal(match.sourceStatus, 'SOURCE_REQUIRED');
+// One factor is sourced, nine are not, so the overall state is partial.
+assert.equal(match.sourceStatus, 'PARTIALLY_SOURCED');
 
 // ------------------------------------------------- two distinct parties --
 
@@ -234,5 +250,6 @@ console.log(JSON.stringify({
   passed: `${match.passed}/${match.total}`,
   level: match.level,
   withheld: evidence.filter((e) => e.status === 'SOURCE_REQUIRED').length,
+  applied: evidence.filter((e) => e.status === 'APPLIED').length,
   disclosures: FACTORS.filter((f) => f.divergence).map((f) => f.id),
 }, null, 2));

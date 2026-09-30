@@ -102,7 +102,10 @@ Not plan items, but real, and they should not be discovered at release:
   It was in `.gitignore` yet still tracked; `git rm --cached` fixed that, but
   the history and the `backup/pre-env-strip` refs still hold it. The
   `JWT_SECRET_KEY` is a real 39-character secret and **must be rotated**.
-- **The ten porutham rule tables have no cited source.** VJ-018 discloses this
-  on screen; closing it is VJ-002 work.
+- **The porutham tables: 1 of 10 matches the one primary text.** The Sūḍāmaṇi
+  edition was compared row by row (`docs/PORUTHAM-source-comparison.md`): Rajju
+  matches on all 729 pairs; eight diverge; Yoni is a different model. **Gana is
+  an outright error** — 12/5/10 where the classical split is 9/9/9, eight stars
+  misplaced. Which authority to follow is the owner's decision.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

@@ -150,9 +150,21 @@ function PartyCard({ title, meta }: { title: string; meta: any }) {
   );
 }
 
+/**
+ * How a factor compares with the one primary text held for it. Shown on the
+ * row itself, not only when opened: a client looking at a ✓ should not need to
+ * click to learn whether the classical text agrees.
+ */
+const SOURCE_CHIP: Record<string, { label: string; cls: string }> = {
+  MATCHES_SOURCE: { label: 'நூலுடன் ஒத்தது', cls: 'bg-teal-soft text-teal' },
+  DIVERGES_FROM_SOURCE: { label: 'நூலுடன் வேறுபடுகிறது', cls: 'bg-amber-100 text-amber-800' },
+  DIFFERENT_MODEL: { label: 'வேறு அமைப்பு', cls: 'bg-ink-soft/10 text-ink-soft' },
+};
+
 /** One porutham with its reasoning opened out. */
 function FactorRow({ r }: { r: any }) {
   const [open, setOpen] = useState(false);
+  const chip = SOURCE_CHIP[r.sourceStatus];
   return (
     <>
       <tr className="border-b border-line/40">
@@ -160,6 +172,11 @@ function FactorRow({ r }: { r: any }) {
           <button type="button" onClick={() => setOpen((v) => !v)} className="text-left hover:text-saffron">
             <span className="text-ink-soft mr-1">{open ? '▾' : '▸'}</span>{r.name}
           </button>
+          {chip && (
+            <span className={`ml-2 text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap ${chip.cls}`}>
+              {chip.label}{r.sourceComparison?.isError ? ' · பிழை' : ''}
+            </span>
+          )}
         </td>
         <td className="py-1.5 text-center">
           <span className={`text-xs font-bold px-2 py-0.5 rounded ${r.result ? 'bg-teal-soft text-teal' : 'bg-rose-soft text-rose'}`}>
@@ -174,9 +191,17 @@ function FactorRow({ r }: { r: any }) {
             <p className="text-ink-soft"><span className="font-semibold text-ink">எதைக் குறிக்கிறது:</span> {r.governs}</p>
             <p className="text-ink-soft mt-1"><span className="font-semibold text-ink">விதி:</span> {r.rule}</p>
             <p className="text-ink mt-1"><span className="font-semibold">இந்த ஜோடிக்கு:</span> {r.why}</p>
+            {r.sourceComparison && (
+              <p className={`mt-1 ${r.sourceStatus === 'MATCHES_SOURCE' ? 'text-teal' : 'text-amber-700'}`}>
+                <span className="font-semibold">
+                  சூடாமணி உள்ளமுடையான் (செய்யுள் {r.sourceComparison.verses}, அச்சுப் பக்கம் {r.sourceComparison.printedPages ?? r.sourceComparison.printedPage}):
+                </span>{' '}
+                {r.sourceComparison.summary}
+              </p>
+            )}
             {r.divergence && (
               <p className="mt-1 text-amber-700">
-                <span className="font-semibold">வேறுபாடு:</span> {r.divergence}
+                <span className="font-semibold">இந்தக் கணிப்பின் வேறுபாடு:</span> {r.divergence}
               </p>
             )}
           </td>
@@ -326,17 +351,30 @@ export default function PoruthamView() {
             </div>
           </div>
 
-          {/* The rule tables behind these verdicts have no verified source.
-              Saying so beside the score is the difference between a reading
-              and a claim. */}
-          <p className="text-xs bg-amber-50 border border-amber-200 text-amber-800 rounded-xl p-3 mb-4">
-            <strong>ஆதாரம் தேவை.</strong> இந்தப் பத்து விதி அட்டவணைகளும் முந்தைய AstrologicLab
-            matching screen-லிருந்து port செய்யப்பட்டவை; அதன் ஆதாரக் குறிப்பு &ldquo;Marriage
-            reference workbook&rdquo; மட்டுமே — பதிப்போ பக்கமோ இல்லை. கணக்கீடு உண்மையானது,
-            ஆனால் விதி இன்னும் செம்மையான நூலுடன் ஒப்பிடப்படவில்லை. ஒவ்வொரு
-            பொருத்தத்தையும் திறந்தால் விதியும், அது இந்த ஜோடிக்கு எப்படிப் பொருந்துகிறது
-            என்பதும், அறியப்பட்ட வேறுபாடுகளும் காட்டப்படும்.
-          </p>
+          {/* How the rules behind this score compare with the one primary text
+              held for them. The score is only as good as its rules, so the
+              count sits beside it rather than in a footnote. The figures come
+              from the result, never from this file, so they cannot go stale. */}
+          {result.sourceSummary && (
+            <div className="text-xs bg-amber-50 border border-amber-200 text-amber-800 rounded-xl p-3 mb-4 space-y-1.5">
+              <p>
+                <strong>இந்த மதிப்பெண் ஒரு நூலால் உறுதிப்படுத்தப்படவில்லை.</strong> பத்து
+                பொருத்தங்களின் விதிகளையும் சூடாமணி உள்ளமுடையான் (தஞ்சாவூர் சரசுவதி மகால்
+                பதிப்பு) நூலின் அச்சிட்ட பக்கங்களுடன் ஒப்பிட்டதில்:
+              </p>
+              <p className="font-medium">
+                {result.sourceSummary.matches} ஒத்தது · {result.sourceSummary.diverges} வேறுபடுகிறது ·{' '}
+                {result.sourceSummary.differentModel} வேறு அமைப்பு (ஒப்பிட முடியாது)
+              </p>
+              <p>
+                இது ஒரு நூல் மட்டுமே; வேறு மரபுகள் இதிலிருந்து வேறுபடலாம், நீங்கள் பின்பற்றும்
+                விதி இதுவாக இருக்க வேண்டியதில்லை. ஆனால் &ldquo;வேறுபடுகிறது&rdquo; என்றால், நம்மிடம்
+                உள்ள நூல்களில் எதுவும் இந்த விதியை உறுதிப்படுத்தவில்லை என்று பொருள். கணத்தின்
+                வகைப்பாட்டில் உள்ள 8 நட்சத்திரப் பிழை மரபு வேறுபாடு அல்ல — திருத்த
+                வேண்டியது. ஒவ்வொரு பொருத்தத்தையும் திறந்தால் நூல் என்ன சொல்கிறது என்பது தெரியும்.
+              </p>
+            </div>
+          )}
 
           <table className="w-full text-sm">
             <thead><tr className="text-ink-soft border-b border-line">

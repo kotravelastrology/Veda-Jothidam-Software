@@ -98,7 +98,12 @@ function collectTitles(files) {
   const titles = new Map();
   for (const file of files) {
     const text = fs.readFileSync(file, 'utf8');
-    for (const m of text.matchAll(/(?:const|let|var)\s+([A-Z][A-Z_0-9]*)\s*=\s*\{([\s\S]{0,800}?)\n\}/g)) {
+    // A source constant may be a bare literal or wrapped in Object.freeze(),
+    // which is the better habit — a citation that can be mutated at runtime is
+    // not much of a citation. The scanner used to understand only the bare
+    // form, so freezing a source made its citations unresolvable and failed the
+    // build for the wrong reason.
+    for (const m of text.matchAll(/(?:const|let|var)\s+([A-Z][A-Z_0-9]*)\s*=\s*(?:Object\.freeze\(\s*)?\{([\s\S]{0,800}?)\n\}/g)) {
       const title = quoted(m[2], 'title');
       if (title) titles.set(m[1], title);
     }
