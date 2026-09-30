@@ -46,7 +46,7 @@ function sunSiderealLongitude(utcMs, ayanamsha = 'Lahiri') {
   const chart = calculateChart({
     year: d.getUTCFullYear(), month: d.getUTCMonth() + 1, day: d.getUTCDate(),
     hour: d.getUTCHours(), minute: d.getUTCMinutes(), second: d.getUTCSeconds(),
-    latitude: 0, longitude: 0, utcOffsetMinutes: 0, ayanamsha,
+    latitude: 0, longitude: 0, utcOffsetMinutes: 0, ayanamsa: ayanamsha,
   });
   return norm360(chart.positions.Sun.longitude);
 }

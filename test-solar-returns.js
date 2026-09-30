@@ -176,6 +176,32 @@ assert.ok(natalOnly.natal.lagna.rasi);
 
 assert.throws(() => castReturnChart({ utcMs: 0, place: { latitude: 1 } }), /needs latitude and longitude/);
 
+// The ayanamsha is honoured. sunSiderealLongitude once passed a misspelt key to
+// the ephemeris (ayanamsha for ayanamsa), which was ignored, so every crossing
+// was found under Lahiri whatever was asked for — silently, because Lahiri is
+// also the default. Raman sits about 1.4 degrees past Lahiri; a return found
+// under Raman must be where the Sun is at the natal Raman longitude.
+{
+  const t0 = Date.UTC(2020, 5, 1);
+  const lah = sunSiderealLongitude(t0, 'Lahiri');
+  const ram = sunSiderealLongitude(t0, 'Raman');
+  const diff = ((ram - lah + 540) % 360) - 180;
+  assert.ok(diff > 1.0 && diff < 2.0, `Raman is about 1.4 degrees past Lahiri, got ${diff.toFixed(3)}`);
+
+  const target = sunSiderealLongitude(Date.UTC(1990, 4, 15, 5), 'Raman');
+  const r = returnSeries({
+    natalSunLongitude: target, fromUtcMs: Date.UTC(2020, 4, 15), kindId: 'annual', count: 1, ayanamsha: 'Raman',
+  });
+  const back = sunSiderealLongitude(r.instants[0].utcMs, 'Raman');
+  assert.ok(Math.abs(((back - target + 540) % 360) - 180) < 1e-3,
+    'the Sun under Raman is at the natal Raman longitude at the return found under Raman');
+  const asLahiri = returnSeries({
+    natalSunLongitude: target, fromUtcMs: Date.UTC(2020, 4, 15), kindId: 'annual', count: 1, ayanamsha: 'Lahiri',
+  });
+  assert.ok(Math.abs(asLahiri.instants[0].utcMs - r.instants[0].utcMs) > 0.5 * 86400000,
+    'the same target longitude is reached on a different day under a different ayanamsha');
+}
+
 console.log(JSON.stringify({
   pass: true,
   natalSun: Number(natalSun.toFixed(6)),
