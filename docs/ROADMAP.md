@@ -110,5 +110,12 @@ Not plan items, but real, and they should not be discovered at release:
   five differ (`docs/PORUTHAM-source-comparison.md`). **Rasi Adhipathi has no
   source**: Kalaprakasika states no rule. Owner decisions outstanding: Adhipathi,
   and whether to follow Sūḍāmaṇi where the books differ.
+- **Saturn transit: built, one convention undecided.** `/saturn-transit`
+  (`docs/SATURN-TRANSIT-remedies.md`) computes Sade Sati, Ardhashtama, Ashtama
+  and Kantaka Saturn; dates come from the ephemeris, definitions from page-read
+  sources. The books disagree about Kantaka (4/7, 4/7/10, 4/7/8, 1/8/10), so
+  it is a selectable convention, default 4 and 7. Owner decision: which to
+  follow. Not yet: Dhaiya/Kantaka result text, Vipareeta Vedha, Mangala,
+  gemstones.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

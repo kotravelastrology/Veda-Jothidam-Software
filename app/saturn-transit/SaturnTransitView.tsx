@@ -1,0 +1,513 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
+import { useWorkspace } from '@/src/workspace/workspaceContext';
+import { listCharts, searchCharts, openChart } from '../library/actions';
+import { computeSaturn } from './actions';
+import type { BirthFormInput } from '../report/actions';
+
+/**
+ * Sade Sati, Ardhashtama, Ashtama and Kantaka Saturn.
+ *
+ * Two kinds of claim are on this page and it keeps them apart. The *dates* —
+ * when Saturn is in which sign — are astronomy, computed from the ephemeris.
+ * The *names* — which houses from the Moon are Sade Sati, Dhaiya or Kantaka —
+ * are doctrine read from printed pages, and the books disagree about Kantaka,
+ * so the convention is chosen on screen and stated on the result.
+ *
+ * The remedies at the foot are recorded practices with their pages. Nothing is
+ * computed for them and no effect is claimed.
+ */
+
+interface LibraryRow {
+  profileId: string; revision: number; name: string; birthDate: string; placeName: string | null;
+}
+type Party =
+  | { kind: 'profile'; profileId: string; revision: number; label: string }
+  | { kind: 'form'; input: BirthFormInput; label: string };
+
+const YEAR_MS = 365.25 * 86400000;
+const PHASE_COLOR: Record<string, string> = {
+  RISING: 'var(--saffron)', PEAK: 'var(--rose)', SETTING: 'var(--indigo)',
+};
+const PHASE_TA: Record<string, string> = { RISING: 'முதல் கட்டம்', PEAK: 'நடுக் கட்டம்', SETTING: 'இறுதிக் கட்டம்' };
+const COND_TA: Record<string, string> = {
+  SADE_SATI: 'ஏழரைச் சனி', ARDHASHTAMA: 'அர்த்தாஷ்டமச் சனி', ASHTAMA: 'அஷ்டமச் சனி', KANTAKA: 'கண்டகச் சனி',
+};
+
+function toInput(bd: BirthData): BirthFormInput {
+  return {
+    name: bd.name, gender: bd.gender,
+    year: parseInt(bd.dateOfBirth.split('-')[0]),
+    month: parseInt(bd.dateOfBirth.split('-')[1]),
+    day: parseInt(bd.dateOfBirth.split('-')[2]),
+    hour: parseInt(bd.timeOfBirth.split(':')[0]),
+    minute: parseInt(bd.timeOfBirth.split(':')[1]),
+    placeName: bd.place, latitude: bd.latitude, longitude: bd.longitude,
+    utcOffsetMinutes: bd.utcOffset, ianaTimeZone: 'Asia/Kolkata',
+  };
+}
+
+const day = (iso: string) => iso.slice(0, 10);
+const yrs = (n: number) => n.toFixed(1);
+
+/** The life laid out as one strip per condition, with today marked. */
+function Timeline({ r }: { r: any }) {
+  const birth = Date.parse(r.window.fromUtc);
+  const end = Date.parse(r.window.toUtc);
+  const now = Date.parse(r.now.atUtc);
+  const span = (end - birth) / YEAR_MS;
+  const W = 900;
+  const L = 172; // label gutter (Tamil labels are wide)
+  const x = (ms: number) => L + ((ms - birth) / YEAR_MS / span) * (W - L - 8);
+  const rows: { key: string; label: string; bands: { a: number; b: number; color: string; title: string }[] }[] = [
+    {
+      key: 'sade', label: 'ஏழரைச் சனி',
+      bands: r.sadeSati.flatMap((c: any) => c.stays.map((s: any) => ({
+        a: Date.parse(s.fromUtc), b: Date.parse(s.toUtc),
+        color: PHASE_COLOR[({ 12: 'RISING', 1: 'PEAK', 2: 'SETTING' } as any)[s.house]],
+        title: `ஏழரைச் சனி ${c.ordinal} · ${s.house}-ஆம் இடம் · ${day(s.fromUtc)} – ${day(s.toUtc)}`,
+      }))),
+    },
+    {
+      key: 'ardh', label: 'அர்த்தாஷ்டமம் (4)',
+      bands: r.ardhashtama.flatMap((p: any) => p.stays.map((s: any) => ({
+        a: Date.parse(s.fromUtc), b: Date.parse(s.toUtc), color: 'var(--teal)',
+        title: `அர்த்தாஷ்டமச் சனி · ${day(s.fromUtc)} – ${day(s.toUtc)}`,
+      }))),
+    },
+    {
+      key: 'ash', label: 'அஷ்டமம் (8)',
+      bands: r.ashtama.flatMap((p: any) => p.stays.map((s: any) => ({
+        a: Date.parse(s.fromUtc), b: Date.parse(s.toUtc), color: 'var(--ink-soft)',
+        title: `அஷ்டமச் சனி · ${day(s.fromUtc)} – ${day(s.toUtc)}`,
+      }))),
+    },
+    {
+      key: 'kan', label: `கண்டகம் (${r.kantaka.houses.join(', ')})`,
+      bands: r.kantaka.periods.flatMap((p: any) => p.stays.map((s: any) => ({
+        a: Date.parse(s.fromUtc), b: Date.parse(s.toUtc), color: 'var(--ink)',
+        title: `கண்டகச் சனி (${s.house}-ஆம் இடம்) · ${day(s.fromUtc)} – ${day(s.toUtc)}`,
+      }))),
+    },
+  ];
+  const ROW = 30;
+  const TOP = 16; // room above the strips for the "now" label
+  const H = rows.length * ROW + 38 + TOP;
+  const ticks: number[] = [];
+  for (let a = 0; a <= span; a += 10) ticks.push(a);
+  const birthYear = new Date(birth).getUTCFullYear();
+
+  return (
+    <div className="overflow-x-auto">
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ minWidth: 820 }} role="img"
+        aria-label="வாழ்நாள் முழுவதும் சனியின் கோசார நிலைகள்">
+        <g transform={`translate(0 ${TOP})`}>
+        {ticks.map((a) => (
+          <g key={a}>
+            <line x1={x(birth + a * YEAR_MS)} x2={x(birth + a * YEAR_MS)} y1={0} y2={rows.length * ROW}
+              stroke="var(--line)" strokeWidth={1} />
+            <text x={x(birth + a * YEAR_MS)} y={rows.length * ROW + 16} textAnchor="middle" fontSize={13}
+              fill="var(--ink-soft)">{a}</text>
+            <text x={x(birth + a * YEAR_MS)} y={rows.length * ROW + 31} textAnchor="middle" fontSize={11}
+              fill="var(--ink-soft)">{birthYear + a}</text>
+          </g>
+        ))}
+        {rows.map((row, i) => (
+          <g key={row.key}>
+            <text x={4} y={i * ROW + 20} textAnchor="start" fontSize={13} fill="var(--ink)">{row.label}</text>
+            <rect x={L} y={i * ROW + 4} width={W - L - 8} height={ROW - 8} fill="var(--surface-2)" rx={2} />
+            {row.bands.map((b, j) => (
+              <rect key={j} x={x(b.a)} y={i * ROW + 4} width={Math.max(1.5, x(b.b) - x(b.a))} height={ROW - 8}
+                fill={b.color} opacity={row.key === 'sade' ? 0.95 : 0.8}><title>{b.title}</title></rect>
+            ))}
+          </g>
+        ))}
+        {now >= birth && now <= end && (
+          <g>
+            <line x1={x(now)} x2={x(now)} y1={-4} y2={rows.length * ROW} stroke="var(--ink)" strokeWidth={1.5}
+              strokeDasharray="3 2" />
+            <text x={x(now)} y={-7} textAnchor="middle" fontSize={12} fontWeight={700}
+              fill="var(--ink)">இப்போது</text>
+          </g>
+        )}
+        </g>
+      </svg>
+      <p className="text-[11px] text-ink-soft mt-1 flex flex-wrap gap-x-4 gap-y-1">
+        {Object.entries(PHASE_COLOR).map(([p, c]) => (
+          <span key={p}><span className="inline-block w-2.5 h-2.5 mr-1 align-middle" style={{ background: c }} />
+            {PHASE_TA[p]}</span>
+        ))}
+        <span>கீழ் அச்சு: வயது (ஆண்டு) மற்றும் ஆண்டு. இடைவெளிகள் சனி வக்கிரமாகப் பின்செல்லும் காலங்கள்.</span>
+      </p>
+    </div>
+  );
+}
+
+function PeriodList({ title, periods, note }: { title: string; periods: any[]; note?: string }) {
+  return (
+    <div className="bg-surface border border-line rounded-2xl p-4">
+      <h3 className="text-sm font-semibold text-ink">{title}</h3>
+      {note && <p className="text-[11px] text-ink-soft mb-2">{note}</p>}
+      {periods.length === 0 ? <p className="text-xs text-ink-soft">இந்தக் காலத்தில் இல்லை.</p> : (
+        <ul className="text-xs divide-y divide-line/40">
+          {periods.map((p, i) => (
+            <li key={i} className="py-1.5">
+              <span className="font-mono text-ink" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                {day(p.fromUtc)} – {day(p.toUtc)}
+              </span>{' '}
+              <span className="text-ink-soft">
+                · {yrs(p.years)} ஆண்டு{p.openStart ? ' · (தொடக்கம் இதற்கு முன்)' : ''}
+                {p.stays.length > 1 && ` · ${p.stays.map((s: any) => `${s.house}-ஆம்`).join(' → ')}`}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+function CyclesTable({ r }: { r: any }) {
+  return (
+    <div className="space-y-3">
+      {r.sadeSati.map((c: any) => (
+        <div key={c.ordinal} className="bg-surface border border-line rounded-2xl p-4 text-sm">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h3 className="font-semibold text-ink">
+              ஏழரைச் சனி — {c.ordinal}-ஆவது
+              {c.inProgressAtBirth && <span className="text-xs font-normal text-ink-soft"> · பிறக்கும்போதே நடப்பில் இருந்தது</span>}
+            </h3>
+            <span className="font-mono text-xs text-ink" style={{ fontVariantNumeric: 'tabular-nums' }}>
+              {day(c.fromUtc)} – {day(c.toUtc)} · {yrs(c.years)} ஆண்டு
+            </span>
+          </div>
+          <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-xs">
+            {[12, 1, 2].map((h) => {
+              const stays = c.stays.filter((s: any) => s.house === h);
+              const phase = ({ 12: 'RISING', 1: 'PEAK', 2: 'SETTING' } as any)[h];
+              return (
+                <div key={h} className="contents">
+                  <dt className="text-ink-soft whitespace-nowrap">
+                    <span className="inline-block w-2.5 h-2.5 mr-1 align-middle" style={{ background: PHASE_COLOR[phase] }} />
+                    {h}-ஆம் இடம்
+                  </dt>
+                  <dd className="text-ink font-mono" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                    {stays.map((s: any, i: number) => (
+                      <span key={i}>{i > 0 && ' · '}{day(s.fromUtc)} – {day(s.toUtc)}
+                        {s.enteredBy === 'RETROGRADE' ? ' (வக்கிரத் திரும்பல்)' : ''}</span>
+                    ))}
+                    <span className="text-ink-soft font-sans"> · {yrs((c.daysByHouse[h] ?? 0) / 365.25)} ஆண்டு</span>
+                  </dd>
+                </div>
+              );
+            })}
+          </dl>
+          <p className="text-[11px] text-ink-soft mt-2">
+            நூலின் கணக்கு: 90 மாதம் (7½ ஆண்டு). வானத்தின்படி உண்மை: {(c.years * 12).toFixed(0)} மாதம்
+            {c.daysOutsideHouses > 1 && ` — இதில் சனி வக்கிரமாகப் பின்செல்லி இந்த மூன்று இடங்களுக்கு வெளியே இருந்தது ${Math.round(c.daysOutsideHouses)} நாட்கள்`}.
+          </p>
+          {c.book && (
+            <p className="text-xs text-ink mt-2">{c.book.textTa}
+              <span className="text-ink-soft"> ({c.book.citeTa})</span></p>
+          )}
+          <p className="text-xs text-ink mt-1">
+            <span className="font-semibold">{r.moonRasi} ராசிக்கு நூலின் அரிஷ்ட அட்டவணை:</span>{' '}
+            {c.arishtaPhases.map((p: string) => PHASE_TA[p]).join(' + ')}
+            {c.arishtaEspecially.length > 0 && ` — குறிப்பாகக் கடுமை: ${c.arishtaEspecially.map((p: string) => PHASE_TA[p]).join(', ')}`}
+            {c.arishtaReadingUncertain && (
+              <span className="text-amber-700"> · அச்சிட்ட வாசகம் இருபொருள்படும்; இது எங்கள் வாசிப்பு</span>
+            )}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default function SaturnTransitView() {
+  const { activeProfile } = useWorkspace();
+  const [rows, setRows] = useState<LibraryRow[]>([]);
+  const [query, setQuery] = useState('');
+  const [party, setParty] = useState<Party | null>(null);
+  const [manual, setManual] = useState(false);
+  const [kantaka, setKantaka] = useState('PARASHARAS_LIGHT');
+  const [result, setResult] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    (query.trim() ? searchCharts(query.trim(), 25) : listCharts(50))
+      .then((r: any) => setRows(r)).catch(() => setRows([]));
+  }, [query]);
+
+  // The workspace's active profile seeds the person, confirmed against the
+  // library first: it is remembered in browser storage and can outlive the
+  // record it names.
+  useEffect(() => {
+    if (!activeProfile || party) return;
+    let cancelled = false;
+    openChart(activeProfile.profileId, activeProfile.revision)
+      .then((p: any) => {
+        if (cancelled || !p) return;
+        setParty({
+          kind: 'profile', profileId: p.profileId, revision: p.revision,
+          label: `${p.name} · ${p.birthDate}${p.placeName ? ` · ${p.placeName}` : ''}`,
+        });
+      })
+      .catch(() => { /* the picker below still works */ });
+    return () => { cancelled = true; };
+  }, [activeProfile, party]);
+
+  const run = async (p: Party | null = party, conv: string = kantaka) => {
+    if (!p) return;
+    setLoading(true); setError(null);
+    try {
+      setResult(await computeSaturn(p.kind === 'profile'
+        ? { profile: { profileId: p.profileId, revision: p.revision }, kantakaConvention: conv }
+        : { form: p.input, kantakaConvention: conv }));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+      setResult(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const pick = (p: Party) => { setParty(p); setResult(null); setError(null); };
+
+  // Whoever is chosen — by click, by form, or seeded from the workspace — is
+  // computed at once, so a seeded profile never sits there with nothing shown.
+  useEffect(() => {
+    if (party) run(party, kantaka);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [party]);
+  const changeConvention = (conv: string) => { setKantaka(conv); if (party) run(party, conv); };
+
+  const now = result?.now;
+
+  return (
+    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+      <header className="mb-5">
+        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Saturn transit · Sade Sati</p>
+        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
+          ஏழரைச் சனி · அஷ்டமச் சனி · கண்டகச் சனி
+        </h1>
+        <p className="text-sm text-ink-soft mt-1 max-w-3xl">
+          ஜனன சந்திரன் இருக்கும் ராசியிலிருந்து கோசாரச் சனி எந்த இடத்தில் இருக்கிறது என்பதைக்
+          கணக்கிடுகிறது. தேதிகள் கிரக நிலைப்படி கணிக்கப்பட்டவை; பெயர்கள் நூல்களின் பக்கங்களிலிருந்து
+          எடுக்கப்பட்டவை. நூல்கள் கண்டகச் சனியில் ஒத்துப்போவதில்லை — அதனால் அந்த முறையை
+          நீங்களே தேர்ந்தெடுக்கலாம்.
+        </p>
+      </header>
+
+      <section className="bg-surface border border-line rounded-2xl p-4 mb-4">
+        <div className="flex items-baseline justify-between mb-2">
+          <h2 className="text-sm font-semibold text-ink">யாருக்கு?</h2>
+          {party && (
+            <button type="button" onClick={() => { setParty(null); setResult(null); }}
+              className="text-xs text-ink-soft hover:text-rose">மாற்று</button>
+          )}
+        </div>
+        {party ? <p className="text-sm text-teal">✓ {party.label}</p> : manual ? (
+          <>
+            <BirthDataForm isLoading={loading}
+              onSubmit={(bd) => pick({ kind: 'form', input: toInput(bd), label: bd.name || 'படிவ விவரம்' })} />
+            <button type="button" onClick={() => setManual(false)} className="text-xs text-ink-soft mt-2 underline">
+              சேமித்த சுயவிவரங்களிலிருந்து தேர்ந்தெடு
+            </button>
+          </>
+        ) : (
+          <>
+            <input value={query} onChange={(e) => setQuery(e.target.value)}
+              placeholder="சேமித்த சுயவிவரங்களில் தேடு (பெயர் / இடம்)"
+              className="w-full mb-2 px-3 py-2 text-sm bg-surface-2 border border-line rounded-xl text-ink" />
+            <ul className="max-h-48 overflow-y-auto divide-y divide-line/40 mb-2">
+              {rows.length === 0 && <li className="text-xs text-ink-soft py-2">சேமித்த சுயவிவரம் இல்லை.</li>}
+              {rows.map((r) => (
+                <li key={r.profileId}>
+                  <button type="button" className="w-full text-left py-1.5 text-sm text-ink hover:text-saffron"
+                    onClick={() => pick({
+                      kind: 'profile', profileId: r.profileId, revision: r.revision,
+                      label: `${r.name} · ${r.birthDate}${r.placeName ? ` · ${r.placeName}` : ''}`,
+                    })}>
+                    {r.name}
+                    <span className="text-xs text-ink-soft block">{r.birthDate}{r.placeName ? ` · ${r.placeName}` : ''}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <button type="button" onClick={() => setManual(true)} className="text-xs text-ink-soft underline">
+              அல்லது பிறப்பு விவரத்தை நேரடியாக உள்ளிடு
+            </button>
+          </>
+        )}
+      </section>
+
+      {loading && <p className="text-sm text-ink-soft mb-4">கணக்கிடப்படுகிறது…</p>}
+      {error && <p className="text-rose text-sm mb-4 bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}
+
+      {result && (
+        <>
+          <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h2 className="font-semibold text-ink">
+                {result.native.name ?? '(பெயர் இல்லை)'} · ஜனன சந்திரன் {result.moonRasi}
+              </h2>
+              <span className="text-xs text-ink-soft">
+                {result.native.date} {result.native.time} (UTC{result.native.utcOffset}) · {result.native.placeName ?? '—'} ·{' '}
+                {result.native.method.ayanamsha} அயனாம்சம்
+              </span>
+            </div>
+
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <span className="text-xs text-ink-soft">இப்போது ({day(now.atUtc)}):</span>
+              <span className="text-sm text-ink">
+                சனி {now.saturnRasi} — சந்திரனிலிருந்து <strong>{now.houseFromMoon}-ஆம் இடம்</strong>
+              </span>
+              {now.conditions.length === 0 ? (
+                <span className="text-xs px-2 py-0.5 rounded bg-teal-soft text-teal">எந்தக் குறிப்பிட்ட சனிக் காலமும் இல்லை</span>
+              ) : now.conditions.map((c: any) => (
+                <span key={c.id} className="text-xs px-2 py-0.5 rounded bg-rose-soft text-rose font-semibold">
+                  {COND_TA[c.id]}{c.phase ? ` — ${PHASE_TA[c.phase]}` : ''}
+                </span>
+              ))}
+            </div>
+            {result.activeSadeSati && (
+              <p className="text-xs text-ink-soft mt-2">
+                நடப்பில் உள்ள ஏழரைச் சனி {result.activeSadeSati.ordinal}-ஆவது: {day(result.activeSadeSati.fromUtc)} – {day(result.activeSadeSati.toUtc)}.
+              </p>
+            )}
+            {!result.activeSadeSati && result.nextSadeSati && (
+              <p className="text-xs text-ink-soft mt-2">
+                அடுத்த ஏழரைச் சனி ({result.nextSadeSati.ordinal}-ஆவது): {day(result.nextSadeSati.fromUtc)} – {day(result.nextSadeSati.toUtc)}.
+              </p>
+            )}
+            <p className="text-xs text-ink-soft mt-1">
+              பிறக்கும்போது சனி {result.saturnAtBirth.saturnRasi} ({result.saturnAtBirth.houseFromMoon}-ஆம் இடம்).
+            </p>
+          </section>
+
+          <section className="bg-surface border border-line rounded-2xl p-4 mb-4">
+            <div className="flex flex-wrap items-end justify-between gap-3 mb-3">
+              <h2 className="text-sm font-semibold text-ink">வாழ்நாள் முழுவதும்</h2>
+              <label className="text-xs text-ink-soft">
+                கண்டகச் சனி — முறை
+                <select value={kantaka} onChange={(e) => changeConvention(e.target.value)}
+                  className="ml-2 px-2 py-1 text-xs bg-surface-2 border border-line rounded text-ink">
+                  {result.conventions.kantakaAvailable.map((c: any) => (
+                    <option key={c.id} value={c.id}>{c.labelTa}</option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <Timeline r={result} />
+          </section>
+
+          <section className="mb-4">
+            <h2 className="text-sm font-semibold text-ink mb-2">ஏழரைச் சனி — ஒவ்வொரு சுற்றும்</h2>
+            <CyclesTable r={result} />
+          </section>
+
+          <section className="grid md:grid-cols-3 gap-4 mb-4">
+            <PeriodList title="அர்த்தாஷ்டமச் சனி (4-ஆம் இடம்)" periods={result.ardhashtama}
+              note="விஷ்ணு பாஸ்கர், புலிப்பாணி" />
+            <PeriodList title="அஷ்டமச் சனி (8-ஆம் இடம்)" periods={result.ashtama}
+              note="விஷ்ணு பாஸ்கர், புலிப்பாணி, சுபகரன்" />
+            <PeriodList title={`கண்டகச் சனி (${result.kantaka.houses.join(', ')}-ஆம் இடங்கள்)`}
+              periods={result.kantaka.periods}
+              note={result.conventions.kantakaAvailable.find((c: any) => c.id === result.kantaka.convention)?.labelTa} />
+          </section>
+
+          <section className="bg-surface border border-line rounded-2xl p-4 mb-4">
+            <h2 className="text-sm font-semibold text-ink mb-2">ஏழரைச் சனியின் மூன்று கட்டங்கள் — நூல் என்ன சொல்கிறது</h2>
+            <ul className="space-y-2 text-xs">
+              {result.phases.map((p: any) => (
+                <li key={p.phase}>
+                  <span className="inline-block w-2.5 h-2.5 mr-1 align-middle" style={{ background: PHASE_COLOR[p.phase] }} />
+                  <span className="font-semibold text-ink">{p.nameTa} — {p.bodyPart}</span>
+                  <span className="text-ink"> · {p.resultTa}</span>
+                  <span className="text-ink-soft block ml-4">{p.sourcePage}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-[11px] text-ink-soft mt-2">
+              இவை நூலில் சொல்லப்பட்டவை; இந்த மென்பொருளின் கணிப்புகள் அல்ல.
+            </p>
+          </section>
+
+          <section className="bg-surface border border-line rounded-2xl p-4 mb-4">
+            <h2 className="text-sm font-semibold text-ink mb-1">பரிகாரம் — நூல்களில் பதிவானவை</h2>
+            <p className="text-[11px] text-ink-soft mb-2">
+              இவை இரு நூல்கள் குறிப்பிடும் வழக்கங்கள். இவை பலன் தரும் என்று இந்த மென்பொருள் கூறவில்லை;
+              எதுவும் கணிக்கப்படவும் இல்லை. மந்திர வரிகள் இங்கு நகலெடுக்கப்படவில்லை — நூலைப் பார்க்கவும்.
+            </p>
+            <ul className="space-y-2 text-xs">
+              {result.remedies.map((m: any) => (
+                <li key={m.id}>
+                  <span className="text-ink">{m.textTa}</span>
+                  <span className="text-ink-soft block">
+                    பொருந்தும்: {m.appliesTo.map((a: string) => COND_TA[a]).join(', ')} · {m.sourceTitle} — {m.sourcePage}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl p-4 mb-4 text-xs space-y-2">
+            <p className="font-semibold">இந்தக் கணிப்பு எப்படிச் செய்யப்பட்டது — எது உறுதி, எது இல்லை</p>
+            <ul className="list-disc ml-5 space-y-1">
+              <li>
+                <strong>ராசி அடிப்படை.</strong> சனியின் இடம் ஜனன சந்திரனின் <em>ராசியிலிருந்து</em> எண்ணப்படுகிறது
+                (பாகையிலிருந்து அல்ல). கே.டி. சுபகரன் தன் சொந்தக் கருத்தாகப் பாகை அடிப்படை ஒன்றைக் கூறுகிறார்;
+                அது ஒரே ஆசிரியரின் கருத்து என்பதால் செயல்படுத்தப்படவில்லை.
+              </li>
+              <li>
+                <strong>ஏழரைச் சனி (12, 1, 2), அர்த்தாஷ்டமம் (4), அஷ்டமம் (8)</strong> — நூல்கள் ஒத்துப்போகின்றன.
+              </li>
+              <li>
+                <strong>கண்டகச் சனி — நூல்கள் ஒத்துப்போகவில்லை.</strong>{' '}
+                {result.conventions.kantakaAvailable.map((c: any) => `${c.labelTa}`).join(' · ')}.
+                4 மற்றும் 7 மூன்று நூல்களில் உள்ளன, அதனால் அதுவே இயல்புநிலை — இது எண்ணிக்கை மட்டுமே, எது சரி என்ற தீர்ப்பு அல்ல.
+                புலிப்பாணி நூலே தன் முன்னுரையில் 8-ஐ மட்டும் சொல்கிறது.
+              </li>
+              <li>
+                <strong>கால அளவு.</strong> நூல் 7½ ஆண்டு (90 மாதம்) என்கிறது. வானத்தில் சனியின் நீள்வட்டப் பாதையால் அது ராசிக்கு ராசி
+                மாறுகிறது (இங்கு அளந்தபடி சுமார் 6.4 முதல் 8.9 ஆண்டு), வக்கிரப் பின்செல்லலும் சேர்ந்து.
+              </li>
+              <li>
+                <strong>சுற்று எண்.</strong> பிறப்பிலிருந்து எண்ணப்படுகிறது; பிறக்கும்போது நடப்பில் இருந்தால் அதுவே முதலாவது. நூல்
+                முதல் மூன்று சுற்றுகளை மட்டுமே விவரிக்கிறது.
+              </li>
+              <li>
+                <strong>அரிஷ்ட அட்டவணை.</strong> விஷ்ணு பாஸ்கரின் அட்டவணையில் ஐந்து ராசிகளின் வரி இருபொருள்படும்; கட்டங்களுக்கான
+                எங்கள் வாசிப்பு குறிக்கப்பட்டுள்ளது.
+              </li>
+            </ul>
+            <details>
+              <summary className="cursor-pointer font-semibold">ஒவ்வொரு வரையறையின் நூல் பக்கம்</summary>
+              <ul className="mt-2 space-y-1.5">
+                {Object.entries(result.definitions).map(([id, d]: [string, any]) => (
+                  <li key={id}>
+                    <span className="font-semibold">{d.nameTa} — {d.houses.join(', ')}-ஆம் இடம்</span>
+                    {d.sources.map((s: any, i: number) => (
+                      <span key={i} className="block ml-3 text-amber-800">{s.title}: {s.pageLocus}</span>
+                    ))}
+                  </li>
+                ))}
+                {result.conventions.kantakaAvailable.map((c: any) => (
+                  <li key={c.id}>
+                    <span className="font-semibold">கண்டகம் — {c.labelTa}</span>
+                    <span className="block ml-3 text-amber-800">{c.sourceTitle}: {c.sourcePage}</span>
+                    <span className="block ml-3 text-amber-800">{c.note}</span>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </section>
+        </>
+      )}
+    </main>
+  );
+}

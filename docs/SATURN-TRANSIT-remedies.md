@@ -1,0 +1,146 @@
+# Saturn transit — Sade Sati, Dhaiya, Kantaka
+
+**Run:** 2026-09-30 · `/saturn-transit` · `src/report/saturnTransit.js` ·
+`src/report/saturnTransitTables.js` · `fixtures/saturn-transit/definitions.json` ·
+`test-saturn-transit.js`
+
+First stage of PL9's "Remedies" group (15 absent rows). It answers the question
+a Tamil client asks first: *ஏழரைச் சனி நடக்கிறதா?* Gemstones and Mangala are
+untouched and are separate stages.
+
+## Two kinds of claim, kept apart
+
+| | What | How it is established |
+|---|---|---|
+| **Astronomy** | Where Saturn is; when it crosses into a sign; the retrograde re-entries | Computed from the ephemeris by bisection. Checked independently by asking the ephemeris for Saturn's longitude at every boundary reported (within 0.001° of a multiple of 30°). |
+| **Doctrine** | Which houses from the Moon are *called* Sade Sati, Ardhashtama, Ashtama, Kantaka | A table read from **rendered page images**, not OCR. Each entry carries its page. |
+
+## What the books say
+
+Counted from the natal Moon's **sign** (1 = the Moon's own sign):
+
+| Condition | Houses | Sources |
+|---|---|---|
+| Sade Sati | 12, 1, 2 | Vishnu Bhaskar p.142 · Pulippani pp.69, 171 · Shubhakaran §34 — **all agree** |
+| Ardhashtama | 4 | Vishnu Bhaskar p.142 · Pulippani p.168 |
+| Ashtama | 8 | Vishnu Bhaskar p.142 · Pulippani p.169 · Shubhakaran §34 |
+| **Kantaka** | **the books disagree** | see below |
+
+### Kantaka Saturn: four sources, four answers
+
+| Source | Houses |
+|---|---|
+| Parashara's Light 6.1 manual, glossary p.191 | 4, 7 |
+| Vishnu Bhaskar p.142 (IX) | 4, 7, 10 |
+| Pulippani pp.168–169 | 4, 7, 8 |
+| Pulippani's own introduction, p.69 | 8 only |
+| Rath, *Vedic Remedies*, p.170 fn 52 | 1, 8, 10 |
+
+Only houses **4 and 7** are named by three of the four sources, so that pair is
+the default. That is a *count*, not a finding about which reading is right.
+Kantaka is therefore a selectable, labelled convention — the choice is on
+screen, in the result, and in the evidence record. Pulippani contradicts
+himself within one book; the software records both readings and says so.
+
+### Recorded, not implemented
+
+K.T. Shubhakaran counts by *degrees* from the Moon's degree (Sade Sati from
+330° to 60°, Ashtama 210°–240°, Kantaka 90°–120°), and says himself that he
+"slightly disagrees" with the usual view. One author's own variant, so it is
+noted on screen and not applied.
+
+## Findings worth knowing
+
+- **Sade Sati is not 7½ years.** The books say 90 months. Measured across all
+  twelve Moon signs over a century, a span is **6.4 to 8.9 years**, mean 7.8
+  (45 complete cycles). Saturn's orbit is eccentric and it is slowest through Scorpio,
+  Sagittarius and Capricorn, so Moon signs Scorpio–Capricorn run 8.2–8.9 years
+  and Taurus–Cancer about 7.1 (one Gemini cycle is 6.4). Retrograde re-entries add to it. The result shows
+  the book's 90 months beside the real figure.
+- **Retrograde is common, not exceptional.** 27 of 104 sign changes in 125 years
+  were Saturn coming back across a boundary. A span can therefore hold two or
+  three separate stays in the same house, and up to about a year (366 days at most, measured) stepped out of the three houses. All of it is shown, not smoothed away.
+- **Cycles are about 21–23 years apart** (20.9 to 22.8 measured).
+- Capricorn Moon: Sade Sati 26 Jan 2017 to 29 Mar 2025 — the widely reported
+  Lahiri ingresses. Those two dates are *not* from a source we hold; the test
+  uses them as a sanity check on the ephemeris only.
+
+## Conventions this code chooses, and says so
+
+1. **Sign-based**, as every source does except Shubhakaran's variant.
+2. **Cycle numbering starts at birth.** A cycle already running at birth is the
+   first, flagged "in progress at birth". The book characterises three cycles
+   (painful / mediocre / harsh); a fourth gets no text rather than an invented
+   one.
+3. **Two stays belong to one span if under two years apart.** Retrograde dips
+   last months; the real gap between cycles is over twenty years.
+4. **Vishnu Bhaskar's sign-wise arishta table** is carried per cycle. Five of
+   its twelve rows have a second clause that could be read as a subset of the
+   first ("1st 5 yrs. – Middle 2½ yrs are specially bad"); the reading is ours
+   and those rows are marked uncertain on screen.
+
+## Remedies
+
+Recorded practices, with pages, from two books:
+
+- **Rath p.170:** recite an extract of Shri Rudram eleven times each morning,
+  after bathing, facing east (for Kantaka Sani).
+- **Shubhakaran §34:** a Shani verse 11 times daily during the transit; or a
+  Rudram extract 11 times daily for 40 days, with puja of Rudra and a homa on the
+  41st day.
+
+Nothing is computed for them and no effect is claimed. **The Sanskrit text of the
+recitations is deliberately not reproduced** — a transcription made here could
+differ from the printed one, and the books are in copyright.
+
+## Sources
+
+Four books were copied into the curated library (`SOURCE-CATALOGUE.md`,
+"Saturn-transit sources"), each with a SHA-256: Pulippani's *Gochar
+Phaladeepika*, the Parashara's Light 6.1 manual, Rath's *Vedic Remedies* and
+Shubhakaran's *Nakshatra based predictions* part 1. Vishnu Bhaskar's book was
+already held. All are modern, in copyright, and cite-only; the registry says so.
+
+**A pagination trap:** the two copies of Vishnu Bhaskar's book paginate one page
+apart (Sade Sati is on printed p.141 in one, p.142 in the curated scan). The
+citation gives the curated copy's page and names the other.
+
+**Not read:** the Parashara's Light *9* wording. Only the 6.1 manual is held; its
+glossary is what defines Kantaka Saturn there. Whether 9.0 agrees is unverified.
+
+## A bug found on the way
+
+`solarReturns.js` passed `ayanamsha` to `calculateChart`, which reads
+`ayanamsa`. The key was ignored, so **every solar-return crossing was found under
+Lahiri whatever ayanamsha was chosen** — silently, because Lahiri is also the
+default. Raman sits 1.4° past Lahiri, so a return under Raman was off by about a
+day and a half. Fixed, with a regression test that fails on the old line
+(`got 0.000`) and passes on the fix. The same argument is asserted for Saturn.
+
+## Not done
+
+- **Result text for Dhaiya and Kantaka.** Pulippani pp.168–169 describe Saturn in
+  the 4th, 7th and 8th at length; only the periods are computed, not the text.
+- **Vipareeta Vedha** (Pulippani p.206): Saturn's evil in the 12th is said to be
+  cancelled while Jupiter is in the 3rd. It changes a client's year, and needs
+  its own stage.
+- **Ashtakavarga / Kakshya refinement of Sade Sati** (Vishnu Bhaskar §XVII).
+- **Counting from Lagna** and Arudha Lagna (Rath).
+- **Tamil-tradition names** for the three phases, which are not in any book held.
+- **Gemstones, Mangala, mantras by planet** — separate stages.
+
+## Decision needed
+
+1. **Kantaka convention.** Default is 4 and 7 (three sources). Do you follow one
+   of the others, for example Vishnu Bhaskar's 4, 7, 10?
+2. **Which Tamil text** to use for phases and remedies. The books held are
+   English; a Tamil source (Sudamani has a சாந்தி section) would let the wording
+   come from a Tamil authority rather than a translation of an English one.
+
+## Verified
+
+`npm test` green including `test-saturn-transit.js`, `test-solar-returns.js`
+and the VJ-026 citation scan; typecheck at its baseline of 20. Browser-checked
+through the real server path with a manually entered chart (nothing written to
+the library): the timeline, three cycles with retrograde re-entries, the current
+state, and the convention selector changing the Kantaka row and label.

@@ -932,20 +932,20 @@
  {
   "group": "Worksheets",
   "name": "134. Sadhesati Calculations",
-  "verdict": "ABSENT",
-  "evidence": "no remedies module"
+  "verdict": "BUILT",
+  "evidence": "/saturn-transit (saturnTransit.js)"
  },
  {
   "group": "Worksheets",
   "name": "135. Sadhesati Remedies",
-  "verdict": "ABSENT",
-  "evidence": "no remedies module"
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit: practices recorded in two books, with pages"
  },
  {
   "group": "Worksheets",
   "name": "136. Sadhesati Results",
-  "verdict": "ABSENT",
-  "evidence": "no remedies module"
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit: the book text per phase and cycle"
  },
  {
   "group": "Worksheets",
@@ -957,13 +957,13 @@
   "group": "Worksheets",
   "name": "138. Gem Recommendations",
   "verdict": "ABSENT",
-  "evidence": "no remedies module"
+  "evidence": "no Mangala or gemstone module"
  },
  {
   "group": "Worksheets",
   "name": "139. Lucky Stone",
   "verdict": "ABSENT",
-  "evidence": "no remedies module"
+  "evidence": "no Mangala or gemstone module"
  },
  {
   "group": "Reports / Horoscope",
@@ -1994,62 +1994,62 @@
  {
   "group": "Reports / Remedies",
   "name": "Sadhesati Calculations",
-  "verdict": "ABSENT",
-  "evidence": "no remedies module at all — sadhesati, dhayya, kantaka, gemstones"
+  "verdict": "BUILT",
+  "evidence": "/saturn-transit — saturnTransit.js: dates from the ephemeris, definitions cited to printed pages"
  },
  {
   "group": "Reports / Remedies",
   "name": "Sadhesati Remedies",
-  "verdict": "ABSENT",
-  "evidence": "no remedies module at all — sadhesati, dhayya, kantaka, gemstones"
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit lists practices recorded in two books, with pages; not the PL9 remedy text"
  },
  {
   "group": "Reports / Remedies",
   "name": "Sadhesati Results",
-  "verdict": "ABSENT",
-  "evidence": "no remedies module at all — sadhesati, dhayya, kantaka, gemstones"
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit gives the book text per phase and cycle; not the PL9 results wording"
  },
  {
   "group": "Reports / Remedies",
   "name": "Dhayya Results",
-  "verdict": "ABSENT",
-  "evidence": "no remedies module at all — sadhesati, dhayya, kantaka, gemstones"
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit computes the periods; no results text yet"
  },
  {
   "group": "Reports / Remedies",
   "name": "Kantaka Saturn Results",
-  "verdict": "ABSENT",
-  "evidence": "no remedies module at all — sadhesati, dhayya, kantaka, gemstones"
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit computes the periods; no results text yet"
  },
  {
   "group": "Reports / Remedies",
   "name": "Sadhesati / Kantaka Calculations",
-  "verdict": "ABSENT",
-  "evidence": "no remedies module at all — sadhesati, dhayya, kantaka, gemstones"
+  "verdict": "BUILT",
+  "evidence": "/saturn-transit — saturnTransit.js: dates from the ephemeris, definitions cited to printed pages"
  },
  {
   "group": "Reports / Remedies",
   "name": "Mangala Consideration",
   "verdict": "ABSENT",
-  "evidence": "no remedies module at all — sadhesati, dhayya, kantaka, gemstones"
+  "evidence": "no Mangala or gemstone module"
  },
  {
   "group": "Reports / Remedies",
   "name": "Mangala Results and Remedies",
   "verdict": "ABSENT",
-  "evidence": "no remedies module at all — sadhesati, dhayya, kantaka, gemstones"
+  "evidence": "no Mangala or gemstone module"
  },
  {
   "group": "Reports / Remedies",
   "name": "Gem Stone #1",
   "verdict": "ABSENT",
-  "evidence": "no remedies module at all — sadhesati, dhayya, kantaka, gemstones"
+  "evidence": "no Mangala or gemstone module"
  },
  {
   "group": "Reports / Remedies",
   "name": "Gem Stone #2",
   "verdict": "ABSENT",
-  "evidence": "no remedies module at all — sadhesati, dhayya, kantaka, gemstones"
+  "evidence": "no Mangala or gemstone module"
  },
  {
   "group": "Reports / Varshaphala",

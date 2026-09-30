@@ -1,0 +1,60 @@
+{
+  "purpose": "Transcription record for Saturn-transit definitions (Sade Sati, Ardhashtama, Ashtama, Kantaka). Every entry was read from a rendered page image on 2026-09-30, not from OCR. test-saturn-transit.js asserts src/report/saturnTransitTables.js agrees with this file.",
+  "houseCounting": "From the natal Moon's sign; 1 = the Moon's own sign, 2 = the next sign.",
+  "verifiedBy": "page image",
+  "conditions": {
+    "SADE_SATI": {
+      "houses": [12, 1, 2],
+      "agreedBy": ["VISHNU_BHASKAR p.142", "PULIPPANI p.69 and p.171", "SHUBHAKARAN section 34"]
+    },
+    "ARDHASHTAMA": {
+      "houses": [4],
+      "agreedBy": ["VISHNU_BHASKAR p.142 (VIII)", "PULIPPANI p.168"]
+    },
+    "ASHTAMA": {
+      "houses": [8],
+      "agreedBy": ["VISHNU_BHASKAR p.142 (VIII)", "PULIPPANI p.169", "SHUBHAKARAN section 34"]
+    }
+  },
+  "kantaka": {
+    "note": "The sources disagree; each reading is recorded separately.",
+    "PARASHARAS_LIGHT": { "houses": [4, 7], "page": "PL 6.1 manual printed p.191, glossary: 'Transit of Saturn in the 4th and 7th rashis from the Moon.'" },
+    "VISHNU_BHASKAR": { "houses": [4, 7, 10], "page": "printed p.142, IX: 'When Saturn is in 4, 7, 10th house from Moon Lagna'" },
+    "PULIPPANI": { "houses": [4, 7, 8], "page": "printed pp.168-169: 4th 'Ardhashtama Sani or Kantaka Sani'; 7th 'also known as Kantaka Shani, worse than his 4th'; 8th 'Ashtama Kantaka Sani'. Introduction p.69 names only the 8th." },
+    "RATH": { "houses": [1, 8, 10], "page": "Vedic Remedies in Astrology printed p.170, footnote 52: '1st, 8th or 10th house from the Lagna, AL or Natal Moon'" },
+    "default": "PARASHARAS_LIGHT",
+    "defaultReason": "Houses 4 and 7 are named by three of the four sources (Parashara's Light, Vishnu Bhaskar, Pulippani); 10 by two, 8 by two, 1 by one."
+  },
+  "sadeSatiPhases": {
+    "12": { "phase": "RISING", "dhaiya": "First", "bodyPart": "head", "aspects": [2, 6, 9] },
+    "1": { "phase": "PEAK", "dhaiya": "Second", "bodyPart": "abdomen", "aspects": [3, 7, 10] },
+    "2": { "phase": "SETTING", "dhaiya": "Third", "bodyPart": "legs", "aspects": [4, 8, 11] }
+  },
+  "sadeSatiCycles": ["First", "Second", "Third"],
+  "nominalDuration": { "cycleMonths": 90, "dhaiyaMonths": 30, "maleficMonths": 25, "page": "Vishnu Bhaskar printed p.143, XIII" },
+  "arishtaBySign": [
+    { "sign": "Aries", "printed": "Middle 2½ yrs" },
+    { "sign": "Taurus", "printed": "First 2½ yrs" },
+    { "sign": "Gemini", "printed": "Last 2½ yrs" },
+    { "sign": "Cancer", "printed": "Middle 2½ yrs" },
+    { "sign": "Leo", "printed": "1st 5 yrs. – Middle 2½ yrs are specially bad" },
+    { "sign": "Virgo", "printed": "1st 5 yrs. – Middle 2½ yrs are specially bad" },
+    { "sign": "Libra", "printed": "Last 2½ yrs" },
+    { "sign": "Scorpio", "printed": "Last 5 yrs. – Middle 2½ yrs are too bad" },
+    { "sign": "Sagittarius", "printed": "First 2½ yrs" },
+    { "sign": "Capricorn", "printed": "1st 5 yrs. – First 2½ yrs are specially bad" },
+    { "sign": "Aquarius", "printed": "First and last 2½ yrs. (Total 5 yrs.)" },
+    { "sign": "Pisces", "printed": "Whole 7½ yrs. – Last 2½ yrs especially bad" }
+  ],
+  "notImplemented": [
+    {
+      "id": "SHUBHAKARAN_DEGREE_BASED",
+      "page": "Nakshatra based predictions part 1, section 34, PDF page 39: Sade-Sathi from 330.01° to 60.00° of the birth Moon's degree, Ashtama 210°-240°, Kantaka 90.01°-120.00°; the author says he 'slightly disagrees' with the usual sign-based reading."
+    }
+  ],
+  "remedies": [
+    { "id": "RATH_RUDRAM_KANTAKA", "page": "Rath printed p.170, §e", "practice": "Recite an extract of Shri Rudram eleven times each morning, after bathing, facing east." },
+    { "id": "SHUBHAKARAN_SHANI_VERSE", "page": "Shubhakaran PDF p.41 (printed 40)", "practice": "Recite a Shani verse 11 times daily during the evil transit." },
+    { "id": "SHUBHAKARAN_RUDRAM_40_DAYS", "page": "Shubhakaran PDF pp.41-42 (printed 40-41)", "practice": "Recite a Rudram extract 11 times daily for 40 days, do puja of Rudra, homa on the 41st day." }
+  ]
+}

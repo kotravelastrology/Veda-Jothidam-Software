@@ -92,7 +92,11 @@ const RULES = {
     [/.*/, 'ABSENT', 'siderealPositions.js computes positions; no astronomy report'],
   ],
   'Reports / Remedies': [
-    [/.*/, 'ABSENT', 'no remedies module at all — sadhesati, dhayya, kantaka, gemstones'],
+    [/Calculations/i, 'BUILT', '/saturn-transit — saturnTransit.js: dates from the ephemeris, definitions cited to printed pages'],
+    [/Sadhesati Remedies/i, 'PARTIAL', '/saturn-transit lists practices recorded in two books, with pages; not the PL9 remedy text'],
+    [/Sadhesati Results/i, 'PARTIAL', '/saturn-transit gives the book text per phase and cycle; not the PL9 results wording'],
+    [/Dhayya Results|Kantaka Saturn Results/i, 'PARTIAL', '/saturn-transit computes the periods; no results text yet'],
+    [/.*/, 'ABSENT', 'no Mangala or gemstone module'],
   ],
   'Reports / Astrology Lessons': [
     [/Dictionary/i, 'BUILT', '/learning-resources glossary (VJ-026)'],
@@ -191,7 +195,10 @@ const RULES = {
     [/Events/i, 'PARTIAL', 'VJ-022 journal, not PL9 event worksheets'],
     [/Muhurta/i, 'BUILT', '/muhurta, /classical-muhurta'],
     [/Prashna|Krishnamurti|KP/i, 'BUILT', '/kelvi, /jamakkol, kpSystem.js'],
-    [/Sadhesati|Mangala$|Gem|Lucky Stone/i, 'ABSENT', 'no remedies module'],
+    [/Sadhesati Calculations/i, 'BUILT', '/saturn-transit (saturnTransit.js)'],
+    [/Sadhesati Remedies/i, 'PARTIAL', '/saturn-transit: practices recorded in two books, with pages'],
+    [/Sadhesati Results/i, 'PARTIAL', '/saturn-transit: the book text per phase and cycle'],
+    [/Mangala$|Gem|Lucky Stone/i, 'ABSENT', 'no Mangala or gemstone module'],
   ],
 };
 

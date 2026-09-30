@@ -151,6 +151,20 @@ the *conventions* behind the monthly and daily steps are declared, labelled
 `CONVENTION_UNVERIFIED`, and gated — the VJ-027 pattern. Annual is VERIFIED
 because it is unambiguous.
 
+### 6. Saturn transit — first stage of Remedies (2026-09-30)
+
+`docs/SATURN-TRANSIT-remedies.md` · `/saturn-transit`. Nine rows move: Sadhesati
+Calculations and Sadhesati / Kantaka Calculations become **BUILT**; Sadhesati
+Remedies, Sadhesati Results, Dhayya Results and Kantaka Saturn Results become
+**PARTIAL** (the dates are computed; the results and remedies are the books'
+own text with pages, not PL9's wording, and Dhaiya/Kantaka result text is not
+yet included). Totals after this stage: **171 built (40%), 122 partial, 122
+absent**. Remedies is now 2 built, 4 partial, 4 absent — the four still absent
+are Mangala and the two gemstone worksheets.
+
+The books disagree about which houses are Kantaka Saturn (four sources, four
+answers), so it is a selectable, stated convention rather than a silent choice.
+
 ## Suggested order
 
 1. **Remove the fabricated Ashtakoota** — small, and it is currently producing
@@ -160,6 +174,6 @@ because it is unambiguous.
    (Tamil shaping in real PDF bytes) is done and proven.
 4. **Astronomy pages** — 8 rows, presentation over existing data.
 5. ~~Generalise Varshaphala to monthly and daily returns~~ — **done**, see above.
-6. **Start the remedies domain** — 15 rows; needs sourcing before coding.
+6. **Remedies** — Saturn transit is **done** (see above); Mangala and gemstones remain, and both need sourcing before coding.
 7. **The 28 rare dashas wait on the BPHS pages** — same blocker as the 8
    unverified locators. One session with the book unblocks both.

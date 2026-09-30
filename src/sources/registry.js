@@ -178,6 +178,97 @@ const SOURCES = [
     },
   },
   {
+    id: 'VISHNU_BHASKAR_ADVANCED_TECHNIQUES',
+    title: 'Advanced Techniques of Predictive Astrology: A Vedic Treatise in Modern Times',
+    titleTa: 'முன்னறிவிப்பு ஜோதிடத்தின் மேம்பட்ட உத்திகள்',
+    author: 'Vishnu Bhaskar',
+    file: 'advanced-techniques-of-predictive-astrology-vishnu-bhaskar/raw-scans/volume-1-part-02-pages-87-183.pdf',
+    tradition: 'Parashari (modern compilation of classics)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern book. Cited by printed page for the Saturn-transit definitions '
+        + '(Sade Sati, Dhaiya, Kantaka). The scan held in the curated library paginates one '
+        + 'page later than another copy of the same book; the citation gives the page of the '
+        + 'curated copy and says so.',
+      verified: false,
+      toConfirm: 'Publisher and edition were not read from the scan; the book is a modern '
+        + 'compilation and should be treated as in copyright.',
+    },
+  },
+  {
+    id: 'PULIPPANI_GOCHAR_PHALADEEPIKA',
+    title: 'Gochar Phaladeepika (Transit Results)',
+    titleTa: 'கோசார பலதீபிகை',
+    author: 'Dr. U.S. Pulippani',
+    file: 'gochar-phaladeepika-pulippani/raw-scans/full-scan.pdf',
+    tradition: 'Tamil / Sanskrit transit tradition (Phaladeepika commentary)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern commentary in English over an old text. Its Saturn chapter is internally '
+        + 'inconsistent about Kantaka Saturn (printed p.69 names the 8th; pp.168-169 name the '
+        + '4th, 7th and 8th), and the software records both readings.',
+      verified: false,
+      toConfirm: 'Edition and publisher not read from the scan.',
+    },
+  },
+  {
+    id: 'PARASHARAS_LIGHT_6_1_MANUAL',
+    title: "Parashara's Light 6.1 manual",
+    titleTa: 'பராசரர் லைட் 6.1 கையேடு',
+    author: 'Parashara\'s Light (publisher not read from the file)',
+    file: 'parasharas-light-6-1-manual/raw-scans/full-scan.pdf',
+    tradition: 'Reference software manual',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A commercial software manual, not a classical text. Cited only to record which '
+        + 'houses the reference software calls Kantaka Saturn. It is the 6.1 manual, not the '
+        + '9.0 that the owner uses; PL9 wording was not read.',
+      verified: false,
+      toConfirm: 'Whether PL 9.0 defines Kantaka Saturn the same way as the 6.1 glossary.',
+    },
+  },
+  {
+    id: 'RATH_VEDIC_REMEDIES',
+    title: 'Vedic Remedies in Astrology',
+    titleTa: 'ஜோதிடத்தில் வேதப் பரிகாரங்கள்',
+    author: 'Sanjay Rath',
+    file: 'vedic-remedies-in-astrology-rath/raw-scans/full-scan.pdf',
+    tradition: 'Jaimini / Parashari (modern)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern book. Cited for its definition of Kantaka Sani (footnote 52) and the '
+        + 'recitation it prescribes; the Sanskrit text of the recitation is not reproduced.',
+      verified: false,
+      toConfirm: 'Edition and publisher not read from the scan.',
+    },
+  },
+  {
+    id: 'SHUBHAKARAN_NAKSHATRA_PREDICTIONS_1',
+    title: 'Nakshatra based predictions, part 1',
+    titleTa: 'நட்சத்திர அடிப்படையிலான பலன்கள், பகுதி 1',
+    author: 'K.T. Shubhakaran',
+    file: 'nakshatra-based-predictions-part1-shubhakaran/raw-scans/full-scan.pdf',
+    tradition: 'Parashari (modern)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern book. Cited for the usual houses of Sade-Sathi and Ashtama Sani, the '
+        + 'author\'s own degree-based variant (recorded, not applied) and two recitation '
+        + 'remedies; the Sanskrit text of the recitations is not reproduced.',
+      verified: false,
+      toConfirm: 'Edition and publisher not read from the scan.',
+    },
+  },
+  {
     id: 'TRADITIONAL_CONVENTION',
     title: 'Widely-practised traditional convention (no single classical verse)',
     titleTa: 'மரபு வழக்கம் (ஒரே செய்யுள் ஆதாரம் இல்லை)',
