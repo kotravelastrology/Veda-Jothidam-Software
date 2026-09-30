@@ -151,14 +151,25 @@ function PartyCard({ title, meta }: { title: string; meta: any }) {
 }
 
 /**
- * How a factor compares with the one primary text held for it. Shown on the
+ * How a factor stands against the two primary texts held for it. Shown on the
  * row itself, not only when opened: a client looking at a ✓ should not need to
- * click to learn whether the classical text agrees.
+ * click to learn whether the classical texts agree.
+ *
+ * The calculation follows Kalaprakasika; Sudamani Ullamudaiyan is the
+ * cross-check. "Follows Kalaprakasika" therefore means the second text differs —
+ * a difference of tradition to be chosen between, not a defect.
  */
 const SOURCE_CHIP: Record<string, { label: string; cls: string }> = {
-  MATCHES_SOURCE: { label: 'நூலுடன் ஒத்தது', cls: 'bg-teal-soft text-teal' },
-  DIVERGES_FROM_SOURCE: { label: 'நூலுடன் வேறுபடுகிறது', cls: 'bg-amber-100 text-amber-800' },
-  DIFFERENT_MODEL: { label: 'வேறு அமைப்பு', cls: 'bg-ink-soft/10 text-ink-soft' },
+  AGREED_BY_BOTH: { label: 'இரு நூல்களும் ஒத்தன', cls: 'bg-teal-soft text-teal' },
+  FOLLOWS_KALAPRAKASIKA: { label: 'கலாப்பிரகாசிகை · சூடாமணி வேறு', cls: 'bg-amber-100 text-amber-800' },
+  NOT_SOURCED: { label: 'ஆதாரம் இல்லை', cls: 'bg-rose-soft text-rose' },
+};
+
+/** How the cross-check text stands, in the words the expanded row uses. */
+const CROSS_CHECK_LEAD: Record<string, string> = {
+  MATCHES: 'ஒத்தது',
+  DIVERGES: 'வேறுபடுகிறது',
+  DIFFERENT_MODEL: 'வேறு அமைப்பு',
 };
 
 /** One porutham with its reasoning opened out. */
@@ -174,7 +185,7 @@ function FactorRow({ r }: { r: any }) {
           </button>
           {chip && (
             <span className={`ml-2 text-[10px] px-1.5 py-0.5 rounded whitespace-nowrap ${chip.cls}`}>
-              {chip.label}{r.sourceComparison?.isError ? ' · பிழை' : ''}
+              {chip.label}
             </span>
           )}
         </td>
@@ -192,12 +203,28 @@ function FactorRow({ r }: { r: any }) {
             <p className="text-ink-soft mt-1"><span className="font-semibold text-ink">விதி:</span> {r.rule}</p>
             <p className="text-ink mt-1"><span className="font-semibold">இந்த ஜோடிக்கு:</span> {r.why}</p>
             {r.sourceComparison && (
-              <p className={`mt-1 ${r.sourceStatus === 'MATCHES_SOURCE' ? 'text-teal' : 'text-amber-700'}`}>
-                <span className="font-semibold">
-                  சூடாமணி உள்ளமுடையான் (செய்யுள் {r.sourceComparison.verses}, அச்சுப் பக்கம் {r.sourceComparison.printedPages ?? r.sourceComparison.printedPage}):
-                </span>{' '}
-                {r.sourceComparison.summary}
-              </p>
+              <>
+                <p className={`mt-1 ${r.sourceStatus === 'NOT_SOURCED' ? 'text-rose' : 'text-ink-soft'}`}>
+                  <span className="font-semibold text-ink">
+                    கலாப்பிரகாசிகை (அச்சுப் பக்கம் {r.sourceComparison.kalaprakasika.printedPages}):
+                  </span>{' '}
+                  {r.sourceComparison.kalaprakasika.status === 'MATCHES'
+                    ? 'இந்த விதி நூலின் அச்சிட்ட பக்கத்திலிருந்து படித்துச் சரிபார்க்கப்பட்டது; இங்கு செயல்படுத்தப்பட்ட பகுதி அதனுடன் ஒத்துப்போகிறது (செயல்படுத்தப்படாத விதிவிலக்குகள் கீழே "இந்தக் கணிப்பின் வேறுபாடு" என்பதில்).'
+                    : 'இந்த நூல் இந்தக் காரணிக்கான விதியைக் கூறவில்லை.'}
+                </p>
+                <p className={`mt-1 ${r.sourceComparison.sudamani.status === 'MATCHES' ? 'text-teal' : 'text-amber-700'}`}>
+                  <span className="font-semibold">
+                    சூடாமணி உள்ளமுடையான் — {CROSS_CHECK_LEAD[r.sourceComparison.sudamani.status] ?? ''}
+                    {' '}(செய்யுள் {r.sourceComparison.sudamani.verses}, அச்சுப் பக்கம் {r.sourceComparison.sudamani.printedPage}):
+                  </span>{' '}
+                  {r.sourceComparison.sudamani.summary}
+                </p>
+                {r.sourceComparison.fixed && (
+                  <p className="mt-1 text-ink-soft">
+                    <span className="font-semibold text-ink">திருத்தப்பட்டது:</span> {r.sourceComparison.fixed}
+                  </p>
+                )}
+              </>
             )}
             {r.divergence && (
               <p className="mt-1 text-amber-700">
@@ -351,27 +378,34 @@ export default function PoruthamView() {
             </div>
           </div>
 
-          {/* How the rules behind this score compare with the one primary text
-              held for them. The score is only as good as its rules, so the
-              count sits beside it rather than in a footnote. The figures come
-              from the result, never from this file, so they cannot go stale. */}
+          {/* Where the rules behind this score stand against the two primary
+              texts held for them. The score is only as good as its rules, so
+              the count sits beside it rather than in a footnote. The figures
+              come from the result, never from this file, so they cannot go
+              stale. */}
           {result.sourceSummary && (
             <div className="text-xs bg-amber-50 border border-amber-200 text-amber-800 rounded-xl p-3 mb-4 space-y-1.5">
               <p>
-                <strong>இந்த மதிப்பெண் ஒரு நூலால் உறுதிப்படுத்தப்படவில்லை.</strong> பத்து
-                பொருத்தங்களின் விதிகளையும் சூடாமணி உள்ளமுடையான் (தஞ்சாவூர் சரசுவதி மகால்
-                பதிப்பு) நூலின் அச்சிட்ட பக்கங்களுடன் ஒப்பிட்டதில்:
+                <strong>
+                  {result.sourceSummary.notSourced === 0
+                    ? 'பத்து பொருத்தங்களும் நூலில் இருந்து பெறப்பட்டவை.'
+                    : `${result.total - result.sourceSummary.notSourced} பொருத்தங்கள் நூலில் இருந்து பெறப்பட்டவை; ${result.sourceSummary.notSourced} இல்லை.`}
+                </strong>{' '}
+                கணிப்பு கலாப்பிரகாசிகையின் (என்.பி. சுப்பிரமணிய ஐயர் மொழிபெயர்ப்பு) அச்சிட்ட
+                பக்கங்களைப் பின்பற்றுகிறது; சூடாமணி உள்ளமுடையான் (தஞ்சாவூர் சரசுவதி மகால் பதிப்பு)
+                இரண்டாவது நூலாக ஒப்பிடப்பட்டுள்ளது:
               </p>
               <p className="font-medium">
-                {result.sourceSummary.matches} ஒத்தது · {result.sourceSummary.diverges} வேறுபடுகிறது ·{' '}
-                {result.sourceSummary.differentModel} வேறு அமைப்பு (ஒப்பிட முடியாது)
+                {result.sourceSummary.agreedByBoth} இரு நூல்களும் ஒத்தவை ·{' '}
+                {result.sourceSummary.followsKalaprakasika} கலாப்பிரகாசிகையைப் பின்பற்றுகிறது (சூடாமணி வேறு) ·{' '}
+                {result.sourceSummary.notSourced} ஆதாரம் இல்லை
               </p>
               <p>
-                இது ஒரு நூல் மட்டுமே; வேறு மரபுகள் இதிலிருந்து வேறுபடலாம், நீங்கள் பின்பற்றும்
-                விதி இதுவாக இருக்க வேண்டியதில்லை. ஆனால் &ldquo;வேறுபடுகிறது&rdquo; என்றால், நம்மிடம்
-                உள்ள நூல்களில் எதுவும் இந்த விதியை உறுதிப்படுத்தவில்லை என்று பொருள். கணத்தின்
-                வகைப்பாட்டில் உள்ள 8 நட்சத்திரப் பிழை மரபு வேறுபாடு அல்ல — திருத்த
-                வேண்டியது. ஒவ்வொரு பொருத்தத்தையும் திறந்தால் நூல் என்ன சொல்கிறது என்பது தெரியும்.
+                இரு நூல்களும் வேறுபடும் இடத்தில் இரண்டும் மரபுகள்தான்; எதைப் பின்பற்றுவது என்பது
+                நீங்கள் பின்பற்றும் மரபைப் பொறுத்தது. ஒவ்வொரு பொருத்தத்தையும் திறந்தால் இரு
+                நூல்களும் என்ன சொல்கின்றன, எந்தப் பக்கத்தில் என்பது தெரியும். முந்தைய பதிப்பில்
+                இருந்த விதித் தவறுகள் திருத்தப்பட்டுள்ளன — அவை அந்தந்த வரிசையில்
+                &ldquo;திருத்தப்பட்டது&rdquo; என்று குறிக்கப்பட்டுள்ளன.
               </p>
             </div>
           )}

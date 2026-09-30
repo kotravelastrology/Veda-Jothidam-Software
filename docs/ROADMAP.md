@@ -102,10 +102,13 @@ Not plan items, but real, and they should not be discovered at release:
   It was in `.gitignore` yet still tracked; `git rm --cached` fixed that, but
   the history and the `backup/pre-env-strip` refs still hold it. The
   `JWT_SECRET_KEY` is a real 39-character secret and **must be rotated**.
-- **The porutham tables: 1 of 10 matches the one primary text.** The Sūḍāmaṇi
-  edition was compared row by row (`docs/PORUTHAM-source-comparison.md`): Rajju
-  matches on all 729 pairs; eight diverge; Yoni is a different model. **Gana is
-  an outright error** — 12/5/10 where the classical split is 9/9/9, eight stars
-  misplaced. Which authority to follow is the owner's decision.
+- **The porutham tables: corrected 2026-09-30; one factor still unsourced.**
+  The earlier port was wrong against *both* primary texts — Gana 12/5/10 (should
+  be 9/9/9), Dina inverted, Rasi agreeing on 48 of 144 pairs, Yoni/Vasya/Vedha
+  tables in neither book. Nine factors now follow Kalaprakasika (page-verified;
+  the code agrees with the book on every input it models); Sūḍāmaṇi is the cross-check — four factors agree,
+  five differ (`docs/PORUTHAM-source-comparison.md`). **Rasi Adhipathi has no
+  source**: Kalaprakasika states no rule. Owner decisions outstanding: Adhipathi,
+  and whether to follow Sūḍāmaṇi where the books differ.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

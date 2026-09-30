@@ -31,6 +31,13 @@ calculator formats no prose and the view invents no reasoning.
 
 ## The sourcing position, stated plainly
 
+> **Superseded 2026-09-30.** Two primary texts were read afterwards and the
+> tables corrected: nine of ten factors now follow Kalaprakasika (page-verified)
+> with Sūḍāmaṇi Uḷḷamuḍaiyāṉ as cross-check, and one (Rasi Adhipathi) has no
+> source. See `docs/PORUTHAM-source-comparison.md`. This section and the
+> disclosures table below record the position **as delivered** in VJ-018, and
+> describe the earlier ported tables, several of which were wrong.
+
 **None of the ten rule tables has a verified classical source.** They were
 ported from the prior AstrologicLab matching screen, whose own note cites
 "the Marriage reference workbook" — no edition, no page. Under PLAN-001 that
@@ -75,9 +82,14 @@ self-match is refused two ways: same `profileId`, and identical birth details
 saved under two names.
 
 This matters more than an ordinary validation error. A chart matched against
-itself scores **exactly 5/10 "சாதாரணம்" for every star and sign** — never 0,
-never an obvious error. On screen it is indistinguishable from a real,
-middling match. The test asserts all 324 combinations.
+itself scores a middling **3 or 4 of 10** — never 0, never an obvious error. On
+screen it is indistinguishable from a real, middling match. The test asserts
+every star and sign.
+
+*Correction, 2026-09-30:* this section originally said "exactly 5/10 for every
+star and sign". That was true only of the earlier, wrong tables and was an
+artefact of them; under the corrected rules the range is 3–4, and the guard is
+needed for the same reason.
 
 The active-profile seed is confirmed against the library before it is shown.
 That seed lives in browser storage and can outlive the record it names — found

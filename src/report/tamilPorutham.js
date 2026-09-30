@@ -1,9 +1,40 @@
 /**
- * தமிழ் திருமணப் பொருத்தம் — the 10 Dasakoot poruthams (South-Indian
- * marriage matching), ported verbatim from the prior AstrologicLab
- * `src/app/matching/MatchingResults.tsx` `calcPorutham` and its lookup
- * tables (`NAKSHATRA_GANA`, `NAKSHATRA_YONI`, `RASHI_LORD`, Rajju groups,
- * Vedha pairs, Vasya). Source there: the "Marriage" reference workbook.
+ * தமிழ் திருமணப் பொருத்தம் — the ten poruthams (South-Indian marriage
+ * matching).
+ *
+ * ## Source
+ *
+ * The rules follow **Kalaprakasika**, N.P. Subramania Iyer's English
+ * translation, marriage-suitability chapter (printed pp.69-76), whose tables
+ * are in `poruthamTables.js`. Each was read from the rendered page and is
+ * pinned by `test-porutham-source.js`, which also cross-checks the Sudamani
+ * Ullamudaiyan edition.
+ *
+ * These rules were first ported from an earlier AstrologicLab screen whose only
+ * reference was "the Marriage reference workbook". Comparing that port against
+ * the printed texts found errors, not merely tradition differences:
+ *
+ *   - **Gana** put Rohini, Ardra, Uttara Phalguni, Uttara Ashadha and Uttara
+ *     Bhadra outside Manushya, Vishakha and Jyeshtha outside Rakshasa and
+ *     Anuradha outside Deva — a 12/5/10 split where the classical division of
+ *     the 27 stars is 9/9/9.
+ *   - **Dina** was inverted: it rejected remainders 2, 4, 6, 8, 9, which is
+ *     what *both* texts say are the good ones. A test comment recorded the
+ *     inversion as though it were intended.
+ *   - **Rasi** accepted {1, 2, 5, 6, 7, 11}; both texts accept the 7th to 12th
+ *     and reject the 2nd to 6th.
+ *   - **Yoni**, **Vasya** and **Vedha** used tables matching neither text.
+ *
+ * Mahendra and Rajju were already identical to Kalaprakasika and are unchanged.
+ * Rasi Adhipathi is also unchanged, because the book gives each planet's
+ * friends but states no rule for what the two lords must be.
+ *
+ * ## What is not modelled
+ *
+ * Only what the star and rasi index can carry. Left out, and recorded in
+ * `fixtures/porutham/kalaprakasika-poruthams.json`: the pada-level exclusions
+ * in Dina's second cycle, the named happy and unsuitable pairs, the rasi
+ * exceptions, and the rule that at least five of the ten must agree.
  *
  * Inputs are the two natives' Moon nakshatra index (0-26) and Moon rasi
  * index (0-11). Convention: "girl" = bride, "boy" = groom (the classical
@@ -11,6 +42,7 @@
  */
 
 const { describePorutham, poruthamEvidence } = require('./poruthamFactors');
+const T = require('./poruthamTables');
 
 const NAKSHATRA_NAMES = [
   'Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu',
@@ -19,31 +51,62 @@ const NAKSHATRA_NAMES = [
   'Uttara Ashadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'Purva Bhadrapada',
   'Uttara Bhadrapada', 'Revati',
 ];
-const NAKSHATRA_GANA = [
-  0, 1, 2, 0, 0, 2, 0, 0, 2,
-  2, 1, 0, 0, 2, 0, 1, 2, 0,
-  2, 1, 0, 0, 2, 2, 1, 2, 0,
-]; // 0 = Deva, 1 = Manushya, 2 = Rakshasa
-const GANA_NAMES = ['தேவர்', 'மனிதர்', 'இராட்சதர்'];
-const NAKSHATRA_YONI = [
-  0, 7, 0, 5, 5, 4, 3, 1, 2,
-  8, 6, 6, 5, 0, 8, 8, 4, 4,
-  7, 7, 6, 8, 3, 3, 1, 2, 7,
-];
+const GANA_TA = { deva: 'தேவர்', manushya: 'மனிதர்', rakshasa: 'இராட்சதர்' };
+
+// Rasi Adhipathi: unchanged from the earlier port (see the header).
 const RASHI_LORD = [2, 5, 3, 1, 0, 3, 5, 2, 4, 6, 6, 4]; // 0 Sun..6 Saturn
 const LORD_TA = ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி'];
-const RAJJU_GROUP = [0, 1, 2, 3, 4, 3, 2, 1, 0, 0, 1, 2, 3, 4, 3, 2, 1, 0, 0, 1, 2, 3, 4, 3, 2, 1, 0];
-const RAJJU_TA = ['கால்', 'இடுப்பு', 'வயிறு', 'கழுத்து', 'தலை'];
-const VEDHA_PAIRS = [
-  [0, 17], [1, 23], [2, 11], [3, 10], [4, 9], [5, 24], [6, 25], [7, 26], [8, 14], [12, 13], [15, 20], [16, 19],
-];
-const VASYA = {
-  0: [3, 8], 1: [6, 11], 2: [5, 10], 3: [0, 7], 4: [9], 5: [2, 7],
-  6: [1, 8], 7: [3, 10], 8: [0, 5], 9: [4, 11], 10: [5], 11: [6, 9],
-};
 
-function getVedha(n1, n2) {
-  return VEDHA_PAIRS.some(([a, b]) => (a === n1 && b === n2) || (a === n2 && b === n1));
+/** Count from `from` to `to` inclusive, cyclically, as the books count. */
+const starCount = (from, to) => ((to - from + T.STARS) % T.STARS) + 1;
+const rasiCount = (from, to) => ((to - from + T.RASIS) % T.RASIS) + 1;
+
+/**
+ * Dina, after Kalaprakasika printed pp.69 and 71.
+ *
+ * Returns { result, measure }. `measure.basis` names which clause decided it,
+ * so the explanation can quote the rule that was actually applied.
+ */
+function dina(girlNak, boyNak, girlRashi, boyRashi) {
+  const count = starCount(girlNak, boyNak);
+
+  // A common janma nakshatra is graded by the star itself.
+  if (count === 1) {
+    const { excellent, neutral, unsuitable } = T.DINA.sameStar;
+    const grade = excellent.includes(girlNak) ? 'excellent'
+      : neutral.includes(girlNak) ? 'neutral' : unsuitable.includes(girlNak) ? 'unsuitable' : null;
+    return { result: grade !== 'unsuitable', measure: { count, basis: 'SAME_STAR', grade } };
+  }
+
+  const position = ((count - 1) % 9) + 1;
+  const cycle = Math.floor((count - 1) / 9) + 1;
+  const base = { count, cycle, position };
+
+  // The 22nd from either asterism is Vadha-Vainasika. Counted from the
+  // bridegroom's it is the 7th from the bride's, which the first cycle
+  // already rejects, so only the direct count needs testing here.
+  if (T.DINA.avoidCounts.includes(count)) {
+    return { result: false, measure: { ...base, basis: 'VAINASIKA' } };
+  }
+  // The 27th is to be avoided unless the two asterisms share a sign.
+  if (count === 27) {
+    const sameSign = girlRashi === boyRashi;
+    return { result: sameSign, measure: { ...base, basis: 'TWENTY_SEVENTH', sameSign } };
+  }
+
+  if (cycle === 1) {
+    return {
+      result: T.DINA.cycleGoodPositions.includes(position),
+      measure: { ...base, basis: 'FIRST_CYCLE' },
+    };
+  }
+  // The second and third Pariyaya are not rejected as a whole. The second
+  // excludes single quarters of the 3rd, 5th and 7th, which needs the pada and
+  // is not modelled; the third produces no evil.
+  return {
+    result: true,
+    measure: { ...base, basis: cycle === 2 ? 'SECOND_CYCLE' : 'THIRD_CYCLE' },
+  };
 }
 
 /**
@@ -57,53 +120,46 @@ function getVedha(n1, n2) {
 function calcPorutham(girlNak, boyNak, girlRashi, boyRashi) {
   const rows = [];
 
-  const dhin = ((boyNak - girlNak + 27) % 27) + 1;
-  const dinaRemainder = dhin % 9 || 9;
-  const DINA_REJECTED = [2, 4, 6, 8, 9];
-  rows.push({
-    id: 'DINA', name: 'தினம்',
-    result: !DINA_REJECTED.includes(dinaRemainder), note: `எண்: ${dhin}`,
-    measure: { count: dhin, remainder: dinaRemainder, rejected: DINA_REJECTED },
-  });
+  const d = dina(girlNak, boyNak, girlRashi, boyRashi);
+  rows.push({ id: 'DINA', name: 'தினம்', result: d.result, note: `எண்: ${d.measure.count}`, measure: d.measure });
 
-  const gG = NAKSHATRA_GANA[girlNak];
-  const gB = NAKSHATRA_GANA[boyNak];
-  const ganaOk = gG === gB || (gG === 0 && gB === 1) || (gG === 1 && gB === 0);
+  const gG = T.GANA_OF[girlNak];
+  const gB = T.GANA_OF[boyNak];
+  const ganaOk = gG === gB || (gG === 'deva' && gB === 'manushya') || (gG === 'manushya' && gB === 'deva');
   rows.push({
     id: 'GANA', name: 'கணம்',
-    result: ganaOk, note: `பெண்: ${GANA_NAMES[gG]}, ஆண்: ${GANA_NAMES[gB]}`,
-    measure: { girl: GANA_NAMES[gG], boy: GANA_NAMES[gB], same: gG === gB },
+    result: ganaOk, note: `பெண்: ${GANA_TA[gG]}, ஆண்: ${GANA_TA[gB]}`,
+    measure: { girl: GANA_TA[gG], boy: GANA_TA[gB], same: gG === gB },
   });
 
-  const mah = ((boyNak - girlNak + 27) % 27) + 1;
-  const MAHENDRA_ACCEPTED = [4, 7, 10, 13, 16, 19, 22, 25];
+  const mah = starCount(girlNak, boyNak);
   rows.push({
     id: 'MAHENDRA', name: 'மகேந்திரம்',
-    result: MAHENDRA_ACCEPTED.includes(mah), note: `எண்: ${mah}`,
-    measure: { count: mah, accepted: MAHENDRA_ACCEPTED },
+    result: T.MAHENDRA_COUNTS.includes(mah), note: `எண்: ${mah}`,
+    measure: { count: mah, accepted: T.MAHENDRA_COUNTS },
   });
 
-  const stree = ((boyNak - girlNak + 27) % 27) + 1;
+  const stree = starCount(girlNak, boyNak);
   rows.push({
     id: 'STREE_DEERGHA', name: 'ஸ்திரீ தீர்க்கம்',
-    result: stree >= 7, note: `எண்: ${stree}`,
-    measure: { count: stree, minimum: 7 },
+    result: stree >= T.STREE_DEERGHA_MINIMUM, note: `எண்: ${stree}`,
+    measure: { count: stree, minimum: T.STREE_DEERGHA_MINIMUM },
   });
 
-  const yG = NAKSHATRA_YONI[girlNak % 27];
-  const yB = NAKSHATRA_YONI[boyNak % 27];
+  const yG = T.YONI_OF[girlNak];
+  const yB = T.YONI_OF[boyNak];
+  const hostile = T.yoniHostile(yG, yB);
   rows.push({
     id: 'YONI', name: 'யோனி',
-    result: yG === yB || Math.abs(yG - yB) <= 1, note: `பெண்: ${yG}, ஆண்: ${yB}`,
-    measure: { girl: yG, boy: yB, gap: Math.abs(yG - yB), groups: 9 },
+    result: !hostile, note: `பெண்: ${T.YONI_TA[yG]}, ஆண்: ${T.YONI_TA[yB]}`,
+    measure: { girl: T.YONI_TA[yG], boy: T.YONI_TA[yB], same: yG === yB, hostile },
   });
 
-  const rashiDiff = ((boyRashi - girlRashi + 12) % 12) + 1;
-  const RASI_ACCEPTED = [1, 2, 5, 6, 7, 11];
+  const rashiDiff = rasiCount(girlRashi, boyRashi);
   rows.push({
     id: 'RASI', name: 'ராசி',
-    result: RASI_ACCEPTED.includes(rashiDiff), note: `இடைவெளி: ${rashiDiff}`,
-    measure: { gap: rashiDiff, accepted: RASI_ACCEPTED },
+    result: rashiDiff >= 7, note: `இடைவெளி: ${rashiDiff}`,
+    measure: { gap: rashiDiff, minimum: 7 },
   });
 
   const gL = RASHI_LORD[girlRashi];
@@ -114,26 +170,24 @@ function calcPorutham(girlNak, boyNak, girlRashi, boyRashi) {
     measure: { girl: LORD_TA[gL], boy: LORD_TA[bL], same: gL === bL },
   });
 
-  const vasya = (VASYA[girlRashi] || []).includes(boyRashi) || (VASYA[boyRashi] || []).includes(girlRashi);
+  const girlControlsBoy = (T.VASYA[girlRashi] || []).includes(boyRashi);
+  const boyControlsGirl = (T.VASYA[boyRashi] || []).includes(girlRashi);
+  const vasya = girlControlsBoy || boyControlsGirl;
   rows.push({
     id: 'VASYA', name: 'வசியம்',
-    result: !!vasya, note: vasya ? 'பொருந்தும்' : 'பொருந்தாது',
-    measure: {
-      found: !!vasya,
-      girlControlsBoy: (VASYA[girlRashi] || []).includes(boyRashi),
-      boyControlsGirl: (VASYA[boyRashi] || []).includes(girlRashi),
-    },
+    result: vasya, note: vasya ? 'பொருந்தும்' : 'பொருந்தாது',
+    measure: { found: vasya, girlControlsBoy, boyControlsGirl },
   });
 
-  const gR = RAJJU_GROUP[girlNak % 27];
-  const bR = RAJJU_GROUP[boyNak % 27];
+  const gR = T.RAJJU_OF[girlNak];
+  const bR = T.RAJJU_OF[boyNak];
   rows.push({
     id: 'RAJJU', name: 'ரஜ்ஜு',
-    result: gR !== bR, note: `பெண்: ${RAJJU_TA[gR]}, ஆண்: ${RAJJU_TA[bR]}`,
-    measure: { girl: RAJJU_TA[gR], boy: RAJJU_TA[bR], same: gR === bR },
+    result: gR !== bR, note: `பெண்: ${T.RAJJU_TA[gR]}, ஆண்: ${T.RAJJU_TA[bR]}`,
+    measure: { girl: T.RAJJU_TA[gR], boy: T.RAJJU_TA[bR], same: gR === bR },
   });
 
-  const vedha = getVedha(girlNak, boyNak);
+  const vedha = T.hasVedha(girlNak, boyNak);
   rows.push({
     id: 'VEDHA', name: 'வேதை',
     result: !vedha, note: vedha ? 'வேதை உண்டு' : 'வேதை இல்லை',
@@ -161,24 +215,27 @@ function calculateTamilPorutham(girl, boy) {
     passed,
     total: rows.length,
     level,
-    // The verdicts travel with how each rule compares to the one primary text
-    // held (see poruthamFactors.js), rather than depending on the UI to
-    // remember it. The overall score below is only as good as the rules that
-    // produce it, which is why the count is here and not just per row.
+    // The verdicts travel with where each rule stands against the two primary
+    // texts (see poruthamFactors.js), rather than depending on the UI to
+    // remember it. The overall score is only as good as the rules that produce
+    // it, which is why the count is here and not just per row.
     evidence: poruthamEvidence(raw),
     sourceSummary: summariseSources(rows),
-    sourceStatus: rows.some((r) => r.sourceStatus === 'MATCHES_SOURCE')
-      ? 'PARTIALLY_SOURCED' : 'SOURCE_REQUIRED',
+    sourceStatus: rows.every((r) => r.sourceStatus !== 'NOT_SOURCED')
+      ? 'SOURCED' : 'PARTIALLY_SOURCED',
   };
 }
 
-/** How many of the rows agree with, diverge from, or cannot be compared with the book. */
+/**
+ * How many factors both texts agree on, how many follow Kalaprakasika alone
+ * (Sudamani differs), and how many have no source at all.
+ */
 function summariseSources(rows) {
   const count = (status) => rows.filter((r) => r.sourceStatus === status).length;
   return {
-    matches: count('MATCHES_SOURCE'),
-    diverges: count('DIVERGES_FROM_SOURCE'),
-    differentModel: count('DIFFERENT_MODEL'),
+    agreedByBoth: count('AGREED_BY_BOTH'),
+    followsKalaprakasika: count('FOLLOWS_KALAPRAKASIKA'),
+    notSourced: count('NOT_SOURCED'),
     total: rows.length,
   };
 }

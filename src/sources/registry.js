@@ -156,6 +156,28 @@ const SOURCES = [
     },
   },
   {
+    id: 'KALAPRAKASIKA_NPS_IYER',
+    title: 'Kalaprakasika',
+    titleTa: 'காலப்பிரகாசிகை',
+    author: 'N.P. Subramania Iyer (translator)',
+    file: 'kalaprakasika-nps-iyer-1982/raw-scans/full-scan.pdf '
+      + '(1982 English translation; an earlier 1917 print of the same translation is held as OCR text)',
+    tradition: 'Tamil / Sanskrit classical (muhurta)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Kalaprakasika is an old work, and the old text itself is not the difficulty. '
+        + 'What was read here is a twentieth-century English translation, which is a new '
+        + 'copyrightable work in its own right — the same position as the BPHS translation. '
+        + 'Citing printed pages is fine; shipping the file is not.',
+      verified: false,
+      toConfirm: 'Whether the 1917 print (Internet Archive item in.ernet.dli.2015.45999, no licence '
+        + 'stated) is out of copyright in India, which depends on the translator\'s death date. '
+        + 'If it is, the 1917 text — not the 1982 volume — is the one that could ship.',
+    },
+  },
+  {
     id: 'TRADITIONAL_CONVENTION',
     title: 'Widely-practised traditional convention (no single classical verse)',
     titleTa: 'மரபு வழக்கம் (ஒரே செய்யுள் ஆதாரம் இல்லை)',

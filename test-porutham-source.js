@@ -1,213 +1,294 @@
 /**
- * The ten poruthams against the Sudamani Ullamudaiyan edition.
+ * The ten poruthams against two primary texts.
  *
- * VJ-018 could only say the tables had no source. There is now a primary text,
- * and this file pins what comparing against it found.
+ * VJ-018 could only say the tables had no source. Kalaprakasika and Sudamani
+ * Ullamudaiyan have since been read page by page, and this file pins what the
+ * comparison found and what was done about it.
  *
- * Two kinds of assertion:
+ * Four kinds of assertion:
  *
- *  - The FIXTURE is checked for internal consistency, because a transcription
- *    that does not add up (a star in two gana, a rajju band of the wrong size)
- *    would make every comparison built on it meaningless.
- *  - The FINDINGS are asserted as exact facts about this code. They are meant
- *    to fail when someone corrects a table: the failure is the prompt to update
- *    `SOURCE_COMPARISON`, so the app's claim about each factor cannot drift
- *    from what is true of it.
- *
- * A finding that our code differs from this book is not proof the code is
- * wrong — it is one Tamil text. The one exception is asserted separately: the
- * Gana table, which contradicts the 9/9/9 split as well.
+ *  1. The FIXTURES are internally consistent (partitions add up), because a
+ *     transcription that does not would make every comparison built on it
+ *     meaningless — and the runtime tables equal the fixture, entry for entry.
+ *  2. The CODE agrees with Kalaprakasika on every input, and with Sudamani
+ *     exactly where the two books agree with each other.
+ *  3. The HISTORICAL behaviour — a frozen copy of the port that was corrected —
+ *     did have the faults the record claims. Each "fixed" statement shown to a
+ *     user is checked against it, so a correction cannot be described falsely.
+ *  4. The STATUSES the app shows are derived from the live comparison, so none
+ *     can drift from what is true.
  */
 const assert = require('node:assert/strict');
 
-const { compareAll, tableDifferences, vedhaPairDifferences, loadBook, starCount } = require('./src/report/poruthamSourceComparison');
+const cmp = require('./src/report/poruthamSourceComparison');
 const { calcPorutham, calculateTamilPorutham } = require('./src/report/tamilPorutham');
-const { SOURCE_COMPARISON } = require('./src/report/poruthamFactors');
+const T = require('./src/report/poruthamTables');
+const { SOURCE_COMPARISON, sourceStatusOf, KALAPRAKASIKA } = require('./src/report/poruthamFactors');
 const { assertRuleEvidence } = require('./src/contracts/ruleEvidence');
+const { resolveByTitle } = require('./src/sources/registry');
 
-const book = loadBook();
+const S = cmp.loadSudamani();
+const K = cmp.loadKalaprakasika();
 const range = (n) => Array.from({ length: n }, (_, i) => i);
 const sorted = (a) => [...a].sort((x, y) => x - y);
-
-// -------------------------------------------- the transcription is sound ---
-
 const ALL27 = range(27);
+const same = (a, b) => assert.deepEqual(sorted(a), sorted(b));
 
-// Gana: nine stars each, together all twenty-seven, no star twice.
-for (const g of ['manushya', 'deva', 'rakshasa']) {
-  assert.equal(book.GANA[g].length, 9, `${g} must hold nine stars`);
+// ══════════════════════════════════════════════ 1. the fixtures are sound ══
+
+for (const [name, book] of [['Kalaprakasika', K], ['Sudamani', S]]) {
+  const gana = [...book.GANA.deva, ...book.GANA.manushya, ...book.GANA.rakshasa];
+  assert.deepEqual(sorted(gana), ALL27, `${name}: the three gana partition the 27 stars`);
+  for (const g of ['deva', 'manushya', 'rakshasa']) {
+    assert.equal(book.GANA[g].length, 9, `${name}: ${g} holds nine stars (the classical 9/9/9)`);
+  }
+  const bands = Object.values(book.RAJJU.bands);
+  assert.deepEqual(bands.map((b) => b.stars.length), [6, 6, 6, 6, 3], `${name}: rajju band sizes`);
+  assert.deepEqual(sorted(bands.flatMap((b) => b.stars)), ALL27, `${name}: rajju bands partition the stars`);
+
+  const pairStars = book.VEDHA.pairs.flat();
+  assert.equal(new Set(pairStars).size, pairStars.length, `${name}: no star in two vedha pairs`);
+  assert.equal(pairStars.length + book.VEDHA.triple.length, 27, `${name}: vedha accounts for all 27 stars`);
 }
-assert.deepEqual(sorted([...book.GANA.manushya, ...book.GANA.deva, ...book.GANA.rakshasa]), ALL27,
-  'the three gana partition the 27 stars exactly');
+// Kalaprakasika's Manushya list is genuinely truncated in print; the four
+// missing stars are inferred by elimination, and that is recorded, not hidden.
+assert.equal(K.GANA.manushyaPrinted.length, 5);
+assert.deepEqual(sorted([...K.GANA.manushyaPrinted, ...K.GANA.manushyaByElimination]), sorted(K.GANA.manushya));
 
-// Rajju: five bands of 6, 6, 6, 6 and 3 stars, partitioning the 27.
-const bands = Object.values(book.RAJJU.bands);
-assert.deepEqual(bands.map((b) => b.stars.length), [6, 6, 6, 6, 3]);
-assert.deepEqual(sorted(bands.flatMap((b) => b.stars)), ALL27, 'the rajju bands partition the 27 stars');
+// Kalaprakasika's same-star grading: 8 excellent, 11 neutral, 8 unsuitable.
+const ss = K.DINA.sameStar;
+assert.deepEqual([ss.excellent.length, ss.neutral.length, ss.unsuitable.length], [8, 11, 8]);
+assert.deepEqual(sorted([...ss.excellent, ...ss.neutral, ...ss.unsuitable]), ALL27);
 
-// Dina same-star groups: 9 + 8 + 10, partitioning the 27.
-const d = book.DINA.sameStar;
-assert.deepEqual([d.madhyama.length, d.uttama.length, d.notAccepted.length], [9, 8, 10]);
-assert.deepEqual(sorted([...d.madhyama, ...d.uttama, ...d.notAccepted]), ALL27);
+// Yoni: thirteen kinds, every star exactly once.
+assert.equal(Object.keys(K.YONI.yonis).length, 13);
+assert.deepEqual(sorted(Object.values(K.YONI.yonis).flat()), ALL27);
 
-// Vedha: twelve pairs plus a triple; no star appears in two pairs; the triple
-// stars are in no pair. A vedha "pair" reused would mean a transcription slip.
-const pairStars = book.VEDHA.pairs.flat();
-assert.equal(new Set(pairStars).size, pairStars.length, 'no star is in two vedha pairs');
-assert.ok(book.VEDHA.triple.every((s) => !pairStars.includes(s)), 'the triple is separate from the pairs');
-assert.equal(pairStars.length + book.VEDHA.triple.length, 27, 'pairs and triple account for all 27 stars');
-
-// Vasya and adhipathi are keyed on all twelve rasis.
-assert.equal(Object.keys(book.VASYA.vasya).length, 12);
-assert.equal(Object.keys(book.RASI_ADHIPATHI.friendsOfWomansRasi).length, 12);
-
-// Every entry says where in the book it came from, and how it was verified.
+// Every entry names its page and says how it was verified.
 for (const key of ['DINA', 'GANA', 'MAHENDRA', 'STREE_DEERGHA', 'YONI', 'RASI', 'RASI_ADHIPATHI', 'VASYA', 'RAJJU', 'VEDHA']) {
-  assert.ok(book[key].verses, `${key}: verse numbers`);
-  assert.equal(book[key].scanPage, book[key].printedPage + 25, `${key}: scan page = printed + 25`);
-  assert.equal(book[key].verified, 'VISUAL', `${key}: nothing here is OCR-only`);
+  assert.equal(K[key].verified, 'VISUAL', `Kalaprakasika ${key}: nothing here is OCR-only`);
+  assert.ok(K[key].printedPages, `Kalaprakasika ${key}: names its pages`);
+  assert.equal(S[key].verified, 'VISUAL', `Sudamani ${key}: nothing here is OCR-only`);
 }
 
-// ------------------------------------------------------------ findings -----
+// ── the runtime tables equal the fixture ────────────────────────────────────
+// Data that decides a client's result is embedded in code, not read from the
+// JSON at runtime (the Next bundler's __dirname trap). This is what stops the
+// two from drifting.
+same(T.GANA.deva, K.GANA.deva); same(T.GANA.manushya, K.GANA.manushya); same(T.GANA.rakshasa, K.GANA.rakshasa);
+same(T.MAHENDRA_COUNTS, K.MAHENDRA.acceptedCounts);
+assert.equal(T.STREE_DEERGHA_MINIMUM, K.STREE_DEERGHA.minimumCount);
+for (const [kind, stars] of Object.entries(K.YONI.yonis)) same(T.YONIS[kind], stars);
+assert.deepEqual(T.YONI_HOSTILE.map((p) => [...p]), K.YONI.hostilePairsAsPrinted);
+same(T.RASI_GOOD_COUNTS, K.RASI.goodCounts); same(T.RASI_BAD_COUNTS, K.RASI.badCounts);
+for (const [r, list] of Object.entries(K.VASYA.concordantTo)) same(T.VASYA[r], list);
+for (const [name, band] of Object.entries(K.RAJJU.bands)) same(T.RAJJU_BANDS[name], band.stars);
+assert.deepEqual(T.VEDHA_PAIRS.map((p) => [...p]), K.VEDHA.pairs);
+same(T.VEDHA_TRIPLE, K.VEDHA.triple);
+same(T.DINA.cycleGoodPositions, K.DINA.cycleGoodPositions); same(T.DINA.cycleBadPositions, K.DINA.cycleBadPositions);
+same(T.DINA.avoidCounts, K.DINA.avoidCounts);
+same(T.DINA.sameStar.excellent, ss.excellent); same(T.DINA.sameStar.neutral, ss.neutral);
+same(T.DINA.sameStar.unsuitable, ss.unsuitable);
 
-const cmp = compareAll(book);
+// ══════════════════════════════════════ 2. the code against both books ══
 
-// RAJJU — the one that matches, on every input, not on average.
-assert.equal(cmp.RAJJU.agree, 729);
-assert.equal(cmp.RAJJU.total, 729);
-assert.equal(cmp.RAJJU.disagreements.length, 0);
-assert.deepEqual(tableDifferences(book).rajjuDiffs, [], 'the grouping of all 27 stars is identical');
+const vsK = cmp.compareToKalaprakasika(K);
+const vsS = cmp.compareToSudamani(S);
+const books = cmp.compareBooks(S, K);
 
-// GANA — the rule is the same as the book's, so every disagreement is a
-// table entry. Eight stars, five of them Manushya in the book.
-const gana = tableDifferences(book).ganaDiffs;
-assert.equal(gana.length, 8);
-assert.deepEqual(gana.map((g) => g.star), [3, 5, 11, 15, 16, 17, 20, 25]);
-assert.equal(gana.filter((g) => g.book === 'மனிதர்').length, 5);
-assert.equal(cmp.GANA.agree, 509);
-
-// ...and this one is an error rather than a variant, because it does not
-// depend on trusting the book: the classical split of 27 stars is 9/9/9, and
-// this code produces 12/5/10.
-const sizes = { 'தேவர்': 0, 'மனிதர்': 0, 'இராட்சதர்': 0 };
-for (const s of ALL27) {
-  const note = calcPorutham(s, s, 0, 0).find((r) => r.id === 'GANA').note;
-  sizes[note.replace(/^பெண்: /, '').split(',')[0]] += 1;
+// Kalaprakasika is the authority: identical on every input, for every factor
+// the book gives a rule for.
+for (const id of [...cmp.STAR_FACTORS, ...cmp.RASI_FACTORS]) {
+  if (id === 'RASI_ADHIPATHI') continue;
+  assert.equal(vsK[id].comparable, true, id);
+  assert.equal(vsK[id].disagreements.length, 0,
+    `${id}: the code differs from Kalaprakasika on ${vsK[id].disagreements.length} inputs, e.g. ${JSON.stringify(vsK[id].disagreements[0])}`);
 }
-assert.deepEqual([sizes['தேவர்'], sizes['மனிதர்'], sizes['இராட்சதர்']], [12, 5, 10]);
-assert.notDeepEqual(Object.values(sizes), [9, 9, 9]);
+// Rasi Adhipathi: the book lists each planet's friends but states no rule, so
+// there is nothing to compare — and the app must say so rather than imply a match.
+assert.equal(vsK.RASI_ADHIPATHI.comparable, false);
+assert.match(K.RASI_ADHIPATHI.rule, /^NOT STATED/);
 
-// DINA — for counts 2 to 9 the two are an exact inversion: what the book
-// accepts this code rejects, and the reverse.
-const ourDinaAccepts = (count) => {
-  // girl = 0, so the boy's index is count-1
-  return calcPorutham(0, count - 1, 0, 0).find((r) => r.id === 'DINA').result;
-};
+// Sudamani agrees with the code exactly where it agrees with Kalaprakasika.
+const agreedByBoth = ['GANA', 'STREE_DEERGHA', 'RASI', 'RAJJU'];
+for (const id of agreedByBoth) {
+  assert.equal(vsS[id].disagreements.length, 0, `${id}: both books agree, so the code agrees with Sudamani too`);
+  assert.equal(books[id].agree, books[id].total, `${id}: the two books agree with each other`);
+}
+for (const id of ['DINA', 'MAHENDRA', 'VEDHA', 'VASYA', 'RASI_ADHIPATHI']) {
+  assert.ok(vsS[id].disagreements.length > 0, `${id}: Sudamani differs`);
+}
+assert.equal(vsS.YONI.comparable, false, 'Sudamani\'s yoni is a different model (animals with sex)');
+
+// Where the books differ, the differences are the ones on the record.
+// Mahendra: only counts 1 and 20.
+const mahendraDiffCounts = [...new Set(vsS.MAHENDRA.disagreements.map(({ input: [g, b] }) => cmp.starCount(g, b)))].sort((a, b) => a - b);
+assert.deepEqual(mahendraDiffCounts, [1, 20]);
+// Vasya: the books differ on specific entries.
+const vasyaDiffRasis = [...new Set(vsS.VASYA.disagreements.map(({ input }) => `${input[2]}-${input[3]}`))];
+assert.ok(vasyaDiffRasis.length > 0);
+// Vedha: the rate looks fine and is a trap, because most pairs pass under both.
+// The pair sets are what matter, and they share nothing.
+assert.ok(books.VEDHA.rate > 0.9, 'the vedha agreement rate looks fine — which is the trap');
+const kPairs = cmp.vedhaPairs(cmp.kalaprakasikaVerdicts(K)._vedha);
+const sPairs = cmp.vedhaPairs(cmp.sudamaniVerdicts(S)._vedha);
+assert.deepEqual(kPairs.filter((p) => sPairs.includes(p)), [], 'the two books share no vedha pair');
+assert.deepEqual(cmp.codeVedhaPairs(), kPairs, 'the code holds exactly Kalaprakasika\'s pairs');
+
+// Dina: the books agree from 2 to 9 and differ beyond; the code follows
+// Kalaprakasika. Pinned so the disagreement is visible, not glossed.
 for (let count = 2; count <= 9; count += 1) {
-  const bookAccepts = book.DINA.acceptedCounts.includes(count);
-  assert.equal(ourDinaAccepts(count), !bookAccepts,
-    `count ${count}: the book ${bookAccepts ? 'accepts' : 'rejects'} it and this code does the opposite`);
+  const k = calcPorutham(0, count - 1, 0, 1).find((r) => r.id === 'DINA').result;
+  assert.equal(k, S.DINA.acceptedCounts.includes(count), `count ${count}: both books and the code agree`);
 }
-assert.equal(cmp.DINA.agree, 422);
+assert.equal(calcPorutham(0, 21, 0, 1).find((r) => r.id === 'DINA').result, false, 'count 22: Kalaprakasika avoids it');
+assert.ok(S.DINA.acceptedCounts.includes(22), 'count 22: Sudamani accepts it — the two books disagree');
 
-// MAHENDRA — differs only on counts 1 and 20.
-const mahendraCounts = range(27).map((i) => i + 1).filter((c) => {
-  const ours = calcPorutham(0, c - 1, 0, 0).find((r) => r.id === 'MAHENDRA').result;
-  return ours !== book.MAHENDRA.acceptedCounts.includes(c);
-});
-assert.deepEqual(mahendraCounts, [1, 20]);
+// ── the specific rules that were the bug, with concrete cases ───────────────
+const dinaAt = (g, b, gr = 0, br = 1) => calcPorutham(g, b, gr, br).find((r) => r.id === 'DINA');
+// Count 4 was rejected before (the old test asserted it FAILS). Both books say good.
+assert.equal(dinaAt(0, 3).measure.count, 4);
+assert.equal(dinaAt(0, 3).result, true, 'count 4 is good in both books');
+assert.equal(dinaAt(0, 2).result, false, 'count 3 is bad in both books');
+// Same star is graded by the star: Rohini excellent, Ashwini neutral, Bharani unsuitable.
+assert.equal(dinaAt(3, 3).result, true);   assert.equal(dinaAt(3, 3).measure.grade, 'excellent');
+assert.equal(dinaAt(0, 0).result, true);   assert.equal(dinaAt(0, 0).measure.grade, 'neutral');
+assert.equal(dinaAt(1, 1).result, false);  assert.equal(dinaAt(1, 1).measure.grade, 'unsuitable');
+// The 27th is avoided unless the two stars share a rasi.
+assert.equal(dinaAt(5, 4, 0, 0).measure.count, 27);
+assert.equal(dinaAt(5, 4, 0, 0).result, true,  '27th, same rasi: the harm is diminished');
+assert.equal(dinaAt(5, 4, 0, 1).result, false, '27th, different rasi: bad');
 
-// STREE DEERGHA — thresholds 7 (ours) against 13 (book).
-const ourStreeMin = range(27).map((i) => i + 1)
-  .find((c) => calcPorutham(0, c - 1, 0, 0).find((r) => r.id === 'STREE_DEERGHA').result);
-assert.equal(ourStreeMin, 7);
-assert.equal(book.STREE_DEERGHA.minimumCount, 13);
+// ═══════════════════════ 3. the historical behaviour really was faulty ═══
 
-// RASI — one in three, worse than chance.
-assert.equal(cmp.RASI.agree, 48);
-assert.equal(cmp.RASI.total, 144);
-assert.ok(cmp.RASI.rate < 0.5, 'this code agrees with the book on fewer than half of the rasi pairs');
+// A frozen copy of the port that was corrected. NOT used by the app; kept here
+// as evidence, so that what the record says was wrong can be checked.
+const LEGACY = (() => {
+  const GANA = [0, 1, 2, 0, 0, 2, 0, 0, 2, 2, 1, 0, 0, 2, 0, 1, 2, 0, 2, 1, 0, 0, 2, 2, 1, 2, 0]; // 0 D, 1 M, 2 R
+  const YONI = [0, 7, 0, 5, 5, 4, 3, 1, 2, 8, 6, 6, 5, 0, 8, 8, 4, 4, 7, 7, 6, 8, 3, 3, 1, 2, 7];
+  const VEDHA = [[0, 17], [1, 23], [2, 11], [3, 10], [4, 9], [5, 24], [6, 25], [7, 26], [8, 14], [12, 13], [15, 20], [16, 19]];
+  const VASYA = { 0: [3, 8], 1: [6, 11], 2: [5, 10], 3: [0, 7], 4: [9], 5: [2, 7], 6: [1, 8], 7: [3, 10], 8: [0, 5], 9: [4, 11], 10: [5], 11: [6, 9] };
+  return {
+    GANA, YONI, VEDHA, VASYA,
+    dina: (g, b) => ![2, 4, 6, 8, 9].includes((((b - g + 27) % 27) + 1) % 9 || 9),
+    stree: (g, b) => ((b - g + 27) % 27) + 1 >= 7,
+    rasi: (g, b) => [1, 2, 5, 6, 7, 11].includes(((b - g + 12) % 12) + 1),
+    yoni: (g, b) => YONI[g] === YONI[b] || Math.abs(YONI[g] - YONI[b]) <= 1,
+  };
+})();
 
-// VASYA and ADHIPATHI.
-assert.equal(cmp.VASYA.agree, 106);
-assert.equal(cmp.RASI_ADHIPATHI.agree, 94);
+// GANA — 12/5/10, and eight stars in the wrong class against BOTH books.
+const legacyGana = { D: 0, M: 0, R: 0 };
+for (const g of LEGACY.GANA) legacyGana[['D', 'M', 'R'][g]] += 1;
+assert.deepEqual([legacyGana.D, legacyGana.M, legacyGana.R], [12, 5, 10]);
+const bookGanaOf = cmp.kalaprakasikaVerdicts(K)._ganaOf;
+const legacyWrong = ALL27.filter((s) => ['D', 'M', 'R'][LEGACY.GANA[s]] !== bookGanaOf.get(s));
+assert.deepEqual(legacyWrong, [3, 5, 11, 15, 16, 17, 20, 25]);
+const sudGanaOf = cmp.sudamaniVerdicts(S)._ganaOf;
+assert.deepEqual(ALL27.filter((s) => ['D', 'M', 'R'][LEGACY.GANA[s]] !== sudGanaOf.get(s)), legacyWrong,
+  'Sudamani finds the same eight, so this is an error and not a variant');
+// ...and the corrected code splits 9/9/9.
+const nowGana = cmp.codeGanaByStar().reduce((a, x) => ({ ...a, [x]: (a[x] ?? 0) + 1 }), {});
+assert.deepEqual(Object.values(nowGana).sort(), [9, 9, 9]);
 
-// VEDHA — the agreement RATE is 92.6% and completely misleading: nearly every
-// pair passes under both, so agreeing on "compatible" inflates it. The pair
-// sets are what matter, and they have nothing in common.
-assert.ok(cmp.VEDHA.rate > 0.9, 'the rate looks fine — which is the trap');
-const vedha = vedhaPairDifferences(book);
-assert.equal(vedha.bookPairs.length, 15);
-assert.equal(vedha.ourPairs.length, 12);
-assert.deepEqual(vedha.shared, [], 'no vedha pair is common to both');
-assert.equal(vedha.onlyInBook.length, 15);
-assert.equal(vedha.onlyInOurs.length, 12);
-
-// ------------------------- the app's claims match what was just measured ---
-
-const expected = {
-  DINA: 'DIVERGES_FROM_SOURCE', GANA: 'DIVERGES_FROM_SOURCE', MAHENDRA: 'DIVERGES_FROM_SOURCE',
-  STREE_DEERGHA: 'DIVERGES_FROM_SOURCE', YONI: 'DIFFERENT_MODEL', RASI: 'DIVERGES_FROM_SOURCE',
-  RASI_ADHIPATHI: 'DIVERGES_FROM_SOURCE', VASYA: 'DIVERGES_FROM_SOURCE', RAJJU: 'MATCHES_SOURCE',
-  VEDHA: 'DIVERGES_FROM_SOURCE',
-};
-for (const [id, status] of Object.entries(expected)) {
-  assert.equal(SOURCE_COMPARISON[id].status, status, `${id}: what the app tells a client`);
+// DINA — an exact inversion for counts 2 to 9, against both books.
+for (let count = 2; count <= 9; count += 1) {
+  const book = K.DINA.cycleGoodPositions.includes(count);
+  assert.equal(LEGACY.dina(0, count - 1), !book, `count ${count}: the old code did the opposite of both books`);
 }
-// A factor may only claim MATCHES if it truly agrees on every input, and only
-// claim DIVERGES if it truly disagrees somewhere. Derived, not restated.
+
+// RASI — one in three agreements with Sudamani, and it rejected what both accept.
+const rasiPairs = range(12).flatMap((g) => range(12).map((b) => [g, b]));
+const legacyRasiAgree = rasiPairs.filter(([g, b]) => LEGACY.rasi(g, b) === (cmp.rasiCount(g, b) >= 7)).length;
+assert.equal(legacyRasiAgree, 48, 'the old rasi rule agreed with the 7th-to-12th rule on 48 of 144 pairs');
+assert.equal(LEGACY.rasi(0, 8 - 1 + 0), LEGACY.rasi(0, 7), 'sanity');
+for (const count of [8, 9, 10, 12]) assert.equal(LEGACY.rasi(0, count - 1), false, `the old rule rejected count ${count}, which both books accept`);
+for (const count of [2, 5, 6]) assert.equal(LEGACY.rasi(0, count - 1), true, `the old rule accepted count ${count}, which both books reject`);
+
+// STREE DEERGHA — the old threshold is the book's minority view.
+const legacyStreeMin = range(27).map((i) => i + 1).find((c) => LEGACY.stree(0, c - 1));
+assert.equal(legacyStreeMin, 7);
+assert.equal(legacyStreeMin, K.STREE_DEERGHA.minorityMinimumCount);
+
+// YONI — nine numeric groups: a construction found in neither book.
+assert.equal(new Set(LEGACY.YONI).size, 9);
+assert.equal(Object.keys(K.YONI.yonis).length, 13);
+
+// VASYA — a table matching neither book.
+assert.deepEqual(LEGACY.VASYA[0], [3, 8]);
+assert.deepEqual(K.VASYA.concordantTo['0'], [4, 7]);
+assert.deepEqual(S.VASYA.vasya['0'], [4, 7]);
+
+// VEDHA — of twelve old pairs, only Ashwini-Jyeshtha appears in either book,
+// and only in Kalaprakasika.
+const legacyPairs = LEGACY.VEDHA.map(([a, b]) => `${a}-${b}`);
+assert.deepEqual(legacyPairs.filter((p) => kPairs.includes(p)), ['0-17']);
+assert.deepEqual(legacyPairs.filter((p) => sPairs.includes(p)), []);
+
+// ═══════════════════════════════ 4. what the app shows is what is true ══
+
+// Each status is derived from the live comparison, not restated.
 for (const [id, c] of Object.entries(SOURCE_COMPARISON)) {
-  if (id === 'YONI') continue; // structurally incomparable, no rate to derive
-  const measured = cmp[id];
-  const identical = measured.disagreements.length === 0;
-  assert.equal(c.status === 'MATCHES_SOURCE', identical,
-    `${id}: claims ${c.status} but the comparison found ${measured.disagreements.length} disagreements`);
+  const k = vsK[id];
+  const expectK = !k.comparable ? 'RULE_NOT_STATED' : k.disagreements.length === 0 ? 'MATCHES' : 'DIVERGES';
+  assert.equal(c.kalaprakasika.status, expectK, `${id}: Kalaprakasika status`);
+
+  const s = vsS[id];
+  const expectS = !s.comparable ? 'DIFFERENT_MODEL' : s.disagreements.length === 0 ? 'MATCHES' : 'DIVERGES';
+  assert.equal(c.sudamani.status, expectS, `${id}: Sudamani status`);
 }
-// Gana is the only one marked as an outright error.
-assert.deepEqual(Object.entries(SOURCE_COMPARISON).filter(([, c]) => c.isError).map(([id]) => id), ['GANA']);
 
-// ------------------------------------------------------- what a client sees --
+const expectedRow = {
+  DINA: 'FOLLOWS_KALAPRAKASIKA', GANA: 'AGREED_BY_BOTH', MAHENDRA: 'FOLLOWS_KALAPRAKASIKA',
+  STREE_DEERGHA: 'AGREED_BY_BOTH', YONI: 'FOLLOWS_KALAPRAKASIKA', RASI: 'AGREED_BY_BOTH',
+  RASI_ADHIPATHI: 'NOT_SOURCED', VASYA: 'FOLLOWS_KALAPRAKASIKA', RAJJU: 'AGREED_BY_BOTH',
+  VEDHA: 'FOLLOWS_KALAPRAKASIKA',
+};
+for (const [id, status] of Object.entries(expectedRow)) assert.equal(sourceStatusOf(SOURCE_COMPARISON[id]), status, id);
 
-const match = calculateTamilPorutham(
-  { nakshatraIndex: 3, rasiIndex: 1 }, { nakshatraIndex: 16, rasiIndex: 7 },
-);
-assert.deepEqual(match.sourceSummary, { matches: 1, diverges: 8, differentModel: 1, total: 10 });
+// The corrections a user is told about are the corrections that happened.
+assert.ok(SOURCE_COMPARISON.GANA.fixed && SOURCE_COMPARISON.DINA.fixed);
+for (const id of ['MAHENDRA', 'RAJJU', 'RASI_ADHIPATHI']) {
+  assert.equal(SOURCE_COMPARISON[id].fixed, null, `${id} was not changed, so it claims no correction`);
+}
+
+const match = calculateTamilPorutham({ nakshatraIndex: 3, rasiIndex: 1 }, { nakshatraIndex: 16, rasiIndex: 7 });
+assert.deepEqual(match.sourceSummary, { agreedByBoth: 4, followsKalaprakasika: 5, notSourced: 1, total: 10 });
 assert.equal(match.sourceStatus, 'PARTIALLY_SOURCED');
-
 for (const row of match.rows) {
-  assert.ok(row.sourceComparison.summary.length > 30, `${row.id}: says what the book prints`);
-  assert.ok(row.sourceComparison.verses, `${row.id}: names the verses`);
-  assert.equal(row.sourceStatus, expected[row.id]);
+  assert.equal(row.sourceStatus, expectedRow[row.id]);
+  assert.ok(row.sourceComparison.sudamani.summary.length > 15, `${row.id}: says what the second book prints`);
 }
 
-// Rajju is the first porutham with evidence that is APPLIED, and it must carry
-// a real locator; the other nine remain withheld and say why.
-const evidenceById = Object.fromEntries(match.evidence.map((e) => [e.ruleId, e]));
-const rajju = evidenceById.PORUTHAM_RAJJU;
-assert.equal(rajju.status, 'APPLIED');
-assertRuleEvidence(rajju, 'rajju');
-assert.match(rajju.source.title, /சூடாமணி/);
-assert.match(rajju.source.pageLocus, /82–83/);
-assert.match(rajju.source.pageLocus, /\+ 25/, 'the page offset is stated so the page can be found');
-assert.equal(typeof rajju.outcome.passed, 'boolean');
-
-for (const [ruleId, e] of Object.entries(evidenceById)) {
-  if (ruleId === 'PORUTHAM_RAJJU') continue;
-  assert.equal(e.status, 'SOURCE_REQUIRED', ruleId);
-  assert.equal(e.source, null, `${ruleId} must not claim a source it does not have`);
-  assertRuleEvidence(e, ruleId);
+// Nine factors carry evidence that is actually applied, with a real locator;
+// Rasi Adhipathi stays withheld and claims no source.
+const byRule = Object.fromEntries(match.evidence.map((e) => [e.ruleId, e]));
+for (const [id, status] of Object.entries(expectedRow)) {
+  const e = byRule[`PORUTHAM_${id}`];
+  assertRuleEvidence(e, id);
+  if (status === 'NOT_SOURCED') {
+    assert.equal(e.status, 'SOURCE_REQUIRED', id);
+    assert.equal(e.source, null, `${id}: must not claim a source it lacks`);
+    assert.match(e.reason, /ஆதாரம் இல்லை/);
+  } else {
+    assert.equal(e.status, 'APPLIED', id);
+    assert.equal(e.source.title, KALAPRAKASIKA.title);
+    assert.match(e.source.pageLocus, /அச்சுப் பக்கம்/);
+    assert.match(e.source.pageLocus, /\+ 30/, `${id}: the page offset is stated so the page can be found`);
+    assert.ok(e.notes && /சூடாமணி/.test(e.notes), `${id}: the cross-check with the second book is recorded`);
+  }
 }
-// The withheld reasons now say what the book prints, not just "unsourced".
-assert.match(evidenceById.PORUTHAM_STREE_DEERGHA.reason, /13/);
-assert.match(evidenceById.PORUTHAM_YONI.reason, /ஒப்பிட முடியாது/);
-assert.match(evidenceById.PORUTHAM_VEDHA.reason, /சூடாமணி/);
+// The cited source is registered, with its rights.
+const registered = resolveByTitle(KALAPRAKASIKA.title);
+assert.ok(registered, 'Kalaprakasika is in the source registry');
+assert.equal(registered.rights.mayShip, false);
 
 console.log(JSON.stringify({
   pass: true,
-  agreement: Object.fromEntries(Object.entries(cmp).map(([k, v]) => [k, `${v.agree}/${v.total}`])),
-  ganaErrors: gana.length,
-  ganaSplit: [sizes['தேவர்'], sizes['மனிதர்'], sizes['இராட்சதர்']],
-  dinaInvertedCounts: '2-9',
-  vedhaSharedPairs: vedha.shared.length,
+  codeVsKalaprakasika: Object.fromEntries(Object.entries(vsK).map(([k, v]) => [k, v.comparable ? `${v.agree}/${v.total}` : 'no rule stated'])),
+  codeVsSudamani: Object.fromEntries(Object.entries(vsS).map(([k, v]) => [k, v.comparable ? `${v.agree}/${v.total}` : 'different model'])),
+  booksAgreeOn: agreedByBoth,
+  legacyGanaSplit: [legacyGana.D, legacyGana.M, legacyGana.R],
+  legacyRasiAgreement: `${legacyRasiAgree}/144`,
   summary: match.sourceSummary,
 }, null, 2));
