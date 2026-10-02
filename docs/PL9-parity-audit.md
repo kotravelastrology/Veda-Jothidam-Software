@@ -192,3 +192,7 @@ readings are shown with their pages and there is no single verdict.
 6. **Remedies** — Saturn transit and Mangala are **done** (see above); gemstones remain and need sourcing before coding.
 7. **The 28 rare dashas wait on the BPHS pages** — same blocker as the 8
    unverified locators. One session with the book unblocks both.
+
+### 8. Gemstones — third stage of Remedies (2026-10-02)
+
+`docs/GEMSTONES.md` · `/gemstones`. The gem worksheets move from absent to **PARTIAL** (three books side by side; no single recommendation, no PL9 scoring). "Lucky Stone" stays **ABSENT**: the only source (Raj Kumar PDF 121-122) gives Western month/numerology stones, which are not read as Vedic. Totals after this stage: **178 built, 118 partial, 119 absent**.

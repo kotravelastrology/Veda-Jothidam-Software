@@ -202,7 +202,8 @@ const RULES = {
     [/Sadhesati Calculations/i, 'BUILT', '/saturn-transit (saturnTransit.js)'],
     [/Sadhesati Remedies/i, 'PARTIAL', '/saturn-transit: practices recorded in two books, with pages'],
     [/Sadhesati Results/i, 'PARTIAL', '/saturn-transit: the book text per phase and cycle'],
-    [/Gem|Lucky Stone/i, 'ABSENT', 'no gemstone module'],
+    [/Lucky Stone/i, 'ABSENT', 'Raj Kumar PDF 121-122 gives Western month/numerology stones; not read as Vedic, not built'],
+    [/Gem/i, 'PARTIAL', '/gemstones: three books side by side with pages; no single recommendation, no PL9 gem scoring'],
   ],
 };
 

@@ -956,14 +956,14 @@
  {
   "group": "Worksheets",
   "name": "138. Gem Recommendations",
-  "verdict": "ABSENT",
-  "evidence": "no gemstone module"
+  "verdict": "PARTIAL",
+  "evidence": "/gemstones: three books side by side with pages; no single recommendation, no PL9 gem scoring"
  },
  {
   "group": "Worksheets",
   "name": "139. Lucky Stone",
   "verdict": "ABSENT",
-  "evidence": "no gemstone module"
+  "evidence": "Raj Kumar PDF 121-122 gives Western month/numerology stones; not read as Vedic, not built"
  },
  {
   "group": "Reports / Horoscope",
