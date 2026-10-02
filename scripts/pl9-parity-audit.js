@@ -82,9 +82,10 @@ const RULES = {
     [/Basic Calculations/i, 'BUILT', '/varshaphala'],
   ],
   'Reports / Compatibility': [
-    [/Dash-Koota/i, 'PARTIAL', 'tamilPorutham.js — VJ-018: no cited source for any of the 10 tables'],
+    [/Dash-Koota/i, 'PARTIAL', 'tamilPorutham.js — 9 of 10 tables read from Kalaprakasika (page-verified), Rasi Adhipathi unsourced'],
     [/Ashtkoot Guna/i, 'SUSPECT', 'CompatibilityMatrix.tsx: 36-guna from formulas that are not the Ashtakoota rules'],
-    [/Mangala Dosha/i, 'PARTIAL', 'doshas.js has Kuja dosha; no cancellation rules, no report'],
+    [/Mangala Dosha (Consideration|Results)/i, 'BUILT', '/mangala-dosha: every book\'s reading, intensity and the book\'s results by house'],
+    [/Mangala Dosha Cancellation/i, 'BUILT', '/mangala-dosha: cancellations per source with pages, partner-chart conditions included'],
     [/Saptapadi/i, 'ABSENT', ''],
     [/Basic Birth Details|Birth Chart|Moon \/ Navamsha/i, 'BUILT', '/porutham shows both charts'],
   ],
@@ -96,7 +97,9 @@ const RULES = {
     [/Sadhesati Remedies/i, 'PARTIAL', '/saturn-transit lists practices recorded in two books, with pages; not the PL9 remedy text'],
     [/Sadhesati Results/i, 'PARTIAL', '/saturn-transit gives the book text per phase and cycle; not the PL9 results wording'],
     [/Dhayya Results|Kantaka Saturn Results/i, 'PARTIAL', '/saturn-transit computes the periods; no results text yet'],
-    [/.*/, 'ABSENT', 'no Mangala or gemstone module'],
+    [/Mangala Consideration/i, 'BUILT', '/mangala-dosha'],
+    [/Mangala Results and Remedies/i, 'PARTIAL', '/mangala-dosha: results by house (Vishnu Bhaskar) and remedies as one book records them; not the PL9 wording'],
+    [/.*/, 'ABSENT', 'no gemstone module'],
   ],
   'Reports / Astrology Lessons': [
     [/Dictionary/i, 'BUILT', '/learning-resources glossary (VJ-026)'],
@@ -182,7 +185,8 @@ const RULES = {
     [/Chart Tutor|Dasha Effects Browser/i, 'ABSENT', ''],
     [/Annual Solar|Monthly Solar|Daily Solar|Tithi Pravesh|Eight-year|Three-month|Three-day/i, 'ABSENT', 'varshaphala.js covers the annual chart only'],
     [/Sahams|Tajika|Tripataki|Annual Dashas|Annual Interpretations/i, 'BUILT', 'varshaphala.js'],
-    [/Compatibility|Dash Koota|Mangala/i, 'PARTIAL', '/porutham — unsourced tables (VJ-018)'],
+    [/Mangala/i, 'BUILT', '/mangala-dosha (mangalaDosha.js)'],
+    [/Compatibility|Dash Koota/i, 'PARTIAL', '/porutham — 9 of 10 tables page-verified (Kalaprakasika); no Ashtakoota'],
     [/Animated Transits/i, 'ABSENT', ''],
     [/Calendar/i, 'BUILT', '/tamil-calendar'],
     [/Graphical Ephemeris/i, 'ABSENT', ''],
@@ -198,7 +202,7 @@ const RULES = {
     [/Sadhesati Calculations/i, 'BUILT', '/saturn-transit (saturnTransit.js)'],
     [/Sadhesati Remedies/i, 'PARTIAL', '/saturn-transit: practices recorded in two books, with pages'],
     [/Sadhesati Results/i, 'PARTIAL', '/saturn-transit: the book text per phase and cycle'],
-    [/Mangala$|Gem|Lucky Stone/i, 'ABSENT', 'no Mangala or gemstone module'],
+    [/Gem|Lucky Stone/i, 'ABSENT', 'no gemstone module'],
   ],
 };
 

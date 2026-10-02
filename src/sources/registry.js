@@ -269,6 +269,41 @@ const SOURCES = [
     },
   },
   {
+    id: 'MANSAGARI_VOL2_VASUDEV',
+    title: 'Maansagari, Volume II',
+    titleTa: 'மானசாகரி, தொகுதி 2',
+    author: 'Harji (original); P.K. Vasudev (English translation and commentary)',
+    file: 'mansagari-vol2-vasudev/raw-scans/full-scan.pdf',
+    tradition: 'Parashari (classical Sanskrit verse with modern commentary)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit verses are old; the English translation and the translator\'s notes are modern '
+        + 'and in copyright. The Mangala verse is a classical statement; the list of cancellations beside it '
+        + 'is the translator\'s own gathering, which he says is "not sacrosanct", and is cited as such.',
+      verified: false,
+      toConfirm: 'Edition and publisher were not read from the scan; the translation should be treated as in copyright.',
+    },
+  },
+  {
+    id: 'BHAGAT_PRACTICAL_ASTROLOGICAL_REMEDIES',
+    title: 'Practical Astrological Remedies',
+    titleTa: 'நடைமுறை ஜோதிடப் பரிகாரங்கள்',
+    author: 'S.P. Bhagat',
+    file: 'practical-astrological-remedies-bhagat/raw-scans/full-scan.pdf',
+    tradition: 'Parashari / popular remedies (modern)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern book. Cited for the Manglik Dosha chapter: the houses, a list of cancellations and '
+        + 'the remedies it records. Nothing is reproduced beyond a short paraphrase.',
+      verified: false,
+      toConfirm: 'Edition and publisher were not read from the scan.',
+    },
+  },
+  {
     id: 'TRADITIONAL_CONVENTION',
     title: 'Widely-practised traditional convention (no single classical verse)',
     titleTa: 'மரபு வழக்கம் (ஒரே செய்யுள் ஆதாரம் இல்லை)',

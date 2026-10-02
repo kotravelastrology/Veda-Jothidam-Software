@@ -675,13 +675,13 @@
   "group": "Worksheets",
   "name": "091. Compatibility — Composite",
   "verdict": "PARTIAL",
-  "evidence": "/porutham — unsourced tables (VJ-018)"
+  "evidence": "/porutham — 9 of 10 tables page-verified (Kalaprakasika); no Ashtakoota"
  },
  {
   "group": "Worksheets",
   "name": "092. Compatibility — Kutas",
   "verdict": "PARTIAL",
-  "evidence": "/porutham — unsourced tables (VJ-018)"
+  "evidence": "/porutham — 9 of 10 tables page-verified (Kalaprakasika); no Ashtakoota"
  },
  {
   "group": "Worksheets",
@@ -692,20 +692,20 @@
  {
   "group": "Worksheets",
   "name": "094. Mangala Considerations",
-  "verdict": "PARTIAL",
-  "evidence": "/porutham — unsourced tables (VJ-018)"
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha (mangalaDosha.js)"
  },
  {
   "group": "Worksheets",
   "name": "095. Mangala Cancellation",
-  "verdict": "PARTIAL",
-  "evidence": "/porutham — unsourced tables (VJ-018)"
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha (mangalaDosha.js)"
  },
  {
   "group": "Worksheets",
   "name": "096. Dash Koota",
   "verdict": "PARTIAL",
-  "evidence": "/porutham — unsourced tables (VJ-018)"
+  "evidence": "/porutham — 9 of 10 tables page-verified (Kalaprakasika); no Ashtakoota"
  },
  {
   "group": "Worksheets",
@@ -950,20 +950,20 @@
  {
   "group": "Worksheets",
   "name": "137. Mangala",
-  "verdict": "PARTIAL",
-  "evidence": "/porutham — unsourced tables (VJ-018)"
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha (mangalaDosha.js)"
  },
  {
   "group": "Worksheets",
   "name": "138. Gem Recommendations",
   "verdict": "ABSENT",
-  "evidence": "no Mangala or gemstone module"
+  "evidence": "no gemstone module"
  },
  {
   "group": "Worksheets",
   "name": "139. Lucky Stone",
   "verdict": "ABSENT",
-  "evidence": "no Mangala or gemstone module"
+  "evidence": "no gemstone module"
  },
  {
   "group": "Reports / Horoscope",
@@ -1910,32 +1910,32 @@
  {
   "group": "Reports / Compatibility",
   "name": "Compatibility — Mangala Dosha Consideration",
-  "verdict": "PARTIAL",
-  "evidence": "doshas.js has Kuja dosha; no cancellation rules, no report"
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha: every book's reading, intensity and the book's results by house"
  },
  {
   "group": "Reports / Compatibility",
   "name": "Compatibility — Mangala Dosha Results",
-  "verdict": "PARTIAL",
-  "evidence": "doshas.js has Kuja dosha; no cancellation rules, no report"
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha: every book's reading, intensity and the book's results by house"
  },
  {
   "group": "Reports / Compatibility",
   "name": "Compatibility — Mangala Dosha Cancellation",
-  "verdict": "PARTIAL",
-  "evidence": "doshas.js has Kuja dosha; no cancellation rules, no report"
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha: cancellations per source with pages, partner-chart conditions included"
  },
  {
   "group": "Reports / Compatibility",
   "name": "Compatibility — Dash-Koota Table",
   "verdict": "PARTIAL",
-  "evidence": "tamilPorutham.js — VJ-018: no cited source for any of the 10 tables"
+  "evidence": "tamilPorutham.js — 9 of 10 tables read from Kalaprakasika (page-verified), Rasi Adhipathi unsourced"
  },
  {
   "group": "Reports / Compatibility",
   "name": "Compatibility — Dash-Koota Compatibility",
   "verdict": "PARTIAL",
-  "evidence": "tamilPorutham.js — VJ-018: no cited source for any of the 10 tables"
+  "evidence": "tamilPorutham.js — 9 of 10 tables read from Kalaprakasika (page-verified), Rasi Adhipathi unsourced"
  },
  {
   "group": "Reports / Compatibility",
@@ -2030,26 +2030,26 @@
  {
   "group": "Reports / Remedies",
   "name": "Mangala Consideration",
-  "verdict": "ABSENT",
-  "evidence": "no Mangala or gemstone module"
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha"
  },
  {
   "group": "Reports / Remedies",
   "name": "Mangala Results and Remedies",
-  "verdict": "ABSENT",
-  "evidence": "no Mangala or gemstone module"
+  "verdict": "PARTIAL",
+  "evidence": "/mangala-dosha: results by house (Vishnu Bhaskar) and remedies as one book records them; not the PL9 wording"
  },
  {
   "group": "Reports / Remedies",
   "name": "Gem Stone #1",
   "verdict": "ABSENT",
-  "evidence": "no Mangala or gemstone module"
+  "evidence": "no gemstone module"
  },
  {
   "group": "Reports / Remedies",
   "name": "Gem Stone #2",
   "verdict": "ABSENT",
-  "evidence": "no Mangala or gemstone module"
+  "evidence": "no gemstone module"
  },
  {
   "group": "Reports / Varshaphala",

@@ -165,6 +165,21 @@ are Mangala and the two gemstone worksheets.
 The books disagree about which houses are Kantaka Saturn (four sources, four
 answers), so it is a selectable, stated convention rather than a silent choice.
 
+### 7. Mangala dosha — second stage of Remedies (2026-10-02)
+
+`docs/MANGALA-DOSHA.md` · `/mangala-dosha`. Eight rows move: the three Mangala
+worksheets and the three Compatibility "Mangala Dosha" rows become **BUILT**, as
+does Remedies "Mangala Consideration"; "Mangala Results and Remedies" becomes
+**PARTIAL** (results by house and one book's recorded remedies, not PL9's
+wording). Totals after this stage: **178 built (42%), 117 partial, 120 absent**.
+Remedies is now 3 built, 5 partial, 2 absent — the two absent are the gemstone
+worksheets. The Compatibility "Dash-Koota" evidence text was also stale
+("no cited source for any of the 10 tables") and now reads 9 of 10 page-verified.
+
+The books do not agree on the houses (Mansagari's verse omits the 2nd; Vishnu
+Bhaskar gives five houses in his summary and six in his detailed list), so five
+readings are shown with their pages and there is no single verdict.
+
 ## Suggested order
 
 1. **Remove the fabricated Ashtakoota** — small, and it is currently producing
@@ -174,6 +189,6 @@ answers), so it is a selectable, stated convention rather than a silent choice.
    (Tamil shaping in real PDF bytes) is done and proven.
 4. **Astronomy pages** — 8 rows, presentation over existing data.
 5. ~~Generalise Varshaphala to monthly and daily returns~~ — **done**, see above.
-6. **Remedies** — Saturn transit is **done** (see above); Mangala and gemstones remain, and both need sourcing before coding.
+6. **Remedies** — Saturn transit and Mangala are **done** (see above); gemstones remain and need sourcing before coding.
 7. **The 28 rare dashas wait on the BPHS pages** — same blocker as the 8
    unverified locators. One session with the book unblocks both.

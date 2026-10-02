@@ -117,5 +117,12 @@ Not plan items, but real, and they should not be discovered at release:
   it is a selectable convention, default 4 and 7. Owner decision: which to
   follow. Not yet: Dhaiya/Kantaka result text, Vipareeta Vedha, Mangala,
   gemstones.
+- **Mangala dosha: built; five readings, no single verdict.** `/mangala-dosha`
+  (`docs/MANGALA-DOSHA.md`). The books disagree on the houses — Mansagari's
+  verse omits the 2nd, Vishnu Bhaskar gives five houses in his summary and six
+  in his detailed list — and on the cancellations, so each of 56 conditions is
+  shown under its own book and page. The Tamil texts held state no rule. Owner
+  decision: which reading to lead with. Not yet: gemstones, Kala Sarpa effects,
+  Navamsha/D-30 mitigation.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.
