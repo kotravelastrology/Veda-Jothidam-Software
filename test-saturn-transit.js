@@ -303,6 +303,159 @@ assert.throws(() => S.saturnStays({ fromMs: utc(1800, 1, 1), toMs: utc(2100, 1, 
 const again = S.computeSaturnTransits({ moonRasiIndex: 9, birthMs: capBirth, atMs: utc(2019, 6, 1), horizonYears: 100 });
 assert.deepEqual(JSON.parse(JSON.stringify(again)), JSON.parse(JSON.stringify(cap)));
 
+// =========================================== the Tamil text, beside the English
+const TM = require('./src/report/saturnTransitTamil');
+const TF = FIXTURE.tamil;
+
+// Tables agree with the transcription record.
+assert.deepEqual(TM.SATURN_GOOD_HOUSES.houses, TF.saturnGoodHouses.houses);
+assert.deepEqual(TM.SATURN_GOOD_HOUSES.tamil.houses, TF.saturnGoodHouses.houses);
+assert.deepEqual(TM.SATURN_GOOD_HOUSES.tamil.commentaryAlsoLists, TF.saturnGoodHouses.commentaryAlsoLists);
+assert.deepEqual({ ...TM.SATURN_GOOD_HOUSES.vedha }, Object.fromEntries(Object.entries(TF.saturnVedha.houses).map(([k, v]) => [k, v])));
+assert.deepEqual(TM.ANGA_SANI.bands.map((b) => [b.part, b.portions]), TF.angaSani.bands.map((b) => [b.part, b.portions]));
+assert.equal(TM.ANGA_SANI.status, 'ORDER_ASSUMED');
+
+// The verse and both English books give the same three houses and the same
+// vedha; only the printed commentary differs, and that is recorded, not applied.
+for (const e of TM.SATURN_GOOD_HOUSES.english) assert.deepEqual(e.houses, TM.SATURN_GOOD_HOUSES.tamil.houses);
+assert.deepEqual({ ...TM.SATURN_GOOD_HOUSES.english[1].vedha }, { ...TM.SATURN_GOOD_HOUSES.vedha });
+assert.deepEqual(TM.SATURN_GOOD_HOUSES.tamil.commentaryAlsoLists, [10]);
+assert.ok(!TM.SATURN_GOOD_HOUSES.houses.includes(10), 'the commentary\'s 10th is not applied');
+
+// 27 portions: this is what makes the nakshatra count the reading.
+assert.equal(TM.ANGA_SANI.bands.reduce((a, b) => a + b.portions, 0), 27);
+assert.equal(TM.ANGA_SANI.total, 27);
+
+// Every source the Tamil module shows resolves to a registered one.
+for (const src of [TM.SUDAMANI, ...TM.SATURN_GOOD_HOUSES.english.map((e) => e.source)]) {
+  assert.ok(resolveByTitle(src.title), `${src.title} is registered`);
+}
+assert.equal(resolveByTitle(TM.SUDAMANI.title).id, 'CHOODAMANI_ULLAMUDAIYAN');
+
+// The absence is stated, and the engine does not invent a Tamil Kantaka.
+assert.deepEqual([...TM.TAMIL_ABSENCES.names], TF.notFound.names);
+assert.ok(!('KANTAKA_TAMIL' in T.KANTAKA_CONVENTIONS));
+assert.equal(Object.keys(T.KANTAKA_CONVENTIONS).length, 4);
+
+// --- the band for a count, at every boundary
+const band = (c) => S.angaBandFor(c).part;
+assert.deepEqual([1, 2, 5, 6, 11, 12, 15, 16, 20, 21, 22, 23, 24, 25, 27].map(band),
+  ['வாய்', 'வலக்கை', 'வலக்கை', 'கால்', 'கால்', 'இடக்கை', 'இடக்கை', 'வயிறு', 'வயிறு', 'கண்', 'கண்', 'புயம்', 'புயம்', 'தலை', 'தலை']);
+for (let c = 1; c <= 27; c += 1) {
+  const b = S.angaBandFor(c);
+  assert.ok(c >= b.from && c <= b.to);
+}
+assert.throws(() => S.angaBandFor(28), /outside 1-27/);
+assert.throws(() => S.angaBandFor(0), /outside 1-27/);
+
+// --- counting from the birth star
+assert.equal(S.nakshatraCount(5, 5), 1, 'the birth star is 1');
+assert.equal(S.nakshatraCount(6, 5), 2);
+assert.equal(S.nakshatraCount(4, 5), 27, 'the star before it is 27');
+assert.equal(S.nakshatraCount(0, 26), 2, 'it wraps from Revati to Ashwini');
+
+// --- Saturn through the nakshatras: same independent check as for signs
+const nStays = S.saturnNakshatraStays({ fromMs: utc(1930, 1, 1), toMs: utc(1990, 1, 1) });
+let nDirect = 0;
+let nRetro = 0;
+for (let i = 1; i < nStays.length; i += 1) {
+  assert.equal(nStays[i].enterMs, nStays[i - 1].exitMs);
+  const step = (nStays[i].nakshatraIndex - nStays[i - 1].nakshatraIndex + 27) % 27;
+  assert.ok(step === 1 || step === 26, 'a nakshatra change is to a neighbour');
+  if (nStays[i].enteredBy === 'DIRECT') nDirect += 1; else nRetro += 1;
+  const lon = S.saturnLongitude(nStays[i].enterMs);
+  const off = Math.abs(((lon / (360 / 27)) % 1 + 1) % 1 - Math.round(((lon / (360 / 27)) % 1 + 1) % 1));
+  assert.ok(off * (360 / 27) < 1e-3, `Saturn is ${(off * 360 / 27).toFixed(6)}° from a nakshatra boundary`);
+}
+// Every retrograde back-crossing needs one more forward crossing later, so the
+// invariant is forward minus backward: the net distance, 60 years / 29.46 laps
+// of 27 nakshatras = 55, give or take the part-lap at each end.
+assert.ok(nDirect - nRetro >= 53 && nDirect - nRetro <= 57, `${nDirect} forward - ${nRetro} backward in 60 years`);
+assert.ok(nRetro >= 15, 'a nakshatra is only 13 degrees wide, so retrograde re-crossings are frequent');
+assert.ok(nStays.some((s) => s.enteredBy === 'RETROGRADE'));
+assert.equal(S.saturnNakshatra(nStays[3].enterMs + 60000), nStays[3].nakshatraIndex);
+
+// --- the Tamil reading is the same facts the English side reports
+const reading = S.tamilSaturnReading({ moonRasiIndex: 8, moonNakshatraIndex: 19, atMs: utc(2026, 10, 2) });
+const stateNow = S.saturnStateAt({ moonRasiIndex: 8, atMs: utc(2026, 10, 2) });
+assert.equal(reading.houseFromMoon, stateNow.houseFromMoon);
+assert.equal(reading.houseFromMoon, 4);
+assert.equal(reading.goodHouses.goodNow, false);
+assert.equal(reading.goodHouses.vedhaHouse, null, 'a house that is not good has no vedha to report');
+assert.equal(reading.anga.count, S.nakshatraCount(S.saturnNakshatra(utc(2026, 10, 2)), 19));
+assert.equal(reading.anga.band.part, S.angaBandFor(reading.anga.count).part);
+assert.equal(reading.anga.status, 'ORDER_ASSUMED');
+assert.equal(reading.anga.assumptions.length, 3);
+assert.ok(reading.anga.periods.length >= 8);
+
+// Each good house reports its own vedha; the commentary's 10th is "good" only
+// in the commentary's eyes, and says so.
+const atHouse = (moonRasi, saturnRasiIdx) => {
+  const st = stays.find((s) => s.rasiIndex === saturnRasiIdx && s.exitMs - s.enterMs > 300 * DAY_MS && s.enterMs > utc(1990, 1, 1));
+  return S.tamilSaturnReading({ moonRasiIndex: moonRasi, moonNakshatraIndex: 0, atMs: st.enterMs + 200 * DAY_MS });
+};
+for (const [house, vedha] of [[3, 12], [6, 9], [11, 5]]) {
+  const r = atHouse(0, house - 1);
+  assert.equal(r.houseFromMoon, house);
+  assert.equal(r.goodHouses.goodNow, true);
+  assert.equal(r.goodHouses.tamil.goodNow, true);
+  assert.equal(r.goodHouses.vedhaHouse, vedha);
+  assert.ok(r.goodHouses.english.every((e) => e.goodNow), 'the English books agree');
+}
+const ten = atHouse(0, 9);
+assert.equal(ten.houseFromMoon, 10);
+assert.equal(ten.goodHouses.goodNow, false, 'the verse does not call the 10th good');
+assert.equal(ten.goodHouses.tamil.commentaryWouldCallItGood, true, 'the commentary would, and the page can say so');
+assert.ok(ten.goodHouses.english.every((e) => !e.goodNow));
+
+// The Anga periods cover the window with no gap and no overlap, and each one
+// is the band Saturn was actually in at its midpoint.
+const win = { from: utc(2025, 10, 2), to: utc(2056, 10, 2) };
+const per = S.angaSaniPeriods({ moonNakshatraIndex: 19, fromMs: win.from, toMs: win.to });
+assert.equal(Date.parse(per[0].fromUtc), win.from);
+assert.equal(Date.parse(per[per.length - 1].toUtc), win.to);
+for (let i = 1; i < per.length; i += 1) {
+  assert.equal(per[i].fromUtc, per[i - 1].toUtc);
+  assert.notEqual(per[i].part, per[i - 1].part, 'adjacent periods are merged when the band is the same');
+}
+for (const p of per) {
+  const mid = (Date.parse(p.fromUtc) + Date.parse(p.toUtc)) / 2;
+  const c = S.nakshatraCount(S.saturnNakshatra(mid), 19);
+  assert.equal(S.angaBandFor(c).part, p.part, `at ${p.fromUtc}`);
+}
+// Over a full 27-nakshatra lap the portions add up: each band is visited for
+// about its share of 27 nakshatras (here, whole laps overlap the window).
+assert.ok(per.length > 8);
+
+// --- on the full result
+const full = S.computeSaturnTransits({ moonRasiIndex: 8, moonNakshatraIndex: 19, birthMs: utc(1990, 5, 15, 5), atMs: utc(2026, 10, 2) });
+assert.ok(full.tamil);
+assert.equal(full.tamil.houseFromMoon, full.now.houseFromMoon);
+const noStar = S.computeSaturnTransits({ moonRasiIndex: 8, birthMs: utc(1990, 5, 15, 5), atMs: utc(2026, 10, 2) });
+assert.equal(noStar.tamil, null, 'without the birth star there is no Tamil reading, and nothing is guessed');
+const evIds = full.evidence.map((e) => `${e.ruleId}:${e.status}`);
+assert.ok(evIds.includes('SATURN_TRANSIT_TAMIL_GOOD_HOUSES:APPLIED'));
+assert.ok(evIds.includes('SATURN_TRANSIT_ANGA_SANI:SOURCE_REQUIRED'), 'Anga Sani is shown but not claimed as applied');
+for (const e of full.evidence) assertRuleEvidence(e);
+assert.throws(() => S.tamilSaturnReading({ moonRasiIndex: 8, moonNakshatraIndex: 27, atMs: 0 }), /0-26/);
+assert.throws(() => S.tamilSaturnReading({ moonRasiIndex: 8, moonNakshatraIndex: -1, atMs: 0 }), /0-26/);
+
+// --- every Kantaka convention at once
+assert.equal(full.kantakaAll.length, 4);
+for (const c of full.kantakaAll) {
+  const only = S.computeSaturnTransits({
+    moonRasiIndex: 8, moonNakshatraIndex: 19, birthMs: utc(1990, 5, 15, 5), atMs: utc(2026, 10, 2), kantakaConvention: c.id,
+  });
+  assert.deepEqual(JSON.parse(JSON.stringify(c.periods)), JSON.parse(JSON.stringify(only.kantaka.periods)),
+    `${c.id}: the all-conventions view equals running that convention alone`);
+  assert.equal(c.activeNow, c.houses.includes(full.now.houseFromMoon));
+  assert.ok(c.sourcePage && c.note);
+}
+// The point of showing them together: they really do disagree, for this person, now.
+const nowFlags = new Set(full.kantakaAll.map((c) => c.activeNow));
+assert.equal(nowFlags.size, 2, 'with Saturn in the 4th the books split: PL, Vishnu Bhaskar and Pulippani say yes, Rath says no');
+assert.deepEqual(full.kantakaAll.filter((c) => c.activeNow).map((c) => c.id).sort(), ['PARASHARAS_LIGHT', 'PULIPPANI', 'VISHNU_BHASKAR']);
+
 console.log(JSON.stringify({
   pass: true,
   stays125y: stays.length,
@@ -311,4 +464,5 @@ console.log(JSON.stringify({
   cyclesChecked: spans,
   kantakaDefault: T.DEFAULT_KANTAKA,
   housesNamedByThreeSources: byThree,
+  tamil: { goodHouses: TM.SATURN_GOOD_HOUSES.tamil.houses, angaPortions: 27, angaStatus: TM.ANGA_SANI.status, nakshatraForwardMinusBackward60y: nDirect - nRetro },
 }, null, 2));

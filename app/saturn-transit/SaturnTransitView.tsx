@@ -53,7 +53,7 @@ const day = (iso: string) => iso.slice(0, 10);
 const yrs = (n: number) => n.toFixed(1);
 
 /** The life laid out as one strip per condition, with today marked. */
-function Timeline({ r }: { r: any }) {
+function Timeline({ r, showAll }: { r: any; showAll: boolean }) {
   const birth = Date.parse(r.window.fromUtc);
   const end = Date.parse(r.window.toUtc);
   const now = Date.parse(r.now.atUtc);
@@ -84,13 +84,14 @@ function Timeline({ r }: { r: any }) {
         title: `அஷ்டமச் சனி · ${day(s.fromUtc)} – ${day(s.toUtc)}`,
       }))),
     },
-    {
-      key: 'kan', label: `கண்டகம் (${r.kantaka.houses.join(', ')})`,
-      bands: r.kantaka.periods.flatMap((p: any) => p.stays.map((s: any) => ({
+    // One strip for the chosen convention, or one for each of the books.
+    ...(showAll ? r.kantakaAll : [{ id: r.kantaka.convention, houses: r.kantaka.houses, periods: r.kantaka.periods, labelTa: '' }]).map((c: any) => ({
+      key: `kan-${c.id}`, label: `கண்டகம் ${c.houses.join(', ')}`,
+      bands: c.periods.flatMap((p: any) => p.stays.map((s: any) => ({
         a: Date.parse(s.fromUtc), b: Date.parse(s.toUtc), color: 'var(--ink)',
-        title: `கண்டகச் சனி (${s.house}-ஆம் இடம்) · ${day(s.fromUtc)} – ${day(s.toUtc)}`,
+        title: `கண்டகச் சனி — ${c.labelTa || ''} (${s.house}-ஆம் இடம்) · ${day(s.fromUtc)} – ${day(s.toUtc)}`,
       }))),
-    },
+    })),
   ];
   const ROW = 30;
   const TOP = 16; // room above the strips for the "now" label
@@ -169,6 +170,155 @@ function PeriodList({ title, periods, note }: { title: string; periods: any[]; n
   );
 }
 
+/** The four readings of Kantaka Saturn side by side, each with its page. */
+function KantakaCompare({ r }: { r: any }) {
+  const now = Date.parse(r.now.atUtc);
+  return (
+    <div className="overflow-x-auto mt-3">
+      <table className="w-full text-xs" style={{ minWidth: 640 }}>
+        <thead>
+          <tr className="text-ink-soft border-b border-line text-left">
+            <th className="py-1 pr-3">நூல்</th><th className="py-1 pr-3">இடங்கள்</th>
+            <th className="py-1 pr-3">இப்போது</th><th className="py-1 pr-3">அடுத்த / நடப்பு காலம்</th>
+            <th className="py-1">பக்கம்</th>
+          </tr>
+        </thead>
+        <tbody>
+          {r.kantakaAll.map((c: any) => {
+            const p = c.periods.find((x: any) => Date.parse(x.toUtc) > now);
+            const running = p && Date.parse(p.fromUtc) <= now;
+            return (
+              <tr key={c.id} className="border-b border-line/40 align-top">
+                <td className="py-1.5 pr-3 text-ink">{c.labelTa}{c.id === r.kantaka.convention && <span className="text-teal"> ✓</span>}</td>
+                <td className="py-1.5 pr-3 font-mono text-ink">{c.houses.join(', ')}</td>
+                <td className="py-1.5 pr-3">
+                  <span className={`px-1.5 py-0.5 rounded ${c.activeNow ? 'bg-rose-soft text-rose font-semibold' : 'bg-teal-soft text-teal'}`}>
+                    {c.activeNow ? 'ஆம்' : 'இல்லை'}
+                  </span>
+                </td>
+                <td className="py-1.5 pr-3 font-mono text-ink" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                  {p ? `${running ? 'நடப்பு: ' : ''}${day(p.fromUtc)} – ${day(p.toUtc)}` : '—'}
+                </td>
+                <td className="py-1.5 text-ink-soft">{c.sourceTitle} — {c.sourcePage}<span className="block">{c.note}</span></td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+const TONE_CLS: Record<string, string> = { good: 'text-teal', bad: 'text-rose', neutral: 'text-ink' };
+
+/**
+ * Saturn's transit as the Tamil text and the English books state it. Where they
+ * agree it says so; where the Tamil text is silent it says that too, rather
+ * than letting the English answer stand in for it.
+ */
+function TamilAndEnglish({ r }: { r: any }) {
+  const t = r.tamil;
+  if (!t) return null;
+  const g = t.goodHouses;
+  const a = t.anga;
+  const yes = (b: boolean) => (
+    <span className={`px-1.5 py-0.5 rounded ${b ? 'bg-teal-soft text-teal' : 'bg-rose-soft text-rose'}`}>{b ? 'நல்ல இடம்' : 'நல்ல இடம் அல்ல'}</span>
+  );
+  return (
+    <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+      <h2 className="text-sm font-semibold text-ink mb-1">தமிழ் நூல் · ஆங்கில நூல்கள் — சனி கோசாரம்</h2>
+      <p className="text-[11px] text-ink-soft mb-3">
+        இரு மரபுகளின் முறைகளும் ஒன்றாகக் காட்டப்படுகின்றன. தமிழ் நூல் (சூடாமணி உள்ளமுடையான்) சொல்லாததை
+        ஆங்கில நூலின் பதிலால் நிரப்பவில்லை.
+      </p>
+
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs" style={{ minWidth: 640 }}>
+          <thead>
+            <tr className="text-ink-soft border-b border-line text-left">
+              <th className="py-1 pr-3">விஷயம்</th><th className="py-1 pr-3">தமிழ் நூல்</th><th className="py-1">ஆங்கில நூல்கள்</th>
+            </tr>
+          </thead>
+          <tbody className="align-top">
+            <tr className="border-b border-line/40">
+              <td className="py-2 pr-3 text-ink font-semibold">சந்திரனிலிருந்து நல்ல இடங்கள்<span className="block font-normal text-ink-soft">இப்போது சனி {t.houseFromMoon}-ஆம் இடத்தில்</span></td>
+              <td className="py-2 pr-3">
+                <span className="font-mono text-ink">{g.tamil.houses.join(', ')}</span> {yes(g.tamil.goodNow)}
+                <span className="block text-ink-soft">{g.tamil.sourceTitle} — {g.tamil.sourcePage}</span>
+                <span className="block text-amber-700">செய்யுள்: 3, 6, 11 ("பத்தொன்று" = 11). அச்சிட்ட உரை 10-ஐயும் சேர்க்கிறது; செய்யுளுடன் முரண்படுவதால் பின்பற்றப்படவில்லை.</span>
+              </td>
+              <td className="py-2">
+                {g.english.map((e: any, i: number) => (
+                  <div key={i} className="mb-1.5">
+                    <span className="font-mono text-ink">{e.houses.join(', ')}</span> {yes(e.goodNow)}
+                    <span className="block text-ink-soft">{e.sourceTitle} — {e.sourcePage}</span>
+                  </div>
+                ))}
+              </td>
+            </tr>
+            <tr className="border-b border-line/40">
+              <td className="py-2 pr-3 text-ink font-semibold">தடுக்கும் வேதை இடம்</td>
+              <td className="py-2 pr-3 text-ink">
+                3 ← 12 · 6 ← 9 · 11 ← 5 (செய்யுள் 342)
+                {g.vedhaHouse !== null && <span className="block text-ink-soft">இப்போதைய இடத்துக்கு வேதை: {g.vedhaHouse}-ஆம் இடம்</span>}
+              </td>
+              <td className="py-2 text-ink">அதே — 12, 9, 5. சூரியன்–சனி தந்தை–மகன் என்பதால் ஒன்றுக்கொன்று வேதை செய்வதில்லை (விஷ்ணு பாஸ்கர்).</td>
+            </tr>
+            <tr className="border-b border-line/40">
+              <td className="py-2 pr-3 text-ink font-semibold">ஏழரைச் சனி · அஷ்டமம் · அர்த்தாஷ்டமம் · கண்டகம்</td>
+              <td className="py-2 pr-3">
+                <span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800">நூலில் இல்லை</span>
+                <span className="block text-ink-soft mt-1">{t.absences.noteTa}</span>
+                <span className="block text-ink-soft">தேடப்பட்டவை: {t.absences.searchedIn.join(' · ')}</span>
+              </td>
+              <td className="py-2 text-ink">மேலே உள்ளபடி — நான்கு நூல்கள், பக்க எண்களுடன் (கண்டகம் ஒத்துப்போகவில்லை).</td>
+            </tr>
+            <tr>
+              <td className="py-2 pr-3 text-ink font-semibold">அங்க சனி<span className="block font-normal text-ink-soft">சனி உடலின் எந்தப் பகுதியில்</span></td>
+              <td className="py-2 pr-3">
+                <span className="text-ink">பிறந்த நட்சத்திரம் முதல் சனி நிற்கும் நட்சத்திரம் வரை எண்ணிக்கை <strong>{a.count}</strong> / {a.total} →{' '}
+                  <strong className={TONE_CLS[a.band.tone]}>{a.band.part}</strong> ({a.band.from}–{a.band.to}): {a.band.result}</span>
+                <span className="block mt-1"><span className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-800">வரிசை ஊகம்</span></span>
+                <span className="block text-ink-soft mt-1">{a.sourceTitle} — {a.sourcePage}</span>
+              </td>
+              <td className="py-2 text-ink">நாம் படித்த ஆங்கில நூல்களில் இந்த முறை காணப்படவில்லை. (விஷ்ணு பாஸ்கரின் மாதக் கணக்குப் பட்டியல் வேறு அமைப்பு — ராசி அடிப்படையிலானது.)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details className="mt-3 text-xs">
+        <summary className="cursor-pointer font-semibold text-ink">அங்க சனி — அட்டவணை, வரிசை, அடுத்த காலங்கள்</summary>
+        <div className="mt-2 grid md:grid-cols-2 gap-4">
+          <div>
+            <p className="text-ink-soft mb-1">நூலில் அச்சிட்ட வரிசையில் (மொத்தம் {a.total}):</p>
+            <ul className="space-y-0.5">
+              {a.bands.map((b: any) => (
+                <li key={b.part} className={b.part === a.band.part ? 'font-semibold' : ''}>
+                  <span className="font-mono text-ink-soft">{b.portions}</span>{' '}
+                  <span className={TONE_CLS[b.tone]}>{b.part}</span> — {b.result}
+                </li>
+              ))}
+            </ul>
+            <p className="text-amber-700 mt-2">வரிசை ஊகம் — இவை நூலில் சொல்லப்படாதவை:</p>
+            <ul className="list-disc ml-5 text-ink-soft">
+              {a.assumptions.map((s: string, i: number) => <li key={i}>{s}</li>)}
+            </ul>
+          </div>
+          <div>
+            <p className="text-ink-soft mb-1">அடுத்த 30 ஆண்டுகள் (வக்கிரப் பின்செல்லலும் சேர்த்து):</p>
+            <ul className="space-y-0.5 font-mono" style={{ fontVariantNumeric: 'tabular-nums' }}>
+              {a.periods.map((p: any, i: number) => (
+                <li key={i}><span className={TONE_CLS[p.tone]}>{p.part}</span> {day(p.fromUtc)} – {day(p.toUtc)}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </details>
+    </section>
+  );
+}
+
 function CyclesTable({ r }: { r: any }) {
   return (
     <div className="space-y-3">
@@ -233,6 +383,7 @@ export default function SaturnTransitView() {
   const [party, setParty] = useState<Party | null>(null);
   const [manual, setManual] = useState(false);
   const [kantaka, setKantaka] = useState('PARASHARAS_LIGHT');
+  const [showAll, setShowAll] = useState(true);
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -402,8 +553,15 @@ export default function SaturnTransitView() {
                 </select>
               </label>
             </div>
-            <Timeline r={result} />
+            <label className="flex items-center gap-2 text-xs text-ink-soft mb-2 cursor-pointer">
+              <input type="checkbox" checked={showAll} onChange={(e) => setShowAll(e.target.checked)} />
+              கண்டகச் சனியின் எல்லா நூல் முறைகளையும் ஒரே நேரத்தில் காட்டு
+            </label>
+            <Timeline r={result} showAll={showAll} />
+            <KantakaCompare r={result} />
           </section>
+
+          <TamilAndEnglish r={result} />
 
           <section className="mb-4">
             <h2 className="text-sm font-semibold text-ink mb-2">ஏழரைச் சனி — ஒவ்வொரு சுற்றும்</h2>

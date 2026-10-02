@@ -49,6 +49,59 @@ K.T. Shubhakaran counts by *degrees* from the Moon's degree (Sade Sati from
 "slightly disagrees" with the usual view. One author's own variant, so it is
 noted on screen and not applied.
 
+## The owner's decision (2026-10-02): show both traditions
+
+Asked which Kantaka convention to follow and whether Tamil sources were wanted,
+the owner said to show the methods of **both** the English and the Tamil texts as
+sources. So the page no longer asks for a choice it cannot make:
+
+- **All four Kantaka readings are shown at once** — one strip each on the
+  timeline and a table (houses, whether it applies now, next period, page). The
+  selector still sets which one the headline figures use; the default is
+  unchanged.
+- **A Tamil / English section** sets Saturn's transit as the Tamil text and the
+  English books state it, row by row.
+
+### What the Tamil corpus holds — and does not
+
+Searched: *Sūḍāmaṇi Uḷḷamuḍaiyāṉ* (full OCR text), *Jathaka Alangaram* (2007 and
+1964) and *Kalachakram*. The owner's library search index returned nothing for any Tamil term tried
+(it is built for English text), so it was no help here.
+
+| | Tamil text | English books |
+|---|---|---|
+| Saturn favourable in | **3, 6, 11** — verse 341 | 3, 6, 11 — Pulippani p.69, Vishnu Bhaskar p.139 |
+| Vedha that obstructs each | 12, 9, 5 — verse 342 | 12, 9, 5 — Vishnu Bhaskar p.139 |
+| Sade Sati / Ardhashtama / Ashtama / **Kantaka** | **not found** | named, with pages (Kantaka disputed) |
+| Anga Sani (Saturn on the body) | verse 344 | not found in the books read |
+
+**The verse and the printed commentary disagree.** Verse 341 reads
+"மூன்றே, இருமூன்றே, பத்தொன்றுமா" — 3, 6, and *பத்தொன்று* (ten-and-one) = **11**.
+The editor's commentary lists "மூன்றாம், ஆறாம், பத்தாம், பதினோராம்" — four
+houses, reading பத்தொன்று as "ten, one". The verse, the three-entry vedha list
+and both English books all say three, so the verse is applied and the
+commentary's 10th is shown as a disagreement, not followed. Page images:
+printed pp.148–150 (scan pages 173–175).
+
+**Because the Tamil text does not name Kantaka at all, it cannot settle which
+houses it occupies.** The page says so in a row of its own; no Tamil answer is
+invented, and the English readings are not presented as Tamil ones.
+
+### Anga Sani — computed, but labelled
+
+Verse 344 divides Saturn's stay over the body, 27 portions in all, and the
+commentary says all such tables are counted "from the birth star to the star
+where the planet stands". Every planet's table in the chapter sums to 27, which
+is what makes a nakshatra count the right reading (Saturn crosses 27 nakshatras
+in about 29.5 years). The text does **not** say in what order the portions are
+counted, nor whether the birth star is 1. For the Sun, Mars and the benefics the
+printed order runs head to foot, so the printed order is applied, but Saturn's
+printed order (mouth, right hand, legs, left hand, stomach, eyes, shoulder, head)
+is not anatomical. So Anga Sani carries the status `ORDER_ASSUMED`, is shown with
+its three assumptions listed, and its evidence is `withheld` — computed and
+visible, but not claimed as an applied rule. This is the same posture as an
+unsourced porutham factor.
+
 ## Findings worth knowing
 
 - **Sade Sati is not 7½ years.** The books say 90 months. Measured across all
@@ -126,16 +179,21 @@ day and a half. Fixed, with a regression test that fails on the old line
   its own stage.
 - **Ashtakavarga / Kakshya refinement of Sade Sati** (Vishnu Bhaskar §XVII).
 - **Counting from Lagna** and Arudha Lagna (Rath).
-- **Tamil-tradition names** for the three phases, which are not in any book held.
+- **Tamil-tradition names** for the three phases, which are not in any Tamil book held (the Sudamani chapter was searched; it has Anga Sani instead).
 - **Gemstones, Mangala, mantras by planet** — separate stages.
 
 ## Decision needed
 
-1. **Kantaka convention.** Default is 4 and 7 (three sources). Do you follow one
-   of the others, for example Vishnu Bhaskar's 4, 7, 10?
-2. **Which Tamil text** to use for phases and remedies. The books held are
-   English; a Tamil source (Sudamani has a சாந்தி section) would let the wording
-   come from a Tamil authority rather than a translation of an English one.
+Answered 2026-10-02: show both traditions, and all Kantaka readings, as
+sources. Still open:
+
+1. **The Anga Sani order.** If a Tamil practitioner or a second Tamil text can
+   say in what order the portions are counted, `ORDER_ASSUMED` can become a
+   sourced rule. Until then it stays labelled.
+2. **A Tamil source for Sade Sati and Kantaka by name.** None of the Tamil texts
+   held names them. If the owner has one (the earlier list included Jataka
+   Chandrika and Kumaraswamiyam, neither of which could be found), it would let
+   the Kantaka houses come from a Tamil authority.
 
 ## Verified
 

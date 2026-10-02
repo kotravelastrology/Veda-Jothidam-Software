@@ -33,12 +33,15 @@ function forNative(input: BirthFormInput, kantakaConvention: string | undefined,
   const ctx = createChartContext({ ...input, calendarMode: 'tirukanita' });
   const chart = calculateParashariChart(ctx);
   const moonRasiIndex: number = chart.grahas.Moon.rasiIndex;
+  // The birth star, for the Tamil text's Anga Sani, which counts in nakshatras.
+  const moonNakshatraIndex = Math.floor(chart.grahas.Moon.longitude / (360 / 27)) % 27;
 
   // Saturn is counted from the Moon's sign, so the *Moon's* sign is the one
   // input that matters — and it depends on the ayanamsha the chart was cast
   // under. The transit is scanned under that same ayanamsha, never the page's.
   const result = computeSaturnTransits({
     moonRasiIndex,
+    moonNakshatraIndex,
     birthMs: birthUtcMs(input),
     horizonYears: horizonYears ?? 100,
     ayanamsha: ctx.ayanamsha,
