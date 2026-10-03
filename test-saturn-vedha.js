@@ -174,6 +174,24 @@ assert.deepEqual(h8.periods.map((p) => p.fromUtc), tr.ashtama.map((p) => p.fromU
 assert.ok(h4.periods.length >= 3, 'ninety years hold three passages through the 4th');
 assert.ok(resolveByTitle(tr.houseResults.sourceTitle));
 
+// Sundarananda's two readings follow the fortnight running at the time (book p.86).
+assert.match(HR.NOTES.pakshaMeaningTa, /பிறப்புப் பட்சம் அல்ல/);
+assert.match(HR.NOTES.pakshaSourcePage, /p\.86/);
+assert.equal(tr.houseResults.saturnHouseNow, tr.now.houseFromMoon);
+let at = W.atMs; let prevTurn = null;
+for (let i = 0; i < 6; i += 1) {
+  const p = HR.pakshaAt(at);
+  assert.ok(p.tithi >= 1 && p.tithi <= 15, 'tithi within the fortnight');
+  const turn = Date.parse(p.turnsUtc);
+  assert.equal(HR.pakshaAt(turn - 600000).waxing, p.waxing, 'the same fortnight just before the turn');
+  assert.equal(HR.pakshaAt(turn + 600000).waxing, !p.waxing, 'the other just after');
+  if (prevTurn !== null) {
+    const days = (turn - prevTurn) / DAY;
+    assert.ok(days > 13.5 && days < 16, `a fortnight lasts about 14.8 days (${days.toFixed(2)})`);
+  }
+  prevTurn = turn; at = turn + 3600000;
+}
+
 // ------------------------------------------------------------- citations ---
 for (const s of [V.GOCHARA_VEDHA_SOURCE, V.VIPAREETA_VEDHA_SOURCE, HR.HOUSE_RESULTS_SOURCE, ...Object.values(V.SATURN_VEDHA_TEXT).map((x) => x.source)]) {
   assert.ok(s.pageLocus, 'has a page');

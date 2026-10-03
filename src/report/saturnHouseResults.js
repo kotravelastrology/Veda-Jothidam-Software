@@ -9,9 +9,14 @@
  *                 two readings per house, the first for the waxing Moon and the
  *                 second — by the pattern the 6th house shows — for the waning
  *                 Moon. The print says "waxing" for both in every house but the
- *                 6th; that is recorded. The book does not say whether "waxing"
- *                 means born in the bright half or the Moon's phase during the
- *                 transit, so both readings are shown and neither is chosen.
+ *                 6th; that is recorded. *Which* fortnight is meant the book
+ *                 does say, on printed p.86 and in its preface: Sundarananda
+ *                 gives transit results "separately during Shukla Paksha and
+ *                 Krishna Paksha" — the fortnight running at the time, as the
+ *                 Sun's section ("Poorva Paksha ... Amara [Apara] Pakshas")
+ *                 and the Moon's ("when Moon is in Krishna Paksha") show. So the
+ *                 reading alternates every fortnight through a Saturn stay;
+ *                 `pakshaAt` says which fortnight it is now and when it turns.
  *   paryaya       "Saturn's cyclic effects — Sani Paryaya Phala", printed
  *                 pp.231-234: a text for each house in Saturn's 1st, 2nd and 3rd
  *                 round "through the 12 places from Janma Rasi". The book does
@@ -28,6 +33,7 @@
  */
 
 const { SOURCES } = require('./saturnTransitTables');
+const { planetLongitude } = require('../ephemeris/siderealPositions');
 
 const { PULIPPANI } = SOURCES;
 
@@ -96,7 +102,9 @@ const HOUSE_RESULTS_SOURCE = Object.freeze({
 });
 
 const NOTES = deepFreeze({
-  sundaranandaPrintTa: 'சுந்தரானந்தர் பகுதியில் ஒவ்வொரு இடத்துக்கும் இரண்டு பத்திகள்; 6-ஆம் இடம் தவிர எல்லாவற்றிலும் இரண்டுமே "வளர்பிறையில்" (waxing) என்று அச்சாகியுள்ளன — 6-ல் இரண்டாவது "தேய்பிறையில்" (waning). அதனால் இரண்டாவதைத் தேய்பிறை எனப் படிக்கிறோம். "வளர்பிறை" என்பது பிறப்புப் பட்சமா, கோசார நேரத்துச் சந்திரனா என்று நூல் சொல்லவில்லை — இரண்டும் காட்டப்படுகின்றன. (3-ஆம் இடத் தலைப்பும் "1" என்று அச்சாகியுள்ளது.)',
+  sundaranandaPrintTa: 'சுந்தரானந்தர் பகுதியில் ஒவ்வொரு இடத்துக்கும் இரண்டு பத்திகள்; 6-ஆம் இடம் தவிர எல்லாவற்றிலும் இரண்டுமே "வளர்பிறையில்" (waxing) என்று அச்சாகியுள்ளன — 6-ல் இரண்டாவது "தேய்பிறையில்" (waning). அதனால் இரண்டாவதைத் தேய்பிறை எனப் படிக்கிறோம். (3-ஆம் இடத் தலைப்பும் "1" என்று அச்சாகியுள்ளது.)',
+  pakshaMeaningTa: 'எந்தப் பட்சம் என்பதை நூலே சொல்கிறது (அச்சுப் பக்கம் 86, முன்னுரை): சுந்தரானந்தர் கோசாரப் பலனை "வளர்பிறை, தேய்பிறை காலங்களில் தனித்தனியே" தருகிறார் — அதாவது அந்தக் கோசாரத்தின்போது நடக்கும் பட்சம் (பிறப்புப் பட்சம் அல்ல); சூரியப் பகுதியில் "பூர்வ பட்சம் ... அபர பட்சம்", சந்திரப் பகுதியில் "சந்திரன் கிருஷ்ண பட்சத்தில் இருக்கும்போது" என்று அதையே காட்டுகிறார். எனவே சனி ஒரு இடத்தில் இருக்கும் இரண்டரை ஆண்டிலும் இரண்டு பத்திகளும் ஒவ்வொரு பதினைந்து நாளுக்கு மாறி மாறிப் பொருந்தும்.',
+  pakshaSourcePage: 'printed p.86 (PDF 97), Part Three introduction: "gives transit results separately during Shukla Paksha and Krishna Paksha"; preface (PDF 5); p.96 (PDF 107), Moon in the 6th',
   paryayaCountTa: 'சுற்று எண்: பிறந்தது முதல் சனி அந்த இடத்தைக் கடப்பது எத்தனையாவது முறை என்பது (பிறக்கும்போது நடப்பில் இருந்தால் அது முதல் முறை). "ஜன்ம ராசியிலிருந்து 12 இடங்கள் வழியே சனியின் சுற்றுகள்" என்று மட்டுமே நூல் சொல்கிறது; பிறக்கும்போது சனி வேறு இடத்தில் இருந்தால் எப்படி எண்ணுவது என்று சொல்லவில்லை — இது எங்கள் வாசிப்பு.',
   missingPagesTa: 'இந்த ஸ்கேனில் அச்சுப் பக்கங்கள் 148-167 இல்லை; அதனால் முதன்மை உரையில் சனி 1, 2, 3-ஆம் இடங்களுக்கான பகுதி கிடைக்கவில்லை.',
   disagreeTa: 'ஒரே நூலின் பகுதிகளே வேறுபடுகின்றன: முதன்மை உரை 8-ஐ ஏழரைச் சனிக்கு அடுத்த மிகத் தீய இடம் என்கிறது; சுற்றுப் பலனில் இரண்டாம் சுற்றில் 8-ல் "பண வரவு" என்கிறது.',
@@ -124,4 +132,39 @@ function houseResultsFor(house, periods) {
   };
 }
 
-module.exports = { HOUSE_RESULTS, HOUSE_RESULTS_SOURCE, NOTES, houseResultsFor };
+const DAY_MS = 86400000;
+const elongation = (ms) => {
+  const jd = ms / DAY_MS + 2440587.5;
+  return (((planetLongitude(jd, 'Moon', 'Lahiri') - planetLongitude(jd, 'Sun', 'Lahiri')) % 360) + 360) % 360;
+};
+
+/**
+ * The lunar fortnight at an instant, and when it turns. Shukla (waxing) while the
+ * Moon is less than 180° ahead of the Sun; the tithi is each 12° of that. The
+ * ayanamsha cancels out of the difference.
+ */
+function pakshaAt(atMs) {
+  const e = elongation(atMs);
+  const waxing = e < 180;
+  const tithi = Math.floor(e / 12) + 1; // 1-30
+  // Step to the next 0° or 180° crossing, then bisect to the minute.
+  const half = (ms) => (elongation(ms) < 180 ? 0 : 1);
+  const start = half(atMs);
+  let lo = atMs; let hi = atMs;
+  for (let i = 1; i <= 80; i += 1) {
+    hi = atMs + i * 0.25 * DAY_MS;
+    if (half(hi) !== start) break;
+    lo = hi;
+  }
+  while (hi - lo > 60000) {
+    const mid = (lo + hi) / 2;
+    if (half(mid) === start) lo = mid; else hi = mid;
+  }
+  return {
+    atUtc: new Date(atMs).toISOString(), waxing, tithi: waxing ? tithi : tithi - 15,
+    nameTa: waxing ? 'வளர்பிறை (சுக்ல பட்சம்)' : 'தேய்பிறை (கிருஷ்ண பட்சம்)',
+    turnsUtc: new Date(hi).toISOString(),
+  };
+}
+
+module.exports = { HOUSE_RESULTS, HOUSE_RESULTS_SOURCE, NOTES, houseResultsFor, pakshaAt };

@@ -447,6 +447,9 @@ function computeSaturnTransits({
     // What the book says for the 4th, 7th and 8th, each lived period with its round.
     houseResults: {
       houses: [4, 7, 8].map((h) => HR.houseResultsFor(h, single([h]))),
+      // Sundarananda's two readings follow the fortnight running at the time (p.86).
+      paksha: HR.pakshaAt(atMs),
+      saturnHouseNow: now.houseFromMoon,
       sourceTitle: HR.HOUSE_RESULTS_SOURCE.title,
       sourcePage: HR.HOUSE_RESULTS_SOURCE.pageLocus,
       notes: HR.NOTES,

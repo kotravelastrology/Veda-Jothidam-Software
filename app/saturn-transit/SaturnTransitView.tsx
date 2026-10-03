@@ -429,13 +429,26 @@ function HouseResults({ r }: { r: any }) {
         புலிப்பாணியின் நூலில் மூன்று இடங்களில் உள்ளவை, சுருக்கமாகத் தமிழில். இவை நூலின் கூற்றுகள் — இந்த மென்பொருளின் கணிப்புகள் அல்ல.
         {' '}{hr.sourceTitle} — {hr.sourcePage}
       </p>
+      <p className="text-xs text-ink mb-3">
+        இன்று ({day(hr.paksha.atUtc)}) <strong>{hr.paksha.nameTa}</strong>, திதி {hr.paksha.tithi}; அடுத்த மாற்றம் {day(hr.paksha.turnsUtc)}.
+        <span className="block text-ink-soft">{hr.notes.pakshaMeaningTa} ({hr.notes.pakshaSourcePage})</span>
+      </p>
       <div className="space-y-4">
         {hr.houses.map((h: any) => (
           <article key={h.house} className="border border-line rounded-xl p-3 text-xs space-y-2">
             <h3 className="text-sm font-semibold text-ink">சனி {h.house}-ஆம் இடத்தில் <span className="font-normal text-ink-soft">— {h.namesTa}</span></h3>
             <p className="text-ink"><strong>முதன்மை உரை:</strong> {h.main.textTa} <span className="text-ink-soft">({h.main.page})</span></p>
-            <p className="text-ink"><strong>சுந்தரானந்தர் — வளர்பிறை:</strong> {h.sundarananda.waxingTa}</p>
-            <p className="text-ink"><strong>சுந்தரானந்தர் — தேய்பிறை (எனப் படித்தது):</strong> {h.sundarananda.waningTa} <span className="text-ink-soft">({h.sundarananda.page})</span></p>
+            {(['waxing', 'waning'] as const).map((k) => {
+              const nowHere = hr.saturnHouseNow === h.house && hr.paksha.waxing === (k === 'waxing');
+              return (
+                <p key={k} className={`text-ink ${nowHere ? 'bg-amber-50 rounded px-1' : ''}`}>
+                  <strong>சுந்தரானந்தர் — {k === 'waxing' ? 'வளர்பிறையில்' : 'தேய்பிறையில் (எனப் படித்தது)'}:</strong>{' '}
+                  {k === 'waxing' ? h.sundarananda.waxingTa : h.sundarananda.waningTa}
+                  {nowHere && <span className="block text-amber-800 font-semibold">இப்போது சனி இந்த இடத்தில், இன்று {hr.paksha.nameTa} — இந்தப் பத்தி பொருந்தும் (மாற்றம்: {day(hr.paksha.turnsUtc)}).</span>}
+                  {k === 'waning' && <span className="text-ink-soft"> ({h.sundarananda.page})</span>}
+                </p>
+              );
+            })}
             <div>
               <p className="font-semibold text-ink">இந்த ஜாதகத்தில் — ஒவ்வொரு முறையும், சுற்றுப் பலனுடன்</p>
               {h.periods.length === 0 && <p className="text-ink-soft">இந்தக் காலத்தில் இல்லை.</p>}
