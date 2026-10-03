@@ -216,9 +216,13 @@ waxing- and a waning-Moon reading (pp.173–174), and the result for each of
 Saturn's 1st, 2nd and 3rd rounds (*Sani Paryaya*, pp.231–234). Each lived
 period is given its round.
 
-- The round is our reading: the n-th time Saturn passes through that house
-  since birth. The book says only "the various rounds of Saturn through the 12
-  places from Janma Rasi".
+- The round is counted the way the book's own Jupiter example does it (printed
+  p.236: Jupiter in Gemini at birth — "when he passes through Taurus, the
+  paryaya will end"): a round starts in the planet's sign at birth and ends with
+  the sign before it. Each round therefore holds one passage through every
+  house, so a period's round is the n-th time Saturn passes through that house
+  since birth; the test checks the two counts agree. The Saturn passage gives
+  no example of its own.
 - Sundarananda's print says "waxing" for both readings in every house except
   the 6th (where the second is "waning"); read as waxing/waning and flagged. The
   book does not say whether it means the birth paksha or the Moon at the time.

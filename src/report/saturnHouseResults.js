@@ -19,11 +19,17 @@
  *                 `pakshaAt` says which fortnight it is now and when it turns.
  *   paryaya       "Saturn's cyclic effects — Sani Paryaya Phala", printed
  *                 pp.231-234: a text for each house in Saturn's 1st, 2nd and 3rd
- *                 round "through the 12 places from Janma Rasi". The book does
- *                 not say how a round is counted when Saturn is elsewhere at
- *                 birth. Here a period's round is the number of times Saturn has
- *                 passed through that house since birth (a passage already under
- *                 way at birth is the first) — our reading, marked as such.
+ *                 round "through the 12 places from Janma Rasi". How a round is
+ *                 counted the book shows in its Jupiter example (printed p.236):
+ *                 Jupiter "in Gemini during his 1st round" at birth — "when he
+ *                 passes through Taurus, the paryaya will end". A round starts
+ *                 in the planet's sign at birth and ends with the sign before
+ *                 it, so each round holds exactly one passage through every
+ *                 house: a period's round is the number of times Saturn has
+ *                 passed through that house since birth (a passage under way at
+ *                 birth is the first). The test checks the two counts agree.
+ *                 The Saturn passage itself gives no example; the method is the
+ *                 book's, applied from Jupiter to Saturn.
  *
  * The texts are condensed into Tamil, not translated sentence by sentence: the
  * book is in copyright. They are the book's statements, not predictions, and
@@ -105,7 +111,7 @@ const NOTES = deepFreeze({
   sundaranandaPrintTa: 'சுந்தரானந்தர் பகுதியில் ஒவ்வொரு இடத்துக்கும் இரண்டு பத்திகள்; 6-ஆம் இடம் தவிர எல்லாவற்றிலும் இரண்டுமே "வளர்பிறையில்" (waxing) என்று அச்சாகியுள்ளன — 6-ல் இரண்டாவது "தேய்பிறையில்" (waning). அதனால் இரண்டாவதைத் தேய்பிறை எனப் படிக்கிறோம். (3-ஆம் இடத் தலைப்பும் "1" என்று அச்சாகியுள்ளது.)',
   pakshaMeaningTa: 'எந்தப் பட்சம் என்பதை நூலே சொல்கிறது (அச்சுப் பக்கம் 86, முன்னுரை): சுந்தரானந்தர் கோசாரப் பலனை "வளர்பிறை, தேய்பிறை காலங்களில் தனித்தனியே" தருகிறார் — அதாவது அந்தக் கோசாரத்தின்போது நடக்கும் பட்சம் (பிறப்புப் பட்சம் அல்ல); சூரியப் பகுதியில் "பூர்வ பட்சம் ... அபர பட்சம்", சந்திரப் பகுதியில் "சந்திரன் கிருஷ்ண பட்சத்தில் இருக்கும்போது" என்று அதையே காட்டுகிறார். எனவே சனி ஒரு இடத்தில் இருக்கும் இரண்டரை ஆண்டிலும் இரண்டு பத்திகளும் ஒவ்வொரு பதினைந்து நாளுக்கு மாறி மாறிப் பொருந்தும்.',
   pakshaSourcePage: 'printed p.86 (PDF 97), Part Three introduction: "gives transit results separately during Shukla Paksha and Krishna Paksha"; preface (PDF 5); p.96 (PDF 107), Moon in the 6th',
-  paryayaCountTa: 'சுற்று எண்: பிறந்தது முதல் சனி அந்த இடத்தைக் கடப்பது எத்தனையாவது முறை என்பது (பிறக்கும்போது நடப்பில் இருந்தால் அது முதல் முறை). "ஜன்ம ராசியிலிருந்து 12 இடங்கள் வழியே சனியின் சுற்றுகள்" என்று மட்டுமே நூல் சொல்கிறது; பிறக்கும்போது சனி வேறு இடத்தில் இருந்தால் எப்படி எண்ணுவது என்று சொல்லவில்லை — இது எங்கள் வாசிப்பு.',
+  paryayaCountTa: 'சுற்று எண்ணும் முறையை நூல் குருவின் உதாரணத்தில் காட்டுகிறது (அச்சுப் பக்கம் 236): பிறக்கும்போது குரு மிதுனத்தில் — "ரிஷபத்தைக் கடக்கும்போது சுற்று முடியும்". அதாவது ஒரு சுற்று பிறப்பில் கிரகம் இருந்த ராசியில் தொடங்கி அதற்கு முந்தைய ராசியில் முடிகிறது; ஒவ்வொரு சுற்றிலும் ஒவ்வொரு இடமும் ஒரு முறை வரும். எனவே ஒரு காலத்தின் சுற்று = பிறந்தது முதல் சனி அந்த இடத்தைக் கடப்பது எத்தனையாவது முறை. சனிப் பகுதியில் உதாரணம் இல்லை; குருவுக்குக் காட்டிய முறையே சனிக்கும் பொருத்தப்படுகிறது.',
   missingPagesTa: 'இந்த ஸ்கேனில் அச்சுப் பக்கங்கள் 148-167 இல்லை; அதனால் முதன்மை உரையில் சனி 1, 2, 3-ஆம் இடங்களுக்கான பகுதி கிடைக்கவில்லை.',
   disagreeTa: 'ஒரே நூலின் பகுதிகளே வேறுபடுகின்றன: முதன்மை உரை 8-ஐ ஏழரைச் சனிக்கு அடுத்த மிகத் தீய இடம் என்கிறது; சுற்றுப் பலனில் இரண்டாம் சுற்றில் 8-ல் "பண வரவு" என்கிறது.',
 });

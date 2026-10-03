@@ -174,6 +174,33 @@ assert.deepEqual(h8.periods.map((p) => p.fromUtc), tr.ashtama.map((p) => p.fromU
 assert.ok(h4.periods.length >= 3, 'ninety years hold three passages through the 4th');
 assert.ok(resolveByTitle(tr.houseResults.sourceTitle));
 
+// The book's way of counting a round (Jupiter example, printed p.236): a round
+// starts in the planet's sign at birth and ends with the sign before it. Count
+// rounds that way — from Saturn's returns to its birth sign — and check it gives
+// the same round as "the n-th passage through the house" for every period.
+const { saturnStays, saturnRasi, groupSpans } = require('./src/report/saturnTransit');
+let roundChecks = 0;
+for (const [y, moon] of [[1985, 4], [1962, 0], [2001, 9], [1948, 7]]) {
+  const b = Date.UTC(y, 2, 15, 4, 0);
+  const t = computeSaturnTransits({ moonRasiIndex: moon, birthMs: b, horizonYears: 95, atMs: W.atMs });
+  const natal = saturnRasi(b, 'Lahiri');
+  const natalHouse = ((natal - moon + 12) % 12) + 1;
+  const st = saturnStays({ fromMs: b - 10 * YEAR, toMs: b + 95 * YEAR });
+  const returns = groupSpans(st, moon, [natalHouse]).filter((s) => s.startMs > b).map((s) => s.startMs);
+  // Boundaries are fractional milliseconds and ISO strings truncate them: allow 1 ms.
+  const bookRound = (fromUtc) => 1 + returns.filter((r) => r <= Date.parse(fromUtc) + 1).length;
+  for (const h of t.houseResults.houses) {
+    for (const p of h.periods) {
+      // A passage that began before birth is the first of round 1.
+      const start = Math.max(Date.parse(p.fromUtc), b);
+      assert.equal(p.round, bookRound(new Date(start).toISOString()), `${y} Moon ${moon}: house ${h.house} from ${p.fromUtc.slice(0, 10)}`);
+      roundChecks += 1;
+    }
+  }
+}
+assert.ok(roundChecks >= 30);
+assert.match(HR.NOTES.paryayaCountTa, /236/);
+
 // Sundarananda's two readings follow the fortnight running at the time (book p.86).
 assert.match(HR.NOTES.pakshaMeaningTa, /பிறப்புப் பட்சம் அல்ல/);
 assert.match(HR.NOTES.pakshaSourcePage, /p\.86/);
