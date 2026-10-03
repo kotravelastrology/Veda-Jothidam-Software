@@ -201,9 +201,14 @@ day and a half. Fixed, with a regression test that fails on the old line
   felt", Sudamani says even a cruel planet "gives good". Both shown. The same
   verse says when in a sign each planet gives its results (Saturn and Moon at
   the end); "the end" is not quantified, so no window is computed.
-- **Choices stated on the page.** The Sun's windows are shown apart: excluded
-  for gochara vedha; for vipareetha, Pulippani names only "to the Sun by
-  Saturn", so they are marked uncertain and kept out of the totals. The Moon
+- **The Sun.** Excluded for both. Pulippani's vipareetha list names only "no
+  vipareetha vedha to the Sun by Saturn", but Jataka Parijata (vol. III, printed
+  p.834, notes to Adhyaya XIII sloka 60, page image read 2026-10-03) states the
+  rule generally: "the Sun and Saturn do not affect each other through Vedha";
+  Vishnu Bhaskar and Pulippani's gochara table agree. The book was copied into
+  the curated library and registered (cite-only). The Sun's windows are listed
+  for information only and kept out of the totals.
+- **Choices stated on the page.** The Moon
   passes a sign in ~2¼ days monthly: counted, not listed. Rahu and Ketu count
   ("any other planet"; mean node). Window: two years back, thirty ahead.
 

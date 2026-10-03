@@ -117,7 +117,7 @@ for (let moon = 0; moon < 12; moon += 1) {
     }
     assert.ok(s.coveredDays <= s.days + 0.1, 'covered days never exceed the stay');
     if (s.kind === 'GOOD' && s.sun) assert.equal(s.sun.status, 'EXCLUDED', 'the Sun causes Saturn no gochara vedha');
-    if (s.kind === 'RELIEVABLE' && s.sun) assert.equal(s.sun.status, 'UNCERTAIN', 'the Sun\'s vipareetha for Saturn is not settled by the book');
+    if (s.kind === 'RELIEVABLE' && s.sun) assert.equal(s.sun.status, 'EXCLUDED', 'nor vipareetha: Jataka Parijata p.834, Sun and Saturn do not affect each other through vedha');
     if (s.ordeal) {
       assert.ok([12, 1, 2].includes(s.house));
       for (const f of s.ordeal.fast) {
@@ -131,7 +131,7 @@ for (let moon = 0; moon < 12; moon += 1) {
   }
   assert.ok(r.now && r.now.house >= 1 && r.now.house <= 12);
   for (const p of r.now.planetsInPaired) {
-    if (p.planet === 'Sun') assert.equal(p.status, r.now.kind === 'GOOD' ? 'EXCLUDED' : 'UNCERTAIN', 'the present applies the same Sun rule as the windows');
+    if (p.planet === 'Sun') assert.equal(p.status, 'EXCLUDED', 'the present applies the same Sun rule as the windows');
     else assert.equal(p.status, 'COUNTS');
   }
   assert.equal(r.now.active, r.now.planetsInPaired.some((p) => p.status === 'COUNTS'));

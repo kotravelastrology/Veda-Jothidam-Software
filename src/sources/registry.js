@@ -304,6 +304,22 @@ const SOURCES = [
     },
   },
   {
+    id: 'JATAKA_PARIJATA_VOL3',
+    title: 'Jataka Parijata, Vol. III',
+    titleTa: 'ஜாதக பாரிஜாதம், தொகுதி 3',
+    author: 'Vaidyanatha Dikshita (original); V. Subrahmanya Sastri (English translation and notes)',
+    file: 'jataka-parijata-vol3-subrahmanya-sastri/raw-scans/full-scan.pdf',
+    tradition: 'Classical Sanskrit (medieval) with a modern English translation',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the rule, in the notes to Adhyaya XIII sloka 60 (printed p.834), that the Sun and Saturn, and the Moon and Mercury, do not affect each other through vedha. The Sanskrit is classical; the translation\'s rights are not confirmed, so it is treated as cite-only.',
+      verified: false,
+      toConfirm: 'Publication year and the translation\'s copyright status.',
+    },
+  },
+  {
     id: 'KAPOOR_REMEDIAL_MEASURES',
     title: 'Remedial Measures in Astrology',
     titleTa: 'ஜோதிடப் பரிகார முறைகள்',

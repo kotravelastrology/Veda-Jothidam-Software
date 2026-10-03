@@ -33,6 +33,13 @@ const { SUDAMANI } = require('./saturnTransitTamil');
 
 const { PULIPPANI, VISHNU_BHASKAR } = SOURCES;
 
+const JATAKA_PARIJATA = Object.freeze({
+  title: 'Jataka Parijata, Vol. III',
+  author: 'Vaidyanatha Dikshita (original); V. Subrahmanya Sastri (English translation and notes)',
+  file: 'jataka-parijata-vol3-subrahmanya-sastri/raw-scans/full-scan.pdf',
+  tradition: 'Classical Sanskrit (medieval) with a modern English translation',
+});
+
 const deepFreeze = (o) => {
   Object.values(o).forEach((v) => { if (v && typeof v === 'object') deepFreeze(v); });
   return Object.freeze(o);
@@ -89,6 +96,10 @@ const SATURN_VEDHA_TEXT = deepFreeze({
   pulippaniOrdeal: {
     textTa: 'ஏழரைச் சனி நடக்கும்போது குரு 3-ல் இல்லாமல், வேகமாகச் செல்லும் சூரியன், சந்திரன், புதன், சுக்கிரன், செவ்வாய் சனி இருக்கும் அதே இடத்தைக் கடக்கும் குறுகிய காலங்களில் துன்பம் கூடும்.',
     source: Object.freeze({ ...PULIPPANI, pageLocus: 'printed p.206 (PDF 199): "If Sadhe Sati of Shani is running and Jupiter is not his 3rd, fast moving planets ... move through the same bhava, there will be more ordeal"' }),
+  },
+  jatakaParijata: {
+    textTa: 'ஜாதக பாரிஜாதம் (13-ஆம் அத்தியாயம், 60-ஆம் ஸ்லோக உரை): தந்தைக்கும் மகனுக்கும் இடையே வேதை இல்லை — எனவே சந்திரனும் புதனும், சூரியனும் சனியும் வேதையால் ஒருவரை ஒருவர் பாதிப்பதில்லை. இது பொதுவான கூற்று (இரு திசையிலும்) — அதனால் சனியின் விபரீத வேதையிலும் சூரியன் கணக்கில் வராது.',
+    source: Object.freeze({ ...JATAKA_PARIJATA, pageLocus: 'printed p.834 (PDF 128), Adhyaya XIII, notes to sloka 60: "There is no Vedha between the father and the son. Consequently, (1) the Moon and Mercury, (2) the Sun and Saturn do not affect each other through Vedha."' }),
   },
   vishnuBhaskar: {
     textTa: 'சனி 3, 6, 11 — வேதை 12, 9, 5; சூரியனும் சனியும் (தந்தை, மகன்) ஒருவருக்கொருவர் வேதை செய்வதில்லை.',

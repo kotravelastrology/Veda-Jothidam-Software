@@ -8,10 +8,12 @@
  *                    the Sun, which both Pulippani and Vishnu Bhaskar exclude.
  *   12th, 9th, 5th   Saturn's relievable bad houses. Any planet in the 3rd, 6th
  *                    or 11th respectively cancels the bad (vipareetha vedha).
- *                    Pulippani's vipareetha list names only "no vipareetha vedha
- *                    to the Sun by Saturn", not the other way, while his gochara
- *                    table and Vishnu Bhaskar exclude the Sun both ways; so
- *                    windows made by the Sun are returned apart, marked uncertain.
+ *                    The Sun is excluded here too. Pulippani's vipareetha list
+ *                    names only "no vipareetha vedha to the Sun by Saturn"; but
+ *                    Jataka Parijata (printed p.834) states the rule generally —
+ *                    "the Sun and Saturn do not affect each other through
+ *                    Vedha" — as do Vishnu Bhaskar and Pulippani's own gochara
+ *                    table. The Sun's windows are still listed, marked excluded.
  *   12th, 1st, 2nd   Sade Sati. Pulippani: if Jupiter is not in the 3rd, the
  *                    short spells when the Sun, Moon, Mercury, Venus or Mars pass
  *                    through Saturn's own sign bring "more ordeal".
@@ -160,8 +162,8 @@ function saturnVedhaWindows({ moonRasiIndex, fromMs, toMs, atMs = Date.now(), ay
         if (p === 'Moon') { out.moon = { count: iv.length, days: unionDays(iv) }; continue; }
         if (p === 'Sun') {
           // Gochara vedha: the Sun is excluded by both books. Vipareetha: unsettled.
-          if (kind === 'RELIEVABLE') out.sun = { windows: describe(iv), status: 'UNCERTAIN' };
-          else out.sun = { windows: describe(iv), status: 'EXCLUDED' };
+          // Excluded both ways: Jataka Parijata p.834, Vishnu Bhaskar p.139, Pulippani's gochara table.
+          out.sun = { windows: describe(iv), status: 'EXCLUDED' };
           continue;
         }
         if (iv.length) out.byPlanet.push({ planet: p, planetTa: PLANET_TA[p], windows: describe(iv), days: unionDays(iv) });
@@ -195,7 +197,7 @@ function saturnVedhaWindows({ moonRasiIndex, fromMs, toMs, atMs = Date.now(), ay
       : [];
     // The same rules as the windows: the Sun causes Saturn no gochara vedha, and
     // its vipareetha is unsettled; everything else counts.
-    const statusOf = (p) => (p !== 'Sun' ? 'COUNTS' : kind === 'GOOD' ? 'EXCLUDED' : 'UNCERTAIN');
+    const statusOf = (p) => (p !== 'Sun' ? 'COUNTS' : 'EXCLUDED');
     const planetsInPaired = inPaired.map((p) => ({ planet: p, planetTa: PLANET_TA[p], status: statusOf(p) }));
     now = {
       atUtc: iso(atMs), house, kind, pairedHouse: pairedNow, planetsInPaired,
@@ -214,12 +216,13 @@ function saturnVedhaWindows({ moonRasiIndex, fromMs, toMs, atMs = Date.now(), ay
       pulippaniVedha: pack(T.pulippaniVedha),
       pulippaniVipareeta: pack(T.pulippaniVipareeta),
       pulippaniOrdeal: pack(T.pulippaniOrdeal),
+      jatakaParijata: pack(T.jatakaParijata),
       vishnuBhaskar: pack(T.vishnuBhaskar),
       sudamaniVipareeta: { ...pack(T.sudamaniVipareeta), differsTa: T.sudamaniVipareeta.differsTa, commentaryNoteTa: T.sudamaniVipareeta.commentaryNoteTa },
       sudamaniTiming: pack(T.sudamaniTiming),
     },
     notes: {
-      sunTa: 'கோசார வேதையில் சூரியனைப் புலிப்பாணியும் விஷ்ணு பாஸ்கரும் விலக்குகின்றனர். விபரீத வேதையில் புலிப்பாணி "சனியால் சூரியனுக்கு" மட்டுமே விலக்கு சொல்கிறார்; "சூரியனால் சனிக்கு" என்று சொல்லவில்லை — அதனால் சூரியனால் ஏற்படும் காலங்கள் தனியாக, "உறுதியில்லை" என்று காட்டப்படுகின்றன; மொத்தக் கணக்கில் சேர்க்கப்படவில்லை.',
+      sunTa: 'சூரியன் சனிக்கு வேதையும் செய்யாது, விபரீத வேதையும் செய்யாது: ஜாதக பாரிஜாதம் (ப.834) "சூரியனும் சனியும் வேதையால் ஒருவரை ஒருவர் பாதிப்பதில்லை" என்று பொதுவாகச் சொல்கிறது; விஷ்ணு பாஸ்கரும் புலிப்பாணியின் கோசார அட்டவணையும் அதையே சொல்கின்றன. (புலிப்பாணியின் விபரீத வேதைப் பட்டியல் "சனியால் சூரியனுக்கு" என்ற ஒரு திசையை மட்டுமே குறிப்பிடுகிறது.) சூரியனின் காலங்கள் தகவலுக்காக மட்டும் காட்டப்படுகின்றன; மொத்தக் கணக்கில் இல்லை.',
       moonTa: 'சந்திரன் மாதந்தோறும் சுமார் 2¼ நாள் ஒரு ராசியில் இருக்கும் — அதனால் அதன் காலங்கள் எண்ணப்படுகின்றன, பட்டியலிடப்படவில்லை; மொத்தக் கணக்கிலும் சேர்க்கப்படவில்லை.',
       nodesTa: 'நூல் "வேறொரு கிரகம்" என்கிறது; ராகு, கேது சேர்க்கப்படுகின்றன (சராசரி கணு — திட்டத்தின் இயல்புநிலை; கேது = ராகு + 180°).',
       noReliefTa: 'சனி 1, 2, 4, 7, 8, 10-ல் இருக்கும்போது நூல் விபரீத வேதை இடம் எதையும் தரவில்லை — "தீமை உணரப்படும்".',

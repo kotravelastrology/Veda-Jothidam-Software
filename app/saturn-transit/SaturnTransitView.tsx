@@ -350,15 +350,14 @@ function VedhaSection({ r }: { r: any }) {
           இப்போது சனி <strong>{n.house}-ஆம் இடத்தில்</strong> — <span className={VEDHA_KIND[n.kind]?.cls}>{VEDHA_KIND[n.kind]?.ta ?? '—'}</span>
           {n.pairedHouse && (n.planetsInPaired.length
             ? <>; {n.pairedHouse}-ஆம் இடத்தில் இப்போது {n.planetsInPaired.map((p: any) => p.planetTa).join(', ')}
-              {' — '}<strong>{n.active ? (n.kind === 'GOOD' ? 'வேதை நடப்பில்' : 'விபரீத வேதை நடப்பில்') : (n.kind === 'GOOD' ? 'வேதை இல்லை' : 'விபரீத வேதை உறுதியில்லை')}</strong>
-              {n.planetsInPaired.some((p: any) => p.status === 'EXCLUDED') && ' (சூரியனால் சனிக்கு வேதை இல்லை)'}
-              {n.planetsInPaired.some((p: any) => p.status === 'UNCERTAIN') && ' (சூரியனால் விபரீத வேதை — நூல் தெளிவாக இல்லை)'}
+              {' — '}<strong>{n.active ? (n.kind === 'GOOD' ? 'வேதை நடப்பில்' : 'விபரீத வேதை நடப்பில்') : (n.kind === 'GOOD' ? 'வேதை இல்லை' : 'விபரீத வேதை இல்லை')}</strong>
+              {n.planetsInPaired.some((p: any) => p.status === 'EXCLUDED') && ' (சூரியனும் சனியும் வேதையால் ஒருவரை ஒருவர் பாதிப்பதில்லை — ஜாதக பாரிஜாதம் ப.834)'}
               {n.planetsInPaired.some((p: any) => p.planet === 'Moon') && ' (சந்திரன் சுமார் 2 நாள் மட்டுமே)'}.</>
             : <>; {n.pairedHouse}-ஆம் இடத்தில் இப்போது எந்தக் கிரகமும் இல்லை.</>)}
         </p>
       )}
       <ul className="text-xs space-y-1.5 mb-3">
-        {(['pulippaniVedha', 'pulippaniVipareeta', 'pulippaniOrdeal', 'vishnuBhaskar', 'sudamaniVipareeta', 'sudamaniTiming'] as const).map((k) => (
+        {(['pulippaniVedha', 'pulippaniVipareeta', 'pulippaniOrdeal', 'jatakaParijata', 'vishnuBhaskar', 'sudamaniVipareeta', 'sudamaniTiming'] as const).map((k) => (
           <li key={k}>
             <span className="text-ink">{v.texts[k].textTa}</span>
             {k === 'sudamaniVipareeta' && <span className="block text-amber-800">{v.texts[k].differsTa}</span>}
@@ -392,7 +391,7 @@ function VedhaSection({ r }: { r: any }) {
                 <td className="py-1.5 text-ink-soft">
                   {s.moon && <span className="block">சந்திரன்: {s.moon.count} முறை, {Math.round(s.moon.days)} நாள்</span>}
                   {s.sun && s.sun.windows.length > 0 && (
-                    <span className="block">சூரியன் ({s.sun.status === 'EXCLUDED' ? 'வேதை இல்லை' : 'உறுதியில்லை'}): <Windows list={s.sun.windows} /></span>
+                    <span className="block">சூரியன் (கணக்கில் இல்லை): <Windows list={s.sun.windows} /></span>
                   )}
                   {s.ordeal && (
                     <span className="block text-rose mt-1">
