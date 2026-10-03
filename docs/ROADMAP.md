@@ -130,7 +130,13 @@ Not plan items, but real, and they should not be discovered at release:
   marked. Order settled by the owner (2026-10-03): the book that explains most
   first — Kapoor (all 84 per-Ascendant paragraphs encoded, conditions settled
   against the chart), then Tilak Raj, then Raj Kumar; wearing details compared
-  across all three. No Tamil book gives a method (names only). Next: Saturn
-  deepening (Vipareeta Vedha, Dhaiya/Kantaka result text).
+  across all three. No Tamil book gives a method (names only).
+- **Saturn deepened: vedha, vipareetha vedha, 4th/7th/8th result text.**
+  `/saturn-transit` (`docs/SATURN-TRANSIT-remedies.md`). Pulippani's vedha
+  tables for all nine planets (two print departures recorded); Saturn's windows
+  computed against the other planets for the coming 30 years; Sudamani verse 343
+  gives the same reversal in Tamil but a different effect ("gives good" vs "evil
+  not felt"). Pulippani's three passages for the 4th, 7th and 8th, each period
+  with its round. Not yet: other houses' text, Ashtakavarga/Kakshya refinement.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

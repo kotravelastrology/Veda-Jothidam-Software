@@ -42,6 +42,7 @@ const { UnsupportedInputError } = require('../contracts/chartContext');
 const { createRuleEvidence, withheldEvidence } = require('../contracts/ruleEvidence');
 const T = require('./saturnTransitTables');
 const TM = require('./saturnTransitTamil');
+const HR = require('./saturnHouseResults');
 
 const DAY_MS = 86400000;
 const YEAR_MS = 365.25 * DAY_MS;
@@ -443,6 +444,13 @@ function computeSaturnTransits({
     ashtama: single(T.DEFINITIONS.ASHTAMA.houses),
     kantaka: { convention: conv.id, houses: conv.houses, periods: single(conv.houses) },
     kantakaAll,
+    // What the book says for the 4th, 7th and 8th, each lived period with its round.
+    houseResults: {
+      houses: [4, 7, 8].map((h) => HR.houseResultsFor(h, single([h]))),
+      sourceTitle: HR.HOUSE_RESULTS_SOURCE.title,
+      sourcePage: HR.HOUSE_RESULTS_SOURCE.pageLocus,
+      notes: HR.NOTES,
+    },
     tamil,
     conventions: {
       kantakaUsed: conv.id,

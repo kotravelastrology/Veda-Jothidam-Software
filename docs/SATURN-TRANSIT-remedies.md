@@ -170,14 +170,64 @@ default. Raman sits 1.4° past Lahiri, so a return under Raman was off by about 
 day and a half. Fixed, with a regression test that fails on the old line
 (`got 0.000`) and passes on the fix. The same argument is asserted for Saturn.
 
+## Vedha and Vipareetha Vedha (added 2026-10-03)
+
+`src/report/gocharaVedhaTables.js`, `src/report/saturnVedha.js`, section
+"வேதை, விபரீத வேதை" on the page.
+
+- **The tables.** Pulippani ch.22 (printed pp.204–206) prints Gochara Vedha
+  (good results obstructed) and Vipareetha Vedha (bad results cancelled) for all
+  nine planets. Both are encoded as printed. The vipareetha table should be the
+  gochara table read backwards, and the test confirms it is, except where the
+  print departs: Jupiter's "S" (read 8) and Venus's last two pairs, which are
+  swapped against the gochara table. Both recorded, not corrected.
+- **Saturn.** Good in 3/6/11, obstructed by a planet in 12/9/5 (not the Sun —
+  Pulippani and Vishnu Bhaskar). Bad in 12/9/5, relieved by a planet in 3/6/11.
+  Saturn in the 1st, 2nd, 4th, 7th, 8th and 10th has no relieving house: "evil
+  effects of this will be felt". Pulippani's example: Saturn 12th, Jupiter 3rd
+  — Saturn's evil is not felt for the year Jupiter is there (it happens for 6
+  Moon-sign cases in 2024–2056). During Sade Sati with Jupiter not in the 3rd,
+  the fast planets passing Saturn's own sign bring "more ordeal": computed too.
+- **Tamil.** Sudamani verse 343 states the reversal ("கொடியவரும்
+  நலங்கொடுப்பர் — விபரீதமான") and its commentary says to read every planet's
+  pairs that way; for Saturn that gives the same pairs from verse 342. The two
+  traditions differ on the effect: Pulippani says Saturn's evil "will not be
+  felt", Sudamani says even a cruel planet "gives good". Both shown. The same
+  verse says when in a sign each planet gives its results (Saturn and Moon at
+  the end); "the end" is not quantified, so no window is computed.
+- **Choices stated on the page.** The Sun's windows are shown apart: excluded
+  for gochara vedha; for vipareetha, Pulippani names only "to the Sun by
+  Saturn", so they are marked uncertain and kept out of the totals. The Moon
+  passes a sign in ~2¼ days monthly: counted, not listed. Rahu and Ketu count
+  ("any other planet"; mean node). Window: two years back, thirty ahead.
+
+## Result text for the 4th, 7th and 8th (added 2026-10-03)
+
+`src/report/saturnHouseResults.js`, section "அர்த்தாஷ்டமம் (4), கண்டகம் (7),
+அஷ்டமம் (8)". Pulippani gives three separate passages, condensed into Tamil:
+the main reading (printed pp.168–170), *Sundarananda Jyotisha Kavya* with a
+waxing- and a waning-Moon reading (pp.173–174), and the result for each of
+Saturn's 1st, 2nd and 3rd rounds (*Sani Paryaya*, pp.231–234). Each lived
+period is given its round.
+
+- The round is our reading: the n-th time Saturn passes through that house
+  since birth. The book says only "the various rounds of Saturn through the 12
+  places from Janma Rasi".
+- Sundarananda's print says "waxing" for both readings in every house except
+  the 6th (where the second is "waning"); read as waxing/waning and flagged. The
+  book does not say whether it means the birth paksha or the Moon at the time.
+- The book's own parts disagree: the main reading calls the 8th the worst place
+  after Sade Sati; the 2nd-round text for the 8th says "gain of money".
+- The scan lacks printed pp.148–167, so the main reading's 1st–3rd houses are
+  not available.
+
 ## Not done
 
-- **Result text for Dhaiya and Kantaka.** Pulippani pp.168–169 describe Saturn in
-  the 4th, 7th and 8th at length; only the periods are computed, not the text.
-- **Vipareeta Vedha** (Pulippani p.206): Saturn's evil in the 12th is said to be
-  cancelled while Jupiter is in the 3rd. It changes a client's year, and needs
-  its own stage.
 - **Ashtakavarga / Kakshya refinement of Sade Sati** (Vishnu Bhaskar §XVII).
+- **Result text for the other houses** — Pulippani has it for all twelve in the
+  same three passages (the 9th even records that "ancient Tamil texts" call it
+  Raja Yoga while Sanskrit texts call it bad); only the 4th, 7th and 8th were asked for.
+- **Vedha for the other planets** — the tables are encoded; only Saturn is computed.
 - **Counting from Lagna** and Arudha Lagna (Rath).
 - **Tamil-tradition names** for the three phases, which are not in any Tamil book held (the Sudamani chapter was searched; it has Anga Sani instead).
 - **Gemstones, Mangala, mantras by planet** — separate stages.

@@ -96,7 +96,7 @@ const RULES = {
     [/Calculations/i, 'BUILT', '/saturn-transit — saturnTransit.js: dates from the ephemeris, definitions cited to printed pages'],
     [/Sadhesati Remedies/i, 'PARTIAL', '/saturn-transit lists practices recorded in two books, with pages; not the PL9 remedy text'],
     [/Sadhesati Results/i, 'PARTIAL', '/saturn-transit gives the book text per phase and cycle; not the PL9 results wording'],
-    [/Dhayya Results|Kantaka Saturn Results/i, 'PARTIAL', '/saturn-transit computes the periods; no results text yet'],
+    [/Dhayya Results|Kantaka Saturn Results/i, 'PARTIAL', '/saturn-transit: Pulippani\'s text for the 4th, 7th and 8th from three passages, each period with its round, plus vedha/vipareetha windows; not the PL9 wording'],
     [/Mangala Consideration/i, 'BUILT', '/mangala-dosha'],
     [/Mangala Results and Remedies/i, 'PARTIAL', '/mangala-dosha: results by house (Vishnu Bhaskar) and remedies as one book records them; not the PL9 wording'],
     [/.*/, 'ABSENT', 'no gemstone module'],

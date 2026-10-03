@@ -319,6 +319,149 @@ function TamilAndEnglish({ r }: { r: any }) {
   );
 }
 
+const VEDHA_KIND: Record<string, { ta: string; cls: string }> = {
+  GOOD: { ta: 'நல்ல இடம் — வேதை தடுக்கும்', cls: 'text-teal' },
+  RELIEVABLE: { ta: 'தீய இடம் — விபரீத வேதை நீக்கும்', cls: 'text-amber-700' },
+  NO_RELIEF: { ta: 'தீய இடம் — விபரீத வேதை இல்லை', cls: 'text-rose' },
+};
+const Windows = ({ list }: { list: any[] }) => (
+  <>{list.map((w: any, i: number) => <span key={i} className="block font-mono" style={{ fontVariantNumeric: 'tabular-nums' }}>{day(w.fromUtc)} – {day(w.toUtc)} ({Math.round(w.days)} நாள்)</span>)}</>
+);
+
+/**
+ * Gochara vedha and vipareetha vedha for Saturn, as dated windows over the
+ * coming years, with what each book says. The windows are astronomy; what they
+ * mean is the books', and the books differ on it, so both are shown.
+ */
+function VedhaSection({ r }: { r: any }) {
+  const v = r.vedha;
+  if (!v) return null;
+  const n = v.now;
+  return (
+    <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+      <h2 className="text-sm font-semibold text-ink mb-1">வேதை, விபரீத வேதை — சனி</h2>
+      <p className="text-[11px] text-ink-soft mb-2">
+        சனி நல்ல இடத்தில் (3, 6, 11) இருக்கும்போது வேறொரு கிரகம் இணை இடத்தில் (12, 9, 5) இருந்தால் நல்ல பலன் தடைபடும் — வேதை.
+        சனி தீய இடத்தில் (12, 9, 5) இருக்கும்போது வேறொரு கிரகம் இணை இடத்தில் (3, 6, 11) இருந்தால் தீமை நீங்கும் — விபரீத வேதை.
+        காலங்கள் வானியல் கணக்கு; அவற்றின் பொருள் நூல்களுடையது. காலம்: {day(v.window.fromUtc)} – {day(v.window.toUtc)}.
+      </p>
+      {n && (
+        <p className="text-sm text-ink mb-3">
+          இப்போது சனி <strong>{n.house}-ஆம் இடத்தில்</strong> — <span className={VEDHA_KIND[n.kind]?.cls}>{VEDHA_KIND[n.kind]?.ta ?? '—'}</span>
+          {n.pairedHouse && (n.planetsInPaired.length
+            ? <>; {n.pairedHouse}-ஆம் இடத்தில் இப்போது {n.planetsInPaired.map((p: any) => p.planetTa).join(', ')}
+              {' — '}<strong>{n.active ? (n.kind === 'GOOD' ? 'வேதை நடப்பில்' : 'விபரீத வேதை நடப்பில்') : (n.kind === 'GOOD' ? 'வேதை இல்லை' : 'விபரீத வேதை உறுதியில்லை')}</strong>
+              {n.planetsInPaired.some((p: any) => p.status === 'EXCLUDED') && ' (சூரியனால் சனிக்கு வேதை இல்லை)'}
+              {n.planetsInPaired.some((p: any) => p.status === 'UNCERTAIN') && ' (சூரியனால் விபரீத வேதை — நூல் தெளிவாக இல்லை)'}
+              {n.planetsInPaired.some((p: any) => p.planet === 'Moon') && ' (சந்திரன் சுமார் 2 நாள் மட்டுமே)'}.</>
+            : <>; {n.pairedHouse}-ஆம் இடத்தில் இப்போது எந்தக் கிரகமும் இல்லை.</>)}
+        </p>
+      )}
+      <ul className="text-xs space-y-1.5 mb-3">
+        {(['pulippaniVedha', 'pulippaniVipareeta', 'pulippaniOrdeal', 'vishnuBhaskar', 'sudamaniVipareeta', 'sudamaniTiming'] as const).map((k) => (
+          <li key={k}>
+            <span className="text-ink">{v.texts[k].textTa}</span>
+            {k === 'sudamaniVipareeta' && <span className="block text-amber-800">{v.texts[k].differsTa}</span>}
+            {k === 'sudamaniVipareeta' && <span className="block text-ink-soft">{v.texts[k].commentaryNoteTa}</span>}
+            <span className="block text-[11px] text-ink-soft">{v.texts[k].title} — {v.texts[k].page}</span>
+          </li>
+        ))}
+      </ul>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs" style={{ minWidth: 760 }}>
+          <thead>
+            <tr className="text-ink-soft border-b border-line text-left">
+              <th className="py-1 pr-2">சனி</th><th className="py-1 pr-2">இடம்</th><th className="py-1 pr-2">வகை</th>
+              <th className="py-1 pr-2">இணை இடத்தில் கிரகங்கள்</th><th className="py-1 pr-2">மொத்தம்</th><th className="py-1">சந்திரன் · சூரியன்</th>
+            </tr>
+          </thead>
+          <tbody className="align-top">
+            {v.stays.map((s: any, i: number) => (
+              <tr key={i} className="border-b border-line/40">
+                <td className="py-1.5 pr-2 font-mono text-ink whitespace-nowrap" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                  {day(s.fromUtc)} – {day(s.toUtc)}{s.enteredBy === 'RETROGRADE' && <span className="block font-sans text-ink-soft">வக்கிரத் திரும்பல்</span>}
+                </td>
+                <td className="py-1.5 pr-2 text-ink">{s.house} · {s.rasi}</td>
+                <td className={`py-1.5 pr-2 ${VEDHA_KIND[s.kind]?.cls ?? ''}`}>{VEDHA_KIND[s.kind]?.ta}{s.pairedHouse && <span className="block text-ink-soft">இணை: {s.pairedHouse}-ஆம் இடம்</span>}</td>
+                <td className="py-1.5 pr-2 text-ink">
+                  {s.pairedHouse ? (s.byPlanet.length ? s.byPlanet.map((b: any) => (
+                    <div key={b.planet} className="mb-1"><strong>{b.planetTa}</strong><Windows list={b.windows} /></div>
+                  )) : <span className="text-ink-soft">இல்லை</span>) : <span className="text-ink-soft">—</span>}
+                </td>
+                <td className="py-1.5 pr-2 font-mono text-ink">{s.pairedHouse ? `${Math.round(s.coveredDays)} / ${Math.round(s.days)} நாள்` : '—'}</td>
+                <td className="py-1.5 text-ink-soft">
+                  {s.moon && <span className="block">சந்திரன்: {s.moon.count} முறை, {Math.round(s.moon.days)} நாள்</span>}
+                  {s.sun && s.sun.windows.length > 0 && (
+                    <span className="block">சூரியன் ({s.sun.status === 'EXCLUDED' ? 'வேதை இல்லை' : 'உறுதியில்லை'}): <Windows list={s.sun.windows} /></span>
+                  )}
+                  {s.ordeal && (
+                    <span className="block text-rose mt-1">
+                      ஏழரைச் சனி — குரு 3-ல் {s.ordeal.jupiterInThird.length ? 'இருக்கும் காலம் தவிர' : 'இல்லை'}; சனியின் ராசியில் வேகக் கிரகங்கள்:{' '}
+                      {s.ordeal.fast.filter((f: any) => (f.windows ? f.windows.length : f.count) > 0)
+                        .map((f: any) => `${f.planetTa} ${f.windows ? f.windows.length : f.count} முறை / ${Math.round(f.days)} நாள்`).join(', ') || 'இல்லை'}
+                    </span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <ul className="text-[11px] text-ink-soft mt-2 space-y-0.5 list-disc ml-5">
+        <li>{v.notes.sunTa}</li>
+        <li>{v.notes.moonTa}</li>
+        <li>{v.notes.nodesTa}</li>
+        <li>{v.notes.noReliefTa}</li>
+        <li>"மொத்தம்" = இணை இடத்தில் சந்திரன், சூரியன் தவிர வேறு ஏதேனும் கிரகம் இருந்த நாட்கள் / சனி அந்த இடத்தில் இருந்த நாட்கள்.</li>
+      </ul>
+    </section>
+  );
+}
+
+/** Pulippani's text for Saturn in the 4th, 7th and 8th, each lived period with its round. */
+function HouseResults({ r }: { r: any }) {
+  const hr = r.houseResults;
+  if (!hr) return null;
+  return (
+    <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+      <h2 className="text-sm font-semibold text-ink mb-1">அர்த்தாஷ்டமம் (4), கண்டகம் (7), அஷ்டமம் (8) — நூல் சொல்லும் பலன்</h2>
+      <p className="text-[11px] text-ink-soft mb-3">
+        புலிப்பாணியின் நூலில் மூன்று இடங்களில் உள்ளவை, சுருக்கமாகத் தமிழில். இவை நூலின் கூற்றுகள் — இந்த மென்பொருளின் கணிப்புகள் அல்ல.
+        {' '}{hr.sourceTitle} — {hr.sourcePage}
+      </p>
+      <div className="space-y-4">
+        {hr.houses.map((h: any) => (
+          <article key={h.house} className="border border-line rounded-xl p-3 text-xs space-y-2">
+            <h3 className="text-sm font-semibold text-ink">சனி {h.house}-ஆம் இடத்தில் <span className="font-normal text-ink-soft">— {h.namesTa}</span></h3>
+            <p className="text-ink"><strong>முதன்மை உரை:</strong> {h.main.textTa} <span className="text-ink-soft">({h.main.page})</span></p>
+            <p className="text-ink"><strong>சுந்தரானந்தர் — வளர்பிறை:</strong> {h.sundarananda.waxingTa}</p>
+            <p className="text-ink"><strong>சுந்தரானந்தர் — தேய்பிறை (எனப் படித்தது):</strong> {h.sundarananda.waningTa} <span className="text-ink-soft">({h.sundarananda.page})</span></p>
+            <div>
+              <p className="font-semibold text-ink">இந்த ஜாதகத்தில் — ஒவ்வொரு முறையும், சுற்றுப் பலனுடன்</p>
+              {h.periods.length === 0 && <p className="text-ink-soft">இந்தக் காலத்தில் இல்லை.</p>}
+              <ul className="space-y-1 mt-1">
+                {h.periods.map((p: any) => (
+                  <li key={p.fromUtc}>
+                    <span className="font-mono text-ink" style={{ fontVariantNumeric: 'tabular-nums' }}>{day(p.fromUtc)} – {day(p.toUtc)}</span>
+                    <span className="text-ink-soft"> · {p.round}-ஆம் சுற்று</span>
+                    <span className="block text-ink">{p.paryayaTa ?? 'நூல் மூன்று சுற்றுகளை மட்டுமே விவரிக்கிறது.'}{p.paryayaPage && <span className="text-ink-soft"> ({p.paryayaPage})</span>}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+      <ul className="text-[11px] text-amber-800 mt-3 space-y-0.5 list-disc ml-5">
+        <li>{hr.notes.paryayaCountTa}</li>
+        <li>{hr.notes.sundaranandaPrintTa}</li>
+        <li>{hr.notes.disagreeTa}</li>
+        <li>{hr.notes.missingPagesTa}</li>
+      </ul>
+    </section>
+  );
+}
+
 function CyclesTable({ r }: { r: any }) {
   return (
     <div className="space-y-3">
@@ -563,6 +706,8 @@ export default function SaturnTransitView() {
 
           <TamilAndEnglish r={result} />
 
+          <VedhaSection r={result} />
+
           <section className="mb-4">
             <h2 className="text-sm font-semibold text-ink mb-2">ஏழரைச் சனி — ஒவ்வொரு சுற்றும்</h2>
             <CyclesTable r={result} />
@@ -577,6 +722,8 @@ export default function SaturnTransitView() {
               periods={result.kantaka.periods}
               note={result.conventions.kantakaAvailable.find((c: any) => c.id === result.kantaka.convention)?.labelTa} />
           </section>
+
+          <HouseResults r={result} />
 
           <section className="bg-surface border border-line rounded-2xl p-4 mb-4">
             <h2 className="text-sm font-semibold text-ink mb-2">ஏழரைச் சனியின் மூன்று கட்டங்கள் — நூல் என்ன சொல்கிறது</h2>

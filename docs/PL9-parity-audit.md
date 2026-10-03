@@ -196,3 +196,7 @@ readings are shown with their pages and there is no single verdict.
 ### 8. Gemstones — third stage of Remedies (2026-10-02)
 
 `docs/GEMSTONES.md` · `/gemstones`. The gem worksheets move from absent to **PARTIAL** (three books side by side; no single recommendation, no PL9 scoring). "Lucky Stone" stays **ABSENT**: the only source (Raj Kumar PDF 121-122) gives Western month/numerology stones, which are not read as Vedic. Totals after this stage: **178 built, 118 partial, 119 absent**.
+
+### 9. Saturn deepened — vedha and result text (2026-10-03)
+
+`docs/SATURN-TRANSIT-remedies.md` · `/saturn-transit`. "Dhayya Results" and "Kantaka Saturn Results" stay **PARTIAL** but now carry Pulippani's text for the 4th, 7th and 8th (three passages, each period with its round) and Saturn's gochara/vipareetha vedha windows; the wording is the book's, not PL9's. Totals unchanged: **178 built, 118 partial, 119 absent**.

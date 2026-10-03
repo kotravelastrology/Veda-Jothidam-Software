@@ -8,7 +8,11 @@ const { calculateParashariChart } = require('../../src/chart/parashariChart');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { computeSaturnTransits, DEFAULT_KANTAKA, KANTAKA_CONVENTIONS } = require('../../src/report/saturnTransit');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const { saturnVedhaWindows } = require('../../src/report/saturnVedha');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { describeMatchParty } = require('../../src/report/matchParties');
+
+const YEAR_MS = 365.25 * 86400000;
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { openLibrary } = require('../../src/library/chartRepository');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -48,8 +52,16 @@ function forNative(input: BirthFormInput, kantakaConvention: string | undefined,
     kantakaConvention: kantakaConvention ?? DEFAULT_KANTAKA,
   });
 
+  // Gochara and vipareetha vedha: the other planets' positions matter here, so
+  // the window is the near future (two years back, thirty ahead), not a lifetime.
+  const now = Date.now();
+  const vedha = saturnVedhaWindows({
+    moonRasiIndex, fromMs: now - 2 * YEAR_MS, toMs: now + 30 * YEAR_MS, atMs: now, ayanamsha: ctx.ayanamsha,
+  });
+
   return JSON.parse(JSON.stringify({
     ...result,
+    vedha,
     native: describeMatchParty(input, ctx, profile),
     moonLongitude: chart.grahas.Moon.longitude,
   }));
