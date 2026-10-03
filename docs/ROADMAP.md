@@ -122,7 +122,15 @@ Not plan items, but real, and they should not be discovered at release:
   verse omits the 2nd, Vishnu Bhaskar gives five houses in his summary and six
   in his detailed list — and on the cancellations, so each of 56 conditions is
   shown under its own book and page. The Tamil texts held state no rule. Owner
-  decision: which reading to lead with. Not yet: gemstones, Kala Sarpa effects,
+  decision: which reading to lead with. Not yet: Kala Sarpa effects,
   Navamsha/D-30 mitigation.
+- **Gemstones: built as a comparison, not a recommendation.** `/gemstones`
+  (`docs/GEMSTONES.md`). Three books, three methods, disagreeing on gems for the
+  same Ascendant; each is shown with its page and agreements/conflicts are
+  marked. Order settled by the owner (2026-10-03): the book that explains most
+  first — Kapoor (all 84 per-Ascendant paragraphs encoded, conditions settled
+  against the chart), then Tilak Raj, then Raj Kumar; wearing details compared
+  across all three. No Tamil book gives a method (names only). Next: Saturn
+  deepening (Vipareeta Vedha, Dhaiya/Kantaka result text).
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

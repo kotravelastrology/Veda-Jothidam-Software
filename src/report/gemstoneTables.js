@@ -20,9 +20,15 @@
  *               in that planet's dasha only.
  *
  * The planet-to-gem assignment is the classical one: Kapoor prints the Sanskrit
- * *Jataka Parijata* verse on printed p.76. Its English rendering names five
- * gems and Rahu's and Ketu's, and omits Saturn; the verse itself gives Saturn
- * blue sapphire (नीलं). That is recorded as a discrepancy, not silently fixed.
+ * *Jataka Parijata* verse on printed p.12 with an English rendering naming all
+ * nine gems, Saturn's as blue sapphire. He prints the verse again on p.76,
+ * where the English rendering omits Saturn. Both are recorded.
+ *
+ * ## Which book is shown first
+ *
+ * The owner's instruction (2026-10-03): show the book with the most explanation
+ * first, then the others in order. `BOOK_RANK` holds the measure used and the
+ * counts, so the order is a stated fact rather than a preference.
  *
  * ## What the Tamil texts hold
  *
@@ -89,7 +95,7 @@ const PLANET_GEMS = deepFreeze({
 });
 const PLANET_GEMS_SOURCE = Object.freeze({
   ...KAPOOR,
-  pageLocus: 'printed p.76 (PDF 72): the Sanskrit verse from Jataka Parijata giving each planet\'s gem; the English rendering beside it omits Saturn, whose gem the verse gives as nila (blue sapphire)',
+  pageLocus: 'printed p.12 (PDF 9): the Sanskrit verse from Jataka Parijata with an English rendering naming all nine gems, Saturn\'s as blue sapphire; printed again on p.76 (PDF 72), where the English rendering omits Saturn',
 });
 const TAMIL_NAMES_NOTE = 'நவரத்தினப் பெயர்கள் (மாணிக்கம், முத்து, பவழம், மரகதம், புஷ்பராகம், வைரம், நீலம், கோமேதகம், வைடூரியம்): சாதக அலங்காரம் (சரசுவதி மகால் 2007) உரையில் உள்ளவை; OCR உரை மட்டுமே — பக்கம் சரிபார்க்கப்படவில்லை. அந்த நூல் கிரகத்துக்கு ரத்தினம் ஒதுக்கவில்லை.';
 
@@ -149,6 +155,21 @@ const RULES = deepFreeze({
   ],
   tilakRaj: [
     {
+      id: 'TR_TRINE',
+      textTa: 'திரிகோணம் எப்போதும் சுபம் என்பதால் லக்னம், 5, 9-ஆம் அதிபதிகளின் ரத்தினங்களை அணியலாம் — லக்ன அதிபதியினுடையது ஜீவன ரத்தினம், 5-ஆம் அதிபதியினுடையது காரக ரத்தினம், 9-ஆம் அதிபதியினுடையது பாக்கிய ரத்தினம். மூன்றையும் அணிய வேண்டியதில்லை. அந்தக் கிரகம் உச்சத்திலோ சொந்த ராசியிலோ இருந்தால் ஏற்கனவே வலிமையாக இருப்பதால் அதன் ரத்தினம் தேவையில்லை.',
+      source: { ...TILAK_RAJ, pageLocus: 'printed p.20 (PDF 24), chapter 5 "Gems of Planets"' },
+    },
+    {
+      id: 'TR_WEAK',
+      textTa: 'சுப கிரகம் அஸ்தமனமாக அல்லது பலவீனமாக இருந்தால் அதன் ரத்தினத்தை அணியலாம்: லக்னம் பலவீனம் அல்லது லக்ன அதிபதி அஸ்தமனம் எனில் லக்ன அதிபதியின் ரத்தினம்; 5-ஆம் அதிபதி பலவீனம் எனில் அவரது ரத்தினம்; 9-ஆம் அதிபதி பலவீனம் அல்லது அஸ்தமனம் எனில் அவரது ரத்தினம்.',
+      source: { ...TILAK_RAJ, pageLocus: 'printed p.20 (PDF 24)' },
+    },
+    {
+      id: 'TR_NOT',
+      textTa: 'திரிகோண அதிபதி நீசம் பெற்றிருந்தால் அவரது ரத்தினம் கூடாது; 2, 12-ஆம் அதிபதிகளின் ரத்தினங்களும் கூடாது; தடை செய்யும், நீச அல்லது அசுப கிரகத்தின் ரத்தினத்தை எந்நிலையிலும் அணியக் கூடாது. பெயர் ராசிப்படி ரத்தினம் அணிவது தவறு — ஜாதகத்தை ஆராய்ந்த பின்பே.',
+      source: { ...TILAK_RAJ, pageLocus: 'printed p.20 (PDF 24)' },
+    },
+    {
       id: 'TR_POINTS',
       textTa: 'முக்கிய குறிப்புகள்: ராசிக்குப் பொருந்தாத ரத்தினத்தை அணியக் கூடாது (அது லக்ன அதிபதியின் பலத்தைக் குறைக்கும்); தேவையெனில் லக்ன அதிபதியின் நண்பர் ரத்தினத்தை அணியலாம்; கிரகங்களின் உதயம், அஸ்தமனத்தைப் பார்க்க வேண்டும் (அஸ்தமனக் கிரகத்தின் ரத்தினம் அதன் பலத்தைக் கூட்டும்); தசை, புத்தி, பார்வை, உச்சம், நீசம், நட்பு/பகை வீடுகளை ஆராய்ந்த பின்பே அணிய வேண்டும்; ரத்தினத்தை உரிய விரலில் மட்டுமே அணிய வேண்டும்; சிறந்த தரமுள்ளதை மட்டுமே எடுக்க வேண்டும்.',
       source: { ...TILAK_RAJ, pageLocus: 'printed p.33 (PDF 37), "Some main points"' },
@@ -159,6 +180,133 @@ const RULES = deepFreeze({
       source: { ...TILAK_RAJ, pageLocus: 'printed p.33 (PDF 37), "Some main points"' },
     },
   ],
+});
+
+/**
+ * Which book is shown first, and the measure behind the order.
+ *
+ * Counted from each PDF's text layer: the words (two or more letters) in the
+ * part of the book about choosing a gem. Kapoor's layer is OCR of a scan and
+ * the others' are near-clean, so the counts are approximate, but the gaps are
+ * wide. Counting each book's whole gem chapter instead keeps Kapoor first and
+ * puts Raj Kumar second: his extra pages are on gem quality, substitutes and
+ * "energising", not on choosing. The selection measure is used because
+ * choosing is what the page does.
+ */
+const BOOK_RANK = deepFreeze({
+  decided: '2026-10-03',
+  instruction: 'show the book with the most explanation first, then the others in order',
+  measureTa: 'ரத்தினத் தேர்வு பற்றிய பகுதியில் உள்ள சொற்களின் எண்ணிக்கை (PDF உரையிலிருந்து எண்ணியது)',
+  order: [
+    { key: 'kapoor', words: 8410, range: 'PDF 72-95 (printed pp.76-99)', whatTa: 'ஒவ்வொரு ரத்தினத்துக்கும் 12 லக்னங்களுக்கும் தனித்தனிப் பத்தி — காரணம், நிபந்தனை, பலன், சேர்த்து அணியும் ரத்தினம், அணியும் முறை' },
+    { key: 'tilakRaj', words: 4713, range: 'PDF 24-37 (printed pp.20-33)', whatTa: 'ஒவ்வொரு லக்னத்துக்கும் ஏழு ரத்தினங்களுக்குத் தீர்ப்பு, ஜீவன / காரக / பாக்கிய ரத்தின அட்டவணை, அணியும் முறை அட்டவணை' },
+    { key: 'rajKumar', words: 3496, range: 'PDF 123-143', whatTa: 'சுப / அசுப ரத்தின அட்டவணை, ஒவ்வொரு ரத்தினத்துக்கும் "யார் அணியலாம்", அணியும் முறை' },
+  ],
+  alternative: {
+    measureTa: 'முழு ரத்தின அத்தியாயத்தையும் எண்ணினால்',
+    words: { kapoor: 11807, rajKumar: 11189, tilakRaj: 4713 },
+    ranges: { kapoor: 'PDF 70-104 (chapters V-VI)', rajKumar: 'PDF 83-151 (chapter 4)', tilakRaj: 'PDF 24-37 (chapter 5)' },
+    noteTa: 'அப்போதும் காபூர் முதலிடம்; ராஜ் குமார் இரண்டாம் இடத்துக்கு வருவார் — அவரது கூடுதல் பக்கங்கள் ரத்தினத் தரம், மாற்றுக் கற்கள், சக்தியூட்டல் பற்றியவை, தேர்வு பற்றியவை அல்ல.',
+  },
+});
+
+/** Tilak Raj, printed p.21: the Jeevan (1st lord), Karaka (5th lord) and Bhagya (9th lord) gem of each Ascendant. */
+const TILAK_RAJ_RATNA = deepFreeze({
+  rows: [
+    ['Mars', 'Sun', 'Jupiter'], ['Venus', 'Mercury', 'Saturn'], ['Mercury', 'Venus', 'Saturn'], ['Moon', 'Mars', 'Jupiter'],
+    ['Sun', 'Jupiter', 'Mars'], ['Mercury', 'Saturn', 'Venus'], ['Venus', 'Saturn', 'Mercury'], ['Mars', 'Jupiter', 'Moon'],
+    ['Jupiter', 'Mars', 'Sun'], ['Saturn', 'Venus', 'Mercury'], ['Saturn', 'Mercury', 'Venus'], ['Jupiter', 'Moon', 'Mars'],
+  ].map(([jeevan, karaka, bhagya]) => ({ jeevan, karaka, bhagya })),
+  source: { ...TILAK_RAJ, pageLocus: 'printed p.21 (PDF 25), "Gems according to ascendant": Jeevan Ratna, Karaka Ratna, Bhagya Ratna' },
+});
+
+/** Tilak Raj, printed p.21: "Yogakaraka, malefic and fatal planets according to ascendant". */
+const TILAK_RAJ_PLANET_CLASS = deepFreeze({
+  rows: [
+    { yogakaraka: ['Mars', 'Sun', 'Jupiter', 'Moon'], malefic: ['Venus', 'Mercury', 'Saturn'] },
+    { yogakaraka: ['Venus', 'Mercury', 'Sun', 'Saturn'], malefic: ['Moon', 'Jupiter', 'Mars'] },
+    { yogakaraka: ['Mercury', 'Venus', 'Saturn'], malefic: ['Mars', 'Jupiter', 'Sun', 'Moon'] },
+    { yogakaraka: ['Moon', 'Mars', 'Jupiter'], malefic: ['Mercury', 'Venus', 'Sun', 'Saturn'] },
+    { yogakaraka: ['Sun', 'Mars', 'Jupiter'], malefic: ['Mercury', 'Venus', 'Moon', 'Saturn'] },
+    { yogakaraka: ['Mercury', 'Saturn', 'Venus'], malefic: ['Mars', 'Moon', 'Sun', 'Jupiter'] },
+    { yogakaraka: ['Venus', 'Saturn', 'Mercury'], malefic: ['Sun', 'Moon', 'Jupiter', 'Mars'] },
+    { yogakaraka: ['Mars', 'Sun', 'Moon', 'Jupiter'], malefic: ['Venus', 'Mercury', 'Saturn'] },
+    { yogakaraka: ['Jupiter', 'Sun', 'Mars'], malefic: ['Mercury', 'Venus', 'Saturn', 'Moon'] },
+    { yogakaraka: ['Saturn', 'Mercury', 'Venus'], malefic: ['Moon', 'Jupiter', 'Sun', 'Mars'] },
+    { yogakaraka: ['Saturn', 'Venus', 'Mercury'], malefic: ['Sun', 'Moon', 'Jupiter', 'Mars'] },
+    { yogakaraka: ['Jupiter', 'Mars', 'Moon'], malefic: ['Sun', 'Mercury', 'Venus', 'Saturn'] },
+  ],
+  source: { ...TILAK_RAJ, pageLocus: 'printed p.21 (PDF 25), "Yogakaraka, malefic and fatal planets according to ascendant"' },
+});
+
+/**
+ * Raj Kumar, "Who should wear a ... and how?" (PDF 124-143): for each gem, the
+ * Ascendants he names. Lists are as printed; the test reports where one gem's
+ * lists contradict each other or his own lordship clause.
+ *
+ *   good           named as suitable
+ *   ownOrExalted   suitable for these Ascendants if the planet is in its own or exaltation sign
+ *   limited        "to a limited scale" / only in the planet's dasha
+ *   not            named as unsuitable
+ *   avoidIfLordOf  "should not be worn when <planet> is lord of ..."
+ *   avoidIfHouse   "should not be worn if <planet> is in the ... house"
+ *   avoidIf        dignities he names as a bar (only debilitation is computed)
+ *   notUnless      Jupiter: barred Ascendants may wear it if exalted, in own sign or in Gajakesari
+ *   extraIf        exaltation, or the planet's Pancha Mahapurusha yoga, makes it "extra" good
+ */
+const RAJ_KUMAR_WHO = deepFreeze({
+  Sun: {
+    good: [0, 4, 7, 8], ownOrExalted: [3, 11], avoidIfLordOf: [6, 8, 12], page: 'PDF 124-125 (the first line of item i is lost at the page break)',
+    textTa: 'சூரியன் 1, 5, 9 அல்லது 10-ஆம் அதிபதியாக இருந்தால் (மேஷம், சிம்மம், விருச்சிகம், தனுசு லக்னம்), அல்லது லக்ன அதிபதியின் நண்பராகச் சொந்த அல்லது உச்ச ராசியில் இருந்தால் (கடகம், மீனம் லக்னம்) மாணிக்கம் பயன் தரும்; சுப சூரியன் பாதிக்கப்பட்டிருந்தாலும் அணியலாம். சூரியன் திரிக (6, 8, 12) அதிபதியாக இருந்தால், அல்லது இயற்கைச் சுபர்களில் பெரும்பாலோர் அஸ்தமனம் / பாதிப்பு / சூரியனுக்கு எதிரில் இருந்தால் தவிர்க்க வேண்டும்.',
+  },
+  Moon: {
+    good: [0, 3, 7, 11], limited: [1, 2, 5, 6], not: [4, 8, 9, 10], avoidIfLordOf: [3, 6, 8], page: 'PDF 127-129',
+    textTa: 'சந்திரன் 1, 4, 5, 9-ஆம் அதிபதியாக இருந்தால் முத்து பயன் தரும்: மேஷம், கடகம், விருச்சிகம், மீனம் லக்னத்துக்கு மிக நல்லது; சிம்மம், தனுசு, மகரம், கும்பத்துக்கு (சந்திரன் 12, 8, 7, 6-ஆம் அதிபதி) கூடாது; மற்ற லக்னங்களுக்குச் சந்திர தசை / புத்தியில் குறைந்த அளவில். சந்திரன் 3, 6, 8-ஆம் அதிபதியாக இருந்தால் அணியக் கூடாது.',
+  },
+  Mars: {
+    good: [0, 3, 4], extraIf: 'EXALTED_OR_MAHAPURUSHA', avoidIf: ['DEBILITATED'], page: 'PDF 129-131',
+    textTa: 'செவ்வாய் சுப பாவ (1, 5, 9, 10) அதிபதியாக இருந்தால் — மேஷம், கடகம், சிம்மம் லக்னம் போல — பவழம் அணியலாம். செவ்வாய் உச்சத்தில் அல்லது ருசக யோகத்தில் (மேஷம், விருச்சிகம், மகரத்தில் கேந்திரத்தில்) இருந்தால் சுப அதிபதியாக இல்லாவிட்டாலும், குறிப்பாகச் செவ்வாய் தசை / புத்தியில் பெரும் நன்மை. ஏழரைச் சனியிலும் பயன் என்கிறது. மங்கள தோஷம் உள்ளவர்கள், செவ்வாய் நீசம் / அஸ்தமனம் / கடும் பாதிப்பில் இருந்தால் அணியக் கூடாது.',
+  },
+  Mercury: {
+    good: [1, 2, 5, 6, 9], limited: [4, 10], not: [0, 7], extraIf: 'EXALTED_OR_MAHAPURUSHA', page: 'PDF 131-133',
+    textTa: 'புதன் சுப பாவ அதிபதியாக உள்ள ரிஷபம், மிதுனம், கன்னி, துலாம், மகரம் லக்னத்துக்கு மிகுந்த நன்மை; சிம்மம், கும்பத்துக்குக் குறைந்த அளவில் — புதன் கெட்ட நிலையில் இருந்தால் மரகதம் அதைச் சரிசெய்யும். உச்சத்தில் அல்லது பத்ர யோகத்தில் சிறப்பு. மேஷம், விருச்சிகம் லக்னத்தினர் அணியக் கூடாது.',
+  },
+  Jupiter: {
+    limited: [4, 7], not: [1, 6, 9, 10], notUnless: 'EXALTED_OWN_GAJAKESARI', extraIf: 'EXALTED_OR_MAHAPURUSHA', page: 'PDF 133-135',
+    textTa: 'குரு சுப பாவ அதிபதியாக இருந்தால் புஷ்பராகம் பயன் தரும் (லக்னப் பட்டியல் இல்லை); சிம்மம், விருச்சிகம் லக்னத்துக்குக் குறைந்த அளவில். ஹம்ச யோகத்தில் சிறப்பு; திரிக அதிபதியாகவும் திரிகோண அதிபதியாகவும் இருந்தால் திரிகத் தீமையை நீக்கும். ரிஷபம், துலாம், மகரம், கும்பம் லக்னத்தினர் அணியக் கூடாது — குரு உச்சம், சொந்த ராசி அல்லது நல்ல கஜகேசரி யோகத்தில் இருந்தால் மட்டும் குரு தசை / புத்தியில்.',
+  },
+  Venus: {
+    good: [1, 2, 5, 6, 9, 10], avoidIfHouse: [6, 7, 8], avoidIf: ['DEBILITATED'], extraIf: 'EXALTED_OR_MAHAPURUSHA', page: 'PDF 135-137',
+    textTa: 'சுக்கிரன் திரிகோண அதிபதி அல்லது யோககாரகராக உள்ள ரிஷபம், மிதுனம், கன்னி, துலாம், மகரம், கும்பம் லக்னத்துக்கு வைரம் பயன் தரும் — கெட்ட நிலையில் இருந்தாலும் சரிசெய்யும். எந்த லக்னத்திலும் சுக்கிரன் உச்சம் அல்லது மாளவ்ய யோகத்தில் இருந்தால் கூடுதல் நன்மை. சுக்கிரன் 6, 7, 8-ல் இருந்தால், ஸ்திர ராசியில் செவ்வாயால் பாதிக்கப்பட்டிருந்தால், அஸ்தமனம் அல்லது நீசம் எனில் அணியக் கூடாது.',
+  },
+  Saturn: {
+    good: [1, 6, 9, 10], limited: [0, 2, 5, 7], not: [0, 3, 4, 8, 11], avoidIfLordOf: [2, 6, 7, 8, 12], avoidIf: ['DEBILITATED'], extraIf: 'EXALTED_OR_MAHAPURUSHA', page: 'PDF 137-140',
+    textTa: 'சனி சுப பாவ அதிபதி அல்லது யோககாரகராக உள்ள ரிஷபம், துலாம், மகரம், கும்பம் லக்னத்துக்கு நீலம் பயன் தரும்; மேஷம், மிதுனம், கன்னி, விருச்சிகத்துக்குக் குறைந்த அளவில்; சனி தசை / புத்தியில். உச்சம், திக்பலம், சச யோகத்தில் கூடுதல் நன்மை; தனுசு, மீனம், கும்பம், மகரம், துலாம் லக்னத்தில் சனி இருந்தால் (பிருஹஜ்ஜாதகம்) மிக நன்மை. ஆனால் மேஷம், கடகம், சிம்மம், தனுசு, மீனம் லக்னத்தினர், அல்லது சனி அஸ்தமனம் / நீசம் / 2, 6, 7, 8, 12-ஆம் அதிபதி எனில் தவிர்க்க வேண்டும்; ஏழரைச் சனியில் அணியக் கூடாது.',
+  },
+  Rahu: {
+    page: 'PDF 140-142 (a line is lost at the PDF 140-141 break)',
+    textTa: 'ராகு, கேது சேர்ந்த கிரகம் அல்லது நிற்கும் வீட்டின் அதிபதியின் பலனைத் தரும் (பிருஹத் பராசர ஹோரை). கோமேதகம் / வைடூரியம் தவறான வழியில் விரைவான உயர்வும் பின் விரைவான வீழ்ச்சியும் தரக்கூடும் — எனவே தசை / புத்தியில் மட்டும். ராகு ஒரு சுப கிரகத்தைப் பாதித்தால் அந்தக் கிரகத்தையே வலுப்படுத்துவது நல்லது. ராகு கேந்திர / திரிகோணத்தில் கடும் பாப பார்வையுடன் இருந்தால் கோமேதகம் கூடாது.',
+  },
+  Ketu: {
+    page: 'PDF 142-143',
+    textTa: 'வைடூரியம் கேது தசை / புத்தியில் மட்டும். இரத்தப்போக்கு, கடும் காய்ச்சல், தலைவலி, புண், தொற்று, கண் வலி இருக்கும்போது அணியக் கூடாது.',
+  },
+});
+const RAJ_KUMAR_WHO_SOURCE = Object.freeze({
+  ...RAJ_KUMAR,
+  pageLocus: 'PDF pages 124-143, section 4.8, items 1-9 "Who should wear a ... and how?"',
+});
+
+/** Raj Kumar, PDF 143-144: a gem against a dasha that is "causing professional hurdles". */
+const RAJ_KUMAR_COUNTER = deepFreeze({
+  rows: [
+    { dashaLord: 'Sun', gemOf: 'Jupiter' }, { dashaLord: 'Moon', gemOf: 'Sun' },
+    { dashaLord: 'Mars', gemOf: 'Venus', alt: 'வெள்ளை புஷ்பராகம்' }, { dashaLord: 'Mercury', gemOf: 'Saturn' },
+    { dashaLord: 'Jupiter', gemOf: 'Moon' }, { dashaLord: 'Venus', gemOf: 'Jupiter' },
+    { dashaLord: 'Saturn', gemOf: 'Mars' }, { dashaLord: 'Rahu', gemOf: 'Mercury' }, { dashaLord: 'Ketu', gemOf: 'Mercury' },
+  ],
+  general: 'Sun',
+  source: { ...RAJ_KUMAR, pageLocus: 'PDF pages 143-144, item 10 "Anti-Evil Gems": "Mischievous Dasha Lord / Counter Gem recommended"' },
 });
 
 /** Raj Kumar's table of benefic and malefic gems by Ascendant or Moon sign (PDF pp.123-124). */
@@ -307,7 +455,8 @@ const VERDICTS = deepFreeze({
 });
 
 module.exports = {
-  PLANETS, PLANET_TA, PLANET_GEMS, PLANET_GEMS_SOURCE, TAMIL_NAMES_NOTE,
+  PLANETS, PLANET_TA, PLANET_GEMS, PLANET_GEMS_SOURCE, TAMIL_NAMES_NOTE, BOOK_RANK,
   KAPOOR_RULING_STONE, RULES, RAJ_KUMAR_TABLE, TILAK_RAJ_BY_SIGN, TILAK_RAJ_SOURCE, TILAK_RAJ_NODES, VERDICTS,
+  TILAK_RAJ_RATNA, TILAK_RAJ_PLANET_CLASS, RAJ_KUMAR_WHO, RAJ_KUMAR_WHO_SOURCE, RAJ_KUMAR_COUNTER,
   SOURCES: { KAPOOR, TILAK_RAJ, RAJ_KUMAR },
 };
