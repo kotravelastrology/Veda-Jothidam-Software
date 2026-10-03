@@ -454,6 +454,8 @@ function computeSaturnTransits({
     tamil,
     conventions: {
       kantakaUsed: conv.id,
+      kantakaDefault: T.DEFAULT_KANTAKA,
+      kantakaRank: T.KANTAKA_RANK,
       kantakaAvailable: Object.values(T.KANTAKA_CONVENTIONS).map((c) => ({
         id: c.id, label: c.label, labelTa: c.labelTa, houses: c.houses,
         note: c.note, sourcePage: c.source.pageLocus, sourceTitle: c.source.title,

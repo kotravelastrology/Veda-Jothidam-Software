@@ -114,16 +114,16 @@ Not plan items, but real, and they should not be discovered at release:
   (`docs/SATURN-TRANSIT-remedies.md`) computes Sade Sati, Ardhashtama, Ashtama
   and Kantaka Saturn; dates come from the ephemeris, definitions from page-read
   sources. The books disagree about Kantaka (4/7, 4/7/10, 4/7/8, 1/8/10), so
-  it is a selectable convention, default 4 and 7. Owner decision: which to
-  follow. Not yet: Dhaiya/Kantaka result text, Vipareeta Vedha, Mangala,
-  gemstones.
+  it is a selectable convention. Default since 2026-10-03 by the owner's
+  "most explanation first" rule: Pulippani (4, 7, 8), whose Kantaka text is
+  the longest; before that 4 and 7 (named by three of four).
 - **Mangala dosha: built; five readings, no single verdict.** `/mangala-dosha`
   (`docs/MANGALA-DOSHA.md`). The books disagree on the houses — Mansagari's
   verse omits the 2nd, Vishnu Bhaskar gives five houses in his summary and six
   in his detailed list — and on the cancellations, so each of 56 conditions is
-  shown under its own book and page. The Tamil texts held state no rule. Owner
-  decision: which reading to lead with. Not yet: Kala Sarpa effects,
-  Navamsha/D-30 mitigation.
+  shown under its own book and page. The Tamil texts held state no rule. Order
+  since 2026-10-03 (most explanation first): Vishnu Bhaskar, Bhagat, Mansagari.
+  Not yet: Kala Sarpa effects, Navamsha/D-30 mitigation.
 - **Gemstones: built as a comparison, not a recommendation.** `/gemstones`
   (`docs/GEMSTONES.md`). Three books, three methods, disagreeing on gems for the
   same Ascendant; each is shown with its page and agreements/conflicts are

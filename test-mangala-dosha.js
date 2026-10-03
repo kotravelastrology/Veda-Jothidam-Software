@@ -396,6 +396,15 @@ assert.equal(a.formation.length, 5);
 assert.equal(a.tamilNotFound.names.length, 3, 'the page can say the Tamil texts hold no Mangala rule');
 assert.ok(a.results.length >= 1 && a.results.every((x) => x.textTa && x.page));
 assert.deepEqual(Object.keys(a.summary).sort(), ['BHAGAT', 'MANSAGARI', 'VISHNU_BHASKAR']);
+// Book order (owner, 2026-10-03): the book that explains most first, by words in its Mangala section.
+assert.deepEqual(Object.keys(a.summary), ['VISHNU_BHASKAR', 'BHAGAT', 'MANSAGARI'], 'per-book lists follow the book order');
+assert.deepEqual(a.formation.map((r) => r.id), ['VISHNU_BHASKAR', 'VISHNU_BHASKAR_SOUTH', 'VISHNU_BHASKAR_SUMMARY', 'BHAGAT', 'MANSAGARI']);
+const rankWords = T.BOOK_RANK.order.map((b) => b.words);
+assert.deepEqual(rankWords, [...rankWords].sort((x, y) => y - x), 'ordered by word count, most first');
+assert.deepEqual([...new Set(T.BOOK_RANK.readingOrder.map((id) => T.READINGS[id].source.title))],
+  T.BOOK_RANK.order.map((b) => T.SOURCES[b.key].title), 'readings are grouped by book in the same order');
+assert.deepEqual([...T.BOOK_RANK.readingOrder].sort(), Object.keys(T.READINGS).sort(), 'every reading is placed once');
+assert.deepEqual(a.books.map((b) => b.rank), [1, 2, 3]);
 assert.ok(!('verdict' in a) && !('cancelled' in a) && !('overall' in a), 'there is no single verdict');
 const total = Object.values(a.summary).reduce((n, s) => n + s.MET + s.NOT_MET + s.JUDGEMENT + s.NOT_COMPUTED + s.NEEDS_PARTNER + s.negativeMet, 0);
 assert.equal(total, M.CONDITIONS.length, 'every condition is counted exactly once');

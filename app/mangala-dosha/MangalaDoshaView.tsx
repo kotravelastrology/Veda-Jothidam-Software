@@ -211,6 +211,12 @@ function Analysis({ title, party, a }: { title: string; party: any; a: any }) {
       </div>
 
       <h3 className="text-xs font-semibold text-ink mb-1">உருவாக்கம் — ஒவ்வொரு நூலின் முறைப்படி</h3>
+      {a.books && (
+        <p className="text-[11px] text-ink-soft mb-1">
+          நூல்களின் வரிசை (அதிகம் விளக்கும் நூல் முதலில்; {a.bookRankMeasureTa}):{' '}
+          {a.books.map((b: any) => `${b.rank}. ${SRC_TA[b.key] ?? b.key} — ${b.words.toLocaleString('en-IN')} சொற்கள், ${b.range}`).join(' · ')}
+        </p>
+      )}
       <Formation a={a} />
 
       <h3 className="text-xs font-semibold text-ink mt-4 mb-1">தீவிரம் — விஷ்ணு பாஸ்கரின் இரு அளவுகள்</h3>

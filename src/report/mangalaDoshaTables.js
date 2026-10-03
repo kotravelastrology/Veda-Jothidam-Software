@@ -255,8 +255,28 @@ const TAMIL_NOT_FOUND = deepFreeze({
   noteTa: 'நம்மிடம் உள்ள தமிழ் நூல்களின் உரையில் செவ்வாய் தோஷத்துக்கான விதி காணப்படவில்லை (OCR தேடல்; சிதைந்த சொல் தவறியிருக்கலாம்). எனவே தமிழ் முறை என்று எதுவும் இங்கே கொடுக்கப்படவில்லை. "தென்னிந்திய முறை" என்பது விஷ்ணு பாஸ்கரின் கூற்று, தமிழ் நூல் அல்ல.',
 });
 
+/**
+ * Which book is shown first (owner, 2026-10-03: "the book with the most
+ * explanation first, then the others in order" — the rule set for gemstones and
+ * extended here). Measured as words in each book's Mangala/Kuja dosha section,
+ * from the text layer (Vishnu Bhaskar's scan has none; the count is from the
+ * owner's library index OCR of the same edition, printed = index page − 15).
+ * Within Vishnu Bhaskar, the section that explains (p.98) leads, then his p.99
+ * South-India variant, then the one-line chapter summary (p.94).
+ */
+const BOOK_RANK = deepFreeze({
+  decided: '2026-10-03',
+  measureTa: 'செவ்வாய் தோஷம் பற்றிய பகுதியில் உள்ள சொற்களின் எண்ணிக்கை',
+  order: [
+    { key: 'VISHNU_BHASKAR', words: 1167, range: 'Chapter 9 §VII, printed pp.98-100' },
+    { key: 'BHAGAT', words: 899, range: 'Chapter 28, printed pp.115-118' },
+    { key: 'MANSAGARI', words: 717, range: 'printed pp.794-796, verse 4 with the translator\'s notes and list' },
+  ],
+  readingOrder: ['VISHNU_BHASKAR', 'VISHNU_BHASKAR_SOUTH', 'VISHNU_BHASKAR_SUMMARY', 'BHAGAT', 'MANSAGARI'],
+});
+
 module.exports = {
-  TAMIL_NOT_FOUND,
+  TAMIL_NOT_FOUND, BOOK_RANK,
   SOURCES: { MANSAGARI, BHAGAT, VISHNU_BHASKAR },
   READINGS, INTENSITY_PERCENT, UNITS, RESULTS_BY_HOUSE, REMEDIES, GUIDANCE,
 };

@@ -22,8 +22,11 @@
  *               detailed chapter name the 4th and 7th; Vishnu Bhaskar the 4th,
  *               7th and 10th; Rath the 1st, 8th and 10th; Pulippani's own
  *               introduction the 8th. Only the 4th and 7th are named by three
- *               of the four, which is why that pair is the default — a count of
- *               sources, not a finding about which is right.
+ *               of the four. The default was that pair until 2026-10-03, when
+ *               the owner set the rule "the book with the most explanation
+ *               first": it is now Pulippani's (4, 7, 8), whose Kantaka text is
+ *               the longest by far (`KANTAKA_RANK`). Neither is a finding
+ *               about which is right.
  *
  * Kantaka is therefore a *selectable, labelled convention*, never a silent
  * choice. The same holds for the sign-wise arishta table, whose printed wording
@@ -212,22 +215,6 @@ const DEFINITIONS = deepFreeze({
  * disagree, so each is kept as its own convention.
  */
 const KANTAKA_CONVENTIONS = deepFreeze({
-  PARASHARAS_LIGHT: {
-    id: 'PARASHARAS_LIGHT',
-    label: 'Parashara\'s Light (4, 7)',
-    labelTa: 'பராசரர் லைட் — 4, 7',
-    houses: [4, 7],
-    source: { ...PARASHARAS_LIGHT, pageLocus: 'printed p.191 (PDF 191), glossary: "Kantaka Saturn: Transit of Saturn in the 4th and 7th rashis from the Moon"' },
-    note: 'The reference software\'s reading; also what Pulippani\'s detailed chapter gives for the 4th and 7th.',
-  },
-  VISHNU_BHASKAR: {
-    id: 'VISHNU_BHASKAR',
-    label: 'Vishnu Bhaskar (4, 7, 10)',
-    labelTa: 'விஷ்ணு பாஸ்கர் — 4, 7, 10',
-    houses: [4, 7, 10],
-    source: { ...VISHNU_BHASKAR, pageLocus: `${VB_LOCUS_DEFINITIONS}: IX Kantaka Saturn, "in 4, 7, 10th house from Moon Lagna"` },
-    note: 'Adds the 10th, which only Vishnu Bhaskar and Rath name.',
-  },
   PULIPPANI: {
     id: 'PULIPPANI',
     label: 'Pulippani (4, 7, 8)',
@@ -244,8 +231,44 @@ const KANTAKA_CONVENTIONS = deepFreeze({
     source: { ...RATH, pageLocus: 'printed p.170 (PDF 176), footnote 52: Saturn in "the 1st, 8th or 10th house from the Lagna, AL or Natal Moon"' },
     note: 'Derived from Saturn\'s aspect on the 10th; counted here from the Moon only, though Rath also counts from Lagna and Arudha Lagna.',
   },
+  VISHNU_BHASKAR: {
+    id: 'VISHNU_BHASKAR',
+    label: 'Vishnu Bhaskar (4, 7, 10)',
+    labelTa: 'விஷ்ணு பாஸ்கர் — 4, 7, 10',
+    houses: [4, 7, 10],
+    source: { ...VISHNU_BHASKAR, pageLocus: `${VB_LOCUS_DEFINITIONS}: IX Kantaka Saturn, "in 4, 7, 10th house from Moon Lagna"` },
+    note: 'Adds the 10th, which only Vishnu Bhaskar and Rath name.',
+  },
+  PARASHARAS_LIGHT: {
+    id: 'PARASHARAS_LIGHT',
+    label: 'Parashara\'s Light (4, 7)',
+    labelTa: 'பராசரர் லைட் — 4, 7',
+    houses: [4, 7],
+    source: { ...PARASHARAS_LIGHT, pageLocus: 'printed p.191 (PDF 191), glossary: "Kantaka Saturn: Transit of Saturn in the 4th and 7th rashis from the Moon"' },
+    note: 'The reference software\'s reading; also what Pulippani\'s detailed chapter gives for the 4th and 7th.',
+  },
 });
-const DEFAULT_KANTAKA = 'PARASHARAS_LIGHT';
+
+/**
+ * The order the conventions are shown in, and so the default (owner,
+ * 2026-10-03: "the book with the most explanation first"): words each source
+ * spends on Kantaka Saturn. Pulippani: his 4th, 7th and 8th passages, which name
+ * Kantaka. Rath: §e and footnote 52. Vishnu Bhaskar: §IX (count from the
+ * owner's library index OCR of the same edition). Parashara's Light: the
+ * glossary line.
+ */
+const KANTAKA_RANK = deepFreeze({
+  decided: '2026-10-03',
+  measureTa: 'கண்டகச் சனி பற்றி ஒவ்வொரு நூலும் எழுதியுள்ள சொற்களின் எண்ணிக்கை',
+  order: [
+    { id: 'PULIPPANI', words: 576, range: 'printed pp.168-170, the 4th, 7th and 8th' },
+    { id: 'RATH', words: 182, range: 'printed p.170, §e and footnote 52' },
+    { id: 'VISHNU_BHASKAR', words: 27, range: 'printed p.142, §IX' },
+    { id: 'PARASHARAS_LIGHT', words: 13, range: 'manual 6.1, glossary p.191' },
+  ],
+  countOfSourcesTa: '4, 7 என்ற இணையை நான்கில் மூன்று நூல்கள் சொல்கின்றன — இது முன்பு இயல்புநிலையாக இருந்தது.',
+});
+const DEFAULT_KANTAKA = KANTAKA_RANK.order[0].id;
 
 /** A variant recorded but not implemented: one author's own degree-based counting. */
 const NOT_IMPLEMENTED = deepFreeze([
@@ -298,7 +321,7 @@ const REMEDIES = deepFreeze([
 
 module.exports = {
   SADE_SATI_PHASES, SADE_SATI_CYCLES, ARISHTA_BY_MOON_SIGN, ARISHTA_SOURCE,
-  NOMINAL_DURATION, DEFINITIONS, KANTAKA_CONVENTIONS, DEFAULT_KANTAKA,
+  NOMINAL_DURATION, DEFINITIONS, KANTAKA_CONVENTIONS, DEFAULT_KANTAKA, KANTAKA_RANK,
   NOT_IMPLEMENTED, REMEDIES,
   SOURCES: { VISHNU_BHASKAR, PULIPPANI, PARASHARAS_LIGHT, RATH, SHUBHAKARAN },
 };

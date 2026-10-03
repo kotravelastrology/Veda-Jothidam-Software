@@ -36,8 +36,14 @@ Counted from the natal Moon's **sign** (1 = the Moon's own sign):
 | Pulippani's own introduction, p.69 | 8 only |
 | Rath, *Vedic Remedies*, p.170 fn 52 | 1, 8, 10 |
 
-Only houses **4 and 7** are named by three of the four sources, so that pair is
-the default. That is a *count*, not a finding about which reading is right.
+Only houses **4 and 7** are named by three of the four sources, and that pair
+was the default until 2026-10-03. The owner then set one rule for every page
+that compares books: **the book with the most explanation first**. Words each
+source spends on Kantaka Saturn: Pulippani 576 (his 4th, 7th and 8th passages),
+Rath 182 (§e and footnote 52), Vishnu Bhaskar 27 (§IX), Parashara's Light 13
+(the glossary line). So the conventions are listed in that order and Pulippani's
+(4, 7, 8) is the default (`KANTAKA_RANK`). Neither the count nor the length is a
+finding about which reading is right.
 Kantaka is therefore a selectable, labelled convention — the choice is on
 screen, in the result, and in the evidence record. Pulippani contradicts
 himself within one book; the software records both readings and says so.
@@ -57,8 +63,8 @@ sources. So the page no longer asks for a choice it cannot make:
 
 - **All four Kantaka readings are shown at once** — one strip each on the
   timeline and a table (houses, whether it applies now, next period, page). The
-  selector still sets which one the headline figures use; the default is
-  unchanged.
+  selector still sets which one the headline figures use (default changed on
+  2026-10-03, above).
 - **A Tamil / English section** sets Saturn's transit as the Tamil text and the
   English books state it, row by row.
 

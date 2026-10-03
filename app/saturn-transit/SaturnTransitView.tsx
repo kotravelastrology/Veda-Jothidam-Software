@@ -525,7 +525,9 @@ export default function SaturnTransitView() {
   const [query, setQuery] = useState('');
   const [party, setParty] = useState<Party | null>(null);
   const [manual, setManual] = useState(false);
-  const [kantaka, setKantaka] = useState('PARASHARAS_LIGHT');
+  // The engine's default (the most-explained source, Pulippani); the result
+  // reports it as conventions.kantakaDefault.
+  const [kantaka, setKantaka] = useState('PULIPPANI');
   const [showAll, setShowAll] = useState(true);
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -774,7 +776,12 @@ export default function SaturnTransitView() {
               <li>
                 <strong>கண்டகச் சனி — நூல்கள் ஒத்துப்போகவில்லை.</strong>{' '}
                 {result.conventions.kantakaAvailable.map((c: any) => `${c.labelTa}`).join(' · ')}.
-                4 மற்றும் 7 மூன்று நூல்களில் உள்ளன, அதனால் அதுவே இயல்புநிலை — இது எண்ணிக்கை மட்டுமே, எது சரி என்ற தீர்ப்பு அல்ல.
+                இயல்புநிலை: கண்டகச் சனியை அதிகம் விளக்கும் நூல் முதலில் (2026-10-03 முதல்; {result.conventions.kantakaRank.measureTa}):{' '}
+                {result.conventions.kantakaRank.order.map((r: any, i: number) => {
+                  const c = result.conventions.kantakaAvailable.find((x: any) => x.id === r.id);
+                  return `${i + 1}. ${c?.labelTa ?? r.id} (${r.words} சொற்கள், ${r.range})`;
+                }).join(' · ')}.
+                {' '}{result.conventions.kantakaRank.countOfSourcesTa} இவை எதுவும் எது சரி என்ற தீர்ப்பு அல்ல.
                 புலிப்பாணி நூலே தன் முன்னுரையில் 8-ஐ மட்டும் சொல்கிறது.
               </li>
               <li>

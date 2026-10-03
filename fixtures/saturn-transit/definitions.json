@@ -68,8 +68,15 @@
       ],
       "page": "Vedic Remedies in Astrology printed p.170, footnote 52: '1st, 8th or 10th house from the Lagna, AL or Natal Moon'"
     },
-    "default": "PARASHARAS_LIGHT",
-    "defaultReason": "Houses 4 and 7 are named by three of the four sources (Parashara's Light, Vishnu Bhaskar, Pulippani); 10 by two, 8 by two, 1 by one."
+    "default": "PULIPPANI",
+    "defaultReason": "Houses 4 and 7 are named by three of the four sources (Parashara's Light, Vishnu Bhaskar, Pulippani); 10 by two, 8 by two, 1 by one.",
+    "defaultRule": "Owner 2026-10-03: the source with the most explanation first. Words on Kantaka Saturn: Pulippani 576 (printed pp.168-170), Rath 182 (p.170 §e + fn 52), Vishnu Bhaskar 27 (p.142 §IX), Parashara's Light 13 (6.1 manual glossary p.191). Before this the default was PARASHARAS_LIGHT, the only pair (4, 7) named by three of the four.",
+    "rank": [
+      "PULIPPANI",
+      "RATH",
+      "VISHNU_BHASKAR",
+      "PARASHARAS_LIGHT"
+    ]
   },
   "sadeSatiPhases": {
     "1": {

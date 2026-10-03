@@ -126,11 +126,19 @@ package test list; it is unrelated and untouched.
 - The Navamsha and D-30 mitigation (his items 7 and 8).
 - Counting from the Bhava chart.
 
+## Book order (owner, 2026-10-03)
+
+"The book with the most explanation first, then the others in order." Words in
+each book's Mangala/Kuja section: Vishnu Bhaskar 1,167 (Chapter 9 §VII, printed
+pp.98-100; counted from the owner's library index OCR, as the curated scan has
+no text layer), Bhagat 899 (Chapter 28, pp.115-118), Mansagari 717 (pp.794-796,
+verse 4 with the translator's notes and list). The readings and the per-book
+cancellation lists follow that order (`BOOK_RANK` in `mangalaDoshaTables.js`);
+within Vishnu Bhaskar, his p.98 section leads, then the p.99 South-India
+variant, then the p.94 summary line. All five readings are still shown; none is
+called the rule.
+
 ## Decision needed
 
-1. **Which reading to lead with.** All five are shown with equal weight. If the
-   family you serve follows one (for example the South Indian 2-4-7-8-12), say so
-   and that reading can be marked as the default on the page, still with the
-   others visible.
-2. **A Tamil source.** None held. If you have one that states the rule, it would
+1. **A Tamil source.** None held. If you have one that states the rule, it would
    let a Tamil reading stand beside the English ones.

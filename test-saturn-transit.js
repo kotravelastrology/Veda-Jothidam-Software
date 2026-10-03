@@ -25,13 +25,21 @@ for (const id of ['PARASHARAS_LIGHT', 'VISHNU_BHASKAR', 'PULIPPANI', 'RATH']) {
 }
 assert.equal(T.DEFAULT_KANTAKA, FIXTURE.kantaka.default);
 
-// The default is justified by a count, and the count is checked rather than
-// asserted in prose: 4 and 7 are the only houses named by at least three of
-// the four sources, which is exactly the default.
+// The default follows the owner's rule (2026-10-03): the source with the most
+// explanation first. The order is checked against the recorded word counts, and
+// the conventions are listed in that order.
+assert.deepEqual(T.KANTAKA_RANK.order.map((r) => r.id), FIXTURE.kantaka.rank);
+const kWords = T.KANTAKA_RANK.order.map((r) => r.words);
+assert.deepEqual(kWords, [...kWords].sort((a, b) => b - a), 'most explained first');
+assert.equal(T.DEFAULT_KANTAKA, T.KANTAKA_RANK.order[0].id);
+assert.deepEqual(Object.keys(T.KANTAKA_CONVENTIONS), FIXTURE.kantaka.rank, 'the conventions are listed in the same order');
+// The earlier rule, a count of sources, is still checked and recorded: 4 and 7
+// are the only houses named by at least three of the four.
 const named = {};
 for (const c of Object.values(T.KANTAKA_CONVENTIONS)) for (const h of c.houses) named[h] = (named[h] ?? 0) + 1;
 const byThree = Object.keys(named).map(Number).filter((h) => named[h] >= 3).sort((a, b) => a - b);
-assert.deepEqual(byThree, T.KANTAKA_CONVENTIONS[T.DEFAULT_KANTAKA].houses);
+assert.deepEqual(byThree, [4, 7]);
+assert.deepEqual(T.KANTAKA_CONVENTIONS.PARASHARAS_LIGHT.houses, byThree, 'Parashara\'s Light: the default before 2026-10-03');
 assert.deepEqual(named, { 4: 3, 7: 3, 8: 2, 10: 2, 1: 1 });
 
 for (const [house, ph] of Object.entries(FIXTURE.sadeSatiPhases)) {
@@ -238,10 +246,11 @@ assert.deepEqual(names(0, 1), ['SADE_SATI:SETTING'], '2nd');
 assert.deepEqual(names(0, 2), [], '3rd is neither');
 assert.deepEqual(names(0, 3), ['ARDHASHTAMA', 'KANTAKA'], '4th is both, by default');
 assert.deepEqual(names(0, 6), ['KANTAKA'], '7th');
-assert.deepEqual(names(0, 7), ['ASHTAMA'], '8th is Ashtama, not Kantaka, by default');
+assert.deepEqual(names(0, 7), ['ASHTAMA', 'KANTAKA'], 'by default (Pulippani) the 8th is Ashtama and Kantaka');
 assert.deepEqual(names(0, 9), [], '10th is not Kantaka by default');
 // The conventions really do change the answer, and only where the books differ.
-assert.deepEqual(names(0, 7, 'PULIPPANI'), ['ASHTAMA', 'KANTAKA'], 'Pulippani calls the 8th Kantaka too');
+assert.deepEqual(names(0, 7, 'PARASHARAS_LIGHT'), ['ASHTAMA'], 'Parashara\'s Light does not call the 8th Kantaka');
+assert.deepEqual(names(0, 3, 'PARASHARAS_LIGHT'), ['ARDHASHTAMA', 'KANTAKA']);
 assert.deepEqual(names(0, 9, 'VISHNU_BHASKAR'), ['KANTAKA'], 'Vishnu Bhaskar adds the 10th');
 assert.deepEqual(names(0, 0, 'RATH'), ['SADE_SATI:PEAK', 'KANTAKA'], 'Rath counts the 1st');
 assert.deepEqual(names(0, 3, 'RATH'), ['ARDHASHTAMA'], 'Rath does not count the 4th');
@@ -270,7 +279,7 @@ for (const e of ev) {
   assert.ok(e.source.pageLocus && e.source.convention && e.source.file);
   assert.ok(resolveByTitle(e.source.title), `${e.ruleId} cites a registered source`);
 }
-assert.ok(ev.find((e) => e.ruleId === 'SATURN_TRANSIT_KANTAKA').name.includes('Parashara'));
+assert.ok(ev.find((e) => e.ruleId === 'SATURN_TRANSIT_KANTAKA').name.includes('Pulippani'), 'the default convention is the one cited');
 const evVb = S.computeSaturnTransits({
   moonRasiIndex: 9, birthMs: capBirth, atMs: utc(2019, 6, 1), kantakaConvention: 'VISHNU_BHASKAR',
 }).evidence.find((e) => e.ruleId === 'SATURN_TRANSIT_KANTAKA');
@@ -280,7 +289,7 @@ assert.equal(ev.find((e) => e.ruleId === 'SATURN_TRANSIT_SADE_SATI').outcome.act
 assert.equal(ev.find((e) => e.ruleId === 'SATURN_TRANSIT_ASHTAMA').outcome.active, false);
 
 // The result discloses its own conventions, including the one it did not apply.
-assert.equal(cap.conventions.kantakaUsed, 'PARASHARAS_LIGHT');
+assert.equal(cap.conventions.kantakaUsed, 'PULIPPANI');
 assert.equal(cap.conventions.kantakaAvailable.length, 4);
 assert.ok(cap.conventions.kantakaAvailable.every((c) => c.sourcePage && c.note));
 assert.equal(cap.conventions.notImplemented[0].id, 'SHUBHAKARAN_DEGREE_BASED');

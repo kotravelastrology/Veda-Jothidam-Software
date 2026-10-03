@@ -115,7 +115,8 @@ function dignityOf(planet, signIndex) {
  * reported, whether or not it finds the dosha, so the disagreement is data.
  */
 function considerFormation(f) {
-  return Object.values(T.READINGS).map((r) => {
+  // In the owner's book order: the book that explains most first.
+  return T.BOOK_RANK.readingOrder.map((id) => T.READINGS[id]).map((r) => {
     const perReference = r.references.map((ref) => {
       const house = f.houseFrom(ref, 'Mars');
       return { reference: ref, marsHouse: house, present: r.houses.includes(house) };
@@ -712,7 +713,9 @@ function evaluateConditions(f, partner = null) {
 
 /** Counts per source, per status — never a single verdict. */
 function summarise(evals) {
+  // Keys in the owner's book order, so every per-book list on the page follows it.
   const out = {};
+  for (const { key } of T.BOOK_RANK.order) if (evals.some((e) => e.source.key === key)) out[key] = undefined;
   for (const e of evals) {
     const k = e.source.key;
     out[k] ??= { MET: 0, NOT_MET: 0, JUDGEMENT: 0, NOT_COMPUTED: 0, NEEDS_PARTNER: 0, negativeMet: 0 };
@@ -748,6 +751,8 @@ function analyseChart(f, partner = null) {
     tamilNotFound: T.TAMIL_NOT_FOUND,
     conditions: evals,
     summary: summarise(evals),
+    books: T.BOOK_RANK.order.map((b, i) => ({ ...b, rank: i + 1, title: T.SOURCES[b.key].title })),
+    bookRankMeasureTa: T.BOOK_RANK.measureTa,
   };
 }
 
