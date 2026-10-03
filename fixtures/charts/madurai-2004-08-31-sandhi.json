@@ -1,0 +1,38 @@
+{
+  "fixtureId": "madurai-2004-08-31-sandhi",
+  "fixtureVersion": 1,
+  "description": "Boundary case. Chosen so the Moon sits close to a nakshatra edge, which is where Vimshottari balance-at-birth and the D30/D60 non-equal divisions are most likely to flip. A rounding regression that leaves the other fixtures intact should surface here first.",
+  "input": {
+    "name": "Fixture C",
+    "gender": "male",
+    "year": 2004,
+    "month": 8,
+    "day": 31,
+    "hour": 4,
+    "minute": 12,
+    "ianaTimeZone": "Asia/Kolkata",
+    "utcOffsetMinutes": 330,
+    "latitude": 9.9252,
+    "longitude": 78.1198,
+    "placeName": "Madurai"
+  },
+  "settings": {
+    "ayanamsha": "Lahiri",
+    "houseSystem": "WholeSign",
+    "nodeType": "mean",
+    "calendarMode": "tirukanita"
+  },
+  "referenceSource": {
+    "engine": "@swisseph/node",
+    "doctrine": "Brihat Parashara Hora Shastra (R. Santhanam translation), C23_BPHS_Santhanam.pdf",
+    "locators": {
+      "vargas": "Ch.6, including the non-equal D30 (Trimsamsa) and D60 (Shashtiamsa) rules",
+      "vimshottari": "Ch.46 vv.12-16; Ch.51 vv.1-2",
+      "ashtakavarga": "file page 12 / printed page 4, Table-1"
+    },
+    "review": {
+      "status": "ENGINE_BASELINE",
+      "note": "Values recorded from this repository's own engine to detect drift. Not yet signed off against an independent published chart; see fixtures/README.md."
+    }
+  }
+}

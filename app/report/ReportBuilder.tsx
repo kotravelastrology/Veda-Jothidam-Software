@@ -11,16 +11,7 @@ import { getChartById, type ChartCategory } from '@/src/charts/chartTypes';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { getChartLibrary } from '@/src/portal/ChartLibraryManager';
-import { useSettings } from '@/src/ui/SettingsPanel';
-
-// Settings values (lowercase UI keys) → the governed chart-context names
-// (@swisseph/node SiderealMode / HouseSystem keys) the engine expects.
-const AYANAMSHA_MAP: Record<string, string> = {
-  lahiri: 'Lahiri', raman: 'Raman', krishnamurti: 'Krishnamurti', truecitra: 'TrueCitra',
-};
-const HOUSE_SYSTEM_MAP: Record<string, string> = {
-  porphyrius: 'Porphyrius', placidus: 'Placidus', whole: 'WholeSign', equal: 'Equal', koch: 'Koch',
-};
+import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
 const CHART_POINTS = ['Lagna', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -902,10 +893,20 @@ function MuhurtaEnhancementsSection({ report }: { report: ReportData }) {
 }
 
 function PredictionEngineSection({ report }: { report: ReportData }) {
-  // Dynamically import the renderer to avoid circular dependencies
-  const PredictionEngineRenderer = require('@/src/charts/chart-renderers/PredictionEngineRenderer').PredictionEngineRenderer;
   const pred = (report as any).predictions;
   if (!pred) return null;
+  if (pred.status === 'SOURCE_REQUIRED') {
+    return (
+      <div className="mb-8">
+        <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink flex items-center gap-2">
+          வாழ்க்கை நிகழ்வு முன்னறிவிப்பு <SourceRequiredBadge reason={pred.reason} />
+        </h2>
+        <p className="text-sm text-ink-soft">{pred.reason}</p>
+      </div>
+    );
+  }
+  // Dynamically import the renderer to avoid circular dependencies
+  const PredictionEngineRenderer = require('@/src/charts/chart-renderers/PredictionEngineRenderer').PredictionEngineRenderer;
   return <PredictionEngineRenderer data={pred} />;
 }
 
@@ -2032,9 +2033,7 @@ export default function ReportBuilder() {
         longitude: birthData.longitude,
         utcOffsetMinutes: birthData.utcOffset,
         ianaTimeZone: 'Asia/Kolkata',
-        ayanamsha: AYANAMSHA_MAP[settings.ayanamsha] ?? 'Lahiri',
-        houseSystem: HOUSE_SYSTEM_MAP[settings.houseSystem] ?? 'Porphyrius',
-        nodeType: settings.nodeType === 'true' ? 'true' : 'mean',
+        ...toEngineOptions(settings),
       };
       const result = await computeReport(formInput);
       setReport(result);

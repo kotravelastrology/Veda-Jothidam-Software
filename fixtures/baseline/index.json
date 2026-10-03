@@ -1,0 +1,20 @@
+{
+  "recordedAt": "2026-09-26",
+  "fixtures": [
+    {
+      "fixtureId": "chennai-1990-05-15",
+      "file": "chennai-1990-05-15.json",
+      "hash": "dfcc8a1f8a4a900bdd267682f88b7b456d3eff74c13bc8231caa036972864592"
+    },
+    {
+      "fixtureId": "london-1975-12-02-kp",
+      "file": "london-1975-12-02-kp.json",
+      "hash": "b1a7366a51f21b74c6da772908952e81bbee615530dd3de1869e1415b9dd9c6d"
+    },
+    {
+      "fixtureId": "madurai-2004-08-31-sandhi",
+      "file": "madurai-2004-08-31-sandhi.json",
+      "hash": "f9a75305f0fe6cb6f400f45ed408c28194de882e807422ff463ed31f165224ca"
+    }
+  ]
+}

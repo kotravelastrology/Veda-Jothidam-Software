@@ -1,0 +1,156 @@
+{
+  "id": "kalaprakasika-poruthams",
+  "purpose": "The ten poruthams as Kalaprakasika prints them (N.P. Subramania Iyer's English translation, marriage-suitability chapter, printed pp.69-76). This is the AUTHORITY tamilPorutham.js follows; fixtures/porutham/choodamani-poruthavial.json is the cross-check. A transcription of one source: not a claim that it is the only tradition.",
+  "source": {
+    "title": "Kalaprakasika",
+    "author": "N.P. Subramania Iyer (translator)",
+    "file": "kalaprakasika-nps-iyer-1982/raw-scans/full-scan.pdf",
+    "tradition": "Tamil / Sanskrit classical (muhurta)",
+    "edition": "English translation, 1982 (an earlier 1917 print of the same translation is also held as OCR text)",
+    "pageOffset": "PDF page = printed page + 30",
+    "note": "A 1982 translation is in copyright. Cite only."
+  },
+  "verification": {
+    "VISUAL": "Read from the rendered page image, name by name and digit by digit.",
+    "BY_ELIMINATION": "Not printed. Follows arithmetically from what is printed (27 stars, three equal gana). Flagged individually."
+  },
+  "nakshatraIndex": [
+    "0 Aswini", "1 Bharani", "2 Krithika", "3 Rohini", "4 Mrigasirsha", "5 Ardhra", "6 Punarvasu",
+    "7 Pushya", "8 Aslesha", "9 Magha", "10 Purvapalguni", "11 Utharapalguni", "12 Hastha",
+    "13 Chithra", "14 Swathi", "15 Visakha", "16 Anuradha", "17 Jyeshta", "18 Mula",
+    "19 Purvashada", "20 Utharashada", "21 Sravana", "22 Sravishta", "23 Sathabis",
+    "24 Purvabadhrapadha", "25 Utharabadhrapadha", "26 Revathi"
+  ],
+  "rasiIndex": [
+    "0 Aries", "1 Taurus", "2 Gemini", "3 Cancer", "4 Leo", "5 Virgo",
+    "6 Libra", "7 Scorpio", "8 Sagittari", "9 Capricorn", "10 Aquarius", "11 Pisces"
+  ],
+
+  "DINA": {
+    "printedPages": "69 and 71", "pdfPages": "99 and 101", "verified": "VISUAL",
+    "rule": "Count the asterisms from the bride's to the bridegroom's, both inclusive. The nine-fold cycle is Jenma, Sampath, Vipath, Kshema, Prathyara, Sadhaka, Vadham, Maithra, Parama-Maithra. The bridegroom's asterism should be the 2nd, 4th, 6th or 8th; the 3rd, 5th or 7th shows disagreement. The 9th, Parama-Maithra, leads to intimate friendship. Of the second Pariyaya, the 1st quarter of the 3rd, the 4th quarter of the 5th and the 3rd of the 7th asterism are to be avoided and the other quarters are good; the third Pariyaya produces no evil. The 27th from the bride's is not to be, unless the two asterisms share a sign; the 22nd from either is to be avoided (Vadha-Vainasika).",
+    "cycleGoodPositions": [2, 4, 6, 8, 9],
+    "cycleBadPositions": [3, 5, 7],
+    "avoidCounts": [22],
+    "twentySeventh": "avoid unless the two stars are in the same rasi",
+    "sameStar": {
+      "excellent": [3, 5, 9, 12, 15, 21, 25, 26],
+      "neutral": [0, 2, 4, 6, 7, 10, 11, 13, 16, 19, 20],
+      "unsuitable": [1, 8, 14, 17, 18, 22, 23, 24]
+    },
+    "notModelled": [
+      "Quarter (pada) level exclusions in the second Pariyaya: needs the pada, which the star index does not carry.",
+      "Four happy and six unsuitable named pairs on printed p.70, and the bridegroom-'next in order' exception on p.71: not read from the page image, so not encoded.",
+      "The stellar-quarter order rule for a common asterism spanning two signs."
+    ]
+  },
+
+  "GANA": {
+    "printedPages": "72", "pdfPages": "102", "verified": "VISUAL",
+    "rule": "Same gana is excellent. Bridegroom and bride Deva and Manushya is middling. Deva with Rakshasa is very bad. Manushya with Rakshasa is fatal. Exception (not modelled): the adverse effect of Rakshasa diminishes if the bride's asterism is beyond the 14th from the bridegroom's.",
+    "deva": [0, 4, 6, 7, 12, 14, 16, 21, 26],
+    "manushya": [1, 3, 5, 10, 25, 11, 19, 20, 24],
+    "manushyaPrinted": [1, 3, 5, 10, 25],
+    "manushyaByElimination": [11, 19, 20, 24],
+    "manushyaNote": "The printed Manushya list holds only five stars (Bharani, Rohini, Ardhra, Purvapalguni, Utharabadhrapadha). Utharapalguni, Purvashada, Utharashada and Purvabadhrapadha are not assigned anywhere in print; they are Manushya by elimination (27 - 9 - 9), which is also what the Sudamani edition prints.",
+    "rakshasa": [2, 8, 9, 13, 15, 17, 18, 22, 23]
+  },
+
+  "MAHENDRA": {
+    "printedPages": "72", "pdfPages": "102", "verified": "VISUAL",
+    "rule": "The bridegroom's asterism should be the 4th, 7th, 10th, 13th, 16th, 19th, 22nd or 25th from the bride's.",
+    "acceptedCounts": [4, 7, 10, 13, 16, 19, 22, 25]
+  },
+
+  "STREE_DEERGHA": {
+    "printedPages": "72", "pdfPages": "102", "verified": "VISUAL",
+    "rule": "The bridegroom's asterism should be beyond the 13th from the bride's. 'Some writers hold that it is enough if the said asterism be beyond the 7th.'",
+    "minimumCount": 13,
+    "minorityMinimumCount": 7,
+    "ambiguity": "'Beyond the 13th' may mean 14 or more. Sudamani prints '13 or more' outright, so this implementation uses 13; the two differ only at a count of exactly 13."
+  },
+
+  "YONI": {
+    "printedPages": "73", "pdfPages": "103", "verified": "VISUAL",
+    "rule": "The asterisms of the couple should be of the same yoni; if different it is neutral; hostile yonis are to be avoided.",
+    "yonis": {
+      "horse": [0, 23], "elephant": [1, 26], "sheep": [7, 2], "serpent": [3, 4], "cat": [8, 6],
+      "rat": [9, 10], "cow": [11, 20, 25], "buffalo": [14, 12], "tiger": [15, 13], "deer": [17, 16],
+      "dog": [18, 5], "monkey": [19, 21], "lion": [22, 24]
+    },
+    "hostilePairsAsPrinted": [
+      ["monkey", "sheep"], ["deer", "elephant"], ["horse", "buffalo"], ["cow", "tiger"],
+      ["rat", "cat"], ["serpent", "rat"], ["serpent", "mongoose"], ["dog", "deer"]
+    ],
+    "anomalies": [
+      "'Serpent and Rat' is printed as a hostile pair as well as 'Rat and Cat'.",
+      "'Serpent and Mongoose' is printed, but no asterism is a mongoose; the pair can never apply.",
+      "'Deer and Elephant' is printed where the widely repeated scheme has Lion and Elephant, and Lion has no listed enemy.",
+      "Utharashada is Cow here; the widely repeated scheme has Mongoose."
+    ]
+  },
+
+  "RASI": {
+    "printedPages": "73-74", "pdfPages": "103-104", "verified": "VISUAL",
+    "rule": "Counting from the bride's rasi to the bridegroom's: 2nd, 3rd, 4th, 5th and 6th are bad (fatal, misery, poverty, widowhood, loss of sons); the converse positions (12th, 11th, 10th, 9th, 8th) are good; diametrically opposite (7th) is good. A count of 1 (the same rasi) is not addressed in the passage.",
+    "goodCounts": [7, 8, 9, 10, 11, 12],
+    "badCounts": [2, 3, 4, 5, 6],
+    "unaddressed": [1],
+    "notModelled": [
+      "Exception: even if the bridegroom's rasi is the 2nd, the effect is good if that rasi is an even sign.",
+      "Exception: a 6th position is felicitous for Aries-Virgo, Sagittari-Taurus, Libra-Pisces, Aquarius-Cancer, Leo-Capricorn, Gemini-Scorpio.",
+      "Exception: Rajju, Vedhai, Ganam and Rasi adverse effects need not be considered if the two rasi lords are the same, friendly, or the signs are diametrically opposite."
+    ]
+  },
+
+  "RASI_ADHIPATHI": {
+    "printedPages": "74-75", "pdfPages": "104-105", "verified": "VISUAL",
+    "rule": "NOT STATED. The text gives each planet's friends and enemies but no rule for what the two rasi lords must be to satisfy this porutham.",
+    "friendsOf": {
+      "Mars": ["Mercury", "Venus"],
+      "Venus": ["Mars", "Mercury", "Jupiter", "Saturn"],
+      "Mercury": ["Moon", "Mars", "Jupiter", "Venus", "Saturn"],
+      "Moon": ["Mercury", "Jupiter"],
+      "Sun": ["Jupiter"],
+      "Jupiter": ["Sun", "Moon", "Mercury", "Venus", "Saturn"],
+      "Saturn": null
+    },
+    "note": "Venus: 'all the planets except the Sun and the Moon'; Mercury: 'all save the Sun'; Jupiter: 'all, except Mars'; Saturn: only 'Jupiter is his enemy' is given, so his friends are unstated (null). The lists are as printed, and they are not symmetric or mutually consistent with Sudamani's rasi-keyed friendship table."
+  },
+
+  "VASYA": {
+    "printedPages": "75", "pdfPages": "105", "verified": "VISUAL",
+    "rule": "The bridegroom's rasi should be concordant to the bride's, or vice versa.",
+    "concordantTo": {
+      "0": [4, 7], "1": [3, 4], "2": [5], "3": [7, 8], "4": [6], "5": [2, 11],
+      "6": [9], "7": [5, 3], "8": [11], "9": [10, 0], "10": [0], "11": [9]
+    }
+  },
+
+  "RAJJU": {
+    "printedPages": "75", "pdfPages": "105", "verified": "VISUAL",
+    "rule": "The asterisms of the couple should not be in the same division. Consequences printed: Padha - travel in foreign countries; Ooroo - loss of property; Nabhi - loss of offspring; Kanta - death of the woman; Siro - death of the man. (Sudamani prints the last two the other way round.)",
+    "bands": {
+      "padha": { "stars": [0, 8, 9, 17, 18, 26], "consequence": "foreign travel" },
+      "ooroo": { "stars": [1, 7, 10, 16, 19, 25], "consequence": "loss of property" },
+      "nabhi": { "stars": [2, 6, 11, 15, 20, 24], "consequence": "loss of offspring" },
+      "kanta": { "stars": [3, 5, 12, 14, 21, 23], "consequence": "death of the woman" },
+      "siro": { "stars": [4, 13, 22], "consequence": "death of the man" }
+    }
+  },
+
+  "VEDHA": {
+    "printedPages": "76", "pdfPages": "106", "verified": "VISUAL",
+    "rule": "Asterisms in the same set are mutually repellent; there should be no marriage between a man and a woman whose asterisms are in the same set.",
+    "pairs": [
+      [0, 17], [1, 16], [2, 15], [3, 14], [5, 21], [6, 20],
+      [7, 19], [8, 18], [9, 26], [10, 25], [11, 24], [12, 23]
+    ],
+    "triple": [4, 13, 22]
+  },
+
+  "overall": {
+    "printedPages": "76", "verified": "VISUAL",
+    "rule": "Of the ten considerations the horoscopes must agree in at least five; if not, one is guided by omen (Sakhunam). Dhinam, Ganam, Yoni, Rasi and Rajju are the five chief points, of which Dhinam and Rajju come first in importance. Not modelled: the score and level shown to clients are unchanged."
+  }
+}
