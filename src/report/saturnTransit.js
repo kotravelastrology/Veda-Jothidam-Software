@@ -410,6 +410,17 @@ function computeSaturnTransits({
     .filter((s) => s.endMs > birthMs).map(describeSpan);
 
   const saturnAtBirth = saturnStateAt({ moonRasiIndex, atMs: birthMs, ayanamsha, kantakaConvention: conv.id });
+
+  // Paryaya rounds as Pulippani's Jupiter example counts them (printed p.236):
+  // a round begins in the birth sign, so a period's round is 1 + the times Saturn
+  // has come back into its birth sign before the period begins. Boundaries are
+  // fractional milliseconds and the period carries an ISO string: allow 1 ms.
+  const birthReturns = groupSpans(stays, moonRasiIndex, [saturnAtBirth.houseFromMoon])
+    .filter((s) => s.startMs > birthMs).map((s) => s.startMs);
+  const paryayaRound = (p) => {
+    const start = Math.max(Date.parse(p.fromUtc), birthMs);
+    return 1 + birthReturns.filter((r) => r <= start + 1).length;
+  };
   const now = saturnStateAt({ moonRasiIndex, atMs, ayanamsha, kantakaConvention: conv.id });
 
   // Which cycle "now" falls in, if any.
@@ -444,9 +455,9 @@ function computeSaturnTransits({
     ashtama: single(T.DEFINITIONS.ASHTAMA.houses),
     kantaka: { convention: conv.id, houses: conv.houses, periods: single(conv.houses) },
     kantakaAll,
-    // What the book says for the 4th, 7th and 8th, each lived period with its round.
+    // What the book says for every house from the Moon, each lived period with its round.
     houseResults: {
-      houses: [4, 7, 8].map((h) => HR.houseResultsFor(h, single([h]))),
+      houses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((h) => HR.houseResultsFor(h, single([h]), paryayaRound)),
       // Sundarananda's two readings follow the fortnight running at the time (p.86).
       paksha: HR.pakshaAt(atMs),
       saturnHouseNow: now.houseFromMoon,

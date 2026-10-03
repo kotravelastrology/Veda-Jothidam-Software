@@ -417,26 +417,43 @@ function VedhaSection({ r }: { r: any }) {
   );
 }
 
-/** Pulippani's text for Saturn in the 4th, 7th and 8th, each lived period with its round. */
+const HOUSE_LABEL: Record<number, string> = {
+  12: 'ஏழரைச் சனி — தொடக்கம்', 1: 'ஏழரைச் சனி — ஜன்மச் சனி', 2: 'ஏழரைச் சனி — இறுதி',
+  4: 'அர்த்தாஷ்டமம் / கண்டகம்', 7: 'கண்டகம்', 8: 'அஷ்டமம் / கண்டகம்',
+};
+
+/** Pulippani's text for Saturn in every house from the Moon, each lived period with its round. */
 function HouseResults({ r }: { r: any }) {
   const hr = r.houseResults;
   if (!hr) return null;
+  // The house Saturn is in now first, then the rest in order.
+  const houses = [...hr.houses].sort((a: any, b: any) => (a.house === hr.saturnHouseNow ? -1 : b.house === hr.saturnHouseNow ? 1 : a.house - b.house));
   return (
     <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
-      <h2 className="text-sm font-semibold text-ink mb-1">அர்த்தாஷ்டமம் (4), கண்டகம் (7), அஷ்டமம் (8) — நூல் சொல்லும் பலன்</h2>
+      <h2 className="text-sm font-semibold text-ink mb-1">சனி ஒவ்வொரு இடத்திலும் — நூல் சொல்லும் பலன் (புலிப்பாணி)</h2>
       <p className="text-[11px] text-ink-soft mb-3">
         புலிப்பாணியின் நூலில் மூன்று இடங்களில் உள்ளவை, சுருக்கமாகத் தமிழில். இவை நூலின் கூற்றுகள் — இந்த மென்பொருளின் கணிப்புகள் அல்ல.
+        இப்போது சனி இருக்கும் இடம் முதலில் திறந்திருக்கும்; மற்றவை வரிசையாக.
         {' '}{hr.sourceTitle} — {hr.sourcePage}
       </p>
       <p className="text-xs text-ink mb-3">
         இன்று ({day(hr.paksha.atUtc)}) <strong>{hr.paksha.nameTa}</strong>, திதி {hr.paksha.tithi}; அடுத்த மாற்றம் {day(hr.paksha.turnsUtc)}.
         <span className="block text-ink-soft">{hr.notes.pakshaMeaningTa} ({hr.notes.pakshaSourcePage})</span>
       </p>
-      <div className="space-y-4">
-        {hr.houses.map((h: any) => (
-          <article key={h.house} className="border border-line rounded-xl p-3 text-xs space-y-2">
-            <h3 className="text-sm font-semibold text-ink">சனி {h.house}-ஆம் இடத்தில் <span className="font-normal text-ink-soft">— {h.namesTa}</span></h3>
-            <p className="text-ink"><strong>முதன்மை உரை:</strong> {h.main.textTa} <span className="text-ink-soft">({h.main.page})</span></p>
+      <div className="space-y-2">
+        {houses.map((h: any) => (
+          <details key={h.house} open={h.house === hr.saturnHouseNow}
+            className={`border rounded-xl p-3 text-xs ${h.house === hr.saturnHouseNow ? 'border-saffron' : 'border-line'}`}>
+            <summary className="cursor-pointer text-sm font-semibold text-ink">
+              சனி {h.house}-ஆம் இடத்தில்
+              {HOUSE_LABEL[h.house] && <span className="font-normal text-ink-soft"> · {HOUSE_LABEL[h.house]}</span>}
+              {h.house === hr.saturnHouseNow && <span className="ml-1 text-[11px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-800">இப்போது</span>}
+            </summary>
+            <div className="space-y-2 mt-2">
+            {h.namesTa && <p className="text-ink-soft">நூல் சொல்லும் பெயர்: {h.namesTa}</p>}
+            {h.main.textTa
+              ? <p className="text-ink"><strong>முதன்மை உரை:</strong> {h.main.textTa} <span className="text-ink-soft">({h.main.page})</span></p>
+              : <p className="text-ink-soft"><strong>முதன்மை உரை:</strong> {h.main.missingTa}</p>}
             {(['waxing', 'waning'] as const).map((k) => {
               const nowHere = hr.saturnHouseNow === h.house && hr.paksha.waxing === (k === 'waxing');
               return (
@@ -448,6 +465,7 @@ function HouseResults({ r }: { r: any }) {
                 </p>
               );
             })}
+            {h.sundarananda.noteTa && <p className="text-amber-800">{h.sundarananda.noteTa}</p>}
             <div>
               <p className="font-semibold text-ink">இந்த ஜாதகத்தில் — ஒவ்வொரு முறையும், சுற்றுப் பலனுடன்</p>
               {h.periods.length === 0 && <p className="text-ink-soft">இந்தக் காலத்தில் இல்லை.</p>}
@@ -461,7 +479,8 @@ function HouseResults({ r }: { r: any }) {
                 ))}
               </ul>
             </div>
-          </article>
+            </div>
+          </details>
         ))}
       </div>
       <ul className="text-[11px] text-amber-800 mt-3 space-y-0.5 list-disc ml-5">

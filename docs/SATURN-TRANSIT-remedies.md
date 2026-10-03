@@ -212,25 +212,35 @@ day and a half. Fixed, with a regression test that fails on the old line
   passes a sign in ~2¼ days monthly: counted, not listed. Rahu and Ketu count
   ("any other planet"; mean node). Window: two years back, thirty ahead.
 
-## Result text for the 4th, 7th and 8th (added 2026-10-03)
+## Result text for every house (4th, 7th, 8th first; the rest added the same day, 2026-10-03)
 
-`src/report/saturnHouseResults.js`, section "அர்த்தாஷ்டமம் (4), கண்டகம் (7),
-அஷ்டமம் (8)". Pulippani gives three separate passages, condensed into Tamil:
-the main reading (printed pp.168–170), *Sundarananda Jyotisha Kavya* with a
-waxing- and a waning-Moon reading (pp.173–174), and the result for each of
-Saturn's 1st, 2nd and 3rd rounds (*Sani Paryaya*, pp.231–234). Each lived
-period is given its round.
+`src/report/saturnHouseResults.js`, section "சனி ஒவ்வொரு இடத்திலும் — நூல்
+சொல்லும் பலன்" (the house Saturn is in now opens first). Pulippani gives three
+separate passages, condensed into Tamil: the main reading (printed pp.168–172,
+houses 4–12), *Sundarananda Jyotisha Kavya* with a waxing- and a waning-Moon
+reading (pp.172–175, all twelve), and the result for each of Saturn's 1st, 2nd
+and 3rd rounds (*Sani Paryaya*, pp.231–234, all twelve; the 3rd round's 10th–12th
+point back to the main reading). Each lived period is given its round. The 9th
+keeps both traditions the book records: "ancient Tamil texts" (Raja Yoga) and
+"traditional Sanskrit texts" (bad), with its own conclusion "moderate".
 
 - The round is counted the way the book's own Jupiter example does it (printed
   p.236: Jupiter in Gemini at birth — "when he passes through Taurus, the
   paryaya will end"): a round starts in the planet's sign at birth and ends with
-  the sign before it. Each round therefore holds one passage through every
-  house, so a period's round is the n-th time Saturn passes through that house
-  since birth; the test checks the two counts agree. The Saturn passage gives
-  no example of its own.
+  the sign before it. So a period's round is 1 + the number of times Saturn has
+  come back into its birth sign before the period begins. That is usually the
+  n-th passage through the house, but not when Saturn retrogrades out of its
+  birth sign just after birth (a 1985 birth: Scorpio → Libra, May–Sep 1985):
+  that short Libra stay and Libra's regular passage in 2011–14 are both round 1.
+  The book's definition is applied; the test re-derives it from daily samples
+  and lists the cases where it differs from the passage count. The Saturn
+  passage gives no example of its own.
 - Sundarananda's print says "waxing" for both readings in every house except
-  the 6th (where the second is "waning"); read as waxing/waning and flagged. The
-  book does not say whether it means the birth paksha or the Moon at the time.
+  the 6th (where the second is "waning"); read as waxing/waning and flagged. It
+  also numbers the 3rd-house heading "1" and calls the 10th-house heading
+  "Jupiter". Which fortnight is meant the book does say (printed p.86, preface):
+  the fortnight running at the time — so the page shows today's paksha, tithi
+  and next turn, and marks the paragraph that applies when Saturn is in that house.
 - The book's own parts disagree: the main reading calls the 8th the worst place
   after Sade Sati; the 2nd-round text for the 8th says "gain of money".
 - The scan lacks printed pp.148–167, so the main reading's 1st–3rd houses are
@@ -239,9 +249,6 @@ period is given its round.
 ## Not done
 
 - **Ashtakavarga / Kakshya refinement of Sade Sati** (Vishnu Bhaskar §XVII).
-- **Result text for the other houses** — Pulippani has it for all twelve in the
-  same three passages (the 9th even records that "ancient Tamil texts" call it
-  Raja Yoga while Sanskrit texts call it bad); only the 4th, 7th and 8th were asked for.
 - **Vedha for the other planets** — the tables are encoded; only Saturn is computed.
 - **Counting from Lagna** and Arudha Lagna (Rath).
 - **Tamil-tradition names** for the three phases, which are not in any Tamil book held (the Sudamani chapter was searched; it has Anga Sani instead).

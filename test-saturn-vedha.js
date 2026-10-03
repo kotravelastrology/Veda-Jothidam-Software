@@ -142,24 +142,36 @@ assert.ok(checkedWindows > 100);
 assert.throws(() => SV.saturnVedhaWindows({ moonRasiIndex: 12, ...W }), /moonRasiIndex/);
 assert.throws(() => SV.saturnVedhaWindows({ moonRasiIndex: 0, fromMs: 0, toMs: 50 * YEAR }), /40 years/);
 
-// -------------------------------------------------- what the book says, 4/7/8 ---
-for (const h of [4, 7, 8]) {
+// -------------------------------------------- what the book says, every house ---
+assert.deepEqual(Object.keys(HR.HOUSE_RESULTS).map(Number), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);
+for (let h = 1; h <= 12; h += 1) {
   const r = HR.HOUSE_RESULTS[h];
-  assert.equal(r.main.page.split(' (')[0], FIX.saturnResults.main[h], `main text page, house ${h}`);
-  assert.equal(r.sundarananda.page.split(' (')[0], FIX.saturnResults.sundarananda[h]);
+  assert.equal(r.main ? r.main.page.split(' (')[0] : null, FIX.saturnResults.main[h], `main text page, house ${h}`);
+  assert.equal(r.sundarananda.page.split(' (')[0], FIX.saturnResults.sundarananda[h], `Sundarananda page, house ${h}`);
   for (const round of [1, 2, 3]) assert.equal(r.paryaya[round].page.split(' (')[0], FIX.saturnResults.paryaya[h][round], `house ${h} round ${round}`);
-  for (const t of [r.main.textTa, r.sundarananda.waxingTa, r.sundarananda.waningTa, ...Object.values(r.paryaya).map((x) => x.textTa)]) {
+  const texts = [r.sundarananda.waxingTa, r.sundarananda.waningTa, ...Object.values(r.paryaya).map((x) => x.textTa)];
+  if (r.main) texts.push(r.main.textTa);
+  for (const t of texts) {
     assert.ok(t.length > 5 && /[஀-௿]/.test(t), 'Tamil text present');
     assert.ok(!/[ऀ-ॿ]/.test(t), 'no Sanskrit reproduced');
   }
 }
+// The main reading is missing exactly where the scan is missing pages.
+assert.deepEqual([1, 2, 3].map((h) => HR.HOUSE_RESULTS[h].main), [null, null, null]);
+assert.match(HR.houseResultsFor(1, []).main.missingTa, /148-167/);
+// The 9th records two traditions, as the book does.
+assert.match(HR.HOUSE_RESULTS[9].main.textTa, /பண்டைய தமிழ் நூல்கள்/);
+assert.match(HR.HOUSE_RESULTS[9].main.textTa, /சமஸ்கிருத/);
+// Third round, 10th-12th: the book points back to its general reading.
+for (const h of [10, 11, 12]) assert.match(HR.HOUSE_RESULTS[h].paryaya[3].textTa, /முதன்மை உரை/);
+assert.match(HR.NOTES.sundaranandaPrintTa, /குரு/, 'the 10th-house heading printed as Jupiter is recorded');
 // Round numbering: each lived passage in order; past the third there is no text.
 const fake = [1, 2, 3, 4].map((i) => ({ fromUtc: `20${i}0-01-01T00:00:00.000Z`, toUtc: `20${i}2-01-01T00:00:00.000Z`, years: 2 }));
 const got = HR.houseResultsFor(8, fake);
 assert.deepEqual(got.periods.map((p) => p.round), [1, 2, 3, 4]);
 assert.equal(got.periods[1].paryayaTa, HR.HOUSE_RESULTS[8].paryaya[2].textTa);
 assert.equal(got.periods[3].paryayaTa, null, 'the book describes three rounds only');
-assert.equal(HR.houseResultsFor(5, fake), null, 'only the 4th, 7th and 8th are encoded');
+assert.equal(HR.houseResultsFor(13, fake), null, 'houses are 1-12');
 // The same book's parts disagree about the 8th: recorded.
 assert.match(HR.NOTES.disagreeTa, /பண வரவு/);
 assert.match(HR.NOTES.missingPagesTa, /148-167/);
@@ -175,30 +187,43 @@ assert.ok(h4.periods.length >= 3, 'ninety years hold three passages through the 
 assert.ok(resolveByTitle(tr.houseResults.sourceTitle));
 
 // The book's way of counting a round (Jupiter example, printed p.236): a round
-// starts in the planet's sign at birth and ends with the sign before it. Count
-// rounds that way — from Saturn's returns to its birth sign — and check it gives
-// the same round as "the n-th passage through the house" for every period.
-const { saturnStays, saturnRasi, groupSpans } = require('./src/report/saturnTransit');
-let roundChecks = 0;
+// starts in the planet's sign at birth and ends with the sign before it. Here it
+// is re-derived independently of the engine — by sampling Saturn's longitude
+// daily and counting forward entries into the birth sign — and compared.
+const { saturnLongitude } = require('./src/report/saturnTransit');
+let roundChecks = 0; const passageDiffers = [];
 for (const [y, moon] of [[1985, 4], [1962, 0], [2001, 9], [1948, 7]]) {
   const b = Date.UTC(y, 2, 15, 4, 0);
   const t = computeSaturnTransits({ moonRasiIndex: moon, birthMs: b, horizonYears: 95, atMs: W.atMs });
-  const natal = saturnRasi(b, 'Lahiri');
-  const natalHouse = ((natal - moon + 12) % 12) + 1;
-  const st = saturnStays({ fromMs: b - 10 * YEAR, toMs: b + 95 * YEAR });
-  const returns = groupSpans(st, moon, [natalHouse]).filter((s) => s.startMs > b).map((s) => s.startMs);
-  // Boundaries are fractional milliseconds and ISO strings truncate them: allow 1 ms.
-  const bookRound = (fromUtc) => 1 + returns.filter((r) => r <= Date.parse(fromUtc) + 1).length;
+  const signAt = (ms) => Math.floor(saturnLongitude(ms, 'Lahiri') / 30);
+  const natal = signAt(b);
+  // A return is a forward entry into the birth sign at least ten years after the
+  // last one (retrograde re-entries within a passage are not new rounds).
+  const returns = [];
+  let prev = signAt(b); let lastReturn = b;
+  for (let ms = b + DAY; ms < b + 95 * YEAR; ms += DAY) {
+    const s = signAt(ms);
+    if (s === natal && prev === (natal + 11) % 12 && ms - lastReturn > 10 * YEAR) { returns.push(ms); lastReturn = ms; }
+    prev = s;
+  }
+  const bookRound = (startMs) => 1 + returns.filter((r) => r <= startMs + DAY).length;
   for (const h of t.houseResults.houses) {
-    for (const p of h.periods) {
-      // A passage that began before birth is the first of round 1.
+    h.periods.forEach((p, i) => {
       const start = Math.max(Date.parse(p.fromUtc), b);
-      assert.equal(p.round, bookRound(new Date(start).toISOString()), `${y} Moon ${moon}: house ${h.house} from ${p.fromUtc.slice(0, 10)}`);
+      assert.equal(p.round, bookRound(start), `${y} Moon ${moon}: house ${h.house} from ${p.fromUtc.slice(0, 10)}`);
+      if (p.round !== i + 1) passageDiffers.push(`${y} house ${h.house} ${p.fromUtc.slice(0, 4)}: round ${p.round}, passage ${i + 1}`);
       roundChecks += 1;
-    }
+    });
   }
 }
-assert.ok(roundChecks >= 30);
+assert.ok(roundChecks >= 100);
+// Where the book's round and "the n-th passage" differ, it is only the edge case
+// the code describes: born just inside the birth sign, Saturn retrograded back
+// into the sign before it (1985: Scorpio → Libra, May-Sep 1985). That short stay
+// and Libra's regular passage in 2011-14 are both round 1.
+assert.deepEqual(passageDiffers, [
+  '1985 house 3 2011: round 1, passage 2', '1985 house 3 2041: round 2, passage 3', '1985 house 3 2070: round 3, passage 4',
+]);
 assert.match(HR.NOTES.paryayaCountTa, /236/);
 
 // Sundarananda's two readings follow the fortnight running at the time (book p.86).

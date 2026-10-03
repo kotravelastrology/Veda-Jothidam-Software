@@ -29,22 +29,121 @@
       "Rahu|12,9,5|3,6,11",
       "Ketu|12,9,5|3,6,11"
     ],
-    "exceptions": ["no Vipareetha Vedha to Sun by Saturn", "none to Mercury by Moon"],
+    "exceptions": [
+      "no Vipareetha Vedha to Sun by Saturn",
+      "none to Mercury by Moon"
+    ],
     "example": "Saturn 12th from Janma Rasi and Jupiter in the 3rd: Saturn's evil not felt for the year Jupiter is there (printed p.206)"
   },
   "sudamani": {
-    "verse342": { "page": "printed p.148 (scan 173)", "saturnPairs": "3-12, 6-9, 11-5" },
-    "verse343": { "page": "printed p.149 (scan 174); commentary pp.149-150", "reads": "planets standing the other way round: even cruel planets give good (vipareeta); Sun and Mars give results at the start of a sign, Jupiter and Venus in the middle, Saturn and Moon at the end, Mercury and the nodes throughout" }
+    "verse342": {
+      "page": "printed p.148 (scan 173)",
+      "saturnPairs": "3-12, 6-9, 11-5"
+    },
+    "verse343": {
+      "page": "printed p.149 (scan 174); commentary pp.149-150",
+      "reads": "planets standing the other way round: even cruel planets give good (vipareeta); Sun and Mars give results at the start of a sign, Jupiter and Venus in the middle, Saturn and Moon at the end, Mercury and the nodes throughout"
+    }
   },
   "saturnResults": {
     "scanGap": "printed pp.148-167 are not in the scan (PDF 160 is printed 147, PDF 161 is printed 168)",
-    "main": { "4": "printed p.168", "7": "printed p.169", "8": "printed pp.169-170" },
-    "sundarananda": { "4": "printed p.173", "7": "printed p.174", "8": "printed p.174", "printSlip": "both paragraphs say 'waxing' in every house except the 6th" },
-    "paryaya": {
-      "4": { "1": "printed p.231", "2": "printed pp.232-233", "3": "printed p.234" },
-      "7": { "1": "printed p.231", "2": "printed p.233", "3": "printed p.234" },
-      "8": { "1": "printed pp.231-232", "2": "printed p.233", "3": "printed p.234" }
+    "main": {
+      "1": null,
+      "2": null,
+      "3": null,
+      "4": "printed p.168",
+      "5": "printed p.168",
+      "6": "printed pp.168-169",
+      "7": "printed p.169",
+      "8": "printed pp.169-170",
+      "9": "printed p.170",
+      "10": "printed pp.170-171",
+      "11": "printed p.171",
+      "12": "printed pp.171-172"
     },
-    "names": { "4": "Ardhashtama Sani or Kantaka Sani; Laghu Kalyani (Sundarananda part)", "7": "Kantaka Shani, worse than his 4th", "8": "Ashtama Kantaka Sani; next to 7 1/2 years Saturn the most malefic place" }
+    "sundarananda": {
+      "1": "printed p.172",
+      "2": "printed p.172",
+      "3": "printed p.173",
+      "4": "printed p.173",
+      "5": "printed p.173",
+      "6": "printed pp.173-174",
+      "7": "printed p.174",
+      "8": "printed p.174",
+      "9": "printed p.174",
+      "10": "printed p.175",
+      "11": "printed p.175",
+      "12": "printed p.175",
+      "printSlip": "both paragraphs say 'waxing' in every house except the 6th; the 3rd house heading is numbered '1' and the 10th house heading says 'Jupiter'"
+    },
+    "paryaya": {
+      "1": {
+        "1": "printed p.231",
+        "2": "printed p.232",
+        "3": "printed p.233"
+      },
+      "2": {
+        "1": "printed p.231",
+        "2": "printed p.232",
+        "3": "printed p.233"
+      },
+      "3": {
+        "1": "printed p.231",
+        "2": "printed p.232",
+        "3": "printed p.233"
+      },
+      "4": {
+        "1": "printed p.231",
+        "2": "printed pp.232-233",
+        "3": "printed p.234"
+      },
+      "5": {
+        "1": "printed p.231",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "6": {
+        "1": "printed p.231",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "7": {
+        "1": "printed p.231",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "8": {
+        "1": "printed pp.231-232",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "9": {
+        "1": "printed pp.231-232",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "10": {
+        "1": "printed p.232",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "11": {
+        "1": "printed p.232",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "12": {
+        "1": "printed p.232",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "thirdRoundGeneral": "houses 10, 11, 12 in the 3rd round: \"what is told in general readings for Saturn earlier will take place\" (p.234)"
+    },
+    "names": {
+      "4": "Ardhashtama Sani or Kantaka Sani; Laghu Kalyani (Sundarananda part)",
+      "7": "Kantaka Shani, worse than his 4th",
+      "8": "Ashtama Kantaka Sani; next to 7 1/2 years Saturn the most malefic place"
+    },
+    "ninth": "printed p.170: \"according to ancient Tamil texts ... (Raja Yoga)\" vs \"as per traditional Sanskrit texts, Saturn in 9th also gives bad results\" — \"both jointly give moderate result\""
   }
 }
