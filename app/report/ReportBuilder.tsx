@@ -372,7 +372,7 @@ function GocharaPhalaSection({ report }: { report: ReportData }) {
   const g = (report as any).gocharaPhala;
   if (!g?.available) return null;
   const style: Record<string, string> = { benefic: 'text-teal', vedha: 'text-rose', neutral: 'text-ink-soft' };
-  const label: Record<string, string> = { benefic: 'சுபம்', vedha: 'வேதை (தடை)', neutral: 'நடுநிலை' };
+  const label: Record<string, string> = { benefic: 'சுபம்', vedha: 'வேதை (தடை)', neutral: 'சுப இடம் அல்ல' };
   return (
     <div className="mb-8">
       <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">சந்திர கோசார பலன் + வேதை</h2>
@@ -389,16 +389,21 @@ function GocharaPhalaSection({ report }: { report: ReportData }) {
               <td className="py-1 text-center">{r.houseFromMoon}</td>
               <td className={`py-1 ${style[r.verdict]}`}>{label[r.verdict]}</td>
               <td className="py-1 text-ink-soft text-xs">
-                {r.isBenefic ? `${r.vedhaHouse}வது` : '—'}
+                {r.isBenefic ? (r.vedhaHouse ? `${r.vedhaHouse}வது` : 'வேதை இடம் இல்லை') : '—'}
                 {r.obstructedBy.length > 0 && ` · ${r.obstructedBy.map((x: string) => POINT_LABEL[x] ?? x).join(', ')}`}
+                {!r.isBenefic && r.vipareetaHouse > 0 && (
+                  <span className={r.relievedBy?.length ? 'text-teal' : ''}>
+                    விபரீத வேதை இடம் {r.vipareetaHouse}வது{r.relievedBy?.length ? ` · ${r.relievedBy.map((x: string) => POINT_LABEL[x] ?? x).join(', ')} — தீமை நீங்கும்` : ''}
+                  </span>
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       <p className="text-[11px] text-ink-soft mt-2">
-        பலதீபிகா ச.26 v.3-8 — சந்திரனிலிருந்து சுப கோசார பாவங்கள் + இணை வேதை பாவம் (சூரியன்↔சனி, சந்திரன்↔புதன் விதிவிலக்கு).
-        முந்தைய AstrologicLab gocharaPhala engine-லிருந்து port.
+        புலிப்பாணி, கோசார பலதீபிகை அத்.22 (அச்சுப் பக்கம் 204-206) — சந்திரனிலிருந்து சுப கோசார பாவங்கள், இணை வேதை பாவம், விபரீத வேதை
+        (சூரியன்↔சனி, சந்திரன்↔புதன், சுக்கிரனுக்குச் சூரியன் — விலக்கு). ஐந்து நூல்களின் ஒப்பீடும் எல்லாக் கிரகங்களின் காலங்களும்: <a href="/gochara-vedha" className="underline">/gochara-vedha</a>.
       </p>
     </div>
   );

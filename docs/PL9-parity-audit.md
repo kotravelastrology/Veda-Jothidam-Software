@@ -206,3 +206,7 @@ readings are shown with their pages and there is no single verdict.
 `docs/SATURN-TRANSIT-remedies.md` · `/saturn-transit`. Saturn's bindus in every house (Vinay Aditya, Patel, Vishnu Bhaskar, in that order by measured words) and its Kakshya windows under three methods (Patel's bhava method by default; the sign method of PL, Vishnu Bhaskar and Vinay Aditya; the alternate lord order Patel reports), with Vinay Aditya's watch-list (retrograde, stations, combustion, nakshatra/Tara, navamsha, Chandra navamsha with Rahu's dasha).
 
 **A false BUILT corrected.** "110. Kaksha Dasha Calendar" was marked BUILT with evidence `/tamil-calendar`: the script's generic `/Calendar/` rule matched the row before its own `Kaksha Dasha` rule (which said ABSENT) was reached. The Tamil calendar has nothing to do with Kakshyas. The rule now comes first and the row is **PARTIAL** — Saturn's Kakshya windows exist; PL9's monthly calendar for all seven planets does not. Totals after this stage: **177 built, 119 partial, 119 absent**.
+
+### 11. Gochara vedha for all nine planets (2026-10-06)
+
+`docs/GOCHARA-VEDHA.md` · `/gochara-vedha`. Five books compared; Pulippani (default) and Vishnu Bhaskar computed as dated windows for every planet. "Transit Interpretations" stays **PARTIAL** (PL9's transit text is broader), with the vedha page added to its evidence. The report's gochara section and the answer engine now read the sourced table; their earlier "Phaladeepika 26.3-8" citation had never been checked against a page. Totals unchanged: **177 built, 119 partial, 119 absent**.

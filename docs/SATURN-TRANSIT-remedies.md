@@ -311,7 +311,8 @@ aspects and trines (Vinay Aditya p.165).
 
 ## Not done
 
-- **Vedha for the other planets** — the tables are encoded; only Saturn is computed.
+- ~~Vedha for the other planets~~ — done 2026-10-06 on `/gochara-vedha`
+  (`docs/GOCHARA-VEDHA.md`); Saturn there reproduces this page's windows.
 - **Kakshya for the other planets** — the engine is Saturn's; PL9's monthly
   Kaksha calendar shows all seven.
 - **Counting from Lagna** and Arudha Lagna (Rath).

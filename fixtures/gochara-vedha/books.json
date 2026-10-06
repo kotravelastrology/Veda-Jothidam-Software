@@ -1,0 +1,47 @@
+{
+  "_about": "Second transcription of the vedha tables other than Pulippani's (his are in fixtures/saturn-transit/vedha.json), read from page images on 2026-10-06. test-gochara-vedha.js asserts src/report/gocharaVedhaTables.js agrees.",
+  "vishnuBhaskar": {
+    "page": "printed p.139 (volume-1 part 02, PDF 53), Chapter 14 §II table",
+    "format": "planet | auspicious places | vedha places, column by column",
+    "rows": [
+      "Sun|3,6,10,11|9,12,4,5",
+      "Moon|1,3,6,7,10,11|5,9,12,2,4,8",
+      "Mars|3,6,11|12,9,5",
+      "Mercury|2,4,6,8,10,11|5,3,9,1,7,12",
+      "Jupiter|2,5,7,9,11|12,4,3,10,8",
+      "Venus|1,2,3,4,5,8,9,11,12|8,7,1,10,9,5,11,6,3",
+      "Saturn|3,6,11|12,9,5",
+      "Rahu|3,6,11|12,9,5",
+      "Ketu|3,6,11|12,9,5"
+    ],
+    "notes": ["Father son duo i.e. Su-Sa or Mo-Me don't cause Vedha", "In South India Mercury's benefic places are taken as 6, 8, 12H from Moon", "Vipreet Vedha: planet at its vedha place, any other planet in the corresponding good house: evil obstructed"]
+  },
+  "kalaprakasikaTable": {
+    "page": "Jataka Parijata vol.3 printed p.834 (PDF 128): reprint of the Kalaprakasika verses' table; Kalaprakasika 1982 printed p.210 (PDF 240)",
+    "jatakaParijataReprint": {
+      "Sun": [1, 2, 9, 3, 6, 12, 7, 8, 10, 4, 5, 11],
+      "Moon": [5, 1, 9, 3, 6, 12, 2, 7, 10, 4, 8, 11],
+      "Mars": [1, 2, 12, 3, 4, 9, 6, 7, 8, 10, 5, 11],
+      "Mercury": [2, 5, 4, 3, 7, 9, 6, 1, 8, 10, 12, 11],
+      "Jupiter": [1, 12, 2, 5, 4, 6, 3, 7, 10, 9, 8, 11],
+      "Venus": [8, 7, 1, 10, 9, 12, 2, 5, 11, 4, 3, 6]
+    },
+    "print1982": {
+      "Sun": ["1", "2", "9", "3", "6", "12", "7", "8", "10", "4", "5", "11"],
+      "Moon": ["6", "1", "9", "3", "6", "12", "a", "7", "10", "4", "8", "11"],
+      "Mars": ["1", "2", "12", "3", "4", "9", "S", "7", "8", "10", "6", "11"],
+      "Mercury": ["2", "5", "4", "8", "7", "9", "6", "1", "8", "10", "12", "11"],
+      "Jupiter": ["1", "12", "2", "5", "4", "6", "3", "7", "10", "9", "8", "11"],
+      "Venus": ["8", "7", "1", "10", "9", "12", "2", "6", "11", "4", "3", "6"]
+    },
+    "prose": "Rahu, Kethu and Saturn same as Mars; the Moon and Mercury, the Sun and Saturn do not affect each other (Kalaprakasika p.209)"
+  },
+  "sudamani": {
+    "page": "printed p.148 (scan 173), verses 341-342; commentary pp.148-149",
+    "verse341Good": { "Sun": [11, 3, 10, 6], "Moon": [1, 3, 6, 7, 10, 11], "Mars": [3, 6, 10, 11], "Saturn": [3, 6, 10, 11], "Rahu": [3, 6, 10, 11], "Mercury": [2, 6, 4, 8, 10, 11], "Jupiter": [11, 9, 7, 5, 2], "Venus": [11, 12, 2, 8, 1, 4, 3, 5, 9] },
+    "verse342Vedha": { "Sun": [5, 9, 4, 12], "Moon": [5, 9, 12, 2, 4, 8], "Mars": [12, 9, 5], "Saturn": [12, 9, 5], "Rahu": [12, 9, 5], "Mercury": [5, 3, 9, 1, 8, 12], "Jupiter": [12, 8, 10, 3, 4] },
+    "commentaryMoonVedha": [8, 10, 3, 4, 12],
+    "commentaryVenus": { "good": [11, 12, 8, 9, 4, 3, 5], "clean": [3, 6, 7, 5, 8, 11, 9] }
+  },
+  "wordCounts": { "PULIPPANI": 614, "JATAKA_PARIJATA": 465, "SUDAMANI": 251, "KALAPRAKASIKA": 248, "VISHNU_BHASKAR": 185 }
+}

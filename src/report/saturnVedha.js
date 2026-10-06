@@ -41,7 +41,7 @@ const YEAR_MS = 365.25 * DAY_MS;
 const JD_UNIX_EPOCH = 2440587.5;
 const OTHERS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Rahu', 'Ketu'];
 const FAST = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'];
-const STEP_DAYS = { Sun: 1, Moon: 1, Mars: 1, Mercury: 1, Venus: 1, Jupiter: 2, Rahu: 2, Ketu: 2 };
+const STEP_DAYS = { Sun: 1, Moon: 1, Mars: 1, Mercury: 1, Venus: 1, Jupiter: 2, Saturn: 2, Rahu: 2, Ketu: 2 };
 const PLANET_TA = {
   Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு',
   Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது',

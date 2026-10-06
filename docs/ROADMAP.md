@@ -140,7 +140,15 @@ Not plan items, but real, and they should not be discovered at release:
   with its round. Since then: all twelve houses' text; and (2026-10-06)
   Ashtakavarga and Kakshya — Patel's bhava method reproduced exactly from his two
   worked charts, the sign method, Vinay Aditya's watch-list; Patel's bindu table
-  found to differ from Vinay Aditya's in two cells. Not yet: vedha and Kakshya
-  for the other planets.
+  found to differ from Vinay Aditya's in two cells. Not yet: Kakshya for the
+  other planets.
+- **Gochara vedha for all nine planets.** `/gochara-vedha`
+  (`docs/GOCHARA-VEDHA.md`). Five books compared cell by cell (Pulippani,
+  Jataka Parijata, Sudamani, Kalaprakasika, Vishnu Bhaskar); they differ only on
+  Mercury's 10th, Venus's 11th/12th, the 10th as a good house and Pulippani's
+  Venus–Sun exemption. Pulippani (most explained) and Vishnu Bhaskar computed.
+  The report's gochara section and the answer engine now read the sourced
+  table instead of an unverified "Phaladeepika 26.3-8" copy. Not yet:
+  nakshatra vedha (Pulippani ch.23).
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

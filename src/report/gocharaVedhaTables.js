@@ -15,7 +15,10 @@
  *
  *   - Jupiter's malefic row prints "S" where the gochara table needs 8.
  *   - Venus's last two vipareetha pairs are swapped against the gochara table
- *     (printed 6↔11 and 3↔12; the gochara table pairs 11↔3 and 12↔6).
+ *     (printed 6↔11 and 3↔12; the gochara table pairs 11↔3 and 12↔6). Found
+ *     later (2026-10-06): 6↔11 and 3↔12 are exactly Vishnu Bhaskar's gochara
+ *     pairs, so this is the books' disagreement showing inside one book, not
+ *     only a slip; Kalaprakasika and Sudamani side with Pulippani's gochara row.
  *
  * Sudamani verse 343 (printed p.149) states the same reversal in Tamil — "even
  * cruel planets give good" when the planets stand the other way round — and its
@@ -24,8 +27,8 @@
  * happens: Pulippani says Saturn's evil "will not be felt"; Sudamani says even a
  * cruel planet "gives good". Both are shown.
  *
- * This stage computes Saturn only. The other planets' rows are here because the
- * book prints them as one table and the reversal check needs all of it.
+ * The Saturn stage computed Saturn only; since 2026-10-06 every planet is
+ * computed (`gocharaVedha.js`), and four more books are compared below.
  */
 
 const { SOURCES } = require('./saturnTransitTables');
@@ -122,7 +125,200 @@ const SATURN_VIPAREETA = Object.freeze({ 12: 3, 9: 6, 5: 11 });
 /** Saturn's three good houses and the house that obstructs each (Pulippani, Vishnu Bhaskar, Sudamani verse 342). */
 const SATURN_VEDHA = Object.freeze({ 3: 12, 6: 9, 11: 5 });
 
+// ===========================================================================
+// All nine planets (added 2026-10-06): five books compared, two computed
+// ===========================================================================
+//
+// Five books print a vedha table. They agree on most cells and differ on a
+// few, listed in VEDHA_DIFFERENCES below. Two of them print a complete table
+// that can be read unambiguously — Pulippani and Vishnu Bhaskar — and those two
+// are the methods the engine computes. Pulippani is the default because his
+// chapter explains the subject most (owner's rule, 2026-10-03).
+
+const KALAPRAKASIKA_BOOK = Object.freeze({
+  title: 'Kalaprakasika',
+  author: 'N.P. Subramania Iyer (translator)',
+  file: 'kalaprakasika-nps-iyer-1982/raw-scans/full-scan.pdf',
+  tradition: 'Tamil / Sanskrit classical (muhurta)',
+});
+
+const PLANETS_9 = Object.freeze(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu']);
+
+/** Vishnu Bhaskar printed p.139: auspicious place → vedha place. Rahu and Ketu share one row. */
+const VB_GOCHARA_VEDHA = deepFreeze({
+  Sun: { pairs: [[3, 9], [6, 12], [10, 4], [11, 5]] },
+  Moon: { pairs: [[1, 5], [3, 9], [6, 12], [7, 2], [10, 4], [11, 8]] },
+  Mars: { pairs: [[3, 12], [6, 9], [11, 5]] },
+  Mercury: { pairs: [[2, 5], [4, 3], [6, 9], [8, 1], [10, 7], [11, 12]] },
+  Jupiter: { pairs: [[2, 12], [5, 4], [7, 3], [9, 10], [11, 8]] },
+  Venus: { pairs: [[1, 8], [2, 7], [3, 1], [4, 10], [5, 9], [8, 5], [9, 11], [11, 6], [12, 3]] },
+  Saturn: { pairs: [[3, 12], [6, 9], [11, 5]] },
+  Rahu: { pairs: [[3, 12], [6, 9], [11, 5]] },
+  Ketu: { pairs: [[3, 12], [6, 9], [11, 5]] },
+});
+const VB_VEDHA_SOURCE = Object.freeze({
+  ...VISHNU_BHASKAR,
+  pageLocus: 'Chapter 14 §II, printed p.139 (PDF page 53 of volume-1 part 02): "Auspicious Places from Moon & their corresponding Vedha Places"; note 2 "Father son duo i.e. Su-Sa or Mo-Me don\'t cause Vedha"; note 4 "Vipreet Vedha: When there is a planet at any of its Vedha place it is inauspicious & if there is any other planet in corresponding good house then its evil effect is obstructed"',
+});
+
+/** The father-and-son exemption, stated generally (both directions, both kinds) by three books. */
+const FATHER_SON = deepFreeze([['Sun', 'Saturn'], ['Moon', 'Mercury']]);
+const FATHER_SON_SOURCES = Object.freeze([
+  Object.freeze({ ...JATAKA_PARIJATA, pageLocus: 'printed p.834 (PDF 128), Adhyaya XIII, notes to sloka 60: "There is no Vedha between the father and the son. Consequently, (1) the Moon and Mercury, (2) the Sun and Saturn do not affect each other through Vedha."' }),
+  Object.freeze({ ...KALAPRAKASIKA_BOOK, pageLocus: 'printed p.209 (PDF 239), "Planetary Vedhai (Perturbation)": "The Moon and Mercury, the Sun and Saturn do not affect each other through Vedhai."' }),
+  VB_VEDHA_SOURCE,
+]);
+
+/** Reverses a good→vedha table into bad→relieving pairs, keeping only houses that are not themselves good. */
+function reverseOnBadHouses(pairs, goodHouses) {
+  const good = new Set(goodHouses);
+  return pairs.filter(([, v]) => !good.has(v)).map(([g, v]) => [v, g]);
+}
+const goodOf = (row) => [...row.pairs.map(([g]) => g), ...(row.unpairedGood ?? [])];
+
+/**
+ * The two computable methods. For each planet: good houses (each with its
+ * vedha house, or none), and bad houses that a planet elsewhere relieves
+ * (vipareetha). A house that the book calls good is read as good even where a
+ * vipareetha row also lists it — Pulippani's malefic rows for Mercury (8) and
+ * Venus (1, 3, 5, 8, 9, 11) name houses his own benefic rows call good.
+ */
+function methodFrom(gocharaTable, vipareetaFor) {
+  const out = {};
+  for (const p of PLANETS_9) {
+    const row = gocharaTable[p];
+    const good = goodOf(row);
+    out[p] = {
+      good,
+      vedhaOf: Object.fromEntries(row.pairs.map(([g, v]) => [g, v])),
+      unpairedGood: [...(row.unpairedGood ?? [])],
+      relievedBy: Object.fromEntries(vipareetaFor(p, row, good).filter(([b]) => !good.includes(b))),
+    };
+  }
+  return deepFreeze(out);
+}
+
+const VEDHA_METHODS = deepFreeze({
+  PULIPPANI: {
+    id: 'PULIPPANI',
+    labelTa: 'புலிப்பாணி (கோசார பலதீபிகை, அத். 22)',
+    table: methodFrom(GOCHARA_VEDHA, (p) => VIPAREETA_VEDHA[p].pairs),
+    // Pulippani's own lists, plus the general father-and-son rule both ways.
+    exempt: {
+      gochara: { Sun: ['Saturn'], Saturn: ['Sun'], Moon: ['Mercury'], Mercury: ['Moon'], Venus: ['Sun'] },
+      vipareeta: { Sun: ['Saturn'], Saturn: ['Sun'], Moon: ['Mercury'], Mercury: ['Moon'] },
+    },
+    exemptNoteTa: 'புலிப்பாணியின் பட்டியல்: சூரியனுக்குச் சனியால், சந்திரனுக்குப் புதனால், புதனுக்குச் சந்திரனால், சுக்கிரனுக்குச் சூரியனால், சனிக்குச் சூரியனால் வேதை இல்லை. "தந்தை-மகன்" விதியை (சூரியன்-சனி, சந்திரன்-புதன்) ஜாதக பாரிஜாதம், காலப்பிரகாசிகை, விஷ்ணு பாஸ்கர் மூவரும் இரு திசையிலும் பொதுவாகச் சொல்வதால் விபரீத வேதைக்கும் பொருத்துகிறோம். சுக்கிரன்-சூரியன் விலக்கு புலிப்பாணியில் மட்டும், கோசார வேதைக்கு மட்டும்.',
+    sources: [GOCHARA_VEDHA_SOURCE, VIPAREETA_VEDHA_SOURCE],
+  },
+  VISHNU_BHASKAR: {
+    id: 'VISHNU_BHASKAR',
+    labelTa: 'விஷ்ணு பாஸ்கர் (அத். 14 §II)',
+    table: methodFrom(VB_GOCHARA_VEDHA, (p, row, good) => reverseOnBadHouses(row.pairs, good)),
+    exempt: {
+      gochara: { Sun: ['Saturn'], Saturn: ['Sun'], Moon: ['Mercury'], Mercury: ['Moon'] },
+      vipareeta: { Sun: ['Saturn'], Saturn: ['Sun'], Moon: ['Mercury'], Mercury: ['Moon'] },
+    },
+    exemptNoteTa: 'விஷ்ணு பாஸ்கர்: சூரியன்-சனி, சந்திரன்-புதன் ("தந்தை-மகன்") வேதை செய்வதில்லை. விபரீத வேதை = வேதை இடத்தில் கிரகம், இணையான நல்ல இடத்தில் வேறு கிரகம் — அவரது அட்டவணையைத் திருப்பிப் படிப்பது.',
+    sources: [VB_VEDHA_SOURCE],
+  },
+});
+const DEFAULT_VEDHA_METHOD = 'PULIPPANI';
+
+/** Words in each book's vedha section (English text layer; Sudamani in Tamil words). */
+const VEDHA_RANK = deepFreeze({
+  order: ['PULIPPANI', 'JATAKA_PARIJATA', 'SUDAMANI', 'KALAPRAKASIKA', 'VISHNU_BHASKAR'],
+  words: { PULIPPANI: 614, JATAKA_PARIJATA: 465, SUDAMANI: 251, KALAPRAKASIKA: 248, VISHNU_BHASKAR: 185 },
+  computable: ['PULIPPANI', 'VISHNU_BHASKAR'],
+  measureTa: 'வேதைப் பகுதியின் சொற்கள்: புலிப்பாணி அத்தியாயம் 22 (பக்.204-206) 614; ஜாதக பாரிஜாதம் உரை (பக்.833-834) 465; சூடாமணி செய்யுள் 341-343 உரையுடன் 251 (தமிழ்ச் சொற்கள்); காலப்பிரகாசிகை (பக்.209-210) 248; விஷ்ணு பாஸ்கர் §II (ப.139) 185.',
+  computableTa: 'கணிக்கக்கூடியவை இரண்டு மட்டுமே — முழு அட்டவணையையும் தெளிவாகப் படிக்கக்கூடிய புலிப்பாணி (இயல்பு), விஷ்ணு பாஸ்கர். ஜாதக பாரிஜாதம் காலப்பிரகாசிகையின் அட்டவணையையே மறுபதிப்பு செய்கிறது; அதன் தீய இடப் பகுதியின் விதி நூலில் இல்லை. சூடாமணியின் சுக்கிரன் வரி பிரிக்க முடியவில்லை. இவை மூன்றும் ஒப்பீட்டில் மட்டும்.',
+});
+
+/**
+ * Kalaprakasika's table, as Jataka Parijata reprints it (printed p.834): one
+ * row of twelve numbers per planet under columns I-XII. Read as "a planet in
+ * house N is obstructed by a planet in the house printed under N", every
+ * auspicious-house cell of all six rows matches Pulippani except Mercury's
+ * 10th, which prints 10. The columns for the other houses do not reverse the
+ * auspicious pairs (except Venus's) and the text gives no rule for them, so
+ * they are recorded and not used. The reading of the layout is ours.
+ */
+const KALAPRAKASIKA_TABLE = deepFreeze({
+  Sun: [1, 2, 9, 3, 6, 12, 7, 8, 10, 4, 5, 11],
+  Moon: [5, 1, 9, 3, 6, 12, 2, 7, 10, 4, 8, 11],
+  Mars: [1, 2, 12, 3, 4, 9, 6, 7, 8, 10, 5, 11],
+  Mercury: [2, 5, 4, 3, 7, 9, 6, 1, 8, 10, 12, 11],
+  Jupiter: [1, 12, 2, 5, 4, 6, 3, 7, 10, 9, 8, 11],
+  Venus: [8, 7, 1, 10, 9, 12, 2, 5, 11, 4, 3, 6],
+});
+/** Cells where the 1982 Kalaprakasika print (p.210) differs from Jataka Parijata's reprint: [column, printed]. */
+const KALAPRAKASIKA_1982_CELLS = deepFreeze({
+  Moon: [[1, '6'], [7, 'a']], Mars: [[7, 'S'], [11, '6']], Mercury: [[4, '8']], Venus: [[8, '6']],
+});
+const KALAPRAKASIKA_SOURCES = Object.freeze([
+  Object.freeze({ ...JATAKA_PARIJATA, pageLocus: 'printed pp.833-834 (PDF 127-128), Adhyaya XIII notes to sloka 60: the Kalaprakasika verses ("yugmagaih") and "the Vedha positions have been indicated in the table subjoined: Vedah signs reckoned from the house of the Moon"' }),
+  Object.freeze({ ...KALAPRAKASIKA_BOOK, pageLocus: 'printed p.210 (PDF 240), "Vedhai Signs from the House of the Moon"; p.209: "Vedhai places of Rahu, Kethu, and Saturn are the same as those of Mars"; a badly located planet "loses its power for evil and produces good" through planets "holding their Vedhai signs"' }),
+]);
+
+/** Sudamani: verse 341 good houses and verse 342 vedha places, as sets, in verse order. Venus's vedha line is not decoded. */
+const SUDAMANI_SETS = deepFreeze({
+  good: { Sun: [11, 3, 10, 6], Moon: [1, 3, 6, 7, 10, 11], Mars: [3, 6, 10, 11], Saturn: [3, 6, 10, 11], Rahu: [3, 6, 10, 11], Mercury: [2, 6, 4, 8, 10, 11], Jupiter: [11, 9, 7, 5, 2], Venus: [11, 12, 2, 8, 1, 4, 3, 5, 9] },
+  vedha: { Sun: [5, 9, 4, 12], Moon: [5, 9, 12, 2, 4, 8], Mars: [12, 9, 5], Saturn: [12, 9, 5], Rahu: [12, 9, 5], Mercury: [5, 3, 9, 1, 8, 12], Jupiter: [12, 8, 10, 3, 4] },
+});
+const SUDAMANI_SOURCES = Object.freeze([
+  Object.freeze({ ...SUDAMANI, pageLocus: 'கோசாரபலமும் திசாபுத்தி பலனும், செய்யுள் 341-342, அச்சுப் பக்கம் 148 (ஸ்கேன் பக்கம் 173); உரை பக்கம் 148-149 (ஸ்கேன் 173-174)' }),
+]);
+
+/**
+ * Where the books differ — each a cell or rule, with every book's reading.
+ * `planet`/`house` say where it bites in a computation.
+ */
+const VEDHA_DIFFERENCES = deepFreeze([
+  {
+    id: 'MERCURY_10',
+    planet: 'Mercury', house: 10,
+    textTa: 'புதன் 10-ல் — வேதை இடம்: புலிப்பாணி 8; சூடாமணியின் புதன் வேதைத் தொகுப்பில் 8 உண்டு, 7 இல்லை; ஜாதக பாரிஜாதம் / காலப்பிரகாசிகை அட்டவணை X-ன் கீழ் 10 (அதே இடம் — வேதை இடம் இல்லை எனப் படிக்கலாம்); விஷ்ணு பாஸ்கர் 7.',
+    byBook: { PULIPPANI: 8, SUDAMANI: '8 (தொகுப்பில்)', JATAKA_PARIJATA: '10', KALAPRAKASIKA: '10', VISHNU_BHASKAR: 7 },
+  },
+  {
+    id: 'VENUS_11_12',
+    planet: 'Venus', house: [11, 12],
+    textTa: 'சுக்கிரன் 11, 12-ல் — வேதை இடங்கள்: புலிப்பாணி, ஜாதக பாரிஜாதம், காலப்பிரகாசிகை 3, 6; சூடாமணி உரையும் முதல் இரண்டு இணையாக 11-3, 12-6; விஷ்ணு பாஸ்கர் 6, 3. புலிப்பாணியின் சொந்த விபரீத வேதை அட்டவணை விஷ்ணு பாஸ்கரின் இணைகளைப் போல (6↔11, 3↔12) அச்சாகியுள்ளது.',
+    byBook: { PULIPPANI: '11→3, 12→6', JATAKA_PARIJATA: '11→3, 12→6', KALAPRAKASIKA: '11→3, 12→6', SUDAMANI: '11→3, 12→6 (உரை)', VISHNU_BHASKAR: '11→6, 12→3' },
+  },
+  {
+    id: 'TENTH_GOOD',
+    planet: ['Mars', 'Saturn', 'Rahu', 'Ketu'], house: 10,
+    textTa: '10-ஆம் இடம்: புலிப்பாணி ராகு, கேதுவுக்கு நல்ல இடம் (வேதை இடம் இல்லை); சூடாமணி செவ்வாய், சனி, ராகுவுக்கு நல்ல இடம் (வேதை இடம் இல்லை); காலப்பிரகாசிகை அட்டவணை செவ்வாய் வரிசையில் 10-ன் கீழ் 10; விஷ்ணு பாஸ்கர் 10-ஐ நல்ல இடமாகச் சொல்லவில்லை.',
+    byBook: { PULIPPANI: 'ராகு, கேது', SUDAMANI: 'செவ்வாய், சனி, ராகு', KALAPRAKASIKA: '10 (அதே இடம்)', JATAKA_PARIJATA: '10 (அதே இடம்)', VISHNU_BHASKAR: '—' },
+  },
+  {
+    id: 'VENUS_SUN',
+    planet: 'Venus',
+    textTa: 'சுக்கிரனுக்குச் சூரியனால் வேதை இல்லை — புலிப்பாணி மட்டும். மற்ற நூல்களின் விலக்கு "தந்தை-மகன்" (சூரியன்-சனி, சந்திரன்-புதன்) மட்டுமே.',
+    byBook: { PULIPPANI: 'விலக்கு', JATAKA_PARIJATA: '—', KALAPRAKASIKA: '—', SUDAMANI: '—', VISHNU_BHASKAR: '—' },
+  },
+  {
+    id: 'VIPAREETA',
+    textTa: 'விபரீத வேதை: புலிப்பாணி அட்டவணை தருகிறார் (குருவின் "S" = 8; சுக்கிரனின் இரண்டு இணைகள் விஷ்ணு பாஸ்கர் போல); விஷ்ணு பாஸ்கர், சூடாமணி (செய். 343) அட்டவணையைத் திருப்பிப் படிக்கச் சொல்கின்றனர்; காலப்பிரகாசிகை "தீய நிலைக் கிரகம் தீமை செய்யும் வலிமையை இழக்கும்" என்கிறது — ஆனால் அதன் அட்டவணையின் தீய இடப் பகுதி (சுக்கிரன் தவிர) திருப்பிப் படித்ததாக இல்லை, விதியும் சொல்லப்படவில்லை; அதனால் கணிக்கவில்லை.',
+    byBook: { PULIPPANI: 'அட்டவணை', VISHNU_BHASKAR: 'திருப்பல்', SUDAMANI: 'திருப்பல் (செய். 343)', KALAPRAKASIKA: 'உரைநடை மட்டும்', JATAKA_PARIJATA: 'காலப்பிரகாசிகை அட்டவணை மறுபதிப்பு' },
+  },
+  {
+    id: 'MOON_COMMENTARY',
+    planet: 'Moon',
+    textTa: 'சூடாமணி உரை சந்திரனின் வேதை இடங்களை 8, 10, 3, 4, 12 என்று (ஐந்து மட்டும்) தருகிறது — செய்யுள் 342-ன் தொகுப்போ (5, 9, 12, 2, 4, 8) மற்ற நூல்களோ இதனுடன் பொருந்தவில்லை. செய்யுளே பின்பற்றப்படுகிறது; உரை பதிவாக மட்டும்.',
+    byBook: { SUDAMANI: 'செய்யுள் 5, 9, 12, 2, 4, 8; உரை 8, 10, 3, 4, 12' },
+  },
+]);
+
+/** Rahu and Ketu always stand opposite; whether they obstruct each other no book says. */
+const NODE_PAIR_NOTE_TA = 'ராகுவும் கேதுவும் எப்போதும் எதிரெதிரே (7-ஆம் இடத்தில்) இருப்பவை. அவை ஒன்றுக்கொன்று வேதை செய்கின்றனவா என்று எந்த நூலும் சொல்லவில்லை; எண்ணினால் ராகுவின் 11-ஆம் இடம் எப்போதும் தடைபடும், 5-ஆம் இடம் எப்போதும் விடுபடும். அதனால் காட்டப்படுகிறது, மொத்தக் கணக்கில் இல்லை (எங்கள் வாசிப்பு).';
+
 module.exports = {
   GOCHARA_VEDHA, GOCHARA_VEDHA_SOURCE, VIPAREETA_VEDHA, VIPAREETA_VEDHA_SOURCE,
   SATURN_VEDHA_TEXT, SATURN_VIPAREETA, SATURN_VEDHA,
+  PLANETS_9, VB_GOCHARA_VEDHA, VB_VEDHA_SOURCE, FATHER_SON, FATHER_SON_SOURCES,
+  VEDHA_METHODS, DEFAULT_VEDHA_METHOD, VEDHA_RANK, KALAPRAKASIKA_TABLE, KALAPRAKASIKA_1982_CELLS,
+  KALAPRAKASIKA_SOURCES, SUDAMANI_SETS, SUDAMANI_SOURCES, VEDHA_DIFFERENCES, NODE_PAIR_NOTE_TA,
+  reverseOnBadHouses,
 };

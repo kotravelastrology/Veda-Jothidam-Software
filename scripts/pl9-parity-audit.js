@@ -62,6 +62,7 @@ const RULES = {
     [/Curses and Evils/i, 'PARTIAL', 'doshas.js covers some'],
     [/1001 Applicable/i, 'ABSENT', 'no 1001-yoga corpus'],
     [/Bhavesh/i, 'PARTIAL', 'answerEngine Q&A, not per-lord chapters'],
+    [/Transit Interpretations/i, 'PARTIAL', 'answerEngine.js Q&A corpus, different shape; /gochara-vedha — vedha for all nine planets (gocharaVedha.js)'],
     [/Interpretations|Lucky Points|Nakshatra/i, 'PARTIAL', 'answerEngine.js Q&A corpus, different shape'],
   ],
   'Reports / Dashas': [
