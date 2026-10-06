@@ -43,5 +43,18 @@
     "commentaryMoonVedha": [8, 10, 3, 4, 12],
     "commentaryVenus": { "good": [11, 12, 8, 9, 4, 3, 5], "clean": [3, 6, 7, 5, 8, 11, 9] }
   },
-  "wordCounts": { "PULIPPANI": 614, "JATAKA_PARIJATA": 465, "SUDAMANI": 251, "KALAPRAKASIKA": 248, "VISHNU_BHASKAR": 185 }
+  "wordCounts": { "PULIPPANI": 614, "JATAKA_PARIJATA": 465, "SUDAMANI": 251, "KALAPRAKASIKA": 248, "VISHNU_BHASKAR": 185 },
+  "nakshatraVedha": {
+    "format": "natal planet | Nth star from it | planet(s) whose transit there causes the vedha",
+    "pulippani": {
+      "page": "Gochar Phaladeepika printed p.207 (PDF 200), Table 14",
+      "rows": ["Sun|9|Rahu/Ketu", "Sun|15|Ketu", "Moon|7|Mars", "Moon|12|Sun", "Mars|4|Mercury", "Mars|12|Moon", "Mercury|5|Jupiter", "Mercury|17|Saturn", "Jupiter|6|Venus", "Jupiter|12|Rahu", "Venus|8|Saturn", "Venus|18|Mercury", "Saturn|9|Sun", "Saturn|12|Jupiter", "Rahu/Ketu|9|Moon", "Rahu/Ketu|13|Mars"]
+    },
+    "santhanam": {
+      "page": "Jyotisharnava Navanitam printed p.150 (PDF 157)",
+      "rows": ["Sun|9|Rahu/Ketu", "Sun|15|Ketu only", "Moon|7|Mars", "Moon|12|Sun", "Mars|4|Mercury", "Mars|12|Moon", "Mercury|5|Jupiter", "Mercury|17|Saturn", "Jupiter|6|Venus", "Jupiter|12|Rahu", "Venus|8|Saturn", "Venus|18|Mercury", "Saturn|9|Sun", "Saturn|12|Jupiter", "Rahu/Ketu|9|Moon", "Rahu/Ketu|13|Mars"]
+    },
+    "example": "both books: Sun in Aswini at birth; the 9th is Aslesha, the 15th Swati",
+    "wordCounts": { "PULIPPANI": 238, "SANTHANAM": 235 }
+  }
 }

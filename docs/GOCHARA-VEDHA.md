@@ -77,11 +77,52 @@ Moon two months, the Sun, Mercury and Venus a year, Mars two years, Jupiter
 twelve, Rahu and Ketu eighteen, Saturn thirty (the same window as the Saturn
 page, and the test checks the two computations agree stay for stay).
 
+## Nakshatra vedha (added the same day)
+
+`src/report/nakshatraVedha.js` · `nakshatraVedhaTables.js` · test
+`test-nakshatra-vedha.js` · same page, own section.
+
+Counts *stars*, from each planet's own natal star: when a named planet transits
+the Nth star from (say) the natal Sun's star, the transit's good effects are
+held back. Sixteen positions — two for each of the seven planets, two jointly
+for the nodes.
+
+| Book | Section | Words |
+|---|---|---|
+| Pulippani, *Gochar Phaladeepika* | ch.23, Table 14, pp.207–208 | 238 |
+| R. Santhanam, *Jyotisharnava Navanitam* (added to the curated library and registry) | ch.3 commentary, pp.149–150 | 235 |
+
+The two tables are identical in all sixteen cells, and the sentences nearly so;
+three words separate the counts, and the page says the order is practically a
+tie. The Tamil texts held have no nakshatra vedha.
+
+**Where they read it differently** (shown, not settled): Pulippani's opening
+says the planet's own transit effects, good or evil, are neutralised; his
+example says the good effects of *other* transits are suspended and only
+malefic ones come; Santhanam, for Ketu in the 15th from the natal Sun's star,
+says "all good effects of the Sun will vanish". Both add an exception when the
+"directional influences" are strongly favourable — probably the dasha; not
+computed.
+
+**Our readings, labelled on the page:** counting is inclusive — the books'
+own example (Sun in Aswini; Aslesha 9th, Swati 15th) fixes this; "Rahu/Ketu"
+as the natal planet is counted from both nodes' stars (they are 13 or 14 stars
+apart and neither book says which); either node in the Sun's 9th counts. The
+Moon's spells (about a day a month) are listed for the next thirteen months.
+
+**Found on the way:** Santhanam's next table, "Vedha for bad places only"
+(p.151), checks a planet in a bad house by a planet in a nearby house — the Sun
+in the 4th by the 3rd, Venus in the 6th by the 12th — which is the pattern in
+Kalaprakasika's bad-house columns that this document calls unexplained above.
+Not yet compared cell by cell.
+
 ## Not done
 
-- Nakshatra vedha (Pulippani ch.23) — a different system, not started.
-- Kalaprakasika's bad-house columns — need a statement of the rule.
+- Kalaprakasika's bad-house columns against Santhanam's "Vedha for bad places
+  only" table (p.151) — a likely explanation, not yet checked cell by cell.
 - Sudamani's Venus line — needs a Tamil reader's decoding of the verse.
+- The Saptashalaka (seven-line) nakshatra gochara, Pulippani ch.24 — a
+  different system.
 
 ## Verified
 
@@ -89,6 +130,9 @@ page, and the test checks the two computations agree stay for stay).
 transcription; the three Pulippani/VB cells that differ; Kalaprakasika's
 layout reading; Sudamani's sets; both methods' pairs; word order; every
 citation registered; window boundaries against the ephemeris; Saturn identical
-to `/saturn-transit`. Browser-checked with a manually entered chart (nothing
-written to the library): the present table, the method switch, the per-planet
-timelines and the comparison.
+to `/saturn-transit`. `test-nakshatra-vedha.js`: both books' tables against an
+independent transcription, the books' example count, word order, citations,
+every window's entry and exit against the ephemeris, and "now". Browser-checked
+with a manually entered chart (nothing written to the library): the present
+table, the method switch, the per-planet timelines, the comparison and the
+nakshatra section.

@@ -338,6 +338,23 @@ const SOURCES = [
     },
   },
   {
+    id: 'SANTHANAM_JYOTISHARNAVA_NAVANITAM',
+    title: 'Jyotisharnava Navanitam',
+    titleTa: 'ஜோதிஷார்ணவ நவநீதம்',
+    author: 'R. Santhanam (translation and commentary)',
+    file: 'jyotisharnava-navanitam-santhanam/raw-scans/full-scan.pdf',
+    tradition: 'Classical Sanskrit text with a modern English translation and commentary',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the nakshatra vedha table and the "vedha for bad places only" table in chapter 3 '
+        + '(printed pp.149-151), both in the translator\'s own appended commentary, not the verses.',
+      verified: false,
+      toConfirm: 'Year of publication.',
+    },
+  },
+  {
     id: 'KAPOOR_REMEDIAL_MEASURES',
     title: 'Remedial Measures in Astrology',
     titleTa: 'ஜோதிடப் பரிகார முறைகள்',

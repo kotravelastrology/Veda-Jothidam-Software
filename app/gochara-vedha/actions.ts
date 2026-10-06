@@ -8,7 +8,11 @@ const { calculateParashariChart } = require('../../src/chart/parashariChart');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { gocharaVedha } = require('../../src/report/gocharaVedha');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const { nakshatraVedha } = require('../../src/report/nakshatraVedha');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { describeMatchParty } = require('../../src/report/matchParties');
+
+const YEAR_MS = 365.25 * 86400000;
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { openLibrary } = require('../../src/library/chartRepository');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -48,11 +52,18 @@ export async function computeVedha(req: VedhaRequest) {
   }
   const ctx = createChartContext({ ...input, calendarMode: 'tirukanita' });
   const chart = calculateParashariChart(ctx);
+  const now = Date.now();
+  const nodeType = ctx.nodeType ?? 'mean';
   const result = gocharaVedha({
     moonRasiIndex: chart.grahas.Moon.rasiIndex,
-    atMs: Date.now(),
+    atMs: now,
     ayanamsha: ctx.ayanamsha,
-    nodeType: ctx.nodeType ?? 'mean',
+    nodeType,
   });
-  return JSON.parse(JSON.stringify({ ...result, native: describeMatchParty(input, ctx, profile) }));
+  // Nakshatra vedha counts from every planet's natal star, not only the Moon's.
+  const natalLongitudes = Object.fromEntries(Object.entries(chart.grahas).map(([k, v]: [string, any]) => [k, v.longitude]));
+  const nakshatra = nakshatraVedha({
+    natalLongitudes, fromMs: now - 2 * YEAR_MS, toMs: now + 30 * YEAR_MS, atMs: now, ayanamsha: ctx.ayanamsha, nodeType,
+  });
+  return JSON.parse(JSON.stringify({ ...result, nakshatra, native: describeMatchParty(input, ctx, profile) }));
 }

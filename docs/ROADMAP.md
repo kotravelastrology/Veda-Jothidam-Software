@@ -148,7 +148,11 @@ Not plan items, but real, and they should not be discovered at release:
   Mercury's 10th, Venus's 11th/12th, the 10th as a good house and Pulippani's
   Venus–Sun exemption. Pulippani (most explained) and Vishnu Bhaskar computed.
   The report's gochara section and the answer engine now read the sourced
-  table instead of an unverified "Phaladeepika 26.3-8" copy. Not yet:
-  nakshatra vedha (Pulippani ch.23).
+  table instead of an unverified "Phaladeepika 26.3-8" copy. Nakshatra vedha
+  added the same day: sixteen positions from the planets' natal stars,
+  identical in Pulippani ch.23 and Santhanam's Jyotisharnava Navanitam; the
+  books read the effect three ways and all three are shown. Not yet: the
+  Saptashalaka system (Pulippani ch.24); Kalaprakasika's bad-house columns
+  against Santhanam's "vedha for bad places only" table.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

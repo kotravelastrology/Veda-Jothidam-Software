@@ -149,6 +149,85 @@ function Timeline({ p }: { p: any }) {
   );
 }
 
+function NakshatraSection({ n }: { n: any }) {
+  const [all, setAll] = useState(false);
+  const at = Date.parse(n.atUtc);
+  const horizon = at + 5 * 365.25 * 86400000;
+  const shown = (ws: any[]) => (all ? ws : ws.filter((w) => Date.parse(w.toUtc) > at && Date.parse(w.fromUtc) < horizon));
+  const upcoming = n.rows.flatMap((r: any) => r.windows.filter((w: any) => Date.parse(w.fromUtc) > at && w.planet !== 'Moon').map((w: any) => ({ ...w, row: r })))
+    .sort((a: any, b: any) => Date.parse(a.fromUtc) - Date.parse(b.fromUtc)).slice(0, 6);
+  const active = n.rows.filter((r: any) => r.activeNow.length);
+  return (
+    <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+      <h2 className="text-sm font-semibold text-ink mb-1">நட்சத்திர வேதை — பிறப்பு நட்சத்திரங்களிலிருந்து (16 நிலைகள்)</h2>
+      <p className="text-[11px] text-ink-soft mb-2">
+        ராசி வேதை சந்திர ராசியிலிருந்து வீடுகளை எண்ணுகிறது; நட்சத்திர வேதை ஒவ்வொரு கிரகமும் பிறப்பில் நின்ற நட்சத்திரத்திலிருந்து நட்சத்திரங்களை எண்ணுகிறது.
+        வரிசை: {n.rank.measureTa} {n.notes.countingTa}
+      </p>
+      <div className="border border-saffron rounded-xl p-3 mb-3 text-xs">
+        {active.length
+          ? active.map((r: any) => (
+            <p key={r.id} className="text-rose">இப்போது: {r.activeNow.map((p: string) => PLANET_TA[p]).join(', ')} → {r.targetTa} நட்சத்திரம் (பிறப்பு {r.natalTa} நின்ற {r.natalNakshatraTa}விலிருந்து {r.count}-வது)</p>
+          ))
+          : <p className="text-ink">இப்போது ({day(n.atUtc)}) எந்த நட்சத்திர வேதையும் நடப்பில் இல்லை.</p>}
+        {upcoming.length > 0 && (
+          <p className="text-ink-soft mt-1">அடுத்து (சந்திரன் தவிர): {upcoming.map((u: any) => `${day(u.fromUtc)} ${u.planetTa} → ${u.row.targetTa} (பிறப்பு ${u.row.natalTa} நட்சத்திரத்திலிருந்து ${u.row.count}-வது)`).join(' · ')}</p>
+        )}
+      </div>
+      <label className="flex items-center gap-2 text-xs text-ink-soft mb-2 cursor-pointer">
+        <input type="checkbox" checked={all} onChange={(e) => setAll(e.target.checked)} />
+        முழுக் காலமும் காட்டு ({day(n.window.fromUtc)} – {day(n.window.toUtc)}); இல்லையெனில் இன்றிலிருந்து 5 ஆண்டுகள்
+      </label>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs" style={{ minWidth: 760 }}>
+          <thead><tr className="text-ink-soft border-b border-line text-left">
+            <th className="py-1 pr-2">பிறப்பு கிரகம் · நட்சத்திரம்</th><th className="py-1 pr-2">எண்ணி · வேதை நட்சத்திரம்</th>
+            <th className="py-1 pr-2">வேதை செய்யும் கிரகம்</th><th className="py-1">காலங்கள்</th>
+          </tr></thead>
+          <tbody className="align-top">
+            {n.rows.map((r: any) => {
+              const ws = shown(r.windows);
+              return (
+                <tr key={r.id} className={`border-b border-line/40 ${r.activeNow.length ? 'bg-amber-50' : ''}`}>
+                  <td className="py-1.5 pr-2 text-ink">{r.natalTa}{r.countedFrom && <span className="text-ink-soft"> (ராகு/கேது வரி)</span>} · {r.natalNakshatraTa}</td>
+                  <td className="py-1.5 pr-2 text-ink">{r.count}-வது · {r.targetTa}</td>
+                  <td className="py-1.5 pr-2 text-ink">{r.byTa.join(' / ')}</td>
+                  <td className="py-1.5 font-mono text-ink" style={num}>
+                    {ws.length === 0 && <span className="font-sans text-ink-soft">இந்தக் காலத்தில் இல்லை</span>}
+                    {ws.map((w: any) => (
+                      <span key={`${w.planet}${w.fromUtc}`} className={`block ${w.current ? 'text-rose' : ''}`}>
+                        {r.by.length > 1 && <span className="font-sans">{w.planetTa} </span>}{day(w.fromUtc)} – {day(w.toUtc)}{w.current ? ' · இப்போது' : ''}
+                      </span>
+                    ))}
+                    {r.spanOfMoon && <span className="block font-sans text-ink-soft">சந்திரன்: {day(r.spanOfMoon.fromUtc)} – {day(r.spanOfMoon.toUtc)} மட்டும்</span>}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className="mt-3 space-y-2 text-xs">
+        <p className="font-semibold text-ink">நூல்கள் சொல்வது (அதிக விளக்கம் உள்ளது முதலில்)</p>
+        {n.readings.map((b: any) => (
+          <div key={b.book} className="border border-line rounded-lg p-2">
+            <p className="font-semibold text-ink">{b.bookTa}</p>
+            <ul className="list-disc ml-5 space-y-0.5">{b.items.map((it: any) => <li key={it.id} className="text-ink">{it.textTa}</li>)}</ul>
+            <Cites list={[...new Map(b.items.map((it: any) => [it.source.pageLocus, it.source])).values()]} />
+          </div>
+        ))}
+        <ul className="text-[11px] text-ink-soft list-disc ml-5 space-y-0.5">
+          <li className="text-amber-800">{n.notes.readingsDifferTa}</li>
+          <li>{n.notes.nodesNatalTa}</li>
+          <li>{n.notes.nodesByTa}</li>
+          <li>{n.notes.moonTa}</li>
+          <li>{n.notes.directionalTa}</li>
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 export default function GocharaVedhaView() {
   const [rows, setRows] = useState<LibraryRow[]>([]);
   const [query, setQuery] = useState('');
@@ -322,6 +401,8 @@ export default function GocharaVedhaView() {
             <Cites list={result.comparison.fatherSonSources} />
             <p className="text-[11px] text-ink-soft mt-2">{result.notes.sudamaniTimingTa}</p>
           </section>
+
+          {result.nakshatra && <NakshatraSection n={result.nakshatra} />}
         </>
       )}
     </main>
