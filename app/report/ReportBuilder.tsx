@@ -371,8 +371,8 @@ function AyurdayaSection({ report }: { report: ReportData }) {
 function GocharaPhalaSection({ report }: { report: ReportData }) {
   const g = (report as any).gocharaPhala;
   if (!g?.available) return null;
-  const style: Record<string, string> = { benefic: 'text-teal', vedha: 'text-rose', neutral: 'text-ink-soft' };
-  const label: Record<string, string> = { benefic: 'சுபம்', vedha: 'வேதை (தடை)', neutral: 'சுப இடம் அல்ல' };
+  const style: Record<string, string> = { benefic: 'text-teal', vedha: 'text-rose', neutral: 'text-ink-soft', notCovered: 'text-ink-soft' };
+  const label: Record<string, string> = { benefic: 'சுபம்', vedha: 'வேதை (தடை)', neutral: 'சுப இடம் அல்ல', notCovered: 'நூலில் இல்லை' };
   return (
     <div className="mb-8">
       <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">சந்திர கோசார பலன் + வேதை</h2>
@@ -393,7 +393,7 @@ function GocharaPhalaSection({ report }: { report: ReportData }) {
                 {r.obstructedBy.length > 0 && ` · ${r.obstructedBy.map((x: string) => POINT_LABEL[x] ?? x).join(', ')}`}
                 {!r.isBenefic && r.vipareetaHouse > 0 && (
                   <span className={r.relievedBy?.length ? 'text-teal' : ''}>
-                    விபரீத வேதை இடம் {r.vipareetaHouse}வது{r.relievedBy?.length ? ` · ${r.relievedBy.map((x: string) => POINT_LABEL[x] ?? x).join(', ')} — தீமை நீங்கும்` : ''}
+                    விபரீத வேதை இடம் {(r.vipareetaHouses?.length ? r.vipareetaHouses : [r.vipareetaHouse]).join(' / ')}வது{r.relievedBy?.length ? ` · ${r.relievedBy.map((x: string) => POINT_LABEL[x] ?? x).join(', ')} — தீமை நீங்கும்` : ''}
                   </span>
                 )}
               </td>

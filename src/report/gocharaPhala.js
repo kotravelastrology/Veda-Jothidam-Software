@@ -33,7 +33,7 @@ const GOCHARA_VEDHA = Object.freeze(Object.fromEntries(GOCHARA_GRAHAS.map((g) =>
 /**
  * @param moonRasi0  natal Moon's rasi index (0-11)
  * @param transitRasiByGraha  { graha : current rasi index 0-11 } for the 9 grahas
- * @param methodId  'PULIPPANI' (default) or 'VISHNU_BHASKAR'
+ * @param methodId  'PULIPPANI' (default), 'SANTHANAM' or 'VISHNU_BHASKAR'
  */
 function computeGocharaPhala(moonRasi0, transitRasiByGraha, methodId) {
   const m = methodTables(methodId);
@@ -52,20 +52,26 @@ function computeGocharaPhala(moonRasi0, transitRasiByGraha, methodId) {
     .map((graha) => {
       const row = m.table[graha];
       const houseFromMoon = houseOf(norm(transitRasiByGraha[graha]));
-      const isBenefic = row.good.includes(houseFromMoon);
-      if (!isBenefic) {
-        const vipareetaHouse = row.relievedBy[houseFromMoon] ?? 0;
-        const relievedBy = vipareetaHouse ? othersIn(graha, vipareetaHouse, m.exempt.vipareeta) : [];
+      if (row.notCovered) {
         return {
           graha, houseFromMoon, isBenefic: false, vedhaHouse: 0, obstructedBy: [],
-          vipareetaHouse, relievedBy, verdict: 'neutral', source: SOURCE_LABEL,
+          vipareetaHouse: 0, vipareetaHouses: [], relievedBy: [], verdict: 'notCovered', source: SOURCE_LABEL,
+        };
+      }
+      const isBenefic = row.good.includes(houseFromMoon);
+      if (!isBenefic) {
+        const vipareetaHouses = row.relievedBy[houseFromMoon] ?? [];
+        const relievedBy = [...new Set(vipareetaHouses.flatMap((h) => othersIn(graha, h, m.exempt.vipareeta)))];
+        return {
+          graha, houseFromMoon, isBenefic: false, vedhaHouse: 0, obstructedBy: [],
+          vipareetaHouse: vipareetaHouses[0] ?? 0, vipareetaHouses, relievedBy, verdict: 'neutral', source: SOURCE_LABEL,
         };
       }
       const vedhaHouse = row.vedhaOf[houseFromMoon] ?? 0;
       const obstructedBy = vedhaHouse ? othersIn(graha, vedhaHouse, m.exempt.gochara) : [];
       return {
         graha, houseFromMoon, isBenefic: true, vedhaHouse, obstructedBy,
-        vipareetaHouse: 0, relievedBy: [],
+        vipareetaHouse: 0, vipareetaHouses: [], relievedBy: [],
         verdict: obstructedBy.length > 0 ? 'vedha' : 'benefic', source: SOURCE_LABEL,
       };
     });

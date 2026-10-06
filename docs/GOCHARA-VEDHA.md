@@ -9,32 +9,64 @@ another planet stands in the paired house (vedha); a planet in a bad house is
 relieved when another stands in its paired house (vipareetha vedha). The dates
 are astronomy; the pairs are the books'.
 
-## Five books, two computed
+## Six books, three computed
 
-Ordered by the words each spends on vedha (owner's rule, 2026-10-03):
+Ordered by the words each spends on gochara and vipareetha vedha (owner's
+rule, 2026-10-03):
 
 | Book | Section | Words | Computed? |
 |---|---|---|---|
 | Pulippani, *Gochar Phaladeepika* | ch.22, pp.204–206 | 614 | **yes — default** |
+| R. Santhanam, *Jyotisharnava Navanitam* | ch.3 commentary, pp.146–149 | 575 | **yes** (no rows for Rahu, Ketu) |
 | Jataka Parijata vol.3 (Subrahmanya Sastri) | notes to XIII.60, pp.833–834 | 465 | no — reprints Kalaprakasika's table |
 | Sudamani (Tamil) | verses 341–343 with commentary, pp.148–150 | 251 Tamil words | no — Venus's line not decoded |
-| Kalaprakasika (N.P.S. Iyer, 1982) | pp.209–210 | 248 | no — bad-house rule not stated |
+| Kalaprakasika (N.P.S. Iyer, 1982) | pp.209–210 | 248 | no — gives each house's result, not a good/bad list |
 | Vishnu Bhaskar | ch.14 §II, p.139 | 185 | **yes** |
 
-Only Pulippani and Vishnu Bhaskar print a complete table that reads without
-guessing, so those two are the computable methods.
+**Decision pending — the measure.** Santhanam also gives a third kind,
+"Vedha for bad places only" (p.151, 185 words), which Pulippani has no
+counterpart for. Counting like for like (gochara + vipareetha) keeps Pulippani
+first; counting each book's whole rasi-vedha discussion puts Santhanam first
+(760) and would make him the default — changing the report's gochara section
+(Venus's 11th/12th pairs, no Venus–Sun exemption, nothing for Rahu and Ketu).
+The default is unchanged until the owner chooses.
 
 ## Where they differ
 
-Everything not listed here agrees across all five books.
+Everything not listed here agrees across all six books.
 
-| Cell | Pulippani | Jataka Parijata / Kalaprakasika | Sudamani | Vishnu Bhaskar |
-|---|---|---|---|---|
-| Mercury in 10th → vedha in | 8 | 10 printed (same house) | its set holds 8, not 7 | 7 |
-| Venus in 11th / 12th → | 3 / 6 | 3 / 6 | commentary 3 / 6 | 6 / 3 |
-| 10th as a good house | Rahu, Ketu (no pair) | maps to itself | Mars, Saturn, Rahu (no pair) | — |
-| Exemptions | Sun–Saturn, Moon–Mercury, **Venus not by Sun** | Sun–Saturn, Moon–Mercury | — | Sun–Saturn, Moon–Mercury |
-| Vipareetha | own table | prose only | reverse (v.343) | reverse (note 4) |
+| Cell | Pulippani | Santhanam | Jataka Parijata / Kalaprakasika | Sudamani | Vishnu Bhaskar |
+|---|---|---|---|---|---|
+| Mercury in 10th → vedha in | 8 | 8 | 10 printed (same house) | its set holds 8, not 7 | 7 |
+| Venus in 11th / 12th → | 3 / 6 | 6 / 3 | 3 / 6 | commentary 3 / 6 | 6 / 3 |
+| 10th as a good house | Rahu, Ketu (no pair) | — (no node rows) | maps to itself | Mars, Saturn, Rahu (no pair) | — |
+| Exemptions | Sun–Saturn, Moon–Mercury, **Venus not by Sun** | Sun–Saturn, Moon–Mercury | Sun–Saturn, Moon–Mercury | — | Sun–Saturn, Moon–Mercury |
+| Vipareetha | own table | reverse + **bad-places table** | bad-places table (prose) | reverse (v.343) | reverse (note 4) |
+
+**Kalaprakasika's bad-house columns explained (2026-10-06).** They are
+Santhanam's "Vedha for bad places only" (p.151): Sun 8/8 cells, Moon 6/6,
+Mercury 6/6, Venus 3/3, Mars (= Saturn) 7/9, Jupiter 5/7 — 35 of 39. The four
+that differ are all places where Santhanam gives the same house and
+Kalaprakasika the neighbouring one (Mars 4th: 3 / 4; Mars 12th: 11 / 12;
+Jupiter 8th: 7 / 8; Jupiter 12th: 11 / 12). Santhanam states the rule
+Kalaprakasika's prose implies — a planet in a bad house is checked by another
+in the house given — and his p.152 settles what "the same house" means:
+"Sade Sathi effects are checked by another planet (except the Sun, Rahu etc.)
+in simultaneous transit with Saturn himself". Kalaprakasika is still not
+computed, because it describes each house's result rather than listing good
+and bad houses, and sorting results into good and bad would be our judgement.
+
+**Two books contradict each other on Sade Sati companions.** Santhanam (p.152):
+another planet travelling with Saturn checks Sade Sati. Pulippani (p.206): with
+Jupiter not in the 3rd, fast planets passing Saturn's sign bring "more ordeal".
+Both are on the Saturn page.
+
+**Santhanam's method, our readings:** his reversal table and his bad-places
+table both relieve a bad house (the Sun in the 4th is relieved from the 10th or
+the 3rd); "the same house" means a planet in the same sign; the "Rahu etc." of
+his Sade Sati sentence is not applied (named for that case only, "etc."
+unspecified). His p.148 example prints Mars's vedha points as "12th, 2nd and
+5th" where both his tables have 12, 9, 5 — read as a slip.
 
 **Findings:**
 
@@ -45,8 +77,8 @@ Everything not listed here agrees across all five books.
   "planet in house N — vedha in the house printed under N". Read that way, every
   good-house cell of all six rows is Pulippani's except Mercury's 10th, which
   prints 10. The bad-house columns are not the reversal of the good pairs
-  (except Venus's), and the text gives no rule for them, so they are recorded,
-  not computed. The reading of the layout is ours.
+  (except Venus's); they are Santhanam's bad-places table (above). The reading
+  of the layout is ours.
 - The 1982 Kalaprakasika print differs from Jataka Parijata's letterpress
   reprint in six cells ("a", "S", and 6/8 for 5/3) — re-typesetting errors by
   their look. The reprint is used; the 1982 cells are listed on the page.
@@ -111,15 +143,13 @@ apart and neither book says which); either node in the Sun's 9th counts. The
 Moon's spells (about a day a month) are listed for the next thirteen months.
 
 **Found on the way:** Santhanam's next table, "Vedha for bad places only"
-(p.151), checks a planet in a bad house by a planet in a nearby house — the Sun
-in the 4th by the 3rd, Venus in the 6th by the 12th — which is the pattern in
-Kalaprakasika's bad-house columns that this document calls unexplained above.
-Not yet compared cell by cell.
+(p.151), turned out to be Kalaprakasika's bad-house columns — compared cell by
+cell the same day (35 of 39; see "Kalaprakasika's bad-house columns explained"
+above), and Santhanam became a third computed method.
 
 ## Not done
 
-- Kalaprakasika's bad-house columns against Santhanam's "Vedha for bad places
-  only" table (p.151) — a likely explanation, not yet checked cell by cell.
+- The default-method decision (see "Decision pending" above).
 - Sudamani's Venus line — needs a Tamil reader's decoding of the verse.
 - The Saptashalaka (seven-line) nakshatra gochara, Pulippani ch.24 — a
   different system.

@@ -28,11 +28,13 @@ const KIND: Record<string, { ta: string; cls: string }> = {
   GOOD_UNPAIRED: { ta: 'நல்ல இடம் — வேதை இடம் இல்லை', cls: 'text-teal' },
   RELIEVABLE: { ta: 'தீய இடம் — விபரீத வேதை இடம் உண்டு', cls: 'text-amber-700' },
   NO_RELIEF: { ta: 'தீய இடம் — விபரீத வேதை இடம் இல்லை', cls: 'text-rose' },
+  NOT_COVERED: { ta: 'இந்த நூலின் அட்டவணையில் இந்தக் கிரகம் இல்லை', cls: 'text-ink-soft' },
 };
 const STATUS_TA: Record<string, string> = { COUNTS: '', EXEMPT: ' (விலக்கு — கணக்கில் இல்லை)', NODE_PAIR: ' (எதிர்க் கணு — கணக்கில் இல்லை)' };
 const BOOK_TA: Record<string, string> = {
-  PULIPPANI: 'புலிப்பாணி', JATAKA_PARIJATA: 'ஜாதக பாரிஜாதம்', SUDAMANI: 'சூடாமணி', KALAPRAKASIKA: 'காலப்பிரகாசிகை', VISHNU_BHASKAR: 'விஷ்ணு பாஸ்கர்',
+  PULIPPANI: 'புலிப்பாணி', SANTHANAM: 'சந்தானம்', JATAKA_PARIJATA: 'ஜாதக பாரிஜாதம்', SUDAMANI: 'சூடாமணி', KALAPRAKASIKA: 'காலப்பிரகாசிகை', VISHNU_BHASKAR: 'விஷ்ணு பாஸ்கர்',
 };
+const houses = (hs: number[]) => hs.join(' / ');
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 const PLANET_TA: Record<string, string> = {
   Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு',
@@ -63,12 +65,13 @@ function verdict(now: any) {
   if (now.kind === 'GOOD') return now.active ? { ta: 'வேதை நடப்பில் — நல்ல பலன் தடைபடும்', cls: 'text-rose' } : { ta: 'நல்ல பலன் — தடை இல்லை', cls: 'text-teal' };
   if (now.kind === 'GOOD_UNPAIRED') return { ta: 'நல்ல பலன்', cls: 'text-teal' };
   if (now.kind === 'RELIEVABLE') return now.active ? { ta: 'விபரீத வேதை நடப்பில் — தீமை நீங்கும்', cls: 'text-teal' } : { ta: 'தீய பலன் — விடுவிக்கும் கிரகம் இப்போது இல்லை', cls: 'text-amber-700' };
+  if (now.kind === 'NOT_COVERED') return { ta: '—', cls: 'text-ink-soft' };
   return { ta: 'தீய பலன்', cls: 'text-rose' };
 }
 
 function NowTable({ r, method }: { r: any; method: string }) {
   const m = r.methods[method];
-  const other = Object.keys(r.methods).find((k) => k !== method)!;
+  const others = Object.keys(r.methods).filter((k) => k !== method);
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-xs" style={{ minWidth: 720 }}>
@@ -80,19 +83,23 @@ function NowTable({ r, method }: { r: any; method: string }) {
           {Object.values(m.planets).map((p: any) => {
             const n = p.now;
             const v = verdict(n);
-            const o = r.methods[other].planets[p.planet].now;
-            const differs = o.kind !== n.kind || o.pairedHouse !== n.pairedHouse || o.active !== n.active;
+            const differing = others.map((k) => ({ k, o: r.methods[k].planets[p.planet].now }))
+              .filter(({ o }) => o.kind !== n.kind || houses(o.pairedHouses) !== houses(n.pairedHouses) || o.active !== n.active);
             return (
               <tr key={p.planet} className="border-b border-line/40">
                 <td className="py-1.5 pr-2 font-semibold text-ink">{p.planetTa}</td>
                 <td className="py-1.5 pr-2 text-ink">{n.rasi} · {n.house}</td>
                 <td className={`py-1.5 pr-2 ${KIND[n.kind].cls}`}>{KIND[n.kind].ta}</td>
                 <td className="py-1.5 pr-2 text-ink">
-                  {n.pairedHouse ? <>{n.pairedHouse}-ஆம் இடம் · {n.planetsInPaired.length ? n.planetsInPaired.map((x: any) => `${x.planetTa}${STATUS_TA[x.status]}`).join(', ') : 'யாரும் இல்லை'}</> : '—'}
+                  {n.pairedHouses.length ? <>{houses(n.pairedHouses)}-ஆம் இடம் · {n.planetsInPaired.length ? n.planetsInPaired.map((x: any) => `${x.planetTa}${STATUS_TA[x.status]}`).join(', ') : 'யாரும் இல்லை'}</> : '—'}
                 </td>
                 <td className={`py-1.5 ${v.cls}`}>
                   {v.ta}
-                  {differs && <span className="block text-amber-800">{BOOK_TA[other]} படி: {verdict(o).ta}{o.pairedHouse !== n.pairedHouse && o.pairedHouse ? ` (இணை ${o.pairedHouse})` : ''}</span>}
+                  {differing.map(({ k, o }) => (
+                    <span key={k} className="block text-amber-800">
+                      {BOOK_TA[k]} படி: {o.kind === 'NOT_COVERED' ? KIND.NOT_COVERED.ta : verdict(o).ta}{o.pairedHouses.length && houses(o.pairedHouses) !== houses(n.pairedHouses) ? ` (இணை ${houses(o.pairedHouses)})` : ''}
+                    </span>
+                  ))}
                 </td>
               </tr>
             );
@@ -104,11 +111,12 @@ function NowTable({ r, method }: { r: any; method: string }) {
 }
 
 function Timeline({ p }: { p: any }) {
+  if (p.notCovered) return <p className="text-xs text-ink-soft">{KIND.NOT_COVERED.ta}.</p>;
   return (
     <div className="overflow-x-auto">
       <p className="text-[11px] text-ink-soft mb-1">
         காலம் {day(p.span.fromUtc)} – {day(p.span.toUtc)} · நல்ல இடங்கள் {p.good.join(', ')}
-        {Object.keys(p.relievedBy).length > 0 && <> · விபரீத வேதை: {Object.entries(p.relievedBy).map(([b, g]) => `${b}→${g}`).join(', ')}</>}
+        {Object.keys(p.relievedBy).length > 0 && <> · விபரீத வேதை: {Object.entries(p.relievedBy).map(([b, g]) => `${b}→${houses(g as number[])}`).join(', ')}</>}
       </p>
       <table className="w-full text-xs" style={{ minWidth: 720 }}>
         <thead><tr className="text-ink-soft border-b border-line text-left">
@@ -122,9 +130,9 @@ function Timeline({ p }: { p: any }) {
                 {day(s.fromUtc)} – {day(s.toUtc)}{s.current && <span className="block font-sans text-amber-800">இப்போது</span>}
               </td>
               <td className="py-1.5 pr-2 text-ink">{s.rasi} · {s.house}</td>
-              <td className={`py-1.5 pr-2 ${KIND[s.kind].cls}`}>{KIND[s.kind].ta}{s.pairedHouse && <span className="block text-ink-soft">இணை: {s.pairedHouse}</span>}</td>
+              <td className={`py-1.5 pr-2 ${KIND[s.kind].cls}`}>{KIND[s.kind].ta}{s.pairedHouses.length > 0 && <span className="block text-ink-soft">இணை: {houses(s.pairedHouses)}{s.pairedHouses.includes(s.house) ? ' (அதே இடம் = உடன் செல்லும் கிரகம்)' : ''}</span>}</td>
               <td className="py-1.5 pr-2 text-ink">
-                {s.pairedHouse ? (
+                {s.pairedHouses.length ? (
                   <>
                     {s.byPlanet.length === 0 && <span className="text-ink-soft">இல்லை</span>}
                     {s.byPlanet.map((b: any) => (
@@ -138,7 +146,7 @@ function Timeline({ p }: { p: any }) {
                 ) : <span className="text-ink-soft">—</span>}
               </td>
               <td className="py-1.5 font-mono text-ink" style={num}>
-                {s.pairedHouse ? `${Math.round(s.coveredDays)} / ${Math.round(s.days)} நாள்` : `${Math.round(s.days)} நாள்`}
+                {s.pairedHouses.length ? `${Math.round(s.coveredDays)} / ${Math.round(s.days)} நாள்` : `${Math.round(s.days)} நாள்`}
                 {s.moon && <span className="block font-sans text-ink-soft">சந்திரன் {s.moon.count} முறை</span>}
               </td>
             </tr>

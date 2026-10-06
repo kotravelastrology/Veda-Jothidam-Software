@@ -211,6 +211,12 @@ day and a half. Fixed, with a regression test that fails on the old line
 - **Choices stated on the page.** The Moon
   passes a sign in ~2¼ days monthly: counted, not listed. Rahu and Ketu count
   ("any other planet"; mean node). Window: two years back, thirty ahead.
+- **A contradiction found later (2026-10-06).** R. Santhanam, *Jyotisharnava
+  Navanitam* ch.3 commentary p.152: "Sade Sathi effects are checked by another
+  planet (except the Sun, Rahu etc.) in simultaneous transit with Saturn
+  himself" — the opposite of Pulippani's "more ordeal" above. Both are shown in
+  the vedha section. Santhanam's tables are computed on `/gochara-vedha`
+  (`docs/GOCHARA-VEDHA.md`).
 
 ## Result text for every house (4th, 7th, 8th first; the rest added the same day, 2026-10-03)
 

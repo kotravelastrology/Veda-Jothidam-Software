@@ -216,6 +216,7 @@ function saturnVedhaWindows({ moonRasiIndex, fromMs, toMs, atMs = Date.now(), ay
       pulippaniVedha: pack(T.pulippaniVedha),
       pulippaniVipareeta: pack(T.pulippaniVipareeta),
       pulippaniOrdeal: pack(T.pulippaniOrdeal),
+      santhanamSadeSati: pack(T.santhanamSadeSati),
       jatakaParijata: pack(T.jatakaParijata),
       vishnuBhaskar: pack(T.vishnuBhaskar),
       sudamaniVipareeta: { ...pack(T.sudamaniVipareeta), differsTa: T.sudamaniVipareeta.differsTa, commentaryNoteTa: T.sudamaniVipareeta.commentaryNoteTa },

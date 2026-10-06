@@ -358,7 +358,7 @@ function VedhaSection({ r }: { r: any }) {
         </p>
       )}
       <ul className="text-xs space-y-1.5 mb-3">
-        {(['pulippaniVedha', 'pulippaniVipareeta', 'pulippaniOrdeal', 'jatakaParijata', 'vishnuBhaskar', 'sudamaniVipareeta', 'sudamaniTiming'] as const).map((k) => (
+        {(['pulippaniVedha', 'pulippaniVipareeta', 'pulippaniOrdeal', 'santhanamSadeSati', 'jatakaParijata', 'vishnuBhaskar', 'sudamaniVipareeta', 'sudamaniTiming'] as const).map((k) => (
           <li key={k}>
             <span className="text-ink">{v.texts[k].textTa}</span>
             {k === 'sudamaniVipareeta' && <span className="block text-amber-800">{v.texts[k].differsTa}</span>}

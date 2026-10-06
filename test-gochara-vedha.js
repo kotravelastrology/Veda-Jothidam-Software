@@ -70,20 +70,71 @@ assert.ok(!('Venus' in V.SUDAMANI_SETS.vedha), 'Sudamani\'s Venus line is record
 const ids = V.VEDHA_DIFFERENCES.map((d) => d.id);
 for (const id of ['MERCURY_10', 'VENUS_11_12', 'TENTH_GOOD', 'VENUS_SUN', 'VIPAREETA']) assert.ok(ids.includes(id), id);
 
-// ------------------------------------------------ the two methods ---
+// ------------------------------------------------ Santhanam's three tables ---
+const S = FIX.santhanam;
+for (const row of S.vedhaRows) {
+  const [planet, good, vedha] = row.split('|');
+  assert.deepEqual(plain(V.SANTHANAM_GOCHARA_VEDHA[planet].pairs), nums(good).map((g, i) => [g, nums(vedha)[i]]), `Santhanam ${planet} vedha`);
+}
+assert.deepEqual(Object.keys(V.SANTHANAM_GOCHARA_VEDHA), ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'], 'no rows for the nodes');
+// His vipareetha table (p.149) is his vedha table (p.147) read upside down, as he says.
+for (const row of S.vipareetaRows) {
+  const [planet, top, bottom] = row.split('|');
+  const reversed = nums(top).map((v, i) => [nums(bottom)[i], v]);
+  assert.deepEqual(reversed, plain(V.SANTHANAM_GOCHARA_VEDHA[planet].pairs), `Santhanam ${planet}: p.149 reverses p.147`);
+}
+for (const [planet, cells] of Object.entries(S.badPlaces)) {
+  const want = Object.fromEntries(cells.map((c, i) => [i + 1, c]).filter(([, c]) => c !== '..').map(([h, c]) => [h, Number(c)]));
+  assert.deepEqual(plain(V.SANTHANAM_BAD_PLACES[planet]), want, `Santhanam ${planet} bad places`);
+  // A house with a figure is never one of his good houses.
+  for (const h of Object.keys(want)) assert.ok(!V.SANTHANAM_GOCHARA_VEDHA[planet].pairs.some(([g]) => g === Number(h)), `${planet} ${h} is a bad house`);
+}
+assert.deepEqual(S.badPlaces.Saturn, S.badPlaces.Mars, 'Saturn\'s row is Mars\'s, as Kalaprakasika says of their vedhai places');
+
+// Kalaprakasika's bad-house columns are this table in 35 of 39 cells; the four that differ:
+const kpDiff = [];
+let kpCells = 0;
+for (const [planet, row] of Object.entries(V.KALAPRAKASIKA_TABLE)) {
+  for (const [h, r] of Object.entries(V.SANTHANAM_BAD_PLACES[planet])) {
+    kpCells += 1;
+    if (row[Number(h) - 1] !== r) kpDiff.push(`${planet} ${h}: KP ${row[Number(h) - 1]} / Santhanam ${r}`);
+  }
+}
+assert.equal(kpCells, 39);
+assert.deepEqual(kpDiff, ['Mars 4: KP 3 / Santhanam 4', 'Mars 12: KP 11 / Santhanam 12', 'Jupiter 8: KP 7 / Santhanam 8', 'Jupiter 12: KP 11 / Santhanam 12']);
+// And every bad house of Kalaprakasika's columns (Pulippani's bad houses) is one Santhanam lists.
+for (const [planet, row] of Object.entries(V.KALAPRAKASIKA_TABLE)) {
+  const bad = row.map((_, i) => i + 1).filter((h) => !P[planet].pairs.some(([g]) => g === h));
+  assert.deepEqual(bad.sort((a, b) => a - b), Object.keys(V.SANTHANAM_BAD_PLACES[planet]).map(Number).sort((a, b) => a - b), `${planet}: same bad houses`);
+}
+// Santhanam against Pulippani: only Venus's 11th and 12th.
+const ps = [];
+for (const planet of Object.keys(V.SANTHANAM_GOCHARA_VEDHA)) {
+  for (const [g] of P[planet].pairs) if (vedhaOf(P, planet, g) !== vedhaOf(V.SANTHANAM_GOCHARA_VEDHA, planet, g)) ps.push(`${planet} ${g}`);
+}
+assert.deepEqual(ps, ['Venus 11', 'Venus 12']);
+for (const id of ['BAD_PLACES', 'SADE_SATI_COMPANION', 'SANTHANAM_MARS_EXAMPLE']) assert.ok(ids.includes(id), id);
+
+// ------------------------------------------------ the three methods ---
 const PM = V.VEDHA_METHODS.PULIPPANI.table;
 const VM = V.VEDHA_METHODS.VISHNU_BHASKAR.table;
+const SM = V.VEDHA_METHODS.SANTHANAM.table;
+const one = (o) => Object.fromEntries(Object.entries(o).map(([k, v]) => [k, v.length === 1 ? v[0] : v]));
 assert.deepEqual(plain(PM.Saturn.vedhaOf), plain(V.SATURN_VEDHA), 'Saturn\'s pairs are the Saturn page\'s');
-assert.deepEqual(plain(PM.Saturn.relievedBy), plain(V.SATURN_VIPAREETA));
+assert.deepEqual(one(plain(PM.Saturn.relievedBy)), plain(V.SATURN_VIPAREETA));
 assert.deepEqual(PM.Rahu.unpairedGood, [10]);
 assert.deepEqual(VM.Rahu.unpairedGood, []);
-assert.equal(PM.Jupiter.relievedBy[8], 11, 'Jupiter\'s printed "S" read as 8');
-assert.deepEqual(plain(PM.Venus.relievedBy), { 7: 2, 10: 4, 6: 11 }, 'Venus: only her bad houses relieve; Pulippani prints 6↔11');
-assert.deepEqual(plain(VM.Venus.relievedBy), { 7: 2, 10: 4, 6: 11 }, 'Vishnu Bhaskar\'s reversal gives the same three');
+assert.deepEqual(PM.Jupiter.relievedBy[8], [11], 'Jupiter\'s printed "S" read as 8');
+assert.deepEqual(one(plain(PM.Venus.relievedBy)), { 7: 2, 10: 4, 6: 11 }, 'Venus: only her bad houses relieve; Pulippani prints 6↔11');
+assert.deepEqual(one(plain(VM.Venus.relievedBy)), { 7: 2, 10: 4, 6: 11 }, 'Vishnu Bhaskar\'s reversal gives the same three');
 assert.equal(PM.Mercury.relievedBy[7], undefined, 'Pulippani gives Mercury\'s 7th no relief');
-assert.equal(VM.Mercury.relievedBy[7], 10, 'Vishnu Bhaskar\'s 10↔7 relieves the 7th');
+assert.deepEqual(VM.Mercury.relievedBy[7], [10], 'Vishnu Bhaskar\'s 10↔7 relieves the 7th');
+assert.ok(SM.Rahu.notCovered && SM.Ketu.notCovered, 'Santhanam has no rows for the nodes');
+assert.deepEqual(plain(SM.Venus.relievedBy), { 6: [11, 12], 7: [2], 10: [4] }, 'Santhanam: reversal and bad-places tables both relieve');
+assert.deepEqual(plain(SM.Saturn.relievedBy[1]), [1], 'Saturn in the 1st: a planet with him');
+assert.deepEqual(plain(SM.Sun.relievedBy[4]), [10, 3], 'Sun in the 4th: the reversal\'s 10th and the bad-places 3rd');
 for (const p of V.PLANETS_9) {
-  for (const t of [PM, VM]) {
+  for (const t of [PM, VM, SM]) {
     for (const b of Object.keys(t[p].relievedBy)) assert.ok(!t[p].good.includes(Number(b)), `${p}: a relieved house is never a good one`);
   }
 }
@@ -120,6 +171,15 @@ for (const c of cites) assert.ok(resolveByTitle(c.title), `registered: ${c.title
   // Mercury in the 10th, a planet in the 8th: obstructed by Pulippani's table, not Vishnu Bhaskar's.
   assert.equal(computeGocharaPhala(0, { Mercury: 9, Mars: 7 }).find((r) => r.graha === 'Mercury').verdict, 'vedha');
   assert.equal(computeGocharaPhala(0, { Mercury: 9, Mars: 7 }, 'VISHNU_BHASKAR').find((r) => r.graha === 'Mercury').verdict, 'benefic');
+  // Santhanam: Saturn in the 1st (Sade Sati) with Mars in the same sign — checked; with the Sun — the Sun is exempt.
+  const s1 = computeGocharaPhala(0, { Saturn: 0, Mars: 0 }, 'SANTHANAM').find((r) => r.graha === 'Saturn');
+  assert.deepEqual([s1.vipareetaHouses, s1.relievedBy], [[1], ['Mars']]);
+  assert.deepEqual(computeGocharaPhala(0, { Saturn: 0, Sun: 0 }, 'SANTHANAM').find((r) => r.graha === 'Saturn').relievedBy, []);
+  // Santhanam: the Sun in the 4th relieved from the 10th (reversal) or the 3rd (bad places).
+  assert.deepEqual(computeGocharaPhala(0, { Sun: 3, Mars: 2 }, 'SANTHANAM').find((r) => r.graha === 'Sun').relievedBy, ['Mars']);
+  assert.deepEqual(computeGocharaPhala(0, { Sun: 3, Mars: 2 }).find((r) => r.graha === 'Sun').relievedBy, [], 'Pulippani has no 3rd for it');
+  // Santhanam has no row for Rahu.
+  assert.equal(computeGocharaPhala(0, { Rahu: 9 }, 'SANTHANAM').find((r) => r.graha === 'Rahu').verdict, 'notCovered');
 }
 
 // ------------------------------------------------ the windows, against the sky ---
@@ -148,7 +208,7 @@ for (const c of cites) assert.ok(resolveByTitle(c.title), `registered: ${c.title
         for (const b of s.byPlanet) {
           for (const win of b.windows) {
             const m2 = (ms(win.fromUtc) + ms(win.toUtc)) / 2;
-            assert.equal(((signAt(b.planet, m2) - moonRasiIndex + 12) % 12) + 1, s.pairedHouse, `${b.planet} sits in ${p.planet}'s paired house`);
+            assert.ok(s.pairedHouses.includes(((signAt(b.planet, m2) - moonRasiIndex + 12) % 12) + 1), `${b.planet} sits in one of ${p.planet}'s paired houses`);
           }
         }
         assert.ok(s.coveredDays <= s.days + 0.1);
@@ -170,7 +230,7 @@ for (const c of cites) assert.ok(resolveByTitle(c.title), `registered: ${c.title
   });
   assert.equal(sp.now.house, sv.now.house);
   assert.equal(sp.now.active, sv.now.active);
-  console.log(`  engine: nine planets, two books, in ${elapsed} ms`);
+  console.log(`  engine: nine planets, three books, in ${elapsed} ms`);
 }
 
 console.log('test-gochara-vedha: all checks passed');

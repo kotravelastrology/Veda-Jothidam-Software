@@ -151,8 +151,12 @@ Not plan items, but real, and they should not be discovered at release:
   table instead of an unverified "Phaladeepika 26.3-8" copy. Nakshatra vedha
   added the same day: sixteen positions from the planets' natal stars,
   identical in Pulippani ch.23 and Santhanam's Jyotisharnava Navanitam; the
-  books read the effect three ways and all three are shown. Not yet: the
-  Saptashalaka system (Pulippani ch.24); Kalaprakasika's bad-house columns
-  against Santhanam's "vedha for bad places only" table.
+  books read the effect three ways and all three are shown. Then Santhanam
+  became a sixth book and third computed method: his "vedha for bad places
+  only" table is Kalaprakasika's bad-house columns (35 of 39 cells), and his
+  p.152 contradicts Pulippani on Sade Sati companions. Pending: the owner's
+  choice of measure (like-for-like keeps Pulippani the default; whole
+  discussion makes Santhanam the default). Not yet: the Saptashalaka system
+  (Pulippani ch.24).
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

@@ -60,12 +60,18 @@ function longitudeOf(planet, ms, ayanamsha, nodeType) {
   return planetLongitude(jd, planet, ayanamsha);
 }
 
-/** What a planet in `house` is, under one method's table. */
+/**
+ * What a planet in `house` is, under one method's table. `pairedHouses` lists
+ * every house whose occupant obstructs (GOOD) or relieves (RELIEVABLE) it —
+ * one book gives two relieving houses for some bad houses — and `paired` is the
+ * first, for callers that show one.
+ */
 function classify(row, house) {
-  if (row.vedhaOf[house] !== undefined) return { kind: 'GOOD', paired: row.vedhaOf[house] };
-  if (row.unpairedGood.includes(house)) return { kind: 'GOOD_UNPAIRED', paired: null };
-  if (row.relievedBy[house] !== undefined) return { kind: 'RELIEVABLE', paired: row.relievedBy[house] };
-  return { kind: 'NO_RELIEF', paired: null };
+  if (row.notCovered) return { kind: 'NOT_COVERED', paired: null, pairedHouses: [] };
+  if (row.vedhaOf[house] !== undefined) return { kind: 'GOOD', paired: row.vedhaOf[house], pairedHouses: [row.vedhaOf[house]] };
+  if (row.unpairedGood.includes(house)) return { kind: 'GOOD_UNPAIRED', paired: null, pairedHouses: [] };
+  if (row.relievedBy[house] !== undefined) return { kind: 'RELIEVABLE', paired: row.relievedBy[house][0], pairedHouses: [...row.relievedBy[house]] };
+  return { kind: 'NO_RELIEF', paired: null, pairedHouses: [] };
 }
 
 /** How another planet in the paired house is treated: counted, exempt by the book, or the opposite node. */
@@ -94,18 +100,18 @@ function vedhaForMethod({ methodId, stays, moonRasiIndex, atMs, ayanamsha, nodeT
       const a = Math.max(s.fromMs, from);
       const b = Math.min(s.toMs, to);
       const house = houseFromMoon(s.sign, moonRasiIndex);
-      const { kind, paired } = classify(row, house);
+      const { kind, paired, pairedHouses } = classify(row, house);
       const out = {
         house, rasi: RASI_TA[s.sign], fromUtc: iso(a), toUtc: iso(b), days: days(a, b),
         clippedStart: s.fromMs < from, clippedEnd: s.toMs > to, current: s.fromMs <= atMs && atMs < s.toMs,
-        kind, pairedHouse: paired, byPlanet: [], exempt: [], nodePair: null, moon: null, coveredDays: 0,
+        kind, pairedHouse: paired, pairedHouses, byPlanet: [], exempt: [], nodePair: null, moon: null, coveredDays: 0,
       };
-      if (paired) {
-        const target = signOfHouse(paired);
+      if (pairedHouses.length) {
+        const targets = pairedHouses.map(signOfHouse);
         const counted = [];
         for (const o of PLANETS) {
           if (o === p) continue;
-          const iv = overlaps(stays[o], target, a, b);
+          const iv = targets.flatMap((t) => overlaps(stays[o], t, a, b)).sort((x, y) => x[0] - y[0]);
           if (!iv.length) continue;
           const st = statusOf(method, p, o, kind);
           if (st === 'EXEMPT') { out.exempt.push({ planet: o, planetTa: PLANET_TA[o], windows: describe(iv) }); continue; }
@@ -122,17 +128,18 @@ function vedhaForMethod({ methodId, stays, moonRasiIndex, atMs, ayanamsha, nodeT
     // The present.
     const sign = Math.floor(longitudeOf(p, atMs, ayanamsha, nodeType) / 30) % 12;
     const house = houseFromMoon(sign, moonRasiIndex);
-    const { kind, paired } = classify(row, house);
-    const inPaired = paired
-      ? PLANETS.filter((o) => o !== p && Math.floor(longitudeOf(o, atMs, ayanamsha, nodeType) / 30) % 12 === signOfHouse(paired))
-        .map((o) => ({ planet: o, planetTa: PLANET_TA[o], status: statusOf(method, p, o, kind) }))
-      : [];
+    const { kind, paired, pairedHouses } = classify(row, house);
+    const targets = new Set(pairedHouses.map(signOfHouse));
+    const inPaired = PLANETS
+      .filter((o) => o !== p && targets.has(Math.floor(longitudeOf(o, atMs, ayanamsha, nodeType) / 30) % 12))
+      .map((o) => ({ planet: o, planetTa: PLANET_TA[o], status: statusOf(method, p, o, kind) }));
     planets[p] = {
       planet: p, planetTa: PLANET_TA[p],
       span: { fromUtc: iso(atMs - SPAN[p][0]), toUtc: iso(atMs + SPAN[p][1]) },
+      notCovered: Boolean(row.notCovered),
       good: row.good, vedhaOf: row.vedhaOf, relievedBy: row.relievedBy, unpairedGood: row.unpairedGood,
       now: {
-        house, rasi: RASI_TA[sign], kind, pairedHouse: paired, planetsInPaired: inPaired,
+        house, rasi: RASI_TA[sign], kind, pairedHouse: paired, pairedHouses, planetsInPaired: inPaired,
         active: inPaired.some((x) => x.status === 'COUNTS'),
       },
       stays: rows,

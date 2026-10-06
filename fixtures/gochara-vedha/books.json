@@ -43,7 +43,41 @@
     "commentaryMoonVedha": [8, 10, 3, 4, 12],
     "commentaryVenus": { "good": [11, 12, 8, 9, 4, 3, 5], "clean": [3, 6, 7, 5, 8, 11, 9] }
   },
-  "wordCounts": { "PULIPPANI": 614, "JATAKA_PARIJATA": 465, "SUDAMANI": 251, "KALAPRAKASIKA": 248, "VISHNU_BHASKAR": 185 },
+  "wordCounts": { "PULIPPANI": 614, "SANTHANAM": 575, "JATAKA_PARIJATA": 465, "SUDAMANI": 251, "KALAPRAKASIKA": 248, "VISHNU_BHASKAR": 185 },
+  "santhanam": {
+    "vedhaPage": "Jyotisharnava Navanitam printed p.147 (PDF 154), Table of Vedha",
+    "vedhaRows": [
+      "Sun|3,6,10,11|9,12,4,5",
+      "Moon|1,3,6,7,10,11|5,9,12,2,4,8",
+      "Mars|3,6,11|12,9,5",
+      "Mercury|2,4,6,8,10,11|5,3,9,1,8,12",
+      "Jupiter|2,5,7,9,11|12,4,3,10,8",
+      "Venus|1,2,3,4,5,8,9,11,12|8,7,1,10,9,5,11,6,3",
+      "Saturn|3,6,11|12,9,5"
+    ],
+    "vipareetaPage": "printed p.149 (PDF 156), Table of Viparita Vedha: obstacle places above, the good places below",
+    "vipareetaRows": [
+      "Sun|9,12,4,5|3,6,10,11",
+      "Moon|5,9,12,2,4,8|1,3,6,7,10,11",
+      "Mars|12,9,5|3,6,11",
+      "Mercury|5,3,9,1,8,12|2,4,6,8,10,11",
+      "Jupiter|12,4,3,10,8|2,5,7,9,11",
+      "Venus|8,7,1,10,9,5,11,6,3|1,2,3,4,5,8,9,11,12",
+      "Saturn|12,9,5|3,6,11"
+    ],
+    "badPlacesPage": "printed p.151 (PDF 158), Vedha for bad places only; '..' = auspicious, no figure",
+    "badPlaces": {
+      "Sun": ["1", "2", "..", "3", "6", "..", "7", "8", "10", "..", "..", "11"],
+      "Moon": ["..", "1", "..", "3", "6", "..", "..", "7", "10", "..", "..", "11"],
+      "Mars": ["1", "2", "..", "4", "4", "..", "6", "7", "8", "10", "..", "12"],
+      "Mercury": ["2", "..", "4", "..", "7", "..", "6", "..", "8", "..", "..", "11"],
+      "Jupiter": ["1", "..", "2", "5", "..", "6", "..", "8", "..", "9", "..", "12"],
+      "Venus": ["..", "..", "..", "..", "..", "12", "2", "..", "..", "4", "..", ".."],
+      "Saturn": ["1", "2", "..", "4", "4", "..", "6", "7", "8", "10", "..", "12"]
+    },
+    "marsExampleText": "p.148: '12th, 2nd and 5th as Vedha points against the respective auspicious places of 3rd, 6th and 11th for the planet Mars'",
+    "sadeSatiText": "p.152: 'Sade Sathi effects are checked by another planet (except the Sun, Rahu etc.) in simultaneous transit with Saturn himself. Jupiter in the 10th is checked by another planet in transit in the 9th'"
+  },
   "nakshatraVedha": {
     "format": "natal planet | Nth star from it | planet(s) whose transit there causes the vedha",
     "pulippani": {

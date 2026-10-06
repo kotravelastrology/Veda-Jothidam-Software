@@ -33,6 +33,7 @@
 
 const { SOURCES } = require('./saturnTransitTables');
 const { SUDAMANI } = require('./saturnTransitTamil');
+const { SANTHANAM_JN } = require('./nakshatraVedhaTables');
 
 const { PULIPPANI, VISHNU_BHASKAR } = SOURCES;
 
@@ -99,6 +100,10 @@ const SATURN_VEDHA_TEXT = deepFreeze({
   pulippaniOrdeal: {
     textTa: 'ஏழரைச் சனி நடக்கும்போது குரு 3-ல் இல்லாமல், வேகமாகச் செல்லும் சூரியன், சந்திரன், புதன், சுக்கிரன், செவ்வாய் சனி இருக்கும் அதே இடத்தைக் கடக்கும் குறுகிய காலங்களில் துன்பம் கூடும்.',
     source: Object.freeze({ ...PULIPPANI, pageLocus: 'printed p.206 (PDF 199): "If Sadhe Sati of Shani is running and Jupiter is not his 3rd, fast moving planets ... move through the same bhava, there will be more ordeal"' }),
+  },
+  santhanamSadeSati: {
+    textTa: 'சந்தானம் (ஜோதிஷார்ணவ நவநீதம் உரை): ஏழரைச் சனியின் பலன், சனியுடன் அதே ராசியில் வேறு கிரகம் (சூரியன், ராகு முதலியவை தவிர) செல்லும்போது தடுக்கப்படும் — மேலே உள்ள புலிப்பாணியின் "மேலும் துன்பம்" என்பதற்கு நேர் எதிர். இரண்டும் காட்டப்படுகின்றன.',
+    source: Object.freeze({ ...SANTHANAM_JN, pageLocus: 'Chapter 3 commentary, printed p.152 (PDF 159): "Sade Sathi effects are checked by another planet (except the Sun, Rahu etc.) in simultaneous transit with Saturn himself"' }),
   },
   jatakaParijata: {
     textTa: 'ஜாதக பாரிஜாதம் (13-ஆம் அத்தியாயம், 60-ஆம் ஸ்லோக உரை): தந்தைக்கும் மகனுக்கும் இடையே வேதை இல்லை — எனவே சந்திரனும் புதனும், சூரியனும் சனியும் வேதையால் ஒருவரை ஒருவர் பாதிப்பதில்லை. இது பொதுவான கூற்று (இரு திசையிலும்) — அதனால் சனியின் விபரீத வேதையிலும் சூரியன் கணக்கில் வராது.',
@@ -177,26 +182,77 @@ function reverseOnBadHouses(pairs, goodHouses) {
 const goodOf = (row) => [...row.pairs.map(([g]) => g), ...(row.unpairedGood ?? [])];
 
 /**
- * The two computable methods. For each planet: good houses (each with its
- * vedha house, or none), and bad houses that a planet elsewhere relieves
- * (vipareetha). A house that the book calls good is read as good even where a
- * vipareetha row also lists it — Pulippani's malefic rows for Mercury (8) and
- * Venus (1, 3, 5, 8, 9, 11) name houses his own benefic rows call good.
+ * The computable methods. For each planet: good houses (each with its vedha
+ * house, or none), and bad houses that a planet elsewhere relieves
+ * (vipareetha) — a list, since one book gives two tables that can both
+ * relieve the same bad house. A house that the book calls good is read as good
+ * even where a vipareetha row also lists it — Pulippani's malefic rows for
+ * Mercury (8) and Venus (1, 3, 5, 8, 9, 11) name houses his own benefic rows
+ * call good. A planet the book has no row for is marked `notCovered`.
  */
 function methodFrom(gocharaTable, vipareetaFor) {
   const out = {};
   for (const p of PLANETS_9) {
     const row = gocharaTable[p];
+    if (!row) {
+      out[p] = { notCovered: true, good: [], vedhaOf: {}, unpairedGood: [], relievedBy: {} };
+      continue;
+    }
     const good = goodOf(row);
+    const relievedBy = {};
+    for (const [b, r] of vipareetaFor(p, row, good)) {
+      if (good.includes(b)) continue;
+      relievedBy[b] = relievedBy[b] ?? [];
+      if (!relievedBy[b].includes(r)) relievedBy[b].push(r);
+    }
     out[p] = {
       good,
       vedhaOf: Object.fromEntries(row.pairs.map(([g, v]) => [g, v])),
       unpairedGood: [...(row.unpairedGood ?? [])],
-      relievedBy: Object.fromEntries(vipareetaFor(p, row, good).filter(([b]) => !good.includes(b))),
+      relievedBy,
     };
   }
   return deepFreeze(out);
 }
+
+// ---------------------------------------------------------------------------
+// R. Santhanam, Jyotisharnava Navanitam, ch.3 commentary (added 2026-10-06)
+// ---------------------------------------------------------------------------
+
+/** Santhanam printed p.147: good place → vedha place. No rows for Rahu and Ketu. */
+const SANTHANAM_GOCHARA_VEDHA = deepFreeze({
+  Sun: { pairs: [[3, 9], [6, 12], [10, 4], [11, 5]] },
+  Moon: { pairs: [[1, 5], [3, 9], [6, 12], [7, 2], [10, 4], [11, 8]] },
+  Mars: { pairs: [[3, 12], [6, 9], [11, 5]] },
+  Mercury: { pairs: [[2, 5], [4, 3], [6, 9], [8, 1], [10, 8], [11, 12]] },
+  Jupiter: { pairs: [[2, 12], [5, 4], [7, 3], [9, 10], [11, 8]] },
+  Venus: { pairs: [[1, 8], [2, 7], [3, 1], [4, 10], [5, 9], [8, 5], [9, 11], [11, 6], [12, 3]] },
+  Saturn: { pairs: [[3, 12], [6, 9], [11, 5]] },
+});
+
+/**
+ * Santhanam printed p.151, "Vedha for bad places only": a planet in one of its
+ * bad houses is checked by another planet in the house given. Where the house
+ * given is the same house, the checking planet transits with it — his p.152
+ * says so for Saturn's Sade Sati ("checked by another planet ... in
+ * simultaneous transit with Saturn himself").
+ */
+const SANTHANAM_BAD_PLACES = deepFreeze({
+  Sun: { 1: 1, 2: 2, 4: 3, 5: 6, 7: 7, 8: 8, 9: 10, 12: 11 },
+  Moon: { 2: 1, 4: 3, 5: 6, 8: 7, 9: 10, 12: 11 },
+  Mars: { 1: 1, 2: 2, 4: 4, 5: 4, 7: 6, 8: 7, 9: 8, 10: 10, 12: 12 },
+  Mercury: { 1: 2, 3: 4, 5: 7, 7: 6, 9: 8, 12: 11 },
+  Jupiter: { 1: 1, 3: 2, 4: 5, 6: 6, 8: 8, 10: 9, 12: 12 },
+  Venus: { 6: 12, 7: 2, 10: 4 },
+  Saturn: { 1: 1, 2: 2, 4: 4, 5: 4, 7: 6, 8: 7, 9: 8, 10: 10, 12: 12 },
+});
+
+const SANTHANAM_SOURCES = Object.freeze({
+  vedha: Object.freeze({ ...SANTHANAM_JN, pageLocus: 'Chapter 3 commentary, printed p.147 (PDF 154), "Table of Vedha (Places of Obstacles)"; p.148: "the Sun and Saturn do not cause Vedha to each other. So also there is no Vedha between the Moon and Mercury"' }),
+  vipareeta: Object.freeze({ ...SANTHANAM_JN, pageLocus: 'Chapter 3 commentary, printed pp.148-149 (PDF 155-156): "reverse the figures noted up and down in the Table of Vedhas" and the "Table of Viparita Vedha"' }),
+  badPlaces: Object.freeze({ ...SANTHANAM_JN, pageLocus: 'Chapter 3 commentary, printed pp.150-151 (PDF 157-158): "The last of the Vedhas ... somewhat akin to Viparita Vedha but it covers other evil houses" and the table "Vedha for bad places only"' }),
+  sadeSati: Object.freeze({ ...SANTHANAM_JN, pageLocus: 'Chapter 3 commentary, printed p.152 (PDF 159): "Sade Sathi effects are checked by another planet (except the Sun, Rahu etc.) in simultaneous transit with Saturn himself. Jupiter in the 10th is checked by another planet in transit in the 9th"' }),
+});
 
 const VEDHA_METHODS = deepFreeze({
   PULIPPANI: {
@@ -222,16 +278,31 @@ const VEDHA_METHODS = deepFreeze({
     exemptNoteTa: 'விஷ்ணு பாஸ்கர்: சூரியன்-சனி, சந்திரன்-புதன் ("தந்தை-மகன்") வேதை செய்வதில்லை. விபரீத வேதை = வேதை இடத்தில் கிரகம், இணையான நல்ல இடத்தில் வேறு கிரகம் — அவரது அட்டவணையைத் திருப்பிப் படிப்பது.',
     sources: [VB_VEDHA_SOURCE],
   },
+  SANTHANAM: {
+    id: 'SANTHANAM',
+    labelTa: 'சந்தானம் (ஜோதிஷார்ணவ நவநீதம், அத். 3 உரை)',
+    table: methodFrom(SANTHANAM_GOCHARA_VEDHA, (p, row, good) => [
+      ...reverseOnBadHouses(row.pairs, good),
+      ...Object.entries(SANTHANAM_BAD_PLACES[p]).map(([b, r]) => [Number(b), r]),
+    ]),
+    exempt: {
+      gochara: { Sun: ['Saturn'], Saturn: ['Sun'], Moon: ['Mercury'], Mercury: ['Moon'] },
+      vipareeta: { Sun: ['Saturn'], Saturn: ['Sun'], Moon: ['Mercury'], Mercury: ['Moon'] },
+    },
+    exemptNoteTa: 'சந்தானம்: சூரியன்-சனி, சந்திரன்-புதன் வேதை செய்வதில்லை. தீய இடத்துக்கு இரண்டு அட்டவணைகள்: வேதை அட்டவணையைத் திருப்பியது (ப.149), "தீய இடங்களுக்கு மட்டும் வேதை" (ப.151). இரண்டில் எதன்படி கிரகம் இருந்தாலும் தீமை தடுக்கப்படுவதாக எடுத்தோம் (எங்கள் வாசிப்பு). அதே இடம் என்றால் உடன் செல்லும் கிரகம் (ப.152). ராகு, கேதுவுக்கு அவரது அட்டவணையில் வரிசை இல்லை. ப.152 ஏழரைக்கு "சூரியன், ராகு முதலியவை தவிர" என்கிறது: சூரியன் தந்தை-மகன் விதியால் ஏற்கனவே விலக்கு; ராகுவும் "முதலியவையும்" ஏழரைக்கு மட்டும் சொல்லப்பட்டதால், "முதலியவை" யார் என்று தெரியாததால், கணக்கில் விலக்கப்படவில்லை.',
+    sources: [SANTHANAM_SOURCES.vedha, SANTHANAM_SOURCES.vipareeta, SANTHANAM_SOURCES.badPlaces, SANTHANAM_SOURCES.sadeSati],
+  },
 });
 const DEFAULT_VEDHA_METHOD = 'PULIPPANI';
 
 /** Words in each book's vedha section (English text layer; Sudamani in Tamil words). */
 const VEDHA_RANK = deepFreeze({
-  order: ['PULIPPANI', 'JATAKA_PARIJATA', 'SUDAMANI', 'KALAPRAKASIKA', 'VISHNU_BHASKAR'],
-  words: { PULIPPANI: 614, JATAKA_PARIJATA: 465, SUDAMANI: 251, KALAPRAKASIKA: 248, VISHNU_BHASKAR: 185 },
-  computable: ['PULIPPANI', 'VISHNU_BHASKAR'],
-  measureTa: 'வேதைப் பகுதியின் சொற்கள்: புலிப்பாணி அத்தியாயம் 22 (பக்.204-206) 614; ஜாதக பாரிஜாதம் உரை (பக்.833-834) 465; சூடாமணி செய்யுள் 341-343 உரையுடன் 251 (தமிழ்ச் சொற்கள்); காலப்பிரகாசிகை (பக்.209-210) 248; விஷ்ணு பாஸ்கர் §II (ப.139) 185.',
-  computableTa: 'கணிக்கக்கூடியவை இரண்டு மட்டுமே — முழு அட்டவணையையும் தெளிவாகப் படிக்கக்கூடிய புலிப்பாணி (இயல்பு), விஷ்ணு பாஸ்கர். ஜாதக பாரிஜாதம் காலப்பிரகாசிகையின் அட்டவணையையே மறுபதிப்பு செய்கிறது; அதன் தீய இடப் பகுதியின் விதி நூலில் இல்லை. சூடாமணியின் சுக்கிரன் வரி பிரிக்க முடியவில்லை. இவை மூன்றும் ஒப்பீட்டில் மட்டும்.',
+  order: ['PULIPPANI', 'SANTHANAM', 'JATAKA_PARIJATA', 'SUDAMANI', 'KALAPRAKASIKA', 'VISHNU_BHASKAR'],
+  words: { PULIPPANI: 614, SANTHANAM: 575, JATAKA_PARIJATA: 465, SUDAMANI: 251, KALAPRAKASIKA: 248, VISHNU_BHASKAR: 185 },
+  computable: ['PULIPPANI', 'SANTHANAM', 'VISHNU_BHASKAR'],
+  measureTa: 'கோசார வேதை, விபரீத வேதை பற்றிய பகுதியின் சொற்கள்: புலிப்பாணி அத்தியாயம் 22 (பக்.204-206) 614; சந்தானம், ஜோதிஷார்ணவ நவநீதம் அத்.3 உரை (பக்.146-149) 575; ஜாதக பாரிஜாதம் உரை (பக்.833-834) 465; சூடாமணி செய்யுள் 341-343 உரையுடன் 251 (தமிழ்ச் சொற்கள்); காலப்பிரகாசிகை (பக்.209-210) 248; விஷ்ணு பாஸ்கர் §II (ப.139) 185.',
+  alternativeTa: 'மாற்று அளவு: சந்தானத்தின் "தீய இடங்களுக்கு மட்டும் வேதை" பகுதியையும் (185 சொற்கள்) சேர்த்தால் அவர் 760 — புலிப்பாணியை முந்துவார்; அப்போது அவரே இயல்பு ஆவார். புலிப்பாணியிடம் அந்த வகை இல்லாததால் ஒரே தலைப்புகளை மட்டும் ஒப்பிட்டோம். எந்த அளவு என்பது உரிமையாளரின் முடிவுக்குக் காத்திருக்கிறது; அதுவரை இயல்பு மாற்றப்படவில்லை.',
+  computableTa: 'கணிக்கக்கூடியவை மூன்று — முழு அட்டவணையையும் தெளிவாகப் படிக்கக்கூடிய புலிப்பாணி (இயல்பு), சந்தானம் (ராகு, கேது இல்லாமல்), விஷ்ணு பாஸ்கர். ஜாதக பாரிஜாதம் காலப்பிரகாசிகையின் அட்டவணையையே மறுபதிப்பு செய்கிறது; காலப்பிரகாசிகை நல்ல/தீய இடப் பட்டியல் தராமல் ஒவ்வொரு இடத்தின் பலனை மட்டும் சொல்வதால் (பக்.207-208) அதைக் கணிக்க எங்கள் தீர்ப்பு வேண்டும். சூடாமணியின் சுக்கிரன் வரி பிரிக்க முடியவில்லை. இவை மூன்றும் ஒப்பீட்டில் மட்டும்.',
 });
 
 /**
@@ -240,8 +311,13 @@ const VEDHA_RANK = deepFreeze({
  * house N is obstructed by a planet in the house printed under N", every
  * auspicious-house cell of all six rows matches Pulippani except Mercury's
  * 10th, which prints 10. The columns for the other houses do not reverse the
- * auspicious pairs (except Venus's) and the text gives no rule for them, so
- * they are recorded and not used. The reading of the layout is ours.
+ * auspicious pairs (except Venus's). They are, in 35 of 39 cells, Santhanam's
+ * "Vedha for bad places only" (`SANTHANAM_BAD_PLACES`), whose text states the
+ * rule Kalaprakasika's prose implies; a number equal to its own column means a
+ * planet in the same sign (Santhanam p.152). Kalaprakasika is still not
+ * computed: it gives each house's result, not a list of good and bad houses,
+ * so which columns obstruct and which relieve would be our judgement. The
+ * reading of the layout is ours.
  */
 const KALAPRAKASIKA_TABLE = deepFreeze({
   Sun: [1, 2, 9, 3, 6, 12, 7, 8, 10, 4, 5, 11],
@@ -277,31 +353,48 @@ const VEDHA_DIFFERENCES = deepFreeze([
   {
     id: 'MERCURY_10',
     planet: 'Mercury', house: 10,
-    textTa: 'புதன் 10-ல் — வேதை இடம்: புலிப்பாணி 8; சூடாமணியின் புதன் வேதைத் தொகுப்பில் 8 உண்டு, 7 இல்லை; ஜாதக பாரிஜாதம் / காலப்பிரகாசிகை அட்டவணை X-ன் கீழ் 10 (அதே இடம் — வேதை இடம் இல்லை எனப் படிக்கலாம்); விஷ்ணு பாஸ்கர் 7.',
-    byBook: { PULIPPANI: 8, SUDAMANI: '8 (தொகுப்பில்)', JATAKA_PARIJATA: '10', KALAPRAKASIKA: '10', VISHNU_BHASKAR: 7 },
+    textTa: 'புதன் 10-ல் — வேதை இடம்: புலிப்பாணி, சந்தானம் 8; சூடாமணியின் புதன் வேதைத் தொகுப்பில் 8 உண்டு, 7 இல்லை; ஜாதக பாரிஜாதம் / காலப்பிரகாசிகை அட்டவணை X-ன் கீழ் 10 (அதே இடம் — சந்தானத்தின் வாசிப்புப்படி உடன் செல்லும் கிரகம்); விஷ்ணு பாஸ்கர் 7.',
+    byBook: { PULIPPANI: 8, SANTHANAM: 8, SUDAMANI: '8 (தொகுப்பில்)', JATAKA_PARIJATA: '10', KALAPRAKASIKA: '10', VISHNU_BHASKAR: 7 },
   },
   {
     id: 'VENUS_11_12',
     planet: 'Venus', house: [11, 12],
-    textTa: 'சுக்கிரன் 11, 12-ல் — வேதை இடங்கள்: புலிப்பாணி, ஜாதக பாரிஜாதம், காலப்பிரகாசிகை 3, 6; சூடாமணி உரையும் முதல் இரண்டு இணையாக 11-3, 12-6; விஷ்ணு பாஸ்கர் 6, 3. புலிப்பாணியின் சொந்த விபரீத வேதை அட்டவணை விஷ்ணு பாஸ்கரின் இணைகளைப் போல (6↔11, 3↔12) அச்சாகியுள்ளது.',
-    byBook: { PULIPPANI: '11→3, 12→6', JATAKA_PARIJATA: '11→3, 12→6', KALAPRAKASIKA: '11→3, 12→6', SUDAMANI: '11→3, 12→6 (உரை)', VISHNU_BHASKAR: '11→6, 12→3' },
+    textTa: 'சுக்கிரன் 11, 12-ல் — வேதை இடங்கள்: புலிப்பாணி, ஜாதக பாரிஜாதம், காலப்பிரகாசிகை 3, 6; சூடாமணி உரையும் முதல் இரண்டு இணையாக 11-3, 12-6; சந்தானம், விஷ்ணு பாஸ்கர் 6, 3. புலிப்பாணியின் சொந்த விபரீத வேதை அட்டவணையும் 6↔11, 3↔12 என்றே அச்சாகியுள்ளது.',
+    byBook: { PULIPPANI: '11→3, 12→6', SANTHANAM: '11→6, 12→3', JATAKA_PARIJATA: '11→3, 12→6', KALAPRAKASIKA: '11→3, 12→6', SUDAMANI: '11→3, 12→6 (உரை)', VISHNU_BHASKAR: '11→6, 12→3' },
   },
   {
     id: 'TENTH_GOOD',
     planet: ['Mars', 'Saturn', 'Rahu', 'Ketu'], house: 10,
-    textTa: '10-ஆம் இடம்: புலிப்பாணி ராகு, கேதுவுக்கு நல்ல இடம் (வேதை இடம் இல்லை); சூடாமணி செவ்வாய், சனி, ராகுவுக்கு நல்ல இடம் (வேதை இடம் இல்லை); காலப்பிரகாசிகை அட்டவணை செவ்வாய் வரிசையில் 10-ன் கீழ் 10; விஷ்ணு பாஸ்கர் 10-ஐ நல்ல இடமாகச் சொல்லவில்லை.',
-    byBook: { PULIPPANI: 'ராகு, கேது', SUDAMANI: 'செவ்வாய், சனி, ராகு', KALAPRAKASIKA: '10 (அதே இடம்)', JATAKA_PARIJATA: '10 (அதே இடம்)', VISHNU_BHASKAR: '—' },
+    textTa: '10-ஆம் இடம்: புலிப்பாணி ராகு, கேதுவுக்கு நல்ல இடம் (வேதை இடம் இல்லை); சூடாமணி செவ்வாய், சனி, ராகுவுக்கு நல்ல இடம் (வேதை இடம் இல்லை); காலப்பிரகாசிகை, சந்தானம் — செவ்வாய், சனி 10-ல் இருக்கும்போது உடன் செல்லும் கிரகம் தீமையைத் தடுக்கும் (அட்டவணையில் 10-ன் கீழ் 10); சந்தானத்திடம் ராகு, கேது வரிசை இல்லை; விஷ்ணு பாஸ்கர் 10-ஐ நல்ல இடமாகச் சொல்லவில்லை.',
+    byBook: { PULIPPANI: 'ராகு, கேது', SANTHANAM: 'தீய இடம்; உடன் செல்லும் கிரகம் தடுக்கும்', SUDAMANI: 'செவ்வாய், சனி, ராகு', KALAPRAKASIKA: '10 (அதே இடம்)', JATAKA_PARIJATA: '10 (அதே இடம்)', VISHNU_BHASKAR: '—' },
   },
   {
     id: 'VENUS_SUN',
     planet: 'Venus',
     textTa: 'சுக்கிரனுக்குச் சூரியனால் வேதை இல்லை — புலிப்பாணி மட்டும். மற்ற நூல்களின் விலக்கு "தந்தை-மகன்" (சூரியன்-சனி, சந்திரன்-புதன்) மட்டுமே.',
-    byBook: { PULIPPANI: 'விலக்கு', JATAKA_PARIJATA: '—', KALAPRAKASIKA: '—', SUDAMANI: '—', VISHNU_BHASKAR: '—' },
+    byBook: { PULIPPANI: 'விலக்கு', SANTHANAM: '—', JATAKA_PARIJATA: '—', KALAPRAKASIKA: '—', SUDAMANI: '—', VISHNU_BHASKAR: '—' },
   },
   {
     id: 'VIPAREETA',
-    textTa: 'விபரீத வேதை: புலிப்பாணி அட்டவணை தருகிறார் (குருவின் "S" = 8; சுக்கிரனின் இரண்டு இணைகள் விஷ்ணு பாஸ்கர் போல); விஷ்ணு பாஸ்கர், சூடாமணி (செய். 343) அட்டவணையைத் திருப்பிப் படிக்கச் சொல்கின்றனர்; காலப்பிரகாசிகை "தீய நிலைக் கிரகம் தீமை செய்யும் வலிமையை இழக்கும்" என்கிறது — ஆனால் அதன் அட்டவணையின் தீய இடப் பகுதி (சுக்கிரன் தவிர) திருப்பிப் படித்ததாக இல்லை, விதியும் சொல்லப்படவில்லை; அதனால் கணிக்கவில்லை.',
-    byBook: { PULIPPANI: 'அட்டவணை', VISHNU_BHASKAR: 'திருப்பல்', SUDAMANI: 'திருப்பல் (செய். 343)', KALAPRAKASIKA: 'உரைநடை மட்டும்', JATAKA_PARIJATA: 'காலப்பிரகாசிகை அட்டவணை மறுபதிப்பு' },
+    textTa: 'விபரீத வேதை: புலிப்பாணி அட்டவணை தருகிறார் (குருவின் "S" = 8; சுக்கிரனின் இரண்டு இணைகள் சந்தானம், விஷ்ணு பாஸ்கர் போல); விஷ்ணு பாஸ்கர், சூடாமணி (செய். 343) அட்டவணையைத் திருப்பிப் படிக்கச் சொல்கின்றனர்; சந்தானம் திருப்பிய அட்டவணையுடன் "தீய இடங்களுக்கு மட்டும் வேதை" என்ற இரண்டாம் அட்டவணையும் தருகிறார்; காலப்பிரகாசிகை அட்டவணையின் தீய இடப் பகுதி அந்த இரண்டாம் அட்டவணையே (39-ல் 35 இடங்கள்).',
+    byBook: { PULIPPANI: 'அட்டவணை', SANTHANAM: 'திருப்பல் + தீய இட அட்டவணை', VISHNU_BHASKAR: 'திருப்பல்', SUDAMANI: 'திருப்பல் (செய். 343)', KALAPRAKASIKA: 'தீய இட அட்டவணை (உரைநடை)', JATAKA_PARIJATA: 'காலப்பிரகாசிகை அட்டவணை மறுபதிப்பு' },
+  },
+  {
+    id: 'BAD_PLACES',
+    textTa: 'காலப்பிரகாசிகை அட்டவணையின் தீய இட நெடுவரிசைகள் = சந்தானத்தின் "தீய இடங்களுக்கு மட்டும் வேதை" (ப.151): சூரியன் 8/8, சந்திரன் 6/6, புதன் 6/6, சுக்கிரன் 3/3 இடங்களும் ஒன்றே; செவ்வாய் (= சனி) 9-ல் 7, குரு 7-ல் 5. வேறுபடும் நான்கு: செவ்வாய்/சனி 4-ல் காலப்பிரகாசிகை 3 / சந்தானம் 4, 12-ல் 11 / 12; குரு 8-ல் 7 / 8, 12-ல் 11 / 12 — சந்தானம் "அதே இடம்" (உடன் செல்லும் கிரகம்) தரும் இடங்களில் காலப்பிரகாசிகை அடுத்த இடத்தைத் தருகிறது.',
+    byBook: { SANTHANAM: 'ப.151', KALAPRAKASIKA: 'ப.210 (39-ல் 35)', JATAKA_PARIJATA: 'ப.834 (காலப்பிரகாசிகை மறுபதிப்பு)' },
+  },
+  {
+    id: 'SADE_SATI_COMPANION',
+    planet: 'Saturn',
+    textTa: 'ஏழரைச் சனியில் சனியுடன் வேறு கிரகம் செல்லும்போது: சந்தானம் (ப.152) — ஏழரையின் பலன் தடுக்கப்படும் (சூரியன், ராகு முதலியவை தவிர); புலிப்பாணி (ப.206) — குரு 3-ல் இல்லையெனில் வேகக் கிரகங்கள் சனியின் இடத்தைக் கடக்கும் காலம் "மேலும் துன்பம்". இரண்டும் நேர் எதிர்.',
+    byBook: { SANTHANAM: 'தீமை தடுக்கப்படும்', PULIPPANI: 'துன்பம் கூடும்' },
+  },
+  {
+    id: 'SANTHANAM_MARS_EXAMPLE',
+    planet: 'Mars',
+    textTa: 'சந்தானம் ப.148 உரையில் செவ்வாய்க்கு வேதை இடங்கள் "12, 2, 5" என்று அச்சாகியுள்ளது; அவரது அட்டவணைகள் (ப.147, 149) 12, 9, 5 — உரையில் 9-க்குப் பதில் 2 அச்சுப் பிழை போல். அட்டவணையே பின்பற்றப்படுகிறது.',
+    byBook: { SANTHANAM: 'உரை 12, 2, 5; அட்டவணை 12, 9, 5' },
   },
   {
     id: 'MOON_COMMENTARY',
@@ -320,5 +413,6 @@ module.exports = {
   PLANETS_9, VB_GOCHARA_VEDHA, VB_VEDHA_SOURCE, FATHER_SON, FATHER_SON_SOURCES,
   VEDHA_METHODS, DEFAULT_VEDHA_METHOD, VEDHA_RANK, KALAPRAKASIKA_TABLE, KALAPRAKASIKA_1982_CELLS,
   KALAPRAKASIKA_SOURCES, SUDAMANI_SETS, SUDAMANI_SOURCES, VEDHA_DIFFERENCES, NODE_PAIR_NOTE_TA,
+  SANTHANAM_GOCHARA_VEDHA, SANTHANAM_BAD_PLACES, SANTHANAM_SOURCES,
   reverseOnBadHouses,
 };
