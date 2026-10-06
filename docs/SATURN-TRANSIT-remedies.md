@@ -246,10 +246,74 @@ keeps both traditions the book records: "ancient Tamil texts" (Raja Yoga) and
 - The scan lacks printed pp.148–167, so the main reading's 1st–3rd houses are
   not available.
 
+## Ashtakavarga and Kakshya (added 2026-10-06)
+
+`src/report/saturnAshtakavarga.js` (computation), `saturnAshtakavargaTables.js`
+(doctrine), `app/saturn-transit/AshtakavargaSection.tsx`, test
+`test-saturn-ashtakavarga.js` with `fixtures/saturn-transit/ashtakavarga-patel.json`.
+
+**Four books.** C.S. Patel and C.A. Subramania Aiyar, *Ashtakavarga* (2nd ed.,
+added to the curated library and the registry this stage); Vinay Aditya,
+*Practical Ashtakavarga* Ch.15; Vishnu Bhaskar Ch.14 §XVIII–XX and Ch.1 p.13;
+the Parashara's Light 6.1 manual pp.81–84.
+
+**Two orders, by measured words** (owner's rule, 2026-10-03):
+
+| Topic | Order | Words |
+|---|---|---|
+| Kakshya | Patel (bhava method, default) → sign method (PL, VB, VA) → alternate lord order (Patel's note) | 1,532 / 572 / 140 / 43 |
+| Bindus in the house Saturn transits | Vinay Aditya → Patel → Vishnu Bhaskar | 1,501 / 669 / 142 |
+
+Counting only the sentences that state a bindu rule would put Patel (294) ahead
+of Vinay Aditya (182); the page says so.
+
+**Patel's bhava method, reproduced exactly from his two worked charts.** Sripati
+bhavas from the Lagna and MC (the chart's own Porphyry cusps agree), sandhis
+halfway between cusps, each bhava cut 4 + 4 at its cusp, the Ashtakavarga
+counted from the planets' *bhavas*. The test reproduces, to the printed minute
+or exactly: the standard horoscope's bhava table (p.12), the Sun's Prastara
+(p.66 — its columns are "bhavas represented by rasis", so the Sun in Leo heads
+a column labelled Kanya), the Lagna bhava's four bindu Kakshyas (p.68), Saturn's
+bindus by bhava (p.154); Edward VII's cusps and sandhis, all seven Bhinna rows
+and the Samudaya by bhava, and all seven natal Kakshyas with bindu/rekha
+(pp.xxxiii–xxxv).
+
+**Findings:**
+
+- **Patel's bindu table differs from Vinay Aditya's in two cells**: in the
+  Moon's Ashtakavarga Jupiter gives 1, 2, 4, 7, 8, 10, 11 (VA: 12 instead of 2);
+  in Venus's, Mars gives 3, 4, 6, 9, 11, 12 (VA: 5 instead of 4). Patel's
+  footnotes attribute VA's cells to Brihat Jataka (and Saravali for the Moon)
+  and his own to Parasara (p.18, p.20, p.21). Edward VII's printed Moon and Venus
+  rows follow Patel's cells exactly — and miss by one bindu under VA's. Saturn's
+  own table is the same in both, so Saturn's bindus never change; only the
+  Sarvashtakavarga can. Patel's block uses his table and lists the bhavas where
+  the other table would give a different total.
+- **Print slip:** Edward VII's 1st cusp is printed "8s 50° 59′"; the 7th cusp
+  (2s 5° 59′) shows 8s 5° 59′ is meant.
+- **Vishnu Bhaskar's "greater than 5 or 6"** is shown both ways (≥6 and ≥7).
+  His "SAV of the 12th, Moon sign and 2nd greater than 30" is read as each of the
+  three, and labelled as our reading.
+- **Vinay Aditya names 5–7 as high, 0–2 as low, 3 as mixed**; 4 and 8 he does
+  not place, and the page says so rather than guessing.
+- **Combustion orb** 15° is Vishnu Bhaskar's (p.13); Vinay Aditya gives none.
+  The same book's "Venus and Saturn strong even combust" (p.14) is about natal
+  strength, not transit; both are shown.
+- **The alternate lord order** (Sun, Saturn, Jupiter, Venus, Mars, Mercury, Moon,
+  Lagna — Parasarahora, Shambhu-horaprakasha, Manasagari per Patel p.67) is
+  applied to signs; that they divide signs rather than bhavas is our reading.
+
+**Not applied, and said so on the page:** Vishnu Bhaskar's several-planets
+rule (needs every planet's transit); Vinay Aditya's "nakshatra lord well placed
+with high bindus" (whose bindus is not stated); the rest of Patel's sloka 7–8
+(Sun and Moon together with a maraka dasha — no maraka engine yet); Saturn's
+aspects and trines (Vinay Aditya p.165).
+
 ## Not done
 
-- **Ashtakavarga / Kakshya refinement of Sade Sati** (Vishnu Bhaskar §XVII).
 - **Vedha for the other planets** — the tables are encoded; only Saturn is computed.
+- **Kakshya for the other planets** — the engine is Saturn's; PL9's monthly
+  Kaksha calendar shows all seven.
 - **Counting from Lagna** and Arudha Lagna (Rath).
 - **Tamil-tradition names** for the three phases, which are not in any Tamil book held (the Sudamani chapter was searched; it has Anga Sani instead).
 - **Gemstones, Mangala, mantras by planet** — separate stages.

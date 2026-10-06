@@ -320,6 +320,24 @@ const SOURCES = [
     },
   },
   {
+    id: 'PATEL_ASHTAKAVARGA',
+    title: 'Ashtakavarga (with translation in English and explanatory notes)',
+    titleTa: 'அஷ்டகவர்க்கம் (ஆங்கில மொழிபெயர்ப்பும் விளக்கக் குறிப்புகளும்)',
+    author: 'Chandulal Sakaralal Patel and C.A. Subramania Aiyar',
+    file: 'ashtakavarga-patel-subramania-aiyar/raw-scans/full-scan.pdf',
+    tradition: 'Classical Ashtakavarga verses with modern English notes (bhava method)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the bhava method of Kakshyas (Sripati bhavas, 4 + 4 parts, printed pp.64-71), its two worked charts, '
+        + 'and Saturn\'s transit results by bindu count and by Kakshya (Chapter XII, pp.153-154). The verses are classical; '
+        + 'the translation and notes are the authors\' work. Only short paraphrases are shown.',
+      verified: false,
+      toConfirm: 'Publisher and year of the second edition (the preface names Narinder Sagar).',
+    },
+  },
+  {
     id: 'KAPOOR_REMEDIAL_MEASURES',
     title: 'Remedial Measures in Astrology',
     titleTa: 'ஜோதிடப் பரிகார முறைகள்',

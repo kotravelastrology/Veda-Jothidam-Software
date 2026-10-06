@@ -5,6 +5,7 @@ import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
 import { useWorkspace } from '@/src/workspace/workspaceContext';
 import { listCharts, searchCharts, openChart } from '../library/actions';
 import { computeSaturn } from './actions';
+import AshtakavargaSection from './AshtakavargaSection';
 import type { BirthFormInput } from '../report/actions';
 
 /**
@@ -740,6 +741,8 @@ export default function SaturnTransitView() {
           <TamilAndEnglish r={result} />
 
           <VedhaSection r={result} />
+
+          <AshtakavargaSection r={result} />
 
           <section className="mb-4">
             <h2 className="text-sm font-semibold text-ink mb-2">ஏழரைச் சனி — ஒவ்வொரு சுற்றும்</h2>

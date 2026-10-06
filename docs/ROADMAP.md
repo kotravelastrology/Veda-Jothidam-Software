@@ -137,6 +137,10 @@ Not plan items, but real, and they should not be discovered at release:
   computed against the other planets for the coming 30 years; Sudamani verse 343
   gives the same reversal in Tamil but a different effect ("gives good" vs "evil
   not felt"). Pulippani's three passages for the 4th, 7th and 8th, each period
-  with its round. Not yet: other houses' text, Ashtakavarga/Kakshya refinement.
+  with its round. Since then: all twelve houses' text; and (2026-10-06)
+  Ashtakavarga and Kakshya — Patel's bhava method reproduced exactly from his two
+  worked charts, the sign method, Vinay Aditya's watch-list; Patel's bindu table
+  found to differ from Vinay Aditya's in two cells. Not yet: vedha and Kakshya
+  for the other planets.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

@@ -788,8 +788,8 @@
  {
   "group": "Worksheets",
   "name": "110. Kaksha Dasha Calendar",
-  "verdict": "BUILT",
-  "evidence": "/tamil-calendar"
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit — Saturn only: Kakshya windows by sign and by Patel's bhava method (saturnAshtakavarga.js); not the monthly all-planet calendar"
  },
  {
   "group": "Worksheets",
@@ -2013,13 +2013,13 @@
   "group": "Reports / Remedies",
   "name": "Dhayya Results",
   "verdict": "PARTIAL",
-  "evidence": "/saturn-transit: Pulippani's text for the 4th, 7th and 8th from three passages, each period with its round, plus vedha/vipareetha windows; not the PL9 wording"
+  "evidence": "/saturn-transit: Pulippani's text for the 4th, 7th and 8th from three passages, each period with its round, plus vedha/vipareetha windows; not the PL9 wording; Ashtakavarga bindus per house (three books) and Kakshya windows"
  },
  {
   "group": "Reports / Remedies",
   "name": "Kantaka Saturn Results",
   "verdict": "PARTIAL",
-  "evidence": "/saturn-transit: Pulippani's text for the 4th, 7th and 8th from three passages, each period with its round, plus vedha/vipareetha windows; not the PL9 wording"
+  "evidence": "/saturn-transit: Pulippani's text for the 4th, 7th and 8th from three passages, each period with its round, plus vedha/vipareetha windows; not the PL9 wording; Ashtakavarga bindus per house (three books) and Kakshya windows"
  },
  {
   "group": "Reports / Remedies",

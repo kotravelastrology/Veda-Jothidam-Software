@@ -10,6 +10,10 @@ const { computeSaturnTransits, DEFAULT_KANTAKA, KANTAKA_CONVENTIONS } = require(
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { saturnVedhaWindows } = require('../../src/report/saturnVedha');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const { saturnAshtakavarga } = require('../../src/report/saturnAshtakavarga');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { buildVimshottariDasha } = require('../../src/dasha/vimshottariDasha');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { describeMatchParty } = require('../../src/report/matchParties');
 
 const YEAR_MS = 365.25 * 86400000;
@@ -59,9 +63,33 @@ function forNative(input: BirthFormInput, kantakaConvention: string | undefined,
     moonRasiIndex, fromMs: now - 2 * YEAR_MS, toMs: now + 30 * YEAR_MS, atMs: now, ayanamsha: ctx.ayanamsha,
   });
 
+  // Ashtakavarga and Kakshya: the bindus come from the birth chart (by sign,
+  // and by Sripati bhava for Patel's method), the windows from the same
+  // near-future span as the vedha. Rahu's mahadasha is needed for the
+  // Chandra-navamsha reading Vinay Aditya cites.
+  const planets = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+  const longitudes = Object.fromEntries(planets.map((p) => [p, chart.grahas[p].longitude]));
+  const dasha = buildVimshottariDasha(chart.julianDay, chart.grahas.Moon.longitude, input.utcOffsetMinutes ?? 0, { depth: 1 });
+  const jdToMs = (jd: number) => (jd - 2440587.5) * 86400000;
+  const rahuDashas = dasha.dashas
+    .filter((d: any) => d.lord === 'Rahu')
+    .map((d: any) => ({ fromMs: jdToMs(d.startJulianDay), toMs: jdToMs(d.endJulianDay) }));
+  const ashtakavarga = saturnAshtakavarga({
+    natal: { lagnaLongitude: chart.lagna.longitude, mcLongitude: chart.mc, longitudes },
+    moonRasiIndex,
+    moonNakshatraIndex,
+    moonLongitude: chart.grahas.Moon.longitude,
+    rahuDashas,
+    fromMs: now - 2 * YEAR_MS,
+    toMs: now + 30 * YEAR_MS,
+    atMs: now,
+    ayanamsha: ctx.ayanamsha,
+  });
+
   return JSON.parse(JSON.stringify({
     ...result,
     vedha,
+    ashtakavarga,
     native: describeMatchParty(input, ctx, profile),
     moonLongitude: chart.grahas.Moon.longitude,
   }));
