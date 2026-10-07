@@ -10,6 +10,8 @@ const { gocharaVedha } = require('../../src/report/gocharaVedha');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { nakshatraVedha } = require('../../src/report/nakshatraVedha');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const { saptashalaka } = require('../../src/report/saptashalaka');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { describeMatchParty } = require('../../src/report/matchParties');
 
 const YEAR_MS = 365.25 * 86400000;
@@ -65,5 +67,11 @@ export async function computeVedha(req: VedhaRequest) {
   const nakshatra = nakshatraVedha({
     natalLongitudes, fromMs: now - 2 * YEAR_MS, toMs: now + 30 * YEAR_MS, atMs: now, ayanamsha: ctx.ayanamsha, nodeType,
   });
-  return JSON.parse(JSON.stringify({ ...result, nakshatra, native: describeMatchParty(input, ctx, profile) }));
+  // Saptashalaka: counted from the natal Moon's star; a shorter window than the
+  // rest (one year back, twelve ahead) because every planet's star changes are listed.
+  const sapta = saptashalaka({
+    natalMoonLongitude: chart.grahas.Moon.longitude,
+    fromMs: now - YEAR_MS, toMs: now + 12 * YEAR_MS, atMs: now, ayanamsha: ctx.ayanamsha, nodeType,
+  });
+  return JSON.parse(JSON.stringify({ ...result, nakshatra, sapta, native: describeMatchParty(input, ctx, profile) }));
 }

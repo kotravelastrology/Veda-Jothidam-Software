@@ -214,3 +214,7 @@ readings are shown with their pages and there is no single verdict.
 ### 12. Nakshatra vedha (2026-10-06)
 
 Same page. Sixteen positions counted from the planets' natal stars (Pulippani ch.23; Santhanam, *Jyotisharnava Navanitam* ch.3 — identical tables). PL9 has no row of its own for this; it is added to the "Transit Interpretations" evidence, which stays **PARTIAL**. Totals unchanged.
+
+### 13. Saptashalaka chakra (2026-10-07)
+
+Same page. Bhat (default, straight lines), Pulippani and Gour (three lines); four rules as dated windows. No PL9 row of its own; totals unchanged.

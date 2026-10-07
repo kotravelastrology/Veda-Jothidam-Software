@@ -147,12 +147,58 @@ Moon's spells (about a day a month) are listed for the next thirteen months.
 cell the same day (35 of 39; see "Kalaprakasika's bad-house columns explained"
 above), and Santhanam became a third computed method.
 
+## Saptashalaka chakra (added 2026-10-07)
+
+`src/report/saptashalaka.js` · `saptashalakaTables.js` · test
+`test-saptashalaka.js` with `fixtures/gochara-vedha/saptashalaka.json` · same
+page, own section.
+
+The 28 stars (Abhijit included, from Krittika at the north-east) on the ends
+of seven horizontal and seven vertical lines; stars on one line are in vedha.
+
+| Book | Section | Words | Reading |
+|---|---|---|---|
+| M. Ramakrishna Bhat, *Fundamentals of Astrology* | ch.XXI, pp.251–253 | 808 | straight lines ("stars face one another"), plain grid — **default** |
+| Pulippani, *Gochar Phaladeepika* | ch.24, pp.209–211 | 387 | text: straight lines; drawing: a diamond lattice |
+| A.K. Gour, *The Celestial Delivery Boy* | ch.VIII, pp.91–93 | 355 | three lines (straight + two diagonals), same lattice drawn |
+
+Bhat and Gour were added to the curated library and the registry, with K.S.
+Charak's *Elements of Vedic Astrology* for the span of Abhijit (276°40′–
+280°53′20″), which none of the three gives. Both readings are computed; the
+chakra is encoded as coordinates, so both follow from the drawing, and the test
+reproduces Pulippani's layout, Bhat's fourteen lines and his worked example
+(natal Mrigashira → Uttarashadha; 19th Dhanishta → Vishakha), and Gour's two
+examples (Ardra → Purvashadha, Uttarabhadra, Hasta; Shravana → Krittika,
+Dhanishta, Magha).
+
+**The rules, computed as dated windows:**
+
+1. The Sun in a star in vedha with the natal (Janma), 10th (Karma) or 19th
+   (Adhana) star — with any malefic in the Sun's sign during the window noted.
+2. Malefics (Mars, Saturn, Rahu, Ketu) and benefics (Jupiter, Venus, Mercury)
+   in those vedha stars, with the days a benefic stands in vedha with the same
+   star while a malefic does (Bhat: then "no danger to life").
+3. Malefics and benefics occupying the 1st, 3rd, 5th, 7th, 10th, 19th or 23rd
+   star (Bhat: occupation, "another kind of Vedha"; Pulippani: "afflicted";
+   Gour: vedha, and the 22nd instead of the 23rd — shown, not computed).
+4. A planet changing sign while the Moon is in the natal, 10th or 19th star
+   (eclipses, planetary war and meteors not computed).
+
+**Our readings, labelled on the page:** Janma, Karma and Adhana are counted in
+27 stars, then set on the chakra (Bhat's example); malefic/benefic by natural
+nature, the Moon left out (not classified in this section of any book); "the
+Sun with a malefic" as the same sign; at rule 4 the Moon's star at the moment
+of the sign change (Pulippani says "day").
+
+The books' statements include danger to life and death; they are shown as the
+books' words, attributed and collapsed under each rule, and the page states they
+are not the software's predictions. Ulka (10th or 21st from the Sun's star) is
+recorded but has no stated effect there, so it is not computed.
+
 ## Not done
 
 - The default-method decision (see "Decision pending" above).
 - Sudamani's Venus line — needs a Tamil reader's decoding of the verse.
-- The Saptashalaka (seven-line) nakshatra gochara, Pulippani ch.24 — a
-  different system.
 
 ## Verified
 
@@ -162,7 +208,9 @@ layout reading; Sudamani's sets; both methods' pairs; word order; every
 citation registered; window boundaries against the ephemeris; Saturn identical
 to `/saturn-transit`. `test-nakshatra-vedha.js`: both books' tables against an
 independent transcription, the books' example count, word order, citations,
-every window's entry and exit against the ephemeris, and "now". Browser-checked
-with a manually entered chart (nothing written to the library): the present
-table, the method switch, the per-planet timelines, the comparison and the
-nakshatra section.
+every window's entry and exit against the ephemeris, and "now".
+`test-saptashalaka.js`: the layout, both readings, the books' examples,
+Abhijit, word order, citations, and every window and sign change against the
+ephemeris. Browser-checked with a manually entered chart (nothing written to
+the library): the present table, the method switch, the per-planet timelines,
+the comparison, the nakshatra section and the Saptashalaka section.

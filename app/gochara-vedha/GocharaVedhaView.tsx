@@ -236,6 +236,132 @@ function NakshatraSection({ n }: { n: any }) {
   );
 }
 
+const BOOK_NAME_TA: Record<string, string> = { BHAT: 'பட் (ஜோதிட அடிப்படைகள்)', PULIPPANI: 'புலிப்பாணி', GOUR: 'கௌர்' };
+const NATURE_TA: Record<string, string> = { MALEFIC: 'பாபர்', BENEFIC: 'சுபர்' };
+
+function SaptashalakaSection({ s }: { s: any }) {
+  const [reading, setReading] = useState<string>(s.defaultReading);
+  const [all, setAll] = useState(false);
+  const at = Date.parse(s.atUtc);
+  const horizon = at + 5 * 365.25 * 86400000;
+  const keep = (ws: any[]) => (all ? ws : ws.filter((w) => Date.parse(w.toUtc) > at && Date.parse(w.fromUtc) < horizon));
+  const r = s.readings[reading];
+  const hitTa = (h: any) => `${s.natal[h.target].labelTa}${h.line === 'DIAGONAL' ? ' (மூலைவிட்டம்)' : ''}`;
+  const rule = (id: string) => s.rules.find((x: any) => x.id === id);
+  const Books = ({ id }: { id: string }) => {
+    const ru = rule(id);
+    return (
+      <details className="mt-1 text-xs">
+        <summary className="cursor-pointer text-ink-soft">நூல்கள் சொல்வது (அதிக விளக்கம் உள்ளது முதலில்)</summary>
+        <ul className="mt-1 space-y-1">
+          {ru.books.map((b: any) => (
+            <li key={b.book} className="text-ink"><strong>{BOOK_NAME_TA[b.book]}:</strong> {b.textTa}<Cites list={[b.source]} /></li>
+          ))}
+        </ul>
+        <p className="text-ink-soft mt-1">{ru.readingTa}</p>
+      </details>
+    );
+  };
+  const Win = ({ w }: { w: any }) => (
+    <span className="font-mono" style={num}>{day(w.fromUtc)} – {day(w.toUtc)}{w.current ? ' · இப்போது' : ''}</span>
+  );
+  return (
+    <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+      <h2 className="text-sm font-semibold text-ink mb-1">சப்தசலாகைச் சக்கரம் — நட்சத்திரக் கோசாரம்</h2>
+      <p className="text-[11px] text-ink-soft mb-2">
+        ஏழு நெடுக்குக் கோடு, ஏழு குறுக்குக் கோடுகளின் 28 முனைகளில் கார்த்திகை முதல் 28 நட்சத்திரங்கள் (அபிஜித் உட்பட). ஒரே கோட்டின் இரு முனை நட்சத்திரங்கள் ஒன்றுக்கொன்று வேதை.
+        வரிசை: {s.rank.measureTa} {s.notes.countingTa} {s.notes.abhijitTa}
+      </p>
+      <p className="text-[11px] text-amber-800 mb-2">{s.notes.disclaimerTa}</p>
+      <div className="flex flex-wrap gap-2 mb-2">
+        {Object.keys(s.readings).map((id) => (
+          <button key={id} type="button" onClick={() => setReading(id)}
+            className={`text-xs px-2 py-1 rounded border ${id === reading ? 'border-saffron bg-amber-50 text-ink font-semibold' : 'border-line text-ink-soft'}`}>
+            {s.readings[id].labelTa}
+          </button>
+        ))}
+      </div>
+      <Cites list={[...r.sources, s.abhijitSource]} />
+      <div className="text-xs text-ink my-2 space-y-0.5">
+        {Object.entries(s.natal).map(([tid, n]: [string, any]) => (
+          <p key={tid}><strong>{n.labelTa}</strong>: {n.starTa} → வேதை நட்சத்திரம் {r.vedhaStars[tid].map((v: any) => `${v.starTa}${v.line === 'DIAGONAL' ? ' (மூலைவிட்டம்)' : ''}`).join(', ')}</p>
+        ))}
+      </div>
+      <label className="flex items-center gap-2 text-xs text-ink-soft mb-2 cursor-pointer">
+        <input type="checkbox" checked={all} onChange={(e) => setAll(e.target.checked)} />
+        முழுக் காலமும் காட்டு ({day(s.window.fromUtc)} – {day(s.window.toUtc)}); இல்லையெனில் இன்றிலிருந்து 5 ஆண்டுகள்
+      </label>
+
+      <h3 className="text-xs font-semibold text-ink mt-3">{rule('SUN_VEDHA').titleTa}</h3>
+      <ul className="text-xs space-y-0.5 mt-1">
+        {keep(r.sun).length === 0 && <li className="text-ink-soft">இந்தக் காலத்தில் இல்லை.</li>}
+        {keep(r.sun).map((w: any) => (
+          <li key={w.fromUtc} className={w.current ? 'text-rose' : 'text-ink'}>
+            <Win w={w} /> · {w.starTa} · {w.hits.map(hitTa).join(', ')}
+            {w.maleficWithSun.length > 0 && <span className="text-amber-800"> · அதே ராசியில் {w.maleficWithSun.map((m: any) => `${m.planetTa} (${m.days} நாள்)`).join(', ')}</span>}
+          </li>
+        ))}
+      </ul>
+      <Books id="SUN_VEDHA" />
+
+      <h3 className="text-xs font-semibold text-ink mt-3">{rule('OTHERS_VEDHA').titleTa}</h3>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs" style={{ minWidth: 640 }}>
+          <thead><tr className="text-ink-soft border-b border-line text-left">
+            <th className="py-1 pr-2">காலம்</th><th className="py-1 pr-2">கிரகம்</th><th className="py-1 pr-2">நட்சத்திரம்</th><th className="py-1">எதற்கு வேதை</th>
+          </tr></thead>
+          <tbody>
+            {keep(r.others).map((w: any) => (
+              <tr key={`${w.planet}${w.fromUtc}`} className={`border-b border-line/40 ${w.current ? 'bg-amber-50' : ''}`}>
+                <td className="py-1 pr-2 whitespace-nowrap"><Win w={w} /></td>
+                <td className={`py-1 pr-2 ${w.nature === 'MALEFIC' ? 'text-rose' : 'text-teal'}`}>{w.planetTa} ({NATURE_TA[w.nature]})</td>
+                <td className="py-1 pr-2 text-ink">{w.starTa}</td>
+                <td className="py-1 text-ink">{w.hits.map(hitTa).join(', ')}{w.nature === 'MALEFIC' && w.beneficAlsoDays > 0 && <span className="text-ink-soft"> · சுபக் கிரகமும் {Math.round(w.beneficAlsoDays)} நாள்</span>}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Books id="OTHERS_VEDHA" />
+
+      <h3 className="text-xs font-semibold text-ink mt-3">{rule('OCCUPATION').titleTa}</h3>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs" style={{ minWidth: 560 }}>
+          <thead><tr className="text-ink-soft border-b border-line text-left">
+            <th className="py-1 pr-2">காலம்</th><th className="py-1 pr-2">கிரகம்</th><th className="py-1">நட்சத்திரம் · ஜன்மத்திலிருந்து</th>
+          </tr></thead>
+          <tbody>
+            {keep(s.occupation).map((w: any) => (
+              <tr key={`${w.planet}${w.fromUtc}`} className={`border-b border-line/40 ${w.current ? 'bg-amber-50' : ''}`}>
+                <td className="py-1 pr-2 whitespace-nowrap"><Win w={w} /></td>
+                <td className={`py-1 pr-2 ${w.nature === 'MALEFIC' ? 'text-rose' : 'text-teal'}`}>{w.planetTa} ({NATURE_TA[w.nature]})</td>
+                <td className="py-1 text-ink">{w.starTa} · {w.count}-வது</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Books id="OCCUPATION" />
+
+      <h3 className="text-xs font-semibold text-ink mt-3">{rule('ROUNDS').titleTa}</h3>
+      <p className="text-[11px] text-ink-soft">காலம்: {day(s.roundsWindow.fromUtc)} – {day(s.roundsWindow.toUtc)}</p>
+      <ul className="text-xs space-y-0.5 mt-1">
+        {s.rounds.length === 0 && <li className="text-ink-soft">இந்தக் காலத்தில் இல்லை.</li>}
+        {s.rounds.map((x: any) => (
+          <li key={`${x.planet}${x.atUtc}`} className="text-ink">
+            <span className="font-mono" style={num}>{x.atUtc.slice(0, 16).replace('T', ' ')} UTC</span> · {x.planetTa} ராசி மாற்றம் · சந்திரன் {x.moonStarTa} ({x.roundTa})
+          </li>
+        ))}
+      </ul>
+      <Books id="ROUNDS" />
+
+      <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-3 space-y-0.5">
+        {s.notComputedTa.map((t: string) => <li key={t}>{t}</li>)}
+      </ul>
+    </section>
+  );
+}
+
 export default function GocharaVedhaView() {
   const [rows, setRows] = useState<LibraryRow[]>([]);
   const [query, setQuery] = useState('');
@@ -411,6 +537,8 @@ export default function GocharaVedhaView() {
           </section>
 
           {result.nakshatra && <NakshatraSection n={result.nakshatra} />}
+
+          {result.sapta && <SaptashalakaSection s={result.sapta} />}
         </>
       )}
     </main>

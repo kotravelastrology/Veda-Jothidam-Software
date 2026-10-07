@@ -156,7 +156,9 @@ Not plan items, but real, and they should not be discovered at release:
   only" table is Kalaprakasika's bad-house columns (35 of 39 cells), and his
   p.152 contradicts Pulippani on Sade Sati companions. Pending: the owner's
   choice of measure (like-for-like keeps Pulippani the default; whole
-  discussion makes Santhanam the default). Not yet: the Saptashalaka system
-  (Pulippani ch.24).
+  discussion makes Santhanam the default). Saptashalaka chakra added
+  2026-10-07: three books (Bhat 808 words, default; Pulippani; Gour) read it
+  as straight lines or three lines — both computed; four rules as dated
+  windows; Abhijit from Charak.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.
