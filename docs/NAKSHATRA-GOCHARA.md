@@ -25,18 +25,31 @@ to five ahead — each star it occupies, with:
   "very much benefic", in a kendra "moderate", elsewhere neutral; a malefic in a
   bad star in the 8th/12th "intensified"; in the 5th/9th neutral (bad star) or
   "practically no bad results" (good star).
-- **Anga phala** in four books, the one that explains most first.
+- **Anga phala** in five books (Phaladeepika added 2026-10-08), the one that
+  explains most first.
 - **Weekday:** for the coming year, the days on which the natal star runs at
   sunrise at the birth place, with Pulippani's result for that weekday (p.218).
 
-## Anga phala — four books
+## Anga phala — five books
 
 | Book | Words | Notes |
 |---|---|---|
 | M. Ramakrishna Bhat, *Fundamentals of Astrology* pp.254–255 | 897 | default |
 | Pulippani, *Gochar Phaladeepika* pp.214–218 | 587 | two versions: his "ancient tradition", and Sudamani in English |
+| Mantreswara, *Phaladeepika* XXVI.35–40 (Sastri 1950) pp.300–303 | 364 | the source verses (added 2026-10-08) |
 | Sudamani (Tamil), verses 344–347, pp.150–151 | 254 | read from the Tamil verses |
 | A.K. Gour, *The Celestial Delivery Boy* pp.93–95 | 228 | Bhat's table, row for row |
+
+**Phaladeepika XXVI.35–40 (2026-10-08).** The first tradition's source. The
+verses give each limb a star count; accumulated, they are Bhat's ranges for
+every planet, and Bhat's limbs. Gour's wording is Sastri's translation. Where
+Pulippani departs, the verses side against him: the Moon's 16–18 left hand
+("त्रिषु करे वामे"), 19–24 feet "living abroad" ("पादौ षट्सु विदेशतां"), 25–27
+hand; Mars's 9–11 chest ("क्रोड", not neck), 12–15 left and 22–25 right hand;
+Saturn's 2–5 hand, 6–8 foot, 9–11 foot, 12–15 hand (the verse gives no sides —
+Sastri and Bhat add them). Verse 40 gives the nodes Saturn's row itself
+("मन्दस्यैवं तमःखेचरयोः"). For Mercury-Jupiter-Venus 7–12 the verse has
+"अनर्थ" (misfortune); Kapoor's translation alone says "success".
 
 **Findings:**
 

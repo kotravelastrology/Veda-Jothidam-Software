@@ -65,6 +65,32 @@ for (const book of Object.keys(T.ANGA)) {
 for (const p of ['Sun', 'Moon', 'Mars', 'Mercury']) assert.deepEqual(ranges(T.ANGA.GOUR.rows[p]), ranges(T.ANGA.BHAT.rows[p]));
 assert.deepEqual(ranges(T.ANGA.GOUR.rows.Saturn), ranges(T.ANGA.BHAT.rows.Saturn).filter((x) => x !== '9-11'));
 
+// Phaladeepika XXVI.35-40: the verses' star counts, accumulated, are Sastri's ranges — and Bhat's, for every planet.
+{
+  const V = FIX.phaladeepikaVerses;
+  for (const p of ['Sun', 'Moon', 'Mars', 'Mercury', 'Saturn']) {
+    let n = 1;
+    const fromVerse = V[p].counts.map((k) => { const s = `${n}-${n + k - 1}`; n += k; return s; });
+    assert.equal(n - 1, 27, `${p}: the verse's counts add to 27`);
+    assert.deepEqual(ranges(T.ANGA.PHALADEEPIKA.rows[p]), fromVerse, `Phaladeepika ${p}: the verse's counts`);
+    assert.deepEqual(ranges(T.ANGA.PHALADEEPIKA.rows[p]), ranges(T.ANGA.BHAT.rows[p]), `Phaladeepika ${p} = Bhat`);
+  }
+  for (const p of ['Jupiter', 'Venus']) assert.deepEqual(ranges(T.ANGA.PHALADEEPIKA.rows[p]), ranges(T.ANGA.PHALADEEPIKA.rows.Mercury));
+  for (const p of ['Rahu', 'Ketu']) assert.deepEqual(ranges(T.ANGA.PHALADEEPIKA.rows[p]), ranges(T.ANGA.PHALADEEPIKA.rows.Saturn), `${p}: verse 40 gives the nodes Saturn's row`);
+  assert.ok(V.Saturn.nodes.includes('तमःखेचरयो'));
+  // The verses against Pulippani: the Moon's left hand (16-18) and feet (19-24), Mars's chest and hands.
+  const limbAt = (book, p, c) => T.ANGA[book].rows[p].filter(([f, t]) => c >= f && c <= t).map((row) => row[2]);
+  assert.equal(V.Moon.limbs[5], 'वाम कर');
+  assert.deepEqual(limbAt('PHALADEEPIKA', 'Moon', 17), ['இடக்கை']);
+  assert.deepEqual(limbAt('PULIPPANI', 'Moon', 17), ['வலக்கை'], 'Pulippani departs from the verse');
+  assert.deepEqual([V.Mars.limbs[2], V.Mars.limbs[3], V.Mars.limbs[6]], ['क्रोड', 'वाम कर', 'दक्षिण कर']);
+  assert.deepEqual([limbAt('PHALADEEPIKA', 'Mars', 10), limbAt('PHALADEEPIKA', 'Mars', 13), limbAt('PHALADEEPIKA', 'Mars', 23)], [['மார்பு'], ['இடக்கை'], ['வலக்கை']]);
+  assert.deepEqual([limbAt('PULIPPANI', 'Mars', 10), limbAt('PULIPPANI', 'Mars', 13), limbAt('PULIPPANI', 'Mars', 23)], [['கழுத்து'], ['வலக்கை'], ['இடக்கை']]);
+  // Mercury-Jupiter-Venus 7-12: "अनर्थ" in the verse; Kapoor's "success" recorded as a difference.
+  assert.equal(V.Mercury.results[2], 'अनर्थ');
+  for (const id of ['PHALADEEPIKA_SOURCE', 'KAPOOR_MJV']) assert.ok(T.ANGA_DIFFERENCES.some((d) => d.id === id), id);
+}
+
 // ------------------------------------------------ the books' examples ---
 {
   const v = FIX.examples.pulippaniVenus;
