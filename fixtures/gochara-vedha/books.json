@@ -47,6 +47,16 @@
     "commentaryVenus": { "good": [11, 12, 8, 9, 4, 3, 5], "clean": [3, 6, 7, 5, 8, 11, 9] }
   },
   "wordCounts": { "PULIPPANI": 614, "SANTHANAM": 575, "JATAKA_PARIJATA": 465, "PHALADEEPIKA_SASTRI": 396, "PHALADEEPIKA_KAPOOR": 350, "SUDAMANI": 251, "KALAPRAKASIKA": 248, "VISHNU_BHASKAR": 185 },
+  "phaladeepikaRest": {
+    "_about": "Phaladeepika XXVI.9-34, 41 (Sastri 1950, printed pp.289-303), transcribed 2026-10-08 from the page images: which verses cover which planet, verse 25's thirds, verses 33-34.",
+    "houseResultVerses": { "Sun": "9-11", "Moon": "12", "Mars": "13-16", "Mercury": "17", "Jupiter": "18-20", "Venus": "21", "Saturn": "22-23", "Rahu": "24" },
+    "verse24Subject": "तमः",
+    "verse25": { "first": ["Mars", "Sun"], "middle": ["Jupiter", "Venus"], "last": ["Moon", "Saturn"], "throughout": ["Mercury", "Rahu"] },
+    "vishnuBhaskarItem13": { "first": ["Sun", "Mars"], "middle": ["Jupiter", "Venus"], "last": ["Moon", "Saturn"], "throughout": ["Mercury", "Rahu"] },
+    "verse33": { "planets": ["Saturn", "Sun", "Mars", "Jupiter"], "sastriHouses": [12, 8, 1], "sanskrit": "द्वादशाष्टमजन्मस्थाः", "kapoorHouses": [1, 8, 10] },
+    "verse34": { "Moon": 8, "Mars": 7, "Rahu": 9, "Venus": 6, "Jupiter": 3, "Sun": 5, "Saturn": 1, "Mercury": 4 },
+    "rahuResults": ["sickness or death", "loss of wealth", "happiness", "sorrow", "financial loss", "happiness", "loss", "danger to life", "loss", "gain", "happiness", "expenditure"]
+  },
   "phaladeepika": {
     "_about": "Transcribed 2026-10-08 from the page images. Rows are 'houses|vedha places' in the order each translation prints them.",
     "sastriPage": "Phaladeepika (V. Subrahmanya Sastri, 2nd ed. 1950) Adhyaya XXVI slokas 2-8, printed pp.286-288 (PDF 321-323)",

@@ -28,6 +28,8 @@ const { signStays, overlaps, unionDays } = require('./saturnVedha');
 const { houseFromMoon, RASI_TA } = require('./saturnTransit');
 const { planetLongitude, nodeLongitude } = require('../ephemeris/siderealPositions');
 const V = require('./gocharaVedhaTables');
+const P = require('./phaladeepikaGocharaTables');
+const { scanKey } = require('./saturnAshtakavarga');
 
 const DAY_MS = 86400000;
 const YEAR_MS = 365.25 * DAY_MS;
@@ -82,11 +84,29 @@ function statusOf(method, planet, other, kind) {
   return 'COUNTS';
 }
 
+/** Sampling step for the decanate scan (days): a few samples per decanate. */
+const DECANATE_STEP_DAYS = { Moon: 0.1, Sun: 0.5, Venus: 0.5, Mars: 1, Jupiter: 2, Saturn: 2 };
+
+/**
+ * Phaladeepika XXVI.25: the intervals of [a, b] in which `planet` stands in
+ * its effective third of `sign`. 'ALL' for Mercury and Rahu, null for Ketu
+ * (no verse).
+ */
+function effectiveWithin(planet, sign, a, b, decanates) {
+  if (!(planet in P.DECANATE)) return null;
+  if (P.DECANATE[planet] === null) return 'ALL';
+  const want = sign * 3 + P.DECANATE[planet];
+  return decanates[planet]
+    .filter((s) => s.key === want && s.toMs > a && s.fromMs < b)
+    .map((s) => ({ fromUtc: iso(Math.max(s.fromMs, a)), toUtc: iso(Math.min(s.toMs, b)), days: days(Math.max(s.fromMs, a), Math.min(s.toMs, b)) }));
+}
+
 /**
  * One method over precomputed sign stays of all nine planets.
- * `stays` maps planet → [{ sign, fromMs, toMs }] covering at least each planet's span.
+ * `stays` maps planet → [{ sign, fromMs, toMs }] covering at least each planet's span;
+ * `decanates` maps planet → [{ key: sign*3 + third, fromMs, toMs }] for the planets verse 25 times.
  */
-function vedhaForMethod({ methodId, stays, moonRasiIndex, atMs, ayanamsha, nodeType }) {
+function vedhaForMethod({ methodId, stays, decanates, moonRasiIndex, atMs, ayanamsha, nodeType }) {
   const method = V.VEDHA_METHODS[methodId];
   const signOfHouse = (h) => (moonRasiIndex + h - 1) % 12;
   const planets = {};
@@ -105,6 +125,11 @@ function vedhaForMethod({ methodId, stays, moonRasiIndex, atMs, ayanamsha, nodeT
         house, rasi: RASI_TA[s.sign], fromUtc: iso(a), toUtc: iso(b), days: days(a, b),
         clippedStart: s.fromMs < from, clippedEnd: s.toMs > to, current: s.fromMs <= atMs && atMs < s.toMs,
         kind, pairedHouse: paired, pairedHouses, byPlanet: [], exempt: [], nodePair: null, moon: null, coveredDays: 0,
+        phaladeepika: {
+          resultTa: P.HOUSE_RESULTS[p]?.[house - 1] ?? null,
+          effective: effectiveWithin(p, s.sign, a, b, decanates),
+          dangerVerse33: P.RULES.find((x) => x.id === 'DANGER_12_8_1').planets.includes(p) && [12, 8, 1].includes(house),
+        },
       };
       if (pairedHouses.length) {
         const targets = pairedHouses.map(signOfHouse);
@@ -126,8 +151,10 @@ function vedhaForMethod({ methodId, stays, moonRasiIndex, atMs, ayanamsha, nodeT
     });
 
     // The present.
-    const sign = Math.floor(longitudeOf(p, atMs, ayanamsha, nodeType) / 30) % 12;
+    const lonNow = ((longitudeOf(p, atMs, ayanamsha, nodeType) % 360) + 360) % 360;
+    const sign = Math.floor(lonNow / 30) % 12;
     const house = houseFromMoon(sign, moonRasiIndex);
+    const third = Math.floor((lonNow % 30) / 10);
     const { kind, paired, pairedHouses } = classify(row, house);
     const targets = new Set(pairedHouses.map(signOfHouse));
     const inPaired = PLANETS
@@ -141,6 +168,13 @@ function vedhaForMethod({ methodId, stays, moonRasiIndex, atMs, ayanamsha, nodeT
       now: {
         house, rasi: RASI_TA[sign], kind, pairedHouse: paired, pairedHouses, planetsInPaired: inPaired,
         active: inPaired.some((x) => x.status === 'COUNTS'),
+        phaladeepika: {
+          resultTa: P.HOUSE_RESULTS[p]?.[house - 1] ?? null,
+          degreeInSign: Math.round((lonNow % 30) * 100) / 100,
+          third,
+          // Verse 25: in the third that gives the result now? true/false; 'ALL' for Mercury and Rahu; null for Ketu.
+          effectiveNow: !(p in P.DECANATE) ? null : P.DECANATE[p] === null ? 'ALL' : P.DECANATE[p] === third,
+        },
       },
       stays: rows,
     };
@@ -164,11 +198,24 @@ function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', 
   const fromMs = atMs - Math.max(...Object.values(SPAN).map(([b]) => b));
   const toMs = atMs + Math.max(...Object.values(SPAN).map(([, a]) => a));
   const stays = Object.fromEntries(PLANETS.map((p) => [p, signStays(p, fromMs, toMs, ayanamsha, nodeType)]));
+  // Phaladeepika XXVI.25: each timed planet's thirds of signs over its own span.
+  const decanates = Object.fromEntries(Object.keys(DECANATE_STEP_DAYS).map((p) => [p, scanKey(
+    atMs - SPAN[p][0], atMs + SPAN[p][1],
+    (ms) => Math.floor((((longitudeOf(p, ms, ayanamsha, nodeType) % 360) + 360) % 360) / 10) % 36,
+    DECANATE_STEP_DAYS[p] * DAY_MS,
+  )]));
 
   const methods = {};
   for (const id of V.VEDHA_RANK.computable) {
-    methods[id] = vedhaForMethod({ methodId: id, stays, moonRasiIndex, atMs, ayanamsha, nodeType });
+    methods[id] = vedhaForMethod({ methodId: id, stays, decanates, moonRasiIndex, atMs, ayanamsha, nodeType });
   }
+
+  // Verse 34: the eight positions, counted for the present.
+  const all8 = P.RULES.find((x) => x.id === 'ALL_EIGHT');
+  const verse34Now = Object.entries(all8.positions).map(([planet, h]) => {
+    const s = Math.floor((((longitudeOf(planet, atMs, ayanamsha, nodeType) % 360) + 360) % 360) / 30) % 12;
+    return { planet, planetTa: PLANET_TA[planet], house: h, nowHouse: houseFromMoon(s, moonRasiIndex) };
+  });
   return {
     atUtc: iso(atMs),
     moonRasiIndex, moonRasi: RASI_TA[moonRasiIndex],
@@ -191,7 +238,13 @@ function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', 
       moonTa: 'சந்திரன் மாதந்தோறும் சுமார் 2¼ நாள் ஒரு ராசியில் இருக்கும் — வேறு கிரகத்தின் இணை இடத்தில் அதன் வருகைகள் எண்ணப்படுகின்றன, பட்டியலிடப்படவில்லை; மொத்தக் கணக்கிலும் இல்லை. "இப்போது" என்பதில் மட்டும் கணக்கில் வரும்.',
       sudamaniTimingTa: V.SATURN_VEDHA_TEXT.sudamaniTiming.textTa,
     },
+    phaladeepika: {
+      houseResultsSources: P.HOUSE_RESULTS_SOURCES, verseOf: P.VERSE_OF, ketuNoteTa: P.KETU_NOTE_TA,
+      decanate: P.DECANATE, decanateTa: P.DECANATE_TA, decanateSources: P.DECANATE_SOURCES, decanateWords: P.DECANATE_WORDS,
+      rules: P.RULES,
+      verse34Now: { positions: verse34Now, met: verse34Now.filter((x) => x.house === x.nowHouse).length, all: verse34Now.every((x) => x.house === x.nowHouse) },
+    },
   };
 }
 
-module.exports = { gocharaVedha, vedhaForMethod, classify, SPAN, PLANET_TA };
+module.exports = { gocharaVedha, vedhaForMethod, classify, effectiveWithin, SPAN, PLANET_TA };

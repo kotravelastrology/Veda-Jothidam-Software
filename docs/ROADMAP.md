@@ -166,7 +166,12 @@ Not plan items, but real, and they should not be discovered at release:
   Phaladeepika XXVI.2–8 read the same day (Sastri 1950, with the verse; Kapoor)
   and computed as a fourth method: Pulippani's pairs cell for cell, Rahu and
   Ketu good in the 10th "like the Sun", no Venus–Sun exemption, no vipareetha.
-  The old "Phaladeepika 26.3-8" port matched it except for the nodes.
+  The old "Phaladeepika 26.3-8" port matched it except for the nodes. The rest
+  of XXVI read the same day: house results (9–24) and the effective third of a
+  sign (25) on /gochara-vedha, verses 33–34 computed, 30–32 and 41 shown;
+  Saptashalaka (26–29) and anga (35–40) added as books on their pages — the
+  verses decide against Pulippani's anga rows, and verse 28's "Vainashika" is
+  the 23rd (Jataka Parijata) or 22nd (Kalaprakasika, Gour), both computed.
 - **Nakshatra gochara: taras, star classes, anga phala, weekday.**
   `/nakshatra-gochara` (`docs/NAKSHATRA-GOCHARA.md`), 2026-10-08. The rest of
   Pulippani ch.24. Anga in four books (Bhat default; Pulippani; Sudamani read

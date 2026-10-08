@@ -70,15 +70,23 @@ function verdict(now: any) {
   return { ta: 'தீய பலன்', cls: 'text-rose' };
 }
 
+/** Phaladeepika XXVI.25 for the present: in the third of the sign that gives the result? */
+function effectiveNowTa(pd: any, planet: string, n: any) {
+  if (n.effectiveNow === null) return 'ஸ்லோகம் 25 கேதுவைச் சொல்லவில்லை';
+  if (n.effectiveNow === 'ALL') return 'ராசி முழுவதும் பலன் தரும் (ஸ்லோ. 25)';
+  const where = pd.decanateTa[pd.decanate[planet]];
+  return n.effectiveNow ? `இப்போது பலன் தரும் பகுதியில் — ${where} (${n.degreeInSign}°)` : `பலன் தரும் பகுதி ${where}; இப்போது ${n.degreeInSign}°`;
+}
+
 function NowTable({ r, method }: { r: any; method: string }) {
   const m = r.methods[method];
   const others = Object.keys(r.methods).filter((k) => k !== method);
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-xs" style={{ minWidth: 720 }}>
+      <table className="w-full text-xs" style={{ minWidth: 980 }}>
         <thead><tr className="text-ink-soft border-b border-line text-left">
           <th className="py-1 pr-2">கிரகம்</th><th className="py-1 pr-2">ராசி · இடம்</th><th className="py-1 pr-2">வகை</th>
-          <th className="py-1 pr-2">இணை இடம் · அங்கே இப்போது</th><th className="py-1">இப்போது</th>
+          <th className="py-1 pr-2">இணை இடம் · அங்கே இப்போது</th><th className="py-1 pr-2">இப்போது</th><th className="py-1">பலதீபிகை (26.9-25)</th>
         </tr></thead>
         <tbody className="align-top">
           {Object.values(m.planets).map((p: any) => {
@@ -94,13 +102,17 @@ function NowTable({ r, method }: { r: any; method: string }) {
                 <td className="py-1.5 pr-2 text-ink">
                   {n.pairedHouses.length ? <>{houses(n.pairedHouses)}-ஆம் இடம் · {n.planetsInPaired.length ? n.planetsInPaired.map((x: any) => `${x.planetTa}${STATUS_TA[x.status]}`).join(', ') : 'யாரும் இல்லை'}</> : '—'}
                 </td>
-                <td className={`py-1.5 ${v.cls}`}>
+                <td className={`py-1.5 pr-2 ${v.cls}`}>
                   {v.ta}
                   {differing.map(({ k, o }) => (
                     <span key={k} className="block text-amber-800">
                       {BOOK_TA[k]} படி: {o.kind === 'NOT_COVERED' ? KIND.NOT_COVERED.ta : verdict(o).ta}{o.pairedHouses.length && houses(o.pairedHouses) !== houses(n.pairedHouses) ? ` (இணை ${houses(o.pairedHouses)})` : ''}
                     </span>
                   ))}
+                </td>
+                <td className="py-1.5 text-ink">
+                  {n.phaladeepika.resultTa ?? <span className="text-ink-soft">—</span>}
+                  <span className="block text-[11px] text-ink-soft">{effectiveNowTa(r.phaladeepika, p.planet, n.phaladeepika)}</span>
                 </td>
               </tr>
             );
@@ -111,18 +123,20 @@ function NowTable({ r, method }: { r: any; method: string }) {
   );
 }
 
-function Timeline({ p }: { p: any }) {
+function Timeline({ p, pd }: { p: any; pd: any }) {
   if (p.notCovered) return <p className="text-xs text-ink-soft">{KIND.NOT_COVERED.ta}.</p>;
+  const third = pd.decanate[p.planet];
   return (
     <div className="overflow-x-auto">
       <p className="text-[11px] text-ink-soft mb-1">
         காலம் {day(p.span.fromUtc)} – {day(p.span.toUtc)} · நல்ல இடங்கள் {p.good.join(', ')}
         {Object.keys(p.relievedBy).length > 0 && <> · விபரீத வேதை: {Object.entries(p.relievedBy).map(([b, g]) => `${b}→${houses(g as number[])}`).join(', ')}</>}
+        {' '}· பலதீபிகை ஸ்லோ. 25: {third === undefined ? 'கேது சொல்லப்படவில்லை' : third === null ? 'ராசி முழுவதும் பலன்' : `பலன் தரும் பகுதி ${pd.decanateTa[third]}`}
       </p>
-      <table className="w-full text-xs" style={{ minWidth: 720 }}>
+      <table className="w-full text-xs" style={{ minWidth: 980 }}>
         <thead><tr className="text-ink-soft border-b border-line text-left">
           <th className="py-1 pr-2">காலம்</th><th className="py-1 pr-2">ராசி · இடம்</th><th className="py-1 pr-2">வகை</th>
-          <th className="py-1 pr-2">இணை இடத்தில் கிரகங்கள்</th><th className="py-1">மொத்தம் · சந்திரன்</th>
+          <th className="py-1 pr-2">இணை இடத்தில் கிரகங்கள்</th><th className="py-1 pr-2">மொத்தம் · சந்திரன்</th><th className="py-1">பலதீபிகை (26.9-25, 33)</th>
         </tr></thead>
         <tbody className="align-top">
           {p.stays.map((s: any) => (
@@ -146,15 +160,66 @@ function Timeline({ p }: { p: any }) {
                   </>
                 ) : <span className="text-ink-soft">—</span>}
               </td>
-              <td className="py-1.5 font-mono text-ink" style={num}>
+              <td className="py-1.5 pr-2 font-mono text-ink" style={num}>
                 {s.pairedHouses.length ? `${Math.round(s.coveredDays)} / ${Math.round(s.days)} நாள்` : `${Math.round(s.days)} நாள்`}
                 {s.moon && <span className="block font-sans text-ink-soft">சந்திரன் {s.moon.count} முறை</span>}
+              </td>
+              <td className="py-1.5 text-ink">
+                {s.phaladeepika.resultTa ?? <span className="text-ink-soft">—</span>}
+                {Array.isArray(s.phaladeepika.effective) && (
+                  <span className="block text-[11px] text-ink-soft font-mono" style={num}>
+                    பலன் தரும் பகுதி: {s.phaladeepika.effective.length ? s.phaladeepika.effective.map((w: any) => `${day(w.fromUtc)}–${day(w.toUtc)}`).join(', ') : 'இந்தக் காலத்தில் இல்லை'}
+                  </span>
+                )}
+                {s.phaladeepika.dangerVerse33 && <span className="block text-[11px] text-rose">ஸ்லோ. 33: 12/8/1-ல் — உயிருக்கு ஐயம், பதவி வீழ்ச்சி, பண இழப்பு (நூலின் கூற்று)</span>}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
+  );
+}
+
+/** Phaladeepika XXVI: the house results' sources, verse 25, and the rules of verses 30-34 and 41. */
+function PhaladeepikaRules({ r, m }: { r: any; m: any }) {
+  const pd = r.phaladeepika;
+  const v33 = pd.rules.find((x: any) => x.id === 'DANGER_12_8_1');
+  const now33 = v33.planets.filter((p: string) => v33.houses.includes(m.planets[p].now.house));
+  const v34 = pd.verse34Now;
+  return (
+    <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+      <h2 className="text-sm font-semibold text-ink mb-1">பலதீபிகை அத். 26 — ராசிவாரிப் பலன், பலன் தரும் பகுதி, பொது விதிகள்</h2>
+      <p className="text-[11px] text-ink-soft mb-2">
+        மேலே உள்ள அட்டவணைகளின் "பலதீபிகை" நெடுவரிசை — ஒவ்வொரு கிரகமும் சந்திரனிலிருந்து ஒவ்வொரு இடத்திலும் தரும் பலன் (ஸ்லோ. {Object.entries(pd.verseOf).map(([p, v]) => `${PLANET_TA[p]} ${v}`).join(', ')}). {pd.ketuNoteTa} இவை நூலின் கூற்றுகள் — இந்த மென்பொருளின் முன்கணிப்பு அல்ல.
+      </p>
+      <Cites list={pd.houseResultsSources} />
+      <p className="text-xs font-semibold text-ink mt-3">ஸ்லோகம் 25 — பலன் தரும் பகுதி</p>
+      <p className="text-xs text-ink">
+        செவ்வாய், சூரியன் — {pd.decanateTa[0]}; குரு, சுக்கிரன் — {pd.decanateTa[1]}; சந்திரன், சனி — {pd.decanateTa[2]}; புதன், ராகு — ராசி முழுவதும். விஷ்ணு பாஸ்கரும் அதையே சொல்கிறார். கிரகம் அந்தப் பகுதியில் இருக்கும் நாட்கள் மேலே ஒவ்வொரு காலத்துக்கும் காட்டப்படுகின்றன.
+      </p>
+      <Cites list={pd.decanateSources} />
+      <p className="text-xs font-semibold text-ink mt-3">ஸ்லோகம் 30-34, 41</p>
+      <ul className="text-xs space-y-1.5 mt-1">
+        {pd.rules.map((ru: any) => (
+          <li key={ru.id} className="text-ink">
+            <strong>ஸ்லோ. {ru.verse}:</strong> {ru.textTa}
+            {ru.id === 'DANGER_12_8_1' && (
+              <span className={`block ${now33.length ? 'text-rose' : 'text-ink-soft'}`}>
+                இப்போது: {now33.length ? now33.map((p: string) => `${PLANET_TA[p]} (${m.planets[p].now.house})`).join(', ') : 'இந்த நான்கில் எதுவும் 12, 8, 1-ல் இல்லை'}. {ru.noteTa}
+              </span>
+            )}
+            {ru.id === 'ALL_EIGHT' && (
+              <span className="block text-ink-soft">
+                இப்போது எட்டில் {v34.met} நிலைகள் பொருந்துகின்றன{v34.all ? ' — எல்லாம்' : ''} ({v34.positions.map((x: any) => `${x.planetTa} ${x.nowHouse}${x.nowHouse === x.house ? '✓' : `/${x.house}`}`).join(', ')}).
+              </span>
+            )}
+            {!ru.computed && <span className="block text-ink-soft">{ru.whyNotTa}</span>}
+            <Cites list={[ru.source, ...(ru.kapoor ? [ru.kapoor] : [])]} />
+          </li>
+        ))}
+      </ul>
+    </section>
   );
 }
 
@@ -482,9 +547,11 @@ export default function GocharaVedhaView() {
                 </button>
               ))}
             </div>
-            <Timeline p={m.planets[planet]} />
+            <Timeline p={m.planets[planet]} pd={result.phaladeepika} />
             {planet === 'Saturn' && <p className="text-xs text-ink-soft mt-2">சனியின் ஏழரை, அஷ்டமம், அதன் வேதை விவரம் முழுவதும்: <a className="underline" href="/saturn-transit">/saturn-transit</a>.</p>}
           </section>
+
+          <PhaladeepikaRules r={result} m={m} />
 
           <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
             <h2 className="text-sm font-semibold text-ink mb-2">நூல்கள் வேறுபடும் இடங்கள்</h2>

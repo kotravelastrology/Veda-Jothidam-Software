@@ -185,6 +185,27 @@ Moon's spells (about a day a month) are listed for the next thirteen months.
 cell the same day (35 of 39; see "Kalaprakasika's bad-house columns explained"
 above), and Santhanam became a third computed method.
 
+## Phaladeepika XXVI — house results, timing, general rules (added 2026-10-08)
+
+`src/report/phaladeepikaGocharaTables.js`, computed in `gocharaVedha.js`; same
+page — a column in the "now" table and the timeline, and its own section.
+
+- **Verses 9–24:** each planet's result in each house from the Moon, condensed
+  into Tamil from Sastri's translation (pp.289–296). Verse 24 is Rahu's alone
+  ("तमः"); Ketu has none (Kapoor: "probably the same as Rahu") and none is shown.
+  Rahu's good results fall in 3, 6, 10, 11 — verse 2's "similar to the Sun".
+- **Verse 25:** the third of a sign in which a planet gives its result — Mars
+  and the Sun the first, Jupiter and Venus the middle, the Moon and Saturn the
+  last, Mercury and Rahu throughout (Vishnu Bhaskar says the same). Computed as
+  dated windows within every stay, retrograde returns included.
+- **Verse 33:** Saturn, the Sun, Mars, Jupiter in the 12th, 8th or 1st — marked
+  on the stays. The verse says "द्वादशाष्टमजन्म" (12, 8, 1); Kapoor's "10th" is
+  recorded as his.
+- **Verse 34:** the eight positions, counted for the present ("if all the
+  conditions exist").
+- **Verses 30–32, 41** (aspects, dignity, combustion, ashtakavarga bindus) are
+  shown as statements: the chapter does not define the terms they need.
+
 ## Saptashalaka chakra (added 2026-10-07)
 
 `src/report/saptashalaka.js` · `saptashalakaTables.js` · test

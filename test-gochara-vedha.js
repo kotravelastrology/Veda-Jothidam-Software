@@ -7,6 +7,7 @@ const { saturnVedhaWindows } = require('./src/report/saturnVedha');
 const { computeGocharaPhala } = require('./src/report/gocharaPhala');
 const { planetLongitude, nodeLongitude } = require('./src/ephemeris/siderealPositions');
 const { resolveByTitle } = require('./src/sources/registry');
+const PG = require('./src/report/phaladeepikaGocharaTables');
 
 const FIX = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/gochara-vedha/books.json'), 'utf8'));
 const DAY = 86400000;
@@ -228,6 +229,38 @@ for (const p of V.PLANETS_9) {
   for (const d of V.VEDHA_DIFFERENCES) for (const b of Object.keys(d.byBook)) assert.ok(V.VEDHA_RANK.order.includes(b), `${d.id}: ${b} ranked`);
 }
 
+// ------------------------------------------------ Phaladeepika XXVI.9-34, 41 ---
+{
+  const F = FIX.phaladeepikaRest;
+  // Verses 9-24: twelve results for each planet the verses cover; none for Ketu (verse 24 is "तमः", Rahu).
+  assert.deepEqual(Object.keys(PG.HOUSE_RESULTS), Object.keys(F.houseResultVerses));
+  assert.deepEqual(plain(PG.VERSE_OF), F.houseResultVerses);
+  for (const rows of Object.values(PG.HOUSE_RESULTS)) assert.equal(rows.length, 12);
+  assert.ok(!('Ketu' in PG.HOUSE_RESULTS));
+  assert.equal(F.verse24Subject, 'तमः');
+  // Rahu's results by kind: the good houses (happiness / gain) are 3, 6, 10, 11 — verse 2's "similar to the Sun".
+  const goodRahu = F.rahuResults.map((t, i) => (/happiness|gain/.test(t) ? i + 1 : null)).filter(Boolean);
+  assert.deepEqual(goodRahu, [3, 6, 10, 11]);
+  assert.ok(sameSet(goodRahu, [...V.PHALADEEPIKA_GOCHARA_VEDHA.Rahu.unpairedGood]));
+  // Verse 25 = Vishnu Bhaskar's item 13.
+  const thirds = { first: 0, middle: 1, last: 2, throughout: null };
+  for (const [k, ps] of Object.entries(F.verse25)) {
+    for (const p of ps) assert.equal(PG.DECANATE[p], thirds[k], `verse 25: ${p}`);
+    assert.deepEqual([...ps].sort(), [...F.vishnuBhaskarItem13[k]].sort(), `Vishnu Bhaskar agrees: ${k}`);
+  }
+  assert.ok(!('Ketu' in PG.DECANATE), 'verse 25 does not name Ketu');
+  // Verse 33: the verse's 12, 8, 1 (Sastri) — Kapoor's 10th is recorded as his.
+  const r33 = PG.RULES.find((x) => x.id === 'DANGER_12_8_1');
+  assert.deepEqual([...r33.planets], F.verse33.planets);
+  assert.deepEqual([...r33.houses], F.verse33.sastriHouses);
+  assert.ok(r33.noteTa.includes(F.verse33.sanskrit) && r33.kapoor.pageLocus.includes('10th'));
+  assert.deepEqual(plain(PG.RULES.find((x) => x.id === 'ALL_EIGHT').positions), F.verse34);
+  for (const ru of PG.RULES) assert.ok(ru.computed || ru.whyNotTa, `${ru.id}: computed or says why not`);
+  for (const s of [...PG.HOUSE_RESULTS_SOURCES, ...PG.DECANATE_SOURCES, ...PG.RULES.map((x) => x.source)]) assert.ok(resolveByTitle(s.title), s.title);
+  assert.deepEqual(Object.keys(PG.DECANATE_WORDS), ['PHALADEEPIKA', 'VISHNU_BHASKAR']);
+  assert.ok(PG.DECANATE_WORDS.PHALADEEPIKA > PG.DECANATE_WORDS.VISHNU_BHASKAR, 'Phaladeepika listed first by words');
+}
+
 // ------------------------------------------------ word order ---
 const w = V.VEDHA_RANK.words;
 assert.deepEqual(plain(w), FIX.wordCounts);
@@ -320,6 +353,46 @@ for (const c of cites) assert.ok(resolveByTitle(c.title), `registered: ${c.title
   assert.equal(sp.now.house, sv.now.house);
   assert.equal(sp.now.active, sv.now.active);
   assert.deepEqual(Object.keys(r.methods), [...V.VEDHA_RANK.computable]);
+  // Phaladeepika XXVI.25: every effective interval lies in the planet's stated third of the stay's sign.
+  const third = (p, ms) => Math.floor((((lon(p, ms) % 360) + 360) % 360 % 30) / 10);
+  let effChecked = 0;
+  for (const p of Object.values(r.methods.PULIPPANI.planets)) {
+    for (const s of p.stays) {
+      const e = s.phaladeepika.effective;
+      assert.equal(s.phaladeepika.resultTa, PG.HOUSE_RESULTS[p.planet]?.[s.house - 1] ?? null);
+      assert.equal(s.phaladeepika.dangerVerse33, ['Saturn', 'Sun', 'Mars', 'Jupiter'].includes(p.planet) && [12, 8, 1].includes(s.house));
+      if (p.planet === 'Ketu') { assert.equal(e, null); continue; }
+      if (PG.DECANATE[p.planet] === null) { assert.equal(e, 'ALL'); continue; }
+      for (const w of e) {
+        const m2 = (ms(w.fromUtc) + ms(w.toUtc)) / 2;
+        assert.equal(third(p.planet, m2), PG.DECANATE[p.planet], `${p.planet} ${w.fromUtc}: in its third`);
+        assert.equal(((signAt(p.planet, m2) - moonRasiIndex + 12) % 12) + 1, s.house, `${p.planet} ${w.fromUtc}: in the stay's sign`);
+        assert.ok(ms(w.fromUtc) >= ms(s.fromUtc) && ms(w.toUtc) <= ms(s.toUtc));
+        effChecked += 1;
+      }
+    }
+    const n = p.now.phaladeepika;
+    if (p.planet in PG.DECANATE && PG.DECANATE[p.planet] !== null) assert.equal(n.effectiveNow, third(p.planet, atMs) === PG.DECANATE[p.planet]);
+  }
+  assert.ok(effChecked > 20, `effective windows checked (${effChecked})`);
+  // And no window is missed: sampled through each stay, the planet is in its third only inside the windows listed.
+  for (const p of Object.values(r.methods.PULIPPANI.planets)) {
+    if (!(p.planet in PG.DECANATE) || PG.DECANATE[p.planet] === null) continue;
+    for (const s of p.stays) {
+      const a = ms(s.fromUtc); const b = ms(s.toUtc);
+      for (let i = 1; i < 40; i += 1) {
+        const t = a + ((b - a) * i) / 40;
+        const inside = s.phaladeepika.effective.some((w) => ms(w.fromUtc) - 60000 <= t && t <= ms(w.toUtc) + 60000);
+        assert.equal(third(p.planet, t) === PG.DECANATE[p.planet], inside, `${p.planet} ${new Date(t).toISOString()}: in its third ⇔ listed`);
+      }
+    }
+  }
+  // Sun: one effective window a year per sign it enters — about ten days each.
+  const sunEff = r.methods.PULIPPANI.planets.Sun.stays.flatMap((s) => s.phaladeepika.effective);
+  for (const w of sunEff.filter((x) => !x.fromUtc.startsWith(r.methods.PULIPPANI.planets.Sun.stays[0].fromUtc.slice(0, 10)))) assert.ok(w.days > 9 && w.days < 12, `Sun's first third lasts about ten days (${w.days})`);
+  // Verse 34: each position checked against the sky.
+  for (const x of r.phaladeepika.verse34Now.positions) assert.equal(x.nowHouse, ((signAt(x.planet, atMs) - moonRasiIndex + 12) % 12) + 1);
+  assert.equal(r.phaladeepika.verse34Now.met, r.phaladeepika.verse34Now.positions.filter((x) => x.house === x.nowHouse).length);
   // Phaladeepika's windows: no stay is relievable (no vipareetha), and its seven-planet classification is Pulippani's.
   for (const p of Object.values(r.methods.PHALADEEPIKA_SASTRI.planets)) {
     assert.ok(p.stays.every((s) => s.kind !== 'RELIEVABLE'), `${p.planet}: no vipareetha`);
