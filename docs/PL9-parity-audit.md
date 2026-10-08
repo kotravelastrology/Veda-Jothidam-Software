@@ -222,3 +222,7 @@ Same page. Bhat (default, straight lines), Pulippani and Gour (three lines); fou
 ### 14. Nakshatra gochara — taras, anga phala (2026-10-08)
 
 `docs/NAKSHATRA-GOCHARA.md` · `/nakshatra-gochara`. Added to the "Nakshatra Interpretations" evidence, which stays **PARTIAL** (PL9's nakshatra text is broader). Totals unchanged: **177 built, 119 partial, 119 absent**.
+
+### 15. Moorthi Nirnaya (2026-10-08)
+
+`docs/MOORTHI-NIRNAYA.md` · `/moorthi-nirnaya`. The form of each sign entry (gold, silver, copper, iron) in six books, Pulippani first. No PL9 row of its own; added to the "Transit Interpretations" evidence, which stays **PARTIAL**. Totals unchanged.

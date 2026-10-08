@@ -167,5 +167,14 @@ Not plan items, but real, and they should not be discovered at release:
   the Moon (19th–24th "going abroad" against "living in his own house"), and
   Pulippani's English of Sudamani departs from the Tamil for the Sun and Mars.
   First page to use the shared `PartyChooser`.
+- **Moorthi Nirnaya: the form of each sign entry.** `/moorthi-nirnaya`
+  (`docs/MOORTHI-NIRNAYA.md`), 2026-10-08. Six books give the same groups
+  (1/6/11 gold … 4/8/12 iron); Pulippani (most explained) alone reverses the
+  grades for malefics and quantifies them in two series that do not agree.
+  Entries are computed to 30 seconds; an entry within 2′ of a Moon sign change
+  is marked close with the other form shown — the two book examples that
+  differ from Lahiri (Pulippani 1998, Raj Kumar 1958) are both of that kind.
+  Pulippani says the method is "greatly explained in Tamil texts only"; none of
+  the Tamil books held has it.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

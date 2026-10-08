@@ -1287,7 +1287,7 @@
   "group": "Reports / Interpretations",
   "name": "Transit Interpretations",
   "verdict": "PARTIAL",
-  "evidence": "answerEngine.js Q&A corpus, different shape; /gochara-vedha — rasi vedha for all nine planets, nakshatra vedha and the Saptashalaka chakra (gocharaVedha.js, nakshatraVedha.js, saptashalaka.js)"
+  "evidence": "answerEngine.js Q&A corpus, different shape; /gochara-vedha — rasi vedha for all nine planets, nakshatra vedha and the Saptashalaka chakra (gocharaVedha.js, nakshatraVedha.js, saptashalaka.js); /moorthi-nirnaya — the form of each sign entry in six books (moorthi.js)"
  },
  {
   "group": "Reports / Interpretations",
