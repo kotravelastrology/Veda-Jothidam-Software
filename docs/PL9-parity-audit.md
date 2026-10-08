@@ -218,3 +218,7 @@ Same page. Sixteen positions counted from the planets' natal stars (Pulippani ch
 ### 13. Saptashalaka chakra (2026-10-07)
 
 Same page. Bhat (default, straight lines), Pulippani and Gour (three lines); four rules as dated windows. No PL9 row of its own; totals unchanged.
+
+### 14. Nakshatra gochara — taras, anga phala (2026-10-08)
+
+`docs/NAKSHATRA-GOCHARA.md` · `/nakshatra-gochara`. Added to the "Nakshatra Interpretations" evidence, which stays **PARTIAL** (PL9's nakshatra text is broader). Totals unchanged: **177 built, 119 partial, 119 absent**.

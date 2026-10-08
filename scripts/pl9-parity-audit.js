@@ -62,7 +62,8 @@ const RULES = {
     [/Curses and Evils/i, 'PARTIAL', 'doshas.js covers some'],
     [/1001 Applicable/i, 'ABSENT', 'no 1001-yoga corpus'],
     [/Bhavesh/i, 'PARTIAL', 'answerEngine Q&A, not per-lord chapters'],
-    [/Transit Interpretations/i, 'PARTIAL', 'answerEngine.js Q&A corpus, different shape; /gochara-vedha — rasi vedha for all nine planets nakshatra vedha and the Saptashalaka chakra (gocharaVedha.js, nakshatraVedha.js, saptashalaka.js)'],
+    [/Nakshatra Interpretations/i, 'PARTIAL', "answerEngine.js Q&A corpus, different shape; /nakshatra-gochara — taras, Pulippani's star classes, anga phala in four books (nakshatraGochara.js)"],
+    [/Transit Interpretations/i, 'PARTIAL', 'answerEngine.js Q&A corpus, different shape; /gochara-vedha — rasi vedha for all nine planets, nakshatra vedha and the Saptashalaka chakra (gocharaVedha.js, nakshatraVedha.js, saptashalaka.js)'],
     [/Interpretations|Lucky Points|Nakshatra/i, 'PARTIAL', 'answerEngine.js Q&A corpus, different shape'],
   ],
   'Reports / Dashas': [

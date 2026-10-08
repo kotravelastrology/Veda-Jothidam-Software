@@ -160,5 +160,12 @@ Not plan items, but real, and they should not be discovered at release:
   2026-10-07: three books (Bhat 808 words, default; Pulippani; Gour) read it
   as straight lines or three lines — both computed; four rules as dated
   windows; Abhijit from Charak.
+- **Nakshatra gochara: taras, star classes, anga phala, weekday.**
+  `/nakshatra-gochara` (`docs/NAKSHATRA-GOCHARA.md`), 2026-10-08. The rest of
+  Pulippani ch.24. Anga in four books (Bhat default; Pulippani; Sudamani read
+  from the Tamil verses; Gour): Bhat and Gour agree, Pulippani differs only on
+  the Moon (19th–24th "going abroad" against "living in his own house"), and
+  Pulippani's English of Sudamani departs from the Tamil for the Sun and Mars.
+  First page to use the shared `PartyChooser`.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.
