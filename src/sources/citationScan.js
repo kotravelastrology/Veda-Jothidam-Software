@@ -93,6 +93,11 @@ const quoted = (text, key) => {
  * Titles are declared once per module as a named constant and then spread at
  * the `attachSource` call site, where the locator is added. So a citation's
  * title is found either just above it, or on the constant it spreads.
+ *
+ * Names are matched across all of src, so a name declared in two modules with
+ * two different titles cannot be resolved: it maps to null, and the citation
+ * fails as untitled instead of being credited to whichever module was read
+ * last (two `KAPOOR` constants did exactly that, 2026-10-08).
  */
 function collectTitles(files) {
   const titles = new Map();
@@ -105,7 +110,8 @@ function collectTitles(files) {
     // build for the wrong reason.
     for (const m of text.matchAll(/(?:const|let|var)\s+([A-Z][A-Z_0-9]*)\s*=\s*(?:Object\.freeze\(\s*)?\{([\s\S]{0,800}?)\n\}/g)) {
       const title = quoted(m[2], 'title');
-      if (title) titles.set(m[1], title);
+      if (!title) continue;
+      titles.set(m[1], titles.has(m[1]) && titles.get(m[1]) !== title ? null : title);
     }
   }
   return titles;

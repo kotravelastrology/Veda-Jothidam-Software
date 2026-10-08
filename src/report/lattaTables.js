@@ -24,13 +24,15 @@ const deepFreeze = (o) => {
   return Object.freeze(o);
 };
 
-const SASTRI = Object.freeze({
+// Unique names: the citation scanner resolves a spread by its constant's name
+// across all of src, and gemstoneTables.js already has a KAPOOR (another book).
+const PHALADEEPIKA_SASTRI = Object.freeze({
   title: 'Phaladeepika (V. Subrahmanya Sastri, 1950)',
   author: 'Mantreswara; V. Subrahmanya Sastri (translator), 2nd edition 1950',
   file: 'phaladeepika-subrahmanya-sastri-1950/raw-scans/full-scan.pdf',
   tradition: 'Classical Sanskrit (South Indian, c. 14th century) with an English translation',
 });
-const KAPOOR = Object.freeze({
+const PHALADEEPIKA_KAPOOR = Object.freeze({
   title: 'Phala Deepika (G.S. Kapoor, e-text)',
   author: 'Mantreswara; G.S. Kapoor (translation, commentary and annotation)',
   file: 'phaladeepika-kapoor-etext/raw-scans/full-scan.pdf',
@@ -74,8 +76,8 @@ const KETU = deepFreeze({
 });
 
 const COUNT_SOURCES = Object.freeze({
-  SASTRI: Object.freeze({ ...SASTRI, pageLocus: 'Adhyaya XXVI, slokas 42-44, printed pp.303-304 (PDF 338-339) — "The 12th asterism counted from that occupied by the Sun at the time, the 3rd from that of Mars, the 6th from that of Jupiter, and the 8th from that of Saturn are termed ... forward Lattas. The 5th star reckoned from that of Venus, the 7th from that of Mercury; the 9th from that of Rahu and the 22nd from that of the Moon are called ... rear Lattas"; the verse: "राहोस्तु नवमं चैव द्वाविंशं हिमद्युतेः"' }),
-  KAPOOR: Object.freeze({ ...KAPOOR, pageLocus: 'Chapter 26, slokas 42-44, e-text p.255 — "(c) the 8th from that occupied by Rahu"; notes p.256: "if the Sun should occupy ... Moola, his Latta nakshatra ... will be krittika ... Venus occupies Sravana, his Latta nakshatra ... will be Jyestha"' }),
+  SASTRI: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, slokas 42-44, printed pp.303-304 (PDF 338-339) — "The 12th asterism counted from that occupied by the Sun at the time, the 3rd from that of Mars, the 6th from that of Jupiter, and the 8th from that of Saturn are termed ... forward Lattas. The 5th star reckoned from that of Venus, the 7th from that of Mercury; the 9th from that of Rahu and the 22nd from that of the Moon are called ... rear Lattas"; the verse: "राहोस्तु नवमं चैव द्वाविंशं हिमद्युतेः"' }),
+  KAPOOR: Object.freeze({ ...PHALADEEPIKA_KAPOOR, pageLocus: 'Chapter 26, slokas 42-44, e-text p.255 — "(c) the 8th from that occupied by Rahu"; notes p.256: "if the Sun should occupy ... Moola, his Latta nakshatra ... will be krittika ... Venus occupies Sravana, his Latta nakshatra ... will be Jyestha"' }),
   RAO: Object.freeze({ ...RAO, pageLocus: 'Section 26.7 "Latta (Kick)", printed pp.313-314 (PDF 319-320) — eight rules with an example each; Table 70, printed p.315 (PDF 321)' }),
   BHAT: Object.freeze({ ...BHAT, pageLocus: 'Chapter XXI, "Latta", printed pp.255-256 (PDF 273-274) — Purolatta: the Sun, Mars, Jupiter and Saturn; Prsthalatta: the Moon, Mercury, Venus and Rahu; an example for each' }),
   RAJ_KUMAR: Object.freeze({ ...RAJ_KUMAR_CHARISMA, pageLocus: 'Section 6.3 "Latta", PDF pp.263-265 — "for Rahu/ Ketu the 9th Nakshtra counted in backward direction"; examples for 01 Oct 2011' }),
@@ -137,7 +139,7 @@ const EFFECTS = deepFreeze({
       Moon: 'மிகுந்த பண இழப்பு',
     },
     multipleTa: 'இரண்டு அல்லது அதற்கு மேற்பட்ட லத்தைகள் சேர்ந்தால் விளைவு இரண்டு, மூன்று மடங்கு; தீமை மட்டுமே எதிர்பார்க்கலாம்.',
-    sources: [Object.freeze({ ...KAPOOR, pageLocus: 'Chapter 26, slokas 45-47, e-text p.256 — "During the Sun\'s Latta there will be financial loss in every venture ..."' })],
+    sources: [Object.freeze({ ...PHALADEEPIKA_KAPOOR, pageLocus: 'Chapter 26, slokas 45-47, e-text p.256 — "During the Sun\'s Latta there will be financial loss in every venture ..."' })],
   },
   PULIPPANI: {
     generalTa: 'இரண்டு திசையிலும் லத்தை ஜன்ம நட்சத்திரத்தில் விழுந்தால் நோயும் கவலைகளும்.',
@@ -159,8 +161,8 @@ const EFFECTS = deepFreeze({
     },
     multipleTa: 'இரண்டு அல்லது அதற்கு மேற்பட்ட லத்தைகள் சேர்ந்தால் விளைவு இரண்டு, மூன்று மடங்கு; தீமை மட்டுமே சொல்ல வேண்டும் (ஸ்லோகம் 47).',
     sources: [
-      Object.freeze({ ...SASTRI, pageLocus: 'Adhyaya XXVI, slokas 45-46, printed p.304 (PDF 339) — "During the Sun\'s Latta there will be the ruin of every business. Misery will result during the Latta of Rahu and Ketu ..."' }),
-      Object.freeze({ ...SASTRI, pageLocus: 'Adhyaya XXVI, sloka 47, printed p.304 (PDF 339) — "When two or more Lattas synchronise, the cumulative effect will proportionately increase in intensity being twice or thrice"' }),
+      Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, slokas 45-46, printed p.304 (PDF 339) — "During the Sun\'s Latta there will be the ruin of every business. Misery will result during the Latta of Rahu and Ketu ..."' }),
+      Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 47, printed p.304 (PDF 339) — "When two or more Lattas synchronise, the cumulative effect will proportionately increase in intensity being twice or thrice"' }),
     ],
   },
 });
@@ -242,5 +244,5 @@ const OUR_READINGS_TA = deepFreeze([
 module.exports = {
   KICKS, kickedStar, kickerStar, RAHU_READINGS, DEFAULT_RAHU, KETU, COUNT_SOURCES, EFFECTS, LATTA_RANK, BOOK_TA,
   WORKED_COUNTS, LATTA_DIFFERENCES, OUR_READINGS_TA,
-  SOURCES: { SASTRI, KAPOOR },
+  SOURCES: { PHALADEEPIKA_SASTRI, PHALADEEPIKA_KAPOOR },
 };

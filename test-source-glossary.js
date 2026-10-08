@@ -78,10 +78,27 @@ const citations = scanCitations();
 assert.ok(citations.length >= 25, `expected the engines to cite sources; found ${citations.length}`);
 
 for (const c of citations) {
-  assert.ok(c.title, `${c.module}:${c.line}: a citation with no title cannot be checked`);
+  assert.ok(c.title, `${c.module}:${c.line}: a citation with no title cannot be checked (or its spread constant's name is declared elsewhere with another title)`);
   assert.ok(resolveByTitle(c.title),
     `${c.module}:${c.line}: "${c.title}" is cited by the engines but is not in the registry`);
   assert.ok(c.pageLocus.length > 5);
+}
+
+// A spread constant's name is matched across all of src: if two modules declare
+// it with different titles, the citation must come back untitled (and fail
+// above) rather than be credited to whichever module was read last.
+{
+  const os = require('node:os');
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'scan-'));
+  try {
+    fs.writeFileSync(path.join(tmp, 'a.js'), "const KAPOOR = Object.freeze({\n  title: 'Book A',\n});\nconst X = { ...KAPOOR, pageLocus: 'p.1 of A' };\n");
+    fs.writeFileSync(path.join(tmp, 'b.js'), "const KAPOOR = Object.freeze({\n  title: 'Book B',\n});\n");
+    assert.deepEqual(scanCitations({ root: tmp }).map((c) => c.title), [null], 'an ambiguous constant name resolves to no title');
+    fs.writeFileSync(path.join(tmp, 'b.js'), "const KAPOOR = Object.freeze({\n  title: 'Book A',\n});\n");
+    assert.deepEqual(scanCitations({ root: tmp }).map((c) => c.title), ['Book A'], 'the same title declared twice is fine');
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
 }
 
 // The scanner must not read its own documentation as a citation.
