@@ -55,7 +55,17 @@
     "vishnuBhaskarItem13": { "first": ["Sun", "Mars"], "middle": ["Jupiter", "Venus"], "last": ["Moon", "Saturn"], "throughout": ["Mercury", "Rahu"] },
     "verse33": { "planets": ["Saturn", "Sun", "Mars", "Jupiter"], "sastriHouses": [12, 8, 1], "sanskrit": "द्वादशाष्टमजन्मस्थाः", "kapoorHouses": [1, 8, 10] },
     "verse34": { "Moon": 8, "Mars": 7, "Rahu": 9, "Venus": 6, "Jupiter": 3, "Sun": 5, "Saturn": 1, "Mercury": 4 },
-    "rahuResults": ["sickness or death", "loss of wealth", "happiness", "sorrow", "financial loss", "happiness", "loss", "danger to life", "loss", "gain", "happiness", "expenditure"]
+    "rahuResults": ["sickness or death", "loss of wealth", "happiness", "sorrow", "financial loss", "happiness", "loss", "danger to life", "loss", "gain", "happiness", "expenditure"],
+    "verse31": "स्वोच्चस्वगेह",
+    "verse32": "नीचारिमौढ्यं",
+    "I6": { "lordsFromMesha": ["Mars", "Venus", "Mercury", "Moon", "Sun", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Saturn", "Jupiter"], "exaltationFromSun": ["Mesha", "Vrishabha", "Makara", "Kanya", "Karkataka", "Meena", "Tula"] },
+    "II21_22": {
+      "stated": ["Sun: neutral Mercury; enemies Saturn, Venus", "Moon: friends Sun, Mercury; rest neutral", "Mars: neutrals Venus, Saturn; enemy Mercury", "Mercury: enemy Moon; friends Venus, Sun", "Jupiter: enemies Venus, Mercury; neutral Saturn", "Venus: neutrals Jupiter, Mars; friends Saturn, Mercury", "Saturn: neutral Jupiter; friends Venus, Mercury"],
+      "rule": "the unmentioned take the remaining relation"
+    },
+    "II35": { "friends": ["Mercury", "Saturn", "Venus"], "neutral": ["Mars"], "enemies": "the rest" },
+    "combustionKapoor": { "Moon": 12, "Mars": 17, "MercuryDirect": 14, "MercuryRetro": 12, "Jupiter": 11, "VenusDirect": 10, "VenusRetro": 8, "Saturn": 15 },
+    "combustionVishnuBhaskar": { "Moon": 12, "Mars": 17, "Mercury": 13, "MercuryDirect": 14, "MercuryRetro": 12, "Jupiter": 11, "Venus": 9, "VenusDirect": 10, "VenusRetro": 8, "Saturn": 15 }
   },
   "phaladeepika": {
     "_about": "Transcribed 2026-10-08 from the page images. Rows are 'houses|vedha places' in the order each translation prints them.",

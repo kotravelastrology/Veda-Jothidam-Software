@@ -203,8 +203,21 @@ page — a column in the "now" table and the timeline, and its own section.
   recorded as his.
 - **Verse 34:** the eight positions, counted for the present ("if all the
   conditions exist").
-- **Verses 30–32, 41** (aspects, dignity, combustion, ashtakavarga bindus) are
-  shown as statements: the chapter does not define the terms they need.
+- **Verses 31–32** (computed 2026-10-08): "स्वोच्चस्वगेह" — exalted or own sign
+  in a bad house does no harm, in a good house gives the full result;
+  "नीचारिमौढ्यं" — debilitated, in an enemy's sign or combust in a good house
+  loses its result, in a bad house gives much suffering. Definitions from the
+  same book: lords and exaltation I.6 (= BPHS, checked), natural enmity
+  II.21–22 (= BPHS v.55, checked) and II.35 for the nodes; Mantreswara gives the
+  nodes no exaltation or own sign (Kapoor's note), so only the enemy's sign is
+  judged for them. Combustion degrees are not in the verses: Kapoor's note to
+  II.36 and Vishnu Bhaskar give the same (Moon 12°, Mars 17°, Mercury 14°/12°
+  retrograde, Jupiter 11°, Venus 10°/8° retrograde, Saturn 15°). Good/bad house
+  by verse 2. Shown now and per stay (by sign), with combust spells as dated
+  windows; where both verses hold (Jupiter exalted and combust) both are shown —
+  the verse does not say which prevails.
+- **Verses 30, 41** (aspects, ashtakavarga bindus) are shown as statements: the
+  chapter does not define the terms they need.
 
 ## Saptashalaka chakra (added 2026-10-07)
 

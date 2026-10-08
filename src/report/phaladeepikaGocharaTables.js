@@ -119,14 +119,92 @@ const DECANATE_SOURCES = Object.freeze([
 /** Verses 30-34 and 41. `computed` says what the page works out. */
 const RULES = deepFreeze([
   { id: 'ASPECT', verse: '30', computed: false, textTa: 'தீய பலன் தர வேண்டிய கிரகத்தைச் சுபக் கிரகம் பார்த்தால், அல்லது நல்ல பலன் தர வேண்டிய கிரகத்தைப் பாபக் கிரகம் பார்த்தால் — இரண்டும் பலன் அற்றுப் போகும்; அவரவர் பகைக் கிரகங்கள் பார்த்தாலும் அப்படியே.', whyNotTa: 'பார்வையும் பகைமையும் இந்த அத்தியாயத்தில் வரையறுக்கப்படவில்லை — கணிக்கவில்லை.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 30, printed p.299 (PDF 334)' }) },
-  { id: 'OWN_EXALTED', verse: '31', computed: false, textTa: 'தீய இடத்தில் இருந்தாலும் உச்சத்திலோ சொந்த ராசியிலோ இருந்தால் தீமை செய்யாது; நல்ல இடத்திலும் உச்ச / சொந்த ராசியில் இருந்தால் முழு நற்பலன்.', whyNotTa: 'இன்னும் கணிக்கப்படவில்லை.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 31, printed p.299 (PDF 334)' }) },
-  { id: 'DEBILITATED', verse: '32', computed: false, textTa: 'நல்ல இடத்தில் இருந்தாலும் நீசம், பகை வீடு அல்லது அஸ்தங்கம் என்றால் பலன் அற்றுப் போகும்; தீய இடத்திலும் அப்படி என்றால் தீமை மிகும்.', whyNotTa: 'பகை வீடும் அஸ்தங்க அளவும் இந்த அத்தியாயத்தில் இல்லை — கணிக்கவில்லை.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 32, printed p.299 (PDF 334)' }) },
+  { id: 'OWN_EXALTED', verse: '31', computed: true, textTa: 'தீய இடத்தில் இருந்தாலும் உச்சத்திலோ சொந்த ராசியிலோ ("स्वोच्चस्वगेह") இருந்தால் தீமை செய்யாது; நல்ல இடத்திலும் உச்ச / சொந்த ராசியில் இருந்தால் முழு நற்பலன்.', noteTa: 'உச்சம், சொந்த வீடு: பலதீபிகை I.6. ராகு, கேதுவுக்கு மந்த்ரேஸ்வரர் சொல்லவில்லை — கணிக்கவில்லை.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 31, printed p.299 (PDF 334): the verse "अनिष्टभावस्थितखेचरेन्द्रः स्वोच्चस्वगेहोपगतो यदि स्यात् । न दोषकृच्चोत्तमभावगश्चेत् पूर्णं फलं यच्छति गोचरेषु"' }) },
+  { id: 'DEBILITATED', verse: '32', computed: true, textTa: 'நல்ல இடத்தில் இருந்தாலும் நீசம், பகை வீடு அல்லது அஸ்தங்கம் ("नीचारिमौढ्यं") என்றால் பலன் அற்றுப் போகும்; தீய இடத்திலும் அப்படி என்றால் மிகுந்த கஷ்டம்.', noteTa: 'நீசம்: I.6; பகை வீடு: இயற்கைப் பகைவர் ஆளும் ராசி (II.21-22, 35); அஸ்தங்கப் பாகைகள்: கபூரின் குறிப்பு (II.36), விஷ்ணு பாஸ்கர் — ஸ்லோகம் பாகை தரவில்லை.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 32, printed p.299 (PDF 334): the verse "ग्रहेश्वरास्ते शुभगोचरस्था नीचारिमौढ्यं समुपाश्रिताश्चेत् । ते निष्फलाः किन्त्वशुभाङ्कसंस्थाः कष्टं फलं संविदधत्यनल्पम्"' }) },
   { id: 'DANGER_12_8_1', verse: '33', computed: true, planets: ['Saturn', 'Sun', 'Mars', 'Jupiter'], houses: [12, 8, 1], textTa: 'சனி, சூரியன், செவ்வாய், குரு சந்திரனிலிருந்து 12, 8, 1-ஆம் இடங்களில் செல்லும்போது உயிருக்கு ஐயம், பதவியிலிருந்து வீழ்ச்சி, பண இழப்பு.', noteTa: 'ஸ்லோகம்: "द्वादशाष्टमजन्मस्थाः" — 12, 8, 1 (சாஸ்திரி). கபூரின் மொழிபெயர்ப்பு "1st, 8th or 10th" — ஸ்லோகத்துடன் பொருந்தவில்லை.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 33, printed p.300 (PDF 335): "Saturn, the Sun, Mars and Jupiter when they transit the 12th, 8th or the 1st, (counted from the Moon\'s place) bring about danger to life itself, a fall from one\'s position and loss of wealth"; the verse "द्वादशाष्टमजन्मस्थाः शन्यर्काङ्गारका गुरुः"' }), kapoor: Object.freeze({ ...PHALADEEPIKA_KAPOOR, pageLocus: 'Chapter 26, sloka 33, e-text p.253: "the 1st, 8th or 10th house reckoned from the Moon sign"' }) },
   { id: 'ALL_EIGHT', verse: '34', computed: true, positions: { Moon: 8, Mars: 7, Rahu: 9, Venus: 6, Jupiter: 3, Sun: 5, Saturn: 1, Mercury: 4 }, textTa: 'சந்திரன் 8, செவ்வாய் 7, ராகு 9, சுக்கிரன் 6, குரு 3, சூரியன் 5, சனி 1, புதன் 4 — "இவை எல்லாம் ஒருசேர இருந்தால்" மதிப்பும் செல்வமும் இழப்பு, உயிருக்கும் ஆபத்து.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 34, printed p.300 (PDF 335): "... bring about loss of honour and wealth, and danger to life also, if all the conditions exist"' }) },
   { id: 'BINDUS', verse: '41', computed: false, textTa: 'அஷ்டகவர்க்கத்தில் அதிக நன்மைப் புள்ளிகள் உள்ள ராசியில் செல்லும் கிரகம் — அது 12, 6, 8-ஆக இருந்தாலும் — எப்போதும் நல்ல பலன்.', whyNotTa: '"அதிக" என்பது எத்தனை என்று சொல்லப்படவில்லை — கணிக்கவில்லை; சனிக்கு அஷ்டகவர்க்கக் கணக்கு /saturn-transit பக்கத்தில்.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 41, printed p.303 (PDF 338): "Planets passing through Rasis containing more benefic dots in the Ashtakavarga produce good effect always. Even when such Rasis happen to be the 12th, 6th or 8th"' }) },
 ]);
 
+// ---------------------------------------------------------------------------
+// Verses 31-32: exaltation, own sign, debilitation, enemy's sign, combustion
+// ---------------------------------------------------------------------------
+
+/**
+ * The definitions verses 31-32 need, from the same book: lords of the signs
+ * and exaltation signs (I.6; debilitation is the 7th), natural enmity (II.21-22,
+ * the unmentioned taking the remaining relation; Rahu and Ketu II.35).
+ * Mantreswara gives no exaltation or own sign for the nodes (Kapoor's note to
+ * I.6), so for them only the enemy's sign is judged. Combustion degrees are not
+ * in the verses; Kapoor's note to II.36 and Vishnu Bhaskar give the same
+ * figures.
+ */
+const SIGN_LORDS = Object.freeze(['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter']);
+const EXALTATION_SIGN = deepFreeze({ Sun: 0, Moon: 1, Mars: 9, Mercury: 5, Jupiter: 3, Venus: 11, Saturn: 6 });
+const NATURAL_ENEMIES = deepFreeze({
+  Sun: ['Venus', 'Saturn'], Moon: [], Mars: ['Mercury'], Mercury: ['Moon'], Jupiter: ['Mercury', 'Venus'],
+  Venus: ['Sun', 'Moon'], Saturn: ['Sun', 'Moon', 'Mars'], Rahu: ['Sun', 'Moon', 'Jupiter'], Ketu: ['Sun', 'Moon', 'Jupiter'],
+});
+/** Degrees from the Sun within which a planet is combust; [direct, retrograde] where they differ. */
+const COMBUSTION_DEGREES = deepFreeze({ Moon: 12, Mars: 17, Mercury: [14, 12], Jupiter: 11, Venus: [10, 8], Saturn: 15 });
+
+const DIGNITY_SOURCES = Object.freeze({
+  lords: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya I, sloka 6, printed p.3 (PDF 40): "Mars, Venus, Mercury, the Moon, the Sun, Mercury, Venus, Mars, Jupiter, Saturn, Saturn and Jupiter are respectively declared the lords of the signs from Mesha onwards. Mesha, Vrishabha, Makara, Kanya, Karkataka, Meena and Tula are the exaltation signs of the seven planets respectively from the Sun onwards, their signs of \'fall\' being the 7th from their exaltation ones"' }),
+  friends: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya II, slokas 21-22, printed p.17 (PDF 54): "Mercury is the Sun\'s neutral; Saturn and Venus are his enemies ... In cases where certain planets have been omitted, they must be considered to fulfil the relationship that has not been mentioned"' }),
+  nodes: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya II, sloka 35, printed p.22 (PDF 59): "Mercury, Saturn and Venus are the friends of Rahu as well as Ketu. Mars is neutral to them. The rest are enemies"' }),
+  nodesExaltation: Object.freeze({ ...PHALADEEPIKA_KAPOOR, pageLocus: 'Chapter 1, note to sloka 6, e-text p.12: "There is great difference of opinion amongst the ancient learneds about the exaltation and debilitation signs of Rahu and Ketu. Mantreswara has expressed no opinion in that regard"' }),
+  badlyPlaced: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya II, sloka 36, printed p.23 (PDF 60): "Planets are said to be badly-placed when they are eclipsed, debilitated (occupy a depression sign or Amsa), when they are posited in the house of an enemy"' }),
+  combustionKapoor: Object.freeze({ ...PHALADEEPIKA_KAPOOR, pageLocus: 'Chapter 2, note to sloka 36, e-text pp.26-27: "The Moon is said to be eclipsed if she is 12° away from the Sun. Mars ... 17° ... Mercury in direct motion ... 14° ... Retrograde Mercury ... 12° ... Jupiter, Venus and Saturn ... 11°, 10° and 15° ... A retrograde Venus ... 8°"' }),
+  combustionVishnuBhaskar: Object.freeze({ ...VISHNU_BHASKAR, pageLocus: 'Chapter 1 §XX.6 "Combustion and its cancellation", printed p.13 (PDF page 25 of volume-1 part 01): "Degrees of combustion" — Moon 12°, Mars 17°, Mercury 13° (14° direct, 12° retrograde), Jupiter 11°, Venus 9° (10° direct, 8° retrograde), Saturn 15°' }),
+});
+
+const DIGNITY_READINGS_TA = Object.freeze([
+  'உச்சம், நீசம், சொந்த வீடு, பகை வீடு — முழு ராசி (I.6); உச்சப் பாகை கணக்கில் இல்லை.',
+  '"பகை வீடு" ("अरि") = இயற்கைப் பகைவர் ஆளும் ராசி (II.21-22; ராகு, கேது II.35). ஜாதகத்தின் தற்காலிக உறவு கோசாரத்துக்குப் பொருந்துமா என்று ஸ்லோகம் சொல்லவில்லை — இயற்கை உறவு மட்டும் (எங்கள் வாசிப்பு).',
+  '"மௌட்யம்" (அஸ்தங்கம்): சூரியனிலிருந்து கபூர், விஷ்ணு பாஸ்கர் தரும் பாகைக்குள் — புதன், சுக்கிரன் வக்கிரமாக இருந்தால் குறைந்த அளவு. ஸ்லோகம் பாகை தரவில்லை. சூரியனுக்கும் ராகு, கேதுவுக்கும் அஸ்தங்கம் இல்லை.',
+  'ராகு, கேது: உச்சமோ சொந்த வீடோ மந்த்ரேஸ்வரர் சொல்லவில்லை (கபூர்) — அதனால் ஸ்லோ. 31-ம் நீசமும் அவற்றுக்குக் கணிக்கப்படவில்லை; பகை வீடு மட்டும்.',
+  '"நல்ல இடம் / தீய இடம்" — பலதீபிகை ஸ்லோ. 2-ன் நல்ல இடங்கள் (மேலே தேர்ந்தெடுத்த நூல் எதுவானாலும்).',
+  'இரண்டு ஸ்லோகங்களும் ஒரே நேரத்தில் பொருந்தினால் (எ.கா. உச்சத்தில் இருக்கும் குரு அஸ்தங்கமானால்) இரண்டும் காட்டப்படுகின்றன — எது வெல்லும் என்று ஸ்லோகம் சொல்லவில்லை.',
+]);
+
 /** Words on verse 25's rule (sources in that order): Sastri 57, Vishnu Bhaskar 43 — the two agree. */
 const DECANATE_WORDS = deepFreeze({ PHALADEEPIKA: 57, VISHNU_BHASKAR: 43 });
 
-module.exports = { HOUSE_RESULTS, VERSE_OF, HOUSE_RESULTS_SOURCES, KETU_NOTE_TA, DECANATE, DECANATE_TA, DECANATE_SOURCES, DECANATE_WORDS, RULES };
+/** A planet's standing in a sign under I.6, II.21-22 and II.35. null where the book gives nothing (the nodes' exaltation and own sign). */
+function dignityOf(planet, sign) {
+  const node = planet === 'Rahu' || planet === 'Ketu';
+  const lord = SIGN_LORDS[sign];
+  return {
+    exalted: node ? null : EXALTATION_SIGN[planet] === sign,
+    debilitated: node ? null : (EXALTATION_SIGN[planet] + 6) % 12 === sign,
+    own: node ? null : lord === planet,
+    enemySign: NATURAL_ENEMIES[planet].includes(lord),
+    lord,
+  };
+}
+
+/** The orb for combustion; null for the Sun and the nodes. */
+function combustionOrb(planet, retrograde) {
+  const d = COMBUSTION_DEGREES[planet];
+  if (d === undefined) return null;
+  return Array.isArray(d) ? d[retrograde ? 1 : 0] : d;
+}
+
+/**
+ * Verses 31-32 for a planet in a good or bad house: 'FULL' / 'NO_HARM' (exalted
+ * or own sign), 'VOID' / 'AGGRAVATED' (debilitated, enemy's sign or combust);
+ * both may hold at once (own sign and combust, say). `combust` may be null (not
+ * applicable) or undefined (not judged for a whole stay).
+ */
+function verses31and32(dignity, combust, goodHouse) {
+  const v31 = dignity.exalted || dignity.own ? (goodHouse ? 'FULL' : 'NO_HARM') : null;
+  const reasons = [dignity.debilitated && 'DEBILITATED', dignity.enemySign && 'ENEMY_SIGN', combust === true && 'COMBUST'].filter(Boolean);
+  const v32 = reasons.length ? (goodHouse ? 'VOID' : 'AGGRAVATED') : null;
+  return { v31, v32, reasons };
+}
+
+module.exports = {
+  HOUSE_RESULTS, VERSE_OF, HOUSE_RESULTS_SOURCES, KETU_NOTE_TA, DECANATE, DECANATE_TA, DECANATE_SOURCES, DECANATE_WORDS, RULES,
+  SIGN_LORDS, EXALTATION_SIGN, NATURAL_ENEMIES, COMBUSTION_DEGREES, DIGNITY_SOURCES, DIGNITY_READINGS_TA,
+  dignityOf, combustionOrb, verses31and32,
+};

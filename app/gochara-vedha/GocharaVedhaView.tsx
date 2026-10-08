@@ -70,6 +70,23 @@ function verdict(now: any) {
   return { ta: 'தீய பலன்', cls: 'text-rose' };
 }
 
+const REASON_TA: Record<string, string> = { DEBILITATED: 'நீசம்', ENEMY_SIGN: 'பகை வீடு', COMBUST: 'அஸ்தங்கம்' };
+/** Phaladeepika XXVI.31-32 verdicts in words. */
+function verdictTa(v: any) {
+  const out: { ta: string; cls: string }[] = [];
+  if (v.v31 === 'FULL') out.push({ ta: 'ஸ்லோ. 31: உச்சம் / சொந்த வீடு — முழுப் பலன்', cls: 'text-teal' });
+  if (v.v31 === 'NO_HARM') out.push({ ta: 'ஸ்லோ. 31: உச்சம் / சொந்த வீடு — தீமை செய்யாது', cls: 'text-teal' });
+  const why = v.reasons.map((r: string) => REASON_TA[r]).join(', ');
+  if (v.v32 === 'VOID') out.push({ ta: `ஸ்லோ. 32: ${why} — நல்ல பலன் இல்லாமல் போகும்`, cls: 'text-amber-700' });
+  if (v.v32 === 'AGGRAVATED') out.push({ ta: `ஸ்லோ. 32: ${why} — மிகுந்த கஷ்டம்`, cls: 'text-rose' });
+  return out;
+}
+/** The planet's standing in its sign (I.6, II.21-22, II.35). */
+function dignityTa(d: any) {
+  const parts = [d.exalted && 'உச்சம்', d.own && 'சொந்த வீடு', d.debilitated && 'நீசம்', d.enemySign && `பகை வீடு (${PLANET_TA[d.lord]})`].filter(Boolean);
+  return parts.length ? parts.join(', ') : null;
+}
+
 /** Phaladeepika XXVI.25 for the present: in the third of the sign that gives the result? */
 function effectiveNowTa(pd: any, planet: string, n: any) {
   if (n.effectiveNow === null) return 'ஸ்லோகம் 25 கேதுவைச் சொல்லவில்லை';
@@ -111,8 +128,18 @@ function NowTable({ r, method }: { r: any; method: string }) {
                   ))}
                 </td>
                 <td className="py-1.5 text-ink">
-                  {n.phaladeepika.resultTa ?? <span className="text-ink-soft">—</span>}
-                  <span className="block text-[11px] text-ink-soft">{effectiveNowTa(r.phaladeepika, p.planet, n.phaladeepika)}</span>
+                  {(() => {
+                    const pn = r.phaladeepika.planets[p.planet].now;
+                    const dt = dignityTa(pn.dignity);
+                    return (
+                      <>
+                        {pn.resultTa ?? <span className="text-ink-soft">—</span>}
+                        <span className="block text-[11px] text-ink-soft">{effectiveNowTa(r.phaladeepika, p.planet, pn)}</span>
+                        {(dt || pn.combustion.combust) && <span className="block text-[11px] text-ink-soft">{[dt, pn.combustion.combust && `அஸ்தங்கம் (சூரியனிலிருந்து ${pn.combustion.separation}°${pn.combustion.retrograde ? ', வக்கிரம்' : ''})`].filter(Boolean).join(' · ')}</span>}
+                        {verdictTa(pn.verdict).map((x) => <span key={x.ta} className={`block text-[11px] ${x.cls}`}>{x.ta}</span>)}
+                      </>
+                    );
+                  })()}
                 </td>
               </tr>
             );
@@ -136,10 +163,10 @@ function Timeline({ p, pd }: { p: any; pd: any }) {
       <table className="w-full text-xs" style={{ minWidth: 980 }}>
         <thead><tr className="text-ink-soft border-b border-line text-left">
           <th className="py-1 pr-2">காலம்</th><th className="py-1 pr-2">ராசி · இடம்</th><th className="py-1 pr-2">வகை</th>
-          <th className="py-1 pr-2">இணை இடத்தில் கிரகங்கள்</th><th className="py-1 pr-2">மொத்தம் · சந்திரன்</th><th className="py-1">பலதீபிகை (26.9-25, 33)</th>
+          <th className="py-1 pr-2">இணை இடத்தில் கிரகங்கள்</th><th className="py-1 pr-2">மொத்தம் · சந்திரன்</th><th className="py-1">பலதீபிகை (26.9-25, 31-33)</th>
         </tr></thead>
         <tbody className="align-top">
-          {p.stays.map((s: any) => (
+          {p.stays.map((s: any, i: number) => (
             <tr key={s.fromUtc} className={`border-b border-line/40 ${s.current ? 'bg-amber-50' : ''}`}>
               <td className="py-1.5 pr-2 font-mono text-ink whitespace-nowrap" style={num}>
                 {day(s.fromUtc)} – {day(s.toUtc)}{s.current && <span className="block font-sans text-amber-800">இப்போது</span>}
@@ -165,13 +192,29 @@ function Timeline({ p, pd }: { p: any; pd: any }) {
                 {s.moon && <span className="block font-sans text-ink-soft">சந்திரன் {s.moon.count} முறை</span>}
               </td>
               <td className="py-1.5 text-ink">
-                {s.phaladeepika.resultTa ?? <span className="text-ink-soft">—</span>}
-                {Array.isArray(s.phaladeepika.effective) && (
-                  <span className="block text-[11px] text-ink-soft font-mono" style={num}>
-                    பலன் தரும் பகுதி: {s.phaladeepika.effective.length ? s.phaladeepika.effective.map((w: any) => `${day(w.fromUtc)}–${day(w.toUtc)}`).join(', ') : 'இந்தக் காலத்தில் இல்லை'}
-                  </span>
-                )}
-                {s.phaladeepika.dangerVerse33 && <span className="block text-[11px] text-rose">ஸ்லோ. 33: 12/8/1-ல் — உயிருக்கு ஐயம், பதவி வீழ்ச்சி, பண இழப்பு (நூலின் கூற்று)</span>}
+                {(() => {
+                  const ps = pd.planets[p.planet].stays[i];
+                  const dt = dignityTa(ps.dignity);
+                  const combustVerdict = ps.combust?.length ? (ps.goodHouse ? 'நல்ல பலன் இல்லாமல் போகும்' : 'மிகுந்த கஷ்டம்') : null;
+                  return (
+                    <>
+                      {ps.resultTa ?? <span className="text-ink-soft">—</span>}
+                      {Array.isArray(ps.effective) && (
+                        <span className="block text-[11px] text-ink-soft font-mono" style={num}>
+                          பலன் தரும் பகுதி: {ps.effective.length ? ps.effective.map((w: any) => `${day(w.fromUtc)}–${day(w.toUtc)}`).join(', ') : 'இந்தக் காலத்தில் இல்லை'}
+                        </span>
+                      )}
+                      {dt && <span className="block text-[11px] text-ink-soft">{dt}</span>}
+                      {verdictTa(ps.bySign).map((x) => <span key={x.ta} className={`block text-[11px] ${x.cls}`}>{x.ta}</span>)}
+                      {combustVerdict && (
+                        <span className={`block text-[11px] ${ps.goodHouse ? 'text-amber-700' : 'text-rose'}`}>
+                          ஸ்லோ. 32 அஸ்தங்கம்: <span className="font-mono" style={num}>{ps.combust.map((w: any) => `${day(w.fromUtc)}–${day(w.toUtc)}`).join(', ')}</span> — {combustVerdict}
+                        </span>
+                      )}
+                      {ps.dangerVerse33 && <span className="block text-[11px] text-rose">ஸ்லோ. 33: 12/8/1-ல் — உயிருக்கு ஐயம், பதவி வீழ்ச்சி, பண இழப்பு (நூலின் கூற்று)</span>}
+                    </>
+                  );
+                })()}
               </td>
             </tr>
           ))}
@@ -187,6 +230,10 @@ function PhaladeepikaRules({ r, m }: { r: any; m: any }) {
   const v33 = pd.rules.find((x: any) => x.id === 'DANGER_12_8_1');
   const now33 = v33.planets.filter((p: string) => v33.houses.includes(m.planets[p].now.house));
   const v34 = pd.verse34Now;
+  const nowBy = (key: 'v31' | 'v32') => Object.entries(pd.planets).filter(([, x]: [string, any]) => x.now.verdict[key])
+    .map(([p, x]: [string, any]) => `${PLANET_TA[p]} (${x.now.house}-ல் ${key === 'v31' ? dignityTa(x.now.dignity) : x.now.verdict.reasons.map((r: string) => REASON_TA[r]).join(', ')}: ${verdictTa(x.now.verdict).filter((v) => v.ta.startsWith(key === 'v31' ? 'ஸ்லோ. 31' : 'ஸ்லோ. 32')).map((v) => v.ta.split(' — ')[1]).join('')})`);
+  const now31 = nowBy('v31');
+  const now32 = nowBy('v32');
   return (
     <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
       <h2 className="text-sm font-semibold text-ink mb-1">பலதீபிகை அத். 26 — ராசிவாரிப் பலன், பலன் தரும் பகுதி, பொது விதிகள்</h2>
@@ -214,8 +261,18 @@ function PhaladeepikaRules({ r, m }: { r: any; m: any }) {
                 இப்போது எட்டில் {v34.met} நிலைகள் பொருந்துகின்றன{v34.all ? ' — எல்லாம்' : ''} ({v34.positions.map((x: any) => `${x.planetTa} ${x.nowHouse}${x.nowHouse === x.house ? '✓' : `/${x.house}`}`).join(', ')}).
               </span>
             )}
+            {ru.id === 'OWN_EXALTED' && <span className="block text-ink-soft">இப்போது: {now31.length ? now31.join('; ') : 'எந்தக் கிரகமும் உச்சத்திலோ சொந்த வீட்டிலோ இல்லை'}. {ru.noteTa}</span>}
+            {ru.id === 'DEBILITATED' && <span className="block text-ink-soft">இப்போது: {now32.length ? now32.join('; ') : 'எந்தக் கிரகமும் நீசம், பகை வீடு, அஸ்தங்கத்தில் இல்லை'}. {ru.noteTa}</span>}
             {!ru.computed && <span className="block text-ink-soft">{ru.whyNotTa}</span>}
             <Cites list={[ru.source, ...(ru.kapoor ? [ru.kapoor] : [])]} />
+            {ru.id === 'DEBILITATED' && (
+              <details className="mt-1">
+                <summary className="cursor-pointer text-ink-soft">வரையறைகள் — உச்சம், சொந்த வீடு, நீசம், பகை வீடு, அஸ்தங்கப் பாகைகள்</summary>
+                <ul className="list-disc ml-5 mt-1 space-y-0.5 text-ink-soft">{pd.dignityReadingsTa.map((t: string, i: number) => <li key={i}>{t}</li>)}</ul>
+                <p className="text-ink-soft mt-1">அஸ்தங்கம், சூரியனிலிருந்து: {Object.entries(pd.combustionDegrees).map(([p, d]: [string, any]) => `${PLANET_TA[p]} ${Array.isArray(d) ? `${d[0]}° (வக்கிரம் ${d[1]}°)` : `${d}°`}`).join(', ')}.</p>
+                <Cites list={Object.values(pd.dignitySources)} />
+              </details>
+            )}
           </li>
         ))}
       </ul>

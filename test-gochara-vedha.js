@@ -257,6 +257,37 @@ for (const p of V.PLANETS_9) {
   assert.deepEqual(plain(PG.RULES.find((x) => x.id === 'ALL_EIGHT').positions), F.verse34);
   for (const ru of PG.RULES) assert.ok(ru.computed || ru.whyNotTa, `${ru.id}: computed or says why not`);
   for (const s of [...PG.HOUSE_RESULTS_SOURCES, ...PG.DECANATE_SOURCES, ...PG.RULES.map((x) => x.source)]) assert.ok(resolveByTitle(s.title), s.title);
+  // Verses 31-32's definitions: I.6, II.21-22, II.35, and the two books' combustion degrees.
+  const SIGNS = ['Mesha', 'Vrishabha', 'Mithuna', 'Karkataka', 'Simha', 'Kanya', 'Tula', 'Vrischika', 'Dhanus', 'Makara', 'Kumbha', 'Meena'];
+  assert.deepEqual([...PG.SIGN_LORDS], F.I6.lordsFromMesha);
+  assert.deepEqual(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].map((p) => SIGNS[PG.EXALTATION_SIGN[p]]), F.I6.exaltationFromSun);
+  const { EXALTATION } = require('./src/chart/shadbala');
+  for (const [p, e] of Object.entries(EXALTATION)) assert.equal(PG.EXALTATION_SIGN[p], e.sign, `${p}: Phaladeepika I.6 = BPHS (shadbala.js)`);
+  const { NATURAL_ENEMIES: BPHS_ENEMIES } = require('./src/chart/planetaryRelationship');
+  if (BPHS_ENEMIES) for (const [p, es] of Object.entries(BPHS_ENEMIES)) assert.deepEqual([...PG.NATURAL_ENEMIES[p]].sort(), [...es].sort(), `${p}: Phaladeepika II.21-22 = BPHS v.55`);
+  // II.21-22 as stated, with "the unmentioned take the remaining relation": enemies are those named, or the rest when the friends were named.
+  assert.deepEqual([...PG.NATURAL_ENEMIES.Venus].sort(), ['Moon', 'Sun'], 'Venus: Mars, Jupiter neutral, Saturn, Mercury friends — the Sun and Moon remain');
+  assert.deepEqual([...PG.NATURAL_ENEMIES.Saturn].sort(), ['Mars', 'Moon', 'Sun']);
+  assert.deepEqual(PG.NATURAL_ENEMIES.Moon, []);
+  for (const n of ['Rahu', 'Ketu']) {
+    assert.deepEqual([...PG.NATURAL_ENEMIES[n]].sort(), ['Jupiter', 'Moon', 'Sun'], `${n}: II.35 — the rest after Mercury, Saturn, Venus and Mars`);
+    assert.deepEqual(plain(PG.dignityOf(n, 4)), { exalted: null, debilitated: null, own: null, enemySign: true, lord: 'Sun' });
+  }
+  const K = F.combustionKapoor;
+  assert.deepEqual(plain(PG.COMBUSTION_DEGREES), { Moon: K.Moon, Mars: K.Mars, Mercury: [K.MercuryDirect, K.MercuryRetro], Jupiter: K.Jupiter, Venus: [K.VenusDirect, K.VenusRetro], Saturn: K.Saturn });
+  for (const k of Object.keys(K)) assert.equal(F.combustionVishnuBhaskar[k], K[k], `Vishnu Bhaskar agrees: ${k}`);
+  assert.equal(PG.combustionOrb('Sun', false), null);
+  assert.deepEqual([PG.combustionOrb('Mercury', false), PG.combustionOrb('Mercury', true), PG.combustionOrb('Venus', true)], [14, 12, 8]);
+  // The verdicts: verse 31 for exalted / own, verse 32 for debilitated / enemy's sign / combust; both can hold.
+  const d = (o) => ({ exalted: false, debilitated: false, own: false, enemySign: false, lord: 'Sun', ...o });
+  assert.deepEqual(plain(PG.verses31and32(d({ exalted: true }), false, false)), { v31: 'NO_HARM', v32: null, reasons: [] });
+  assert.deepEqual(plain(PG.verses31and32(d({ own: true }), false, true)), { v31: 'FULL', v32: null, reasons: [] });
+  assert.deepEqual(plain(PG.verses31and32(d({ debilitated: true }), false, true)), { v31: null, v32: 'VOID', reasons: ['DEBILITATED'] });
+  assert.deepEqual(plain(PG.verses31and32(d({ enemySign: true }), true, false)), { v31: null, v32: 'AGGRAVATED', reasons: ['ENEMY_SIGN', 'COMBUST'] });
+  assert.deepEqual(plain(PG.verses31and32(d({ own: true }), true, true)), { v31: 'FULL', v32: 'VOID', reasons: ['COMBUST'] }, 'own sign and combust: both verses');
+  assert.ok(PG.RULES.find((x) => x.id === 'OWN_EXALTED').source.pageLocus.includes(F.verse31));
+  assert.ok(PG.RULES.find((x) => x.id === 'DEBILITATED').source.pageLocus.includes(F.verse32));
+  for (const s of Object.values(PG.DIGNITY_SOURCES)) assert.ok(resolveByTitle(s.title), s.title);
   assert.deepEqual(Object.keys(PG.DECANATE_WORDS), ['PHALADEEPIKA', 'VISHNU_BHASKAR']);
   assert.ok(PG.DECANATE_WORDS.PHALADEEPIKA > PG.DECANATE_WORDS.VISHNU_BHASKAR, 'Phaladeepika listed first by words');
 }
@@ -353,43 +384,75 @@ for (const c of cites) assert.ok(resolveByTitle(c.title), `registered: ${c.title
   assert.equal(sp.now.house, sv.now.house);
   assert.equal(sp.now.active, sv.now.active);
   assert.deepEqual(Object.keys(r.methods), [...V.VEDHA_RANK.computable]);
-  // Phaladeepika XXVI.25: every effective interval lies in the planet's stated third of the stay's sign.
+  // Phaladeepika XXVI: one list per planet, in the order of every method's stays.
+  const PD = r.phaladeepika.planets;
+  for (const id of Object.keys(r.methods)) {
+    for (const p of Object.values(r.methods[id].planets)) {
+      assert.deepEqual(PD[p.planet].stays.map((s) => [s.fromUtc, s.house]), p.stays.map((s) => [s.fromUtc, s.house]), `${id} ${p.planet}: same stays`);
+    }
+  }
+  // Verse 25: every effective interval lies in the planet's stated third of the stay's sign.
   const third = (p, ms) => Math.floor((((lon(p, ms) % 360) + 360) % 360 % 30) / 10);
   let effChecked = 0;
-  for (const p of Object.values(r.methods.PULIPPANI.planets)) {
-    for (const s of p.stays) {
-      const e = s.phaladeepika.effective;
-      assert.equal(s.phaladeepika.resultTa, PG.HOUSE_RESULTS[p.planet]?.[s.house - 1] ?? null);
-      assert.equal(s.phaladeepika.dangerVerse33, ['Saturn', 'Sun', 'Mars', 'Jupiter'].includes(p.planet) && [12, 8, 1].includes(s.house));
-      if (p.planet === 'Ketu') { assert.equal(e, null); continue; }
-      if (PG.DECANATE[p.planet] === null) { assert.equal(e, 'ALL'); continue; }
+  for (const [planet, pd] of Object.entries(PD)) {
+    for (const s of pd.stays) {
+      const e = s.effective;
+      assert.equal(s.resultTa, PG.HOUSE_RESULTS[planet]?.[s.house - 1] ?? null);
+      assert.equal(s.dangerVerse33, ['Saturn', 'Sun', 'Mars', 'Jupiter'].includes(planet) && [12, 8, 1].includes(s.house));
+      if (planet === 'Ketu') { assert.equal(e, null); continue; }
+      if (PG.DECANATE[planet] === null) { assert.equal(e, 'ALL'); continue; }
       for (const w of e) {
         const m2 = (ms(w.fromUtc) + ms(w.toUtc)) / 2;
-        assert.equal(third(p.planet, m2), PG.DECANATE[p.planet], `${p.planet} ${w.fromUtc}: in its third`);
-        assert.equal(((signAt(p.planet, m2) - moonRasiIndex + 12) % 12) + 1, s.house, `${p.planet} ${w.fromUtc}: in the stay's sign`);
+        assert.equal(third(planet, m2), PG.DECANATE[planet], `${planet} ${w.fromUtc}: in its third`);
+        assert.equal(((signAt(planet, m2) - moonRasiIndex + 12) % 12) + 1, s.house, `${planet} ${w.fromUtc}: in the stay's sign`);
         assert.ok(ms(w.fromUtc) >= ms(s.fromUtc) && ms(w.toUtc) <= ms(s.toUtc));
         effChecked += 1;
       }
     }
-    const n = p.now.phaladeepika;
-    if (p.planet in PG.DECANATE && PG.DECANATE[p.planet] !== null) assert.equal(n.effectiveNow, third(p.planet, atMs) === PG.DECANATE[p.planet]);
+    if (planet in PG.DECANATE && PG.DECANATE[planet] !== null) assert.equal(pd.now.effectiveNow, third(planet, atMs) === PG.DECANATE[planet]);
   }
   assert.ok(effChecked > 20, `effective windows checked (${effChecked})`);
   // And no window is missed: sampled through each stay, the planet is in its third only inside the windows listed.
-  for (const p of Object.values(r.methods.PULIPPANI.planets)) {
-    if (!(p.planet in PG.DECANATE) || PG.DECANATE[p.planet] === null) continue;
-    for (const s of p.stays) {
+  for (const [planet, pd] of Object.entries(PD)) {
+    if (!(planet in PG.DECANATE) || PG.DECANATE[planet] === null) continue;
+    for (const s of pd.stays) {
       const a = ms(s.fromUtc); const b = ms(s.toUtc);
       for (let i = 1; i < 40; i += 1) {
         const t = a + ((b - a) * i) / 40;
-        const inside = s.phaladeepika.effective.some((w) => ms(w.fromUtc) - 60000 <= t && t <= ms(w.toUtc) + 60000);
-        assert.equal(third(p.planet, t) === PG.DECANATE[p.planet], inside, `${p.planet} ${new Date(t).toISOString()}: in its third ⇔ listed`);
+        const inside = s.effective.some((w) => ms(w.fromUtc) - 60000 <= t && t <= ms(w.toUtc) + 60000);
+        assert.equal(third(planet, t) === PG.DECANATE[planet], inside, `${planet} ${new Date(t).toISOString()}: in its third ⇔ listed`);
       }
     }
   }
   // Sun: one effective window a year per sign it enters — about ten days each.
-  const sunEff = r.methods.PULIPPANI.planets.Sun.stays.flatMap((s) => s.phaladeepika.effective);
-  for (const w of sunEff.filter((x) => !x.fromUtc.startsWith(r.methods.PULIPPANI.planets.Sun.stays[0].fromUtc.slice(0, 10)))) assert.ok(w.days > 9 && w.days < 12, `Sun's first third lasts about ten days (${w.days})`);
+  for (const w of PD.Sun.stays.flatMap((s) => s.effective).filter((x) => !x.fromUtc.startsWith(PD.Sun.stays[0].fromUtc.slice(0, 10)))) assert.ok(w.days > 9 && w.days < 12, `Sun's first third lasts about ten days (${w.days})`);
+  // Verses 31-32: dignity by sign; combustion windows against the sky, sampled both ways.
+  const sep = (p, t) => Math.abs(((((lon(p, t) - lon('Sun', t)) + 180) % 360) + 360) % 360 - 180);
+  const retro = (p, t) => ((((lon(p, t + 6 * 3600000) - lon(p, t - 6 * 3600000)) + 180) % 360) + 360) % 360 - 180 < 0;
+  const isCombust = (p, t) => sep(p, t) < PG.combustionOrb(p, retro(p, t));
+  let combustChecked = 0;
+  for (const [planet, pd] of Object.entries(PD)) {
+    for (const s of pd.stays) {
+      const sign = (moonRasiIndex + s.house - 1) % 12;
+      assert.deepEqual(plain(s.dignity), PG.dignityOf(planet, sign));
+      assert.equal(s.goodHouse, V.VEDHA_METHODS.PHALADEEPIKA_SASTRI.table[planet].good.includes(s.house));
+      if (!(planet in PG.COMBUSTION_DEGREES)) { assert.equal(s.combust, null); continue; }
+      const a = ms(s.fromUtc); const b = ms(s.toUtc);
+      for (let i = 1; i < 30; i += 1) {
+        const t = a + ((b - a) * i) / 30;
+        // Boundaries are bisected to a minute; samples within five minutes of one are not judged.
+        if (s.combust.some((w) => Math.min(Math.abs(t - ms(w.fromUtc)), Math.abs(t - ms(w.toUtc))) < 5 * 60000)) continue;
+        const listed = s.combust.some((w) => ms(w.fromUtc) <= t && t <= ms(w.toUtc));
+        assert.equal(isCombust(planet, t), listed, `${planet} ${new Date(t).toISOString()}: combust ⇔ listed`);
+        combustChecked += 1;
+      }
+    }
+    const n = pd.now;
+    if (planet in PG.COMBUSTION_DEGREES) assert.equal(n.combustion.combust, isCombust(planet, atMs));
+    else assert.equal(n.combustion.combust, null);
+    assert.deepEqual(plain(n.verdict), PG.verses31and32(PG.dignityOf(planet, signAt(planet, atMs)), n.combustion.combust, n.goodHouse));
+  }
+  assert.ok(combustChecked > 500 && PD.Mercury.stays.some((s) => s.combust.length), `combustion sampled (${combustChecked})`);
   // Verse 34: each position checked against the sky.
   for (const x of r.phaladeepika.verse34Now.positions) assert.equal(x.nowHouse, ((signAt(x.planet, atMs) - moonRasiIndex + 12) % 12) + 1);
   assert.equal(r.phaladeepika.verse34Now.met, r.phaladeepika.verse34Now.positions.filter((x) => x.house === x.nowHouse).length);
