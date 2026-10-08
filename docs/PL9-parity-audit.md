@@ -226,3 +226,7 @@ Same page. Bhat (default, straight lines), Pulippani and Gour (three lines); fou
 ### 15. Moorthi Nirnaya (2026-10-08)
 
 `docs/MOORTHI-NIRNAYA.md` · `/moorthi-nirnaya`. The form of each sign entry (gold, silver, copper, iron) in six books, Pulippani first. No PL9 row of its own; added to the "Transit Interpretations" evidence, which stays **PARTIAL**. Totals unchanged.
+
+### 16. Latta (2026-10-08)
+
+`docs/LATTA.md` · `/latta`. Phaladeepika XXVI.42–47 and six books, Narasimha Rao first. No PL9 row of its own; added to the "Transit Interpretations" evidence, which stays **PARTIAL**. Totals unchanged.

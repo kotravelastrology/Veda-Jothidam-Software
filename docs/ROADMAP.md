@@ -176,5 +176,11 @@ Not plan items, but real, and they should not be discovered at release:
   differ from Lahiri (Pulippani 1998, Raj Kumar 1958) are both of that kind.
   Pulippani says the method is "greatly explained in Tamil texts only"; none of
   the Tamil books held has it.
+- **Latta: the planets' kick.** `/latta` (`docs/LATTA.md`), 2026-10-08.
+  Phaladeepika XXVI.42–47 (Sastri's 1950 translation, with the verse) and six
+  books; order by words puts Narasimha Rao first (he also reads the lagna star
+  and judges by the kicker's natal houses). The counts agree except Kapoor's
+  Rahu 8th (verse: 9th); three books count Ketu; the effects differ most for
+  Mars, Saturn, the Moon and Jupiter. Muhurta use of Latta not built.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.
