@@ -166,6 +166,68 @@ for (const p of V.PLANETS_9) {
   }
 }
 
+// ------------------------------------------------ Phaladeepika XXVI.2-8 ---
+{
+  const F = FIX.phaladeepika;
+  const nums = (s) => s.split(',').map(Number);
+  const pairsOf = (row) => { const [h, v] = row.split('|').map(nums); assert.equal(h.length, v.length, row); return h.map((x, i) => [x, v[i]]).sort((a, b) => a[0] - b[0]); };
+  const PD = V.PHALADEEPIKA_GOCHARA_VEDHA;
+  // Sastri's verses 3-8, pair by pair.
+  for (const [planet, row] of Object.entries(F.sastriRows)) {
+    const want = row === 'same as Mars' ? pairsOf(F.sastriRows.Mars) : pairsOf(row);
+    assert.deepEqual(plain(PD[planet].pairs), want, `Phaladeepika ${planet} (Sastri)`);
+  }
+  // Verse 2's good houses (all planets good in the 11th; Venus all but 10, 7, 6; the nodes like the Sun).
+  const good2 = {
+    ...Object.fromEntries(Object.entries(F.sastriGoodSloka2).filter(([k]) => !['VenusNot', 'RahuKetu'].includes(k)).map(([k, v]) => [k, [...new Set([...v, 11])]])),
+    Venus: Array.from({ length: 12 }, (_, i) => i + 1).filter((h) => !F.sastriGoodSloka2.VenusNot.includes(h)),
+  };
+  good2.Rahu = good2.Sun; good2.Ketu = good2.Sun;
+  for (const p of V.PLANETS_9) {
+    const g = [...PD[p].pairs.map(([x]) => x), ...(PD[p].unpairedGood ?? [])];
+    assert.ok(sameSet(g, good2[p]), `Phaladeepika ${p}: verse 2's good houses`);
+    assert.ok(sameSet(g, F.kapoorGood[p]), `Phaladeepika ${p}: Kapoor's verse 2 agrees`);
+  }
+  assert.deepEqual(plain(PD.Rahu), { pairs: [], unpairedGood: [3, 6, 10, 11] }, 'no vedha house for the nodes');
+  // The seven planets' pairs are Pulippani's, cell for cell — the two disputed cells included.
+  for (const p of ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn']) assert.deepEqual(plain(PD[p].pairs), plain(P[p].pairs), `Phaladeepika ${p} = Pulippani`);
+  assert.equal(PD.Mercury.pairs.find(([g]) => g === 10)[1], 8);
+  assert.deepEqual([11, 12].map((h) => PD.Venus.pairs.find(([g]) => g === h)[1]), [3, 6]);
+  assert.deepEqual(F.sanskrit, { Mercury10: 'नैधन', Venus11: 'सहज', Venus12: 'वैरि' });
+  // Exemptions: the father-son pair both ways, nothing for Venus; no vipareetha.
+  const PM2 = V.VEDHA_METHODS.PHALADEEPIKA_SASTRI;
+  assert.deepEqual(Object.fromEntries(Object.entries(PM2.exempt.gochara).map(([k, v]) => [k, v.join()])), F.sastriNoVedhaBy);
+  assert.ok(!PM2.exempt.gochara.Venus, 'no Venus–Sun exemption');
+  for (const p of V.PLANETS_9) assert.deepEqual(plain(PM2.table[p].relievedBy), {}, `${p}: no vipareetha in Phaladeepika ch.26`);
+  // Kapoor: the same pairs, with one vedha place missing for Mercury and two houses for Venus.
+  for (const [planet, row] of Object.entries(F.kapoorRows)) {
+    const [h, v] = row.split('|').map(nums);
+    assert.deepEqual(plain(V.PHALADEEPIKA_KAPOOR_PRINTED[planet]), { houses: h, vedha: v });
+    assert.notEqual(h.length, v.length, `Kapoor ${planet}: lists of unequal length`);
+  }
+  const mk = V.PHALADEEPIKA_KAPOOR_PRINTED.Mercury;
+  assert.deepEqual([...mk.vedha.slice(0, 3), 1, ...mk.vedha.slice(3)], PD.Mercury.pairs.map(([, x]) => x), 'Kapoor\'s Mercury + Sastri\'s "1st"');
+  const vk = V.PHALADEEPIKA_KAPOOR_PRINTED.Venus;
+  const vkFilled = [1, ...vk.houses.slice(0, 5), 9, ...vk.houses.slice(5)];
+  assert.deepEqual(vkFilled.map((x, i) => [x, vk.vedha[i]]).sort((a, b) => a[0] - b[0]), plain(PD.Venus.pairs), 'Kapoor\'s Venus + Sastri\'s 1st and 9th');
+  // The table this repo carried as "Phaladeepika 26.3-8": right for the seven planets and the exemptions, not for the nodes.
+  const old = F.astrologicLabPort;
+  for (const p of ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn']) {
+    assert.deepEqual(Object.entries(old.vedha[p]).map(([g, v]) => [Number(g), v]), plain(PD[p].pairs), `old port ${p}`);
+    assert.ok(sameSet(old.good[p], good2[p]));
+  }
+  assert.deepEqual(old.exempt, F.sastriNoVedhaBy);
+  assert.ok(!old.good.Rahu.includes(10) && good2.Rahu.includes(10), 'the old port left out the nodes\' 10th');
+  // In the report: Venus in the 1st with the Sun in the 8th — Pulippani exempts the Sun, Phaladeepika does not.
+  assert.equal(computeGocharaPhala(0, { Venus: 0, Sun: 7 }, 'PHALADEEPIKA_SASTRI').find((r) => r.graha === 'Venus').verdict, 'vedha');
+  assert.equal(computeGocharaPhala(0, { Rahu: 9 }, 'PHALADEEPIKA_SASTRI').find((r) => r.graha === 'Rahu').verdict, 'benefic');
+  assert.equal(computeGocharaPhala(0, { Rahu: 10, Mars: 4 }, 'PHALADEEPIKA_SASTRI').find((r) => r.graha === 'Rahu').verdict, 'benefic', 'nothing obstructs the nodes');
+  assert.equal(computeGocharaPhala(0, { Rahu: 10, Mars: 4 }).find((r) => r.graha === 'Rahu').verdict, 'vedha', 'Pulippani: Rahu 11th obstructed from the 5th');
+  const ids2 = V.VEDHA_DIFFERENCES.map((d) => d.id);
+  for (const id of ['NODE_VEDHA', 'KAPOOR_OMISSIONS']) assert.ok(ids2.includes(id), id);
+  for (const d of V.VEDHA_DIFFERENCES) for (const b of Object.keys(d.byBook)) assert.ok(V.VEDHA_RANK.order.includes(b), `${d.id}: ${b} ranked`);
+}
+
 // ------------------------------------------------ word order ---
 const w = V.VEDHA_RANK.words;
 assert.deepEqual(plain(w), FIX.wordCounts);
@@ -257,7 +319,15 @@ for (const c of cites) assert.ok(resolveByTitle(c.title), `registered: ${c.title
   });
   assert.equal(sp.now.house, sv.now.house);
   assert.equal(sp.now.active, sv.now.active);
-  console.log(`  engine: nine planets, three books, in ${elapsed} ms`);
+  assert.deepEqual(Object.keys(r.methods), [...V.VEDHA_RANK.computable]);
+  // Phaladeepika's windows: no stay is relievable (no vipareetha), and its seven-planet classification is Pulippani's.
+  for (const p of Object.values(r.methods.PHALADEEPIKA_SASTRI.planets)) {
+    assert.ok(p.stays.every((s) => s.kind !== 'RELIEVABLE'), `${p.planet}: no vipareetha`);
+    if (p.planet === 'Rahu' || p.planet === 'Ketu') continue;
+    const pu = r.methods.PULIPPANI.planets[p.planet];
+    p.stays.forEach((s, i) => assert.equal(s.pairedHouse ?? null, pu.stays[i].kind === 'GOOD' ? pu.stays[i].pairedHouse : null, `${p.planet} stay ${i}`));
+  }
+  console.log(`  engine: nine planets, ${Object.keys(r.methods).length} books, in ${elapsed} ms`);
 }
 
 console.log('test-gochara-vedha: all checks passed');

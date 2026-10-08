@@ -9,7 +9,7 @@ another planet stands in the paired house (vedha); a planet in a bad house is
 relieved when another stands in its paired house (vipareetha vedha). The dates
 are astronomy; the pairs are the books'.
 
-## Six books, three computed
+## Eight books, four computed
 
 Ordered by the words each spends on gochara and vipareetha vedha (owner's
 rule, 2026-10-03):
@@ -19,6 +19,8 @@ rule, 2026-10-03):
 | Pulippani, *Gochar Phaladeepika* | ch.22, pp.204–206 | 614 | **yes — default** |
 | R. Santhanam, *Jyotisharnava Navanitam* | ch.3 commentary, pp.146–149 | 575 | **yes** (no rows for Rahu, Ketu) |
 | Jataka Parijata vol.3 (Subrahmanya Sastri) | notes to XIII.60, pp.833–834 | 465 | no — reprints Kalaprakasika's table |
+| Mantreswara, *Phaladeepika* (V. Subrahmanya Sastri, 1950) | XXVI.2–8, pp.286–288 | 396 | **yes** (no vipareetha; no vedha for the nodes) |
+| *Phala Deepika* (G.S. Kapoor, e-text) | ch.26 sl.2–8, pp.246–247 | 350 | no — two lists short (below) |
 | Sudamani (Tamil) | verses 341–343 with commentary, pp.148–150 | 251 Tamil words | no — sets only; Venus's line five of eight read (below) |
 | Kalaprakasika (N.P.S. Iyer, 1982) | pp.209–210 | 248 | no — gives each house's result, not a good/bad list |
 | Vishnu Bhaskar | ch.14 §II, p.139 | 185 | **yes** |
@@ -33,15 +35,35 @@ The default is unchanged until the owner chooses.
 
 ## Where they differ
 
-Everything not listed here agrees across all six books.
+Everything not listed here agrees across all the books.
 
-| Cell | Pulippani | Santhanam | Jataka Parijata / Kalaprakasika | Sudamani | Vishnu Bhaskar |
-|---|---|---|---|---|---|
-| Mercury in 10th → vedha in | 8 | 8 | 10 printed (same house) | its set holds 8, not 7 | 7 |
-| Venus in 11th / 12th → | 3 / 6 | 6 / 3 | 3 / 6 | verse 3 / (reconstructed 6); commentary 3 / 6 | 6 / 3 |
-| 10th as a good house | Rahu, Ketu (no pair) | — (no node rows) | maps to itself | Mars, Saturn, Rahu (no pair) | — |
-| Exemptions | Sun–Saturn, Moon–Mercury, **Venus not by Sun** | Sun–Saturn, Moon–Mercury | Sun–Saturn, Moon–Mercury | — | Sun–Saturn, Moon–Mercury |
-| Vipareetha | own table | reverse + **bad-places table** | bad-places table (prose) | reverse (v.343) | reverse (note 4) |
+| Cell | Pulippani | Phaladeepika (Sastri) | Santhanam | Jataka Parijata / Kalaprakasika | Sudamani | Vishnu Bhaskar |
+|---|---|---|---|---|---|---|
+| Mercury in 10th → vedha in | 8 | 8 ("नैधन") | 8 | 10 printed (same house) | its set holds 8, not 7 | 7 |
+| Venus in 11th / 12th → | 3 / 6 | 3 / 6 ("सहज" / "वैरि") | 6 / 3 | 3 / 6 | verse 3 / (reconstructed 6); commentary 3 / 6 | 6 / 3 |
+| 10th as a good house | Rahu, Ketu (no pair) | Rahu, Ketu ("similar to the Sun") | — (no node rows) | maps to itself | Mars, Saturn, Rahu (no pair) | — |
+| Rahu / Ketu vedha | Saturn's (3→12, 6→9, 11→5) | not stated | — | — | — | Saturn's |
+| Exemptions | Sun–Saturn, Moon–Mercury, **Venus not by Sun** | Sun–Saturn, Moon–Mercury (verse by verse) | Sun–Saturn, Moon–Mercury | Sun–Saturn, Moon–Mercury | — | Sun–Saturn, Moon–Mercury |
+| Vipareetha | own table | none | reverse + **bad-places table** | bad-places table (prose) | reverse (v.343) | reverse (note 4) |
+
+**Phaladeepika XXVI.2–8 (2026-10-08).** The classical source behind most of
+these books, read in Sastri's 1950 edition (verse and translation) and Kapoor's
+e-text. Its pairs are Pulippani's, cell for cell — in the Sanskrit, Mercury's
+10th pairs with "नैधन" (8th) and Venus's 11th and 12th with "सहज" (3rd) and
+"वैरि" (6th), against Vishnu Bhaskar and Santhanam. It names Rahu and Ketu's
+good houses only ("similar to the Sun": 3, 6, 10, 11), gives each planet's
+exemption in its own verse (none for Venus), and has no vipareetha. Computed
+as the fourth method: its nodes are good with no vedha house (our reading — a
+reader who extends "similar to the Sun" to the vedha would use the Sun's
+pairs). Kapoor's translation drops Sastri's "1st" from Mercury's vedha list and
+the 1st and 9th from Venus's houses; with them restored the pairs are the same.
+
+The table this repo carried until 2026-10-06 under the unchecked label
+"Phaladeepika 26.3-8" (ported from the prior AstrologicLab code) matches these
+verses for the seven planets and both exemptions; it left out the nodes' 10th
+and gave them Saturn's pairs. Of the two changes the switch to Pulippani made,
+Phaladeepika agrees with Rahu and Ketu good in the 10th, and not with the
+Venus–Sun exemption, which only Pulippani has.
 
 **Sudamani's Venus line (2026-10-08).** Read again from the page image
 (verses 341–342, p.148). Verse 341 gives Venus eight good houses — 11, 12, 2,

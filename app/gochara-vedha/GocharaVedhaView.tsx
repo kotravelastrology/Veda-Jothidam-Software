@@ -33,6 +33,7 @@ const KIND: Record<string, { ta: string; cls: string }> = {
 const STATUS_TA: Record<string, string> = { COUNTS: '', EXEMPT: ' (விலக்கு — கணக்கில் இல்லை)', NODE_PAIR: ' (எதிர்க் கணு — கணக்கில் இல்லை)' };
 const BOOK_TA: Record<string, string> = {
   PULIPPANI: 'புலிப்பாணி', SANTHANAM: 'சந்தானம்', JATAKA_PARIJATA: 'ஜாதக பாரிஜாதம்', SUDAMANI: 'சூடாமணி', KALAPRAKASIKA: 'காலப்பிரகாசிகை', VISHNU_BHASKAR: 'விஷ்ணு பாஸ்கர்',
+  PHALADEEPIKA_SASTRI: 'பலதீபிகை (சாஸ்திரி)', PHALADEEPIKA_KAPOOR: 'பலதீபிகை (கபூர்)',
 };
 const houses = (hs: number[]) => hs.join(' / ');
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
@@ -485,7 +486,7 @@ export default function GocharaVedhaView() {
 
           <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
             <h2 className="text-sm font-semibold text-ink mb-2">நூல்கள் வேறுபடும் இடங்கள்</h2>
-            <p className="text-[11px] text-ink-soft mb-2">இவை தவிர மற்ற எல்லா இணைகளிலும் ஐந்து நூல்களும் ஒத்துப்போகின்றன.</p>
+            <p className="text-[11px] text-ink-soft mb-2">இவை தவிர மற்ற எல்லா இணைகளிலும் எல்லா நூல்களும் ஒத்துப்போகின்றன.</p>
             <div className="space-y-2 text-xs">
               {result.comparison.differences.map((d: any) => (
                 <div key={d.id} className="border border-line rounded-lg p-2">

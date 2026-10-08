@@ -28,7 +28,9 @@
  * cruel planet "gives good". Both are shown.
  *
  * The Saturn stage computed Saturn only; since 2026-10-06 every planet is
- * computed (`gocharaVedha.js`), and four more books are compared below.
+ * computed (`gocharaVedha.js`), and more books are compared below — since
+ * 2026-10-08 including Mantreswara's Phaladeepika XXVI.2-8 itself, whose pairs
+ * are Pulippani's.
  */
 
 const { SOURCES } = require('./saturnTransitTables');
@@ -36,6 +38,7 @@ const { SUDAMANI } = require('./saturnTransitTamil');
 const { SANTHANAM_JN } = require('./nakshatraVedhaTables');
 
 const { PULIPPANI, VISHNU_BHASKAR } = SOURCES;
+const { SOURCES: { PHALADEEPIKA_SASTRI, PHALADEEPIKA_KAPOOR } } = require('./lattaTables');
 
 const JATAKA_PARIJATA = Object.freeze({
   title: 'Jataka Parijata, Vol. III',
@@ -254,6 +257,56 @@ const SANTHANAM_SOURCES = Object.freeze({
   sadeSati: Object.freeze({ ...SANTHANAM_JN, pageLocus: 'Chapter 3 commentary, printed p.152 (PDF 159): "Sade Sathi effects are checked by another planet (except the Sun, Rahu etc.) in simultaneous transit with Saturn himself. Jupiter in the 10th is checked by another planet in transit in the 9th"' }),
 });
 
+// ---------------------------------------------------------------------------
+// Mantreswara, Phaladeepika XXVI.2-8 (added 2026-10-08)
+// ---------------------------------------------------------------------------
+
+/**
+ * Phaladeepika XXVI.2-8, as V. Subrahmanya Sastri prints and translates it
+ * (1950, printed pp.286-288). Verse 2 gives the good houses — Rahu and Ketu
+ * "similar to the Sun" (3, 6, 10, 11) — and verses 3-8 the vedha house for
+ * each good house of the seven planets, with Saturn not obstructing the Sun,
+ * Mercury not the Moon, the Sun not Saturn and the Moon not Mercury. The pairs
+ * are Pulippani's, cell for cell, including the two the books dispute: in the
+ * Sanskrit, Mercury's 10th pairs with "नैधन" (8th) and Venus's 11th and 12th
+ * with "सहज" (3rd) and "वैरि" (6th). It differs from Pulippani in three
+ * things: no vedha house for the nodes, no Venus–Sun exemption, and no
+ * vipareetha vedha anywhere in the chapter.
+ *
+ * This is also what the code carried until 2026-10-06 under the unchecked
+ * label "Phaladeepika 26.3-8" (ported from the prior AstrologicLab code): the
+ * seven planets and both exemptions match the verses; its nodes — good in 3,
+ * 6, 11 with Saturn's pairs — do not.
+ */
+const PHALADEEPIKA_GOCHARA_VEDHA = deepFreeze({
+  Sun: { pairs: [[3, 9], [6, 12], [10, 4], [11, 5]] },
+  Moon: { pairs: [[1, 5], [3, 9], [6, 12], [7, 2], [10, 4], [11, 8]] },
+  Mars: { pairs: [[3, 12], [6, 9], [11, 5]] },
+  Mercury: { pairs: [[2, 5], [4, 3], [6, 9], [8, 1], [10, 8], [11, 12]] },
+  Jupiter: { pairs: [[2, 12], [5, 4], [7, 3], [9, 10], [11, 8]] },
+  Venus: { pairs: [[1, 8], [2, 7], [3, 1], [4, 10], [5, 9], [8, 5], [9, 11], [11, 3], [12, 6]] },
+  Saturn: { pairs: [[3, 12], [6, 9], [11, 5]] },
+  Rahu: { pairs: [], unpairedGood: [3, 6, 10, 11] },
+  Ketu: { pairs: [], unpairedGood: [3, 6, 10, 11] },
+});
+
+/**
+ * G.S. Kapoor's translation (e-text pp.246-247) gives the same verse 2 and
+ * pairs with two lists short: Mercury's vedha places "5th, 3rd, 9th, 8th and
+ * 12th" (five for six houses — Sastri's "1st" is missing) and Venus's houses
+ * "2nd, 3rd, 4th, 5th, 8th, 12th, and 11th" (seven for nine vedha places — the
+ * 1st and 9th are missing; his own verse 2 lists both).
+ */
+const PHALADEEPIKA_KAPOOR_PRINTED = deepFreeze({
+  Mercury: { houses: [2, 4, 6, 8, 10, 11], vedha: [5, 3, 9, 8, 12] },
+  Venus: { houses: [2, 3, 4, 5, 8, 12, 11], vedha: [8, 7, 1, 10, 9, 5, 11, 6, 3] },
+});
+
+const PHALADEEPIKA_SOURCES = Object.freeze({
+  sastri: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, slokas 2-8, printed pp.286-288 (PDF 321-323) — sloka 2 "Rahu and Ketu are similar to the Sun"; sloka 3 "not marred by the transit of any of the planets other than Saturn"; sloka 6 "5th, 3rd, 9th, 1st, 8th and 12th"; sloka 8 "8th, 7th, 1st, 10th, 9th, 5th, 11th, 6th and 3rd respectively"' }),
+  kapoor: Object.freeze({ ...PHALADEEPIKA_KAPOOR, pageLocus: 'Chapter 26, slokas 2-8, e-text pp.246-247 — sloka 2 "Rahu - 3rd, 6th, 10th and 11th. Ketu - 3rd, 6th, 10th and 11th"' }),
+});
+
 const VEDHA_METHODS = deepFreeze({
   PULIPPANI: {
     id: 'PULIPPANI',
@@ -292,17 +345,28 @@ const VEDHA_METHODS = deepFreeze({
     exemptNoteTa: 'சந்தானம்: சூரியன்-சனி, சந்திரன்-புதன் வேதை செய்வதில்லை. தீய இடத்துக்கு இரண்டு அட்டவணைகள்: வேதை அட்டவணையைத் திருப்பியது (ப.149), "தீய இடங்களுக்கு மட்டும் வேதை" (ப.151). இரண்டில் எதன்படி கிரகம் இருந்தாலும் தீமை தடுக்கப்படுவதாக எடுத்தோம் (எங்கள் வாசிப்பு). அதே இடம் என்றால் உடன் செல்லும் கிரகம் (ப.152). ராகு, கேதுவுக்கு அவரது அட்டவணையில் வரிசை இல்லை. ப.152 ஏழரைக்கு "சூரியன், ராகு முதலியவை தவிர" என்கிறது: சூரியன் தந்தை-மகன் விதியால் ஏற்கனவே விலக்கு; ராகுவும் "முதலியவையும்" ஏழரைக்கு மட்டும் சொல்லப்பட்டதால், "முதலியவை" யார் என்று தெரியாததால், கணக்கில் விலக்கப்படவில்லை.',
     sources: [SANTHANAM_SOURCES.vedha, SANTHANAM_SOURCES.vipareeta, SANTHANAM_SOURCES.badPlaces, SANTHANAM_SOURCES.sadeSati],
   },
+  PHALADEEPIKA_SASTRI: {
+    id: 'PHALADEEPIKA_SASTRI',
+    labelTa: 'பலதீபிகை (மந்த்ரேஸ்வரர், அத். 26.2-8 — சாஸ்திரி)',
+    table: methodFrom(PHALADEEPIKA_GOCHARA_VEDHA, () => []),
+    exempt: {
+      gochara: { Sun: ['Saturn'], Saturn: ['Sun'], Moon: ['Mercury'], Mercury: ['Moon'] },
+      vipareeta: {},
+    },
+    exemptNoteTa: 'பலதீபிகை: சூரியனுக்குச் சனியால் (ஸ்லோ. 3), சந்திரனுக்குப் புதனால் (4), சனிக்குச் சூரியனால் (5), புதனுக்குச் சந்திரனால் (6) வேதை இல்லை; சுக்கிரன்-சூரியன் விலக்கு இல்லை. ராகு, கேது "சூரியனைப் போல" 3, 6, 10, 11-ல் நல்லவர்கள் (ஸ்லோ. 2); அவற்றுக்கு வேதை இடம் சொல்லப்படவில்லை — அதனால் வேதை இல்லாத நல்ல இடங்களாகக் காட்டப்படுகின்றன (எங்கள் வாசிப்பு; "சூரியனைப் போல" என்பதை வேதைக்கும் நீட்டினால் 3→9, 6→12, 10→4, 11→5). விபரீத வேதை இந்த அத்தியாயத்தில் இல்லை.',
+    sources: [PHALADEEPIKA_SOURCES.sastri, PHALADEEPIKA_SOURCES.kapoor],
+  },
 });
 const DEFAULT_VEDHA_METHOD = 'PULIPPANI';
 
 /** Words in each book's vedha section (English text layer; Sudamani in Tamil words). */
 const VEDHA_RANK = deepFreeze({
-  order: ['PULIPPANI', 'SANTHANAM', 'JATAKA_PARIJATA', 'SUDAMANI', 'KALAPRAKASIKA', 'VISHNU_BHASKAR'],
-  words: { PULIPPANI: 614, SANTHANAM: 575, JATAKA_PARIJATA: 465, SUDAMANI: 251, KALAPRAKASIKA: 248, VISHNU_BHASKAR: 185 },
-  computable: ['PULIPPANI', 'SANTHANAM', 'VISHNU_BHASKAR'],
-  measureTa: 'கோசார வேதை, விபரீத வேதை பற்றிய பகுதியின் சொற்கள்: புலிப்பாணி அத்தியாயம் 22 (பக்.204-206) 614; சந்தானம், ஜோதிஷார்ணவ நவநீதம் அத்.3 உரை (பக்.146-149) 575; ஜாதக பாரிஜாதம் உரை (பக்.833-834) 465; சூடாமணி செய்யுள் 341-343 உரையுடன் 251 (தமிழ்ச் சொற்கள்); காலப்பிரகாசிகை (பக்.209-210) 248; விஷ்ணு பாஸ்கர் §II (ப.139) 185.',
+  order: ['PULIPPANI', 'SANTHANAM', 'JATAKA_PARIJATA', 'PHALADEEPIKA_SASTRI', 'PHALADEEPIKA_KAPOOR', 'SUDAMANI', 'KALAPRAKASIKA', 'VISHNU_BHASKAR'],
+  words: { PULIPPANI: 614, SANTHANAM: 575, JATAKA_PARIJATA: 465, PHALADEEPIKA_SASTRI: 396, PHALADEEPIKA_KAPOOR: 350, SUDAMANI: 251, KALAPRAKASIKA: 248, VISHNU_BHASKAR: 185 },
+  computable: ['PULIPPANI', 'SANTHANAM', 'PHALADEEPIKA_SASTRI', 'VISHNU_BHASKAR'],
+  measureTa: 'கோசார வேதை, விபரீத வேதை பற்றிய பகுதியின் சொற்கள்: புலிப்பாணி அத்தியாயம் 22 (பக்.204-206) 614; சந்தானம், ஜோதிஷார்ணவ நவநீதம் அத்.3 உரை (பக்.146-149) 575; ஜாதக பாரிஜாதம் உரை (பக்.833-834) 465; பலதீபிகை 26.2-8 — சாஸ்திரி மொழிபெயர்ப்பு, குறிப்புடன் (பக்.286-288) 396, கபூர் மொழிபெயர்ப்பு (பக்.246-247) 350; சூடாமணி செய்யுள் 341-343 உரையுடன் 251 (தமிழ்ச் சொற்கள்); காலப்பிரகாசிகை (பக்.209-210) 248; விஷ்ணு பாஸ்கர் §II (ப.139) 185.',
   alternativeTa: 'மாற்று அளவு: சந்தானத்தின் "தீய இடங்களுக்கு மட்டும் வேதை" பகுதியையும் (185 சொற்கள்) சேர்த்தால் அவர் 760 — புலிப்பாணியை முந்துவார்; அப்போது அவரே இயல்பு ஆவார். புலிப்பாணியிடம் அந்த வகை இல்லாததால் ஒரே தலைப்புகளை மட்டும் ஒப்பிட்டோம். எந்த அளவு என்பது உரிமையாளரின் முடிவுக்குக் காத்திருக்கிறது; அதுவரை இயல்பு மாற்றப்படவில்லை.',
-  computableTa: 'கணிக்கக்கூடியவை மூன்று — முழு அட்டவணையையும் தெளிவாகப் படிக்கக்கூடிய புலிப்பாணி (இயல்பு), சந்தானம் (ராகு, கேது இல்லாமல்), விஷ்ணு பாஸ்கர். ஜாதக பாரிஜாதம் காலப்பிரகாசிகையின் அட்டவணையையே மறுபதிப்பு செய்கிறது; காலப்பிரகாசிகை நல்ல/தீய இடப் பட்டியல் தராமல் ஒவ்வொரு இடத்தின் பலனை மட்டும் சொல்வதால் (பக்.207-208) அதைக் கணிக்க எங்கள் தீர்ப்பு வேண்டும். சூடாமணியின் சுக்கிரன் வரியின் நடுப்பகுதி மீட்டமைப்பு மட்டுமே (கீழே), செய்யுள் 341 சுக்கிரனின் 8-ஆம் இடத்தைச் சொல்லவில்லை. இவை மூன்றும் ஒப்பீட்டில் மட்டும்.',
+  computableTa: 'கணிக்கக்கூடியவை நான்கு — முழு அட்டவணையையும் தெளிவாகப் படிக்கக்கூடிய புலிப்பாணி (இயல்பு), சந்தானம் (ராகு, கேது இல்லாமல்), பலதீபிகை (சாஸ்திரி; விபரீத வேதை இல்லை, ராகு-கேதுவுக்கு வேதை இடம் இல்லை), விஷ்ணு பாஸ்கர். கபூரின் பலதீபிகை மொழிபெயர்ப்பில் இரண்டு பட்டியல்களில் எண்கள் விடுபட்டுள்ளதால் அது ஒப்பீட்டில் மட்டும். ஜாதக பாரிஜாதம் காலப்பிரகாசிகையின் அட்டவணையையே மறுபதிப்பு செய்கிறது; காலப்பிரகாசிகை நல்ல/தீய இடப் பட்டியல் தராமல் ஒவ்வொரு இடத்தின் பலனை மட்டும் சொல்வதால் (பக்.207-208) அதைக் கணிக்க எங்கள் தீர்ப்பு வேண்டும். சூடாமணியின் சுக்கிரன் வரியின் நடுப்பகுதி மீட்டமைப்பு மட்டுமே (கீழே), செய்யுள் 341 சுக்கிரனின் 8-ஆம் இடத்தைச் சொல்லவில்லை. இவை மூன்றும் ஒப்பீட்டில் மட்டும்.',
 });
 
 /**
@@ -391,31 +455,31 @@ const VEDHA_DIFFERENCES = deepFreeze([
   {
     id: 'MERCURY_10',
     planet: 'Mercury', house: 10,
-    textTa: 'புதன் 10-ல் — வேதை இடம்: புலிப்பாணி, சந்தானம் 8; சூடாமணியின் புதன் வேதைத் தொகுப்பில் 8 உண்டு, 7 இல்லை; ஜாதக பாரிஜாதம் / காலப்பிரகாசிகை அட்டவணை X-ன் கீழ் 10 (அதே இடம் — சந்தானத்தின் வாசிப்புப்படி உடன் செல்லும் கிரகம்); விஷ்ணு பாஸ்கர் 7.',
-    byBook: { PULIPPANI: 8, SANTHANAM: 8, SUDAMANI: '8 (தொகுப்பில்)', JATAKA_PARIJATA: '10', KALAPRAKASIKA: '10', VISHNU_BHASKAR: 7 },
+    textTa: 'புதன் 10-ல் — வேதை இடம்: புலிப்பாணி, சந்தானம் 8; பலதீபிகை 8 (ஸ்லோகம் 6 — சமஸ்கிருதத்தில் "नैधन", சாஸ்திரி "8th"; கபூரின் பட்டியலில் ஓர் எண் விடுபட்டுள்ளது); சூடாமணியின் புதன் வேதைத் தொகுப்பில் 8 உண்டு, 7 இல்லை; ஜாதக பாரிஜாதம் / காலப்பிரகாசிகை அட்டவணை X-ன் கீழ் 10 (அதே இடம் — சந்தானத்தின் வாசிப்புப்படி உடன் செல்லும் கிரகம்); விஷ்ணு பாஸ்கர் 7.',
+    byBook: { PULIPPANI: 8, SANTHANAM: 8, PHALADEEPIKA_SASTRI: '8 ("नैधन")', PHALADEEPIKA_KAPOOR: 'பட்டியலில் "1st" விடுபட்டுள்ளது', SUDAMANI: '8 (தொகுப்பில்)', JATAKA_PARIJATA: '10', KALAPRAKASIKA: '10', VISHNU_BHASKAR: 7 },
   },
   {
     id: 'VENUS_11_12',
     planet: 'Venus', house: [11, 12],
-    textTa: 'சுக்கிரன் 11, 12-ல் — வேதை இடங்கள்: புலிப்பாணி, ஜாதக பாரிஜாதம், காலப்பிரகாசிகை 3, 6; சூடாமணி — செய்யுள் 342-ன் சுக்கிரன் வரி 3-ல் தொடங்கி 10, 1, 9, 11 என்று செய்யுள் 341-ன் வரிசையைப் பின்பற்றுகிறது (11→3), உரையும் முதல் இரண்டு இணையாக 11-3, 12-6; சந்தானம், விஷ்ணு பாஸ்கர் 6, 3. புலிப்பாணியின் சொந்த விபரீத வேதை அட்டவணையும் 6↔11, 3↔12 என்றே அச்சாகியுள்ளது.',
-    byBook: { PULIPPANI: '11→3, 12→6', SANTHANAM: '11→6, 12→3', JATAKA_PARIJATA: '11→3, 12→6', KALAPRAKASIKA: '11→3, 12→6', SUDAMANI: '11→3 (செய்யுள்), 12→6 (உரை; செய்யுளில் மீட்டமைப்பு)', VISHNU_BHASKAR: '11→6, 12→3' },
+    textTa: 'சுக்கிரன் 11, 12-ல் — வேதை இடங்கள்: புலிப்பாணி, ஜாதக பாரிஜாதம், காலப்பிரகாசிகை 3, 6; பலதீபிகை ஸ்லோகம் 8 அதே — சமஸ்கிருதத்தில் 12→"वैरि" (6), 11→"सहज" (3), சாஸ்திரி, கபூர் இருவரும்; சூடாமணி — செய்யுள் 342-ன் சுக்கிரன் வரி 3-ல் தொடங்கி 10, 1, 9, 11 என்று செய்யுள் 341-ன் வரிசையைப் பின்பற்றுகிறது (11→3), உரையும் முதல் இரண்டு இணையாக 11-3, 12-6; சந்தானம், விஷ்ணு பாஸ்கர் 6, 3. புலிப்பாணியின் சொந்த விபரீத வேதை அட்டவணையும் 6↔11, 3↔12 என்றே அச்சாகியுள்ளது.',
+    byBook: { PULIPPANI: '11→3, 12→6', SANTHANAM: '11→6, 12→3', JATAKA_PARIJATA: '11→3, 12→6', PHALADEEPIKA_SASTRI: '11→3, 12→6 ("सहज", "वैरि")', PHALADEEPIKA_KAPOOR: '11→3, 12→6 (இடப் பட்டியலில் 1, 9 விடுபட்டுள்ளன)', KALAPRAKASIKA: '11→3, 12→6', SUDAMANI: '11→3 (செய்யுள்), 12→6 (உரை; செய்யுளில் மீட்டமைப்பு)', VISHNU_BHASKAR: '11→6, 12→3' },
   },
   {
     id: 'TENTH_GOOD',
     planet: ['Mars', 'Saturn', 'Rahu', 'Ketu'], house: 10,
-    textTa: '10-ஆம் இடம்: புலிப்பாணி ராகு, கேதுவுக்கு நல்ல இடம் (வேதை இடம் இல்லை); சூடாமணி செவ்வாய், சனி, ராகுவுக்கு நல்ல இடம் (வேதை இடம் இல்லை); காலப்பிரகாசிகை, சந்தானம் — செவ்வாய், சனி 10-ல் இருக்கும்போது உடன் செல்லும் கிரகம் தீமையைத் தடுக்கும் (அட்டவணையில் 10-ன் கீழ் 10); சந்தானத்திடம் ராகு, கேது வரிசை இல்லை; விஷ்ணு பாஸ்கர் 10-ஐ நல்ல இடமாகச் சொல்லவில்லை.',
-    byBook: { PULIPPANI: 'ராகு, கேது', SANTHANAM: 'தீய இடம்; உடன் செல்லும் கிரகம் தடுக்கும்', SUDAMANI: 'செவ்வாய், சனி, ராகு', KALAPRAKASIKA: '10 (அதே இடம்)', JATAKA_PARIJATA: '10 (அதே இடம்)', VISHNU_BHASKAR: '—' },
+    textTa: '10-ஆம் இடம்: புலிப்பாணி ராகு, கேதுவுக்கு நல்ல இடம் (வேதை இடம் இல்லை); பலதீபிகை ஸ்லோகம் 2-ம் அப்படியே — ராகு, கேது "சூரியனைப் போல" (3, 6, 10, 11; கபூர் வெளிப்படையாக), செவ்வாய், சனிக்கு 10 இல்லை; சூடாமணி செவ்வாய், சனி, ராகுவுக்கு நல்ல இடம் (வேதை இடம் இல்லை); காலப்பிரகாசிகை, சந்தானம் — செவ்வாய், சனி 10-ல் இருக்கும்போது உடன் செல்லும் கிரகம் தீமையைத் தடுக்கும் (அட்டவணையில் 10-ன் கீழ் 10); சந்தானத்திடம் ராகு, கேது வரிசை இல்லை; விஷ்ணு பாஸ்கர் 10-ஐ நல்ல இடமாகச் சொல்லவில்லை.',
+    byBook: { PULIPPANI: 'ராகு, கேது', SANTHANAM: 'தீய இடம்; உடன் செல்லும் கிரகம் தடுக்கும்', PHALADEEPIKA_SASTRI: 'ராகு, கேது ("சூரியனைப் போல")', PHALADEEPIKA_KAPOOR: 'ராகு, கேது', SUDAMANI: 'செவ்வாய், சனி, ராகு', KALAPRAKASIKA: '10 (அதே இடம்)', JATAKA_PARIJATA: '10 (அதே இடம்)', VISHNU_BHASKAR: '—' },
   },
   {
     id: 'VENUS_SUN',
     planet: 'Venus',
-    textTa: 'சுக்கிரனுக்குச் சூரியனால் வேதை இல்லை — புலிப்பாணி மட்டும். மற்ற நூல்களின் விலக்கு "தந்தை-மகன்" (சூரியன்-சனி, சந்திரன்-புதன்) மட்டுமே.',
-    byBook: { PULIPPANI: 'விலக்கு', SANTHANAM: '—', JATAKA_PARIJATA: '—', KALAPRAKASIKA: '—', SUDAMANI: '—', VISHNU_BHASKAR: '—' },
+    textTa: 'சுக்கிரனுக்குச் சூரியனால் வேதை இல்லை — புலிப்பாணி மட்டும். மற்ற நூல்களின் விலக்கு "தந்தை-மகன்" (சூரியன்-சனி, சந்திரன்-புதன்) மட்டுமே; பலதீபிகை ஸ்லோகம் 3-8 ஒவ்வொரு கிரகத்துக்கும் விலக்கைத் தனியாகச் சொல்கிறது — சுக்கிரனுக்கு (ஸ்லோ. 8) எதுவும் இல்லை.',
+    byBook: { PULIPPANI: 'விலக்கு', SANTHANAM: '—', PHALADEEPIKA_SASTRI: '— (ஸ்லோ. 8)', PHALADEEPIKA_KAPOOR: '—', JATAKA_PARIJATA: '—', KALAPRAKASIKA: '—', SUDAMANI: '—', VISHNU_BHASKAR: '—' },
   },
   {
     id: 'VIPAREETA',
     textTa: 'விபரீத வேதை: புலிப்பாணி அட்டவணை தருகிறார் (குருவின் "S" = 8; சுக்கிரனின் இரண்டு இணைகள் சந்தானம், விஷ்ணு பாஸ்கர் போல); விஷ்ணு பாஸ்கர், சூடாமணி (செய். 343) அட்டவணையைத் திருப்பிப் படிக்கச் சொல்கின்றனர்; சந்தானம் திருப்பிய அட்டவணையுடன் "தீய இடங்களுக்கு மட்டும் வேதை" என்ற இரண்டாம் அட்டவணையும் தருகிறார்; காலப்பிரகாசிகை அட்டவணையின் தீய இடப் பகுதி அந்த இரண்டாம் அட்டவணையே (39-ல் 35 இடங்கள்).',
-    byBook: { PULIPPANI: 'அட்டவணை', SANTHANAM: 'திருப்பல் + தீய இட அட்டவணை', VISHNU_BHASKAR: 'திருப்பல்', SUDAMANI: 'திருப்பல் (செய். 343)', KALAPRAKASIKA: 'தீய இட அட்டவணை (உரைநடை)', JATAKA_PARIJATA: 'காலப்பிரகாசிகை அட்டவணை மறுபதிப்பு' },
+    byBook: { PULIPPANI: 'அட்டவணை', SANTHANAM: 'திருப்பல் + தீய இட அட்டவணை', PHALADEEPIKA_SASTRI: 'இல்லை (அத். 26)', PHALADEEPIKA_KAPOOR: 'இல்லை', VISHNU_BHASKAR: 'திருப்பல்', SUDAMANI: 'திருப்பல் (செய். 343)', KALAPRAKASIKA: 'தீய இட அட்டவணை (உரைநடை)', JATAKA_PARIJATA: 'காலப்பிரகாசிகை அட்டவணை மறுபதிப்பு' },
   },
   {
     id: 'BAD_PLACES',
@@ -435,6 +499,17 @@ const VEDHA_DIFFERENCES = deepFreeze([
     byBook: { SANTHANAM: 'உரை 12, 2, 5; அட்டவணை 12, 9, 5' },
   },
   {
+    id: 'NODE_VEDHA',
+    planet: ['Rahu', 'Ketu'],
+    textTa: 'ராகு, கேதுவின் வேதை இடங்கள்: புலிப்பாணி, விஷ்ணு பாஸ்கர் — சனியினுடையவை (3→12, 6→9, 11→5); பலதீபிகை — நல்ல இடங்களை மட்டும் "சூரியனைப் போல" என்கிறது, வேதை இடம் சொல்லவில்லை; சந்தானத்திடம் ராகு, கேது வரிசையே இல்லை.',
+    byBook: { PULIPPANI: '3→12, 6→9, 11→5', PHALADEEPIKA_SASTRI: 'சொல்லவில்லை', PHALADEEPIKA_KAPOOR: 'சொல்லவில்லை', SANTHANAM: 'வரிசை இல்லை', VISHNU_BHASKAR: '3→12, 6→9, 11→5' },
+  },
+  {
+    id: 'KAPOOR_OMISSIONS',
+    textTa: 'கபூரின் பலதீபிகை மொழிபெயர்ப்பு (பக்.246-247) இரண்டு பட்டியல்களில் எண்களை விடுகிறது: புதனின் வேதை இடங்கள் ஆறு வீடுகளுக்கு ஐந்து மட்டும் ("1st" இல்லை); சுக்கிரனின் நல்ல இடங்கள் ஒன்பது வேதை இடங்களுக்கு ஏழு மட்டும் (1, 9 இல்லை — அவரது ஸ்லோகம் 2 இரண்டையும் சொல்கிறது). சாஸ்திரியின் பதிப்பிலிருந்து அவற்றைச் சேர்த்தால் இணைகள் ஒன்றே. லத்தையில் ராகுவுக்கு "8-வது" என்பதும் அவருடையதே.',
+    byBook: { PHALADEEPIKA_KAPOOR: 'புதன் 5/6, சுக்கிரன் 7/9', PHALADEEPIKA_SASTRI: 'முழுமையாக' },
+  },
+  {
     id: 'MOON_COMMENTARY',
     planet: 'Moon',
     textTa: 'சூடாமணி உரை சந்திரனின் வேதை இடங்களை 8, 10, 3, 4, 12 என்று (ஐந்து மட்டும்) தருகிறது — செய்யுள் 342-ன் தொகுப்போ (5, 9, 12, 2, 4, 8) மற்ற நூல்களோ இதனுடன் பொருந்தவில்லை. செய்யுளே பின்பற்றப்படுகிறது; உரை பதிவாக மட்டும்.',
@@ -452,5 +527,6 @@ module.exports = {
   VEDHA_METHODS, DEFAULT_VEDHA_METHOD, VEDHA_RANK, KALAPRAKASIKA_TABLE, KALAPRAKASIKA_1982_CELLS,
   KALAPRAKASIKA_SOURCES, SUDAMANI_SETS, SUDAMANI_VENUS, SUDAMANI_SOURCES, VEDHA_DIFFERENCES, NODE_PAIR_NOTE_TA,
   SANTHANAM_GOCHARA_VEDHA, SANTHANAM_BAD_PLACES, SANTHANAM_SOURCES,
+  PHALADEEPIKA_GOCHARA_VEDHA, PHALADEEPIKA_KAPOOR_PRINTED, PHALADEEPIKA_SOURCES,
   reverseOnBadHouses,
 };

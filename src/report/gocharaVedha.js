@@ -12,10 +12,10 @@
  *                  cancels the bad
  *   NO_RELIEF      a bad house with neither
  *
- * Two methods are computed: Pulippani (default — the book that explains most)
- * and Vishnu Bhaskar, the only two that print a complete table that can be
- * read without guessing (`gocharaVedhaTables.js` says why the other three are
- * compared but not computed).
+ * Every method in `VEDHA_RANK.computable` is computed — Pulippani (default —
+ * the book that explains most), Santhanam, Phaladeepika (Sastri) and Vishnu
+ * Bhaskar, the books whose tables can be read without guessing
+ * (`gocharaVedhaTables.js` says why the others are compared but not computed).
  *
  * Who counts as "another planet" follows `saturnVedha.js`: every planet except
  * those the book exempts (father and son; Pulippani's Venus–Sun), with the

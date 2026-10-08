@@ -163,6 +163,10 @@ Not plan items, but real, and they should not be discovered at release:
   its eight numbers are legible and follow Pulippani's pairs in verse-341 order
   (so Sudamani gives 11→3, against Santhanam and Vishnu Bhaskar); three are
   reconstruction. Verse 341 has no 8th house for Venus (the commentary adds it).
+  Phaladeepika XXVI.2–8 read the same day (Sastri 1950, with the verse; Kapoor)
+  and computed as a fourth method: Pulippani's pairs cell for cell, Rahu and
+  Ketu good in the 10th "like the Sun", no Venus–Sun exemption, no vipareetha.
+  The old "Phaladeepika 26.3-8" port matched it except for the nodes.
 - **Nakshatra gochara: taras, star classes, anga phala, weekday.**
   `/nakshatra-gochara` (`docs/NAKSHATRA-GOCHARA.md`), 2026-10-08. The rest of
   Pulippani ch.24. Anga in four books (Bhat default; Pulippani; Sudamani read

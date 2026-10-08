@@ -464,7 +464,8 @@ const SOURCES = [
       status: 'RESTRICTED',
       mayShip: false,
       mayQuoteShort: true,
-      note: 'Cited for Latta (Adhyaya XXVI, slokas 42-47, printed pp.303-304): the verses and the translation.',
+      note: 'Cited for Latta (Adhyaya XXVI, slokas 42-47, printed pp.303-304) and gochara vedha (slokas 2-8, '
+        + 'printed pp.286-288; computed as a vedha method): the verses and the translation.',
       verified: false,
       toConfirm: 'Copyright status of the 1950 translation.',
     },
@@ -480,9 +481,10 @@ const SOURCES = [
       status: 'RESTRICTED',
       mayShip: false,
       mayQuoteShort: true,
-      note: 'Cited for Latta (chapter 26, slokas 42-47, e-text pp.255-256), where it gives Rahu\'s latta as the 8th.',
+      note: 'Cited for Latta (chapter 26, slokas 42-47, e-text pp.255-256), where it gives Rahu\'s latta as the 8th, '
+        + 'and for gochara vedha (slokas 2-8, e-text pp.246-247), where two lists are short (Mercury, Venus).',
       verified: false,
-      toConfirm: 'Publisher and year; whether the printed book also reads "8th".',
+      toConfirm: 'Publisher and year; whether the printed book also reads "8th" and drops the same numbers.',
     },
   },
   {

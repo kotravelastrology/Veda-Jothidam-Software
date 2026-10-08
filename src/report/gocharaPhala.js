@@ -4,12 +4,19 @@
  *
  * Until 2026-10-06 this module carried its own copy of the tables, ported from
  * the prior AstrologicLab code with a citation (Phaladeepika 26.3-8) whose page
- * was never seen; no translation of that chapter is in the library. The tables
- * are now read from `gocharaVedhaTables.js`, where five books are compared
- * page by page, and the method is the default there — Pulippani, *Gochar
- * Phaladeepika* ch.22, printed pp.204-206. Two things changed as a result, both
- * the book's: Rahu and Ketu are good in the 10th (with no vedha house), and the
- * Sun causes Venus no vedha. Vipareetha vedha is reported alongside.
+ * had not been seen. The tables are now read from `gocharaVedhaTables.js`,
+ * where the books are compared page by page, and the method is the default
+ * there — Pulippani, *Gochar Phaladeepika* ch.22, printed pp.204-206. Two
+ * things changed as a result, both the book's: Rahu and Ketu are good in the
+ * 10th (with no vedha house), and the Sun causes Venus no vedha. Vipareetha
+ * vedha is reported alongside.
+ *
+ * On 2026-10-08 the chapter itself was read (Phaladeepika XXVI.2-8, Sastri
+ * 1950, printed pp.286-288): the old copy matched it for the seven planets and
+ * both father-son exemptions. Of the two changes, Phaladeepika agrees with the
+ * first (Rahu and Ketu "similar to the Sun", 3, 6, 10, 11) and not the second
+ * (it has no Venus–Sun exemption); it has no vipareetha vedha. It is the
+ * method 'PHALADEEPIKA_SASTRI'.
  *
  * Dated windows for every planet, and the other book, are on /gochara-vedha
  * (`gocharaVedha.js`).
@@ -33,7 +40,7 @@ const GOCHARA_VEDHA = Object.freeze(Object.fromEntries(GOCHARA_GRAHAS.map((g) =>
 /**
  * @param moonRasi0  natal Moon's rasi index (0-11)
  * @param transitRasiByGraha  { graha : current rasi index 0-11 } for the 9 grahas
- * @param methodId  'PULIPPANI' (default), 'SANTHANAM' or 'VISHNU_BHASKAR'
+ * @param methodId  'PULIPPANI' (default), 'SANTHANAM', 'PHALADEEPIKA_SASTRI' or 'VISHNU_BHASKAR'
  */
 function computeGocharaPhala(moonRasi0, transitRasiByGraha, methodId) {
   const m = methodTables(methodId);

@@ -11,7 +11,8 @@
  *   3. GOCHARA  — Candra-gochara with vedha + the slow grahas over the bhāva.
  *                 Pulippani, Gochar Phaladeepika ch.22 pp.204-206 (via
  *                 src/report/gocharaPhala.js; the earlier "Phaladīpikā 26.3-8"
- *                 label was never checked against a page).
+ *                 label was checked against the page on 2026-10-08 — same
+ *                 pairs, no Venus–Sun exemption; see gocharaPhala.js).
  *
  * It returns NO yes/no. The classical method weighs converging and conflicting
  * testimonies and a chart routinely carries both; every step is returned with
