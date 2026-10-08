@@ -230,3 +230,7 @@ Same page. Bhat (default, straight lines), Pulippani and Gour (three lines); fou
 ### 16. Latta (2026-10-08)
 
 `docs/LATTA.md` · `/latta`. Phaladeepika XXVI.42–47 and six books, Narasimha Rao first. No PL9 row of its own; added to the "Transit Interpretations" evidence, which stays **PARTIAL**. Totals unchanged.
+
+### 17. The 88th nakshatra pada (2026-10-08)
+
+`docs/PADA-88.md` · `/pada-88`. Four books (Raj Kumar first). No PL9 row of its own; added to the "Transit Interpretations" evidence, which stays **PARTIAL**. Totals unchanged.

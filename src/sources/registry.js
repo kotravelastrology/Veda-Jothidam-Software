@@ -447,8 +447,8 @@ const SOURCES = [
       status: 'RESTRICTED',
       mayShip: false,
       mayQuoteShort: true,
-      note: 'Cited for Moorthy Nirnaya (section 6.2, Table No.20) and its 2002 example, and for Latta '
-        + '(section 6.3). The PDF page is cited.',
+      note: 'Cited for Moorthy Nirnaya (section 6.2, Table No.20) and its 2002 example, for Latta '
+        + '(section 6.3) and for the 88th nakshatra pada (section 6.4, Table No.21). The PDF page is cited.',
       verified: false,
       toConfirm: 'Edition, year and printed page numbers.',
     },

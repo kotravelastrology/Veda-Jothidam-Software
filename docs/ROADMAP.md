@@ -182,5 +182,10 @@ Not plan items, but real, and they should not be discovered at release:
   and judges by the kicker's natal houses). The counts agree except Kapoor's
   Rahu 8th (verse: 9th); three books count Ketu; the effects differ most for
   Mars, Saturn, the Moon and Jupiter. Muhurta use of Latta not built.
+- **The 88th nakshatra pada.** `/pada-88` (`docs/PADA-88.md`), 2026-10-08.
+  Raj Kumar (per-planet table, Jupiter's aspect as relief) and Vishnu Bhaskar
+  for transits; Kalaprakasika and Shubhakaran for the quality of a time (the
+  Moon's six-hour passages). "In the 22nd star" holds only for a 1st-pada birth;
+  the count is followed. Prasna, muhurta and matching uses not built.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.
