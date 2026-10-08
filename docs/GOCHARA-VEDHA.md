@@ -19,7 +19,7 @@ rule, 2026-10-03):
 | Pulippani, *Gochar Phaladeepika* | ch.22, pp.204–206 | 614 | **yes — default** |
 | R. Santhanam, *Jyotisharnava Navanitam* | ch.3 commentary, pp.146–149 | 575 | **yes** (no rows for Rahu, Ketu) |
 | Jataka Parijata vol.3 (Subrahmanya Sastri) | notes to XIII.60, pp.833–834 | 465 | no — reprints Kalaprakasika's table |
-| Sudamani (Tamil) | verses 341–343 with commentary, pp.148–150 | 251 Tamil words | no — Venus's line not decoded |
+| Sudamani (Tamil) | verses 341–343 with commentary, pp.148–150 | 251 Tamil words | no — sets only; Venus's line five of eight read (below) |
 | Kalaprakasika (N.P.S. Iyer, 1982) | pp.209–210 | 248 | no — gives each house's result, not a good/bad list |
 | Vishnu Bhaskar | ch.14 §II, p.139 | 185 | **yes** |
 
@@ -38,10 +38,26 @@ Everything not listed here agrees across all six books.
 | Cell | Pulippani | Santhanam | Jataka Parijata / Kalaprakasika | Sudamani | Vishnu Bhaskar |
 |---|---|---|---|---|---|
 | Mercury in 10th → vedha in | 8 | 8 | 10 printed (same house) | its set holds 8, not 7 | 7 |
-| Venus in 11th / 12th → | 3 / 6 | 6 / 3 | 3 / 6 | commentary 3 / 6 | 6 / 3 |
+| Venus in 11th / 12th → | 3 / 6 | 6 / 3 | 3 / 6 | verse 3 / (reconstructed 6); commentary 3 / 6 | 6 / 3 |
 | 10th as a good house | Rahu, Ketu (no pair) | — (no node rows) | maps to itself | Mars, Saturn, Rahu (no pair) | — |
 | Exemptions | Sun–Saturn, Moon–Mercury, **Venus not by Sun** | Sun–Saturn, Moon–Mercury | Sun–Saturn, Moon–Mercury | — | Sun–Saturn, Moon–Mercury |
 | Vipareetha | own table | reverse + **bad-places table** | bad-places table (prose) | reverse (v.343) | reverse (note 4) |
+
+**Sudamani's Venus line (2026-10-08).** Read again from the page image
+(verses 341–342, p.148). Verse 341 gives Venus eight good houses — 11, 12, 2,
+1, 4, 3, 5, 9; the 8th is the commentary's addition (the table had carried the
+commentary's nine under the verse's name; corrected). Verse 342's Venus line,
+printed "புகர்மூன்றோன் விட்டீராறு சேட்டீரம் சொன்றோடொன்பான் வியன்ற
+பதினொன்றில்": its first number, மூன்று (3), and its last four — ஈரஞ்சு
+(10; printed "ஈரம்"), ஒன்று (1), ஒன்பான் (9), பதினொன்று (11) — are read with
+certainty. They are Pulippani's and Kalaprakasika's vedha places for Venus's
+11th, 4th, 3rd, 5th and 9th, in the order verse 341 names those houses. The
+middle ("ஓன் விட்டீராறு சேட்டு") is not read; on that order it holds the
+vedha of the 12th, 2nd and 1st, which those books give as 6, 7, 8 — our
+reconstruction, marked on the page. So Sudamani sides with Pulippani on the
+11th (3, not Santhanam's and Vishnu Bhaskar's 6). The commentary's seven vedha
+places (3, 6, 7, 5, 8, 11, 9) are all in Pulippani's set; only its first two
+pairs line up with its good-house list.
 
 **Kalaprakasika's bad-house columns explained (2026-10-06).** They are
 Santhanam's "Vedha for bad places only" (p.151): Sun 8/8 cells, Moon 6/6,

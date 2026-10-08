@@ -34,7 +34,12 @@ for (const [planet, row] of Object.entries(FIX.kalaprakasikaTable.print1982)) {
   });
 }
 assert.deepEqual(plain(V.SUDAMANI_SETS.good), FIX.sudamani.verse341Good);
-assert.deepEqual(plain(V.SUDAMANI_SETS.vedha), FIX.sudamani.verse342Vedha);
+{
+  // Venus's line is partly reconstruction, checked below; the fixture holds only what is read.
+  const { Venus, ...decoded } = plain(V.SUDAMANI_SETS.vedha);
+  assert.deepEqual(decoded, FIX.sudamani.verse342Vedha);
+  assert.equal(Venus.length, FIX.sudamani.verse342VenusRead.length);
+}
 
 // ------------------------------------------------ what agrees and what does not ---
 const P = V.GOCHARA_VEDHA;
@@ -59,12 +64,34 @@ assert.deepEqual(kpMisses, ['Mercury 10: 10 / 8'], 'the layout reading matches a
 const reversalOk = (planet) => P[planet].pairs.every(([g, v]) => P[planet].pairs.some(([gg]) => gg === v) || V.KALAPRAKASIKA_TABLE[planet][v - 1] === g);
 assert.deepEqual(Object.keys(V.KALAPRAKASIKA_TABLE).filter(reversalOk), ['Venus'], 'only Venus\'s bad-house columns reverse the good pairs');
 
-// Sudamani's verse 342 sets equal Pulippani's for every planet it decodes; Mercury's holds 8, not 7.
+// Sudamani's verse 342 sets equal Pulippani's for every planet; Mercury's holds 8, not 7.
 for (const [planet, set] of Object.entries(V.SUDAMANI_SETS.vedha)) {
+  if (planet === 'Venus') continue;
   assert.ok(sameSet(set, P[planet].pairs.map(([, v]) => v)), `Sudamani ${planet} vedha set = Pulippani's`);
 }
 assert.ok(V.SUDAMANI_SETS.vedha.Mercury.includes(8) && !V.SUDAMANI_SETS.vedha.Mercury.includes(7));
-assert.ok(!('Venus' in V.SUDAMANI_SETS.vedha), 'Sudamani\'s Venus line is recorded as not decoded');
+// Venus: the verse's eight good houses; the five numbers read from the print
+// are Pulippani's vedha places for the same good houses, in verse-341 order;
+// the reading fills the three unread places from Pulippani's pairs.
+{
+  const SV = V.SUDAMANI_VENUS;
+  assert.deepEqual([...SV.verse341Good], FIX.sudamani.verse341Good.Venus);
+  assert.deepEqual([...SV.verse342Read], FIX.sudamani.verse342VenusRead);
+  assert.deepEqual([...SV.commentaryGood341], FIX.sudamani.commentaryVenusGood341);
+  assert.ok(!SV.verse341Good.includes(8) && SV.commentaryGood341.includes(8), 'the 8th is the commentary\'s');
+  const pulippaniFor = (g) => P.Venus.pairs.find(([gg]) => gg === g)[1];
+  const expected = SV.verse341Good.map(pulippaniFor);
+  SV.verse342Read.forEach((v, i) => { if (v !== null) assert.equal(v, expected[i], `read place ${i}: ${v}`); });
+  assert.deepEqual([...SV.verse342Reading], expected, 'the reading = Pulippani\'s pairs in verse-341 order');
+  assert.deepEqual([...V.SUDAMANI_SETS.vedha.Venus], [...SV.verse342Reading]);
+  assert.equal(SV.verse342Read.filter((v) => v === null).length, 3, 'three places are reconstruction');
+  // Santhanam and Vishnu Bhaskar pair the 11th with 6; the read first place is 3.
+  assert.equal(SV.verse342Read[0], 3);
+  assert.equal(V.VB_GOCHARA_VEDHA.Venus.pairs.find(([g]) => g === 11)[1], 6);
+  // The commentary's seven vedha places are all in Pulippani's set.
+  assert.ok(SV.commentary342.clean.every((v) => P.Venus.pairs.some(([, pv]) => pv === v)));
+  assert.deepEqual(plain(SV.commentary342), FIX.sudamani.commentaryVenus);
+}
 
 // The difference list names those cells.
 const ids = V.VEDHA_DIFFERENCES.map((d) => d.id);

@@ -302,7 +302,7 @@ const VEDHA_RANK = deepFreeze({
   computable: ['PULIPPANI', 'SANTHANAM', 'VISHNU_BHASKAR'],
   measureTa: 'கோசார வேதை, விபரீத வேதை பற்றிய பகுதியின் சொற்கள்: புலிப்பாணி அத்தியாயம் 22 (பக்.204-206) 614; சந்தானம், ஜோதிஷார்ணவ நவநீதம் அத்.3 உரை (பக்.146-149) 575; ஜாதக பாரிஜாதம் உரை (பக்.833-834) 465; சூடாமணி செய்யுள் 341-343 உரையுடன் 251 (தமிழ்ச் சொற்கள்); காலப்பிரகாசிகை (பக்.209-210) 248; விஷ்ணு பாஸ்கர் §II (ப.139) 185.',
   alternativeTa: 'மாற்று அளவு: சந்தானத்தின் "தீய இடங்களுக்கு மட்டும் வேதை" பகுதியையும் (185 சொற்கள்) சேர்த்தால் அவர் 760 — புலிப்பாணியை முந்துவார்; அப்போது அவரே இயல்பு ஆவார். புலிப்பாணியிடம் அந்த வகை இல்லாததால் ஒரே தலைப்புகளை மட்டும் ஒப்பிட்டோம். எந்த அளவு என்பது உரிமையாளரின் முடிவுக்குக் காத்திருக்கிறது; அதுவரை இயல்பு மாற்றப்படவில்லை.',
-  computableTa: 'கணிக்கக்கூடியவை மூன்று — முழு அட்டவணையையும் தெளிவாகப் படிக்கக்கூடிய புலிப்பாணி (இயல்பு), சந்தானம் (ராகு, கேது இல்லாமல்), விஷ்ணு பாஸ்கர். ஜாதக பாரிஜாதம் காலப்பிரகாசிகையின் அட்டவணையையே மறுபதிப்பு செய்கிறது; காலப்பிரகாசிகை நல்ல/தீய இடப் பட்டியல் தராமல் ஒவ்வொரு இடத்தின் பலனை மட்டும் சொல்வதால் (பக்.207-208) அதைக் கணிக்க எங்கள் தீர்ப்பு வேண்டும். சூடாமணியின் சுக்கிரன் வரி பிரிக்க முடியவில்லை. இவை மூன்றும் ஒப்பீட்டில் மட்டும்.',
+  computableTa: 'கணிக்கக்கூடியவை மூன்று — முழு அட்டவணையையும் தெளிவாகப் படிக்கக்கூடிய புலிப்பாணி (இயல்பு), சந்தானம் (ராகு, கேது இல்லாமல்), விஷ்ணு பாஸ்கர். ஜாதக பாரிஜாதம் காலப்பிரகாசிகையின் அட்டவணையையே மறுபதிப்பு செய்கிறது; காலப்பிரகாசிகை நல்ல/தீய இடப் பட்டியல் தராமல் ஒவ்வொரு இடத்தின் பலனை மட்டும் சொல்வதால் (பக்.207-208) அதைக் கணிக்க எங்கள் தீர்ப்பு வேண்டும். சூடாமணியின் சுக்கிரன் வரியின் நடுப்பகுதி மீட்டமைப்பு மட்டுமே (கீழே), செய்யுள் 341 சுக்கிரனின் 8-ஆம் இடத்தைச் சொல்லவில்லை. இவை மூன்றும் ஒப்பீட்டில் மட்டும்.',
 });
 
 /**
@@ -336,10 +336,48 @@ const KALAPRAKASIKA_SOURCES = Object.freeze([
   Object.freeze({ ...KALAPRAKASIKA_BOOK, pageLocus: 'printed p.210 (PDF 240), "Vedhai Signs from the House of the Moon"; p.209: "Vedhai places of Rahu, Kethu, and Saturn are the same as those of Mars"; a badly located planet "loses its power for evil and produces good" through planets "holding their Vedhai signs"' }),
 ]);
 
-/** Sudamani: verse 341 good houses and verse 342 vedha places, as sets, in verse order. Venus's vedha line is not decoded. */
+/**
+ * Sudamani: verse 341 good houses and verse 342 vedha places, as sets, in
+ * verse order. Venus's vedha line was decoded on 2026-10-08 — see
+ * SUDAMANI_VENUS: five of its eight numbers are read from the print, three
+ * are our reconstruction.
+ */
 const SUDAMANI_SETS = deepFreeze({
-  good: { Sun: [11, 3, 10, 6], Moon: [1, 3, 6, 7, 10, 11], Mars: [3, 6, 10, 11], Saturn: [3, 6, 10, 11], Rahu: [3, 6, 10, 11], Mercury: [2, 6, 4, 8, 10, 11], Jupiter: [11, 9, 7, 5, 2], Venus: [11, 12, 2, 8, 1, 4, 3, 5, 9] },
-  vedha: { Sun: [5, 9, 4, 12], Moon: [5, 9, 12, 2, 4, 8], Mars: [12, 9, 5], Saturn: [12, 9, 5], Rahu: [12, 9, 5], Mercury: [5, 3, 9, 1, 8, 12], Jupiter: [12, 8, 10, 3, 4] },
+  good: { Sun: [11, 3, 10, 6], Moon: [1, 3, 6, 7, 10, 11], Mars: [3, 6, 10, 11], Saturn: [3, 6, 10, 11], Rahu: [3, 6, 10, 11], Mercury: [2, 6, 4, 8, 10, 11], Jupiter: [11, 9, 7, 5, 2], Venus: [11, 12, 2, 1, 4, 3, 5, 9] },
+  vedha: { Sun: [5, 9, 4, 12], Moon: [5, 9, 12, 2, 4, 8], Mars: [12, 9, 5], Saturn: [12, 9, 5], Rahu: [12, 9, 5], Mercury: [5, 3, 9, 1, 8, 12], Jupiter: [12, 8, 10, 3, 4], Venus: [3, 6, 7, 8, 10, 1, 9, 11] },
+});
+
+/**
+ * Sudamani's Venus, verses 341-342 (printed p.148, scan 173), read from the
+ * page image on 2026-10-08.
+ *
+ * Verse 341 gives Venus ("புகழ்") eight good houses — "பன்னொன்று ஈராறு இரண்டு
+ * ஒன்று வருநான்கு மூன்று ஐந்து ஒன்பான்": 11, 12, 2, 1, 4, 3, 5, 9. The 8th
+ * is not in the verse; the commentary's list (p.148) has nine, with the 8th
+ * after the 2nd. (Before 2026-10-08 this table carried the commentary's nine
+ * under the verse's name.)
+ *
+ * Verse 342's Venus ("புகர்") line is printed "புகர் மூன்றோன் விட்டீராறு
+ * சேட்டீரம் சொன்றோடொன்பான் வியன்ற பதினொன்றில்". Read with certainty: the
+ * first number, மூன்று (3), and the last four — ஈரஞ்சு (10; printed "ஈரம்"
+ * before "சொன்று", the ம் standing for ஞ், as ஐஞ்சு stands for 5 in verse 341),
+ * ஒன்று (1), ஒன்பான் (9), பதினொன்று (11). These five are Pulippani's (and
+ * Kalaprakasika's) vedha places for Venus's 11th, 4th, 3rd, 5th and 9th, and
+ * they come in the very order verse 341 lists those good houses. The middle,
+ * "ஓன் விட்டீராறு சேட்டு", is not read with certainty; on the same order it
+ * must hold the vedha of the 12th, 2nd and 1st — 6, 7, 8 in those books —
+ * and "ஆறு" and "...ட்டு" are visible in it, "ஏழ்" is not. With the 8th good
+ * house absent from verse 341, eight vedha places are what the verse needs.
+ */
+const SUDAMANI_VENUS = deepFreeze({
+  verse341Good: [11, 12, 2, 1, 4, 3, 5, 9],
+  commentaryGood341: [11, 12, 2, 8, 1, 4, 3, 5, 9],
+  verse342Printed: 'புகர்மூன்றோன் விட்டீ ராறு சேட்டீரம் சொன்றோ டொன்பான் வியன்ற பதினொன்றில்',
+  verse342Read: [3, null, null, null, 10, 1, 9, 11],
+  verse342Reading: [3, 6, 7, 8, 10, 1, 9, 11],
+  commentary342: { good: [11, 12, 8, 9, 4, 3, 5], clean: [3, 6, 7, 5, 8, 11, 9] },
+  textTa: 'சூடாமணி — சுக்கிரன் (செய்யுள் 341-342): செய்யுள் 341 சுக்கிரனுக்கு எட்டு நல்ல இடங்கள் — 11, 12, 2, 1, 4, 3, 5, 9 (8-ஆம் இடம் செய்யுளில் இல்லை; உரை அதைச் சேர்க்கிறது). செய்யுள் 342-ன் சுக்கிரன் வரி அச்சில் "புகர்மூன்றோன் விட்டீராறு சேட்டீரம் சொன்றோடொன்பான் வியன்ற பதினொன்றில்". உறுதியாகப் படிப்பவை: முதல் எண் மூன்று (3); கடைசி நான்கு — ஈரஞ்சு (10; அச்சில் "ஈரம்"), ஒன்று (1), ஒன்பான் (9), பதினொன்று (11). இந்த ஐந்தும் புலிப்பாணி, காலப்பிரகாசிகையின் சுக்கிர வேதை இடங்களே (11→3, 4→10, 3→1, 5→9, 9→11), செய்யுள் 341 அந்த நல்ல இடங்களைச் சொல்லும் அதே வரிசையில். நடுப்பகுதி "ஓன் விட்டீராறு சேட்டு" உறுதியாகப் படிக்க முடியவில்லை; அதே வரிசைப்படி அது 12, 2, 1-ன் வேதை இடங்களாக — அந்த நூல்களில் 6, 7, 8 — இருக்க வேண்டும்; அதில் "ஆறு", "...ட்டு" தெரிகின்றன, "ஏழ்" தெரியவில்லை. ஆகவே 6, 7, 8 எங்கள் மீட்டமைப்பு. முடிவு: சூடாமணியின் சுக்கிர வேதை புலிப்பாணி / காலப்பிரகாசிகையுடன் ஒன்றுகிறது — 11→3 (6 அல்ல). உரை (ப.149) ஏழு நல்ல இடங்களையும் ஏழு வேதை இடங்களையும் தருகிறது; அவை வரிசையாக இணையவில்லை (முதல் இரண்டு 11→3, 12→6 மட்டும் பொருந்துகின்றன), ஆனால் தொகுப்பாக அவை புலிப்பாணியின் வேதை இடங்களுக்குள்ளேயே.',
+  source: Object.freeze({ ...SUDAMANI, pageLocus: 'கோசாரபலமும் திசாபுத்தி பலனும், செய்யுள் 341-342, அச்சுப் பக்கம் 148 (ஸ்கேன் பக்கம் 173); உரை பக்கம் 148-149 (ஸ்கேன் 173-174)' }),
 });
 const SUDAMANI_SOURCES = Object.freeze([
   Object.freeze({ ...SUDAMANI, pageLocus: 'கோசாரபலமும் திசாபுத்தி பலனும், செய்யுள் 341-342, அச்சுப் பக்கம் 148 (ஸ்கேன் பக்கம் 173); உரை பக்கம் 148-149 (ஸ்கேன் 173-174)' }),
@@ -359,8 +397,8 @@ const VEDHA_DIFFERENCES = deepFreeze([
   {
     id: 'VENUS_11_12',
     planet: 'Venus', house: [11, 12],
-    textTa: 'சுக்கிரன் 11, 12-ல் — வேதை இடங்கள்: புலிப்பாணி, ஜாதக பாரிஜாதம், காலப்பிரகாசிகை 3, 6; சூடாமணி உரையும் முதல் இரண்டு இணையாக 11-3, 12-6; சந்தானம், விஷ்ணு பாஸ்கர் 6, 3. புலிப்பாணியின் சொந்த விபரீத வேதை அட்டவணையும் 6↔11, 3↔12 என்றே அச்சாகியுள்ளது.',
-    byBook: { PULIPPANI: '11→3, 12→6', SANTHANAM: '11→6, 12→3', JATAKA_PARIJATA: '11→3, 12→6', KALAPRAKASIKA: '11→3, 12→6', SUDAMANI: '11→3, 12→6 (உரை)', VISHNU_BHASKAR: '11→6, 12→3' },
+    textTa: 'சுக்கிரன் 11, 12-ல் — வேதை இடங்கள்: புலிப்பாணி, ஜாதக பாரிஜாதம், காலப்பிரகாசிகை 3, 6; சூடாமணி — செய்யுள் 342-ன் சுக்கிரன் வரி 3-ல் தொடங்கி 10, 1, 9, 11 என்று செய்யுள் 341-ன் வரிசையைப் பின்பற்றுகிறது (11→3), உரையும் முதல் இரண்டு இணையாக 11-3, 12-6; சந்தானம், விஷ்ணு பாஸ்கர் 6, 3. புலிப்பாணியின் சொந்த விபரீத வேதை அட்டவணையும் 6↔11, 3↔12 என்றே அச்சாகியுள்ளது.',
+    byBook: { PULIPPANI: '11→3, 12→6', SANTHANAM: '11→6, 12→3', JATAKA_PARIJATA: '11→3, 12→6', KALAPRAKASIKA: '11→3, 12→6', SUDAMANI: '11→3 (செய்யுள்), 12→6 (உரை; செய்யுளில் மீட்டமைப்பு)', VISHNU_BHASKAR: '11→6, 12→3' },
   },
   {
     id: 'TENTH_GOOD',
@@ -412,7 +450,7 @@ module.exports = {
   SATURN_VEDHA_TEXT, SATURN_VIPAREETA, SATURN_VEDHA,
   PLANETS_9, VB_GOCHARA_VEDHA, VB_VEDHA_SOURCE, FATHER_SON, FATHER_SON_SOURCES,
   VEDHA_METHODS, DEFAULT_VEDHA_METHOD, VEDHA_RANK, KALAPRAKASIKA_TABLE, KALAPRAKASIKA_1982_CELLS,
-  KALAPRAKASIKA_SOURCES, SUDAMANI_SETS, SUDAMANI_SOURCES, VEDHA_DIFFERENCES, NODE_PAIR_NOTE_TA,
+  KALAPRAKASIKA_SOURCES, SUDAMANI_SETS, SUDAMANI_VENUS, SUDAMANI_SOURCES, VEDHA_DIFFERENCES, NODE_PAIR_NOTE_TA,
   SANTHANAM_GOCHARA_VEDHA, SANTHANAM_BAD_PLACES, SANTHANAM_SOURCES,
   reverseOnBadHouses,
 };

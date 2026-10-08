@@ -525,11 +525,14 @@ export default function GocharaVedhaView() {
               <ul className="mt-1 space-y-0.5">
                 {Object.keys(result.comparison.sudamaniSets.good).map((pl) => (
                   <li key={pl} className="text-ink">
-                    {PLANET_TA[pl]}: நல்ல இடம் {result.comparison.sudamaniSets.good[pl].join(', ')} · வேதை {result.comparison.sudamaniSets.vedha[pl]?.join(', ') ?? 'பிரிக்க முடியவில்லை'}
+                    {PLANET_TA[pl]}: நல்ல இடம் {result.comparison.sudamaniSets.good[pl].join(', ')} · வேதை {pl === 'Venus'
+                      ? result.comparison.sudamaniSets.vedha[pl].map((v: number, i: number) => (result.comparison.sudamaniVenus.read[i] === null ? `${v}*` : `${v}`)).join(', ')
+                      : result.comparison.sudamaniSets.vedha[pl]?.join(', ') ?? 'பிரிக்க முடியவில்லை'}
                   </li>
                 ))}
               </ul>
-              <Cites list={result.comparison.sudamaniSources} />
+              <p className="text-[11px] text-ink-soft mt-1">* மீட்டமைப்பு. {result.comparison.sudamaniVenus.textTa}</p>
+              <Cites list={[...result.comparison.sudamaniSources, result.comparison.sudamaniVenus.source]} />
             </details>
             <p className="text-xs font-semibold text-ink mt-3">"தந்தை-மகன்" விலக்கு — மூன்று நூல்கள்</p>
             <Cites list={result.comparison.fatherSonSources} />

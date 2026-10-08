@@ -159,7 +159,10 @@ Not plan items, but real, and they should not be discovered at release:
   discussion makes Santhanam the default). Saptashalaka chakra added
   2026-10-07: three books (Bhat 808 words, default; Pulippani; Gour) read it
   as straight lines or three lines — both computed; four rules as dated
-  windows; Abhijit from Charak.
+  windows; Abhijit from Charak. Sudamani's Venus line read 2026-10-08: five of
+  its eight numbers are legible and follow Pulippani's pairs in verse-341 order
+  (so Sudamani gives 11→3, against Santhanam and Vishnu Bhaskar); three are
+  reconstruction. Verse 341 has no 8th house for Venus (the commentary adds it).
 - **Nakshatra gochara: taras, star classes, anga phala, weekday.**
   `/nakshatra-gochara` (`docs/NAKSHATRA-GOCHARA.md`), 2026-10-08. The rest of
   Pulippani ch.24. Anga in four books (Bhat default; Pulippani; Sudamani read

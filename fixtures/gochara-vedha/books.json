@@ -38,8 +38,11 @@
   },
   "sudamani": {
     "page": "printed p.148 (scan 173), verses 341-342; commentary pp.148-149",
-    "verse341Good": { "Sun": [11, 3, 10, 6], "Moon": [1, 3, 6, 7, 10, 11], "Mars": [3, 6, 10, 11], "Saturn": [3, 6, 10, 11], "Rahu": [3, 6, 10, 11], "Mercury": [2, 6, 4, 8, 10, 11], "Jupiter": [11, 9, 7, 5, 2], "Venus": [11, 12, 2, 8, 1, 4, 3, 5, 9] },
+    "verse341Good": { "Sun": [11, 3, 10, 6], "Moon": [1, 3, 6, 7, 10, 11], "Mars": [3, 6, 10, 11], "Saturn": [3, 6, 10, 11], "Rahu": [3, 6, 10, 11], "Mercury": [2, 6, 4, 8, 10, 11], "Jupiter": [11, 9, 7, 5, 2], "Venus": [11, 12, 2, 1, 4, 3, 5, 9] },
     "verse342Vedha": { "Sun": [5, 9, 4, 12], "Moon": [5, 9, 12, 2, 4, 8], "Mars": [12, 9, 5], "Saturn": [12, 9, 5], "Rahu": [12, 9, 5], "Mercury": [5, 3, 9, 1, 8, 12], "Jupiter": [12, 8, 10, 3, 4] },
+    "_venus": "Re-read from the page image 2026-10-08. Verse 341 Venus: 'பன்னொன்றீ ராறிரண் டொன்று வருநான்கு மூன்றெந்தொன் பான்' = 11, 12, 2, 1, 4, 3, 5, 9 (no 8th; the commentary's list adds it). Verse 342 Venus: 'புகர்மூன்றோன் விட்டீ ராறு சேட்டீரம் சொன்றோ டொன்பான் வியன்ற பதினொன்றில்' — first number மூன்று (3); last four ஈரஞ்சு/'ஈரம்' (10), ஒன்று (1), ஒன்பான் (9), பதினொன்று (11); the middle not read.",
+    "verse342VenusRead": [3, null, null, null, 10, 1, 9, 11],
+    "commentaryVenusGood341": [11, 12, 2, 8, 1, 4, 3, 5, 9],
     "commentaryMoonVedha": [8, 10, 3, 4, 12],
     "commentaryVenus": { "good": [11, 12, 8, 9, 4, 3, 5], "clean": [3, 6, 7, 5, 8, 11, 9] }
   },
