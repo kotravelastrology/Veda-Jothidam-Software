@@ -1,0 +1,25 @@
+{
+  "_about": "Saptashalaka chakra as three books draw and describe it, transcribed from page images on 2026-10-07 independently of src/report/saptashalakaTables.js. Star names are the books' own spellings normalised to the 27-star English names, plus Abhijit.",
+  "pulippaniDiagram": {
+    "page": "Gochar Phaladeepika printed p.210 (PDF 203)",
+    "east_top_to_bottom": ["Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha"],
+    "south_right_to_left": ["Magha", "Purvaphalguni", "Uttaraphalguni", "Hasta", "Chitra", "Swati", "Vishakha"],
+    "west_bottom_to_top": ["Anuradha", "Jyeshtha", "Moola", "Purvashadha", "Uttarashadha", "Abhijit", "Shravana"],
+    "north_left_to_right": ["Dhanishta", "Shatabhisha", "Purvabhadrapada", "Uttarabhadrapada", "Revati", "Ashwini", "Bharani"]
+  },
+  "bhatDiagram": {
+    "page": "Fundamentals of Astrology printed p.252 (PDF 270): a plain grid, East at the top",
+    "vertical_lines_top_to_bottom": [["Krittika", "Shravana"], ["Rohini", "Abhijit"], ["Mrigashira", "Uttarashadha"], ["Ardra", "Purvashadha"], ["Punarvasu", "Moola"], ["Pushya", "Jyeshtha"], ["Ashlesha", "Anuradha"]],
+    "horizontal_lines_left_to_right": [["Bharani", "Magha"], ["Ashwini", "Purvaphalguni"], ["Revati", "Uttaraphalguni"], ["Uttarabhadrapada", "Hasta"], ["Purvabhadrapada", "Chitra"], ["Shatabhisha", "Swati"], ["Dhanishta", "Vishakha"]],
+    "text_pairs_p251": [["Krittika", "Shravana"], ["Ashlesha", "Anuradha"], ["Bharani", "Magha"], ["Dhanishta", "Vishakha"]],
+    "example_p251": { "natal": "Mrigashira", "natalVedha": "Uttarashadha", "adhana": "Dhanishta", "adhanaVedha": "Vishakha" }
+  },
+  "gourExamples": {
+    "page": "The Celestial Delivery Boy printed pp.91-92 (PDF 94-95)",
+    "Ardra": ["Uttarabhadrapada", "Purvashadha", "Hasta"],
+    "Shravana": ["Dhanishta", "Krittika", "Magha"]
+  },
+  "charakAbhijit": { "page": "Elements of Vedic Astrology ch.11, PDF p.25", "from": [276, 40, 0], "to": [280, 53, 20] },
+  "rule3Counts": { "BHAT": [1, 3, 5, 7, 10, 19, 23], "PULIPPANI": [19, 10, 3, 1, 23, 5, 7], "GOUR": [1, 3, 5, 7, 10, 19, 22] },
+  "wordCounts": { "BHAT": 808, "PULIPPANI": 387, "GOUR": 355 }
+}

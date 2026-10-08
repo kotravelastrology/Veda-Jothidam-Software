@@ -1,313 +1,255 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { loadGlossary } from './actions';
 
-interface Resource {
-  id: string;
-  title: string;
-  category: string;
-  description: string;
-  type: 'article' | 'video' | 'book' | 'reference';
-  author?: string;
-  source?: string;
-  date?: string;
+/**
+ * VJ-026 — the source-aware glossary.
+ *
+ * This page used to list invented articles: titles nobody wrote, dates nobody
+ * published, and attributions to living authors who had no part in them. It is
+ * now the other thing entirely — every entry names a Tamil term, the module
+ * that implements the rule behind it, and the exact page the engine cites,
+ * read out of the code rather than retyped here.
+ *
+ * A term whose locator is still unverified says so on its face. Presenting
+ * those as checked would be the same defect as the invented articles, only
+ * harder to notice.
+ */
+
+interface Rights {
+  status: 'PERMITTED' | 'RESTRICTED' | 'UNVERIFIED';
+  mayShip: boolean;
+  mayQuoteShort: boolean;
+  note: string;
+  verified: boolean;
+  toConfirm: string | null;
 }
 
-const RESOURCES: Resource[] = [
-  {
-    id: '1',
-    title: 'Understanding Shadbala (Six-Fold Strength)',
-    category: 'Planetary Strength',
-    description: 'Complete guide to calculating and interpreting planetary strength using the classical Shadbala system.',
-    type: 'article',
-    author: 'Classical Vedic Astrology',
-    date: '2024-01-15',
-  },
-  {
-    id: '2',
-    title: 'Divisional Charts (Vargas) Interpretation',
-    category: 'Divisional Charts',
-    description: 'Comprehensive explanation of 16 divisional charts and their significance in detailed chart analysis.',
-    type: 'article',
-    author: 'Dr. K.N. Rao',
-    date: '2024-02-20',
-  },
-  {
-    id: '3',
-    title: 'Vimshottari Dasha System',
-    category: 'Dasha Systems',
-    description: 'Deep dive into the 120-year Vimshottari Dasha cycle and its application in predictive astrology.',
-    type: 'article',
-    author: 'Vedic Astrology Institute',
-    date: '2024-03-10',
-  },
-  {
-    id: '4',
-    title: 'Yoga Detection & Interpretation',
-    category: 'Yogas',
-    description: 'Guide to identifying and interpreting beneficial and challenging yogas in birth charts.',
-    type: 'article',
-    author: 'Prof. V.K. Choudhry',
-    date: '2024-04-05',
-  },
-  {
-    id: '5',
-    title: 'House Analysis (Bhava Bala)',
-    category: 'House Analysis',
-    description: 'Understanding house strength and its effects on different life areas.',
-    type: 'article',
-    author: 'Classical References',
-    date: '2024-01-30',
-  },
-  {
-    id: '6',
-    title: 'Astrological Remedies & Rituals',
-    category: 'Remedies',
-    description: 'Classical remedies for planetary afflictions including mantras, gemstones, and rituals.',
-    type: 'article',
-    author: 'Vedic Texts',
-    date: '2024-02-14',
-  },
-];
+interface SourceRow {
+  id: string; title: string; titleTa: string;
+  author: string | null; file: string | null; tradition: string; rights: Rights;
+}
 
-export default function LearningResourcesView() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
+interface Term {
+  id: string;
+  ta: string;
+  translit: string;
+  en: string;
+  meaning: string;
+  module: string;
+  pageLocus: string;
+  locatorComplete: boolean;
+  citedAt: string;
+  source: SourceRow;
+}
 
-  const categories = ['Planetary Strength', 'Divisional Charts', 'Dasha Systems', 'Yogas', 'House Analysis', 'Remedies'];
+const RIGHTS_TA: Record<Rights['status'], string> = {
+  PERMITTED: 'அனுமதிக்கப்பட்டது',
+  RESTRICTED: 'பதிப்புரிமை உள்ளது — மேற்கோள் மட்டும்',
+  UNVERIFIED: 'உரிமை சரிபார்க்கப்படவில்லை',
+};
 
-  const filteredResources = RESOURCES.filter(resource => {
-    const matchesSearch = resource.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         resource.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = !selectedCategory || resource.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+const RIGHTS_CLASS: Record<Rights['status'], string> = {
+  PERMITTED: 'bg-teal-soft text-teal',
+  RESTRICTED: 'bg-amber-100 text-amber-800',
+  UNVERIFIED: 'bg-rose-soft text-rose',
+};
 
+function TermCard({ t }: { t: Term }) {
+  const [open, setOpen] = useState(false);
   return (
-    <main className="min-h-screen p-6 max-w-7xl mx-auto">
-      {/* Header */}
-      <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">
-          Learning Resources
-        </p>
-        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
-          கற்றல் வளங்கள் (Learning Resources)
-        </h1>
-        <p className="text-sm text-ink-soft mt-1">
-          வேதாங்க ஜ்ஞானம் மற்றும் ஆஸ்திர குறிப்புக்கள். Classical astrology knowledge and references.
-        </p>
-      </header>
-
-      <div className="grid lg:grid-cols-4 gap-6">
-        {/* Sidebar - Categories */}
-        <div className="bg-surface border border-line rounded-2xl p-5 h-fit">
-          <h3 className="font-semibold text-ink mb-4">📚 Categories</h3>
-          <button
-            onClick={() => setSelectedCategory(null)}
-            className={`w-full text-left px-3 py-2 rounded mb-2 transition ${
-              selectedCategory === null
-                ? 'bg-saffron text-ink font-medium'
-                : 'hover:bg-info/10 text-ink-soft'
-            }`}
-          >
-            All Topics ({RESOURCES.length})
-          </button>
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`w-full text-left px-3 py-2 rounded mb-2 transition ${
-                selectedCategory === cat
-                  ? 'bg-saffron text-ink font-medium'
-                  : 'hover:bg-info/10 text-ink-soft'
-              }`}
-            >
-              {cat} ({RESOURCES.filter(r => r.category === cat).length})
-            </button>
-          ))}
+    <li className="border border-line rounded-xl bg-surface overflow-hidden">
+      <button
+        type="button" onClick={() => setOpen((v) => !v)}
+        className="w-full text-left px-4 py-3 hover:bg-ink-soft/5"
+      >
+        <div className="flex items-baseline justify-between gap-3">
+          <span className="font-[family-name:var(--font-tamil-serif)] text-lg text-ink">{t.ta}</span>
+          <span className="text-xs text-ink-soft shrink-0">{t.translit} · {t.en}</span>
         </div>
+        <p className="text-sm text-ink-soft mt-1">{t.meaning}</p>
+        <div className="flex flex-wrap gap-1.5 mt-2">
+          <span className="text-[11px] px-1.5 py-0.5 rounded bg-ink-soft/10 text-ink-soft font-mono">
+            {t.module}
+          </span>
+          <span className={`text-[11px] px-1.5 py-0.5 rounded ${
+            t.locatorComplete ? 'bg-teal-soft text-teal' : 'bg-rose-soft text-rose'}`}>
+            {t.locatorComplete ? '✓ பக்கம் சரிபார்க்கப்பட்டது' : '⚠ பக்கம் சரிபார்க்கப்படவில்லை'}
+          </span>
+        </div>
+      </button>
 
-        {/* Main Content */}
-        <div className="lg:col-span-3 space-y-6">
-          {/* Search */}
-          <div className="bg-surface border border-line rounded-2xl p-5">
-            <input
-              type="text"
-              placeholder="Search resources..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 bg-ink-soft/10 border border-line rounded-lg"
-            />
+      {open && (
+        <div className="px-4 pb-4 text-xs leading-relaxed border-t border-line/60 pt-3 space-y-2">
+          <div>
+            <p className="font-semibold text-ink">விதி எங்கே உள்ளது</p>
+            <p className="font-mono text-ink-soft">{t.citedAt}</p>
           </div>
 
-          {/* Resources Grid */}
-          <div className="space-y-4">
-            {filteredResources.length > 0 ? (
-              filteredResources.map((resource) => (
-                <button
-                  key={resource.id}
-                  onClick={() => setSelectedResource(resource)}
-                  className={`w-full text-left p-5 rounded-lg border-2 transition ${
-                    selectedResource?.id === resource.id
-                      ? 'bg-info/10 border-info'
-                      : 'bg-surface border-line hover:border-info/50'
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-lg">
-                          {resource.type === 'article' && '📄'}
-                          {resource.type === 'video' && '🎥'}
-                          {resource.type === 'book' && '📖'}
-                          {resource.type === 'reference' && '📚'}
-                        </span>
-                        <h3 className="font-semibold text-ink text-lg">{resource.title}</h3>
-                      </div>
-                      <p className="text-sm text-ink-soft mb-2">{resource.description}</p>
-                      <div className="flex flex-wrap gap-2">
-                        <span className="px-2 py-1 bg-info/10 text-info rounded text-xs font-medium">
-                          {resource.category}
-                        </span>
-                        {resource.author && (
-                          <span className="px-2 py-1 bg-orange/10 text-orange rounded text-xs">
-                            By {resource.author}
-                          </span>
-                        )}
-                        {resource.date && (
-                          <span className="px-2 py-1 bg-gray/10 text-ink-soft rounded text-xs">
-                            {resource.date}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </button>
-              ))
-            ) : (
-              <div className="text-center py-12 text-ink-soft">
-                <p className="text-sm">No resources found matching your search.</p>
-              </div>
+          <div>
+            <p className="font-semibold text-ink">ஆதாரம்</p>
+            <p className="text-ink">{t.source.titleTa}</p>
+            <p className="text-ink-soft">{t.source.title}</p>
+            {t.source.author && <p className="text-ink-soft">{t.source.author}</p>}
+            <p className="text-ink-soft">மரபு: {t.source.tradition}</p>
+          </div>
+
+          <div>
+            <p className="font-semibold text-ink">பக்கக் குறிப்பு</p>
+            <p className={t.locatorComplete ? 'text-ink' : 'text-rose'}>{t.pageLocus}</p>
+            {!t.locatorComplete && (
+              <p className="text-rose mt-1">
+                அத்தியாயமும் செய்யுளும் அறியப்பட்டுள்ளன; அச்சிடப்பட்ட பக்கம் இதுவரை
+                கண்ணால் சரிபார்க்கப்படவில்லை.
+              </p>
+            )}
+          </div>
+
+          <div>
+            <p className="font-semibold text-ink">மறுவிநியோக உரிமை</p>
+            <span className={`inline-block text-[11px] px-1.5 py-0.5 rounded ${RIGHTS_CLASS[t.source.rights.status]}`}>
+              {RIGHTS_TA[t.source.rights.status]}
+            </span>
+            <p className="text-ink-soft mt-1">{t.source.rights.note}</p>
+            {t.source.rights.toConfirm && (
+              <p className="text-amber-700 mt-1">உறுதி செய்ய வேண்டியது: {t.source.rights.toConfirm}</p>
             )}
           </div>
         </div>
+      )}
+    </li>
+  );
+}
+
+export default function LearningResourcesView() {
+  const [terms, setTerms] = useState<Term[]>([]);
+  const [sources, setSources] = useState<SourceRow[]>([]);
+  const [query, setQuery] = useState('');
+  const [sourceId, setSourceId] = useState<string | null>(null);
+  const [verifiedOnly, setVerifiedOnly] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [tab, setTab] = useState<'terms' | 'sources'>('terms');
+
+  useEffect(() => {
+    loadGlossary()
+      .then((g: any) => { setTerms(g.terms); setSources(g.sources); })
+      .catch((e) => setError(e instanceof Error ? e.message : String(e)));
+  }, []);
+
+  const shown = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return terms.filter((t) => {
+      if (sourceId && t.source.id !== sourceId) return false;
+      if (verifiedOnly && !t.locatorComplete) return false;
+      if (!q) return true;
+      return [t.ta, t.translit, t.en, t.meaning, t.module]
+        .some((f) => f.toLowerCase().includes(q));
+    });
+  }, [terms, query, sourceId, verifiedOnly]);
+
+  const unverified = terms.filter((t) => !t.locatorComplete).length;
+
+  return (
+    <main className="min-h-screen p-6 max-w-4xl mx-auto">
+      <header className="mb-5">
+        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Glossary</p>
+        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
+          சொல் · விதி · ஆதாரம்
+        </h1>
+        <p className="text-sm text-ink-soft mt-1">
+          ஒவ்வொரு தமிழ்ச் சொல்லுக்கும் — அதைப் பயன்படுத்தும் விதி எந்தக் கோப்பில்
+          உள்ளது, அந்த விதி எந்த நூலின் எந்தப் பக்கத்தைச் சுட்டுகிறது, அந்த நூலை
+          மறுவிநியோகம் செய்ய முடியுமா என்பதும்.
+        </p>
+      </header>
+
+      {error && <p className="text-rose text-sm mb-4 bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}
+
+      <div className="flex gap-1 mb-4 text-sm">
+        {([['terms', `சொற்கள் (${terms.length})`], ['sources', `நூல்கள் (${sources.length})`]] as const).map(([k, l]) => (
+          <button key={k} type="button" onClick={() => setTab(k)}
+            className={`px-3 py-1.5 rounded-lg ${tab === k ? 'bg-saffron text-white' : 'bg-surface border border-line text-ink-soft'}`}>
+            {l}
+          </button>
+        ))}
       </div>
 
-      {/* Selected Resource Detail */}
-      {selectedResource && (
-        <div className="mt-8 bg-info/10 border border-info rounded-2xl p-6">
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <h2 className="text-2xl font-bold text-ink mb-2">{selectedResource.title}</h2>
-              <div className="flex flex-wrap gap-3 text-sm">
-                {selectedResource.author && (
-                  <span className="flex items-center gap-1">
-                    <span className="text-info">👤</span> {selectedResource.author}
-                  </span>
-                )}
-                {selectedResource.source && (
-                  <span className="flex items-center gap-1">
-                    <span className="text-info">🔗</span> {selectedResource.source}
-                  </span>
-                )}
-                {selectedResource.date && (
-                  <span className="flex items-center gap-1">
-                    <span className="text-info">📅</span> {selectedResource.date}
-                  </span>
-                )}
-              </div>
-            </div>
-            <button
-              onClick={() => setSelectedResource(null)}
-              className="text-info hover:text-info/60 text-2xl"
-            >
-              ✕
+      {tab === 'terms' && (
+        <>
+          <input
+            value={query} onChange={(e) => setQuery(e.target.value)}
+            placeholder="தமிழ்ச் சொல் / transliteration / English / module"
+            className="w-full mb-3 px-3 py-2 text-sm bg-surface border border-line rounded-xl text-ink"
+          />
+          <div className="flex flex-wrap gap-1.5 mb-3 text-xs items-center">
+            <button type="button" onClick={() => setSourceId(null)}
+              className={`px-2 py-1 rounded ${!sourceId ? 'bg-saffron text-white' : 'bg-surface border border-line text-ink-soft'}`}>
+              அனைத்து நூல்கள்
             </button>
+            {sources.map((s) => (
+              <button key={s.id} type="button" onClick={() => setSourceId(s.id)}
+                className={`px-2 py-1 rounded ${sourceId === s.id ? 'bg-saffron text-white' : 'bg-surface border border-line text-ink-soft'}`}>
+                {s.titleTa}
+              </button>
+            ))}
+            <label className="ml-auto flex items-center gap-1.5 text-ink-soft cursor-pointer">
+              <input type="checkbox" checked={verifiedOnly} onChange={(e) => setVerifiedOnly(e.target.checked)} />
+              சரிபார்க்கப்பட்ட பக்கம் மட்டும்
+            </label>
           </div>
 
-          <p className="text-ink-soft mb-4 leading-relaxed">{selectedResource.description}</p>
+          {unverified > 0 && !verifiedOnly && (
+            <p className="text-xs bg-amber-50 border border-amber-200 text-amber-800 rounded-xl p-3 mb-3">
+              <strong>{unverified} சொல்</strong> — அவற்றின் விதிக்கு அத்தியாயமும் செய்யுளும்
+              அறியப்பட்டுள்ளன, ஆனால் அச்சிடப்பட்ட பக்கம் இதுவரை கண்ணால்
+              சரிபார்க்கப்படவில்லை. அவை ⚠ குறியுடன் காட்டப்படுகின்றன.
+            </p>
+          )}
 
-          <div className="space-y-4">
-            <div className="bg-white/50 rounded p-4">
-              <h3 className="font-semibold text-ink mb-2">Key Topics</h3>
-              <ul className="text-sm text-ink-soft space-y-1">
-                <li>• Understanding the fundamental concepts</li>
-                <li>• Classical interpretations and rules</li>
-                <li>• Practical application in chart analysis</li>
-                <li>• Common mistakes and how to avoid them</li>
-              </ul>
-            </div>
-
-            <div className="bg-white/50 rounded p-4">
-              <h3 className="font-semibold text-ink mb-2">Learning Path</h3>
-              <ol className="text-sm text-ink-soft space-y-1 list-decimal list-inside">
-                <li>Start with foundational concepts</li>
-                <li>Study classical texts and references</li>
-                <li>Analyze practical chart examples</li>
-                <li>Practice interpretation exercises</li>
-                <li>Review advanced techniques</li>
-              </ol>
-            </div>
-
-            <button className="w-full px-4 py-2 bg-info text-white rounded-lg font-medium hover:bg-info/90 transition">
-              📖 Read Full Content
-            </button>
-          </div>
-        </div>
+          <ul className="space-y-2">
+            {shown.map((t) => <TermCard key={t.id} t={t} />)}
+          </ul>
+          {shown.length === 0 && <p className="text-sm text-ink-soft">பொருத்தமான சொல் இல்லை.</p>}
+        </>
       )}
 
-      {/* Reference Guides */}
-      <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-green/10 border border-green rounded-lg p-4">
-          <p className="font-semibold text-green mb-2">♡ Benefic Yogas</p>
-          <p className="text-xs text-ink-soft">Raja, Lakshmi, Gaja Kesari, Dhana yogas</p>
-        </div>
-        <div className="bg-rose/10 border border-rose rounded-lg p-4">
-          <p className="font-semibold text-rose mb-2">✗ Malefic Yogas</p>
-          <p className="text-xs text-ink-soft">Kuja Dosha, Papakartas, difficult combinations</p>
-        </div>
-        <div className="bg-orange/10 border border-orange rounded-lg p-4">
-          <p className="font-semibold text-orange mb-2">⭐ Planetary Strengths</p>
-          <p className="text-xs text-ink-soft">Exaltation, Moolatrikona, own houses</p>
-        </div>
-        <div className="bg-info/10 border border-info rounded-lg p-4">
-          <p className="font-semibold text-info mb-2">🔄 Dasha Periods</p>
-          <p className="text-xs text-ink-soft">120-year Vimshottari cycle and effects</p>
-        </div>
-      </div>
-
-      {/* Recommended Reading Order */}
-      <div className="mt-8 bg-saffron/10 border border-saffron rounded-2xl p-6">
-        <h3 className="font-semibold text-saffron mb-4">📋 Recommended Reading Order</h3>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[
-            { num: 1, title: 'Fundamentals', desc: 'Start here' },
-            { num: 2, title: 'Planetary Strengths', desc: 'Build foundation' },
-            { num: 3, title: 'Divisional Charts', desc: 'Deepen analysis' },
-            { num: 4, title: 'Dasha Systems', desc: 'Learn prediction' },
-            { num: 5, title: 'Yoga Detection', desc: 'Identify patterns' },
-            { num: 6, title: 'Remedies', desc: 'Advanced practice' },
-          ].map((item) => (
-            <div key={item.num} className="bg-white/50 rounded-lg p-4 border border-saffron/20">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 rounded-full bg-saffron text-white flex items-center justify-center font-bold text-sm">
-                  {item.num}
-                </div>
-                <span className="font-medium text-ink">{item.title}</span>
+      {tab === 'sources' && (
+        <ul className="space-y-3">
+          {sources.map((s) => (
+            <li key={s.id} className="border border-line rounded-xl bg-surface p-4 text-sm">
+              <div className="flex items-baseline justify-between gap-3 mb-1">
+                <span className="font-[family-name:var(--font-tamil-serif)] text-lg text-ink">{s.titleTa}</span>
+                <span className={`text-[11px] px-1.5 py-0.5 rounded shrink-0 ${RIGHTS_CLASS[s.rights.status]}`}>
+                  {RIGHTS_TA[s.rights.status]}
+                </span>
               </div>
-              <p className="text-xs text-ink-soft">{item.desc}</p>
-            </div>
+              <p className="text-ink-soft text-xs">{s.title}</p>
+              {s.author && <p className="text-ink-soft text-xs">{s.author}</p>}
+              {s.file && <p className="text-ink-soft text-xs font-mono">{s.file}</p>}
+              <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 text-xs mt-2">
+                <dt className="text-ink-soft">மரபு</dt><dd className="text-ink">{s.tradition}</dd>
+                <dt className="text-ink-soft">பயன்பாட்டில் உள்ள சொற்கள்</dt>
+                <dd className="text-ink">{terms.filter((t) => t.source.id === s.id).length}</dd>
+                <dt className="text-ink-soft">செயலியுடன் வழங்கலாமா</dt>
+                <dd className={s.rights.mayShip ? 'text-teal' : 'text-rose'}>
+                  {s.rights.mayShip ? 'ஆம்' : 'இல்லை'}
+                </dd>
+                <dt className="text-ink-soft">சிறு மேற்கோள்</dt>
+                <dd className={s.rights.mayQuoteShort ? 'text-teal' : 'text-rose'}>
+                  {s.rights.mayQuoteShort ? 'ஆம்' : 'இல்லை'}
+                </dd>
+              </dl>
+              <p className="text-ink-soft text-xs mt-2">{s.rights.note}</p>
+              {s.rights.toConfirm && (
+                <p className="text-amber-700 text-xs mt-1">
+                  <strong>உறுதி செய்ய வேண்டியது:</strong> {s.rights.toConfirm}
+                </p>
+              )}
+            </li>
           ))}
-        </div>
-      </div>
-
-      <footer className="mt-12 pt-6 border-t border-line text-xs text-ink-soft text-center">
-        <p>
-          கற்றல் வளங்கள் — வேத ஜ்ஞানம் மற்றும் ঐতிহ্যமிக்க பாட்ய வேளை குறிப்பு.
-          Classical astrology knowledge repository and learning resources.
-        </p>
-      </footer>
+        </ul>
+      )}
     </main>
   );
 }

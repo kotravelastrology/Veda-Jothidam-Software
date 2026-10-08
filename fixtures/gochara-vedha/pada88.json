@@ -1,0 +1,18 @@
+{
+  "_about": "The 88th nakshatra pada as four books state it, transcribed from page images on 2026-10-08 independently of src/report/pada88Tables.js.",
+  "examples": [
+    { "book": "RAJ_KUMAR", "page": "Charisma of Planets PDF p.266", "natal": "Rohini|3", "pada88": "Uttarabhadrapada|2" },
+    { "book": "VISHNU_BHASKAR", "page": "printed p.141", "natal": "Ashwini|1", "pada88": "Sravana|4" }
+  ],
+  "rajKumarTable21": {
+    "page": "Charisma of Planets PDF pp.266-267",
+    "rowsInOrder": ["Sun", "Moon", "Mars", "Mercury", "(label lost at the page break)", "Venus", "Saturn", "Rahu", "Ketu"],
+    "unlabelledRowStartsWith": "Loss of wealth, failure in academic pursuits"
+  },
+  "kalaprakasika": {
+    "pages": { "SHAVING": "printed p.40", "PATIENT": "printed p.160", "INAUSPICIOUS": "printed p.167", "REMEDY": "printed p.190" },
+    "remedyParenthesis": "(in the 22nd asterism)"
+  },
+  "shubhakaran": { "page": "p.357", "rule": 10 },
+  "wordCounts": { "RAJ_KUMAR": 299, "KALAPRAKASIKA": 131, "VISHNU_BHASKAR": 81, "SHUBHAKARAN": 21 }
+}

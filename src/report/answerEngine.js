@@ -9,7 +9,9 @@
  *   2. TIMING   — a daśā lord gives the results of the bhāva it OWNS,
  *                 OCCUPIES or ASPECTS. BPHS 46-47 (daśā-phala); Phaladīpikā 19.
  *   3. GOCHARA  — Candra-gochara with vedha + the slow grahas over the bhāva.
- *                 Phaladīpikā 26.3-8 (via src/report/gocharaPhala.js).
+ *                 Pulippani, Gochar Phaladeepika ch.22 pp.204-206 (via
+ *                 src/report/gocharaPhala.js; the earlier "Phaladīpikā 26.3-8"
+ *                 label was never checked against a page).
  *
  * It returns NO yes/no. The classical method weighs converging and conflicting
  * testimonies and a chart routinely carries both; every step is returned with
@@ -468,7 +470,7 @@ function judgeGochara(v, topic, transitRasis, rows) {
         stage: 'gochara',
         ...T(`${tamil} சந்திரனிலிருந்து ${houseFromMoon}-ஆம் இடத்தில் சஞ்சரிக்கிறார் — தடையின்றி சுபம்.`,
           `${tamil} transits the ${houseFromMoon}th from the Moon — benefic and unobstructed.`),
-        weight: g === 'Jupiter' ? 12 : 8, source: 'Phaladīpikā 26.3-8 (gochara + vedha)',
+        weight: g === 'Jupiter' ? 12 : 8, source: 'Pulippani, Gochar Phaladeepika ch.22 pp.204-206 (gochara + vedha)',
       });
     } else if (row.verdict === 'vedha') {
       const byList = Array.isArray(row.obstructedBy) ? row.obstructedBy : (row.obstructedBy ? [row.obstructedBy] : []);
@@ -477,14 +479,14 @@ function judgeGochara(v, topic, transitRasis, rows) {
         stage: 'gochara',
         ...T(`${tamil} ${houseFromMoon}-ஆம் இடத்தில் சுபமாக இருந்தாலும் ${by} வேதையால் தடுக்கப்படுகிறது.`,
           `${tamil} would be benefic in the ${houseFromMoon}th but is obstructed by ${by}.`),
-        weight: 0, source: 'Phaladīpikā 26.3-8 (vedha)',
+        weight: 0, source: 'Pulippani, Gochar Phaladeepika ch.22 pp.204-206 (vedha)',
       });
     } else {
       steps.push({
         stage: 'gochara',
         ...T(`${tamil} சந்திரனிலிருந்து ${houseFromMoon}-ஆம் இடத்தில் — சுப இடம் அல்ல.`,
           `${tamil} transits the ${houseFromMoon}th from the Moon — not a benefic house for it.`),
-        weight: g === 'Jupiter' ? -6 : -4, source: 'Phaladīpikā 26.3-8',
+        weight: g === 'Jupiter' ? -6 : -4, source: 'Pulippani, Gochar Phaladeepika ch.22 pp.204-206',
       });
     }
   }

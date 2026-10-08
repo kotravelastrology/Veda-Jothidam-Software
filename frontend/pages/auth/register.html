@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Veda Jothidam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .logo p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input::placeholder {
+            color: #9ca3af;
+        }
+
+        .password-strength {
+            margin-top: 6px;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        .password-strength-bar.weak {
+            width: 33%;
+            background: #ef4444;
+        }
+
+        .password-strength-bar.medium {
+            width: 66%;
+            background: #f59e0b;
+        }
+
+        .password-strength-bar.strong {
+            width: 100%;
+            background: #10b981;
+        }
+
+        .password-hint {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 6px;
+        }
+
+        .password-hint ul {
+            list-style: none;
+            margin-top: 4px;
+        }
+
+        .password-hint li {
+            padding: 3px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .password-hint li.valid {
+            color: #10b981;
+        }
+
+        .password-hint li.invalid {
+            color: #9ca3af;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .login-link {
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            border-left: 4px solid #dc2626;
+            display: none;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .terms-checkbox input[type="checkbox"] {
+            width: auto;
+            margin-top: 2px;
+        }
+
+        .terms-checkbox label {
+            margin-bottom: 0;
+            font-size: 13px;
+            color: #6b7280;
+            flex: 1;
+        }
+
+        .terms-checkbox a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .terms-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 20px;
+            }
+
+            .logo h1 {
+                font-size: 24px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logo">
+                <h1>🔮 Veda Jothidam</h1>
+                <p>Join the Vedic Astrology Community</p>
+            </div>
+
+            <div id="error-message" class="error-message"></div>
+
+            <form id="register-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <input
+                            type="text"
+                            id="first-name"
+                            name="first_name"
+                            placeholder="John"
+                            required
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input
+                            type="text"
+                            id="last-name"
+                            name="last_name"
+                            placeholder="Doe"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="johndoe"
+                        pattern="[a-zA-Z0-9_-]+"
+                        minlength="3"
+                        maxlength="100"
+                        required
+                    >
+                    <p class="password-hint">3-100 characters, alphanumeric, - and _</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="••••••••"
+                        required
+                    >
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="strength-bar"></div>
+                    </div>
+                    <div class="password-hint">
+                        Password must contain:
+                        <ul>
+                            <li id="length-check" class="invalid">At least 8 characters</li>
+                            <li id="uppercase-check" class="invalid">One uppercase letter (A-Z)</li>
+                            <li id="lowercase-check" class="invalid">One lowercase letter (a-z)</li>
+                            <li id="number-check" class="invalid">One number (0-9)</li>
+                            <li id="special-check" class="invalid">One special character (!@#$%)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="language">Language</label>
+                    <select id="language" name="language" required>
+                        <option value="en">English</option>
+                        <option value="ta">Tamil</option>
+                    </select>
+                </div>
+
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="/terms">Terms of Service</a> and
+                        <a href="/privacy">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="submit-btn">
+                    Create Account
+                </button>
+
+                <p class="login-link">
+                    Already have an account? <a href="/auth/login">Sign in here</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('register-form');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMsg = document.getElementById('error-message');
+
+        // Password validation
+        const checks = {
+            'length-check': /^.{8,}$/,
+            'uppercase-check': /[A-Z]/,
+            'lowercase-check': /[a-z]/,
+            'number-check': /[0-9]/,
+            'special-check': /[!@#$%^&*()_+\-=\[\]{}|;:,.<>?]/,
+        };
+
+        passwordInput.addEventListener('input', () => {
+            const password = passwordInput.value;
+            let validCount = 0;
+
+            for (const [id, pattern] of Object.entries(checks)) {
+                const elem = document.getElementById(id);
+                if (pattern.test(password)) {
+                    elem.classList.add('valid');
+                    elem.classList.remove('invalid');
+                    validCount++;
+                } else {
+                    elem.classList.remove('valid');
+                    elem.classList.add('invalid');
+                }
+            }
+
+            // Update strength bar
+            const strengthBar = document.getElementById('strength-bar');
+            strengthBar.classList.remove('weak', 'medium', 'strong');
+
+            if (validCount <= 2) {
+                strengthBar.classList.add('weak');
+            } else if (validCount <= 4) {
+                strengthBar.classList.add('medium');
+            } else {
+                strengthBar.classList.add('strong');
+            }
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Validate all checks pass
+            let allValid = true;
+            for (const id of Object.keys(checks)) {
+                if (!document.getElementById(id).classList.contains('valid')) {
+                    allValid = false;
+                    break;
+                }
+            }
+
+            if (!allValid) {
+                errorMsg.textContent = 'Password does not meet all requirements';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (!document.getElementById('terms').checked) {
+                errorMsg.textContent = 'You must agree to the terms and privacy policy';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            errorMsg.style.display = 'none';
+
+            // Loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading-spinner"></span>Creating account...';
+
+            try {
+                const firstName = document.getElementById('first-name').value;
+                const lastName = document.getElementById('last-name').value;
+
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: document.getElementById('email').value,
+                        username: document.getElementById('username').value,
+                        password: passwordInput.value,
+                        full_name: `${firstName} ${lastName}`,
+                        language: document.getElementById('language').value,
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Registration failed');
+                }
+
+                // Store tokens
+                localStorage.setItem('access_token', data.token);
+                localStorage.setItem('refresh_token', data.refresh_token);
+
+                // Redirect to dashboard
+                window.location.href = '/dashboard';
+
+            } catch (error) {
+                errorMsg.textContent = error.message;
+                errorMsg.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Create Account';
+            }
+        });
+    </script>
+</body>
+</html>

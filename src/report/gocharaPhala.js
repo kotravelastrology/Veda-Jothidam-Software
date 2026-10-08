@@ -1,70 +1,80 @@
 /**
- * சந்திர கோசார பலன் + வேதை (Chandra Gochara Phala + Vedha).
+ * சந்திர கோசார பலன் + வேதை (Chandra Gochara Phala + Vedha) — the present
+ * moment only, for the report and the answer engine.
  *
- * Ported verbatim (benefic-house lists, Vedha pairs, father/son exemptions)
- * from the prior AstrologicLab `src/lib/gocharaPhala.ts`. Source: Mantreśvara,
- * *Phaladeepika* Adhyāya 26 ślokas 3-8 (V. Subrahmanya Sastri) — the benefic
- * transit houses counted from the natal Moon and the paired Vedha
- * (obstruction) house for each graha, plus the Sun↔Saturn and Moon↔Mercury
- * non-mutual-Vedha exceptions.
+ * Until 2026-10-06 this module carried its own copy of the tables, ported from
+ * the prior AstrologicLab code with a citation (Phaladeepika 26.3-8) whose page
+ * was never seen; no translation of that chapter is in the library. The tables
+ * are now read from `gocharaVedhaTables.js`, where five books are compared
+ * page by page, and the method is the default there — Pulippani, *Gochar
+ * Phaladeepika* ch.22, printed pp.204-206. Two things changed as a result, both
+ * the book's: Rahu and Ketu are good in the 10th (with no vedha house), and the
+ * Sun causes Venus no vedha. Vipareetha vedha is reported alongside.
+ *
+ * Dated windows for every planet, and the other book, are on /gochara-vedha
+ * (`gocharaVedha.js`).
  */
-const GOCHARA_GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
+const V = require('./gocharaVedhaTables');
 
-const GOCHARA_BENEFIC = {
-  Sun: [3, 6, 10, 11],
-  Moon: [1, 3, 6, 7, 10, 11],
-  Mars: [3, 6, 11],
-  Mercury: [2, 4, 6, 8, 10, 11],
-  Jupiter: [2, 5, 7, 9, 11],
-  Venus: [1, 2, 3, 4, 5, 8, 9, 11, 12],
-  Saturn: [3, 6, 11],
-  Rahu: [3, 6, 11],
-  Ketu: [3, 6, 11],
-};
+const GOCHARA_GRAHAS = V.PLANETS_9;
+const SOURCE_LABEL = 'Pulippani, Gochar Phaladeepika ch.22, printed pp.204-206';
 
-const GOCHARA_VEDHA = {
-  Sun: { 3: 9, 6: 12, 10: 4, 11: 5 },
-  Moon: { 1: 5, 3: 9, 6: 12, 7: 2, 10: 4, 11: 8 },
-  Mars: { 3: 12, 6: 9, 11: 5 },
-  Mercury: { 2: 5, 4: 3, 6: 9, 8: 1, 10: 8, 11: 12 },
-  Jupiter: { 2: 12, 5: 4, 7: 3, 9: 10, 11: 8 },
-  Venus: { 1: 8, 2: 7, 3: 1, 4: 10, 5: 9, 8: 5, 9: 11, 11: 3, 12: 6 },
-  Saturn: { 3: 12, 6: 9, 11: 5 },
-  Rahu: { 3: 12, 6: 9, 11: 5 },
-  Ketu: { 3: 12, 6: 9, 11: 5 },
-};
+function methodTables(methodId = V.DEFAULT_VEDHA_METHOD) {
+  const m = V.VEDHA_METHODS[methodId];
+  if (!m) throw new RangeError(`unknown vedha method: ${methodId}`);
+  return m;
+}
 
-const GOCHARA_VEDHA_EXEMPT = { Sun: 'Saturn', Saturn: 'Sun', Moon: 'Mercury', Mercury: 'Moon' };
+/** Good houses per planet under the default book (kept as an export for callers that list them). */
+const GOCHARA_BENEFIC = Object.freeze(Object.fromEntries(GOCHARA_GRAHAS.map((g) => [g, [...methodTables().table[g].good]])));
+/** Good house → vedha house per planet under the default book. */
+const GOCHARA_VEDHA = Object.freeze(Object.fromEntries(GOCHARA_GRAHAS.map((g) => [g, { ...methodTables().table[g].vedhaOf }])));
 
 /**
  * @param moonRasi0  natal Moon's rasi index (0-11)
  * @param transitRasiByGraha  { graha : current rasi index 0-11 } for the 9 grahas
+ * @param methodId  'PULIPPANI' (default), 'SANTHANAM' or 'VISHNU_BHASKAR'
  */
-function computeGocharaPhala(moonRasi0, transitRasiByGraha) {
+function computeGocharaPhala(moonRasi0, transitRasiByGraha, methodId) {
+  const m = methodTables(methodId);
   const norm = (n) => ((n % 12) + 12) % 12;
   const houseOf = (r0) => norm(r0 - moonRasi0) + 1;
+  const othersIn = (graha, house, exemptList) => GOCHARA_GRAHAS.filter((other) => {
+    if (other === graha || (exemptList[graha] ?? []).includes(other)) return false;
+    // Rahu and Ketu always stand opposite; no book says they obstruct each other.
+    if ((graha === 'Rahu' && other === 'Ketu') || (graha === 'Ketu' && other === 'Rahu')) return false;
+    const r = transitRasiByGraha[other];
+    return r !== undefined && houseOf(norm(r)) === house;
+  });
 
   return GOCHARA_GRAHAS
     .filter((g) => transitRasiByGraha[g] !== undefined)
     .map((graha) => {
+      const row = m.table[graha];
       const houseFromMoon = houseOf(norm(transitRasiByGraha[graha]));
-      const isBenefic = (GOCHARA_BENEFIC[graha] || []).includes(houseFromMoon);
-      if (!isBenefic) {
-        return { graha, houseFromMoon, isBenefic: false, vedhaHouse: 0, obstructedBy: [], verdict: 'neutral' };
+      if (row.notCovered) {
+        return {
+          graha, houseFromMoon, isBenefic: false, vedhaHouse: 0, obstructedBy: [],
+          vipareetaHouse: 0, vipareetaHouses: [], relievedBy: [], verdict: 'notCovered', source: SOURCE_LABEL,
+        };
       }
-      const vedhaHouse = GOCHARA_VEDHA[graha][houseFromMoon];
-      const exempt = GOCHARA_VEDHA_EXEMPT[graha];
-      const obstructedBy = GOCHARA_GRAHAS.filter((other) => {
-        if (other === graha || other === exempt) return false;
-        const r = transitRasiByGraha[other];
-        if (r === undefined) return false;
-        return houseOf(norm(r)) === vedhaHouse;
-      });
+      const isBenefic = row.good.includes(houseFromMoon);
+      if (!isBenefic) {
+        const vipareetaHouses = row.relievedBy[houseFromMoon] ?? [];
+        const relievedBy = [...new Set(vipareetaHouses.flatMap((h) => othersIn(graha, h, m.exempt.vipareeta)))];
+        return {
+          graha, houseFromMoon, isBenefic: false, vedhaHouse: 0, obstructedBy: [],
+          vipareetaHouse: vipareetaHouses[0] ?? 0, vipareetaHouses, relievedBy, verdict: 'neutral', source: SOURCE_LABEL,
+        };
+      }
+      const vedhaHouse = row.vedhaOf[houseFromMoon] ?? 0;
+      const obstructedBy = vedhaHouse ? othersIn(graha, vedhaHouse, m.exempt.gochara) : [];
       return {
         graha, houseFromMoon, isBenefic: true, vedhaHouse, obstructedBy,
-        verdict: obstructedBy.length > 0 ? 'vedha' : 'benefic',
+        vipareetaHouse: 0, vipareetaHouses: [], relievedBy: [],
+        verdict: obstructedBy.length > 0 ? 'vedha' : 'benefic', source: SOURCE_LABEL,
       };
     });
 }
 
-module.exports = { computeGocharaPhala, GOCHARA_BENEFIC, GOCHARA_VEDHA, GOCHARA_GRAHAS };
+module.exports = { computeGocharaPhala, GOCHARA_BENEFIC, GOCHARA_VEDHA, GOCHARA_GRAHAS, SOURCE_LABEL };

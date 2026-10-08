@@ -11,16 +11,7 @@ import { getChartById, type ChartCategory } from '@/src/charts/chartTypes';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { getChartLibrary } from '@/src/portal/ChartLibraryManager';
-import { useSettings } from '@/src/ui/SettingsPanel';
-
-// Settings values (lowercase UI keys) → the governed chart-context names
-// (@swisseph/node SiderealMode / HouseSystem keys) the engine expects.
-const AYANAMSHA_MAP: Record<string, string> = {
-  lahiri: 'Lahiri', raman: 'Raman', krishnamurti: 'Krishnamurti', truecitra: 'TrueCitra',
-};
-const HOUSE_SYSTEM_MAP: Record<string, string> = {
-  porphyrius: 'Porphyrius', placidus: 'Placidus', whole: 'WholeSign', equal: 'Equal', koch: 'Koch',
-};
+import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
 const CHART_POINTS = ['Lagna', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -380,8 +371,8 @@ function AyurdayaSection({ report }: { report: ReportData }) {
 function GocharaPhalaSection({ report }: { report: ReportData }) {
   const g = (report as any).gocharaPhala;
   if (!g?.available) return null;
-  const style: Record<string, string> = { benefic: 'text-teal', vedha: 'text-rose', neutral: 'text-ink-soft' };
-  const label: Record<string, string> = { benefic: 'சுபம்', vedha: 'வேதை (தடை)', neutral: 'நடுநிலை' };
+  const style: Record<string, string> = { benefic: 'text-teal', vedha: 'text-rose', neutral: 'text-ink-soft', notCovered: 'text-ink-soft' };
+  const label: Record<string, string> = { benefic: 'சுபம்', vedha: 'வேதை (தடை)', neutral: 'சுப இடம் அல்ல', notCovered: 'நூலில் இல்லை' };
   return (
     <div className="mb-8">
       <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">சந்திர கோசார பலன் + வேதை</h2>
@@ -398,16 +389,21 @@ function GocharaPhalaSection({ report }: { report: ReportData }) {
               <td className="py-1 text-center">{r.houseFromMoon}</td>
               <td className={`py-1 ${style[r.verdict]}`}>{label[r.verdict]}</td>
               <td className="py-1 text-ink-soft text-xs">
-                {r.isBenefic ? `${r.vedhaHouse}வது` : '—'}
+                {r.isBenefic ? (r.vedhaHouse ? `${r.vedhaHouse}வது` : 'வேதை இடம் இல்லை') : '—'}
                 {r.obstructedBy.length > 0 && ` · ${r.obstructedBy.map((x: string) => POINT_LABEL[x] ?? x).join(', ')}`}
+                {!r.isBenefic && r.vipareetaHouse > 0 && (
+                  <span className={r.relievedBy?.length ? 'text-teal' : ''}>
+                    விபரீத வேதை இடம் {(r.vipareetaHouses?.length ? r.vipareetaHouses : [r.vipareetaHouse]).join(' / ')}வது{r.relievedBy?.length ? ` · ${r.relievedBy.map((x: string) => POINT_LABEL[x] ?? x).join(', ')} — தீமை நீங்கும்` : ''}
+                  </span>
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       <p className="text-[11px] text-ink-soft mt-2">
-        பலதீபிகா ச.26 v.3-8 — சந்திரனிலிருந்து சுப கோசார பாவங்கள் + இணை வேதை பாவம் (சூரியன்↔சனி, சந்திரன்↔புதன் விதிவிலக்கு).
-        முந்தைய AstrologicLab gocharaPhala engine-லிருந்து port.
+        புலிப்பாணி, கோசார பலதீபிகை அத்.22 (அச்சுப் பக்கம் 204-206) — சந்திரனிலிருந்து சுப கோசார பாவங்கள், இணை வேதை பாவம், விபரீத வேதை
+        (சூரியன்↔சனி, சந்திரன்↔புதன், சுக்கிரனுக்குச் சூரியன் — விலக்கு). ஐந்து நூல்களின் ஒப்பீடும் எல்லாக் கிரகங்களின் காலங்களும்: <a href="/gochara-vedha" className="underline">/gochara-vedha</a>.
       </p>
     </div>
   );
@@ -902,10 +898,20 @@ function MuhurtaEnhancementsSection({ report }: { report: ReportData }) {
 }
 
 function PredictionEngineSection({ report }: { report: ReportData }) {
-  // Dynamically import the renderer to avoid circular dependencies
-  const PredictionEngineRenderer = require('@/src/charts/chart-renderers/PredictionEngineRenderer').PredictionEngineRenderer;
   const pred = (report as any).predictions;
   if (!pred) return null;
+  if (pred.status === 'SOURCE_REQUIRED') {
+    return (
+      <div className="mb-8">
+        <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink flex items-center gap-2">
+          வாழ்க்கை நிகழ்வு முன்னறிவிப்பு <SourceRequiredBadge reason={pred.reason} />
+        </h2>
+        <p className="text-sm text-ink-soft">{pred.reason}</p>
+      </div>
+    );
+  }
+  // Dynamically import the renderer to avoid circular dependencies
+  const PredictionEngineRenderer = require('@/src/charts/chart-renderers/PredictionEngineRenderer').PredictionEngineRenderer;
   return <PredictionEngineRenderer data={pred} />;
 }
 
@@ -2032,9 +2038,7 @@ export default function ReportBuilder() {
         longitude: birthData.longitude,
         utcOffsetMinutes: birthData.utcOffset,
         ianaTimeZone: 'Asia/Kolkata',
-        ayanamsha: AYANAMSHA_MAP[settings.ayanamsha] ?? 'Lahiri',
-        houseSystem: HOUSE_SYSTEM_MAP[settings.houseSystem] ?? 'Porphyrius',
-        nodeType: settings.nodeType === 'true' ? 'true' : 'mean',
+        ...toEngineOptions(settings),
       };
       const result = await computeReport(formInput);
       setReport(result);

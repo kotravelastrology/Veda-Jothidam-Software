@@ -1,0 +1,67 @@
+{
+  "id": "vimshottari-chennai-1990",
+  "system": "vimshottari",
+  "status": "INDEPENDENT_WORKED_EXAMPLE",
+  "purpose": "VJ-027 acceptance: an independent worked example. The expected values below were derived by applying the stated BPHS rule arithmetically, NOT by running the engine and recording what it produced. A fixture recorded from the code under test proves only that the code is deterministic.",
+  "source": {
+    "title": "Brihat Parashara Hora Shastra (BPHS)",
+    "author": "R. Santhanam (translation)",
+    "file": "C23_BPHS_Santhanam.pdf",
+    "pageLocus": "file pages 407-411 / printed pages 400-404 (Ch.46 vv.12-16)",
+    "tradition": "Parashari"
+  },
+  "input": {
+    "moonLongitude": 269.84223816,
+    "note": "The sidereal Moon of the chennai-1990-05-15 chart fixture (Lahiri), which the VJ-008 Electron proof also used."
+  },
+  "derivation": [
+    "nakshatra span = 360 / 27 = 13.333333333333334 degrees",
+    "269.84223816 / 13.333333333333334 = 20.238167862 -> nakshatra index 20 (0-based), Uttara Ashadha",
+    "BPHS Ch.46 lord cycle: Ketu, Venus, Sun, Moon, Mars, Rahu, Jupiter, Saturn, Mercury",
+    "lord of nakshatra 20 = cycle[20 mod 9] = cycle[2] = Sun",
+    "degrees elapsed into the nakshatra = 269.84223816 - (20 x 13.333333333333334) = 3.175571493",
+    "elapsed fraction = 3.175571493 / 13.333333333333334 = 0.2381678620",
+    "Sun's full mahadasha = 6 years, so the balance at birth = 6 x (1 - 0.2381678620) = 4.570992828",
+    "mahadasha order runs from Sun: Sun, Moon, Mars, Rahu, Jupiter, Saturn, Mercury, Ketu, Venus",
+    "each later mahadasha takes its full BPHS span; only the first is shortened",
+    "cumulative end in years = 4.570992828 + (120 - 6) = 118.570992828"
+  ],
+  "expected": {
+    "nakshatraIndex": 20,
+    "startLord": "Sun",
+    "elapsedFraction": 0.2381678620,
+    "balanceYears": 4.570992828,
+    "mahadashaOrder": ["Sun", "Moon", "Mars", "Rahu", "Jupiter", "Saturn", "Mercury", "Ketu", "Venus"],
+    "endYears": [
+      4.570992828,
+      14.570992828,
+      21.570992828,
+      39.570992828,
+      55.570992828,
+      74.570992828,
+      91.570992828,
+      98.570992828,
+      118.570992828
+    ],
+    "firstBhuktiOfSun": {
+      "note": "Sub-periods are pro-rated against the shortened parent, not the full 6 years: each sublord's share = parentDuration x sublordYears / 120.",
+      "parentDurationYears": 4.570992828,
+      "order": ["Sun", "Moon", "Mars", "Rahu", "Jupiter", "Saturn", "Mercury", "Ketu", "Venus"],
+      "durationsYears": [
+        0.228549641,
+        0.380916069,
+        0.266641248,
+        0.685648924,
+        0.609465710,
+        0.723740531,
+        0.647557317,
+        0.266641248,
+        0.761832138
+      ]
+    }
+  },
+  "tolerance": {
+    "years": 1e-6,
+    "note": "The derivation above is written to nine decimals; the engine works in full double precision, so agreement to 1e-6 years (about 30 seconds) is the bar."
+  }
+}

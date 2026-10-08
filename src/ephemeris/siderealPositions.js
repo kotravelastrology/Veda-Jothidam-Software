@@ -20,6 +20,25 @@ function sunMoonLongitudes(julianDay, ayanamsha = 'Lahiri') {
 }
 
 /**
+ * One graha's sidereal longitude at a Julian Day, without building a chart.
+ *
+ * For scanning a slow planet across decades (Saturn's sign changes, for Sade
+ * Sati), where `calculateChart` would also compute the houses and six other
+ * planets on every one of tens of thousands of calls. The sidereal mode is set
+ * and used inside this one synchronous call, so it is safe for the same reason
+ * as the functions around it.
+ */
+function planetLongitude(julianDay, planetName, ayanamsha = 'Lahiri') {
+  const siderealMode = SiderealMode[ayanamsha];
+  if (siderealMode === undefined) throw new RangeError(`Unsupported ayanamsa: ${ayanamsha}`);
+  const body = Planet[planetName];
+  if (body === undefined) throw new RangeError(`Unsupported planet: ${planetName}`);
+  setSiderealMode(siderealMode);
+  const flags = CalculationFlag.SwissEphemeris | CalculationFlag.Sidereal;
+  return calculatePosition(julianDay, body, flags).longitude;
+}
+
+/**
  * Rahu's sidereal longitude. `nodeType` selects the lunar-node model:
  *
  *  - `'mean'` (project default) — S6's follow-up source check (*Rahu & Kethu
@@ -75,5 +94,5 @@ function sunsetJulianDay(julianDayAtOrAfterSunrise, latitude, longitude, altitud
 }
 
 module.exports = {
-  sunMoonLongitudes, nodeLongitude, meanNodeLongitude, sunriseJulianDay, sunsetJulianDay,
+  sunMoonLongitudes, planetLongitude, nodeLongitude, meanNodeLongitude, sunriseJulianDay, sunsetJulianDay,
 };

@@ -1,0 +1,48 @@
+{
+  "_about": "Nakshatra gochara as four books print it, transcribed from page images on 2026-10-08 independently of src/report/nakshatraGocharaTables.js. Anga rows are 'from-to|limb|result' in the book's own words (Sudamani: the limb counts of the verse, in order).",
+  "pulippaniTable16": {
+    "page": "Gochar Phaladeepika printed p.213 (PDF 206)",
+    "rows": ["Sun|2,4,8,9,11,13,24|1,14,16,19,23", "Moon|4,6,8,9,11,13,16,26,27|1,3,5,7,12,14,19", "Mars|9,11,17,22,24|1,3,5,7,12,14,19,21", "Mercury|4,6,13,15,17,20,22,24,26,27|", "Jupiter|1,3,7,10,12,19|", "Venus|1,3,7,10,12,19|", "Saturn|2,4,6,8,13,15,17,18,20|", "Rahu|22,24|1,7,10,27", "Ketu|22,24|1,7,10,27"]
+  },
+  "pulippaniTaraResults": ["Medium", "Very Good", "Bad", "Good", "Bad", "Good", "Bad", "Good", "Moderate"],
+  "bhatTaraNames": ["Janma", "Sampat", "Vipat", "Ksema", "Pratyak", "Sadhana", "Nidhana", "Maitra", "Parama maitra"],
+  "anga": {
+    "BHAT": {
+      "page": "Fundamentals of Astrology printed pp.254-255",
+      "Sun": ["1-1|Face|Destruction", "2-5|Head|Great prosperity", "6-9|Chest|Victory", "10-13|Right hand|Wealth", "14-19|The feet|Poverty", "20-23|Left hand|Physical ailments", "24-25|The eyes|Gain", "26-27|Genital organ|Danger to life"],
+      "Moon": ["1-2|Face|Great fear", "3-6|Head|Happiness", "7-8|Back|Victory over foes", "9-10|Eyes|Financial gain", "11-15|Heart|Happiness", "16-18|Left hand|Hatred", "19-24|Feet|Going abroad", "25-27|Right hand|Financial gain"],
+      "Mars": ["1-2|Face|Death", "3-8|Feet|Fighting", "9-11|Chest|Success", "12-15|Left hand|Indigence", "16-17|Head|Gain", "18-21|Face|Excessive fear", "22-25|Right hand|Happiness", "26-27|Eyes|Going away from home"],
+      "Mercury": ["1-3|Head|Sorrow", "4-6|Face|Gain", "7-12|Hands|Disaster", "13-17|Belly|Plenty of wealth", "18-19|Genital organ|Loss or destruction", "20-27|Feet|Fame and position"],
+      "Saturn": ["1-1|Face|Grief", "2-5|Right hand|Happiness", "6-8|Right foot|Travel", "9-11|Left foot|Loss or destruction", "12-15|Left hand|Gain", "16-20|Belly|Enjoyments", "21-23|Head|Happiness", "24-25|Eyes|Happiness", "26-27|Back|Death"]
+    },
+    "PULIPPANI": {
+      "page": "Gochar Phaladeepika printed pp.215-216 (PDF 208-209)",
+      "Sun": ["1-1|Face (Mouth)|Destruction", "2-5|Head|Prosperity", "6-9|Chest|Success", "10-13|Right Hand|Wealth", "14-19|both Legs|Poverty", "20-23|Left Hand|Body trouble, disease", "24-25|Eyes|Profit", "26-27|Anus|Body destruction (incurable disease)"],
+      "Moon": ["1-2|Face|Great fear", "3-6|Head|Comforts", "7-8|Back|Success over enemies", "9-10|Eyes|Gain of money", "11-15|Chest|Happiness", "16-17|Right Hand|Enmity", "18-24|Legs|Living in his own house", "24-27|Left hand|Gain of money"],
+      "Mars": ["1-2|Face (Mouth)|Death or death news", "3-8|Leg|Enmity, conflict", "9-11|Neck|Success", "12-15|Right Hand|Loss of Money", "16-17|Head|Profit", "18-21|Face|Great fear", "22-25|Left Hand|Comforts", "26-27|Eyes|Travel"],
+      "Mercury": ["1-3|Head|Sorrow", "4-6|Face (Mouth)|Profit", "7-12|Hands|Sudden Evil Events", "13-17|Stomach|Gain of Money", "18-19|Anus|Loss", "20-27|Leg|Honour"],
+      "Saturn": ["1-1|Face (Mouth)|Sorrow", "2-5|Right Hand|Happiness", "6-8|Left Hand|Travel", "9-11|Right Leg|Loss", "12-15|Left Leg|Profit", "16-20|Stomach|Varieties of Sexual Pleasure", "21-23|Head|Happiness", "24-25|Eye|Comforts", "25-27|Back|Death"]
+    },
+    "GOUR": {
+      "page": "The Celestial Delivery Boy printed pp.93-95",
+      "Sun": ["1-1|Face|Destruction", "2-5|Head|Influx of wealth", "6-9|Chest|Success", "10-13|Right hand|Financial gain", "14-19|Two feet|Loss", "20-23|Left hand|Illness", "24-25|Two eyes|Gains", "26-27|Privates|Danger"],
+      "Moon": ["1-2|Face|Fear", "3-6|Head|Safety", "7-8|Back|Subduing enemies", "9-10|Two eyes|Financial gain", "11-15|Chest|Mental happiness", "16-18|Left hand|Quarrels", "19-24|Two feet|Foreign Visit", "25-27|Right hand|Financial gain"],
+      "Mars": ["1-2|Face|Death", "3-8|Two feet|Quarrels", "9-11|Chest|Success", "12-15|Left hand|Penury", "16-17|Head|Gains", "18-21|Face|Fear", "22-25|Right hand|Happiness", "26-27|Two eyes|Foreign Visit"],
+      "Mercury": ["1-3|Head|Sorrow, grief", "4-6|Face|Gain", "7-12|Two hands|Untoward happenings", "13-17|Stomach|Ingress of wealth", "18-19|Privates|Loss", "20-27|Two feet|Happiness gains"],
+      "Saturn": ["1-1|Face|Grief", "2-5|Right hand|Happiness", "6-8|Right leg|Travel", "12-15|Left hand|Gains", "16-20|Stomach|Conjugal felicity", "21-23|Head|Happiness", "24-25|Two eyes|Happiness", "26-27|Back|Danger to life"]
+    },
+    "SUDAMANI": {
+      "page": "Sudamani printed pp.150-151 (scan 175-176)",
+      "Saturn": [["வாய்", 1], ["வலக்கை", 4], ["கால்", 6], ["இடக்கை", 4], ["வயிறு", 5], ["நயனம்", 2], ["புயம்", 2], ["தலை", 3]],
+      "Sun": [["தலை", 3], ["வாய்", 3], ["வயிறு", 5], ["கை", 8], ["கால்", 8]],
+      "Mars": [["வாய்", 3], ["வலக்கண்", 2], ["இடக்கண்", 2], ["மிடறு", 3], ["கை", 3], ["இடக்கை", 3], ["வலப்பால்", 1], ["இடம்", 1], ["வயிறு", 5], ["வலக்கால்", 2], ["இடக்கால்", 2]],
+      "Mercury": [["தலை", 3], ["கழுத்து", 3], ["வலக்கை", 3], ["இடக்கை", 3], ["வயிறு", 5], ["அரை", 2], ["பாதம்", 8]]
+    }
+  },
+  "examples": {
+    "pulippaniVenus": { "page": "p.214", "natal": "Hasta", "planetStar": "Mrigashira", "count": 20, "tara": "Sampath" },
+    "pulippaniSaturn": { "page": "p.218", "natal": "Chitra", "planetStar": "Shravana", "count": 9, "pulippaniLimb": "Right leg", "pulippaniResult": "loss", "sudamaniLimb": "legs", "sudamaniResult": "travel" }
+  },
+  "weekdayCount": 7,
+  "wordCounts": { "BHAT": 897, "PULIPPANI": 587, "SUDAMANI": 254, "GOUR": 228 }
+}

@@ -31,18 +31,31 @@ export default function NallaNeramView() {
   const now = new Date();
   const p = (n: number) => String(n).padStart(2, '0');
   const [date, setDate] = useState(`${now.getFullYear()}-${p(now.getMonth() + 1)}-${p(now.getDate())}`);
+  const [place, setPlace] = useState('சென்னை');
   const [lat, setLat] = useState('13.0827');
   const [lng, setLng] = useState('80.2707');
+  // The offset used to be fixed at +05:30 while the coordinates were free, so
+  // any place outside India produced a full day of wrong clock times with
+  // nothing on screen saying so. It is an input now, and it is displayed.
+  const [offset, setOffset] = useState('330');
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState<'chog' | 'gowri' | 'hora'>('gowri');
 
   const run = async () => {
     setLoading(true);
+    setError(null);
     try {
       const [Y, M, D] = date.split('-').map(Number);
-      const q: DayQuery = { year: Y, month: M, day: D, latitude: parseFloat(lat), longitude: parseFloat(lng), utcOffsetMinutes: 330 };
+      const q: DayQuery = {
+        year: Y, month: M, day: D,
+        latitude: parseFloat(lat), longitude: parseFloat(lng),
+        utcOffsetMinutes: parseInt(offset, 10), placeName: place.trim() || undefined,
+      };
       setResult(await computeDailyMuhurta(q));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
     } finally {
       setLoading(false);
     }
@@ -58,20 +71,47 @@ export default function NallaNeramView() {
         </p>
       </header>
 
-      <div className="bg-surface border border-line rounded-2xl p-5 mb-6 grid sm:grid-cols-4 gap-3 text-sm">
+      <div className="bg-surface border border-line rounded-2xl p-5 mb-6 grid sm:grid-cols-3 lg:grid-cols-6 gap-3 text-sm">
         <label><span className="block text-ink-soft mb-1">தேதி</span>
           <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full px-2 py-1 bg-ink-soft/10 border border-line rounded" /></label>
+        <label><span className="block text-ink-soft mb-1">இடம்</span>
+          <input value={place} onChange={(e) => setPlace(e.target.value)} className="w-full px-2 py-1 bg-ink-soft/10 border border-line rounded" /></label>
         <label><span className="block text-ink-soft mb-1">அட்சரேகை</span>
           <input value={lat} onChange={(e) => setLat(e.target.value)} className="w-full px-2 py-1 bg-ink-soft/10 border border-line rounded" /></label>
         <label><span className="block text-ink-soft mb-1">தீர்க்கரேகை</span>
           <input value={lng} onChange={(e) => setLng(e.target.value)} className="w-full px-2 py-1 bg-ink-soft/10 border border-line rounded" /></label>
+        <label><span className="block text-ink-soft mb-1">UTC (நிமிடம்)</span>
+          <input value={offset} onChange={(e) => setOffset(e.target.value)} className="w-full px-2 py-1 bg-ink-soft/10 border border-line rounded" /></label>
         <button onClick={run} disabled={loading} className="px-4 py-1.5 bg-saffron text-ink rounded font-medium disabled:opacity-50 self-end">
           {loading ? '…' : 'கணக்கிடு'}
         </button>
       </div>
 
+      {error && <p className="text-rose text-sm mb-4 bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}
+
       {result?.available && (
         <div className="bg-surface border border-line rounded-2xl p-5">
+          {/* Which day, where, under what — every row below is a clock time cut
+              from sunrise at these coordinates, so the table is unreadable
+              without them. */}
+          {result.context && (
+            <dl className="mb-3 grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 text-xs border-b border-line pb-3">
+              <dt className="text-ink-soft">நாள்</dt>
+              <dd className="text-ink">
+                {result.context.date} · {result.context.weekdayTa}
+                <span className="text-ink-soft"> (அதிபதி {POINT_TA[result.context.weekdayLord] ?? result.context.weekdayLord} — மூன்று சுழற்சியும் இதிலிருந்தே தொடங்குகின்றன)</span>
+              </dd>
+              <dt className="text-ink-soft">இடம்</dt>
+              <dd className="text-ink">
+                {result.context.placeName ?? '—'} · {result.context.latitude}, {result.context.longitude} · UTC{result.context.utcOffset}
+              </dd>
+              <dt className="text-ink-soft">முறை</dt>
+              <dd className="text-ink">
+                {result.context.method.ayanamsha} அயனாம்சம் · நாள் தொடக்கம் {result.context.method.dayBoundary === 'sunrise' ? 'சூரிய உதயம்' : result.context.method.dayBoundary}
+                <span className="block text-ink-soft">{result.context.method.division}</span>
+              </dd>
+            </dl>
+          )}
           <p className="text-sm text-ink-soft mb-3">சூரிய உதயம் {result.sunrise} · அஸ்தமனம் {result.sunset}</p>
 
           {result.panchakaRahitam && (
@@ -101,6 +141,38 @@ export default function NallaNeramView() {
                 className={`px-2 py-1 rounded ${tab === k ? 'bg-saffron text-ink' : 'bg-surface border border-line text-ink-soft'}`}>{l}</button>
             ))}
           </div>
+          {/* What the chosen table is, and how its sequence was fixed for this
+              day — the same "why", not only "what", the porutham factors
+              carry. */}
+          <p className="text-xs text-ink-soft bg-ink-soft/5 rounded-lg p-3 mb-3 leading-relaxed">
+            {tab === 'gowri' && (
+              <>
+                <strong className="text-ink">கௌரி பஞ்சாங்கம்</strong> — பகலையும் இரவையும் தலா 8 பகுதிகளாகப்
+                பிரித்து, உத்தி · அமுதம் · ரோகம் · சோரம் · இலாபம் · தனம் · விஷம் · சுகம் என்ற
+                வரிசையில் பெயரிடுகிறது. இவற்றுள் உத்தி, அமுதம், இலாபம், தனம், சுகம் நல்லவை.
+                {result.context && <> இந்த {result.context.weekdayTa} அன்று வரிசை எங்கு தொடங்குகிறது
+                என்பதைக் கிழமையே தீர்மானிக்கிறது — எனவே வேறு நாளில் இதே நேரம் வேறு பெயரைப் பெறும்.</>}
+              </>
+            )}
+            {tab === 'chog' && (
+              <>
+                <strong className="text-ink">சோகதியா</strong> — அதே 8+8 பிரிவு, ஆனால் ஒவ்வொரு
+                பகுதியும் ஒரு கிரகத்திற்கு உரியது: அமிர்த · சுப · லாப நல்லவை, சல சமம்,
+                உத்வேக · கால · ரோக தவிர்க்கத்தக்கவை.
+                {result.context && <> தொடக்கப் புள்ளி {result.context.weekdayTa} கிழமையால் நிர்ணயிக்கப்படுகிறது.</>}
+              </>
+            )}
+            {tab === 'hora' && (
+              <>
+                <strong className="text-ink">ஹோரை</strong> — பகலும் இரவும் தலா 12 பகுதிகள்.
+                {result.context && <> {result.context.weekdayTa} கிழமையின் அதிபதி
+                {' '}{POINT_TA[result.context.weekdayLord] ?? result.context.weekdayLord} முதல் ஹோரையை ஆள்கிறது;</>}
+                {' '}அதிலிருந்து சனி · குரு · செவ்வாய் · சூரியன் · சுக்கிரன் · புதன் · சந்திரன் என்ற
+                கல்தேய (Chaldean) வரிசையில் தொடர்கிறது.
+              </>
+            )}
+          </p>
+
           <div className="grid sm:grid-cols-2 gap-6">
             {tab === 'gowri' && <>
               <SlotTable title="பகல்" rows={result.gowri.day} render={(r) => (

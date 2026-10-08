@@ -34,6 +34,29 @@ const DEFAULT_SETTINGS: Settings = {
 
 const SETTINGS_CHANGED_EVENT = 'kotravel:settings-changed';
 
+// Settings values (lowercase UI keys) → the governed chart-context names
+// (@swisseph/node SiderealMode / HouseSystem keys) the engine expects.
+const AYANAMSHA_MAP: Record<string, string> = {
+  lahiri: 'Lahiri', raman: 'Raman', krishnamurti: 'Krishnamurti', truecitra: 'TrueCitra',
+};
+const HOUSE_SYSTEM_MAP: Record<string, string> = {
+  porphyrius: 'Porphyrius', placidus: 'Placidus', whole: 'WholeSign', equal: 'Equal', koch: 'Koch',
+};
+
+/** The engine options every calculation entry point must pass, so a setting
+ *  the user changed is never silently replaced by the engine's own default. */
+export function toEngineOptions(settings: Settings): {
+  ayanamsha: string;
+  houseSystem: string;
+  nodeType: 'mean' | 'true';
+} {
+  return {
+    ayanamsha: AYANAMSHA_MAP[settings.ayanamsha] ?? 'Lahiri',
+    houseSystem: HOUSE_SYSTEM_MAP[settings.houseSystem] ?? 'Porphyrius',
+    nodeType: settings.nodeType === 'true' ? 'true' : 'mean',
+  };
+}
+
 function readStoredSettings(): Settings {
   try {
     const stored = localStorage.getItem('kotravel-settings');

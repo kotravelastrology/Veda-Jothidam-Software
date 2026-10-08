@@ -6,6 +6,8 @@ import { Sidebar } from './Sidebar';
 import { Breadcrumb } from './Breadcrumb';
 import { StatusBar } from './StatusBar';
 import { useNavigation } from './navigationContext';
+import { ActiveProfileBar } from '../workspace/ActiveProfileBar';
+import { CommandPalette } from '../workspace/CommandPalette';
 
 export function MainLayout({ children }: { children: ReactNode }) {
   const { sidebarOpen } = useNavigation();
@@ -22,6 +24,9 @@ export function MainLayout({ children }: { children: ReactNode }) {
 
         {/* Main Content */}
         <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Which person the workspace is working on (VJ-015) */}
+          <ActiveProfileBar />
+
           {/* Breadcrumb */}
           <Breadcrumb />
 
@@ -34,6 +39,9 @@ export function MainLayout({ children }: { children: ReactNode }) {
 
       {/* Status Bar */}
       <StatusBar />
+
+      {/* Ctrl+K command search (VJ-015) */}
+      <CommandPalette />
     </div>
   );
 }
