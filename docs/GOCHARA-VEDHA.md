@@ -216,8 +216,18 @@ page — a column in the "now" table and the timeline, and its own section.
   by verse 2. Shown now and per stay (by sign), with combust spells as dated
   windows; where both verses hold (Jupiter exalted and combust) both are shown —
   the verse does not say which prevails.
-- **Verses 30, 41** (aspects, ashtakavarga bindus) are shown as statements: the
-  chapter does not define the terms they need.
+- **Verse 30** (computed 2026-10-08): a planet giving bad results aspected by a
+  benefic, or good results aspected by a malefic, is void; so is one aspected
+  by an enemy ("…यः शत्रुणा … विलोकितश्च" — Sastri "the same will be the case";
+  Kapoor narrows it to "the capability to do good"). Aspects II.23 (all the
+  7th; Saturn 3/10, Jupiter 5/9, Mars 4/8 full; quarter/half/three-quarter
+  glances shown for the present, not counted — our reading); the nodes are
+  given no aspect. Benefic/malefic II.27 (waning Moon = Krishna paksha, our
+  reading; Mercury malefic in a malefic's company); enmity II.21–22, 35.
+  Shown now and as dated windows per stay (the Moon's passes counted, Mercury's
+  nature split by his company), checked against the sky both ways.
+- **Verse 41** (ashtakavarga bindus) is shown as a statement: "more" is not
+  defined.
 
 ## Saptashalaka chakra (added 2026-10-07)
 

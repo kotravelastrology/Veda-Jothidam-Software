@@ -118,7 +118,7 @@ const DECANATE_SOURCES = Object.freeze([
 
 /** Verses 30-34 and 41. `computed` says what the page works out. */
 const RULES = deepFreeze([
-  { id: 'ASPECT', verse: '30', computed: false, textTa: 'தீய பலன் தர வேண்டிய கிரகத்தைச் சுபக் கிரகம் பார்த்தால், அல்லது நல்ல பலன் தர வேண்டிய கிரகத்தைப் பாபக் கிரகம் பார்த்தால் — இரண்டும் பலன் அற்றுப் போகும்; அவரவர் பகைக் கிரகங்கள் பார்த்தாலும் அப்படியே.', whyNotTa: 'பார்வையும் பகைமையும் இந்த அத்தியாயத்தில் வரையறுக்கப்படவில்லை — கணிக்கவில்லை.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 30, printed p.299 (PDF 334)' }) },
+  { id: 'ASPECT', verse: '30', computed: true, textTa: 'தீய பலன் தர வேண்டிய கிரகத்தைச் சுபக் கிரகம் பார்த்தால், அல்லது நல்ல பலன் தர வேண்டிய கிரகத்தைப் பாபக் கிரகம் பார்த்தால் — இரண்டும் பலன் அற்றுப் போகும்; பகைக் கிரகம் பார்க்கும் கிரகமும் அப்படியே.', noteTa: 'ஸ்லோகம்: "…यः शत्रुणा … विलोकितश्च" — பகைவர் பார்க்கும் கிரகமும் "பலன் அற்றது" (சாஸ்திரி: "the same will be the case"); கபூர் அதை "நன்மை செய்யும் திறனை இழக்கும்" என்று நல்ல பலனுக்கு மட்டும் சுருக்குகிறார். பார்வை: II.23; சுப / பாபர்: II.27; பகை: II.21-22, 35.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 30, printed p.299 (PDF 334): the verse "असत्फलः सौम्यनिरीक्षितो यः शुभप्रदश्चाप्यशुभेक्षितश्च । द्वौ निष्फलौ … यः शत्रुणा … विलोकितश्च"; "A planet yielding unfavourable result when aspected by a benefic, or the one that gives good results if aspected by a malefic, both become void of effect. The same will be the case if they are aspected by their respective inimical planets"' }), kapoor: Object.freeze({ ...PHALADEEPIKA_KAPOOR, pageLocus: 'Chapter 26, sloka 30, e-text p.253: "(c) A planet loses his capability to do good If he is aspected by an Inimical planet or planets"' }) },
   { id: 'OWN_EXALTED', verse: '31', computed: true, textTa: 'தீய இடத்தில் இருந்தாலும் உச்சத்திலோ சொந்த ராசியிலோ ("स्वोच्चस्वगेह") இருந்தால் தீமை செய்யாது; நல்ல இடத்திலும் உச்ச / சொந்த ராசியில் இருந்தால் முழு நற்பலன்.', noteTa: 'உச்சம், சொந்த வீடு: பலதீபிகை I.6. ராகு, கேதுவுக்கு மந்த்ரேஸ்வரர் சொல்லவில்லை — கணிக்கவில்லை.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 31, printed p.299 (PDF 334): the verse "अनिष्टभावस्थितखेचरेन्द्रः स्वोच्चस्वगेहोपगतो यदि स्यात् । न दोषकृच्चोत्तमभावगश्चेत् पूर्णं फलं यच्छति गोचरेषु"' }) },
   { id: 'DEBILITATED', verse: '32', computed: true, textTa: 'நல்ல இடத்தில் இருந்தாலும் நீசம், பகை வீடு அல்லது அஸ்தங்கம் ("नीचारिमौढ्यं") என்றால் பலன் அற்றுப் போகும்; தீய இடத்திலும் அப்படி என்றால் மிகுந்த கஷ்டம்.', noteTa: 'நீசம்: I.6; பகை வீடு: இயற்கைப் பகைவர் ஆளும் ராசி (II.21-22, 35); அஸ்தங்கப் பாகைகள்: கபூரின் குறிப்பு (II.36), விஷ்ணு பாஸ்கர் — ஸ்லோகம் பாகை தரவில்லை.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 32, printed p.299 (PDF 334): the verse "ग्रहेश्वरास्ते शुभगोचरस्था नीचारिमौढ्यं समुपाश्रिताश्चेत् । ते निष्फलाः किन्त्वशुभाङ्कसंस्थाः कष्टं फलं संविदधत्यनल्पम्"' }) },
   { id: 'DANGER_12_8_1', verse: '33', computed: true, planets: ['Saturn', 'Sun', 'Mars', 'Jupiter'], houses: [12, 8, 1], textTa: 'சனி, சூரியன், செவ்வாய், குரு சந்திரனிலிருந்து 12, 8, 1-ஆம் இடங்களில் செல்லும்போது உயிருக்கு ஐயம், பதவியிலிருந்து வீழ்ச்சி, பண இழப்பு.', noteTa: 'ஸ்லோகம்: "द्वादशाष्टमजन्मस्थाः" — 12, 8, 1 (சாஸ்திரி). கபூரின் மொழிபெயர்ப்பு "1st, 8th or 10th" — ஸ்லோகத்துடன் பொருந்தவில்லை.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 33, printed p.300 (PDF 335): "Saturn, the Sun, Mars and Jupiter when they transit the 12th, 8th or the 1st, (counted from the Moon\'s place) bring about danger to life itself, a fall from one\'s position and loss of wealth"; the verse "द्वादशाष्टमजन्मस्थाः शन्यर्काङ्गारका गुरुः"' }), kapoor: Object.freeze({ ...PHALADEEPIKA_KAPOOR, pageLocus: 'Chapter 26, sloka 33, e-text p.253: "the 1st, 8th or 10th house reckoned from the Moon sign"' }) },
@@ -167,6 +167,45 @@ const DIGNITY_READINGS_TA = Object.freeze([
   'இரண்டு ஸ்லோகங்களும் ஒரே நேரத்தில் பொருந்தினால் (எ.கா. உச்சத்தில் இருக்கும் குரு அஸ்தங்கமானால்) இரண்டும் காட்டப்படுகின்றன — எது வெல்லும் என்று ஸ்லோகம் சொல்லவில்லை.',
 ]);
 
+// ---------------------------------------------------------------------------
+// Verse 30: aspects (II.23), benefic and malefic (II.27)
+// ---------------------------------------------------------------------------
+
+/** II.23: houses (counted from the planet's sign) a planet aspects fully; the nodes are given none. */
+const FULL_ASPECTS = deepFreeze({ Sun: [7], Moon: [7], Mars: [4, 7, 8], Mercury: [7], Jupiter: [5, 7, 9], Venus: [7], Saturn: [3, 7, 10] });
+/** II.23: the partial glances of every planet, where not full. */
+const PARTIAL_ASPECTS = deepFreeze({ 3: 0.25, 10: 0.25, 5: 0.5, 9: 0.5, 4: 0.75, 8: 0.75 });
+/** The houses `planet` aspects fully and partly. */
+function aspectsOf(planet) {
+  const full = FULL_ASPECTS[planet] ?? [];
+  const partial = planet in FULL_ASPECTS ? Object.entries(PARTIAL_ASPECTS).filter(([h]) => !full.includes(Number(h))).map(([h, f]) => [Number(h), f]) : [];
+  return { full, partial };
+}
+/** II.27: fixed natures; the Moon by her paksha, Mercury by his company. */
+const MALEFIC_FIXED = Object.freeze(['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu']);
+const BENEFIC_FIXED = Object.freeze(['Jupiter', 'Venus']);
+
+const ASPECT_SOURCES = Object.freeze({
+  aspects: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya II, sloka 23, printed p.18 (PDF 55): "Saturn casts a full glance at the 3rd and 10th houses; Jupiter at the 5th and 9th; and Mars at the 4th and 8th. All planets cast a quarter glance at the 3rd and 10th houses, half a glance at the 5th and 9th; three-quarters of a glance at the 4th and 8th; and a full eye at the 7th"' }),
+  nature: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya II, sloka 27, printed pp.19-20 (PDF 56-57): "The waning Moon, the Sun, Mars, Rahu, Ketu and Saturn are known as malefic planets. Mercury too in conjunction with any of them is malignant also"; the verse "क्षीणेन्दुर्ककुजाहिकेतुरविजाः पापाः सपापश्च वित्"' }),
+});
+
+const ASPECT_READINGS_TA = Object.freeze([
+  'பார்வை (II.23): எல்லாக் கிரகங்களும் 7-ஆம் இடத்தை முழுமையாக; சனி 3, 10; குரு 5, 9; செவ்வாய் 4, 8 முழுமையாக. மற்றவை 3, 10-ல் கால், 5, 9-ல் அரை, 4, 8-ல் முக்கால் பார்வை. ஸ்லோ. 30-க்கு முழுப் பார்வை மட்டும் கணக்கில் (எங்கள் வாசிப்பு); மற்றவை "இப்போது" பகுதியில் தகவலாக மட்டும். ராசி அடிப்படையில் (முழு ராசி).',
+  'ராகு, கேதுவுக்குப் பார்வை II.23-ல் இல்லை — அவை பார்ப்பதாகக் கணக்கில் இல்லை; அவை பார்க்கப்படுவது கணக்கில் உண்டு.',
+  'சுப / பாபர் (II.27): சூரியன், செவ்வாய், சனி, ராகு, கேது, "க்ஷீண" (தேய்) சந்திரன் பாபர்; இவர்களில் ஒருவருடன் அதே ராசியில் இருக்கும் புதனும் பாபர். குரு, சுக்கிரன், வளர் சந்திரன், தனியாக அல்லது சுபருடன் உள்ள புதன் சுபர். "தேய் சந்திரன்" = பௌர்ணமி முதல் அமாவாசை வரை (சூரியனிலிருந்து 180°-360°) — எங்கள் வாசிப்பு.',
+  'காலவரிசையில் சந்திரனின் பார்வைகள் (மாதம் ஒருமுறை, சுமார் 2¼ நாள்) எண்ணிக்கையாக மட்டும் — பட்டியலிடப்படவில்லை; புதனின் தன்மை சூரியன், செவ்வாய், சனி, ராகு, கேது உடனிருப்பைக் கொண்டு (சந்திரனின் குறுகிய வருகைகள் காலவரிசையில் கணக்கில் இல்லை; "இப்போது" பகுதியில் உண்டு).',
+  '"பகைக் கிரகம்" = இயற்கைப் பகைவர் (II.21-22, 35). சுபர் நல்ல இடத்தில் உள்ள கிரகத்தைப் பார்ப்பதும், பாபர் தீய இடத்தில் உள்ளதைப் பார்ப்பதும் ஸ்லோகத்தில் இல்லை — அவை காட்டப்படுகின்றன, தீர்ப்பு இல்லை.',
+]);
+
+/** Verse 30 for one aspecting planet: what its aspect does to a planet in a good or bad house. */
+function verse30Effect({ nature, enemy }, goodHouse) {
+  return {
+    voids: (goodHouse && nature === 'MALEFIC') ? 'GOOD' : (!goodHouse && nature === 'BENEFIC') ? 'BAD' : null,
+    enemy: Boolean(enemy),
+  };
+}
+
 /** Words on verse 25's rule (sources in that order): Sastri 57, Vishnu Bhaskar 43 — the two agree. */
 const DECANATE_WORDS = deepFreeze({ PHALADEEPIKA: 57, VISHNU_BHASKAR: 43 });
 
@@ -207,4 +246,5 @@ module.exports = {
   HOUSE_RESULTS, VERSE_OF, HOUSE_RESULTS_SOURCES, KETU_NOTE_TA, DECANATE, DECANATE_TA, DECANATE_SOURCES, DECANATE_WORDS, RULES,
   SIGN_LORDS, EXALTATION_SIGN, NATURAL_ENEMIES, COMBUSTION_DEGREES, DIGNITY_SOURCES, DIGNITY_READINGS_TA,
   dignityOf, combustionOrb, verses31and32,
+  FULL_ASPECTS, PARTIAL_ASPECTS, MALEFIC_FIXED, BENEFIC_FIXED, ASPECT_SOURCES, ASPECT_READINGS_TA, aspectsOf, verse30Effect,
 };

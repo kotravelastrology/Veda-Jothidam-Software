@@ -288,6 +288,22 @@ for (const p of V.PLANETS_9) {
   assert.ok(PG.RULES.find((x) => x.id === 'OWN_EXALTED').source.pageLocus.includes(F.verse31));
   assert.ok(PG.RULES.find((x) => x.id === 'DEBILITATED').source.pageLocus.includes(F.verse32));
   for (const s of Object.values(PG.DIGNITY_SOURCES)) assert.ok(resolveByTitle(s.title), s.title);
+  // Verse 30's definitions: II.23 aspects, II.27 natures.
+  for (const p of ['Sun', 'Moon', 'Mercury', 'Venus']) assert.deepEqual([...PG.aspectsOf(p).full], F.II23.full.all, `${p}: the 7th only`);
+  for (const p of ['Saturn', 'Jupiter', 'Mars']) assert.deepEqual([...PG.aspectsOf(p).full].sort((a, b) => a - b), [...F.II23.full[p], 7].sort((a, b) => a - b), `${p}: special aspects`);
+  for (const [k, hs] of [[0.25, F.II23.quarter], [0.5, F.II23.half], [0.75, F.II23.threeQuarters]]) for (const h of hs) assert.equal(PG.PARTIAL_ASPECTS[h], k);
+  assert.deepEqual(PG.aspectsOf('Saturn').partial.map(([h]) => h).sort((a, b) => a - b), [4, 5, 8, 9], 'Saturn\'s 3rd and 10th are full, not partial');
+  assert.deepEqual(PG.aspectsOf('Rahu'), { full: [], partial: [] }, 'II.23 gives the nodes no aspect');
+  assert.deepEqual([...PG.MALEFIC_FIXED].sort(), ['Ketu', 'Mars', 'Rahu', 'Saturn', 'Sun']);
+  assert.deepEqual([...PG.BENEFIC_FIXED].sort(), ['Jupiter', 'Venus']);
+  assert.ok(F.II27.malefic.includes('waning Moon') && F.II27.mercury.includes('conjunction'));
+  assert.deepEqual(plain(PG.verse30Effect({ nature: 'MALEFIC', enemy: false }, true)), { voids: 'GOOD', enemy: false });
+  assert.deepEqual(plain(PG.verse30Effect({ nature: 'BENEFIC', enemy: true }, false)), { voids: 'BAD', enemy: true });
+  assert.deepEqual(plain(PG.verse30Effect({ nature: 'BENEFIC', enemy: false }, true)), { voids: null, enemy: false }, 'a benefic on a good house: not in the verse');
+  const r30 = PG.RULES.find((x) => x.id === 'ASPECT');
+  assert.ok(r30.computed && r30.source.pageLocus.includes(F.verse30.sanskritStart) && r30.source.pageLocus.includes(F.verse30.enemyClause));
+  assert.ok(r30.kapoor.pageLocus.includes(F.verse30.kapoorEnemy));
+  for (const s of Object.values(PG.ASPECT_SOURCES)) assert.ok(resolveByTitle(s.title), s.title);
   assert.deepEqual(Object.keys(PG.DECANATE_WORDS), ['PHALADEEPIKA', 'VISHNU_BHASKAR']);
   assert.ok(PG.DECANATE_WORDS.PHALADEEPIKA > PG.DECANATE_WORDS.VISHNU_BHASKAR, 'Phaladeepika listed first by words');
 }
@@ -453,6 +469,54 @@ for (const c of cites) assert.ok(resolveByTitle(c.title), `registered: ${c.title
     assert.deepEqual(plain(n.verdict), PG.verses31and32(PG.dignityOf(planet, signAt(planet, atMs)), n.combustion.combust, n.goodHouse));
   }
   assert.ok(combustChecked > 500 && PD.Mercury.stays.some((s) => s.combust.length), `combustion sampled (${combustChecked})`);
+  // Verse 30, now: every full and partial aspect from the signs in the sky; natures by II.27 at this moment.
+  const signNowT = (p) => signAt(p, atMs);
+  const elong = ((((lon('Moon', atMs) - lon('Sun', atMs)) % 360) + 360) % 360);
+  assert.equal(r.phaladeepika.moonNow.nature, elong < 180 ? 'BENEFIC' : 'MALEFIC');
+  const merMal = ['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu', ...(elong >= 180 ? ['Moon'] : [])].some((m) => signNowT(m) === signNowT('Mercury'));
+  assert.equal(r.phaladeepika.mercuryNow.nature, merMal ? 'MALEFIC' : 'BENEFIC');
+  for (const [planet, pd] of Object.entries(PD)) {
+    const want = Object.keys(PG.FULL_ASPECTS).filter((o) => o !== planet).map((o) => {
+      const k = ((signNowT(planet) - signNowT(o) + 12) % 12) + 1;
+      const a = PG.aspectsOf(o);
+      return a.full.includes(k) ? [o, k, 1] : a.partial.some(([h]) => h === k) ? [o, k, a.partial.find(([h]) => h === k)[1]] : null;
+    }).filter(Boolean);
+    assert.deepEqual(pd.now.aspects.map((x) => [x.planet, x.house, x.fraction]), want, `${planet}: aspects now`);
+    for (const x of pd.now.aspects.filter((y) => y.full)) {
+      assert.equal(x.enemy, PG.NATURAL_ENEMIES[planet].includes(x.planet));
+      assert.deepEqual({ voids: x.voids, enemy: x.enemy }, plain(PG.verse30Effect({ nature: x.nature, enemy: x.enemy }, pd.now.goodHouse)));
+    }
+  }
+  // Verse 30, per stay: each window is a full aspect from the sky; Mercury's nature by his company; nothing missed.
+  let aspChecked = 0;
+  for (const [planet, pd] of Object.entries(PD)) {
+    for (const s of pd.stays) {
+      const S = (moonRasiIndex + s.house - 1) % 12;
+      for (const b of s.aspects.by) {
+        for (const w of b.windows) {
+          const m2 = (ms(w.fromUtc) + ms(w.toUtc)) / 2;
+          const k = ((S - signAt(b.planet, m2) + 12) % 12) + 1;
+          assert.ok(PG.aspectsOf(b.planet).full.includes(k), `${b.planet} aspects ${planet}'s sign at ${w.fromUtc} (house ${k})`);
+          if (b.planet === 'Mercury') {
+            const company = ['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'].some((m) => signAt(m, m2) === signAt('Mercury', m2));
+            assert.equal(b.nature, company ? 'MALEFIC' : 'BENEFIC', `Mercury's nature at ${w.fromUtc}`);
+          }
+          aspChecked += 1;
+        }
+      }
+      const a = ms(s.fromUtc); const b2 = ms(s.toUtc);
+      for (const o of ['Sun', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].filter((x) => x !== planet)) {
+        const ws = s.aspects.by.filter((x) => x.planet === o).flatMap((x) => x.windows);
+        for (let i = 1; i < 12; i += 1) {
+          const t = a + ((b2 - a) * i) / 12;
+          if (ws.some((w) => Math.min(Math.abs(t - ms(w.fromUtc)), Math.abs(t - ms(w.toUtc))) < 2 * 3600000)) continue;
+          const k = ((S - signAt(o, t) + 12) % 12) + 1;
+          assert.equal(PG.aspectsOf(o).full.includes(k), ws.some((w) => ms(w.fromUtc) <= t && t <= ms(w.toUtc)), `${o} on ${planet} at ${new Date(t).toISOString()}: aspect ⇔ listed`);
+        }
+      }
+    }
+  }
+  assert.ok(aspChecked > 200, `aspect windows checked (${aspChecked})`);
   // Verse 34: each position checked against the sky.
   for (const x of r.phaladeepika.verse34Now.positions) assert.equal(x.nowHouse, ((signAt(x.planet, atMs) - moonRasiIndex + 12) % 12) + 1);
   assert.equal(r.phaladeepika.verse34Now.met, r.phaladeepika.verse34Now.positions.filter((x) => x.house === x.nowHouse).length);

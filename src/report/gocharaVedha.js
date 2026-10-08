@@ -24,7 +24,7 @@
  */
 
 const { UnsupportedInputError } = require('../contracts/chartContext');
-const { signStays, overlaps, unionDays } = require('./saturnVedha');
+const { signStays, overlaps, subtract, unionDays } = require('./saturnVedha');
 const { houseFromMoon, RASI_TA } = require('./saturnTransit');
 const { planetLongitude, nodeLongitude } = require('../ephemeris/siderealPositions');
 const V = require('./gocharaVedhaTables');
@@ -223,6 +223,65 @@ function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', 
     .filter((s) => s.key === key && s.toMs > a && s.fromMs < b)
     .map((s) => ({ fromUtc: iso(Math.max(s.fromMs, a)), toUtc: iso(Math.min(s.toMs, b)), days: days(Math.max(s.fromMs, a), Math.min(s.toMs, b)) }));
   const verse33 = P.RULES.find((x) => x.id === 'DANGER_12_8_1');
+
+  // Verse 30: full aspects (II.23) on a stay, by aspecting planet, with its nature (II.27) and enmity.
+  const mergeIv = (ivs) => {
+    const out = [];
+    for (const [a, b] of [...ivs].sort((x, y) => x[0] - y[0])) {
+      if (out.length && a <= out[out.length - 1][1]) out[out.length - 1][1] = Math.max(out[out.length - 1][1], b);
+      else out.push([a, b]);
+    }
+    return out;
+  };
+  const intersect = (A, B) => mergeIv(A.flatMap(([a, b]) => B.map(([c, d]) => [Math.max(a, c), Math.min(b, d)]).filter(([x, y]) => y > x)));
+  const fromSigns = (o, S) => P.aspectsOf(o).full.map((k) => (((S - (k - 1)) % 12) + 12) % 12);
+  const ASPECTORS = ['Sun', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+  const aspectsWithin = (p, S, a, b, goodHouse) => {
+    const by = [];
+    for (const o of ASPECTORS) {
+      if (o === p) continue;
+      const enemy = P.NATURAL_ENEMIES[p].includes(o);
+      const push = (nature, ivs) => {
+        if (!ivs.length) return;
+        by.push({ planet: o, planetTa: PLANET_TA[o], nature, enemy, windows: describe(ivs), ...P.verse30Effect({ nature, enemy }, goodHouse) });
+      };
+      if (o === 'Mercury') {
+        // Mercury is malefic while a malefic shares his sign (II.27).
+        const mal = []; const ben = [];
+        for (const T of fromSigns(o, S)) {
+          const iv = overlaps(stays.Mercury, T, a, b);
+          if (!iv.length) continue;
+          const company = mergeIv(P.MALEFIC_FIXED.flatMap((m) => overlaps(stays[m], T, a, b)));
+          mal.push(...intersect(iv, company));
+          ben.push(...subtract(iv, company));
+        }
+        push('MALEFIC', mergeIv(mal));
+        push('BENEFIC', mergeIv(ben));
+        continue;
+      }
+      push(P.MALEFIC_FIXED.includes(o) ? 'MALEFIC' : 'BENEFIC', mergeIv(fromSigns(o, S).flatMap((T) => overlaps(stays[o], T, a, b))));
+    }
+    return { by, moonPasses: p === 'Moon' ? 0 : overlaps(stays.Moon, (S + 6) % 12, a, b).length };
+  };
+
+  // The present: every planet's sign, the Moon's paksha, Mercury's company.
+  const signNow = Object.fromEntries(PLANETS.map((o) => [o, Math.floor((((longitudeOf(o, atMs, ayanamsha, nodeType) % 360) + 360) % 360) / 30) % 12]));
+  const elongation = (((longitudeOf('Moon', atMs, ayanamsha, nodeType) - longitudeOf('Sun', atMs, ayanamsha, nodeType)) % 360) + 360) % 360;
+  const moonNature = elongation < 180 ? 'BENEFIC' : 'MALEFIC';
+  const mercuryNature = PLANETS.some((m) => m !== 'Mercury' && signNow[m] === signNow.Mercury
+    && (P.MALEFIC_FIXED.includes(m) || (m === 'Moon' && moonNature === 'MALEFIC'))) ? 'MALEFIC' : 'BENEFIC';
+  const natureNow = (o) => (o === 'Moon' ? moonNature : o === 'Mercury' ? mercuryNature : P.MALEFIC_FIXED.includes(o) ? 'MALEFIC' : 'BENEFIC');
+  const aspectsNow = (p, goodHouse) => PLANETS.filter((o) => o !== p && o in P.FULL_ASPECTS).map((o) => {
+    const k = ((signNow[p] - signNow[o] + 12) % 12) + 1;
+    const asp = P.aspectsOf(o);
+    const full = asp.full.includes(k);
+    const part = asp.partial.find(([h]) => h === k);
+    if (!full && !part) return null;
+    const nature = natureNow(o);
+    const enemy = P.NATURAL_ENEMIES[p].includes(o);
+    return { planet: o, planetTa: PLANET_TA[o], house: k, full, fraction: full ? 1 : part[1], nature, enemy, ...(full ? P.verse30Effect({ nature, enemy }, goodHouse) : { voids: null, enemy: false }) };
+  }).filter(Boolean);
+
   const pdPlanets = Object.fromEntries(PLANETS.map((p) => {
     const from = atMs - SPAN[p][0];
     const to = atMs + SPAN[p][1];
@@ -239,6 +298,7 @@ function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', 
         dignity, goodHouse: pdGood(p, house),
         bySign: P.verses31and32(dignity, undefined, pdGood(p, house)),
         combust: combustion[p] ? within(combustion[p], 1, a, b) : null,
+        aspects: aspectsWithin(p, s.sign, a, b, pdGood(p, house)),
       };
     });
     const lonNow = ((longitudeOf(p, atMs, ayanamsha, nodeType) % 360) + 360) % 360;
@@ -256,6 +316,7 @@ function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', 
         effectiveNow: !(p in P.DECANATE) ? null : P.DECANATE[p] === null ? 'ALL' : P.DECANATE[p] === third,
         dignity, goodHouse: pdGood(p, house), combustion: c,
         verdict: P.verses31and32(dignity, c.combust, pdGood(p, house)),
+        aspects: aspectsNow(p, pdGood(p, house)),
       },
     }];
   }));
@@ -294,6 +355,8 @@ function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', 
       decanate: P.DECANATE, decanateTa: P.DECANATE_TA, decanateSources: P.DECANATE_SOURCES, decanateWords: P.DECANATE_WORDS,
       rules: P.RULES,
       dignitySources: P.DIGNITY_SOURCES, dignityReadingsTa: P.DIGNITY_READINGS_TA, combustionDegrees: P.COMBUSTION_DEGREES,
+      aspectSources: P.ASPECT_SOURCES, aspectReadingsTa: P.ASPECT_READINGS_TA,
+      moonNow: { elongation: Math.round(elongation * 100) / 100, nature: moonNature }, mercuryNow: { nature: mercuryNature },
       verse34Now: { positions: verse34Now, met: verse34Now.filter((x) => x.house === x.nowHouse).length, all: verse34Now.every((x) => x.house === x.nowHouse) },
     },
   };

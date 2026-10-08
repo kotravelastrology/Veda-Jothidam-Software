@@ -81,6 +81,13 @@ function verdictTa(v: any) {
   if (v.v32 === 'AGGRAVATED') out.push({ ta: `ஸ்லோ. 32: ${why} — மிகுந்த கஷ்டம்`, cls: 'text-rose' });
   return out;
 }
+/** Verse 30 for one aspecting planet (NATURE_TA is declared with the Saptashalaka section below). */
+function aspectTa(x: any) {
+  const what = x.voids === 'GOOD' ? 'நல்ல பலன் அற்றுப் போகும்' : x.voids === 'BAD' ? 'தீய பலன் அற்றுப் போகும்' : null;
+  const enemy = x.enemy ? 'பகைவர் பார்வை — பலன் அற்றுப் போகும் (கபூர்: நல்ல பலன் மட்டும்)' : null;
+  return { label: `${x.planetTa} (${NATURE_TA[x.nature]}${x.enemy ? ', பகை' : ''})`, effects: [what, enemy].filter(Boolean) as string[] };
+}
+
 /** The planet's standing in its sign (I.6, II.21-22, II.35). */
 function dignityTa(d: any) {
   const parts = [d.exalted && 'உச்சம்', d.own && 'சொந்த வீடு', d.debilitated && 'நீசம்', d.enemySign && `பகை வீடு (${PLANET_TA[d.lord]})`].filter(Boolean);
@@ -137,6 +144,11 @@ function NowTable({ r, method }: { r: any; method: string }) {
                         <span className="block text-[11px] text-ink-soft">{effectiveNowTa(r.phaladeepika, p.planet, pn)}</span>
                         {(dt || pn.combustion.combust) && <span className="block text-[11px] text-ink-soft">{[dt, pn.combustion.combust && `அஸ்தங்கம் (சூரியனிலிருந்து ${pn.combustion.separation}°${pn.combustion.retrograde ? ', வக்கிரம்' : ''})`].filter(Boolean).join(' · ')}</span>}
                         {verdictTa(pn.verdict).map((x) => <span key={x.ta} className={`block text-[11px] ${x.cls}`}>{x.ta}</span>)}
+                        {pn.aspects.filter((x: any) => x.full).map((x: any) => {
+                          const t = aspectTa(x);
+                          return <span key={x.planet} className={`block text-[11px] ${t.effects.length ? 'text-amber-700' : 'text-ink-soft'}`}>ஸ்லோ. 30: {t.label} {x.house}-ஆம் பார்வை{t.effects.length ? ` — ${t.effects.join('; ')}` : ''}</span>;
+                        })}
+                        {pn.aspects.some((x: any) => !x.full) && <span className="block text-[11px] text-ink-soft">பகுதிப் பார்வை (கணக்கில் இல்லை): {pn.aspects.filter((x: any) => !x.full).map((x: any) => `${x.planetTa} ${x.fraction}`).join(', ')}</span>}
                       </>
                     );
                   })()}
@@ -212,6 +224,19 @@ function Timeline({ p, pd }: { p: any; pd: any }) {
                         </span>
                       )}
                       {ps.dangerVerse33 && <span className="block text-[11px] text-rose">ஸ்லோ. 33: 12/8/1-ல் — உயிருக்கு ஐயம், பதவி வீழ்ச்சி, பண இழப்பு (நூலின் கூற்று)</span>}
+                      {ps.aspects.by.length > 0 && (
+                        <details className="text-[11px] mt-0.5">
+                          <summary className="cursor-pointer text-ink-soft">ஸ்லோ. 30 பார்வைகள் ({ps.aspects.by.length}{ps.aspects.moonPasses ? `, சந்திரன் ${ps.aspects.moonPasses} முறை` : ''})</summary>
+                          {ps.aspects.by.map((x: any) => {
+                            const t = aspectTa(x);
+                            return (
+                              <span key={`${x.planet}${x.nature}`} className={`block ${t.effects.length ? 'text-amber-700' : 'text-ink-soft'}`}>
+                                {t.label} <span className="font-mono" style={num}>{x.windows.map((w: any) => `${day(w.fromUtc)}–${day(w.toUtc)}`).join(', ')}</span>{t.effects.length ? ` — ${t.effects.join('; ')}` : ''}
+                              </span>
+                            );
+                          })}
+                        </details>
+                      )}
                     </>
                   );
                 })()}
@@ -260,6 +285,22 @@ function PhaladeepikaRules({ r, m }: { r: any; m: any }) {
               <span className="block text-ink-soft">
                 இப்போது எட்டில் {v34.met} நிலைகள் பொருந்துகின்றன{v34.all ? ' — எல்லாம்' : ''} ({v34.positions.map((x: any) => `${x.planetTa} ${x.nowHouse}${x.nowHouse === x.house ? '✓' : `/${x.house}`}`).join(', ')}).
               </span>
+            )}
+            {ru.id === 'ASPECT' && (
+              <>
+                <span className="block text-ink-soft">
+                  இப்போது: {(() => {
+                    const hits = Object.entries(pd.planets).flatMap(([p, x]: [string, any]) => x.now.aspects.filter((a: any) => a.full && (a.voids || a.enemy))
+                      .map((a: any) => `${PLANET_TA[p]} ← ${aspectTa(a).label}: ${aspectTa(a).effects.join('; ')}`));
+                    return hits.length ? hits.join(' · ') : 'ஸ்லோ. 30 பொருந்தும் பார்வை இல்லை';
+                  })()}. சந்திரன் இப்போது {NATURE_TA[pd.moonNow.nature]} (சூரியனிலிருந்து {pd.moonNow.elongation}°), புதன் {NATURE_TA[pd.mercuryNow.nature]}. {ru.noteTa}
+                </span>
+                <details className="mt-1">
+                  <summary className="cursor-pointer text-ink-soft">வரையறைகள் — பார்வை, சுப / பாபர்</summary>
+                  <ul className="list-disc ml-5 mt-1 space-y-0.5 text-ink-soft">{pd.aspectReadingsTa.map((t: string, i: number) => <li key={i}>{t}</li>)}</ul>
+                  <Cites list={Object.values(pd.aspectSources)} />
+                </details>
+              </>
             )}
             {ru.id === 'OWN_EXALTED' && <span className="block text-ink-soft">இப்போது: {now31.length ? now31.join('; ') : 'எந்தக் கிரகமும் உச்சத்திலோ சொந்த வீட்டிலோ இல்லை'}. {ru.noteTa}</span>}
             {ru.id === 'DEBILITATED' && <span className="block text-ink-soft">இப்போது: {now32.length ? now32.join('; ') : 'எந்தக் கிரகமும் நீசம், பகை வீடு, அஸ்தங்கத்தில் இல்லை'}. {ru.noteTa}</span>}
