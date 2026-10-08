@@ -38,7 +38,7 @@ const { SUDAMANI } = require('./saturnTransitTamil');
 const { SANTHANAM_JN } = require('./nakshatraVedhaTables');
 
 const { PULIPPANI, VISHNU_BHASKAR } = SOURCES;
-const { SOURCES: { PHALADEEPIKA_SASTRI, PHALADEEPIKA_KAPOOR } } = require('./lattaTables');
+const { PHALADEEPIKA_SASTRI, PHALADEEPIKA_KAPOOR } = require('./classicSources');
 
 const JATAKA_PARIJATA = Object.freeze({
   title: 'Jataka Parijata, Vol. III',

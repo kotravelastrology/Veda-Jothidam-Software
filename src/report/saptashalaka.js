@@ -143,13 +143,15 @@ function saptashalaka({ natalMoonLongitude, fromMs, toMs, atMs = Date.now(), aya
     };
   }
 
-  // Rule 3: occupation of the 1st, 3rd, 5th, 7th, 10th, 19th, 23rd stars (27 stars; the same under both readings).
+  // Rule 3: occupation of the 1st, 3rd, 5th, 7th, 10th, 19th, 23rd stars (27 stars; the same under both readings),
+  // and of the 22nd — Vainashika as Kalaprakasika and Gour count it — marked as the alternative.
   const rule3 = T.RULES.find((r) => r.id === 'OCCUPATION');
-  const occStars = new Map(rule3.counts.map((c) => [(janma27 + c - 1) % 27, c]));
+  const occStars = new Map([...rule3.counts, rule3.vainashika.alternative].map((c) => [(janma27 + c - 1) % 27, c]));
   const occupation = [...T.MALEFICS, ...T.BENEFICS]
     .flatMap((p) => starStays[p].filter((s) => occStars.has(s.key)).map((s) => win(s, {
       planet: p, planetTa: PLANET_TA[p], nature: T.MALEFICS.includes(p) ? 'MALEFIC' : 'BENEFIC',
       star27: s.key, starTa: NAKSHATRA_TA[s.key], count: occStars.get(s.key),
+      vainashikaAlternative: occStars.get(s.key) === rule3.vainashika.alternative,
     })))
     .sort((x, y) => Date.parse(x.fromUtc) - Date.parse(y.fromUtc));
 

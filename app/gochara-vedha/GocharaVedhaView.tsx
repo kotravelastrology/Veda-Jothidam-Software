@@ -237,7 +237,7 @@ function NakshatraSection({ n }: { n: any }) {
   );
 }
 
-const BOOK_NAME_TA: Record<string, string> = { BHAT: 'பட் (ஜோதிட அடிப்படைகள்)', PULIPPANI: 'புலிப்பாணி', GOUR: 'கௌர்' };
+const BOOK_NAME_TA: Record<string, string> = { BHAT: 'பட் (ஜோதிட அடிப்படைகள்)', PULIPPANI: 'புலிப்பாணி', GOUR: 'கௌர்', PHALADEEPIKA: 'பலதீபிகை (மந்த்ரேஸ்வரர் — சாஸ்திரி)' };
 const NATURE_TA: Record<string, string> = { MALEFIC: 'பாபர்', BENEFIC: 'சுபர்' };
 
 function SaptashalakaSection({ s }: { s: any }) {
@@ -260,6 +260,8 @@ function SaptashalakaSection({ s }: { s: any }) {
           ))}
         </ul>
         <p className="text-ink-soft mt-1">{ru.readingTa}</p>
+        {ru.vainashika && <p className="text-ink-soft mt-1">{ru.vainashika.textTa}<Cites list={ru.vainashika.sources} /></p>}
+        {id === 'SUN_VEDHA' && <p className="text-ink-soft mt-1">{s.notes.pulippaniQuotesTa}</p>}
       </details>
     );
   };
@@ -336,7 +338,7 @@ function SaptashalakaSection({ s }: { s: any }) {
               <tr key={`${w.planet}${w.fromUtc}`} className={`border-b border-line/40 ${w.current ? 'bg-amber-50' : ''}`}>
                 <td className="py-1 pr-2 whitespace-nowrap"><Win w={w} /></td>
                 <td className={`py-1 pr-2 ${w.nature === 'MALEFIC' ? 'text-rose' : 'text-teal'}`}>{w.planetTa} ({NATURE_TA[w.nature]})</td>
-                <td className="py-1 text-ink">{w.starTa} · {w.count}-வது</td>
+                <td className="py-1 text-ink">{w.starTa} · {w.count}-வது{w.vainashikaAlternative && <span className="text-ink-soft"> (வைநாசிகம் — காலப்பிரகாசிகை, கௌர் வாசிப்பு)</span>}</td>
               </tr>
             ))}
           </tbody>

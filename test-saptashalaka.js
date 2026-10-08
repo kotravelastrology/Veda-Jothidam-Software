@@ -79,6 +79,20 @@ assert.equal(T.DEFAULT_READING, 'STRAIGHT', 'Bhat, who explains most, reads stra
 const occ = T.RULES.find((x) => x.id === 'OCCUPATION');
 assert.deepEqual([...occ.counts], FIX.rule3Counts.BHAT);
 assert.deepEqual([...FIX.rule3Counts.PULIPPANI].sort((a, b) => a - b), FIX.rule3Counts.BHAT, 'Pulippani lists the same seven');
+// Phaladeepika XXVI.28 names its stars; Sastri and Kapoor give the same seven numbers as Pulippani, in his order.
+assert.deepEqual(FIX.rule3Counts.PHALADEEPIKA_SASTRI, FIX.rule3Counts.PULIPPANI);
+assert.deepEqual(FIX.rule3Counts.PHALADEEPIKA_KAPOOR, FIX.rule3Counts.PULIPPANI);
+{
+  // The seven names, numbered by Jataka Parijata IX.78-80 (Vipat, Pratyari, Vadha are the 3rd, 5th, 7th taras).
+  const jp = FIX.phaladeepika.jataakaParijataNamedStars;
+  const byName = { 'आधान': jp.Adhana, 'कर्मर्क्ष': jp.Karmarksha, 'विपत्': 3, 'जन्म': jp.Janmarksha, 'वैनाशिक': jp.Vainasika, 'प्रत्यर': 5, 'वध': 7 };
+  assert.deepEqual(FIX.phaladeepika.sloka28Names.map((n) => byName[n]), FIX.rule3Counts.PHALADEEPIKA_SASTRI, 'the verse\'s names, numbered by Jataka Parijata, are Sastri\'s numbers');
+  // Vainashika: 23rd by Jataka Parijata, 22nd by Kalaprakasika — Gour's 22nd.
+  assert.deepEqual([occ.vainashika.default, occ.vainashika.alternative], [FIX.phaladeepika.vainashika.JATAKA_PARIJATA_IX_79, FIX.phaladeepika.vainashika.KALAPRAKASIKA_P167]);
+  assert.equal(FIX.phaladeepika.vainashika.GOUR, FIX.rule3Counts.GOUR.find((c) => !FIX.rule3Counts.BHAT.includes(c)));
+  assert.ok(occ.counts.includes(occ.vainashika.default) && !occ.counts.includes(occ.vainashika.alternative));
+  assert.ok(T.NOTES_TA.pulippaniQuotesTa.length > 0);
+}
 for (const ru of T.RULES) assert.deepEqual(ru.books.map((b) => b.book), [...T.RANK.order], `${ru.id}: books in order`);
 const cites = [];
 const walk = (o) => { if (o && typeof o === 'object') { if (typeof o.pageLocus === 'string') cites.push(o); Object.values(o).forEach(walk); } };
@@ -112,7 +126,9 @@ for (const c of cites) assert.ok(resolveByTitle(c.title), `registered: ${c.title
   for (const w of r.occupation) {
     assert.equal(Math.floor((((lon(w.planet, mid(w)) % 360) + 360) % 360) / (360 / 27)), w.star27);
     assert.equal(((w.star27 - r.natal.JANMA.star27 + 27) % 27) + 1, w.count);
+    assert.equal(w.vainashikaAlternative, w.count === 22);
   }
+  assert.ok(r.occupation.some((w) => w.count === 22) && r.occupation.some((w) => w.count === 23), 'both Vainashika stars are listed');
   for (const x of r.rounds) {
     const at = Date.parse(x.atUtc);
     const sign = (ms) => Math.floor((((lon(x.planet, ms) % 360) + 360) % 360) / 30);

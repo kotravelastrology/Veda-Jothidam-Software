@@ -320,6 +320,23 @@ const SOURCES = [
     },
   },
   {
+    id: 'JATAKA_PARIJATA_VOL2',
+    title: 'Jataka Parijata, Vol. II',
+    titleTa: 'ஜாதக பாரிஜாதம், தொகுதி 2',
+    author: 'Vaidyanatha Dikshita (original); V. Subrahmanya Sastri (English translation and notes)',
+    file: 'jataka-parijata-vol2-subrahmanya-sastri/raw-scans/full-scan.pdf',
+    tradition: 'Classical Sanskrit (medieval) with a modern English translation',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the named stars from the Janma star (Adhyaya IX slokas 78-80, printed p.625) — Vainasika the 23rd — '
+        + 'which Sastri gives as the reference for Phaladeepika XXVI.28. Treated as cite-only, as vol. III.',
+      verified: false,
+      toConfirm: 'Publication year and the translation\'s copyright status.',
+    },
+  },
+  {
     id: 'PATEL_ASHTAKAVARGA',
     title: 'Ashtakavarga (with translation in English and explanatory notes)',
     titleTa: 'அஷ்டகவர்க்கம் (ஆங்கில மொழிபெயர்ப்பும் விளக்கக் குறிப்புகளும்)',

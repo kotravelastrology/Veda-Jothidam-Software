@@ -20,6 +20,13 @@
     "Shravana": ["Dhanishta", "Krittika", "Magha"]
   },
   "charakAbhijit": { "page": "Elements of Vedic Astrology ch.11, PDF p.25", "from": [276, 40, 0], "to": [280, 53, 20] },
-  "rule3Counts": { "BHAT": [1, 3, 5, 7, 10, 19, 23], "PULIPPANI": [19, 10, 3, 1, 23, 5, 7], "GOUR": [1, 3, 5, 7, 10, 19, 22] },
-  "wordCounts": { "BHAT": 808, "PULIPPANI": 387, "GOUR": 355 }
+  "rule3Counts": { "BHAT": [1, 3, 5, 7, 10, 19, 23], "PULIPPANI": [19, 10, 3, 1, 23, 5, 7], "GOUR": [1, 3, 5, 7, 10, 19, 22], "PHALADEEPIKA_SASTRI": [19, 10, 3, 1, 23, 5, 7], "PHALADEEPIKA_KAPOOR": [19, 10, 3, 1, 23, 5, 7] },
+  "wordCounts": { "BHAT": 808, "PULIPPANI": 387, "GOUR": 355, "PHALADEEPIKA": 310 },
+  "phaladeepika": {
+    "_about": "Added 2026-10-08 from the page images: Phaladeepika XXVI.26-29 (Sastri 1950, printed pp.296-299) and the named stars of Jataka Parijata IX.78-80 (printed p.625).",
+    "sloka28Names": ["आधान", "कर्मर्क्ष", "विपत्", "जन्म", "वैनाशिक", "प्रत्यर", "वध"],
+    "sastriNoteCitesJpPage": 635,
+    "vainashika": { "JATAKA_PARIJATA_IX_79": 23, "KALAPRAKASIKA_P167": 22, "GOUR": 22 },
+    "jataakaParijataNamedStars": { "Janmarksha": 1, "Karmarksha": 10, "Sanghatika": 16, "Samudaya": 18, "Adhana": 19, "Vainasika": 23, "Jati": 25, "Desa": 26, "Abhisheka": 27 }
+  }
 }

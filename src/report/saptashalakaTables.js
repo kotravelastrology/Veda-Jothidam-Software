@@ -16,6 +16,17 @@
  * 355), so his straight-line reading is the default; the three-line reading is
  * computed beside it.
  *
+ * All three rest on Mantreswara's Phaladeepika XXVI.26-29, added as a fourth
+ * book on 2026-10-08 (Sastri's 1950 translation, with the verses). Pulippani's
+ * chapter 24 text follows Sastri's translation closely — the drawing
+ * instruction, the four rules and Sastri's footnote on Ulka, mostly in the same
+ * words, a few changed ("foreseen" for "apprehended") and verse 29's planetary
+ * war, meteor fall and portents left out — so their agreement is not
+ * independent. Verse 28 names its seven
+ * stars, not their numbers; one of them, "वैनाशिक", is the 23rd in Jataka
+ * Parijata IX.79 (which Sastri cites) and the 22nd in Kalaprakasika (p.167),
+ * whence Gour's 22nd. Both are computed.
+ *
  * The 28th star is Abhijit; none of the three says where it lies. K.S.
  * Charak gives 276°40′–280°53′20″ (the last quarter of Uttarashadha and the
  * beginning of Shravana), which is used. Janma, Karma (10th) and Adhana (19th)
@@ -24,6 +35,7 @@
  */
 
 const { SOURCES: { PULIPPANI } } = require('./saturnTransitTables');
+const { PHALADEEPIKA_SASTRI, PHALADEEPIKA_KAPOOR, JATAKA_PARIJATA_VOL2, KALAPRAKASIKA } = require('./classicSources');
 
 const deepFreeze = (o) => {
   Object.values(o).forEach((v) => { if (v && typeof v === 'object') deepFreeze(v); });
@@ -125,9 +137,9 @@ const READINGS = deepFreeze({
 const DEFAULT_READING = 'STRAIGHT';
 
 const RANK = deepFreeze({
-  order: ['BHAT', 'PULIPPANI', 'GOUR'],
-  words: { BHAT: 808, PULIPPANI: 387, GOUR: 355 },
-  measureTa: 'சப்தசலாகை பகுதியின் சொற்கள்: பட், ஜோதிட அடிப்படைகள் அத். XXI (பக்.251-253) 808; புலிப்பாணி அத். 24 (பக்.209-211) 387; கௌர் அத். VIII (பக்.91-93) 355.',
+  order: ['BHAT', 'PULIPPANI', 'GOUR', 'PHALADEEPIKA'],
+  words: { BHAT: 808, PULIPPANI: 387, GOUR: 355, PHALADEEPIKA: 310 },
+  measureTa: 'சப்தசலாகை பகுதியின் சொற்கள்: பட், ஜோதிட அடிப்படைகள் அத். XXI (பக்.251-253) 808; புலிப்பாணி அத். 24 (பக்.209-211) 387; கௌர் அத். VIII (பக்.91-93) 355; பலதீபிகை 26.26-29, சாஸ்திரி மொழிபெயர்ப்பு, அடிக்குறிப்புகளுடன் (பக்.296-299) 310 — மூல நூல்; புலிப்பாணியின் உரை பெரும்பாலும் சாஸ்திரியின் இந்த மொழிபெயர்ப்பின் சொற்களே.',
 });
 
 const ABHIJIT_SOURCE = Object.freeze({ ...CHARAK, pageLocus: 'Chapter 11, the note after Table 11-2 (PDF pp.25-26): "A segment of the zodiac extending from 276 40\'0" to 280 53\'20" ... is sometimes considered as a separate nakshatra by the name Abhijit"' });
@@ -150,6 +162,7 @@ const RULES = deepFreeze([
       { book: 'BHAT', textTa: 'ஜன்ம நட்சத்திரத்தின் வேதையில் சூரியன் — உயிருக்கு ஆபத்து; ஆதானத்தின் வேதையில் — அச்சம், கவலை; கர்மத்தின் வேதையில் — பண இழப்பு. அதோடு சூரியனுடன் பாபக் கிரகம் சேர்ந்தால் — மரணம் என்கிறார்.', source: Object.freeze({ ...BHAT, pageLocus: 'Chapter XXI, printed pp.251-252 (PDF 269-270): "if on a particular day or period the Sun is transiting a star which happens to be the Vedha one for one\'s natal asterism, then it is to be inferred that there is danger to the native\'s life"' }) },
       { book: 'PULIPPANI', textTa: 'அதே மூன்று விளைவுகள்; சூரியனுடன் பாபக் கிரகம் சேர்ந்தால் மரணம் எதிர்பார்க்கலாம் என்கிறார்.', source: Object.freeze({ ...PULIPPANI, pageLocus: 'Chapter 24, printed pp.209-210 (PDF 202-203): "If the star occupied by the Sun at the time happens to be the vedha asterism to the natal star, danger to life has to be foreseen, if to the Adhana Nakshatra, 19th from Janmanakshatra, there will be fear and anxiety; if the 10th ... loss of wealth"' }) },
       { book: 'GOUR', textTa: 'ஜன்ம நட்சத்திர வேதையில் சூரியன் தீயது — உயிருக்கு ஆபத்து; அனுஜன்ம, திரிஜன்ம வேதையில் முறையே பண இழப்பு, அச்சம்.', source: Object.freeze({ ...GOUR, pageLocus: 'Chapter VIII, printed p.92 (PDF 95): "the Sun transiting in a Vedha star to the Janma Nakshatra as evil. It entails danger to life. Sun in Vedha to Anujanma or Trijanma is also evil Transit entailing loss of wealth and fear respectively"' }) },
+      { book: 'PHALADEEPIKA', textTa: 'ஸ்லோகம் 26: ஜன்ம நட்சத்திரத்தின் வேதையில் சூரியன் — உயிருக்கு ஆபத்து; ஆதானத்தின் (19) வேதையில் — அச்சம், கவலை; கர்மத்தின் (10) வேதையில் — பண இழப்பு; சூரியன் பாபக் கிரகத்துடன் ("सपापः") இருந்தால் மரணமே. (புலிப்பாணியின் உரை இதன் சொற்களையே பெரும்பாலும் தருகிறது.)', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 26, printed pp.296-298 (PDF 331-333), with the chakra drawn on p.297: "If the star occupied by the Sun at the time happens to be the Vedha asterism to the natal star, danger to life has to be apprehended; if to the Adhana Nakshatra (19th ...) fear and anxiety; if to the Karmarksha (10th ...) loss of wealth ... Should however the Sun in the above positions be also associated with a malefic, death alone has to be expected"' }) },
     ],
     readingTa: '"சூரியனுடன் பாபக் கிரகம்" — அதே ராசியில் பாபக் கிரகம் என்று எடுத்தோம் (எங்கள் வாசிப்பு).',
   },
@@ -160,6 +173,7 @@ const RULES = deepFreeze([
       { book: 'BHAT', textTa: 'சூரியன் அல்லாத பாபக் கிரகங்கள் அந்த வேதை நட்சத்திரங்களில் இருந்தால் மரணம்; பாபர்களும் சுபர்களும் இருவரும் இருந்தால் உயிருக்கு ஆபத்து இல்லை.', source: Object.freeze({ ...BHAT, pageLocus: 'Chapter XXI, printed p.252 (PDF 270): "If both malefics and benefics transit such stars, there will be no danger to life"' }) },
       { book: 'PULIPPANI', textTa: 'சூரியன் அல்லாத பாபக் கிரகங்களால் — மரணம் நேரலாம்; சுபக் கிரகங்களால் — உயிருக்கு ஆபத்து இல்லை.', source: Object.freeze({ ...PULIPPANI, pageLocus: 'Chapter 24, printed p.210 (PDF 203): "If any one of the three asterims referred to above be thus marred by the occupation of other malefics (other than the Sun), death may happen; if by benefics, there will be no danger to life"' }) },
       { book: 'GOUR', textTa: 'பாபக் கிரகத்தின் வேதை — தொல்லை; சுபக் கிரகத்தின் வேதை — நல்லது.', source: Object.freeze({ ...GOUR, pageLocus: 'Chapter VIII, printed p.92 (PDF 95): "Malefic in Vedha to these three stars causes trouble where as Vedha by benefics is good"' }) },
+      { book: 'PHALADEEPIKA', textTa: 'ஸ்லோகம் 27: மூன்றில் ஏதேனும் ஒன்று சூரியன் அல்லாத பாபக் கிரகங்களால் அதுபோல் பாதிக்கப்பட்டால் மரணம் நேரலாம்; சுபக் கிரகங்களால் என்றால் உயிருக்கு ஆபத்து இல்லை; "எல்லாவற்றையும் இப்படியே மதிப்பிட வேண்டும்".', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 27, printed p.298 (PDF 333): "If any one of the three asterisms referred to above be thus marred by the occupation of other malefics (other than the Sun), death may happen; if by benefics, there will be no danger to life. Everything should be judged similarly"' }) },
     ],
     readingTa: 'பாபர் = செவ்வாய், சனி, ராகு, கேது; சுபர் = குரு, சுக்கிரன், புதன்; சந்திரன் சேர்க்கப்படவில்லை (மாதந்தோறும் எல்லா நட்சத்திரங்களையும் கடப்பதால், பக்ஷத்தைப் பொறுத்து சுப/பாபம் மாறுவதால்) — இந்தப் பகுதியில் நூல்கள் வகைப்படுத்தவில்லை; எங்கள் வாசிப்பு.',
   },
@@ -170,9 +184,20 @@ const RULES = deepFreeze([
     books: [
       { book: 'BHAT', textTa: 'பாபக் கிரகங்கள் இவற்றில் சென்றால் உயிருக்கு ஆபத்து; சுபக் கிரகங்கள் என்றால் முயற்சிகள் தோல்வி மட்டும். இது சப்தசலாகை வேதையிலிருந்து வேறான இன்னொரு வகை என்கிறார் (இருப்பிடம், வேதை அல்ல).', source: Object.freeze({ ...BHAT, pageLocus: 'Chapter XXI, printed pp.252-253 (PDF 270-271): "If malefics should transit the natal star, the 3rd from it, the 5th, the 7th, 10th, 19th or the 23rd ... then too there will be danger to life. If these positions are occupied by benefics in transit, then there will be only failure of undertakings. Now you see that this is another kind of Vedha different from the one indicated by the Saptasalaka figure"' }) },
       { book: 'PULIPPANI', textTa: '19, 10, 3, 1, 23, 5, 7-வது நட்சத்திரங்கள் பாபக் கிரகங்களால் "பாதிக்கப்பட்டால்" உயிருக்கு ஆபத்து; சுபக் கிரகம் என்றால் வியாபாரத் தோல்வி மட்டும் ("afflicted" — இருப்பிடமா வேதையா என்று சொல்லவில்லை).', source: Object.freeze({ ...PULIPPANI, pageLocus: 'Chapter 24, printed p.211 (PDF 204): "If the 19th, 10th, 3rd, 1st, 23rd, 5th or 7th (all reckoned from the Janmatara) are afflicted by malefics during their transit, there will be danger to life. But if the planet be benefic, failure in business will be the only result"' }) },
-      { book: 'GOUR', textTa: '1, 3, 5, 7, 10, 19, 22-வது நட்சத்திரங்களின் "வேதை" பாபக் கிரகத்தால் — உயிருக்கு ஆபத்து; சுபக் கிரகத்தால் கூட வியாபார இழப்பு. (மற்ற இருவர் 23-வது என்கிறார்கள்; கௌர் 22-வது, வேதை.)', source: Object.freeze({ ...GOUR, pageLocus: 'Chapter VIII, printed p.92 (PDF 95): "Vedha by a malefic planet of the 1st, 3rd, 5th, 7th, 10th, 19th and 22nd Nakshatras, counted from the Natal star, are dangerous to life"' }) },
+      { book: 'GOUR', textTa: '1, 3, 5, 7, 10, 19, 22-வது நட்சத்திரங்களின் "வேதை" பாபக் கிரகத்தால் — உயிருக்கு ஆபத்து; சுபக் கிரகத்தால் கூட வியாபார இழப்பு. (மற்றவர்கள் 23-வது என்கிறார்கள்; கௌர் 22-வது, வேதை.)', source: Object.freeze({ ...GOUR, pageLocus: 'Chapter VIII, printed p.92 (PDF 95): "Vedha by a malefic planet of the 1st, 3rd, 5th, 7th, 10th, 19th and 22nd Nakshatras, counted from the Natal star, are dangerous to life"' }) },
+      { book: 'PHALADEEPIKA', textTa: 'ஸ்லோகம் 28 எண்களைச் சொல்லவில்லை, பெயர்களைச் சொல்கிறது: ஆதானம், கர்மர்க்ஷம், விபத், ஜன்மம், வைநாசிகம், பிரத்யரம், வதம் — பாபக் கிரகம் இவற்றில் இருந்தால் உயிருக்கு அச்சம்; சுபக் கிரகம் என்றால் காரியக் கேடு. சாஸ்திரி (கபூரும்): 19, 10, 3, 1, 23, 5, 7 — வைநாசிகத்துக்கு ஜாதக பாரிஜாதத்தைக் குறிப்பிட்டு.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 28, printed p.298 (PDF 333): the verse "आधानकर्मर्क्षविपत्त्रिजर्क्षे वैनाशिके प्रत्यरभे वधाख्ये"; the translation "If the 19th, 10th, 3rd, 1st, the 23rd, the 5th or the 7th (all reckoned from the Janmatara) are afflicted by malefics during their transit, there will be danger to life. But if the planet be benefic, failure in business will be the only result"; note "For Adhana, Karmarksha, Vainasika, etc., see Jatakaparijata p. 635"' }) },
     ],
-    readingTa: 'இருப்பிடம் (பட்) கணிக்கப்படுகிறது. கௌரின் "வேதை", "22-வது" வாசிப்பு காட்டப்படுகிறது, கணிக்கப்படவில்லை.',
+    readingTa: 'இருப்பிடம் (பட்) கணிக்கப்படுகிறது. "வைநாசிகம்" எத்தனையாவது நட்சத்திரம் என்பதில் நூல்கள் பிரிகின்றன — 23-வது (ஜாதக பாரிஜாதம் IX.79; சாஸ்திரி, கபூர், பட், புலிப்பாணி) இயல்பு; 22-வது (காலப்பிரகாசிகை; கௌர்) தனியாகக் குறிக்கப்பட்டுக் காட்டப்படுகிறது. கௌரின் "வேதை" வாசிப்பு காட்டப்படுகிறது, கணிக்கப்படவில்லை.',
+    vainashika: {
+      default: 23,
+      alternative: 22,
+      textTa: 'வைநாசிகம்: ஜாதக பாரிஜாதம் IX.79 — "त्रयोविंशतिनक्षत्रं वैनाशिकम्" (23-வது); காலப்பிரகாசிகை — "22-வது நட்சத்திரத்தின் தன்மை … அழிவைக் குறிக்கும்". சாஸ்திரியின் குறிப்பு ஜாதக பாரிஜாதம் "ப.635" என்கிறது; நம்மிடம் உள்ள ஸ்கேனிலும் கபூரின் குறிப்பிலும் அது ப.625.',
+      sources: [
+        Object.freeze({ ...JATAKA_PARIJATA_VOL2, pageLocus: 'Adhyaya IX, slokas 78-80, printed p.625 (PDF 309): "त्रयोविंशतिनक्षत्रं वैनाशिकमिति स्मृतम्" — "the 23rd is known as Vainasika"' }),
+        Object.freeze({ ...KALAPRAKASIKA, pageLocus: 'printed p.167 (PDF 197): "Vainasika — This word denotes the quality of the 22nd asterism from the Jenma-Nakshathra. It indicates ruin and should, therefore, be avoided"' }),
+        Object.freeze({ ...PHALADEEPIKA_KAPOOR, pageLocus: 'Chapter 26, sloka 28, e-text p.252: "If the 19th, 10th, 3rd, 1st, 23rd, 5th or 7th ..."; note "For Adhana, Karmaksha, Vainisika etc. see Jataka Parijata (p. 625)"' }),
+      ],
+    },
   },
   {
     id: 'ROUNDS',
@@ -181,13 +206,14 @@ const RULES = deepFreeze([
       { book: 'BHAT', textTa: 'எந்தச் சுற்றிலும் ஜன்ம நட்சத்திரம் சூரியன் ராசி மாறும் நேரத்துடனோ, வேறு கிரகம் ராசி மாறுவதுடனோ, கிரகணம், கிரக யுத்தம், எரிநட்சத்திரம் போன்றவற்றுடனோ ஒத்துவந்தால் மிகத் தீயது — மரணம் அல்லது பெரும் ஆபத்து.', source: Object.freeze({ ...BHAT, pageLocus: 'Chapter XXI, printed p.253 (PDF 271): "See also if the natal star in any round synchronizes with the Sun\'s entry into another Sign of the zodiac. If it does, then the effect is very bad"' }) },
       { book: 'PULIPPANI', textTa: 'மூன்று நட்சத்திரங்களும் சூரிய சங்கிரமண நாளிலோ, வேறு கிரகம் ராசி மாறும்போதோ, கிரகணத்திலோ விழுந்தால் மரணம் அல்லது அதுபோன்ற தீய நிகழ்வு.', source: Object.freeze({ ...PULIPPANI, pageLocus: 'Chapter 24, printed p.211 (PDF 204): "The three asterims (viz Janma Anujanma, Trijanma), 1st, 10th and 19th falling on a day identical with the Sun\'s Sankramana ... or at a time when any of the other planets transit from one Rasi to another or when there is an eclipse"' }) },
       { book: 'GOUR', textTa: 'சந்திரன் ஜன்ம, அனுஜன்ம, திரிஜன்ம நட்சத்திரத்தில் இருக்கும்போது ஏதேனும் கிரகம் புதிய ராசியில் நுழைந்தால் தீய நிகழ்வுகள்; சூரியன் ராசி மாறுவது குறிப்பாக.', source: Object.freeze({ ...GOUR, pageLocus: 'Chapter VIII, printed p.93 (PDF 96): "Should the Moon be transiting in the Janma, Anujanma or the Trijanma Nakshatras and a planet in the horoscope enters a new sign; untoward incidents are likely to take place"' }) },
+      { book: 'PHALADEEPIKA', textTa: 'ஸ்லோகம் 29: "ஜன்ம திரயம்" (1, 10, 19) சூரிய சங்கிரமண நாளிலோ, வேறு கிரகம் ராசி மாறும்போதோ, கிரகணம், கிரக யுத்தம், எரிநட்சத்திர வீழ்ச்சி அல்லது வேறு அற்புத நிகழ்வின்போதோ விழுந்தால் — மரணம் அல்லது அதுபோன்ற துன்பம். சாஸ்திரியின் அடிக்குறிப்பு: உல்கா = சூரியனின் நட்சத்திரத்திலிருந்து 10-வது (காலப்பிரகாசிகை), 21-வது (பலபத்ரர்).', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 29, printed pp.298-299 (PDF 333-334): the verse "आदित्यसङ्क्रान्तिदिने ग्रहाणां प्रवेशने वा ग्रहणे च युद्धे । उल्कानिपाते च तथाद्भुते च जन्मत्रयं स्यान्मरणादि दुःखम्"; footnote on Ulka (Kalaprakasika XXXIII-116; Balabhadra)' }) },
     ],
     readingTa: 'ராசி மாறும் கணத்தில் சந்திரனின் நட்சத்திரம் பார்க்கப்படுகிறது (எங்கள் வாசிப்பு; புலிப்பாணி "நாள்" என்கிறார்). கிரகணம், கிரக யுத்தம், எரிநட்சத்திரம் கணிக்கப்படவில்லை.',
   },
 ]);
 
 const NOT_COMPUTED_TA = Object.freeze([
-  'உல்கா: சூரியனின் நட்சத்திரத்திலிருந்து 10-வது (காலப்பிரகாசிகை) அல்லது 21-வது (பலபத்ரர்) என்று புலிப்பாணி இரண்டையும் பதிவு செய்கிறார் (ப.211); அதன் விளைவு அங்கே சொல்லப்படவில்லை — கணிக்கவில்லை.',
+  'உல்கா: சூரியனின் நட்சத்திரத்திலிருந்து 10-வது (காலப்பிரகாசிகை) அல்லது 21-வது (பலபத்ரர்) — சாஸ்திரியின் பலதீபிகை அடிக்குறிப்பு (ப.299); புலிப்பாணி அதையே பதிவு செய்கிறார் (ப.211). ஸ்லோகம் 29-ன் "உல்கா வீழ்ச்சி" இதுவா என்று சொல்லப்படவில்லை — கணிக்கவில்லை.',
   'பட் ப.253: சுபக் கிரகப் பார்வை தீமையைத் தணிக்கும்; சொந்த / உச்ச வீட்டில் இருந்தால் தீமை இல்லை; நீசம், பகை, அஸ்தங்கத்தில் நன்மை வராது — பொது கோசார விதிகள்; இங்கே கணிக்கவில்லை.',
 ]);
 
@@ -195,6 +221,7 @@ const NOTES_TA = Object.freeze({
   countingTa: 'ஜன்ம, கர்ம (10), ஆதான (19) நட்சத்திரங்கள் சாதாரண 27 நட்சத்திரங்களில் எண்ணப்படுகின்றன (பட்டின் உதாரணம்: மிருகசீரிடத்திலிருந்து 19-வது அவிட்டம்); பிறகு 28 நட்சத்திரச் சக்கரத்தில் வைக்கப்படுகின்றன. கோசாரக் கிரகம் அபிஜித் பகுதியில் இருந்தால் சக்கரத்தில் அபிஜித்.',
   abhijitTa: 'அபிஜித்: 276°40′ – 280°53′20″ (சாரக்). வேறு நூல்கள் உத்திராடத்தின் கடைசி பாதம் மட்டும் (276°40′ – 280°) என்கின்றன; இங்கே சாரக்கின் அளவு.',
   disclaimerTa: 'இவை நூல்களின் கூற்றுகள் — இந்த மென்பொருளின் முன்கணிப்பு அல்ல. காலங்கள் வானியல் கணக்கு.',
+  pulippaniQuotesTa: 'புலிப்பாணி அத்.24-ன் உரை (பக்.209-211) — சக்கரம் வரையும் முறை, நான்கு விதிகள், உல்கா அடிக்குறிப்பு — சாஸ்திரியின் பலதீபிகை 26.26-29 மொழிபெயர்ப்பை (பக்.296-299) பெரும்பாலும் அதே சொற்களில் தருகிறது; சில சொற்கள் மாறுகின்றன ("apprehended" → "foreseen"), ஸ்லோகம் 29-ன் கிரக யுத்தம், எரிநட்சத்திரம், அற்புத நிகழ்வுகள் விடப்பட்டுள்ளன. அதனால் இவ்விரண்டும் ஒத்துப்போவது தனிச் சான்று அல்ல.',
 });
 
 module.exports = {

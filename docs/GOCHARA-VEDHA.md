@@ -199,6 +199,20 @@ of seven horizontal and seven vertical lines; stars on one line are in vedha.
 | M. Ramakrishna Bhat, *Fundamentals of Astrology* | ch.XXI, pp.251–253 | 808 | straight lines ("stars face one another"), plain grid — **default** |
 | Pulippani, *Gochar Phaladeepika* | ch.24, pp.209–211 | 387 | text: straight lines; drawing: a diamond lattice |
 | A.K. Gour, *The Celestial Delivery Boy* | ch.VIII, pp.91–93 | 355 | three lines (straight + two diagonals), same lattice drawn |
+| Mantreswara, *Phaladeepika* (Sastri 1950) | XXVI.26–29, pp.296–299 | 310 | the source verses; chakra drawn on p.297 (added 2026-10-08) |
+
+**Phaladeepika XXVI.26–29 (2026-10-08).** The source behind all three.
+Pulippani's chapter 24 text follows Sastri's translation closely: the drawing
+instruction, the four rules and Sastri's footnote on Ulka, mostly in the same
+words, a few changed, and verse 29's planetary war, meteor fall and portents
+left out. Their agreement is therefore not independent. Verse 28 names its seven stars
+instead of numbering them: Adhana, Karmarksha, Vipat, Janma, **Vainashika**,
+Pratyari, Vadha. Sastri (and Kapoor) number Vainashika the 23rd, citing Jataka
+Parijata, whose IX.79 says so in the verse ("त्रयोविंशतिनक्षत्रं वैनाशिकम्",
+printed p.625 — Sastri's note says p.635); Kalaprakasika (p.167) makes it the
+22nd, which is Gour's number. Both stars are now computed, the 22nd labelled as
+that reading. Jataka Parijata vol. II was added to the curated library and the
+registry.
 
 Bhat and Gour were added to the curated library and the registry, with K.S.
 Charak's *Elements of Vedic Astrology* for the span of Abhijit (276°40′–
@@ -218,7 +232,8 @@ Dhanishta, Magha).
    star while a malefic does (Bhat: then "no danger to life").
 3. Malefics and benefics occupying the 1st, 3rd, 5th, 7th, 10th, 19th or 23rd
    star (Bhat: occupation, "another kind of Vedha"; Pulippani: "afflicted";
-   Gour: vedha, and the 22nd instead of the 23rd — shown, not computed).
+   Gour: vedha, and the 22nd instead of the 23rd). Since 2026-10-08 the 22nd
+   is computed too, labelled as Kalaprakasika's and Gour's Vainashika.
 4. A planet changing sign while the Moon is in the natal, 10th or 19th star
    (eclipses, planetary war and meteors not computed).
 

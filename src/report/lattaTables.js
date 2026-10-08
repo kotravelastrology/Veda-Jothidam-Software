@@ -18,26 +18,12 @@
 const { SOURCES: { PULIPPANI } } = require('./saturnTransitTables');
 const { BHAT, GOUR } = require('./saptashalakaTables');
 const { SOURCES: { RAO, RAJ_KUMAR_CHARISMA } } = require('./moorthiTables');
+const { PHALADEEPIKA_SASTRI, PHALADEEPIKA_KAPOOR } = require('./classicSources');
 
 const deepFreeze = (o) => {
   Object.values(o).forEach((v) => { if (v && typeof v === 'object') deepFreeze(v); });
   return Object.freeze(o);
 };
-
-// Unique names: the citation scanner resolves a spread by its constant's name
-// across all of src, and gemstoneTables.js already has a KAPOOR (another book).
-const PHALADEEPIKA_SASTRI = Object.freeze({
-  title: 'Phaladeepika (V. Subrahmanya Sastri, 1950)',
-  author: 'Mantreswara; V. Subrahmanya Sastri (translator), 2nd edition 1950',
-  file: 'phaladeepika-subrahmanya-sastri-1950/raw-scans/full-scan.pdf',
-  tradition: 'Classical Sanskrit (South Indian, c. 14th century) with an English translation',
-});
-const PHALADEEPIKA_KAPOOR = Object.freeze({
-  title: 'Phala Deepika (G.S. Kapoor, e-text)',
-  author: 'Mantreswara; G.S. Kapoor (translation, commentary and annotation)',
-  file: 'phaladeepika-kapoor-etext/raw-scans/full-scan.pdf',
-  tradition: 'Classical Sanskrit with a modern English translation (retyped e-text)',
-});
 
 // ---------------------------------------------------------------------------
 // The counts — the same in every book but one cell
@@ -244,5 +230,5 @@ const OUR_READINGS_TA = deepFreeze([
 module.exports = {
   KICKS, kickedStar, kickerStar, RAHU_READINGS, DEFAULT_RAHU, KETU, COUNT_SOURCES, EFFECTS, LATTA_RANK, BOOK_TA,
   WORKED_COUNTS, LATTA_DIFFERENCES, OUR_READINGS_TA,
-  SOURCES: { PHALADEEPIKA_SASTRI, PHALADEEPIKA_KAPOOR },
+  SOURCES: { PHALADEEPIKA_SASTRI, PHALADEEPIKA_KAPOOR }, // re-exported from classicSources
 };

@@ -13,18 +13,12 @@
 
 const { SOURCES: { VISHNU_BHASKAR, SHUBHAKARAN } } = require('./saturnTransitTables');
 const { SOURCES: { RAJ_KUMAR_CHARISMA } } = require('./moorthiTables');
+const { KALAPRAKASIKA } = require('./classicSources');
 
 const deepFreeze = (o) => {
   Object.values(o).forEach((v) => { if (v && typeof v === 'object') deepFreeze(v); });
   return Object.freeze(o);
 };
-
-const KALAPRAKASIKA = Object.freeze({
-  title: 'Kalaprakasika',
-  author: 'N.P. Subramania Iyer (translator)',
-  file: 'kalaprakasika-nps-iyer-1982/raw-scans/full-scan.pdf',
-  tradition: 'Tamil / Sanskrit classical (muhurta)',
-});
 
 /** Padas counted from the natal pada, which is the 1st. */
 const COUNT = 88;
