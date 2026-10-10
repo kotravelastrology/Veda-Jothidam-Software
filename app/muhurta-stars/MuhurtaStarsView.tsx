@@ -19,6 +19,9 @@ const Cites = ({ list }: { list: any[] }) => (
 );
 const DIR_TA: Record<number, string> = { 1: 'முன்னோக்கி', [-1]: 'பின்னோக்கி' };
 const PERSONAL_TA: Record<string, string> = { JANMA: 'ஜன்ம நட்சத்திரம்', PADA_88: '88-வது பாதம்', PADA_108: '108-வது பாதம்' };
+const PLANET_NAME_TA: Record<string, string> = {
+  Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது',
+};
 type Show = 'ALL' | 'CLEAR' | 'BLOCKED';
 
 function Switch({ label, value, options, onChange }: { label: string; value: string; options: [string, string][]; onChange: (v: string) => void }) {
@@ -45,6 +48,9 @@ export default function MuhurtaStarsView() {
   const [rahu, setRahu] = useState('BACKWARD');
   const [padaRule, setPadaRule] = useState('WHOLE');
   const [vainashika, setVainashika] = useState('STAR_23');
+  const [taraBad, setTaraBad] = useState('T1357');
+  const [taraCycle, setTaraCycle] = useState('QUARTERS');
+  const [chandraReading, setChandraReading] = useState('GOOD_LIST');
   const [show, setShow] = useState<Show>('ALL');
 
   useEffect(() => {
@@ -57,6 +63,7 @@ export default function MuhurtaStarsView() {
         if (cancelled) return;
         setResult(r);
         setRahu(r.books.rahu.default); setPadaRule(r.books.padaRules.default); setVainashika(r.books.vainashika.default);
+        setTaraBad(r.books.taraBad.default); setTaraCycle(r.books.taraCycles.default); setChandraReading(r.books.chandraReadings.default);
         if (!fromDate) setFromDate(r.fromDate);
       })
       .catch((e) => { if (!cancelled) { setError(e instanceof Error ? e.message : String(e)); setResult(null); } })
@@ -79,8 +86,11 @@ export default function MuhurtaStarsView() {
       s.personal.JANMA && 'JANMA', s.personal.PADA_88 && 'PADA_88', s.personal.PADA_108 && 'PADA_108',
     ].filter(Boolean) as string[];
     const vain = s.personal.VAINASHIKA[vainashika];
-    return { kicks, counted, personal, vain, clear: counted.length === 0 && personal.length === 0 && !vain };
+    const tara = s.taraVerdicts[taraBad][taraCycle] as 'REJECT' | 'CAUTION' | null;
+    const chandra = s.chandraBala[chandraReading] as boolean;
+    return { kicks, counted, personal, vain, tara, chandra, clear: counted.length === 0 && personal.length === 0 && !vain && tara !== 'REJECT' && chandra };
   };
+  const PAKSHA_TA: Record<string, string> = { SHUKLA: 'வளர்பிறை', KRISHNA: 'தேய்பிறை' };
 
   const rows = (result?.segments ?? []).map((s: any) => ({ s, j: judge(s) }))
     .filter(({ j }: any) => show === 'ALL' || (show === 'CLEAR' ? j.clear : !j.clear));
@@ -95,10 +105,10 @@ export default function MuhurtaStarsView() {
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Muhurta star</p>
-        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">முகூர்த்த நட்சத்திரம் — லத்தை, வைநாசிகம், 88/108-வது பாதம்</h1>
+        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">முகூர்த்த நட்சத்திரம் — லத்தை, தாரா பலம், சந்திர பலம், வைநாசிகம், 88/108-வது பாதம்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           முகூர்த்த நட்சத்திரம் என்பது அந்த நேரத்தில் சந்திரன் நிற்கும் நட்சத்திரம். ஒரு கிரகம் அதை "உதைத்தால்" (லத்தை) யாருக்கும் விலக்கு;
-          இவருடைய ஜன்ம நட்சத்திரம், ஜன்ம பாதத்திலிருந்து 88-வது, 108-வது பாதம், வைநாசிக நட்சத்திரம் இவருக்கு மட்டும் விலக்கு.
+          இவருக்கு — தாரா பலம் (ஜன்ம நட்சத்திரத்திலிருந்து), சந்திர பலம் (ஜன்ம ராசியிலிருந்து), ஜன்ம நட்சத்திரம், 88-வது, 108-வது பாதம், வைநாசிகம்.
           நூல்கள் வேறுபடும் இடங்களில் எல்லா வாசிப்புகளும் கணிக்கப்படுகின்றன; அதிகம் விளக்கும் நூலின் வாசிப்பு இயல்பு.
         </p>
       </header>
@@ -141,17 +151,23 @@ export default function MuhurtaStarsView() {
                 options={B.padaRules.order.map((id: string) => [id, `${B.padaRules[id].labelTa}${id === B.padaRules.default ? ' (இயல்பு)' : ''}`])} />
               <Switch label="வைநாசிகம்" value={vainashika} onChange={setVainashika}
                 options={B.vainashika.order.map((id: string) => [id, `${B.vainashika[id].labelTa}${id === B.vainashika.default ? ' (இயல்பு)' : ''}`])} />
+              <Switch label="தீய தாரைகள்" value={taraBad} onChange={setTaraBad}
+                options={B.taraBad.order.map((id: string) => [id, `${B.taraBad[id].labelTa}${id === B.taraBad.default ? ' (இயல்பு)' : ''}`])} />
+              <Switch label="தாரை — சுற்று விதி" value={taraCycle} onChange={setTaraCycle}
+                options={B.taraCycles.order.map((id: string) => [id, `${B.taraCycles[id].labelTa}${id === B.taraCycles.default ? ' (இயல்பு)' : ''}`])} />
+              <Switch label="சந்திர பலம்" value={chandraReading} onChange={setChandraReading}
+                options={B.chandraReadings.order.map((id: string) => [id, `${B.chandraReadings[id].labelTa}${id === B.chandraReadings.default ? ' (இயல்பு)' : ''}`])} />
               <Switch label="காட்டு" value={show} onChange={(v) => setShow(v as Show)}
                 options={[['ALL', 'எல்லாம்'], ['CLEAR', 'தடை இல்லாதவை'], ['BLOCKED', 'தடை உள்ளவை']]} />
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-xs" style={{ minWidth: 760 }}>
                 <thead><tr className="text-ink-soft border-b border-line text-left">
-                  <th className="py-1 pr-2">நேரம்</th><th className="py-1 pr-2">நட்சத்திரம் · பாதம்</th><th className="py-1 pr-2">லத்தை</th><th className="py-1">இவருக்கு</th>
+                  <th className="py-1 pr-2">நேரம்</th><th className="py-1 pr-2">நட்சத்திரம் · பாதம்</th><th className="py-1 pr-2">லத்தை</th><th className="py-1 pr-2">தாரை · சந்திரன்</th><th className="py-1">இவருக்கு</th>
                 </tr></thead>
                 {byDay.map(([d, list]) => (
                   <tbody key={d} className="align-top">
-                    <tr><td colSpan={4} className="pt-2 pb-0.5 font-semibold text-ink">{d}</td></tr>
+                    <tr><td colSpan={5} className="pt-2 pb-0.5 font-semibold text-ink">{d}</td></tr>
                     {list.map(({ s, j }: any) => (
                       <tr key={s.fromUtc} className={`border-b border-line/40 ${s.current ? 'bg-amber-50' : ''}`}>
                         <td className="py-1 pr-2 font-mono whitespace-nowrap" style={num}>
@@ -172,6 +188,20 @@ export default function MuhurtaStarsView() {
                               </span>
                             );
                           })}
+                        </td>
+                        <td className="py-1 pr-2">
+                          <span className={`block ${j.tara === 'REJECT' ? 'text-rose' : j.tara === 'CAUTION' ? 'text-amber-700' : 'text-ink'}`}>
+                            {B.taraNamesTa[s.tara.n - 1]} ({s.tara.count}, {s.tara.cycle}-ஆம் சுற்று){j.tara === 'REJECT' ? ' — தாரா பலம் இல்லை' : j.tara === 'CAUTION' ? ' — கவனம்' : ''}
+                          </span>
+                          <span className={`block ${j.chandra ? 'text-ink' : 'text-rose'}`}>
+                            சந்திரன் {s.chandra.house}-ல் · {PAKSHA_TA[s.chandra.paksha]}{j.chandra ? '' : ' — சந்திர பலம் இல்லை'}
+                            {s.chandra.vedhaBy.length > 0 && <span className="text-ink-soft"> (வேதை: {s.chandra.vedhaHouse}-ல் {s.chandra.vedhaBy.map((p: string) => PLANET_NAME_TA[p] ?? p).join(', ')})</span>}
+                          </span>
+                          {s.chandra.chandrashtama && (
+                            <span className={`block text-[11px] ${B.chandrashtamaKinds[s.chandra.chandrashtama]?.harmless ? 'text-teal' : 'text-rose'}`}>
+                              சந்திராஷ்டமம்{B.chandrashtamaKinds[s.chandra.chandrashtama] ? ` — ${B.chandrashtamaKinds[s.chandra.chandrashtama].ta} (வில்ஹெல்ம்)` : ''}
+                            </span>
+                          )}
                         </td>
                         <td className="py-1">
                           {j.personal.map((k: string) => <span key={k} className="block text-rose">{PERSONAL_TA[k]}{k === 'JANMA' && s.personal.JANMA_PADA ? ' — ஜன்ம பாதமும்' : ''}</span>)}
@@ -235,6 +265,36 @@ export default function MuhurtaStarsView() {
               ))}
               <li><strong>88-வது பாதத்துக்குப் பரிகாரம்:</strong> {B.remedy88.textTa} <span className="text-ink-soft">{B.remedy88.readingTa}</span><Cites list={B.remedy88.sources} /></li>
             </ul>
+          </section>
+
+          <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+            <h2 className="text-sm font-semibold text-ink mb-1">தாரா பலம் — நூல்கள்</h2>
+            <p className="text-[11px] text-ink-soft mb-2">வரிசை: {B.taraRank.measureTa} இது விளக்கத்தின் அளவு மட்டுமே; எது சரி என்ற தீர்ப்பு அல்ல.</p>
+            <p className="text-xs text-ink">
+              ஜன்ம நட்சத்திரத்திலிருந்து (அது 1) முகூர்த்த நட்சத்திரம் வரை எண்ணி 9-ஆல் வகுத்த மீதி தாரை (0 = 9): {B.taraNamesTa.map((t: string, i: number) => `${i + 1} ${t}`).join(', ')}. 27 நட்சத்திரங்கள் மூன்று சுற்று (பர்யாயம்).
+            </p>
+            <p className="text-xs font-semibold text-ink mt-2">தீய தாரைகள்</p>
+            <ul className="text-xs space-y-0.5">{B.taraBad.order.map((id: string) => <li key={id}><strong>{B.taraBad[id].labelTa}{id === B.taraBad.default ? ' (இயல்பு)' : ''}:</strong> {B.taraBad[id].booksTa}</li>)}</ul>
+            <p className="text-xs font-semibold text-ink mt-2">சுற்று விதி</p>
+            <ul className="text-xs space-y-0.5">{B.taraCycles.order.map((id: string) => <li key={id}><strong>{B.taraCycles[id].labelTa}{id === B.taraCycles.default ? ' (இயல்பு)' : ''}:</strong> {B.taraCycles[id].textTa}</li>)}</ul>
+            <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-2 space-y-0.5">{B.taraNotesTa.map((t: string) => <li key={t}>{t}</li>)}</ul>
+            <Cites list={B.taraRank.order.map((b: string) => B.taraSources[b]).concat([B.taraSources.KALYANRAMAN_2])} />
+          </section>
+
+          <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+            <h2 className="text-sm font-semibold text-ink mb-1">சந்திர பலம் — நூல்கள்</h2>
+            <p className="text-[11px] text-ink-soft mb-2">வரிசை: {B.chandraRank.measureTa}</p>
+            <p className="text-xs text-ink">
+              சந்திரன் நிற்கும் ராசி ஜன்ம ராசியிலிருந்து (இவருக்கு {result.janma.signTa}) எத்தனையாவது. 8-ஆம் இடம் (சந்திராஷ்டமம்) எல்லா நூலிலும் தீயது;
+              வில்ஹெல்ம் அதைத் தாரையைக் கொண்டு ஆறு வகையாக்குகிறார் — சோபன, அமல, சித்த தீமையற்றவை.
+              இவருக்கு ஜன்ம ராசி அதிபதி {PLANET_NAME_TA[result.janma.chandrashtamaLords.natalLord]}, 8-ஆம் அதிபதி {PLANET_NAME_TA[result.janma.chandrashtamaLords.eighthLord]} —
+              {result.janma.chandrashtamaLords.friends ? ' நண்பர்கள்: வில்ஹெல்மின்படி சந்திராஷ்டமம் தீமை செய்யாது.' : ' நண்பர்கள் அல்ல.'}
+            </p>
+            <ul className="text-xs space-y-1 mt-2">{B.chandraReadings.order.map((id: string) => (
+              <li key={id}><strong>{B.chandraReadings[id].labelTa}{id === B.chandraReadings.default ? ' (இயல்பு)' : ''}:</strong> {B.chandraReadings[id].textTa} <span className="text-ink-soft">({B.chandraReadings[id].booksTa})</span></li>
+            ))}</ul>
+            <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-2 space-y-0.5">{B.chandraNotesTa.map((t: string) => <li key={t}>{t}</li>)}</ul>
+            <Cites list={B.chandraRank.order.map((b: string) => B.chandraSources[b])} />
           </section>
         </>
       )}

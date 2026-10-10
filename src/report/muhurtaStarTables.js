@@ -81,7 +81,15 @@ const WILHELM_E = Object.freeze({
   tradition: 'Muhurta (modern English)',
 });
 
+const RAMAN_BV = Object.freeze({
+  title: 'Muhurtha (Electional Astrology)',
+  author: 'B.V. Raman',
+  file: 'muhurtha-raman/raw-scans/full-scan.pdf',
+  tradition: 'Muhurta (modern English; retyped e-text, cited by chapter and PDF page)',
+});
+
 const BOOK_TA = Object.freeze({
+  RAMAN: 'பி.வி. ராமன் (Muhurtha)',
   SHRIDHAR: 'ஸ்ரீதர் (Hindu Electional Astrology)',
   MUHURTA_CHINTAMANI: 'முகூர்த்த சிந்தாமணி (கிரிஷ் சந்த் சர்மா)',
   RANGACHARYA: 'ரங்காச்சார்யா (முகூர்த்த சிந்து)',
@@ -290,7 +298,148 @@ const NOTES_TA = Object.freeze([
   'இவை நூல்களின் விதிகள். முகூர்த்தம் பார்க்கத் திதி, வாரம், யோகம், கரணம், லக்ன சுத்தி, தாரா பலம், சந்திர பலம் முதலிய மற்றவையும் தேவை — இந்தப் பக்கம் அவற்றைக் கணிக்கவில்லை.',
 ]);
 
+// ---------------------------------------------------------------------------
+// Tara bala (added 2026-10-10)
+// ---------------------------------------------------------------------------
+
+/**
+ * Count from the birth star to the muhurta star (the birth star is the 1st),
+ * divide by nine: the remainder is the tara (0 is the 9th). The 27 stars make
+ * three rounds (paryaya) of nine.
+ */
+const TARA_NAMES_TA = Object.freeze(['ஜன்ம', 'சம்பத்', 'விபத்', 'க்ஷேம', 'ப்ரத்யக் (ப்ரத்யரி)', 'சாதக', 'வத (நைதன)', 'மைத்ர', 'பரம மைத்ர']);
+
+const TARA_RANK = deepFreeze({
+  order: ['WILHELM', 'SHRIDHAR', 'RAMAN', 'KALAPRAKASIKA', 'JOSHI', 'MUHURTA_CHINTAMANI', 'AGARWAL', 'KALYANRAMAN'],
+  words: { WILHELM: 1374, SHRIDHAR: 1142, RAMAN: 656, KALAPRAKASIKA: 479, JOSHI: 344, MUHURTA_CHINTAMANI: 257, AGARWAL: 179, KALYANRAMAN: 134 },
+  measureTa: 'தாரா பலம் பற்றிய பகுதியின் சொற்கள்: வில்ஹெல்ம் அத்.10 (பக்.89-93) 1,374; ஸ்ரீதர் §9.7 (பக்.223-228) 1,142; ராமன் அத்.III 656; காலப்பிரகாசிகை (பக்.166-167, 190) 479; ஜோஷி (பக்.12-13) 344; முகூர்த்த சிந்தாமணி கோசார ஸ்லோ.12-13 (பக்.108-109) 257; அகர்வால் (பக்.300-301) 179; கல்யாணராமன் (தொ.1 ப.139, தொ.2 ப.111) 134.',
+});
+
+/** Which taras are bad. The first is the default (Wilhelm, first by words). */
+const TARA_BAD = deepFreeze({
+  order: ['T1357', 'T357'],
+  default: 'T1357',
+  T1357: { set: [1, 3, 5, 7], labelTa: 'ஜன்ம, விபத், ப்ரத்யக், வத (1, 3, 5, 7)', booksTa: 'வில்ஹெல்ம், முகூர்த்த சிந்தாமணி ("1,3,5,7 inauspicious"), ராமன், அகர்வால்' },
+  T357: { set: [3, 5, 7], labelTa: 'விபத், ப்ரத்யக், வத மட்டும் (3, 5, 7)', booksTa: 'ஸ்ரீதர் (1, 9 நடுத்தரம்), ஜோஷி, கல்யாணராமன்' },
+});
+
+/**
+ * How the three rounds are treated. The quarter rule is Muhurta Chintamani's
+ * own verse and the default; the others are each a book's.
+ */
+const TARA_CYCLES = deepFreeze({
+  order: ['QUARTERS', 'THIRDS', 'FULL', 'GHATI'],
+  default: 'QUARTERS',
+  QUARTERS: {
+    labelTa: 'சுற்றுவாரியாக — 2-ஆம் சுற்றில் ஒரு பாதம்',
+    textTa: 'முதல் சுற்றில் (1-9) தீய தாரை முழுவதும் விலக்கு; இரண்டாம் சுற்றில் (10-18) விபத்தின் 1-ஆம் பாதம், ப்ரத்யக்கின் 4-ஆம் பாதம், வதத்தின் 3-ஆம் பாதம் மட்டும்; மூன்றாம் சுற்றில் (19-27) தீமை இல்லை. முகூர்த்த சிந்தாமணி கோசார ஸ்லோ.13 "द्वितीयेंऽशका नादिप्रान्त्यतृतीयका … सर्वे तृतीये", காலப்பிரகாசிகை, வில்ஹெல்ம், ராமன், கல்யாணராமன்; ஸ்ரீதர் KP-யின் வாசிப்பாக.',
+    booksTa: 'முகூர்த்த சிந்தாமணி, வில்ஹெல்ம், ராமன், காலப்பிரகாசிகை, கல்யாணராமன்',
+  },
+  THIRDS: {
+    labelTa: 'சுற்றுவாரியாக — 2-ஆம் சுற்றில் மூன்றில் ஒரு பகுதி',
+    textTa: 'இரண்டாம் சுற்றில் விபத்தின் முதல் மூன்றில் ஒரு பகுதி, ப்ரத்யக்கின் கடைசி மூன்றில் ஒரு பகுதி, வதத்தின் நடு மூன்றில் ஒரு பகுதி மட்டும் விலக்கு; மூன்றாம் சுற்றில் தீமை இல்லை.',
+    booksTa: 'ஸ்ரீதர், ஜோஷி',
+  },
+  FULL: {
+    labelTa: 'எல்லாச் சுற்றிலும் முழுவதும்',
+    textTa: 'ராமன்: "முக்கிய செயல்களுக்கு மூன்றாம் சுற்றிலும் விபத், நைதனத்தைத் தவிர்ப்பது நல்லது"; வில்ஹெல்ம்: "முக்கியமான, நீண்ட கால நிகழ்வுகளுக்குத் தீய தாரையை எப்போதும் தவிர்ப்பது நல்லது".',
+    booksTa: 'ராமன், வில்ஹெல்ம் (அவர்களின் அறிவுரை)',
+  },
+  GHATI: {
+    labelTa: 'அவசரத்தில் — முதல் நாழிகைகள் மட்டும்',
+    textTa: 'நாள் மற்றபடி நன்றாக இருந்தால், ஜன்ம, விபத், ப்ரத்யக், நைதன நட்சத்திரங்களின் முதல் 7, 3, 8, 6 நாழிகைகள் மட்டும் விலக்கு (ராமன், அகர்வால்). நாழிகை = நட்சத்திரத்தின் 60-ல் ஒரு பங்கு — எங்கள் வாசிப்பு.',
+    booksTa: 'ராமன், அகர்வால்',
+    ghatis: { 1: 7, 3: 3, 5: 8, 7: 6 },
+  },
+});
+
+/** The quarter (1-4) or third (0-2) of the star that is rejected in the second round, by tara. */
+const SECOND_ROUND = deepFreeze({ quarter: { 3: 1, 5: 4, 7: 3 }, third: { 3: 0, 5: 2, 7: 1 } });
+
+const TARA_SOURCES = Object.freeze({
+  WILHELM: Object.freeze({ ...WILHELM_E, pageLocus: 'Chapter 10 "Tara and Chandra Avastha", printed pp.89-92 (PDF 97-100): "If the remainder is 2, 4, 6, 8 or 0, the Tara is favorable. If the remainder is 1, 3, 5 or 7, the Tara is unfavorable"; "In the 2nd Paryaya ... only the 1st Pada of the Vipat Nakshatra, the 4th Pada of the Pratyak Nakshatra, and the 3rd Pada of the Vadha Nakshatra must absolutely be avoided. In the 3rd Paryaya ... practically no adverse qualities"; "it is always best to avoid negative Tara, especially for important or long lasting events"; the list of exceptions' }),
+  SHRIDHAR: Object.freeze({ ...SHRIDHAR_HEA, pageLocus: '§9.7 "Tara", printed pp.223-226 (PDF 267-270): "Best results ... 2nd, 4th, 6th & 8th Taras; Medium results — 1st & 9th; Worst results — 3rd, 5th & 7th"; "In the asterisms of the second triad, first 1/3rd part of Vipat Tara (12th), last 1/3rd part of Pratyara Tara (14th) & middle 1/3rd part of Vadha Tara (16th) ... be left out ... KP. commends that 1st quarter of Vipat (12th); 4th quarter of 14th (Pratyara) & 3rd quarter of 16th (Vadha) be avoided"; "As per Sage Narad, Tara is strong during D.H. while the Moon is strong during B.H."' }),
+  MUHURTA_CHINTAMANI: Object.freeze({ ...MC_SHARMA, pageLocus: '"Gochara Prakarana", slokas 12-13, printed pp.108-109 (PDF 112-113): "मृत्यौ स्वर्णतिलान्विपद्यपि गुडं शाकं त्रिजन्मस्वथो दद्यात्प्रत्यरितारकासु लवणं सर्वो विपत्प्रत्यरिः । मृत्युश्चादिमपर्यये न शुभदोऽथैषां द्वितीयेंऽशका नादिप्रान्त्यतृतीयका अथ शुभाः सर्वे तृतीये स्मृताः"; note: "of these Taras, 1,3,5, and 7 are inauspicious and 2,4,6,8, and 9 are auspicious"' }),
+  RAMAN: Object.freeze({ ...RAMAN_BV, pageLocus: 'Chapter III "The Birth Star and the Birth Moon", PDF pp.7-8: "In the Second Paryaya ... the evil is centred only in the first quarter of the 3rd (Vipat), the 4th quarter of the 5th (Pratyak) and the 3rd quarter of the 7th (Naidhana)"; "In my humble experience, it is better to avoid Vipat and Naidhana stars for all important undertakings ... even if such a star happens to fall in the 3rd-cycle"; "in the Janma, Vipat, Pratyak and Naidhana constellations, the first 7, 3, 8 and 6 ghatis respectively may be considered evil and avoided"' }),
+  KALAPRAKASIKA: Object.freeze({ ...KALAPRAKASIKA, pageLocus: 'Chapter XXXIII, printed pp.166-167 (PDF 196-197) — "The 3rd, 5th and 7th asterisms (of the 2nd Pariyaya) ... the first quarter of the 3rd, the fourth quarter of the 5th and the third quarter of the 7th asterism should alone be avoided. The Third Pariyaya.— The asterisms of this Pariyaya, as such, have no adverse qualities"' }),
+  JOSHI: Object.freeze({ ...JOSHI_KK, pageLocus: '"Tara", printed pp.12-13 (PDF 27-28): "Vipat, Pratyari and Vadha Taras are melefic for all purposes"; "In the second triad starting 1/3rd portion of Vipat; ending 1/3rd portion of Pratyari and middle 1/3rd portion of Vadha tara should be avoided. In the third triad Vipat, Pratyari and Vadha are fully benefic"; the donations' }),
+  AGARWAL: Object.freeze({ ...AGARWAL_GS, pageLocus: 'printed pp.300-301 (PDF 299-300), "viii. Tarabala": "avoid a day that is ruled by the 1st, 3rd, 5th or 7th constellation ... only the negative parts of these constellations, viz. first 7, 3, 8 and 6 ghatis"; "in krishna paksha, nakshatra bala is to be given more weightage"' }),
+  KALYANRAMAN: Object.freeze({ ...KALYANRAMAN_V1, pageLocus: 'printed p.139 (PDF 149): "Tara Suddhi means that the 3-5-7 nakshatras from the Janma Nakshatra are to be rejected"' }),
+  KALYANRAMAN_2: Object.freeze({ ...KALYANRAMAN_V2, pageLocus: 'printed pp.110-111 (PDF 112-113), Upanayana: "the 3/5/7 nakshatras of the first cycle are to be rejected ... For the second cycle one has to reject only the amsakas i.e., 1st paada of Vipat; 4th paada of pratyara and the 3rd paada of Vadha. For the third cycle all the three can be accepted"' }),
+});
+
+const TARA_NOTES_TA = Object.freeze([
+  'ஜன்மக் குழு: 1, 10, 19-ஆம் நட்சத்திரங்கள் (ஜன்ம, அனுஜன்ம, த்ரிஜன்ம). வில்ஹெல்ம்: பொதுவாக நல்லதல்ல, நண்பகலுக்குப் பின் ஜன்மத்தின் தீமை இல்லை; காலப்பிரகாசிகை: 10-வது ஜன்மத்தின் பாதி பலம், 19-வது அதன் பாதி. இங்கே 2, 3-ஆம் சுற்று ஜன்மம் "கவனம்" எனக் காட்டப்படுகிறது, விலக்கு அல்ல (எங்கள் வாசிப்பு).',
+  'தீய தாரையில் செய்ய வேண்டி வந்தால் தானம் (முகூர்த்த சிந்தாமணி ஸ்லோ.13, ஜோஷி, ஸ்ரீதர்): வதத்துக்குப் பொன்னும் எள்ளும், விபத்துக்கு வெல்லம், ஜன்மக் குழுவுக்குக் காய்கறி, ப்ரத்யக்குக்கு உப்பு.',
+  'விலக்குகள் (வில்ஹெல்ம், காலப்பிரகாசிகை ப.190): சந்திரன் முகூர்த்த லக்னத்துக்கு 9, 10-ல் நல்ல நிலையில் சுபர் பார்வையுடன்; சூரியன், குரு, சுக்கிரன் உபசயத்தில்; குரு அல்லது சுக்கிரன் லக்னத்தில் அல்லது பார்த்தால் — முகூர்த்த லக்னம் தேவை; இங்கே கணிக்கப்படவில்லை.',
+  'பக்ஷம்: வளர்பிறையில் சந்திர பலம், தேய்பிறையில் தாரா பலம் அதிக முக்கியம் (ஜோஷி, அகர்வால் — வேதாங்க ஜோதிடம்; ஸ்ரீதர் — நாரதர்). ஜ்யோதிர்விதாபரணம்: தேய்பிறை 11 முதல் வளர்பிறை 4 வரை (9 நாள்) தாரா பலம் பார்க்க (ஸ்ரீதர்).',
+]);
+
+// ---------------------------------------------------------------------------
+// Chandra bala (added 2026-10-10)
+// ---------------------------------------------------------------------------
+
+/**
+ * The Moon's sign counted from the natal Moon's sign. Chandrashtama (the 8th)
+ * is bad in every book; Wilhelm, who explains it most, names six kinds by the
+ * tara, three of them harmless. For the other houses the books that give a list
+ * are ordered by words, Joshi first.
+ */
+const CHANDRA_RANK = deepFreeze({
+  order: ['WILHELM', 'JOSHI', 'RAMAN', 'MUHURTA_CHINTAMANI', 'RANGACHARYA', 'SHRIDHAR', 'AGARWAL', 'VASHISTHA', 'KALYANRAMAN'],
+  words: { WILHELM: 345, JOSHI: 323, RAMAN: 158, MUHURTA_CHINTAMANI: 143, RANGACHARYA: 139, SHRIDHAR: 128, AGARWAL: 68, VASHISTHA: 47, KALYANRAMAN: 17 },
+  measureTa: 'சந்திர பலம் பற்றிய பகுதியின் சொற்கள்: வில்ஹெல்ம் (சந்திராஷ்டமம் மட்டும், பக்.94-95) 345; ஜோஷி (பக்.44-45) 323; ராமன் 158; முகூர்த்த சிந்தாமணி (ப.30, 102, 152) 143; ரங்காச்சார்யா (ப.82) 139; ஸ்ரீதர் (பக்.218-220) 128; அகர்வால் 68; வசிஷ்டா (ப.106) 47; கல்யாணராமன் (ப.139) 17. வில்ஹெல்ம் 8-ஆம் இடத்தை மட்டும் சொல்வதால், வீடுகளின் பட்டியலுக்கு ஜோஷி முதல்.',
+});
+
+/** Wilhelm's six kinds of Chandrashtama, by the count from the birth star. */
+const CHANDRASHTAMA_KINDS = deepFreeze({
+  14: { ta: 'சுத்த — தொல்லை, அழிவு', harmless: false },
+  15: { ta: 'சோபன — நன்மை', harmless: true },
+  16: { ta: 'கைவர்த — நல்லதல்ல', harmless: false },
+  17: { ta: 'அமல — சந்திராஷ்டமக் கறையை நீக்கும்', harmless: true },
+  18: { ta: 'சித்த — வெற்றி', harmless: true },
+  THIRD: { ta: 'க்ஷய (3-ஆம் சுற்று) — தொல்லை, அழிவு', harmless: false },
+});
+
+/** The Moon's vedha in its good houses (other planets but Mercury): Muhurta Chintamani p.102 = Joshi; the bright half's three, Joshi's. */
+const MOON_VEDHA = deepFreeze({ 1: 5, 3: 9, 6: 12, 7: 2, 10: 4, 11: 8 });
+const MOON_VEDHA_BRIGHT = deepFreeze({ 2: 6, 5: 4, 9: 8 });
+
+const CHANDRA_READINGS = deepFreeze({
+  order: ['GOOD_LIST', 'BAD_6_8_12', 'BAD_4_8', 'BAD_4_8_12'],
+  default: 'GOOD_LIST',
+  GOOD_LIST: {
+    labelTa: '1, 3, 6, 7, 10, 11 (வளர்பிறையில் 2, 5, 9) — வேதை இல்லாமல்',
+    textTa: 'சந்திரன் 1, 3, 6, 7, 10, 11-ல் நல்லது — 5, 9, 12, 2, 4, 8-ல் (புதன் தவிர) வேறு கிரகம் இருந்தால் வேதை; வளர்பிறையில் 2, 5, 9-ம் நல்லது — 6, 4, 8-ல் கிரகம் இல்லையெனில். மற்ற இடங்களில் சந்திர பலம் இல்லை.',
+    booksTa: 'ஜோஷி, முகூர்த்த சிந்தாமணி (ப.102; ப.30-ல் 1 இல்லாமல்), ஸ்ரீதர் (வளர்பிறை 5-க்கு வேதை 12 — ஜோஷி 4)',
+    good: [1, 3, 6, 7, 10, 11], goodBright: [2, 5, 9],
+  },
+  BAD_6_8_12: { labelTa: '6, 8, 12 தவிர', textTa: 'சந்திரன் ஜன்ம ராசிக்கு 6, 8, 12-ல் இருக்கக் கூடாது.', booksTa: 'ராமன், அகர்வால்', bad: [6, 8, 12] },
+  BAD_4_8: { labelTa: '4, 8 தவிர (12 நடுத்தரம்)', textTa: 'சந்திரன் 1, 2, 3, 5, 6, 7, 9, 10, 11-ல் நல்லது; 4, 8-ல் தீயது; 12-ல் நடுத்தரம் (ரங்காச்சார்யா; திருமணம் முதலியவற்றுக்கு நல்லது), "பூஜ்ய" — பரிகாரத்துடன் (வசிஷ்டா).', booksTa: 'ரங்காச்சார்யா, வசிஷ்டா', bad: [4, 8] },
+  BAD_4_8_12: { labelTa: '4, 8, 12 தவிர', textTa: 'சந்திரன் ஜன்ம ராசிக்கு 4, 8, 12-ல் இருக்கக் கூடாது.', booksTa: 'கல்யாணராமன், முகூர்த்த சிந்தாமணி (திருமண அட்டவணை ப.152: 3, 6, 7, 10, 11 நல்லது; 1, 2, 5, 9 சாந்திக்குப் பின்; 4, 8, 12 தீயது), ஜோஷி (மற்ற இடங்களில்)', bad: [4, 8, 12] },
+});
+
+const CHANDRA_SOURCES = Object.freeze({
+  WILHELM: Object.freeze({ ...WILHELM_E, pageLocus: '"Chandra Ashtama", printed pp.94-95 (PDF 102-103): "For the Moon this place is the 8th Rasi ... There are six types of Chandra Ashtama: ... the 5th Nakshatra of the second Paryaya ... Suddha ... 6th ... Sobhana ... 7th ... Kaivarta ... 8th ... Amala ... 9th ... Siddha ... the third Paryaya ... Kshaya"; "if Tara is present, Chandra Ashtama is not harmful"; "If the lords of the natal Moon and the 8th from there are friends, Chandra Ashtama loses all capacity for ill"' }),
+  JOSHI: Object.freeze({ ...JOSHI_KK, pageLocus: 'Chapter 4 "Transit of Planets", printed pp.44-45 (PDF 59-60): "Moon gives benefic results while transiting in 3/6/10/11/1/7 houses from natal moon provided no planet, except mercury, is placed in 9/12/4/8/5/2 houses respectively"; "In bright half Moon will give auspicious results even if it is transiting in 2/5/9 houses provided it is not suffering vedha from 6/4/8 houses"; "When moon is full ... more importance is given to Chandra Shuddhi ... near new-moon day more importance is given to Tara Shuddhi"; "In all muhurtas relating to pregnancy ... marriage, menstruation etc. the Chandra-bala of female should be seen"' }),
+  RAMAN: Object.freeze({ ...RAMAN_BV, pageLocus: 'Chapter III, PDF p.7: "the Moon should not occupy in the election chart, a position that happens to represent the 6th, 8th or 12th from the person\'s Janma Rasi"; Chapter V, PDF p.12: "Chandrashtama shows no evil when the Moon is waxing and occupies a benefic sign and a benefic Navamsa, or when there is Tarabala. The sting is lost when the Moon and the 8th lord are friends"' }),
+  MUHURTA_CHINTAMANI: Object.freeze({ ...MC_SHARMA, pageLocus: 'printed p.30 (PDF 34), note: "The moon is auspicious if she is in the 3/6/7/10/11 signs from the person\'s Janama Rashi ... and in the bright half of the month she is auspicious in the 2/5/9 signs"; p.102 (PDF 106): "The Moon is auspicious in 10/3/11/1/6/7 when there is no planet respectively in the 4/9/8/5/12/2 places"; p.152 (PDF 156), the Shuddhi table: Moon 3/6/7/10/11 auspicious, 1/2/5/9 auspicious after pacification, 4/8/12 inauspicious' }),
+  RANGACHARYA: Object.freeze({ ...RANGACHARYA_I, pageLocus: 'printed p.82 (PDF 90): Moon — favourable 1,2,3,5,6,7,9,10,11; evil 4,8; mediocre 12; "for the marriage, upanayana, garbhadana, coronation ... and travel the 4th and the 8th signs ... much evil, and the moon in the 12th is considered benefic"' }),
+  SHRIDHAR: Object.freeze({ ...SHRIDHAR_HEA, pageLocus: '§9.2, printed pp.218-219 (PDF 262-263): "The Moon gives benefic results in transit in 1,3,6,7,10 & 11th signs from J.R., provided there is no planet in 5,9,12,6,7,10 & 8th signs respectively except Mercury. In Bright Half, she is benefic while in 2,5,9 signs from J.R. provided there is no planet in 6,12 & 8 signs respectively"; p.220: the 12th acceptable for some acts' }),
+  AGARWAL: Object.freeze({ ...AGARWAL_GS, pageLocus: 'printed p.300 (PDF 299), "vii. Chandrabala": "in shuklapaksha strength of Moon is to be given high weightage, while in krishna paksha, nakshatra bala ... Moon should not occupy ... the 6th, 8th or 12th from the person\'s Janma rasi"' }),
+  VASHISTHA: Object.freeze({ ...VASHISTHA_KUSUM, pageLocus: 'printed p.106 (PDF 93), "16. Chandrabala": "Transit Moon in 1, 2, 3, 5, 6, 7, 9, 10 and 11 places from janmarashi (natal Moon) is good. Moon in the 12th house is pujya. In 4th and 8th house, it is bad"' }),
+  KALYANRAMAN: Object.freeze({ ...KALYANRAMAN_V1, pageLocus: 'printed p.139 (PDF 149): "Chandra Suddhi means that the Moon must not be in 4-8-12 from natal Moon raasi"' }),
+});
+
+const CHANDRA_NOTES_TA = Object.freeze([
+  'சந்திராஷ்டமம் (8-ஆம் இடம்) எல்லா வாசிப்பிலும் தீயது. வில்ஹெல்ம்: தாரா பலம் இருந்தால் (சோபன, அமல, சித்த) தீமை இல்லை. ராமன்: வளர்பிறைச் சந்திரன் சுப ராசி, சுப நவாம்சத்தில் இருந்தால், அல்லது தாரா பலம் இருந்தால் தீமை இல்லை; ராமன் — சந்திரனும் 8-ஆம் அதிபதியும் நண்பர்கள் என்றால்; வில்ஹெல்ம் — ஜன்ம ராசி அதிபதியும் 8-ஆம் அதிபதியும் நண்பர்கள் என்றால் (இங்கே BPHS இயற்கை நட்பு, இருவரும் — எங்கள் வாசிப்பு).',
+  'யாருடைய சந்திர பலம்: திருமணம், கர்ப்பம் சார்ந்த சடங்குகளுக்குப் பெண்ணுடையது; மற்றவற்றுக்குச் செய்பவருடையது (ஜோஷி, முகூர்த்த சிந்தாமணி). இங்கே தேர்ந்தெடுத்த நபருக்கு.',
+  'வேதை கணிக்கப்படுவது வீடு வாசிப்பான "1, 3, 6, 7, 10, 11"-க்கு மட்டும் (அதைச் சொல்லும் நூல்கள் அதைச் சேர்த்தே சொல்கின்றன). ஸ்ரீதரின் அச்சில் வேதை இடங்கள் ஆறுக்கு ஏழு எண்கள் — அச்சுப் பிழை; வளர்பிறை 5-க்கு அவர் 12, ஜோஷி 4 — ஜோஷியுடையது கணிக்கப்படுகிறது.',
+]);
+
 module.exports = {
   KICKS, KICKERS, LATTA_RANK, RAHU_DIRECTION, PADA_RULES, LATTA_SOURCES, LATTA_EFFECTS,
   PERSONAL_RANK, PERSONAL_CHECKS, VAINASHIKA, REMEDY_88, NOTES_TA, BOOK_TA,
+  TARA_NAMES_TA, TARA_RANK, TARA_BAD, TARA_CYCLES, SECOND_ROUND, TARA_SOURCES, TARA_NOTES_TA,
+  CHANDRA_RANK, CHANDRASHTAMA_KINDS, MOON_VEDHA, MOON_VEDHA_BRIGHT, CHANDRA_READINGS, CHANDRA_SOURCES, CHANDRA_NOTES_TA,
 };

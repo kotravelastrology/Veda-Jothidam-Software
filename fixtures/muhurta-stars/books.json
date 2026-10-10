@@ -29,6 +29,25 @@
   "shridharForwardEquivalents": { "Sun": 12, "Moon": 7, "Mars": 3, "Mercury": 22, "Jupiter": 6, "Venus": 24, "Saturn": 8, "Rahu": 20 },
   "kalyanramanPadas": { "page": 126, "janma": [0, 1], "pada108": [26, 4], "pada88": [21, 4] },
   "wilhelmExemptStars": ["Rohini", "Pushya", "Magha", "Uttaraphalguni", "Hasta", "Chitta", "Anuradha", "Purvabhadrapada", "Uttarabhadrapada", "Revati"],
+  "taraExamples": [
+    { "book": "MUHURTA_CHINTAMANI", "page": 108, "janma": 23, "star": 6, "count": 11, "tara": 2, "note": "Shatabhisha to Punarvasu: 11, Sampata" },
+    { "book": "RAMAN", "page": "PDF 7", "janma": 0, "star": 21, "count": 22, "tara": 4, "note": "Aswini to Sravana: 22, kshema" },
+    { "book": "RAMAN", "page": "PDF 7", "janma": 3, "star": 23, "count": 21, "tara": 3, "cycle": 3, "note": "Rohini to Satabhisha: 21, Vipat of the third cycle" }
+  ],
+  "joshiMrigashira": {
+    "page": 13, "janma": 4,
+    "triads": [["Mri", "Ard", "Pun", "Pus", "Ash", "Mag", "Pur", "Utt", "Has"], ["Chi", "Swa", "Vis", "Anu", "Jye", "Moola", "Pur", "Utt", "Sra"], ["Dhan", "Sat", "Pur", "Utt", "Rev", "Ash", "Bha", "Kri", "Roh"]],
+    "fullyAvoid": [6, 8, 10],
+    "thirds": { "15": 0, "17": 2, "19": 1 },
+    "note": "Punarvasu, Ashlesha, Poorva Falguni fully; starting third of Vishakha, ending third of Jyestha, middle third of Poorvashada"
+  },
+  "secondRoundQuarters": { "MUHURTA_CHINTAMANI_verse": "नादिप्रान्त्यतृतीयका", "Vipat": 1, "Pratyak": 4, "Vadha": 3 },
+  "ramanGhatis": { "1": 7, "3": 3, "5": 8, "7": 6 },
+  "moonVedha": { "MC_p102": { "10": 4, "3": 9, "11": 8, "1": 5, "6": 12, "7": 2 }, "joshiBright": { "2": 6, "5": 4, "9": 8 }, "shridharBright5": 12 },
+  "wilhelmChandrashtama": { "14": "Suddha", "15": "Sobhana", "16": "Kaivarta", "17": "Amala", "18": "Siddha", "harmless": [15, 17, 18] },
+  "chandraLists": { "joshiGood": [3, 6, 10, 11, 1, 7], "raman": [6, 8, 12], "rangacharyaEvil": [4, 8], "kalyanraman": [4, 8, 12], "mcMarriage": { "auspicious": [3, 6, 7, 10, 11], "afterPacification": [1, 2, 5, 9], "inauspicious": [4, 8, 12] } },
+  "taraWords": { "WILHELM": 1374, "SHRIDHAR": 1142, "RAMAN": 656, "KALAPRAKASIKA": 479, "JOSHI": 344, "MUHURTA_CHINTAMANI": 257, "AGARWAL": 179, "KALYANRAMAN": 134 },
+  "chandraWords": { "WILHELM": 345, "JOSHI": 323, "RAMAN": 158, "MUHURTA_CHINTAMANI": 143, "RANGACHARYA": 139, "SHRIDHAR": 128, "AGARWAL": 68, "VASHISTHA": 47, "KALYANRAMAN": 17 },
   "words": {
     "latta": { "SHRIDHAR": 893, "MUHURTA_CHINTAMANI": 402, "RANGACHARYA": 250, "JOSHI": 223, "WILHELM": 192, "KALYANRAMAN": 153, "AGARWAL": 73, "VASHISTHA": 58 },
     "personal": { "SHRIDHAR": 181, "KALYANRAMAN": 148, "WILHELM": 121, "KALAPRAKASIKA": 85, "MUHURTA_CHINTAMANI": 59 }

@@ -212,7 +212,11 @@ Not plan items, but real, and they should not be discovered at release:
   for the person the birth star, the 88th and 108th padas (Kalyanraman's
   "vainaasika padas") and Vainashika (23rd default; 22nd; the 88th pada's
   star), with Kalaprakasika's lagna-lord remedy for the 88th. Nine muhurta
-  books added to the library. Tithi/vara/yoga, tara and chandra bala, and the
+  books added to the library. Tara bala (Wilhelm first by words: 1, 3, 5, 7;
+  MC Gochara 13's round-2 quarters by default; thirds, every round and Raman's
+  ghatis computed too) and chandra bala (Joshi's list with the Moon's vedha by
+  default; 6-8-12, 4-8, 4-8-12 computed; Chandrashtama with Wilhelm's six
+  kinds) added the same day, with Raman's *Muhurtha*. Tithi/vara/yoga and the
   other marriage doshas are not on this page.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

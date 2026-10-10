@@ -48,11 +48,58 @@ By words: Shridhar 181, Kalyanraman 148, Wilhelm 121, Kalaprakasika 85, MC
   who exempts ten birth stars), or the star holding the 88th pada (Kalyanraman
   vol.1 p.139, vol.2 p.111) — the 22nd for a 1st-pada birth, the 23rd otherwise.
 
+## Tara bala — from the birth star (added 2026-10-10)
+
+Count from the birth star to the muhurta star (birth star = 1); the tara is
+the count's place in a nine (Janma, Sampat, Vipat, Kshema, Pratyak, Sadhana,
+Naidhana/Vadha, Mitra, Parama Mitra), and 1–9, 10–18, 19–27 are the three
+rounds. Checked on the books' examples: MC p.108 (Shatabhisha → Punarvasu, 11,
+Sampat), Raman (Aswini → Sravana 22, Kshema; Rohini → Shatabhisha 21, Vipat
+of the 3rd round), Joshi's Mrigashira table.
+
+Eight books, by words: Wilhelm 1374, Shridhar 1142, Raman 656, Kalaprakasika
+479, Joshi 344, MC 257, Agarwal 179, Kalyanraman 134. Two choices, both
+computed:
+
+| Point | Readings |
+|---|---|
+| Which taras are bad | **1, 3, 5, 7** — Wilhelm, MC's note, Raman, Agarwal · 3, 5, 7 only — Shridhar (1 and 9 "medium"), Joshi, Kalyanraman |
+| The rounds | **by round, a quarter in round 2** — MC Gochara 13 "द्वितीयेंऽशका नादिप्रान्त्यतृतीयका … सर्वे तृतीये" (Sharma's English drops Vadha's "third"), Kalaprakasika, Wilhelm, Raman, Kalyanraman vol.2: round 1 the whole star; round 2 only Vipat's 1st, Pratyak's 4th, Vadha's 3rd quarter; round 3 nothing · by round, a third in round 2 — Shridhar, Joshi (Vipat's first, Pratyak's last, Vadha's middle third; Shridhar gives the quarters as KP's) · the whole star in every round — Raman's and Wilhelm's advice for important acts · in urgency, the first 7, 3, 8, 6 ghatis of Janma, Vipat, Pratyak, Naidhana — Raman, Agarwal (a ghati = 1/60 of the star: our reading) |
+
+The janma group in rounds 2 and 3 (the 10th, 19th) is shown as "caution", not
+rejected — Wilhelm and Kalaprakasika weaken it, none reject it outright (our
+reading). The donations (MC 13, Joshi, Shridhar) and Wilhelm's exceptions,
+which need the muhurta lagna, are shown, not computed.
+
+## Chandra bala — from the natal Moon's sign (added 2026-10-10)
+
+The house of the Moon's sign from the natal Moon's sign, and the paksha. By
+words: Wilhelm 345, Joshi 323, Raman 158, MC 143, Rangacharya 139, Shridhar
+128, Agarwal 68, Vashistha 47, Kalyanraman 17. Wilhelm writes only on the 8th,
+so the house list's default is Joshi's, the first of the books that give one.
+Four readings, all computed:
+
+| Reading | Books |
+|---|---|
+| **good in 1, 3, 6, 7, 10, 11 (bright half also 2, 5, 9) with no vedha** — a planet other than Mercury in 5, 9, 12, 2, 4, 8 respectively (bright half 6, 4, 8) | Joshi pp.44–45, MC p.102 (the same six pairs), MC p.30 (without the 1st), Shridhar (bright-half 5th's vedha 12th against Joshi's 4th; his vedha list is misprinted — seven numbers for six houses) |
+| not in 6, 8, 12 | Raman, Agarwal |
+| not in 4, 8 (12th middling) | Rangacharya, Vashistha ("pujya") |
+| not in 4, 8, 12 | Kalyanraman, MC's marriage table p.152 |
+
+**Chandrashtama** (the 8th) is bad in every reading and always shown with
+Wilhelm's kind by the tara count: Suddha (14), Sobhana (15), Kaivarta (16),
+Amala (17), Siddha (18), and Kshaya in round 3 — Sobhana, Amala and Siddha
+harmless ("if Tara is present"). His and Raman's friendship relief is shown
+for the person (the natal Moon's lord and the 8th lord; BPHS natural
+friendship both ways or one lord — our reading), not applied to the verdict.
+Whose chandra bala (the bride's for marriage — Joshi, MC) is left to the user:
+the page computes it for the chosen person.
+
 ## Not done
 
-The rest of a muhurta (tithi, vara, yoga, karana, lagna shuddhi, tara and
-chandra bala, the other nine marriage doshas) is not on this page. The Tamil
-muhurta scans in the library have no text layer and were not searched.
+The rest of a muhurta (tithi, vara, yoga, karana, lagna shuddhi, the other
+nine marriage doshas) is not on this page. The Tamil muhurta scans in the
+library have no text layer and were not searched.
 
 ## Verified
 
@@ -64,3 +111,8 @@ order and defaults; every citation registered; and 20 days of windows against
 the ephemeris (contiguous, each piece's checks recomputed at its middle, the
 Moon's boundaries to the minute, the remedy stretches tiling the 88th pada).
 The nine books were added to the curated library (70 entries) and the registry.
+Tara and chandra: the books' examples above, MC 13's quarters, Joshi's thirds,
+Raman's ghatis, the Moon's vedha pairs, Wilhelm's six kinds, every reading by
+house; the Moon's pieces cut at the quarters, thirds and ghati marks, and each
+piece's tara and chandra recomputed against the ephemeris at both ends. Raman's
+*Muhurtha* added to the library (71 entries) and the registry.

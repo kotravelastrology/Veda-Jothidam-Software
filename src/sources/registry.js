@@ -372,7 +372,9 @@ const SOURCES = [
     ['AGARWAL_PRACTICAL_VEDIC', 'Practical Vedic Astrology', 'நடைமுறை வேத ஜோதிடம் (அகர்வால்)', 'G.S. Agarwal', 'practical-vedic-astrology-agarwal',
       'Dasa dosha, Latta (printed p.316).'],
     ['WILHELM_CLASSICAL_MUHURTA', 'Classical Muhurta', 'கிளாசிக்கல் முகூர்த்தம் (வில்ஹெல்ம்)', 'Ernst Wilhelm', 'classical-muhurta-wilhelm',
-      'Vainasika and the 88th pada (printed pp.93-94); Latta Dosha (p.265).'],
+      'Tara and Chandra Ashtama (printed pp.89-95); Vainasika and the 88th pada (pp.93-94); Latta Dosha (p.265).'],
+    ['RAMAN_MUHURTHA', 'Muhurtha (Electional Astrology)', 'முகூர்த்தம் (பி.வி. ராமன்)', 'B.V. Raman', 'muhurtha-raman',
+      'Tarabala and Chandrabala (Chapter III, PDF pp.7-8); Chandrashtama exceptions (Chapter V, PDF p.12).'],
   ].map(([id, title, titleTa, author, slug, cited]) => ({
     id, title, titleTa, author,
     file: `${slug}/raw-scans/full-scan.pdf`,
