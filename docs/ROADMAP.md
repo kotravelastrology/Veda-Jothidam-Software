@@ -154,9 +154,11 @@ Not plan items, but real, and they should not be discovered at release:
   books read the effect three ways and all three are shown. Then Santhanam
   became a sixth book and third computed method: his "vedha for bad places
   only" table is Kalaprakasika's bad-house columns (35 of 39 cells), and his
-  p.152 contradicts Pulippani on Sade Sati companions. Pending: the owner's
-  choice of measure (like-for-like keeps Pulippani the default; whole
-  discussion makes Santhanam the default). Saptashalaka chakra added
+  p.152 contradicts Pulippani on Sade Sati companions. Default decided
+  2026-10-10 by the owner: Phaladeepika (Sastri), the classical text, not the
+  first by words; the report's gochara section, the answer engine and the page
+  follow it, and the report also shows chapter 26 (verses 9–25, 30–34) for the
+  present from the function the page uses. Saptashalaka chakra added
   2026-10-07: three books (Bhat 808 words, default; Pulippani; Gour) read it
   as straight lines or three lines — both computed; four rules as dated
   windows; Abhijit from Charak. Sudamani's Venus line read 2026-10-08: five of

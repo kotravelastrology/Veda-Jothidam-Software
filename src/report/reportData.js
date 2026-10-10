@@ -40,6 +40,8 @@ const { calculateAvasthas } = require('./avasthas');
 const { calculateNakshatraExtras } = require('./nakshatraExtras');
 const { calculateAshtakavargaShodhana } = require('./ashtakavargaShodhana');
 const { computeGocharaPhala } = require('./gocharaPhala');
+const { DEFAULT_VEDHA_METHOD } = require('./gocharaVedhaTables');
+const { phaladeepikaReportBlock } = require('./phaladeepikaGochara');
 const { calculateAyurdaya } = require('./ayurdaya');
 const { computeTransitPositions } = require('./transitPositions');
 const { calculateBnnLiterature, fromReportData: fromBnnReportData } = require('./bnnLiterature');
@@ -247,6 +249,13 @@ function buildReportData(birthInput) {
     available: true,
     moonRasi: chart.grahas.Moon.rasi,
     rows: computeGocharaPhala(chart.grahas.Moon.rasiIndex, _transitRasiByGraha),
+    methodId: DEFAULT_VEDHA_METHOD,
+    // Phaladeepika XXVI.9-34 for the same moment — the block /gochara-vedha shows.
+    phaladeepika: phaladeepikaReportBlock({
+      moonRasiIndex: chart.grahas.Moon.rasiIndex,
+      lon: Object.fromEntries(_tp.planets.map((p) => [p.planet, p.longitude])),
+      retrograde: Object.fromEntries(_tp.planets.map((p) => [p.planet, p.isRetrograde])),
+    }),
   };
 
   const bnnLiterature = calculateBnnLiterature(fromBnnReportData(

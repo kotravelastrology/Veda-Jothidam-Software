@@ -16,21 +16,29 @@
  * both father-son exemptions. Of the two changes, Phaladeepika agrees with the
  * first (Rahu and Ketu "similar to the Sun", 3, 6, 10, 11) and not the second
  * (it has no Venus–Sun exemption); it has no vipareetha vedha. It is the
- * method 'PHALADEEPIKA_SASTRI'.
+ * method 'PHALADEEPIKA_SASTRI', and since 2026-10-10 the default (the owner's
+ * decision): so the Sun again obstructs Venus, and no vipareetha vedha is
+ * reported unless another book is asked for.
  *
- * Dated windows for every planet, and the other book, are on /gochara-vedha
+ * Dated windows for every planet, and the other books, are on /gochara-vedha
  * (`gocharaVedha.js`).
  */
 const V = require('./gocharaVedhaTables');
 
 const GOCHARA_GRAHAS = V.PLANETS_9;
-const SOURCE_LABEL = 'Pulippani, Gochar Phaladeepika ch.22, printed pp.204-206';
 
 function methodTables(methodId = V.DEFAULT_VEDHA_METHOD) {
   const m = V.VEDHA_METHODS[methodId];
   if (!m) throw new RangeError(`unknown vedha method: ${methodId}`);
   return m;
 }
+/** "Title — place in the book" of a method's first source, cited in each row. */
+const sourceLabel = (methodId) => {
+  const s = methodTables(methodId).sources[0];
+  return `${s.title} — ${String(s.pageLocus).split(/:| — /)[0].trim()}`;
+};
+/** The default book's label. */
+const SOURCE_LABEL = sourceLabel();
 
 /** Good houses per planet under the default book (kept as an export for callers that list them). */
 const GOCHARA_BENEFIC = Object.freeze(Object.fromEntries(GOCHARA_GRAHAS.map((g) => [g, [...methodTables().table[g].good]])));
@@ -40,10 +48,11 @@ const GOCHARA_VEDHA = Object.freeze(Object.fromEntries(GOCHARA_GRAHAS.map((g) =>
 /**
  * @param moonRasi0  natal Moon's rasi index (0-11)
  * @param transitRasiByGraha  { graha : current rasi index 0-11 } for the 9 grahas
- * @param methodId  'PULIPPANI' (default), 'SANTHANAM', 'PHALADEEPIKA_SASTRI' or 'VISHNU_BHASKAR'
+ * @param methodId  'PHALADEEPIKA_SASTRI' (default), 'PULIPPANI', 'SANTHANAM' or 'VISHNU_BHASKAR'
  */
 function computeGocharaPhala(moonRasi0, transitRasiByGraha, methodId) {
   const m = methodTables(methodId);
+  const SOURCE_LABEL = sourceLabel(methodId);
   const norm = (n) => ((n % 12) + 12) % 12;
   const houseOf = (r0) => norm(r0 - moonRasi0) + 1;
   const othersIn = (graha, house, exemptList) => GOCHARA_GRAHAS.filter((other) => {
@@ -84,4 +93,4 @@ function computeGocharaPhala(moonRasi0, transitRasiByGraha, methodId) {
     });
 }
 
-module.exports = { computeGocharaPhala, GOCHARA_BENEFIC, GOCHARA_VEDHA, GOCHARA_GRAHAS, SOURCE_LABEL };
+module.exports = { computeGocharaPhala, GOCHARA_BENEFIC, GOCHARA_VEDHA, GOCHARA_GRAHAS, SOURCE_LABEL, sourceLabel };

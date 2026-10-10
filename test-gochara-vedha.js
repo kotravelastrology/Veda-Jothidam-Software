@@ -8,6 +8,7 @@ const { computeGocharaPhala } = require('./src/report/gocharaPhala');
 const { planetLongitude, nodeLongitude } = require('./src/ephemeris/siderealPositions');
 const { resolveByTitle } = require('./src/sources/registry');
 const PG = require('./src/report/phaladeepikaGocharaTables');
+const { phaladeepikaNow, phaladeepikaReportBlock, NOW_SOURCES } = require('./src/report/phaladeepikaGochara');
 
 const FIX = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/gochara-vedha/books.json'), 'utf8'));
 const DAY = 86400000;
@@ -223,7 +224,7 @@ for (const p of V.PLANETS_9) {
   assert.equal(computeGocharaPhala(0, { Venus: 0, Sun: 7 }, 'PHALADEEPIKA_SASTRI').find((r) => r.graha === 'Venus').verdict, 'vedha');
   assert.equal(computeGocharaPhala(0, { Rahu: 9 }, 'PHALADEEPIKA_SASTRI').find((r) => r.graha === 'Rahu').verdict, 'benefic');
   assert.equal(computeGocharaPhala(0, { Rahu: 10, Mars: 4 }, 'PHALADEEPIKA_SASTRI').find((r) => r.graha === 'Rahu').verdict, 'benefic', 'nothing obstructs the nodes');
-  assert.equal(computeGocharaPhala(0, { Rahu: 10, Mars: 4 }).find((r) => r.graha === 'Rahu').verdict, 'vedha', 'Pulippani: Rahu 11th obstructed from the 5th');
+  assert.equal(computeGocharaPhala(0, { Rahu: 10, Mars: 4 }, 'PULIPPANI').find((r) => r.graha === 'Rahu').verdict, 'vedha', 'Pulippani: Rahu 11th obstructed from the 5th');
   const ids2 = V.VEDHA_DIFFERENCES.map((d) => d.id);
   for (const id of ['NODE_VEDHA', 'KAPOOR_OMISSIONS']) assert.ok(ids2.includes(id), id);
   for (const d of V.VEDHA_DIFFERENCES) for (const b of Object.keys(d.byBook)) assert.ok(V.VEDHA_RANK.order.includes(b), `${d.id}: ${b} ranked`);
@@ -308,11 +309,60 @@ for (const p of V.PLANETS_9) {
   assert.ok(PG.DECANATE_WORDS.PHALADEEPIKA > PG.DECANATE_WORDS.VISHNU_BHASKAR, 'Phaladeepika listed first by words');
 }
 
+// ------------------------------------------------ the present block, worked by hand ---
+{
+  // Natal Moon in Mesha. Saturn 5° Tula (exalted, 7th, within 15° of the Sun), the Sun 10° Tula
+  // (debilitated, Venus's sign), Jupiter 5° Mesha (1st; aspects Tula by its 7th), the Moon 10°
+  // Karkata (90° behind the Sun: waning), Mars 0° Kumbha, Mercury 10° Kanya, Venus 10° Vrishabha,
+  // Rahu 10° Dhanus, Ketu 10° Mithuna.
+  const lon = { Sun: 190, Moon: 100, Mars: 300, Mercury: 160, Jupiter: 5, Venus: 40, Saturn: 185, Rahu: 250, Ketu: 70 };
+  const n = phaladeepikaNow({ moonRasiIndex: 0, lon, retrograde: {} });
+  const P = n.planets;
+  assert.deepEqual(Object.values(P).map((x) => x.house), [7, 4, 11, 6, 1, 2, 7, 9, 3]);
+  assert.equal(n.moonNow.nature, 'MALEFIC');
+  assert.equal(n.mercuryNow.nature, 'BENEFIC', 'no malefic in Kanya');
+  // Saturn: exalted in a bad house (31: no harm) and combust (32: much suffering) — both verses.
+  assert.equal(P.Saturn.goodHouse, false);
+  assert.deepEqual([P.Saturn.combustion.separation, P.Saturn.combustion.combust], [5, true]);
+  assert.deepEqual(plain(P.Saturn.verdict), { v31: 'NO_HARM', v32: 'AGGRAVATED', reasons: ['COMBUST'] });
+  assert.equal(P.Saturn.effectiveNow, false, 'Saturn gives its result in the last third; it is at 5°');
+  // The Sun: debilitated and in an enemy's sign, in a bad house; no orb of its own.
+  assert.deepEqual(plain(P.Sun.verdict), { v31: null, v32: 'AGGRAVATED', reasons: ['DEBILITATED', 'ENEMY_SIGN'] });
+  assert.equal(P.Sun.combustion.combust, null);
+  // Verse 30 on Tula: Jupiter fully (7th) — a benefic on a bad house voids the bad; the Moon (4th) and Mars (9th) partly.
+  for (const p of ['Saturn', 'Sun']) {
+    const a = P[p].aspects;
+    assert.deepEqual(a.filter((x) => x.full).map((x) => [x.planet, x.house, x.voids]), [['Jupiter', 7, 'BAD']], p);
+    assert.deepEqual(a.filter((x) => !x.full).map((x) => [x.planet, x.fraction]), [['Moon', 0.75], ['Mars', 0.5]], p);
+  }
+  // Verse 33: Jupiter in the 1st; Saturn and the Sun in the 7th are not.
+  assert.deepEqual(Object.values(P).filter((x) => x.dangerVerse33).map((x) => x.planet), ['Jupiter']);
+  // Verse 34: only Rahu (9th) stands where the verse puts it.
+  assert.deepEqual([n.verse34Now.met, n.verse34Now.all], [1, false]);
+  assert.equal(P.Mercury.effectiveNow, 'ALL');
+  assert.equal(P.Ketu.effectiveNow, null);
+  assert.equal(P.Ketu.resultTa, null);
+  assert.equal(P.Mercury.resultTa, PG.HOUSE_RESULTS.Mercury[5]);
+  // Mercury retrograde narrows its orb from 14° to 12°.
+  const m13 = { ...lon, Mercury: 177 };
+  assert.equal(phaladeepikaNow({ moonRasiIndex: 0, lon: m13, retrograde: {} }).planets.Mercury.combustion.combust, true);
+  assert.equal(phaladeepikaNow({ moonRasiIndex: 0, lon: m13, retrograde: { Mercury: true } }).planets.Mercury.combustion.combust, false);
+  // The report's block: the same, with the wording tables and every page cited.
+  const b = phaladeepikaReportBlock({ moonRasiIndex: 0, lon, retrograde: {} });
+  assert.deepEqual(plain(b.planets), plain(P));
+  assert.ok(b.decanateTa.length === 3 && b.ketuNoteTa && b.verse34Ta);
+  for (const s of NOW_SOURCES) assert.ok(resolveByTitle(s.title) && s.pageLocus, s.title);
+  assert.ok(NOW_SOURCES.some((s) => s.pageLocus.includes('slokas 2-8')), 'verse 2, whose good houses judge 30-32');
+}
+
 // ------------------------------------------------ word order ---
 const w = V.VEDHA_RANK.words;
 assert.deepEqual(plain(w), FIX.wordCounts);
 assert.deepEqual([...V.VEDHA_RANK.order], Object.keys(w).sort((a, b) => w[b] - w[a]));
-assert.equal(V.DEFAULT_VEDHA_METHOD, V.VEDHA_RANK.order[0]);
+// The owner's decision (2026-10-10): Phaladeepika is the default, not the first by words; the order stays by words.
+assert.equal(V.DEFAULT_VEDHA_METHOD, 'PHALADEEPIKA_SASTRI');
+assert.ok(V.VEDHA_RANK.computable.includes(V.DEFAULT_VEDHA_METHOD));
+assert.ok(V.VEDHA_RANK.defaultTa.includes('2026-10-10') && !V.VEDHA_RANK.alternativeTa.includes('காத்திருக்கிறது'), 'the decision is recorded, no longer pending');
 assert.deepEqual([...V.VEDHA_RANK.computable], V.VEDHA_RANK.order.filter((b) => V.VEDHA_METHODS[b]));
 
 // ------------------------------------------------ citations ---
@@ -323,21 +373,29 @@ for (const c of cites) assert.ok(resolveByTitle(c.title), `registered: ${c.title
 
 // ------------------------------------------------ the present, by hand ---
 {
-  // Venus in the 1st, the Sun in the 8th (Venus's vedha house): Pulippani exempts the Sun, Vishnu Bhaskar does not.
-  const pRow = computeGocharaPhala(0, { Venus: 0, Sun: 7 }).find((r) => r.graha === 'Venus');
+  // Venus in the 1st, the Sun in the 8th (Venus's vedha house): Pulippani exempts the Sun; Phaladeepika (the default) and Vishnu Bhaskar do not.
+  const pRow = computeGocharaPhala(0, { Venus: 0, Sun: 7 }, 'PULIPPANI').find((r) => r.graha === 'Venus');
   const vRow = computeGocharaPhala(0, { Venus: 0, Sun: 7 }, 'VISHNU_BHASKAR').find((r) => r.graha === 'Venus');
+  const dRow = computeGocharaPhala(0, { Venus: 0, Sun: 7 }).find((r) => r.graha === 'Venus');
   assert.equal(pRow.verdict, 'benefic');
   assert.equal(vRow.verdict, 'vedha');
-  // Rahu in the 10th: good with no vedha house under Pulippani; not good under Vishnu Bhaskar.
+  assert.equal(dRow.verdict, 'vedha', 'the default has no Venus–Sun exemption');
+  assert.ok(dRow.source.startsWith('Phaladeepika (V. Subrahmanya Sastri, 1950)') && dRow.source.includes('slokas 2-8'), dRow.source);
+  assert.equal(pRow.source, 'Gochar Phaladeepika (Transit Results) — printed pp.204-205 (PDF 197-198), chapter 22 "Gochara Vedha and Vipareetha Vedha", table 1');
+  // Rahu in the 10th: good with no vedha house under Pulippani and Phaladeepika; not good under Vishnu Bhaskar.
+  assert.equal(computeGocharaPhala(0, { Rahu: 9 }, 'PULIPPANI').find((r) => r.graha === 'Rahu').verdict, 'benefic');
   assert.equal(computeGocharaPhala(0, { Rahu: 9 }).find((r) => r.graha === 'Rahu').verdict, 'benefic');
   assert.equal(computeGocharaPhala(0, { Rahu: 9 }, 'VISHNU_BHASKAR').find((r) => r.graha === 'Rahu').verdict, 'neutral');
-  // Rahu in the 11th, Ketu necessarily in the 5th (its vedha house): not counted.
-  assert.equal(computeGocharaPhala(0, { Rahu: 10, Ketu: 4 }).find((r) => r.graha === 'Rahu').verdict, 'benefic');
-  // Vipareetha: Saturn in the 12th, Jupiter in the 3rd.
-  const sat = computeGocharaPhala(0, { Saturn: 11, Jupiter: 2 }).find((r) => r.graha === 'Saturn');
+  // Rahu in the 11th, Ketu necessarily in the 5th (Pulippani's vedha house): not counted.
+  assert.equal(computeGocharaPhala(0, { Rahu: 10, Ketu: 4 }, 'PULIPPANI').find((r) => r.graha === 'Rahu').verdict, 'benefic');
+  // Vipareetha: Saturn in the 12th, Jupiter in the 3rd — Pulippani's; the default has none.
+  const sat = computeGocharaPhala(0, { Saturn: 11, Jupiter: 2 }, 'PULIPPANI').find((r) => r.graha === 'Saturn');
   assert.equal(sat.vipareetaHouse, 3);
   assert.deepEqual(sat.relievedBy, ['Jupiter']);
-  // Mercury in the 10th, a planet in the 8th: obstructed by Pulippani's table, not Vishnu Bhaskar's.
+  const satD = computeGocharaPhala(0, { Saturn: 11, Jupiter: 2 }).find((r) => r.graha === 'Saturn');
+  assert.deepEqual([satD.vipareetaHouse, satD.relievedBy, satD.verdict], [0, [], 'neutral'], 'Phaladeepika XXVI has no vipareetha vedha');
+  // Mercury in the 10th, a planet in the 8th: obstructed by Pulippani's and Phaladeepika's table, not Vishnu Bhaskar's.
+  assert.equal(computeGocharaPhala(0, { Mercury: 9, Mars: 7 }, 'PULIPPANI').find((r) => r.graha === 'Mercury').verdict, 'vedha');
   assert.equal(computeGocharaPhala(0, { Mercury: 9, Mars: 7 }).find((r) => r.graha === 'Mercury').verdict, 'vedha');
   assert.equal(computeGocharaPhala(0, { Mercury: 9, Mars: 7 }, 'VISHNU_BHASKAR').find((r) => r.graha === 'Mercury').verdict, 'benefic');
   // Santhanam: Saturn in the 1st (Sade Sati) with Mars in the same sign — checked; with the Sun — the Sun is exempt.
@@ -346,7 +404,7 @@ for (const c of cites) assert.ok(resolveByTitle(c.title), `registered: ${c.title
   assert.deepEqual(computeGocharaPhala(0, { Saturn: 0, Sun: 0 }, 'SANTHANAM').find((r) => r.graha === 'Saturn').relievedBy, []);
   // Santhanam: the Sun in the 4th relieved from the 10th (reversal) or the 3rd (bad places).
   assert.deepEqual(computeGocharaPhala(0, { Sun: 3, Mars: 2 }, 'SANTHANAM').find((r) => r.graha === 'Sun').relievedBy, ['Mars']);
-  assert.deepEqual(computeGocharaPhala(0, { Sun: 3, Mars: 2 }).find((r) => r.graha === 'Sun').relievedBy, [], 'Pulippani has no 3rd for it');
+  assert.deepEqual(computeGocharaPhala(0, { Sun: 3, Mars: 2 }, 'PULIPPANI').find((r) => r.graha === 'Sun').relievedBy, [], 'Pulippani has no 3rd for it');
   // Santhanam has no row for Rahu.
   assert.equal(computeGocharaPhala(0, { Rahu: 9 }, 'SANTHANAM').find((r) => r.graha === 'Rahu').verdict, 'notCovered');
 }

@@ -12,6 +12,7 @@ import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { getChartLibrary } from '@/src/portal/ChartLibraryManager';
 import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
+import { NATURE_TA, Cites, PhaladeepikaNowCell } from '../gochara-vedha/PhaladeepikaNow';
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
 const CHART_POINTS = ['Lagna', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -402,9 +403,49 @@ function GocharaPhalaSection({ report }: { report: ReportData }) {
         </tbody>
       </table>
       <p className="text-[11px] text-ink-soft mt-2">
-        புலிப்பாணி, கோசார பலதீபிகை அத்.22 (அச்சுப் பக்கம் 204-206) — சந்திரனிலிருந்து சுப கோசார பாவங்கள், இணை வேதை பாவம், விபரீத வேதை
-        (சூரியன்↔சனி, சந்திரன்↔புதன், சுக்கிரனுக்குச் சூரியன் — விலக்கு; இவற்றில் சுக்கிரன்-சூரியன் விலக்கு புலிப்பாணியில் மட்டும் — மூல நூலான பலதீபிகையில் (26.8) இல்லை). எட்டு நூல்களின் ஒப்பீடும் எல்லாக் கிரகங்களின் காலங்களும்: <a href="/gochara-vedha" className="underline">/gochara-vedha</a>.
+        மந்த்ரேஸ்வரர், பலதீபிகை அத். 26, ஸ்லோ. 2-8 (சாஸ்திரி 1950, அச்சுப் பக்கம் 286-288) — சந்திரனிலிருந்து சுப கோசார பாவங்கள், இணை வேதை பாவம்;
+        சூரியன்↔சனி, சந்திரன்↔புதன் விலக்கு. ராகு, கேது "சூரியனைப் போல" 3, 6, 10, 11 — வேதை இடம் சொல்லப்படவில்லை. இந்த அத்தியாயத்தில் விபரீத வேதை இல்லை;
+        புலிப்பாணியின் விபரீத வேதையும் சுக்கிரன்-சூரியன் விலக்கும் மற்ற நூல்களும் ஒப்பீட்டில்: <a href="/gochara-vedha" className="underline">/gochara-vedha</a> (எல்லாக் கிரகங்களின் காலங்களுடன்).
       </p>
+      {g.phaladeepika && <PhaladeepikaNowReport pd={g.phaladeepika} />}
+    </div>
+  );
+}
+
+/** Phaladeepika XXVI.9-34 for today: one row per planet, then verse 34 and the pages. */
+function PhaladeepikaNowReport({ pd }: { pd: any }) {
+  const v34 = pd.verse34Now;
+  return (
+    <div className="mt-4">
+      <h3 className="text-sm font-semibold text-ink mb-1">பலதீபிகை அத். 26 — இன்றைய பலன் (ஸ்லோ. 9-25, 30-33)</h3>
+      <p className="text-[11px] text-ink-soft mb-2">
+        ஒவ்வொரு கிரகமும் சந்திரனிலிருந்து நிற்கும் இடத்துக்கு நூல் சொல்லும் பலன், அது பலன் தரும் பகுதியில் உள்ளதா (ஸ்லோ. 25), உச்சம் / நீசம் / பகை வீடு / அஸ்தங்கம் (31-32),
+        அதன் மேல் விழும் முழுப் பார்வைகள் (30), 12-8-1 எச்சரிக்கை (33). இவை நூலின் கூற்றுகள் — இந்த மென்பொருளின் முன்கணிப்பு அல்ல.
+        சந்திரன் இப்போது {NATURE_TA[pd.moonNow.nature]} (சூரியனிலிருந்து {pd.moonNow.elongation}°), புதன் {NATURE_TA[pd.mercuryNow.nature]}.
+      </p>
+      <table className="w-full text-sm max-w-3xl">
+        <thead><tr className="text-ink-soft border-b border-line">
+          <th className="text-left py-1 pr-2">கிரகம்</th><th className="text-center py-1 pr-2">இடம்</th><th className="text-left py-1">பலன்</th>
+        </tr></thead>
+        <tbody className="align-top">
+          {Object.values(pd.planets).map((n: any) => (
+            <tr key={n.planet} className="border-b border-line/40">
+              <td className="py-1 pr-2">{n.planetTa}</td>
+              <td className="py-1 pr-2 text-center">{n.house}</td>
+              <td className="py-1 text-xs"><PhaladeepikaNowCell pd={pd} n={n} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className={`text-[11px] mt-2 ${v34.all ? 'text-rose' : 'text-ink-soft'}`}>
+        ஸ்லோ. 34 ({pd.verse34Ta}) — இப்போது எட்டில் {v34.met} பொருந்துகின்றன{v34.all ? ' — எல்லாம்' : ''}:{' '}
+        {v34.positions.map((x: any) => `${x.planetTa} ${x.nowHouse}${x.nowHouse === x.house ? '✓' : `/${x.house}`}`).join(', ')}.
+      </p>
+      <p className="text-[11px] text-ink-soft mt-1">{pd.ketuNoteTa}</p>
+      <details className="mt-1 text-[11px] text-ink-soft">
+        <summary className="cursor-pointer">மூலங்கள் ({pd.sources.length})</summary>
+        <Cites list={pd.sources} />
+      </details>
     </div>
   );
 }

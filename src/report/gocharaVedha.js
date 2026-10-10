@@ -12,9 +12,9 @@
  *                  cancels the bad
  *   NO_RELIEF      a bad house with neither
  *
- * Every method in `VEDHA_RANK.computable` is computed — Pulippani (default —
- * the book that explains most), Santhanam, Phaladeepika (Sastri) and Vishnu
- * Bhaskar, the books whose tables can be read without guessing
+ * Every method in `VEDHA_RANK.computable` is computed — Pulippani, Santhanam,
+ * Phaladeepika (Sastri; the default since 2026-10-10, the owner's decision) and
+ * Vishnu Bhaskar, the books whose tables can be read without guessing
  * (`gocharaVedhaTables.js` says why the others are compared but not computed).
  *
  * Who counts as "another planet" follows `saturnVedha.js`: every planet except
@@ -30,6 +30,7 @@ const { planetLongitude, nodeLongitude } = require('../ephemeris/siderealPositio
 const V = require('./gocharaVedhaTables');
 const P = require('./phaladeepikaGocharaTables');
 const { scanKey } = require('./saturnAshtakavarga');
+const { phaladeepikaNow } = require('./phaladeepikaGochara');
 
 const DAY_MS = 86400000;
 const YEAR_MS = 365.25 * DAY_MS;
@@ -264,23 +265,12 @@ function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', 
     return { by, moonPasses: p === 'Moon' ? 0 : overlaps(stays.Moon, (S + 6) % 12, a, b).length };
   };
 
-  // The present: every planet's sign, the Moon's paksha, Mercury's company.
-  const signNow = Object.fromEntries(PLANETS.map((o) => [o, Math.floor((((longitudeOf(o, atMs, ayanamsha, nodeType) % 360) + 360) % 360) / 30) % 12]));
-  const elongation = (((longitudeOf('Moon', atMs, ayanamsha, nodeType) - longitudeOf('Sun', atMs, ayanamsha, nodeType)) % 360) + 360) % 360;
-  const moonNature = elongation < 180 ? 'BENEFIC' : 'MALEFIC';
-  const mercuryNature = PLANETS.some((m) => m !== 'Mercury' && signNow[m] === signNow.Mercury
-    && (P.MALEFIC_FIXED.includes(m) || (m === 'Moon' && moonNature === 'MALEFIC'))) ? 'MALEFIC' : 'BENEFIC';
-  const natureNow = (o) => (o === 'Moon' ? moonNature : o === 'Mercury' ? mercuryNature : P.MALEFIC_FIXED.includes(o) ? 'MALEFIC' : 'BENEFIC');
-  const aspectsNow = (p, goodHouse) => PLANETS.filter((o) => o !== p && o in P.FULL_ASPECTS).map((o) => {
-    const k = ((signNow[p] - signNow[o] + 12) % 12) + 1;
-    const asp = P.aspectsOf(o);
-    const full = asp.full.includes(k);
-    const part = asp.partial.find(([h]) => h === k);
-    if (!full && !part) return null;
-    const nature = natureNow(o);
-    const enemy = P.NATURAL_ENEMIES[p].includes(o);
-    return { planet: o, planetTa: PLANET_TA[o], house: k, full, fraction: full ? 1 : part[1], nature, enemy, ...(full ? P.verse30Effect({ nature, enemy }, goodHouse) : { voids: null, enemy: false }) };
-  }).filter(Boolean);
+  // The present, shared with the report (`phaladeepikaGochara.js`).
+  const pdNow = phaladeepikaNow({
+    moonRasiIndex,
+    lon: Object.fromEntries(PLANETS.map((o) => [o, longitudeOf(o, atMs, ayanamsha, nodeType)])),
+    retrograde: Object.fromEntries(PLANETS.map((o) => [o, combustionAt(o, atMs, ayanamsha, nodeType).retrograde])),
+  });
 
   const pdPlanets = Object.fromEntries(PLANETS.map((p) => {
     const from = atMs - SPAN[p][0];
@@ -301,32 +291,9 @@ function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', 
         aspects: aspectsWithin(p, s.sign, a, b, pdGood(p, house)),
       };
     });
-    const lonNow = ((longitudeOf(p, atMs, ayanamsha, nodeType) % 360) + 360) % 360;
-    const sign = Math.floor(lonNow / 30) % 12;
-    const house = houseFromMoon(sign, moonRasiIndex);
-    const third = Math.floor((lonNow % 30) / 10);
-    const c = combustionAt(p, atMs, ayanamsha, nodeType);
-    const dignity = P.dignityOf(p, sign);
-    return [p, {
-      stays: pdStays,
-      now: {
-        house, resultTa: P.HOUSE_RESULTS[p]?.[house - 1] ?? null,
-        degreeInSign: Math.round((lonNow % 30) * 100) / 100, third,
-        // Verse 25: in the third that gives the result now? true/false; 'ALL' for Mercury and Rahu; null for Ketu.
-        effectiveNow: !(p in P.DECANATE) ? null : P.DECANATE[p] === null ? 'ALL' : P.DECANATE[p] === third,
-        dignity, goodHouse: pdGood(p, house), combustion: c,
-        verdict: P.verses31and32(dignity, c.combust, pdGood(p, house)),
-        aspects: aspectsNow(p, pdGood(p, house)),
-      },
-    }];
+    return [p, { stays: pdStays, now: pdNow.planets[p] }];
   }));
 
-  // Verse 34: the eight positions, counted for the present.
-  const all8 = P.RULES.find((x) => x.id === 'ALL_EIGHT');
-  const verse34Now = Object.entries(all8.positions).map(([planet, h]) => {
-    const s = Math.floor((((longitudeOf(planet, atMs, ayanamsha, nodeType) % 360) + 360) % 360) / 30) % 12;
-    return { planet, planetTa: PLANET_TA[planet], house: h, nowHouse: houseFromMoon(s, moonRasiIndex) };
-  });
   return {
     atUtc: iso(atMs),
     moonRasiIndex, moonRasi: RASI_TA[moonRasiIndex],
@@ -356,8 +323,7 @@ function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', 
       rules: P.RULES,
       dignitySources: P.DIGNITY_SOURCES, dignityReadingsTa: P.DIGNITY_READINGS_TA, combustionDegrees: P.COMBUSTION_DEGREES,
       aspectSources: P.ASPECT_SOURCES, aspectReadingsTa: P.ASPECT_READINGS_TA,
-      moonNow: { elongation: Math.round(elongation * 100) / 100, nature: moonNature }, mercuryNow: { nature: mercuryNature },
-      verse34Now: { positions: verse34Now, met: verse34Now.filter((x) => x.house === x.nowHouse).length, all: verse34Now.every((x) => x.house === x.nowHouse) },
+      moonNow: pdNow.moonNow, mercuryNow: pdNow.mercuryNow, verse34Now: pdNow.verse34Now,
     },
   };
 }

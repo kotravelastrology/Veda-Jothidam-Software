@@ -140,8 +140,11 @@ const SATURN_VEDHA = Object.freeze({ 3: 12, 6: 9, 11: 5 });
 // Five books print a vedha table. They agree on most cells and differ on a
 // few, listed in VEDHA_DIFFERENCES below. Two of them print a complete table
 // that can be read unambiguously — Pulippani and Vishnu Bhaskar — and those two
-// are the methods the engine computes. Pulippani is the default because his
-// chapter explains the subject most (owner's rule, 2026-10-03).
+// are the methods the engine computes. Pulippani was the default because his
+// chapter explains the subject most (owner's rule, 2026-10-03). Since
+// 2026-10-10 the default is Phaladeepika (Sastri) — the owner's decision, after
+// its chapter 26 was read in full and found to be the text Pulippani follows;
+// the books are still listed by words.
 
 const KALAPRAKASIKA_BOOK = Object.freeze({
   title: 'Kalaprakasika',
@@ -357,7 +360,8 @@ const VEDHA_METHODS = deepFreeze({
     sources: [PHALADEEPIKA_SOURCES.sastri, PHALADEEPIKA_SOURCES.kapoor],
   },
 });
-const DEFAULT_VEDHA_METHOD = 'PULIPPANI';
+/** Owner's decision, 2026-10-10: Phaladeepika, the classical text the others follow, over the most-explained book. */
+const DEFAULT_VEDHA_METHOD = 'PHALADEEPIKA_SASTRI';
 
 /** Words in each book's vedha section (English text layer; Sudamani in Tamil words). */
 const VEDHA_RANK = deepFreeze({
@@ -365,8 +369,9 @@ const VEDHA_RANK = deepFreeze({
   words: { PULIPPANI: 614, SANTHANAM: 575, JATAKA_PARIJATA: 465, PHALADEEPIKA_SASTRI: 396, PHALADEEPIKA_KAPOOR: 350, SUDAMANI: 251, KALAPRAKASIKA: 248, VISHNU_BHASKAR: 185 },
   computable: ['PULIPPANI', 'SANTHANAM', 'PHALADEEPIKA_SASTRI', 'VISHNU_BHASKAR'],
   measureTa: 'கோசார வேதை, விபரீத வேதை பற்றிய பகுதியின் சொற்கள்: புலிப்பாணி அத்தியாயம் 22 (பக்.204-206) 614; சந்தானம், ஜோதிஷார்ணவ நவநீதம் அத்.3 உரை (பக்.146-149) 575; ஜாதக பாரிஜாதம் உரை (பக்.833-834) 465; பலதீபிகை 26.2-8 — சாஸ்திரி மொழிபெயர்ப்பு, குறிப்புடன் (பக்.286-288) 396, கபூர் மொழிபெயர்ப்பு (பக்.246-247) 350; சூடாமணி செய்யுள் 341-343 உரையுடன் 251 (தமிழ்ச் சொற்கள்); காலப்பிரகாசிகை (பக்.209-210) 248; விஷ்ணு பாஸ்கர் §II (ப.139) 185.',
-  alternativeTa: 'மாற்று அளவு: சந்தானத்தின் "தீய இடங்களுக்கு மட்டும் வேதை" பகுதியையும் (185 சொற்கள்) சேர்த்தால் அவர் 760 — புலிப்பாணியை முந்துவார்; அப்போது அவரே இயல்பு ஆவார். புலிப்பாணியிடம் அந்த வகை இல்லாததால் ஒரே தலைப்புகளை மட்டும் ஒப்பிட்டோம். எந்த அளவு என்பது உரிமையாளரின் முடிவுக்குக் காத்திருக்கிறது; அதுவரை இயல்பு மாற்றப்படவில்லை.',
-  computableTa: 'கணிக்கக்கூடியவை நான்கு — முழு அட்டவணையையும் தெளிவாகப் படிக்கக்கூடிய புலிப்பாணி (இயல்பு), சந்தானம் (ராகு, கேது இல்லாமல்), பலதீபிகை (சாஸ்திரி; விபரீத வேதை இல்லை, ராகு-கேதுவுக்கு வேதை இடம் இல்லை), விஷ்ணு பாஸ்கர். கபூரின் பலதீபிகை மொழிபெயர்ப்பில் இரண்டு பட்டியல்களில் எண்கள் விடுபட்டுள்ளதால் அது ஒப்பீட்டில் மட்டும். ஜாதக பாரிஜாதம் காலப்பிரகாசிகையின் அட்டவணையையே மறுபதிப்பு செய்கிறது; காலப்பிரகாசிகை நல்ல/தீய இடப் பட்டியல் தராமல் ஒவ்வொரு இடத்தின் பலனை மட்டும் சொல்வதால் (பக்.207-208) அதைக் கணிக்க எங்கள் தீர்ப்பு வேண்டும். சூடாமணியின் சுக்கிரன் வரியின் நடுப்பகுதி மீட்டமைப்பு மட்டுமே (கீழே), செய்யுள் 341 சுக்கிரனின் 8-ஆம் இடத்தைச் சொல்லவில்லை. இவை மூன்றும் ஒப்பீட்டில் மட்டும்.',
+  alternativeTa: 'மாற்று அளவு: சந்தானத்தின் "தீய இடங்களுக்கு மட்டும் வேதை" பகுதியையும் (185 சொற்கள்) சேர்த்தால் அவர் 760 — புலிப்பாணியை முந்துவார். புலிப்பாணியிடம் அந்த வகை இல்லாததால் ஒரே தலைப்புகளை மட்டும் ஒப்பிட்டோம். நூல்கள் இந்தச் சொல் எண்ணிக்கை வரிசையிலேயே காட்டப்படுகின்றன.',
+  defaultTa: 'இயல்பு: பலதீபிகை (சாஸ்திரி) — உரிமையாளரின் முடிவு (2026-10-10). மந்த்ரேஸ்வரரின் அத்தியாயம் 26 முழுமையாகப் படிக்கப்பட்டது: புலிப்பாணியின் வேதை இணைகள் அதன் ஸ்லோகங்களே (2-8). அதனால் "அதிகம் விளக்கும் நூல் முதலில்" என்ற விதிக்குப் பதிலாக மூல நூல் இயல்பு. பலதீபிகையோடு வேறுபடுபவை: சுக்கிரன்-சூரியன் விலக்கு இல்லை, விபரீத வேதை இல்லை, ராகு-கேதுவுக்கு வேதை இடம் இல்லை.',
+  computableTa: 'கணிக்கக்கூடியவை நான்கு — முழு அட்டவணையையும் தெளிவாகப் படிக்கக்கூடிய புலிப்பாணி, சந்தானம் (ராகு, கேது இல்லாமல்), பலதீபிகை (சாஸ்திரி — இயல்பு; விபரீத வேதை இல்லை, ராகு-கேதுவுக்கு வேதை இடம் இல்லை), விஷ்ணு பாஸ்கர். கபூரின் பலதீபிகை மொழிபெயர்ப்பில் இரண்டு பட்டியல்களில் எண்கள் விடுபட்டுள்ளதால் அது ஒப்பீட்டில் மட்டும். ஜாதக பாரிஜாதம் காலப்பிரகாசிகையின் அட்டவணையையே மறுபதிப்பு செய்கிறது; காலப்பிரகாசிகை நல்ல/தீய இடப் பட்டியல் தராமல் ஒவ்வொரு இடத்தின் பலனை மட்டும் சொல்வதால் (பக்.207-208) அதைக் கணிக்க எங்கள் தீர்ப்பு வேண்டும். சூடாமணியின் சுக்கிரன் வரியின் நடுப்பகுதி மீட்டமைப்பு மட்டுமே (கீழே), செய்யுள் 341 சுக்கிரனின் 8-ஆம் இடத்தைச் சொல்லவில்லை. இவை மூன்றும் ஒப்பீட்டில் மட்டும்.',
 });
 
 /**

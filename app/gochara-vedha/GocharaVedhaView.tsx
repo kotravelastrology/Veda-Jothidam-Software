@@ -5,15 +5,17 @@ import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
 import { listCharts, searchCharts } from '../library/actions';
 import { computeVedha } from './actions';
 import type { BirthFormInput } from '../report/actions';
+import { PLANET_TA, NATURE_TA, REASON_TA, cite, Cites, verdictTa, aspectTa, dignityTa, PhaladeepikaNowCell } from './PhaladeepikaNow';
 
 /**
  * Gochara vedha for all nine planets.
  *
- * Five books print a vedha table; they agree on most cells and differ on a
- * few. Two print a complete table that reads without guessing, and those two
- * are computed — Pulippani by default, because his chapter explains most (the
- * owner's rule). The differences between all five are listed on the page with
- * their pages, and the dates are astronomy.
+ * Eight books print a vedha table; they agree on most cells and differ on a
+ * few. Four print a complete table that reads without guessing, and those four
+ * are computed — Phaladeepika (Sastri) by default, the classical text the
+ * others follow (the owner's decision, 2026-10-10); the books are listed by how
+ * much they explain. The differences are listed on the page with their pages,
+ * and the dates are astronomy.
  */
 
 interface LibraryRow {
@@ -37,10 +39,6 @@ const BOOK_TA: Record<string, string> = {
 };
 const houses = (hs: number[]) => hs.join(' / ');
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
-const PLANET_TA: Record<string, string> = {
-  Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு',
-  Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது',
-};
 
 function toInput(bd: BirthData): BirthFormInput {
   return {
@@ -57,10 +55,6 @@ function toInput(bd: BirthData): BirthFormInput {
 
 const day = (iso: string) => iso.slice(0, 10);
 const num = { fontVariantNumeric: 'tabular-nums' as const };
-const cite = (s: any) => `${s.title} — ${String(s.pageLocus).split(':')[0]}`;
-const Cites = ({ list }: { list: any[] }) => (
-  <span className="block text-[11px] text-ink-soft mt-1">{list.map((s, i) => <span key={i} className="block">{cite(s)}</span>)}</span>
-);
 
 function verdict(now: any) {
   if (now.kind === 'GOOD') return now.active ? { ta: 'வேதை நடப்பில் — நல்ல பலன் தடைபடும்', cls: 'text-rose' } : { ta: 'நல்ல பலன் — தடை இல்லை', cls: 'text-teal' };
@@ -68,38 +62,6 @@ function verdict(now: any) {
   if (now.kind === 'RELIEVABLE') return now.active ? { ta: 'விபரீத வேதை நடப்பில் — தீமை நீங்கும்', cls: 'text-teal' } : { ta: 'தீய பலன் — விடுவிக்கும் கிரகம் இப்போது இல்லை', cls: 'text-amber-700' };
   if (now.kind === 'NOT_COVERED') return { ta: '—', cls: 'text-ink-soft' };
   return { ta: 'தீய பலன்', cls: 'text-rose' };
-}
-
-const REASON_TA: Record<string, string> = { DEBILITATED: 'நீசம்', ENEMY_SIGN: 'பகை வீடு', COMBUST: 'அஸ்தங்கம்' };
-/** Phaladeepika XXVI.31-32 verdicts in words. */
-function verdictTa(v: any) {
-  const out: { ta: string; cls: string }[] = [];
-  if (v.v31 === 'FULL') out.push({ ta: 'ஸ்லோ. 31: உச்சம் / சொந்த வீடு — முழுப் பலன்', cls: 'text-teal' });
-  if (v.v31 === 'NO_HARM') out.push({ ta: 'ஸ்லோ. 31: உச்சம் / சொந்த வீடு — தீமை செய்யாது', cls: 'text-teal' });
-  const why = v.reasons.map((r: string) => REASON_TA[r]).join(', ');
-  if (v.v32 === 'VOID') out.push({ ta: `ஸ்லோ. 32: ${why} — நல்ல பலன் இல்லாமல் போகும்`, cls: 'text-amber-700' });
-  if (v.v32 === 'AGGRAVATED') out.push({ ta: `ஸ்லோ. 32: ${why} — மிகுந்த கஷ்டம்`, cls: 'text-rose' });
-  return out;
-}
-/** Verse 30 for one aspecting planet (NATURE_TA is declared with the Saptashalaka section below). */
-function aspectTa(x: any) {
-  const what = x.voids === 'GOOD' ? 'நல்ல பலன் அற்றுப் போகும்' : x.voids === 'BAD' ? 'தீய பலன் அற்றுப் போகும்' : null;
-  const enemy = x.enemy ? 'பகைவர் பார்வை — பலன் அற்றுப் போகும் (கபூர்: நல்ல பலன் மட்டும்)' : null;
-  return { label: `${x.planetTa} (${NATURE_TA[x.nature]}${x.enemy ? ', பகை' : ''})`, effects: [what, enemy].filter(Boolean) as string[] };
-}
-
-/** The planet's standing in its sign (I.6, II.21-22, II.35). */
-function dignityTa(d: any) {
-  const parts = [d.exalted && 'உச்சம்', d.own && 'சொந்த வீடு', d.debilitated && 'நீசம்', d.enemySign && `பகை வீடு (${PLANET_TA[d.lord]})`].filter(Boolean);
-  return parts.length ? parts.join(', ') : null;
-}
-
-/** Phaladeepika XXVI.25 for the present: in the third of the sign that gives the result? */
-function effectiveNowTa(pd: any, planet: string, n: any) {
-  if (n.effectiveNow === null) return 'ஸ்லோகம் 25 கேதுவைச் சொல்லவில்லை';
-  if (n.effectiveNow === 'ALL') return 'ராசி முழுவதும் பலன் தரும் (ஸ்லோ. 25)';
-  const where = pd.decanateTa[pd.decanate[planet]];
-  return n.effectiveNow ? `இப்போது பலன் தரும் பகுதியில் — ${where} (${n.degreeInSign}°)` : `பலன் தரும் பகுதி ${where}; இப்போது ${n.degreeInSign}°`;
 }
 
 function NowTable({ r, method }: { r: any; method: string }) {
@@ -135,23 +97,7 @@ function NowTable({ r, method }: { r: any; method: string }) {
                   ))}
                 </td>
                 <td className="py-1.5 text-ink">
-                  {(() => {
-                    const pn = r.phaladeepika.planets[p.planet].now;
-                    const dt = dignityTa(pn.dignity);
-                    return (
-                      <>
-                        {pn.resultTa ?? <span className="text-ink-soft">—</span>}
-                        <span className="block text-[11px] text-ink-soft">{effectiveNowTa(r.phaladeepika, p.planet, pn)}</span>
-                        {(dt || pn.combustion.combust) && <span className="block text-[11px] text-ink-soft">{[dt, pn.combustion.combust && `அஸ்தங்கம் (சூரியனிலிருந்து ${pn.combustion.separation}°${pn.combustion.retrograde ? ', வக்கிரம்' : ''})`].filter(Boolean).join(' · ')}</span>}
-                        {verdictTa(pn.verdict).map((x) => <span key={x.ta} className={`block text-[11px] ${x.cls}`}>{x.ta}</span>)}
-                        {pn.aspects.filter((x: any) => x.full).map((x: any) => {
-                          const t = aspectTa(x);
-                          return <span key={x.planet} className={`block text-[11px] ${t.effects.length ? 'text-amber-700' : 'text-ink-soft'}`}>ஸ்லோ. 30: {t.label} {x.house}-ஆம் பார்வை{t.effects.length ? ` — ${t.effects.join('; ')}` : ''}</span>;
-                        })}
-                        {pn.aspects.some((x: any) => !x.full) && <span className="block text-[11px] text-ink-soft">பகுதிப் பார்வை (கணக்கில் இல்லை): {pn.aspects.filter((x: any) => !x.full).map((x: any) => `${x.planetTa} ${x.fraction}`).join(', ')}</span>}
-                      </>
-                    );
-                  })()}
+                  <PhaladeepikaNowCell pd={r.phaladeepika} n={r.phaladeepika.planets[p.planet].now} />
                 </td>
               </tr>
             );
@@ -401,7 +347,6 @@ function NakshatraSection({ n }: { n: any }) {
 }
 
 const BOOK_NAME_TA: Record<string, string> = { BHAT: 'பட் (ஜோதிட அடிப்படைகள்)', PULIPPANI: 'புலிப்பாணி', GOUR: 'கௌர்', PHALADEEPIKA: 'பலதீபிகை (மந்த்ரேஸ்வரர் — சாஸ்திரி)' };
-const NATURE_TA: Record<string, string> = { MALEFIC: 'பாபர்', BENEFIC: 'சுபர்' };
 
 function SaptashalakaSection({ s }: { s: any }) {
   const [reading, setReading] = useState<string>(s.defaultReading);
@@ -622,6 +567,7 @@ export default function GocharaVedhaView() {
             <p className="text-[11px] text-ink-soft mt-2">
               வரிசை: அதிக விளக்கம் உள்ள நூல் முதலில் — {result.rank.measureTa} {result.rank.computableTa} இது விளக்கத்தின் அளவு மட்டுமே; எது சரி என்ற தீர்ப்பு அல்ல.
             </p>
+            <p className="text-[11px] text-ink mt-1">{result.rank.defaultTa}</p>
             <p className="text-[11px] text-ink-soft mt-1">{m.exemptNoteTa}</p>
             <Cites list={m.sources} />
           </section>

@@ -16,22 +16,26 @@ rule, 2026-10-03):
 
 | Book | Section | Words | Computed? |
 |---|---|---|---|
-| Pulippani, *Gochar Phaladeepika* | ch.22, pp.204–206 | 614 | **yes — default** |
+| Pulippani, *Gochar Phaladeepika* | ch.22, pp.204–206 | 614 | **yes** (default until 2026-10-10) |
 | R. Santhanam, *Jyotisharnava Navanitam* | ch.3 commentary, pp.146–149 | 575 | **yes** (no rows for Rahu, Ketu) |
 | Jataka Parijata vol.3 (Subrahmanya Sastri) | notes to XIII.60, pp.833–834 | 465 | no — reprints Kalaprakasika's table |
-| Mantreswara, *Phaladeepika* (V. Subrahmanya Sastri, 1950) | XXVI.2–8, pp.286–288 | 396 | **yes** (no vipareetha; no vedha for the nodes) |
+| Mantreswara, *Phaladeepika* (V. Subrahmanya Sastri, 1950) | XXVI.2–8, pp.286–288 | 396 | **yes — default** (no vipareetha; no vedha for the nodes) |
 | *Phala Deepika* (G.S. Kapoor, e-text) | ch.26 sl.2–8, pp.246–247 | 350 | no — two lists short (below) |
 | Sudamani (Tamil) | verses 341–343 with commentary, pp.148–150 | 251 Tamil words | no — sets only; Venus's line five of eight read (below) |
 | Kalaprakasika (N.P.S. Iyer, 1982) | pp.209–210 | 248 | no — gives each house's result, not a good/bad list |
 | Vishnu Bhaskar | ch.14 §II, p.139 | 185 | **yes** |
 
-**Decision pending — the measure.** Santhanam also gives a third kind,
-"Vedha for bad places only" (p.151, 185 words), which Pulippani has no
-counterpart for. Counting like for like (gochara + vipareetha) keeps Pulippani
-first; counting each book's whole rasi-vedha discussion puts Santhanam first
-(760) and would make him the default — changing the report's gochara section
-(Venus's 11th/12th pairs, no Venus–Sun exemption, nothing for Rahu and Ketu).
-The default is unchanged until the owner chooses.
+**The default — Phaladeepika (owner's decision, 2026-10-10).** Not the first
+by words: once chapter 26 had been read in full, its verses 2–8 turned out to
+be the pairs Pulippani tabulates, so the classical text itself is the default
+and the books stay listed by words. What changes against Pulippani: the Sun
+obstructs Venus again (no Venus–Sun exemption), no vipareetha vedha, and the
+nodes' good houses (3, 6, 10, 11) have no vedha house. The report's gochara
+section and the answer engine follow the default and cite its page.
+
+(The earlier question of measure: Santhanam also gives "Vedha for bad places
+only" (p.151, 185 words), which Pulippani has no counterpart for; counting it
+would put him first by words, 760. The order shown is like for like.)
 
 ## Where they differ
 
@@ -139,6 +143,14 @@ default method's table, so two answers change, both by Pulippani's own text:
 Rahu and Ketu in the 10th are good (no vedha house), and the Sun no longer
 obstructs Venus. Vipareetha is now reported in the report's vedha column. The
 answer engine's source labels name Pulippani's pages.
+
+On 2026-10-10 the default became Phaladeepika, so the report's table and the
+answer engine read verses 2–8: the Sun obstructs Venus again and no vipareetha
+is reported. Each row's `source` now names the method actually used. Under the
+table the report shows chapter 26 for the same moment — verses 9–25 and 30–34,
+one row per planet — from `src/report/phaladeepikaGochara.js`, the function
+`/gochara-vedha` uses for its "now" column; the wording is shared too
+(`app/gochara-vedha/PhaladeepikaNow.tsx`).
 
 ## Spans
 
@@ -294,7 +306,6 @@ recorded but has no stated effect there, so it is not computed.
 
 ## Not done
 
-- The default-method decision (see "Decision pending" above).
 - Sudamani's Venus line — needs a Tamil reader's decoding of the verse.
 
 ## Verified

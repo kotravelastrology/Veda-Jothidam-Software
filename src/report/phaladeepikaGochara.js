@@ -1,0 +1,106 @@
+/**
+ * Phaladeepika XXVI for one moment — the present block shared by /gochara-vedha
+ * and the report: each planet's house from the natal Moon and the verse's
+ * result there (9-24), whether it stands in the third of its sign that gives
+ * the result (25), exaltation / own sign / debilitation / enemy's sign /
+ * combustion (31-32), the full aspects on it with their nature and enmity (30),
+ * verse 33, and verse 34's eight positions. The tables and their sources are
+ * in `phaladeepikaGocharaTables.js`; dated windows are in `gocharaVedha.js`.
+ */
+
+const V = require('./gocharaVedhaTables');
+const P = require('./phaladeepikaGocharaTables');
+
+const PLANETS = V.PLANETS_9;
+const PLANET_TA = {
+  Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு',
+  Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது',
+};
+const norm360 = (d) => ((d % 360) + 360) % 360;
+const wrap180 = (d) => norm360(d + 180) - 180;
+const round2 = (x) => Math.round(x * 100) / 100;
+
+/**
+ * @param moonRasiIndex natal Moon sign 0-11
+ * @param lon        { planet: sidereal longitude } for the nine planets
+ * @param retrograde { planet: boolean } — only Mercury's and Venus's orbs depend on it
+ */
+function phaladeepikaNow({ moonRasiIndex, lon, retrograde: isRetro }) {
+  const signOf = (p) => Math.floor(norm360(lon[p]) / 30) % 12;
+  const houseOf = (p) => ((signOf(p) - moonRasiIndex + 12) % 12) + 1;
+  const goodHouse = (p, h) => V.VEDHA_METHODS.PHALADEEPIKA_SASTRI.table[p].good.includes(h);
+
+  // II.27: the Moon by her paksha (waning = Krishna paksha, our reading); Mercury by his company.
+  const elongation = norm360(lon.Moon - lon.Sun);
+  const moonNature = elongation < 180 ? 'BENEFIC' : 'MALEFIC';
+  const isMalefic = (o) => P.MALEFIC_FIXED.includes(o) || (o === 'Moon' && moonNature === 'MALEFIC');
+  const mercuryNature = PLANETS.some((m) => m !== 'Mercury' && signOf(m) === signOf('Mercury') && isMalefic(m)) ? 'MALEFIC' : 'BENEFIC';
+  const natureOf = (o) => (o === 'Moon' ? moonNature : o === 'Mercury' ? mercuryNature : P.MALEFIC_FIXED.includes(o) ? 'MALEFIC' : 'BENEFIC');
+  const verse33 = P.RULES.find((x) => x.id === 'DANGER_12_8_1');
+
+  const planets = {};
+  for (const p of PLANETS) {
+    const house = houseOf(p);
+    const good = goodHouse(p, house);
+    const degreeInSign = norm360(lon[p]) % 30;
+    const third = Math.floor(degreeInSign / 10);
+    const retrograde = Boolean(isRetro[p]);
+    const orb = P.combustionOrb(p, retrograde);
+    const separation = Math.abs(wrap180(lon[p] - lon.Sun));
+    const combustion = { separation: round2(separation), retrograde, orb, combust: orb === null ? null : separation < orb };
+    const dignity = P.dignityOf(p, signOf(p));
+    const aspects = PLANETS.filter((o) => o !== p && o in P.FULL_ASPECTS).map((o) => {
+      const k = ((signOf(p) - signOf(o) + 12) % 12) + 1;
+      const a = P.aspectsOf(o);
+      const full = a.full.includes(k);
+      const part = a.partial.find(([h]) => h === k);
+      if (!full && !part) return null;
+      const nature = natureOf(o);
+      const enemy = P.NATURAL_ENEMIES[p].includes(o);
+      return { planet: o, planetTa: PLANET_TA[o], house: k, full, fraction: full ? 1 : part[1], nature, enemy, ...(full ? P.verse30Effect({ nature, enemy }, good) : { voids: null, enemy: false }) };
+    }).filter(Boolean);
+    planets[p] = {
+      planet: p, planetTa: PLANET_TA[p], house,
+      resultTa: P.HOUSE_RESULTS[p]?.[house - 1] ?? null,
+      degreeInSign: round2(degreeInSign), third,
+      // Verse 25: true/false; 'ALL' for Mercury and Rahu; null for Ketu (no verse).
+      effectiveNow: !(p in P.DECANATE) ? null : P.DECANATE[p] === null ? 'ALL' : P.DECANATE[p] === third,
+      dignity, goodHouse: good, combustion,
+      verdict: P.verses31and32(dignity, combustion.combust, good),
+      aspects,
+      dangerVerse33: verse33.planets.includes(p) && verse33.houses.includes(house),
+    };
+  }
+
+  const positions = Object.entries(P.RULES.find((x) => x.id === 'ALL_EIGHT').positions)
+    .map(([planet, house]) => ({ planet, planetTa: PLANET_TA[planet], house, nowHouse: planets[planet].house }));
+  return {
+    planets,
+    moonNow: { elongation: round2(elongation), nature: moonNature },
+    mercuryNow: { nature: mercuryNature },
+    verse34Now: { positions, met: positions.filter((x) => x.house === x.nowHouse).length, all: positions.every((x) => x.house === x.nowHouse) },
+  };
+}
+
+/** Every page the present block rests on: verse 2's good houses, 9-25, 30-34, and the definitions verses 30-32 use. */
+const NOW_SOURCES = Object.freeze([
+  V.PHALADEEPIKA_SOURCES.sastri,
+  ...P.HOUSE_RESULTS_SOURCES,
+  ...P.DECANATE_SOURCES,
+  ...P.RULES.filter((r) => r.computed).flatMap((r) => [r.source, r.kapoor].filter(Boolean)),
+  ...Object.values(P.DIGNITY_SOURCES),
+  ...Object.values(P.ASPECT_SOURCES),
+].map((s) => Object.freeze({ title: s.title, pageLocus: s.pageLocus })));
+
+/** The present block with what a page needs to word it (the report's gochara section). */
+function phaladeepikaReportBlock(args) {
+  const verse34 = P.RULES.find((x) => x.id === 'ALL_EIGHT');
+  return {
+    ...phaladeepikaNow(args),
+    decanate: P.DECANATE, decanateTa: P.DECANATE_TA, ketuNoteTa: P.KETU_NOTE_TA,
+    verse34Ta: verse34.textTa,
+    sources: NOW_SOURCES,
+  };
+}
+
+module.exports = { phaladeepikaNow, phaladeepikaReportBlock, NOW_SOURCES, PLANET_TA };
