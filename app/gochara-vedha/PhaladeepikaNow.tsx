@@ -49,12 +49,36 @@ export function effectiveNowTa(pd: any, n: any) {
 }
 
 /**
+ * Verse 41 for one planet in one sign, under one table of places: the total
+ * (above 28 — the default reading), the planet's own count (5 or more), and
+ * XXIII.11's result for that count. `b` is one table's entry of `bindusAt`.
+ */
+export function Verse41Lines({ b, goodHouse }: { b: any; goodHouse: boolean }) {
+  if (!b) return null;
+  const always = goodHouse ? 'எப்போதும் நல்ல பலன்' : 'தீய இடமாயினும் நல்ல பலன்';
+  return (
+    <>
+      <span className={`block text-[11px] ${b.bySav ? 'text-teal' : 'text-ink-soft'}`}>
+        ஸ்லோ. 41: சர்வாஷ்டகம் {b.sav}{b.bySav ? ` — 28-க்கு மேல்: ${always}` : ' (28-க்கு மேல் இல்லை)'}
+      </span>
+      {b.bav !== null && (
+        <span className={`block text-[11px] ${b.byBav ? 'text-teal' : 'text-ink-soft'}`}>
+          சொந்த அஷ்டகவர்க்கம் {b.bav}/8{b.byBav ? ` — 5 அல்லது மேல் (ஜா.பா. X.9): ${always}` : ''} · XXIII.11: {b.resultTa}{b.bav === 4 ? ' · 4: கபூர் வாசிப்பில் நன்மை' : ''}
+        </span>
+      )}
+    </>
+  );
+}
+
+/**
  * One planet now: the verse's result in its house (9-24), the effective third
  * (25), dignity and combustion with verses 31-32, verse 33, the full aspects on
- * it (30), and the partial aspects as information.
+ * it (30), the partial aspects as information, and verse 41 under `table`
+ * (Phaladeepika's places by default).
  */
-export function PhaladeepikaNowCell({ pd, n }: { pd: any; n: any }) {
+export function PhaladeepikaNowCell({ pd, n, table }: { pd: any; n: any; table?: string }) {
   const dt = dignityTa(n.dignity);
+  const tableId = table ?? pd.bindu?.defaultTable;
   return (
     <>
       {n.resultTa ?? <span className="text-ink-soft">—</span>}
@@ -67,6 +91,24 @@ export function PhaladeepikaNowCell({ pd, n }: { pd: any; n: any }) {
         return <span key={x.planet} className={`block text-[11px] ${t.effects.length ? 'text-amber-700' : 'text-ink-soft'}`}>ஸ்லோ. 30: {t.label} {x.house}-ஆம் பார்வை{t.effects.length ? ` — ${t.effects.join('; ')}` : ''}</span>;
       })}
       {n.aspects.some((x: any) => !x.full) && <span className="block text-[11px] text-ink-soft">பகுதிப் பார்வை (கணக்கில் இல்லை): {n.aspects.filter((x: any) => !x.full).map((x: any) => `${x.planetTa} ${x.fraction}`).join(', ')}</span>}
+      {n.bindus && tableId && <Verse41Lines b={n.bindus[tableId]} goodHouse={n.goodHouse} />}
     </>
+  );
+}
+
+/** Two buttons: whose table of Ashtakavarga places verse 41 counts with. */
+export function BinduTablePicker({ meta, value, onChange }: { meta: any; value: string; onChange: (id: string) => void }) {
+  return (
+    <span className="inline-flex flex-wrap items-center gap-1 text-[11px]">
+      <span className="text-ink-soft">ஸ்லோ. 41 பரல் அட்டவணை:</span>
+      {meta.tableOrder.map((id: string) => (
+        <button
+          key={id} type="button" onClick={() => onChange(id)}
+          className={`px-2 py-0.5 rounded-full border ${value === id ? 'border-saffron bg-saffron/10 text-ink font-semibold' : 'border-line text-ink-soft'}`}
+        >
+          {meta.tables[id].labelTa}{id === meta.defaultTable ? ' (இயல்பு)' : ''}
+        </button>
+      ))}
+    </span>
   );
 }

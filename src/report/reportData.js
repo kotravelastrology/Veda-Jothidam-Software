@@ -253,6 +253,7 @@ function buildReportData(birthInput) {
     // Phaladeepika XXVI.9-34 for the same moment — the block /gochara-vedha shows.
     phaladeepika: phaladeepikaReportBlock({
       moonRasiIndex: chart.grahas.Moon.rasiIndex,
+      natalRasi: rasiPositions,
       lon: Object.fromEntries(_tp.planets.map((p) => [p.planet, p.longitude])),
       retrograde: Object.fromEntries(_tp.planets.map((p) => [p.planet, p.isRetrograde])),
     }),

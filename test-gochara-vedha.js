@@ -8,7 +8,7 @@ const { computeGocharaPhala } = require('./src/report/gocharaPhala');
 const { planetLongitude, nodeLongitude } = require('./src/ephemeris/siderealPositions');
 const { resolveByTitle } = require('./src/sources/registry');
 const PG = require('./src/report/phaladeepikaGocharaTables');
-const { phaladeepikaNow, phaladeepikaReportBlock, NOW_SOURCES } = require('./src/report/phaladeepikaGochara');
+const { phaladeepikaNow, phaladeepikaReportBlock, binduCharts, bindusAt, NOW_SOURCES } = require('./src/report/phaladeepikaGochara');
 
 const FIX = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures/gochara-vedha/books.json'), 'utf8'));
 const DAY = 86400000;
@@ -353,6 +353,102 @@ for (const p of V.PLANETS_9) {
   assert.ok(b.decanateTa.length === 3 && b.ketuNoteTa && b.verse34Ta);
   for (const s of NOW_SOURCES) assert.ok(resolveByTitle(s.title) && s.pageLocus, s.title);
   assert.ok(NOW_SOURCES.some((s) => s.pageLocus.includes('slokas 2-8')), 'verse 2, whose good houses judge 30-32');
+}
+
+// ------------------------------------------------ Phaladeepika XXVI.41: "more bindus" ---
+{
+  const F = FIX.verse41;
+  const { BINDU_TABLE, EXPECTED_TOTAL, EXPECTED_GRAND_TOTAL } = require('./src/chart/ashtakavarga');
+  const sorted = (a) => [...a].sort((x, y) => x - y);
+  const planetsOf = (book) => Object.fromEntries(Object.entries(book).filter(([k]) => k in BINDU_TABLE));
+  const same = (table, book, label) => {
+    assert.deepEqual(Object.keys(table).sort(), Object.keys(planetsOf(book)).sort(), label);
+    for (const [p, row] of Object.entries(table)) {
+      assert.deepEqual(Object.keys(row).sort(), Object.keys(book[p]).sort(), `${label} ${p}`);
+      for (const [c, hs] of Object.entries(row)) assert.deepEqual(sorted(hs), sorted(book[p][c]), `${label} ${p} from ${c}`);
+    }
+  };
+  // Each book's table cell by cell against the page transcription.
+  same(PG.BINDU_TABLES.PHALADEEPIKA.table, F.phaladeepikaXXIII, 'Phaladeepika XXIII.3-9');
+  same(PG.BINDU_TABLES.VARAHAMIHIRA.table, F.brihatJatakaIX, 'Brihat Jataka IX.1-7');
+  same(BINDU_TABLE, F.brihatJatakaIX, 'ashtakavarga.js = Brihat Jataka IX');
+  // They differ in one cell, and Sastri's footnotes say whose each is.
+  const diffs = Object.keys(BINDU_TABLE).flatMap((p) => Object.keys(BINDU_TABLE[p])
+    .filter((c) => sorted(F.phaladeepikaXXIII[p][c]).join() !== sorted(F.brihatJatakaIX[p][c]).join()).map((c) => `${p}/${c}`));
+  assert.deepEqual(diffs, ['Moon/Jupiter']);
+  assert.deepEqual(sorted(F.brihatJatakaIX.Moon.Jupiter), sorted(F.phaladeepikaXXIII.footnotes.MoonFromJupiterVarahamihira));
+  assert.notDeepEqual(sorted(F.phaladeepikaXXIII.Venus.Mars), sorted(F.phaladeepikaXXIII.footnotes.VenusFromMarsParasara), 'Venus from Mars: Varahamihira\'s, not Parasara\'s');
+  assert.deepEqual(plain(PG.PHALADEEPIKA_BINDU_CELLS), { Moon: { Jupiter: F.phaladeepikaXXIII.Moon.Jupiter } });
+  for (const s of [...PG.BINDU_TABLES.PHALADEEPIKA.sources, ...PG.BINDU_TABLES.VARAHAMIHIRA.sources]) assert.ok(resolveByTitle(s.title), s.title);
+
+  // XXIII.11: nine results, 3 and 4 both fear (भीति, भय) — Kapoor lists seven.
+  assert.equal(PG.BINDU_RESULTS_TA.length, 9);
+  assert.equal(PG.BINDU_RESULTS_TA[3], PG.BINDU_RESULTS_TA[4]);
+  assert.equal(F.XXIII11.results[3], F.XXIII11.results[4]);
+  assert.ok(PG.BINDU_RESULTS_SOURCE.pageLocus.includes(F.XXIII11.verse));
+  assert.ok(PG.BINDU_FOUR_NOTE.sources[0].pageLocus.includes('seven') && F.XXIII11.kapoorCount === 7);
+  // The two readings: XXIII.20's "more than 28" (the same word as verse 41), Jataka Parijata X.9's "from 5".
+  const R = PG.BINDU_READINGS;
+  assert.equal(R.default, 'SAV_28');
+  assert.equal(R.SAV_28.threshold, F.XXIII20.threshold);
+  assert.ok(R.SAV_28.sources[0].pageLocus.includes(F.XXIII20.verse) && R.SAV_28.sources[0].pageLocus.includes(`p.${F.XXIII20.printedPage}`));
+  const r41 = PG.RULES.find((x) => x.id === 'BINDUS');
+  assert.ok(r41.computed && r41.source.pageLocus.includes(F.XXVI41.verse));
+  // (In verse 41 the अ is elided after वर्गे — "ऽधिकबिन्दवः".)
+  assert.ok(F.XXIII20.verse.includes('धिकबिन्दव') && F.XXVI41.verse.includes('ऽधिकबिन्दव'), 'the same word in both verses');
+  assert.ok(R.SAV_28.sources[1].pageLocus.includes(F.pulippani.text) && R.SAV_28.sources[1].pageLocus.includes(`p.${F.pulippani.printedPage}`));
+  const J = F.jatakaParijataX;
+  assert.equal(R.BAV_5.threshold, J.alwaysFrom);
+  assert.ok([J.sloka9, J.sloka9Transit, J.sloka11].every((w) => R.BAV_5.sources[0].pageLocus.includes(w)));
+  assert.ok(R.BAV_5.sources[1].pageLocus.includes(J.sloka4));
+  assert.ok(R.BAV_5.sources[2].pageLocus.includes(F.brihatJatakaIX.sloka8));
+  assert.ok(R.BAV_5.sources[3].pageLocus.includes(`p.${F.patel.printedPage}`));
+  for (const s of [...R.SAV_28.sources, ...R.BAV_5.sources, ...PG.BINDU_FOUR_NOTE.sources, ...PG.BINDU_SURVEY_SOURCES, PG.BINDU_RESULTS_SOURCE]) assert.ok(resolveByTitle(s.title), s.title);
+  assert.ok(PG.BINDU_SURVEY.every((s) => ['SAV_28', 'BAV_5', 'BAV_4'].includes(s.reading)));
+
+  // The charts. Every planet and the Lagna in Mesha: each sign's count is the number of contributors naming that house.
+  const allMesha = { Sun: 0, Moon: 0, Mars: 0, Mercury: 0, Jupiter: 0, Venus: 0, Saturn: 0, Lagna: 0 };
+  const C = binduCharts(allMesha);
+  for (const id of ['PHALADEEPIKA', 'VARAHAMIHIRA']) {
+    for (const [p, total] of Object.entries(EXPECTED_TOTAL)) assert.equal(C[id].bav[p].reduce((a, x) => a + x, 0), total, `${id} ${p}`);
+    assert.equal(C[id].sav.reduce((a, x) => a + x, 0), EXPECTED_GRAND_TOTAL);
+  }
+  // The one cell: Jupiter's 2nd (Vrishabha) under Phaladeepika, 12th (Meena) under Varahamihira.
+  for (let s = 0; s < 12; s += 1) {
+    const d = C.PHALADEEPIKA.bav.Moon[s] - C.VARAHAMIHIRA.bav.Moon[s];
+    assert.equal(d, s === 1 ? 1 : s === 11 ? -1 : 0, `Moon, sign ${s}`);
+    for (const p of ['Sun', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn']) assert.equal(C.PHALADEEPIKA.bav[p][s], C.VARAHAMIHIRA.bav[p][s]);
+  }
+  // By hand: Saturn in Tula (the 7th) — only the Sun names Saturn's 7th: 1 bindu, "destruction or loss".
+  // Tula's total: Sun's chart 4 (Sun, Mars, Venus, Saturn), Moon's 5, Mars's 2, Mercury's 2, Jupiter's 5, Venus's 0, Saturn's 1.
+  const t = bindusAt(C, 'Saturn', 6).PHALADEEPIKA;
+  assert.deepEqual(plain(t), { bav: 1, sav: 19, bySav: false, byBav: false, resultTa: PG.BINDU_RESULTS_TA[1] });
+  // Jupiter in Mesha: the Sun, Mars, Mercury, himself and the Lagna name his 1st — 5, "the desired object".
+  const j = bindusAt(C, 'Jupiter', 0).PHALADEEPIKA;
+  assert.deepEqual([j.bav, j.byBav, j.resultTa], [5, true, PG.BINDU_RESULTS_TA[5]]);
+  assert.equal(j.sav, C.PHALADEEPIKA.sav[0]);
+  assert.equal(j.bySav, C.PHALADEEPIKA.sav[0] > 28);
+  // The nodes have no chart of their own; the total still applies.
+  const rh = bindusAt(C, 'Rahu', 8).VARAHAMIHIRA;
+  assert.deepEqual([rh.bav, rh.byBav, rh.resultTa, rh.sav], [null, null, null, C.VARAHAMIHIRA.sav[8]]);
+
+  // In the present block, and in the page's stays.
+  const lon = { Sun: 190, Moon: 100, Mars: 300, Mercury: 160, Jupiter: 5, Venus: 40, Saturn: 185, Rahu: 250, Ketu: 70 };
+  const n = phaladeepikaNow({ moonRasiIndex: 0, lon, retrograde: {}, bindus: C });
+  assert.deepEqual(plain(n.planets.Saturn.bindus.PHALADEEPIKA), plain(t));
+  assert.equal(n.planets.Jupiter.goodHouse, false, 'Jupiter in the 1st: a bad house, where verse 41 says good all the same');
+  assert.equal(n.planets.Jupiter.bindus.PHALADEEPIKA.byBav, true);
+  assert.equal(phaladeepikaNow({ moonRasiIndex: 0, lon, retrograde: {} }).planets.Saturn.bindus, null, 'not judged without the natal chart');
+  const rb = phaladeepikaReportBlock({ moonRasiIndex: 0, lon, retrograde: {}, natalRasi: allMesha });
+  assert.deepEqual(plain(rb.planets.Saturn.bindus), plain(n.planets.Saturn.bindus));
+  assert.deepEqual([rb.bindu.defaultTable, rb.bindu.defaultReading], ['PHALADEEPIKA', 'SAV_28']);
+  const g = gocharaVedha({ moonRasiIndex: 3, atMs: Date.parse('2026-10-08T06:00:00Z'), natalRasi: allMesha });
+  for (const [p, x] of Object.entries(g.phaladeepika.planets)) {
+    for (const s of x.stays) assert.deepEqual(plain(s.bindus), plain(bindusAt(C, p, (3 + s.house - 1) % 12)), `${p} ${s.fromUtc}`);
+    assert.deepEqual(plain(x.now.bindus), plain(bindusAt(C, p, (3 + x.now.house - 1) % 12)), `${p} now`);
+  }
+  assert.deepEqual(plain(g.phaladeepika.bindu.sav), { PHALADEEPIKA: plain(C.PHALADEEPIKA.sav), VARAHAMIHIRA: plain(C.VARAHAMIHIRA.sav) });
+  assert.equal(gocharaVedha({ moonRasiIndex: 3, atMs: Date.parse('2026-10-08T06:00:00Z') }).phaladeepika.bindu, null);
 }
 
 // ------------------------------------------------ word order ---

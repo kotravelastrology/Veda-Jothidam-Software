@@ -12,7 +12,7 @@ import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { getChartLibrary } from '@/src/portal/ChartLibraryManager';
 import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
-import { NATURE_TA, Cites, PhaladeepikaNowCell } from '../gochara-vedha/PhaladeepikaNow';
+import { NATURE_TA, Cites, PhaladeepikaNowCell, BinduTablePicker } from '../gochara-vedha/PhaladeepikaNow';
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
 const CHART_POINTS = ['Lagna', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -415,12 +415,15 @@ function GocharaPhalaSection({ report }: { report: ReportData }) {
 /** Phaladeepika XXVI.9-34 for today: one row per planet, then verse 34 and the pages. */
 function PhaladeepikaNowReport({ pd }: { pd: any }) {
   const v34 = pd.verse34Now;
+  const [table, setTable] = useState<string>(pd.bindu?.defaultTable ?? 'PHALADEEPIKA');
   return (
     <div className="mt-4">
-      <h3 className="text-sm font-semibold text-ink mb-1">பலதீபிகை அத். 26 — இன்றைய பலன் (ஸ்லோ. 9-25, 30-33)</h3>
+      <h3 className="text-sm font-semibold text-ink mb-1">பலதீபிகை அத். 26 — இன்றைய பலன் (ஸ்லோ. 9-25, 30-33, 41)</h3>
+      {pd.bindu && <p className="mb-1"><BinduTablePicker meta={pd.bindu} value={table} onChange={setTable} /></p>}
       <p className="text-[11px] text-ink-soft mb-2">
         ஒவ்வொரு கிரகமும் சந்திரனிலிருந்து நிற்கும் இடத்துக்கு நூல் சொல்லும் பலன், அது பலன் தரும் பகுதியில் உள்ளதா (ஸ்லோ. 25), உச்சம் / நீசம் / பகை வீடு / அஸ்தங்கம் (31-32),
-        அதன் மேல் விழும் முழுப் பார்வைகள் (30), 12-8-1 எச்சரிக்கை (33). இவை நூலின் கூற்றுகள் — இந்த மென்பொருளின் முன்கணிப்பு அல்ல.
+        அதன் மேல் விழும் முழுப் பார்வைகள் (30), 12-8-1 எச்சரிக்கை (33), அஷ்டகவர்க்கப் பரல் (41 — சர்வாஷ்டகம் 28-க்கு மேல் இயல்பு; சொந்த அஷ்டகவர்க்கத்தில் 5 அல்லது மேல் இரண்டாம் வாசிப்பு).
+        இவை நூலின் கூற்றுகள் — இந்த மென்பொருளின் முன்கணிப்பு அல்ல. விவரமும் நூல்களும்: <a href="/gochara-vedha" className="underline">/gochara-vedha</a>.
         சந்திரன் இப்போது {NATURE_TA[pd.moonNow.nature]} (சூரியனிலிருந்து {pd.moonNow.elongation}°), புதன் {NATURE_TA[pd.mercuryNow.nature]}.
       </p>
       <table className="w-full text-sm max-w-3xl">
@@ -432,7 +435,7 @@ function PhaladeepikaNowReport({ pd }: { pd: any }) {
             <tr key={n.planet} className="border-b border-line/40">
               <td className="py-1 pr-2">{n.planetTa}</td>
               <td className="py-1 pr-2 text-center">{n.house}</td>
-              <td className="py-1 text-xs"><PhaladeepikaNowCell pd={pd} n={n} /></td>
+              <td className="py-1 text-xs"><PhaladeepikaNowCell pd={pd} n={n} table={table} /></td>
             </tr>
           ))}
         </tbody>

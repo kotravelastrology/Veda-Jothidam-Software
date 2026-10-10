@@ -61,6 +61,11 @@ export async function computeVedha(req: VedhaRequest) {
     atMs: now,
     ayanamsha: ctx.ayanamsha,
     nodeType,
+    // Phaladeepika XXVI.41 counts in the natal Ashtakavarga.
+    natalRasi: {
+      ...Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].map((p) => [p, chart.grahas[p].rasiIndex])),
+      Lagna: chart.lagna.rasiIndex,
+    },
   });
   // Nakshatra vedha counts from every planet's natal star, not only the Moon's.
   const natalLongitudes = Object.fromEntries(Object.entries(chart.grahas).map(([k, v]: [string, any]) => [k, v.longitude]));

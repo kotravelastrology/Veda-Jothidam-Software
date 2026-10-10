@@ -158,7 +158,11 @@ Not plan items, but real, and they should not be discovered at release:
   2026-10-10 by the owner: Phaladeepika (Sastri), the classical text, not the
   first by words; the report's gochara section, the answer engine and the page
   follow it, and the report also shows chapter 26 (verses 9–25, 30–34) for the
-  present from the function the page uses. Saptashalaka chakra added
+  present from the function the page uses. Verse 41 computed the same day after
+  a survey of every book held: "more bindus" = Sarvashtakavarga above 28 by
+  default (the same word in XXIII.20; Pulippani), or 5+ in the planet's own
+  chart (Jataka Parijata X.9, 11; Patel; Brihat Jataka IX.8); Phaladeepika's
+  and Varahamihira's tables of places switchable. Saptashalaka chakra added
   2026-10-07: three books (Bhat 808 words, default; Pulippani; Gour) read it
   as straight lines or three lines — both computed; four rules as dated
   windows; Abhijit from Charak. Sudamani's Venus line read 2026-10-08: five of

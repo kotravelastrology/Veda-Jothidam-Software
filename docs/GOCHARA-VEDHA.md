@@ -238,8 +238,31 @@ page — a column in the "now" table and the timeline, and its own section.
   reading; Mercury malefic in a malefic's company); enmity II.21–22, 35.
   Shown now and as dated windows per stay (the Moon's passes counted, Mercury's
   nature split by his company), checked against the sky both ways.
-- **Verse 41** (ashtakavarga bindus) is shown as a statement: "more" is not
-  defined.
+- **Verse 41** (computed 2026-10-10): "more bindus" is settled by surveying
+  every book in the Corpus, Downloads and the curated library (the owner's
+  request). Two readings, both computed:
+  - **Default — the Sarvashtakavarga above 28.** The verse's word is
+    "यत्राष्टवर्गेऽधिकबिन्दवः"; the same book's XXIII.20 uses it with a number,
+    "अष्टाक्षसंख्याधिकबिन्दवः" (above 28), for transits (Sastri p.265).
+    Pulippani (p.250) reads verse 41 this way: above 28, even in the 6th, 8th or
+    12th from the Moon, any planet gives good. It covers Rahu and Ketu.
+  - **Second — 5 or more in the planet's own Ashtakavarga.** Jataka Parijata
+    X.9 "शरादि" (from 5) "गोचारतः" — always good in transit; X.11 the same
+    clause as verse 41 ("नित्यमधिबिन्दुयुता", even in bad places); X.4 four is
+    mixed ("सागर"). Patel's sloka 32 is X.9 word for word; Brihat Jataka IX.8
+    "more benefic than malefic"; Phaladeepika's own XXIII.11 gives 3 and 4 as
+    fear, 5 as "the desired object". Bhat, Pulippani (Sun), Charak agree.
+  - **Four:** Kapoor says "4 or more" (his XXIII.11 list drops one fear) and
+    Raj Kumar (Charisma) "four or more" — recorded, flagged when the count is 4.
+  - BPHS and Saravali say only "more"; Mansagari's text layer suggested a
+    "four or more" note but the page image does not have it, so it is left out.
+  - **Two tables of places, switchable** (owner, 2026-10-10): Phaladeepika
+    XXIII.3-9 (default) and Varahamihira, Brihat Jataka IX.1-7 (Chidambaram
+    Aiyar 1905, now in the library and registry) — the latter equals
+    `ashtakavarga.js` in all 56 cells; Phaladeepika differs in one, the Moon's
+    from Jupiter (2nd for 12th, Sastri's footnote). The count is the natal
+    Ashtakavarga at the sign the planet stands in; shown now, per stay, in the
+    report, with XXIII.11's result for the planet's own count.
 
 ## Saptashalaka chakra (added 2026-10-07)
 

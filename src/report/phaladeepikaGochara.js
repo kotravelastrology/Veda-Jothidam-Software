@@ -10,6 +10,37 @@
 
 const V = require('./gocharaVedhaTables');
 const P = require('./phaladeepikaGocharaTables');
+const { calculateBhinnashtakavarga, TARGET_PLANETS } = require('../chart/ashtakavarga');
+
+/**
+ * Verse 41: the natal Ashtakavarga under each table of places (Phaladeepika
+ * XXIII.3-9, Varahamihira IX.1-7) — each planet's own (bav) and the total (sav).
+ * `natalRasi` holds the seven planets' and the Lagna's natal signs 0-11.
+ */
+function binduCharts(natalRasi) {
+  return Object.fromEntries(P.BINDU_TABLES.order.map((id) => {
+    const bav = Object.fromEntries(TARGET_PLANETS.map((p) => [p, calculateBhinnashtakavarga(p, natalRasi, P.BINDU_TABLES[id].table)]));
+    const sav = Array.from({ length: 12 }, (_, s) => TARGET_PLANETS.reduce((a, p) => a + bav[p][s], 0));
+    return [id, { bav, sav }];
+  }));
+}
+
+/**
+ * Verse 41 for `planet` in `sign`, under each table: the bindus, whether each
+ * reading calls them "more", and XXIII.11's result for the planet's own count.
+ * The nodes have no Ashtakavarga of their own (bav null); the total applies.
+ */
+function bindusAt(charts, planet, sign) {
+  return Object.fromEntries(Object.entries(charts).map(([id, c]) => {
+    const bav = c.bav[planet] ? c.bav[planet][sign] : null;
+    return [id, {
+      bav, sav: c.sav[sign],
+      bySav: c.sav[sign] > P.BINDU_READINGS.SAV_28.threshold,
+      byBav: bav === null ? null : bav >= P.BINDU_READINGS.BAV_5.threshold,
+      resultTa: bav === null ? null : P.BINDU_RESULTS_TA[bav],
+    }];
+  }));
+}
 
 const PLANETS = V.PLANETS_9;
 const PLANET_TA = {
@@ -24,8 +55,9 @@ const round2 = (x) => Math.round(x * 100) / 100;
  * @param moonRasiIndex natal Moon sign 0-11
  * @param lon        { planet: sidereal longitude } for the nine planets
  * @param retrograde { planet: boolean } — only Mercury's and Venus's orbs depend on it
+ * @param bindus     `binduCharts(natalRasi)` for verse 41, or omitted
  */
-function phaladeepikaNow({ moonRasiIndex, lon, retrograde: isRetro }) {
+function phaladeepikaNow({ moonRasiIndex, lon, retrograde: isRetro, bindus }) {
   const signOf = (p) => Math.floor(norm360(lon[p]) / 30) % 12;
   const houseOf = (p) => ((signOf(p) - moonRasiIndex + 12) % 12) + 1;
   const goodHouse = (p, h) => V.VEDHA_METHODS.PHALADEEPIKA_SASTRI.table[p].good.includes(h);
@@ -69,6 +101,7 @@ function phaladeepikaNow({ moonRasiIndex, lon, retrograde: isRetro }) {
       verdict: P.verses31and32(dignity, combustion.combust, good),
       aspects,
       dangerVerse33: verse33.planets.includes(p) && verse33.houses.includes(house),
+      bindus: bindus ? bindusAt(bindus, p, signOf(p)) : null,
     };
   }
 
@@ -90,17 +123,32 @@ const NOW_SOURCES = Object.freeze([
   ...P.RULES.filter((r) => r.computed).flatMap((r) => [r.source, r.kapoor].filter(Boolean)),
   ...Object.values(P.DIGNITY_SOURCES),
   ...Object.values(P.ASPECT_SOURCES),
+  P.BINDU_RESULTS_SOURCE,
+  ...P.BINDU_READINGS.order.flatMap((id) => P.BINDU_READINGS[id].sources),
+  ...P.BINDU_TABLES.order.flatMap((id) => P.BINDU_TABLES[id].sources),
 ].map((s) => Object.freeze({ title: s.title, pageLocus: s.pageLocus })));
 
-/** The present block with what a page needs to word it (the report's gochara section). */
-function phaladeepikaReportBlock(args) {
+/** What a page needs to word verse 41 (the tables' labels, not the tables). */
+const BINDU_META = Object.freeze({
+  tables: Object.fromEntries(P.BINDU_TABLES.order.map((id) => [id, { labelTa: P.BINDU_TABLES[id].labelTa, noteTa: P.BINDU_TABLES[id].noteTa }])),
+  tableOrder: P.BINDU_TABLES.order, defaultTable: P.BINDU_TABLES.default,
+  readings: Object.fromEntries(P.BINDU_READINGS.order.map((id) => [id, { labelTa: P.BINDU_READINGS[id].labelTa, threshold: P.BINDU_READINGS[id].threshold }])),
+  defaultReading: P.BINDU_READINGS.default,
+});
+
+/**
+ * The present block with what a page needs to word it (the report's gochara
+ * section). `natalRasi` (planets and Lagna, 0-11) adds verse 41.
+ */
+function phaladeepikaReportBlock({ natalRasi, ...args }) {
   const verse34 = P.RULES.find((x) => x.id === 'ALL_EIGHT');
   return {
-    ...phaladeepikaNow(args),
+    ...phaladeepikaNow({ ...args, bindus: natalRasi ? binduCharts(natalRasi) : undefined }),
     decanate: P.DECANATE, decanateTa: P.DECANATE_TA, ketuNoteTa: P.KETU_NOTE_TA,
     verse34Ta: verse34.textTa,
+    bindu: BINDU_META,
     sources: NOW_SOURCES,
   };
 }
 
-module.exports = { phaladeepikaNow, phaladeepikaReportBlock, NOW_SOURCES, PLANET_TA };
+module.exports = { phaladeepikaNow, phaladeepikaReportBlock, binduCharts, bindusAt, BINDU_META, NOW_SOURCES, PLANET_TA };

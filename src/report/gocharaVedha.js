@@ -30,7 +30,7 @@ const { planetLongitude, nodeLongitude } = require('../ephemeris/siderealPositio
 const V = require('./gocharaVedhaTables');
 const P = require('./phaladeepikaGocharaTables');
 const { scanKey } = require('./saturnAshtakavarga');
-const { phaladeepikaNow } = require('./phaladeepikaGochara');
+const { phaladeepikaNow, binduCharts, bindusAt, BINDU_META } = require('./phaladeepikaGochara');
 
 const DAY_MS = 86400000;
 const YEAR_MS = 365.25 * DAY_MS;
@@ -187,8 +187,10 @@ function vedhaForMethod({ methodId, stays, moonRasiIndex, atMs, ayanamsha, nodeT
 /**
  * @param moonRasiIndex natal Moon sign 0-11
  * @param atMs          "now"
+ * @param natalRasi     the seven planets' and the Lagna's natal signs 0-11, for
+ *                      Phaladeepika XXVI.41 (the Ashtakavarga); omitted → not judged
  */
-function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', nodeType = 'mean' }) {
+function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', nodeType = 'mean', natalRasi }) {
   if (!Number.isInteger(moonRasiIndex) || moonRasiIndex < 0 || moonRasiIndex > 11) {
     throw new UnsupportedInputError('moonRasiIndex must be an integer 0-11', 'moonRasiIndex');
   }
@@ -265,9 +267,12 @@ function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', 
     return { by, moonPasses: p === 'Moon' ? 0 : overlaps(stays.Moon, (S + 6) % 12, a, b).length };
   };
 
+  // Verse 41: the natal Ashtakavarga under both tables of places.
+  const bindus = natalRasi ? binduCharts(natalRasi) : null;
+
   // The present, shared with the report (`phaladeepikaGochara.js`).
   const pdNow = phaladeepikaNow({
-    moonRasiIndex,
+    moonRasiIndex, bindus: bindus ?? undefined,
     lon: Object.fromEntries(PLANETS.map((o) => [o, longitudeOf(o, atMs, ayanamsha, nodeType)])),
     retrograde: Object.fromEntries(PLANETS.map((o) => [o, combustionAt(o, atMs, ayanamsha, nodeType).retrograde])),
   });
@@ -289,6 +294,7 @@ function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', 
         bySign: P.verses31and32(dignity, undefined, pdGood(p, house)),
         combust: combustion[p] ? within(combustion[p], 1, a, b) : null,
         aspects: aspectsWithin(p, s.sign, a, b, pdGood(p, house)),
+        bindus: bindus ? bindusAt(bindus, p, s.sign) : null,
       };
     });
     return [p, { stays: pdStays, now: pdNow.planets[p] }];
@@ -324,6 +330,14 @@ function gocharaVedha({ moonRasiIndex, atMs = Date.now(), ayanamsha = 'Lahiri', 
       dignitySources: P.DIGNITY_SOURCES, dignityReadingsTa: P.DIGNITY_READINGS_TA, combustionDegrees: P.COMBUSTION_DEGREES,
       aspectSources: P.ASPECT_SOURCES, aspectReadingsTa: P.ASPECT_READINGS_TA,
       moonNow: pdNow.moonNow, mercuryNow: pdNow.mercuryNow, verse34Now: pdNow.verse34Now,
+      bindu: bindus ? {
+        ...BINDU_META,
+        tableSources: Object.fromEntries(P.BINDU_TABLES.order.map((id) => [id, P.BINDU_TABLES[id].sources])),
+        readingTexts: Object.fromEntries(P.BINDU_READINGS.order.map((id) => [id, { textTa: P.BINDU_READINGS[id].textTa, sources: P.BINDU_READINGS[id].sources }])),
+        resultsTa: P.BINDU_RESULTS_TA, resultsSource: P.BINDU_RESULTS_SOURCE,
+        fourNote: P.BINDU_FOUR_NOTE, survey: P.BINDU_SURVEY, surveySources: P.BINDU_SURVEY_SOURCES, notesTa: P.BINDU_NOTES_TA,
+        sav: Object.fromEntries(Object.entries(bindus).map(([id, c]) => [id, c.sav])),
+      } : null,
     },
   };
 }

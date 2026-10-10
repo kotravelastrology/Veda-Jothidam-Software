@@ -337,6 +337,24 @@ const SOURCES = [
     },
   },
   {
+    id: 'BRIHAT_JATAKA_CHIDAMBARAM',
+    title: 'The Brihat Jataka of Varaha Mihira (N. Chidambaram Aiyar, 1905)',
+    titleTa: 'வராகமிகிரரின் பிருஹத் ஜாதகம் (சிதம்பரம் ஐயர், 1905)',
+    author: 'Varahamihira; N. Chidambaram Aiyar (English translation and notes), 2nd edition, Thompson & Co., Madras, 1905',
+    file: 'brihat-jataka-chidambaram-1905/raw-scans/full-scan.pdf',
+    tradition: 'Classical Sanskrit (6th century) with an English translation',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the Ashtakavarga benefic places (chapter IX slokas 1-7, printed pp.97-99) — every cell equal to the '
+        + 'table in src/chart/ashtakavarga.js — and IX.8, a place is benefic "if it be more benefic for the planet than malefic". '
+        + 'The translator died in 1892; treated as cite-only until that is confirmed.',
+      verified: false,
+      toConfirm: 'Whether the 1905 edition is in the public domain where the software is published.',
+    },
+  },
+  {
     id: 'PATEL_ASHTAKAVARGA',
     title: 'Ashtakavarga (with translation in English and explanatory notes)',
     titleTa: 'அஷ்டகவர்க்கம் (ஆங்கில மொழிபெயர்ப்பும் விளக்கக் குறிப்புகளும்)',

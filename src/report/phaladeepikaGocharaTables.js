@@ -10,8 +10,12 @@
  * are the book's statements, not predictions.
  */
 
-const { PHALADEEPIKA_SASTRI, PHALADEEPIKA_KAPOOR } = require('./classicSources');
-const { SOURCES: { VISHNU_BHASKAR } } = require('./saturnTransitTables');
+const { PHALADEEPIKA_SASTRI, PHALADEEPIKA_KAPOOR, JATAKA_PARIJATA_VOL2, BRIHAT_JATAKA_CHIDAMBARAM } = require('./classicSources');
+const { SOURCES: { VISHNU_BHASKAR, PULIPPANI } } = require('./saturnTransitTables');
+const { PATEL } = require('./saturnAshtakavargaTables');
+const { BHAT, CHARAK } = require('./saptashalakaTables');
+const { SOURCES: { RAJ_KUMAR_CHARISMA } } = require('./moorthiTables');
+const { BINDU_TABLE } = require('../chart/ashtakavarga');
 
 const deepFreeze = (o) => {
   Object.values(o).forEach((v) => { if (v && typeof v === 'object') deepFreeze(v); });
@@ -123,7 +127,7 @@ const RULES = deepFreeze([
   { id: 'DEBILITATED', verse: '32', computed: true, textTa: 'நல்ல இடத்தில் இருந்தாலும் நீசம், பகை வீடு அல்லது அஸ்தங்கம் ("नीचारिमौढ्यं") என்றால் பலன் அற்றுப் போகும்; தீய இடத்திலும் அப்படி என்றால் மிகுந்த கஷ்டம்.', noteTa: 'நீசம்: I.6; பகை வீடு: இயற்கைப் பகைவர் ஆளும் ராசி (II.21-22, 35); அஸ்தங்கப் பாகைகள்: கபூரின் குறிப்பு (II.36), விஷ்ணு பாஸ்கர் — ஸ்லோகம் பாகை தரவில்லை.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 32, printed p.299 (PDF 334): the verse "ग्रहेश्वरास्ते शुभगोचरस्था नीचारिमौढ्यं समुपाश्रिताश्चेत् । ते निष्फलाः किन्त्वशुभाङ्कसंस्थाः कष्टं फलं संविदधत्यनल्पम्"' }) },
   { id: 'DANGER_12_8_1', verse: '33', computed: true, planets: ['Saturn', 'Sun', 'Mars', 'Jupiter'], houses: [12, 8, 1], textTa: 'சனி, சூரியன், செவ்வாய், குரு சந்திரனிலிருந்து 12, 8, 1-ஆம் இடங்களில் செல்லும்போது உயிருக்கு ஐயம், பதவியிலிருந்து வீழ்ச்சி, பண இழப்பு.', noteTa: 'ஸ்லோகம்: "द्वादशाष्टमजन्मस्थाः" — 12, 8, 1 (சாஸ்திரி). கபூரின் மொழிபெயர்ப்பு "1st, 8th or 10th" — ஸ்லோகத்துடன் பொருந்தவில்லை.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 33, printed p.300 (PDF 335): "Saturn, the Sun, Mars and Jupiter when they transit the 12th, 8th or the 1st, (counted from the Moon\'s place) bring about danger to life itself, a fall from one\'s position and loss of wealth"; the verse "द्वादशाष्टमजन्मस्थाः शन्यर्काङ्गारका गुरुः"' }), kapoor: Object.freeze({ ...PHALADEEPIKA_KAPOOR, pageLocus: 'Chapter 26, sloka 33, e-text p.253: "the 1st, 8th or 10th house reckoned from the Moon sign"' }) },
   { id: 'ALL_EIGHT', verse: '34', computed: true, positions: { Moon: 8, Mars: 7, Rahu: 9, Venus: 6, Jupiter: 3, Sun: 5, Saturn: 1, Mercury: 4 }, textTa: 'சந்திரன் 8, செவ்வாய் 7, ராகு 9, சுக்கிரன் 6, குரு 3, சூரியன் 5, சனி 1, புதன் 4 — "இவை எல்லாம் ஒருசேர இருந்தால்" மதிப்பும் செல்வமும் இழப்பு, உயிருக்கும் ஆபத்து.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 34, printed p.300 (PDF 335): "... bring about loss of honour and wealth, and danger to life also, if all the conditions exist"' }) },
-  { id: 'BINDUS', verse: '41', computed: false, textTa: 'அஷ்டகவர்க்கத்தில் அதிக நன்மைப் புள்ளிகள் உள்ள ராசியில் செல்லும் கிரகம் — அது 12, 6, 8-ஆக இருந்தாலும் — எப்போதும் நல்ல பலன்.', whyNotTa: '"அதிக" என்பது எத்தனை என்று சொல்லப்படவில்லை — கணிக்கவில்லை; சனிக்கு அஷ்டகவர்க்கக் கணக்கு /saturn-transit பக்கத்தில்.', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 41, printed p.303 (PDF 338): "Planets passing through Rasis containing more benefic dots in the Ashtakavarga produce good effect always. Even when such Rasis happen to be the 12th, 6th or 8th"' }) },
+  { id: 'BINDUS', verse: '41', computed: true, textTa: 'அஷ்டகவர்க்கத்தில் அதிக நன்மைப் புள்ளிகள் உள்ள ராசியில் செல்லும் கிரகம் — அது 12, 6, 8-ஆக இருந்தாலும் — எப்போதும் நல்ல பலன்.', noteTa: 'ஸ்லோகம்: "यत्राष्टवर्गेऽधिकबिन्दवः" — "அதிக பரல்" எத்தனை என்று இங்கே சொல்லவில்லை. இரண்டு வாசிப்புகளும் கணிக்கப்படுகின்றன (கீழே): சர்வாஷ்டகம் 28-க்கு மேல் (இயல்பு — அதே நூல் XXIII.20 அதே சொல்லை 28-க்கு மேல் என்று எண்ணுடன் சொல்கிறது; புலிப்பாணி), அல்லது கிரகத்தின் சொந்த அஷ்டகவர்க்கத்தில் 5 அல்லது மேல் (ஜாதக பாரிஜாதம் X.9, 11; வராகமிகிரர் IX.8; படேல்).', source: Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXVI, sloka 41, printed p.303 (PDF 338): the verse "यत्राष्टवर्गेऽधिकबिन्दवः स्युस्तत्र स्थितो गोचरतो ग्रहेन्द्रः"; "Planets passing through Rasis containing more benefic dots in the Ashtakavarga produce good effect always. Even when such Rasis happen to be the 12th, 6th or 8th"' }) },
 ]);
 
 // ---------------------------------------------------------------------------
@@ -242,9 +246,115 @@ function verses31and32(dignity, combust, goodHouse) {
   return { v31, v32, reasons };
 }
 
+// ---------------------------------------------------------------------------
+// Verse 41: "more bindus" (added 2026-10-10)
+// ---------------------------------------------------------------------------
+
+/**
+ * Two tables of benefic places. Varahamihira's (Brihat Jataka IX.1-7) is the
+ * one `ashtakavarga.js` uses — every cell checked against the 1905 translation.
+ * Phaladeepika's own (XXIII.3-9) is the same in all cells but one: the Moon's
+ * from Jupiter, where Mantreswara gives the 2nd (Parasara's) and Varahamihira
+ * the 12th — Sastri's footnote says so. For Venus's from Mars Mantreswara gives
+ * Varahamihira's 5th; the footnote gives Parasara's 4th.
+ */
+const PHALADEEPIKA_BINDU_CELLS = deepFreeze({ Moon: { Jupiter: [1, 2, 4, 7, 8, 10, 11] } });
+const BINDU_TABLES = deepFreeze({
+  order: ['PHALADEEPIKA', 'VARAHAMIHIRA'],
+  default: 'PHALADEEPIKA',
+  PHALADEEPIKA: {
+    labelTa: 'பலதீபிகை XXIII.3-9',
+    table: Object.fromEntries(Object.entries(BINDU_TABLE).map(([t, row]) => [t, { ...row, ...(PHALADEEPIKA_BINDU_CELLS[t] ?? {}) }])),
+    noteTa: 'மந்த்ரேஸ்வரரின் சொந்த அட்டவணை. வராகமிகிரருடையதிலிருந்து ஒரே ஒரு இடம் மாறுகிறது: சந்திரனின் அஷ்டகவர்க்கத்தில் குரு கொடுக்கும் இடங்கள் 1, 2, 4, 7, 8, 10, 11 (வராகமிகிரர்: 2-க்குப் பதில் 12).',
+    sources: [
+      Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXIII, slokas 3-9, printed pp.258-261 (PDF 295-298): the benefic places of the seven planets\' Ashtakavargas' }),
+      Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXIII, sloka 4, printed p.258 (PDF 295): the Moon "in the 1st, 2nd, 4th, 7th, 8th, 10th and 11th places from Jupiter"; footnote: "According to Varahamihira, 1st, 4th, 7th, 8th, 10th, 11th and 12th places from Jupiter"' }),
+      Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXIII, sloka 8, printed p.260 (PDF 297): Venus "in the 3rd, 5th, 6th, 9th, 11th and 12th places from Mars"; footnote: "According to Parasara, the 3rd, 4th, 6th, 9th, 11th and 12th places from Mars"' }),
+    ],
+  },
+  VARAHAMIHIRA: {
+    labelTa: 'வராகமிகிரர் (பிருஹத் ஜாதகம் IX)',
+    table: BINDU_TABLE,
+    noteTa: 'இந்த மென்பொருளின் மற்ற பக்கங்கள் பயன்படுத்தும் அட்டவணை (வினய் ஆதித்யா) — பிருஹத் ஜாதகம் IX.1-7-உடன் எல்லா இடங்களிலும் ஒன்றே.',
+    sources: [
+      Object.freeze({ ...BRIHAT_JATAKA_CHIDAMBARAM, pageLocus: 'Chapter IX "On Ashtakavargas", slokas 1-7, printed pp.97-99 (PDF 134-136): the benefic places of the seven planets; the Moon\'s "1st, 4th, 7th, 8th, 10th, 11th and 12th houses from Jupiter", Venus\'s "3rd, 5th, 6th, 9th, 11th and 12th houses from Mars"' }),
+    ],
+  },
+});
+
+/** XXIII.11: a planet transiting a sign with n bindus in its own Ashtakavarga (n = 0 … 8). */
+const BINDU_RESULTS_TA = Object.freeze([
+  'உயிருக்கு ஆபத்து', 'அழிவு அல்லது இழப்பு', 'செலவு', 'அச்சம்', 'அச்சம்',
+  'நினைத்த காரியம் கைகூடும்', 'பெண் / மனைவி கிடைத்தல்', 'செல்வம், சொத்து சேர்க்கை', 'அரசு அல்லது உயர் அரசுப் பதவி',
+]);
+const BINDU_RESULTS_SOURCE = Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXIII, sloka 11, printed p.262 (PDF 299): the verse "… मृतिरेकबिन्दोः । नाशो व्ययो भीतिभयार्थनारीश्रीराज्यसिद्धिः क्रमशः फलानि"; "void of any benefic dot … will lose his life … one, two, three, four, five, six, seven or eight … (1) destruction or loss (2) expenditure (3) fear (4) fear (5) accomplishment of the desired object (6) acquisition of a damsel (7) gain of wealth or property and (8) gaining a Kingdom or high Government position"' });
+
+/** The two readings of verse 41's "more bindus", both computed; the first is the default. */
+const BINDU_READINGS = deepFreeze({
+  order: ['SAV_28', 'BAV_5'],
+  default: 'SAV_28',
+  SAV_28: {
+    threshold: 28,
+    labelTa: 'சர்வாஷ்டகம் 28-க்கு மேல்',
+    textTa: 'ஏழு கிரகங்களின் அஷ்டகவர்க்கக் கூட்டுத்தொகையில் (சர்வாஷ்டகம்) அந்த ராசிக்கு 28-க்கு மேல் பரல். ஸ்லோகம் 41-ன் சொல் "अधिकबिन्दवः"; அதே நூல் XXIII.20-ல் அதே சொல்லை எண்ணுடன் சொல்கிறது — "अष्टाक्षसंख्याधिकबिन्दवः" (28-க்கு மேல்) — கோசாரத்துக்கே. புலிப்பாணி ஸ்லோகம் 41-ஐ இப்படியே தருகிறார்: 28-க்கு மேல் உள்ள ராசி ஜன்ம ராசிக்கு 6, 8, 12 ஆனாலும் அதில் செல்லும் எந்தக் கிரகமும் நன்மை. ராசியின் எண்ணிக்கை என்பதால் ராகு, கேதுவுக்கும் பொருந்தும். இதுவே இயல்பு: நூலின் சொந்தச் சொல்.',
+    sources: [
+      Object.freeze({ ...PHALADEEPIKA_SASTRI, pageLocus: 'Adhyaya XXIII, sloka 20, printed p.265 (PDF 302): the verse "सर्वग्रहाणां प्रहितेऽष्टवर्गे … अष्टाक्षसंख्याधिकबिन्दवश्चेच्छुभं तदूने व्यसनं क्रमेण"; "if it be found that any Rasi contains figures exceeding 28, it must be understood that planets in their transit over that Rasi produce good or auspicious effects. Any number falling short of that particular figure produces danger, or sorrow"' }),
+      Object.freeze({ ...PULIPPANI, pageLocus: 'printed p.250 (PDF 243), "Sarvashtakavarga General" item 1: "The Rasis having more than Sarvashtaka 28 bindus, even though these Rasis are 6, 8 and 12th from Janma Rasis, whatever planet or planets crosses these Rasis ... they will give benefic results"' }),
+    ],
+  },
+  BAV_5: {
+    threshold: 5,
+    labelTa: 'சொந்த அஷ்டகவர்க்கத்தில் 5 அல்லது மேல்',
+    textTa: 'கோசாரக் கிரகத்தின் சொந்த (பின்ன) அஷ்டகவர்க்கத்தில் அந்த ராசிக்கு 5 அல்லது மேல் பரல் (8-ல்). ஜாதக பாரிஜாதம் X.9: "शरादि" (5 முதல்) பரல் உள்ள ராசியில் செல்லும் கிரகம் "गोचारतः" எப்போதும் நன்மை, பரல் இல்லாவிடில் கேடு; X.11: தீய இடம், நீசம், பகை ராசி ஆனாலும் "अधिबिन्दु" இருந்தால் நன்மை — ஸ்லோகம் 41-க்கு இணையான வரி; X.4: 4 பரல் ("सागर") கலப்பு. படேலின் ஸ்லோகம் 32 அதே வரி. வராகமிகிரர் IX.8: நன்மைப் பரல் தீமையை விட அதிகம் (8-ல் 5 முதல்) என்றால் நன்மை. பலதீபிகையின் சொந்த XXIII.11-லும் 3, 4 அச்சம்; 5-லிருந்தே நன்மை. ராகு, கேதுவுக்கு அஷ்டகவர்க்கம் இல்லை.',
+    sources: [
+      Object.freeze({ ...JATAKA_PARIJATA_VOL2, pageLocus: 'Adhyaya X, slokas 9 and 11, printed p.667 (PDF 351): "शरादिबिन्दुस्थितराशियातः स्वकीयवर्गे शुभदस्तु नित्यम् । अतोऽन्यथा चेदफलप्रदाता गोचारतः शून्यफले प्रमाथी" — "A planet is invariably benefic in his own varga in any sign which has five or more dots. If otherwise, it yields no good effect. In its range in a sign which is without dots, it becomes positively hurtful"; sloka 11 "ते सर्वे शुभदा नित्यमधिबिन्दुयुता यदि" — planets in bad positions, depression or an inimical sign' }),
+      Object.freeze({ ...JATAKA_PARIJATA_VOL2, pageLocus: 'Adhyaya X, sloka 4, printed p.665 (PDF 349): "मिश्रं फलं भवति सागरबिन्दुयोगे" — "When a house has 4 dots, it produces mixed effects"; and the note on printed p.664 (PDF 338): "benefic, mixed or malefic according as the number of benefic dots in the Rasi … in the Bhinnashtakavarga of the planet is greater than, equal to or less than 4"' }),
+      Object.freeze({ ...BRIHAT_JATAKA_CHIDAMBARAM, pageLocus: 'Chapter IX, sloka 8, printed p.99 (PDF 136): "A place will produce benefic or malefic effects if it be more benefic for the planet than malefic or vice versa"' }),
+      Object.freeze({ ...PATEL, pageLocus: 'slokas 29 and 32, printed p.59 (PDF 93): sloka 32 the same verse as Jataka Parijata X.9, "A planet is always auspicious when he transits a bhava having 5 or more bindus in his own Ashtakavarga … 3 or less … incapable of giving good results"; sloka 29 "with 4 bindus … mixed effects"' }),
+    ],
+  },
+});
+
+/** Kapoor's "4 or more", and the books that say so: recorded, not computed. */
+const BINDU_FOUR_NOTE = deepFreeze({
+  textTa: '4 பரல்: ஜாதக பாரிஜாதம் X.4, படேல் — கலப்பு; பலதீபிகை XXIII.11 — அச்சம். கபூர் 4-ஐ "மிதம்" என்றும் "4 அல்லது மேல்" நன்மை கூடும் என்றும் எழுதுகிறார்; அவரது XXIII.11 பட்டியலில் ஏழு பலன்களே — ஒரு "அச்சம்" விடுபட்டு 4-க்கே "நினைத்தது கைகூடும்" வருகிறது; ஸ்லோகத்தில் "भीति", "भय" என இரண்டு. ராஜ் குமாரும் (Charisma) "4 அல்லது மேல்" நன்மை என்கிறார். இந்த வாசிப்பு கணிக்கப்படவில்லை; 4 பரல் வரும்போது குறிக்கப்படுகிறது.',
+  sources: [
+    Object.freeze({ ...PHALADEEPIKA_KAPOOR, pageLocus: 'Chapter 23, notes to slokas 9-10 and sloka 11, e-text pp.225-226: "Medium effects may be expected in case of 4 benefic bindus. Increasingly good effects may be expected when there are 4 or more benefic bindus"; sloka 11 lists seven results for 1-7 bindus (one "fear")' }),
+    Object.freeze({ ...RAJ_KUMAR_CHARISMA, pageLocus: 'PDF p.252: "If a sign has four or more benefic points in its Bhinnastak, the planet while transiting in it gives auspicious results"' }),
+  ],
+});
+
+/** Every book in the library that puts a number on "more" for a transit, read 2026-10-10. */
+const BINDU_SURVEY = deepFreeze([
+  { reading: 'SAV_28', bookTa: 'பலதீபிகை XXIII.20 (சாஸ்திரி)', saysTa: 'சர்வாஷ்டகம் 28-க்கு மேல் — கோசாரத்தில் நன்மை; குறைந்தால் துன்பம்' },
+  { reading: 'SAV_28', bookTa: 'புலிப்பாணி ப.250', saysTa: 'சர்வாஷ்டகம் 28-க்கு மேல் — ஜன்ம ராசிக்கு 6, 8, 12 ஆனாலும் நன்மை (ஸ்லோ. 41-ன் வாசிப்பு)' },
+  { reading: 'BAV_5', bookTa: 'பலதீபிகை XXIII.11 (சாஸ்திரி)', saysTa: '0 உயிருக்கு ஆபத்து … 3, 4 அச்சம்; 5 நினைத்தது கைகூடும் … 8 அரசு' },
+  { reading: 'BAV_5', bookTa: 'ஜாதக பாரிஜாதம் X.4, 9, 11', saysTa: '4 கலப்பு; 5 முதல் கோசாரத்தில் எப்போதும் நன்மை; தீய இடத்திலும் அதிக பரல் நன்மை' },
+  { reading: 'BAV_5', bookTa: 'வராகமிகிரர், பிருஹத் ஜாதகம் IX.8', saysTa: 'நன்மைப் பரல் தீமையை விட அதிகம் என்றால் நன்மை' },
+  { reading: 'BAV_5', bookTa: 'படேல், ஸ்லோ. 29, 32; முன்னுரை ப.xxvi', saysTa: '4 கலப்பு; 5 அல்லது மேல் எப்போதும் நன்மை; 4-க்கு மேல் நன்மை, 4-க்குக் கீழ் தீமை' },
+  { reading: 'BAV_5', bookTa: 'பட், Fundamentals ப.259', saysTa: '4-க்கு மேல் உள்ள வீடுகள் மட்டுமே நல்லவை; சந்திரனுக்கு 12-ஆம் வீட்டில் 6 பரல் — கேடில்லை' },
+  { reading: 'BAV_5', bookTa: 'புலிப்பாணி ப.243, 250', saysTa: 'சூரியனுக்கு 4-க்கு மேல் நன்மை; 4 — வருவது வந்து செலவாகும்' },
+  { reading: 'BAV_5', bookTa: 'சரக், Elements (PDF ப.501)', saysTa: '4 சராசரி அல்லது கலப்பு; 5, 6, 7 நன்மை கூடும்; 3, 2, 1 தீமை கூடும்' },
+  { reading: 'BAV_4', bookTa: 'கபூர் (பலதீபிகை மொழிபெயர்ப்பு)', saysTa: '4 மிதம்; 4 அல்லது மேல் நன்மை கூடும்' },
+  { reading: 'BAV_4', bookTa: 'ராஜ் குமார், Charisma (PDF ப.252)', saysTa: '4 அல்லது மேல் — கோசாரத்தில் நன்மை' },
+]);
+const BINDU_SURVEY_SOURCES = Object.freeze([
+  Object.freeze({ ...PATEL, pageLocus: 'Introduction, p.xxvi (PDF 26): "The transits of planets through a bhava containing more than 4 bindus in their respective Ashtakavargas produce auspicious results relating to that bhava; and conversely, transits through a bhava containing less than 4 bindus produce adverse results"' }),
+  Object.freeze({ ...BHAT, pageLocus: 'Astakavarga chapter, printed p.259 (PDF 277): "Only those houses which contain more than 4 benefic dots are considered to be auspicious … Though Aquarius is the 12th house from the Moon, yet the Sun\'s transit through that house will not prove harmful inasmuch as he has acquired 6 benefic dots"' }),
+  Object.freeze({ ...PULIPPANI, pageLocus: 'printed pp.243 and 250 (PDF 236, 243): the Sun through a Rasi with "5 bindus … gain of money", "4 bindus … moderate gain of money but will be spent soon after"; "In Sun\'s Ashtakavarga, whichever Rasis contains more than 4 (benefic) bindus … beneficial"' }),
+  Object.freeze({ ...CHARAK, pageLocus: 'PDF p.501, item 5: "Four points in a house indicates average or mixed results. As the number of benefic points increases to 5, 6 or 7, the beneficence of the house increases … Houses with 3, 2 or 1 benefic points become progressively inauspicious"' }),
+]);
+const BINDU_NOTES_TA = Object.freeze([
+  'கணக்கு பிறப்பு ஜாதகத்தின் அஷ்டகவர்க்கம் (கிரகங்களும் லக்னமும் பிறப்பில் நின்ற ராசிகளிலிருந்து); கோசாரக் கிரகம் இப்போது நிற்கும் ராசியின் பரல். ராசி முழுவதும் ஒரே எண் (கக்ஷ்யை /saturn-transit பக்கத்தில்).',
+  'பலதீபிகையில் சர்வாஷ்டகத்துக்கு இன்னோர் அளவும் உண்டு — XXIV.37: 30 அல்லது மேல் எப்போதும் நன்மை, 25-30 நடுத்தரம், 25-க்குக் கீழ் துன்பம்; XXIV.39-40 அதை லக்னத்திலிருந்து எண்ணி 6, 8, 12-ஐ விலக்குகிறது. அது பாவங்களுக்கும் சுப காரியங்களுக்கும்; ஸ்லோ. 41-க்கு XXIII.20-ன் 28 எடுக்கப்பட்டது (அதே சொல், கோசாரம்).',
+  'பிருஹத் பராசர ஹோரா சாஸ்திரம் (சந்தானம், கிரிஷ் சந்த்) கோசாரத்துக்கு "அதிக ரேகைகள்" என்று மட்டும் சொல்கிறது — எண் தரவில்லை. சாராவளியும் ("more benefic dots") அப்படியே.',
+]);
+
 module.exports = {
   HOUSE_RESULTS, VERSE_OF, HOUSE_RESULTS_SOURCES, KETU_NOTE_TA, DECANATE, DECANATE_TA, DECANATE_SOURCES, DECANATE_WORDS, RULES,
   SIGN_LORDS, EXALTATION_SIGN, NATURAL_ENEMIES, COMBUSTION_DEGREES, DIGNITY_SOURCES, DIGNITY_READINGS_TA,
   dignityOf, combustionOrb, verses31and32,
   FULL_ASPECTS, PARTIAL_ASPECTS, MALEFIC_FIXED, BENEFIC_FIXED, ASPECT_SOURCES, ASPECT_READINGS_TA, aspectsOf, verse30Effect,
+  PHALADEEPIKA_BINDU_CELLS, BINDU_TABLES, BINDU_RESULTS_TA, BINDU_RESULTS_SOURCE, BINDU_READINGS, BINDU_FOUR_NOTE,
+  BINDU_SURVEY, BINDU_SURVEY_SOURCES, BINDU_NOTES_TA,
 };

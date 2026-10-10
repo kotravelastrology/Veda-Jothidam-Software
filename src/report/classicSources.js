@@ -36,4 +36,11 @@ const KALAPRAKASIKA = Object.freeze({
   tradition: 'Tamil / Sanskrit classical (muhurta)',
 });
 
-module.exports = { PHALADEEPIKA_SASTRI, PHALADEEPIKA_KAPOOR, JATAKA_PARIJATA_VOL2, KALAPRAKASIKA };
+const BRIHAT_JATAKA_CHIDAMBARAM = Object.freeze({
+  title: 'The Brihat Jataka of Varaha Mihira (N. Chidambaram Aiyar, 1905)',
+  author: 'Varahamihira; N. Chidambaram Aiyar (English translation and notes)',
+  file: 'brihat-jataka-chidambaram-1905/raw-scans/full-scan.pdf',
+  tradition: 'Classical Sanskrit (6th century) with an English translation',
+});
+
+module.exports = { PHALADEEPIKA_SASTRI, PHALADEEPIKA_KAPOOR, JATAKA_PARIJATA_VOL2, KALAPRAKASIKA, BRIHAT_JATAKA_CHIDAMBARAM };

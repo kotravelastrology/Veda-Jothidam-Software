@@ -136,5 +136,36 @@
     },
     "example": "both books: Sun in Aswini at birth; the 9th is Aslesha, the 15th Swati",
     "wordCounts": { "PULIPPANI": 238, "SANTHANAM": 235 }
+  },
+  "verse41": {
+    "_about": "Transcribed 2026-10-10 from the page images, in each book's own order. Planet -> contributor -> places.",
+    "phaladeepikaXXIII": {
+      "page": "Sastri 1950, Adhyaya XXIII slokas 3-9, printed pp.258-261 (PDF 295-298)",
+      "Sun": { "Sun": [1, 2, 4, 7, 8, 9, 10, 11], "Mars": [1, 2, 4, 7, 8, 9, 10, 11], "Saturn": [1, 2, 4, 7, 8, 9, 10, 11], "Jupiter": [5, 6, 9, 11], "Venus": [6, 7, 12], "Mercury": [3, 5, 6, 9, 10, 11, 12], "Moon": [3, 6, 10, 11], "Lagna": [3, 4, 6, 10, 11, 12] },
+      "Moon": { "Sun": [3, 6, 7, 8, 10, 11], "Moon": [1, 3, 6, 7, 10, 11], "Mars": [2, 3, 5, 6, 9, 10, 11], "Mercury": [1, 3, 4, 5, 7, 8, 10, 11], "Jupiter": [1, 2, 4, 7, 8, 10, 11], "Venus": [3, 4, 5, 7, 9, 10, 11], "Saturn": [3, 5, 6, 11], "Lagna": [3, 6, 10, 11] },
+      "Mars": { "Sun": [3, 5, 6, 10, 11], "Moon": [3, 6, 11], "Mars": [1, 2, 4, 7, 8, 10, 11], "Mercury": [3, 5, 6, 11], "Jupiter": [6, 10, 11, 12], "Venus": [6, 8, 11, 12], "Saturn": [1, 4, 7, 8, 9, 10, 11], "Lagna": [1, 3, 6, 10, 11] },
+      "Mercury": { "Mercury": [1, 3, 5, 6, 9, 10, 11, 12], "Sun": [5, 6, 9, 11, 12], "Jupiter": [6, 8, 11, 12], "Saturn": [1, 2, 4, 7, 8, 9, 10, 11], "Mars": [1, 2, 4, 7, 8, 9, 10, 11], "Venus": [1, 2, 3, 4, 5, 8, 9, 11], "Lagna": [1, 2, 4, 6, 8, 10, 11], "Moon": [2, 4, 6, 8, 10, 11] },
+      "Jupiter": { "Sun": [1, 2, 3, 4, 7, 8, 9, 10, 11], "Moon": [2, 5, 7, 9, 11], "Mars": [1, 2, 4, 7, 8, 10, 11], "Mercury": [1, 2, 4, 5, 6, 9, 10, 11], "Jupiter": [1, 2, 3, 4, 7, 8, 10, 11], "Saturn": [3, 5, 6, 12], "Venus": [2, 5, 6, 9, 10, 11], "Lagna": [1, 2, 4, 5, 6, 7, 9, 10, 11] },
+      "Venus": { "Sun": [8, 11, 12], "Moon": [1, 2, 3, 4, 5, 8, 9, 11, 12], "Lagna": [1, 2, 3, 4, 5, 8, 9, 11], "Venus": [1, 2, 3, 4, 5, 8, 9, 10, 11], "Mars": [3, 5, 6, 9, 11, 12], "Saturn": [3, 4, 5, 8, 9, 10, 11], "Mercury": [3, 5, 6, 9, 11], "Jupiter": [5, 8, 9, 10, 11] },
+      "Saturn": { "Sun": [1, 2, 4, 7, 8, 10, 11], "Moon": [3, 6, 11], "Saturn": [3, 5, 6, 11], "Mars": [3, 5, 6, 10, 11, 12], "Jupiter": [5, 6, 11, 12], "Mercury": [6, 8, 9, 10, 11, 12], "Lagna": [1, 3, 4, 6, 10, 11], "Venus": [6, 11, 12] },
+      "footnotes": { "MoonFromJupiterVarahamihira": [1, 4, 7, 8, 10, 11, 12], "VenusFromMarsParasara": [3, 4, 6, 9, 11, 12] }
+    },
+    "brihatJatakaIX": {
+      "page": "Chidambaram Aiyar 1905, chapter IX slokas 1-7, printed pp.97-99 (PDF 134-136)",
+      "Sun": { "Sun": [1, 2, 4, 7, 8, 9, 10, 11], "Mars": [1, 2, 4, 7, 8, 9, 10, 11], "Saturn": [1, 2, 4, 7, 8, 9, 10, 11], "Venus": [6, 7, 12], "Jupiter": [5, 6, 9, 11], "Moon": [3, 6, 10, 11], "Mercury": [3, 5, 6, 9, 10, 11, 12], "Lagna": [3, 4, 6, 10, 11, 12] },
+      "Moon": { "Lagna": [3, 6, 10, 11], "Mars": [2, 3, 5, 6, 9, 10, 11], "Moon": [1, 3, 6, 7, 10, 11], "Sun": [3, 6, 7, 8, 10, 11], "Saturn": [3, 5, 6, 11], "Mercury": [1, 3, 4, 5, 7, 8, 10, 11], "Jupiter": [1, 4, 7, 8, 10, 11, 12], "Venus": [3, 4, 5, 7, 9, 10, 11] },
+      "Mars": { "Sun": [3, 5, 6, 10, 11], "Lagna": [1, 3, 6, 10, 11], "Moon": [3, 6, 11], "Mars": [1, 2, 4, 7, 8, 10, 11], "Saturn": [1, 4, 7, 8, 9, 10, 11], "Mercury": [3, 5, 6, 11], "Venus": [6, 8, 11, 12], "Jupiter": [6, 10, 11, 12] },
+      "Mercury": { "Venus": [1, 2, 3, 4, 5, 8, 9, 11], "Saturn": [1, 2, 4, 7, 8, 9, 10, 11], "Mars": [1, 2, 4, 7, 8, 9, 10, 11], "Jupiter": [6, 8, 11, 12], "Sun": [5, 6, 9, 11, 12], "Mercury": [1, 3, 5, 6, 9, 10, 11, 12], "Moon": [2, 4, 6, 8, 10, 11], "Lagna": [1, 2, 4, 6, 8, 10, 11] },
+      "Jupiter": { "Mars": [1, 2, 4, 7, 8, 10, 11], "Jupiter": [1, 2, 3, 4, 7, 8, 10, 11], "Sun": [1, 2, 3, 4, 7, 8, 9, 10, 11], "Venus": [2, 5, 6, 9, 10, 11], "Moon": [2, 5, 7, 9, 11], "Saturn": [3, 5, 6, 12], "Mercury": [1, 2, 4, 5, 6, 9, 10, 11], "Lagna": [1, 2, 4, 5, 6, 7, 9, 10, 11] },
+      "Venus": { "Lagna": [1, 2, 3, 4, 5, 8, 9, 11], "Moon": [1, 2, 3, 4, 5, 8, 9, 11, 12], "Venus": [1, 2, 3, 4, 5, 8, 9, 10, 11], "Saturn": [3, 4, 5, 8, 9, 10, 11], "Sun": [8, 11, 12], "Jupiter": [5, 8, 9, 10, 11], "Mercury": [3, 5, 6, 9, 11], "Mars": [3, 5, 6, 9, 11, 12] },
+      "Saturn": { "Saturn": [3, 5, 6, 11], "Mars": [3, 5, 6, 10, 11, 12], "Sun": [1, 2, 4, 7, 8, 10, 11], "Lagna": [1, 3, 4, 6, 10, 11], "Mercury": [6, 8, 9, 10, 11, 12], "Moon": [3, 6, 11], "Venus": [6, 11, 12], "Jupiter": [5, 6, 11, 12] },
+      "sloka8": "A place will produce benefic or malefic effects if it be more benefic for the planet than malefic"
+    },
+    "XXIII11": { "verse": "नाशो व्ययो भीतिभयार्थनारीश्रीराज्यसिद्धिः", "results": ["life", "destruction or loss", "expenditure", "fear", "fear", "accomplishment of the desired object", "acquisition of a damsel", "gain of wealth or property", "a Kingdom or high Government position"], "kapoorCount": 7 },
+    "XXIII20": { "verse": "अष्टाक्षसंख्याधिकबिन्दवश्चेच्छुभं", "threshold": 28, "printedPage": 265 },
+    "XXVI41": { "verse": "यत्राष्टवर्गेऽधिकबिन्दवः", "printedPage": 303 },
+    "jatakaParijataX": { "sloka4": "सागरबिन्दुयोगे", "sloka9": "शरादिबिन्दुस्थितराशियातः", "sloka9Transit": "गोचारतः", "sloka11": "नित्यमधिबिन्दुयुता", "mixedAt": 4, "alwaysFrom": 5 },
+    "patel": { "sloka32SameAsJatakaParijataX9": true, "printedPage": 59 },
+    "pulippani": { "printedPage": 250, "text": "more than Sarvashtaka 28 bindus" }
   }
 }
