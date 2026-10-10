@@ -199,11 +199,20 @@ Not plan items, but real, and they should not be discovered at release:
   books; order by words puts Narasimha Rao first (he also reads the lagna star
   and judges by the kicker's natal houses). The counts agree except Kapoor's
   Rahu 8th (verse: 9th); three books count Ketu; the effects differ most for
-  Mars, Saturn, the Moon and Jupiter. Muhurta use of Latta not built.
+  Mars, Saturn, the Moon and Jupiter. Muhurta use of Latta: `/muhurta-stars` (2026-10-10).
 - **The 88th nakshatra pada.** `/pada-88` (`docs/PADA-88.md`), 2026-10-08.
   Raj Kumar (per-planet table, Jupiter's aspect as relief) and Vishnu Bhaskar
   for transits; Kalaprakasika and Shubhakaran for the quality of a time (the
   Moon's six-hour passages). "In the 22nd star" holds only for a 1st-pada birth;
   the count is followed. Prasna, muhurta and matching uses not built.
+- **The muhurta star.** `/muhurta-stars` (`docs/MUHURTA-STARS.md`), 2026-10-10.
+  Latta on the muhurta star for anyone (Muhurta Chintamani VI.56, 64; eight
+  books, Shridhar first by words: Rahu backward, whole star by default; the
+  same-quarter and 1st/4th-quarter rules and Rahu forward computed too), and
+  for the person the birth star, the 88th and 108th padas (Kalyanraman's
+  "vainaasika padas") and Vainashika (23rd default; 22nd; the 88th pada's
+  star), with Kalaprakasika's lagna-lord remedy for the 88th. Nine muhurta
+  books added to the library. Tithi/vara/yoga, tara and chandra bala, and the
+  other marriage doshas are not on this page.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

@@ -217,6 +217,7 @@ export function TopMenuBar() {
         { label: 'Date Converter', key: 'dateconverter' },
         { label: '', key: 'divider1' },
         { label: 'Muhurta Finder', key: 'muhurta' },
+        { label: 'Muhurta Star (லத்தை / வைநாசிகம் / 88-108 பாதம்)', key: 'muhurtastars' },
         { label: 'Transit Finder', key: 'transit_finder' },
         { label: 'Rectification Tool', key: 'rectification_tool' },
         { label: 'Jamakkol Prasnam', key: 'jamakkol' },
@@ -426,6 +427,9 @@ export function TopMenuBar() {
         break;
       case 'muhurta':
         router.push('/muhurta');
+        break;
+      case 'muhurtastars':
+        router.push('/muhurta-stars');
         break;
       case 'transit_finder':
         router.push('/report?chart=transit');

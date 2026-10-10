@@ -1,0 +1,36 @@
+{
+  "_about": "Transcribed 2026-10-10 from the page images. Stars 0-26 from Aswini (Abhijit excluded); padas 1-4.",
+  "verseMC_VI56": {
+    "page": "Muhurta Chintamani (Sharma) printed p.196",
+    "backward": { "Mercury": 7, "Rahu": 9, "Moon": 22, "Venus": 5 },
+    "forward": { "Sun": 12, "Saturn": 8, "Jupiter": 6, "Mars": 3 }
+  },
+  "examples": [
+    { "book": "MUHURTA_CHINTAMANI", "page": 196, "planet": "Rahu", "in": 0, "kicks": 19, "rahu": "BACKWARD", "note": "Rahu in Ashwini, 9th backward = Poorvashadha" },
+    { "book": "MUHURTA_CHINTAMANI", "page": 197, "planet": "Rahu", "in": 0, "kicks": 8, "rahu": "FORWARD", "note": "the commentary: Ashlesha" },
+    { "book": "JOSHI", "page": 67, "planet": "Mercury", "in": 6, "kicks": 0 },
+    { "book": "JOSHI", "page": 67, "planet": "Jupiter", "in": 0, "kicks": 5 },
+    { "book": "JOSHI", "page": 67, "planet": "Sun", "in": 0, "kicks": 11 },
+    { "book": "KALYANRAMAN", "page": 129, "planet": "Sun", "in": 20, "kicks": 4 },
+    { "book": "KALYANRAMAN", "page": 129, "planet": "Mars", "in": 4, "kicks": 6 },
+    { "book": "KALYANRAMAN", "page": 129, "planet": "Jupiter", "in": 18, "kicks": 23 },
+    { "book": "KALYANRAMAN", "page": 129, "planet": "Saturn", "in": 19, "kicks": 26 },
+    { "book": "KALYANRAMAN", "page": 129, "planet": "Moon", "in": 3, "kicks": 9 },
+    { "book": "KALYANRAMAN", "page": 129, "planet": "Mercury", "in": 12, "kicks": 6 },
+    { "book": "KALYANRAMAN", "page": 129, "planet": "Venus", "in": 13, "kicks": 9 },
+    { "book": "KALYANRAMAN", "page": 129, "planet": "Rahu", "in": 10, "kicks": 2, "rahu": "BACKWARD" },
+    { "book": "SHRIDHAR", "page": 190, "planet": "Rahu", "in": 7, "kicks": 26, "rahu": "BACKWARD" }
+  ],
+  "rangacharyaSwati": {
+    "page": 65, "marriageStar": 14,
+    "kickerStars": { "Sun": 3, "Moon": 8, "Mars": 12, "Mercury": 20, "Jupiter": 9, "Venus": 18, "Saturn": 7, "Rahu": 22 },
+    "note": "Rohini, Aslesha, Hasta, Uttarashada, Makha, Moola, Pushyami, Dhanishtta — Rahu's is a backward count, against his rule's 'direct count'"
+  },
+  "shridharForwardEquivalents": { "Sun": 12, "Moon": 7, "Mars": 3, "Mercury": 22, "Jupiter": 6, "Venus": 24, "Saturn": 8, "Rahu": 20 },
+  "kalyanramanPadas": { "page": 126, "janma": [0, 1], "pada108": [26, 4], "pada88": [21, 4] },
+  "wilhelmExemptStars": ["Rohini", "Pushya", "Magha", "Uttaraphalguni", "Hasta", "Chitta", "Anuradha", "Purvabhadrapada", "Uttarabhadrapada", "Revati"],
+  "words": {
+    "latta": { "SHRIDHAR": 893, "MUHURTA_CHINTAMANI": 402, "RANGACHARYA": 250, "JOSHI": 223, "WILHELM": 192, "KALYANRAMAN": 153, "AGARWAL": 73, "VASHISTHA": 58 },
+    "personal": { "SHRIDHAR": 181, "KALYANRAMAN": 148, "WILHELM": 121, "KALAPRAKASIKA": 85, "MUHURTA_CHINTAMANI": 59 }
+  }
+}
