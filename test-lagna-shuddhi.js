@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const T = require('./src/report/lagnaShuddhiTables');
-const { lagnaShuddhiOf, lagnaVerdict, navamsaOf, sees, pointsOf, placementsOf, ashtamaOf, pdbOf, kartariOf, houseOf } = require('./src/report/lagnaShuddhi');
+const { lagnaShuddhiOf, lagnaVerdict, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf, sees, pointsOf, placementsOf, ashtamaOf, pdbOf, kartariOf, houseOf } = require('./src/report/lagnaShuddhi');
 const { muhurtaStarChecks } = require('./src/report/muhurtaStars');
 const { planetLongitude, nodeLongitude, sunriseJulianDay, sunsetJulianDay } = require('./src/ephemeris/siderealPositions');
 const { siderealAscendant } = require('./src/ephemeris/swissEphemeris');
@@ -211,6 +211,68 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
   }
 }
 
+// ------------------------------------------------ shadvarga, decanate, the poison portions ---
+{
+  const S = FIX.shadvarga;
+  // Rangacharya's example: Gemini 26° — four benefic lords, acceptable.
+  const E = S.rangacharyaExample;
+  const sv = shadvargaOf(vargaIndices(E.longitude));
+  assert.deepEqual(plain(sv.lords), E.lords, 'Rangacharya pp.53-54');
+  assert.equal(sv.benefic, E.benefic);
+  assert.equal(sv.readings.RANGACHARYA, E.acceptable);
+  assert.deepEqual([...T.VARGA_BENEFICS], S.benefics);
+  // The trimsamsa's spans.
+  for (const [kind, rows] of [['ODD', S.trimsamsa_odd], ['EVEN', S.trimsamsa_even]]) {
+    let at = 0;
+    rows.forEach(([lord, span], i) => { at += span; assert.equal(T.TRIMSAMSA[kind].lords[i], lord); assert.equal(T.TRIMSAMSA[kind].ends[i], at); });
+  }
+  // Hora: odd signs the Sun then the Moon; even the Moon then the Sun. Drekkana: the sign, its 5th, its 9th. Dwadasamsa from the sign.
+  assert.equal(shadvargaOf(vargaIndices(5)).lords.D2, 'Sun');
+  assert.equal(shadvargaOf(vargaIndices(20)).lords.D2, 'Moon');
+  assert.equal(shadvargaOf(vargaIndices(35)).lords.D2, 'Moon');
+  assert.deepEqual([5, 15, 25].map((d) => shadvargaOf(vargaIndices(d)).lords.D3), ['Mars', 'Sun', 'Jupiter']);
+  for (let k = 0; k < 12; k += 1) assert.equal(shadvargaOf(vargaIndices(120 + k * 2.5 + 1)).lords.D12, T.RASI_LORDS[(4 + k) % 12], `Leo dwadasamsa ${k + 1}`);
+  // The readings by count: Rangacharya 4, Shridhar 3, Wilhelm 3 only with a benefic navamsa lord.
+  for (let deg = 0.5; deg < 360; deg += 0.5) {
+    const s = shadvargaOf(vargaIndices(deg));
+    assert.equal(s.readings.RANGACHARYA, s.benefic >= 4);
+    assert.equal(s.readings.SHRIDHAR, s.benefic >= 3);
+    assert.equal(s.readings.WILHELM, s.benefic >= 4 || (s.benefic === 3 && T.VARGA_BENEFICS.includes(s.lords.D9)));
+  }
+  // Shridhar's malefic decanates.
+  for (const [name, list] of Object.entries(FIX.drekkana)) {
+    for (const [sgn, num] of list) assert.equal(drekkanaOf(vargaIndices(sgn * 30 + (num - 1) * 10 + 5)).malefic, name, `${name} ${sgn}:${num}`);
+  }
+  assert.equal([...Array(36).keys()].filter((i) => drekkanaOf(vargaIndices(i * 10 + 5)).malefic).length, 5);
+  assert.equal(drekkanaOf(vargaIndices(35)).nature, 'INAUSPICIOUS', 'Taurus 1st: fixed sign');
+  assert.equal(drekkanaOf(vargaIndices(5)).nature, 'AUSPICIOUS', 'Aries 1st: movable sign');
+  // The poison portions.
+  const V = FIX.vishanadi;
+  assert.deepEqual(plain(T.VISHANADI.WILHELM.groups), V.WILHELM_groups);
+  const no = { first: false, middle: false, last: false };
+  assert.equal(vishanadiOf(vargaIndices(1), 3, no).WILHELM, true, 'Aries 1st navamsa on Wednesday — Bhujanga');
+  assert.equal(vishanadiOf(vargaIndices(1), 2, no).WILHELM, false, 'not on Tuesday');
+  assert.equal(vishanadiOf(vargaIndices(60 + 14), 5, no).WILHELM, true, 'Gemini 5th navamsa on Friday — Gridhra');
+  assert.equal(vishanadiOf(vargaIndices(120 - 1), 0, no).WILHELM, true, 'Cancer 9th navamsa on Sunday — Varaha');
+  assert.equal(vishanadiOf(vargaIndices(60 + 1), 3, no).AGARWAL_DAYS, true, 'any sign\'s 1st navamsa on Wednesday');
+  const R = V.RAMAN_degrees;
+  for (let sg = 0; sg < 12; sg += 1) {
+    assert.equal(vishanadiOf(vargaIndices(sg * 30 + 1), 0, no).DEGREES, R.first3.includes(sg), `first 3° of ${sg}`);
+    assert.equal(vishanadiOf(vargaIndices(sg * 30 + 15), 0, no).DEGREES, R.middle.includes(sg), `middle of ${sg}`);
+    assert.equal(vishanadiOf(vargaIndices(sg * 30 + 29), 0, no).DEGREES, R.last3.includes(sg), `last 3° of ${sg}`);
+    assert.equal(vishanadiOf(vargaIndices(sg * 30 + 10), 0, no).DEGREES, false);
+  }
+  assert.equal(vishanadiOf(vargaIndices(61), 0, { first: false, middle: true, last: false }).HALF_GHATI, true, 'Gemini: the middle 12 minutes');
+  assert.equal(vishanadiOf(vargaIndices(61), 0, { first: true, middle: false, last: false }).HALF_GHATI, false);
+  // The verdict rule: a sign that passes everything else, then the three new checks.
+  const l = { placements: { X: { pass: true } }, ashtama: { X: [] }, pdb: { present: false }, kartari: { X: false }, gandanta: { X: false } };
+  const chosen = { PLACEMENTS: 'X', ASHTAMA: 'X', KARTARI: 'X', GANDANTA: 'X', SHADVARGA: 'RANGACHARYA', DREKKANA: 'MALEFIC', VISHANADI: 'WILHELM' };
+  const vaOf = (lon) => ({ ...shadvargaOf(vargaIndices(lon)), drekkana: drekkanaOf(vargaIndices(lon)) });
+  assert.deepEqual(lagnaVerdict(l, chosen, null, vaOf(86), vishanadiOf(vargaIndices(86), 0, no)).reasons, [], 'Gemini 26° (Rangacharya\'s example) on a Sunday');
+  assert.deepEqual(lagnaVerdict(l, chosen, null, vaOf(115), null).reasons, ['SHADVARGA', 'DREKKANA'], 'Cancer 25°: the Sarpa decanate');
+  assert.deepEqual(lagnaVerdict(l, chosen, null, null, vishanadiOf(vargaIndices(1), 3, no)).reasons, ['VISHANADI']);
+}
+
 // ------------------------------------------------ the stretches, against the sky ---
 {
   const DAY = 86400000;
@@ -236,10 +298,12 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
   let n = 0;
   const sec = (ms) => Math.round((ms - fromMs) / 1000);
   for (const s of r.segments) {
-    assert.equal(s.lagnas[0].f, sec(Date.parse(s.fromUtc)));
-    assert.equal(s.lagnas[s.lagnas.length - 1].t, sec(Date.parse(s.toUtc)));
-    for (let i = 1; i < s.lagnas.length; i += 1) assert.equal(s.lagnas[i].f, s.lagnas[i - 1].t);
-    for (const x of s.lagnas) {
+    assert.equal(s.lagnas[0][0], sec(Date.parse(s.fromUtc)));
+    assert.equal(s.lagnas[s.lagnas.length - 1][1], sec(Date.parse(s.toUtc)));
+    for (let i = 1; i < s.lagnas.length; i += 1) assert.equal(s.lagnas[i][0], s.lagnas[i - 1][1]);
+    for (const arr of s.lagnas) {
+      const [f, t, rRef, nRef, vRef, g, bana, w, d] = arr;
+      const x = { f, t, r: rRef, n: nRef, v: vRef, g, b: bana, w, d };
       const a = fromMs + x.f * 1000; const b = fromMs + x.t * 1000;
       if (b - a < 2 * 60000) continue;
       const mid = (a + b) / 2;
@@ -270,13 +334,26 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
       const half = n108 % 12 === 8 && L360(ascMid) - n108 * (10 / 3) >= 5 / 3 ? 1 : 0;
       const nvWant = navamsaOf({ n108, half, signs, natalLagnaLongitude: natalLagna, natalLagna: sign(natalLagna), natalMoon: sign(natalMoon) });
       assert.deepEqual(plain(r.navamsaTable[x.n]), plain(nvWant), `navamsa ${x.fromUtc}`);
+      // Shadvarga and decanate from the ascendant; the weekday from the last sunrise (local mean date).
+      const vi = vargaIndices(ascMid);
+      assert.deepEqual(plain(r.vargaTable[x.v]), plain({ ...shadvargaOf(vi), drekkana: drekkanaOf(vi) }), `vargas ${x.fromUtc}`);
+      let lastRise = (sunriseJulianDay(Math.floor(jd(mid) - 0.5) - 1.5, lat, lon) - 2440587.5) * DAY;
+      for (let k = 0; k < 4; k += 1) { const next = (sunriseJulianDay(jd(lastRise) + 0.01, lat, lon) - 2440587.5) * DAY; if (next <= mid) lastRise = next; }
+      const vara = new Date(lastRise + (lon / 15) * 3600000).getUTCDay();
+      assert.equal(x.d, vara, `weekday ${x.fromUtc}`);
+      const ghati = { first: sign(asc(mid - 12 * 60000)) !== lg, last: sign(asc(mid + 12 * 60000)) !== lg, middle: false };
+      const vs = vishanadiOf(vi, vara, ghati);
+      assert.equal(Boolean(x.w & 1), vs.WILHELM, `Wilhelm's vishanadi ${x.fromUtc}`);
+      assert.equal(Boolean(x.w & 2), vs.DEGREES);
+      assert.equal(Boolean(x.w & 4), vs.AGARWAL_DAYS);
+      if (![2, 4, 6, 10].includes(lg)) assert.equal(Boolean(x.w & 8), vs.HALF_GHATI, `half ghati ${x.fromUtc}`);
       n += 1;
     }
   }
   assert.ok(n > 300, `checked ${n}`);
   assert.equal(r.books.lagna.natalLagna, sign(natalLagna));
   // About two hours a sign: some 70-85 lagna changes in six days; nine navamsas to each.
-  const all = r.segments.flatMap((s) => s.lagnas);
+  const all = r.segments.flatMap((s) => s.lagnas).map(([, , rr, nn]) => ({ r: rr, n: nn }));
   const changes = all.filter((x, i) => i > 0 && r.lagnaTable[x.r].lagna !== r.lagnaTable[all[i - 1].r].lagna).length;
   assert.ok(changes > 65 && changes < 80, `lagna changes ${changes}`);
   const navChanges = all.filter((x, i) => i > 0 && r.navamsaTable[x.n].n108 !== r.navamsaTable[all[i - 1].n].n108).length;

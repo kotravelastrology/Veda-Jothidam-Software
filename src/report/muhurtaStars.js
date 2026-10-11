@@ -31,7 +31,7 @@ const T = require('./muhurtaStarTables');
 const D = require('./marriageDoshaTables');
 const { marriageDoshasOf, dashaVerdict, banaOf, PLANETS: DOSHA_PLANETS } = require('./marriageDoshas');
 const L = require('./lagnaShuddhiTables');
-const { lagnaShuddhiOf, navamsaOf } = require('./lagnaShuddhi');
+const { lagnaShuddhiOf, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf } = require('./lagnaShuddhi');
 
 const DAY_MS = 86400000;
 const JD_UNIX_EPOCH = 2440587.5;
@@ -105,18 +105,17 @@ function compactDoshas(ds, lagnaTable) {
 }
 
 /**
- * The lagna's key: its navamsa (0-107), the half of the navamsa (only
- * Sagittarius's halves matter: "the first half of Sagittarius"), and its zone
- * in the sign — 0 the first 3°, 1 the middle, 2 the last 3° (Wilhelm's Gandanta).
+ * The lagna's key: where it falls in the six vargas, the half of Sagittarius's
+ * navamsa and the degree zone (`vargaIndices`) — every boundary a lagna rule uses.
  */
 const lagnaKeyOf = (asc) => {
-  const l = norm360(asc);
-  const n108 = Math.floor(l / PADA) % 108;
-  const half = n108 % 12 === 8 && l - n108 * PADA >= PADA / 2 ? 1 : 0;
-  const d = l - Math.floor(l / 30) * 30;
-  return (n108 * 2 + half) * 3 + (d < 3 ? 0 : d < 27 ? 1 : 2);
+  const v = vargaIndices(asc);
+  return [v.sign, v.d2, v.d3, v.n108, v.half, v.d12, v.d30, v.zone].join('|');
 };
-const lagnaKeyParts = (key) => ({ n108: Math.floor(key / 6), half: Math.floor(key / 3) % 2, zone: key % 3, sign: Math.floor(key / 54) });
+const lagnaKeyParts = (key) => {
+  const [sign, d2, d3, n108, half, d12, d30, zone] = key.split('|').map(Number);
+  return { sign, d2, d3, n108, half, d12, d30, zone };
+};
 
 /**
  * The lagna stretches inside a piece of the period, at the event's place: one
@@ -142,6 +141,22 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
     if (L.GANDANTA_START.includes(s.sign) && !s.openStart) g12.push([s.fromMs, s.fromMs + 12 * MIN]);
     if (L.GANDANTA_END.includes(s.sign) && !s.openEnd) g12.push([s.toMs - 12 * MIN, s.toMs]);
   }
+  g12.sort((a, b) => a[0] - b[0]);
+  // Kalyanraman's half ghati: the first, middle and last 12 minutes of each sign's rising.
+  const ghatiWins = { first: [], middle: [], last: [] };
+  for (const sg of signSegs) {
+    if (sg.openStart || sg.openEnd) continue;
+    const m = (sg.fromMs + sg.toMs) / 2;
+    ghatiWins.first.push([sg.fromMs, sg.fromMs + 12 * MIN]);
+    ghatiWins.middle.push([m - 6 * MIN, m + 6 * MIN]);
+    ghatiWins.last.push([sg.toMs - 12 * MIN, sg.toMs]);
+  }
+  // Windows of one kind are sorted and apart: binary search for the last one starting at or before ms.
+  const inAny = (wins, ms) => {
+    let lo = -1; let hi = wins.length - 1;
+    while (lo < hi) { const m = (lo + hi + 1) >> 1; if (wins[m][0] <= ms) lo = m; else hi = m - 1; }
+    return lo >= 0 && ms < wins[lo][1];
+  };
   // Sunrises and sunsets at the place.
   const sun = [];
   for (let jd0 = Math.floor(jdOf(fromMs - DAY_MS) - 0.5) + 0.5; jd0 <= jdOf(toMs + DAY_MS); jd0 += 1) {
@@ -155,13 +170,24 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
   }
   sun.sort((a, b) => a.ms - b.ms);
   const nightAt = (ms) => { const e = sun.filter((x) => x.ms <= ms).pop(); return e ? !e.rise : false; };
+  // The weekday runs from sunrise to sunrise; its date is the place's local mean date of that sunrise.
+  const varaAt = (ms) => {
+    const rise = sun.filter((x) => x.rise && x.ms <= ms).pop();
+    return new Date((rise ? rise.ms : ms) + (longitude / 15) * 3600000).getUTCDay();
+  };
   // Mars and Saturn turning retrograde or direct (longitude half a day either side).
   const retroOf = (p, ms) => ((longitudeOf(p, ms + DAY_MS / 2, ayanamsha, nodeType) - longitudeOf(p, ms - DAY_MS / 2, ayanamsha, nodeType) + 540) % 360) - 180 < 0;
   const retroSegs = scanKey(fromMs, toMs, (ms) => (retroOf('Mars', ms) ? 1 : 0) | (retroOf('Saturn', ms) ? 2 : 0), DAY_MS / 2);
-  const keyIn = (segs, ms) => segs.find((s) => s.fromMs <= ms && ms < s.toMs)?.key ?? segs[segs.length - 1].key;
+  // Binary search: the segment holding ms (segments are sorted and contiguous).
+  const keyIn = (segs, ms) => {
+    let lo = 0; let hi = segs.length - 1;
+    while (lo < hi) { const m = (lo + hi + 1) >> 1; if (segs[m].fromMs <= ms) lo = m; else hi = m - 1; }
+    return segs[lo].key;
+  };
 
   const marks = [
     ...lagnaSegs.map((s) => s.fromMs), ...g12.flat(), ...sun.map((e) => e.ms), ...retroSegs.map((s) => s.fromMs),
+    ...Object.values(ghatiWins).flat(2),
   ].filter((ms) => ms > fromMs && ms < toMs).sort((a, b) => a - b);
   const natalLagna = Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null;
 
@@ -179,9 +205,12 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
   };
   const table = tableOf();
   const navTable = tableOf();
+  const vargaTable = tableOf();
 
-  // A stretch: seconds from the period's start (f, t), the two tables' entries (r, n), the
-  // Gandanta flags (g: 1 the 12 minutes, 2 the 3°) and Mrityu Bana by tithi and lagna (b).
+  // A stretch is an array [f, t, r, n, v, g, b, w, d]: seconds from the period's start (f, t), the
+  // three tables' entries (r, n, v), the Gandanta flags (g: 1 the 12 minutes, 2 the 3°), Mrityu
+  // Bana by tithi and lagna (b), the poison portions (w: 1 Wilhelm's, 2 the degrees, 4 Agarwal's
+  // days, 8 the half ghati) and the weekday (d, 0 = Sunday).
   const stretchesOf = (piece) => {
     const cuts = [piece.fromMs, ...marks.filter((ms) => ms > piece.fromMs && ms < piece.toMs), piece.toMs];
     const out = [];
@@ -190,7 +219,8 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
       const b = cuts[i + 1];
       if (b <= a) continue;
       const mid = (a + b) / 2;
-      const { n108, half, zone, sign } = lagnaKeyParts(keyIn(lagnaSegs, mid));
+      const vi = lagnaKeyParts(keyIn(lagnaSegs, mid));
+      const { n108, half, zone, sign } = vi;
       const retro = keyIn(retroSegs, mid);
       const l = lagnaShuddhiOf({
         lagna: sign,
@@ -198,27 +228,31 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
         retro: { Mars: Boolean(retro & 1), Saturn: Boolean(retro & 2) },
         night: nightAt(mid),
         gandanta: {
-          MINUTES_12: g12.some(([x, y]) => x <= mid && mid < y),
-          DEGREES_3: (L.GANDANTA_START.includes(sign) && zone === 0) || (L.GANDANTA_END.includes(sign) && zone === 2),
+          MINUTES_12: inAny(g12, mid),
+          DEGREES_3: (L.GANDANTA_START.includes(sign) && zone === 0) || (L.GANDANTA_END.includes(sign) && zone === 4),
         },
         natalLagna, natalMoon: natalMoonSign, tithi: piece.tithi,
       });
       const { houses, gandanta, banaMrityu, ...shared } = l;
       const nv = navamsaOf({ n108, half, signs: piece.signs, natalLagnaLongitude, natalLagna, natalMoon: natalMoonSign });
+      const visha = vishanadiOf(vi, varaAt(mid), { first: inAny(ghatiWins.first, mid), middle: inAny(ghatiWins.middle, mid), last: inAny(ghatiWins.last, mid) });
       const entry = {
         r: table.ref({ ...shared, night: nightAt(mid), ashtama: { EIGHTH: l.ashtama.EIGHTH, FOUR_EIGHT_TWELVE: l.ashtama.FOUR_EIGHT_TWELVE } }),
         n: navTable.ref(nv),
+        v: vargaTable.ref({ ...shadvargaOf(vi), drekkana: drekkanaOf(vi) }),
         g: (gandanta.MINUTES_12 ? 1 : 0) | (gandanta.DEGREES_3 ? 2 : 0),
         b: banaMrityu ? 1 : 0,
+        w: (visha.WILHELM ? 1 : 0) | (visha.DEGREES ? 2 : 0) | (visha.AGARWAL_DAYS ? 4 : 0) | (visha.HALF_GHATI ? 8 : 0),
+        d: varaAt(mid),
       };
       const sig = JSON.stringify(entry);
       const last = out[out.length - 1];
       if (last && last.sig === sig && last.toMs === a) { last.toMs = b; continue; }
       out.push({ sig, fromMs: a, toMs: b, entry });
     }
-    return out.map((x) => ({ f: Math.round((x.fromMs - fromMs) / 1000), t: Math.round((x.toMs - fromMs) / 1000), ...x.entry }));
+    return out.map((x) => [Math.round((x.fromMs - fromMs) / 1000), Math.round((x.toMs - fromMs) / 1000), x.entry.r, x.entry.n, x.entry.v, x.entry.g, x.entry.b, x.entry.w, x.entry.d]);
   };
-  return { stretchesOf, table: table.all, navTable: navTable.all };
+  return { stretchesOf, table: table.all, navTable: navTable.all, vargaTable: vargaTable.all };
 }
 
 /** The lagna's lord and the 10th lord: friends both ways (BPHS natural), or one planet. */
@@ -427,10 +461,12 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
     segments,
     // Jamitra from the lagna: [signs → planets in their 7th, lagna navamsas (padas) → planets in their 55th].
     jamitraLagnas: lagnaTable.map((s) => JSON.parse(s)),
-    // Lagna shuddhi: a stretch's `r` is an index into lagnaTable (the lagna sign, the planets'
-    // houses, day or night) and `n` into navamsaTable (the lagna's navamsa); f and t are seconds from fromUtc.
+    // Lagna shuddhi: each segment's `lagnas` are [f, t, r, n, v, g, b, w, d] — seconds from fromUtc;
+    // indices into lagnaTable (the sign, the planets' houses, day or night), navamsaTable and
+    // vargaTable (shadvarga and decanate); Gandanta, Bana, poison-portion bits; the weekday.
     lagnaTable: lagnasFor ? lagnasFor.table() : [],
     navamsaTable: lagnasFor ? lagnasFor.navTable() : [],
+    vargaTable: lagnasFor ? lagnasFor.vargaTable() : [],
     books: {
       lattaRank: T.LATTA_RANK, personalRank: T.PERSONAL_RANK, bookTa: T.BOOK_TA,
       rahu: T.RAHU_DIRECTION, padaRules: T.PADA_RULES, lattaSources: T.LATTA_SOURCES, lattaEffects: T.LATTA_EFFECTS,
@@ -450,6 +486,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
         placements: L.PLACEMENTS, avoid: L.AVOID, points: L.POINTS, gradeTa: L.GRADE_TA, ashtama: L.ASHTAMA,
         pdbTa: L.PDB_TA, pdb: L.PDB, kartari: L.KARTARI, gandanta: L.GANDANTA, rank: L.RANK, sources: L.SOURCES, notesTa: L.NOTES_TA,
         navLast: L.NAV_LAST, navWhich: L.NAV_WHICH, navNatal: L.NAV_NATAL, udaya: L.UDAYA,
+        shadvarga: L.SHADVARGA, drekkana: L.DREKKANA, vishanadi: L.VISHANADI, vargaTa: L.VARGA_TA, vargas: L.VARGAS, varaTa: L.VARA_TA, drekkanaTa: L.DREKKANA_TA,
         natalLagna: Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null,
       },
     },

@@ -124,12 +124,15 @@ export default function MuhurtaStarsView() {
   };
 
   /** A stretch with its two table entries and its times. */
-  function stretchOf(raw: any) {
+  function stretchOf(raw: number[]) {
+    const [f, t, r, n, v, g, b, w, d] = raw;
     const base = Date.parse(result.fromUtc);
     return {
-      fromMs: base + raw.f * 1000, toMs: base + raw.t * 1000,
-      l: result.lagnaTable[raw.r], nv: result.navamsaTable[raw.n],
-      gandanta: { MINUTES_12: Boolean(raw.g & 1), DEGREES_3: Boolean(raw.g & 2) }, banaMrityu: Boolean(raw.b),
+      fromMs: base + f * 1000, toMs: base + t * 1000,
+      l: result.lagnaTable[r], nv: result.navamsaTable[n], va: result.vargaTable[v],
+      gandanta: { MINUTES_12: Boolean(g & 1), DEGREES_3: Boolean(g & 2) }, banaMrityu: Boolean(b),
+      visha: { WILHELM: Boolean(w & 1), DEGREES: Boolean(w & 2), AGARWAL_DAYS: Boolean(w & 4), HALF_GHATI: Boolean(w & 8) },
+      vara: d,
     };
   }
   const isoOf = (ms: number) => new Date(ms).toISOString();
@@ -150,6 +153,9 @@ export default function MuhurtaStarsView() {
     if (!nv.which[R.NAV_WHICH]) reasons.push('NAV_WHICH');
     if (nv.natal[R.NAV_NATAL].length) reasons.push('NAV_NATAL');
     if (!nv.udaya[R.UDAYA].udaya || !nv.udaya[R.UDAYA].asta) reasons.push('UDAYA');
+    if (!x.va.readings[R.SHADVARGA]) reasons.push('SHADVARGA');
+    if (x.va.drekkana.readings[R.DREKKANA]) reasons.push('DREKKANA');
+    if (x.visha[R.VISHANADI]) reasons.push('VISHANADI');
     return { ok: reasons.length === 0, reasons, pl };
   }
 
@@ -158,6 +164,7 @@ export default function MuhurtaStarsView() {
     return {
       PLACEMENTS: L.placements.default, ASHTAMA: L.ashtama.default, KARTARI: L.kartari.default, GANDANTA: L.gandanta.default,
       NAV_LAST: L.navLast.default, NAV_WHICH: L.navWhich.default, NAV_NATAL: L.navNatal.default, UDAYA: L.udaya.default,
+      SHADVARGA: L.shadvarga.default, DREKKANA: L.drekkana.default, VISHANADI: L.vishanadi.default,
     };
   }
   const NAV_REASON_TA: Record<string, string> = {
@@ -165,14 +172,20 @@ export default function MuhurtaStarsView() {
     NAV8: 'பிறந்த 8-ன் நவாம்ச ராசி', NAV12: 'பிறந்த 12-ன் நவாம்ச ராசி', LORD8: 'பிறந்த 8-ஆம் அதிபதி லக்னத்தில்', LORD12: 'பிறந்த 12-ஆம் அதிபதி லக்னத்தில்',
   };
 
-  /** Why a lagna stretch is left, in a few words; `signOnly` leaves out the navamsa's reasons. */
+  /** Reasons that change within a sign (navamsa, vargas, poison portions) rather than with the sign. */
+  const isPartReason = (r: string) => r.startsWith('NAV_') || ['UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI'].includes(r);
+
+  /** Why a lagna stretch is left, in a few words; `signOnly` leaves out the reasons that change within the sign. */
   const lagnaWhy = (x: any, v: any, signOnly = false) => {
     const { l, nv } = x;
     const R = { ...lagnaDefaults(), ...lagnaReading };
-    return v.reasons.filter((r: string) => !signOnly || !r.startsWith('NAV_') && r !== 'UDAYA').map((r: string) => {
+    return v.reasons.filter((r: string) => !signOnly || !isPartReason(r)).map((r: string) => {
       if (r === 'NAV_LAST') return nv.last[R.NAV_LAST].map((k: string) => NAV_REASON_TA[k]).join(', ');
       if (r === 'NAV_WHICH') return `${RASI_TA[nv.nav]} நவாம்சம்`;
       if (r === 'NAV_NATAL') return nv.natal[R.NAV_NATAL].map((k: any) => (typeof k === 'string' ? NAV_REASON_TA[k] : `நவாம்சம் ${k.from === 'LAGNA' ? 'பிறந்த லக்னத்துக்கு' : 'ஜன்ம ராசிக்கு'} ${k.house}`)).join(', ');
+      if (r === 'SHADVARGA') return `ஷட்வர்க்கத்தில் சுபர் ${x.va.benefic}/6`;
+      if (r === 'DREKKANA') return x.va.drekkana.malefic ? B.lagna.drekkanaTa[x.va.drekkana.malefic] : `${x.va.drekkana.num}-ஆம் திரேக்காணம் (${B.lagna.drekkanaTa[x.va.drekkana.nature]})`;
+      if (r === 'VISHANADI') return `விஷ நாடி (${B.lagna.varaTa[x.vara]})`;
       if (r === 'UDAYA') return `${nv.udaya[R.UDAYA].udaya ? '' : 'உதய'}${!nv.udaya[R.UDAYA].udaya && !nv.udaya[R.UDAYA].asta ? '-' : ''}${nv.udaya[R.UDAYA].asta ? '' : 'அஸ்த'} சுத்தி இல்லை`;
       if (r === 'PLACEMENTS') {
         const bad = v.pl.avoid.map(([p, h]: [string, number]) => `${p === 'LAGNA_LORD' ? LAGNA_LORD_TA : PLANET_NAME_TA[p]} ${h}-ல்`);
@@ -344,9 +357,9 @@ export default function MuhurtaStarsView() {
               <details className="mb-1">
                 <summary className="cursor-pointer text-[11px] text-ink-soft">லக்ன சுத்தி — வாசிப்புகள்</summary>
                 <div className="mt-1">
-                  {(['PLACEMENTS', 'ASHTAMA', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA'] as const).map((k) => {
-                    const t = B.lagna[{ PLACEMENTS: 'placements', ASHTAMA: 'ashtama', KARTARI: 'kartari', GANDANTA: 'gandanta', NAV_LAST: 'navLast', NAV_WHICH: 'navWhich', NAV_NATAL: 'navNatal', UDAYA: 'udaya' }[k]];
-                    const label = { PLACEMENTS: 'கிரக நிலை', ASHTAMA: 'பிறப்பிலிருந்து', KARTARI: 'கர்த்தரி', GANDANTA: 'லக்ன கண்டாந்தம்', NAV_LAST: 'கடைசி / சர நவாம்சம்', NAV_WHICH: 'எந்த நவாம்சம்', NAV_NATAL: 'பிறந்த 8, 12-ன் நவாம்சம்', UDAYA: 'உதய-அஸ்த சுத்தி' }[k];
+                  {(['PLACEMENTS', 'ASHTAMA', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI'] as const).map((k) => {
+                    const t = B.lagna[{ PLACEMENTS: 'placements', ASHTAMA: 'ashtama', KARTARI: 'kartari', GANDANTA: 'gandanta', NAV_LAST: 'navLast', NAV_WHICH: 'navWhich', NAV_NATAL: 'navNatal', UDAYA: 'udaya', SHADVARGA: 'shadvarga', DREKKANA: 'drekkana', VISHANADI: 'vishanadi' }[k]];
+                    const label = { PLACEMENTS: 'கிரக நிலை', ASHTAMA: 'பிறப்பிலிருந்து', KARTARI: 'கர்த்தரி', GANDANTA: 'லக்ன கண்டாந்தம்', NAV_LAST: 'கடைசி / சர நவாம்சம்', NAV_WHICH: 'எந்த நவாம்சம்', NAV_NATAL: 'பிறந்த 8, 12-ன் நவாம்சம்', UDAYA: 'உதய-அஸ்த சுத்தி', SHADVARGA: 'ஷட்வர்க்கம்', DREKKANA: 'திரேக்காணம்', VISHANADI: 'லக்ன விஷ நாடி' }[k];
                     return (
                       <Switch key={k} label={label} value={lagnaReading[k] ?? t.default} onChange={(v) => setLagnaReading({ ...lagnaReading, [k]: v })}
                         options={t.order.map((id: string) => [id, `${t[id].labelTa}${id === t.default ? ' (இயல்பு)' : ''}`])} />
@@ -431,14 +444,20 @@ export default function MuhurtaStarsView() {
                           {j.lagnas.map((g: any) => {
                             const mid = g.items[Math.floor(g.items.length / 2)];
                             const signWhy = lagnaWhy(mid.x, mid.v, true);
-                            const navWhy = [...new Set(g.items.filter((it: any) => !it.v.ok).flatMap((it: any) => lagnaWhy(it.x, { ...it.v, reasons: it.v.reasons.filter((r: string) => r.startsWith('NAV_') || r === 'UDAYA') }).split(' · ')).filter(Boolean))];
+                            const left = g.items.filter((it: any) => !it.v.ok);
+                            // The shadvarga counts in one entry (lowest–highest) rather than one per count.
+                            const shad = [...new Set<number>(left.filter((it: any) => it.v.reasons.includes('SHADVARGA')).map((it: any) => it.x.va.benefic))].sort((a, b) => a - b);
+                            const navWhy = [
+                              ...(shad.length ? [`ஷட்வர்க்கத்தில் சுபர் ${shad.length > 1 ? `${shad[0]}–${shad[shad.length - 1]}` : shad[0]}/6`] : []),
+                              ...new Set(left.flatMap((it: any) => lagnaWhy(it.x, { ...it.v, reasons: it.v.reasons.filter((r: string) => isPartReason(r) && r !== 'SHADVARGA') }).split(' · ')).filter(Boolean)),
+                            ];
                             return (
                               <span key={g.fromMs} className={`block ${g.good.length ? (j.clear ? 'text-teal font-semibold' : 'text-ink') : 'text-ink-soft'}`} style={num}>
                                 {hm(isoOf(g.fromMs))}–{hm(isoOf(g.toMs))} {RASI_TA[g.l.lagna]}
                                 {mid.v.pl.points !== null && <span className="font-normal"> · {mid.v.pl.points}</span>}
                                 {g.good.length > 0
                                   ? <> ✓ {g.good.map((ok: any) => `${hm(isoOf(ok.fromMs))}–${hm(isoOf(ok.toMs))} (${ok.navs.map((n: number) => RASI_TA[n]).join(', ')} நவாம்சம்)`).join(', ')}</>
-                                  : <> ✗ <span className="font-normal text-[11px]">({[signWhy, navWhy.length ? `நவாம்சம்: ${navWhy.slice(0, 4).join(', ')}${navWhy.length > 4 ? '…' : ''}` : ''].filter(Boolean).join(' · ')})</span></>}
+                                  : <> ✗ <span className="font-normal text-[11px]">({[signWhy, navWhy.length ? `பகுதிகளில்: ${navWhy.slice(0, 5).join(', ')}${navWhy.length > 5 ? '…' : ''}` : ''].filter(Boolean).join(' · ')})</span></>}
                               </span>
                             );
                           })}
@@ -510,7 +529,7 @@ export default function MuhurtaStarsView() {
             <h2 className="text-sm font-semibold text-ink mb-1">லக்ன சுத்தி (திருமணம்) — நூல்கள்</h2>
             <p className="text-xs text-ink">
               முகூர்த்த லக்னம் = நிகழ்ச்சி நடக்கும் இடத்தில் அந்த நேரத்தில் உதிக்கும் ராசி. இந்த நபரின் பிறந்த லக்னம்: {result.books.lagna.natalLagna !== null ? RASI_TA[result.books.lagna.natalLagna] : '—'}, ஜன்ம ராசி: {result.janma.signTa}.
-              ஐந்து சோதனைகள்; ஒவ்வொன்றுக்கும் நூல்கள் சொல் எண்ணிக்கை வரிசையில்.
+              ஒவ்வொரு சோதனைக்கும் நூல்கள் சொல் எண்ணிக்கை வரிசையில்.
             </p>
             {([
               ['PLACEMENTS', 'லக்னத்திலிருந்து கிரகங்களின் இடம், புள்ளிகள்', B.lagna.placements],
@@ -522,6 +541,9 @@ export default function MuhurtaStarsView() {
               ['NAV_WHICH', 'நவாம்சம்: எந்த நவாம்சங்களில் திருமணம்', B.lagna.navWhich],
               ['NAV_NATAL', 'நவாம்சம்: பிறந்த 8, 12-ன் நவாம்சமும் அதிபதியும்', B.lagna.navNatal],
               ['UDAYA', 'உதய-அஸ்த சுத்தி (லக்ன, நவாம்ச, 7-ஆம் அதிபதிகளின் பார்வை)', B.lagna.udaya],
+              ['SHADVARGA', 'ஷட்வர்க்கம் — லக்னத்தின் ஆறு வர்க்க அதிபதிகள்', B.lagna.shadvarga],
+              ['DREKKANA', 'லக்னத்தின் திரேக்காணம்', B.lagna.drekkana],
+              ['VISHANADI', 'லக்ன விஷ நாடி (புஜங்க, க்ருத்ர, வராக / ராகு பகுதிகள்)', B.lagna.vishanadi],
             ] as [string, string, any][]).map(([k, title, t]) => (
               <details key={k} className="mt-2 text-xs">
                 <summary className="cursor-pointer font-semibold text-ink">{title}</summary>

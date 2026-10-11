@@ -15,7 +15,7 @@
  * Houses are 1-12 from the lagna; signs 0 = Aries.
  */
 
-const { BOOKS: { SHRIDHAR_HEA, MC_SHARMA, KALYANRAMAN_V2, JOSHI_KK, VASHISTHA_KUSUM, RANGACHARYA_I, AGARWAL_GS, WILHELM_E, RAMAN_BV } } = require('./muhurtaStarTables');
+const { BOOKS: { SHRIDHAR_HEA, MC_SHARMA, KALYANRAMAN_V2, JOSHI_KK, VASHISTHA_KUSUM, RANGACHARYA_I, AGARWAL_GS, WILHELM_E, RAMAN_BV, KALYANRAMAN_V1 } } = require('./muhurtaStarTables');
 
 const deepFreeze = (o) => {
   Object.values(o).forEach((v) => { if (v && typeof v === 'object' && !Object.isFrozen(v)) deepFreeze(v); });
@@ -231,8 +231,84 @@ const UDAYA = deepFreeze({
 /** Full aspects (Muhurta Chintamani's sloka on aspects = Parashara): the 7th for all; Mars 4, 8; Jupiter 5, 9; Saturn 3, 10. */
 const ASPECTS = deepFreeze({ Sun: [7], Moon: [7], Mars: [4, 7, 8], Mercury: [7], Jupiter: [5, 7, 9], Venus: [7], Saturn: [3, 7, 10] });
 
+// ---------------------------------------------------------------------------
+// Shadvarga, decanate and the poison portions of the lagna (added 2026-10-11)
+// ---------------------------------------------------------------------------
+
+/** The benefics of the vargas (Rangacharya: the signs of Taurus … Pisces, the Moon's hora). */
+const VARGA_BENEFICS = Object.freeze(['Moon', 'Mercury', 'Jupiter', 'Venus']);
+/** The six vargas' lords (Rangacharya's definitions = Parashara): D1, D2 (hora), D3, D9, D12, D30. */
+const VARGAS = Object.freeze(['D1', 'D2', 'D3', 'D9', 'D12', 'D30']);
+const VARGA_TA = Object.freeze({ D1: 'ராசி', D2: 'ஹோரை', D3: 'திரேக்காணம்', D9: 'நவாம்சம்', D12: 'துவாதசாம்சம்', D30: 'திரிம்சாம்சம்' });
+/** Trimsamsa: odd signs Mars 5°, Saturn 5°, Jupiter 8°, Mercury 7°, Venus 5°; even signs the reverse. */
+const TRIMSAMSA = deepFreeze({ ODD: { ends: [5, 10, 18, 25, 30], lords: ['Mars', 'Saturn', 'Jupiter', 'Mercury', 'Venus'] }, EVEN: { ends: [5, 12, 20, 25, 30], lords: ['Venus', 'Mercury', 'Jupiter', 'Saturn', 'Mars'] } });
+
+const SHADVARGA = deepFreeze({
+  default: 'RANGACHARYA',
+  order: ['RANGACHARYA', 'WILHELM', 'SHRIDHAR'],
+  RANGACHARYA: { labelTa: 'ஆறில் நான்கு சுபர்', textTa: 'ராசி, ஹோரை, திரேக்காணம், நவாம்சம், துவாதசாம்சம், திரிம்சாம்சம் — ஆறில் குறைந்தது நான்கின் அதிபதி சுபர் (சந்திரன், புதன், குரு, சுக்கிரன்) எனில் ஏற்கலாம், இல்லையெனில் விலக்கு. எடுத்துக்காட்டு: மிதுனம் 26° — புதன், சந்திரன், சனி, சுக்கிரன், செவ்வாய், சுக்கிரன் — நான்கு.', booksTa: 'ரங்காச்சார்யா, வசிஷ்டா', min: 4 },
+  WILHELM: { labelTa: 'பாவர் சுபரைவிட அதிகம் இல்லாமல்', textTa: 'பாவ வர்க்கங்கள் சுப வர்க்கங்களைவிட அதிகம் இருக்கக் கூடாது; மூன்று-மூன்று எனில் நவாம்ச அதிபதி சுபர்.', booksTa: 'வில்ஹெல்ம்', min: 3, tieNavamsa: true },
+  SHRIDHAR: { labelTa: 'ஆறில் மூன்று சுபர்', textTa: 'மூன்று சுப வர்க்கம் — நடுத்தரம்; நான்கு அல்லது மேல் — நன்மை; நான்கு அல்லது மேல் பாவர் — தீமை. சுப அதிபதிகள் வக்கிரமாக இருக்கக் கூடாது (கணிக்கப்படவில்லை).', booksTa: 'ஸ்ரீதர் (நாரத சம்ஹிதை 29/17-18)', min: 3 },
+});
+
+/** Decanates: Shridhar's malefic ones and the nature of the three in movable, fixed and dual signs. */
+const DREKKANA_MALEFIC = deepFreeze({ '3:2': 'SARPA', '11:2': 'SARPA', '7:0': 'SARPA', '7:1': 'PASHA', '9:0': 'NIGADA' });
+const DREKKANA_NATURE = deepFreeze({ MOVABLE: ['AUSPICIOUS', 'NEUTRAL', 'NOT_DIGNIFIED'], FIXED: ['INAUSPICIOUS', 'AUSPICIOUS', 'NEUTRAL'], DUAL: ['NOT_DIGNIFIED', 'NEUTRAL', 'AUSPICIOUS'] });
+const DREKKANA_TA = Object.freeze({ SARPA: 'சர்ப்ப திரேக்காணம்', PASHA: 'பாச திரேக்காணம்', NIGADA: 'நிகள திரேக்காணம்', AUSPICIOUS: 'சுபம்', NEUTRAL: 'சமம்', NOT_DIGNIFIED: 'சிறப்பில்லை', INAUSPICIOUS: 'அசுபம்' });
+const DREKKANA = deepFreeze({
+  default: 'MALEFIC',
+  order: ['MALEFIC', 'MALEFIC_INAUSPICIOUS', 'AUSPICIOUS_ONLY'],
+  MALEFIC: { labelTa: 'சர்ப்ப, பாச, நிகள திரேக்காணம் தவிர', textTa: 'கடகம், மீனத்தின் கடைசி, விருச்சிகத்தின் முதல் திரேக்காணம் சர்ப்பம்; விருச்சிகத்தின் 2-ஆவது பாசம்; மகரத்தின் முதலாவது நிகளம் — தவிர்க்க.', booksTa: 'ஸ்ரீதர்' },
+  MALEFIC_INAUSPICIOUS: { labelTa: 'அவையும் "அசுப" திரேக்காணமும் தவிர', textTa: 'மேலும் ஸ்திர ராசிகளின் முதல் திரேக்காணம் (அட்டவணை 13.2: அசுபம்).', booksTa: 'ஸ்ரீதர் (அட்டவணை 13.2)' },
+  AUSPICIOUS_ONLY: { labelTa: 'சுப திரேக்காணம் மட்டும்', textTa: 'சர ராசியின் முதல், ஸ்திரத்தின் நடு, உபயத்தின் கடைசி திரேக்காணம் மட்டும் ("பொதுவாகச் சுபம்").', booksTa: 'ஸ்ரீதர் (§18.3.2)' },
+});
+
+/** The poison portions of the lagna (vishanadi / visha ghatika / tyajya). Weekdays 0 = Sunday. */
+const VISHANADI = deepFreeze({
+  default: 'WILHELM',
+  order: ['WILHELM', 'DEGREES', 'AGARWAL_DAYS', 'HALF_GHATI'],
+  WILHELM: { labelTa: 'புஜங்க, க்ருத்ர, வராக நவாம்சம் (கிழமைப்படி)', textTa: 'மேஷம், ரிஷபம், கன்னி, தனுசுவின் 1-ஆம் நவாம்சம் (புஜங்கம்) — புதன், சனிக்கிழமை; மிதுனம், சிம்மம், துலாம், கும்பத்தின் 5-ஆம் (க்ருத்ரம்) — திங்கள், வெள்ளி; கடகம், விருச்சிகம், மகரம், மீனத்தின் 9-ஆம் (வராகம்) — செவ்வாய், வியாழன், ஞாயிறு.', booksTa: 'வில்ஹெல்ம், ஸ்ரீதர் (அட்டவணை 13.1)', groups: [{ signs: [0, 1, 5, 8], nav: 1, days: [3, 6] }, { signs: [2, 4, 6, 10], nav: 5, days: [1, 5] }, { signs: [3, 7, 9, 11], nav: 9, days: [2, 4, 0] }] },
+  DEGREES: { labelTa: 'பாகைகள் — முதல் 3°, நடு 13°30′–16°30′, கடைசி 3°', textTa: 'மேஷம், ரிஷபம், தனுசு, கன்னியின் முதல் 3° (புஜங்கம்); மீனம், மகரம், கடகம், விருச்சிகத்தின் கடைசி 3° (ராகு); மிதுனம், துலாம், சிம்மம், கும்பத்தின் 13°30′–16°30′ (க்ருத்ரம்) — எல்லாக் கிழமையிலும்.', booksTa: 'ராமன், அகர்வால்' },
+  AGARWAL_DAYS: { labelTa: 'எந்த ராசியிலும் கிழமைக்கு உரிய நவாம்சம்', textTa: 'எந்த ராசியிலும் 1-ஆம் நவாம்சம் புதன், சனி; நடு (5-ஆம்) திங்கள், வெள்ளி; கடைசி (9-ஆம்) செவ்வாய், வியாழன், ஞாயிறு.', booksTa: 'அகர்வால்' },
+  HALF_GHATI: { labelTa: '½ நாழிகை (12 நிமிடம்)', textTa: 'அதே ராசிக் குழுக்களில் லக்னத்தின் முதல், நடு, கடைசி 12 நிமிடம்.', booksTa: 'கல்யாணராமன்; ஸ்ரீதர் ("சிலர்")' },
+});
+const VARA_TA = Object.freeze(['ஞாயிறு', 'திங்கள்', 'செவ்வாய்', 'புதன்', 'வியாழன்', 'வெள்ளி', 'சனி']);
+
+const RANK_SHAD = {
+  SHADVARGA: rank({ RANGACHARYA: 499, SHRIDHAR: 346, WILHELM: 145, VASHISTHA: 40, KALYANRAMAN: 16, RAMAN: 12, JOSHI: 9 }, 'ஷட்வர்க்கம் பற்றிய சொற்கள்: ரங்காச்சார்யா (பக்.52-54, எடுத்துக்காட்டுடன்) 499; ஸ்ரீதர் (பக்.309, 462-463) 346; வில்ஹெல்ம் (பக்.136-137) 145; வசிஷ்டா 40; கல்யாணராமன் 16; ராமன் 12; ஜோஷி 9. ராமனும் கல்யாணராமனும் "பாவர் ஷட்வர்க்கத்தில் பலமாக இருக்கக் கூடாது" என்கிறார்கள் — வேறு பொருள், கணிக்கப்படவில்லை.'),
+  DREKKANA: rank({ SHRIDHAR: 203 }, 'திரேக்காணம் பற்றி ஸ்ரீதர் மட்டும் (பக்.311, 462) 203.'),
+  VISHANADI: rank({ WILHELM: 213, SHRIDHAR: 191, RAMAN: 162, AGARWAL: 152, KALYANRAMAN: 97 }, 'லக்ன விஷ நாடி / தியாஜ்யம் பற்றிய சொற்கள்: வில்ஹெல்ம் (பக்.139-140) 213; ஸ்ரீதர் (ப.310, அட்டவணை 13.1) 191; ராமன் (PDF பக்.6, 12) 162; அகர்வால் (பக்.312, 324) 152; கல்யாணராமன் (ப.121) 97.'),
+};
+const SOURCES_SHAD = {
+  SHADVARGA: {
+    RANGACHARYA: Object.freeze({ ...RANGACHARYA_I, pageLocus: '"Papa Shadvarga", printed pp.52-54 (PDF 60-62): the six vargas and their lords — hora "In the odd sign the 1st hora (0°-15°) is ruled by the Sun and the 2nd hora (15°-30°) is ruled by the Moon"; drekkanas by the lords of the sign, its 5th and 9th; trimsamsa "in the odd signs, by mars for 5°, by Saturn for 5°, by Jupiter for 8°, by Mercury for 7°, and by Venus for 5°"; "If out of 6 vargas if even four belong to the benefic planets, the Muhurtha is acceptable, if otherwise it should be discarded. If the Moon is placed in the 11th house, the evil shadvarga has no effect"; the example "Muhurtha Lagna is Mithuna 26° ... gets four benefic lords (Mercury, Moon, Venus, Venus)"' }),
+    SHRIDHAR: Object.freeze({ ...SHRIDHAR_HEA, pageLocus: 'printed pp.309, 462-463 (PDF 353, 501-502): "Lords of Shadvargas of the Muhurt ascendant should be benefic planets which should not be retrograde. If there are three benefic Vargas - average results are expected, if 4 or more than 4 benefic Vargas - benefic results follow; if 4 or more Vargas are of malefic planets - adverse results"; "More the benefic Shadvargas are present in the marriage ascendant, better"' }),
+    WILHELM: Object.freeze({ ...WILHELM_E, pageLocus: 'printed pp.136-137 (PDF 144-145): "Papashadvarga- Malefic Shadvarga: The Lagna should not be in the Shadvargas of the malefics ... the Lagna should not be in more Rasis of malefics than it is in the Rasis of benefics. Ideally, the Lagna should be in more Rasis of benefics than of malefics or, if it is in an equal amount of benefic and malefic Rasis, the Navamsa Lagna should be in a benefic\'s Rasi"' }),
+    VASHISTHA: Object.freeze({ ...VASHISTHA_KUSUM, pageLocus: 'printed p.108 (PDF 95): "Malefics in 6 vargas (shadvargas): Out of the 6 divisional charts, if benefics are the lords of more than 4 vargas lagnas, the marriage is auspicious, if less than 4 vargas lagna lords are malefics then leave the match"' }),
+    KALYANRAMAN: Object.freeze({ ...KALYANRAMAN_V1, pageLocus: 'printed p.120 (PDF 130): "Paapa shadvarga: The malefics should never be strong in the Shadvargas of any election chart"' }),
+    RAMAN: Object.freeze({ ...RAMAN_BV, pageLocus: 'Chapter V, PDF p.11: "Papashadvargs. - Malefics should not be strong in shadvargas in an election chart"' }),
+    JOSHI: Object.freeze({ ...JOSHI_KK, pageLocus: 'printed p.73 (PDF 88): "\'Shadvargas\' (Six divisions) of malefics in muhurta lagna"' }),
+  },
+  DREKKANA: {
+    SHRIDHAR: Object.freeze({ ...SHRIDHAR_HEA, pageLocus: 'printed pp.311, 462 (PDF 355, 501): "The last Decanate of Cancer & Pisces, & first of Scorpio are Sarp (snake) Decanate, 2nd Decanate of Scorpio is Paash (trapped in net), & 1st decanate of Capricorn is Nigada (tied with chain, fetters) - all these are malefic & hence be shunned"; Table 13.2, "Nature of decanates"; "First, middle & the last Decanate of moving, fixed & common signs respectively are auspicious in general"' }),
+  },
+  VISHANADI: {
+    WILHELM: Object.freeze({ ...WILHELM_E, pageLocus: 'printed pp.139-140 (PDF 147-148): "Bhujanga: The 1st Navamsa of Aries, Taurus, Virgo and Sagittarius ... Exception: On Varas other than that of Mercury and Saturn, Bhujanga does not prevail. Gridhra: The 5th Navamsa of Gemini, Leo, Libra and Aquarius ... On Varas other than that of the Moon and Venus, Gridhra does not prevail. Varaha: The 9th Navamsa of Cancer, Scorpio, Capricorn and Pisces ... On Varas other than that of Mars, Jupiter and the Sun, Varaha does not prevail"; the exceptions' }),
+    SHRIDHAR: Object.freeze({ ...SHRIDHAR_HEA, pageLocus: 'printed p.310 (PDF 354): "the first navamshas of Aries, Taurus, Virgo, & Sagittarius (called Bhujanga) should be avoided on Wednesday & Saturday. On other days there is no ill effect"; Table 13.1 "Malefic navamshas & days"; "Some opine that 12 minutes (half Ghati) in the beginning, middle & last should be avoided instead of the said navamshas"' }),
+    RAMAN: Object.freeze({ ...RAMAN_BV, pageLocus: 'PDF p.6: "In Aries, Taurus, Sagittarius and Virgo, the first three degrees should be avoided ... (bhujanga) ... Pisces, Capricorn, Cancer and Scorpio, the last (three degrees) ... Rahu. The middle half ghati (13° 30\' to 16° 30\') should be rejected with regard to Gemini, Libra, Leo and Aquarius ... Gridhra"' }),
+    AGARWAL: Object.freeze({ ...AGARWAL_GS, pageLocus: 'printed pp.312, 324 (PDF 311, 323): "The first navamsa of any sign on Wednesday and Saturday, the middle navamsa on Monday and Friday and the last navamsa on Tuesday, Thursday and Sunday"; the same degree portions as Raman' }),
+    KALYANRAMAN: Object.freeze({ ...KALYANRAMAN_V1, pageLocus: 'printed p.121 (PDF 131): "For Aries, Taurus, Sagittarius and Virgo - the first ½ ghatika or 12 minutes ... For Cancer, Scorpio, Capricorn and Pisces - the last ½ ghatika ... For Gemini, Leo, Libra and Aquarius - the middle ½ ghatika"' }),
+  },
+};
+const NOTES_SHAD = {
+  SHADVARGA: ['ஹோரை, திரேக்காணம், துவாதசாம்சம், திரிம்சாம்சம் — ரங்காச்சார்யாவின் வரையறை (= பராசரர்). சந்திரன் 11-ல் இருந்தால் தீய ஷட்வர்க்கம் பலனற்றது (ரங்காச்சார்யா); குரு அல்லது சுக்கிரன் லக்னத்தில் / பார்த்தால் (வில்ஹெல்ம்) — காட்டப்படுகிறது, தீர்ப்பில் இல்லை.'],
+  DREKKANA: ['திரேக்காண அதிபதி ஷட்வர்க்கத்திலும் எண்ணப்படுகிறார்; இது அதிலிருந்து தனி விதி.'],
+  VISHANADI: ['கிழமை = இந்த இடத்தின் சூரிய உதயம் முதல் அடுத்த உதயம் வரை. நீக்கங்கள் (வில்ஹெல்ம்): சந்திரன் நல்ல நிலையில், குரு கேந்திரத்தில், லக்னத்தில் / லக்னத்தைப் பார்க்கும் சுபர் — காட்டப்படவில்லை. அகர்வால் நவாம்சம்-கிழமை, பாகை இரண்டு முறைகளையும் தருகிறார்.'],
+};
+
 const RANK = deepFreeze({
   ...RANK_LAGNA,
+  ...RANK_SHAD,
   NAV_LAST: rank({ MUHURTA_CHINTAMANI: 156, SHRIDHAR: 146, WILHELM: 46, RANGACHARYA: 35, JOSHI: 32 }, 'கடைசி நவாம்சம், வர்கோத்தமம், சர நவாம்சம் பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (ப.213) 156; ஸ்ரீதர் (பக்.458, 461) 146; வில்ஹெல்ம் 46; ரங்காச்சார்யா 35; ஜோஷி 32.'),
   NAV_WHICH: rank({ SHRIDHAR: 390, WILHELM: 80, RANGACHARYA: 56, MUHURTA_CHINTAMANI: 43, AGARWAL: 22, RAMAN: 18, JOSHI: 16 }, 'எந்த நவாம்சம் என்பது பற்றிய சொற்கள்: ஸ்ரீதர் (பக்.459-461, 463 — நாரதர், காளிதாசர், வசிஷ்டர், பி.க. மேற்கோள்கள்) 390; வில்ஹெல்ம் (பக்.123, 261) 80; ரங்காச்சார்யா (ப.54) 56; முகூர்த்த சிந்தாமணி (ப.212) 43; அகர்வால் 22; ராமன் 18; ஜோஷி 16. ஸ்ரீதர் தானே விதியாகச் சொல்வது நாரதருடையது.'),
   NAV_NATAL: rank({ MUHURTA_CHINTAMANI: 145, SHRIDHAR: 127, WILHELM: 83, JOSHI: 75 }, 'பிறந்த 8, 12-ன் நவாம்சம் பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (ப.187) 145; ஸ்ரீதர் (பக்.461-462) 127; வில்ஹெல்ம் (ப.261) 83; ஜோஷி (ப.77) 75.'),
@@ -241,6 +317,7 @@ const RANK = deepFreeze({
 
 const SOURCES = deepFreeze({
   ...SOURCES_LAGNA,
+  ...SOURCES_SHAD,
   NAV_LAST: {
     MUHURTA_CHINTAMANI: Object.freeze({ ...MC_SHARMA, pageLocus: 'sloka 85, printed p.213 (PDF 217): "नो चरलग्ने चरलवयोगं तौलिमृगस्थे शशिमृति कुर्यात्"; "A daughter should not be married in the last Navamsha, but if the Navamsha of a sign is Vargottama and marriage is done in it, then it is excellent. But if the Moon is situated in the Libra or Capricorn sign, then marriage should not be done in the movable Navamsha of a Movable Ascendant, that is, even Vargottama is not auspicious"' }),
     SHRIDHAR: Object.freeze({ ...SHRIDHAR_HEA, pageLocus: 'printed pp.458, 461 (PDF 497, 500): "The Moon, the Lagna & navamsha; all the three should not be in movable signs ... However, Vargottama navamshas of Aries & Cancer are acceptable"; "Last navamsha of a sign should be left in marriage. Vargottama navamsha of Gemini, Virgo, Sagittarius & Pisces are preferred (M.M.). Vargottama navamshas of Libra & Capricorn are bad for marriage (M.C-6/85) ... Pisces sign & navamsha though Vargottama is not acceptable"' }),
@@ -273,6 +350,7 @@ const SOURCES = deepFreeze({
 
 const NOTES_TA = deepFreeze({
   ...NOTES_LAGNA,
+  ...NOTES_SHAD,
   NAV_LAST: ['சர ராசி: மேஷம், கடகம், துலாம், மகரம்; ஸ்திரம்: ரிஷபம், சிம்மம், விருச்சிகம், கும்பம்; உபயம்: மிதுனம், கன்னி, தனுசு, மீனம்.'],
   NAV_WHICH: ['"தனுசு முதல் பாதி" — தனுசு நவாம்சத்தின் (3°20′) முதல் 1°40′ (எங்கள் வாசிப்பு). குநவாம்ச நீக்கம்: லக்னத்தில் குரு, அல்லது சந்திரன் 11-ல் (ரங்காச்சார்யா) — காட்டப்படுகிறது, தீர்ப்பில் இல்லை.'],
   NAV_NATAL: ['பிறந்த லக்னம், பாகை இந்த நபருடையது. நாரதரின் வாசிப்பு (பிறந்த 8, 12-ஆம் அதிபதி நின்ற நவாம்சத்தின் அதிபதி லக்னத்தில்) கணிக்கப்படவில்லை — பிறந்த கிரகங்களின் நவாம்சம் தேவை.'],
@@ -283,5 +361,6 @@ module.exports = {
   PLANETS, MALEFICS, BENEFICS, RASI_LORDS, POINTS, AVOID, PLACEMENTS, GRADE_TA,
   ASHTAMA, PDB, PDB_TA, KARTARI, GANDANTA, GANDANTA_END, GANDANTA_START,
   MOVABLE, DUAL, NAV_LAST, NAV_WHICH, NAV_NATAL, UDAYA, ASPECTS,
+  VARGA_BENEFICS, VARGAS, VARGA_TA, TRIMSAMSA, SHADVARGA, DREKKANA_MALEFIC, DREKKANA_NATURE, DREKKANA_TA, DREKKANA, VISHANADI, VARA_TA,
   RANK, SOURCES, NOTES_TA,
 };

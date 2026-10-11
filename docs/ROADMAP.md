@@ -228,6 +228,9 @@ Not plan items, but real, and they should not be discovered at release:
   the best times. The lagna's navamsa added the same day: the last navamsa
   and the Libra/Capricorn Moon (MC sloka 85), which navamsas (Narada via
   Shridhar), the birth 8th/12th's navamsa (MC sloka 79), udaya-asta shuddhi
-  (Shridhar). Shadvarga and non-marriage lagna shuddhi are not built.
+  (Shridhar). Shadvarga (Rangacharya first: four of six benefic lords), the
+  decanate (Shridhar's Sarpa, Pasha, Nigada) and the lagna's poison portions
+  (Wilhelm first: Bhujanga, Gridhra, Varaha navamsas by weekday) added the
+  same day. Non-marriage lagna shuddhi (MC p.79) is not built.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

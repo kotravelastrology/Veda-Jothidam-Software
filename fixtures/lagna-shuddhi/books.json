@@ -30,9 +30,27 @@
     "NAV_LAST": { "MUHURTA_CHINTAMANI": 156, "SHRIDHAR": 146, "WILHELM": 46, "RANGACHARYA": 35, "JOSHI": 32 },
     "NAV_WHICH": { "SHRIDHAR": 390, "WILHELM": 80, "RANGACHARYA": 56, "MUHURTA_CHINTAMANI": 43, "AGARWAL": 22, "RAMAN": 18, "JOSHI": 16 },
     "NAV_NATAL": { "MUHURTA_CHINTAMANI": 145, "SHRIDHAR": 127, "WILHELM": 83, "JOSHI": 75 },
-    "UDAYA": { "SHRIDHAR": 905, "MUHURTA_CHINTAMANI": 789, "WILHELM": 135, "RANGACHARYA": 95 }
+    "UDAYA": { "SHRIDHAR": 905, "MUHURTA_CHINTAMANI": 789, "WILHELM": 135, "RANGACHARYA": 95 },
+    "SHADVARGA": { "RANGACHARYA": 499, "SHRIDHAR": 346, "WILHELM": 145, "VASHISTHA": 40, "KALYANRAMAN": 16, "RAMAN": 12, "JOSHI": 9 },
+    "DREKKANA": { "SHRIDHAR": 203 },
+    "VISHANADI": { "WILHELM": 213, "SHRIDHAR": 191, "RAMAN": 162, "AGARWAL": 152, "KALYANRAMAN": 97 }
   },
-  "defaults": { "PLACEMENTS": "SHRIDHAR", "ASHTAMA": "EIGHTH", "KARTARI": "SCISSORS", "GANDANTA": "MINUTES_12", "NAV_LAST": "MUHURTA_CHINTAMANI", "NAV_WHICH": "NARADA", "NAV_NATAL": "MUHURTA_CHINTAMANI", "UDAYA": "SHRIDHAR" },
+  "defaults": { "PLACEMENTS": "SHRIDHAR", "ASHTAMA": "EIGHTH", "KARTARI": "SCISSORS", "GANDANTA": "MINUTES_12", "NAV_LAST": "MUHURTA_CHINTAMANI", "NAV_WHICH": "NARADA", "NAV_NATAL": "MUHURTA_CHINTAMANI", "UDAYA": "SHRIDHAR", "SHADVARGA": "RANGACHARYA", "DREKKANA": "MALEFIC", "VISHANADI": "WILHELM" },
+  "shadvarga": {
+    "rangacharyaExample": { "page": "printed pp.53-54", "longitude": 86, "lords": { "D1": "Mercury", "D2": "Moon", "D3": "Saturn", "D9": "Venus", "D12": "Mars", "D30": "Venus" }, "benefic": 4, "acceptable": true },
+    "trimsamsa_odd": [["Mars", 5], ["Saturn", 5], ["Jupiter", 8], ["Mercury", 7], ["Venus", 5]],
+    "trimsamsa_even": [["Venus", 5], ["Mercury", 7], ["Jupiter", 8], ["Saturn", 5], ["Mars", 5]],
+    "benefics": ["Moon", "Mercury", "Jupiter", "Venus"]
+  },
+  "drekkana": {
+    "SARPA": [[3, 3], [11, 3], [7, 1]],
+    "PASHA": [[7, 2]],
+    "NIGADA": [[9, 1]]
+  },
+  "vishanadi": {
+    "WILHELM_groups": [{ "signs": [0, 1, 5, 8], "nav": 1, "days": [3, 6] }, { "signs": [2, 4, 6, 10], "nav": 5, "days": [1, 5] }, { "signs": [3, 7, 9, 11], "nav": 9, "days": [2, 4, 0] }],
+    "RAMAN_degrees": { "first3": [0, 1, 8, 5], "last3": [11, 9, 3, 7], "middle": [2, 6, 4, 10], "middleFrom": 13.5, "middleTo": 16.5 }
+  },
   "navamsa": {
     "MC_sloka85": "नो चरलग्ने चरलवयोगं तौलिमृगस्थे शशिमृति कुर्यात्",
     "MC_sloka84_signs": [8, 6, 5, 2, 11],

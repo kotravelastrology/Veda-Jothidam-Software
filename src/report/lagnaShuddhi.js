@@ -188,8 +188,89 @@ function navamsaOf(m) {
   return { n108: m.n108, nav, num, varg, half: m.half, last, which, natal, udaya };
 }
 
-/** The lagna's verdict under the chosen readings (the page uses the same rule). `nv` is the navamsa's, when given. */
-function lagnaVerdict(l, chosen, nv = null) {
+// ---------------------------------------------------------------------------
+// Shadvarga, decanate, the poison portions
+// ---------------------------------------------------------------------------
+
+/**
+ * Where a lagna longitude falls in the six vargas and the portions the rules
+ * use: sign, hora (0-1), drekkana (0-2), navamsa (n108), dwadasamsa (0-11),
+ * trimsamsa (0-4), the half of Sagittarius's navamsa, and the degree zone
+ * (0 the first 3°, 2 13°30′-16°30′, 4 the last 3°; 1, 3 between).
+ */
+function vargaIndices(lon) {
+  const l = norm360(lon);
+  const sign = Math.floor(l / 30) % 12;
+  const deg = l - sign * 30;
+  const n108 = Math.floor(l / (10 / 3)) % 108;
+  const odd = sign % 2 === 0;
+  const ends = (odd ? T.TRIMSAMSA.ODD : T.TRIMSAMSA.EVEN).ends;
+  return {
+    sign, n108,
+    d2: deg < 15 ? 0 : 1,
+    d3: Math.min(2, Math.floor(deg / 10)),
+    d12: Math.min(11, Math.floor(deg / 2.5)),
+    d30: ends.findIndex((e) => deg < e),
+    half: n108 % 12 === 8 && l - n108 * (10 / 3) >= 5 / 3 ? 1 : 0,
+    zone: deg < 3 ? 0 : deg < 13.5 ? 1 : deg < 16.5 ? 2 : deg < 27 ? 3 : 4,
+  };
+}
+
+/** The six vargas' lords and the readings on how many must be benefic. */
+function shadvargaOf(v) {
+  const lord = T.RASI_LORDS;
+  const odd = v.sign % 2 === 0;
+  const lords = {
+    D1: lord[v.sign],
+    D2: (v.d2 === 0) === odd ? 'Sun' : 'Moon',
+    D3: lord[(v.sign + [0, 4, 8][v.d3]) % 12],
+    D9: lord[v.n108 % 12],
+    D12: lord[(v.sign + v.d12) % 12],
+    D30: (odd ? T.TRIMSAMSA.ODD : T.TRIMSAMSA.EVEN).lords[v.d30],
+  };
+  const benefic = T.VARGAS.filter((k) => T.VARGA_BENEFICS.includes(lords[k])).length;
+  const navBenefic = T.VARGA_BENEFICS.includes(lords.D9);
+  const readings = Object.fromEntries(T.SHADVARGA.order.map((id) => {
+    const r = T.SHADVARGA[id];
+    const pass = r.tieNavamsa ? benefic >= 4 || (benefic === 3 && navBenefic) : benefic >= r.min;
+    return [id, pass];
+  }));
+  return { lords, benefic, readings };
+}
+
+/** The lagna's decanate: Shridhar's malefic ones and its nature. */
+function drekkanaOf(v) {
+  const malefic = T.DREKKANA_MALEFIC[`${v.sign}:${v.d3}`] ?? null;
+  const kind = T.MOVABLE.includes(v.sign) ? 'MOVABLE' : T.DUAL.includes(v.sign) ? 'DUAL' : 'FIXED';
+  const nature = T.DREKKANA_NATURE[kind][v.d3];
+  return {
+    num: v.d3 + 1, malefic, nature,
+    readings: { MALEFIC: Boolean(malefic), MALEFIC_INAUSPICIOUS: Boolean(malefic) || nature === 'INAUSPICIOUS', AUSPICIOUS_ONLY: Boolean(malefic) || nature !== 'AUSPICIOUS' },
+  };
+}
+
+/**
+ * The poison portions: true where the lagna is in one under each reading.
+ *   v       vargaIndices of the lagna
+ *   vara    weekday at the place (sunrise to sunrise), 0 = Sunday
+ *   ghati   { first, middle, last }: within the first, middle or last 12 minutes of the sign's rising
+ */
+function vishanadiOf(v, vara, ghati) {
+  const num = (v.n108 % 9) + 1;
+  const [A, B, C] = T.VISHANADI.WILHELM.groups;
+  return {
+    WILHELM: T.VISHANADI.WILHELM.groups.some((g) => g.signs.includes(v.sign) && g.nav === num && g.days.includes(vara)),
+    DEGREES: (A.signs.includes(v.sign) && v.zone === 0) || (B.signs.includes(v.sign) && v.zone === 2) || (C.signs.includes(v.sign) && v.zone === 4),
+    AGARWAL_DAYS: T.VISHANADI.WILHELM.groups.some((g) => g.nav === num && g.days.includes(vara)),
+    HALF_GHATI: (A.signs.includes(v.sign) && ghati.first) || (B.signs.includes(v.sign) && ghati.middle) || (C.signs.includes(v.sign) && ghati.last),
+  };
+}
+
+/**
+ * The lagna's verdict under the chosen readings (the page uses the same rule). `nv` is the navamsa's,
+ * `va` the shadvarga with its decanate ({ ...shadvargaOf, drekkana: drekkanaOf }), `visha` vishanadiOf — each when given.
+ */
+function lagnaVerdict(l, chosen, nv = null, va = null, visha = null) {
   const reasons = [];
   const pl = l.placements[chosen.PLACEMENTS];
   if (!pl.pass) reasons.push('PLACEMENTS');
@@ -205,7 +286,15 @@ function lagnaVerdict(l, chosen, nv = null) {
     const u = nv.udaya[chosen.UDAYA];
     if (!u.udaya || !u.asta) reasons.push('UDAYA');
   }
+  if (va) {
+    if (!va.readings[chosen.SHADVARGA]) reasons.push('SHADVARGA');
+    if (va.drekkana.readings[chosen.DREKKANA]) reasons.push('DREKKANA');
+  }
+  if (visha && visha[chosen.VISHANADI]) reasons.push('VISHANADI');
   return { ok: reasons.length === 0, reasons };
 }
 
-module.exports = { lagnaShuddhiOf, lagnaVerdict, navamsaOf, placementsOf, pointsOf, ashtamaOf, pdbOf, kartariOf, houseOf, friendsOrSame, sees };
+module.exports = {
+  lagnaShuddhiOf, lagnaVerdict, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf,
+  placementsOf, pointsOf, ashtamaOf, pdbOf, kartariOf, houseOf, friendsOrSame, sees,
+};

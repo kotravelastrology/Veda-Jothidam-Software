@@ -186,8 +186,40 @@ both) — our reading; navamsa-chart aspects are not computed. Tested on that
 example, on Wilhelm's 6°-Aries example (no Leo lagna), on vargottama for every
 sign, and against the sky (every navamsa stretch of six days recomputed).
 
-Not yet computed: shadvarga, decanates, the rasi visha-nadi portions, and
-lagna shuddhi for events other than marriage (MC p.79).
+### Shadvarga, decanate and the poison portions (added 2026-10-11)
+
+The lagna is now also cut where its hora, decanate, dwadasamsa or trimsamsa
+changes, at 3°, 13°30′, 16°30′ and 27°, and at the first, middle and last 12
+minutes of each sign's rising. A stretch is the array `[f, t, r, n, v, g, b, w, d]`:
+seconds from the start, the `lagnaTable` and `navamsaTable` entries, `v` into
+`vargaTable` (the six lords and the decanate), Gandanta bits, Mrityu Bana, the
+poison-portion bits (1 Wilhelm, 2 degrees, 4 Agarwal's days, 8 half-ghati) and
+the weekday, counted from sunrise to sunrise at the place.
+
+| Check | First by words | Default | Others computed |
+|---|---|---|---|
+| Shadvarga | Rangacharya 499 (Shridhar 346, Wilhelm 145, Vashistha 40, Kalyanraman 16, Raman 12, Joshi 9) | Rangacharya pp.52-54: at least four of rasi, hora, decanate, navamsa, dwadasamsa and trimsamsa lords are benefics (Moon, Mercury, Jupiter, Venus) | Wilhelm (malefics not more than benefics; three and three needs a benefic navamsa lord); Shridhar (three is "average") |
+| Decanate | Shridhar 203 (only book) | the Sarpa (Cancer 3rd, Pisces 3rd, Scorpio 1st), Pasha (Scorpio 2nd) and Nigada (Capricorn 1st) decanates | also his Table 13.2 "inauspicious" (fixed signs' first); or only the auspicious ones (§18.3.2) |
+| Poison portion | Wilhelm 213 (Shridhar 191, Raman 162, Agarwal 152, Kalyanraman 97) | Wilhelm pp.139-140 = Shridhar Table 13.1: Bhujanga, Gridhra and Varaha navamsas, each only on its weekdays | Raman's and Agarwal's degrees on every day; Agarwal's first, middle and last navamsa of any sign by weekday; Kalyanraman's half-ghati (12 minutes) |
+
+The engine's `lagnaVerdict` takes the vargas and the poison bits too, so the
+page and the engine apply one rule. Noted on the page, not applied: the Moon in the 11th
+cancelling an evil shadvarga (Rangacharya); Wilhelm's exceptions (Jupiter or
+Venus in or aspecting the lagna; for the poison portions a strong Moon, Jupiter
+in an angle, benefics with the lagna); Shridhar's benefic lords not retrograde.
+Raman and Kalyanraman's "malefics should not be strong in the shadvargas" is a
+different rule and is not computed.
+
+Tested on Rangacharya's example (Gemini 26°: Mercury, Moon, Saturn, Venus,
+Mars, Venus — four), the hora, decanate and dwadasamsa lords, the five malefic
+decanates and no others, each book's sign groups and weekdays, and against the
+sky (each stretch's six lords, decanate, weekday and poison bits recomputed).
+For the Erode test birth (1990-05-15 07:30) over the 30 days from 2026-10-11 at
+Erode, the sign rules leave 471 lagna minutes; the three new checks alone cut
+that to 276 (322 with Shridhar's three of six); with the navamsa rules none is
+left. The engine takes 0.9 s and 1.06 MB for 30 days, 2.8 s and 2.6 MB for 90.
+
+Not yet computed: lagna shuddhi for events other than marriage (MC p.79).
 
 ## Not done
 
