@@ -437,7 +437,11 @@ const CHANDRA_NOTES_TA = Object.freeze([
   'வேதை கணிக்கப்படுவது வீடு வாசிப்பான "1, 3, 6, 7, 10, 11"-க்கு மட்டும் (அதைச் சொல்லும் நூல்கள் அதைச் சேர்த்தே சொல்கின்றன). ஸ்ரீதரின் அச்சில் வேதை இடங்கள் ஆறுக்கு ஏழு எண்கள் — அச்சுப் பிழை; வளர்பிறை 5-க்கு அவர் 12, ஜோஷி 4 — ஜோஷியுடையது கணிக்கப்படுகிறது.',
 ]);
 
+/** The books, for the marriage doshas' tables (`marriageDoshaTables.js`). */
+const BOOKS = Object.freeze({ SHRIDHAR_HEA, MC_SHARMA, KALYANRAMAN_V1, KALYANRAMAN_V2, JOSHI_KK, VASHISTHA_KUSUM, RANGACHARYA_I, AGARWAL_GS, WILHELM_E, RAMAN_BV });
+
 module.exports = {
+  BOOKS,
   KICKS, KICKERS, LATTA_RANK, RAHU_DIRECTION, PADA_RULES, LATTA_SOURCES, LATTA_EFFECTS,
   PERSONAL_RANK, PERSONAL_CHECKS, VAINASHIKA, REMEDY_88, NOTES_TA, BOOK_TA,
   TARA_NAMES_TA, TARA_RANK, TARA_BAD, TARA_CYCLES, SECOND_ROUND, TARA_SOURCES, TARA_NOTES_TA,

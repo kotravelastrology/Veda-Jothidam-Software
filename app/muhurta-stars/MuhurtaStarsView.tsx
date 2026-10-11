@@ -22,6 +22,9 @@ const PERSONAL_TA: Record<string, string> = { JANMA: 'ஜன்ம நட்ச�
 const PLANET_NAME_TA: Record<string, string> = {
   Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது',
 };
+const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
+const DIGNITY_TA: Record<string, string> = { OWN: 'சொந்த ராசி', EXALTED: 'உச்சம்', FRIEND: 'நட்பு ராசி' };
+const planetsTa = (list: string[]) => list.map((p) => PLANET_NAME_TA[p] ?? p).join(', ');
 type Show = 'ALL' | 'CLEAR' | 'BLOCKED';
 
 function Switch({ label, value, options, onChange }: { label: string; value: string; options: [string, string][]; onChange: (v: string) => void }) {
@@ -51,6 +54,8 @@ export default function MuhurtaStarsView() {
   const [taraBad, setTaraBad] = useState('T1357');
   const [taraCycle, setTaraCycle] = useState('QUARTERS');
   const [chandraReading, setChandraReading] = useState('GOOD_LIST');
+  const [dashaReading, setDashaReading] = useState<Record<string, string>>({});
+  const [dashaRule, setDashaRule] = useState('SIX_OF_TEN');
   const [show, setShow] = useState<Show>('ALL');
 
   useEffect(() => {
@@ -64,6 +69,8 @@ export default function MuhurtaStarsView() {
         setResult(r);
         setRahu(r.books.rahu.default); setPadaRule(r.books.padaRules.default); setVainashika(r.books.vainashika.default);
         setTaraBad(r.books.taraBad.default); setTaraCycle(r.books.taraCycles.default); setChandraReading(r.books.chandraReadings.default);
+        setDashaReading(Object.fromEntries(r.books.dasha.doshas.map((d: string) => [d, r.books.dasha.readings[d].default])));
+        setDashaRule(r.books.dasha.rules.default);
         if (!fromDate) setFromDate(r.fromDate);
       })
       .catch((e) => { if (!cancelled) { setError(e instanceof Error ? e.message : String(e)); setResult(null); } })
@@ -88,7 +95,52 @@ export default function MuhurtaStarsView() {
     const vain = s.personal.VAINASHIKA[vainashika];
     const tara = s.taraVerdicts[taraBad][taraCycle] as 'REJECT' | 'CAUTION' | null;
     const chandra = s.chandraBala[chandraReading] as boolean;
-    return { kicks, counted, personal, vain, tara, chandra, clear: counted.length === 0 && personal.length === 0 && !vain && tara !== 'REJECT' && chandra };
+    const dasha = dashaJudge(s, counted.length > 0);
+    return { kicks, counted, personal, vain, tara, chandra, dasha, clear: counted.length === 0 && personal.length === 0 && !vain && tara !== 'REJECT' && chandra && !dasha.reject };
+  };
+
+  /** The ten evils under the chosen readings and rule — the same rule as the engine's `dashaVerdict` (marriageDoshas.js). */
+  function dashaJudge(s: any, lattaOn: boolean) {
+    const D = B.dasha;
+    const present: string[] = D.doshas.filter((d: string) => {
+      const v = s.doshas[d].readings[dashaReading[d] ?? D.readings[d].default];
+      return v && v !== 'LAGNA';
+    });
+    const all = lattaOn ? ['LATTA', ...present] : present;
+    const serious = present.filter((d) => D.serious.includes(d));
+    const reject = dashaRule === 'NONE' ? false
+      : dashaRule === 'ALL_TEN' ? all.length > 0
+        : dashaRule === 'FIVE' ? serious.length > 0
+          : dashaRule === 'FIVE_AND_SIX' ? serious.length > 0 || all.length > 4
+            : all.length > 4;
+    return { present, all, serious, reject };
+  }
+
+  /** What a present evil is, in a few words. */
+  const doshaDetail = (s: any, d: string) => {
+    const x = s.doshas[d];
+    const v = x.readings[dashaReading[d] ?? B.dasha.readings[d].default];
+    if (d === 'PAATA') return Array.isArray(v) ? `${v.map((y: number) => B.dasha.yogaTa[y]).join(', ')} முடிவு` : 'சூரியனிலிருந்து (நாரதர்)';
+    if (d === 'YUTI') return `சந்திரனுடன் ${planetsTa(v)}${x.moonDignity ? ` · சந்திரன் ${DIGNITY_TA[x.moonDignity]} — நூல்களின்படி விலக்கு` : ''}`;
+    if (d === 'VEDHA' || d === 'JAMITRA') return planetsTa(v);
+    if (d === 'BANA') return `சூரியன் ${x.sunDeg}°`;
+    if (d === 'EKARGALA') return `${B.dasha.yogaTa[x.yoga]}${x.exempt ? ' · காலப்பிரகாசிகை, வில்ஹெல்ம்: இந்த நட்சத்திரத்தில் இல்லை' : ''}`;
+    if (d === 'UPAGRAHA') return `சூரியனிலிருந்து ${v}-வது`;
+    if (d === 'KRANTI') return `${RASI_TA[v[0]]} – ${RASI_TA[v[1]]}`;
+    if (d === 'DAGDHA') return `${s.tithi <= 15 ? 'வளர்பிறை' : 'தேய்பிறை'} ${v}-ஆம் திதி`;
+    return '';
+  };
+  /** The lagnas to leave at this time (Jamitra from the lagna; Bana by tithi and lagna) — shown, not judged. */
+  const lagnaNotes = (s: any) => {
+    const out: string[] = [];
+    const J = dashaReading.JAMITRA ?? B.dasha.readings.JAMITRA.default;
+    const [signs, navs] = result.jamitraLagnas[s.doshas.JAMITRA.lagnaRef];
+    if (J === 'NAVAMSA_55') out.push(`ஜாமித்ரம் — லக்ன நவாம்சம்: ${Object.keys(navs).map((n) => `${RASI_TA[Math.floor(Number(n) / 9)]} ${(Number(n) % 9) + 1}`).join(', ')}`);
+    else out.push(`ஜாமித்ரம் — 7-ல் கிரகம் உள்ள லக்னம்: ${Object.keys(signs).map((n) => RASI_TA[Number(n)]).join(', ')}`);
+    if ((dashaReading.BANA ?? B.dasha.readings.BANA.default) === 'TITHI_LAGNA') {
+      out.push(`மிருத்யு பாணம் — லக்னம்: ${B.dasha.banaLagnas[s.tithi - 1].MRITYU.map((l: number) => RASI_TA[l - 1]).join(', ')}`);
+    }
+    return out;
   };
   const PAKSHA_TA: Record<string, string> = { SHUKLA: 'வளர்பிறை', KRISHNA: 'தேய்பிறை' };
 
@@ -105,9 +157,10 @@ export default function MuhurtaStarsView() {
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Muhurta star</p>
-        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">முகூர்த்த நட்சத்திரம் — லத்தை, தாரா பலம், சந்திர பலம், வைநாசிகம், 88/108-வது பாதம்</h1>
+        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">முகூர்த்த நட்சத்திரம் — லத்தை, திருமணத்தின் பத்து தோஷங்கள், தாரா பலம், சந்திர பலம், வைநாசிகம், 88/108-வது பாதம்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           முகூர்த்த நட்சத்திரம் என்பது அந்த நேரத்தில் சந்திரன் நிற்கும் நட்சத்திரம். ஒரு கிரகம் அதை "உதைத்தால்" (லத்தை) யாருக்கும் விலக்கு;
+          திருமணத்துக்கு லத்தையோடு மேலும் ஒன்பது தோஷங்கள் (பாதம், யுதி, வேதை, ஜாமித்ரம், பாணம், ஏகார்கலம், உபக்கிரகம், க்ராந்தி சாம்யம், தக்த திதி);
           இவருக்கு — தாரா பலம் (ஜன்ம நட்சத்திரத்திலிருந்து), சந்திர பலம் (ஜன்ம ராசியிலிருந்து), ஜன்ம நட்சத்திரம், 88-வது, 108-வது பாதம், வைநாசிகம்.
           நூல்கள் வேறுபடும் இடங்களில் எல்லா வாசிப்புகளும் கணிக்கப்படுகின்றன; அதிகம் விளக்கும் நூலின் வாசிப்பு இயல்பு.
         </p>
@@ -157,17 +210,29 @@ export default function MuhurtaStarsView() {
                 options={B.taraCycles.order.map((id: string) => [id, `${B.taraCycles[id].labelTa}${id === B.taraCycles.default ? ' (இயல்பு)' : ''}`])} />
               <Switch label="சந்திர பலம்" value={chandraReading} onChange={setChandraReading}
                 options={B.chandraReadings.order.map((id: string) => [id, `${B.chandraReadings[id].labelTa}${id === B.chandraReadings.default ? ' (இயல்பு)' : ''}`])} />
+              <Switch label="தச தோஷம் — விதி" value={dashaRule} onChange={setDashaRule}
+                options={B.dasha.rules.order.map((id: string) => [id, `${B.dasha.rules[id].labelTa}${id === B.dasha.rules.default ? ' (இயல்பு)' : ''}`])} />
+              <details className="mb-1">
+                <summary className="cursor-pointer text-[11px] text-ink-soft">தச தோஷம் — ஒவ்வொன்றின் வாசிப்பு</summary>
+                <div className="mt-1">
+                  {B.dasha.doshas.filter((d: string) => B.dasha.readings[d].order.length > 1).map((d: string) => (
+                    <Switch key={d} label={B.dasha.nameTa[d]} value={dashaReading[d] ?? B.dasha.readings[d].default}
+                      onChange={(v) => setDashaReading({ ...dashaReading, [d]: v })}
+                      options={B.dasha.readings[d].order.map((id: string) => [id, `${B.dasha.readings[d][id].labelTa}${id === B.dasha.readings[d].default ? ' (இயல்பு)' : ''}`])} />
+                  ))}
+                </div>
+              </details>
               <Switch label="காட்டு" value={show} onChange={(v) => setShow(v as Show)}
                 options={[['ALL', 'எல்லாம்'], ['CLEAR', 'தடை இல்லாதவை'], ['BLOCKED', 'தடை உள்ளவை']]} />
             </div>
             <div className="overflow-x-auto">
-              <table className="w-full text-xs" style={{ minWidth: 760 }}>
+              <table className="w-full text-xs" style={{ minWidth: 940 }}>
                 <thead><tr className="text-ink-soft border-b border-line text-left">
-                  <th className="py-1 pr-2">நேரம்</th><th className="py-1 pr-2">நட்சத்திரம் · பாதம்</th><th className="py-1 pr-2">லத்தை</th><th className="py-1 pr-2">தாரை · சந்திரன்</th><th className="py-1">இவருக்கு</th>
+                  <th className="py-1 pr-2">நேரம்</th><th className="py-1 pr-2">நட்சத்திரம் · பாதம்</th><th className="py-1 pr-2">லத்தை</th><th className="py-1 pr-2">தச தோஷம்</th><th className="py-1 pr-2">தாரை · சந்திரன்</th><th className="py-1">இவருக்கு</th>
                 </tr></thead>
                 {byDay.map(([d, list]) => (
                   <tbody key={d} className="align-top">
-                    <tr><td colSpan={5} className="pt-2 pb-0.5 font-semibold text-ink">{d}</td></tr>
+                    <tr><td colSpan={6} className="pt-2 pb-0.5 font-semibold text-ink">{d}</td></tr>
                     {list.map(({ s, j }: any) => (
                       <tr key={s.fromUtc} className={`border-b border-line/40 ${s.current ? 'bg-amber-50' : ''}`}>
                         <td className="py-1 pr-2 font-mono whitespace-nowrap" style={num}>
@@ -188,6 +253,20 @@ export default function MuhurtaStarsView() {
                               </span>
                             );
                           })}
+                        </td>
+                        <td className="py-1 pr-2">
+                          {j.dasha.present.length === 0 && <span className="text-ink-soft">—</span>}
+                          {j.dasha.present.map((d: string) => (
+                            <span key={d} className={`block ${dashaRule === 'NONE' ? 'text-ink-soft' : B.dasha.serious.includes(d) ? 'text-rose' : 'text-amber-700'}`}>
+                              {B.dasha.nameTa[d]} — {doshaDetail(s, d)}
+                            </span>
+                          ))}
+                          {j.dasha.all.length > 0 && dashaRule !== 'NONE' && (
+                            <span className={`block text-[11px] ${j.dasha.reject ? 'text-rose' : 'text-ink-soft'}`}>
+                              பத்தில் {j.dasha.all.length}{j.counted.length > 0 ? ' (லத்தை உட்பட)' : ''}{j.dasha.serious.length > 0 ? `, கடுமையானவை ${j.dasha.serious.length}` : ''} — {j.dasha.reject ? 'இந்த விதியில் விலக்கு' : 'இந்த விதியில் ஏற்கலாம்'}
+                            </span>
+                          )}
+                          {lagnaNotes(s).map((t) => <span key={t} className="block text-[11px] text-ink-soft">{t}</span>)}
                         </td>
                         <td className="py-1 pr-2">
                           <span className={`block ${j.tara === 'REJECT' ? 'text-rose' : j.tara === 'CAUTION' ? 'text-amber-700' : 'text-ink'}`}>
@@ -251,6 +330,32 @@ export default function MuhurtaStarsView() {
               </table>
               <Cites list={Object.values(B.lattaEffects).map((e: any) => e.source)} />
             </details>
+          </section>
+
+          <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+            <h2 className="text-sm font-semibold text-ink mb-1">திருமணத்தின் பத்து தோஷங்கள் — நூல்கள்</h2>
+            <p className="text-xs text-ink">
+              லத்தை, பாதம், யுதி, வேதை, ஜாமித்ரம், மிருத்யு பஞ்சகம் (பாணம்), ஏகார்கலம், உபக்கிரகம், க்ராந்தி சாம்யம், தக்த திதி — ஜோஷி, வசிஷ்டா, அகர்வால், ஸ்ரீதர், கல்யாணராமன் (சீக்ரபோதம்) அனைவரும் இதே பத்து.
+              ஒவ்வொன்றுக்கும் நூல்கள் சொல் எண்ணிக்கை வரிசையில்; நூல்கள் வேறுபடும் இடங்களில் எல்லா வாசிப்பும் கணிக்கப்படுகிறது, அதிகம் விளக்கும் நூலின் வாசிப்பு இயல்பு.
+              லக்னத்தைப் பொறுத்தவை (லக்னத்திலிருந்து ஜாமித்ரம், திதி + லக்ன பாணம்) ஒவ்வொரு நேரத்துக்கும் தவிர்க்க வேண்டிய லக்னங்களாகக் காட்டப்படுகின்றன — தீர்ப்பில் சேர்க்கப்படவில்லை.
+            </p>
+            <p className="text-xs font-semibold text-ink mt-2">எத்தனை இருக்கலாம்</p>
+            <p className="text-[11px] text-ink-soft">{B.dasha.rank.RULE.measureTa}</p>
+            <ul className="text-xs space-y-1">{B.dasha.rules.order.map((id: string) => (
+              <li key={id}><strong>{B.dasha.rules[id].labelTa}{id === B.dasha.rules.default ? ' (இயல்பு)' : ''}:</strong> {B.dasha.rules[id].textTa}{B.dasha.rules[id].booksTa && <span className="text-ink-soft"> ({B.dasha.rules[id].booksTa})</span>}</li>
+            ))}</ul>
+            <Cites list={B.dasha.rank.RULE.order.map((b: string) => B.dasha.sources.RULE[b])} />
+            {B.dasha.doshas.map((d: string) => (
+              <details key={d} className="mt-2 text-xs">
+                <summary className="cursor-pointer font-semibold text-ink">{B.dasha.nameTa[d]}{B.dasha.serious.includes(d) ? ' — கடுமையான ஐந்தில் ஒன்று' : ''}</summary>
+                <p className="text-[11px] text-ink-soft mt-1">வரிசை: {B.dasha.rank[d].measureTa}</p>
+                <ul className="space-y-1 mt-1">{B.dasha.readings[d].order.map((id: string) => (
+                  <li key={id}><strong>{B.dasha.readings[d][id].labelTa}{id === B.dasha.readings[d].default ? ' (இயல்பு)' : ''}:</strong> {B.dasha.readings[d][id].textTa} <span className="text-ink-soft">({B.dasha.readings[d][id].booksTa})</span></li>
+                ))}</ul>
+                <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-1 space-y-0.5">{B.dasha.notesTa[d].map((t: string) => <li key={t}>{t}</li>)}</ul>
+                <Cites list={B.dasha.rank[d].order.map((b: string) => B.dasha.sources[d][b]).concat(d === 'VEDHA' ? [B.dasha.abhijitSource] : [])} />
+              </details>
+            ))}
           </section>
 
           <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">

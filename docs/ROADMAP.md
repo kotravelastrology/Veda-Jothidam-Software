@@ -216,7 +216,11 @@ Not plan items, but real, and they should not be discovered at release:
   MC Gochara 13's round-2 quarters by default; thirds, every round and Raman's
   ghatis computed too) and chandra bala (Joshi's list with the Moon's vedha by
   default; 6-8-12, 4-8, 4-8-12 computed; Chandrashtama with Wilhelm's six
-  kinds) added the same day, with Raman's *Muhurtha*. Tithi/vara/yoga and the
-  other marriage doshas are not on this page.
+  kinds) added the same day, with Raman's *Muhurtha*. The other nine marriage
+  evils (Paata, Yuti, Vedha, Jamitra, Bana, Ekargala, Upagraha, Kranti-samya,
+  Dagdha tithi) added 2026-10-11: eight books measured per evil, Shridhar first
+  for seven, Muhurta Chintamani for Vedha, Kalyanraman (nearly tied with
+  Shridhar) for Ekargala; every reading computed; Joshi's "six of ten" the
+  default rule. Tithi/vara/yoga shuddhi and lagna shuddhi are not on this page.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

@@ -2,13 +2,17 @@
 
 `/muhurta-stars` (Tools menu) · `src/report/muhurtaStars.js` (computation) ·
 `src/report/muhurtaStarTables.js` (the books' rules) · test
-`test-muhurta-stars.js` with `fixtures/muhurta-stars/books.json`.
+`test-muhurta-stars.js` with `fixtures/muhurta-stars/books.json`. The other
+nine marriage evils: `src/report/marriageDoshas.js`,
+`src/report/marriageDoshaTables.js`, `test-marriage-doshas.js` with
+`fixtures/marriage-doshas/books.json`.
 
 A muhurta's star is the one the Moon stands in. For one person and a period
 (7–90 days, from their local midnight), the period is cut wherever the Moon or
-a kicking planet enters a new pada (3°20′); in each piece every check below is
-constant, and the page marks the piece clear or rejected under the chosen
-readings.
+a kicking planet enters a new pada (3°20′), the Sun changes degree, the tithi
+or yoga changes, or a planet enters or leaves Abhijit; in each piece every
+check below is constant, and the page marks the piece clear or rejected under
+the chosen readings.
 
 ## Latta — for anyone
 
@@ -95,11 +99,48 @@ friendship both ways or one lord — our reading), not applied to the verdict.
 Whose chandra bala (the bride's for marriage — Joshi, MC) is left to the user:
 the page computes it for the chosen person.
 
+## The ten evils of a marriage muhurta (added 2026-10-11)
+
+Joshi, Vashistha, Agarwal, Shridhar and Kalyanraman (Seegrabodham) list the
+same ten: Latta (above), Paata, Yuti, Vedha, Jamitra, Mrityu Panchaka (Bana),
+Ekargala, Upagraha, Kranti-samya, Dagdha tithi. Words were measured per evil per
+book; the default of each is its most explaining book's (all page images
+checked):
+
+| Evil | First by words | Default | Other readings computed |
+|---|---|---|---|
+| Paata | Shridhar 619 | the Moon's star when Harshana, Vaidhriti, Sadhya, Vyatipata, Ganda or Shoola ends — the whole passage (MC VI.60) | only the pada the Moon was in then (Shridhar's 1998-12-09 example); Narada: from the Sun's star to Ashlesha, Magha, Chitra, Anuradha, Shravana, Revati (MC note, Rangacharya, Joshi's Table 6.2, Wilhelm); the same with Swati (Shridhar's text and table); Narada with the Sun's pada number (MC VI.64, Wilhelm) |
+| Yuti | Shridhar 478 | any planet in the Moon's sign | not Mercury or Jupiter (MC); a planet in the Moon's star (Joshi, Kalyanraman) |
+| Vedha | MC 1014 | Pancha Shalaka (14 pairs; Shridhar's and Rangacharya's list, MC's eight and drawing) | both chakras (Bhoja, Varahamihira); Sapta Shalaka (Agarwal). A malefic strikes the whole star, a benefic only the facing quarter (1-4, 2-3) |
+| Jamitra | Shridhar 673 | any planet but Mercury in the 7th sign from the Moon | the 55th navamsa (MC VI.67, "more proper"); a malefic in the 14th star (Vashistha, Agarwal, Rangacharya) |
+| Bana | Shridhar 867 | Mrityu bana by the Sun's completed degree (1, 10, 19, 28) | Wilhelm's count (0-1° is the first degree); tithi + lagna (south India) — lagnas listed |
+| Ekargala | Kalyanraman 477 (Shridhar 462) | Kharjura chakra with Abhijit (Kalyanraman's third norm = Shridhar's only one) | without Abhijit (Rangacharya, Kalaprakasika); the odd count from the Sun, with and without Abhijit (MC VI.62, Joshi, Agarwal; Narada); Wilhelm's (yoga + 7, eight stars exempt) |
+| Upagraha | Shridhar 284 | the 13 counts 5, 7, 8, 10, 14, 15, 18, 19, 21-25 (MC VI.63) | the Sun's pada number only (MC VI.64; M.P., M.G.; Wilhelm); counting Abhijit (Joshi); M.P.'s eight |
+| Kranti-samya | Shridhar 590 | the six sign pairs (MC VI.61) | — |
+| Dagdha | Shridhar 214 | the burnt tithi of either half (MC VI.66) | the bright half for odd signs, the dark for even (Rangacharya, Vashistha) |
+
+How many may be present (words: Joshi 73, Agarwal 71, Shridhar 60, Vashistha
+35): **six of the ten avoided** (Joshi, default); the five serious ones (Yuti,
+Vedha, Mrityu Bana, Kranti-samya, Dagdha — Shridhar and Joshi by name,
+Vashistha by number) and six avoided (Agarwal, Vashistha); the five alone
+(Shridhar); all ten; or shown only (for other events). Agarwal gives the same
+numbers 3, 4, 6, 8, 10 but lists Upagraha 8th — recorded.
+
+Readings of ours: a body in Abhijit (MC: Uttarashadha's 4th quarter and the
+first fifteenth of Shravana) stands on Abhijit and on its own star for Vedha
+(MC's own example strikes Mrigashira from that quarter), and on Abhijit alone
+for the counts; the running tithi, not the sunrise tithi; the Moon's dignity
+(own, exalted, BPHS friend's sign) and the other reliefs are shown, not
+applied; the lagna-dependent rules (Jamitra from the lagna, Bana by tithi and
+lagna) list the lagnas to leave and are not judged; Ekargala's day-only rule is
+shown (no sunrise computed). Kalyanraman's other two Ekargala norms are not
+computed (his two lists differ; "end portions" has no measure).
+
 ## Not done
 
-The rest of a muhurta (tithi, vara, yoga, karana, lagna shuddhi, the other
-nine marriage doshas) is not on this page. The Tamil muhurta scans in the
-library have no text layer and were not searched.
+The rest of a muhurta (tithi, vara, yoga, karana, lagna shuddhi, kartari,
+the 21 great evils) is not on this page. The Tamil muhurta scans in the library
+have no text layer and were not searched.
 
 ## Verified
 
@@ -116,3 +157,11 @@ Raman's ghatis, the Moon's vedha pairs, Wilhelm's six kinds, every reading by
 house; the Moon's pieces cut at the quarters, thirds and ghati marks, and each
 piece's tara and chandra recomputed against the ephemeris at both ends. Raman's
 *Muhurtha* added to the library (71 entries) and the registry.
+The ten: every book example (MC's and Rangacharya's Narada stars, Shridhar's
+Swati stars, Joshi's Table 6.2 turned round, the Kharjura examples of
+Rangacharya, Kalaprakasika, Shridhar and Wilhelm, Shridhar's bana table and
+MC's 17°, the tithi + lagna examples, MC's and Joshi's 55th navamsa, Vashistha's
+Dagdha table, MC's quarter vedha), Shridhar's Paata of 1998-12-09 against the
+ephemeris (Magha and its 3rd pada within 15 minutes of his times), and every
+reading of every piece of 20 days recomputed at both ends, with the yoga ends
+found independently.

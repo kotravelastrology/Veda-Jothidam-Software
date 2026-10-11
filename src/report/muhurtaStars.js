@@ -11,6 +11,9 @@
  *    the birth pada, and Vainashika under three readings.
  *  - Within the 88th pada, the stretches when the lagna's lord and the 10th
  *    lord are friends (Kalaprakasika's remedy), for the given place.
+ *  - The other nine evils of a marriage muhurta (`marriageDoshas.js`): the
+ *    period is also cut where the Sun changes degree, the yoga or the tithi
+ *    changes, or a planet enters or leaves Abhijit.
  */
 
 const { planetLongitude, nodeLongitude } = require('../ephemeris/siderealPositions');
@@ -21,6 +24,8 @@ const { scanKey } = require('./saturnAshtakavarga');
 const { NAKSHATRA_TA } = require('./babyNames');
 const { kickedStar } = require('./lattaTables');
 const T = require('./muhurtaStarTables');
+const D = require('./marriageDoshaTables');
+const { marriageDoshasOf, dashaVerdict, banaOf, PLANETS: DOSHA_PLANETS } = require('./marriageDoshas');
 
 const DAY_MS = 86400000;
 const JD_UNIX_EPOCH = 2440587.5;
@@ -42,25 +47,55 @@ const STAR = 360 / 27;
 /**
  * Where a star is cut for the Moon: the ghatis of Raman's urgent rule (3, 6, 7,
  * 8 of 60), the quarters (padas) and the thirds — every boundary a tara rule
- * uses, so each piece lies wholly inside or outside each rule's portion.
+ * uses, so each piece lies wholly inside or outside each rule's portion — and
+ * 4/60, where Abhijit ends inside Shravana (it begins at Uttarashadha's 4th
+ * quarter).
  */
-const STAR_CUTS = Object.freeze([0, 3 / 60, 6 / 60, 7 / 60, 8 / 60, 1 / 4, 1 / 3, 1 / 2, 2 / 3, 3 / 4]);
+const STAR_CUTS = Object.freeze([0, 3 / 60, 4 / 60, 6 / 60, 7 / 60, 8 / 60, 1 / 4, 1 / 3, 1 / 2, 2 / 3, 3 / 4]);
 const sliceOf = (frac) => {
   let i = 0;
   while (i + 1 < STAR_CUTS.length && frac >= STAR_CUTS[i + 1]) i += 1;
   return i;
 };
-/** The Moon's key: star × 10 + the slice of the star. */
+/** The Moon's key: star × 16 + the slice of the star. */
 const moonKeyOf = (lon) => {
   const l = norm360(lon);
   const star = Math.floor(l / STAR) % 27;
-  return star * 10 + sliceOf((l - star * STAR) / STAR);
+  return star * 16 + sliceOf((l - star * STAR) / STAR);
 };
 const sliceBounds = (slice) => [STAR_CUTS[slice], STAR_CUTS[slice + 1] ?? 1];
+/** The Moon is in Abhijit in Uttarashadha's last quarter and Shravana's first 4/60. */
+const moonInAbhijit = (star, slice) => (star === 20 && STAR_CUTS[slice] >= 3 / 4) || (star === 21 && STAR_CUTS[slice] < 4 / 60);
+const inAbhijit = (lon) => lon >= D.ABHIJIT.from && lon < D.ABHIJIT.to;
+const YOGA = 360 / 27;
 
 function longitudeOf(planet, ms, ayanamsha, nodeType) {
   if (planet === 'Rahu') return norm360(nodeLongitude(jdOf(ms), ayanamsha, nodeType));
   return norm360(planetLongitude(jdOf(ms), planet, ayanamsha));
+}
+
+/**
+ * A piece's evils for the page: only the readings under which each is present
+ * and what the page shows. Jamitra's lagna lists change only with the planets'
+ * padas, so they are kept once in `lagnaTable` and referred to by index; Bana's
+ * lagnas depend only on the tithi and are in `books.dasha.banaLagnas`.
+ */
+function compactDoshas(ds, lagnaTable) {
+  const present = (r) => Object.fromEntries(Object.entries(r).filter(([, x]) => x));
+  const lagnas = JSON.stringify([ds.JAMITRA.lagnaSigns, ds.JAMITRA.lagnaNavamsas]);
+  let ref = lagnaTable.indexOf(lagnas);
+  if (ref < 0) { lagnaTable.push(lagnas); ref = lagnaTable.length - 1; }
+  return {
+    PAATA: { readings: present(ds.PAATA.readings), yogaEnds: ds.PAATA.yogaEnds },
+    YUTI: { readings: present(ds.YUTI.readings), starOtherSign: ds.YUTI.starOtherSign, moonDignity: ds.YUTI.moonDignity },
+    VEDHA: { readings: present(ds.VEDHA.readings) },
+    JAMITRA: { readings: present(ds.JAMITRA.readings), mercurySeventh: ds.JAMITRA.mercurySeventh, lagnaRef: ref },
+    BANA: { readings: present(ds.BANA.readings), sunDeg: ds.BANA.sunDeg, banasDeg: ds.BANA.byDegree.present, banasOrd: ds.BANA.byOrdinal.present, sashalya: ds.BANA.byDegree.sashalya },
+    EKARGALA: { readings: present(ds.EKARGALA.readings), yoga: ds.EKARGALA.yoga, count28: ds.EKARGALA.count28, exempt: ds.EKARGALA.exempt },
+    UPAGRAHA: { readings: present(ds.UPAGRAHA.readings), count: ds.UPAGRAHA.count },
+    KRANTI: { readings: present(ds.KRANTI.readings) },
+    DAGDHA: { readings: present(ds.DAGDHA.readings) },
+  };
 }
 
 /** The lagna's lord and the 10th lord: friends both ways (BPHS natural), or one planet. */
@@ -151,17 +186,31 @@ function muhurtaStarChecks({ natalMoonLongitude, fromMs, toMs, atMs = Date.now()
 
   const natalSign = Math.floor(norm360(natalMoonLongitude) / 30);
 
-  // Segments of every body (the Moon by slice of star, the rest by pada) and of
-  // the paksha, then the pieces between all their boundaries.
+  // Segments of every body (the Moon by slice of star, the rest by pada), of
+  // the tithi and yoga, of the Sun's degree and of who is in Abhijit, then the
+  // pieces between all their boundaries.
+  const lon = (b, ms) => longitudeOf(b, ms, ayanamsha, nodeType);
   const keyFns = {
-    Moon: (ms) => moonKeyOf(longitudeOf('Moon', ms, ayanamsha, nodeType)),
-    ...Object.fromEntries(T.KICKERS.map((b) => [b, (ms) => padaOf(longitudeOf(b, ms, ayanamsha, nodeType))])),
-    paksha: (ms) => Math.floor(norm360(longitudeOf('Moon', ms, ayanamsha, nodeType) - longitudeOf('Sun', ms, ayanamsha, nodeType)) / 180),
+    Moon: (ms) => moonKeyOf(lon('Moon', ms)),
+    ...Object.fromEntries(T.KICKERS.map((b) => [b, (ms) => padaOf(lon(b, ms))])),
+    tithi: (ms) => Math.floor(norm360(lon('Moon', ms) - lon('Sun', ms)) / 12),
+    yoga: (ms) => Math.floor(norm360(lon('Moon', ms) + lon('Sun', ms)) / YOGA) % 27,
+    sunDeg: (ms) => Math.floor(lon('Sun', ms)),
+    abhijit: (ms) => DOSHA_PLANETS.reduce((bits, p, i) => bits | (inAbhijit(p === 'Ketu' ? norm360(lon('Rahu', ms) + 180) : lon(p, ms)) ? 1 << i : 0), 0),
   };
-  const steps = { ...STEP_DAYS, paksha: 0.25 };
+  const steps = { ...STEP_DAYS, tithi: 0.05, yoga: 0.05, sunDeg: 0.25, abhijit: 0.25 };
   const segs = Object.fromEntries(Object.keys(keyFns).map((b) => [b, scanKey(fromMs, toMs, keyFns[b], steps[b] * DAY_MS)]));
   const cuts = [...new Set(Object.values(segs).flatMap((ss) => ss.map((s) => s.fromMs)).concat([toMs]))].sort((a, b) => a - b);
   const keyAt = (b, ms) => segs[b].find((s) => s.fromMs <= ms && ms < s.toMs)?.key ?? segs[b][segs[b].length - 1].key;
+
+  // Paata: the Moon's star when one of its six yogas ends strikes that star for
+  // the whole of the Moon's passage through it — so the yogas and the Moon's
+  // passages are scanned two days beyond each end of the period.
+  const passages = scanKey(fromMs - 2 * DAY_MS, toMs + 2 * DAY_MS, (ms) => Math.floor(lon('Moon', ms) / STAR) % 27, STEP_DAYS.Moon * DAY_MS);
+  const paataEnds = scanKey(fromMs - 2 * DAY_MS, toMs + 2 * DAY_MS, keyFns.yoga, steps.yoga * DAY_MS)
+    .filter((s) => !s.openEnd && D.PAATA_YOGAS.includes(s.key))
+    .map((s) => ({ yoga: s.key, atMs: s.toMs - 30000, moonPada: padaOf(lon('Moon', s.toMs - 30000)) }));
+  const passageAt = (ms) => passages.find((p) => p.fromMs <= ms && ms < p.toMs);
 
   const pieces = [];
   for (let i = 0; i + 1 < cuts.length; i += 1) {
@@ -170,23 +219,35 @@ function muhurtaStarChecks({ natalMoonLongitude, fromMs, toMs, atMs = Date.now()
     if (b <= a) continue;
     const mid = (a + b) / 2;
     const moonKey = keyAt('Moon', mid);
-    const star = Math.floor(moonKey / 10);
-    const slice = moonKey % 10;
+    const star = Math.floor(moonKey / 16);
+    const slice = moonKey % 16;
     const moonPada = star * 4 + Math.floor(STAR_CUTS[slice] * 4 + 1e-9);
     const kickerPadas = Object.fromEntries(T.KICKERS.map((p) => [p, keyAt(p, mid)]));
     const planetSigns = Object.fromEntries(T.KICKERS.map((p) => [p, Math.floor(kickerPadas[p] / 9)]));
     planetSigns.Ketu = (planetSigns.Rahu + 6) % 12;
+    const tithi = keyAt('tithi', mid) + 1;
     const latta = lattaOf(moonPada, kickerPadas);
     const personal = personalOf(janmaPada, moonPada);
     const tara = taraOf(janmaStar, star, slice);
-    const chandra = chandraOf(natalSign, Math.floor(moonPada / 9), keyAt('paksha', mid) === 0 ? 'SHUKLA' : 'KRISHNA', tara.count, planetSigns);
+    const chandra = chandraOf(natalSign, Math.floor(moonPada / 9), tithi <= 15 ? 'SHUKLA' : 'KRISHNA', tara.count, planetSigns);
     // Every reading's verdict, so the page needs no rules of its own and pieces merge only where all agree.
     const taraVerdicts = Object.fromEntries(T.TARA_BAD.order.map((bad) => [bad, Object.fromEntries(T.TARA_CYCLES.order.map((cy) => [cy, taraVerdict(tara, bad, cy)]))]));
     const chandraBala = Object.fromEntries(T.CHANDRA_READINGS.order.map((r) => [r, chandraPresent(chandra, r)]));
-    const sig = JSON.stringify([moonPada, latta, personal, tara.n, tara.cycle, chandra, taraVerdicts]);
+    const bits = keyAt('abhijit', mid);
+    const padas = { ...kickerPadas, Ketu: (kickerPadas.Rahu + 54) % 108 };
+    const passage = passageAt(mid);
+    const doshas = marriageDoshasOf({
+      moon: { pada: moonPada, abhijit: moonInAbhijit(star, slice) },
+      sun: { pada: kickerPadas.Sun, deg: keyAt('sunDeg', mid) % 30, abhijit: Boolean(bits & 1) },
+      planets: Object.fromEntries(DOSHA_PLANETS.map((p, k) => [p, { pada: padas[p], abhijit: Boolean(bits & (1 << k)) }])),
+      yoga: keyAt('yoga', mid),
+      tithi,
+      paataEnds: paataEnds.filter((e) => passage && passage.fromMs <= e.atMs && e.atMs < passage.toMs).map(({ yoga, moonPada: mp }) => ({ yoga, moonPada: mp })),
+    });
+    const sig = JSON.stringify([moonPada, latta, personal, tara.n, tara.cycle, chandra, taraVerdicts, doshas]);
     const last = pieces[pieces.length - 1];
     if (last && last.sig === sig && last.toMs === a) { last.toMs = b; last.tara.to = tara.to; continue; }
-    pieces.push({ sig, fromMs: a, toMs: b, moonPada, latta, personal, tara, chandra, taraVerdicts, chandraBala });
+    pieces.push({ sig, fromMs: a, toMs: b, moonPada, latta, personal, tara, chandra, taraVerdicts, chandraBala, tithi, doshas });
   }
 
   // The remedy, inside the 88th pada: the lagna sign through those hours.
@@ -196,6 +257,7 @@ function muhurtaStarChecks({ natalMoonLongitude, fromMs, toMs, atMs = Date.now()
       .map((s) => ({ fromUtc: iso(s.fromMs), toUtc: iso(s.toMs), lagna: s.key, lagnaTa: RASI_TA[s.key], ...lordsFriendly(s.key) }));
   };
 
+  const lagnaTable = [];
   const segments = pieces.map((p) => ({
     fromUtc: iso(p.fromMs), toUtc: iso(p.toMs),
     star: Math.floor(p.moonPada / 4), starTa: NAKSHATRA_TA[Math.floor(p.moonPada / 4)], pada: (p.moonPada % 4) + 1,
@@ -206,6 +268,8 @@ function muhurtaStarChecks({ natalMoonLongitude, fromMs, toMs, atMs = Date.now()
     taraVerdicts: p.taraVerdicts,
     chandra: p.chandra,
     chandraBala: p.chandraBala,
+    tithi: p.tithi,
+    doshas: compactDoshas(p.doshas, lagnaTable),
     remedy88: p.personal.PADA_88 ? remedyFor(p.fromMs, p.toMs) : null,
   }));
   const natalLord = RASI_LORDS[natalSign];
@@ -233,6 +297,8 @@ function muhurtaStarChecks({ natalMoonLongitude, fromMs, toMs, atMs = Date.now()
     },
     place: Number.isFinite(latitude) && Number.isFinite(longitude) ? { latitude, longitude } : null,
     segments,
+    // Jamitra from the lagna: [signs → planets in their 7th, lagna navamsas (padas) → planets in their 55th].
+    jamitraLagnas: lagnaTable.map((s) => JSON.parse(s)),
     books: {
       lattaRank: T.LATTA_RANK, personalRank: T.PERSONAL_RANK, bookTa: T.BOOK_TA,
       rahu: T.RAHU_DIRECTION, padaRules: T.PADA_RULES, lattaSources: T.LATTA_SOURCES, lattaEffects: T.LATTA_EFFECTS,
@@ -242,6 +308,12 @@ function muhurtaStarChecks({ natalMoonLongitude, fromMs, toMs, atMs = Date.now()
       taraSources: T.TARA_SOURCES, taraNotesTa: T.TARA_NOTES_TA,
       chandraRank: T.CHANDRA_RANK, chandrashtamaKinds: T.CHANDRASHTAMA_KINDS, chandraReadings: T.CHANDRA_READINGS,
       chandraSources: T.CHANDRA_SOURCES, chandraNotesTa: T.CHANDRA_NOTES_TA, moonVedha: T.MOON_VEDHA, moonVedhaBright: T.MOON_VEDHA_BRIGHT,
+      dasha: {
+        doshas: D.DOSHAS, serious: D.SERIOUS, nameTa: D.NAME_TA, readings: D.READINGS, rules: D.RULES, rank: D.RANK,
+        sources: D.SOURCES, notesTa: D.NOTES_TA, banaTa: D.BANA_TA, yogaTa: D.YOGA_TA, abhijitSource: D.ABHIJIT_SOURCE,
+        // Bana by tithi and lagna: for tithi 1-30 (index 0-29), the lagna numbers (1 = Aries) giving each bana.
+        banaLagnas: [...Array(30).keys()].map((i) => banaOf({ sun: { deg: 0 }, tithi: i + 1 }).lagnas),
+      },
     },
   };
 }
@@ -278,4 +350,4 @@ function chandraPresent(c, readingId) {
   return !r.bad.includes(c.house);
 }
 
-module.exports = { muhurtaStarChecks, personalOf, lattaOf, lordsFriendly, taraOf, chandraOf, taraVerdict, chandraPresent, STAR_CUTS, MAX_DAYS };
+module.exports = { muhurtaStarChecks, personalOf, lattaOf, lordsFriendly, taraOf, chandraOf, taraVerdict, chandraPresent, dashaVerdict, moonInAbhijit, STAR_CUTS, MAX_DAYS };

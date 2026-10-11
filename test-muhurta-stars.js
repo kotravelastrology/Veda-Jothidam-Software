@@ -137,7 +137,7 @@ const plain = (o) => JSON.parse(JSON.stringify(o));
     assert.equal(taraVerdict(taraOf(0, Number(n) - 1, sliceAt(g / 60 + 0.001)), 'T1357', 'GHATI'), null, `tara ${n} after ${g} ghatis`);
   }
   // The star cuts include every boundary the rules use.
-  for (const f of [3 / 60, 6 / 60, 7 / 60, 8 / 60, 1 / 4, 1 / 3, 1 / 2, 2 / 3, 3 / 4]) assert.ok(STAR_CUTS.includes(f), String(f));
+  for (const f of [3 / 60, 4 / 60, 6 / 60, 7 / 60, 8 / 60, 1 / 4, 1 / 3, 1 / 2, 2 / 3, 3 / 4]) assert.ok(STAR_CUTS.includes(f), String(f));
   assert.deepEqual(plain(T.TARA_RANK.words), FIX.taraWords);
   assert.deepEqual([...T.TARA_RANK.order], Object.keys(FIX.taraWords).sort((a, b) => FIX.taraWords[b] - FIX.taraWords[a]));
   assert.deepEqual([T.TARA_BAD.default, T.TARA_CYCLES.default], ['T1357', 'QUARTERS'], 'Wilhelm\'s: 1, 3, 5, 7 unfavourable; the quarters in round 2');
