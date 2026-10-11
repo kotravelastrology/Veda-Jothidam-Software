@@ -517,9 +517,42 @@ const SOURCES = [
       mayShip: false,
       mayQuoteShort: true,
       note: 'Cited for Moorthy Nirnaya (section 6.2, Table No.20) and its 2002 example, for Latta '
-        + '(section 6.3) and for the 88th nakshatra pada (section 6.4, Table No.21). The PDF page is cited.',
+        + '(section 6.3), for the 88th nakshatra pada (section 6.4, Table No.21) and for the band of years '
+        + '(Table No.3, para 10.1, section 6.5). The PDF page is cited.',
       verified: false,
       toConfirm: 'Edition, year and printed page numbers.',
+    },
+  },
+  {
+    id: 'GOSVAMI_LAL_KITAB',
+    title: 'Lal Kitab (B.M. Gosvami)',
+    titleTa: 'லால் கிதாப் (பி.எம். கோஸ்வாமி)',
+    author: 'B.M. Gosvami',
+    file: 'lal-kitab-gosvami/raw-scans/full-scan.pdf',
+    tradition: 'Lal Kitab, English rendering',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the 35-year circulation of planets and the intervening planets of each period (§§20-21, printed pp.77-78).',
+      verified: false,
+      toConfirm: 'Publisher, edition and year.',
+    },
+  },
+  {
+    id: 'MAHAJAN_LAL_KITAB',
+    title: 'Lal Kitab (U.C. Mahajan)',
+    titleTa: 'லால் கிதாப் (யு.சி. மகாஜன்)',
+    author: 'U.C. Mahajan',
+    file: 'lal-kitab-mahajan/raw-scans/full-scan.pdf',
+    tradition: 'Lal Kitab, English rendering',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the life span of planets, the 35-year cycle and the intervening planets (§§XIII-XV, printed pp.24-26).',
+      verified: false,
+      toConfirm: 'Publisher, edition and year.',
     },
   },
   {

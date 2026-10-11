@@ -201,6 +201,10 @@ Not plan items, but real, and they should not be discovered at release:
   Rahu 8th (verse: 9th); three books count Ketu; the effects differ most for
   Mars, Saturn, the Moon and Jupiter. Muhurta use of Latta: `/muhurta-stars` (2026-10-10).
 - **The 88th nakshatra pada.** `/pada-88` (`docs/PADA-88.md`), 2026-10-08.
+- **The band of years.** `/band-of-years` (`docs/BAND-OF-YEARS.md`), 2026-10-11:
+  Lal Kitab's 35-year cycle in three books (Raj Kumar first: Saturn from
+  birth, with the ruler's progression and transit; Gosvami and Mahajan:
+  Jupiter first and the three-part intervening planets).
   Raj Kumar (per-planet table, Jupiter's aspect as relief) and Vishnu Bhaskar
   for transits; Kalaprakasika and Shubhakaran for the quality of a time (the
   Moon's six-hour passages). "In the 22nd star" holds only for a 1st-pada birth;
