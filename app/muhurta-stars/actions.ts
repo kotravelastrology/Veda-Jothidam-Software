@@ -67,6 +67,7 @@ export async function computeMuhurtaStars(req: MuhurtaStarsRequest) {
     fromMs, toMs: fromMs + days * 86400000, atMs: now,
     ayanamsha: ctx.ayanamsha, nodeType: ctx.nodeType ?? 'mean',
     latitude: eventPlace.latitude, longitude: eventPlace.longitude,
+    natalLongitudes: Object.fromEntries(Object.entries(chart.grahas).map(([p, g]: [string, any]) => [p, g.longitude])),
   });
   return JSON.parse(JSON.stringify({
     ...result, fromDate, days, eventPlace,

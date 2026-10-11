@@ -262,10 +262,46 @@ passes 6,331 lagna minutes of 43,200, MC's 1,210, Raman's 12,590, Varahamihira's
 and Agarwal's none; with every other-act check none is left — udaya-asta is
 the last to close it (1,025 minutes without it).
 
-Not computed: Shridhar's §13.10 adverse combinations (the lagna lord combust,
-in 6/8/12 or debilitated; the 8th lord in the lagna; malefics in the rising
-navamsa; Chhidra grahas), month and tithi Shunya lagnas, and each event's own
-lagna rules (house entry, upanayana, travel …).
+Not computed: month and tithi Shunya lagnas, and each event's own lagna rules
+(house entry, upanayana, travel …).
+
+### Shridhar's adverse combinations, §13.10 (added 2026-10-11)
+
+Shridhar alone (492 words, pp.323-325) lists sixteen combinations that spoil
+an election ascendant; it is in his general chapter, so both kinds of event
+take it (check ADVERSE). Items 2 and 16 are the existing 8th-from-birth and
+Kartari checks; item 11 (Mars in the 8th) falls inside item 9. Computed:
+
+| Item | Code |
+|---|---|
+| 1, 13 the lagna lord set, in 6/8/12, debilitated, in an enemy's sign, retrograde | LORD_* |
+| 3 the birth 8th lords' navamsa sign rising | NAV8_LORD |
+| 4 the 8th lord in the lagna | LORD8_IN_LAGNA |
+| 5 a malefic in the rising sign or rising navamsa | MALEFIC_RISING |
+| 6, 12 the birth lagna's or birth Moon's lord set or retrograde | NATAL_LORD_* |
+| 7 a retrograde or set planet (Mercury set allowed) in the rising sign or navamsa | RISING_RETRO_SET |
+| 8 the Moon in the lagna, except Aries, Taurus, Cancer ("it is opined") | MOON_IN_LAGNA |
+| 9 a malefic 8th from the lagna or the Moon | MALEFIC_8 |
+| 10 the Moon in 6/8/12 | MOON_6_8_12 |
+| 14 the birth 6th or 8th lord in the 1st, 6th or 8th | NATAL_6_8_LORD |
+| 15 a Chhidra graha in or aspecting the lagna (8th lord, planets in or aspecting the 8th, the 22nd decanate's lord, planets with the 8th lord, the lord of the 64th navamsa from the Moon) | CHHIDRA |
+
+Two readings: all of them (default) or without item 8. Combustion orbs: the
+Moon 12° (Shridhar p.45), Jupiter 11°, Venus 10°/8° retrograde (p.211); Mars
+17°, Mercury 14°/12°, Saturn 15° from Phaladeepika (Kapoor's note to II.36),
+which agrees with Shridhar's three. The engine scans every planet's retrograde
+and combust state (`motionSegs`) and takes the planets' navamsas per piece (a
+navamsa is a pada, and pieces are cut at every pada); stretches gain an 11th
+field `a` into `adverseTable`. Not computed: "weak", "fast moving", "defeated
+in war", the 8th's "bitter enemy" (needs temporal friendship). The page now
+passes the birth planets (`natalLongitudes`) for item 3.
+
+Tested on a constructed chart, item by item, and against the sky (every
+stretch's planets, motion and combustion recomputed). For the Erode birth the
+lord of the birth lagna or Moon is retrograde for all 30 days from 2026-10-11,
+so item 6 alone leaves no time; per item, in minutes of 43,200: MALEFIC_8
+27,729, MALEFIC_RISING 25,793, CHHIDRA 22,668, NATAL_6_8_LORD 20,472. The
+engine takes 1.2 s and 1.26 MB for 30 days.
 
 ## Not done
 

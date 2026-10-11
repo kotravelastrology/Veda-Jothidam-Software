@@ -327,11 +327,72 @@ function vishanadiOf(v, vara, ghati) {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Shridhar §13.10: adverse combinations for an election ascendant
+// ---------------------------------------------------------------------------
+
+/**
+ * The adverse combinations present (codes; none = clear).
+ *   lagna, d3        the rising sign and its decanate (0-2)
+ *   nav              the rising navamsa's sign
+ *   signs, navSigns  the planets' signs and navamsa signs
+ *   moonN108         the Moon's navamsa index (0 = Aries's first), for the 64th
+ *   retro, combust   { planet: bool } (T.MOVERS, T.SETTERS)
+ *   natalLagna, natalMoon   signs
+ *   natalNav8        the navamsa signs, at birth, of the lords of the 8th from the birth lagna and Moon
+ */
+function adverseOf(m) {
+  const lord = T.RASI_LORDS;
+  const H = Object.fromEntries(T.PLANETS.map((p) => [p, houseOf(m.signs[p], m.lagna)]));
+  const see = (p, to) => p in T.ASPECTS && sees(p, m.signs[p], to, false);
+  const L1 = lord[m.lagna];
+  const h8 = (m.lagna + 7) % 12;
+  const L8 = lord[h8];
+  const out = [];
+  // 1, 13: the lagna lord.
+  if (m.combust[L1]) out.push('LORD_SET');
+  if ([6, 8, 12].includes(H[L1])) out.push('LORD_6_8_12');
+  if (m.signs[L1] === (T.EXALTATION[L1] + 6) % 12) out.push('LORD_DEBIL');
+  if (naturalRelation(L1, lord[m.signs[L1]]) === 'enemy') out.push('LORD_ENEMY');
+  if (m.retro[L1]) out.push('LORD_RETRO');
+  // 3: the birth 8th lords' navamsa signs.
+  if (m.natalNav8.includes(m.lagna)) out.push('NAV8_LORD');
+  // 4: the 8th lord in the lagna (the Moon in the 8th is item 10).
+  if (H[L8] === 1) out.push('LORD8_IN_LAGNA');
+  // 5, 7: in the rising sign, or in the rising navamsa of the navamsa chart.
+  const rising = T.PLANETS.filter((p) => H[p] === 1 || m.navSigns[p] === m.nav);
+  if (rising.some((p) => T.MALEFICS.includes(p))) out.push('MALEFIC_RISING');
+  if (rising.some((p) => m.retro[p] || (m.combust[p] && p !== 'Mercury'))) out.push('RISING_RETRO_SET');
+  // 6, 12: the birth lagna's and birth Moon's lords now.
+  const natalLords = [m.natalLagna, m.natalMoon].filter(Number.isInteger).map((s) => lord[s]);
+  if (natalLords.some((p) => m.combust[p])) out.push('NATAL_LORD_SET');
+  if (natalLords.some((p) => m.retro[p])) out.push('NATAL_LORD_RETRO');
+  // 8: "it is opined" — and "some" allow Aries, Taurus, Cancer.
+  if (H.Moon === 1 && ![0, 1, 3].includes(m.lagna)) out.push('MOON_IN_LAGNA');
+  // 9 (with 11, Mars in the 8th): a malefic 8th from the lagna or from the Moon.
+  if (T.MALEFICS.some((p) => H[p] === 8 || m.signs[p] === (m.signs.Moon + 7) % 12)) out.push('MALEFIC_8');
+  // 10.
+  if ([6, 8, 12].includes(H.Moon)) out.push('MOON_6_8_12');
+  // 14: the birth chart's 6th and 8th lords.
+  if (Number.isInteger(m.natalLagna) && [5, 7].some((k) => [1, 6, 8].includes(H[lord[(m.natalLagna + k) % 12]]))) out.push('NATAL_6_8_LORD');
+  // 15: a Chhidra graha in the lagna or aspecting it.
+  const chhidra = new Set([
+    L8,
+    ...T.PLANETS.filter((p) => H[p] === 8 || see(p, h8)),
+    lord[(h8 + [0, 4, 8][m.d3]) % 12],
+    ...T.PLANETS.filter((p) => p !== L8 && m.signs[p] === m.signs[L8]),
+    lord[(m.moonN108 + 63) % 12],
+  ]);
+  if ([...chhidra].some((p) => H[p] === 1 || see(p, m.lagna))) out.push('CHHIDRA');
+  return out;
+}
+
 /**
  * The lagna's verdict under the chosen readings (the page uses the same rule). `nv` is the navamsa's,
- * `va` the shadvarga with its decanate ({ ...shadvargaOf, drekkana: drekkanaOf }), `visha` vishanadiOf — each when given.
+ * `va` the shadvarga with its decanate ({ ...shadvargaOf, drekkana: drekkanaOf }), `visha` vishanadiOf,
+ * `adverse` adverseOf — each when given.
  */
-function lagnaVerdict(l, chosen, nv = null, va = null, visha = null) {
+function lagnaVerdict(l, chosen, nv = null, va = null, visha = null, adverse = null) {
   const event = T.EVENTS[chosen.EVENT ?? T.EVENTS.default];
   const on = (k) => event.checks.includes(k);
   // A reading the event does not take falls back to the first it does.
@@ -356,10 +417,14 @@ function lagnaVerdict(l, chosen, nv = null, va = null, visha = null) {
     if (va.drekkana.readings[r('DREKKANA')]) reasons.push('DREKKANA');
   }
   if (visha && visha[r('VISHANADI')]) reasons.push('VISHANADI');
+  if (adverse && on('ADVERSE')) {
+    const skip = T.ADVERSE[r('ADVERSE')].skip ?? [];
+    if (adverse.some((c) => !skip.includes(c))) reasons.push('ADVERSE');
+  }
   return { ok: reasons.length === 0, reasons };
 }
 
 module.exports = {
   lagnaShuddhiOf, lagnaVerdict, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf,
-  placementsOf, pointsOf, ashtamaOf, pdbOf, kartariOf, commonOf, houseOf, friendsOrSame, sees,
+  placementsOf, pointsOf, ashtamaOf, pdbOf, kartariOf, commonOf, adverseOf, houseOf, friendsOrSame, sees,
 };

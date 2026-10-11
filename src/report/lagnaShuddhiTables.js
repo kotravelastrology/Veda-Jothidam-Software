@@ -344,6 +344,29 @@ const COMMON_WHY_TA = Object.freeze({
   MOON_6_8_12: 'சந்திரன் 6, 8, 12-ல்', MOON_WITH: 'சந்திரனுடன் கிரகம்', VENUS_6: '6-ல் சுக்கிரன்', MARS_8: '8-ல் செவ்வாய்',
 });
 
+// ---------------------------------------------------------------------------
+// Shridhar §13.10, adverse combinations for an election ascendant (added 2026-10-11)
+// ---------------------------------------------------------------------------
+
+/** Exaltation signs (debilitation is the 7th from them). */
+const EXALTATION = Object.freeze({ Sun: 0, Moon: 1, Mars: 9, Mercury: 5, Jupiter: 3, Venus: 11, Saturn: 6 });
+/** The planets whose retrograde motion and combustion §13.10 looks at (Rahu and Ketu always move back; the Sun is never set). */
+const MOVERS = Object.freeze(['Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn']);
+const SETTERS = Object.freeze(['Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn']);
+
+const ADVERSE = deepFreeze({
+  default: 'ALL',
+  order: ['ALL', 'NO_OPINION'],
+  ALL: { labelTa: 'ஸ்ரீதர் §13.10 — கணிக்கக்கூடிய எல்லாம்', textTa: '(1, 13) லக்னாதிபதி அஸ்தங்கம், 6, 8, 12-ல், நீசம், பகை ராசியில், வக்கிரம்; (3) பிறந்த லக்னம் / ஜன்ம ராசிக்கு 8-ஆம் அதிபதியின் (பிறப்பில்) நவாம்ச ராசி முகூர்த்த லக்னமாக; (4) 8-ஆம் அதிபதி லக்னத்தில்; (5) லக்னத்திலோ உதய நவாம்சத்திலோ பாவர்; (6, 12) பிறந்த லக்னாதிபதி / ஜன்ம ராசியதிபதி அஸ்தங்கம் அல்லது வக்கிரம்; (7) லக்னத்திலோ உதய நவாம்சத்திலோ வக்கிர / அஸ்தங்கக் கிரகம் (புதன் அஸ்தங்கம் பரவாயில்லை); (8) லக்னத்தில் சந்திரன் — மேஷம், ரிஷபம், கடகம் தவிர; (9, 11) லக்னத்துக்கோ சந்திரனுக்கோ 8-ல் பாவர்; (10) சந்திரன் 6, 8, 12-ல்; (14) பிறந்த 6 / 8-ஆம் அதிபதி 1, 6, 8-ல்; (15) சித்ர கிரகம் லக்னத்தில் அல்லது அதைப் பார்க்க.', booksTa: 'ஸ்ரீதர் (பல முனிவர்கள் மேற்கோள்)' },
+  NO_OPINION: { labelTa: '"என்று கருதப்படுகிறது" தவிர', textTa: 'அதே, உருப்படி 8 (லக்னத்தில் சந்திரன் — "It is opined") இல்லாமல்.', booksTa: 'ஸ்ரீதர்', skip: ['MOON_IN_LAGNA'] },
+});
+const ADVERSE_TA = Object.freeze({
+  LORD_SET: 'லக்னாதிபதி அஸ்தங்கம்', LORD_6_8_12: 'லக்னாதிபதி 6, 8, 12-ல்', LORD_DEBIL: 'லக்னாதிபதி நீசம்', LORD_ENEMY: 'லக்னாதிபதி பகை ராசியில்', LORD_RETRO: 'லக்னாதிபதி வக்கிரம்',
+  NAV8_LORD: 'பிறந்த 8-ஆம் அதிபதியின் நவாம்ச ராசி லக்னம்', LORD8_IN_LAGNA: '8-ஆம் அதிபதி லக்னத்தில்', MALEFIC_RISING: 'லக்னம் / உதய நவாம்சத்தில் பாவர்',
+  NATAL_LORD_SET: 'பிறந்த லக்னாதிபதி / ராசியதிபதி அஸ்தங்கம்', NATAL_LORD_RETRO: 'பிறந்த லக்னாதிபதி / ராசியதிபதி வக்கிரம்', RISING_RETRO_SET: 'லக்னம் / உதய நவாம்சத்தில் வக்கிர / அஸ்தங்கக் கிரகம்',
+  MOON_IN_LAGNA: 'லக்னத்தில் சந்திரன்', MALEFIC_8: 'லக்னம் / சந்திரனுக்கு 8-ல் பாவர்', MOON_6_8_12: 'சந்திரன் 6, 8, 12-ல்', NATAL_6_8_LORD: 'பிறந்த 6 / 8-ஆம் அதிபதி 1, 6, 8-ல்', CHHIDRA: 'சித்ர கிரகம் லக்னத்தில் / பார்வையில்',
+});
+
 /**
  * Which checks each kind of event takes. For an act other than marriage, only the checks a
  * book states for every auspicious act (SCOPE below); the marriage tables give way to COMMON.
@@ -352,9 +375,27 @@ const COMMON_WHY_TA = Object.freeze({
 const EVENTS = deepFreeze({
   default: 'MARRIAGE',
   order: ['MARRIAGE', 'OTHER'],
-  MARRIAGE: { labelTa: 'திருமணம்', checks: ['PLACEMENTS', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI'], only: {} },
-  OTHER: { labelTa: 'மற்ற சுப காரியம்', checks: ['COMMON', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_WHICH', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI'], only: { NAV_WHICH: ['BENEFIC_LORD'], UDAYA: ['ANY_OF_FOUR'] } },
+  MARRIAGE: { labelTa: 'திருமணம்', checks: ['PLACEMENTS', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: {} },
+  OTHER: { labelTa: 'மற்ற சுப காரியம்', checks: ['COMMON', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_WHICH', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: { NAV_WHICH: ['BENEFIC_LORD'], UDAYA: ['ANY_OF_FOUR'] } },
 });
+
+const RANK_ADVERSE = {
+  ADVERSE: rank({ SHRIDHAR: 492 }, 'லக்னத்தின் பாதகச் சேர்க்கைகள் பற்றி ஸ்ரீதர் மட்டும் (§13.10, பக்.323-325) 492 சொற்கள் — முனிவர்கள் வியாசர், காஷ்யபர் முதலியோரின் மேற்கோள்களுடன். மற்ற நூல்களின் இதே போன்ற தனி விதிகள் (சந்திரன் 6, 8, 12; 8-ல் செவ்வாய்) பொது லக்ன சுத்தியில் ராமனின் வாசிப்பாக.'),
+};
+const SOURCES_ADVERSE = {
+  ADVERSE: {
+    SHRIDHAR: Object.freeze({ ...SHRIDHAR_HEA, pageLocus: '§13.10, printed pp.323-325 (PDF 367-369): "1) If the lord of the election ascendant is set -he brings illness; in 6th house - causes fear from enemy; in 8th - causes death; in 12th - loss of money; if debilitated - causes injury to body; if in enemy\'s sign - inculcates fear from enemy. 2) 8th sign from the radical ascendant or the radical Moon sign ... 3) Navamsha sign of lords of 8th from radical Moon or radical ascendant, should not be in election ascendant. 4) Lord of 8th in Muhurt ascendant, or the Moon in 8th ... 5) Malefic(s) in rising sign or rising navamsha. 6) Lord of radical ascendant or radical Moon sign, is weak, set, retrograde ... 7) The rising navamsha or sign, having fast moving or retrograde or set planet (Mercury as set planet is acceptable for most of the applications). 8) It is opined that the Moon in the ascendant is to be avoided. However some opine that the Moon in Aries, Taurus & Cancer coinciding with ascendant is auspicious. 9) A malefic in 8th house from election ascendant or the election Moon ... 10) The Moon is adverse in 6th, 8th & 12th houses ... 11) ... when Mars is in 8th house ... 12) No auspicious work should be done when either lord of radical ascendant or Janma Rashi is set. 13) Lord of the election ascendant either in debilitation or in inimical sign or in retrogression ... also not welcomed in 6th house or 8th house ... 14) Radical 6th or 8th lord, in 1st, 6th & 8th houses of the election chart should be shunned ... 15) Relation / conjunction / aspect of Chhidra Graha ... a) Lord of 8th house. b) Planet(s) placed in 8th house. c) Planet aspecting 8th house. d) Lord of 22nd decanate (Khar Drekkhana) e) Planet conjoined with lord of 8th house. f) Bitter enemy of 8th house. g) Lord of 64th navamsha from the Moon. 16) Election ascendant is hemmed with malefics or afflicted by Kartari Dosha"; combustion, printed p.211 (PDF 255): "Jupiter becomes combust when he is within 11° from the Sun while in direct motion & does not become combust in its retrogration. Venus becomes combust when within 10° while in direct motion & 8° while in retrograde motion"' }),
+  },
+};
+const NOTES_ADVERSE = {
+  ADVERSE: [
+    'உருப்படி 2 (பிறப்பிலிருந்து 8-ஆம் ராசி), 16 (கர்த்தரி) — தனிச் சோதனைகளாக ஏற்கனவே. 11 (8-ல் செவ்வாய்) உருப்படி 9-க்குள் அடங்கும்.',
+    'அஸ்தங்கப் பாகை: சந்திரன் 12° (ஸ்ரீதர் §2.20.3, ப.45: "30, 1 திதிகள்"), குரு 11°, சுக்கிரன் 10° (வக்கிரம் 8°) — ஸ்ரீதர் ப.211; செவ்வாய் 17°, புதன் 14° (வக்கிரம் 12°), சனி 15° — பலதீபிகை, கபூர் குறிப்பு II.36 (ஸ்ரீதர் தரும் மூன்றும் அதே).',
+    'நீசம் = உச்ச ராசிக்கு 7-ஆம் ராசி; பகை ராசி = BPHS இயற்கைப் பகைவரின் ராசி. உதய நவாம்சத்தில் கிரகம் = அதன் நவாம்ச ராசி உதய நவாம்ச ராசியே (நவாம்சச் சக்கரம்). வக்கிரம்: செவ்வாய், புதன், குரு, சுக்கிரன், சனி (ராகு, கேது எப்போதும் — கணக்கில் இல்லை).',
+    'சித்ர கிரகங்கள் (எங்கள் வாசிப்பு — லக்னத்தில் இருத்தல் அல்லது முழுப் பார்வை "சம்பந்தம்"): 8-ஆம் அதிபதி; 8-ல் உள்ளவர்; 8-ஐப் பார்ப்பவர்; 22-ஆம் திரேக்காணாதிபதி (லக்னத் திரேக்காணம் முதலாக — 8-ஆம் ராசியின் அதே எண் திரேக்காணம்); 8-ஆம் அதிபதியுடன் சேர்ந்தவர்; சந்திரன் நின்ற நவாம்சம் முதலாக 64-ஆம் நவாம்சத்தின் அதிபதி. (f) "8-க்குக் கடும் பகைவர்" (தற்காலிக உறவு தேவை) கணிக்கப்படவில்லை.',
+    'கணிக்கப்படாதவை: "பலவீனம்", "வேகமாகச் செல்லும்" (அதிசாரம்) கிரகம், "போரில் தோற்ற", "பகைவர் சேர்ந்த / பார்த்த" லக்னாதிபதி, பிறந்த லக்னம் / ராசியில் உள்ள கிரகங்கள் "பாதகமாக" இருப்பது.',
+  ],
+};
 
 const RANK_COMMON = {
   COMMON: rank({ WILHELM: 628, SHRIDHAR: 488, MUHURTA_CHINTAMANI: 276, KALYANRAMAN: 261, AGARWAL: 136, RAMAN: 130, VASHISTHA: 108 }, 'எல்லாச் சுப காரியங்களுக்குமான லக்னம் பற்றிய சொற்கள்: வில்ஹெல்ம் (பக்.119-121, 125-126) 628; ஸ்ரீதர் (பக்.317, 319-320 — மு.சி. 2/44, பி.ச. 98/16, அவரது 12 பல நிலைகள்) 488; முகூர்த்த சிந்தாமணி (ப.79, ஸ்லோ.2/44 உரையுடன்) 276; கல்யாணராமன் (தொ.2 ப.231; தொ.1 பக்.117, 120) 261; அகர்வால் (ப.327, சர்வாரம்பம்) 136; ராமன் (அத்.V) 130; வசிஷ்டா (ப.137 — காரியத்தின் தன்மைக்கேற்ப சர / ஸ்திர / உபய லக்னம்; கணிக்கப்படவில்லை) 108. ரங்காச்சார்யா, ஜோஷி ஒவ்வொரு காரியத்துக்கும் தனி லக்னம் தருகிறார்கள்; பொது விதி இல்லை.'),
@@ -403,6 +444,9 @@ const SCOPE = deepFreeze({
   DREKKANA: [
     { ...SHRIDHAR_HEA, pageLocus: 'chapter 13 "Purification of election ascendant", printed p.311 (PDF 355)' },
   ],
+  ADVERSE: [
+    { ...SHRIDHAR_HEA, pageLocus: 'chapter 13 "Purification of election ascendant", §13.10 "Adverse combinations for election ascendant", printed pp.323-325 (PDF 367-369)' },
+  ],
   VISHANADI: [
     { ...KALYANRAMAN_V1, pageLocus: 'printed p.121 (PDF 131), "13. Raasi vishaghatika": "Such portions of raasis must not form the part of the Lagna chosen for any auspicious event"' },
     { ...RAMAN_BV, pageLocus: 'Chapter V, PDF p.12: "13. Rasi Visha Ghatika ... They are to be rejected for all auspicious work"' },
@@ -428,6 +472,7 @@ const RANK = deepFreeze({
   ...RANK_LAGNA,
   ...RANK_SHAD,
   ...RANK_COMMON,
+  ...RANK_ADVERSE,
   NAV_LAST: rank({ MUHURTA_CHINTAMANI: 156, SHRIDHAR: 146, WILHELM: 46, RANGACHARYA: 35, JOSHI: 32 }, 'கடைசி நவாம்சம், வர்கோத்தமம், சர நவாம்சம் பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (ப.213) 156; ஸ்ரீதர் (பக்.458, 461) 146; வில்ஹெல்ம் 46; ரங்காச்சார்யா 35; ஜோஷி 32.'),
   NAV_WHICH: rank({ SHRIDHAR: 390, WILHELM: 80, RANGACHARYA: 56, MUHURTA_CHINTAMANI: 43, AGARWAL: 22, RAMAN: 18, JOSHI: 16 }, 'எந்த நவாம்சம் என்பது பற்றிய சொற்கள்: ஸ்ரீதர் (பக்.459-461, 463 — நாரதர், காளிதாசர், வசிஷ்டர், பி.க. மேற்கோள்கள்) 390; வில்ஹெல்ம் (பக்.123, 261) 80; ரங்காச்சார்யா (ப.54) 56; முகூர்த்த சிந்தாமணி (ப.212) 43; அகர்வால் 22; ராமன் 18; ஜோஷி 16. ஸ்ரீதர் தானே விதியாகச் சொல்வது நாரதருடையது.'),
   NAV_NATAL: rank({ MUHURTA_CHINTAMANI: 145, SHRIDHAR: 127, WILHELM: 83, JOSHI: 75 }, 'பிறந்த 8, 12-ன் நவாம்சம் பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (ப.187) 145; ஸ்ரீதர் (பக்.461-462) 127; வில்ஹெல்ம் (ப.261) 83; ஜோஷி (ப.77) 75.'),
@@ -438,6 +483,7 @@ const SOURCES = deepFreeze({
   ...SOURCES_LAGNA,
   ...SOURCES_SHAD,
   ...SOURCES_COMMON,
+  ...SOURCES_ADVERSE,
   NAV_LAST: {
     MUHURTA_CHINTAMANI: Object.freeze({ ...MC_SHARMA, pageLocus: 'sloka 85, printed p.213 (PDF 217): "नो चरलग्ने चरलवयोगं तौलिमृगस्थे शशिमृति कुर्यात्"; "A daughter should not be married in the last Navamsha, but if the Navamsha of a sign is Vargottama and marriage is done in it, then it is excellent. But if the Moon is situated in the Libra or Capricorn sign, then marriage should not be done in the movable Navamsha of a Movable Ascendant, that is, even Vargottama is not auspicious"' }),
     SHRIDHAR: Object.freeze({ ...SHRIDHAR_HEA, pageLocus: 'printed pp.458, 461 (PDF 497, 500): "The Moon, the Lagna & navamsha; all the three should not be in movable signs ... However, Vargottama navamshas of Aries & Cancer are acceptable"; "Last navamsha of a sign should be left in marriage. Vargottama navamsha of Gemini, Virgo, Sagittarius & Pisces are preferred (M.M.). Vargottama navamshas of Libra & Capricorn are bad for marriage (M.C-6/85) ... Pisces sign & navamsha though Vargottama is not acceptable"' }),
@@ -472,6 +518,7 @@ const NOTES_TA = deepFreeze({
   ...NOTES_LAGNA,
   ...NOTES_SHAD,
   ...NOTES_COMMON,
+  ...NOTES_ADVERSE,
   NAV_LAST: ['சர ராசி: மேஷம், கடகம், துலாம், மகரம்; ஸ்திரம்: ரிஷபம், சிம்மம், விருச்சிகம், கும்பம்; உபயம்: மிதுனம், கன்னி, தனுசு, மீனம்.'],
   NAV_WHICH: ['"தனுசு முதல் பாதி" — தனுசு நவாம்சத்தின் (3°20′) முதல் 1°40′ (எங்கள் வாசிப்பு). குநவாம்ச நீக்கம்: லக்னத்தில் குரு, அல்லது சந்திரன் 11-ல் (ரங்காச்சார்யா) — காட்டப்படுகிறது, தீர்ப்பில் இல்லை.'],
   NAV_NATAL: ['பிறந்த லக்னம், பாகை இந்த நபருடையது. நாரதரின் வாசிப்பு (பிறந்த 8, 12-ஆம் அதிபதி நின்ற நவாம்சத்தின் அதிபதி லக்னத்தில்) கணிக்கப்படவில்லை — பிறந்த கிரகங்களின் நவாம்சம் தேவை.'],
@@ -484,5 +531,6 @@ module.exports = {
   MOVABLE, DUAL, NAV_LAST, NAV_WHICH, NAV_NATAL, UDAYA, ASPECTS,
   VARGA_BENEFICS, VARGAS, VARGA_TA, TRIMSAMSA, SHADVARGA, DREKKANA_MALEFIC, DREKKANA_NATURE, DREKKANA_TA, DREKKANA, VISHANADI, VARA_TA,
   UPACHAYA, KENDRA, BENEFIC_SIGNS, DEBILITATED, MALEFICS_SEVEN, COMMON, COMMON_WHY_TA, EVENTS, SCOPE, SCOPE_OUT_TA,
+  EXALTATION, MOVERS, SETTERS, ADVERSE, ADVERSE_TA,
   RANK, SOURCES, NOTES_TA,
 };

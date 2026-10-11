@@ -2,7 +2,8 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const T = require('./src/report/lagnaShuddhiTables');
-const { lagnaShuddhiOf, lagnaVerdict, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf, sees, pointsOf, placementsOf, ashtamaOf, pdbOf, kartariOf, commonOf, houseOf } = require('./src/report/lagnaShuddhi');
+const { lagnaShuddhiOf, lagnaVerdict, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf, sees, pointsOf, placementsOf, ashtamaOf, pdbOf, kartariOf, commonOf, adverseOf, houseOf } = require('./src/report/lagnaShuddhi');
+const { combustionOrb } = require('./src/report/phaladeepikaGocharaTables');
 const { muhurtaStarChecks } = require('./src/report/muhurtaStars');
 const { planetLongitude, nodeLongitude, sunriseJulianDay, sunsetJulianDay } = require('./src/ephemeris/siderealPositions');
 const { siderealAscendant } = require('./src/ephemeris/swissEphemeris');
@@ -273,6 +274,46 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
   assert.deepEqual(lagnaVerdict(l, chosen, null, null, vishanadiOf(vargaIndices(1), 3, no)).reasons, ['VISHANADI']);
 }
 
+// ------------------------------------------------ Shridhar §13.10, adverse combinations ---
+{
+  assert.equal(T.RANK.ADVERSE.words.SHRIDHAR, FIX.words.ADVERSE.SHRIDHAR);
+  assert.equal(T.ADVERSE.default, FIX.defaults.ADVERSE);
+  // Taurus rising, its 8th Sagittarius (lord Jupiter) empty and unaspected; nothing adverse.
+  const sky = { Sun: 4, Moon: 5, Mars: 9, Mercury: 4, Jupiter: 3, Venus: 11, Saturn: 10, Rahu: 4, Ketu: 10 };
+  const none = (ps) => Object.fromEntries(ps.map((p) => [p, false]));
+  const adv = (o = {}) => adverseOf({
+    lagna: 1, d3: 0, nav: 6, signs: { ...sky, ...o.signs }, navSigns: { ...Object.fromEntries(T.PLANETS.map((p) => [p, 0])), ...o.navSigns },
+    moonN108: 45, retro: { ...none(T.MOVERS), ...o.retro }, combust: { ...none(T.SETTERS), ...o.combust },
+    natalLagna: o.natalLagna ?? 4, natalMoon: o.natalMoon ?? 3, natalNav8: o.natalNav8 ?? [],
+  });
+  assert.deepEqual(adv(), []);
+  assert.deepEqual(adv({ combust: { Venus: true } }), ['LORD_SET'], '1: the lagna lord set');
+  assert.deepEqual(adv({ signs: { Venus: 6 } }), ['LORD_6_8_12'], '1: Venus in Libra, the 6th');
+  assert.deepEqual(adv({ signs: { Venus: 5 } }), ['LORD_DEBIL'], '1: Venus in Virgo');
+  assert.deepEqual(adv({ signs: { Venus: 4 } }), ['LORD_ENEMY'], '1: Venus in Leo, the Sun\'s');
+  assert.deepEqual(adv({ retro: { Venus: true } }), ['LORD_RETRO'], '13');
+  assert.deepEqual(adv({ natalNav8: [1] }), ['NAV8_LORD'], '3');
+  assert.deepEqual(adv({ signs: { Jupiter: 1 }, natalLagna: 0 }), ['LORD8_IN_LAGNA', 'CHHIDRA'], '4 and 15a');
+  assert.deepEqual(adv({ navSigns: { Saturn: 6 } }), ['MALEFIC_RISING'], '5: Saturn in the rising navamsa');
+  assert.deepEqual(adv({ navSigns: { Mercury: 6 }, retro: { Mercury: true } }), ['RISING_RETRO_SET'], '7');
+  assert.deepEqual(adv({ navSigns: { Mercury: 6 }, combust: { Mercury: true } }), [], '7: Mercury set is allowed');
+  assert.deepEqual(adv({ natalMoon: 11, retro: { Jupiter: true } }), ['NATAL_LORD_RETRO'], '6: the birth Moon\'s lord retrograde');
+  assert.deepEqual(adv({ natalMoon: 11, combust: { Jupiter: true } }), ['NATAL_LORD_SET'], '12');
+  assert.deepEqual(adv({ signs: { Moon: 1 } }), [], '8: the Moon in Taurus rising is allowed');
+  assert.deepEqual(adverseOf({ ...{ lagna: 2, d3: 0, nav: 6, moonN108: 45, retro: none(T.MOVERS), combust: none(T.SETTERS), natalLagna: 6, natalMoon: 3, natalNav8: [] }, signs: { Sun: 5, Moon: 2, Mars: 10, Mercury: 5, Jupiter: 4, Venus: 0, Saturn: 11, Rahu: 5, Ketu: 11 }, navSigns: Object.fromEntries(T.PLANETS.map((p) => [p, 0])) }).includes('MOON_IN_LAGNA'), true, '8: the Moon in Gemini rising');
+  assert.deepEqual(adv({ signs: { Rahu: 0, Ketu: 6 } }), ['MALEFIC_8'], '9: Rahu 8th from the Moon');
+  assert.deepEqual(adv({ signs: { Moon: 6 } }), ['MOON_6_8_12'], '10');
+  assert.deepEqual(adv({ signs: { Saturn: 6 }, natalLagna: 4 }), ['NATAL_6_8_LORD'], '14: Saturn, 6th lord of a Leo birth, in the 6th');
+  assert.deepEqual(adv({ signs: { Mars: 7 } }), ['CHHIDRA'], '15g: Mars, lord of the 64th navamsa from the Moon, aspects the lagna');
+  // The verdict: both kinds of event; the second reading leaves out item 8.
+  const l = { placements: { X: { pass: true } }, ashtama: { X: [] }, pdb: { present: false }, kartari: { X: false }, gandanta: { X: false }, common: { X: [] } };
+  const chosen = { PLACEMENTS: 'X', ASHTAMA: 'X', KARTARI: 'X', GANDANTA: 'X', COMMON: 'X' };
+  for (const EVENT of T.EVENTS.order) {
+    assert.deepEqual(lagnaVerdict(l, { ...chosen, EVENT, ADVERSE: 'ALL' }, null, null, null, ['MOON_IN_LAGNA']).reasons, ['ADVERSE'], EVENT);
+    assert.deepEqual(lagnaVerdict(l, { ...chosen, EVENT, ADVERSE: 'NO_OPINION' }, null, null, null, ['MOON_IN_LAGNA']).reasons, []);
+  }
+}
+
 // ------------------------------------------------ the lagna for any auspicious act ---
 {
   const C = FIX.common;
@@ -362,7 +403,11 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
   const toMs = fromMs + 6 * DAY;
   const lat = 13.08; const lon = 80.27; // the event in Chennai
   const natalLagna = 200; const natalMoon = 45.5;
-  const r = muhurtaStarChecks({ natalMoonLongitude: natalMoon, natalLagnaLongitude: natalLagna, fromMs, toMs, latitude: lat, longitude: lon });
+  // Birth positions for §13.10.3: the 8th lords from Libra rising and a Taurus Moon are Venus and Jupiter.
+  const natalLongitudes = { Sun: 30.5, Moon: natalMoon, Mars: 100, Mercury: 20, Jupiter: 250, Venus: 60, Saturn: 300, Rahu: 120, Ketu: 300 };
+  const r = muhurtaStarChecks({ natalMoonLongitude: natalMoon, natalLagnaLongitude: natalLagna, fromMs, toMs, latitude: lat, longitude: lon, natalLongitudes });
+  const natalNav8 = [...new Set(['Venus', 'Jupiter'].map((p) => Math.floor(natalLongitudes[p] / (10 / 3)) % 12))];
+  assert.deepEqual(natalNav8, [6, 3]);
   const jd = (ms) => ms / DAY + 2440587.5;
   const L360 = (x) => ((x % 360) + 360) % 360;
   const pl = (p, ms) => L360(p === 'Rahu' ? nodeLongitude(jd(ms), 'Lahiri', 'mean') : p === 'Ketu' ? nodeLongitude(jd(ms), 'Lahiri', 'mean') + 180 : planetLongitude(jd(ms), p, 'Lahiri'));
@@ -430,6 +475,16 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
       assert.equal(Boolean(x.w & 2), vs.DEGREES);
       assert.equal(Boolean(x.w & 4), vs.AGARWAL_DAYS);
       if (![2, 4, 6, 10].includes(lg)) assert.equal(Boolean(x.w & 8), vs.HALF_GHATI, `half ghati ${x.fromUtc}`);
+      // Shridhar §13.10 from the planets at the middle: their navamsas, motion and combustion.
+      const lonAt = Object.fromEntries(T.PLANETS.map((p) => [p, pl(p, mid)]));
+      const retroAt = Object.fromEntries(T.MOVERS.map((p) => [p, retro(p, mid)]));
+      const combustAt = Object.fromEntries(T.SETTERS.map((p) => [p, Math.abs(((lonAt[p] - lonAt.Sun + 540) % 360) - 180) < combustionOrb(p, retroAt[p])]));
+      const advWant = adverseOf({
+        lagna: lg, d3: vi.d3, nav: n108 % 12, signs, navSigns: Object.fromEntries(T.PLANETS.map((p) => [p, Math.floor(lonAt[p] / (10 / 3)) % 12])),
+        moonN108: Math.floor(lonAt.Moon / (10 / 3)) % 108, retro: retroAt, combust: combustAt,
+        natalLagna: sign(natalLagna), natalMoon: sign(natalMoon), natalNav8,
+      });
+      assert.deepEqual(plain(r.adverseTable[arr[9]]), advWant, `§13.10 ${x.fromUtc}`);
       n += 1;
     }
   }

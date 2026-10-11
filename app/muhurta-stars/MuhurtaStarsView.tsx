@@ -30,6 +30,7 @@ const LAGNA_LORD_TA = 'லக்னாதிபதி';
 const LAGNA_TABLE: Record<string, string> = {
   COMMON: 'common', PLACEMENTS: 'placements', ASHTAMA: 'ashtama', KARTARI: 'kartari', GANDANTA: 'gandanta', NAV_LAST: 'navLast',
   NAV_WHICH: 'navWhich', NAV_NATAL: 'navNatal', UDAYA: 'udaya', SHADVARGA: 'shadvarga', DREKKANA: 'drekkana', VISHANADI: 'vishanadi',
+  ADVERSE: 'adverse',
 };
 type Show = 'ALL' | 'CLEAR' | 'GOOD_LAGNA' | 'BLOCKED';
 
@@ -132,14 +133,14 @@ export default function MuhurtaStarsView() {
 
   /** A stretch with its two table entries and its times. */
   function stretchOf(raw: number[]) {
-    const [f, t, r, n, v, g, b, w, d] = raw;
+    const [f, t, r, n, v, g, b, w, d, a] = raw;
     const base = Date.parse(result.fromUtc);
     return {
       fromMs: base + f * 1000, toMs: base + t * 1000,
       l: result.lagnaTable[r], nv: result.navamsaTable[n], va: result.vargaTable[v],
       gandanta: { MINUTES_12: Boolean(g & 1), DEGREES_3: Boolean(g & 2) }, banaMrityu: Boolean(b),
       visha: { WILHELM: Boolean(w & 1), DEGREES: Boolean(w & 2), AGARWAL_DAYS: Boolean(w & 4), HALF_GHATI: Boolean(w & 8) },
-      vara: d,
+      vara: d, adverse: result.adverseTable[a] as string[],
     };
   }
   const isoOf = (ms: number) => new Date(ms).toISOString();
@@ -165,7 +166,13 @@ export default function MuhurtaStarsView() {
     if (!x.va.readings[R.SHADVARGA]) reasons.push('SHADVARGA');
     if (x.va.drekkana.readings[R.DREKKANA]) reasons.push('DREKKANA');
     if (x.visha[R.VISHANADI]) reasons.push('VISHANADI');
+    if (on('ADVERSE') && adverseShown(x).length) reasons.push('ADVERSE');
     return { ok: reasons.length === 0, reasons, pl };
+  }
+  /** Shridhar's §13.10 combinations present under the chosen reading. */
+  function adverseShown(x: any): string[] {
+    const skip: string[] = B.lagna.adverse[lagnaChosen().ADVERSE].skip ?? [];
+    return x.adverse.filter((c: string) => !skip.includes(c));
   }
 
   /** The books' defaults; for another act, a check limited to some readings takes the first. */
@@ -176,6 +183,7 @@ export default function MuhurtaStarsView() {
       PLACEMENTS: L.placements.default, ASHTAMA: L.ashtama.default, KARTARI: L.kartari.default, GANDANTA: L.gandanta.default,
       NAV_LAST: L.navLast.default, NAV_WHICH: L.navWhich.default, NAV_NATAL: L.navNatal.default, UDAYA: L.udaya.default,
       SHADVARGA: L.shadvarga.default, DREKKANA: L.drekkana.default, VISHANADI: L.vishanadi.default, COMMON: L.common.default,
+      ADVERSE: L.adverse.default,
     };
     for (const k of Object.keys(only)) d[k] = only[k][0];
     return d;
@@ -193,7 +201,7 @@ export default function MuhurtaStarsView() {
   };
 
   /** Reasons that change within a sign (navamsa, vargas, poison portions) rather than with the sign. */
-  const isPartReason = (r: string) => r.startsWith('NAV_') || ['UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI'].includes(r);
+  const isPartReason = (r: string) => r.startsWith('NAV_') || ['UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'].includes(r);
 
   /** Why a lagna stretch is left, in a few words; `signOnly` leaves out the reasons that change within the sign. */
   const lagnaWhy = (x: any, v: any, signOnly = false) => {
@@ -201,6 +209,7 @@ export default function MuhurtaStarsView() {
     const R = lagnaChosen();
     return v.reasons.filter((r: string) => !signOnly || !isPartReason(r)).map((r: string) => {
       if (r === 'COMMON') return l.common[R.COMMON].map((c: string) => B.lagna.commonWhyTa[c]).join(', ');
+      if (r === 'ADVERSE') return adverseShown(x).map((c: string) => B.lagna.adverseTa[c]).join(', ');
       if (r === 'NAV_LAST') return nv.last[R.NAV_LAST].map((k: string) => NAV_REASON_TA[k]).join(', ');
       if (r === 'NAV_WHICH') return `${RASI_TA[nv.nav]} நவாம்சம்`;
       if (r === 'NAV_NATAL') return nv.natal[R.NAV_NATAL].map((k: any) => (typeof k === 'string' ? NAV_REASON_TA[k] : `நவாம்சம் ${k.from === 'LAGNA' ? 'பிறந்த லக்னத்துக்கு' : 'ஜன்ம ராசிக்கு'} ${k.house}`)).join(', ');
@@ -380,9 +389,9 @@ export default function MuhurtaStarsView() {
               <details className="mb-1">
                 <summary className="cursor-pointer text-[11px] text-ink-soft">லக்ன சுத்தி — வாசிப்புகள்</summary>
                 <div className="mt-1">
-                  {(['COMMON', 'PLACEMENTS', 'ASHTAMA', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI'] as const).filter((k) => B.lagna.events[lagnaEvent].checks.includes(k)).map((k) => {
+                  {(['COMMON', 'PLACEMENTS', 'ASHTAMA', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'] as const).filter((k) => B.lagna.events[lagnaEvent].checks.includes(k)).map((k) => {
                     const t = B.lagna[LAGNA_TABLE[k]];
-                    const label = { COMMON: 'பொது லக்ன சுத்தி', PLACEMENTS: 'கிரக நிலை', ASHTAMA: 'பிறப்பிலிருந்து', KARTARI: 'கர்த்தரி', GANDANTA: 'லக்ன கண்டாந்தம்', NAV_LAST: 'கடைசி / சர நவாம்சம்', NAV_WHICH: 'எந்த நவாம்சம்', NAV_NATAL: 'பிறந்த 8, 12-ன் நவாம்சம்', UDAYA: 'உதய-அஸ்த சுத்தி', SHADVARGA: 'ஷட்வர்க்கம்', DREKKANA: 'திரேக்காணம்', VISHANADI: 'லக்ன விஷ நாடி' }[k];
+                    const label = { COMMON: 'பொது லக்ன சுத்தி', PLACEMENTS: 'கிரக நிலை', ASHTAMA: 'பிறப்பிலிருந்து', KARTARI: 'கர்த்தரி', GANDANTA: 'லக்ன கண்டாந்தம்', NAV_LAST: 'கடைசி / சர நவாம்சம்', NAV_WHICH: 'எந்த நவாம்சம்', NAV_NATAL: 'பிறந்த 8, 12-ன் நவாம்சம்', UDAYA: 'உதய-அஸ்த சுத்தி', SHADVARGA: 'ஷட்வர்க்கம்', DREKKANA: 'திரேக்காணம்', VISHANADI: 'லக்ன விஷ நாடி', ADVERSE: 'பாதகச் சேர்க்கைகள்' }[k];
                     const ids: string[] = B.lagna.events[lagnaEvent].only[k] ?? t.order;
                     return (
                       <Switch key={k} label={label} value={lagnaChosen()[k]} onChange={(v) => setLagnaReading({ ...lagnaReading, [k]: v })}
@@ -570,6 +579,7 @@ export default function MuhurtaStarsView() {
               ['SHADVARGA', 'ஷட்வர்க்கம் — லக்னத்தின் ஆறு வர்க்க அதிபதிகள்', B.lagna.shadvarga],
               ['DREKKANA', 'லக்னத்தின் திரேக்காணம்', B.lagna.drekkana],
               ['VISHANADI', 'லக்ன விஷ நாடி (புஜங்க, க்ருத்ர, வராக / ராகு பகுதிகள்)', B.lagna.vishanadi],
+              ['ADVERSE', 'பாதகச் சேர்க்கைகள் — ஸ்ரீதர் §13.10 (லக்னாதிபதி, 8-ஆம் இடம், சித்ர கிரகங்கள் …)', B.lagna.adverse],
             ] as [string, string, any][]).filter(([k]) => B.lagna.events[lagnaEvent].checks.includes(k)).map(([k, title, t]) => (
               <details key={k} className="mt-2 text-xs">
                 <summary className="cursor-pointer font-semibold text-ink">{title}</summary>

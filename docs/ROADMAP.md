@@ -234,7 +234,9 @@ Not plan items, but real, and they should not be discovered at release:
   same day. Lagna shuddhi for other auspicious acts added the same day: an
   event switch; the general rule from six readings (Wilhelm first by words;
   MC sloka 2/44 both ways, Shridhar's either way, Varahamihira, Agarwal,
-  Raman) and only the checks a book states for every act. Each event's own
-  lagna rules and Shridhar's §13.10 adverse combinations are not built.
+  Raman) and only the checks a book states for every act. Shridhar's §13.10
+  adverse combinations added the same day for both kinds of event (lagna
+  lord, birth lords' motion, the 8th, Chhidra grahas). Each event's own lagna
+  rules are not built.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.
