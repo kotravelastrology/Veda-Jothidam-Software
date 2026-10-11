@@ -12,6 +12,9 @@
  *  - Kartari: the lagna between malefics in the 2nd and 12th;
  *  - lagna Gandanta at the water-fire sign junctions.
  *
+ * Later the same day: the lagna's navamsa, shadvarga, decanate, the poison
+ * portions, and the lagna for any other auspicious act (COMMON, EVENTS, SCOPE).
+ *
  * Houses are 1-12 from the lagna; signs 0 = Aries.
  */
 
@@ -175,8 +178,7 @@ const NOTES_LAGNA = ({
   KARTARI: ['சந்திரனுக்கும், 5, 7, 9-ஆம் இடங்களுக்கும் கர்த்தரி கூடாது (முகூர்த்த சிந்தாமணி, வசிஷ்டா, வில்ஹெல்ம்) — காட்டப்படவில்லை. நீக்கம்: லக்னத்தில் சுபர், 2-ல் சுபர், 12-ல் குரு, கர்த்தரிக் கிரகங்கள் நீசம் / பகை / அஸ்தங்கம் (ரங்காச்சார்யா, முகூர்த்த சிந்தாமணி).'],
   GANDANTA: ['பலமுள்ள குரு லக்ன கண்டாந்தத்தை நீக்கும் (முகூர்த்த சிந்தாமணி, ஸ்ரீதர்); அபிஜித் முகூர்த்தத்தில் கண்டாந்தம் இல்லை (வசிஷ்டர்). சிலர்: ஒவ்வொரு ராசியின் முதல், கடைசி 2 நிமிடமும் (ஸ்ரீதர்) — கணிக்கப்படவில்லை.'],
   GENERAL: [
-    'நவாம்ச விதிகள் (கடைசி நவாம்சம், வர்கோத்தமம், சுப நவாம்சம், குநவாம்சம்), உதய-அஸ்த சுத்தி, ஷட்வர்க்கம், திரேக்காணம், ராசி விஷ நாடிகள் இன்னும் கணிக்கப்படவில்லை.',
-    'பொதுவான சுப காரியங்களுக்கான லக்ன சுத்தி (முகூர்த்த சிந்தாமணி ப.79: பிறப்பிலிருந்து உபசய ராசி, 8, 12 காலி, லக்னத்தில் சுபர் பார்வை, லக்னத்துக்கு உபசயத்தில் சந்திரன்) இன்னும் கணிக்கப்படவில்லை — இந்தப் பகுதி திருமணத்துக்கானது.',
+    'மற்ற சுப காரியங்களுக்கு (மேலே "நிகழ்ச்சி" தேர்வு): பொது லக்ன சுத்தியும், எல்லாச் சுப காரியங்களுக்கும் என்று ஒரு நூல் சொல்லும் சோதனைகளும் மட்டும்; ஒவ்வொரு காரியத்துக்குமான தனி விதிகள் இன்னும் இல்லை.',
   ],
 });
 
@@ -306,9 +308,126 @@ const NOTES_SHAD = {
   VISHANADI: ['கிழமை = இந்த இடத்தின் சூரிய உதயம் முதல் அடுத்த உதயம் வரை. நீக்கங்கள் (வில்ஹெல்ம்): சந்திரன் நல்ல நிலையில், குரு கேந்திரத்தில், லக்னத்தில் / லக்னத்தைப் பார்க்கும் சுபர் — காட்டப்படவில்லை. அகர்வால் நவாம்சம்-கிழமை, பாகை இரண்டு முறைகளையும் தருகிறார்.'],
 };
 
+// ---------------------------------------------------------------------------
+// Lagna shuddhi for any auspicious act (added 2026-10-11)
+// ---------------------------------------------------------------------------
+
+const UPACHAYA = Object.freeze([3, 6, 10, 11]);
+const KENDRA = Object.freeze([1, 4, 7, 10]);
+/** Wilhelm's favourable lagnas, the benefics' signs: Taurus, Gemini, Cancer, Virgo, Libra, Sagittarius, Pisces. */
+const BENEFIC_SIGNS = Object.freeze([1, 2, 3, 5, 6, 8, 11]);
+/** Debilitation (BPHS): Jupiter in Capricorn, Venus in Virgo. */
+const DEBILITATED = Object.freeze({ Jupiter: 9, Venus: 5 });
+/**
+ * The malefics for "malefics in 3, 6, 11" (Varahamihira) and "malefics in upachaya" (Agarwal):
+ * the Sun, Mars and Saturn. Rahu and Ketu are always opposite and can never both be in
+ * 3, 6, 11 or 3, 6, 10, 11, so a reading counting them could never pass (our reading).
+ */
+const MALEFICS_SEVEN = Object.freeze(['Sun', 'Mars', 'Saturn']);
+
+/** Each book's lagna for "all auspicious deeds"; a reading lists the conditions that fail. */
+const COMMON = deepFreeze({
+  default: 'WILHELM',
+  order: ['WILHELM', 'SHRIDHAR', 'MUHURTA_CHINTAMANI', 'VARAHAMIHIRA', 'AGARWAL', 'RAMAN'],
+  WILHELM: { labelTa: 'வில்ஹெல்ம் — சுப ராசி, லக்னத்தில் பாவர் இல்லை, 8, 12 காலி', textTa: 'சுபரின் ராசிகள் (ரிஷபம், மிதுனம், கடகம், கன்னி, துலாம், தனுசு, மீனம்) லக்னமாக நல்லவை — சந்திரன் பாவராக (சூரியனிலிருந்து 60°-க்குள்) இருந்தால் கடகம் தவிர. பாவரின் ராசிகள் (மேஷம், சிம்மம், விருச்சிகம், மகரம், கும்பம்) தீயவை; குரு அல்லது சுக்கிரன் (நீச ராசியில் இல்லாமல்) லக்னத்தில் இருக்க / பார்க்க, அல்லது குரு கேந்திரத்தில் நட்பு ராசி அல்லது மேலான நிலையில் இருந்தால் நீங்கும். சந்திரன் உபசயத்தில் (3, 10, 11 — 6 அல்ல) இருந்தால் எந்த லக்னமும் நல்லது. லக்னத்தில் பாவர் கூடாது (சுக்கிரன் அல்லது சந்திரன் 10-ல், குரு கேந்திரத்தில் எனில் நீங்கும்). 8, 12-ஆம் வீடுகள் காலியாக.', booksTa: 'வில்ஹெல்ம் (அத்.15-16)' },
+  SHRIDHAR: { labelTa: 'மு.சி. 2/44 — பிறந்த லக்னம் அல்லது ஜன்ம ராசியிலிருந்து உபசயம்', textTa: 'முகூர்த்த லக்னம் பிறந்த லக்னத்திலிருந்தோ ஜன்ம ராசியிலிருந்தோ 3, 6, 10, 11-ஆம் ராசி; சுபர் லக்னத்தில் இருக்க அல்லது பார்க்க; 8, 12-ஆம் வீடுகளில் கிரகம் இல்லை; சந்திரன் லக்னத்துக்கு 3, 6, 10, 11-ல் — "எல்லா வகைக் காரியத் தொடக்கத்துக்கும் நல்லது".', booksTa: 'ஸ்ரீதர் (மு.சி. 2/44-ஐ அவர் படிப்பது)', natal: 'EITHER' },
+  MUHURTA_CHINTAMANI: { labelTa: 'மு.சி. 2/44 — பிறந்த லக்னம், ஜன்ம ராசி இரண்டிலிருந்தும் உபசயம்', textTa: 'அதே நான்கு நிபந்தனைகள்; உபசயம் பிறந்த லக்னத்திலிருந்தும் ஜன்ம ராசியிலிருந்தும் (கிரீஷ் சந்த் சர்மா, கல்யாணராமன்; ஸ்லோகம் "उपचये लग्नगे" என்று மட்டும் சொல்கிறது).', booksTa: 'முகூர்த்த சிந்தாமணி ஸ்லோ.2/44, கல்யாணராமன்', natal: 'BOTH' },
+  VARAHAMIHIRA: { labelTa: 'வராஹமிஹிரர் (பி.ச. 98/16) — சுபர் 1, 4, 7, 8, 10, 12-ல், பாவர் 3, 6, 11-ல்', textTa: 'சுபர் (புதன், குரு, சுக்கிரன்) 1, 4, 7, 8, 10, 12-ஆம் வீடுகளில், பாவர் (சூரியன், செவ்வாய், சனி) 3, 6, 11-ல், குரு அல்லது சுக்கிரன் கேந்திரம் அல்லது திரிகோணத்தில் — "எல்லா விருப்பங்களும் நிறைவேறும்". எல்லாக் கிரகங்களும் அப்படி என்பது எங்கள் வாசிப்பு; அரிதாகவே வரும்.', booksTa: 'முகூர்த்த சிந்தாமணி உரைக்குறிப்பு, ஸ்ரீதர், கல்யாணராமன் (மேற்கோள்)' },
+  AGARWAL: { labelTa: 'அகர்வால் — சர்வாரம்ப முகூர்த்தம்', textTa: '8, 12 காலியாக, பாவர் பார்வையின்றி; சுபர் நல்ல இடங்களில் (6, 8, 12 அல்லாமல் — எங்கள் வாசிப்பு); பாவர் (சூரியன், செவ்வாய், சனி) உபசயத்தில் (3, 6, 10, 11); லக்னம் ஜன்ம லக்னம் அல்லது ஜன்ம ராசியிலிருந்து 3, 6, 10, 11 — இல்லையெனில் கோசார சந்திரன் அவற்றிலிருந்து 3, 6, 10, 11-ல் இருந்தாலும் போதும் ("ராம பாணம்").', booksTa: 'அகர்வால்' },
+  RAMAN: { labelTa: 'ராமன் — 21 மகா தோஷங்களில் லக்னக் கிரக நிலைகள்', textTa: 'சந்திரன் லக்னத்துக்கு 6, 8, 12-ல் கூடாது; சந்திரனுடன் வேறு கிரகம் கூடாது ("குறிப்பாகத் திருமணத்தில்"); சுக்கிரன் 6-ல் கூடாது (பிருகு ஷட்கம்); செவ்வாய் 8-ல் கூடாது (குஜாஷ்டமம்). இவரது மற்ற லக்ன தோஷங்கள் (கர்த்தரி, கண்டாந்தம், பாப ஷட்வர்க்கம், விஷ கடிகை, குநவாம்சம், அஷ்டம லக்னம், உதய-அஸ்த சுத்தி) தனிச் சோதனைகளாக.', booksTa: 'ராமன், கல்யாணராமன் (தொ.1)' },
+});
+const COMMON_WHY_TA = Object.freeze({
+  MALEFIC_SIGN: 'பாவர் ராசி', CANCER_MOON: 'கடகம் — சந்திரன் பாவர்', MALEFIC_IN_LAGNA: 'லக்னத்தில் பாவர்', OCC_8: '8-ல் கிரகம்', OCC_12: '12-ல் கிரகம்',
+  NOT_UPACHAYA: 'பிறப்பிலிருந்து உபசயம் இல்லை', NO_BENEFIC: 'லக்னத்தில் சுபர் இல்லை, பார்வையும் இல்லை', MOON_NOT_UPACHAYA: 'சந்திரன் உபசயத்தில் இல்லை',
+  BENEFIC_PLACE: 'சுபர் 1, 4, 7, 8, 10, 12 அல்லாத இடத்தில்', MALEFIC_PLACE: 'பாவர் 3, 6, 11 அல்லாத இடத்தில்', NO_JUP_VEN: 'குரு / சுக்கிரன் கேந்திர-கோணத்தில் இல்லை',
+  AFFLICT_8_12: '8 / 12-ஐ பாவர் பார்க்கிறார்', BENEFIC_DUSTHANA: 'சுபர் 6, 8, 12-ல்', MALEFIC_NOT_UPACHAYA: 'பாவர் உபசயத்தில் இல்லை',
+  MOON_6_8_12: 'சந்திரன் 6, 8, 12-ல்', MOON_WITH: 'சந்திரனுடன் கிரகம்', VENUS_6: '6-ல் சுக்கிரன்', MARS_8: '8-ல் செவ்வாய்',
+});
+
+/**
+ * Which checks each kind of event takes. For an act other than marriage, only the checks a
+ * book states for every auspicious act (SCOPE below); the marriage tables give way to COMMON.
+ * `only` limits a check's readings to those stated for every act.
+ */
+const EVENTS = deepFreeze({
+  default: 'MARRIAGE',
+  order: ['MARRIAGE', 'OTHER'],
+  MARRIAGE: { labelTa: 'திருமணம்', checks: ['PLACEMENTS', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI'], only: {} },
+  OTHER: { labelTa: 'மற்ற சுப காரியம்', checks: ['COMMON', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_WHICH', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI'], only: { NAV_WHICH: ['BENEFIC_LORD'], UDAYA: ['ANY_OF_FOUR'] } },
+});
+
+const RANK_COMMON = {
+  COMMON: rank({ WILHELM: 628, SHRIDHAR: 488, MUHURTA_CHINTAMANI: 276, KALYANRAMAN: 261, AGARWAL: 136, RAMAN: 130, VASHISTHA: 108 }, 'எல்லாச் சுப காரியங்களுக்குமான லக்னம் பற்றிய சொற்கள்: வில்ஹெல்ம் (பக்.119-121, 125-126) 628; ஸ்ரீதர் (பக்.317, 319-320 — மு.சி. 2/44, பி.ச. 98/16, அவரது 12 பல நிலைகள்) 488; முகூர்த்த சிந்தாமணி (ப.79, ஸ்லோ.2/44 உரையுடன்) 276; கல்யாணராமன் (தொ.2 ப.231; தொ.1 பக்.117, 120) 261; அகர்வால் (ப.327, சர்வாரம்பம்) 136; ராமன் (அத்.V) 130; வசிஷ்டா (ப.137 — காரியத்தின் தன்மைக்கேற்ப சர / ஸ்திர / உபய லக்னம்; கணிக்கப்படவில்லை) 108. ரங்காச்சார்யா, ஜோஷி ஒவ்வொரு காரியத்துக்கும் தனி லக்னம் தருகிறார்கள்; பொது விதி இல்லை.'),
+};
+const SOURCES_COMMON = {
+  COMMON: {
+    WILHELM: Object.freeze({ ...WILHELM_E, pageLocus: 'chapters 15-16, printed pp.119-121, 125-126 (PDF 127-129, 133-134): "The Rasis of the benefic planets: Taurus, Gemini, Cancer, Virgo, Libra, Sagittarius and Pisces are generally favorable for most beneficial activities ... When the Moon is a malefic, Cancer Lagna is best avoided"; "Exception: Jupiter or Venus in or aspecting the Lagna overcomes the adverse effects of an unfavorable Lagna (so long as they are not in debilitation Rasi or Navamsa). Exception: Jupiter in a friendly Rasi or better in an angle overcomes the ill effects of an unfavorable Lagna"; "There should be no malefics in the Lagna or Navamsa Lagna at the time of beginning any activity. Exception: Venus or the Moon in the 10th and Jupiter in an angle"; "any Lagna is rendered favorable if the Moon is in an Upachaya"; "For beneficial events, the 8th and 12th Bhavas are best left unoccupied"' }),
+    SHRIDHAR: Object.freeze({ ...SHRIDHAR_HEA, pageLocus: '§13.6-13.7, printed pp.317, 319-320 (PDF 361, 363-364): "According to B.S. (98/16), benefics in 1,4,7,10, 8, 12 houses, malefics in 3,6,11 houses, and Jupiter or Venus in an angle or in a trine bestow fruition of all the desires. But according to M.C. (2/44); 8th & 12th houses should be vacant. If rising sign is 3rd or 6th or 10th or 11th sign either from radical ascendant or J.R. of the doer; & a benefic is either poised in rising sign or aspects it; and, 8th & 12th houses are Shuddha (no planet); & the Moon is either in 3rd or 6th Or 10th or 11th sign from the election ascendant then, such an ascendant is fortuitous for starting all types of works (M.C.-2/44)"; 13.7 "Fortification of election ascendant", items 1-12' }),
+    MUHURTA_CHINTAMANI: Object.freeze({ ...MC_SHARMA, pageLocus: 'sloka 2/44, printed p.79 (PDF 83): "व्ययाष्टशुद्धोपचये लग्नगे शुभदृग्युते । चन्द्रे त्रिषड्दशायस्थे सर्वारम्भः प्रसिद्ध्यति"; "THE FAVOURABLE OR SUITABLE LAGNA OR ASCENDANT FOR DOING ALL THE ORDINARY AUSPICIOUS DEEDS ... the 3rd, the 6th, the 10th and the 11th House from the Natal Ascendant and from the sign in which there is the Moon ... there should be no planet in the 8th and the 12th House ... the conjunction or aspect of the Benefic Planets on the Ascendant; and if the Moon is also there in the Upachaya signs (3/6/10/11) from the Ascendant"; note: Varahamihira, Brihat Samhita, "Benefic Planets in the 12/1/4/7/10/8 Houses; the Malefic Planets should remain in the 3/6/11 Houses; and in an Angle or in a Trine there should be Jupiter and Venus"' }),
+    KALYANRAMAN: Object.freeze({ ...KALYANRAMAN_V2, pageLocus: '"Conducting Auspicious Functions or Ceremonies", notes, printed p.231 (PDF 233): "Muhoortha Chintaamani prefers the Lagna in Upachaya houses, 3/6/10/11 from the natal ascendant and from the Janma raasi, of the person concerned. Houses 8/12 must be free. Ascendant to be associated or aspected by Benefics. The Moon is in Upachaya 3/6/10/11 from ascendant. 2. Varaahamihira in Brihat Samhita holds that Lagna Suddhi or auspicious ascendant is required for all deeds. Benefics in 1/4/7/8/10/12 houses, malefics in 3/6/11 and Jupiter and Venus in any angle or trine are especially good"; vol.1 printed pp.117, 120 (PDF 127, 130): the Moon "in the 6th, 8th or 12th houses from the Lagna chosen for any election"; "Venus must never be in the 6th house"; "Mars should never be posited in the 8th house"' }),
+    AGARWAL: Object.freeze({ ...AGARWAL_GS, pageLocus: '"Sarvarambha muhurta", printed p.327 (PDF 326): "A lagna may be elected where 8th & 12th houses be vacant & free from affliction. Benefics be in auspicious houses and malefics in upachaya, lagna must fall in 3rd, 6th, 10th or 11th from one\'s janma lagna or janma rasi"; "If lagna does not fulfil this condition, it may suffice if Moon is transiting in 3rd, 6th, 10th or 11th from one\'s Janma lagna or Janma rasi. It is rama-bana formula"' }),
+    RAMAN: Object.freeze({ ...RAMAN_BV, pageLocus: 'Chapter V, PDF pp.10-11: "There are said to be 21 great evils (ekavimsati mahadoshas) which are to be avoided for any auspicious work"; "4. Shashtashta Riphagatha Chandra Dosha. - The Moon should invariably be avoided in the 6th, 8th and 12th houses from the Lagna"; "5. Sagraha Chandra Dosha. - The Moon\'s association with any other planet, benefic or malefic, should be avoided. This injunction is specially applicable in case of marriage"; "10. Bhrigu Shatka. - The position of Venus in the 6th is injurious"; "11. Kujasthama: - Mars should be avoided in the 8th house"' }),
+    VASHISTHA: Object.freeze({ ...VASHISTHA_KUSUM, pageLocus: '"Some Important Principles of Muhurta Election", printed p.137 (PDF 124): "The nature of the work should be looked into first ... The chara lagna is most appropriate ... a sthira or fixed lagna ... Works of mixed nature like setting up machines etc. should be done in dual lagnas"; "Lagna should be unafflicted, strong and powerful"' }),
+  },
+};
+/** The books that state a check for every auspicious act (the reason it applies to OTHER). */
+const SCOPE = deepFreeze({
+  ASHTAMA: [
+    { ...KALYANRAMAN_V1, pageLocus: 'printed p.120 (PDF 130), "12. Ashtama lagna dosha": the rising sign "must not be the 8th from the Janma Lagna of the person doing the deed or of the bride and bridegroom, in the case of any marriage"' },
+    { ...SHRIDHAR_HEA, pageLocus: '§13.10, printed p.323 (PDF 367), "Adverse combinations for election ascendant": "2) 8th sign from the radical ascendant or the radical Moon sign, as rising sign of election"' },
+  ],
+  PDB: [
+    { ...WILHELM_E, pageLocus: 'chapter 15 "Lagna", printed pp.122-123 (PDF 130-131): "Blind Rasis cause impediments and should be avoided as Lagnas"; deaf "cause loss"; lame "adverse for longevity"' },
+  ],
+  KARTARI: [
+    { ...KALYANRAMAN_V1, pageLocus: 'printed p.117 (PDF 127), "3. Kartharidosha": "This must be avoided for all auspicious functions and especially marriage"' },
+    { ...RAMAN_BV, pageLocus: 'Chapter V, PDF pp.10-11, "3. Karthari Dosha": "it should be rejected for good work particularly in regard to marriage"' },
+    { ...SHRIDHAR_HEA, pageLocus: '§13.10, printed p.325 (PDF 369): "16) Election ascendant is hemmed with malefics or afflicted by Kartari Dosha"' },
+  ],
+  GANDANTA: [
+    { ...KALYANRAMAN_V1, pageLocus: 'printed pp.119-120 (PDF 129-130), "8. Gandaanthara": "These three Gandaantha doshas are to be avoided in the selection of any muhoortha"' },
+  ],
+  NAV_WHICH: [
+    { ...WILHELM_E, pageLocus: 'chapter 15, printed p.123 (PDF 131): "The Navamsa Lagna should be that of a benefic planet when performing any beneficial activities"' },
+    { ...KALYANRAMAN_V1, pageLocus: 'printed p.121 (PDF 131), "14. Kunavaamsa dosha": "The Lagna selected for any auspicious event should not occupy the navaamsa of any malefic"' },
+    { ...RAMAN_BV, pageLocus: 'Chapter V, PDF p.12: "14. Kunavamsa Dosha. - The Lagna selected for an auspicious work should not occupy the Navamsa of a malefic"' },
+  ],
+  UDAYA: [
+    { ...KALYANRAMAN_V1, pageLocus: 'printed p.117 (PDF 127), "6. Udayaasthasudhi": "They have to be strong for all elections. The Lagna can be occupied by its own lord and so also the navaamsa Lagna by its lord. This can be as well vice versa. Or else the lord of Lagna should aspect the navaamsa Lagna or vice versa. Similarly the seventh house and its lord should be favourably disposed"' },
+    { ...RAMAN_BV, pageLocus: 'Chapter V, PDF p.11: "The strength of Lagna and the seventh is necessary in all elections but especially so in regard to marriage"' },
+  ],
+  SHADVARGA: [
+    { ...KALYANRAMAN_V1, pageLocus: 'printed p.120 (PDF 130), "9. Paapa shadvarga": "The malefics should never be strong in the Shadvargas of any election chart"' },
+    { ...SHRIDHAR_HEA, pageLocus: 'chapter 13 "Purification of election ascendant", printed p.309 (PDF 353)' },
+  ],
+  DREKKANA: [
+    { ...SHRIDHAR_HEA, pageLocus: 'chapter 13 "Purification of election ascendant", printed p.311 (PDF 355)' },
+  ],
+  VISHANADI: [
+    { ...KALYANRAMAN_V1, pageLocus: 'printed p.121 (PDF 131), "13. Raasi vishaghatika": "Such portions of raasis must not form the part of the Lagna chosen for any auspicious event"' },
+    { ...RAMAN_BV, pageLocus: 'Chapter V, PDF p.12: "13. Rasi Visha Ghatika ... They are to be rejected for all auspicious work"' },
+  ],
+});
+/** Why the marriage-only checks are left out for other acts. */
+const SCOPE_OUT_TA = Object.freeze({
+  PLACEMENTS: 'கிரக நிலை, புள்ளிகள் — திருமண அட்டவணைகள் (ஸ்ரீதர் அட்டவணை 18.5 "திருமண விஸ்வ பலம்", மு.சி. விவாஹ ப்ரகரணம் 86-88); இங்கே பொது லக்ன சுத்தி அதன் இடத்தில்.',
+  NAV_LAST: 'கடைசி நவாம்சம் — மு.சி. ஸ்லோ.85 திருமணத்துக்கு ("பெண்ணுக்குக் கடைசி நவாம்சத்தில் திருமணம் கூடாது"). வில்ஹெல்மின் பொது விதி (நட்சத்திர, திதி, வார விஷ நாடியுடன் கடைசி நவாம்சம்) கணிக்கப்படவில்லை.',
+  NAV_NATAL: 'பிறந்த 8, 12-ன் நவாம்சம் — மு.சி. ஸ்லோ.79 திருமணத்துக்கு. ஸ்ரீதரின் பொது விதி (§13.10.3: பிறந்த 8-ஆம் அதிபதிகளின் நவாம்ச ராசி லக்னமாகக் கூடாது) வேறு — கணிக்கப்படவில்லை.',
+});
+const NOTES_COMMON = {
+  COMMON: [
+    'சுபர் = புதன், குரு, சுக்கிரன்; பார்வை ராசிச் சக்கரத்தில் (முழுப் பார்வை). 8, 12 காலி = ஒன்பது கிரகங்களில் எதுவும் இல்லை.',
+    'வில்ஹெல்ம்: நவாம்ச லக்னத்தில் பாவர், குரு / சுக்கிரனின் நவாம்ச நீசம் கணிக்கப்படவில்லை; "கேந்திரங்களில் பாவரைவிட சுபர் அதிகம்" — "நல்ல வழக்கம்", தீர்ப்பில் இல்லை.',
+    'ஸ்ரீதரின் §13.10 பாதகச் சேர்க்கைகள் (லக்னாதிபதி அஸ்தங்கம் / 6, 8, 12 / நீசம், 8-ஆம் அதிபதி லக்னத்தில், உதய நவாம்சத்தில் பாவர், சித்ர கிரகங்கள் …), மாச / திதி சூன்ய லக்னங்கள் (ஸ்ரீதர் அட்டவணை 13.4, வில்ஹெல்ம்) இன்னும் கணிக்கப்படவில்லை.',
+    'நீக்கங்கள் (காட்டப்படவில்லை): லக்னத்தில் / கேந்திரத்தில் குரு, சுக்கிரன், புதன் பல தோஷங்களை நீக்கும்; சந்திரன் அல்லது சூரியன் 11-ல் (ஸ்ரீதர், ராமன்).',
+    'ஒவ்வொரு காரியத்துக்கும் தனி லக்ன விதிகள் (கிரகப்பிரவேசம், உபநயனம், பயணம் …) நூல்களில் உண்டு — இது அவற்றுக்கு முந்தைய பொது விதி.',
+  ],
+};
+
 const RANK = deepFreeze({
   ...RANK_LAGNA,
   ...RANK_SHAD,
+  ...RANK_COMMON,
   NAV_LAST: rank({ MUHURTA_CHINTAMANI: 156, SHRIDHAR: 146, WILHELM: 46, RANGACHARYA: 35, JOSHI: 32 }, 'கடைசி நவாம்சம், வர்கோத்தமம், சர நவாம்சம் பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (ப.213) 156; ஸ்ரீதர் (பக்.458, 461) 146; வில்ஹெல்ம் 46; ரங்காச்சார்யா 35; ஜோஷி 32.'),
   NAV_WHICH: rank({ SHRIDHAR: 390, WILHELM: 80, RANGACHARYA: 56, MUHURTA_CHINTAMANI: 43, AGARWAL: 22, RAMAN: 18, JOSHI: 16 }, 'எந்த நவாம்சம் என்பது பற்றிய சொற்கள்: ஸ்ரீதர் (பக்.459-461, 463 — நாரதர், காளிதாசர், வசிஷ்டர், பி.க. மேற்கோள்கள்) 390; வில்ஹெல்ம் (பக்.123, 261) 80; ரங்காச்சார்யா (ப.54) 56; முகூர்த்த சிந்தாமணி (ப.212) 43; அகர்வால் 22; ராமன் 18; ஜோஷி 16. ஸ்ரீதர் தானே விதியாகச் சொல்வது நாரதருடையது.'),
   NAV_NATAL: rank({ MUHURTA_CHINTAMANI: 145, SHRIDHAR: 127, WILHELM: 83, JOSHI: 75 }, 'பிறந்த 8, 12-ன் நவாம்சம் பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (ப.187) 145; ஸ்ரீதர் (பக்.461-462) 127; வில்ஹெல்ம் (ப.261) 83; ஜோஷி (ப.77) 75.'),
@@ -318,6 +437,7 @@ const RANK = deepFreeze({
 const SOURCES = deepFreeze({
   ...SOURCES_LAGNA,
   ...SOURCES_SHAD,
+  ...SOURCES_COMMON,
   NAV_LAST: {
     MUHURTA_CHINTAMANI: Object.freeze({ ...MC_SHARMA, pageLocus: 'sloka 85, printed p.213 (PDF 217): "नो चरलग्ने चरलवयोगं तौलिमृगस्थे शशिमृति कुर्यात्"; "A daughter should not be married in the last Navamsha, but if the Navamsha of a sign is Vargottama and marriage is done in it, then it is excellent. But if the Moon is situated in the Libra or Capricorn sign, then marriage should not be done in the movable Navamsha of a Movable Ascendant, that is, even Vargottama is not auspicious"' }),
     SHRIDHAR: Object.freeze({ ...SHRIDHAR_HEA, pageLocus: 'printed pp.458, 461 (PDF 497, 500): "The Moon, the Lagna & navamsha; all the three should not be in movable signs ... However, Vargottama navamshas of Aries & Cancer are acceptable"; "Last navamsha of a sign should be left in marriage. Vargottama navamsha of Gemini, Virgo, Sagittarius & Pisces are preferred (M.M.). Vargottama navamshas of Libra & Capricorn are bad for marriage (M.C-6/85) ... Pisces sign & navamsha though Vargottama is not acceptable"' }),
@@ -351,6 +471,7 @@ const SOURCES = deepFreeze({
 const NOTES_TA = deepFreeze({
   ...NOTES_LAGNA,
   ...NOTES_SHAD,
+  ...NOTES_COMMON,
   NAV_LAST: ['சர ராசி: மேஷம், கடகம், துலாம், மகரம்; ஸ்திரம்: ரிஷபம், சிம்மம், விருச்சிகம், கும்பம்; உபயம்: மிதுனம், கன்னி, தனுசு, மீனம்.'],
   NAV_WHICH: ['"தனுசு முதல் பாதி" — தனுசு நவாம்சத்தின் (3°20′) முதல் 1°40′ (எங்கள் வாசிப்பு). குநவாம்ச நீக்கம்: லக்னத்தில் குரு, அல்லது சந்திரன் 11-ல் (ரங்காச்சார்யா) — காட்டப்படுகிறது, தீர்ப்பில் இல்லை.'],
   NAV_NATAL: ['பிறந்த லக்னம், பாகை இந்த நபருடையது. நாரதரின் வாசிப்பு (பிறந்த 8, 12-ஆம் அதிபதி நின்ற நவாம்சத்தின் அதிபதி லக்னத்தில்) கணிக்கப்படவில்லை — பிறந்த கிரகங்களின் நவாம்சம் தேவை.'],
@@ -362,5 +483,6 @@ module.exports = {
   ASHTAMA, PDB, PDB_TA, KARTARI, GANDANTA, GANDANTA_END, GANDANTA_START,
   MOVABLE, DUAL, NAV_LAST, NAV_WHICH, NAV_NATAL, UDAYA, ASPECTS,
   VARGA_BENEFICS, VARGAS, VARGA_TA, TRIMSAMSA, SHADVARGA, DREKKANA_MALEFIC, DREKKANA_NATURE, DREKKANA_TA, DREKKANA, VISHANADI, VARA_TA,
+  UPACHAYA, KENDRA, BENEFIC_SIGNS, DEBILITATED, MALEFICS_SEVEN, COMMON, COMMON_WHY_TA, EVENTS, SCOPE, SCOPE_OUT_TA,
   RANK, SOURCES, NOTES_TA,
 };

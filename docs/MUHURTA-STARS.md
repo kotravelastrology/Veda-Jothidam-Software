@@ -219,7 +219,53 @@ Erode, the sign rules leave 471 lagna minutes; the three new checks alone cut
 that to 276 (322 with Shridhar's three of six); with the navamsa rules none is
 left. The engine takes 0.9 s and 1.06 MB for 30 days, 2.8 s and 2.6 MB for 90.
 
-Not yet computed: lagna shuddhi for events other than marriage (MC p.79).
+## Lagna shuddhi for any other auspicious act (added 2026-10-11)
+
+The page now asks which kind of event: a marriage (as above) or another
+auspicious act. For another act the lagna takes a general rule (COMMON) and
+only those checks a book states for every auspicious act, with that book's page
+shown (`SCOPE`); the marriage tables are left out with the reason
+(`SCOPE_OUT_TA`). The engine's `lagnaVerdict` takes `chosen.EVENT`; `commonOf`
+is part of the lagna's sign-level results, so `lagnaTable` carries it.
+
+| Reading | Words | Conditions (all must hold) |
+|---|---|---|
+| Wilhelm (default), ch.15-16, pp.119-121, 125-126 | 628 | a benefic's sign (Cancer not with a malefic Moon, tithis 1-5 and 26-30); a malefic's sign is rescued by Jupiter or Venus (not debilitated) in or aspecting the lagna, Jupiter in an angle in a friendly sign or better, or the Moon in 3, 10, 11; no malefic in the lagna (unless Venus or the Moon is in the 10th and Jupiter in an angle); the 8th and 12th empty |
+| Shridhar pp.317, 319-320 (MC 2/44 as he reads it) | 488 | the lagna 3/6/10/11 from the birth lagna **or** the janma rasi; a benefic in or aspecting it; nothing in the 8th or 12th; the Moon 3/6/10/11 from it |
+| Muhurta Chintamani sloka 2/44, p.79 | 276 | the same, from the birth lagna **and** the janma rasi (the translator's and Kalyanraman's words; the verse says only "उपचये लग्नगे") |
+| Varahamihira, B.S. 98/16 (quoted by MC's note, Shridhar, Kalyanraman) | — | Mercury, Jupiter, Venus in 1/4/7/8/10/12; the Sun, Mars, Saturn in 3/6/11; Jupiter or Venus in an angle or trine |
+| Agarwal's "Sarvarambha", p.327 | 136 | the 8th and 12th empty and not aspected by the Sun, Mars, Saturn; no benefic in 6/8/12; the Sun, Mars, Saturn in 3/6/10/11; the lagna — or failing it the transiting Moon — 3/6/10/11 from the birth lagna or janma rasi |
+| Raman ch.V = Kalyanraman vol.1 pp.117, 120 | 130 | the Moon not in 6/8/12 nor with another planet; Venus not in the 6th; Mars not in the 8th |
+
+Kalyanraman (261) restates MC and Varahamihira (vol.2 p.231) and Raman's evils
+(vol.1); Vashistha (108, p.137) asks for a movable, fixed or dual lagna by the
+work's nature — not computed. Rangacharya and Joshi give lagnas per event only.
+Rahu and Ketu are always opposite and can never both be in 3/6/11 or
+3/6/10/11, so Varahamihira's and Agarwal's "malefics" are the Sun, Mars and
+Saturn (our reading).
+
+Checks for every act and their books: the 8th from birth (Kalyanraman vol.1
+p.120, Shridhar §13.10.2), deaf/blind/lame (Wilhelm ch.15), Kartari
+(Kalyanraman p.117, Raman, Shridhar §13.10.16), Gandanta (Kalyanraman
+pp.119-120), a benefic's navamsa only (Wilhelm p.123, Kalyanraman p.121,
+Raman), udaya-asta by any of four lords (Kalyanraman p.117 "strong for all
+elections", Raman), shadvarga (Kalyanraman p.120, Shridhar ch.13), decanate
+and poison portions (Shridhar ch.13, Kalyanraman p.121, Raman). Left out: the
+marriage places and points, MC's last navamsa and birth 8th/12th navamsa
+(marriage verses; Shridhar's and Wilhelm's general forms are different rules).
+
+Tested on constructed charts for each reading (MC's both against Shridhar's
+either, Wilhelm's rescues and the malefic Moon, Varahamihira's ideal,
+Agarwal's Moon fallback, Raman's four), the verdict by event, and against the
+sky. For the Erode test birth over the 30 days from 2026-10-11: Wilhelm's rule
+passes 6,331 lagna minutes of 43,200, MC's 1,210, Raman's 12,590, Varahamihira's
+and Agarwal's none; with every other-act check none is left — udaya-asta is
+the last to close it (1,025 minutes without it).
+
+Not computed: Shridhar's §13.10 adverse combinations (the lagna lord combust,
+in 6/8/12 or debilitated; the 8th lord in the lagna; malefics in the rising
+navamsa; Chhidra grahas), month and tithi Shunya lagnas, and each event's own
+lagna rules (house entry, upanayana, travel …).
 
 ## Not done
 

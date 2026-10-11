@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const T = require('./src/report/lagnaShuddhiTables');
-const { lagnaShuddhiOf, lagnaVerdict, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf, sees, pointsOf, placementsOf, ashtamaOf, pdbOf, kartariOf, houseOf } = require('./src/report/lagnaShuddhi');
+const { lagnaShuddhiOf, lagnaVerdict, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf, sees, pointsOf, placementsOf, ashtamaOf, pdbOf, kartariOf, commonOf, houseOf } = require('./src/report/lagnaShuddhi');
 const { muhurtaStarChecks } = require('./src/report/muhurtaStars');
 const { planetLongitude, nodeLongitude, sunriseJulianDay, sunsetJulianDay } = require('./src/ephemeris/siderealPositions');
 const { siderealAscendant } = require('./src/ephemeris/swissEphemeris');
@@ -273,6 +273,88 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
   assert.deepEqual(lagnaVerdict(l, chosen, null, null, vishanadiOf(vargaIndices(1), 3, no)).reasons, ['VISHANADI']);
 }
 
+// ------------------------------------------------ the lagna for any auspicious act ---
+{
+  const C = FIX.common;
+  assert.equal(T.SOURCES.COMMON.MUHURTA_CHINTAMANI.pageLocus.includes(C.MC_sloka2_44), true, 'MC sloka 2/44 transcribed');
+  assert.deepEqual([...T.UPACHAYA], C.upachaya);
+  assert.deepEqual([...T.BENEFIC_SIGNS], C.WILHELM_beneficSigns);
+  assert.deepEqual([...Array(12).keys()].filter((s) => !T.BENEFIC_SIGNS.includes(s)), C.WILHELM_maleficSigns);
+  assert.deepEqual(T.EVENTS.OTHER.checks, C.OTHER_checks);
+  assert.deepEqual(T.EVENTS.MARRIAGE.checks.filter((k) => !T.EVENTS.OTHER.checks.includes(k)), C.OTHER_not);
+  for (const k of T.EVENTS.OTHER.checks.filter((x) => x !== 'COMMON')) assert.ok(T.SCOPE[k]?.length, `a book states ${k} for every act`);
+  for (const k of C.OTHER_not) assert.ok(T.SCOPE_OUT_TA[k], `why ${k} is left out`);
+
+  // A moment: lagna, planets' signs, the birth lagna and Moon, the tithi.
+  const at = (lagna, signs, o = {}) => commonOf({ lagna, signs, natalLagna: 11, natalMoon: 4, tithi: 10, ...o }, housesFrom(lagna, signs));
+  // Taurus rising: 3rd from a Pisces birth lagna, 10th from a Leo birth Moon; Mercury in it; the Moon
+  // in Cancer (3rd); nothing in Sagittarius (8th) or Aries (12th); Saturn in the 11th, Mars in the 6th.
+  const mcSky = { Sun: 2, Moon: 3, Mars: 6, Mercury: 1, Jupiter: 4, Venus: 2, Saturn: 11, Rahu: 9, Ketu: 3 };
+  assert.deepEqual(at(1, mcSky).MUHURTA_CHINTAMANI, [], 'MC 2/44 met');
+  assert.deepEqual(at(1, mcSky).SHRIDHAR, []);
+  // A birth Moon in Aries makes Taurus the 2nd: both-ways fails, either-way holds.
+  assert.deepEqual(at(1, mcSky, { natalMoon: 0 }).MUHURTA_CHINTAMANI, ['NOT_UPACHAYA']);
+  assert.deepEqual(at(1, mcSky, { natalMoon: 0 }).SHRIDHAR, []);
+  assert.deepEqual(at(1, { ...mcSky, Saturn: 8 }).SHRIDHAR, ['OCC_8']);
+  assert.deepEqual(at(1, { ...mcSky, Mercury: 2, Venus: 3 }).SHRIDHAR, ['NO_BENEFIC'], 'no benefic in the lagna or aspecting it');
+  assert.deepEqual(at(1, { ...mcSky, Mercury: 2, Venus: 7 }).SHRIDHAR, [], 'Venus in Scorpio aspects Taurus');
+  assert.deepEqual(at(1, { ...mcSky, Moon: 5 }).SHRIDHAR, ['MOON_NOT_UPACHAYA'], 'the Moon in Virgo, the 5th');
+
+  // Wilhelm: Aries rising is a malefic's sign …
+  const aries = { Sun: 2, Moon: 6, Mars: 2, Mercury: 2, Jupiter: 2, Venus: 2, Saturn: 2, Rahu: 2, Ketu: 8 };
+  assert.deepEqual(at(0, { ...aries, Ketu: 5, Rahu: 11 }).WILHELM, ['MALEFIC_SIGN', 'OCC_12']);
+  const ariesClear = { ...aries, Rahu: 5, Ketu: 11 };
+  assert.deepEqual(at(0, { ...ariesClear, Ketu: 5, Rahu: 2 }).WILHELM, ['MALEFIC_SIGN']);
+  // … rescued by Jupiter aspecting it from Leo (9th aspect), not from debilitation in Capricorn,
+  assert.deepEqual(at(0, { ...ariesClear, Ketu: 5, Rahu: 2, Jupiter: 4 }).WILHELM, []);
+  assert.deepEqual(at(0, { ...ariesClear, Ketu: 5, Rahu: 2, Jupiter: 9 }).WILHELM, ['MALEFIC_SIGN'], 'Jupiter debilitated in an angle');
+  // by Jupiter exalted in an angle (Cancer, the 4th), or by the Moon in the 11th.
+  assert.deepEqual(at(0, { ...ariesClear, Ketu: 5, Rahu: 2, Jupiter: 3 }).WILHELM, []);
+  assert.deepEqual(at(0, { ...ariesClear, Ketu: 5, Rahu: 2, Moon: 10 }).WILHELM, []);
+  // Cancer is good unless the Moon is a malefic (within 60° of the Sun: tithis 1-5, 26-30).
+  const cancer = { Sun: 6, Moon: 7, Mars: 6, Mercury: 6, Jupiter: 6, Venus: 6, Saturn: 6, Rahu: 5, Ketu: 11 };
+  assert.deepEqual(at(3, cancer).WILHELM, []);
+  assert.deepEqual(at(3, cancer, { tithi: 3 }).WILHELM, ['CANCER_MOON']);
+  assert.deepEqual(at(3, cancer, { tithi: 28 }).WILHELM, ['CANCER_MOON']);
+  // No malefic in the lagna — unless Venus or the Moon is in the 10th and Jupiter in an angle.
+  assert.deepEqual(at(3, { ...cancer, Saturn: 3 }).WILHELM, ['MALEFIC_IN_LAGNA']);
+  assert.deepEqual(at(3, { ...cancer, Saturn: 3, Venus: 0, Jupiter: 9 }).WILHELM, []);
+
+  // Varahamihira (B.S. 98/16): benefics in 1, 4, 7, 8, 10, 12, the Sun, Mars, Saturn in 3, 6, 11, Jupiter or Venus in an angle or trine.
+  const B = C.BS_98_16;
+  const bsSky = { Sun: 10, Moon: 5, Mars: 2, Mercury: 0, Jupiter: 3, Venus: 9, Saturn: 5, Rahu: 1, Ketu: 7 };
+  const bsH = housesFrom(0, bsSky);
+  assert.ok(T.BENEFICS.every((p) => B.benefics.includes(bsH[p])) && T.MALEFICS_SEVEN.every((p) => B.malefics.includes(bsH[p])));
+  assert.deepEqual(at(0, bsSky).VARAHAMIHIRA, []);
+  assert.deepEqual(at(0, { ...bsSky, Mercury: 1 }).VARAHAMIHIRA, ['BENEFIC_PLACE']);
+  assert.deepEqual(at(0, { ...bsSky, Sun: 0 }).VARAHAMIHIRA, ['MALEFIC_PLACE']);
+  // Rahu and Ketu are never both in 3, 6, 11 — hence the seven-planet malefics.
+  for (let r = 0; r < 12; r += 1) assert.ok(!(B.malefics.includes(r + 1) && B.malefics.includes(((r + 6) % 12) + 1)));
+
+  // Agarwal: failing the lagna, the transiting Moon in an upachaya from the birth lagna or Moon suffices.
+  const agSky = { Sun: 2, Moon: 5, Mars: 9, Mercury: 3, Jupiter: 4, Venus: 3, Saturn: 10, Rahu: 6, Ketu: 0 };
+  assert.ok(!at(0, agSky, { natalLagna: 0, natalMoon: 0 }).AGARWAL.includes('NOT_UPACHAYA'), 'the Moon in Virgo, 6th from Aries');
+  assert.ok(at(0, { ...agSky, Moon: 4 }, { natalLagna: 0, natalMoon: 0 }).AGARWAL.includes('NOT_UPACHAYA'));
+
+  // Raman's four placements.
+  assert.deepEqual(at(0, { ...bsSky, Moon: 7 }).RAMAN.includes('MOON_6_8_12'), true);
+  assert.deepEqual(at(0, { ...bsSky, Moon: 10 }).RAMAN, ['MOON_WITH'], 'the Moon with the Sun');
+  assert.deepEqual(at(0, { ...bsSky, Moon: 4, Venus: 5 }).RAMAN, ['VENUS_6']);
+  assert.deepEqual(at(0, { ...bsSky, Moon: 4, Mars: 7 }).RAMAN, ['MARS_8']);
+
+  // The verdict for another act: the marriage tables give way to COMMON; Narada's navamsas to a benefic's.
+  const l = lagnaShuddhiOf({ lagna: 1, signs: mcSky, retro: {}, night: false, gandanta: { MINUTES_12: false, DEGREES_3: false }, natalLagna: 11, natalMoon: 4, tithi: 10 });
+  const nv = navamsaOf({ n108: 9 * 1 + 2, half: 0, signs: mcSky, natalLagnaLongitude: 335, natalLagna: 11, natalMoon: 4 });
+  const base = { ...FIX.defaults, PLACEMENTS: 'WILHELM', COMMON: 'MUHURTA_CHINTAMANI' };
+  const other = lagnaVerdict(l, { ...base, EVENT: 'OTHER' }, nv).reasons;
+  const marriage = lagnaVerdict(l, { ...base, EVENT: 'MARRIAGE' }, nv).reasons;
+  for (const k of C.OTHER_not) assert.ok(!other.includes(k), `${k} not for other acts`);
+  assert.ok(!other.includes('COMMON') && !marriage.includes('COMMON'));
+  assert.equal(nv.which.NARADA, false, 'Cancer navamsa: not Narada\'s');
+  assert.ok(marriage.includes('NAV_WHICH') && !other.includes('NAV_WHICH'), 'Cancer navamsa is a benefic\'s');
+  assert.ok(lagnaVerdict(lagnaShuddhiOf({ lagna: 1, signs: { ...mcSky, Saturn: 8 }, retro: {}, night: false, gandanta: { MINUTES_12: false, DEGREES_3: false }, natalLagna: 11, natalMoon: 4, tithi: 10 }), { ...base, EVENT: 'OTHER' }).reasons.includes('COMMON'));
+}
+
 // ------------------------------------------------ the stretches, against the sky ---
 {
   const DAY = 86400000;
@@ -327,6 +409,7 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
       assert.deepEqual(plain(got.ashtama), plain({ EIGHTH: want.ashtama.EIGHTH, FOUR_EIGHT_TWELVE: want.ashtama.FOUR_EIGHT_TWELVE }));
       assert.deepEqual(plain(got.pdb), plain(want.pdb), `pdb ${x.fromUtc}`);
       assert.deepEqual(plain(got.kartari), plain(want.kartari), `kartari ${x.fromUtc}`);
+      assert.deepEqual(plain(got.common), plain(want.common), `common ${x.fromUtc}`);
       assert.deepEqual({ MINUTES_12: Boolean(x.g & 1), DEGREES_3: Boolean(x.g & 2) }, plain(want.gandanta), `gandanta ${x.fromUtc}`);
       assert.equal(Boolean(x.b), want.banaMrityu);
       // The navamsa: recomputed from the ascendant at the middle.

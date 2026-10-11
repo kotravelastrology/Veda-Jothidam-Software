@@ -10,7 +10,7 @@
  *   night        before sunrise or after sunset at the place
  *   gandanta     { MINUTES_12, DEGREES_3: bool }
  *   natalLagna, natalMoon   signs, for the 8th-sign rule
- *   tithi        1-30, for Bana by tithi and lagna
+ *   tithi        1-30, for Bana by tithi and lagna and the Moon's nature (Wilhelm)
  */
 
 const T = require('./lagnaShuddhiTables');
@@ -93,6 +93,66 @@ function kartariOf(houses, retro) {
   };
 }
 
+/**
+ * The lagna for any auspicious act: for each book's reading, the conditions that fail
+ * (none = it passes). Benefics Mercury, Jupiter, Venus; aspects full, in the rasi chart.
+ */
+function commonOf(m, houses) {
+  const H = houses;
+  const lord = T.RASI_LORDS;
+  const occupied = (h) => T.PLANETS.some((p) => H[p] === h);
+  const seesLagna = (p) => H[p] === 1 || sees(p, m.signs[p], m.lagna, false);
+  const upFrom = [m.natalLagna, m.natalMoon].filter(Number.isInteger).map((s) => T.UPACHAYA.includes(houseOf(m.lagna, s)));
+  const empty812 = [occupied(8) && 'OCC_8', occupied(12) && 'OCC_12'];
+  const mc = (both) => [
+    !(both ? upFrom.length > 0 && upFrom.every(Boolean) : upFrom.some(Boolean)) && 'NOT_UPACHAYA',
+    ...empty812,
+    !T.BENEFICS.some(seesLagna) && 'NO_BENEFIC',
+    !T.UPACHAYA.includes(H.Moon) && 'MOON_NOT_UPACHAYA',
+  ].filter(Boolean);
+
+  // Wilhelm: the Moon is a malefic within 60° of the Sun (tithis 1-5 and 26-30).
+  const moonMalefic = m.tithi <= 5 || m.tithi >= 26;
+  const goodSign = T.BENEFIC_SIGNS.includes(m.lagna) && !(m.lagna === 3 && moonMalefic);
+  const jupVen = ['Jupiter', 'Venus'].some((p) => m.signs[p] !== T.DEBILITATED[p] && seesLagna(p));
+  const jupSign = m.signs.Jupiter;
+  const jupDignified = jupSign === 3 || lord[jupSign] === 'Jupiter' || naturalRelation('Jupiter', lord[jupSign]) === 'friend';
+  const jupAngle = T.KENDRA.includes(H.Jupiter) && jupDignified;
+  const moonUp = [3, 10, 11].includes(H.Moon);
+  const maleficIn1 = T.MALEFICS.some((p) => H[p] === 1) && !((H.Venus === 10 || H.Moon === 10) && T.KENDRA.includes(H.Jupiter));
+  const wilhelm = [
+    !(goodSign || jupVen || jupAngle || moonUp) && (T.BENEFIC_SIGNS.includes(m.lagna) ? 'CANCER_MOON' : 'MALEFIC_SIGN'),
+    maleficIn1 && 'MALEFIC_IN_LAGNA',
+    ...empty812,
+  ].filter(Boolean);
+
+  const varahamihira = [
+    T.BENEFICS.some((p) => ![1, 4, 7, 8, 10, 12].includes(H[p])) && 'BENEFIC_PLACE',
+    T.MALEFICS_SEVEN.some((p) => ![3, 6, 11].includes(H[p])) && 'MALEFIC_PLACE',
+    !['Jupiter', 'Venus'].some((p) => [1, 4, 7, 10, 5, 9].includes(H[p])) && 'NO_JUP_VEN',
+  ].filter(Boolean);
+
+  // Agarwal: the lagna, or failing it the transiting Moon, in an upachaya from the birth lagna or Moon.
+  const moonFrom = [m.natalLagna, m.natalMoon].filter(Number.isInteger).some((s) => T.UPACHAYA.includes(houseOf(m.signs.Moon, s)));
+  const h8 = (m.lagna + 7) % 12; const h12 = (m.lagna + 11) % 12;
+  const agarwal = [
+    ...empty812,
+    T.MALEFICS_SEVEN.some((p) => sees(p, m.signs[p], h8, false) || sees(p, m.signs[p], h12, false)) && 'AFFLICT_8_12',
+    T.BENEFICS.some((p) => [6, 8, 12].includes(H[p])) && 'BENEFIC_DUSTHANA',
+    T.MALEFICS_SEVEN.some((p) => !T.UPACHAYA.includes(H[p])) && 'MALEFIC_NOT_UPACHAYA',
+    !(upFrom.some(Boolean) || moonFrom) && 'NOT_UPACHAYA',
+  ].filter(Boolean);
+
+  const raman = [
+    [6, 8, 12].includes(H.Moon) && 'MOON_6_8_12',
+    T.PLANETS.some((p) => p !== 'Moon' && H[p] === H.Moon) && 'MOON_WITH',
+    H.Venus === 6 && 'VENUS_6',
+    H.Mars === 8 && 'MARS_8',
+  ].filter(Boolean);
+
+  return { WILHELM: wilhelm, SHRIDHAR: mc(false), MUHURTA_CHINTAMANI: mc(true), VARAHAMIHIRA: varahamihira, AGARWAL: agarwal, RAMAN: raman };
+}
+
 function lagnaShuddhiOf(m) {
   const houses = Object.fromEntries(T.PLANETS.map((p) => [p, houseOf(m.signs[p], m.lagna)]));
   const lagnaLordHouse = houses[T.RASI_LORDS[m.lagna]];
@@ -100,6 +160,7 @@ function lagnaShuddhiOf(m) {
     lagna: m.lagna,
     houses,
     placements: placementsOf(houses, lagnaLordHouse),
+    common: commonOf(m, houses),
     ashtama: ashtamaOf(m.lagna, m.natalLagna, m.natalMoon),
     pdb: pdbOf(m.lagna, m.night, m.signs),
     kartari: kartariOf(houses, m.retro),
@@ -271,30 +332,34 @@ function vishanadiOf(v, vara, ghati) {
  * `va` the shadvarga with its decanate ({ ...shadvargaOf, drekkana: drekkanaOf }), `visha` vishanadiOf — each when given.
  */
 function lagnaVerdict(l, chosen, nv = null, va = null, visha = null) {
+  const event = T.EVENTS[chosen.EVENT ?? T.EVENTS.default];
+  const on = (k) => event.checks.includes(k);
+  // A reading the event does not take falls back to the first it does.
+  const r = (k) => (event.only[k] && !event.only[k].includes(chosen[k]) ? event.only[k][0] : chosen[k]);
   const reasons = [];
-  const pl = l.placements[chosen.PLACEMENTS];
-  if (!pl.pass) reasons.push('PLACEMENTS');
-  if (l.ashtama[chosen.ASHTAMA].length) reasons.push('ASHTAMA');
+  if (on('PLACEMENTS') && !l.placements[r('PLACEMENTS')].pass) reasons.push('PLACEMENTS');
+  if (on('COMMON') && l.common[r('COMMON')].length) reasons.push('COMMON');
+  if (l.ashtama[r('ASHTAMA')].length) reasons.push('ASHTAMA');
   if (l.pdb.present) reasons.push('PDB');
-  if (l.kartari[chosen.KARTARI]) reasons.push('KARTARI');
-  if (l.gandanta[chosen.GANDANTA]) reasons.push('GANDANTA');
+  if (l.kartari[r('KARTARI')]) reasons.push('KARTARI');
+  if (l.gandanta[r('GANDANTA')]) reasons.push('GANDANTA');
   if (chosen.banaByLagna && l.banaMrityu) reasons.push('BANA');
   if (nv) {
-    if (nv.last[chosen.NAV_LAST].length) reasons.push('NAV_LAST');
-    if (!nv.which[chosen.NAV_WHICH]) reasons.push('NAV_WHICH');
-    if (nv.natal[chosen.NAV_NATAL].length) reasons.push('NAV_NATAL');
-    const u = nv.udaya[chosen.UDAYA];
+    if (on('NAV_LAST') && nv.last[r('NAV_LAST')].length) reasons.push('NAV_LAST');
+    if (!nv.which[r('NAV_WHICH')]) reasons.push('NAV_WHICH');
+    if (on('NAV_NATAL') && nv.natal[r('NAV_NATAL')].length) reasons.push('NAV_NATAL');
+    const u = nv.udaya[r('UDAYA')];
     if (!u.udaya || !u.asta) reasons.push('UDAYA');
   }
   if (va) {
-    if (!va.readings[chosen.SHADVARGA]) reasons.push('SHADVARGA');
-    if (va.drekkana.readings[chosen.DREKKANA]) reasons.push('DREKKANA');
+    if (!va.readings[r('SHADVARGA')]) reasons.push('SHADVARGA');
+    if (va.drekkana.readings[r('DREKKANA')]) reasons.push('DREKKANA');
   }
-  if (visha && visha[chosen.VISHANADI]) reasons.push('VISHANADI');
+  if (visha && visha[r('VISHANADI')]) reasons.push('VISHANADI');
   return { ok: reasons.length === 0, reasons };
 }
 
 module.exports = {
   lagnaShuddhiOf, lagnaVerdict, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf,
-  placementsOf, pointsOf, ashtamaOf, pdbOf, kartariOf, houseOf, friendsOrSame, sees,
+  placementsOf, pointsOf, ashtamaOf, pdbOf, kartariOf, commonOf, houseOf, friendsOrSame, sees,
 };

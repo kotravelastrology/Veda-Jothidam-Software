@@ -487,6 +487,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
         pdbTa: L.PDB_TA, pdb: L.PDB, kartari: L.KARTARI, gandanta: L.GANDANTA, rank: L.RANK, sources: L.SOURCES, notesTa: L.NOTES_TA,
         navLast: L.NAV_LAST, navWhich: L.NAV_WHICH, navNatal: L.NAV_NATAL, udaya: L.UDAYA,
         shadvarga: L.SHADVARGA, drekkana: L.DREKKANA, vishanadi: L.VISHANADI, vargaTa: L.VARGA_TA, vargas: L.VARGAS, varaTa: L.VARA_TA, drekkanaTa: L.DREKKANA_TA,
+        common: L.COMMON, commonWhyTa: L.COMMON_WHY_TA, events: L.EVENTS, scope: L.SCOPE, scopeOutTa: L.SCOPE_OUT_TA,
         natalLagna: Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null,
       },
     },

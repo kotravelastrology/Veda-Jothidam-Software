@@ -33,9 +33,22 @@
     "UDAYA": { "SHRIDHAR": 905, "MUHURTA_CHINTAMANI": 789, "WILHELM": 135, "RANGACHARYA": 95 },
     "SHADVARGA": { "RANGACHARYA": 499, "SHRIDHAR": 346, "WILHELM": 145, "VASHISTHA": 40, "KALYANRAMAN": 16, "RAMAN": 12, "JOSHI": 9 },
     "DREKKANA": { "SHRIDHAR": 203 },
-    "VISHANADI": { "WILHELM": 213, "SHRIDHAR": 191, "RAMAN": 162, "AGARWAL": 152, "KALYANRAMAN": 97 }
+    "VISHANADI": { "WILHELM": 213, "SHRIDHAR": 191, "RAMAN": 162, "AGARWAL": 152, "KALYANRAMAN": 97 },
+    "COMMON": { "WILHELM": 628, "SHRIDHAR": 488, "MUHURTA_CHINTAMANI": 276, "KALYANRAMAN": 261, "AGARWAL": 136, "RAMAN": 130, "VASHISTHA": 108 }
   },
-  "defaults": { "PLACEMENTS": "SHRIDHAR", "ASHTAMA": "EIGHTH", "KARTARI": "SCISSORS", "GANDANTA": "MINUTES_12", "NAV_LAST": "MUHURTA_CHINTAMANI", "NAV_WHICH": "NARADA", "NAV_NATAL": "MUHURTA_CHINTAMANI", "UDAYA": "SHRIDHAR", "SHADVARGA": "RANGACHARYA", "DREKKANA": "MALEFIC", "VISHANADI": "WILHELM" },
+  "defaults": { "PLACEMENTS": "SHRIDHAR", "ASHTAMA": "EIGHTH", "KARTARI": "SCISSORS", "GANDANTA": "MINUTES_12", "NAV_LAST": "MUHURTA_CHINTAMANI", "NAV_WHICH": "NARADA", "NAV_NATAL": "MUHURTA_CHINTAMANI", "UDAYA": "SHRIDHAR", "SHADVARGA": "RANGACHARYA", "DREKKANA": "MALEFIC", "VISHANADI": "WILHELM", "COMMON": "WILHELM" },
+  "common": {
+    "MC_sloka2_44": "व्ययाष्टशुद्धोपचये लग्नगे शुभदृग्युते । चन्द्रे त्रिषड्दशायस्थे सर्वारम्भः प्रसिद्ध्यति",
+    "upachaya": [3, 6, 10, 11],
+    "MC_empty": [8, 12],
+    "WILHELM_beneficSigns": [1, 2, 3, 5, 6, 8, 11],
+    "WILHELM_maleficSigns": [0, 4, 7, 9, 10],
+    "WILHELM_moonRescue": [3, 10, 11],
+    "BS_98_16": { "benefics": [1, 4, 7, 8, 10, 12], "malefics": [3, 6, 11], "jupiterOrVenus": [1, 4, 7, 10, 5, 9] },
+    "RAMAN_moonNot": [6, 8, 12], "RAMAN_venusNot": 6, "RAMAN_marsNot": 8,
+    "OTHER_checks": ["COMMON", "ASHTAMA", "PDB", "KARTARI", "GANDANTA", "NAV_WHICH", "UDAYA", "SHADVARGA", "DREKKANA", "VISHANADI"],
+    "OTHER_not": ["PLACEMENTS", "NAV_LAST", "NAV_NATAL"]
+  },
   "shadvarga": {
     "rangacharyaExample": { "page": "printed pp.53-54", "longitude": 86, "lords": { "D1": "Mercury", "D2": "Moon", "D3": "Saturn", "D9": "Venus", "D12": "Mars", "D30": "Venus" }, "benefic": 4, "acceptable": true },
     "trimsamsa_odd": [["Mars", 5], ["Saturn", 5], ["Jupiter", 8], ["Mercury", 7], ["Venus", 5]],

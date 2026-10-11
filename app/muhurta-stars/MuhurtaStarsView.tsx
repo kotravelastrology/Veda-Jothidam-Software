@@ -26,6 +26,11 @@ const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்
 const DIGNITY_TA: Record<string, string> = { OWN: 'சொந்த ராசி', EXALTED: 'உச்சம்', FRIEND: 'நட்பு ராசி' };
 const planetsTa = (list: string[]) => list.map((p) => PLANET_NAME_TA[p] ?? p).join(', ');
 const LAGNA_LORD_TA = 'லக்னாதிபதி';
+/** Each lagna check's table in `books.lagna`. */
+const LAGNA_TABLE: Record<string, string> = {
+  COMMON: 'common', PLACEMENTS: 'placements', ASHTAMA: 'ashtama', KARTARI: 'kartari', GANDANTA: 'gandanta', NAV_LAST: 'navLast',
+  NAV_WHICH: 'navWhich', NAV_NATAL: 'navNatal', UDAYA: 'udaya', SHADVARGA: 'shadvarga', DREKKANA: 'drekkana', VISHANADI: 'vishanadi',
+};
 type Show = 'ALL' | 'CLEAR' | 'GOOD_LAGNA' | 'BLOCKED';
 
 function Switch({ label, value, options, onChange }: { label: string; value: string; options: [string, string][]; onChange: (v: string) => void }) {
@@ -58,6 +63,8 @@ export default function MuhurtaStarsView() {
   const [dashaReading, setDashaReading] = useState<Record<string, string>>({});
   const [dashaRule, setDashaRule] = useState('SIX_OF_TEN');
   const [lagnaReading, setLagnaReading] = useState<Record<string, string>>({});
+  const [lagnaEvent, setLagnaEvent] = useState('MARRIAGE');
+  const isMarriage = lagnaEvent === 'MARRIAGE';
   const [place, setPlace] = useState<{ name: string; latitude: string; longitude: string }>({ name: '', latitude: '', longitude: '' });
   const [eventPlace, setEventPlace] = useState<{ name?: string; latitude: number; longitude: number } | null>(null);
   const [show, setShow] = useState<Show>('ALL');
@@ -137,21 +144,23 @@ export default function MuhurtaStarsView() {
   }
   const isoOf = (ms: number) => new Date(ms).toISOString();
 
-  /** A lagna stretch under the chosen readings — the same rule as the engine's `lagnaVerdict` (lagnaShuddhi.js). */
+  /** A lagna stretch under the chosen event and readings — the same rule as the engine's `lagnaVerdict` (lagnaShuddhi.js). */
   function lagnaJudge(x: any) {
     const { l, nv } = x;
-    const R = { ...lagnaDefaults(), ...lagnaReading };
+    const R = lagnaChosen();
+    const on = (k: string) => B.lagna.events[lagnaEvent].checks.includes(k);
     const reasons: string[] = [];
     const pl = l.placements[R.PLACEMENTS];
-    if (!pl.pass) reasons.push('PLACEMENTS');
+    if (on('PLACEMENTS') && !pl.pass) reasons.push('PLACEMENTS');
+    if (on('COMMON') && l.common[R.COMMON].length) reasons.push('COMMON');
     if (l.ashtama[R.ASHTAMA].length) reasons.push('ASHTAMA');
     if (l.pdb.present) reasons.push('PDB');
     if (l.kartari[R.KARTARI]) reasons.push('KARTARI');
     if (x.gandanta[R.GANDANTA]) reasons.push('GANDANTA');
     if ((dashaReading.BANA ?? B.dasha.readings.BANA.default) === 'TITHI_LAGNA' && x.banaMrityu) reasons.push('BANA');
-    if (nv.last[R.NAV_LAST].length) reasons.push('NAV_LAST');
+    if (on('NAV_LAST') && nv.last[R.NAV_LAST].length) reasons.push('NAV_LAST');
     if (!nv.which[R.NAV_WHICH]) reasons.push('NAV_WHICH');
-    if (nv.natal[R.NAV_NATAL].length) reasons.push('NAV_NATAL');
+    if (on('NAV_NATAL') && nv.natal[R.NAV_NATAL].length) reasons.push('NAV_NATAL');
     if (!nv.udaya[R.UDAYA].udaya || !nv.udaya[R.UDAYA].asta) reasons.push('UDAYA');
     if (!x.va.readings[R.SHADVARGA]) reasons.push('SHADVARGA');
     if (x.va.drekkana.readings[R.DREKKANA]) reasons.push('DREKKANA');
@@ -159,13 +168,24 @@ export default function MuhurtaStarsView() {
     return { ok: reasons.length === 0, reasons, pl };
   }
 
+  /** The books' defaults; for another act, a check limited to some readings takes the first. */
   function lagnaDefaults(): Record<string, string> {
     const L = B.lagna;
-    return {
+    const only = L.events[lagnaEvent].only;
+    const d: Record<string, string> = {
       PLACEMENTS: L.placements.default, ASHTAMA: L.ashtama.default, KARTARI: L.kartari.default, GANDANTA: L.gandanta.default,
       NAV_LAST: L.navLast.default, NAV_WHICH: L.navWhich.default, NAV_NATAL: L.navNatal.default, UDAYA: L.udaya.default,
-      SHADVARGA: L.shadvarga.default, DREKKANA: L.drekkana.default, VISHANADI: L.vishanadi.default,
+      SHADVARGA: L.shadvarga.default, DREKKANA: L.drekkana.default, VISHANADI: L.vishanadi.default, COMMON: L.common.default,
     };
+    for (const k of Object.keys(only)) d[k] = only[k][0];
+    return d;
+  }
+  /** The chosen readings, keeping a check to the readings the event takes. */
+  function lagnaChosen(): Record<string, string> {
+    const only = B.lagna.events[lagnaEvent].only;
+    const R = { ...lagnaDefaults(), ...lagnaReading };
+    for (const k of Object.keys(only)) if (!only[k].includes(R[k])) R[k] = only[k][0];
+    return R;
   }
   const NAV_REASON_TA: Record<string, string> = {
     LAST: 'கடைசி நவாம்சம்', MOVABLE: 'சர லக்னத்தில் சர நவாம்சம்', VARG_LIB_CAP: 'துலா/மகர வர்கோத்தமம்', FIRST_CARDINAL: 'சர ராசியின் முதல் நவாம்சம்',
@@ -178,8 +198,9 @@ export default function MuhurtaStarsView() {
   /** Why a lagna stretch is left, in a few words; `signOnly` leaves out the reasons that change within the sign. */
   const lagnaWhy = (x: any, v: any, signOnly = false) => {
     const { l, nv } = x;
-    const R = { ...lagnaDefaults(), ...lagnaReading };
+    const R = lagnaChosen();
     return v.reasons.filter((r: string) => !signOnly || !isPartReason(r)).map((r: string) => {
+      if (r === 'COMMON') return l.common[R.COMMON].map((c: string) => B.lagna.commonWhyTa[c]).join(', ');
       if (r === 'NAV_LAST') return nv.last[R.NAV_LAST].map((k: string) => NAV_REASON_TA[k]).join(', ');
       if (r === 'NAV_WHICH') return `${RASI_TA[nv.nav]} நவாம்சம்`;
       if (r === 'NAV_NATAL') return nv.natal[R.NAV_NATAL].map((k: any) => (typeof k === 'string' ? NAV_REASON_TA[k] : `நவாம்சம் ${k.from === 'LAGNA' ? 'பிறந்த லக்னத்துக்கு' : 'ஜன்ம ராசிக்கு'} ${k.house}`)).join(', ');
@@ -313,14 +334,14 @@ export default function MuhurtaStarsView() {
 
           <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
             <h2 className="text-sm font-semibold text-ink mb-1">சிறந்த நேரங்கள் — நட்சத்திரத்தில் தடை இல்லை, லக்னமும் சுத்தம் ({best.length})</h2>
-            <p className="text-[11px] text-ink-soft mb-2">கீழே உள்ள எல்லா விதிகளும் தேர்ந்த வாசிப்புகளின்படி; லக்னம் {result.eventPlace.name || `${result.eventPlace.latitude}, ${result.eventPlace.longitude}`}-க்கு. புள்ளி = திருமண லக்னத்தின் விஸ்வ பலம் / விம்சோபகம் (20-ல்).</p>
+            <p className="text-[11px] text-ink-soft mb-2">கீழே உள்ள எல்லா விதிகளும் தேர்ந்த வாசிப்புகளின்படி; லக்னம் {result.eventPlace.name || `${result.eventPlace.latitude}, ${result.eventPlace.longitude}`}-க்கு, {B.lagna.events[lagnaEvent].labelTa} லக்ன சுத்தியுடன்.{isMarriage && ' புள்ளி = திருமண லக்னத்தின் விஸ்வ பலம் / விம்சோபகம் (20-ல்).'}</p>
             {best.length === 0 && <p className="text-xs text-ink-soft">இந்த வாசிப்புகளில் இந்தக் காலத்தில் இல்லை.</p>}
             <ul className="text-xs space-y-0.5" style={num}>
               {best.slice(0, 40).map(({ s, g }: any) => (
                 <li key={g.fromMs}>
                   <span className="font-mono">{local(isoOf(g.fromMs)).slice(0, 16)} – {hm(isoOf(g.toMs))}</span> · {s.starTa} {s.pada} · {RASI_TA[g.l.lagna]} லக்னம் ({g.navs.map((n: number) => RASI_TA[n]).join(', ')} நவாம்சம்)
-                  {g.v.pl.points !== null && <> · புள்ளி {g.v.pl.points} ({B.lagna.gradeTa[g.v.pl.grade]})</>}
-                  {g.v.pl.avoid.length > 0 && <span className="text-amber-700"> · {g.v.pl.avoid.map(([p, h]: [string, number]) => `${p === 'LAGNA_LORD' ? LAGNA_LORD_TA : PLANET_NAME_TA[p]} ${h}-ல்`).join(', ')} (ஒன்று — பரிகாரத்துடன்)</span>}
+                  {isMarriage && g.v.pl.points !== null && <> · புள்ளி {g.v.pl.points} ({B.lagna.gradeTa[g.v.pl.grade]})</>}
+                  {isMarriage && g.v.pl.avoid.length > 0 && <span className="text-amber-700"> · {g.v.pl.avoid.map(([p, h]: [string, number]) => `${p === 'LAGNA_LORD' ? LAGNA_LORD_TA : PLANET_NAME_TA[p]} ${h}-ல்`).join(', ')} (ஒன்று — பரிகாரத்துடன்)</span>}
                 </li>
               ))}
             </ul>
@@ -354,15 +375,18 @@ export default function MuhurtaStarsView() {
                   ))}
                 </div>
               </details>
+              <Switch label="லக்ன சுத்தி — நிகழ்ச்சி" value={lagnaEvent} onChange={setLagnaEvent}
+                options={B.lagna.events.order.map((id: string) => [id, `${B.lagna.events[id].labelTa}${id === B.lagna.events.default ? ' (இயல்பு)' : ''}`])} />
               <details className="mb-1">
                 <summary className="cursor-pointer text-[11px] text-ink-soft">லக்ன சுத்தி — வாசிப்புகள்</summary>
                 <div className="mt-1">
-                  {(['PLACEMENTS', 'ASHTAMA', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI'] as const).map((k) => {
-                    const t = B.lagna[{ PLACEMENTS: 'placements', ASHTAMA: 'ashtama', KARTARI: 'kartari', GANDANTA: 'gandanta', NAV_LAST: 'navLast', NAV_WHICH: 'navWhich', NAV_NATAL: 'navNatal', UDAYA: 'udaya', SHADVARGA: 'shadvarga', DREKKANA: 'drekkana', VISHANADI: 'vishanadi' }[k]];
-                    const label = { PLACEMENTS: 'கிரக நிலை', ASHTAMA: 'பிறப்பிலிருந்து', KARTARI: 'கர்த்தரி', GANDANTA: 'லக்ன கண்டாந்தம்', NAV_LAST: 'கடைசி / சர நவாம்சம்', NAV_WHICH: 'எந்த நவாம்சம்', NAV_NATAL: 'பிறந்த 8, 12-ன் நவாம்சம்', UDAYA: 'உதய-அஸ்த சுத்தி', SHADVARGA: 'ஷட்வர்க்கம்', DREKKANA: 'திரேக்காணம்', VISHANADI: 'லக்ன விஷ நாடி' }[k];
+                  {(['COMMON', 'PLACEMENTS', 'ASHTAMA', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI'] as const).filter((k) => B.lagna.events[lagnaEvent].checks.includes(k)).map((k) => {
+                    const t = B.lagna[LAGNA_TABLE[k]];
+                    const label = { COMMON: 'பொது லக்ன சுத்தி', PLACEMENTS: 'கிரக நிலை', ASHTAMA: 'பிறப்பிலிருந்து', KARTARI: 'கர்த்தரி', GANDANTA: 'லக்ன கண்டாந்தம்', NAV_LAST: 'கடைசி / சர நவாம்சம்', NAV_WHICH: 'எந்த நவாம்சம்', NAV_NATAL: 'பிறந்த 8, 12-ன் நவாம்சம்', UDAYA: 'உதய-அஸ்த சுத்தி', SHADVARGA: 'ஷட்வர்க்கம்', DREKKANA: 'திரேக்காணம்', VISHANADI: 'லக்ன விஷ நாடி' }[k];
+                    const ids: string[] = B.lagna.events[lagnaEvent].only[k] ?? t.order;
                     return (
-                      <Switch key={k} label={label} value={lagnaReading[k] ?? t.default} onChange={(v) => setLagnaReading({ ...lagnaReading, [k]: v })}
-                        options={t.order.map((id: string) => [id, `${t[id].labelTa}${id === t.default ? ' (இயல்பு)' : ''}`])} />
+                      <Switch key={k} label={label} value={lagnaChosen()[k]} onChange={(v) => setLagnaReading({ ...lagnaReading, [k]: v })}
+                        options={ids.map((id: string) => [id, `${t[id].labelTa}${id === t.default ? ' (இயல்பு)' : ''}`])} />
                     );
                   })}
                 </div>
@@ -454,7 +478,7 @@ export default function MuhurtaStarsView() {
                             return (
                               <span key={g.fromMs} className={`block ${g.good.length ? (j.clear ? 'text-teal font-semibold' : 'text-ink') : 'text-ink-soft'}`} style={num}>
                                 {hm(isoOf(g.fromMs))}–{hm(isoOf(g.toMs))} {RASI_TA[g.l.lagna]}
-                                {mid.v.pl.points !== null && <span className="font-normal"> · {mid.v.pl.points}</span>}
+                                {isMarriage && mid.v.pl.points !== null && <span className="font-normal"> · {mid.v.pl.points}</span>}
                                 {g.good.length > 0
                                   ? <> ✓ {g.good.map((ok: any) => `${hm(isoOf(ok.fromMs))}–${hm(isoOf(ok.toMs))} (${ok.navs.map((n: number) => RASI_TA[n]).join(', ')} நவாம்சம்)`).join(', ')}</>
                                   : <> ✗ <span className="font-normal text-[11px]">({[signWhy, navWhy.length ? `பகுதிகளில்: ${navWhy.slice(0, 5).join(', ')}${navWhy.length > 5 ? '…' : ''}` : ''].filter(Boolean).join(' · ')})</span></>}
@@ -526,29 +550,37 @@ export default function MuhurtaStarsView() {
           </section>
 
           <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
-            <h2 className="text-sm font-semibold text-ink mb-1">லக்ன சுத்தி (திருமணம்) — நூல்கள்</h2>
+            <h2 className="text-sm font-semibold text-ink mb-1">லக்ன சுத்தி ({B.lagna.events[lagnaEvent].labelTa}) — நூல்கள்</h2>
             <p className="text-xs text-ink">
               முகூர்த்த லக்னம் = நிகழ்ச்சி நடக்கும் இடத்தில் அந்த நேரத்தில் உதிக்கும் ராசி. இந்த நபரின் பிறந்த லக்னம்: {result.books.lagna.natalLagna !== null ? RASI_TA[result.books.lagna.natalLagna] : '—'}, ஜன்ம ராசி: {result.janma.signTa}.
               ஒவ்வொரு சோதனைக்கும் நூல்கள் சொல் எண்ணிக்கை வரிசையில்.
+              {!isMarriage && ' மற்ற சுப காரியங்களுக்கு: "எல்லாச் சுப காரியங்களுக்கும்" என்று ஒரு நூல் சொல்லும் சோதனைகள் மட்டும் — ஒவ்வொன்றின் கீழும் அந்த நூல்கள்.'}
             </p>
             {([
+              ['COMMON', 'பொது லக்ன சுத்தி — எல்லாச் சுப காரியங்களுக்கும்', B.lagna.common],
               ['PLACEMENTS', 'லக்னத்திலிருந்து கிரகங்களின் இடம், புள்ளிகள்', B.lagna.placements],
               ['ASHTAMA', 'பிறந்த லக்னம் / ஜன்ம ராசியிலிருந்து 8-ஆம் ராசி', B.lagna.ashtama],
               ['PDB', 'செவிடு, குருடு, முட லக்னங்கள் (பகல் / இரவு)', null],
               ['KARTARI', 'கர்த்தரி', B.lagna.kartari],
               ['GANDANTA', 'லக்ன கண்டாந்தம்', B.lagna.gandanta],
               ['NAV_LAST', 'நவாம்சம்: கடைசி நவாம்சம், வர்கோத்தமம், சர நவாம்சம்', B.lagna.navLast],
-              ['NAV_WHICH', 'நவாம்சம்: எந்த நவாம்சங்களில் திருமணம்', B.lagna.navWhich],
+              ['NAV_WHICH', 'நவாம்சம்: எந்த நவாம்சங்கள் நல்லவை', B.lagna.navWhich],
               ['NAV_NATAL', 'நவாம்சம்: பிறந்த 8, 12-ன் நவாம்சமும் அதிபதியும்', B.lagna.navNatal],
               ['UDAYA', 'உதய-அஸ்த சுத்தி (லக்ன, நவாம்ச, 7-ஆம் அதிபதிகளின் பார்வை)', B.lagna.udaya],
               ['SHADVARGA', 'ஷட்வர்க்கம் — லக்னத்தின் ஆறு வர்க்க அதிபதிகள்', B.lagna.shadvarga],
               ['DREKKANA', 'லக்னத்தின் திரேக்காணம்', B.lagna.drekkana],
               ['VISHANADI', 'லக்ன விஷ நாடி (புஜங்க, க்ருத்ர, வராக / ராகு பகுதிகள்)', B.lagna.vishanadi],
-            ] as [string, string, any][]).map(([k, title, t]) => (
+            ] as [string, string, any][]).filter(([k]) => B.lagna.events[lagnaEvent].checks.includes(k)).map(([k, title, t]) => (
               <details key={k} className="mt-2 text-xs">
                 <summary className="cursor-pointer font-semibold text-ink">{title}</summary>
                 <p className="text-[11px] text-ink-soft mt-1">வரிசை: {B.lagna.rank[k].measureTa}</p>
-                {t && <ul className="space-y-1 mt-1">{t.order.map((id: string) => (
+                {!isMarriage && B.lagna.scope[k] && (
+                  <div className="mt-1">
+                    <p className="text-[11px] text-ink">எல்லாச் சுப காரியங்களுக்கும்:{B.lagna.events.OTHER.only[k] && ` (${B.lagna.events.OTHER.only[k].map((id: string) => t[id].labelTa).join(', ')} வாசிப்பு மட்டும்)`}</p>
+                    <Cites list={B.lagna.scope[k]} />
+                  </div>
+                )}
+                {t && <ul className="space-y-1 mt-1">{(B.lagna.events[lagnaEvent].only[k] ?? t.order).map((id: string) => (
                   <li key={id}><strong>{t[id].labelTa}{id === t.default ? ' (இயல்பு)' : ''}:</strong> {t[id].textTa} <span className="text-ink-soft">({t[id].booksTa})</span></li>
                 ))}</ul>}
                 {k === 'PLACEMENTS' && (
@@ -570,6 +602,11 @@ export default function MuhurtaStarsView() {
                 <Cites list={B.lagna.rank[k].order.map((b: string) => B.lagna.sources[k][b]).filter(Boolean)} />
               </details>
             ))}
+            {!isMarriage && (
+              <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-2 space-y-0.5">
+                {Object.entries(B.lagna.scopeOutTa).map(([k, n]: [string, any]) => <li key={k}>இங்கே இல்லை — {n}</li>)}
+              </ul>
+            )}
             <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-2 space-y-0.5">{B.lagna.notesTa.GENERAL.map((n: string) => <li key={n}>{n}</li>)}</ul>
           </section>
 
