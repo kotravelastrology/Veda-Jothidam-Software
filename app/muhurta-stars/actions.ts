@@ -20,13 +20,15 @@ export interface MuhurtaStarsRequest {
   /** First day (YYYY-MM-DD, the person's local date); today when omitted. */
   fromDate?: string;
   days?: number;
+  /** Where the event is held: the lagna (shuddhi, the 88th-pada remedy), sunrise and sunset. The birth place when omitted. */
+  place?: { name?: string; latitude: number; longitude: number };
 }
 
 /**
- * The muhurta star over a period for one person: Latta for anyone, and the
- * person's birth star, 88th and 108th padas and Vainashika. A saved profile is
- * read with its stored settings; the lagna (for the 88th-pada remedy) is for the
- * birth place.
+ * The muhurta star over a period for one person: Latta, the marriage evils,
+ * tara and chandra bala, the person's birth star, 88th and 108th padas and
+ * Vainashika, and lagna shuddhi at the event's place. A saved profile is read
+ * with its stored settings.
  */
 export async function computeMuhurtaStars(req: MuhurtaStarsRequest) {
   let input: BirthFormInput;
@@ -55,14 +57,19 @@ export async function computeMuhurtaStars(req: MuhurtaStarsRequest) {
   const localToday = new Date(now + off * 60000).toISOString().slice(0, 10);
   const fromDate = /^\d{4}-\d{2}-\d{2}$/.test(req.fromDate ?? '') ? req.fromDate! : localToday;
   const fromMs = Date.parse(`${fromDate}T00:00:00Z`) - off * 60000;
+  const p = req.place;
+  const eventPlace = p && Number.isFinite(p.latitude) && Number.isFinite(p.longitude) && Math.abs(p.latitude) <= 90 && Math.abs(p.longitude) <= 180
+    ? { name: p.name || null, latitude: p.latitude, longitude: p.longitude, isBirthPlace: false }
+    : { name: input.placeName ?? null, latitude: input.latitude, longitude: input.longitude, isBirthPlace: true };
   const result = muhurtaStarChecks({
     natalMoonLongitude: chart.grahas.Moon.longitude,
+    natalLagnaLongitude: chart.lagna.longitude,
     fromMs, toMs: fromMs + days * 86400000, atMs: now,
     ayanamsha: ctx.ayanamsha, nodeType: ctx.nodeType ?? 'mean',
-    latitude: input.latitude, longitude: input.longitude,
+    latitude: eventPlace.latitude, longitude: eventPlace.longitude,
   });
   return JSON.parse(JSON.stringify({
-    ...result, fromDate, days,
+    ...result, fromDate, days, eventPlace,
     displayOffsetMinutes: off,
     native: describeMatchParty(input, ctx, profile),
   }));

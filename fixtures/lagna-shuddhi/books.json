@@ -1,0 +1,32 @@
+{
+  "_about": "Transcribed 2026-10-11 from the page images. Signs 0 = Aries; houses 1-12 from the lagna.",
+  "points": {
+    "MUHURTA_CHINTAMANI_p216": { "Mercury": 2, "Venus": 2, "Moon": 5, "Sun": 3.5, "Jupiter": 3, "Saturn": 1.5, "Rahu": 1.5, "Ketu": 1.5, "Mars": 1.5 },
+    "goodPlaces_MC_p214": { "Sun": [3, 6, 8, 11], "Ketu": [3, 6, 8, 11], "Rahu": [3, 6, 8, 11], "Saturn": [3, 6, 8, 11], "Mars": [3, 6, 11], "Moon": [2, 3, 11], "MercuryJupiterNot": [7, 8, 12], "VenusNot": [3, 6, 7, 8, 12] },
+    "max": 20
+  },
+  "rangacharyaExample": { "page": "printed p.100", "lagna": 0, "signs": { "Sun": 11, "Mars": 11, "Mercury": 11, "Saturn": 11, "Moon": 1, "Ketu": 10, "Jupiter": 10, "Venus": 10, "Rahu": 4 }, "total": 8, "lines": { "Moon": 5, "Sun": 0, "Mars": 0, "Mercury": -2, "Jupiter": 3, "Venus": 2, "Rahu": 0, "Ketu": 1.5, "Saturn": -1.5 } },
+  "avoid": {
+    "JOSHI_p75": { "Sun": [1, 7], "Moon": [1, 6, 7, 8], "Mars": [1, 7, 8, 10], "Mercury": [7, 8], "Jupiter": [7, 8], "Venus": [3, 6, 7, 8], "Saturn": [1, 7, 12], "Rahu": [1, 7], "Ketu": [1, 7], "LAGNA_LORD": [6, 8] },
+    "KALYANRAMAN_v2_p127": { "Sun": [1, 7], "Moon": [1, 6, 7, 8], "Mars": [1, 7, 8, 10], "Mercury": [7, 8], "Jupiter": [7, 8], "Venus": [3, 6, 7, 8], "Saturn": [1, 7, 12], "Rahu": [1, 7], "Ketu": [1, 7], "LAGNA_LORD": [6, 8] },
+    "MC_sloka86": [["Saturn", 12], ["Mars", 10], ["Venus", 3], ["Moon", 1], ["Sun", 1], ["Mars", 1], ["Saturn", 1], ["Rahu", 1], ["Ketu", 1], ["LAGNA_LORD", 6], ["Venus", 6], ["Moon", 6], ["Moon", 8], ["LAGNA_LORD", 8], ["Mercury", 8], ["Jupiter", 8], ["Venus", 8], ["Mars", 8], ["Sun", 7], ["Moon", 7], ["Mars", 7], ["Mercury", 7], ["Jupiter", 7], ["Venus", 7], ["Saturn", 7], ["Rahu", 7], ["Ketu", 7]],
+    "SHRIDHAR_table18_5": { "Sun": [1, 7], "Moon": [1, 6, 7, 8, 12], "Mars": [1, 7, 8, 10], "Mercury": [7, 8, 12], "Jupiter": [7, 8, 12], "Venus": [3, 6, 7, 8, 12], "Saturn": [1, 7, 12], "Rahu": [1, 4, 7], "Ketu": [1, 4, 7], "LAGNA_LORD": [6, 8, 12] },
+    "RANGACHARYA_p99": { "Sun": [1, 7], "Moon": [1, 6, 7, 8, 12], "Mars": [1, 7, 8, 10], "Mercury": [7, 8, 12], "Jupiter": [7, 8, 12], "Venus": [3, 6, 7, 8, 12], "Saturn": [1, 7, 12], "Rahu": [1, 7], "Ketu": [1, 7] }
+  },
+  "grades": {
+    "SHRIDHAR": [[20, "BEST"], [16, "BEST"], [15.5, "MEDIUM"], [11, "MEDIUM"], [10.5, "EMERGENCY"], [4, "EMERGENCY"], [3.5, "REJECT"]],
+    "MUHURTA_CHINTAMANI": [[15, "BEST"], [10, "MEDIUM"], [5, "LOW"], [4.5, "REJECT"]]
+  },
+  "ashtamaFreeEighths_MC_p186": [11, 1, 3, 7, 9, 5],
+  "pdb_MC_sloka80": { "DAY": { "DEAF": [6, 7], "BLIND": [4, 0, 1], "LAME": [10] }, "NIGHT": { "DEAF": [9, 8], "BLIND": [5, 2, 3], "LAME": [11] } },
+  "pdb_Rangacharya_p97_1based": { "DAY": { "DEAF": [7, 8], "BLIND": [1, 2, 5], "LAME": [11] }, "NIGHT": { "DEAF": [9, 10], "BLIND": [3, 4, 6], "LAME": [12] } },
+  "banaTithiLagna": [ { "book": "JOSHI", "tithi": 10, "lagna": 8, "mrityu": true }, { "book": "SHRIDHAR", "tithi": 6, "lagna": 4, "mrityu": false } ],
+  "words": {
+    "PLACEMENTS": { "SHRIDHAR": 1838, "WILHELM": 1051, "MUHURTA_CHINTAMANI": 905, "RANGACHARYA": 428, "JOSHI": 365, "AGARWAL": 281, "VASHISTHA": 52, "KALYANRAMAN": 48 },
+    "ASHTAMA": { "MUHURTA_CHINTAMANI": 524, "SHRIDHAR": 414, "RANGACHARYA": 385, "WILHELM": 206, "VASHISTHA": 111, "JOSHI": 75, "AGARWAL": 62 },
+    "PDB": { "WILHELM": 336, "MUHURTA_CHINTAMANI": 334, "SHRIDHAR": 184, "RANGACHARYA": 136, "AGARWAL": 127 },
+    "KARTARI": { "MUHURTA_CHINTAMANI": 349, "SHRIDHAR": 327, "RANGACHARYA": 146, "WILHELM": 94, "VASHISTHA": 68, "JOSHI": 40, "AGARWAL": 18 },
+    "GANDANTA": { "SHRIDHAR": 91, "WILHELM": 84, "MUHURTA_CHINTAMANI": 57, "RANGACHARYA": 38, "AGARWAL": 22 }
+  },
+  "defaults": { "PLACEMENTS": "SHRIDHAR", "ASHTAMA": "EIGHTH", "KARTARI": "SCISSORS", "GANDANTA": "MINUTES_12" }
+}

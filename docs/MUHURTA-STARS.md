@@ -136,9 +136,44 @@ lagna) list the lagnas to leave and are not judged; Ekargala's day-only rule is
 shown (no sunrise computed). Kalyanraman's other two Ekargala norms are not
 computed (his two lists differ; "end portions" has no measure).
 
+## Lagna shuddhi for a marriage (added 2026-10-11)
+
+`src/report/lagnaShuddhi.js` (pure), `src/report/lagnaShuddhiTables.js`,
+`test-lagna-shuddhi.js` with `fixtures/lagna-shuddhi/books.json`.
+
+The page now asks where the event is held (latitude, longitude; the birth place
+until changed) — the muhurta lagna, sunrise and sunset, and the 88th-pada
+remedy are for that place. Inside each piece the lagna stretches are cut at
+sign changes, at each sign's first and last 3°, at sunrise and sunset, at the
+12-minute Gandanta marks and where Mars or Saturn turns. What depends only on
+the lagna, the planets' signs, their motion and day or night is kept once in
+`lagnaTable` (151 entries for 30 days); a stretch refers to it.
+
+| Check | First by words | Default | Others computed |
+|---|---|---|---|
+| Planets' places and points | Shridhar 1838 (Wilhelm 1051, MC 905, Rangacharya 428, Joshi 365, Agarwal 281) | Shridhar's Table 18.5: points 11+ (16-20 best, 11-15 medium; 4-10 "emergency only" is rejected here) and at most one adverse place | Wilhelm (no adverse place); MC sloka 86-88 (none of its places, 5+ points); Rangacharya (points lost in malefic places, 5+; his worked example gives 8); Joshi = Kalyanraman (Jyotirvidabharana XIII.21, 5+) |
+| 8th sign from the birth lagna / birth Moon | MC 524 | the 8th, unless the lords are one, friends, or friendly and neutral (Wilhelm's words) — exactly MC's six free signs | the 4th, 8th and 12th (Rangacharya, Vashistha, Shridhar) |
+| Deaf, blind, lame | Wilhelm 336 ≈ MC 334 | MC sloka 80 by day and night at the place; Jupiter aspecting the lagna or its lord lifts it | the "other view" (afternoon, twilight) not computed |
+| Kartari | MC 349 | a direct malefic in the 12th and a retrograde one in the 2nd (MC's verse; its note reverses them) | Shridhar (retrograde in the 2nd, any in the 12th); hemmed (any malefics in both) |
+| Lagna Gandanta | Shridhar 91 | the last 12 minutes of Cancer, Scorpio, Pisces and the first 12 of Aries, Leo, Sagittarius | Wilhelm's 3° |
+
+When Bana is read by tithi and lagna, Mrityu Bana now rejects the lagna. The
+page lists the best times — a star piece with no rejection and a lagna that
+passes — and marks each lagna stretch ✓ or ✗ with its reasons.
+
+Readings of ours: BPHS natural relations for "friends"; Jupiter's 5th, 7th and
+9th aspects; Rahu and Ketu always retrograde (mean node); reliefs (debilitated
+or combust Venus, Mars, the Moon; benefics in angles) shown, not applied; one
+person's birth only (the books also want the spouse's).
+
+Not yet computed: the navamsa rules (the last navamsa, vargottama, benefic
+navamsas, kunavamsa), udaya-asta shuddhi, shadvarga, decanates, the rasi
+visha-nadi portions, and lagna shuddhi for events other than marriage
+(MC p.79).
+
 ## Not done
 
-The rest of a muhurta (tithi, vara, yoga, karana, lagna shuddhi, kartari,
+The rest of a muhurta (tithi, vara, yoga, karana, the navamsa of the lagna,
 the 21 great evils) is not on this page. The Tamil muhurta scans in the library
 have no text layer and were not searched.
 

@@ -14,9 +14,13 @@
  *  - The other nine evils of a marriage muhurta (`marriageDoshas.js`): the
  *    period is also cut where the Sun changes degree, the yoga or the tithi
  *    changes, or a planet enters or leaves Abhijit.
+ *  - Lagna shuddhi (`lagnaShuddhi.js`): inside each piece, the stretches of one
+ *    rising sign at the event's place, cut also at its first and last 3°, at
+ *    sunrise and sunset, at the 12-minute Gandanta marks and where Mars or
+ *    Saturn turns retrograde or direct.
  */
 
-const { planetLongitude, nodeLongitude } = require('../ephemeris/siderealPositions');
+const { planetLongitude, nodeLongitude, sunriseJulianDay, sunsetJulianDay } = require('../ephemeris/siderealPositions');
 const { siderealAscendant } = require('../ephemeris/swissEphemeris');
 const { UnsupportedInputError } = require('../contracts/chartContext');
 const { naturalRelation } = require('../chart/planetaryRelationship');
@@ -26,6 +30,8 @@ const { kickedStar } = require('./lattaTables');
 const T = require('./muhurtaStarTables');
 const D = require('./marriageDoshaTables');
 const { marriageDoshasOf, dashaVerdict, banaOf, PLANETS: DOSHA_PLANETS } = require('./marriageDoshas');
+const L = require('./lagnaShuddhiTables');
+const { lagnaShuddhiOf } = require('./lagnaShuddhi');
 
 const DAY_MS = 86400000;
 const JD_UNIX_EPOCH = 2440587.5;
@@ -96,6 +102,104 @@ function compactDoshas(ds, lagnaTable) {
     KRANTI: { readings: present(ds.KRANTI.readings) },
     DAGDHA: { readings: present(ds.DAGDHA.readings) },
   };
+}
+
+/** The lagna's sign and its zone: 0 the first 3°, 1 the middle, 2 the last 3° (Wilhelm's Gandanta). */
+const lagnaKeyOf = (asc) => {
+  const s = Math.floor(norm360(asc) / 30) % 12;
+  const d = norm360(asc) - s * 30;
+  return s * 3 + (d < 3 ? 0 : d < 27 ? 1 : 2);
+};
+
+/**
+ * The lagna stretches inside a piece of the period, at the event's place: one
+ * rising sign, day or night, the Gandanta flags and Mars's and Saturn's
+ * motion constant in each, and lagna shuddhi computed for it. Returns a
+ * function of the piece, or null without a place.
+ */
+function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType, natalLagnaLongitude, natalMoonSign }) {
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
+  const PAD = 3 * 3600000;
+  const MIN = 60000;
+  // The lagna, scanned three hours beyond each end so every sign's true start and end are known.
+  const lagnaSegs = scanKey(fromMs - PAD, toMs + PAD, (ms) => lagnaKeyOf(siderealAscendant(jdOf(ms), latitude, longitude, ayanamsha)), 4 * MIN);
+  const signSegs = [];
+  for (const s of lagnaSegs) {
+    const sign = Math.floor(s.key / 3);
+    const last = signSegs[signSegs.length - 1];
+    if (last && last.sign === sign) { last.toMs = s.toMs; last.openEnd = s.openEnd; } else signSegs.push({ sign, fromMs: s.fromMs, toMs: s.toMs, openStart: s.openStart, openEnd: s.openEnd });
+  }
+  // Muhurta Chintamani's and Shridhar's 12 minutes: from the start of Aries, Leo, Sagittarius; before the end of Cancer, Scorpio, Pisces.
+  const g12 = [];
+  for (const s of signSegs) {
+    if (L.GANDANTA_START.includes(s.sign) && !s.openStart) g12.push([s.fromMs, s.fromMs + 12 * MIN]);
+    if (L.GANDANTA_END.includes(s.sign) && !s.openEnd) g12.push([s.toMs - 12 * MIN, s.toMs]);
+  }
+  // Sunrises and sunsets at the place.
+  const sun = [];
+  for (let jd0 = Math.floor(jdOf(fromMs - DAY_MS) - 0.5) + 0.5; jd0 <= jdOf(toMs + DAY_MS); jd0 += 1) {
+    const rise = sunriseJulianDay(jd0, latitude, longitude);
+    if (!Number.isFinite(rise)) continue;
+    const set = sunsetJulianDay(rise, latitude, longitude);
+    for (const [jd, isRise] of [[rise, true], [set, false]]) {
+      const ms = Math.round((jd - JD_UNIX_EPOCH) * DAY_MS);
+      if (Number.isFinite(ms) && !sun.some((e) => Math.abs(e.ms - ms) < 3600000)) sun.push({ ms, rise: isRise });
+    }
+  }
+  sun.sort((a, b) => a.ms - b.ms);
+  const nightAt = (ms) => { const e = sun.filter((x) => x.ms <= ms).pop(); return e ? !e.rise : false; };
+  // Mars and Saturn turning retrograde or direct (longitude half a day either side).
+  const retroOf = (p, ms) => ((longitudeOf(p, ms + DAY_MS / 2, ayanamsha, nodeType) - longitudeOf(p, ms - DAY_MS / 2, ayanamsha, nodeType) + 540) % 360) - 180 < 0;
+  const retroSegs = scanKey(fromMs, toMs, (ms) => (retroOf('Mars', ms) ? 1 : 0) | (retroOf('Saturn', ms) ? 2 : 0), DAY_MS / 2);
+  const keyIn = (segs, ms) => segs.find((s) => s.fromMs <= ms && ms < s.toMs)?.key ?? segs[segs.length - 1].key;
+
+  const marks = [
+    ...lagnaSegs.map((s) => s.fromMs), ...g12.flat(), ...sun.map((e) => e.ms), ...retroSegs.map((s) => s.fromMs),
+  ].filter((ms) => ms > fromMs && ms < toMs).sort((a, b) => a - b);
+  const natalLagna = Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null;
+
+  // What depends only on the lagna, the planets' signs, their motion and day or night is kept once.
+  const table = [];
+  const refOf = (x) => {
+    const k = JSON.stringify(x);
+    let i = table.indexOf(k);
+    if (i < 0) { table.push(k); i = table.length - 1; }
+    return i;
+  };
+
+  const stretchesOf = (piece) => {
+    const cuts = [piece.fromMs, ...marks.filter((ms) => ms > piece.fromMs && ms < piece.toMs), piece.toMs];
+    const out = [];
+    for (let i = 0; i + 1 < cuts.length; i += 1) {
+      const a = cuts[i];
+      const b = cuts[i + 1];
+      if (b <= a) continue;
+      const mid = (a + b) / 2;
+      const key = keyIn(lagnaSegs, mid);
+      const sign = Math.floor(key / 3);
+      const zone = key % 3;
+      const retro = keyIn(retroSegs, mid);
+      const l = lagnaShuddhiOf({
+        lagna: sign,
+        signs: piece.signs,
+        retro: { Mars: Boolean(retro & 1), Saturn: Boolean(retro & 2) },
+        night: nightAt(mid),
+        gandanta: {
+          MINUTES_12: g12.some(([x, y]) => x <= mid && mid < y),
+          DEGREES_3: (L.GANDANTA_START.includes(sign) && zone === 0) || (L.GANDANTA_END.includes(sign) && zone === 2),
+        },
+        natalLagna, natalMoon: natalMoonSign, tithi: piece.tithi,
+      });
+      const { houses, gandanta, banaMrityu, ...shared } = l;
+      const entry = { ref: refOf({ ...shared, night: nightAt(mid), ashtama: { EIGHTH: l.ashtama.EIGHTH, FOUR_EIGHT_TWELVE: l.ashtama.FOUR_EIGHT_TWELVE } }), gandanta, banaMrityu };
+      const sig = JSON.stringify(entry);
+      const last = out[out.length - 1];
+      if (last && last.sig === sig && last.toMs === a) { last.toMs = b; continue; }
+      out.push({ sig, fromMs: a, toMs: b, entry });
+    }
+    return out.map((x) => ({ fromUtc: iso(x.fromMs), toUtc: iso(x.toMs), ...x.entry }));
+  };
+  return { stretchesOf, table: () => table.map((k) => JSON.parse(k)) };
 }
 
 /** The lagna's lord and the 10th lord: friends both ways (BPHS natural), or one planet. */
@@ -174,11 +278,12 @@ function lattaOf(moonPada, kickerPadas) {
 }
 
 /**
- * @param natalMoonLongitude sidereal, for the person's checks
- * @param fromMs, toMs       the period (at most 120 days)
- * @param latitude, longitude the place, for the lagna in the 88th-pada remedy
+ * @param natalMoonLongitude  sidereal, for the person's checks
+ * @param natalLagnaLongitude sidereal, for the 8th-sign rule of lagna shuddhi (optional)
+ * @param fromMs, toMs        the period (at most 120 days)
+ * @param latitude, longitude the event's place: the lagna (shuddhi and the 88th-pada remedy), sunrise and sunset
  */
-function muhurtaStarChecks({ natalMoonLongitude, fromMs, toMs, atMs = Date.now(), ayanamsha = 'Lahiri', nodeType = 'mean', latitude, longitude }) {
+function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, toMs, atMs = Date.now(), ayanamsha = 'Lahiri', nodeType = 'mean', latitude, longitude }) {
   if (!Number.isFinite(natalMoonLongitude)) throw new UnsupportedInputError('natalMoonLongitude is required', 'natalMoonLongitude');
   if (!(toMs > fromMs) || toMs - fromMs > MAX_DAYS * DAY_MS) throw new UnsupportedInputError(`period must be 1-${MAX_DAYS} days`, 'toMs');
   const janmaPada = padaOf(natalMoonLongitude);
@@ -247,8 +352,11 @@ function muhurtaStarChecks({ natalMoonLongitude, fromMs, toMs, atMs = Date.now()
     const sig = JSON.stringify([moonPada, latta, personal, tara.n, tara.cycle, chandra, taraVerdicts, doshas]);
     const last = pieces[pieces.length - 1];
     if (last && last.sig === sig && last.toMs === a) { last.toMs = b; last.tara.to = tara.to; continue; }
-    pieces.push({ sig, fromMs: a, toMs: b, moonPada, latta, personal, tara, chandra, taraVerdicts, chandraBala, tithi, doshas });
+    const signs = { ...planetSigns, Moon: Math.floor(moonPada / 9) };
+    pieces.push({ sig, fromMs: a, toMs: b, moonPada, latta, personal, tara, chandra, taraVerdicts, chandraBala, tithi, doshas, signs });
   }
+
+  const lagnasFor = lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType, natalLagnaLongitude, natalMoonSign: natalSign });
 
   // The remedy, inside the 88th pada: the lagna sign through those hours.
   const remedyFor = (a, b) => {
@@ -271,6 +379,7 @@ function muhurtaStarChecks({ natalMoonLongitude, fromMs, toMs, atMs = Date.now()
     tithi: p.tithi,
     doshas: compactDoshas(p.doshas, lagnaTable),
     remedy88: p.personal.PADA_88 ? remedyFor(p.fromMs, p.toMs) : null,
+    lagnas: lagnasFor ? lagnasFor.stretchesOf(p) : null,
   }));
   const natalLord = RASI_LORDS[natalSign];
   const eighthLord = RASI_LORDS[(natalSign + 7) % 12];
@@ -299,6 +408,8 @@ function muhurtaStarChecks({ natalMoonLongitude, fromMs, toMs, atMs = Date.now()
     segments,
     // Jamitra from the lagna: [signs → planets in their 7th, lagna navamsas (padas) → planets in their 55th].
     jamitraLagnas: lagnaTable.map((s) => JSON.parse(s)),
+    // Lagna shuddhi: each stretch's `ref` is an index here (the lagna, the planets' houses, day or night).
+    lagnaTable: lagnasFor ? lagnasFor.table() : [],
     books: {
       lattaRank: T.LATTA_RANK, personalRank: T.PERSONAL_RANK, bookTa: T.BOOK_TA,
       rahu: T.RAHU_DIRECTION, padaRules: T.PADA_RULES, lattaSources: T.LATTA_SOURCES, lattaEffects: T.LATTA_EFFECTS,
@@ -313,6 +424,11 @@ function muhurtaStarChecks({ natalMoonLongitude, fromMs, toMs, atMs = Date.now()
         sources: D.SOURCES, notesTa: D.NOTES_TA, banaTa: D.BANA_TA, yogaTa: D.YOGA_TA, abhijitSource: D.ABHIJIT_SOURCE,
         // Bana by tithi and lagna: for tithi 1-30 (index 0-29), the lagna numbers (1 = Aries) giving each bana.
         banaLagnas: [...Array(30).keys()].map((i) => banaOf({ sun: { deg: 0 }, tithi: i + 1 }).lagnas),
+      },
+      lagna: {
+        placements: L.PLACEMENTS, avoid: L.AVOID, points: L.POINTS, gradeTa: L.GRADE_TA, ashtama: L.ASHTAMA,
+        pdbTa: L.PDB_TA, pdb: L.PDB, kartari: L.KARTARI, gandanta: L.GANDANTA, rank: L.RANK, sources: L.SOURCES, notesTa: L.NOTES_TA,
+        natalLagna: Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null,
       },
     },
   };

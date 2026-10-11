@@ -221,6 +221,11 @@ Not plan items, but real, and they should not be discovered at release:
   Dagdha tithi) added 2026-10-11: eight books measured per evil, Shridhar first
   for seven, Muhurta Chintamani for Vedha, Kalyanraman (nearly tied with
   Shridhar) for Ekargala; every reading computed; Joshi's "six of ten" the
-  default rule. Tithi/vara/yoga shuddhi and lagna shuddhi are not on this page.
+  default rule. Lagna shuddhi for a marriage added 2026-10-11 at the event's
+  place (asked on the page; the birth place by default): the planets' places
+  and twenty points (Shridhar first), the 8th sign from birth (Muhurta
+  Chintamani), deaf/blind/lame signs, Kartari, lagna Gandanta; the page lists
+  the best times. Navamsa rules, udaya-asta shuddhi and non-marriage lagna
+  shuddhi are not built.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.
