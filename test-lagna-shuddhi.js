@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const T = require('./src/report/lagnaShuddhiTables');
-const { lagnaShuddhiOf, lagnaVerdict, pointsOf, placementsOf, ashtamaOf, pdbOf, kartariOf, houseOf } = require('./src/report/lagnaShuddhi');
+const { lagnaShuddhiOf, lagnaVerdict, navamsaOf, sees, pointsOf, placementsOf, ashtamaOf, pdbOf, kartariOf, houseOf } = require('./src/report/lagnaShuddhi');
 const { muhurtaStarChecks } = require('./src/report/muhurtaStars');
 const { planetLongitude, nodeLongitude, sunriseJulianDay, sunsetJulianDay } = require('./src/ephemeris/siderealPositions');
 const { siderealAscendant } = require('./src/ephemeris/swissEphemeris');
@@ -145,6 +145,72 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
   assert.ok(!lagnaVerdict(l, { PLACEMENTS: 'RANGACHARYA', ASHTAMA: 'EIGHTH', KARTARI: 'SCISSORS', GANDANTA: 'DEGREES_3' }).reasons.includes('GANDANTA'));
 }
 
+// ------------------------------------------------ the lagna's navamsa ---
+{
+  const signs = { Sun: 0, Moon: 1, Mars: 0, Mercury: 0, Jupiter: 0, Venus: 0, Saturn: 0, Rahu: 0, Ketu: 6 };
+  const nv = (n108, o = {}) => navamsaOf({ n108, half: 0, signs: { ...signs, ...o.signs }, natalLagnaLongitude: o.natalLagnaLongitude, natalLagna: o.natalLagna ?? null, natalMoon: o.natalMoon ?? null, ...o.extra });
+  const N = FIX.navamsa;
+  const signSet = (id) => [...T.NAV_WHICH[id].signs].sort((a, b) => a - b);
+  assert.deepEqual(signSet('MUHURTA_CHINTAMANI'), [...N.MC_sloka84_signs].sort((a, b) => a - b));
+  assert.deepEqual(signSet('NARADA'), [...N.narada_signs].sort((a, b) => a - b));
+  assert.deepEqual(signSet('RANGACHARYA'), [...N.rangacharya_signs].sort((a, b) => a - b));
+  assert.deepEqual(signSet('JOSHI'), [...N.joshi_7_9_3_6].sort((a, b) => a - b));
+  assert.deepEqual(signSet('BIPED'), N.biped);
+  assert.ok(T.SOURCES.NAV_LAST.MUHURTA_CHINTAMANI.pageLocus.includes(N.MC_sloka85));
+  // Vargottama: the 1st navamsa of movable signs, the 5th of fixed, the 9th of dual.
+  for (let s = 0; s < 12; s += 1) {
+    const varg = [...Array(9).keys()].filter((k) => nv(s * 9 + k).varg).map((k) => k + 1);
+    assert.deepEqual(varg, [T.MOVABLE.includes(s) ? 1 : T.DUAL.includes(s) ? 9 : 5], `sign ${s}`);
+    // Muhurta Chintamani: the last navamsa only where it is not vargottama — every sign but the dual ones.
+    assert.equal(nv(s * 9 + 8).last.MUHURTA_CHINTAMANI.includes('LAST'), !T.DUAL.includes(s));
+  }
+  // The Moon in Libra or Capricorn: no movable navamsa in a movable lagna, vargottama or not (MC); Shridhar keeps Aries's and Cancer's vargottama.
+  assert.deepEqual(nv(0, { signs: { Moon: 6 } }).last.MUHURTA_CHINTAMANI, ['MOVABLE'], 'Aries 1st (Aries), the Moon in Libra');
+  assert.deepEqual(nv(0, { signs: { Moon: 6 } }).last.SHRIDHAR, []);
+  assert.deepEqual(nv(1, { signs: { Moon: 9 } }).last.MUHURTA_CHINTAMANI, [], 'Aries 2nd navamsa is Taurus — fixed');
+  assert.deepEqual(nv(3, { signs: { Moon: 9 } }).last.MUHURTA_CHINTAMANI, ['MOVABLE'], 'Aries 4th navamsa is Cancer');
+  // Shridhar: the vargottama of Libra and Capricorn, and Pisces's last; Rangacharya: the first of the cardinal signs.
+  assert.ok(nv(54).last.SHRIDHAR.includes('VARG_LIB_CAP'));
+  assert.ok(nv(11 * 9 + 8).last.SHRIDHAR.includes('LAST'));
+  assert.ok(!nv(2 * 9 + 8).last.SHRIDHAR.includes('LAST'), 'Gemini\'s 9th, vargottama');
+  assert.ok(nv(27).last.RANGACHARYA.includes('FIRST_CARDINAL'), 'Cancer\'s first');
+  // Which navamsa: Sagittarius's only in its first half for Narada and Rangacharya.
+  const sag = 8; // Aries's 9th navamsa is Sagittarius
+  assert.equal(nv(sag).which.NARADA, true);
+  assert.equal(navamsaOf({ n108: sag, half: 1, signs, natalLagna: null, natalMoon: null }).which.NARADA, false);
+  assert.equal(navamsaOf({ n108: sag, half: 1, signs, natalLagna: null, natalMoon: null }).which.MUHURTA_CHINTAMANI, true);
+  for (let n108 = 0; n108 < 12; n108 += 1) {
+    const w = nv(n108).which;
+    assert.equal(w.BENEFIC_LORD, !['Sun', 'Mars', 'Saturn'].includes(T.RASI_LORDS[n108]), `lord of ${n108}`);
+    assert.equal(w.BIPED, [2, 5, 6].includes(n108));
+  }
+  // Wilhelm's example: the natal lagna at 6° Aries — the natal 8th's navamsa is Leo, so a Leo lagna is left.
+  const leo = nv(4 * 9, { natalLagnaLongitude: 6, natalLagna: 0 });
+  assert.ok(leo.natal.MUHURTA_CHINTAMANI.includes('NAV8'), 'Wilhelm p.261');
+  assert.ok(!nv(5 * 9, { natalLagnaLongitude: 6, natalLagna: 0 }).natal.MUHURTA_CHINTAMANI.includes('NAV8'));
+  // The natal 8th lord (Mars, for an Aries birth) in the lagna.
+  assert.ok(nv(4 * 9, { natalLagnaLongitude: 6, natalLagna: 0, signs: { Mars: 4 } }).natal.MUHURTA_CHINTAMANI.includes('LORD8'));
+  // Muhurta Chintamani's example: Libra rising in the Sagittarius navamsa (Libra's 3rd); Jupiter in Gemini aspects both.
+  const libSag = 6 * 9 + 2;
+  assert.equal(libSag % 12, 8);
+  assert.equal(nv(libSag, { signs: { Jupiter: 2 } }).udaya.MUHURTA_CHINTAMANI.udaya, true, 'MC p.208');
+  for (const j of [8, 6]) assert.equal(nv(libSag, { signs: { Jupiter: j } }).udaya.MUHURTA_CHINTAMANI.udaya, true, `Jupiter in ${j}`);
+  assert.equal(nv(libSag, { signs: { Jupiter: 1 } }).udaya.MUHURTA_CHINTAMANI.udaya, false, 'Jupiter in Taurus sees neither');
+  // For the bride: Mercury (lord of Gemini, the 7th from Sagittarius) in Sagittarius aspects Gemini; or aspects Aries, the 7th house.
+  assert.equal(nv(libSag, { signs: { Mercury: 8 } }).udaya.MUHURTA_CHINTAMANI.asta, true);
+  assert.equal(nv(libSag, { signs: { Mercury: 6 } }).udaya.MUHURTA_CHINTAMANI.asta, true);
+  assert.equal(nv(libSag, { signs: { Mercury: 3 } }).udaya.MUHURTA_CHINTAMANI.asta, false);
+  // The aspects: the 7th for all; Mars 4, 8; Jupiter 5, 9; Saturn 3, 10.
+  assert.equal(sees('Saturn', 0, 2), true); assert.equal(sees('Saturn', 0, 9), true); assert.equal(sees('Saturn', 0, 4), false);
+  assert.equal(sees('Mars', 0, 3), true); assert.equal(sees('Mars', 0, 7), true); assert.equal(sees('Jupiter', 0, 8), true);
+  assert.equal(sees('Venus', 0, 6), true); assert.equal(sees('Venus', 0, 4), false);
+  // Any of four is at least as wide as Muhurta Chintamani's.
+  for (let n108 = 0; n108 < 108; n108 += 1) {
+    const u = nv(n108, { signs: { Jupiter: n108 % 12, Venus: (n108 * 7) % 12 } }).udaya;
+    if (u.MUHURTA_CHINTAMANI.udaya) assert.ok(u.ANY_OF_FOUR.udaya, `${n108}`);
+  }
+}
+
 // ------------------------------------------------ the stretches, against the sky ---
 {
   const DAY = 86400000;
@@ -168,14 +234,16 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
   };
   const retro = (p, ms) => ((pl(p, ms + DAY / 2) - pl(p, ms - DAY / 2) + 540) % 360) - 180 < 0;
   let n = 0;
+  const sec = (ms) => Math.round((ms - fromMs) / 1000);
   for (const s of r.segments) {
-    assert.equal(s.lagnas[0].fromUtc, s.fromUtc);
-    assert.equal(s.lagnas[s.lagnas.length - 1].toUtc, s.toUtc);
-    for (let i = 1; i < s.lagnas.length; i += 1) assert.equal(s.lagnas[i].fromUtc, s.lagnas[i - 1].toUtc);
+    assert.equal(s.lagnas[0].f, sec(Date.parse(s.fromUtc)));
+    assert.equal(s.lagnas[s.lagnas.length - 1].t, sec(Date.parse(s.toUtc)));
+    for (let i = 1; i < s.lagnas.length; i += 1) assert.equal(s.lagnas[i].f, s.lagnas[i - 1].t);
     for (const x of s.lagnas) {
-      const a = Date.parse(x.fromUtc); const b = Date.parse(x.toUtc);
-      if (b - a < 4 * 60000) continue;
+      const a = fromMs + x.f * 1000; const b = fromMs + x.t * 1000;
+      if (b - a < 2 * 60000) continue;
       const mid = (a + b) / 2;
+      x.fromUtc = new Date(a).toISOString();
       const signs = Object.fromEntries(T.PLANETS.map((p) => [p, sign(pl(p, mid))]));
       const ascMid = asc(mid);
       const lg = sign(ascMid);
@@ -188,23 +256,31 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
         },
         natalLagna: sign(natalLagna), natalMoon: sign(natalMoon), tithi: s.tithi,
       });
-      const got = r.lagnaTable[x.ref];
+      const got = r.lagnaTable[x.r];
       assert.equal(got.lagna, want.lagna, `lagna ${x.fromUtc}`);
       assert.equal(got.night, nightAt(mid), `night ${x.fromUtc}`);
       assert.deepEqual(plain(got.placements), plain(want.placements), `placements ${x.fromUtc}`);
       assert.deepEqual(plain(got.ashtama), plain({ EIGHTH: want.ashtama.EIGHTH, FOUR_EIGHT_TWELVE: want.ashtama.FOUR_EIGHT_TWELVE }));
       assert.deepEqual(plain(got.pdb), plain(want.pdb), `pdb ${x.fromUtc}`);
       assert.deepEqual(plain(got.kartari), plain(want.kartari), `kartari ${x.fromUtc}`);
-      assert.deepEqual(plain(x.gandanta), plain(want.gandanta), `gandanta ${x.fromUtc}`);
-      assert.equal(x.banaMrityu, want.banaMrityu);
+      assert.deepEqual({ MINUTES_12: Boolean(x.g & 1), DEGREES_3: Boolean(x.g & 2) }, plain(want.gandanta), `gandanta ${x.fromUtc}`);
+      assert.equal(Boolean(x.b), want.banaMrityu);
+      // The navamsa: recomputed from the ascendant at the middle.
+      const n108 = Math.floor(L360(ascMid) / (10 / 3)) % 108;
+      const half = n108 % 12 === 8 && L360(ascMid) - n108 * (10 / 3) >= 5 / 3 ? 1 : 0;
+      const nvWant = navamsaOf({ n108, half, signs, natalLagnaLongitude: natalLagna, natalLagna: sign(natalLagna), natalMoon: sign(natalMoon) });
+      assert.deepEqual(plain(r.navamsaTable[x.n]), plain(nvWant), `navamsa ${x.fromUtc}`);
       n += 1;
     }
   }
-  assert.ok(n > 60, `checked ${n}`);
+  assert.ok(n > 300, `checked ${n}`);
   assert.equal(r.books.lagna.natalLagna, sign(natalLagna));
-  // About two hours a sign: some 70-85 lagna changes in six days.
-  const changes = r.segments.flatMap((s) => s.lagnas).filter((x, i, all) => i > 0 && r.lagnaTable[x.ref].lagna !== r.lagnaTable[all[i - 1].ref].lagna).length;
+  // About two hours a sign: some 70-85 lagna changes in six days; nine navamsas to each.
+  const all = r.segments.flatMap((s) => s.lagnas);
+  const changes = all.filter((x, i) => i > 0 && r.lagnaTable[x.r].lagna !== r.lagnaTable[all[i - 1].r].lagna).length;
   assert.ok(changes > 65 && changes < 80, `lagna changes ${changes}`);
+  const navChanges = all.filter((x, i) => i > 0 && r.navamsaTable[x.n].n108 !== r.navamsaTable[all[i - 1].n].n108).length;
+  assert.ok(navChanges > changes * 8 && navChanges < changes * 10, `navamsa changes ${navChanges}`);
   // Without a place there are no lagnas.
   assert.equal(muhurtaStarChecks({ natalMoonLongitude: natalMoon, fromMs, toMs: fromMs + DAY }).segments[0].lagnas, null);
 }

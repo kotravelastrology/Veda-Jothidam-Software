@@ -166,10 +166,28 @@ Readings of ours: BPHS natural relations for "friends"; Jupiter's 5th, 7th and
 or combust Venus, Mars, the Moon; benefics in angles) shown, not applied; one
 person's birth only (the books also want the spouse's).
 
-Not yet computed: the navamsa rules (the last navamsa, vargottama, benefic
-navamsas, kunavamsa), udaya-asta shuddhi, shadvarga, decanates, the rasi
-visha-nadi portions, and lagna shuddhi for events other than marriage
-(MC p.79).
+### The lagna's navamsa (added 2026-10-11)
+
+The lagna is now scanned by navamsa (and the halves of Sagittarius's navamsa).
+A stretch carries `r` (the sign's results, `lagnaTable`) and `n` (the
+navamsa's, `navamsaTable`), with its times as seconds from the period's start.
+Four checks, measured and defaulted the same way:
+
+| Check | First by words | Default | Others computed |
+|---|---|---|---|
+| The last navamsa; the Moon in Libra or Capricorn | MC 156 (Shridhar 146, Wilhelm 46, Rangacharya 35, Joshi 32) | MC sloka 85 "नो चरलग्ने चरलवयोगं तौलिमृगस्थे शशिमृति कुर्यात्": no last navamsa unless vargottama; with the Moon in Libra or Capricorn no movable navamsa in a movable lagna, vargottama or not | Shridhar (Pisces's last left; Libra's and Capricorn's vargottama bad — his reading of "MC 6/85"; Aries's and Cancer's vargottama allowed); Rangacharya (also the first navamsa of the cardinal signs) |
+| Which navamsas | Shridhar 390 (Wilhelm 80, Rangacharya 56, MC 43) | Narada (as Shridhar gives it): Gemini, Virgo, Libra, the first half of Sagittarius | a benefic's navamsa (Wilhelm, Raman, Agarwal's kunavamsa); Rangacharya (Taurus too); MC sloka 84 (Pisces too); Joshi; biped signs (Agarwal from Brihat Samhita) |
+| The navamsa of the birth 8th and 12th | MC 145 | MC sloka 79 as Wilhelm explains it: the natal lagna's navamsa number in the 8th and 12th signs gives signs the lagna must not be; the natal 8th and 12th lords not in the lagna | Joshi: the rising navamsa 8th or 12th from the birth lagna or Moon (lords friendly free) |
+| Udaya-asta | Shridhar 905 (MC 789) | Shridhar's eight udaya and six asta conditions (1, 2, 3, 7, 8 and a, b, c, f; the rest are inside them); both needed | MC sloka 76; any of four (Rangacharya, Wilhelm) |
+
+Aspects and occupancy are read in the rasi chart, as in Muhurta Chintamani's
+own example (Libra rising in the Sagittarius navamsa; Jupiter in Gemini sees
+both) — our reading; navamsa-chart aspects are not computed. Tested on that
+example, on Wilhelm's 6°-Aries example (no Leo lagna), on vargottama for every
+sign, and against the sky (every navamsa stretch of six days recomputed).
+
+Not yet computed: shadvarga, decanates, the rasi visha-nadi portions, and
+lagna shuddhi for events other than marriage (MC p.79).
 
 ## Not done
 

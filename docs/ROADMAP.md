@@ -225,7 +225,9 @@ Not plan items, but real, and they should not be discovered at release:
   place (asked on the page; the birth place by default): the planets' places
   and twenty points (Shridhar first), the 8th sign from birth (Muhurta
   Chintamani), deaf/blind/lame signs, Kartari, lagna Gandanta; the page lists
-  the best times. Navamsa rules, udaya-asta shuddhi and non-marriage lagna
-  shuddhi are not built.
+  the best times. The lagna's navamsa added the same day: the last navamsa
+  and the Libra/Capricorn Moon (MC sloka 85), which navamsas (Narada via
+  Shridhar), the birth 8th/12th's navamsa (MC sloka 79), udaya-asta shuddhi
+  (Shridhar). Shadvarga and non-marriage lagna shuddhi are not built.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

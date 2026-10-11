@@ -72,7 +72,7 @@ export default function MuhurtaStarsView() {
         if (cancelled) return;
         setResult(r);
         setPlace({ name: r.eventPlace.name ?? '', latitude: String(r.eventPlace.latitude), longitude: String(r.eventPlace.longitude) });
-        setLagnaReading(Object.fromEntries(['PLACEMENTS', 'ASHTAMA', 'KARTARI', 'GANDANTA'].map((k) => [k, r.books.lagna[k.toLowerCase()].default])));
+        setLagnaReading({});
         setRahu(r.books.rahu.default); setPadaRule(r.books.padaRules.default); setVainashika(r.books.vainashika.default);
         setTaraBad(r.books.taraBad.default); setTaraCycle(r.books.taraCycles.default); setChandraReading(r.books.chandraReadings.default);
         setDashaReading(Object.fromEntries(r.books.dasha.doshas.map((d: string) => [d, r.books.dasha.readings[d].default])));
@@ -104,23 +104,39 @@ export default function MuhurtaStarsView() {
     const tara = s.taraVerdicts[taraBad][taraCycle] as 'REJECT' | 'CAUTION' | null;
     const chandra = s.chandraBala[chandraReading] as boolean;
     const dasha = dashaJudge(s, counted.length > 0);
-    // Neighbouring stretches that differ only in what the chosen readings ignore are shown as one.
+    // The lagna, one line per rising sign: its good navamsa stretches (joined where they touch),
+    // or, if none, why it is left (the sign's own reasons; the navamsas' in short).
     const lagnas: any[] = [];
-    for (const x of s.lagnas ?? []) {
-      const l = result.lagnaTable[x.ref];
+    for (const raw of s.lagnas ?? []) {
+      const x = stretchOf(raw);
       const v = lagnaJudge(x);
-      const key = `${l.lagna}|${v.ok}|${v.pl.points}|${v.ok ? '' : lagnaWhy(x, v)}`;
-      const last = lagnas[lagnas.length - 1];
-      if (last && last.key === key) { last.x = { ...last.x, toUtc: x.toUtc }; continue; }
-      lagnas.push({ x, l, v, key });
+      let g = lagnas[lagnas.length - 1];
+      if (!g || g.l.lagna !== x.l.lagna) { g = { l: x.l, fromMs: x.fromMs, toMs: x.toMs, items: [], good: [] }; lagnas.push(g); }
+      g.toMs = x.toMs;
+      g.items.push({ x, v });
+      if (v.ok) {
+        const lastGood = g.good[g.good.length - 1];
+        if (lastGood && lastGood.toMs === x.fromMs) { lastGood.toMs = x.toMs; if (!lastGood.navs.includes(x.nv.nav)) lastGood.navs.push(x.nv.nav); } else g.good.push({ fromMs: x.fromMs, toMs: x.toMs, navs: [x.nv.nav], x, v });
+      }
     }
     const clear = counted.length === 0 && personal.length === 0 && !vain && tara !== 'REJECT' && chandra && !dasha.reject;
-    return { kicks, counted, personal, vain, tara, chandra, dasha, lagnas, clear, goodLagnas: clear ? lagnas.filter((g: any) => g.v.ok) : [] };
+    return { kicks, counted, personal, vain, tara, chandra, dasha, lagnas, clear, goodLagnas: clear ? lagnas.flatMap((g: any) => g.good.map((ok: any) => ({ ...ok, l: g.l }))) : [] };
   };
+
+  /** A stretch with its two table entries and its times. */
+  function stretchOf(raw: any) {
+    const base = Date.parse(result.fromUtc);
+    return {
+      fromMs: base + raw.f * 1000, toMs: base + raw.t * 1000,
+      l: result.lagnaTable[raw.r], nv: result.navamsaTable[raw.n],
+      gandanta: { MINUTES_12: Boolean(raw.g & 1), DEGREES_3: Boolean(raw.g & 2) }, banaMrityu: Boolean(raw.b),
+    };
+  }
+  const isoOf = (ms: number) => new Date(ms).toISOString();
 
   /** A lagna stretch under the chosen readings — the same rule as the engine's `lagnaVerdict` (lagnaShuddhi.js). */
   function lagnaJudge(x: any) {
-    const l = result.lagnaTable[x.ref];
+    const { l, nv } = x;
     const R = { ...lagnaDefaults(), ...lagnaReading };
     const reasons: string[] = [];
     const pl = l.placements[R.PLACEMENTS];
@@ -130,18 +146,34 @@ export default function MuhurtaStarsView() {
     if (l.kartari[R.KARTARI]) reasons.push('KARTARI');
     if (x.gandanta[R.GANDANTA]) reasons.push('GANDANTA');
     if ((dashaReading.BANA ?? B.dasha.readings.BANA.default) === 'TITHI_LAGNA' && x.banaMrityu) reasons.push('BANA');
+    if (nv.last[R.NAV_LAST].length) reasons.push('NAV_LAST');
+    if (!nv.which[R.NAV_WHICH]) reasons.push('NAV_WHICH');
+    if (nv.natal[R.NAV_NATAL].length) reasons.push('NAV_NATAL');
+    if (!nv.udaya[R.UDAYA].udaya || !nv.udaya[R.UDAYA].asta) reasons.push('UDAYA');
     return { ok: reasons.length === 0, reasons, pl };
   }
 
   function lagnaDefaults(): Record<string, string> {
-    return { PLACEMENTS: B.lagna.placements.default, ASHTAMA: B.lagna.ashtama.default, KARTARI: B.lagna.kartari.default, GANDANTA: B.lagna.gandanta.default };
+    const L = B.lagna;
+    return {
+      PLACEMENTS: L.placements.default, ASHTAMA: L.ashtama.default, KARTARI: L.kartari.default, GANDANTA: L.gandanta.default,
+      NAV_LAST: L.navLast.default, NAV_WHICH: L.navWhich.default, NAV_NATAL: L.navNatal.default, UDAYA: L.udaya.default,
+    };
   }
+  const NAV_REASON_TA: Record<string, string> = {
+    LAST: 'கடைசி நவாம்சம்', MOVABLE: 'சர லக்னத்தில் சர நவாம்சம்', VARG_LIB_CAP: 'துலா/மகர வர்கோத்தமம்', FIRST_CARDINAL: 'சர ராசியின் முதல் நவாம்சம்',
+    NAV8: 'பிறந்த 8-ன் நவாம்ச ராசி', NAV12: 'பிறந்த 12-ன் நவாம்ச ராசி', LORD8: 'பிறந்த 8-ஆம் அதிபதி லக்னத்தில்', LORD12: 'பிறந்த 12-ஆம் அதிபதி லக்னத்தில்',
+  };
 
-  /** Why a lagna is left, in a few words. */
-  const lagnaWhy = (x: any, v: any) => {
-    const l = result.lagnaTable[x.ref];
+  /** Why a lagna stretch is left, in a few words; `signOnly` leaves out the navamsa's reasons. */
+  const lagnaWhy = (x: any, v: any, signOnly = false) => {
+    const { l, nv } = x;
     const R = { ...lagnaDefaults(), ...lagnaReading };
-    return v.reasons.map((r: string) => {
+    return v.reasons.filter((r: string) => !signOnly || !r.startsWith('NAV_') && r !== 'UDAYA').map((r: string) => {
+      if (r === 'NAV_LAST') return nv.last[R.NAV_LAST].map((k: string) => NAV_REASON_TA[k]).join(', ');
+      if (r === 'NAV_WHICH') return `${RASI_TA[nv.nav]} நவாம்சம்`;
+      if (r === 'NAV_NATAL') return nv.natal[R.NAV_NATAL].map((k: any) => (typeof k === 'string' ? NAV_REASON_TA[k] : `நவாம்சம் ${k.from === 'LAGNA' ? 'பிறந்த லக்னத்துக்கு' : 'ஜன்ம ராசிக்கு'} ${k.house}`)).join(', ');
+      if (r === 'UDAYA') return `${nv.udaya[R.UDAYA].udaya ? '' : 'உதய'}${!nv.udaya[R.UDAYA].udaya && !nv.udaya[R.UDAYA].asta ? '-' : ''}${nv.udaya[R.UDAYA].asta ? '' : 'அஸ்த'} சுத்தி இல்லை`;
       if (r === 'PLACEMENTS') {
         const bad = v.pl.avoid.map(([p, h]: [string, number]) => `${p === 'LAGNA_LORD' ? LAGNA_LORD_TA : PLANET_NAME_TA[p]} ${h}-ல்`);
         const pts = v.pl.points !== null && !B.lagna.placements[R.PLACEMENTS].pass.includes(v.pl.grade) ? [`புள்ளி ${v.pl.points}`] : [];
@@ -272,8 +304,8 @@ export default function MuhurtaStarsView() {
             {best.length === 0 && <p className="text-xs text-ink-soft">இந்த வாசிப்புகளில் இந்தக் காலத்தில் இல்லை.</p>}
             <ul className="text-xs space-y-0.5" style={num}>
               {best.slice(0, 40).map(({ s, g }: any) => (
-                <li key={g.x.fromUtc}>
-                  <span className="font-mono">{local(g.x.fromUtc).slice(0, 16)} – {hm(g.x.toUtc)}</span> · {s.starTa} {s.pada} · {RASI_TA[g.l.lagna]} லக்னம்
+                <li key={g.fromMs}>
+                  <span className="font-mono">{local(isoOf(g.fromMs)).slice(0, 16)} – {hm(isoOf(g.toMs))}</span> · {s.starTa} {s.pada} · {RASI_TA[g.l.lagna]} லக்னம் ({g.navs.map((n: number) => RASI_TA[n]).join(', ')} நவாம்சம்)
                   {g.v.pl.points !== null && <> · புள்ளி {g.v.pl.points} ({B.lagna.gradeTa[g.v.pl.grade]})</>}
                   {g.v.pl.avoid.length > 0 && <span className="text-amber-700"> · {g.v.pl.avoid.map(([p, h]: [string, number]) => `${p === 'LAGNA_LORD' ? LAGNA_LORD_TA : PLANET_NAME_TA[p]} ${h}-ல்`).join(', ')} (ஒன்று — பரிகாரத்துடன்)</span>}
                 </li>
@@ -312,9 +344,9 @@ export default function MuhurtaStarsView() {
               <details className="mb-1">
                 <summary className="cursor-pointer text-[11px] text-ink-soft">லக்ன சுத்தி — வாசிப்புகள்</summary>
                 <div className="mt-1">
-                  {(['PLACEMENTS', 'ASHTAMA', 'KARTARI', 'GANDANTA'] as const).map((k) => {
-                    const t = B.lagna[k.toLowerCase()];
-                    const label = { PLACEMENTS: 'கிரக நிலை', ASHTAMA: 'பிறப்பிலிருந்து', KARTARI: 'கர்த்தரி', GANDANTA: 'லக்ன கண்டாந்தம்' }[k];
+                  {(['PLACEMENTS', 'ASHTAMA', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA'] as const).map((k) => {
+                    const t = B.lagna[{ PLACEMENTS: 'placements', ASHTAMA: 'ashtama', KARTARI: 'kartari', GANDANTA: 'gandanta', NAV_LAST: 'navLast', NAV_WHICH: 'navWhich', NAV_NATAL: 'navNatal', UDAYA: 'udaya' }[k]];
+                    const label = { PLACEMENTS: 'கிரக நிலை', ASHTAMA: 'பிறப்பிலிருந்து', KARTARI: 'கர்த்தரி', GANDANTA: 'லக்ன கண்டாந்தம்', NAV_LAST: 'கடைசி / சர நவாம்சம்', NAV_WHICH: 'எந்த நவாம்சம்', NAV_NATAL: 'பிறந்த 8, 12-ன் நவாம்சம்', UDAYA: 'உதய-அஸ்த சுத்தி' }[k];
                     return (
                       <Switch key={k} label={label} value={lagnaReading[k] ?? t.default} onChange={(v) => setLagnaReading({ ...lagnaReading, [k]: v })}
                         options={t.order.map((id: string) => [id, `${t[id].labelTa}${id === t.default ? ' (இயல்பு)' : ''}`])} />
@@ -396,13 +428,20 @@ export default function MuhurtaStarsView() {
                           {j.personal.length === 0 && !j.vain && <span className="text-ink-soft">—</span>}
                         </td>
                         <td className="py-1">
-                          {j.lagnas.map(({ x, l, v }: any) => (
-                            <span key={x.fromUtc} className={`block ${v.ok ? (j.clear ? 'text-teal font-semibold' : 'text-ink') : 'text-ink-soft'}`} style={num}>
-                              {hm(x.fromUtc)}–{hm(x.toUtc)} {RASI_TA[l.lagna]} {v.ok ? '✓' : '✗'}
-                              {v.pl.points !== null && <span className="font-normal"> · {v.pl.points}</span>}
-                              {!v.ok && <span className="font-normal text-[11px]"> ({lagnaWhy(x, v)})</span>}
-                            </span>
-                          ))}
+                          {j.lagnas.map((g: any) => {
+                            const mid = g.items[Math.floor(g.items.length / 2)];
+                            const signWhy = lagnaWhy(mid.x, mid.v, true);
+                            const navWhy = [...new Set(g.items.filter((it: any) => !it.v.ok).flatMap((it: any) => lagnaWhy(it.x, { ...it.v, reasons: it.v.reasons.filter((r: string) => r.startsWith('NAV_') || r === 'UDAYA') }).split(' · ')).filter(Boolean))];
+                            return (
+                              <span key={g.fromMs} className={`block ${g.good.length ? (j.clear ? 'text-teal font-semibold' : 'text-ink') : 'text-ink-soft'}`} style={num}>
+                                {hm(isoOf(g.fromMs))}–{hm(isoOf(g.toMs))} {RASI_TA[g.l.lagna]}
+                                {mid.v.pl.points !== null && <span className="font-normal"> · {mid.v.pl.points}</span>}
+                                {g.good.length > 0
+                                  ? <> ✓ {g.good.map((ok: any) => `${hm(isoOf(ok.fromMs))}–${hm(isoOf(ok.toMs))} (${ok.navs.map((n: number) => RASI_TA[n]).join(', ')} நவாம்சம்)`).join(', ')}</>
+                                  : <> ✗ <span className="font-normal text-[11px]">({[signWhy, navWhy.length ? `நவாம்சம்: ${navWhy.slice(0, 4).join(', ')}${navWhy.length > 4 ? '…' : ''}` : ''].filter(Boolean).join(' · ')})</span></>}
+                              </span>
+                            );
+                          })}
                         </td>
                       </tr>
                     ))}
@@ -479,6 +518,10 @@ export default function MuhurtaStarsView() {
               ['PDB', 'செவிடு, குருடு, முட லக்னங்கள் (பகல் / இரவு)', null],
               ['KARTARI', 'கர்த்தரி', B.lagna.kartari],
               ['GANDANTA', 'லக்ன கண்டாந்தம்', B.lagna.gandanta],
+              ['NAV_LAST', 'நவாம்சம்: கடைசி நவாம்சம், வர்கோத்தமம், சர நவாம்சம்', B.lagna.navLast],
+              ['NAV_WHICH', 'நவாம்சம்: எந்த நவாம்சங்களில் திருமணம்', B.lagna.navWhich],
+              ['NAV_NATAL', 'நவாம்சம்: பிறந்த 8, 12-ன் நவாம்சமும் அதிபதியும்', B.lagna.navNatal],
+              ['UDAYA', 'உதய-அஸ்த சுத்தி (லக்ன, நவாம்ச, 7-ஆம் அதிபதிகளின் பார்வை)', B.lagna.udaya],
             ] as [string, string, any][]).map(([k, title, t]) => (
               <details key={k} className="mt-2 text-xs">
                 <summary className="cursor-pointer font-semibold text-ink">{title}</summary>

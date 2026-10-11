@@ -31,7 +31,7 @@ const T = require('./muhurtaStarTables');
 const D = require('./marriageDoshaTables');
 const { marriageDoshasOf, dashaVerdict, banaOf, PLANETS: DOSHA_PLANETS } = require('./marriageDoshas');
 const L = require('./lagnaShuddhiTables');
-const { lagnaShuddhiOf } = require('./lagnaShuddhi');
+const { lagnaShuddhiOf, navamsaOf } = require('./lagnaShuddhi');
 
 const DAY_MS = 86400000;
 const JD_UNIX_EPOCH = 2440587.5;
@@ -104,12 +104,19 @@ function compactDoshas(ds, lagnaTable) {
   };
 }
 
-/** The lagna's sign and its zone: 0 the first 3°, 1 the middle, 2 the last 3° (Wilhelm's Gandanta). */
+/**
+ * The lagna's key: its navamsa (0-107), the half of the navamsa (only
+ * Sagittarius's halves matter: "the first half of Sagittarius"), and its zone
+ * in the sign — 0 the first 3°, 1 the middle, 2 the last 3° (Wilhelm's Gandanta).
+ */
 const lagnaKeyOf = (asc) => {
-  const s = Math.floor(norm360(asc) / 30) % 12;
-  const d = norm360(asc) - s * 30;
-  return s * 3 + (d < 3 ? 0 : d < 27 ? 1 : 2);
+  const l = norm360(asc);
+  const n108 = Math.floor(l / PADA) % 108;
+  const half = n108 % 12 === 8 && l - n108 * PADA >= PADA / 2 ? 1 : 0;
+  const d = l - Math.floor(l / 30) * 30;
+  return (n108 * 2 + half) * 3 + (d < 3 ? 0 : d < 27 ? 1 : 2);
 };
+const lagnaKeyParts = (key) => ({ n108: Math.floor(key / 6), half: Math.floor(key / 3) % 2, zone: key % 3, sign: Math.floor(key / 54) });
 
 /**
  * The lagna stretches inside a piece of the period, at the event's place: one
@@ -122,10 +129,10 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
   const PAD = 3 * 3600000;
   const MIN = 60000;
   // The lagna, scanned three hours beyond each end so every sign's true start and end are known.
-  const lagnaSegs = scanKey(fromMs - PAD, toMs + PAD, (ms) => lagnaKeyOf(siderealAscendant(jdOf(ms), latitude, longitude, ayanamsha)), 4 * MIN);
+  const lagnaSegs = scanKey(fromMs - PAD, toMs + PAD, (ms) => lagnaKeyOf(siderealAscendant(jdOf(ms), latitude, longitude, ayanamsha)), 2 * MIN);
   const signSegs = [];
   for (const s of lagnaSegs) {
-    const sign = Math.floor(s.key / 3);
+    const { sign } = lagnaKeyParts(s.key);
     const last = signSegs[signSegs.length - 1];
     if (last && last.sign === sign) { last.toMs = s.toMs; last.openEnd = s.openEnd; } else signSegs.push({ sign, fromMs: s.fromMs, toMs: s.toMs, openStart: s.openStart, openEnd: s.openEnd });
   }
@@ -158,15 +165,23 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
   ].filter((ms) => ms > fromMs && ms < toMs).sort((a, b) => a - b);
   const natalLagna = Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null;
 
-  // What depends only on the lagna, the planets' signs, their motion and day or night is kept once.
-  const table = [];
-  const refOf = (x) => {
-    const k = JSON.stringify(x);
-    let i = table.indexOf(k);
-    if (i < 0) { table.push(k); i = table.length - 1; }
-    return i;
+  // What depends only on the lagna, the planets' signs, their motion and day or night is kept once
+  // (`table`), and likewise what depends only on the lagna's navamsa and the planets' signs (`navTable`).
+  const tableOf = () => {
+    const keys = [];
+    const index = new Map();
+    const ref = (x) => {
+      const k = JSON.stringify(x);
+      if (!index.has(k)) { index.set(k, keys.length); keys.push(k); }
+      return index.get(k);
+    };
+    return { ref, all: () => keys.map((k) => JSON.parse(k)) };
   };
+  const table = tableOf();
+  const navTable = tableOf();
 
+  // A stretch: seconds from the period's start (f, t), the two tables' entries (r, n), the
+  // Gandanta flags (g: 1 the 12 minutes, 2 the 3°) and Mrityu Bana by tithi and lagna (b).
   const stretchesOf = (piece) => {
     const cuts = [piece.fromMs, ...marks.filter((ms) => ms > piece.fromMs && ms < piece.toMs), piece.toMs];
     const out = [];
@@ -175,9 +190,7 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
       const b = cuts[i + 1];
       if (b <= a) continue;
       const mid = (a + b) / 2;
-      const key = keyIn(lagnaSegs, mid);
-      const sign = Math.floor(key / 3);
-      const zone = key % 3;
+      const { n108, half, zone, sign } = lagnaKeyParts(keyIn(lagnaSegs, mid));
       const retro = keyIn(retroSegs, mid);
       const l = lagnaShuddhiOf({
         lagna: sign,
@@ -191,15 +204,21 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
         natalLagna, natalMoon: natalMoonSign, tithi: piece.tithi,
       });
       const { houses, gandanta, banaMrityu, ...shared } = l;
-      const entry = { ref: refOf({ ...shared, night: nightAt(mid), ashtama: { EIGHTH: l.ashtama.EIGHTH, FOUR_EIGHT_TWELVE: l.ashtama.FOUR_EIGHT_TWELVE } }), gandanta, banaMrityu };
+      const nv = navamsaOf({ n108, half, signs: piece.signs, natalLagnaLongitude, natalLagna, natalMoon: natalMoonSign });
+      const entry = {
+        r: table.ref({ ...shared, night: nightAt(mid), ashtama: { EIGHTH: l.ashtama.EIGHTH, FOUR_EIGHT_TWELVE: l.ashtama.FOUR_EIGHT_TWELVE } }),
+        n: navTable.ref(nv),
+        g: (gandanta.MINUTES_12 ? 1 : 0) | (gandanta.DEGREES_3 ? 2 : 0),
+        b: banaMrityu ? 1 : 0,
+      };
       const sig = JSON.stringify(entry);
       const last = out[out.length - 1];
       if (last && last.sig === sig && last.toMs === a) { last.toMs = b; continue; }
       out.push({ sig, fromMs: a, toMs: b, entry });
     }
-    return out.map((x) => ({ fromUtc: iso(x.fromMs), toUtc: iso(x.toMs), ...x.entry }));
+    return out.map((x) => ({ f: Math.round((x.fromMs - fromMs) / 1000), t: Math.round((x.toMs - fromMs) / 1000), ...x.entry }));
   };
-  return { stretchesOf, table: () => table.map((k) => JSON.parse(k)) };
+  return { stretchesOf, table: table.all, navTable: navTable.all };
 }
 
 /** The lagna's lord and the 10th lord: friends both ways (BPHS natural), or one planet. */
@@ -408,8 +427,10 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
     segments,
     // Jamitra from the lagna: [signs → planets in their 7th, lagna navamsas (padas) → planets in their 55th].
     jamitraLagnas: lagnaTable.map((s) => JSON.parse(s)),
-    // Lagna shuddhi: each stretch's `ref` is an index here (the lagna, the planets' houses, day or night).
+    // Lagna shuddhi: a stretch's `r` is an index into lagnaTable (the lagna sign, the planets'
+    // houses, day or night) and `n` into navamsaTable (the lagna's navamsa); f and t are seconds from fromUtc.
     lagnaTable: lagnasFor ? lagnasFor.table() : [],
+    navamsaTable: lagnasFor ? lagnasFor.navTable() : [],
     books: {
       lattaRank: T.LATTA_RANK, personalRank: T.PERSONAL_RANK, bookTa: T.BOOK_TA,
       rahu: T.RAHU_DIRECTION, padaRules: T.PADA_RULES, lattaSources: T.LATTA_SOURCES, lattaEffects: T.LATTA_EFFECTS,
@@ -428,6 +449,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
       lagna: {
         placements: L.PLACEMENTS, avoid: L.AVOID, points: L.POINTS, gradeTa: L.GRADE_TA, ashtama: L.ASHTAMA,
         pdbTa: L.PDB_TA, pdb: L.PDB, kartari: L.KARTARI, gandanta: L.GANDANTA, rank: L.RANK, sources: L.SOURCES, notesTa: L.NOTES_TA,
+        navLast: L.NAV_LAST, navWhich: L.NAV_WHICH, navNatal: L.NAV_NATAL, udaya: L.UDAYA,
         natalLagna: Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null,
       },
     },
