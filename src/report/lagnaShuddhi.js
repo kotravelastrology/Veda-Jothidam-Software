@@ -418,7 +418,7 @@ function lagnaVerdict(l, chosen, nv = null, va = null, visha = null, adverse = n
   }
   if (visha && visha[r('VISHANADI')]) reasons.push('VISHANADI');
   if (adverse && on('ADVERSE')) {
-    const skip = T.ADVERSE[r('ADVERSE')].skip ?? [];
+    const skip = [...(T.ADVERSE[r('ADVERSE')].skip ?? []), ...(T.ADVERSE[r('ADVERSE')].caution ?? [])];
     if (adverse.some((c) => !skip.includes(c))) reasons.push('ADVERSE');
   }
   if (eventCodes && on('EVENT') && eventCodes.some((c) => !c.endsWith('_MID'))) reasons.push('EVENT');

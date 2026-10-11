@@ -195,7 +195,8 @@ export default function MuhurtaStarsView() {
   }
   /** Shridhar's §13.10 combinations present under the chosen reading. */
   function adverseShown(x: any): string[] {
-    const skip: string[] = B.lagna.adverse[lagnaChosen().ADVERSE].skip ?? [];
+    const a = B.lagna.adverse[lagnaChosen().ADVERSE];
+    const skip: string[] = [...(a.skip ?? []), ...(a.caution ?? [])];
     return x.adverse.filter((c: string) => !skip.includes(c));
   }
 

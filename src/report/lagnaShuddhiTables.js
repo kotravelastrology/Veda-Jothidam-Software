@@ -67,7 +67,7 @@ const AVOID = deepFreeze({
 const PLACEMENTS = deepFreeze({
   default: 'SHRIDHAR',
   order: ['SHRIDHAR', 'WILHELM', 'MUHURTA_CHINTAMANI', 'RANGACHARYA', 'JOSHI'],
-  SHRIDHAR: { labelTa: 'ஸ்ரீதர் — விஸ்வ பலம் 11+, தீய இடம் ஒன்றுக்கு மேல் இல்லை', textTa: 'அட்டவணை 18.5: நல்ல இடத்தில் உள்ள கிரகத்தின் புள்ளிகள் (மொத்தம் 20). 16-20 சிறந்தது, 11-15 நடுத்தரம், 4-10 அவசரத்தில் மட்டும் — இங்கே விலக்கு. தீய இடத்தில் ஒரு கிரகம் "பரிகாரத்துடன் ஏற்கலாம்", ஒன்றுக்கு மேல் விலக்கு. ராகு/கேது தீய இடம் 1, 4, 7; லக்னாதிபதி 6, 8, 12.', booksTa: 'ஸ்ரீதர்', scoring: 'ADD', grades: [[16, 'BEST'], [11, 'MEDIUM'], [4, 'EMERGENCY']], pass: ['BEST', 'MEDIUM'], maxAvoid: 1 },
+  SHRIDHAR: { labelTa: 'ஸ்ரீதர் — விஸ்வ பலம் 4+ (4-10 கவனம்), தீய இடம் ஒன்றுக்கு மேல் இல்லை', textTa: 'அட்டவணை 18.5: நல்ல இடத்தில் உள்ள கிரகத்தின் புள்ளிகள் (மொத்தம் 20). 16-20 சிறந்தது, 11-15 நடுத்தரம், 4-10 "அவசரத்தில் மட்டும், கவனமாக" — ஏற்கப்பட்டு "கவனம்" எனக் குறிக்கப்படுகிறது (உரிமையாளர் முடிவு 2026-10-11); 4-க்குக் கீழ் விலக்கு. தீய இடத்தில் ஒரு கிரகம் "பரிகாரத்துடன் ஏற்கலாம்", ஒன்றுக்கு மேல் விலக்கு. ராகு/கேது தீய இடம் 1, 4, 7; லக்னாதிபதி 6, 8, 12.', booksTa: 'ஸ்ரீதர்', scoring: 'ADD', grades: [[16, 'BEST'], [11, 'MEDIUM'], [4, 'EMERGENCY']], pass: ['BEST', 'MEDIUM', 'EMERGENCY'], caution: ['EMERGENCY'], maxAvoid: 1 },
   WILHELM: { labelTa: 'வில்ஹெல்ம் — தீய இடம் ஒன்றும் இல்லை', textTa: 'சனி 12, செவ்வாய் 8, 10, சுக்கிரன் 6 (சிலர் 3-ம்), சந்திரனும் பாவரும் லக்னத்தில், சந்திரனும் லக்னாதிபதியும் 6, 8-ல், சுபர் 8-ல், எந்தக் கிரகமும் 7-ல் — இவை இல்லாமல். புள்ளிகள் இல்லை.', booksTa: 'வில்ஹெல்ம்', scoring: null, grades: [], pass: [], maxAvoid: 0 },
   MUHURTA_CHINTAMANI: { labelTa: 'முகூர்த்த சிந்தாமணி — தீய இடம் இல்லாமல், விம்சோபகம் 5+', textTa: 'ஸ்லோ.86-ன் தீய இடங்கள் இல்லாமல்; ஸ்லோ.87-88-ன் விம்சோபகம் 5-க்குக் கீழ் விலக்கு, 5-10 குறைவு, 10-15 நடுத்தரம், 15-20 சிறந்தது.', booksTa: 'முகூர்த்த சிந்தாமணி, அகர்வால் (அதே பட்டியல்)', scoring: 'ADD', grades: [[15, 'BEST'], [10, 'MEDIUM'], [5, 'LOW']], pass: ['BEST', 'MEDIUM', 'LOW'], maxAvoid: 0 },
   RANGACHARYA: { labelTa: 'ரங்காச்சார்யா — தீய இடத்தில் புள்ளி கழிவு, 5+', textTa: 'நல்ல இடத்தில் புள்ளி கூடும், தீய இடத்தில் அதே புள்ளி கழியும், மற்ற இடத்தில் இல்லை; 5-க்குக் கீழ் விலக்கு, 5-10 நடுத்தரம், 10-15 நன்று, 15-20 சிறப்பு.', booksTa: 'ரங்காச்சார்யா', scoring: 'PLUS_MINUS', grades: [[15, 'BEST'], [10, 'MEDIUM'], [5, 'LOW']], pass: ['BEST', 'MEDIUM', 'LOW'], maxAvoid: Infinity },
@@ -357,9 +357,26 @@ const SETTERS = Object.freeze(['Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'S
 const ADVERSE = deepFreeze({
   default: 'ALL',
   order: ['ALL', 'NO_OPINION'],
-  ALL: { labelTa: 'ஸ்ரீதர் §13.10 — கணிக்கக்கூடிய எல்லாம்', textTa: '(1, 13) லக்னாதிபதி அஸ்தங்கம், 6, 8, 12-ல், நீசம், பகை ராசியில், வக்கிரம்; (3) பிறந்த லக்னம் / ஜன்ம ராசிக்கு 8-ஆம் அதிபதியின் (பிறப்பில்) நவாம்ச ராசி முகூர்த்த லக்னமாக; (4) 8-ஆம் அதிபதி லக்னத்தில்; (5) லக்னத்திலோ உதய நவாம்சத்திலோ பாவர்; (6, 12) பிறந்த லக்னாதிபதி / ஜன்ம ராசியதிபதி அஸ்தங்கம் அல்லது வக்கிரம்; (7) லக்னத்திலோ உதய நவாம்சத்திலோ வக்கிர / அஸ்தங்கக் கிரகம் (புதன் அஸ்தங்கம் பரவாயில்லை); (8) லக்னத்தில் சந்திரன் — மேஷம், ரிஷபம், கடகம் தவிர; (9, 11) லக்னத்துக்கோ சந்திரனுக்கோ 8-ல் பாவர்; (10) சந்திரன் 6, 8, 12-ல்; (14) பிறந்த 6 / 8-ஆம் அதிபதி 1, 6, 8-ல்; (15) சித்ர கிரகம் லக்னத்தில் அல்லது அதைப் பார்க்க.', booksTa: 'ஸ்ரீதர் (பல முனிவர்கள் மேற்கோள்)' },
-  NO_OPINION: { labelTa: '"என்று கருதப்படுகிறது" தவிர', textTa: 'அதே, உருப்படி 8 (லக்னத்தில் சந்திரன் — "It is opined") இல்லாமல்.', booksTa: 'ஸ்ரீதர்', skip: ['MOON_IN_LAGNA'] },
+  ALL: { caution: ['NATAL_LORD_RETRO'], labelTa: 'ஸ்ரீதர் §13.10 — கணிக்கக்கூடிய எல்லாம்', textTa: '(1, 13) லக்னாதிபதி அஸ்தங்கம், 6, 8, 12-ல், நீசம், பகை ராசியில், வக்கிரம்; (3) பிறந்த லக்னம் / ஜன்ம ராசிக்கு 8-ஆம் அதிபதியின் (பிறப்பில்) நவாம்ச ராசி முகூர்த்த லக்னமாக; (4) 8-ஆம் அதிபதி லக்னத்தில்; (5) லக்னத்திலோ உதய நவாம்சத்திலோ பாவர்; (6, 12) பிறந்த லக்னாதிபதி / ஜன்ம ராசியதிபதி அஸ்தங்கம் அல்லது வக்கிரம்; (7) லக்னத்திலோ உதய நவாம்சத்திலோ வக்கிர / அஸ்தங்கக் கிரகம் (புதன் அஸ்தங்கம் பரவாயில்லை); (8) லக்னத்தில் சந்திரன் — மேஷம், ரிஷபம், கடகம் தவிர; (9, 11) லக்னத்துக்கோ சந்திரனுக்கோ 8-ல் பாவர்; (10) சந்திரன் 6, 8, 12-ல்; (14) பிறந்த 6 / 8-ஆம் அதிபதி 1, 6, 8-ல்; (15) சித்ர கிரகம் லக்னத்தில் அல்லது அதைப் பார்க்க.', booksTa: 'ஸ்ரீதர் (பல முனிவர்கள் மேற்கோள்)' },
+  NO_OPINION: { caution: ['NATAL_LORD_RETRO'], labelTa: '"என்று கருதப்படுகிறது" தவிர', textTa: 'அதே, உருப்படி 8 (லக்னத்தில் சந்திரன் — "It is opined") இல்லாமல்.', booksTa: 'ஸ்ரீதர்', skip: ['MOON_IN_LAGNA'] },
 });
+/** Shown as a caution, never rejecting (the owner, 2026-10-11): the birth lords retrograde — Saturn and Jupiter are, for months each year. */
+const ADVERSE_CAUTION_TA = 'பிறந்த லக்னாதிபதி / ராசியதிபதி வக்கிரம் — "கவனம்" மட்டும், விலக்கு அல்ல (உரிமையாளர் முடிவு 2026-10-11: சனி, குரு ஆண்டில் பல மாதங்கள் வக்கிரம்).';
+
+/**
+ * கட்டாயம் / விரும்பத்தக்கது (the owner, 2026-10-11): a MUST check rejects; a
+ * PREFER check is shown as a caution. Our rule for the defaults: a check three
+ * or more books state as a rejection is MUST; a check from one book only
+ * (the decanate, Shridhar §13.10) is PREFER; udaya-asta is PREFER for acts other
+ * than marriage (the owner). Every check's tier can be changed on the page.
+ */
+const TIERS = deepFreeze({
+  MARRIAGE: { PLACEMENTS: 'MUST', ASHTAMA: 'MUST', PDB: 'MUST', KARTARI: 'MUST', GANDANTA: 'MUST', BANA: 'MUST', NAV_LAST: 'MUST', NAV_WHICH: 'MUST', NAV_NATAL: 'MUST', UDAYA: 'MUST', SHADVARGA: 'MUST', DREKKANA: 'PREFER', VISHANADI: 'MUST', ADVERSE: 'PREFER' },
+  OTHER: { COMMON: 'MUST', ASHTAMA: 'MUST', PDB: 'MUST', KARTARI: 'MUST', GANDANTA: 'MUST', BANA: 'MUST', NAV_WHICH: 'MUST', UDAYA: 'PREFER', SHADVARGA: 'MUST', DREKKANA: 'PREFER', VISHANADI: 'MUST', ADVERSE: 'PREFER' },
+  GRIHA_PRAVESHA: { EVENT: 'MUST', ASHTAMA: 'MUST', PDB: 'MUST', KARTARI: 'MUST', GANDANTA: 'MUST', BANA: 'MUST', NAV_WHICH: 'MUST', UDAYA: 'PREFER', SHADVARGA: 'MUST', DREKKANA: 'PREFER', VISHANADI: 'MUST', ADVERSE: 'PREFER' },
+});
+const TIER_TA = Object.freeze({ MUST: 'கட்டாயம்', PREFER: 'விரும்பத்தக்கது' });
+const TIER_NOTE_TA = 'கட்டாயம் — பொருந்தாவிட்டால் விலக்கு; விரும்பத்தக்கது — "கவனம்" எனக் காட்டப்படும். இயல்பு: மூன்று அல்லது அதற்கு மேற்பட்ட நூல்கள் விலக்கச் சொல்பவை கட்டாயம்; ஒரே நூல் சொல்பவை (திரேக்காணம் — ஸ்ரீதர்; §13.10 — ஸ்ரீதர்) விரும்பத்தக்கவை; மற்ற காரியங்களுக்கு உதய-அஸ்த சுத்தி விரும்பத்தக்கது (உரிமையாளர் முடிவு). ஒவ்வொன்றையும் மாற்றலாம்.';
 const ADVERSE_TA = Object.freeze({
   LORD_SET: 'லக்னாதிபதி அஸ்தங்கம்', LORD_6_8_12: 'லக்னாதிபதி 6, 8, 12-ல்', LORD_DEBIL: 'லக்னாதிபதி நீசம்', LORD_ENEMY: 'லக்னாதிபதி பகை ராசியில்', LORD_RETRO: 'லக்னாதிபதி வக்கிரம்',
   NAV8_LORD: 'பிறந்த 8-ஆம் அதிபதியின் நவாம்ச ராசி லக்னம்', LORD8_IN_LAGNA: '8-ஆம் அதிபதி லக்னத்தில்', MALEFIC_RISING: 'லக்னம் / உதய நவாம்சத்தில் பாவர்',
@@ -533,6 +550,6 @@ module.exports = {
   MOVABLE, DUAL, NAV_LAST, NAV_WHICH, NAV_NATAL, UDAYA, ASPECTS,
   VARGA_BENEFICS, VARGAS, VARGA_TA, TRIMSAMSA, SHADVARGA, DREKKANA_MALEFIC, DREKKANA_NATURE, DREKKANA_TA, DREKKANA, VISHANADI, VARA_TA,
   UPACHAYA, KENDRA, BENEFIC_SIGNS, DEBILITATED, MALEFICS_SEVEN, COMMON, COMMON_WHY_TA, EVENTS, SCOPE, SCOPE_OUT_TA,
-  EXALTATION, MOVERS, SETTERS, ADVERSE, ADVERSE_TA,
+  EXALTATION, MOVERS, SETTERS, ADVERSE, ADVERSE_TA, ADVERSE_CAUTION_TA, TIERS, TIER_TA, TIER_NOTE_TA,
   RANK, SOURCES, NOTES_TA,
 };

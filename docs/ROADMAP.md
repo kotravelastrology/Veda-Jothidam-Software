@@ -102,6 +102,10 @@ Not plan items, but real, and they should not be discovered at release:
   It was in `.gitignore` yet still tracked; `git rm --cached` fixed that, but
   the history and the `backup/pre-env-strip` refs still hold it. The
   `JWT_SECRET_KEY` is a real 39-character secret and **must be rotated**.
+  Rotated 2026-10-11 in `backend/.env` (64 characters; the old one in history is
+  no longer used). `backend/models/database.py` signed with a hard-coded
+  fallback under another variable name (`JWT_SECRET`); it now uses
+  `JWT_SECRET_KEY` with no fallback. Any deployed copy needs the new secret too.
 - **The porutham tables: corrected 2026-09-30; one factor still unsourced.**
   The earlier port was wrong against *both* primary texts — Gana 12/5/10 (should
   be 9/9/9), Dina inverted, Rasi agreeing on 48 of 144 pairs, Yoni/Vasya/Vedha
