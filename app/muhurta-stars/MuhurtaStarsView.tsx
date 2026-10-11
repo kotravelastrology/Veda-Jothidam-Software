@@ -65,6 +65,8 @@ export default function MuhurtaStarsView() {
   const [dashaRule, setDashaRule] = useState('SIX_OF_TEN');
   const [lagnaReading, setLagnaReading] = useState<Record<string, string>>({});
   const [lagnaEvent, setLagnaEvent] = useState('MARRIAGE');
+  const [eventBook, setEventBook] = useState<Record<string, string>>({});
+  const [door, setDoor] = useState<string>('');
   const isMarriage = lagnaEvent === 'MARRIAGE';
   const [place, setPlace] = useState<{ name: string; latitude: string; longitude: string }>({ name: '', latitude: '', longitude: '' });
   const [eventPlace, setEventPlace] = useState<{ name?: string; latitude: number; longitude: number } | null>(null);
@@ -127,9 +129,30 @@ export default function MuhurtaStarsView() {
         if (lastGood && lastGood.toMs === x.fromMs) { lastGood.toMs = x.toMs; if (!lastGood.navs.includes(x.nv.nav)) lastGood.navs.push(x.nv.nav); } else g.good.push({ fromMs: x.fromMs, toMs: x.toMs, navs: [x.nv.nav], x, v });
       }
     }
-    const clear = counted.length === 0 && personal.length === 0 && !vain && tara !== 'REJECT' && chandra && !dasha.reject;
-    return { kicks, counted, personal, vain, tara, chandra, dasha, lagnas, clear, goodLagnas: clear ? lagnas.flatMap((g: any) => g.good.map((ok: any) => ({ ...ok, l: g.l }))) : [] };
+    const evStar = eventStarCodes(s);
+    const clear = counted.length === 0 && personal.length === 0 && !vain && tara !== 'REJECT' && chandra && !dasha.reject && !evStar.some(isReject);
+    return { kicks, counted, personal, vain, tara, chandra, dasha, lagnas, evStar, clear, goodLagnas: clear ? lagnas.flatMap((g: any) => g.good.map((ok: any) => ({ ...ok, l: g.l }))) : [] };
   };
+
+  // An event with its own rules (eventMuhurtaTables.js): the chosen book's codes, with the door's rules.
+  const isReject = (c: string) => !c.endsWith('_MID');
+  const evName: string | undefined = B?.lagna.events[lagnaEvent]?.event;
+  const evRule = evName ? B.lagna.eventRules[evName][eventBook[evName] ?? B.lagna.eventRules[evName].default] : null;
+  const evBookId = evName ? (eventBook[evName] ?? B.lagna.eventRules[evName].default) : null;
+  const inPaksha = (t: number) => ((t - 1) % 15) + 1;
+  /** The same rules as `withDoorStars` and `doorCodes` (eventMuhurta.js). */
+  function eventStarCodes(s: any): string[] {
+    if (!evName) return [];
+    let codes: string[] = s.ev[evName][evBookId!];
+    if (door && evRule.digdwar && B.lagna.doors.stars[door].includes(s.star)) codes = codes.filter((c) => c !== 'NAK' && c !== 'NAK_MID');
+    if (door && evRule.tithiDoor && !B.lagna.doors.tithi[door].includes(inPaksha(s.tithi))) codes = [...codes, 'TITHI_DOOR'];
+    return codes;
+  }
+  function eventLagnaCodes(x: any): string[] {
+    if (!evName) return [];
+    const codes: string[] = x.ev[evName][evBookId!];
+    return door && evRule.sunLeft && !B.lagna.doors.sun[door].includes(x.ev.sunHouse) ? [...codes, 'SUN_LEFT'] : codes;
+  }
 
   /** A stretch with its two table entries and its times. */
   function stretchOf(raw: number[]) {
@@ -140,7 +163,7 @@ export default function MuhurtaStarsView() {
       l: result.lagnaTable[r], nv: result.navamsaTable[n], va: result.vargaTable[v],
       gandanta: { MINUTES_12: Boolean(g & 1), DEGREES_3: Boolean(g & 2) }, banaMrityu: Boolean(b),
       visha: { WILHELM: Boolean(w & 1), DEGREES: Boolean(w & 2), AGARWAL_DAYS: Boolean(w & 4), HALF_GHATI: Boolean(w & 8) },
-      vara: d, adverse: result.adverseTable[a] as string[],
+      vara: d, adverse: result.adverseTable[a] as string[], ev: result.eventTable[raw[10]],
     };
   }
   const isoOf = (ms: number) => new Date(ms).toISOString();
@@ -167,6 +190,7 @@ export default function MuhurtaStarsView() {
     if (x.va.drekkana.readings[R.DREKKANA]) reasons.push('DREKKANA');
     if (x.visha[R.VISHANADI]) reasons.push('VISHANADI');
     if (on('ADVERSE') && adverseShown(x).length) reasons.push('ADVERSE');
+    if (on('EVENT') && eventLagnaCodes(x).some(isReject)) reasons.push('EVENT');
     return { ok: reasons.length === 0, reasons, pl };
   }
   /** Shridhar's §13.10 combinations present under the chosen reading. */
@@ -201,7 +225,7 @@ export default function MuhurtaStarsView() {
   };
 
   /** Reasons that change within a sign (navamsa, vargas, poison portions) rather than with the sign. */
-  const isPartReason = (r: string) => r.startsWith('NAV_') || ['UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'].includes(r);
+  const isPartReason = (r: string) => r.startsWith('NAV_') || ['UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE', 'EVENT'].includes(r);
 
   /** Why a lagna stretch is left, in a few words; `signOnly` leaves out the reasons that change within the sign. */
   const lagnaWhy = (x: any, v: any, signOnly = false) => {
@@ -210,6 +234,7 @@ export default function MuhurtaStarsView() {
     return v.reasons.filter((r: string) => !signOnly || !isPartReason(r)).map((r: string) => {
       if (r === 'COMMON') return l.common[R.COMMON].map((c: string) => B.lagna.commonWhyTa[c]).join(', ');
       if (r === 'ADVERSE') return adverseShown(x).map((c: string) => B.lagna.adverseTa[c]).join(', ');
+      if (r === 'EVENT') return eventLagnaCodes(x).filter(isReject).map((c: string) => B.lagna.eventCodeTa[c.replace(/_\d+$/, '')] ?? B.lagna.eventCodeTa[c] ?? c).join(', ');
       if (r === 'NAV_LAST') return nv.last[R.NAV_LAST].map((k: string) => NAV_REASON_TA[k]).join(', ');
       if (r === 'NAV_WHICH') return `${RASI_TA[nv.nav]} நவாம்சம்`;
       if (r === 'NAV_NATAL') return nv.natal[R.NAV_NATAL].map((k: any) => (typeof k === 'string' ? NAV_REASON_TA[k] : `நவாம்சம் ${k.from === 'LAGNA' ? 'பிறந்த லக்னத்துக்கு' : 'ஜன்ம ராசிக்கு'} ${k.house}`)).join(', ');
@@ -386,6 +411,14 @@ export default function MuhurtaStarsView() {
               </details>
               <Switch label="லக்ன சுத்தி — நிகழ்ச்சி" value={lagnaEvent} onChange={setLagnaEvent}
                 options={B.lagna.events.order.map((id: string) => [id, `${B.lagna.events[id].labelTa}${id === B.lagna.events.default ? ' (இயல்பு)' : ''}`])} />
+              {evName && (
+                <>
+                  <Switch label={`${B.lagna.eventRules[evName].labelTa} — நூல்`} value={evBookId!} onChange={(v) => setEventBook({ ...eventBook, [evName]: v })}
+                    options={B.lagna.eventRules[evName].order.map((id: string) => [id, `${B.lagna.eventRules[evName][id].labelTa}${id === B.lagna.eventRules[evName].default ? ' (இயல்பு)' : ''}`])} />
+                  <Switch label="வாசல் திசை" value={door} onChange={setDoor}
+                    options={[['', 'தேர்வு இல்லை'], ...B.lagna.doors.order.map((d: string) => [d, B.lagna.doors.ta[d]])] as [string, string][]} />
+                </>
+              )}
               <details className="mb-1">
                 <summary className="cursor-pointer text-[11px] text-ink-soft">லக்ன சுத்தி — வாசிப்புகள்</summary>
                 <div className="mt-1">
@@ -417,7 +450,13 @@ export default function MuhurtaStarsView() {
                           {hm(s.fromUtc)} – {local(s.toUtc).slice(0, 10) === d ? hm(s.toUtc) : local(s.toUtc).slice(5)}
                           {s.current && <span className="block font-sans text-amber-800">இப்போது</span>}
                         </td>
-                        <td className={`py-1 pr-2 ${j.clear ? 'text-teal' : 'text-ink'}`}>{s.starTa} {s.pada}{j.clear && <span className="block text-[11px]">தடை இல்லை</span>}</td>
+                        <td className={`py-1 pr-2 ${j.clear ? 'text-teal' : 'text-ink'}`}>{s.starTa} {s.pada}{j.clear && <span className="block text-[11px]">தடை இல்லை</span>}
+                          {evName && (
+                            <span className="block text-[11px] text-ink-soft">{B.lagna.monthTa[s.month] ?? '—'} மாதம்
+                              {j.evStar.length > 0 && <span className={j.evStar.some(isReject) ? 'text-rose' : 'text-amber-700'}> · {j.evStar.map((c: string) => B.lagna.eventCodeTa[c] ?? c).join(', ')}</span>}
+                            </span>
+                          )}
+                        </td>
                         <td className="py-1 pr-2">
                           {j.kicks.length === 0 && <span className="text-ink-soft">—</span>}
                           {j.kicks.map((h: any) => {
@@ -619,6 +658,52 @@ export default function MuhurtaStarsView() {
             )}
             <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-2 space-y-0.5">{B.lagna.notesTa.GENERAL.map((n: string) => <li key={n}>{n}</li>)}</ul>
           </section>
+
+          {evName && (() => {
+            const ER = B.lagna.eventRules[evName];
+            const stars = (xs: number[]) => xs.map((i) => B.lagna.starTa[i]).join(', ');
+            const tithiTa = (t: number) => (t === 15 ? 'பௌர்ணமி' : t === 30 ? 'அமாவாசை' : t < 15 ? `வளர் ${t}` : `தேய் ${t - 15}`);
+            const rasis = (xs: number[]) => xs.map((i) => RASI_TA[i]).join(', ');
+            const days = (xs: number[]) => xs.map((i) => B.lagna.varaTa[i]).join(', ');
+            const months = (xs: number[]) => xs.map((i) => B.lagna.monthTa[i]).join(', ');
+            return (
+              <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+                <h2 className="text-sm font-semibold text-ink mb-1">{ER.labelTa} — நூல்களின் தனி விதிகள்</h2>
+                <p className="text-[11px] text-ink-soft">வரிசை: {B.lagna.eventRank[evName].measureTa}</p>
+                {ER.order.map((id: string) => {
+                  const r = ER[id];
+                  return (
+                    <details key={id} className="mt-2 text-xs" open={id === evBookId}>
+                      <summary className="cursor-pointer font-semibold text-ink">{r.labelTa}{id === ER.default ? ' (இயல்பு)' : ''}{id === evBookId ? ' ← தேர்ந்தது' : ''}</summary>
+                      <ul className="mt-1 space-y-0.5 text-ink">
+                        {r.masa && <li>மாதம்: {months(r.masa.good)}{r.masa.mid.length > 0 && <> · நடுத்தரம் {months(r.masa.mid)}</>}{!r.masa.strict && ' (விருப்பம்)'}</li>}
+                        {r.uttarayana && <li>உத்தராயணம்: {r.uttarayana === 'REQUIRED' ? 'வேண்டும்' : 'விருப்பம்'}</li>}
+                        {r.nak && <li>நட்சத்திரம்: {stars(r.nak.good)}{r.nak.mid.length > 0 && <> · நடுத்தரம் {stars(r.nak.mid)}</>}{r.digdwar && ' · வாசலை நோக்கியவையும்'}</li>}
+                        {r.tithi && <li>திதி: {r.tithi.length >= 23 ? `${30 - r.tithi.length} தவிர மற்றவை (${[...Array(30).keys()].map((i) => i + 1).filter((t) => !r.tithi.includes(t)).map(tithiTa).join(', ')} இல்லை)` : r.tithi.map(tithiTa).join(', ')}{r.tithiDoor && ' · வாசல் திசைக்கு உரிய வகை'}</li>}
+                        {r.vara && <li>கிழமை: {days(r.vara.good)}{r.vara.mid.length > 0 && <> · நடுத்தரம் {days(r.vara.mid)}</>}</li>}
+                        {r.lagna && <li>லக்னம்: {rasis(r.lagna.good)}{r.lagna.mid.length > 0 && <> · நடுத்தரம் {rasis(r.lagna.mid)}</>}
+                          {r.lagna.alt && <> · அல்லது {r.lagna.alt.from === 'MOON' ? 'ஜன்ம ராசியிலிருந்து' : 'பிறந்த லக்னம் / ஜன்ம ராசியிலிருந்து'} {r.lagna.alt.houses.join(', ')}-ஆம் ராசி{r.lagna.alt.notMovable && ' (சர ராசி அல்லாமல்)'}</>}
+                          {r.lagna.movable === 'NAV_TAURUS' && ' · சர ராசி ரிஷப நவாம்சத்துடன் மட்டும்'}
+                          {r.lagna.movable === 'BENEFIC_NAV_AND_UPACHAYA' && ' · சர ராசி சுப நவாம்சத்துடன், பிறப்பிலிருந்து 3, 6, 10, 11 எனில்'}</li>}
+                        {r.nav && <li>நவாம்சம்: சுபருடையது</li>}
+                        {(r.empty || r.emptyPref) && <li>காலி வீடுகள்: {(r.empty ?? []).join(', ')}{r.emptyPref && <> · விருப்பம் {r.emptyPref.join(', ')}</>}</li>}
+                        {r.beneficIn && <li>சுபர் (புதன், குரு, சுக்கிரன்): {r.beneficIn.join(', ')}-ல்</li>}
+                        {r.maleficIn && <li>பாவர் (சூரியன், செவ்வாய், சனி): {r.maleficIn.join(', ')}-ல்</li>}
+                        {r.beneficKendra && <li>கேந்திரத்தில் ஒரு சுபர்</li>}
+                        {r.moonNot && <li>சந்திரன் {r.moonNot.join(', ')}-ல் கூடாது</li>}
+                        {r.jupVenNotSet && <li>குரு, சுக்கிரன் அஸ்தங்கம் கூடாது</li>}
+                        {r.kumbha && <li>கும்ப சக்கரம்: சூரியனின் நட்சத்திரம் முதலாக எண்ணி {r.kumbha.join(', ')}-ஆவது நல்லவை</li>}
+                        {r.sunLeft && <li>சூரியன் "இடப்புறம்" (வாசல் திசைப்படி)</li>}
+                      </ul>
+                      <Cites list={[B.lagna.eventSources[evName][id]]} />
+                    </details>
+                  );
+                })}
+                <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-2 space-y-0.5">{B.lagna.eventNotesTa[evName].map((n: string) => <li key={n}>{n}</li>)}</ul>
+                <Cites list={B.lagna.eventSources.MONTHS} />
+              </section>
+            );
+          })()}
 
           <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
             <h2 className="text-sm font-semibold text-ink mb-1">இவருக்கு மட்டும் — நூல்கள்</h2>

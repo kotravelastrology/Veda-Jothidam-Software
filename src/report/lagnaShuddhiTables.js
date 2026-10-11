@@ -374,9 +374,11 @@ const ADVERSE_TA = Object.freeze({
  */
 const EVENTS = deepFreeze({
   default: 'MARRIAGE',
-  order: ['MARRIAGE', 'OTHER'],
+  order: ['MARRIAGE', 'OTHER', 'GRIHA_PRAVESHA'],
   MARRIAGE: { labelTa: 'திருமணம்', checks: ['PLACEMENTS', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: {} },
   OTHER: { labelTa: 'மற்ற சுப காரியம்', checks: ['COMMON', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_WHICH', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: { NAV_WHICH: ['BENEFIC_LORD'], UDAYA: ['ANY_OF_FOUR'] } },
+  // An event with its own rules (eventMuhurtaTables.js): those take the general rule's place.
+  GRIHA_PRAVESHA: { labelTa: 'கிரகப்பிரவேசம்', checks: ['EVENT', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_WHICH', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: { NAV_WHICH: ['BENEFIC_LORD'], UDAYA: ['ANY_OF_FOUR'] }, event: 'GRIHA_PRAVESHA' },
 });
 
 const RANK_ADVERSE = {

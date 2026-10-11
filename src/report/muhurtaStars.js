@@ -33,6 +33,8 @@ const { marriageDoshasOf, dashaVerdict, banaOf, PLANETS: DOSHA_PLANETS } = requi
 const L = require('./lagnaShuddhiTables');
 const { lagnaShuddhiOf, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf, adverseOf } = require('./lagnaShuddhi');
 const { combustionOrb } = require('./phaladeepikaGocharaTables');
+const EV = require('./eventMuhurtaTables');
+const { piecesCodesOf, stretchCodesOf } = require('./eventMuhurta');
 
 const DAY_MS = 86400000;
 const JD_UNIX_EPOCH = 2440587.5;
@@ -230,11 +232,13 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
   const navTable = tableOf();
   const vargaTable = tableOf();
   const advTable = tableOf();
+  const evTable = tableOf();
 
   // A stretch is an array [f, t, r, n, v, g, b, w, d]: seconds from the period's start (f, t), the
   // three tables' entries (r, n, v), the Gandanta flags (g: 1 the 12 minutes, 2 the 3°), Mrityu
   // Bana by tithi and lagna (b), the poison portions (w: 1 Wilhelm's, 2 the degrees, 4 Agarwal's
-  // days, 8 the half ghati), the weekday (d, 0 = Sunday) and Shridhar's §13.10 combinations (a, `advTable`).
+  // days, 8 the half ghati), the weekday (d, 0 = Sunday), Shridhar's §13.10 combinations (a, `advTable`)
+  // and each event's own lagna and weekday codes (e, `eventTable`).
   const stretchesOf = (piece) => {
     const cuts = [piece.fromMs, ...marks.filter((ms) => ms > piece.fromMs && ms < piece.toMs), piece.toMs];
     const out = [];
@@ -278,15 +282,22 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
           lagna: sign, d3: vi.d3, nav: n108 % 12, signs: piece.signs, navSigns, moonN108, ...motionAt(mid),
           natalLagna, natalMoon: natalMoonSign, natalNav8,
         })),
+        // Each event's own rules for this stretch, book by book, and the Sun's house (for the door).
+        e: evTable.ref({
+          sunHouse: ((piece.signs.Sun - sign + 12) % 12) + 1,
+          ...Object.fromEntries(EV.EVENTS.order.map((ev) => [ev, stretchCodesOf(ev, {
+            lagna: sign, nav: n108 % 12, signs: piece.signs, natalLagna, natalMoon: natalMoonSign, combust: motionAt(mid).combust,
+          }, varaAt(mid))])),
+        }),
       };
       const sig = JSON.stringify(entry);
       const last = out[out.length - 1];
       if (last && last.sig === sig && last.toMs === a) { last.toMs = b; continue; }
       out.push({ sig, fromMs: a, toMs: b, entry });
     }
-    return out.map((x) => [Math.round((x.fromMs - fromMs) / 1000), Math.round((x.toMs - fromMs) / 1000), x.entry.r, x.entry.n, x.entry.v, x.entry.g, x.entry.b, x.entry.w, x.entry.d, x.entry.a]);
+    return out.map((x) => [Math.round((x.fromMs - fromMs) / 1000), Math.round((x.toMs - fromMs) / 1000), x.entry.r, x.entry.n, x.entry.v, x.entry.g, x.entry.b, x.entry.w, x.entry.d, x.entry.a, x.entry.e]);
   };
-  return { stretchesOf, table: table.all, navTable: navTable.all, vargaTable: vargaTable.all, advTable: advTable.all };
+  return { stretchesOf, table: table.all, navTable: navTable.all, vargaTable: vargaTable.all, advTable: advTable.all, evTable: evTable.all };
 }
 
 /** The lagna's lord and the 10th lord: friends both ways (BPHS natural), or one planet. */
@@ -404,6 +415,11 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
     .filter((s) => !s.openEnd && D.PAATA_YOGAS.includes(s.key))
     .map((s) => ({ yoga: s.key, atMs: s.toMs - 30000, moonPada: padaOf(lon('Moon', s.toMs - 30000)) }));
   const passageAt = (ms) => passages.find((p) => p.fromMs <= ms && ms < p.toMs);
+  // The lunar month (amanta): from each new moon, named by the Sun's sign then (Chaitra with the Sun in Pisces).
+  const newMoons = scanKey(fromMs - 32 * DAY_MS, toMs, keyFns.tithi, steps.tithi * DAY_MS)
+    .filter((s) => s.key === 0 && !s.openStart)
+    .map((s) => ({ ms: s.fromMs, month: (Math.floor(lon('Sun', s.fromMs) / 30) + 1) % 12 }));
+  const monthAt = (ms) => newMoons.filter((n) => n.ms <= ms).pop()?.month ?? null;
 
   const pieces = [];
   for (let i = 0; i + 1 < cuts.length; i += 1) {
@@ -437,11 +453,15 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
       tithi,
       paataEnds: paataEnds.filter((e) => passage && passage.fromMs <= e.atMs && e.atMs < passage.toMs).map(({ yoga, moonPada: mp }) => ({ yoga, moonPada: mp })),
     });
-    const sig = JSON.stringify([moonPada, latta, personal, tara.n, tara.cycle, chandra, taraVerdicts, doshas]);
+    // The month, the Sun's sign and star, and each event's panchanga codes.
+    const month = monthAt(mid);
+    const sunStar = Math.floor(kickerPadas.Sun / 4);
+    const ev = Object.fromEntries(EV.EVENTS.order.map((e) => [e, piecesCodesOf(e, { star, tithi, month, sunSign: planetSigns.Sun, sunStar })]));
+    const sig = JSON.stringify([moonPada, latta, personal, tara.n, tara.cycle, chandra, taraVerdicts, doshas, tithi, month, sunStar]);
     const last = pieces[pieces.length - 1];
     if (last && last.sig === sig && last.toMs === a) { last.toMs = b; last.tara.to = tara.to; continue; }
     const signs = { ...planetSigns, Moon: Math.floor(moonPada / 9) };
-    pieces.push({ sig, fromMs: a, toMs: b, moonPada, latta, personal, tara, chandra, taraVerdicts, chandraBala, tithi, doshas, signs });
+    pieces.push({ sig, fromMs: a, toMs: b, moonPada, latta, personal, tara, chandra, taraVerdicts, chandraBala, tithi, doshas, signs, month, sunStar, ev });
   }
 
   const lagnasFor = lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType, natalLagnaLongitude, natalMoonSign: natalSign, natalLongitudes });
@@ -465,6 +485,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
     chandra: p.chandra,
     chandraBala: p.chandraBala,
     tithi: p.tithi,
+    month: p.month, sunStar: p.sunStar, sunSign: p.signs.Sun, ev: p.ev,
     doshas: compactDoshas(p.doshas, lagnaTable),
     remedy88: p.personal.PADA_88 ? remedyFor(p.fromMs, p.toMs) : null,
     lagnas: lagnasFor ? lagnasFor.stretchesOf(p) : null,
@@ -503,6 +524,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
     navamsaTable: lagnasFor ? lagnasFor.navTable() : [],
     vargaTable: lagnasFor ? lagnasFor.vargaTable() : [],
     adverseTable: lagnasFor ? lagnasFor.advTable() : [],
+    eventTable: lagnasFor ? lagnasFor.evTable() : [],
     books: {
       lattaRank: T.LATTA_RANK, personalRank: T.PERSONAL_RANK, bookTa: T.BOOK_TA,
       rahu: T.RAHU_DIRECTION, padaRules: T.PADA_RULES, lattaSources: T.LATTA_SOURCES, lattaEffects: T.LATTA_EFFECTS,
@@ -525,6 +547,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
         shadvarga: L.SHADVARGA, drekkana: L.DREKKANA, vishanadi: L.VISHANADI, vargaTa: L.VARGA_TA, vargas: L.VARGAS, varaTa: L.VARA_TA, drekkanaTa: L.DREKKANA_TA,
         common: L.COMMON, commonWhyTa: L.COMMON_WHY_TA, events: L.EVENTS, scope: L.SCOPE, scopeOutTa: L.SCOPE_OUT_TA,
         adverse: L.ADVERSE, adverseTa: L.ADVERSE_TA,
+        eventRules: EV.EVENTS, doors: EV.DOORS, monthTa: EV.MONTH_TA, starTa: NAKSHATRA_TA, eventRank: EV.RANK, eventSources: EV.SOURCES, eventCodeTa: EV.CODE_TA, eventNotesTa: EV.NOTES_TA,
         natalLagna: Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null,
       },
     },

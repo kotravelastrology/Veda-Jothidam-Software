@@ -10,6 +10,8 @@ export interface MuhurtaSearchQuery {
   latitude: number;
   longitude: number;
   utcOffsetMinutes: number;
+  /** For a purpose with rules from the books: which book's reading (the most explaining one when omitted). */
+  book?: string;
 }
 
 export async function computeMuhurtaSearch(q: MuhurtaSearchQuery) {

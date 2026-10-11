@@ -4,6 +4,7 @@ const path = require('node:path');
 const T = require('./src/report/lagnaShuddhiTables');
 const { lagnaShuddhiOf, lagnaVerdict, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf, sees, pointsOf, placementsOf, ashtamaOf, pdbOf, kartariOf, commonOf, adverseOf, houseOf } = require('./src/report/lagnaShuddhi');
 const { combustionOrb } = require('./src/report/phaladeepikaGocharaTables');
+const { stretchCodesOf } = require('./src/report/eventMuhurta');
 const { muhurtaStarChecks } = require('./src/report/muhurtaStars');
 const { planetLongitude, nodeLongitude, sunriseJulianDay, sunsetJulianDay } = require('./src/ephemeris/siderealPositions');
 const { siderealAscendant } = require('./src/ephemeris/swissEphemeris');
@@ -485,6 +486,11 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
         natalLagna: sign(natalLagna), natalMoon: sign(natalMoon), natalNav8,
       });
       assert.deepEqual(plain(r.adverseTable[arr[9]]), advWant, `§13.10 ${x.fromUtc}`);
+      // Each event's own lagna and weekday codes.
+      assert.deepEqual(plain(r.eventTable[arr[10]]), {
+        sunHouse: houseOf(signs.Sun, lg),
+        GRIHA_PRAVESHA: stretchCodesOf('GRIHA_PRAVESHA', { lagna: lg, nav: n108 % 12, signs, natalLagna: sign(natalLagna), natalMoon: sign(natalMoon), combust: combustAt }, vara),
+      }, `event ${x.fromUtc}`);
       n += 1;
     }
   }

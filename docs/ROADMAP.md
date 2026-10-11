@@ -240,7 +240,10 @@ Not plan items, but real, and they should not be discovered at release:
   MC sloka 2/44 both ways, Shridhar's either way, Varahamihira, Agarwal,
   Raman) and only the checks a book states for every act. Shridhar's §13.10
   adverse combinations added the same day for both kinds of event (lagna
-  lord, birth lords' motion, the 8th, Chhidra grahas). Each event's own lagna
-  rules are not built.
+  lord, birth lords' motion, the 8th, Chhidra grahas). Each event's own rules
+  begun the same day (`docs/EVENT-MUHURTA.md`): entering a new house in nine
+  books (Shridhar first), on `/muhurta-stars` with the door's direction and on
+  a rebuilt `/muhurta` (unsourced purposes now say SOURCE REQUIRED). Upanayana,
+  travel and the other events are next.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

@@ -1,0 +1,29 @@
+{
+  "_about": "Transcribed 2026-10-11 from the page images: entering a new house (griha pravesha). Stars 0 = Ashwini; tithis 1-30 (16 = Krishna 1); weekdays 0 = Sunday; months 0 = Chaitra; signs 0 = Aries.",
+  "words": { "SHRIDHAR": 2136, "MUHURTA_CHINTAMANI": 1329, "WILHELM": 1252, "RAMAN": 711, "JOSHI": 632, "KALYANRAMAN": 587, "RANGACHARYA": 411, "VASHISTHA": 259, "AGARWAL": 74 },
+  "default": "SHRIDHAR",
+  "mcSloka13_1": "सौम्यायने ज्येष्ठतपोऽन्त्यमाधवे यात्रानिवृत्तौ नृपतेर्नव गृहे । स्याद्वेशनं द्वाःस्थमृदुध्रुवोडुभिर्जन्मर्क्षलग्नोपचयोदये स्थिरे",
+  "months_best_all": [1, 2, 10, 11],
+  "stars": {
+    "SHRIDHAR": [3, 11, 20, 25, 4, 13, 16, 26, 22, 23],
+    "MUHURTA_CHINTAMANI": [3, 11, 20, 25, 4, 13, 16, 26],
+    "WILHELM_best": [3, 4, 11, 16, 20, 25, 26], "WILHELM_middling": [6, 7, 12, 21, 23, 13],
+    "RAMAN_best": [3, 4, 20, 13, 25], "RAMAN_permissible": [16, 26],
+    "KALYANRAMAN_counted": [3, 4, 11, 13, 16, 20, 25, 26],
+    "RANGACHARYA": [13, 16, 22, 11, 20, 25, 26, 23, 3, 4],
+    "VASHISTHA_as_printed": [8, 3, 4, 6, 7, 11, 20, 25, 12, 13, 14, 16, 21, 22, 23, 26],
+    "AGARWAL": [3, 4, 13, 16, 26, 11, 20, 25]
+  },
+  "tithis": {
+    "SHRIDHAR": [16, 2, 3, 5, 10, 13, 15],
+    "WILHELM": [16, 2, 3, 5, 7, 10, 17, 18, 20, 22, 25, 11, 13],
+    "RAMAN": [16, 2, 3, 5, 7, 10, 11, 13],
+    "VASHISTHA": [16, 2, 3, 5, 7, 10, 11, 13],
+    "JOSHI_paksha": [2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15],
+    "AGARWAL_paksha": [2, 3, 5, 6, 7, 10, 11, 13],
+    "MC_avoid": [4, 9, 14, 19, 24, 29, 30]
+  },
+  "weekdays": { "SHRIDHAR_good": [3, 4, 5], "SHRIDHAR_middling": [6, 1], "MC_avoid": [0, 2], "WILHELM_best": [1, 3, 4, 5], "WILHELM_mediocre": [6] },
+  "kumbhaGood_MC": [6, 7, 8, 9, 10, 11, 12, 13, 22, 23, 24, 25, 26, 27],
+  "doors": { "E": { "tithi": [5, 10, 15], "sun": [8, 9, 10, 11, 12] }, "S": { "tithi": [1, 6, 11], "sun": [5, 6, 7, 8, 9] }, "W": { "tithi": [2, 7, 12], "sun": [2, 3, 4, 5, 6] }, "N": { "tithi": [3, 8, 13], "sun": [11, 12, 1, 2, 3] } }
+}

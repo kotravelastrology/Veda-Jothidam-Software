@@ -390,9 +390,9 @@ function adverseOf(m) {
 /**
  * The lagna's verdict under the chosen readings (the page uses the same rule). `nv` is the navamsa's,
  * `va` the shadvarga with its decanate ({ ...shadvargaOf, drekkana: drekkanaOf }), `visha` vishanadiOf,
- * `adverse` adverseOf — each when given.
+ * `adverse` adverseOf, `eventCodes` the chosen book's codes for an event with its own rules — each when given.
  */
-function lagnaVerdict(l, chosen, nv = null, va = null, visha = null, adverse = null) {
+function lagnaVerdict(l, chosen, nv = null, va = null, visha = null, adverse = null, eventCodes = null) {
   const event = T.EVENTS[chosen.EVENT ?? T.EVENTS.default];
   const on = (k) => event.checks.includes(k);
   // A reading the event does not take falls back to the first it does.
@@ -421,6 +421,7 @@ function lagnaVerdict(l, chosen, nv = null, va = null, visha = null, adverse = n
     const skip = T.ADVERSE[r('ADVERSE')].skip ?? [];
     if (adverse.some((c) => !skip.includes(c))) reasons.push('ADVERSE');
   }
+  if (eventCodes && on('EVENT') && eventCodes.some((c) => !c.endsWith('_MID'))) reasons.push('EVENT');
   return { ok: reasons.length === 0, reasons };
 }
 

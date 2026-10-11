@@ -9,14 +9,23 @@
  * qualifying day's auspicious Gowri windows are returned as the muhurta
  * candidates.
  *
- * Tables: classical muhurta convention (Muhurta Chintamani / B. V. Raman
- * "Muhurtha") — the favourable nakshatras/tithis/weekdays each activity is
- * commonly assigned. General guidance; a full election also weighs Tara/
- * Chandra bala and lagna purification, not modelled here.
+ * Tables (rebuilt 2026-10-11): an event whose rules have been read from the
+ * books (eventMuhurtaTables.js — entering a new house, nine books) is judged
+ * by the chosen book's reading at sunrise: month, Uttarayana, star, tithi,
+ * weekday, the Kumbha chakra. The other purposes' lists below were never
+ * sourced: for them the days carry their panchanga but no verdict —
+ * "ஆதாரம் தேவை / SOURCE REQUIRED". The lagna, tara and chandra bala are on
+ * /muhurta-stars.
  */
 const { julianDay } = require('@swisseph/node');
 const { sunriseJulianDay, sunMoonLongitudes, siderealAscendant } = require('../ephemeris/siderealPositions');
 const { calculateDailyMuhurta } = require('./dailyMuhurta');
+const EV = require('./eventMuhurtaTables');
+const { panchangaCodes, varaCodes, rejects } = require('./eventMuhurta');
+
+/** Purposes with rules read from the books, and their event. */
+const SOURCED = Object.freeze({ griha: 'GRIHA_PRAVESHA' });
+const SOURCE_REQUIRED_TA = 'ஆதாரம் தேவை / SOURCE REQUIRED — இந்தக் காரியத்தின் விதிகள் நூல்களிலிருந்து இன்னும் கட்டப்படவில்லை';
 
 const NAKSHATRAS = [
   'Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu',
@@ -31,58 +40,42 @@ const TITHI_NAMES = [
 ];
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+/**
+ * The purposes. Their old star / tithi / weekday lists ("classical convention")
+ * had no page behind them and were removed 2026-10-11; a purpose's rules come
+ * from eventMuhurtaTables.js once read from the books (SOURCED).
+ */
 const PURPOSES = {
-  marriage: {
-    label: 'திருமணம்',
-    goodNak: ['Rohini', 'Mrigashira', 'Magha', 'Uttara Phalguni', 'Hasta', 'Swati', 'Anuradha', 'Mula', 'Uttara Ashadha', 'Uttara Bhadrapada', 'Revati'],
-    avoidNak: ['Bharani', 'Krittika', 'Ashlesha', 'Vishakha', 'Jyeshtha'],
-    avoidTithi: ['Chaturthi', 'Shashthi', 'Ashtami', 'Navami', 'Dwadashi', 'Chaturdashi', 'Amavasya'],
-    goodWeekday: ['Monday', 'Wednesday', 'Thursday', 'Friday'],
-  },
-  business: {
-    label: 'வியாபாரம் தொடங்குதல்',
-    goodNak: ['Ashwini', 'Pushya', 'Punarvasu', 'Hasta', 'Chitra', 'Anuradha', 'Uttara Phalguni', 'Uttara Ashadha', 'Uttara Bhadrapada', 'Shravana', 'Dhanishtha', 'Revati'],
-    avoidNak: ['Bharani', 'Ashlesha', 'Magha', 'Mula', 'Jyeshtha'],
-    avoidTithi: ['Chaturthi', 'Navami', 'Chaturdashi', 'Amavasya', 'Purnima'],
-    goodWeekday: ['Monday', 'Wednesday', 'Thursday', 'Friday'],
-  },
-  travel: {
-    label: 'பயணம்',
-    goodNak: ['Ashwini', 'Mrigashira', 'Punarvasu', 'Pushya', 'Hasta', 'Anuradha', 'Shravana', 'Dhanishtha', 'Revati'],
-    avoidNak: ['Krittika', 'Ashlesha', 'Magha', 'Vishakha', 'Jyeshtha', 'Mula'],
-    avoidTithi: ['Chaturthi', 'Navami', 'Chaturdashi', 'Amavasya'],
-    goodWeekday: ['Monday', 'Wednesday', 'Thursday', 'Friday'],
-  },
-  griha: {
-    label: 'கிரகப்பிரவேசம்',
-    goodNak: ['Rohini', 'Mrigashira', 'Uttara Phalguni', 'Hasta', 'Chitra', 'Swati', 'Anuradha', 'Uttara Ashadha', 'Uttara Bhadrapada', 'Dhanishtha', 'Shatabhisha', 'Revati'],
-    avoidNak: ['Bharani', 'Krittika', 'Ashlesha', 'Magha', 'Mula', 'Jyeshtha'],
-    avoidTithi: ['Chaturthi', 'Navami', 'Chaturdashi', 'Amavasya', 'Purnima'],
-    goodWeekday: ['Monday', 'Wednesday', 'Thursday', 'Friday'],
-  },
-  education: {
-    label: 'வித்யாரம்பம் / கல்வி',
-    goodNak: ['Ashwini', 'Punarvasu', 'Pushya', 'Hasta', 'Chitra', 'Swati', 'Anuradha', 'Uttara Phalguni', 'Uttara Ashadha', 'Uttara Bhadrapada', 'Shravana', 'Revati'],
-    avoidNak: ['Bharani', 'Krittika', 'Ashlesha', 'Magha', 'Mula'],
-    avoidTithi: ['Chaturthi', 'Shashthi', 'Ashtami', 'Navami', 'Chaturdashi', 'Amavasya'],
-    goodWeekday: ['Monday', 'Wednesday', 'Thursday', 'Friday'],
-  },
-  medical: {
-    label: 'மருத்துவம் / அறுவை',
-    goodNak: ['Ashwini', 'Mrigashira', 'Punarvasu', 'Pushya', 'Hasta', 'Chitra', 'Anuradha', 'Revati'],
-    avoidNak: ['Bharani', 'Krittika', 'Ashlesha', 'Magha', 'Vishakha', 'Jyeshtha', 'Mula', 'Purva Bhadrapada'],
-    avoidTithi: ['Chaturthi', 'Shashthi', 'Ashtami', 'Navami', 'Chaturdashi', 'Amavasya', 'Purnima'],
-    goodWeekday: ['Sunday', 'Tuesday'],
-  },
+  marriage: { label: 'திருமணம்' },
+  business: { label: 'வியாபாரம் தொடங்குதல்' },
+  travel: { label: 'பயணம்' },
+  griha: { label: 'கிரகப்பிரவேசம்' },
+  education: { label: 'வித்யாரம்பம் / கல்வி' },
+  medical: { label: 'மருத்துவம் / அறுவை' },
 };
 
 const norm = (d) => ((d % 360) + 360) % 360;
 
-/** @param q { startDate, endDate 'YYYY-MM-DD', purpose, latitude, longitude, utcOffsetMinutes } */
+/** The lunar month (amanta) at jd: back to the new moon (Moon − Sun = 0), the Sun's sign there, plus one (Chaitra = Sun in Pisces). */
+function monthAt(jd) {
+  let t = jd;
+  for (let k = 0; k < 8; k += 1) {
+    const { sunLongitude: s, moonLongitude: m } = sunMoonLongitudes(t, 'Lahiri');
+    const e = norm(m - s);
+    if (k > 0 && (e < 1e-4 || e > 360 - 1e-4)) break;
+    t -= (k === 0 ? e : (e > 180 ? e - 360 : e)) / 12.19;
+  }
+  return (Math.floor(norm(sunMoonLongitudes(t, 'Lahiri').sunLongitude) / 30) + 1) % 12;
+}
+
+/** @param q { startDate, endDate 'YYYY-MM-DD', purpose, latitude, longitude, utcOffsetMinutes, book? } */
 function searchMuhurta(q) {
   const purpose = PURPOSES[q.purpose] ? q.purpose : 'marriage';
   const P = PURPOSES[purpose];
   const off = q.utcOffsetMinutes || 0;
+  const event = SOURCED[purpose] ?? null;
+  const R = event ? EV.EVENTS[event] : null;
+  const book = R ? (R.order.includes(q.book) ? q.book : R.default) : null;
 
   const start = new Date(`${q.startDate}T00:00:00Z`);
   const end = new Date(`${q.endDate}T00:00:00Z`);
@@ -107,33 +100,41 @@ function searchMuhurta(q) {
 
     const dm = calculateDailyMuhurta({ year: Y, month: M, day: D, latitude: q.latitude, longitude: q.longitude, utcOffsetMinutes: off });
 
-    // ── score ──
-    let score = 50;
-    const notes = [];
-    if (P.goodNak.includes(nak)) { score += 25; notes.push(`${nak} சாதக நட்சத்திரம்`); }
-    if (P.avoidNak.includes(nak)) { score -= 35; notes.push(`${nak} தவிர்க்கும் நட்சத்திரம்`); }
-    if (P.avoidTithi.includes(tithi)) { score -= 25; notes.push(`${tithi} தவிர்க்கும் திதி`); }
-    if (P.goodWeekday.includes(weekday)) { score += 10; }
-    if (dm.panchaka.active && dm.panchaka.type && dm.panchaka.type.severity === 'bad') { score -= 20; notes.push(dm.panchaka.type.name); }
-    if (dm.panchakaRahitam.ok) { score += 12; notes.push(dm.panchakaRahitam.ta); } else { score -= 15; notes.push(dm.panchakaRahitam.ta); }
-    score = Math.max(0, Math.min(100, score));
-
     const goodGowri = dm.gowri.day.filter((g) => g.auspicious).map((g) => ({ from: g.from, to: g.to, gowri: g.nameTa }));
+    const date = `${Y}-${String(M).padStart(2, '0')}-${String(D).padStart(2, '0')}`;
 
+    if (!R) {
+      days.push({ date, weekday, nakshatra: nak, tithi: `${paksha} ${tithi}`, score: null, rating: 'ஆதாரம் தேவை', windows: goodGowri, notes: [SOURCE_REQUIRED_TA] });
+      continue;
+    }
+    // The chosen book's rules at sunrise.
+    const month = monthAt(sunrise);
+    const codes = [
+      ...panchangaCodes(R[book], { star: nakIdx, tithi: tithiIdx + 1, month, sunSign: Math.floor(norm(sunLongitude) / 30), sunStar: Math.floor(norm(sunLongitude) / (360 / 27)) % 27 }),
+      ...varaCodes(R[book], wd),
+    ];
+    const bad = rejects(codes);
     days.push({
-      date: `${Y}-${String(M).padStart(2, '0')}-${String(D).padStart(2, '0')}`,
-      weekday,
-      nakshatra: nak,
-      tithi: `${paksha} ${tithi}`,
-      score: Math.round(score),
-      rating: score >= 80 ? 'உத்தமம்' : score >= 62 ? 'நல்லது' : score >= 45 ? 'சாதாரணம்' : 'தவிர்க்க',
-      windows: goodGowri,
-      notes,
+      date, weekday, nakshatra: nak, tithi: `${paksha} ${tithi}`, month: EV.MONTH_TA[month],
+      score: bad.length ? 30 : codes.length ? 70 : 90,
+      rating: bad.length ? 'தவிர்க்க' : codes.length ? 'நல்லது' : 'உத்தமம்',
+      codes, windows: goodGowri,
+      notes: codes.map((c) => EV.CODE_TA[c] ?? c),
     });
   }
 
-  days.sort((a, b) => b.score - a.score || a.date.localeCompare(b.date));
-  return { available: true, purpose, purposeLabel: P.label, days };
+  days.sort((a, b) => (b.score ?? -1) - (a.score ?? -1) || a.date.localeCompare(b.date));
+  return {
+    available: true, purpose, purposeLabel: P.label, days,
+    sourced: Boolean(R),
+    ...(R
+      ? {
+        event, book, books: R.order.map((id) => ({ id, labelTa: R[id].labelTa, isDefault: id === R.default })),
+        rankTa: EV.RANK[event].measureTa, source: EV.SOURCES[event][book],
+        noteTa: 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (மாதம், நட்சத்திரம், திதி, கிழமை, கும்ப சக்கரம்). லக்னம், தாரா / சந்திர பலம், வாசல் திசை: /muhurta-stars பக்கம், "கிரகப்பிரவேசம்" தேர்வுடன்.',
+      }
+      : { missingTa: SOURCE_REQUIRED_TA, noteTa: purpose === 'marriage' ? 'திருமணத்தின் தசதோஷம், லத்தை, தாரா / சந்திர பலம், லக்ன சுத்தி நூல்களுடன்: /muhurta-stars பக்கம்.' : null }),
+  };
 }
 
-module.exports = { searchMuhurta, PURPOSES };
+module.exports = { searchMuhurta, PURPOSES, SOURCED, monthAt };
