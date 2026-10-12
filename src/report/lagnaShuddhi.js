@@ -422,7 +422,14 @@ function lagnaVerdict(l, chosen, nv = null, va = null, visha = null, adverse = n
     if (adverse.some((c) => !skip.includes(c))) reasons.push('ADVERSE');
   }
   if (eventCodes && on('EVENT') && eventCodes.some((c) => !c.endsWith('_MID'))) reasons.push('EVENT');
-  return { ok: reasons.length === 0, reasons };
+  // கட்டாயம் (MUST) rejects; விரும்பத்தக்கது (PREFER) is a caution. `chosen.tiers` overrides the event's defaults.
+  const tierOf = (k) => chosen.tiers?.[k] ?? T.TIERS[chosen.EVENT ?? T.EVENTS.default]?.[k] ?? 'MUST';
+  const cautions = reasons.filter((k) => tierOf(k) === 'PREFER');
+  const must = reasons.filter((k) => tierOf(k) !== 'PREFER');
+  // Passes that the books still mark: Shridhar's 4–10 points ("emergency only"), the birth lords retrograde.
+  if (on('PLACEMENTS') && l.placements[r('PLACEMENTS')].pass && (T.PLACEMENTS[r('PLACEMENTS')]?.caution ?? []).includes(l.placements[r('PLACEMENTS')].grade)) cautions.push('PLACEMENTS_EMERGENCY');
+  if (adverse && on('ADVERSE') && adverse.some((c) => (T.ADVERSE[r('ADVERSE')].caution ?? []).includes(c))) cautions.push('ADVERSE_CAUTION');
+  return { ok: must.length === 0, reasons: must, cautions };
 }
 
 module.exports = {

@@ -247,7 +247,12 @@ Not plan items, but real, and they should not be discovered at release:
   lord, birth lords' motion, the 8th, Chhidra grahas). Each event's own rules
   begun the same day (`docs/EVENT-MUHURTA.md`): entering a new house in nine
   books (Shridhar first), on `/muhurta-stars` with the door's direction and on
-  a rebuilt `/muhurta` (unsourced purposes now say SOURCE REQUIRED). Upanayana,
-  travel and the other events are next.
+  a rebuilt `/muhurta` (unsourced purposes now say SOURCE REQUIRED). The
+  owner's decisions applied 2026-10-12: every lagna check is கட்டாயம் (must,
+  rejects) or விரும்பத்தக்கது (preferable, shown as a caution), per event and
+  switchable; Shridhar's 4–10 points and the birth lords retrograde are
+  cautions; the ten evils are shown, not judged, for other acts; Wilhelm's
+  Chandrashtama relief is in the verdict. Upanayana, travel and the other
+  events are next.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

@@ -271,8 +271,33 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
   const chosen = { PLACEMENTS: 'X', ASHTAMA: 'X', KARTARI: 'X', GANDANTA: 'X', SHADVARGA: 'RANGACHARYA', DREKKANA: 'MALEFIC', VISHANADI: 'WILHELM' };
   const vaOf = (lon) => ({ ...shadvargaOf(vargaIndices(lon)), drekkana: drekkanaOf(vargaIndices(lon)) });
   assert.deepEqual(lagnaVerdict(l, chosen, null, vaOf(86), vishanadiOf(vargaIndices(86), 0, no)).reasons, [], 'Gemini 26° (Rangacharya\'s example) on a Sunday');
-  assert.deepEqual(lagnaVerdict(l, chosen, null, vaOf(115), null).reasons, ['SHADVARGA', 'DREKKANA'], 'Cancer 25°: the Sarpa decanate');
+  // The decanate (Shridhar alone) is விரும்பத்தக்கது: a caution, not a rejection — unless made கட்டாயம்.
+  const sarpa = lagnaVerdict(l, chosen, null, vaOf(115), null);
+  assert.deepEqual([sarpa.reasons, sarpa.cautions], [['SHADVARGA'], ['DREKKANA']], 'Cancer 25°: the Sarpa decanate');
+  assert.deepEqual(lagnaVerdict(l, { ...chosen, tiers: { DREKKANA: 'MUST' } }, null, vaOf(115), null).reasons, ['SHADVARGA', 'DREKKANA']);
+  assert.deepEqual(lagnaVerdict(l, { ...chosen, tiers: { SHADVARGA: 'PREFER' } }, null, vaOf(115), null).ok, true);
   assert.deepEqual(lagnaVerdict(l, chosen, null, null, vishanadiOf(vargaIndices(1), 3, no)).reasons, ['VISHANADI']);
+}
+
+// ------------------------------------------------ கட்டாயம் / விரும்பத்தக்கது ---
+{
+  for (const e of T.EVENTS.order) {
+    // Every check an event takes has a tier, and nothing else does.
+    const checks = [...T.EVENTS[e].checks, 'PDB', 'BANA'].filter((k, i, a) => a.indexOf(k) === i);
+    assert.deepEqual(Object.keys(T.TIERS[e]).sort(), checks.sort(), e);
+    assert.ok(Object.values(T.TIERS[e]).every((t) => t === 'MUST' || t === 'PREFER'));
+  }
+  // The owner (2026-10-11): udaya-asta not mandatory for other acts; §13.10 and the decanate preferable.
+  assert.equal(T.TIERS.MARRIAGE.UDAYA, 'MUST');
+  assert.equal(T.TIERS.OTHER.UDAYA, 'PREFER');
+  assert.equal(T.TIERS.GRIHA_PRAVESHA.UDAYA, 'PREFER');
+  for (const e of T.EVENTS.order) assert.equal(T.TIERS[e].ADVERSE, 'PREFER');
+  // Shridhar's 4–10 points pass, marked "emergency only".
+  const pl = (grade) => ({ placements: { SHRIDHAR: { pass: T.PLACEMENTS.SHRIDHAR.pass.includes(grade), grade } }, ashtama: { X: [] }, pdb: { present: false }, kartari: { X: false }, gandanta: { X: false } });
+  const ch = { PLACEMENTS: 'SHRIDHAR', ASHTAMA: 'X', KARTARI: 'X', GANDANTA: 'X', EVENT: 'MARRIAGE' };
+  assert.deepEqual(lagnaVerdict(pl('EMERGENCY'), ch), { ok: true, reasons: [], cautions: ['PLACEMENTS_EMERGENCY'] });
+  assert.deepEqual(lagnaVerdict(pl('MEDIUM'), ch), { ok: true, reasons: [], cautions: [] });
+  assert.deepEqual(lagnaVerdict(pl('REJECT'), ch), { ok: false, reasons: ['PLACEMENTS'], cautions: [] });
 }
 
 // ------------------------------------------------ Shridhar §13.10, adverse combinations ---
@@ -309,9 +334,14 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
   // The verdict: both kinds of event; the second reading leaves out item 8.
   const l = { placements: { X: { pass: true } }, ashtama: { X: [] }, pdb: { present: false }, kartari: { X: false }, gandanta: { X: false }, common: { X: [] } };
   const chosen = { PLACEMENTS: 'X', ASHTAMA: 'X', KARTARI: 'X', GANDANTA: 'X', COMMON: 'X' };
+  // §13.10 is விரும்பத்தக்கது by default (a caution); made கட்டாயம் it rejects. The birth lords
+  // retrograde is a caution under either tier (the owner, 2026-10-11).
   for (const EVENT of T.EVENTS.order) {
-    assert.deepEqual(lagnaVerdict(l, { ...chosen, EVENT, ADVERSE: 'ALL' }, null, null, null, ['MOON_IN_LAGNA']).reasons, ['ADVERSE'], EVENT);
-    assert.deepEqual(lagnaVerdict(l, { ...chosen, EVENT, ADVERSE: 'NO_OPINION' }, null, null, null, ['MOON_IN_LAGNA']).reasons, []);
+    const must = { ...chosen, EVENT, tiers: { ADVERSE: 'MUST' } };
+    assert.deepEqual(lagnaVerdict(l, { ...chosen, EVENT, ADVERSE: 'ALL' }, null, null, null, ['MOON_IN_LAGNA']), { ok: true, reasons: [], cautions: ['ADVERSE'] }, EVENT);
+    assert.deepEqual(lagnaVerdict(l, { ...must, ADVERSE: 'ALL' }, null, null, null, ['MOON_IN_LAGNA']).reasons, ['ADVERSE'], EVENT);
+    assert.deepEqual(lagnaVerdict(l, { ...must, ADVERSE: 'NO_OPINION' }, null, null, null, ['MOON_IN_LAGNA']).reasons, []);
+    assert.deepEqual(lagnaVerdict(l, { ...must, ADVERSE: 'ALL' }, null, null, null, ['NATAL_LORD_RETRO']), { ok: true, reasons: [], cautions: ['ADVERSE_CAUTION'] });
   }
 }
 

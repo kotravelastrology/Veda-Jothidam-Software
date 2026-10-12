@@ -389,6 +389,10 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
   const janmaStar = Math.floor(janmaPada / 4);
 
   const natalSign = Math.floor(norm360(natalMoonLongitude) / 30);
+  // Wilhelm: Chandrashtama "loses all capacity for ill" when these two are friends (BPHS natural, both ways — our reading).
+  const natalLord = RASI_LORDS[natalSign];
+  const eighthLord = RASI_LORDS[(natalSign + 7) % 12];
+  const lordsFriends = natalLord === eighthLord || (naturalRelation(natalLord, eighthLord) === 'friend' && naturalRelation(eighthLord, natalLord) === 'friend');
 
   // Segments of every body (the Moon by slice of star, the rest by pada), of
   // the tithi and yoga, of the Sun's degree and of who is in Abhijit, then the
@@ -441,7 +445,8 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
     const chandra = chandraOf(natalSign, Math.floor(moonPada / 9), tithi <= 15 ? 'SHUKLA' : 'KRISHNA', tara.count, planetSigns);
     // Every reading's verdict, so the page needs no rules of its own and pieces merge only where all agree.
     const taraVerdicts = Object.fromEntries(T.TARA_BAD.order.map((bad) => [bad, Object.fromEntries(T.TARA_CYCLES.order.map((cy) => [cy, taraVerdict(tara, bad, cy)]))]));
-    const chandraBala = Object.fromEntries(T.CHANDRA_READINGS.order.map((r) => [r, chandraPresent(chandra, r)]));
+    const chandraBala = Object.fromEntries(T.CHANDRA_READINGS.order.map((r) => [r,
+      Object.fromEntries(T.CHANDRA_RELIEF.order.map((x) => [x, chandraPresent(chandra, r, x, lordsFriends)]))]));
     const bits = keyAt('abhijit', mid);
     const padas = { ...kickerPadas, Ketu: (kickerPadas.Rahu + 54) % 108 };
     const passage = passageAt(mid);
@@ -490,8 +495,6 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
     remedy88: p.personal.PADA_88 ? remedyFor(p.fromMs, p.toMs) : null,
     lagnas: lagnasFor ? lagnasFor.stretchesOf(p) : null,
   }));
-  const natalLord = RASI_LORDS[natalSign];
-  const eighthLord = RASI_LORDS[(natalSign + 7) % 12];
 
   const p88 = (janmaPada + 87) % 108;
   const p108 = (janmaPada + 107) % 108;
@@ -507,11 +510,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
         PADA88_STAR: { star: Math.floor(p88 / 4), starTa: NAKSHATRA_TA[Math.floor(p88 / 4)] },
       },
       sign: natalSign, signTa: RASI_TA[natalSign],
-      // Wilhelm: Chandrashtama "loses all capacity for ill" when these two are friends (BPHS natural, both ways — our reading).
-      chandrashtamaLords: {
-        natalLord, eighthLord,
-        friends: natalLord === eighthLord || (naturalRelation(natalLord, eighthLord) === 'friend' && naturalRelation(eighthLord, natalLord) === 'friend'),
-      },
+      chandrashtamaLords: { natalLord, eighthLord, friends: lordsFriends },
     },
     place: Number.isFinite(latitude) && Number.isFinite(longitude) ? { latitude, longitude } : null,
     segments,
@@ -532,7 +531,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
       personal: T.PERSONAL_CHECKS, vainashika: T.VAINASHIKA, remedy88: T.REMEDY_88, notesTa: T.NOTES_TA,
       taraNamesTa: T.TARA_NAMES_TA, taraRank: T.TARA_RANK, taraBad: T.TARA_BAD, taraCycles: T.TARA_CYCLES, secondRound: T.SECOND_ROUND,
       taraSources: T.TARA_SOURCES, taraNotesTa: T.TARA_NOTES_TA,
-      chandraRank: T.CHANDRA_RANK, chandrashtamaKinds: T.CHANDRASHTAMA_KINDS, chandraReadings: T.CHANDRA_READINGS,
+      chandraRank: T.CHANDRA_RANK, chandrashtamaKinds: T.CHANDRASHTAMA_KINDS, chandraRelief: T.CHANDRA_RELIEF, chandraReadings: T.CHANDRA_READINGS,
       chandraSources: T.CHANDRA_SOURCES, chandraNotesTa: T.CHANDRA_NOTES_TA, moonVedha: T.MOON_VEDHA, moonVedhaBright: T.MOON_VEDHA_BRIGHT,
       dasha: {
         doshas: D.DOSHAS, serious: D.SERIOUS, nameTa: D.NAME_TA, readings: D.READINGS, rules: D.RULES, rank: D.RANK,
@@ -546,7 +545,8 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
         navLast: L.NAV_LAST, navWhich: L.NAV_WHICH, navNatal: L.NAV_NATAL, udaya: L.UDAYA,
         shadvarga: L.SHADVARGA, drekkana: L.DREKKANA, vishanadi: L.VISHANADI, vargaTa: L.VARGA_TA, vargas: L.VARGAS, varaTa: L.VARA_TA, drekkanaTa: L.DREKKANA_TA,
         common: L.COMMON, commonWhyTa: L.COMMON_WHY_TA, events: L.EVENTS, scope: L.SCOPE, scopeOutTa: L.SCOPE_OUT_TA,
-        adverse: L.ADVERSE, adverseTa: L.ADVERSE_TA,
+        adverse: L.ADVERSE, adverseTa: L.ADVERSE_TA, adverseCautionTa: L.ADVERSE_CAUTION_TA,
+        tiers: L.TIERS, tierTa: L.TIER_TA, tierNoteTa: L.TIER_NOTE_TA,
         eventRules: EV.EVENTS, doors: EV.DOORS, monthTa: EV.MONTH_TA, starTa: NAKSHATRA_TA, eventRank: EV.RANK, eventSources: EV.SOURCES, eventCodeTa: EV.CODE_TA, eventNotesTa: EV.NOTES_TA,
         natalLagna: Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null,
       },
@@ -575,10 +575,13 @@ function taraVerdict(t, badId, cycleId) {
   return third === T.SECOND_ROUND.third[t.n] ? 'REJECT' : null;
 }
 
-/** Chandra bala under a reading: true when present. The 8th is never present. */
-function chandraPresent(c, readingId) {
+/**
+ * Chandra bala under a reading: true when present. The 8th is present only when relieved
+ * (`reliefId`, CHANDRA_RELIEF; `lordsFriends`, the natal Moon's lord and the 8th lord).
+ */
+function chandraPresent(c, readingId, reliefId = 'NONE', lordsFriends = false) {
   const r = T.CHANDRA_READINGS[readingId];
-  if (c.house === 8) return false;
+  if (c.house === 8) return chandrashtamaRelieved(c, reliefId, lordsFriends);
   if (r.good) {
     const good = r.good.includes(c.house) || (c.paksha === 'SHUKLA' && r.goodBright.includes(c.house));
     return good && c.vedhaBy.length === 0;
@@ -586,4 +589,10 @@ function chandraPresent(c, readingId) {
   return !r.bad.includes(c.house);
 }
 
-module.exports = { muhurtaStarChecks, personalOf, lattaOf, lordsFriendly, taraOf, chandraOf, taraVerdict, chandraPresent, dashaVerdict, moonInAbhijit, STAR_CUTS, MAX_DAYS };
+/** Whether a Chandrashtama is relieved: by its kind (Wilhelm's harmless three) or by the lords' friendship. */
+function chandrashtamaRelieved(c, reliefId, lordsFriends) {
+  const r = T.CHANDRA_RELIEF[reliefId];
+  return c.house === 8 && ((r.kinds && Boolean(T.CHANDRASHTAMA_KINDS[c.chandrashtama]?.harmless)) || (r.friends && lordsFriends));
+}
+
+module.exports = { muhurtaStarChecks, personalOf, lattaOf, lordsFriendly, taraOf, chandraOf, taraVerdict, chandraPresent, chandrashtamaRelieved, dashaVerdict, moonInAbhijit, STAR_CUTS, MAX_DAYS };

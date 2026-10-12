@@ -32,6 +32,12 @@ const LAGNA_TABLE: Record<string, string> = {
   NAV_WHICH: 'navWhich', NAV_NATAL: 'navNatal', UDAYA: 'udaya', SHADVARGA: 'shadvarga', DREKKANA: 'drekkana', VISHANADI: 'vishanadi',
   ADVERSE: 'adverse',
 };
+/** Each lagna check's name. */
+const CHECK_TA: Record<string, string> = {
+  COMMON: 'பொது லக்ன சுத்தி', PLACEMENTS: 'கிரக நிலை', ASHTAMA: 'பிறப்பிலிருந்து', PDB: 'செவிடு, குருடு, முடம்', KARTARI: 'கர்த்தரி',
+  GANDANTA: 'லக்ன கண்டாந்தம்', BANA: 'மிருத்யு பாணம்', NAV_LAST: 'கடைசி / சர நவாம்சம்', NAV_WHICH: 'எந்த நவாம்சம்', NAV_NATAL: 'பிறந்த 8, 12-ன் நவாம்சம்',
+  UDAYA: 'உதய-அஸ்த சுத்தி', SHADVARGA: 'ஷட்வர்க்கம்', DREKKANA: 'திரேக்காணம்', VISHANADI: 'லக்ன விஷ நாடி', ADVERSE: 'பாதகச் சேர்க்கைகள்', EVENT: 'நிகழ்ச்சியின் லக்ன விதி',
+};
 type Show = 'ALL' | 'CLEAR' | 'GOOD_LAGNA' | 'BLOCKED';
 
 function Switch({ label, value, options, onChange }: { label: string; value: string; options: [string, string][]; onChange: (v: string) => void }) {
@@ -61,13 +67,17 @@ export default function MuhurtaStarsView() {
   const [taraBad, setTaraBad] = useState('T1357');
   const [taraCycle, setTaraCycle] = useState('QUARTERS');
   const [chandraReading, setChandraReading] = useState('GOOD_LIST');
+  const [chandraRelief, setChandraRelief] = useState('KINDS_FRIENDS');
   const [dashaReading, setDashaReading] = useState<Record<string, string>>({});
   const [dashaRule, setDashaRule] = useState('SIX_OF_TEN');
   const [lagnaReading, setLagnaReading] = useState<Record<string, string>>({});
   const [lagnaEvent, setLagnaEvent] = useState('MARRIAGE');
   const [eventBook, setEventBook] = useState<Record<string, string>>({});
+  const [tierReading, setTierReading] = useState<Record<string, string>>({});
   const [door, setDoor] = useState<string>('');
   const isMarriage = lagnaEvent === 'MARRIAGE';
+  // The ten evils are marriage's: for another act they are shown, not judged (the owner, 2026-10-11).
+  const ruleNow = isMarriage ? dashaRule : 'NONE';
   const [place, setPlace] = useState<{ name: string; latitude: string; longitude: string }>({ name: '', latitude: '', longitude: '' });
   const [eventPlace, setEventPlace] = useState<{ name?: string; latitude: number; longitude: number } | null>(null);
   const [show, setShow] = useState<Show>('ALL');
@@ -84,7 +94,7 @@ export default function MuhurtaStarsView() {
         setPlace({ name: r.eventPlace.name ?? '', latitude: String(r.eventPlace.latitude), longitude: String(r.eventPlace.longitude) });
         setLagnaReading({});
         setRahu(r.books.rahu.default); setPadaRule(r.books.padaRules.default); setVainashika(r.books.vainashika.default);
-        setTaraBad(r.books.taraBad.default); setTaraCycle(r.books.taraCycles.default); setChandraReading(r.books.chandraReadings.default);
+        setTaraBad(r.books.taraBad.default); setTaraCycle(r.books.taraCycles.default); setChandraReading(r.books.chandraReadings.default); setChandraRelief(r.books.chandraRelief.default);
         setDashaReading(Object.fromEntries(r.books.dasha.doshas.map((d: string) => [d, r.books.dasha.readings[d].default])));
         setDashaRule(r.books.dasha.rules.default);
         if (!fromDate) setFromDate(r.fromDate);
@@ -112,7 +122,7 @@ export default function MuhurtaStarsView() {
     ].filter(Boolean) as string[];
     const vain = s.personal.VAINASHIKA[vainashika];
     const tara = s.taraVerdicts[taraBad][taraCycle] as 'REJECT' | 'CAUTION' | null;
-    const chandra = s.chandraBala[chandraReading] as boolean;
+    const chandra = s.chandraBala[chandraReading][chandraRelief] as boolean;
     const dasha = dashaJudge(s, counted.length > 0);
     // The lagna, one line per rising sign: its good navamsa stretches (joined where they touch),
     // or, if none, why it is left (the sign's own reasons; the navamsas' in short).
@@ -126,7 +136,7 @@ export default function MuhurtaStarsView() {
       g.items.push({ x, v });
       if (v.ok) {
         const lastGood = g.good[g.good.length - 1];
-        if (lastGood && lastGood.toMs === x.fromMs) { lastGood.toMs = x.toMs; if (!lastGood.navs.includes(x.nv.nav)) lastGood.navs.push(x.nv.nav); } else g.good.push({ fromMs: x.fromMs, toMs: x.toMs, navs: [x.nv.nav], x, v });
+        if (lastGood && lastGood.toMs === x.fromMs) { lastGood.toMs = x.toMs; if (!lastGood.navs.includes(x.nv.nav)) lastGood.navs.push(x.nv.nav); lastGood.its.push({ x, v }); } else g.good.push({ fromMs: x.fromMs, toMs: x.toMs, navs: [x.nv.nav], x, v, its: [{ x, v }] });
       }
     }
     const evStar = eventStarCodes(s);
@@ -191,8 +201,15 @@ export default function MuhurtaStarsView() {
     if (x.visha[R.VISHANADI]) reasons.push('VISHANADI');
     if (on('ADVERSE') && adverseShown(x).length) reasons.push('ADVERSE');
     if (on('EVENT') && eventLagnaCodes(x).some(isReject)) reasons.push('EVENT');
-    return { ok: reasons.length === 0, reasons, pl };
+    // கட்டாயம் rejects; விரும்பத்தக்கது is a caution — the same rule as the engine's `lagnaVerdict`.
+    const cautions = reasons.filter((k) => tierOf(k) === 'PREFER');
+    const must = reasons.filter((k) => tierOf(k) !== 'PREFER');
+    if (on('PLACEMENTS') && pl.pass && (B.lagna.placements[R.PLACEMENTS].caution ?? []).includes(pl.grade)) cautions.push('PLACEMENTS_EMERGENCY');
+    if (on('ADVERSE') && x.adverse.some((c: string) => (B.lagna.adverse[R.ADVERSE].caution ?? []).includes(c))) cautions.push('ADVERSE_CAUTION');
+    return { ok: must.length === 0, reasons: must, cautions, pl };
   }
+  /** A check's tier: the owner's choice on the page, else the default for the event. */
+  const tierOf = (k: string): string => tierReading[k] ?? B.lagna.tiers[lagnaEvent]?.[k] ?? 'MUST';
   /** Shridhar's §13.10 combinations present under the chosen reading. */
   function adverseShown(x: any): string[] {
     const a = B.lagna.adverse[lagnaChosen().ADVERSE];
@@ -233,6 +250,8 @@ export default function MuhurtaStarsView() {
     const { l, nv } = x;
     const R = lagnaChosen();
     return v.reasons.filter((r: string) => !signOnly || !isPartReason(r)).map((r: string) => {
+      if (r === 'PLACEMENTS_EMERGENCY') return `புள்ளி ${v.pl.points} (அவசரத்தில் மட்டும்)`;
+      if (r === 'ADVERSE_CAUTION') return x.adverse.filter((c: string) => (B.lagna.adverse[R.ADVERSE].caution ?? []).includes(c)).map((c: string) => B.lagna.adverseTa[c]).join(', ');
       if (r === 'COMMON') return l.common[R.COMMON].map((c: string) => B.lagna.commonWhyTa[c]).join(', ');
       if (r === 'ADVERSE') return adverseShown(x).map((c: string) => B.lagna.adverseTa[c]).join(', ');
       if (r === 'EVENT') return eventLagnaCodes(x).filter(isReject).map((c: string) => B.lagna.eventCodeTa[c.replace(/_\d+$/, '')] ?? B.lagna.eventCodeTa[c] ?? c).join(', ');
@@ -257,6 +276,19 @@ export default function MuhurtaStarsView() {
     }).join(' · ');
   };
 
+  /** The cautions (விரும்பத்தக்கது checks that fail) over a joined good stretch, each once. */
+  const cautionWhy = (its: any[]): string[] => {
+    const out = new Set<string>();
+    for (const { x, v } of its) {
+      for (const r of v.cautions) {
+        // §13.10 one combination at a time, so that each is named once.
+        if (r === 'ADVERSE') adverseShown(x).forEach((c: string) => out.add(B.lagna.adverseTa[c]));
+        else out.add(lagnaWhy(x, { ...v, reasons: [r] }));
+      }
+    }
+    return [...out].filter(Boolean);
+  };
+
   /** The ten evils under the chosen readings and rule — the same rule as the engine's `dashaVerdict` (marriageDoshas.js). */
   function dashaJudge(s: any, lattaOn: boolean) {
     const D = B.dasha;
@@ -266,10 +298,10 @@ export default function MuhurtaStarsView() {
     });
     const all = lattaOn ? ['LATTA', ...present] : present;
     const serious = present.filter((d) => D.serious.includes(d));
-    const reject = dashaRule === 'NONE' ? false
-      : dashaRule === 'ALL_TEN' ? all.length > 0
-        : dashaRule === 'FIVE' ? serious.length > 0
-          : dashaRule === 'FIVE_AND_SIX' ? serious.length > 0 || all.length > 4
+    const reject = ruleNow === 'NONE' ? false
+      : ruleNow === 'ALL_TEN' ? all.length > 0
+        : ruleNow === 'FIVE' ? serious.length > 0
+          : ruleNow === 'FIVE_AND_SIX' ? serious.length > 0 || all.length > 4
             : all.length > 4;
     return { present, all, serious, reject };
   }
@@ -377,6 +409,7 @@ export default function MuhurtaStarsView() {
                   <span className="font-mono">{local(isoOf(g.fromMs)).slice(0, 16)} – {hm(isoOf(g.toMs))}</span> · {s.starTa} {s.pada} · {RASI_TA[g.l.lagna]} லக்னம் ({g.navs.map((n: number) => RASI_TA[n]).join(', ')} நவாம்சம்)
                   {isMarriage && g.v.pl.points !== null && <> · புள்ளி {g.v.pl.points} ({B.lagna.gradeTa[g.v.pl.grade]})</>}
                   {isMarriage && g.v.pl.avoid.length > 0 && <span className="text-amber-700"> · {g.v.pl.avoid.map(([p, h]: [string, number]) => `${p === 'LAGNA_LORD' ? LAGNA_LORD_TA : PLANET_NAME_TA[p]} ${h}-ல்`).join(', ')} (ஒன்று — பரிகாரத்துடன்)</span>}
+                  {cautionWhy(g.its).length > 0 && <span className="text-amber-700"> · கவனம்: {cautionWhy(g.its).join(', ')}</span>}
                 </li>
               ))}
             </ul>
@@ -398,8 +431,12 @@ export default function MuhurtaStarsView() {
                 options={B.taraCycles.order.map((id: string) => [id, `${B.taraCycles[id].labelTa}${id === B.taraCycles.default ? ' (இயல்பு)' : ''}`])} />
               <Switch label="சந்திர பலம்" value={chandraReading} onChange={setChandraReading}
                 options={B.chandraReadings.order.map((id: string) => [id, `${B.chandraReadings[id].labelTa}${id === B.chandraReadings.default ? ' (இயல்பு)' : ''}`])} />
-              <Switch label="தச தோஷம் — விதி" value={dashaRule} onChange={setDashaRule}
-                options={B.dasha.rules.order.map((id: string) => [id, `${B.dasha.rules[id].labelTa}${id === B.dasha.rules.default ? ' (இயல்பு)' : ''}`])} />
+              <Switch label="சந்திராஷ்டம விடுப்பு" value={chandraRelief} onChange={setChandraRelief}
+                options={B.chandraRelief.order.map((id: string) => [id, `${B.chandraRelief[id].labelTa}${id === B.chandraRelief.default ? ' (இயல்பு)' : ''}`])} />
+              {isMarriage
+                ? <Switch label="தச தோஷம் — விதி" value={dashaRule} onChange={setDashaRule}
+                  options={B.dasha.rules.order.map((id: string) => [id, `${B.dasha.rules[id].labelTa}${id === B.dasha.rules.default ? ' (இயல்பு)' : ''}`])} />
+                : <span className="inline-block text-[11px] text-ink-soft mr-3 mb-1">தச தோஷம்: திருமணத்துக்கானவை — {B.lagna.events[lagnaEvent].labelTa}-க்குக் காட்டப்படும், தீர்ப்பில் இல்லை (லத்தை எல்லோருக்கும் தீர்ப்பில் உண்டு).</span>}
               <details className="mb-1">
                 <summary className="cursor-pointer text-[11px] text-ink-soft">தச தோஷம் — ஒவ்வொன்றின் வாசிப்பு</summary>
                 <div className="mt-1">
@@ -410,7 +447,7 @@ export default function MuhurtaStarsView() {
                   ))}
                 </div>
               </details>
-              <Switch label="லக்ன சுத்தி — நிகழ்ச்சி" value={lagnaEvent} onChange={setLagnaEvent}
+              <Switch label="லக்ன சுத்தி — நிகழ்ச்சி" value={lagnaEvent} onChange={(v) => { setLagnaEvent(v); setTierReading({}); }}
                 options={B.lagna.events.order.map((id: string) => [id, `${B.lagna.events[id].labelTa}${id === B.lagna.events.default ? ' (இயல்பு)' : ''}`])} />
               {evName && (
                 <>
@@ -425,13 +462,22 @@ export default function MuhurtaStarsView() {
                 <div className="mt-1">
                   {(['COMMON', 'PLACEMENTS', 'ASHTAMA', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'] as const).filter((k) => B.lagna.events[lagnaEvent].checks.includes(k)).map((k) => {
                     const t = B.lagna[LAGNA_TABLE[k]];
-                    const label = { COMMON: 'பொது லக்ன சுத்தி', PLACEMENTS: 'கிரக நிலை', ASHTAMA: 'பிறப்பிலிருந்து', KARTARI: 'கர்த்தரி', GANDANTA: 'லக்ன கண்டாந்தம்', NAV_LAST: 'கடைசி / சர நவாம்சம்', NAV_WHICH: 'எந்த நவாம்சம்', NAV_NATAL: 'பிறந்த 8, 12-ன் நவாம்சம்', UDAYA: 'உதய-அஸ்த சுத்தி', SHADVARGA: 'ஷட்வர்க்கம்', DREKKANA: 'திரேக்காணம்', VISHANADI: 'லக்ன விஷ நாடி', ADVERSE: 'பாதகச் சேர்க்கைகள்' }[k];
                     const ids: string[] = B.lagna.events[lagnaEvent].only[k] ?? t.order;
                     return (
-                      <Switch key={k} label={label} value={lagnaChosen()[k]} onChange={(v) => setLagnaReading({ ...lagnaReading, [k]: v })}
+                      <Switch key={k} label={CHECK_TA[k]} value={lagnaChosen()[k]} onChange={(v) => setLagnaReading({ ...lagnaReading, [k]: v })}
                         options={ids.map((id: string) => [id, `${t[id].labelTa}${id === t.default ? ' (இயல்பு)' : ''}`])} />
                     );
                   })}
+                </div>
+              </details>
+              <details className="mb-1">
+                <summary className="cursor-pointer text-[11px] text-ink-soft">லக்ன சுத்தி — {B.lagna.tierTa.MUST} / {B.lagna.tierTa.PREFER}</summary>
+                <p className="text-[11px] text-ink-soft mt-1">{B.lagna.tierNoteTa}</p>
+                <div className="mt-1">
+                  {Object.keys(B.lagna.tiers[lagnaEvent]).map((k) => (
+                    <Switch key={k} label={CHECK_TA[k] ?? k} value={tierOf(k)} onChange={(v) => setTierReading((t) => ({ ...t, [k]: v }))}
+                      options={(['MUST', 'PREFER'] as const).map((id) => [id, `${B.lagna.tierTa[id]}${id === B.lagna.tiers[lagnaEvent][k] ? ' (இயல்பு)' : ''}`])} />
+                  ))}
                 </div>
               </details>
               <Switch label="காட்டு" value={show} onChange={(v) => setShow(v as Show)}
@@ -475,11 +521,11 @@ export default function MuhurtaStarsView() {
                         <td className="py-1 pr-2">
                           {j.dasha.present.length === 0 && <span className="text-ink-soft">—</span>}
                           {j.dasha.present.map((d: string) => (
-                            <span key={d} className={`block ${dashaRule === 'NONE' ? 'text-ink-soft' : B.dasha.serious.includes(d) ? 'text-rose' : 'text-amber-700'}`}>
+                            <span key={d} className={`block ${ruleNow === 'NONE' ? 'text-ink-soft' : B.dasha.serious.includes(d) ? 'text-rose' : 'text-amber-700'}`}>
                               {B.dasha.nameTa[d]} — {doshaDetail(s, d)}
                             </span>
                           ))}
-                          {j.dasha.all.length > 0 && dashaRule !== 'NONE' && (
+                          {j.dasha.all.length > 0 && ruleNow !== 'NONE' && (
                             <span className={`block text-[11px] ${j.dasha.reject ? 'text-rose' : 'text-ink-soft'}`}>
                               பத்தில் {j.dasha.all.length}{j.counted.length > 0 ? ' (லத்தை உட்பட)' : ''}{j.dasha.serious.length > 0 ? `, கடுமையானவை ${j.dasha.serious.length}` : ''} — {j.dasha.reject ? 'இந்த விதியில் விலக்கு' : 'இந்த விதியில் ஏற்கலாம்'}
                             </span>
@@ -495,8 +541,9 @@ export default function MuhurtaStarsView() {
                             {s.chandra.vedhaBy.length > 0 && <span className="text-ink-soft"> (வேதை: {s.chandra.vedhaHouse}-ல் {s.chandra.vedhaBy.map((p: string) => PLANET_NAME_TA[p] ?? p).join(', ')})</span>}
                           </span>
                           {s.chandra.chandrashtama && (
-                            <span className={`block text-[11px] ${B.chandrashtamaKinds[s.chandra.chandrashtama]?.harmless ? 'text-teal' : 'text-rose'}`}>
+                            <span className={`block text-[11px] ${j.chandra ? 'text-teal' : 'text-rose'}`}>
                               சந்திராஷ்டமம்{B.chandrashtamaKinds[s.chandra.chandrashtama] ? ` — ${B.chandrashtamaKinds[s.chandra.chandrashtama].ta} (வில்ஹெல்ம்)` : ''}
+                              {j.chandra && ` · விடுப்பு — ${B.chandraRelief[chandraRelief].kinds && B.chandrashtamaKinds[s.chandra.chandrashtama]?.harmless ? 'தீமையற்ற வகை' : 'அதிபதிகள் நண்பர்கள்'}`}
                             </span>
                           )}
                         </td>
@@ -529,7 +576,11 @@ export default function MuhurtaStarsView() {
                                 {hm(isoOf(g.fromMs))}–{hm(isoOf(g.toMs))} {RASI_TA[g.l.lagna]}
                                 {isMarriage && mid.v.pl.points !== null && <span className="font-normal"> · {mid.v.pl.points}</span>}
                                 {g.good.length > 0
-                                  ? <> ✓ {g.good.map((ok: any) => `${hm(isoOf(ok.fromMs))}–${hm(isoOf(ok.toMs))} (${ok.navs.map((n: number) => RASI_TA[n]).join(', ')} நவாம்சம்)`).join(', ')}</>
+                                  ? <> ✓ {g.good.map((ok: any, i: number) => (
+                                    <span key={ok.fromMs}>{i > 0 && ', '}{hm(isoOf(ok.fromMs))}–{hm(isoOf(ok.toMs))} ({ok.navs.map((n: number) => RASI_TA[n]).join(', ')} நவாம்சம்)
+                                      {cautionWhy(ok.its).length > 0 && <span className="font-normal text-[11px] text-amber-700"> கவனம்: {cautionWhy(ok.its).join(', ')}</span>}
+                                    </span>
+                                  ))}</>
                                   : <> ✗ <span className="font-normal text-[11px]">({[signWhy, navWhy.length ? `பகுதிகளில்: ${navWhy.slice(0, 5).join(', ')}${navWhy.length > 5 ? '…' : ''}` : ''].filter(Boolean).join(' · ')})</span></>}
                               </span>
                             );
@@ -743,6 +794,10 @@ export default function MuhurtaStarsView() {
               இவருக்கு ஜன்ம ராசி அதிபதி {PLANET_NAME_TA[result.janma.chandrashtamaLords.natalLord]}, 8-ஆம் அதிபதி {PLANET_NAME_TA[result.janma.chandrashtamaLords.eighthLord]} —
               {result.janma.chandrashtamaLords.friends ? ' நண்பர்கள்: வில்ஹெல்மின்படி சந்திராஷ்டமம் தீமை செய்யாது.' : ' நண்பர்கள் அல்ல.'}
             </p>
+            <p className="text-xs font-semibold text-ink mt-2">சந்திராஷ்டம விடுப்பு</p>
+            <ul className="text-xs space-y-1">{B.chandraRelief.order.map((id: string) => (
+              <li key={id}><strong>{B.chandraRelief[id].labelTa}{id === B.chandraRelief.default ? ' (இயல்பு)' : ''}:</strong> {B.chandraRelief[id].textTa} <span className="text-ink-soft">({B.chandraRelief[id].booksTa})</span></li>
+            ))}</ul>
             <ul className="text-xs space-y-1 mt-2">{B.chandraReadings.order.map((id: string) => (
               <li key={id}><strong>{B.chandraReadings[id].labelTa}{id === B.chandraReadings.default ? ' (இயல்பு)' : ''}:</strong> {B.chandraReadings[id].textTa} <span className="text-ink-soft">({B.chandraReadings[id].booksTa})</span></li>
             ))}</ul>

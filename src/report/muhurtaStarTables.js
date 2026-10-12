@@ -401,6 +401,26 @@ const CHANDRASHTAMA_KINDS = deepFreeze({
   THIRD: { ta: 'க்ஷய (3-ஆம் சுற்று) — தொல்லை, அழிவு', harmless: false },
 });
 
+/**
+ * Chandrashtama's relief, in the verdict (the owner, 2026-10-11). Wilhelm, who explains the 8th
+ * most: the Sobhana, Amala and Siddha kinds are harmless, and "If the lords of the natal Moon and the
+ * 8th from there are friends, Chandra Ashtama loses all capacity for ill". A relieved 8th is not
+ * rejected under any reading — our reading: the books lift the 8th's evil, and the lists say
+ * nothing of it.
+ */
+const CHANDRA_RELIEF = deepFreeze({
+  order: ['KINDS_FRIENDS', 'KINDS', 'NONE'],
+  default: 'KINDS_FRIENDS',
+  KINDS_FRIENDS: {
+    labelTa: 'தீமையற்ற வகைகளும் அதிபதி நட்பும்',
+    textTa: 'சோபன, அமல, சித்த சந்திராஷ்டமம் விலக்கு அல்ல; ஜன்ம ராசி அதிபதியும் 8-ஆம் அதிபதியும் நண்பர்கள் என்றால் எந்தச் சந்திராஷ்டமமும் விலக்கு அல்ல.',
+    booksTa: 'வில்ஹெல்ம் (ராமன்: தாரா பலம் இருந்தால்; சந்திரனும் 8-ஆம் அதிபதியும் நண்பர்கள் என்றால்)',
+    kinds: true, friends: true,
+  },
+  KINDS: { labelTa: 'தீமையற்ற வகைகள் மட்டும்', textTa: 'சோபன, அமல, சித்த சந்திராஷ்டமம் மட்டும் விலக்கு அல்ல.', booksTa: 'வில்ஹெல்ம்', kinds: true, friends: false },
+  NONE: { labelTa: 'விடுப்பு இல்லை', textTa: 'சந்திராஷ்டமம் எப்போதும் விலக்கு.', booksTa: 'பட்டியல் தரும் நூல்கள்', kinds: false, friends: false },
+});
+
 /** The Moon's vedha in its good houses (other planets but Mercury): Muhurta Chintamani p.102 = Joshi; the bright half's three, Joshi's. */
 const MOON_VEDHA = deepFreeze({ 1: 5, 3: 9, 6: 12, 7: 2, 10: 4, 11: 8 });
 const MOON_VEDHA_BRIGHT = deepFreeze({ 2: 6, 5: 4, 9: 8 });
@@ -433,6 +453,7 @@ const CHANDRA_SOURCES = Object.freeze({
 
 const CHANDRA_NOTES_TA = Object.freeze([
   'சந்திராஷ்டமம் (8-ஆம் இடம்) எல்லா வாசிப்பிலும் தீயது. வில்ஹெல்ம்: தாரா பலம் இருந்தால் (சோபன, அமல, சித்த) தீமை இல்லை. ராமன்: வளர்பிறைச் சந்திரன் சுப ராசி, சுப நவாம்சத்தில் இருந்தால், அல்லது தாரா பலம் இருந்தால் தீமை இல்லை; ராமன் — சந்திரனும் 8-ஆம் அதிபதியும் நண்பர்கள் என்றால்; வில்ஹெல்ம் — ஜன்ம ராசி அதிபதியும் 8-ஆம் அதிபதியும் நண்பர்கள் என்றால் (இங்கே BPHS இயற்கை நட்பு, இருவரும் — எங்கள் வாசிப்பு).',
+  'சந்திராஷ்டம விடுப்பு தீர்ப்பில் சேர்க்கப்படுகிறது (உரிமையாளர் முடிவு 2026-10-11): வில்ஹெல்மின் வழி — தீமையற்ற மூன்று வகைகளும் அதிபதி நட்பும். விடுப்புள்ள 8-ஆம் இடம் எந்த வாசிப்பிலும் விலக்கு அல்ல (எங்கள் வாசிப்பு — பட்டியல்கள் விடுப்பைப் பற்றிப் பேசவில்லை). ராமனின் "வளர்பிறை, சுப ராசி, சுப நவாம்சம்" விடுப்பு கணிக்கப்படவில்லை.',
   'யாருடைய சந்திர பலம்: திருமணம், கர்ப்பம் சார்ந்த சடங்குகளுக்குப் பெண்ணுடையது; மற்றவற்றுக்குச் செய்பவருடையது (ஜோஷி, முகூர்த்த சிந்தாமணி). இங்கே தேர்ந்தெடுத்த நபருக்கு.',
   'வேதை கணிக்கப்படுவது வீடு வாசிப்பான "1, 3, 6, 7, 10, 11"-க்கு மட்டும் (அதைச் சொல்லும் நூல்கள் அதைச் சேர்த்தே சொல்கின்றன). ஸ்ரீதரின் அச்சில் வேதை இடங்கள் ஆறுக்கு ஏழு எண்கள் — அச்சுப் பிழை; வளர்பிறை 5-க்கு அவர் 12, ஜோஷி 4 — ஜோஷியுடையது கணிக்கப்படுகிறது.',
 ]);
@@ -445,5 +466,5 @@ module.exports = {
   KICKS, KICKERS, LATTA_RANK, RAHU_DIRECTION, PADA_RULES, LATTA_SOURCES, LATTA_EFFECTS,
   PERSONAL_RANK, PERSONAL_CHECKS, VAINASHIKA, REMEDY_88, NOTES_TA, BOOK_TA,
   TARA_NAMES_TA, TARA_RANK, TARA_BAD, TARA_CYCLES, SECOND_ROUND, TARA_SOURCES, TARA_NOTES_TA,
-  CHANDRA_RANK, CHANDRASHTAMA_KINDS, MOON_VEDHA, MOON_VEDHA_BRIGHT, CHANDRA_READINGS, CHANDRA_SOURCES, CHANDRA_NOTES_TA,
+  CHANDRA_RANK, CHANDRASHTAMA_KINDS, CHANDRA_RELIEF, MOON_VEDHA, MOON_VEDHA_BRIGHT, CHANDRA_READINGS, CHANDRA_SOURCES, CHANDRA_NOTES_TA,
 };

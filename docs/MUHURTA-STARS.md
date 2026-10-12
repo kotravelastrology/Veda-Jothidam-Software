@@ -93,9 +93,17 @@ Four readings, all computed:
 **Chandrashtama** (the 8th) is bad in every reading and always shown with
 Wilhelm's kind by the tara count: Suddha (14), Sobhana (15), Kaivarta (16),
 Amala (17), Siddha (18), and Kshaya in round 3 — Sobhana, Amala and Siddha
-harmless ("if Tara is present"). His and Raman's friendship relief is shown
-for the person (the natal Moon's lord and the 8th lord; BPHS natural
-friendship both ways or one lord — our reading), not applied to the verdict.
+harmless ("if Tara is present"). His friendship relief is computed for the
+person (the natal Moon's lord and the 8th lord; BPHS natural friendship both
+ways or one lord — our reading).
+
+The relief is in the verdict (the owner, 2026-10-11), as its own switch
+(`CHANDRA_RELIEF`): **the harmless kinds and the lords' friendship** (default),
+the kinds only, or none. A relieved 8th is not rejected under any house
+reading — our reading: the books lift the 8th's evil, and the house lists say
+nothing of relief. Raman's other relief (a waxing Moon in a benefic sign and
+navamsa) and his "the Moon and the 8th lord" are not computed. Each piece's
+`chandraBala` is now `{ reading: { relief: bool } }`.
 Whose chandra bala (the bride's for marriage — Joshi, MC) is left to the user:
 the page computes it for the chosen person.
 
@@ -302,6 +310,32 @@ lord of the birth lagna or Moon is retrograde for all 30 days from 2026-10-11,
 so item 6 alone leaves no time; per item, in minutes of 43,200: MALEFIC_8
 27,729, MALEFIC_RISING 25,793, CHHIDRA 22,668, NATAL_6_8_LORD 20,472. The
 engine takes 1.2 s and 1.26 MB for 30 days.
+
+## கட்டாயம் / விரும்பத்தக்கது — must and preferable (added 2026-10-12)
+
+The owner's decisions of 2026-10-11, applied in the engine (`lagnaVerdict`) and
+on the page alike:
+
+- Every lagna check has a tier per event (`TIERS`): a **MUST** check that fails
+  rejects; a **PREFER** check that fails is shown as "கவனம்" (caution) on the
+  good stretch. Our rule for the defaults: a check three or more books state as
+  a rejection is MUST; a check from one book (the decanate, §13.10 — both
+  Shridhar's) is PREFER; udaya-asta is PREFER for acts other than marriage (the
+  owner). Each check's tier can be changed on the page (`chosen.tiers` in the
+  engine).
+- Shridhar's 4–10 points pass, with the caution "emergency only".
+- §13.10's birth lagna lord / birth Moon's lord retrograde never rejects; it is
+  a caution under either tier (Saturn and Jupiter are retrograde for months).
+- The ten evils of marriage are shown, not judged, for other acts (Latta still
+  judges for everyone).
+- Chandrashtama's relief, above.
+
+Measured for the Erode test birth over 60 days from 2027-01-20 (good lagna
+stretches with a clear star): marriage 20, other acts 71 (79 with shadvarga
+preferable; 30 with udaya-asta made mandatory), house entry 0 — only six
+pieces have a clear star under the default book, and their lagnas fail the
+shadvarga or the book's own lagna rules (the 4th or 8th occupied, the
+weekday).
 
 ## Not done
 

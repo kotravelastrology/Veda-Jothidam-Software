@@ -175,6 +175,21 @@ const plain = (o) => JSON.parse(JSON.stringify(o));
     for (const r of T.CHANDRA_READINGS.order) assert.equal(chandraPresent(c, r), false);
   }
   assert.equal(chandraOf(0, 7, 'SHUKLA', 19, none).chandrashtama, 'THIRD');
+  // The relief, in the verdict (the owner, 2026-10-11): the harmless kinds, or the two lords friends.
+  assert.equal(T.CHANDRA_RELIEF.default, 'KINDS_FRIENDS');
+  for (const r of T.CHANDRA_READINGS.order) {
+    for (const k of ['14', '15', '16', '17', '18']) {
+      const c = chandraOf(0, 7, 'SHUKLA', Number(k), none);
+      const harmless = W.harmless.includes(Number(k));
+      assert.equal(chandraPresent(c, r, 'KINDS'), harmless, `${r} ${k}`);
+      assert.equal(chandraPresent(c, r, 'KINDS_FRIENDS', false), harmless);
+      assert.equal(chandraPresent(c, r, 'KINDS_FRIENDS', true), true, 'the lords friends: any kind');
+      assert.equal(chandraPresent(c, r, 'NONE', true), false);
+    }
+    assert.equal(chandraPresent(chandraOf(0, 7, 'SHUKLA', 19, none), r, 'KINDS'), false, 'Kshaya is not harmless');
+  }
+  // The relief touches only the 8th.
+  assert.equal(chandraPresent(chandraOf(0, 3, 'KRISHNA', 9, none), 'GOOD_LIST', 'KINDS_FRIENDS', true), false, 'the 4th stays without bala');
   assert.deepEqual(plain(T.CHANDRA_RANK.words), FIX.chandraWords);
   assert.deepEqual([...T.CHANDRA_RANK.order], Object.keys(FIX.chandraWords).sort((a, b) => FIX.chandraWords[b] - FIX.chandraWords[a]));
   assert.equal(T.CHANDRA_READINGS.default, 'GOOD_LIST', 'Joshi first among the books that give a list');
@@ -188,6 +203,8 @@ const plain = (o) => JSON.parse(JSON.stringify(o));
   const natal = 45.5; // Rohini 2
   const r = muhurtaStarChecks({ natalMoonLongitude: natal, fromMs, toMs, latitude: 11.34, longitude: 77.72, atMs: fromMs + DAY });
   assert.deepEqual([r.janma.starTa, r.janma.pada, r.janma.pada88.pada, r.janma.pada108.pada], ['ரோகிணி', 2, 1, 1]);
+  // Taurus: Venus and Jupiter (lord of the 8th, Sagittarius) are not friends (Jupiter takes Venus as an enemy).
+  assert.deepEqual(plain(r.janma.chandrashtamaLords), { natalLord: 'Venus', eighthLord: 'Jupiter', friends: false });
   // Contiguous, covering the period.
   assert.equal(Date.parse(r.segments[0].fromUtc), fromMs);
   assert.equal(Date.parse(r.segments[r.segments.length - 1].toUtc), toMs);
@@ -226,6 +243,7 @@ const plain = (o) => JSON.parse(JSON.stringify(o));
     signs.Ketu = (signs.Rahu + 6) % 12;
     const paksha = ((moonLon(mid) - sunLon(mid) + 360) % 360) < 180 ? 'SHUKLA' : 'KRISHNA';
     assert.deepEqual(plain(s.chandra), plain(chandraOf(Math.floor(natal / 30), Math.floor(moonLon(mid) / 30), paksha, s.tara.count, signs)), `chandra ${s.fromUtc}`);
+    for (const cr of T.CHANDRA_READINGS.order) for (const x of T.CHANDRA_RELIEF.order) assert.equal(s.chandraBala[cr][x], chandraPresent(s.chandra, cr, x, r.janma.chandrashtamaLords.friends));
     if (b - a > 4 * 60000) {
       for (const ms of [a + 90000, b - 90000]) {
         const t = taraAt(ms);
