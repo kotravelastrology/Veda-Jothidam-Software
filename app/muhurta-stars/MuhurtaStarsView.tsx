@@ -276,17 +276,34 @@ export default function MuhurtaStarsView() {
     }).join(' · ');
   };
 
-  /** The cautions (விரும்பத்தக்கது checks that fail) over a joined good stretch, each once. */
-  const cautionWhy = (its: any[]): string[] => {
-    const out = new Set<string>();
+  /** The cautions (விரும்பத்தக்கது checks that fail) over a joined good stretch, each once; §13.10's apart. */
+  const cautionWhy = (its: any[]): { other: string[]; adverse: string[] } => {
+    const other = new Set<string>();
+    const adverse = new Set<string>();
     for (const { x, v } of its) {
       for (const r of v.cautions) {
-        // §13.10 one combination at a time, so that each is named once.
-        if (r === 'ADVERSE') adverseShown(x).forEach((c: string) => out.add(B.lagna.adverseTa[c]));
-        else out.add(lagnaWhy(x, { ...v, reasons: [r] }));
+        if (r === 'ADVERSE') adverseShown(x).forEach((c: string) => adverse.add(B.lagna.adverseTa[c]));
+        else if (r === 'ADVERSE_CAUTION') x.adverse.filter((c: string) => (B.lagna.adverse[lagnaChosen().ADVERSE].caution ?? []).includes(c)).forEach((c: string) => adverse.add(B.lagna.adverseTa[c]));
+        else other.add(lagnaWhy(x, { ...v, reasons: [r] }));
       }
     }
-    return [...out].filter(Boolean);
+    return { other: [...other].filter(Boolean), adverse: [...adverse] };
+  };
+  /** The cautions in short: §13.10 as a count, its combinations on opening (the owner, 2026-10-12). */
+  const cautionLine = (its: any[], cls: string) => {
+    const c = cautionWhy(its);
+    if (!c.other.length && !c.adverse.length) return null;
+    const head = [...c.other, ...(c.adverse.length ? [`§13.10 — ${c.adverse.length} சேர்க்கை`] : [])].join(', ');
+    return (
+      <span className={`${cls} text-amber-700`}> · கவனம்: {head}
+        {c.adverse.length > 0 && (
+          <details className="inline-block align-top ml-1">
+            <summary className="cursor-pointer underline">விவரம்</summary>
+            <span className="block">{c.adverse.join(', ')}</span>
+          </details>
+        )}
+      </span>
+    );
   };
 
   /** The ten evils under the chosen readings and rule — the same rule as the engine's `dashaVerdict` (marriageDoshas.js). */
@@ -409,7 +426,7 @@ export default function MuhurtaStarsView() {
                   <span className="font-mono">{local(isoOf(g.fromMs)).slice(0, 16)} – {hm(isoOf(g.toMs))}</span> · {s.starTa} {s.pada} · {RASI_TA[g.l.lagna]} லக்னம் ({g.navs.map((n: number) => RASI_TA[n]).join(', ')} நவாம்சம்)
                   {isMarriage && g.v.pl.points !== null && <> · புள்ளி {g.v.pl.points} ({B.lagna.gradeTa[g.v.pl.grade]})</>}
                   {isMarriage && g.v.pl.avoid.length > 0 && <span className="text-amber-700"> · {g.v.pl.avoid.map(([p, h]: [string, number]) => `${p === 'LAGNA_LORD' ? LAGNA_LORD_TA : PLANET_NAME_TA[p]} ${h}-ல்`).join(', ')} (ஒன்று — பரிகாரத்துடன்)</span>}
-                  {cautionWhy(g.its).length > 0 && <span className="text-amber-700"> · கவனம்: {cautionWhy(g.its).join(', ')}</span>}
+                  {cautionLine(g.its, '')}
                 </li>
               ))}
             </ul>
@@ -578,7 +595,7 @@ export default function MuhurtaStarsView() {
                                 {g.good.length > 0
                                   ? <> ✓ {g.good.map((ok: any, i: number) => (
                                     <span key={ok.fromMs}>{i > 0 && ', '}{hm(isoOf(ok.fromMs))}–{hm(isoOf(ok.toMs))} ({ok.navs.map((n: number) => RASI_TA[n]).join(', ')} நவாம்சம்)
-                                      {cautionWhy(ok.its).length > 0 && <span className="font-normal text-[11px] text-amber-700"> கவனம்: {cautionWhy(ok.its).join(', ')}</span>}
+                                      {cautionLine(ok.its, 'font-normal text-[11px]')}
                                     </span>
                                   ))}</>
                                   : <> ✗ <span className="font-normal text-[11px]">({[signWhy, navWhy.length ? `பகுதிகளில்: ${navWhy.slice(0, 5).join(', ')}${navWhy.length > 5 ? '…' : ''}` : ''].filter(Boolean).join(' · ')})</span></>}
