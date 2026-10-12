@@ -252,7 +252,9 @@ Not plan items, but real, and they should not be discovered at release:
   rejects) or விரும்பத்தக்கது (preferable, shown as a caution), per event and
   switchable; Shridhar's 4–10 points and the birth lords retrograde are
   cautions; the ten evils are shown, not judged, for other acts; Wilhelm's
-  Chandrashtama relief is in the verdict. Upanayana, travel and the other
-  events are next.
+  Chandrashtama relief is in the verdict. Upanayana added 2026-10-12 from nine
+  books (Kalyanraman first by words), on both pages, with the karana, the
+  Sankranti tithi, the part of the day and Pradosha in the engine. Travel and
+  the other events are next.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

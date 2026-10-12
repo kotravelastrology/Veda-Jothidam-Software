@@ -16,7 +16,7 @@ interface AuspiciousTime {
 }
 
 interface MuhurtaFilters {
-  purpose: 'marriage' | 'business' | 'travel' | 'surgery' | 'ritual' | 'houseWarming';
+  purpose: 'marriage' | 'business' | 'travel' | 'surgery' | 'ritual' | 'houseWarming' | 'upanayana';
   duration: number; // in hours
   startDate: string;
   endDate: string;
@@ -46,7 +46,7 @@ export function MuhurtaFinder() {
 
   // The unsourced per-purpose lists that stood here were removed (2026-10-11); the
   // rules come from the books through the engine, or the purpose shows SOURCE REQUIRED.
-  const DURATION_HOURS: Record<MuhurtaFilters['purpose'], number> = { marriage: 1.5, business: 2, travel: 1, surgery: 4, ritual: 2, houseWarming: 2 };
+  const DURATION_HOURS: Record<MuhurtaFilters['purpose'], number> = { marriage: 1.5, business: 2, travel: 1, surgery: 4, ritual: 2, houseWarming: 2, upanayana: 2 };
 
   // Real electional results (from the src/report/muhurtaSearch engine via a
   // server action). No mock — computed on demand from the Swiss Ephemeris.
@@ -57,7 +57,7 @@ export function MuhurtaFinder() {
 
   const PURPOSE_TO_ENGINE: Record<string, string> = {
     marriage: 'marriage', business: 'business', travel: 'travel',
-    surgery: 'medical', ritual: 'education', houseWarming: 'griha',
+    surgery: 'medical', ritual: 'education', houseWarming: 'griha', upanayana: 'upanayana',
   };
 
   const handleSearch = async (bookId: string = book) => {
@@ -122,9 +122,10 @@ export function MuhurtaFinder() {
               <label className="text-sm font-semibold text-ink">Purpose</label>
               <select
                 value={filters.purpose}
-                onChange={(e) =>
-                  setFilters(prev => ({ ...prev, purpose: e.target.value as any }))
-                }
+                onChange={(e) => {
+                  setFilters(prev => ({ ...prev, purpose: e.target.value as any }));
+                  setBook('');
+                }}
                 className="w-full px-3 py-2 rounded border border-line bg-surface text-ink text-sm"
               >
                 <option value="marriage">💒 Marriage</option>
@@ -133,6 +134,7 @@ export function MuhurtaFinder() {
                 <option value="surgery">⚕️ Surgery</option>
                 <option value="ritual">🙏 Ritual</option>
                 <option value="houseWarming">🏠 House Warming</option>
+                <option value="upanayana">🧵 உபநயனம் (Upanayana)</option>
               </select>
             </div>
 
@@ -197,7 +199,7 @@ export function MuhurtaFinder() {
               </select>
             </div>
 
-            {filters.purpose === 'houseWarming' && meta?.books && (
+            {(filters.purpose === 'houseWarming' || filters.purpose === 'upanayana') && meta?.books && (
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-ink">நூல் (விதிகள்)</label>
                 <select value={book} onChange={(e) => { setBook(e.target.value); handleSearch(e.target.value); }}

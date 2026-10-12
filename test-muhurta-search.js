@@ -5,12 +5,12 @@ const { panchangaCodes, varaCodes } = require('./src/report/eventMuhurta');
 const { sunMoonLongitudes } = require('./src/ephemeris/siderealPositions');
 
 // ── purposes: labels only; rules only where read from the books ─────────
-for (const key of ['marriage', 'business', 'travel', 'griha', 'education', 'medical']) {
+for (const key of ['marriage', 'business', 'travel', 'griha', 'upanayana', 'education', 'medical']) {
   const p = PURPOSES[key];
   assert.ok(p && p.label, `${key} has a label`);
   assert.equal(p.goodNak, undefined, `${key}: no unsourced star list`);
 }
-assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA' });
+assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA' });
 
 // ── an unsourced purpose: panchanga, no verdict ──────────────────────────
 const res = searchMuhurta({
@@ -64,5 +64,17 @@ assert.ok(one.month === E.MONTH_TA[10] || one.month === E.MONTH_TA[11]);
 const PANCH = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'Purva Phalguni', 'Uttara Phalguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Mula', 'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'];
 assert.ok(PANCH.includes(one.nakshatra));
 void panchangaCodes; void varaCodes; void sunMoonLongitudes;
+
+// ── upanayana: the sunrise rules only (no person, no planets) ─────────────
+const U = E.EVENTS.UPANAYANA;
+for (const book of [undefined, 'SHRIDHAR']) {
+  const u = searchMuhurta({ startDate: '2027-02-01', endDate: '2027-03-31', purpose: 'upanayana', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330, book });
+  assert.equal(u.sourced, true);
+  assert.equal(u.book, book ?? U.default);
+  assert.ok(u.noteTa.includes('/muhurta-stars'));
+  const personal = ['GURU', 'GURU_MID', 'RAVI', 'RAVI_MID', 'CHANDRA', 'CHANDRA_MID', 'TARA_NOT', 'TARA_MID', 'NATAL_8', 'MOON_8', 'CONJ', 'MOON_NAV', 'VEDHA', 'BANA', 'SANKRANTI', 'WED_COMBUST'];
+  for (const d of u.days) assert.ok(!d.codes.some((c) => personal.includes(c)), `${d.date}: only sunrise rules`);
+  assert.ok(u.days.some((d) => d.score >= 70), `${u.book}: good sunrises in Magha–Chaitra 2027`);
+}
 
 console.log(JSON.stringify({ pass: true, marriageDays: res.days.length, grihaDefault: G.default }, null, 2));

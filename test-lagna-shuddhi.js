@@ -516,10 +516,22 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
         natalLagna: sign(natalLagna), natalMoon: sign(natalMoon), natalNav8,
       });
       assert.deepEqual(plain(r.adverseTable[arr[9]]), advWant, `§13.10 ${x.fromUtc}`);
-      // Each event's own lagna and weekday codes.
+      // Each event's own lagna and weekday codes, with the part of the day and Pradosha from sunrise and sunset.
+      const setMs = (sunsetJulianDay(jd(lastRise), lat, lon) - 2440587.5) * DAY;
+      const nextMs = (sunriseJulianDay(jd(setMs) + 0.01, lat, lon) - 2440587.5) * DAY;
+      const fr = (mid - lastRise) / (setMs - lastRise);
+      const dayPart = mid >= setMs ? 0 : fr < 1 / 3 ? 1 : fr < 1 / 2 ? 2 : fr < 2 / 3 ? 3 : 4;
+      const el = (ms) => L360(pl('Moon', ms) - pl('Sun', ms));
+      const k0 = Math.floor(el(lastRise) / 12);
+      let lo = lastRise; let hi = lastRise + 1.2 * DAY;
+      for (let k = 0; k < 40; k += 1) { const c = (lo + hi) / 2; if (Math.floor(el(c) / 12) === k0) lo = c; else hi = c; }
+      const lim = { 12: 2, 6: 1.5, 3: 1 }[(k0 % 15) + 1];
+      const pradosha = lim !== undefined && lo < setMs + lim * (nextMs - setMs) / 4;
+      const m = { lagna: lg, nav: n108 % 12, signs, natalLagna: sign(natalLagna), natalMoon: sign(natalMoon), combust: combustAt, dayPart, pradosha, tithi: s.tithi, star: s.star };
       assert.deepEqual(plain(r.eventTable[arr[10]]), {
         sunHouse: houseOf(signs.Sun, lg),
-        GRIHA_PRAVESHA: stretchCodesOf('GRIHA_PRAVESHA', { lagna: lg, nav: n108 % 12, signs, natalLagna: sign(natalLagna), natalMoon: sign(natalMoon), combust: combustAt }, vara),
+        GRIHA_PRAVESHA: stretchCodesOf('GRIHA_PRAVESHA', m, vara),
+        UPANAYANA: stretchCodesOf('UPANAYANA', m, vara),
       }, `event ${x.fromUtc}`);
       n += 1;
     }

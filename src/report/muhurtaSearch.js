@@ -21,10 +21,13 @@ const { julianDay } = require('@swisseph/node');
 const { sunriseJulianDay, sunMoonLongitudes, siderealAscendant } = require('../ephemeris/siderealPositions');
 const { calculateDailyMuhurta } = require('./dailyMuhurta');
 const EV = require('./eventMuhurtaTables');
-const { panchangaCodes, varaCodes, rejects } = require('./eventMuhurta');
+const { panchangaCodes, varaCodes, rejects, isVishti } = require('./eventMuhurta');
 
 /** Purposes with rules read from the books, and their event. */
-const SOURCED = Object.freeze({ griha: 'GRIHA_PRAVESHA' });
+const SOURCED = Object.freeze({ griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA' });
+/** The rules a sunrise can judge without the person or the planets (the rest are on /muhurta-stars). */
+const SUNRISE_RULES = Object.freeze(['masa', 'uttarayana', 'sunSign', 'harishayana', 'nak', 'tithi', 'tithiMid', 'anadhyaya', 'galagraha', 'yogaNot', 'vishti', 'kumbha', 'vara']);
+const sunriseReading = (r) => Object.fromEntries(Object.entries(r).filter(([k]) => SUNRISE_RULES.includes(k)));
 const SOURCE_REQUIRED_TA = 'ஆதாரம் தேவை / SOURCE REQUIRED — இந்தக் காரியத்தின் விதிகள் நூல்களிலிருந்து இன்னும் கட்டப்படவில்லை';
 
 const NAKSHATRAS = [
@@ -50,6 +53,7 @@ const PURPOSES = {
   business: { label: 'வியாபாரம் தொடங்குதல்' },
   travel: { label: 'பயணம்' },
   griha: { label: 'கிரகப்பிரவேசம்' },
+  upanayana: { label: 'உபநயனம்' },
   education: { label: 'வித்யாரம்பம் / கல்வி' },
   medical: { label: 'மருத்துவம் / அறுவை' },
 };
@@ -109,9 +113,13 @@ function searchMuhurta(q) {
     }
     // The chosen book's rules at sunrise.
     const month = monthAt(sunrise);
+    const reading = sunriseReading(R[book]);
     const codes = [
-      ...panchangaCodes(R[book], { star: nakIdx, tithi: tithiIdx + 1, month, sunSign: Math.floor(norm(sunLongitude) / 30), sunStar: Math.floor(norm(sunLongitude) / (360 / 27)) % 27 }),
-      ...varaCodes(R[book], wd),
+      ...panchangaCodes(reading, {
+        star: nakIdx, tithi: tithiIdx + 1, month, sunSign: Math.floor(norm(sunLongitude) / 30), sunStar: Math.floor(norm(sunLongitude) / (360 / 27)) % 27,
+        yoga: Math.floor(norm(moonLongitude + sunLongitude) / (360 / 27)) % 27, vishti: isVishti(Math.floor(elong / 6)), sankranti: false,
+      }),
+      ...varaCodes(reading, wd),
     ];
     const bad = rejects(codes);
     days.push({
@@ -131,7 +139,9 @@ function searchMuhurta(q) {
       ? {
         event, book, books: R.order.map((id) => ({ id, labelTa: R[id].labelTa, isDefault: id === R.default })),
         rankTa: EV.RANK[event].measureTa, source: EV.SOURCES[event][book],
-        noteTa: 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (மாதம், நட்சத்திரம், திதி, கிழமை, கும்ப சக்கரம்). லக்னம், தாரா / சந்திர பலம், வாசல் திசை: /muhurta-stars பக்கம், "கிரகப்பிரவேசம்" தேர்வுடன்.',
+        noteTa: event === 'UPANAYANA'
+          ? 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (மாதம், சௌர மாதம், நட்சத்திரம், திதி, அனத்யாயம், கலக்ரஹம், யோகம், விஷ்டி, கிழமை). குரு / சூரிய / சந்திர பலம், லக்னம், பகலின் பகுதி, பிரதோஷம், சங்கிராந்தி, வயது: /muhurta-stars பக்கம், "உபநயனம்" தேர்வுடன் — குழந்தையின் ஜாதகத்துடன்.'
+          : 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (மாதம், நட்சத்திரம், திதி, கிழமை, கும்ப சக்கரம்). லக்னம், தாரா / சந்திர பலம், வாசல் திசை: /muhurta-stars பக்கம், "கிரகப்பிரவேசம்" தேர்வுடன்.',
       }
       : { missingTa: SOURCE_REQUIRED_TA, noteTa: purpose === 'marriage' ? 'திருமணத்தின் தசதோஷம், லத்தை, தாரா / சந்திர பலம், லக்ன சுத்தி நூல்களுடன்: /muhurta-stars பக்கம்.' : null }),
   };

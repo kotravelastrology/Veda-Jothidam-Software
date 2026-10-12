@@ -1,4 +1,4 @@
-# An event's own muhurta rules — first, entering a new house (2026-10-11)
+# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12)
 
 `src/report/eventMuhurtaTables.js` (the books' rules) · `src/report/eventMuhurta.js`
 (pure: the codes for a moment) · `test-event-muhurta.js` with
@@ -60,6 +60,62 @@ For the Erode birth from 2027-01-20 (60 days), the books' own rules pass
 466 (Rangacharya) to 1,322 (Vashistha) lagna minutes with the star; with every
 general lagna check none — §13.10's retrograde birth lord and udaya-asta close it.
 
+## Upanayana — nine books (added 2026-10-12)
+
+| Book | Words | Pages |
+|---|---|---|
+| Kalyanraman (default) | 8480 | vol.2 pp.103-124 — a compilation of many texts |
+| Shridhar | 3443 | §17.9, pp.421-431 |
+| Wilhelm | 3029 | pp.292-300 |
+| Muhurta Chintamani | 2701 | ch.5 slokas 39-57, pp.136-144 (one OCR copy counted) |
+| Joshi | 968 | pp.59-62 |
+| Rangacharya | 861 | pp.77-80 |
+| Raman | 742 | PDF pp.20-21 |
+| Agarwal | 391 | pp.307, 309-310 |
+| Vashistha | 265 | pp.91-92 (Vedha, ch.8 p.93) |
+
+Kalyanraman's reading is what he states generally: the summary on p.103, the
+"generally" lines, and items 9-14; his item 8 opens "Others want …" and is left
+to the books that hold it (Joshi). The rules, each book's own (all page images
+read): the lunar and solar months, Harishayana (Ashadha Shukla 11 – Kartika
+Shukla 11), the stars, the tithis (good and middling), Anadhyaya (1, 8, 14,
+full and new Moon; Ashadha S10, Jyeshtha S2, Pausha S11, Magha S12; the Sankranti
+tithi), Galagraha (Krishna 4, 7, 8, 9, 13, 14, Amavasya, Shukla 1), the stars
+counted from the birth star to avoid (Shridhar, Wilhelm), yogas (Shridhar),
+Vishti (Shridhar §6.3), Vedha (Pancha or Sapta Shalaka), Mrityu bana, the
+weekdays (Wednesday with Mercury combust, Monday in the dark half), the part of
+the day (thirds of sunrise–sunset; noon), Pradosha (MC V.55: the day's 12th,
+6th or 3rd tithi ending before midnight, 1½ or 1 prahara into the night), the
+lagna signs and navamsa, the 8th, planets kept out of houses, the Moon in the
+lagna (Taurus/Cancer, or Cancer with Jupiter), the Moon's navamsa, conjunctions
+with the Sun, Mars, Saturn (MC V.52), Jupiter, the Sun and the Moon from the
+birth Moon's sign with each book's exceptions (own, exalted or friend's sign or
+navamsa, vargottama, Chaitra), Rangacharya's vimsopaka table, Agarwal's roga
+panchaka. Each book's rules are listed on the page in Tamil (`linesTa`).
+
+The engine adds the karana (cuts at every half-tithi), the Sankranti tithi, the
+part of the day (cuts at a third, a half and two-thirds of the day) and
+Pradosha; pieces carry every book's codes and are cut where they change.
+
+Our readings: night is rejected for every book (Vashistha does not say);
+Anadhyaya's "1st" takes both halves, so Krishna 1 falls where Wilhelm,
+Shridhar and MC call it good; Shridhar's navamsas include Virgo; his "malefics
+in 1, 6, 8, 12" drops the 6th; Rangacharya's table graded as his marriage table
+(below 5 rejected, 5-10 middling) with the Rahu/Ketu row for Rahu; Agarwal's
+panchaka with tithis 1-30; the after-the-13th-day rule by the Sun's 13th degree.
+Shown, not judged: the age (the running year from birth; the books' years by
+varna), varna and Veda lords, the eldest son's Jyeshtha, the birth month.
+
+`/muhurta` judges upanayana at sunrise with the rules a sunrise can judge
+alone (month, solar month, Harishayana, star, tithi, Anadhyaya, Galagraha,
+yoga, Vishti, weekday); the rest need the child's chart and are on
+`/muhurta-stars`.
+
+Measured over 60 days from 2027-01-20 at Erode (best times with every check):
+for a child born 2019-03-10 (in the 8th year), Kalyanraman 3, Rangacharya 7,
+Vashistha 7, the others 0; for the adult test birth of 1990, Kalyanraman 0 —
+Ketu sits 8th from the birth Moon (Sagittarius) all 60 days.
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are
@@ -71,6 +127,6 @@ narrow — about one day in sixty passes at sunrise.
 
 ## Not done
 
-Upanayana, travel (direction, Parigha danda, Dik shoola, ghata tithis …),
-education, business, medical treatment and the other events; an old house
+Travel (direction, Parigha danda, Dik shoola, ghata tithis …), education,
+business, medical treatment and the other events; an old house
 (the books' second list); Yogini, Kala Rahu, forenoon, the wife's pregnancy.

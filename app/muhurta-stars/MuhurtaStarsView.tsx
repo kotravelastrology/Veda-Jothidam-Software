@@ -149,6 +149,17 @@ export default function MuhurtaStarsView() {
   const evName: string | undefined = B?.lagna.events[lagnaEvent]?.event;
   const evRule = evName ? B.lagna.eventRules[evName][eventBook[evName] ?? B.lagna.eventRules[evName].default] : null;
   const evBookId = evName ? (eventBook[evName] ?? B.lagna.eventRules[evName].default) : null;
+  // The door's direction matters only where a book of the event gives door rules (house entry).
+  const evHasDoor = evName ? B.lagna.eventRules[evName].order.some((id: string) => {
+    const r = B.lagna.eventRules[evName][id];
+    return r.digdwar || r.tithiDoor || r.sunLeft;
+  }) : false;
+  /** An event code in Tamil: `IN_<planet>_<house>[_MID]` is a planet the book keeps out of that house. */
+  const evCodeTa = (c: string): string => {
+    const m = /^IN_(\w+?)_(\d+)(_MID)?$/.exec(c);
+    if (m) return `${m[1] === 'LAGNA_LORD' ? LAGNA_LORD_TA : PLANET_NAME_TA[m[1]] ?? m[1]} ${m[2]}-ல்${m[3] ? ' (குறிக்கப்படும்)' : ''}`;
+    return B.lagna.eventCodeTa[c] ?? B.lagna.eventCodeTa[c.replace(/_\d+$/, '')] ?? c;
+  };
   const inPaksha = (t: number) => ((t - 1) % 15) + 1;
   /** The same rules as `withDoorStars` and `doorCodes` (eventMuhurta.js). */
   function eventStarCodes(s: any): string[] {
@@ -254,7 +265,7 @@ export default function MuhurtaStarsView() {
       if (r === 'ADVERSE_CAUTION') return x.adverse.filter((c: string) => (B.lagna.adverse[R.ADVERSE].caution ?? []).includes(c)).map((c: string) => B.lagna.adverseTa[c]).join(', ');
       if (r === 'COMMON') return l.common[R.COMMON].map((c: string) => B.lagna.commonWhyTa[c]).join(', ');
       if (r === 'ADVERSE') return adverseShown(x).map((c: string) => B.lagna.adverseTa[c]).join(', ');
-      if (r === 'EVENT') return eventLagnaCodes(x).filter(isReject).map((c: string) => B.lagna.eventCodeTa[c.replace(/_\d+$/, '')] ?? B.lagna.eventCodeTa[c] ?? c).join(', ');
+      if (r === 'EVENT') return eventLagnaCodes(x).filter(isReject).map(evCodeTa).join(', ');
       if (r === 'NAV_LAST') return nv.last[R.NAV_LAST].map((k: string) => NAV_REASON_TA[k]).join(', ');
       if (r === 'NAV_WHICH') return `${RASI_TA[nv.nav]} நவாம்சம்`;
       if (r === 'NAV_NATAL') return nv.natal[R.NAV_NATAL].map((k: any) => (typeof k === 'string' ? NAV_REASON_TA[k] : `நவாம்சம் ${k.from === 'LAGNA' ? 'பிறந்த லக்னத்துக்கு' : 'ஜன்ம ராசிக்கு'} ${k.house}`)).join(', ');
@@ -470,8 +481,10 @@ export default function MuhurtaStarsView() {
                 <>
                   <Switch label={`${B.lagna.eventRules[evName].labelTa} — நூல்`} value={evBookId!} onChange={(v) => setEventBook({ ...eventBook, [evName]: v })}
                     options={B.lagna.eventRules[evName].order.map((id: string) => [id, `${B.lagna.eventRules[evName][id].labelTa}${id === B.lagna.eventRules[evName].default ? ' (இயல்பு)' : ''}`])} />
-                  <Switch label="வாசல் திசை" value={door} onChange={setDoor}
-                    options={[['', 'தேர்வு இல்லை'], ...B.lagna.doors.order.map((d: string) => [d, B.lagna.doors.ta[d]])] as [string, string][]} />
+                  {evHasDoor && (
+                    <Switch label="வாசல் திசை" value={door} onChange={setDoor}
+                      options={[['', 'தேர்வு இல்லை'], ...B.lagna.doors.order.map((d: string) => [d, B.lagna.doors.ta[d]])] as [string, string][]} />
+                  )}
                 </>
               )}
               <details className="mb-1">
@@ -517,7 +530,7 @@ export default function MuhurtaStarsView() {
                         <td className={`py-1 pr-2 ${j.clear ? 'text-teal' : 'text-ink'}`}>{s.starTa} {s.pada}{j.clear && <span className="block text-[11px]">தடை இல்லை</span>}
                           {evName && (
                             <span className="block text-[11px] text-ink-soft">{B.lagna.monthTa[s.month] ?? '—'} மாதம்
-                              {j.evStar.length > 0 && <span className={j.evStar.some(isReject) ? 'text-rose' : 'text-amber-700'}> · {j.evStar.map((c: string) => B.lagna.eventCodeTa[c] ?? c).join(', ')}</span>}
+                              {j.evStar.length > 0 && <span className={j.evStar.some(isReject) ? 'text-rose' : 'text-amber-700'}> · {j.evStar.map(evCodeTa).join(', ')}</span>}
                             </span>
                           )}
                         </td>
@@ -739,12 +752,24 @@ export default function MuhurtaStarsView() {
               <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
                 <h2 className="text-sm font-semibold text-ink mb-1">{ER.labelTa} — நூல்களின் தனி விதிகள்</h2>
                 <p className="text-[11px] text-ink-soft">வரிசை: {B.lagna.eventRank[evName].measureTa}</p>
+                {evName === 'UPANAYANA' && (() => {
+                  // The running year from birth (a Saura year — the sidereal year, our reading), shown, not judged.
+                  const birth = Date.parse(`${result.native.date}T00:00:00Z`);
+                  const year = Math.floor((Date.parse(result.fromUtc) - birth) / (365.2564 * 86400000)) + 1;
+                  return (
+                    <p className="text-xs text-ink mt-1">
+                      {Number.isFinite(year) && <>வயது: {local(result.fromUtc).slice(0, 10)} அன்று பிறப்பிலிருந்து <strong>{year}-ஆம் ஆண்டு</strong> (சௌர ஆண்டு). </>}
+                      நூல்களின் ஆண்டுகள்: {Object.values(B.lagna.eventYears).map((v: any) => `${v.ta} ${v.years.join(' அல்லது ')} (எல்லை ${v.limit})`).join('; ')} — காட்டப்படும், தீர்ப்பில் இல்லை.
+                    </p>
+                  );
+                })()}
                 {ER.order.map((id: string) => {
                   const r = ER[id];
                   return (
                     <details key={id} className="mt-2 text-xs" open={id === evBookId}>
                       <summary className="cursor-pointer font-semibold text-ink">{r.labelTa}{id === ER.default ? ' (இயல்பு)' : ''}{id === evBookId ? ' ← தேர்ந்தது' : ''}</summary>
-                      <ul className="mt-1 space-y-0.5 text-ink">
+                      {r.linesTa && <ul className="mt-1 space-y-0.5 text-ink list-disc ml-5">{r.linesTa.map((t: string) => <li key={t}>{t}</li>)}</ul>}
+                      {!r.linesTa && <ul className="mt-1 space-y-0.5 text-ink">
                         {r.masa && <li>மாதம்: {months(r.masa.good)}{r.masa.mid.length > 0 && <> · நடுத்தரம் {months(r.masa.mid)}</>}{!r.masa.strict && ' (விருப்பம்)'}</li>}
                         {r.uttarayana && <li>உத்தராயணம்: {r.uttarayana === 'REQUIRED' ? 'வேண்டும்' : 'விருப்பம்'}</li>}
                         {r.nak && <li>நட்சத்திரம்: {stars(r.nak.good)}{r.nak.mid.length > 0 && <> · நடுத்தரம் {stars(r.nak.mid)}</>}{r.digdwar && ' · வாசலை நோக்கியவையும்'}</li>}
@@ -763,13 +788,13 @@ export default function MuhurtaStarsView() {
                         {r.jupVenNotSet && <li>குரு, சுக்கிரன் அஸ்தங்கம் கூடாது</li>}
                         {r.kumbha && <li>கும்ப சக்கரம்: சூரியனின் நட்சத்திரம் முதலாக எண்ணி {r.kumbha.join(', ')}-ஆவது நல்லவை</li>}
                         {r.sunLeft && <li>சூரியன் "இடப்புறம்" (வாசல் திசைப்படி)</li>}
-                      </ul>
+                      </ul>}
                       <Cites list={[B.lagna.eventSources[evName][id]]} />
                     </details>
                   );
                 })}
                 <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-2 space-y-0.5">{B.lagna.eventNotesTa[evName].map((n: string) => <li key={n}>{n}</li>)}</ul>
-                <Cites list={B.lagna.eventSources.MONTHS} />
+                <Cites list={[...B.lagna.eventSources.MONTHS, ...(evName === 'UPANAYANA' ? [B.lagna.eventSources.VISHTI] : [])]} />
               </section>
             );
           })()}
