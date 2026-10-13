@@ -10,7 +10,7 @@ for (const key of ['marriage', 'business', 'travel', 'griha', 'upanayana', 'educ
   assert.ok(p && p.label, `${key} has a label`);
   assert.equal(p.goodNak, undefined, `${key}: no unsourced star list`);
 }
-assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA' });
+assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION' });
 assert.ok(PURPOSES.ritual && !SOURCED.ritual, '"Ritual" is not read from the books yet');
 
 // ── an unsourced purpose: panchanga, no verdict ──────────────────────────
@@ -116,5 +116,19 @@ for (const book of VR.order) {
 }
 assert.equal(searchMuhurta({ startDate: '2026-10-10', endDate: '2026-10-11', purpose: 'education', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 }).book, VR.default);
 assert.equal(searchMuhurta({ startDate: '2026-10-10', endDate: '2026-10-11', purpose: 'ritual', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 }).sourced, false);
+
+// ── education after upanayana: the sunrise rules ──────────────────────────
+const ED = E.EVENTS.EDUCATION;
+for (const book of ED.order) {
+  const v = searchMuhurta({ startDate: '2027-02-01', endDate: '2027-03-15', purpose: 'study', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330, book });
+  assert.equal(v.sourced, true);
+  assert.equal(v.book, book);
+  assert.ok(v.noteTa.includes('/muhurta-stars'));
+  for (const d of v.days) {
+    assert.ok(!d.codes.some((c) => ['LAGNA', 'NAV_NOT', 'EMPTY_8', 'NIGHT', 'PRADOSHA', 'TARA_NOT', 'CHANDRA', 'JUP_VEN_SET'].includes(c)), `${book} ${d.date}: only sunrise rules`);
+    assert.ok(d.notes.every((n) => !/^[A-Z_]+$/.test(n)), `${book} ${d.date}: in Tamil`);
+  }
+  assert.ok(v.days.some((d) => d.score >= 70), `${book}: some good sunrises in February–March 2027`);
+}
 
 console.log(JSON.stringify({ pass: true, marriageDays: res.days.length, grihaDefault: G.default }, null, 2));

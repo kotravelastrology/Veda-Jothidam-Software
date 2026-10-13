@@ -261,7 +261,8 @@ Not plan items, but real, and they should not be discovered at release:
   each book's secondary rules marked. Shridhar, MC and Wilhelm with every rule
   leave no window in 60 days (the owner kept them, 2026-10-13). Vidyarambha
   (Aksharabhyasa) added the same day from nine books (Kalyanraman first), with
-  Vijayadashami's day by his rule. Starting education after upanayana,
-  business, medical treatment and an old house are next.
+  Vijayadashami's day by his rule. Starting education after upanayana added
+  the same day from seven books (Wilhelm first). Business, medical treatment
+  and an old house are next.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

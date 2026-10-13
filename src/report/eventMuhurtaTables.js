@@ -754,7 +754,119 @@ const VIDYARAMBHA = deepFreeze({
   },
 });
 
+// ---------------------------------------------------------------------------
+// Starting education after upanayana (Vidya / Upavidya), added 2026-10-13
+// ---------------------------------------------------------------------------
+
+/** MC 5/38's sixteen: Mrigashira, Ardra, Punarvasu; Hasta, Chitra, Swati; Shravana, Dhanishtha, Shatabhisha; Ashwini, Moola, the three Purvas; Pushya, Ashlesha. */
+const EDUCATION_16 = Object.freeze([4, 5, 6, 12, 13, 14, 21, 22, 23, 0, 18, 10, 19, 24, 7, 8]);
+/** The navamsas of Mars and Saturn (Aries, Scorpio, Capricorn, Aquarius). */
+const MARS_SATURN_NAVS = Object.freeze([0, 7, 9, 10]);
+/** J.V.'s Matrika chakra (Shridhar): counted from the Sun's star (the 1st), the 1st-7th and 12th-15th are unfavourable. */
+const MATRIKA_GOOD = Object.freeze([...range(8, 11), ...range(16, 27)]);
+
+/**
+ * Education's rules beyond the other events': matrika (good counts from the Sun's star),
+ * lagnaLordBenefic (the lagna's lord Mercury, Jupiter or Venus — marked).
+ */
+const EDUCATION = deepFreeze({
+  labelTa: 'கல்வி தொடக்கம் (உபநயனத்துக்குப் பின்)',
+  default: 'WILHELM',
+  order: ['WILHELM', 'SHRIDHAR', 'KALYANRAMAN', 'JOSHI', 'VASHISTHA', 'MUHURTA_CHINTAMANI', 'RANGACHARYA'],
+  ageTa: 'வயது: ஒற்றை ஆண்டுகள் சிறந்தவை; இரட்டை ஆண்டின் முதல், கடைசி மூன்று மாதமும் நல்லவை (வில்ஹெல்ம், ஸ்ரீதர் — J.V., ஜோஷி, கல்யாணராமன்). காட்டப்படும், தீர்ப்பில் இல்லை.',
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — வித்யா, உபவித்யா', booksTa: 'வில்ஹெல்ம் (காலப்பிரகாசிகை, முகூர்த்த சிந்தாமணி மேற்கோள்கள்)',
+    nak: { good: [0, 4, 5, 6, 7, 12, 13, 14, 21, 22, 23], mid: [3, 11, 20, 25, 26, 8, 10, 18, 19, 24] }, digdwar: false,
+    tithi: tithiBoth([2, 3, 5, 6, 10, 11]), tithiMid: [...tithiBoth([1, 12])], tithiNot: [...tithiBoth([4, 8, 9, 14]), 15, 30],
+    galagraha: true, anadhyaya: { tithis: ANADHYAYA, months: ANADHYAYA_MONTH, sankranti: true }, pradosha: true,
+    vara: { good: [0, 3, 4, 5], mid: [] }, lagna: { good: DUAL_SIGNS, mid: MOVABLE_SIGNS }, navNot: MARS_SATURN_NAVS,
+    empty: [8], emptyPref: [4], notIn: [[M5, [4]]], beneficIn: BENEFIC_PLACES, maleficIn: [3, 6, 11], jupVenNotSet: true,
+    dayParts: { good: [1, 2, 3], mid: [] },
+    linesTa: [
+      'நட்சத்திரம்: அசுவினி, மிருகசீரிடம், திருவாதிரை, புனர்பூசம், பூசம், அஸ்தம், சித்திரை, சுவாதி, திருவோணம், அவிட்டம், சதயம் சிறந்தவை; ரோகிணி, மூன்று உத்திரம், ரேவதி (காலப்பிரகாசிகை), ஆயில்யம், பூரம், மூலம், பூராடம், பூரட்டாதி (மு.சி.) நடுத்தரம் · ஜன்ம நட்சத்திரமும் 10-வதும் நல்லவை (பொதுத் தாரா பலத்தில் இந்த விலக்கு இல்லை)',
+      'திதி: 2, 3, 5, 6, 10, 11; 1 (காலப்பிரகாசிகை), 12 (மு.சி.) நடுத்தரம்; 4, 8, 9, 14, 15 குறிப்பாகக் கூடாது · கலக்ரஹ, அனத்யாய (1, 8, 14, பௌர்ணமி, அமாவாசை, நான்கு மாதத் திதிகள், சங்கிராந்தி), பிரதோஷம் கூடாது',
+      'கிழமை: செவ்வாய், சனி, திங்கள் கூடாது (ஞாயிறு — "ஆயுள் வளரும்"; சிலர் "முன்னேற்றம் தடைபடும்") · லக்னம்: உபய ராசிகள் சிறந்தவை, சர ராசிகள் நடுத்தரம், ஸ்திர ராசிகள் கூடாது · செவ்வாய், சனியின் நவாம்சம் கூடாது',
+      '8 காலி; 4 காலி — சிலர் (குறிக்கப்படும்); 4-ல் பாவர் "நிச்சயமாகக்" கூடாது · பாவர் 3, 6, 11-ல், சுபர் கேந்திர கோணத்தில் சிறந்தது (குறிக்கப்படும்) · குரு, சுக்கிரன் பாதிப்பு கூடாது · முற்பகல், நண்பகல் சிறந்தவை; பிற்பகல், இரவு கூடாது · சரஸ்வதி / வித்யா யோகங்கள் (கணிக்கப்படவில்லை)',
+    ],
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §17.11.2-3', booksTa: 'ஸ்ரீதர் (நிருசிம்மர், ஸ்ரீபதி, K.P., J.V., மு.சி. மேற்கோள்கள்)',
+    nak: { good: [4, 5, 6, 7, 12, 13, 14, 21, 22, 23], mid: [0, 3, 10, 19, 24, 8, 9, 15, 16, 17, 18, 26] }, digdwar: false,
+    tithi: [2, 3, 5, 10, 11], tithiNot: [...tithiBoth([1, 4, 6, 8, 9, 14]), 15, 30],
+    anadhyaya: { tithis: ANADHYAYA, months: ANADHYAYA_MONTH, sankranti: true }, harishayana: true, matrika: MATRIKA_GOOD,
+    vara: { good: [3, 4, 5], mid: [0] }, lagna: { good: DUAL_SIGNS, mid: MOVABLE_SIGNS }, navNot: MARS_SATURN_NAVS,
+    empty: [8], emptyPref: [4], notIn: [[BEN3, [3, 6, 11]]], beneficIn: BENEFIC_PLACES, maleficIn: [3, 6, 11], jupVenNotSet: true,
+    dayParts: { good: [1, 2, 3], mid: [] }, secondary: ['MATRIKA'],
+    linesTa: [
+      'நட்சத்திரம்: மிருகசீரிடம், திருவாதிரை, புனர்பூசம், பூசம், அஸ்தம், சித்திரை, சுவாதி, திருவோணம், சதயம், அவிட்டம் சிறந்தவை; அசுவினி, ரோகிணி, மூன்று பூர்வம் நடுத்தரம்; பரணி, கிருத்திகை, மூன்று உத்திரம் கூடாது, மற்றவை ஏற்கலாம் (மு.சி. — நடுத்தரம்) · J.V.: சூரியனின் நட்சத்திரத்திலிருந்து 1-7, 12-15 தீயவை (மாத்ருகா சக்கரம் — குறிக்கப்படும்)',
+      'திதி: 2, 3, 5, 10, 11 வளர்பிறையில்; 4, 6, 8, 9, பௌர்ணமி, அமாவாசை கூடாது; அனத்யாய திதிகள் கூடாது; படிப்புக்குத் தடையான நேரம் (§17.11.3): 1, 8, 14, அமாவாசை, பௌர்ணமி, சங்கிராந்தி, ஹரிசயனம் · மற்றவை நடுத்தரம் (எங்கள் வாசிப்பு)',
+      'கிழமை: புதன், வியாழன், வெள்ளி சிறந்தவை; ஞாயிறு — மு.சி. (நடுத்தரம்); திங்கள் — "பெரும்பாலோர்" விலக்கு; செவ்வாய், சனி, அவற்றின் நவாம்சம் லக்னத்தில் கூடாது · லக்னம்: உபயம் சிறந்தது, சரம் நடுத்தரம், ஸ்திரம் கூடாது (K.P.)',
+      'பாவர் 3, 6, 11-ல் மகிழ்ச்சி (குறிக்கப்படும்); சுபர் அங்கே இருந்தால் "நிச்சயமாகத் தடை" · சுபர் கேந்திர கோணத்தில் (குறிக்கப்படும்) · 8 காலி, 4 காலி — சிலர் · குரு, சுக்கிரன் அஸ்தங்கம் கூடாது (J.V.) · முற்பகல், நண்பகல்; பிற்பகல், இரவு கூடாது · சந்திகள், யோகங்கள் — கணிக்கப்படவில்லை',
+    ],
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2) — பொதுக் கல்வி', booksTa: 'கல்யாணராமன் (முகூர்த்த சிந்தாமணி, மாதவீயம் … தொகுப்பு)',
+    nak: { good: [0, 3, 4, 5, 6, 7, 8, 10, 12, 13, 14, 18, 19, 21, 22, 23, 24], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: tithiBoth([2, 3, 5, 6, 10, 11, 12]), tithiMid: [...tithiBoth([1, 7, 8, 13]), 15],
+    vara: { good: [3, 4, 5], mid: [0, 1] }, lagna: { good: MOVABLE_SIGNS, mid: [...DUAL_SIGNS, ...FIXED] },
+    empty: [8], beneficIn: BENEFIC_PLACES, maleficIn: [3, 6, 11],
+    linesTa: [
+      'அட்டவணை (ப.151): நட்சத்திரம் 18 (அபிஜித் உட்பட) — அசுவினி, ரோகிணி, மிருகசீரிடம், திருவாதிரை, புனர்பூசம், பூசம், ஆயில்யம், பூரம், அஸ்தம், சித்திரை, சுவாதி, மூலம், பூராடம், திருவோணம், அவிட்டம், சதயம், பூரட்டாதி, அபிஜித்',
+      'திதி: 2, 3, 5, 6, 10, 11, 12; "சிலர்" 1, 7, 8, 13, 15-ம் (நடுத்தரம்) · கிழமை: புதன், வியாழன், வெள்ளி சிறந்தவை; ஞாயிறு, திங்கள் நடுத்தரம்; செவ்வாய் "பொதுவாக" விலக்கு (ப.149)',
+      'லக்னம் (ப.100, பொதுக் கல்விக்கு): சர ராசி லக்னம், கேந்திர கோணங்களில் சுபர், 3, 6, 11-ல் பாவர் — நல்லது; மற்ற லக்னங்கள் நடுத்தரம் (எங்கள் வாசிப்பு) · 8 காலி · சந்திர, தாரா சுத்தி (பொது)',
+    ],
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி அத்.8', booksTa: 'ஜோஷி',
+    uttarayana: 'PREFERRED', harishayana: true, jupVenNotSet: true,
+    nak: { good: [14, 6, 21, 22, 23, 12, 0, 7, 18, 10, 19, 24, 4, 13, 5, 8], mid: [] }, digdwar: false,
+    tithi: tithiBoth([2, 3, 5, 6, 10, 11, 12]), vara: { good: [3, 4, 5], mid: [0, 1] },
+    lagna: { good: MOVABLE_SIGNS, mid: [] }, empty: [8], beneficIn: BENEFIC_PLACES, maleficIn: [3, 6, 10, 11],
+    taraNot: [3, 5, 7, 12, 14, 16, 21, 23, 25], chandra: { good: [1, 2, 3, 5, 6, 7, 9, 10, 11], mid: [] },
+    linesTa: [
+      'சூரியன் உத்தராயணத்தில் நல்லது (சிலர்: ஹரிசயனம் தவிர முழு ஆண்டும்) · குரு, சுக்கிரன் அஸ்தங்கம் கூடாது',
+      'நட்சத்திரம்: சர (சுவாதி, புனர்பூசம், திருவோணம், அவிட்டம், சதயம்), க்ஷிப்ர (அஸ்தம், அசுவினி, பூசம்), மூலம், பூரம், பூராடம், பூரட்டாதி, மிருகசீரிடம், சித்திரை, திருவாதிரை, ஆயில்யம் · திதி: 2, 3, 5, 6, 10, 11, 12 · கிழமை: புதன், வியாழன், வெள்ளி சிறந்தவை; ஞாயிறு, திங்கள் நடுத்தரம்; சனி, செவ்வாய் கூடாது',
+      'லக்னம்: சர ராசி, கேந்திர கோணங்களில் சுபர், 3, 6, 10, 11-ல் பாவர் (குறிக்கப்படும்) · 8 காலி · சந்திர சுத்தி (ஜன்ம ராசியிலிருந்து 4, 8, 12 இல்லாமல்), தாரா சுத்தி (3, 5, 7 தாரைகள் இல்லாமல்)',
+    ],
+  },
+  VASHISTHA: {
+    labelTa: 'வசிஷ்டா', booksTa: 'வசிஷ்டா',
+    uttarayana: 'REQUIRED', masa: { good: range(0, 10), mid: [], strict: true },
+    tithi: [2, 3, 5, 7, 10, 11, 13], vara: { good: [0, 3, 4, 5], mid: [] },
+    nak: { good: range(0, 26).filter((s) => ![1, 2, 9, 11, 20, 25].includes(s)), mid: [] }, digdwar: false,
+    lagna: { good: [1, 4, 7], mid: [] }, beneficIn: BENEFIC_PLACES, maleficIn: [3, 6, 11],
+    linesTa: [
+      '"Starting main line of education" (ப.84-85): பால்குனம் தவிர உத்தராயண மாதங்கள் · திதி: வளர் 2, 3, 5, 7, 10, 11, 13 · கிழமை: ஞாயிறு, புதன், வியாழன், வெள்ளி',
+      'நட்சத்திரம்: 27-ல் பரணி, கிருத்திகை, மகம், மூன்று உத்திரம் மட்டும் கூடாது · லக்னம்: ரிஷபம், சிம்மம், விருச்சிகம் (கும்பம் தவிர ஸ்திர லக்னம்) · சுபர் கேந்திர கோணத்தில், பாவர் 3, 6, 11-ல் (குறிக்கப்படும்)',
+    ],
+  },
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி அத்.5', booksTa: 'முகூர்த்த சிந்தாமணி ஸ்லோ.5/38',
+    nak: { good: EDUCATION_16, mid: [] }, digdwar: false, tithi: tithiBoth([6, 5, 3, 11, 12, 10, 2]), vara: { good: [0, 4, 3, 5], mid: [] },
+    beneficIn: BENEFIC_PLACES, lagnaLordBenefic: true,
+    linesTa: [
+      'ஸ்லோ.5/38: "मृगात्कराच्छ्रुतेस्त्रयेऽश्विमूलपूर्विकात्रये गुरुद्वयेऽर्कजीववित्सितेऽह्नि षट्छरत्रिके …" — நட்சத்திரம் 16: மிருகசீரிடம் முதல் மூன்று, அஸ்தம் முதல் மூன்று, திருவோணம் முதல் மூன்று, அசுவினி, மூலம், மூன்று பூர்வம், பூசம், ஆயில்யம் · கிழமை: ஞாயிறு, வியாழன், புதன், வெள்ளி · திதி: 6, 5, 3, 11, 12, 10, 2',
+      '"शुभैरधीतिरुत्तमा त्रिकोणकेन्द्रगैः" — சுபர் கோண கேந்திரத்தில் சிறந்தது (குறிக்கப்படும்) · "லக்னாதிபதி சுபர்" — ஆங்கில உரையில் மட்டும், ஸ்லோகத்தில் இல்லை (குறிக்கப்படும்) · "ध्रुवान्त्यमित्रभे परैः" — வில்வித்தைக்கு (உரை), இங்கே சேர்க்கப்படவில்லை',
+    ],
+  },
+  RANGACHARYA: {
+    labelTa: 'ரங்காச்சார்யா அத்.IX', booksTa: 'ரங்காச்சார்யா',
+    tithi: [16, ...tithiBoth([2, 3, 5, 6, 10, 11, 12])], tithiNot: [...tithiBoth([4, 8, 9, 14]), 15, 30],
+    vara: { good: [3, 4, 5], mid: [0, 1] }, lagna: { good: [...MOVABLE_SIGNS, ...DUAL_SIGNS], mid: [] },
+    nak: { good: [0, 4, 5, 6, 7, 8, 10, 19, 24, 12, 13, 14, 21, 22, 23], mid: [] }, digdwar: false,
+    linesTa: [
+      'திதி: தேய் 1, 2, 3, 5, 6, 12, 10, 11 நல்லவை; 4, 8, 9, 14, அமாவாசை, பௌர்ணமி கூடாது; மற்றவை நடுத்தரம் (எங்கள் வாசிப்பு) · கிழமை: புதன், வியாழன், வெள்ளி; ஞாயிறு, திங்கள் நடுத்தரம்; செவ்வாய், சனி கூடாது',
+      'லக்னம்: சர, உபய ராசிகள் · நட்சத்திரம்: அசுவினி, மிருகசீரிடம், திருவாதிரை, புனர்பூசம், பூசம், ஆயில்யம், மூன்று பூர்வம், அஸ்தம், சித்திரை, சுவாதி, திருவோணம், அவிட்டம், சதயம்',
+    ],
+  },
+});
+
 const RANK = deepFreeze({
+  EDUCATION: {
+    order: EDUCATION.order,
+    words: { WILHELM: 1038, SHRIDHAR: 863, KALYANRAMAN: 313, JOSHI: 222, VASHISTHA: 153, MUHURTA_CHINTAMANI: 147, RANGACHARYA: 70 },
+    measureTa: 'உபநயனத்துக்குப் பின் கல்வி தொடங்குதல் பற்றிய சொற்கள்: வில்ஹெல்ம் (பக்.233-237, பாடவாரி நட்சத்திரங்கள், யோகங்கள் உட்பட) 1038; ஸ்ரீதர் (§17.11.2-3, பக்.436-438) 863; கல்யாணராமன் (தொ.2 பக்.151-152) 313; ஜோஷி (அத்.8, பக்.96) 222; வசிஷ்டா (பக்.84-85) 153; முகூர்த்த சிந்தாமணி (ஸ்லோ.5/38, பக்.135; ஒரு உரைப் படிவம்) 147; ரங்காச்சார்யா (பக்.118-119) 70. ராமன், அகர்வாலில் இதற்குத் தனிப் பகுதி இல்லை.',
+  },
   VIDYARAMBHA: {
     order: VIDYARAMBHA.order,
     words: { KALYANRAMAN: 2542, WILHELM: 632, VASHISTHA: 534, SHRIDHAR: 230, AGARWAL: 207, JOSHI: 188, MUHURTA_CHINTAMANI: 173, RAMAN: 141, RANGACHARYA: 135 },
@@ -821,6 +933,15 @@ const SOURCES = deepFreeze({
     RAMAN: { ...RAMAN_BV, pageLocus: '"Commencing Education (Aksharabhyasa)", PDF p.19-20: "The most propitious period for commencing education is the 6th day in the 5th month of the 5th year. The following days constellations are good: Monday, Wednesday, Thursday and Friday; Aswini, Punarvasu, Aridra, Hasta, Chitta, Swati, Sravana and Revati. Movable and common signs are good. Forenoon and noon are preferable. The 8th house should be unoccupied. Mercury, Venus, Jupiter in the 9th counteracts all evil influences"' },
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Aksharabhyasa (Learning of alphabet)", printed pp.76-77 (PDF 84-85): "should be done in the 5th day of the 5th month of the 5th year of the child. It should be done in the Uttarayana. Kumbha masa should be avoided. It should be done in the forenoon or in the noon. The moudyam of Jupiter and Venus should be avoided. TITHI 2,3,5,6,10,11,12 WEEKDAY Monday, Wednesday, Thursday, Friday. ASTERISM Aswini, Pushyami, Hasta, Punarvasu, Sravana, Mithuna, Revathi, Swati, Chitra, Anuradha. LAGNA Mesha, Kataka, Tula and Makara are commended. Midhuna, Kanya, Dhanus and Meena are mediocre. The 8th house should lie vacant. Mercury, Venus or Jupiter in the 9th house is par excellence. The malefics in 3,6,11 and the benefics in the kendras and konas are favoured"' },
   },
+  EDUCATION: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Education - Vidya & Upavidya", printed pp.233-237 (PDF 241-245): "Nakshatra: Asvini, Mrigasira, Ardra, Punarvasu, Pushya, Hasta, Chitta, Svati, Sravana, Dhanishtha and Satabhisha are best. Kalaprakasika also considers Rohini, Uttaraphalguni, Uttarashadha, Uttarabhadrapada and Revati to be middling, while Muhurta Chintamani considers Aslesha, Purvaphalguni, Mula, Purvashadha and Purvabhadrapada as also favorable, which all of these may be considered as middling"; "Tithi: The 2nd, 3rd, 5th, 6th, 10th and 11th are favorable. Kalaprakasika also considers the 1st as favorable, while Muhurta Chintamani also considers the 12th as favorable, both of which may be considered as middling. Particularly avoid the 4th, 8th, 9th, 14th and 15th Tithis"; Galagraha, Anadhyaya, Pradosha; "Vara: Avoid the Varas of Mars and Saturn, as well as the Moon\'s … The Sun\'s Vara prolongs life, though according to some it impedes progress"; "Lagna: Dual Rasis are best, moveable Rasis are middling, while fixed Rasis should be avoided … Navamsa: Avoid the Navamsas of Mars and Saturn. Bhavas: The 8th must be unoccupied and, according to some, the 4th as well. Malefics should certainly not be in the 4th. Malefics are best in the 3rd, 6th and 11th … Benefics are best in angles and trines. Grahas: Avoid the afflictions of Jupiter and Venus. Miscellaneous: Forenoon and noon are best, the afternoon and night should be avoided"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§17.11.2 "All types of educations" and §17.11.3 "Prohibited time for study", printed pp.436-438 (PDF 476-478): "Tithi: 2,3,5,10 & 11 Tithis are favourable. B.H. is recommended … Avoid 4,6,8,9 Tithis, the Full Moon & New Moon days. Anadhyaya Tithis are prohibited. Day: Wednesday, Thursday, Friday are the best … M.C. has recommended Sunday also … Tuesday & Saturday, & their navamshas in the rising should be avoided … Majority of exponents including Acharya Shripati commend that Monday is prohibited"; "Constellation: Mrigshira, Ardra, Punarvasu, Pushya, Hasta, Chitra, Swati, Shravana, Shatbhish, Dhanishta … the best; Ashvani, Rohini, 3 Poorvas are … neutral. M.C. opines that Bharni, Krittika & 3 Uttras (5 nos.) should be avoided & balance can be used. J.V. … constellation number 1st to 7th, & 12th to 15th from that of the Sun are unfavourable"; p.437: "Ascendant: The common signs are the best; movable signs are of middling quality …; while the fixed signs are bad according to K.P. Malefics in 3,6 & 11 houses will increase happiness; while benefics in these houses will certainly cause obstructions. Benefics in quadrants or trines are beneficial. There should be no planet in the 8th house … Some opine that 4th house should also be vacant"; "According to J.V. Jupiter & Venus should not be set; avoid Vishnu Shayana"; "Time: Forenoon & the Noontime are the best; afternoon & night-time should be avoided"; p.438 §17.11.3: "1st Tithi …, 8th Tithi …, 14th & the New Moon …, the Full Moon …; Ayana & Vishuva Sankranti, Harishayan & Haibodhan"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Educational — Commencing General Education", printed pp.149-152 (PDF 151-154): "Tuesdays are generally to be rejected for such deeds"; the table "Nakshatra Abhijith, Aswini, Rohini, Mrigasira, Aridra, Punarvasu, Pushyami, Aslesha, Poorvaphalguni, Hasta, Chitra, Swati, Moola, Poorvashada, Sravana, Dhanishta, Satabhisha, Poorvabhadrapada (17+1) … Tithis 2/3/5/6/10/11/12 Some accept 1/7/8/13/15 as well. Weekdays Wednesday, Thursday and Friday are the best. Sunday and Monday are mediocre"; vol.2 p.100: "Lagna of movable raasis (1-4-7-10) with benefics in Kendra and Trikonas (1-4-7-10-5-9) and malefics in 3-6-11 is considered good for starting general education. 8th house must be free"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 8 "Educational Muhurtas — Muhurta for Starting Education - General", printed p.96 (PDF 111): "Time: Sun in Uttarayana is considered auspicious. Some Learned say that except \'Harishayana\' … whole year is good. Combustion of Jupiter and Venus should be avoided. Nakshatras: All movable nakshatras …, all short nakshatras (i.e. Hasta, Ashwini and Pushya) Moola, Poorvaphalguni, Poorvashada, Poorvabhadrapad, Mrigshira, Chitra, Ardra and Ashlesha are considered good. Tithis: 2/3/5/6/10/11/12 tithis are good. Days: Wednesday, Thursday and Friday are best; Sunday and Monday medium and rest … should be avoided. Lagna: Lagna of movable rashis (1/4/7/10 rashis) with benefics in kendras and Trikonas … and malefics in 3/6/10/11 are considered good. 8th house should not have any planet. Age: … odd years … Chandra/Tara-Shuddhi: … avoiding 4/8/12 positions of Moon from natal Moon … avoiding 3/5/7 Taras"' },
+    VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: '"2. Starting main line of education", printed pp.84-85 (PDF 71-72): "Mas — Excepting Phalguna, any other month in Uttarayana; Tithi — 2, 3, 5, 7, 10, 11 and 13 shukla tithis; Vara — Sunday, Wednesday, Thursday and Friday; Nakshatra — Mrigashirsha, Ardra, Punarvasu, Hasta, Chitra, Swati, Sravana, Dhanishtha, Shatabhisha, Ashwini, Moola, all the three poorvas, Ashlesha. Also dhruva (fixed) nakshatras i.e. Anuradha and Revati. It means that out of 27 nakshatras, only 6 nakshatras i.e. Bharani, Krittika, Magha and the three uttaras are to be avoided. Lagna — 2, 5, 8 (fixed lagnas excepting Kumbha) i. Benefics in Kendra or Trikona … ii. Malefics in 3, 6, and 11 from lagna"' },
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 5 sloka 38, printed p.135 (PDF 139): "मृगात्कराच्छ्रुतेस्त्रयेऽश्विमूलपूर्विकात्रये गुरुद्वयेऽर्कजीववित्सितेऽह्नि षट्छरत्रिके । शिवार्कदिग्द्विके तिथौ ध्रुवान्त्यमित्रभे परैः शुभैरधीतिरुत्तमा त्रिकोणकेन्द्रगैः स्मृता ॥" — "THE MUHURTA FOR THE BEGINNING OF GETTING EDUCATION: … the auspicious Nakshtras are Mrigashira, Ardra, Punarvasu, Hasta, Chitra, Swati, Shravana, Dhanishtha, Shatabhisha, Ashwini, Moola, Poorvaphalguni, Poorvashadha, Poorvabhadrapada, Pushya and Ashlesha, the auspicious days are Sunday, Thursday, Wednesday and Friday and the auspicious Tithis are 6/5/3/11/12/10/2; and the Lord of the Ascendant … should be a benefic planet and there should be benefic planets in the Angles and Trines from the Ascendant. Notes: Some Acharyas have said that for beginning to learn archery the Nakshtras named as Dhruwa, those of Rewati and Anuradha are the auspicious ones"' },
+    RANGACHARYA: { ...RANGACHARYA_I, pageLocus: 'Chapter IX "Commencing Education", printed pp.118-119 (PDF 126-127): "The 1st (D) 2,3,5,6,12,10,11 are good, 4,8,9,14 Amavasya and Poornima should be avoided. Wednesday, Thursday and Friday are good. Sunday and Monday are mediocre. Tuesday and Saturday should be avoided. The movable and the dual lagnas should be the choice. Aswini, Mrigasira, Aridra, Punarvasu, Pushyami, Aslesha, Poorva (3) Hasta, Chitra, Swati, Sravana, Dhanishtta and Satabhisha are acceptable"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -863,6 +984,8 @@ const CODE_TA = Object.freeze({
   JUP_VEN_LAGNA_MID: 'லக்னத்தில் குரு / சுக்கிரன் இல்லை', LAGNA_TITHI: 'இந்தத் திதி வகைக்கு லக்னம் கூடாது', NAV_NOT: 'தவிர்க்க வேண்டிய நவாம்சம் (கும்பம் / மீனம்)',
   // Vidyarambha.
   STHIRA_KARANA: 'ஸ்திர கரணம்', MERC_SET: 'புதன் அஸ்தங்கம்', SUN_MARS_NAV: 'லக்ன நவாம்சத்தில் சூரியன் / செவ்வாய்', BEN_HOUSE_MID: 'சொன்ன இடத்தில் புதன் / குரு / சுக்கிரன் இல்லை',
+  // Education.
+  MATRIKA: 'மாத்ருகா சக்கரம் (சூரிய நட்சத்திரத்திலிருந்து 1-7, 12-15)', LAGNA_LORD_MID: 'லக்னாதிபதி சுபர் அல்ல',
 });
 
 const NOTES_TA = deepFreeze({
@@ -914,11 +1037,19 @@ const NOTES_VIDYARAMBHA_TA = Object.freeze([
   'கணிக்கப்படாதவை: வயது (காட்டப்படும்), இரட்டை ஆண்டு, அடுத்த நாள் அனத்யாயம் (கல்யாணராமன்), ஷட் / கர்த்ரு / நித்ய தோஷங்கள், புதன் கோசாரம் (ஸ்ரீதர்), சாரஸ்வத / வித்யா யோகங்கள், பாப உதயம், பாப பார்வை, திசை (ஆசிரியர் கிழக்கு, குழந்தை மேற்கு — காட்டப்படும்), வில்ஹெல்மின் ஜன்ம / 10-வது தாரை "நல்லது" (பக்கத்தின் பொதுத் தாரா பலம் மாறவில்லை).',
 ]);
 
-const EVENTS = deepFreeze({ order: ['GRIHA_PRAVESHA', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA'], GRIHA_PRAVESHA, UPANAYANA, TRAVEL, VIDYARAMBHA });
+const NOTES_EDUCATION_TA = Object.freeze([
+  'உபநயனத்துக்குப் பின் கல்வி (வித்யா — வேதங்கள், வேதாங்கங்கள், நியாயம், மீமாம்சை, தர்ம சாஸ்திரம், புராணங்கள்; உபவித்யா — மருத்துவம், இசை, பொருளியல், ஆயுதம்) தொடங்குதல் — பொது விதிகள். குழந்தையின் முதல் எழுத்துகள் "வித்யாரம்பம்" தனி நிகழ்வு.',
+  'பாடவாரி நட்சத்திரங்கள் (இலக்கணம், தர்க்கம், ஜோதிடம், கணிதம், மருத்துவம், வில்வித்தை, இசை, நடனம், சட்டம், ஓவியம் …) நூல்களில் உள்ளன (வில்ஹெல்ம் ப.234, ஸ்ரீதர் §17.11.4-6, ஜோஷி அத்.8, கல்யாணராமன் பக்.150-154, வசிஷ்டா ப.85-87, ரங்காச்சார்யா ப.119-120) — இங்கே கணிக்கப்படவில்லை; பொது விதிகள் மட்டும்.',
+  'பகலின் பகுதி: முற்பகல், நண்பகல் (பகலின் முதல் மூன்றில் இரண்டு); பிற்பகல் (கடைசி மூன்றில் ஒன்று), இரவு கூடாது — வில்ஹெல்ம், ஸ்ரீதர்; மற்ற நூல்கள் சொல்லவில்லை.',
+  'கணிக்கப்படாதவை: வயது (காட்டப்படும்), சந்திகள் (அயன, ருது, ஆண்டு சந்தி — ஸ்ரீதர், J.V.), சரஸ்வதி / வித்யா யோகங்கள், புதன் பலம் (ஜோஷி), சுப நவாம்சம் / புதன் வர்க்கம் / புதன் ஹோரை "சிறந்தது" (ஸ்ரீதர்), J.V.யின் கலக்ரஹ வரிசை (இரு பக்ஷமும் 1, 7, 8, 9, 13, 14, 15, 30 — தேய் 4), சோமபாத, யுகாதி, மன்வாதி திதிகள், வில்ஹெல்மின் ஜன்ம / 10-வது தாரை "நல்லது".',
+]);
+
+const EVENTS = deepFreeze({ order: ['GRIHA_PRAVESHA', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION'], GRIHA_PRAVESHA, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION });
 
 module.exports = {
-  EVENTS, DOORS, MONTH_TA, RANK, SOURCES, CODE_TA, NOTES_TA: deepFreeze({ ...NOTES_TA, UPANAYANA: NOTES_UPANAYANA_TA, TRAVEL: NOTES_TRAVEL_TA, VIDYARAMBHA: NOTES_VIDYARAMBHA_TA }),
-  AKSHARA_10, AKSHARA_LAGNAS,
+  EVENTS, DOORS, MONTH_TA, RANK, SOURCES, CODE_TA,
+  NOTES_TA: deepFreeze({ ...NOTES_TA, UPANAYANA: NOTES_UPANAYANA_TA, TRAVEL: NOTES_TRAVEL_TA, VIDYARAMBHA: NOTES_VIDYARAMBHA_TA, EDUCATION: NOTES_EDUCATION_TA }),
+  AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,
   DIRECTIONS, TITHI_DIR8, YOGINI_KP, GHATA, KAAL_SHOOLA, LALATIKA, TARA_1357,
 };

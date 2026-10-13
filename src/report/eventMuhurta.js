@@ -139,6 +139,8 @@ function panchangaCodes(r, x) {
   if (r.vedha && x.vedha?.[r.vedha]) out.push('VEDHA');
   if (r.bana && x.bana) out.push('BANA');
   if (r.kumbha && !r.kumbha.includes(kumbhaCount(x.sunStar, x.star))) out.push('KUMBHA');
+  // J.V.'s Matrika chakra (Shridhar §17.11.2): counted from the Sun's star like the Kumbha chakra.
+  if (r.matrika && !r.matrika.includes(kumbhaCount(x.sunStar, x.star))) out.push('MATRIKA');
   if (r.guru) out.push(...guruCodes(r.guru, x));
   if (r.ravi) out.push(...raviCodes(r.ravi, x));
   if (r.chandra) {
@@ -365,6 +367,7 @@ function lagnaCodes(r, m) {
   if (r.mercNotSet && m.combust?.Mercury) out.push('MERC_SET');
   if (r.sunMarsNav && m.navSigns && (m.navSigns.Sun === m.nav || m.navSigns.Mars === m.nav)) out.push('SUN_MARS_NAV');
   if (r.benHouse && !r.benHouse.planets.some((p) => r.benHouse.houses.includes(H[p]))) out.push('BEN_HOUSE_MID');
+  if (r.lagnaLordBenefic && !BENEFICS.includes(RASI_LORDS[m.lagna])) out.push('LAGNA_LORD_MID');
   if (r.dayParts) {
     if (m.dayPart === 0) { if (!(r.dayParts.nightOk ?? []).includes(m.nightPart)) out.push('NIGHT'); }
     else if (r.dayParts.mid.includes(m.dayPart)) out.push('DAY_PART_MID');

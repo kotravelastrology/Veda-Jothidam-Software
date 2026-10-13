@@ -543,6 +543,7 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
         TRAVEL: stretchCodesOf('TRAVEL', travel, vara),
         // Vidyarambha: the night's third, the lunar month (the segment's), the planets' navamsa signs at the piece.
         VIDYARAMBHA: stretchCodesOf('VIDYARAMBHA', { ...travel, month: s.month, navSigns: pieceNav }, vara),
+        EDUCATION: stretchCodesOf('EDUCATION', { ...travel, month: s.month, navSigns: pieceNav }, vara),
       }, `event ${x.fromUtc}`);
       n += 1;
     }

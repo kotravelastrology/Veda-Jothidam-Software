@@ -170,5 +170,34 @@
       "WILHELM_dual_best": [3, 6, 9, 12], "RANGACHARYA_commended": [1, 4, 7, 10], "RANGACHARYA_mediocre": [3, 6, 9, 12]
     },
     "vijayadashami_KR": { "month": "Ashvin", "tithi": 10 }
+  },
+  "education": {
+    "_about": "Transcribed 2026-10-13 from the page images: starting education after upanayana. Names as in the travel block; tithis within the paksha unless said; signs 1 = Aries.",
+    "words": { "WILHELM": 1038, "SHRIDHAR": 863, "KALYANRAMAN": 313, "JOSHI": 222, "VASHISTHA": 153, "MUHURTA_CHINTAMANI": 147, "RANGACHARYA": 70 },
+    "default": "WILHELM",
+    "stars": {
+      "WILHELM_best": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Shravana", "Dhanishtha", "Shatabhisha"],
+      "WILHELM_middling": ["Rohini", "UPhalguni", "UAshadha", "UBhadra", "Revati", "Ashlesha", "PPhalguni", "Moola", "PAshadha", "PBhadra"],
+      "SHRIDHAR_best": ["Mrigashira", "Ardra", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Shravana", "Shatabhisha", "Dhanishtha"],
+      "SHRIDHAR_MC_avoid": ["Bharani", "Krittika", "UPhalguni", "UAshadha", "UBhadra"],
+      "MC_sloka38": ["Mrigashira", "Ardra", "Punarvasu", "Hasta", "Chitra", "Swati", "Shravana", "Dhanishtha", "Shatabhisha", "Ashwini", "Moola", "PPhalguni", "PAshadha", "PBhadra", "Pushya", "Ashlesha"],
+      "KR_table_with_Abhijit": ["Ashwini", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "PPhalguni", "Hasta", "Chitra", "Swati", "Moola", "PAshadha", "Shravana", "Dhanishtha", "Shatabhisha", "PBhadra"],
+      "JOSHI": ["Swati", "Punarvasu", "Shravana", "Dhanishtha", "Shatabhisha", "Hasta", "Ashwini", "Pushya", "Moola", "PPhalguni", "PAshadha", "PBhadra", "Mrigashira", "Chitra", "Ardra", "Ashlesha"],
+      "VASHISTHA_avoid": ["Bharani", "Krittika", "Magha", "UPhalguni", "UAshadha", "UBhadra"],
+      "RANGACHARYA": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "PPhalguni", "PAshadha", "PBhadra", "Hasta", "Chitra", "Swati", "Shravana", "Dhanishtha", "Shatabhisha"]
+    },
+    "tithis": {
+      "WILHELM_favorable": [2, 3, 5, 6, 10, 11], "WILHELM_middling": [1, 12], "WILHELM_avoid": [4, 8, 9, 14, 15],
+      "SHRIDHAR_favourable_BH": [2, 3, 5, 10, 11], "SHRIDHAR_avoid": [4, 6, 8, 9], "SHRIDHAR_17_11_3": [1, 8, 14],
+      "MC_KR_JOSHI": [2, 3, 5, 6, 10, 11, 12], "KR_some_accept": [1, 7, 8, 13, 15],
+      "VASHISTHA_shukla": [2, 3, 5, 7, 10, 11, 13], "RANGACHARYA_good": [2, 3, 5, 6, 12, 10, 11], "RANGACHARYA_avoid": [4, 8, 9, 14]
+    },
+    "weekdays": {
+      "WILHELM_avoid": ["Tue", "Sat", "Mon"], "SHRIDHAR_best": ["Wed", "Thu", "Fri"], "MC_sloka38": ["Sun", "Thu", "Wed", "Fri"],
+      "JOSHI_KR_RANGACHARYA": { "best": ["Wed", "Thu", "Fri"], "medium": ["Sun", "Mon"] }, "VASHISTHA": ["Sun", "Wed", "Thu", "Fri"]
+    },
+    "lagnas": { "dual_best_movable_middling": "WILHELM SHRIDHAR", "JOSHI_KR_movable": [1, 4, 7, 10], "VASHISTHA_fixed_not_aquarius": [2, 5, 8], "RANGACHARYA_movable_dual": [1, 4, 7, 10, 3, 6, 9, 12] },
+    "navamsas_avoid_WILHELM_SHRIDHAR": ["Mars", "Saturn"],
+    "matrika_JV_unfavourable_from_sun": [1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15]
   }
 }

@@ -783,9 +783,97 @@ const VF = FIX.vidyarambha;
     n += 1;
   }
   assert.ok(vijaya > 0 && n > 50, `${vijaya} pieces on Vijayadashami of ${n}`);
+  // The education event's pieces, recomputed too.
+  for (const s of r.segments) {
+    if (Date.parse(s.toUtc) - Date.parse(s.fromUtc) < 2 * 60000) continue;
+    const mid = (Date.parse(s.fromUtc) + Date.parse(s.toUtc)) / 2;
+    const x = {
+      star: s.star, tithi: s.tithi, month: s.month, sunSign: s.sunSign, sunStar: s.sunStar,
+      sankranti: Math.floor(lonOf('Sun', tithiEdge(mid, -1) + 1000) / 30) !== Math.floor(lonOf('Sun', tithiEdge(mid, 1) - 1000) / 30),
+      taraCount: s.tara.count, signs: { Moon: Math.floor(lonOf('Moon', mid) / 30) }, natalMoon: 1, moonPada: s.star * 4 + s.pada - 1,
+      moonAbhijit: lonOf('Moon', mid) >= 276 + 40 / 60 && lonOf('Moon', mid) < 280 + 53 / 60 + 20 / 3600,
+    };
+    for (const b of E.EVENTS.EDUCATION.order) assert.deepEqual(s.ev.EDUCATION[b], pieceCodes(E.EVENTS.EDUCATION[b], x), `education ${b} ${s.fromUtc}`);
+  }
   // The evening of the 20th — Dashami already running, but not its day — keeps the book's rules: the night's first third.
   const eve = r.segments.find((s) => s.month === 6 && s.tithi === 10 && Date.parse(s.toUtc) <= vStart);
   assert.ok(eve && eve.lagnas.some((st) => r.eventTable[st[10]].VIDYARAMBHA.KALYANRAMAN.includes('NIGHT')), 'the 20th evening is not Vijayadashami');
+}
+
+// ------------------------------------------------ education: the tables against the books ---
+const ED = E.EVENTS.EDUCATION;
+const EF = FIX.education;
+{
+  assert.deepEqual({ ...E.RANK.EDUCATION.words }, EF.words);
+  assert.deepEqual([...ED.order], Object.keys(EF.words).sort((a, b) => EF.words[b] - EF.words[a]));
+  assert.equal(ED.default, EF.default);
+  for (const b of ED.order) {
+    assert.ok(resolveByTitle(E.SOURCES.EDUCATION[b].title), `registered: ${b}`);
+    assert.ok(ED[b].linesTa.length > 0, `${b} described`);
+  }
+  const S = EF.stars;
+  assert.deepEqual(sorted(ED.WILHELM.nak.good), stars(S.WILHELM_best));
+  assert.deepEqual(sorted(ED.WILHELM.nak.mid), stars(S.WILHELM_middling));
+  assert.deepEqual(sorted(ED.SHRIDHAR.nak.good), stars(S.SHRIDHAR_best));
+  for (const s of stars(S.SHRIDHAR_MC_avoid)) assert.ok(!ED.SHRIDHAR.nak.good.includes(s) && !ED.SHRIDHAR.nak.mid.includes(s));
+  assert.equal(ED.SHRIDHAR.nak.good.length + ED.SHRIDHAR.nak.mid.length + S.SHRIDHAR_MC_avoid.length, 27, '"balance can be used"');
+  assert.deepEqual(sorted(E.EDUCATION_16), stars(S.MC_sloka38));
+  assert.deepEqual(sorted(ED.MUHURTA_CHINTAMANI.nak.good), stars(S.MC_sloka38));
+  assert.deepEqual(sorted(ED.KALYANRAMAN.nak.good), stars(S.KR_table_with_Abhijit));
+  assert.ok(ED.KALYANRAMAN.abhijitOk);
+  assert.deepEqual(sorted(ED.JOSHI.nak.good), stars(S.JOSHI));
+  assert.deepEqual(sorted(ED.VASHISTHA.nak.good), [...Array(27).keys()].filter((s) => !stars(S.VASHISTHA_avoid).includes(s)));
+  assert.deepEqual(sorted(ED.RANGACHARYA.nak.good), stars(S.RANGACHARYA));
+  const T = EF.tithis;
+  assert.deepEqual(sorted(ED.WILHELM.tithi), E.bothPakshas(T.WILHELM_favorable));
+  assert.deepEqual(sorted(ED.WILHELM.tithiMid), E.bothPakshas(T.WILHELM_middling));
+  for (const t of T.WILHELM_avoid) assert.ok(ED.WILHELM.tithiNot.includes(t));
+  assert.deepEqual(sorted(ED.SHRIDHAR.tithi), T.SHRIDHAR_favourable_BH);
+  for (const t of E.bothPakshas([...T.SHRIDHAR_avoid, ...T.SHRIDHAR_17_11_3])) assert.ok(ED.SHRIDHAR.tithiNot.includes(t), `Shridhar avoids ${t}`);
+  for (const b of ['MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'JOSHI']) assert.deepEqual(sorted(ED[b].tithi), E.bothPakshas(T.MC_KR_JOSHI), b);
+  assert.deepEqual(sorted(ED.KALYANRAMAN.tithiMid), E.bothPakshas(T.KR_some_accept));
+  assert.deepEqual(sorted(ED.VASHISTHA.tithi), T.VASHISTHA_shukla);
+  assert.deepEqual(sorted(ED.RANGACHARYA.tithi), sorted([16, ...E.bothPakshas(T.RANGACHARYA_good)]));
+  for (const t of E.bothPakshas(T.RANGACHARYA_avoid)) assert.ok(ED.RANGACHARYA.tithiNot.includes(t));
+  const W = EF.weekdays;
+  for (const v of days(W.WILHELM_avoid)) assert.ok(!ED.WILHELM.vara.good.includes(v) && !ED.WILHELM.vara.mid.includes(v));
+  assert.deepEqual(sorted(ED.SHRIDHAR.vara.good), days(W.SHRIDHAR_best));
+  assert.deepEqual(sorted(ED.MUHURTA_CHINTAMANI.vara.good), days(W.MC_sloka38));
+  for (const b of ['JOSHI', 'KALYANRAMAN', 'RANGACHARYA']) {
+    assert.deepEqual(sorted(ED[b].vara.good), days(W.JOSHI_KR_RANGACHARYA.best), b);
+    assert.deepEqual(sorted(ED[b].vara.mid), days(W.JOSHI_KR_RANGACHARYA.medium), b);
+  }
+  assert.deepEqual(sorted(ED.VASHISTHA.vara.good), days(W.VASHISTHA));
+  const L = EF.lagnas;
+  for (const b of ['WILHELM', 'SHRIDHAR']) assert.ok(sorted(ED[b].lagna.good).join() === '2,5,8,11' && sorted(ED[b].lagna.mid).join() === '0,3,6,9', b);
+  for (const b of ['JOSHI', 'KALYANRAMAN']) assert.deepEqual(sorted(ED[b].lagna.good), L.JOSHI_KR_movable.map((n) => n - 1), b);
+  assert.deepEqual(sorted(ED.VASHISTHA.lagna.good), L.VASHISTHA_fixed_not_aquarius.map((n) => n - 1));
+  assert.deepEqual(sorted(ED.RANGACHARYA.lagna.good), sorted(L.RANGACHARYA_movable_dual.map((n) => n - 1)));
+  for (const b of ['WILHELM', 'SHRIDHAR']) assert.deepEqual(sorted(ED[b].navNot), [0, 7, 9, 10], `${b}: the navamsas of Mars and Saturn`);
+  assert.deepEqual(sorted(E.MATRIKA_GOOD), [...Array(27).keys()].map((i) => i + 1).filter((n) => !EF.matrika_JV_unfavourable_from_sun.includes(n)));
+}
+
+// ------------------------------------------------ education: the codes ---
+{
+  const x = { star: 12, tithi: 2, month: 10, sunSign: 9, sunStar: 0, taraCount: 2, signs: { Moon: 5 }, natalMoon: 1, moonPada: 50 };
+  const pc = (b, y = {}) => pieceCodes(ED[b], { ...x, ...y });
+  assert.deepEqual(pc('WILHELM'), []);
+  assert.ok(pc('WILHELM', { tithi: 1 }).includes('ANADHYAYA') && pc('WILHELM', { tithi: 12 }).includes('TITHI_MID') && pc('WILHELM', { tithi: 7 }).includes('TITHI_MID'));
+  assert.ok(pc('WILHELM', { tithi: 22 }).includes('GALAGRAHA'), 'Krishna 7');
+  // Matrika (J.V., Shridhar): Hasta is the 13th from Ashwini — unfavourable, marked.
+  assert.ok(pc('SHRIDHAR', { sunStar: 0 }).includes('MATRIKA_MID') && !pc('SHRIDHAR', { sunStar: 4 }).some((c) => c.startsWith('MATRIKA')));
+  assert.ok(pc('SHRIDHAR', { star: 1 }).includes('NAK') && pc('SHRIDHAR', { star: 9 }).includes('NAK_MID'), 'Bharani avoided (MC); Magha "can be used"');
+  assert.ok(pc('JOSHI', { taraCount: 3 }).includes('TARA_NOT') && pc('JOSHI', { signs: { Moon: 4 } }).includes('CHANDRA'), 'the 3rd tara; the Moon 4th from the birth Moon');
+  // A Gemini lagna, its navamsa in Aries (Mars's): Wilhelm and Shridhar reject the navamsa; a benefic in the 3rd for Shridhar.
+  const sky = { Sun: 9, Moon: 5, Mars: 10, Mercury: 9, Jupiter: 3, Venus: 8, Saturn: 11, Rahu: 11, Ketu: 5 };
+  const m = { lagna: 2, nav: 0, signs: sky, natalLagna: 6, natalMoon: 1, combust: {}, dayPart: 1, nightPart: 0, pradosha: false, tithi: 2, star: 12, month: 10 };
+  const sc = (b, y = {}, vara = 3) => stretchCodes(ED[b], { ...m, ...y }, vara);
+  assert.ok(sc('WILHELM').includes('NAV_NOT') && sc('SHRIDHAR').includes('NAV_NOT') && !sc('WILHELM', { nav: 2 }).includes('NAV_NOT'));
+  assert.ok(sc('SHRIDHAR', { signs: { ...sky, Jupiter: 4 } }).includes('IN_Jupiter_3'), 'a benefic in the 3rd "obstructs"');
+  assert.ok(sc('WILHELM', { signs: { ...sky, Mars: 5 } }).includes('IN_Mars_4'), 'a malefic in the 4th');
+  assert.ok(sc('WILHELM', {}, 1).includes('VARA') && !sc('WILHELM', {}, 0).includes('VARA'), 'Monday avoided, Sunday not');
+  assert.ok(sc('MUHURTA_CHINTAMANI', { lagna: 0 }).includes('LAGNA_LORD_MID') && !sc('MUHURTA_CHINTAMANI').includes('LAGNA_LORD_MID'));
+  assert.ok(sc('WILHELM', { dayPart: 4 }).includes('DAY_PART') && sc('WILHELM', { dayPart: 0, nightPart: 3 }).includes('NIGHT'));
 }
 
 console.log('test-event-muhurta: all checks passed');

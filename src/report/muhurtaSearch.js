@@ -24,11 +24,11 @@ const EV = require('./eventMuhurtaTables');
 const { panchangaCodes, varaCodes, rejects, isVishti, isSthiraKarana, withSecondary, vijayadashamiOf } = require('./eventMuhurta');
 
 /** Purposes with rules read from the books, and their event. */
-const SOURCED = Object.freeze({ griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA' });
+const SOURCED = Object.freeze({ griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION' });
 /** The rules a sunrise can judge without the person, the direction or the planets (the rest are on /muhurta-stars). */
 const SUNRISE_RULES = Object.freeze([
   'masa', 'uttarayana', 'sunSign', 'harishayana', 'nak', 'nakAfter', 'abhijitOk', 'tithi', 'tithiMid', 'tithiNot', 'anadhyaya', 'galagraha', 'yogaNot', 'yogaHalfNot',
-  'vishti', 'karanaFixed', 'kumbha', 'vara', 'holanta', 'vijayadashami', 'secondary',
+  'vishti', 'karanaFixed', 'kumbha', 'matrika', 'vara', 'holanta', 'vijayadashami', 'secondary',
 ]);
 const ABHIJIT = Object.freeze([276 + 40 / 60, 280 + 53 / 60 + 20 / 3600]);
 const sunriseReading = (r) => Object.fromEntries(Object.entries(r).filter(([k]) => SUNRISE_RULES.includes(k)));
@@ -59,6 +59,7 @@ const PURPOSES = {
   griha: { label: 'கிரகப்பிரவேசம்' },
   upanayana: { label: 'உபநயனம்' },
   education: { label: 'வித்யாரம்பம் (அக்ஷராப்யாசம்)' },
+  study: { label: 'கல்வி தொடக்கம் (உபநயனத்துக்குப் பின்)' },
   ritual: { label: 'சடங்கு / பொதுச் சுப காரியம்' },
   medical: { label: 'மருத்துவம் / அறுவை' },
 };
@@ -159,7 +160,9 @@ function searchMuhurta(q) {
         rankTa: EV.RANK[event].measureTa, source: EV.SOURCES[event][book],
         noteTa: event === 'UPANAYANA'
           ? 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (மாதம், சௌர மாதம், நட்சத்திரம், திதி, அனத்யாயம், கலக்ரஹம், யோகம், விஷ்டி, கிழமை). குரு / சூரிய / சந்திர பலம், லக்னம், பகலின் பகுதி, பிரதோஷம், சங்கிராந்தி, வயது: /muhurta-stars பக்கம், "உபநயனம்" தேர்வுடன் — குழந்தையின் ஜாதகத்துடன்.'
-          : event === 'VIDYARAMBHA'
+          : event === 'EDUCATION'
+            ? 'கல்வி தொடக்கம் (உபநயனத்துக்குப் பின்): சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (நட்சத்திரம், திதி, அனத்யாயம், கலக்ரஹம், மாதம், கிழமை). லக்னம், நவாம்சம், 8 / 4-ஆம் வீடு, குரு / சுக்கிரன் அஸ்தங்கம், பகலின் பகுதி, பிரதோஷம், தாரா / சந்திர பலம்: /muhurta-stars பக்கம், "கல்வி தொடக்கம்" தேர்வுடன்.'
+            : event === 'VIDYARAMBHA'
             ? 'வித்யாரம்பம் (அக்ஷராப்யாசம் — குழந்தையின் முதல் எழுத்துகள்): சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (நட்சத்திரம், திதி, சௌர / சந்திர மாதம், யோகம், கரணம், கிழமை; விஜயதசமி). லக்னம், 8-ஆம் வீடு, புதன் / குரு / சுக்கிரன் அஸ்தங்கம், பகலின் பகுதி, தாரா / சந்திர பலம், வயது: /muhurta-stars பக்கம், "வித்யாரம்பம்" தேர்வுடன் — குழந்தையின் ஜாதகத்துடன்.'
             : event === 'TRAVEL'
               ? 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (நட்சத்திரம், அதன் நாழிகை, திதி, சௌர / சந்திர மாதம், யோகம், விஷ்டி, கிழமை). திசை விதிகள் (சூலம், யோகினி, சந்திரன், சுக்கிரன், பரிகம், காலம்-பாசம், அயனம்), ராகு, காதம், தாரா / சந்திர பலம், லக்னம்: /muhurta-stars பக்கம், "பயணம்" தேர்வுடன், திசையுடன் — பயணம் செய்பவரின் ஜாதகத்துடன்.'

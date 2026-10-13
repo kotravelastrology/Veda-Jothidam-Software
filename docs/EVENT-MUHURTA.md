@@ -1,4 +1,4 @@
-# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel and vidyarambha (2026-10-13)
+# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel, vidyarambha and education (2026-10-13)
 
 `src/report/eventMuhurtaTables.js` (the books' rules) · `src/report/eventMuhurta.js`
 (pure: the codes for a moment) · `test-event-muhurta.js` with
@@ -243,6 +243,32 @@ Uttarayana books 0.
 `/muhurta` judges it as "education" at sunrise (star, Abhijit, tithi, months,
 yoga, karanas, weekday, Vijayadashami's day); "Ritual" no longer borrows it.
 
+## Starting education after upanayana — seven books (added 2026-10-13)
+
+| Book | Words | Pages |
+|---|---|---|
+| Wilhelm (default) | 1038 | pp.233-237 "Vidya & Upavidya" (subject stars and yogas included) |
+| Shridhar | 863 | §17.11.2-3, pp.436-438 |
+| Kalyanraman | 313 | vol.2 pp.151-152 |
+| Joshi | 222 | ch.8, p.96 |
+| Vashistha | 153 | pp.84-85 "Starting main line of education" |
+| Muhurta Chintamani | 147 | sloka 5/38, p.135 |
+| Rangacharya | 70 | ch.IX pp.118-119 |
+
+Raman and Agarwal have no such section. The general rules only; the books'
+subject-by-subject stars (grammar, logic, astrology, mathematics, medicine,
+archery, music, law, painting …) are listed, not computed. New: J.V.'s Matrika
+chakra (Shridhar; marked) and MC's "lagna lord a benefic" — in the English
+commentary, not in the verse (marked); the navamsas of Mars and Saturn avoided
+(Wilhelm, Shridhar); a benefic in the 3rd, 6th or 11th "will certainly cause
+obstructions" (Shridhar, rejected); a malefic in the 4th (Wilhelm, rejected).
+
+Measured at Erode for a child born 2013-06-20, 60 days, every check: from
+2027-02-01 Wilhelm 6 days, Shridhar 3, Kalyanraman 14, MC 6, Rangacharya 11;
+from 2027-06-01 Wilhelm 0 (Jupiter or Venus combust), Kalyanraman 7.
+
+`/muhurta` has it as its own purpose ("கல்வி தொடக்கம்", `study`).
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are
@@ -254,8 +280,8 @@ narrow — about one day in sixty passes at sunrise.
 
 ## Not done
 
-Starting education after upanayana, business, medical treatment and the other
-events; an old house (the books' second list); for house entry: Yogini, Kala Rahu,
+Business, medical treatment and the other events; an old house (the books'
+second list); the subject-by-subject education stars; for house entry: Yogini, Kala Rahu,
 forenoon, the wife's pregnancy. For travel: omens, Trinavami, eclipses, the
 equinox days, kshaya / adhika months, horas, velas, the month–tithi table,
 Khanda / Yamardha / Muhurta Rahu, Vaar Yogini, dawn / dusk / midnight kaala
