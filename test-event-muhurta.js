@@ -775,6 +775,7 @@ const VF = FIX.vidyarambha;
       vijaya: inV,
     };
     for (const b of VR.order) assert.deepEqual(s.ev.VIDYARAMBHA[b], pieceCodes(VR[b], x), `vidyarambha ${b} ${s.fromUtc}`);
+    for (const b of E.EVENTS.BUSINESS.order) assert.deepEqual(s.ev.BUSINESS[b], pieceCodes(E.EVENTS.BUSINESS[b], x), `business ${b} ${s.fromUtc}`);
     if (inV) {
       vijaya += 1;
       assert.deepEqual(s.ev.VIDYARAMBHA.KALYANRAMAN, []);
@@ -874,6 +875,78 @@ const EF = FIX.education;
   assert.ok(sc('WILHELM', {}, 1).includes('VARA') && !sc('WILHELM', {}, 0).includes('VARA'), 'Monday avoided, Sunday not');
   assert.ok(sc('MUHURTA_CHINTAMANI', { lagna: 0 }).includes('LAGNA_LORD_MID') && !sc('MUHURTA_CHINTAMANI').includes('LAGNA_LORD_MID'));
   assert.ok(sc('WILHELM', { dayPart: 4 }).includes('DAY_PART') && sc('WILHELM', { dayPart: 0, nightPart: 3 }).includes('NIGHT'));
+}
+
+// ------------------------------------------------ business: the tables against the books ---
+const BU = E.EVENTS.BUSINESS;
+const BF = FIX.business;
+{
+  assert.deepEqual({ ...E.RANK.BUSINESS.words }, BF.words);
+  assert.deepEqual([...BU.order], Object.keys(BF.words).sort((a, b) => BF.words[b] - BF.words[a]));
+  assert.equal(BU.default, BF.default);
+  for (const b of BU.order) {
+    assert.ok(resolveByTitle(E.SOURCES.BUSINESS[b].title), `registered: ${b}`);
+    assert.ok(BU[b].linesTa.length > 0, `${b} described`);
+    assert.equal(Boolean(BU[b].abhijitOk), BF.abhijit.includes(b), `${b}: Abhijit`);
+    for (const v of days(BF.weekdays.all_avoid)) assert.ok(!BU[b].vara.good.includes(v) && !BU[b].vara.mid.includes(v), `${b}: Tuesday`);
+    assert.equal(BU[b].vara.good.length, 6, `${b}: all the other days`);
+    if (b !== 'RANGACHARYA') assert.deepEqual(sorted(BU[b].lagna.good), [...Array(12).keys()].filter((s) => !BF.lagna_avoid.all_but_RANGACHARYA.map((n) => n - 1).includes(s)), `${b}: not Aquarius`);
+    for (const t of E.bothPakshas(BF.tithis.rikta_avoid)) assert.ok(!BU[b].tithi.includes(t), `${b}: rikta ${t}`);
+    assert.deepEqual([...BU[b].beneficIn], BF.places.benefics_in, b);
+    assert.deepEqual([...BU[b].benHouse.planets], BF.places.in_lagna[b === 'VASHISTHA' ? 'VASHISTHA' : 'others'], b);
+    assert.deepEqual([...BU[b].benHouse.houses], [1]);
+    if (b === 'VASHISTHA') assert.deepEqual([...BU[b].empty], BF.places.VASHISTHA_empty);
+    else assert.deepEqual(BU[b].notIn.map(([p, h]) => [[...p], [...h]]), [[['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'], BF.places.malefics_not_in]], b);
+  }
+  const S = BF.stars;
+  assert.deepEqual(sorted(BU.VASHISTHA.nak.good), stars(S.VASHISTHA));
+  assert.deepEqual(sorted(E.SHOP_STARS), stars(S.MC_mitra_dhruva_kshipra));
+  for (const b of ['KALYANRAMAN', 'JOSHI', 'SHRIDHAR', 'MUHURTA_CHINTAMANI']) assert.deepEqual(sorted(BU[b].nak.good), stars(S[S.KR_JOSHI_SHRIDHAR]), b);
+  assert.deepEqual(sorted(BU.WILHELM.nak.good), stars(S.WILHELM));
+  assert.deepEqual(sorted(BU.RANGACHARYA.nak.good), stars(S.RANGACHARYA_fixed_soft));
+  const T = BF.tithis;
+  assert.deepEqual(sorted(BU.VASHISTHA.tithi), T.VASHISTHA_shukla_and_15);
+  assert.deepEqual(sorted(BU.KALYANRAMAN.tithi), sorted([...E.bothPakshas(T.KR).filter((t) => t !== 15 && t !== 30), 15]), 'KR: both pakshas, the full Moon');
+  for (const b of ['WILHELM', 'JOSHI', 'SHRIDHAR', 'MUHURTA_CHINTAMANI', 'RANGACHARYA']) assert.deepEqual(sorted(BU[b].tithi), [...Array(30).keys()].map((i) => i + 1).filter((t) => !E.bothPakshas(T.rikta_avoid).includes(t)), b);
+  const V = BF.VASHISTHA_more;
+  const R = BU.VASHISTHA;
+  assert.ok(R.jupVenNotSet && R.harishayana === V.chaturmas && R.vishti === V.bhadra && R.holi && R.masa.strict);
+  assert.deepEqual(sorted(R.masa.good), [...Array(12).keys()].filter((mo) => mo !== 9), 'Pausha (the 10th month) avoided');
+  assert.deepEqual(sorted(R.yogaNot), [12, 16, 26], 'Vyaghata, Vyatipata, Vaidhriti');
+}
+
+// ------------------------------------------------ business: the codes ---
+{
+  // Chitra (every book's), Shukla 2, Margashirsha.
+  const x = { star: 13, tithi: 2, month: 8, sunSign: 7, sunStar: 16, taraCount: 2, signs: { Moon: 5 }, natalMoon: 1, moonPada: 52, yoga: 0, vishti: false };
+  const pc = (b, y = {}) => pieceCodes(BU[b], { ...x, ...y });
+  for (const b of BU.order) assert.deepEqual(pc(b), [], b);
+  for (const b of BU.order) assert.ok(pc(b, { tithi: 9 }).includes('TITHI'), `${b}: rikta`);
+  // Vashistha alone: Krishna tithis, Pausha, Chaturmas, the three yogas, Bhadra, Holi.
+  assert.ok(pc('VASHISTHA', { tithi: 17 }).includes('TITHI') && !pc('JOSHI', { tithi: 17 }).includes('TITHI'));
+  assert.ok(pc('VASHISTHA', { month: 9 }).includes('MASA') && !pc('KALYANRAMAN', { month: 9 }).includes('MASA'));
+  assert.ok(pc('VASHISTHA', { month: 3, tithi: 12 }).includes('HARISHAYANA') && pc('VASHISTHA', { month: 7, tithi: 2 }).includes('HARISHAYANA'), 'Ashadha Shukla 12, Kartika Shukla 2: Hari sleeps');
+  assert.ok(pc('VASHISTHA', { yoga: 16 }).includes('YOGA') && pc('VASHISTHA', { vishti: true }).includes('VISHTI'));
+  assert.ok(pc('VASHISTHA', { month: 11, tithi: 15 }).includes('BHURUDAN') && !pc('VASHISTHA', { month: 10, tithi: 15 }).includes('BHURUDAN'));
+  assert.ok(!pc('KALYANRAMAN', { month: 11, tithi: 15 }).includes('BHURUDAN'), 'Holi: Vashistha only');
+  // Stars: Pushya for MC's group, not Vashistha's; Abhijit for the five.
+  assert.ok(pc('VASHISTHA', { star: 7 }).includes('NAK') && !pc('MUHURTA_CHINTAMANI', { star: 7 }).includes('NAK'));
+  assert.ok(!pc('JOSHI', { star: 21, moonAbhijit: true }).includes('NAK') && pc('WILHELM', { star: 21, moonAbhijit: true }).includes('NAK'));
+  // A Gemini lagna: the Moon and Venus away, Mars in the 8th (Capricorn), Jupiter in the 2nd.
+  const sky = { Sun: 6, Moon: 5, Mars: 9, Mercury: 6, Jupiter: 3, Venus: 7, Saturn: 11, Rahu: 11, Ketu: 5 };
+  const m = { lagna: 2, nav: 4, signs: sky, natalLagna: 6, natalMoon: 1, combust: {}, dayPart: 1, nightPart: 0, pradosha: false, tithi: 2, star: 12, month: 7 };
+  const sc = (b, y = {}, vara = 3) => stretchCodes(BU[b], { ...m, ...y }, vara);
+  assert.ok(sc('JOSHI').includes('IN_Mars_8') && sc('VASHISTHA').includes('EMPTY_8'));
+  assert.ok(sc('JOSHI').includes('MOON_VENUS_LAGNA_MID') && sc('VASHISTHA').includes('MOON_MERC_LAGNA_MID'));
+  assert.ok(!sc('JOSHI', { signs: { ...sky, Venus: 2 } }).includes('MOON_VENUS_LAGNA_MID') && !sc('VASHISTHA', { signs: { ...sky, Mercury: 2 } }).includes('MOON_MERC_LAGNA_MID'));
+  assert.ok(sc('WILHELM').includes('BENEFIC_PLACE_MID'));
+  // Mercury in the 12th: a planet, not a malefic — Vashistha rejects, the others do not.
+  const merc12 = { signs: { ...sky, Mars: 4, Mercury: 1 } };
+  assert.ok(sc('VASHISTHA', merc12).includes('EMPTY_12') && !sc('JOSHI', merc12).some((c) => c.startsWith('IN_')));
+  assert.ok(sc('SHRIDHAR', { lagna: 10 }).includes('LAGNA') && !sc('RANGACHARYA', { lagna: 10 }).includes('LAGNA'), 'Aquarius');
+  assert.ok(sc('VASHISTHA', { combust: { Venus: true } }).includes('JUP_VEN_SET') && !sc('JOSHI', { combust: { Venus: true } }).includes('JUP_VEN_SET'));
+  assert.ok(sc('JOSHI', {}, 2).includes('VARA') && !sc('JOSHI', {}, 6).includes('VARA'), 'Tuesday');
+  for (const c of ['MOON_VENUS_LAGNA_MID', 'MOON_MERC_LAGNA_MID', 'BHURUDAN']) assert.ok(E.CODE_TA[c], c);
 }
 
 console.log('test-event-muhurta: all checks passed');

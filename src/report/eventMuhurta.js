@@ -175,6 +175,8 @@ function travelPieceCodes(r, x) {
   if (r.sankranti && x.sankranti) out.push('SANKRANTI');
   if (r.yogaHalfNot && r.yogaHalfNot.includes(x.yogaHalf)) out.push('YOGA');
   if (r.holanta && x.month === 11 && x.tithi <= 15) out.push('HOLANTA');
+  // Holi, Phalguna's full Moon (Vashistha's Bhurudan day).
+  if (r.holi && x.month === 11 && x.tithi === 15) out.push('BHURUDAN');
   if (r.weakMoon && (x.tithi >= 25 || x.tithi <= 5)) out.push('WEAK_MOON');
   const G = r.ghata;
   if (G && Number.isInteger(x.natalMoon)) {
@@ -366,7 +368,7 @@ function lagnaCodes(r, m) {
   // books' best places for Mercury, Jupiter, Venus (marked when none is there).
   if (r.mercNotSet && m.combust?.Mercury) out.push('MERC_SET');
   if (r.sunMarsNav && m.navSigns && (m.navSigns.Sun === m.nav || m.navSigns.Mars === m.nav)) out.push('SUN_MARS_NAV');
-  if (r.benHouse && !r.benHouse.planets.some((p) => r.benHouse.houses.includes(H[p]))) out.push('BEN_HOUSE_MID');
+  if (r.benHouse && !r.benHouse.planets.some((p) => r.benHouse.houses.includes(H[p]))) out.push(r.benHouse.code ?? 'BEN_HOUSE_MID');
   if (r.lagnaLordBenefic && !BENEFICS.includes(RASI_LORDS[m.lagna])) out.push('LAGNA_LORD_MID');
   if (r.dayParts) {
     if (m.dayPart === 0) { if (!(r.dayParts.nightOk ?? []).includes(m.nightPart)) out.push('NIGHT'); }

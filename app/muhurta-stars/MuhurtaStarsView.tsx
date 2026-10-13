@@ -222,6 +222,7 @@ export default function MuhurtaStarsView() {
     const must = reasons.filter((k) => tierOf(k) !== 'PREFER');
     if (on('PLACEMENTS') && pl.pass && (B.lagna.placements[R.PLACEMENTS].caution ?? []).includes(pl.grade)) cautions.push('PLACEMENTS_EMERGENCY');
     if (on('ADVERSE') && x.adverse.some((c: string) => (B.lagna.adverse[R.ADVERSE].caution ?? []).includes(c))) cautions.push('ADVERSE_CAUTION');
+    if (on('EVENT') && eventLagnaCodes(x).some((c) => !isReject(c))) cautions.push('EVENT_MARK');
     return { ok: must.length === 0, reasons: must, cautions, pl };
   }
   /** A check's tier: the owner's choice on the page, else the default for the event. */
@@ -271,6 +272,7 @@ export default function MuhurtaStarsView() {
       if (r === 'COMMON') return l.common[R.COMMON].map((c: string) => B.lagna.commonWhyTa[c]).join(', ');
       if (r === 'ADVERSE') return adverseShown(x).map((c: string) => B.lagna.adverseTa[c]).join(', ');
       if (r === 'EVENT') return eventLagnaCodes(x).filter(isReject).map(evCodeTa).join(', ');
+      if (r === 'EVENT_MARK') return eventLagnaCodes(x).filter((c) => !isReject(c)).map(evCodeTa).join(', ');
       if (r === 'NAV_LAST') return nv.last[R.NAV_LAST].map((k: string) => NAV_REASON_TA[k]).join(', ');
       if (r === 'NAV_WHICH') return `${RASI_TA[nv.nav]} நவாம்சம்`;
       if (r === 'NAV_NATAL') return nv.natal[R.NAV_NATAL].map((k: any) => (typeof k === 'string' ? NAV_REASON_TA[k] : `நவாம்சம் ${k.from === 'LAGNA' ? 'பிறந்த லக்னத்துக்கு' : 'ஜன்ம ராசிக்கு'} ${k.house}`)).join(', ');
@@ -300,6 +302,7 @@ export default function MuhurtaStarsView() {
       for (const r of v.cautions) {
         if (r === 'ADVERSE') adverseShown(x).forEach((c: string) => adverse.add(B.lagna.adverseTa[c]));
         else if (r === 'ADVERSE_CAUTION') x.adverse.filter((c: string) => (B.lagna.adverse[lagnaChosen().ADVERSE].caution ?? []).includes(c)).forEach((c: string) => adverse.add(B.lagna.adverseTa[c]));
+        else if (r === 'EVENT_MARK') eventLagnaCodes(x).filter((c) => !isReject(c)).forEach((c) => other.add(evCodeTa(c)));
         else other.add(lagnaWhy(x, { ...v, reasons: [r] }));
       }
     }
@@ -808,7 +811,7 @@ export default function MuhurtaStarsView() {
                   );
                 })}
                 <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-2 space-y-0.5">{B.lagna.eventNotesTa[evName].map((n: string) => <li key={n}>{n}</li>)}</ul>
-                <Cites list={[...B.lagna.eventSources.MONTHS, ...(['UPANAYANA', 'TRAVEL', 'VIDYARAMBHA'].includes(evName) ? [B.lagna.eventSources.VISHTI] : [])]} />
+                <Cites list={[...B.lagna.eventSources.MONTHS, ...(['UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'BUSINESS'].includes(evName) ? [B.lagna.eventSources.VISHTI] : [])]} />
               </section>
             );
           })()}

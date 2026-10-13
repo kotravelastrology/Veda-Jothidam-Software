@@ -861,7 +861,99 @@ const EDUCATION = deepFreeze({
   },
 });
 
+// ---------------------------------------------------------------------------
+// Starting a business / opening a shop (vipani), added 2026-10-13
+// ---------------------------------------------------------------------------
+
+/** MC 2/17's stars for a shop: Mitra (Mrigashira, Chitra, Anuradha, Revati), Dhruva (Rohini, the Uttaras), Kshipra (Hasta, Ashwini, Pushya; Abhijit). */
+const SHOP_STARS = Object.freeze([4, 13, 16, 26, 3, 11, 20, 25, 12, 0, 7]);
+const NOT_RIKTA = Object.freeze(ALL_TITHIS.filter((t) => !RIKTA.includes(t)));
+const NOT_AQUARIUS_LAGNA = Object.freeze({ good: range(0, 9).concat([11]), mid: [] });
+const SHOP_PLACES = deepFreeze({ empty8_12: [[M5, [8, 12]]], benefic: [2, 10, 11] });
+
+/** Business's rules beyond the other events': benHouse.code (the code for a mark), holi (Phalguna's full Moon). */
+const BUSINESS = deepFreeze({
+  labelTa: 'வியாபாரம் தொடங்குதல் / கடை திறப்பு',
+  default: 'VASHISTHA',
+  order: ['VASHISTHA', 'KALYANRAMAN', 'WILHELM', 'JOSHI', 'SHRIDHAR', 'MUHURTA_CHINTAMANI', 'RANGACHARYA'],
+  VASHISTHA: {
+    labelTa: 'வசிஷ்டா — விபணி கரணம்', booksTa: 'வசிஷ்டா',
+    tithi: [2, 3, 5, 7, 10, 12, 13, 15], vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    nak: { good: [0, 3, 4, 6, 11, 20, 25, 12, 13, 14, 16, 18, 21, 22, 24, 26], mid: [] }, abhijitOk: true, digdwar: false,
+    lagna: NOT_AQUARIUS_LAGNA, empty: [8, 12], beneficIn: SHOP_PLACES.benefic, benHouse: { houses: [1], planets: ['Moon', 'Mercury'], code: 'MOON_MERC_LAGNA_MID' },
+    jupVenNotSet: true, masa: { good: [0, 1, 2, 3, 4, 5, 6, 7, 8, 10, 11], mid: [], strict: true }, harishayana: true,
+    yogaNot: [12, 16, 26], vishti: true, holi: true,
+    linesTa: [
+      '"சிறிய அளவில் வியாபாரம் தொடங்க அல்லது கடை திறக்க" (ப.100-101): திதி — வளர் 2, 3, 5, 7, 10, 12, 13, பௌர்ணமி · கிழமை — செவ்வாய் தவிர · நட்சத்திரம் — அசுவினி, ரோகிணி, மிருகசீரிடம், புனர்பூசம், மூன்று உத்திரம், அஸ்தம், சித்திரை, சுவாதி, அனுஷம், மூலம், திருவோணம், அபிஜித், அவிட்டம், பூரட்டாதி, ரேவதி',
+      'லக்னம்: கும்பம் தவிர எதுவும் (சர, உபயம் நல்லது; ரிஷபம், மிதுனம், சிம்மம், கன்னி, விருச்சிகம், மகரம் நல்லவை) · லக்னத்தில் சந்திரன், புதன் சிறந்தது (குறிக்கப்படும்) · 8, 12 காலி · சுபர் 2, 10, 11-ல் (குறிக்கப்படும்)',
+      'குரு, சுக்கிரன் அஸ்தங்கம் கூடாது · பௌஷ மாதம், சாதுர்மாஸ்யம் (ஹரிசயனம்), வியாகாதம், வியதீபாதம், வைதிருதி, பத்ரை (விஷ்டி), ரிக்த, செவ்வாய் கூடாது · "பூருதன" நாள் — மாத / ஆண்டு இறுதி அமாவாசை, ஹோலி (பால்குன பௌர்ணமி), செவ்வாய் — கூடாது · "சந்திரன் பலவீனமாக இருக்கக்கூடாது" (வரையறை இல்லை — கணிக்கப்படவில்லை) · காரியத்தின் காரக கிரகமும் புதனும் பலம் (கணிக்கப்படவில்லை)',
+    ],
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2)', booksTa: 'கல்யாணராமன் (முகூர்த்த சிந்தாமணி மேற்கோள்)',
+    nak: { good: SHOP_STARS, mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [...tithiBoth([1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13]), 15], vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    lagna: NOT_AQUARIUS_LAGNA, notIn: SHOP_PLACES.empty8_12, beneficIn: SHOP_PLACES.benefic, benHouse: { houses: [1], planets: ['Moon', 'Venus'], code: 'MOON_VENUS_LAGNA_MID' },
+    linesTa: [
+      '"Openings Shops, Opening Commercial Outlets" (பக்.186-187): நட்சத்திரம் 12 — மிருது (மிருகசீரிடம், ரேவதி, சித்திரை, அனுஷம்), துருவ (ரோகிணி, மூன்று உத்திரம்), க்ஷிப்ர (அஸ்தம், அசுவினி, பூசம், அபிஜித்) · திதி: 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, பௌர்ணமி · கிழமை: செவ்வாய் தவிர',
+      'ரிக்த திதி, செவ்வாய், கும்ப லக்னம் கூடாது · 2, 10, 11-ல் சுபர் (குறிக்கப்படும்) · லக்னத்தில் சுக்கிரன், சந்திரன் (குறிக்கப்படும்) · 8, 12-ல் பாவர் கூடாது',
+    ],
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம்', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 3, 4, 7, 11, 12, 13, 16, 20, 25, 26], mid: [] }, digdwar: false,
+    tithi: NOT_RIKTA, vara: { good: [0, 1, 3, 4, 5, 6], mid: [] }, lagna: NOT_AQUARIUS_LAGNA,
+    notIn: SHOP_PLACES.empty8_12, beneficIn: SHOP_PLACES.benefic, benHouse: { houses: [1], planets: ['Moon', 'Venus'], code: 'MOON_VENUS_LAGNA_MID' },
+    linesTa: [
+      '"Store/Business opening" (ப.193): நட்சத்திரம் — அசுவினி, ரோகிணி, மிருகசீரிடம், பூசம், உத்திரம், அஸ்தம், சித்திரை, அனுஷம், உத்திராடம், உத்திரட்டாதி, ரேவதி · நல்ல திதி — 4, 9, 14 "நிச்சயமாகக்" கூடாது · செவ்வாய் கூடாது · கும்ப லக்னம் கூடாது',
+      'லக்னத்தில் சுக்கிரன் அல்லது சந்திரன் மிக நல்லது (குறிக்கப்படும்) · 8, 12-ல் பாவர் கூடாது · சுபர் 2, 10, 11-ல் சிறந்தது (குறிக்கப்படும்) · தொழிலுக்கு உரிய நட்சத்திரங்கள் (பொன், ஓவியம் …) இன்னும் சிறந்தவை — கணிக்கப்படவில்லை',
+    ],
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி அத்.9', booksTa: 'ஜோஷி',
+    nak: { good: SHOP_STARS, mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: NOT_RIKTA, vara: { good: [0, 1, 3, 4, 5, 6], mid: [] }, lagna: NOT_AQUARIUS_LAGNA,
+    notIn: SHOP_PLACES.empty8_12, beneficIn: SHOP_PLACES.benefic, benHouse: { houses: [1], planets: ['Moon', 'Venus'], code: 'MOON_VENUS_LAGNA_MID' },
+    linesTa: [
+      '"Opening a Shop" (ப.101): ரிக்த திதி, செவ்வாய், கும்ப லக்னம் கூடாது; மற்றவை எல்லாம் நல்லவை · நட்சத்திரம் — ஸ்திர (மூன்று உத்திரம், ரோகிணி), மிருது (மிருகசீரிடம், ரேவதி, சித்திரை, அனுஷம்), லகு (அஸ்தம், அசுவினி, பூசம், அபிஜித்)',
+      'லக்னத்திலிருந்து 2, 10, 11-ல் சுபர்; லக்னத்தில் சுக்கிரன், சந்திரன் விருப்பம் (குறிக்கப்படும்) · 8, 12-ல் பாவர் கூடாது · சந்திர / தாரா சுத்தி அவசியம் (பொது)',
+    ],
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §25.4', booksTa: 'ஸ்ரீதர் (மு.சி. மேற்கோள்)',
+    nak: { good: SHOP_STARS, mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: NOT_RIKTA, vara: { good: [0, 1, 3, 4, 5, 6], mid: [] }, lagna: NOT_AQUARIUS_LAGNA,
+    notIn: SHOP_PLACES.empty8_12, beneficIn: SHOP_PLACES.benefic, benHouse: { houses: [1], planets: ['Moon', 'Venus'], code: 'MOON_VENUS_LAGNA_MID' },
+    linesTa: [
+      '"Opening a shop" (ப.684, மு.சி.யை மேற்கோளிட்டு): மிருது, ஸ்திர, லகு நட்சத்திரங்கள் (அபிஜித் உட்பட) · லக்னத்தில் சந்திரன், சுக்கிரன் (குறிக்கப்படும்) · சுபர் 2, 10, 11-ல் (குறிக்கப்படும்) · 8, 12-ல் பாவர் கூடாது · ரிக்த திதி, செவ்வாய், கும்ப லக்னம் கூடாது',
+    ],
+  },
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி அத்.2', booksTa: 'முகூர்த்த சிந்தாமணி ஸ்லோ.2/17',
+    nak: { good: SHOP_STARS, mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: NOT_RIKTA, vara: { good: [0, 1, 3, 4, 5, 6], mid: [] }, lagna: NOT_AQUARIUS_LAGNA,
+    notIn: SHOP_PLACES.empty8_12, beneficIn: SHOP_PLACES.benefic, benHouse: { houses: [1], planets: ['Moon', 'Venus'], code: 'MOON_VENUS_LAGNA_MID' },
+    linesTa: [
+      'ஸ்லோ.2/17: "रिक्ताभौमघटान्विना च विपणिर्मैत्रध्रुवक्षिप्रभैर्लग्ने चन्द्रसिते व्ययाष्टरहितैः पापैः शुभैर्ध्यायखे" — கடை: ரிக்த, செவ்வாய், கும்பம் இல்லாமல்; மைத்ர, துருவ, க்ஷிப்ர நட்சத்திரங்களில்; லக்னத்தில் சந்திரன், சுக்கிரன் (குறிக்கப்படும் — எங்கள் வாசிப்பு); 12, 8-ல் பாவர் இல்லாமல்; சுபர் 2, 11, 10-ல் (அச்சில் "ध्यायखे" — 5, 11, 10 என்றும் படிக்கலாம்; உரையும் மற்ற நூல்களும் 2, 10, 11 — குறிக்கப்படும்)',
+    ],
+  },
+  RANGACHARYA: {
+    labelTa: 'ரங்காச்சார்யா', booksTa: 'ரங்காச்சார்யா',
+    nak: { good: [3, 11, 20, 25, 4, 13, 16, 26], mid: [] }, digdwar: false,
+    tithi: NOT_RIKTA, vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    notIn: SHOP_PLACES.empty8_12, beneficIn: SHOP_PLACES.benefic, benHouse: { houses: [1], planets: ['Moon', 'Venus'], code: 'MOON_VENUS_LAGNA_MID' },
+    linesTa: [
+      '"Shop opening" (ப.128): செவ்வாய், ரிக்த திதி கூடாது · ஸ்திர, மிருது நட்சத்திரங்கள் (ரோகிணி, மூன்று உத்திரம்; மிருகசீரிடம், சித்திரை, அனுஷம், ரேவதி) · லக்னத்தில் சந்திரன், சுக்கிரன் மிகச் சிறந்தது (குறிக்கப்படும்) · 8, 12-ல் பாவர் கூடாது · 2, 11, 10-ல் சுபர் நல்லது (குறிக்கப்படும்)',
+    ],
+  },
+});
+
 const RANK = deepFreeze({
+  BUSINESS: {
+    order: BUSINESS.order,
+    words: { VASHISTHA: 217, KALYANRAMAN: 190, WILHELM: 112, JOSHI: 83, SHRIDHAR: 66, MUHURTA_CHINTAMANI: 65, RANGACHARYA: 52 },
+    measureTa: 'கடை திறப்பு / வியாபாரம் தொடங்குதல் பற்றிய சொற்கள்: வசிஷ்டா ("Vipani karana", பக்.100-101) 217; கல்யாணராமன் (தொ.2 பக்.186-187) 190; வில்ஹெல்ம் (ப.193) 112; ஜோஷி (அத்.9, ப.101) 83; ஸ்ரீதர் (§25.4, ப.684) 66; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/17 — கடை திறப்புப் பகுதி, ப.58; ஒரு உரைப் படிவம்) 65; ரங்காச்சார்யா (ப.128) 52. ராமன், அகர்வாலில் கடை திறப்புக்குத் தனிப் பகுதி இல்லை (வாங்குதல் / விற்றல் மட்டும்).',
+  },
   EDUCATION: {
     order: EDUCATION.order,
     words: { WILHELM: 1038, SHRIDHAR: 863, KALYANRAMAN: 313, JOSHI: 222, VASHISTHA: 153, MUHURTA_CHINTAMANI: 147, RANGACHARYA: 70 },
@@ -942,6 +1034,15 @@ const SOURCES = deepFreeze({
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 5 sloka 38, printed p.135 (PDF 139): "मृगात्कराच्छ्रुतेस्त्रयेऽश्विमूलपूर्विकात्रये गुरुद्वयेऽर्कजीववित्सितेऽह्नि षट्छरत्रिके । शिवार्कदिग्द्विके तिथौ ध्रुवान्त्यमित्रभे परैः शुभैरधीतिरुत्तमा त्रिकोणकेन्द्रगैः स्मृता ॥" — "THE MUHURTA FOR THE BEGINNING OF GETTING EDUCATION: … the auspicious Nakshtras are Mrigashira, Ardra, Punarvasu, Hasta, Chitra, Swati, Shravana, Dhanishtha, Shatabhisha, Ashwini, Moola, Poorvaphalguni, Poorvashadha, Poorvabhadrapada, Pushya and Ashlesha, the auspicious days are Sunday, Thursday, Wednesday and Friday and the auspicious Tithis are 6/5/3/11/12/10/2; and the Lord of the Ascendant … should be a benefic planet and there should be benefic planets in the Angles and Trines from the Ascendant. Notes: Some Acharyas have said that for beginning to learn archery the Nakshtras named as Dhruwa, those of Rewati and Anuradha are the auspicious ones"' },
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: 'Chapter IX "Commencing Education", printed pp.118-119 (PDF 126-127): "The 1st (D) 2,3,5,6,12,10,11 are good, 4,8,9,14 Amavasya and Poornima should be avoided. Wednesday, Thursday and Friday are good. Sunday and Monday are mediocre. Tuesday and Saturday should be avoided. The movable and the dual lagnas should be the choice. Aswini, Mrigasira, Aridra, Punarvasu, Pushyami, Aslesha, Poorva (3) Hasta, Chitra, Swati, Sravana, Dhanishtta and Satabhisha are acceptable"' },
   },
+  BUSINESS: {
+    VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: '"7. Vipani karana muhurta", printed pp.100-101 (PDF 87-88): "To start a business on a small scale or to open a shop the following muhurta is advised: Tithi — 2, 3, 5, 7, 10, 12, 13 (shukla) and 15; Vara — Sunday, Monday, Wednesday, Thursday, Friday and Saturday; Nakshatra — Ashwini, Rohini, Mrigashirsha, Punarvasu, 3 uttaras, Hasta, Chitra, Swati, Anuradha, Moola, Sravana, Abhijita, Dhanishtha, Poorva Bhadra and Revati; Lagna — Any lagna except Kumbha. It is better to take either chara (movable) or dual lagna … The business should not be started on Bhurudan day. (Bhu-rudan day is end of month, end of year amavasya, festival of Holi and Tuesday.) Taurus, Gemini, Leo, Virgo, Scorpio and Capricorn lagnas are good. Moon and Mercury in lagna are best, 8 and 12 bhava should be vacant (no planet). Benefics should be in 2, 10 and 11 houses … Jupiter and Venus should not be combust. Pausha, Chaturmas, Vyaghata, Bhadra, Vyatipata, Vaidhriti should be rejected. Moon should not be weak. Rikta tithis and Tuesday should also be rejected"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Openings Shops, Opening Commercial Outlets", printed pp.186-187 (PDF 188-189): "Nakshatra Abhijith, Aswini, Rohini, Mrigasira, Pushyami, Uttaraphalguni, Hasta, Chitra, Anuradha, Uttarashada, Uttarabhadrapada and Revati (11+1) … Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Wednesday, Thursday, Friday, Saturday. Notes: … 2. Avoid Rikta tithis, Tuesday and Aquarius as ascendant. 3. Lagna should have benefics in 2/10/11 houses. 4. Venus and the Moon are preferable in Lagna. 5. Malefics must not occupy 8/12 houses"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Business/Finance - Store/Business Opening", printed p.193 (PDF 201): "Nakshatra: Asvini, Rohini, Mrigasira, Pushya, Uttaraphalguni, Hasta, Chitta, Anuradha, Uttarashadha, Uttarabhadrapada and Revati are favorable. Tithi: Choose a favorable Tithi and definitely avoid the 4th, 9th and 14th. Vara: Avoid Mars\'s Vara particularly. Lagna: Avoid Aquarius. Bhavas: Venus or the Moon is very favorable in the Lagna. There should be no malefics in the 8th and 12th. Benefics are best in the 2nd, 10th and 11th"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 9 "Opening a Shop", printed p.101 (PDF 116): "Avoid Rikta Tithis (4/9/14), Tuesday and Aquarius Ascendent. All other tithis, days and ascendents are good. All fixed nakshatras …, all Mridu nakshatras … and all Laghu or short nakshatras (Hasta, Ashwini, Pushya and Abhijit) are considered auspicious for starting a shop. The Lagna should have benefics in 2/10/11 houses; Venus and Moon are preferred in lagna; and 8/12 houses should not have malefics"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.4 "Opening a shop", printed p.684 (PDF 719): "In Sweet (Mrigshira, Chitra, Anuradha, Revati), Stationary (Rohini, 3 Uttras), Small (Hasta, Ashvani, Pushya, Abhijit); the Moon & Venus in ascendant; benefics in 2,10,11 houses, & malefics not in 8th or 12th houses; is fortuitous time to open a shop …; but Rikta Tithis, Tuesday, & Aquarius should not be rising at that time (M.C)"' },
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 sloka 17, printed p.58 (PDF 62): "… रिक्ताभौमघटान्विना च विपणिर्मैत्रध्रुवक्षिप्रभैर्लग्ने चन्द्रसिते व्ययाष्टरहितैः पापैः शुभैर्ध्यायखे ॥१७॥" — "The opening of a shop is auspicious, on other tithis, days and in ascendant leaving Rikta tithis, the day of Tuesday and the Ascendant of Aquarius, in the Nakshtras called Mitra, Dhruwa and Kshipra, if Venus and the Moon are in the Ascendant, if there are no malefics in the 8/12 Houses and if there are benefics in the 2/10/11 Houses"' },
+    RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Shop Opening", printed p.128 (PDF 136): "Avoid Tuesday, and the rikta tithis. Choose the fixed and soft asterisms. The placement of the moon and Venus in Lagna is excellent for opening any shop. The malefics should not occupy the 8th and 12th houses. The placement of the benefics in the 2nd, 11th and 10th is good"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -986,6 +1087,8 @@ const CODE_TA = Object.freeze({
   STHIRA_KARANA: 'ஸ்திர கரணம்', MERC_SET: 'புதன் அஸ்தங்கம்', SUN_MARS_NAV: 'லக்ன நவாம்சத்தில் சூரியன் / செவ்வாய்', BEN_HOUSE_MID: 'சொன்ன இடத்தில் புதன் / குரு / சுக்கிரன் இல்லை',
   // Education.
   MATRIKA: 'மாத்ருகா சக்கரம் (சூரிய நட்சத்திரத்திலிருந்து 1-7, 12-15)', LAGNA_LORD_MID: 'லக்னாதிபதி சுபர் அல்ல',
+  // Business.
+  MOON_VENUS_LAGNA_MID: 'லக்னத்தில் சந்திரன் / சுக்கிரன் இல்லை', MOON_MERC_LAGNA_MID: 'லக்னத்தில் சந்திரன் / புதன் இல்லை', BHURUDAN: 'பூருதன நாள் (ஹோலி — பால்குன பௌர்ணமி)',
 });
 
 const NOTES_TA = deepFreeze({
@@ -1044,12 +1147,19 @@ const NOTES_EDUCATION_TA = Object.freeze([
   'கணிக்கப்படாதவை: வயது (காட்டப்படும்), சந்திகள் (அயன, ருது, ஆண்டு சந்தி — ஸ்ரீதர், J.V.), சரஸ்வதி / வித்யா யோகங்கள், புதன் பலம் (ஜோஷி), சுப நவாம்சம் / புதன் வர்க்கம் / புதன் ஹோரை "சிறந்தது" (ஸ்ரீதர்), J.V.யின் கலக்ரஹ வரிசை (இரு பக்ஷமும் 1, 7, 8, 9, 13, 14, 15, 30 — தேய் 4), சோமபாத, யுகாதி, மன்வாதி திதிகள், வில்ஹெல்மின் ஜன்ம / 10-வது தாரை "நல்லது".',
 ]);
 
-const EVENTS = deepFreeze({ order: ['GRIHA_PRAVESHA', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION'], GRIHA_PRAVESHA, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION });
+const NOTES_BUSINESS_TA = Object.freeze([
+  'இங்கே: சிறிய அளவில் வியாபாரம் தொடங்குதல் / கடை திறப்பு (விபணி). பெரிய வியாபாரம் (ரங்காச்சார்யா: மேஷ, ரிஷப, மிதுன, துலா, விருச்சிக, மகர, கும்ப சௌர மாதங்கள், வளர் 2, 3, 5, 7, 11, புதன்–வெள்ளி, பூசம், மூன்று உத்திரம், அஸ்தம், சித்திரை; வசிஷ்டா ப.101 அதையே ஒத்து), விற்றல், வாங்குதல், தொழில்வாரி நட்சத்திரங்கள் — கணிக்கப்படவில்லை.',
+  '"லக்னத்தில் சந்திரன், சுக்கிரன்" — வில்ஹெல்ம் "சுக்கிரன் அல்லது சந்திரன்", ஜோஷி / கல்யாணராமன் "விருப்பம்", ரங்காச்சார்யா "மிகச் சிறந்தது": இரண்டில் ஒன்றும் இல்லையெனில் குறிக்கப்படும், விலக்கவில்லை (மு.சி., ஸ்ரீதருக்கும் — எங்கள் வாசிப்பு). சுபர் 2, 10, 11-ல் — குறிக்கப்படும். 8, 12-ல் பாவர் (ராகு, கேது உட்பட) — விலக்கு; வசிஷ்டா: 8, 12-ல் எந்தக் கிரகமும் கூடாது.',
+  '"நல்ல திதி" (வில்ஹெல்ம்) — வரையறை இல்லை; ரிக்த (4, 9, 14) மட்டும் விலக்கு. ஜோஷி, மு.சி., ஸ்ரீதர், ரங்காச்சார்யா: ரிக்த தவிர எல்லாத் திதியும் (அமாவாசை உட்பட — அச்சில் உள்ளபடி).',
+  'கணிக்கப்படாதவை: வசிஷ்டாவின் "சந்திரன் பலவீனமில்லாமல்" (வரையறை இல்லை), காரக கிரகம், புதன் பலம்; மாத / ஆண்டு இறுதி அமாவாசை அவரது திதிப் பட்டியலிலேயே இல்லை; சந்திர / தாரா சுத்தி பொதுப் பகுதியில்.',
+]);
+
+const EVENTS = deepFreeze({ order: ['GRIHA_PRAVESHA', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS'], GRIHA_PRAVESHA, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS });
 
 module.exports = {
   EVENTS, DOORS, MONTH_TA, RANK, SOURCES, CODE_TA,
-  NOTES_TA: deepFreeze({ ...NOTES_TA, UPANAYANA: NOTES_UPANAYANA_TA, TRAVEL: NOTES_TRAVEL_TA, VIDYARAMBHA: NOTES_VIDYARAMBHA_TA, EDUCATION: NOTES_EDUCATION_TA }),
-  AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD,
+  NOTES_TA: deepFreeze({ ...NOTES_TA, UPANAYANA: NOTES_UPANAYANA_TA, TRAVEL: NOTES_TRAVEL_TA, VIDYARAMBHA: NOTES_VIDYARAMBHA_TA, EDUCATION: NOTES_EDUCATION_TA, BUSINESS: NOTES_BUSINESS_TA }),
+  AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,
   DIRECTIONS, TITHI_DIR8, YOGINI_KP, GHATA, KAAL_SHOOLA, LALATIKA, TARA_1357,
 };

@@ -342,6 +342,11 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
     assert.deepEqual(lagnaVerdict(l, { ...must, ADVERSE: 'ALL' }, null, null, null, ['MOON_IN_LAGNA']).reasons, ['ADVERSE'], EVENT);
     assert.deepEqual(lagnaVerdict(l, { ...must, ADVERSE: 'NO_OPINION' }, null, null, null, ['MOON_IN_LAGNA']).reasons, []);
     assert.deepEqual(lagnaVerdict(l, { ...must, ADVERSE: 'ALL' }, null, null, null, ['NATAL_LORD_RETRO']), { ok: true, reasons: [], cautions: ['ADVERSE_CAUTION'] });
+    // An event book's mark (a `_MID` code) is shown with the cautions; its rejection is the EVENT reason.
+    if (T.EVENTS[EVENT].checks.includes('EVENT')) {
+      assert.deepEqual(lagnaVerdict(l, { ...chosen, EVENT }, null, null, null, null, ['MOON_VENUS_LAGNA_MID']), { ok: true, reasons: [], cautions: ['EVENT_MARK'] }, EVENT);
+      assert.deepEqual(lagnaVerdict(l, { ...chosen, EVENT }, null, null, null, null, ['IN_Mars_8', 'BENEFIC_PLACE_MID']), { ok: false, reasons: ['EVENT'], cautions: ['EVENT_MARK'] }, EVENT);
+    } else assert.deepEqual(lagnaVerdict(l, { ...chosen, EVENT }, null, null, null, null, ['MOON_VENUS_LAGNA_MID']).cautions, [], EVENT);
   }
 }
 
@@ -544,6 +549,7 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
         // Vidyarambha: the night's third, the lunar month (the segment's), the planets' navamsa signs at the piece.
         VIDYARAMBHA: stretchCodesOf('VIDYARAMBHA', { ...travel, month: s.month, navSigns: pieceNav }, vara),
         EDUCATION: stretchCodesOf('EDUCATION', { ...travel, month: s.month, navSigns: pieceNav }, vara),
+        BUSINESS: stretchCodesOf('BUSINESS', { ...travel, month: s.month, navSigns: pieceNav }, vara),
       }, `event ${x.fromUtc}`);
       n += 1;
     }

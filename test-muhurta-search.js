@@ -10,7 +10,7 @@ for (const key of ['marriage', 'business', 'travel', 'griha', 'upanayana', 'educ
   assert.ok(p && p.label, `${key} has a label`);
   assert.equal(p.goodNak, undefined, `${key}: no unsourced star list`);
 }
-assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION' });
+assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION', business: 'BUSINESS' });
 assert.ok(PURPOSES.ritual && !SOURCED.ritual, '"Ritual" is not read from the books yet');
 
 // ── an unsourced purpose: panchanga, no verdict ──────────────────────────
@@ -130,5 +130,25 @@ for (const book of ED.order) {
   }
   assert.ok(v.days.some((d) => d.score >= 70), `${book}: some good sunrises in February–March 2027`);
 }
+
+// ── business / shop opening: the sunrise rules; Holi for Vashistha ────────
+const BU = E.EVENTS.BUSINESS;
+for (const book of BU.order) {
+  const v = searchMuhurta({ startDate: '2027-02-20', endDate: '2027-04-10', purpose: 'business', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330, book });
+  assert.equal(v.sourced, true);
+  assert.equal(v.book, book);
+  assert.ok(v.noteTa.includes('/muhurta-stars'));
+  for (const d of v.days) {
+    assert.ok(!d.codes.some((c) => ['LAGNA', 'EMPTY_8', 'EMPTY_12', 'JUP_VEN_SET', 'MOON_VENUS_LAGNA_MID', 'MOON_MERC_LAGNA_MID', 'BENEFIC_PLACE_MID', 'TARA_NOT', 'CHANDRA'].includes(c)), `${book} ${d.date}: only sunrise rules`);
+    assert.ok(d.notes.every((n) => !/^[A-Z_]+$/.test(n)), `${book} ${d.date}: in Tamil`);
+    assert.equal(d.codes.includes('VARA'), d.weekday === 'Tuesday', `${book} ${d.date}: Tuesday`);
+  }
+  assert.ok(v.days.some((d) => d.score >= 70), `${book}: some good sunrises`);
+  // Phalguna's full Moon at sunrise (Holi, March 2027): Vashistha's Bhurudan day.
+  const holi = v.days.filter((d) => d.month === E.MONTH_TA[11] && d.tithi === 'Shukla Purnima');
+  assert.ok(holi.length >= 1, 'Holi found');
+  for (const d of holi) assert.equal(d.codes.includes('BHURUDAN'), book === 'VASHISTHA', `${book} ${d.date}`);
+}
+assert.equal(searchMuhurta({ startDate: '2027-03-01', endDate: '2027-03-02', purpose: 'business', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 }).book, BU.default);
 
 console.log(JSON.stringify({ pass: true, marriageDays: res.days.length, grihaDefault: G.default }, null, 2));

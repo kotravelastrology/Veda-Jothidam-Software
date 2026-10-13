@@ -199,5 +199,27 @@
     "lagnas": { "dual_best_movable_middling": "WILHELM SHRIDHAR", "JOSHI_KR_movable": [1, 4, 7, 10], "VASHISTHA_fixed_not_aquarius": [2, 5, 8], "RANGACHARYA_movable_dual": [1, 4, 7, 10, 3, 6, 9, 12] },
     "navamsas_avoid_WILHELM_SHRIDHAR": ["Mars", "Saturn"],
     "matrika_JV_unfavourable_from_sun": [1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15]
+  },
+  "business": {
+    "_about": "Transcribed 2026-10-13 from the page images: opening a shop / starting a business on a small scale (vipani). Names as in the travel block; Abhijit listed apart; signs 1 = Aries.",
+    "words": { "VASHISTHA": 217, "KALYANRAMAN": 190, "WILHELM": 112, "JOSHI": 83, "SHRIDHAR": 66, "MUHURTA_CHINTAMANI": 65, "RANGACHARYA": 52 },
+    "default": "VASHISTHA",
+    "stars": {
+      "VASHISTHA": ["Ashwini", "Rohini", "Mrigashira", "Punarvasu", "UPhalguni", "UAshadha", "UBhadra", "Hasta", "Chitra", "Swati", "Anuradha", "Moola", "Shravana", "Dhanishtha", "PBhadra", "Revati"],
+      "MC_mitra_dhruva_kshipra": ["Mrigashira", "Chitra", "Anuradha", "Revati", "Rohini", "UPhalguni", "UAshadha", "UBhadra", "Hasta", "Ashwini", "Pushya"],
+      "KR_JOSHI_SHRIDHAR": "MC_mitra_dhruva_kshipra",
+      "WILHELM": ["Ashwini", "Rohini", "Mrigashira", "Pushya", "UPhalguni", "Hasta", "Chitra", "Anuradha", "UAshadha", "UBhadra", "Revati"],
+      "RANGACHARYA_fixed_soft": ["Rohini", "UPhalguni", "UAshadha", "UBhadra", "Mrigashira", "Chitra", "Anuradha", "Revati"]
+    },
+    "abhijit": ["VASHISTHA", "KALYANRAMAN", "JOSHI", "SHRIDHAR", "MUHURTA_CHINTAMANI"],
+    "tithis": {
+      "VASHISTHA_shukla_and_15": [2, 3, 5, 7, 10, 12, 13, 15],
+      "KR": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15],
+      "rikta_avoid": [4, 9, 14]
+    },
+    "weekdays": { "all_avoid": ["Tue"] },
+    "lagna_avoid": { "all_but_RANGACHARYA": [11] },
+    "places": { "malefics_not_in": [8, 12], "VASHISTHA_empty": [8, 12], "benefics_in": [2, 10, 11], "in_lagna": { "VASHISTHA": ["Moon", "Mercury"], "others": ["Moon", "Venus"] } },
+    "VASHISTHA_more": { "jupiter_venus_not_combust": true, "avoid_month": "Pausha", "chaturmas": true, "yogas_avoid": ["Vyaghata", "Vyatipata", "Vaidhriti"], "bhadra": true, "bhurudan_holi": { "month": "Phalguna", "tithi": 15 } }
   }
 }

@@ -24,11 +24,11 @@ const EV = require('./eventMuhurtaTables');
 const { panchangaCodes, varaCodes, rejects, isVishti, isSthiraKarana, withSecondary, vijayadashamiOf } = require('./eventMuhurta');
 
 /** Purposes with rules read from the books, and their event. */
-const SOURCED = Object.freeze({ griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION' });
+const SOURCED = Object.freeze({ griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION', business: 'BUSINESS' });
 /** The rules a sunrise can judge without the person, the direction or the planets (the rest are on /muhurta-stars). */
 const SUNRISE_RULES = Object.freeze([
   'masa', 'uttarayana', 'sunSign', 'harishayana', 'nak', 'nakAfter', 'abhijitOk', 'tithi', 'tithiMid', 'tithiNot', 'anadhyaya', 'galagraha', 'yogaNot', 'yogaHalfNot',
-  'vishti', 'karanaFixed', 'kumbha', 'matrika', 'vara', 'holanta', 'vijayadashami', 'secondary',
+  'vishti', 'karanaFixed', 'kumbha', 'matrika', 'vara', 'holanta', 'holi', 'vijayadashami', 'secondary',
 ]);
 const ABHIJIT = Object.freeze([276 + 40 / 60, 280 + 53 / 60 + 20 / 3600]);
 const sunriseReading = (r) => Object.fromEntries(Object.entries(r).filter(([k]) => SUNRISE_RULES.includes(k)));
@@ -160,6 +160,8 @@ function searchMuhurta(q) {
         rankTa: EV.RANK[event].measureTa, source: EV.SOURCES[event][book],
         noteTa: event === 'UPANAYANA'
           ? 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (மாதம், சௌர மாதம், நட்சத்திரம், திதி, அனத்யாயம், கலக்ரஹம், யோகம், விஷ்டி, கிழமை). குரு / சூரிய / சந்திர பலம், லக்னம், பகலின் பகுதி, பிரதோஷம், சங்கிராந்தி, வயது: /muhurta-stars பக்கம், "உபநயனம்" தேர்வுடன் — குழந்தையின் ஜாதகத்துடன்.'
+          : event === 'BUSINESS'
+            ? 'கடை திறப்பு / வியாபாரம் தொடங்குதல்: சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (நட்சத்திரம், திதி, கிழமை; வசிஷ்டாவுக்கு மாதம், சாதுர்மாஸ்யம், யோகம், விஷ்டி, ஹோலி). லக்னம் (கும்பம் தவிர), 8 / 12-ல் பாவர், லக்னத்தில் சந்திரன் / சுக்கிரன், சுபர் 2 / 10 / 11-ல், குரு / சுக்கிரன் அஸ்தங்கம், தாரா / சந்திர பலம்: /muhurta-stars பக்கம், "வியாபாரம்" தேர்வுடன்.'
           : event === 'EDUCATION'
             ? 'கல்வி தொடக்கம் (உபநயனத்துக்குப் பின்): சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (நட்சத்திரம், திதி, அனத்யாயம், கலக்ரஹம், மாதம், கிழமை). லக்னம், நவாம்சம், 8 / 4-ஆம் வீடு, குரு / சுக்கிரன் அஸ்தங்கம், பகலின் பகுதி, பிரதோஷம், தாரா / சந்திர பலம்: /muhurta-stars பக்கம், "கல்வி தொடக்கம்" தேர்வுடன்.'
             : event === 'VIDYARAMBHA'

@@ -1,4 +1,4 @@
-# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel, vidyarambha and education (2026-10-13)
+# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel, vidyarambha, education and opening a shop (2026-10-13)
 
 `src/report/eventMuhurtaTables.js` (the books' rules) · `src/report/eventMuhurta.js`
 (pure: the codes for a moment) · `test-event-muhurta.js` with
@@ -269,6 +269,47 @@ from 2027-06-01 Wilhelm 0 (Jupiter or Venus combust), Kalyanraman 7.
 
 `/muhurta` has it as its own purpose ("கல்வி தொடக்கம்", `study`).
 
+## Opening a shop / starting a business — seven books (added 2026-10-13)
+
+| Book | Words | Pages |
+|---|---|---|
+| Vashistha (default) | 217 | pp.100-101 "7. Vipani karana muhurta" (small-scale business, a shop) |
+| Kalyanraman | 190 | vol.2 pp.186-187 "Openings Shops, Opening Commercial Outlets" |
+| Wilhelm | 112 | p.193 "Store/Business Opening" |
+| Joshi | 83 | ch.9 p.101 "Opening a Shop" |
+| Shridhar | 66 | §25.4 p.684 "Opening a shop" (quoting MC) |
+| Muhurta Chintamani | 65 | sloka 2/17, p.58 (the shop clause) |
+| Rangacharya | 52 | p.128 "Shop Opening" |
+
+Raman and Agarwal have buying and selling only, no shop opening. Six books follow
+MC 2/17: not Rikta, not Tuesday, not Aquarius rising; Mitra, Dhruva and Kshipra
+stars (Abhijit with them); the Moon and Venus in the lagna; no malefic in the 8th
+or 12th; benefics in the 2nd, 10th, 11th. Wilhelm's eleven stars are the same
+set without Abhijit; Rangacharya keeps the fixed and soft ones and has no lagna
+rule. Vashistha differs most: his own tithis (Shukla 2, 3, 5, 7, 10, 12, 13 and
+the full Moon) and sixteen stars, the 8th and 12th empty of every planet, the
+Moon and Mercury in the lagna, Jupiter and Venus not combust, Pausha and
+Chaturmas, Vyaghata / Vyatipata / Vaidhriti and Bhadra rejected, and the
+"Bhurudan" day — Holi, Phalguna's full Moon, is computed (new code `BHURUDAN`);
+his "end of month / year Amavasya" is outside his tithis anyway.
+
+Marked, not rejected (our reading): the Moon and Venus (Vashistha: Mercury) in
+the lagna — "preferable", "very favorable", "excellent"; the benefics' places.
+MC's printed "ध्यायखे" could read 5, 11, 10; its commentary and the other books
+say 2, 10, 11, which we use. Not computed: Vashistha's "weak Moon" (no
+definition), the karaka planet and Mercury's strength; the large-scale business
+rules (Rangacharya, Vashistha p.101), buying, selling and trade-wise stars —
+listed in the notes.
+
+Measured at Erode (birth 1990-05-15), 60 days, every check: from 2027-01-20
+Vashistha 2 days (Pausha, then a planet in the 8th or 12th), the MC group 10,
+Rangacharya 4; from 2027-03-25 Vashistha 3, the MC group 6, Rangacharya 4.
+
+The lagna's marks now show on the page. Every event's `_MID` lagna codes were
+computed but never shown on a good lagna; they are now listed after "கவனம்"
+(`EVENT_MARK` in `lagnaVerdict`, never rejecting). `/muhurta` judges `business`
+at sunrise.
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are
@@ -280,7 +321,7 @@ narrow — about one day in sixty passes at sunrise.
 
 ## Not done
 
-Business, medical treatment and the other events; an old house (the books'
+Medical treatment and the other events; an old house (the books'
 second list); the subject-by-subject education stars; for house entry: Yogini, Kala Rahu,
 forenoon, the wife's pregnancy. For travel: omens, Trinavami, eclipses, the
 equinox days, kshaya / adhika months, horas, velas, the month–tithi table,
