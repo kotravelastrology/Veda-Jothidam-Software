@@ -10,7 +10,8 @@ for (const key of ['marriage', 'business', 'travel', 'griha', 'upanayana', 'educ
   assert.ok(p && p.label, `${key} has a label`);
   assert.equal(p.goodNak, undefined, `${key}: no unsourced star list`);
 }
-assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL' });
+assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA' });
+assert.ok(PURPOSES.ritual && !SOURCED.ritual, '"Ritual" is not read from the books yet');
 
 // ── an unsourced purpose: panchanga, no verdict ──────────────────────────
 const res = searchMuhurta({
@@ -93,5 +94,27 @@ for (const book of TR.order) {
   if (book === 'SHRIDHAR') for (const d of t.days.filter((x) => /Saptami$/.test(x.tithi))) assert.ok(d.codes.includes('TITHI_MID'), d.date);
 }
 assert.equal(searchMuhurta({ startDate: '2027-02-01', endDate: '2027-02-02', purpose: 'travel', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 }).book, TR.default);
+
+// ── vidyarambha: the sunrise rules; Vijayadashami 2026 for Kalyanraman ───
+const VR = E.EVENTS.VIDYARAMBHA;
+for (const book of VR.order) {
+  const v = searchMuhurta({ startDate: '2026-10-10', endDate: '2026-11-30', purpose: 'education', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330, book });
+  assert.equal(v.sourced, true);
+  assert.equal(v.book, book);
+  assert.ok(v.noteTa.includes('/muhurta-stars'));
+  const notHere = ['LAGNA', 'EMPTY_8', 'MERC_SET', 'JUP_VEN_SET', 'NIGHT', 'DAY_PART', 'TARA_NOT', 'PRADOSHA'];
+  for (const d of v.days) {
+    assert.ok(!d.codes.some((c) => notHere.includes(c)), `${book} ${d.date}: only sunrise rules`);
+    assert.ok(d.notes.every((n) => !/^[A-Z_]+$/.test(n)), `${book} ${d.date}: in Tamil`);
+  }
+  // Ashvin Shukla 10 at sunrise in 2026 (20 or 21 October): Kalyanraman considers nothing further.
+  if (book === 'KALYANRAMAN') {
+    const vd = v.days.filter((d) => d.month === E.MONTH_TA[6] && d.tithi === 'Shukla Dashami');
+    assert.ok(vd.length >= 1, 'Vijayadashami found');
+    for (const d of vd) assert.deepEqual(d.codes, [], d.date);
+  }
+}
+assert.equal(searchMuhurta({ startDate: '2026-10-10', endDate: '2026-10-11', purpose: 'education', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 }).book, VR.default);
+assert.equal(searchMuhurta({ startDate: '2026-10-10', endDate: '2026-10-11', purpose: 'ritual', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 }).sourced, false);
 
 console.log(JSON.stringify({ pass: true, marriageDays: res.days.length, grihaDefault: G.default }, null, 2));

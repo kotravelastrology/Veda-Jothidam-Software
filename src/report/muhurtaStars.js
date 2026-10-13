@@ -34,7 +34,7 @@ const L = require('./lagnaShuddhiTables');
 const { lagnaShuddhiOf, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf, adverseOf } = require('./lagnaShuddhi');
 const { combustionOrb } = require('./phaladeepikaGocharaTables');
 const EV = require('./eventMuhurtaTables');
-const { piecesCodesOf, stretchCodesOf, isVishti } = require('./eventMuhurta');
+const { piecesCodesOf, stretchCodesOf, isVishti, isSthiraKarana } = require('./eventMuhurta');
 
 const DAY_MS = 86400000;
 const JD_UNIX_EPOCH = 2440587.5;
@@ -343,6 +343,8 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
             dayPart: dayPartAt(mid), pradosha: pradoshaAt(mid), tithi: piece.tithi, star: Math.floor(piece.moonPada / 4),
             // Travel: the direction, the night's third, ghatis since sunrise, Abhijit muhurta, the planets' motion, the Moon in Abhijit.
             dir, nightPart: nightPartAt(mid), ghatis: ghatisAt(mid), abhijitMuhurta: abhijitAt(mid), retro: motionAt(mid).retro, abhijit: Boolean(piece.abhijit),
+            // Vidyarambha: the lunar month, Vijayadashami's day, the planets' navamsa signs.
+            month: piece.month, vijaya: Boolean(piece.vijaya), navSigns,
           }, varaAt(mid))])),
         }),
       };
@@ -354,6 +356,35 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
     return out.map((x) => [Math.round((x.fromMs - fromMs) / 1000), Math.round((x.toMs - fromMs) / 1000), x.entry.r, x.entry.n, x.entry.v, x.entry.g, x.entry.b, x.entry.w, x.entry.d, x.entry.a, x.entry.e]);
   };
   return { stretchesOf, table: table.all, navTable: navTable.all, vargaTable: vargaTable.all, advTable: advTable.all, evTable: evTable.all };
+}
+
+/**
+ * Vijayadashami (Kalyanraman vol.2 p.96): the day — sunrise to sunrise at the place — on which Ashvin
+ * Shukla 10 runs six ghatis or more after sunrise; if it runs less, the day before; a Dashami that
+ * holds no sunrise falls in the day it runs in (our reading). Returns [[startMs, endMs]].
+ */
+function vijayadashamiDays({ fromMs, toMs, latitude, longitude, tithiWide, monthAt }) {
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return [];
+  const rises = [];
+  for (let jd0 = Math.floor(jdOf(fromMs - 3 * DAY_MS) - 0.5) + 0.5; jd0 <= jdOf(toMs + 3 * DAY_MS); jd0 += 1) {
+    const r = sunriseJulianDay(jd0, latitude, longitude);
+    if (!Number.isFinite(r)) continue;
+    const ms = Math.round((r - JD_UNIX_EPOCH) * DAY_MS);
+    if (!rises.some((x) => Math.abs(x - ms) < 3600000)) rises.push(ms);
+  }
+  rises.sort((a, b) => a - b);
+  const SIX_GHATIS = 6 * 24 * 60000;
+  const days = [];
+  for (const s of tithiWide) {
+    if (s.key !== 9 || s.openStart || s.openEnd || monthAt(s.fromMs + 1) !== 6) continue;
+    const inside = rises.filter((r) => s.fromMs <= r && r < s.toMs);
+    const start = inside.length
+      ? (s.toMs - inside[0] >= SIX_GHATIS ? inside[0] : rises.filter((r) => r < inside[0]).pop())
+      : rises.filter((r) => r <= s.fromMs).pop();
+    const end = start === undefined ? undefined : rises.find((r) => r > start);
+    if (end !== undefined) days.push([start, end]);
+  }
+  return days;
 }
 
 /** The lagna's lord and the 10th lord: friends both ways (BPHS natural), or one planet. */
@@ -497,11 +528,15 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
     .filter((s) => !s.openStart).map((s) => s.fromMs);
   const tithiSegAt = (ms) => tithiWide.find((s) => s.fromMs <= ms && ms < s.toMs);
   const sankrantiAt = (ms) => { const s = tithiSegAt(ms); return Boolean(s) && ingresses.some((i) => s.fromMs <= i && i < s.toMs); };
+  const vijayaDays = vijayadashamiDays({ fromMs, toMs, latitude, longitude, tithiWide, monthAt });
+  const vijayaAt = (ms) => vijayaDays.some(([a, b]) => a <= ms && ms < b);
+  // Pieces are cut where Vijayadashami's day begins and ends too.
+  const pieceCuts = [...new Set([...cuts, ...vijayaDays.flat().filter((ms) => ms > fromMs && ms < toMs)])].sort((a, b) => a - b);
 
   const pieces = [];
-  for (let i = 0; i + 1 < cuts.length; i += 1) {
-    const a = cuts[i];
-    const b = cuts[i + 1];
+  for (let i = 0; i + 1 < pieceCuts.length; i += 1) {
+    const a = pieceCuts[i];
+    const b = pieceCuts[i + 1];
     if (b <= a) continue;
     const mid = (a + b) / 2;
     const moonKey = keyAt('Moon', mid);
@@ -547,11 +582,13 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
       vedha: { PANCHA: Boolean(doshas.VEDHA.readings.PANCHA), SAPTA: Boolean(doshas.VEDHA.readings.SAPTA) }, bana: Boolean(doshas.BANA.readings.SUN_DEGREE),
       dir, starFrac: STAR_CUTS[slice], yogaHalf: keyAt('yogaHalf', mid), rahuCount: ((star28(abhijit, star) - rahu28 + 28) % 28) + 1,
       venus: { east: keyAt('venusSide', mid) === 1, sign: planetSigns.Venus, star: Math.floor(kickerPadas.Venus / 4) }, natalLagna: natalLagnaSign,
+      // Vidyarambha: the fixed karanas, the Moon in Abhijit, Vijayadashami's day.
+      karanaFixed: isSthiraKarana(keyAt('karana', mid)), moonAbhijit: abhijit, vijaya: vijayaAt(mid),
     })]));
-    const sig = JSON.stringify([moonPada, latta, personal, tara.n, tara.cycle, chandra, taraVerdicts, doshas, tithi, month, sunStar, ev]);
+    const sig = JSON.stringify([moonPada, latta, personal, tara.n, tara.cycle, chandra, taraVerdicts, doshas, tithi, month, sunStar, ev, vijayaAt(mid)]);
     const last = pieces[pieces.length - 1];
     if (last && last.sig === sig && last.toMs === a) { last.toMs = b; last.tara.to = tara.to; continue; }
-    pieces.push({ sig, fromMs: a, toMs: b, moonPada, latta, personal, tara, chandra, taraVerdicts, chandraBala, tithi, doshas, signs, month, sunStar, ev, abhijit });
+    pieces.push({ sig, fromMs: a, toMs: b, moonPada, latta, personal, tara, chandra, taraVerdicts, chandraBala, tithi, doshas, signs, month, sunStar, ev, abhijit, vijaya: vijayaAt(mid) });
   }
 
   const lagnasFor = lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType, natalLagnaLongitude, natalMoonSign: natalSign, natalLongitudes, tithiSegAt, dir });
@@ -681,4 +718,4 @@ function chandrashtamaRelieved(c, reliefId, lordsFriends) {
   return c.house === 8 && ((r.kinds && Boolean(T.CHANDRASHTAMA_KINDS[c.chandrashtama]?.harmless)) || (r.friends && lordsFriends));
 }
 
-module.exports = { muhurtaStarChecks, personalOf, lattaOf, lordsFriendly, taraOf, chandraOf, taraVerdict, chandraPresent, chandrashtamaRelieved, dashaVerdict, moonInAbhijit, STAR_CUTS, MAX_DAYS };
+module.exports = { muhurtaStarChecks, personalOf, lattaOf, lordsFriendly, taraOf, chandraOf, taraVerdict, chandraPresent, chandrashtamaRelieved, dashaVerdict, moonInAbhijit, vijayadashamiDays, STAR_CUTS, MAX_DAYS };

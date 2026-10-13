@@ -61,6 +61,8 @@ const inPaksha = (tithi) => ((tithi - 1) % 15) + 1;
 const inHarishayana = (month, tithi) => (month === 3 && tithi >= 11) || (month > 3 && month < 7) || (month === 7 && tithi < 11);
 /** The Vishti karana (Shridhar §6.3): the half-tithi k = elongation / 6° (0-59) is Vishti at 7, 14, … 56. */
 const isVishti = (k) => k >= 1 && k <= 56 && (k - 1) % 7 === 6;
+/** The fixed karanas: Kimstughna (k = 0, Shukla 1's first half), Shakuni, Chatushpada, Naga (57-59, Krishna 14's second half and the new Moon). */
+const isSthiraKarana = (k) => k === 0 || k >= 57;
 
 /**
  * Jupiter's transit from the birth Moon's sign (the books' Guru bala) under a reading: [] (good),
@@ -114,8 +116,8 @@ function panchangaCodes(r, x) {
   if (r.harishayana && inHarishayana(x.month, x.tithi)) out.push('HARISHAYANA');
   if (r.nak) {
     if (r.nak.mid.includes(x.star)) out.push('NAK_MID');
-    // A cruel star after its first ghatis (of 60): middling, for need (MC XI.12).
-    else if (!r.nak.good.includes(x.star)) out.push(r.nakAfter?.[x.star] === undefined ? 'NAK' : x.starFrac < r.nakAfter[x.star] / 60 - 1e-9 ? 'NAK_GHATI' : 'NAK_LATE_MID');
+    // A cruel star after its first ghatis (of 60): middling, for need (MC XI.12). Abhijit counts where a book names it.
+    else if (!r.nak.good.includes(x.star) && !(r.abhijitOk && x.moonAbhijit)) out.push(r.nakAfter?.[x.star] === undefined ? 'NAK' : x.starFrac < r.nakAfter[x.star] / 60 - 1e-9 ? 'NAK_GHATI' : 'NAK_LATE_MID');
   }
   if (r.pada1Mid && x.moonPada % 4 === 0) out.push('PADA1_MID');
   if (r.krishnaMid && x.tithi > 15) out.push('KRISHNA_MID');
@@ -133,6 +135,7 @@ function panchangaCodes(r, x) {
   else if (r.taraMid && r.taraMid.includes(x.taraCount)) out.push('TARA_MID');
   if (r.yogaNot && r.yogaNot.includes(x.yoga)) out.push('YOGA');
   if (r.vishti && x.vishti) out.push('VISHTI');
+  if (r.karanaFixed && x.karanaFixed) out.push('STHIRA_KARANA');
   if (r.vedha && x.vedha?.[r.vedha]) out.push('VEDHA');
   if (r.bana && x.bana) out.push('BANA');
   if (r.kumbha && !r.kumbha.includes(kumbhaCount(x.sunStar, x.star))) out.push('KUMBHA');
@@ -357,8 +360,13 @@ function lagnaCodes(r, m) {
       if (!seen.has(code)) { seen.add(code); out.push(code); }
     }
   }
+  // Vidyarambha: Mercury (vidya karaka) not set; the Sun or Mars not in the lagna's navamsa sign; the
+  // books' best places for Mercury, Jupiter, Venus (marked when none is there).
+  if (r.mercNotSet && m.combust?.Mercury) out.push('MERC_SET');
+  if (r.sunMarsNav && m.navSigns && (m.navSigns.Sun === m.nav || m.navSigns.Mars === m.nav)) out.push('SUN_MARS_NAV');
+  if (r.benHouse && !r.benHouse.planets.some((p) => r.benHouse.houses.includes(H[p]))) out.push('BEN_HOUSE_MID');
   if (r.dayParts) {
-    if (m.dayPart === 0) out.push('NIGHT');
+    if (m.dayPart === 0) { if (!(r.dayParts.nightOk ?? []).includes(m.nightPart)) out.push('NIGHT'); }
     else if (r.dayParts.mid.includes(m.dayPart)) out.push('DAY_PART_MID');
     else if (!r.dayParts.good.includes(m.dayPart)) out.push('DAY_PART');
   }
@@ -390,14 +398,17 @@ function withDoorStars(r, door, codes, star) {
   return codes.filter((c) => c !== 'NAK' && c !== 'NAK_MID');
 }
 
+/** Vijayadashami's day (`x.vijaya`, Ashvin Shukla 10 by Kalyanraman's day rule): "nothing need be considered further". */
+const vijayadashamiOf = (r, x) => Boolean(r.vijayadashami) && Boolean(x.vijaya);
 /** A reading's codes for a piece, its secondary rules marked. */
-const pieceCodes = (r, x) => withSecondary(r, panchangaCodes(r, x));
+const pieceCodes = (r, x) => (vijayadashamiOf(r, x) ? [] : withSecondary(r, panchangaCodes(r, x)));
 /**
  * A reading's codes for a lagna stretch, the weekday's with them. A weekday (and its Shoola, where the
  * book says so) is good with its lord in the given houses from the lagna (Wilhelm, Rangacharya).
  */
 function stretchCodes(r, m, vara) {
   const mm = { ...m, vara };
+  if (vijayadashamiOf(r, mm)) return [];
   let codes = [...varaCodes(r, vara, mm), ...lagnaCodes(r, mm)];
   if (r.varaUpachaya && r.varaUpachaya.houses.includes(houseOf(mm.signs[VARA_LORDS[vara]], mm.lagna))) {
     codes = codes.filter((c) => !r.varaUpachaya.codes.includes(c));
@@ -413,7 +424,7 @@ const rejects = (codes) => codes.filter((c) => !c.endsWith('_MID'));
 
 module.exports = {
   panchangaCodes, varaCodes, lagnaCodes, doorCodes, withDoorStars, piecesCodesOf, stretchCodesOf, rejects,
-  pieceCodes, stretchCodes, withSecondary, travelPieceCodes, travelStretchCodes,
+  pieceCodes, stretchCodes, withSecondary, travelPieceCodes, travelStretchCodes, vijayadashamiOf, isSthiraKarana,
   guruCodes, raviCodes, inHarishayana, isVishti, kumbhaCount, inPaksha, houseOf, UTTARAYANA,
   dir4Of, relOf, halfOf, signDir, starDir, tithiKey, tithiClass, venusBlind, HOUSE_DIR, KAALA_DAY, VAAR_RAHU, VARA_LORDS,
 };

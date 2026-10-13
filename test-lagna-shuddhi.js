@@ -534,11 +534,15 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
         ...m, dir: 1, nightPart, ghatis: (mid - lastRise) / (24 * 60000), abhijitMuhurta: mid < setMs && fr >= 7 / 15 && fr < 8 / 15, retro: retroAt,
         abhijit: lonAt.Moon >= 276 + 40 / 60 && lonAt.Moon < 280 + 53 / 60 + 20 / 3600,
       };
+      // Pieces are cut at every planet's pada, so a navamsa sign holds through the piece.
+      const pieceNav = Object.fromEntries(T.PLANETS.map((p) => [p, Math.floor(lonAt[p] / (10 / 3)) % 12]));
       assert.deepEqual(plain(r.eventTable[arr[10]]), {
         sunHouse: houseOf(signs.Sun, lg),
         GRIHA_PRAVESHA: stretchCodesOf('GRIHA_PRAVESHA', m, vara),
         UPANAYANA: stretchCodesOf('UPANAYANA', m, vara),
         TRAVEL: stretchCodesOf('TRAVEL', travel, vara),
+        // Vidyarambha: the night's third, the lunar month (the segment's), the planets' navamsa signs at the piece.
+        VIDYARAMBHA: stretchCodesOf('VIDYARAMBHA', { ...travel, month: s.month, navSigns: pieceNav }, vara),
       }, `event ${x.fromUtc}`);
       n += 1;
     }

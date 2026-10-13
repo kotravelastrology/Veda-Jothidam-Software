@@ -4,7 +4,7 @@ const path = require('node:path');
 const E = require('./src/report/eventMuhurtaTables');
 const {
   panchangaCodes, varaCodes, lagnaCodes, doorCodes, withDoorStars, kumbhaCount, rejects, guruCodes, raviCodes, inHarishayana, isVishti,
-  pieceCodes, stretchCodes, relOf, KAALA_DAY, VAAR_RAHU, venusBlind,
+  pieceCodes, stretchCodes, relOf, KAALA_DAY, VAAR_RAHU, venusBlind, isSthiraKarana,
 } = require('./src/report/eventMuhurta');
 const { muhurtaStarChecks } = require('./src/report/muhurtaStars');
 const { planetLongitude, nodeLongitude, sunriseJulianDay, sunsetJulianDay } = require('./src/ephemeris/siderealPositions');
@@ -634,6 +634,158 @@ const ofMap = (m) => Object.fromEntries(Object.entries(m).map(([k, v]) => [k, so
   }
   assert.ok(n > 100, `${n} pieces`);
   for (const c of ['YOGINI', 'CHANDRA_DIR', 'PARIGHA', 'RAHU_PAKSHA', 'TITHI_DIR', 'NAK_GHATI', 'NAK_LATE_MID']) assert.ok(seen[c], `seen ${c}`);
+}
+
+// ------------------------------------------------ vidyarambha: the tables against the books ---
+const VR = E.EVENTS.VIDYARAMBHA;
+const VF = FIX.vidyarambha;
+{
+  assert.deepEqual({ ...E.RANK.VIDYARAMBHA.words }, VF.words);
+  assert.deepEqual([...VR.order], Object.keys(VF.words).sort((a, b) => VF.words[b] - VF.words[a]));
+  assert.equal(VR.default, VF.default);
+  for (const b of VR.order) {
+    assert.ok(resolveByTitle(E.SOURCES.VIDYARAMBHA[b].title), `registered: ${b}`);
+    assert.ok(VR[b].linesTa.length > 0, `${b} described`);
+    assert.ok(VR[b].empty.includes(8), `${b}: the 8th empty`);
+  }
+  const S = VF.stars;
+  assert.deepEqual(sorted(E.AKSHARA_10), stars(S.MC_sloka37));
+  for (const b of ['MUHURTA_CHINTAMANI', 'SHRIDHAR']) assert.deepEqual(sorted(VR[b].nak.good), stars(S[b === 'SHRIDHAR' ? 'SHRIDHAR' : 'MC_sloka37']), b);
+  assert.deepEqual(sorted(VR.KALYANRAMAN.nak.good), stars(S.KR_table_with_Abhijit));
+  assert.ok(VR.KALYANRAMAN.abhijitOk && VR.VASHISTHA.abhijitOk && VR.JOSHI.abhijitOk && VR.AGARWAL.abhijitOk && !VR.WILHELM.abhijitOk);
+  assert.deepEqual(sorted(VR.WILHELM.nak.good), stars(S.WILHELM_favorable));
+  assert.deepEqual(sorted(VR.WILHELM.nak.mid), stars(S.WILHELM_middling));
+  assert.deepEqual(sorted(VR.VASHISTHA.nak.good), stars(S.VASHISTHA_with_Abhijit));
+  for (const b of ['JOSHI', 'AGARWAL']) assert.deepEqual(sorted(VR[b].nak.good), stars(S.JOSHI_AGARWAL_with_Abhijit), b);
+  assert.deepEqual(sorted(VR.RAMAN.nak.good), stars(S.RAMAN));
+  assert.deepEqual(sorted(VR.RANGACHARYA.nak.good), stars(S.RANGACHARYA_as_printed.map((n) => (n === 'Mithuna' ? 'Ardra' : n))), 'Rangacharya\'s "Mithuna": Ardra (our reading)');
+  const T = VF.tithis;
+  assert.deepEqual(sorted(VR.MUHURTA_CHINTAMANI.tithi), E.bothPakshas(T.MC_sloka37).filter((t) => t !== 15));
+  for (const b of ['KALYANRAMAN', 'AGARWAL', 'JOSHI', 'RANGACHARYA']) assert.deepEqual(sorted(VR[b].tithi), E.bothPakshas(T.most_books), b);
+  for (const t of T.KR_reject.filter(Number.isInteger)) assert.ok(!VR.KALYANRAMAN.tithi.includes(t), `KR rejects ${t}`);
+  assert.deepEqual(sorted(VR.SHRIDHAR.tithi), sorted(T.SHRIDHAR_table), 'the bright half (Acharya Shridhar)');
+  assert.deepEqual(sorted(VR.SHRIDHAR.tithiNot), sorted([...E.bothPakshas(T.SHRIDHAR_markandeya_leave.filter((t) => t !== 15)), 15, 30]));
+  assert.deepEqual(sorted(VR.WILHELM.tithi), sorted([...T.WILHELM_favorable, 17, 18, 20]), 'the first five of the dark half');
+  assert.deepEqual(sorted(VR.WILHELM.tithiMid), sorted(T.WILHELM_middling));
+  assert.deepEqual(sorted(VR.VASHISTHA.tithi), sorted(T.VASHISTHA_shukla));
+  assert.ok(!VR.RAMAN.tithi, 'Raman gives no tithis');
+  const W = VF.weekdays;
+  assert.deepEqual(sorted(VR.KALYANRAMAN.vara.good), days(W.KR_in_general_p100.good));
+  for (const v of days(W.KR_in_general_p100.avoid)) assert.ok(!VR.KALYANRAMAN.vara.good.includes(v) && !VR.KALYANRAMAN.vara.mid.includes(v));
+  assert.deepEqual(sorted(VR.KALYANRAMAN.vara.mid), days(['Sun']), 'Sunday: "some hesitation"');
+  assert.deepEqual(sorted(VR.WILHELM.vara.good), days(W.WILHELM.most));
+  assert.deepEqual(sorted(VR.WILHELM.vara.mid), days(W.WILHELM.middling));
+  assert.deepEqual(sorted(VR.VASHISTHA.vara.mid), days(W.VASHISTHA.medium));
+  for (const b of ['SHRIDHAR', 'AGARWAL', 'JOSHI', 'RAMAN', 'RANGACHARYA']) assert.deepEqual(sorted(VR[b].vara.good), days(W.MON_WED_THU_FRI), b);
+  assert.deepEqual(sorted(VR.MUHURTA_CHINTAMANI.vara.good), days(['Wed', 'Thu', 'Fri']), '"सतां दिने" (our reading)');
+  const allYogas = [...Array(27).keys()];
+  assert.deepEqual(sorted(VR.KALYANRAMAN.yogaNot), allYogas.filter((y) => !VF.kr_good_yogas_1based.includes(y + 1)));
+  const L = VF.lagnas;
+  const signs1 = (ns) => sorted(ns.map((n) => n - 1));
+  for (const b of ['MUHURTA_CHINTAMANI', 'JOSHI', 'VASHISTHA', 'AGARWAL']) assert.deepEqual(sorted(VR[b].lagna.good), signs1(L.MC_JOSHI_VASHISTHA_AGARWAL_SHRIDHAR), b);
+  assert.deepEqual(sorted([...VR.SHRIDHAR.lagna.good, ...VR.SHRIDHAR.lagna.mid]), signs1(L.MC_JOSHI_VASHISTHA_AGARWAL_SHRIDHAR), 'Shridhar: Taurus middling ("fixed prohibited")');
+  assert.deepEqual(sorted(VR.KALYANRAMAN.lagna.good), signs1(L.KR_general_good_chara));
+  for (const s of signs1(L.KR_fixed_reject)) assert.ok(!VR.KALYANRAMAN.lagna.good.includes(s) && !VR.KALYANRAMAN.lagna.mid.includes(s));
+  assert.deepEqual(sorted(VR.WILHELM.lagna.good), signs1(L.WILHELM_dual_best));
+  assert.deepEqual(sorted(VR.RANGACHARYA.lagna.good), signs1(L.RANGACHARYA_commended));
+  assert.deepEqual(sorted(VR.RANGACHARYA.lagna.mid), signs1(L.RANGACHARYA_mediocre));
+  assert.equal(idx(MONTH_N, VF.vijayadashami_KR.month), 6);
+}
+
+// ------------------------------------------------ vidyarambha: the codes ---
+{
+  const sky = { Sun: 9, Moon: 2, Mars: 2, Mercury: 9, Jupiter: 3, Venus: 8, Saturn: 11, Rahu: 11, Ketu: 5 };
+  const x = { star: 12, tithi: 2, month: 10, sunSign: 9, sunStar: 21, sunDeg: 5, yoga: 3, signs: sky, navs: { Sun: 1, Jupiter: 2, Moon: 3 }, moonPada: 50, natalMoon: 1, taraCount: 2, karanaFixed: false, moonAbhijit: false };
+  const pc = (b, y = {}) => pieceCodes(VR[b], { ...x, ...y });
+  assert.deepEqual(pc('KALYANRAMAN'), []);
+  assert.ok(pc('KALYANRAMAN', { sunSign: 10 }).includes('SUN_SIGN'), 'the Kumbha month');
+  assert.ok(pc('KALYANRAMAN', { karanaFixed: true }).includes('STHIRA_KARANA'));
+  assert.ok(isSthiraKarana(0) && isSthiraKarana(57) && isSthiraKarana(59) && !isSthiraKarana(56) && !isSthiraKarana(1));
+  // Abhijit: the Moon in Uttarashadha's 4th quarter is good for Kalyanraman, not for MC.
+  assert.ok(pc('KALYANRAMAN', { star: 20, moonAbhijit: true }).length === 0 && pc('KALYANRAMAN', { star: 20 }).includes('NAK'));
+  assert.ok(pc('MUHURTA_CHINTAMANI', { star: 20, moonAbhijit: true }).includes('NAK'));
+  // Vijayadashami's day: nothing else for Kalyanraman — even a star he does not list or the Kumbha month; not for Wilhelm.
+  assert.deepEqual(pc('KALYANRAMAN', { vijaya: true, star: 1, sunSign: 10 }), []);
+  assert.ok(pc('KALYANRAMAN', { star: 1 }).includes('NAK') && pc('WILHELM', { vijaya: true, star: 1 }).includes('NAK'));
+  // Shridhar's tithis: the bright 2nd good, the dark 2nd middling, the 6th rejected.
+  assert.ok(!pc('SHRIDHAR').some((c) => c.startsWith('TITHI')) && pc('SHRIDHAR', { tithi: 17 }).includes('TITHI_MID') && pc('SHRIDHAR', { tithi: 6 }).includes('TITHI'));
+  // Wilhelm: the dark half after its 5th rejected; the 7th middling.
+  assert.ok(pc('WILHELM', { tithi: 22 }).includes('TITHI') && pc('WILHELM', { tithi: 7 }).includes('TITHI_MID'));
+
+  // A Gemini lagna on a Wednesday forenoon (Venus in the 7th, Jupiter in the 2nd): Wilhelm's dual sign; Kalyanraman's middling.
+  const m = { lagna: 2, nav: 2, signs: sky, natalLagna: 6, natalMoon: 1, combust: {}, dayPart: 1, nightPart: 0, pradosha: false, tithi: 2, star: 12, month: 10, navSigns: { Sun: 5, Mars: 7 } };
+  const sc = (b, y = {}, vara = 3) => stretchCodes(VR[b], { ...m, ...y }, vara);
+  assert.ok(!sc('WILHELM').includes('LAGNA') && sc('KALYANRAMAN').includes('LAGNA_MID'));
+  assert.ok(sc('KALYANRAMAN', { lagna: 1 }).includes('LAGNA'), 'Taurus: fixed, rejected');
+  assert.ok(sc('KALYANRAMAN', { combust: { Mercury: true } }).includes('MERC_SET'));
+  // Malefics in the 2nd or 5th (Kalyanraman): Mars in Cancer is the 2nd from Gemini.
+  assert.ok(sc('KALYANRAMAN', { signs: { ...sky, Mars: 3 } }).includes('IN_Mars_2'));
+  // The night: Kalyanraman allows its last third; Wilhelm none.
+  assert.ok(!sc('KALYANRAMAN', { dayPart: 0, nightPart: 3 }).includes('NIGHT') && sc('KALYANRAMAN', { dayPart: 0, nightPart: 1 }).includes('NIGHT'));
+  assert.ok(sc('WILHELM', { dayPart: 0, nightPart: 3 }).includes('NIGHT') && sc('KALYANRAMAN', { dayPart: 4 }).includes('DAY_PART'));
+  // Shridhar: the Sun or Mars in the lagna's navamsa sign.
+  assert.ok(sc('SHRIDHAR', { navSigns: { Sun: 2, Mars: 7 } }).includes('SUN_MARS_NAV') && !sc('SHRIDHAR').includes('SUN_MARS_NAV'));
+  // Mercury, Jupiter or Venus in the 9th (Kalyanraman, Raman, Agarwal, Rangacharya): marked when none is; Joshi's 7th or 10th.
+  assert.ok(sc('RAMAN').includes('BEN_HOUSE_MID') && !sc('RAMAN', { signs: { ...sky, Jupiter: 10 } }).includes('BEN_HOUSE_MID'));
+  assert.ok(!sc('JOSHI').includes('BEN_HOUSE_MID'), 'Venus in Sagittarius: the 7th from Gemini');
+  assert.deepEqual(sc('KALYANRAMAN', { vijaya: true, lagna: 1, dayPart: 0, nightPart: 1 }), [], 'Vijayadashami');
+}
+
+// ------------------------------------------------ vidyarambha: the engine ---
+{
+  const DAY = 86400000;
+  // A window holding Vijayadashami 2026 (Ashvin Shukla 10).
+  const fromMs = Date.parse('2026-10-15T18:30:00Z');
+  const r = muhurtaStarChecks({ natalMoonLongitude: 45.5, natalLagnaLongitude: 200, fromMs, toMs: fromMs + 12 * DAY, latitude: 13.08, longitude: 80.27 });
+  const jd = (ms) => ms / DAY + 2440587.5;
+  const L360 = (x) => ((x % 360) + 360) % 360;
+  const lonOf = (p, ms) => L360(p === 'Rahu' ? nodeLongitude(jd(ms), 'Lahiri', 'mean') : planetLongitude(jd(ms), p, 'Lahiri'));
+  const elong = (ms) => L360(lonOf('Moon', ms) - lonOf('Sun', ms));
+  const tithiEdge = (ms, dir) => {
+    const k = Math.floor(elong(ms) / 12);
+    let a = ms; let b = ms + dir * 1.2 * DAY;
+    for (let i = 0; i < 45; i += 1) { const c = (a + b) / 2; if (Math.floor(elong(c) / 12) === k) a = c; else b = c; }
+    return a;
+  };
+  // Vijayadashami's day at Chennai, from the sky: Ashvin Shukla 10's span and the sunrises around it.
+  const s10 = r.segments.find((s) => s.month === 6 && s.tithi === 10);
+  const s10From = tithiEdge(Date.parse(s10.fromUtc) + 60000, -1);
+  const s10To = tithiEdge(Date.parse(s10.fromUtc) + 60000, 1);
+  const rises = [];
+  for (let k = -3; k < 16; k += 1) rises.push((sunriseJulianDay(jd(fromMs) + k, 13.08, 80.27) - 2440587.5) * DAY);
+  rises.sort((a, b) => a - b);
+  const inside = rises.filter((x) => x >= s10From && x < s10To);
+  const vStart = inside.length ? (s10To - inside[0] >= 144 * 60000 ? inside[0] : rises.filter((x) => x < inside[0]).pop()) : rises.filter((x) => x <= s10From).pop();
+  const vEnd = rises.find((x) => x > vStart + 3600000);
+  // 2026: Dashami runs from the evening of 20 October past the 21st's sunrise — the 21st is the day.
+  assert.equal(new Date(vStart + 5.5 * 3600000).toISOString().slice(0, 10), '2026-10-21');
+  let vijaya = 0; let n = 0;
+  for (const s of r.segments) {
+    if (Date.parse(s.toUtc) - Date.parse(s.fromUtc) < 2 * 60000) continue;
+    const mid = (Date.parse(s.fromUtc) + Date.parse(s.toUtc)) / 2;
+    const moon = lonOf('Moon', mid);
+    const inV = mid >= vStart && mid < vEnd;
+    const signs = Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu'].map((p) => [p, Math.floor(lonOf(p, mid) / 30)]));
+    signs.Ketu = (signs.Rahu + 6) % 12;
+    const x = {
+      star: s.star, tithi: s.tithi, month: s.month, sunSign: s.sunSign, sunStar: s.sunStar, sunDeg: Math.floor(lonOf('Sun', mid)) % 30,
+      yoga: Math.floor(L360(moon + lonOf('Sun', mid)) / (360 / 27)), vishti: isVishti(Math.floor(elong(mid) / 6)), karanaFixed: isSthiraKarana(Math.floor(elong(mid) / 6)),
+      moonAbhijit: moon >= 276 + 40 / 60 && moon < 280 + 53 / 60 + 20 / 3600, taraCount: s.tara.count, signs, moonPada: s.star * 4 + s.pada - 1, natalMoon: 1,
+      sankranti: Math.floor(lonOf('Sun', tithiEdge(mid, -1) + 1000) / 30) !== Math.floor(lonOf('Sun', tithiEdge(mid, 1) - 1000) / 30), navs: {},
+      vijaya: inV,
+    };
+    for (const b of VR.order) assert.deepEqual(s.ev.VIDYARAMBHA[b], pieceCodes(VR[b], x), `vidyarambha ${b} ${s.fromUtc}`);
+    if (inV) {
+      vijaya += 1;
+      assert.deepEqual(s.ev.VIDYARAMBHA.KALYANRAMAN, []);
+      for (const st of s.lagnas) assert.deepEqual(r.eventTable[st[10]].VIDYARAMBHA.KALYANRAMAN, []);
+    }
+    n += 1;
+  }
+  assert.ok(vijaya > 0 && n > 50, `${vijaya} pieces on Vijayadashami of ${n}`);
+  // The evening of the 20th — Dashami already running, but not its day — keeps the book's rules: the night's first third.
+  const eve = r.segments.find((s) => s.month === 6 && s.tithi === 10 && Date.parse(s.toUtc) <= vStart);
+  assert.ok(eve && eve.lagnas.some((st) => r.eventTable[st[10]].VIDYARAMBHA.KALYANRAMAN.includes('NIGHT')), 'the 20th evening is not Vijayadashami');
 }
 
 console.log('test-event-muhurta: all checks passed');

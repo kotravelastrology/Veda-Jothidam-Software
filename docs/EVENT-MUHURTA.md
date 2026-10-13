@@ -1,4 +1,4 @@
-# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel (2026-10-13)
+# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel and vidyarambha (2026-10-13)
 
 `src/report/eventMuhurtaTables.js` (the books' rules) · `src/report/eventMuhurta.js`
 (pure: the codes for a moment) · `test-event-muhurta.js` with
@@ -195,6 +195,54 @@ Joshi's "only journey one can afford is the 'Last Journey'". An owner decision.
 `/muhurta` judges travel at sunrise without a direction (star and its ghatis,
 tithi, months, yoga, Vishti, weekday, Holanta); the rest are on `/muhurta-stars`.
 
+## Vidyarambha (Aksharabhyasa) — nine books (added 2026-10-13)
+
+| Book | Words | Pages |
+|---|---|---|
+| Kalyanraman (default) | 2542 | vol.2 pp.94-101 — a compilation |
+| Wilhelm | 632 | pp.231-233 |
+| Vashistha | 534 | pp.82-83 ("Starting Education (General)": the child's first reading and writing) |
+| Shridhar | 230 | §17.11.1, pp.435-436 |
+| Agarwal | 207 | pp.309, 328 |
+| Joshi | 188 | pp.58-59 |
+| Muhurta Chintamani | 173 | sloka 5/37, pp.134-135 (one OCR copy counted) |
+| Raman | 141 | PDF p.19 |
+| Rangacharya | 135 | pp.76-77 |
+
+The child's first letters, before upanayana. Starting education after upanayana
+(Shridhar §17.11.2, MC 5/38, Wilhelm "Vidya & Upavidya", Joshi ch.VIII, Kalyanraman
+ch.4.1, Vashistha's "main line of education") is a separate event, not built yet.
+
+Kalyanraman's reading is his table and his "in general" lines: 18 stars with
+Abhijit, the tithis, Wednesday–Friday (Monday, Tuesday, Saturday "strictly
+avoided"; Sunday "some hesitation"), the yogas of his list, no Vishti or fixed
+karana, Uttarayana preferred, the Kumbha month avoided, movable lagnas good, dual
+middling, fixed rejected, the 8th empty, no malefic in the 2nd or 5th, Mercury,
+Jupiter, Venus not combust, Praatasandhya / aparahna / Sayamsandhya rejected and
+the night's last third allowed, and Vijayadashami: "nothing need be considered
+further". Vijayadashami is a day, sunrise to sunrise at the place: the one on which
+Ashvin Shukla 10 runs six ghatis or more after sunrise, else the day before
+(`vijayadashamiDays`; 2026: 21 October at Chennai).
+
+MC 5/37's Sanskrit carries two things its English leaves out: "रवावुदक्" (the
+Sun in Uttarayana) and "सतां दिने" (the benefics' days — Wednesday, Thursday,
+Friday, our reading; Kalyanraman: "MC does not admit Monday"). Our readings:
+Shridhar's "2,3,6,9,12 signs" with "fixed sign prohibited" — Taurus middling; his
+tithis in the bright half (Acharya Shridhar), the dark half's middling;
+Rangacharya's printed "Mithuna" among the stars read as Ardra (MC's list, Gemini's
+star); night rejected where a book is silent. The engine adds the fixed karanas,
+the Moon in Abhijit, the planets' navamsa signs (Shridhar: no Sun or Mars in the
+rising navamsa) and Vijayadashami's day (pieces cut at its sunrises).
+
+Measured at Erode for a child born 2021-03-10 (the 5th year from 2025-03-10),
+60 days, every check on the page: from 2026-01-15 — Kalyanraman 0 (Mercury
+combust 65% of the time, Jupiter or Venus 56%), Joshi 2 days, MC 2, Shridhar 1,
+Raman 1; from 2026-10-05 — Kalyanraman 4 days (Vijayadashami among them), the
+Uttarayana books 0.
+
+`/muhurta` judges it as "education" at sunrise (star, Abhijit, tithi, months,
+yoga, karanas, weekday, Vijayadashami's day); "Ritual" no longer borrows it.
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are
@@ -206,8 +254,8 @@ narrow — about one day in sixty passes at sunrise.
 
 ## Not done
 
-Education (vidyarambha), business, medical treatment and the other events; an
-old house (the books' second list); for house entry: Yogini, Kala Rahu,
+Starting education after upanayana, business, medical treatment and the other
+events; an old house (the books' second list); for house entry: Yogini, Kala Rahu,
 forenoon, the wife's pregnancy. For travel: omens, Trinavami, eclipses, the
 equinox days, kshaya / adhika months, horas, velas, the month–tithi table,
 Khanda / Yamardha / Muhurta Rahu, Vaar Yogini, dawn / dusk / midnight kaala

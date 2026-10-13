@@ -259,7 +259,9 @@ Not plan items, but real, and they should not be discovered at release:
   input: Shoolas, Yogini, Kaala-Paasha, ayana, the Moon's and Venus's
   direction, Parigha, Rahu's halves, Ghaata, Lalatika, the digdwar lagna;
   each book's secondary rules marked. Shridhar, MC and Wilhelm with every rule
-  leave no window in 60 days — an owner decision. Vidyarambha, business,
-  medical treatment and an old house are next.
+  leave no window in 60 days (the owner kept them, 2026-10-13). Vidyarambha
+  (Aksharabhyasa) added the same day from nine books (Kalyanraman first), with
+  Vijayadashami's day by his rule. Starting education after upanayana,
+  business, medical treatment and an old house are next.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

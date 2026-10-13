@@ -139,5 +139,36 @@
     "rahu_example_MC_sloka14": { "rahu": "Swati", "kartari": "Swati", "jeeva_first": "Vishakha", "jeeva_last": "Revati", "grasta": "Ashwini", "mrita_first": "Bharani", "mrita_last": "Chitra" },
     "sarvanka_example_MC_sloka24": { "tithi": 5, "weekday": "Wed", "star": "Hasta", "remainders_7_8_3": [1, 6, 1] },
     "venus_blind_MC_sloka42": { "from": "Revati", "to": ["Krittika", 1] }
+  },
+  "vidyarambha": {
+    "_about": "Transcribed 2026-10-13 from the page images: vidyarambha (Aksharabhyasa). Names as in the travel block; tithis within the paksha unless said; signs by number 1 = Aries as the books print them.",
+    "words": { "KALYANRAMAN": 2542, "WILHELM": 632, "VASHISTHA": 534, "SHRIDHAR": 230, "AGARWAL": 207, "JOSHI": 188, "MUHURTA_CHINTAMANI": 173, "RAMAN": 141, "RANGACHARYA": 135 },
+    "default": "KALYANRAMAN",
+    "stars": {
+      "MC_sloka37": ["Hasta", "Ashwini", "Pushya", "Shravana", "Swati", "Revati", "Punarvasu", "Ardra", "Chitra", "Anuradha"],
+      "SHRIDHAR": ["Hasta", "Ashwini", "Pushya", "Shravana", "Swati", "Revati", "Punarvasu", "Ardra", "Chitra", "Anuradha"],
+      "KR_table_with_Abhijit": ["Ashwini", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "PPhalguni", "Hasta", "Chitra", "Swati", "Moola", "PAshadha", "Shravana", "Dhanishtha", "Shatabhisha", "PBhadra"],
+      "WILHELM_favorable": ["Ashwini", "Ardra", "Punarvasu", "Hasta", "Chitra", "Swati", "Anuradha", "Shravana", "Revati"], "WILHELM_middling": ["Pushya"],
+      "VASHISTHA_with_Abhijit": ["Ashwini", "Ardra", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Anuradha", "Jyeshtha", "Shravana", "Revati"],
+      "JOSHI_AGARWAL_with_Abhijit": ["Hasta", "Ashwini", "Pushya", "Swati", "Punarvasu", "Shravana", "Revati", "Chitra", "Anuradha", "Jyeshtha"],
+      "RAMAN": ["Ashwini", "Punarvasu", "Ardra", "Hasta", "Chitra", "Swati", "Shravana", "Revati"],
+      "RANGACHARYA_as_printed": ["Ashwini", "Pushya", "Hasta", "Punarvasu", "Shravana", "Mithuna", "Revati", "Swati", "Chitra", "Anuradha"]
+    },
+    "tithis": {
+      "MC_sloka37": [11, 12, 10, 2, 6, 5, 3], "most_books": [2, 3, 5, 6, 10, 11, 12],
+      "KR_reject": ["Chidra", 1, 7, 8, 13, 15, 30], "SHRIDHAR_table": [2, 3, 5, 10, 11, 12], "SHRIDHAR_markandeya_leave": [1, 6, 8, 15, 4, 9, 14],
+      "WILHELM_favorable": [2, 3, 5, 10, 11, 12], "WILHELM_middling": [7, 13, 6], "VASHISTHA_shukla": [2, 3, 5, 6, 10, 11, 12]
+    },
+    "weekdays": {
+      "KR_table": { "best": ["Wed", "Thu", "Fri"], "medium": ["Sun", "Mon"], "reject": ["Tue", "Sat"] }, "KR_in_general_p100": { "avoid": ["Mon", "Tue", "Sat"], "good": ["Wed", "Thu", "Fri"] },
+      "WILHELM": { "most": ["Wed", "Thu", "Fri"], "middling": ["Mon", "Sun"] }, "VASHISTHA": { "best": ["Wed", "Thu", "Fri"], "medium": ["Mon", "Sun"], "avoid": ["Sat", "Tue"] },
+      "MON_WED_THU_FRI": ["Mon", "Wed", "Thu", "Fri"]
+    },
+    "kr_good_yogas_1based": [2, 3, 4, 5, 7, 8, 11, 12, 14, 16, 18, 20, 21, 22, 23, 24, 25, 26],
+    "lagnas": {
+      "MC_JOSHI_VASHISTHA_AGARWAL_SHRIDHAR": [2, 3, 6, 9, 12], "KR_general_good_chara": [1, 4, 7, 10], "KR_fixed_reject": [2, 5, 8, 11],
+      "WILHELM_dual_best": [3, 6, 9, 12], "RANGACHARYA_commended": [1, 4, 7, 10], "RANGACHARYA_mediocre": [3, 6, 9, 12]
+    },
+    "vijayadashami_KR": { "month": "Ashvin", "tithi": 10 }
   }
 }

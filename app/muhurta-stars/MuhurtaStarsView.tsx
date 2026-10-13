@@ -764,14 +764,16 @@ export default function MuhurtaStarsView() {
               <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
                 <h2 className="text-sm font-semibold text-ink mb-1">{ER.labelTa} — நூல்களின் தனி விதிகள்</h2>
                 <p className="text-[11px] text-ink-soft">வரிசை: {B.lagna.eventRank[evName].measureTa}</p>
-                {evName === 'UPANAYANA' && (() => {
+                {(evName === 'UPANAYANA' || ER.ageTa) && (() => {
                   // The running year from birth (a Saura year — the sidereal year, our reading), shown, not judged.
                   const birth = Date.parse(`${result.native.date}T00:00:00Z`);
                   const year = Math.floor((Date.parse(result.fromUtc) - birth) / (365.2564 * 86400000)) + 1;
                   return (
                     <p className="text-xs text-ink mt-1">
                       {Number.isFinite(year) && <>வயது: {local(result.fromUtc).slice(0, 10)} அன்று பிறப்பிலிருந்து <strong>{year}-ஆம் ஆண்டு</strong> (சௌர ஆண்டு). </>}
-                      நூல்களின் ஆண்டுகள்: {Object.values(B.lagna.eventYears).map((v: any) => `${v.ta} ${v.years.join(' அல்லது ')} (எல்லை ${v.limit})`).join('; ')} — காட்டப்படும், தீர்ப்பில் இல்லை.
+                      {evName === 'UPANAYANA'
+                        ? <>நூல்களின் ஆண்டுகள்: {Object.values(B.lagna.eventYears).map((v: any) => `${v.ta} ${v.years.join(' அல்லது ')} (எல்லை ${v.limit})`).join('; ')} — காட்டப்படும், தீர்ப்பில் இல்லை.</>
+                        : ER.ageTa}
                     </p>
                   );
                 })()}
@@ -806,7 +808,7 @@ export default function MuhurtaStarsView() {
                   );
                 })}
                 <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-2 space-y-0.5">{B.lagna.eventNotesTa[evName].map((n: string) => <li key={n}>{n}</li>)}</ul>
-                <Cites list={[...B.lagna.eventSources.MONTHS, ...(['UPANAYANA', 'TRAVEL'].includes(evName) ? [B.lagna.eventSources.VISHTI] : [])]} />
+                <Cites list={[...B.lagna.eventSources.MONTHS, ...(['UPANAYANA', 'TRAVEL', 'VIDYARAMBHA'].includes(evName) ? [B.lagna.eventSources.VISHTI] : [])]} />
               </section>
             );
           })()}
