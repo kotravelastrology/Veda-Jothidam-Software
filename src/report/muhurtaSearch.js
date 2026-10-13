@@ -21,12 +21,15 @@ const { julianDay } = require('@swisseph/node');
 const { sunriseJulianDay, sunMoonLongitudes, siderealAscendant } = require('../ephemeris/siderealPositions');
 const { calculateDailyMuhurta } = require('./dailyMuhurta');
 const EV = require('./eventMuhurtaTables');
-const { panchangaCodes, varaCodes, rejects, isVishti } = require('./eventMuhurta');
+const { panchangaCodes, varaCodes, rejects, isVishti, withSecondary } = require('./eventMuhurta');
 
 /** Purposes with rules read from the books, and their event. */
-const SOURCED = Object.freeze({ griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA' });
-/** The rules a sunrise can judge without the person or the planets (the rest are on /muhurta-stars). */
-const SUNRISE_RULES = Object.freeze(['masa', 'uttarayana', 'sunSign', 'harishayana', 'nak', 'tithi', 'tithiMid', 'anadhyaya', 'galagraha', 'yogaNot', 'vishti', 'kumbha', 'vara']);
+const SOURCED = Object.freeze({ griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL' });
+/** The rules a sunrise can judge without the person, the direction or the planets (the rest are on /muhurta-stars). */
+const SUNRISE_RULES = Object.freeze([
+  'masa', 'uttarayana', 'sunSign', 'harishayana', 'nak', 'nakAfter', 'tithi', 'tithiMid', 'tithiNot', 'anadhyaya', 'galagraha', 'yogaNot', 'yogaHalfNot',
+  'vishti', 'kumbha', 'vara', 'holanta', 'secondary',
+]);
 const sunriseReading = (r) => Object.fromEntries(Object.entries(r).filter(([k]) => SUNRISE_RULES.includes(k)));
 const SOURCE_REQUIRED_TA = 'ஆதாரம் தேவை / SOURCE REQUIRED — இந்தக் காரியத்தின் விதிகள் நூல்களிலிருந்து இன்னும் கட்டப்படவில்லை';
 
@@ -114,20 +117,23 @@ function searchMuhurta(q) {
     // The chosen book's rules at sunrise.
     const month = monthAt(sunrise);
     const reading = sunriseReading(R[book]);
-    const codes = [
+    const codes = withSecondary(reading, [
       ...panchangaCodes(reading, {
         star: nakIdx, tithi: tithiIdx + 1, month, sunSign: Math.floor(norm(sunLongitude) / 30), sunStar: Math.floor(norm(sunLongitude) / (360 / 27)) % 27,
         yoga: Math.floor(norm(moonLongitude + sunLongitude) / (360 / 27)) % 27, vishti: isVishti(Math.floor(elong / 6)), sankranti: false,
+        // How far into its star the Moon is (a cruel star's first ghatis), and the yoga's half.
+        starFrac: (norm(moonLongitude) % (360 / 27)) / (360 / 27), yogaHalf: Math.floor(norm(moonLongitude + sunLongitude) / (180 / 27)) % 54,
       }),
       ...varaCodes(reading, wd),
-    ];
+    ]);
     const bad = rejects(codes);
     days.push({
       date, weekday, nakshatra: nak, tithi: `${paksha} ${tithi}`, month: EV.MONTH_TA[month],
       score: bad.length ? 30 : codes.length ? 70 : 90,
       rating: bad.length ? 'தவிர்க்க' : codes.length ? 'நல்லது' : 'உத்தமம்',
       codes, windows: goodGowri,
-      notes: codes.map((c) => EV.CODE_TA[c] ?? c),
+      // A book's secondary rule is its code with _MID: the base name, marked.
+      notes: codes.map((c) => EV.CODE_TA[c] ?? (c.endsWith('_MID') && EV.CODE_TA[c.slice(0, -4)] ? `${EV.CODE_TA[c.slice(0, -4)]} (குறிக்கப்படும்)` : c)),
     });
   }
 
@@ -141,7 +147,9 @@ function searchMuhurta(q) {
         rankTa: EV.RANK[event].measureTa, source: EV.SOURCES[event][book],
         noteTa: event === 'UPANAYANA'
           ? 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (மாதம், சௌர மாதம், நட்சத்திரம், திதி, அனத்யாயம், கலக்ரஹம், யோகம், விஷ்டி, கிழமை). குரு / சூரிய / சந்திர பலம், லக்னம், பகலின் பகுதி, பிரதோஷம், சங்கிராந்தி, வயது: /muhurta-stars பக்கம், "உபநயனம்" தேர்வுடன் — குழந்தையின் ஜாதகத்துடன்.'
-          : 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (மாதம், நட்சத்திரம், திதி, கிழமை, கும்ப சக்கரம்). லக்னம், தாரா / சந்திர பலம், வாசல் திசை: /muhurta-stars பக்கம், "கிரகப்பிரவேசம்" தேர்வுடன்.',
+          : event === 'TRAVEL'
+            ? 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (நட்சத்திரம், அதன் நாழிகை, திதி, சௌர / சந்திர மாதம், யோகம், விஷ்டி, கிழமை). திசை விதிகள் (சூலம், யோகினி, சந்திரன், சுக்கிரன், பரிகம், காலம்-பாசம், அயனம்), ராகு, காதம், தாரா / சந்திர பலம், லக்னம்: /muhurta-stars பக்கம், "பயணம்" தேர்வுடன், திசையுடன் — பயணம் செய்பவரின் ஜாதகத்துடன்.'
+            : 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (மாதம், நட்சத்திரம், திதி, கிழமை, கும்ப சக்கரம்). லக்னம், தாரா / சந்திர பலம், வாசல் திசை: /muhurta-stars பக்கம், "கிரகப்பிரவேசம்" தேர்வுடன்.',
       }
       : { missingTa: SOURCE_REQUIRED_TA, noteTa: purpose === 'marriage' ? 'திருமணத்தின் தசதோஷம், லத்தை, தாரா / சந்திர பலம், லக்ன சுத்தி நூல்களுடன்: /muhurta-stars பக்கம்.' : null }),
   };

@@ -75,6 +75,8 @@ export default function MuhurtaStarsView() {
   const [eventBook, setEventBook] = useState<Record<string, string>>({});
   const [tierReading, setTierReading] = useState<Record<string, string>>({});
   const [door, setDoor] = useState<string>('');
+  // A journey's direction: the engine computes travel's direction rules for it, so a change recomputes.
+  const [direction, setDirection] = useState<string>('');
   const isMarriage = lagnaEvent === 'MARRIAGE';
   // The ten evils are marriage's: for another act they are shown, not judged (the owner, 2026-10-11).
   const ruleNow = isMarriage ? dashaRule : 'NONE';
@@ -87,7 +89,7 @@ export default function MuhurtaStarsView() {
     let cancelled = false;
     setLoading(true); setError(null);
     const who = party.kind === 'profile' ? { profile: { profileId: party.profileId, revision: party.revision } } : { form: party.input };
-    computeMuhurtaStars({ ...who, fromDate: fromDate || undefined, days, place: eventPlace ?? undefined })
+    computeMuhurtaStars({ ...who, fromDate: fromDate || undefined, days, place: eventPlace ?? undefined, direction: direction || undefined })
       .then((r) => {
         if (cancelled) return;
         setResult(r);
@@ -103,7 +105,7 @@ export default function MuhurtaStarsView() {
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [party, fromDate, days, eventPlace]);
+  }, [party, fromDate, days, eventPlace, direction]);
   // A new person starts at their birth place.
   useEffect(() => { setEventPlace(null); }, [party]);
 
@@ -158,7 +160,10 @@ export default function MuhurtaStarsView() {
   const evCodeTa = (c: string): string => {
     const m = /^IN_(\w+?)_(\d+)(_MID)?$/.exec(c);
     if (m) return `${m[1] === 'LAGNA_LORD' ? LAGNA_LORD_TA : PLANET_NAME_TA[m[1]] ?? m[1]} ${m[2]}-ல்${m[3] ? ' (குறிக்கப்படும்)' : ''}`;
-    return B.lagna.eventCodeTa[c] ?? B.lagna.eventCodeTa[c.replace(/_\d+$/, '')] ?? c;
+    const T: Record<string, string> = B.lagna.eventCodeTa;
+    // A book's secondary rule (travel) is its code with _MID: the base name, marked.
+    const base = c.endsWith('_MID') ? c.slice(0, -4) : null;
+    return T[c] ?? (base && T[base] ? `${T[base]} (குறிக்கப்படும்)` : null) ?? T[c.replace(/_\d+$/, '')] ?? c;
   };
   const inPaksha = (t: number) => ((t - 1) % 15) + 1;
   /** The same rules as `withDoorStars` and `doorCodes` (eventMuhurta.js). */
@@ -485,6 +490,13 @@ export default function MuhurtaStarsView() {
                     <Switch label="வாசல் திசை" value={door} onChange={setDoor}
                       options={[['', 'தேர்வு இல்லை'], ...B.lagna.doors.order.map((d: string) => [d, B.lagna.doors.ta[d]])] as [string, string][]} />
                   )}
+                  {evName === 'TRAVEL' && (
+                    <>
+                      <Switch label="பயணத் திசை" value={direction} onChange={setDirection}
+                        options={[['', 'தேர்வு இல்லை'], ...B.lagna.directions.order.map((d: string) => [d, B.lagna.directions.ta[d]])] as [string, string][]} />
+                      {!result.direction && <span className="inline-block text-[11px] text-amber-700 mr-3 mb-1">திசை தேர்ந்தால் மட்டும் திசை விதிகள் (சூலங்கள், யோகினி, சந்திரன், சுக்கிரன், பரிகம் …) கணிக்கப்படும்.</span>}
+                    </>
+                  )}
                 </>
               )}
               <details className="mb-1">
@@ -794,7 +806,7 @@ export default function MuhurtaStarsView() {
                   );
                 })}
                 <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-2 space-y-0.5">{B.lagna.eventNotesTa[evName].map((n: string) => <li key={n}>{n}</li>)}</ul>
-                <Cites list={[...B.lagna.eventSources.MONTHS, ...(evName === 'UPANAYANA' ? [B.lagna.eventSources.VISHTI] : [])]} />
+                <Cites list={[...B.lagna.eventSources.MONTHS, ...(['UPANAYANA', 'TRAVEL'].includes(evName) ? [B.lagna.eventSources.VISHTI] : [])]} />
               </section>
             );
           })()}

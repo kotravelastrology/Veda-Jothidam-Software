@@ -22,6 +22,8 @@ export interface MuhurtaStarsRequest {
   days?: number;
   /** Where the event is held: the lagna (shuddhi, the 88th-pada remedy), sunrise and sunset. The birth place when omitted. */
   place?: { name?: string; latitude: number; longitude: number };
+  /** A journey's direction ('E' … 'NE'), for travel's rules; none when omitted. */
+  direction?: string;
 }
 
 /**
@@ -68,6 +70,7 @@ export async function computeMuhurtaStars(req: MuhurtaStarsRequest) {
     ayanamsha: ctx.ayanamsha, nodeType: ctx.nodeType ?? 'mean',
     latitude: eventPlace.latitude, longitude: eventPlace.longitude,
     natalLongitudes: Object.fromEntries(Object.entries(chart.grahas).map(([p, g]: [string, any]) => [p, g.longitude])),
+    direction: req.direction || null,
   });
   return JSON.parse(JSON.stringify({
     ...result, fromDate, days, eventPlace,

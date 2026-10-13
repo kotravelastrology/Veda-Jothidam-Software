@@ -2,7 +2,10 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const E = require('./src/report/eventMuhurtaTables');
-const { panchangaCodes, varaCodes, lagnaCodes, doorCodes, withDoorStars, kumbhaCount, rejects, guruCodes, raviCodes, inHarishayana, isVishti } = require('./src/report/eventMuhurta');
+const {
+  panchangaCodes, varaCodes, lagnaCodes, doorCodes, withDoorStars, kumbhaCount, rejects, guruCodes, raviCodes, inHarishayana, isVishti,
+  pieceCodes, stretchCodes, relOf, KAALA_DAY, VAAR_RAHU, venusBlind,
+} = require('./src/report/eventMuhurta');
 const { muhurtaStarChecks } = require('./src/report/muhurtaStars');
 const { planetLongitude, nodeLongitude, sunriseJulianDay, sunsetJulianDay } = require('./src/ephemeris/siderealPositions');
 const { resolveByTitle } = require('./src/sources/registry');
@@ -360,6 +363,277 @@ const UF = FIX.upanayana;
     }
   }
   assert.ok(checked > 1000 && pradoshas > 0, `${checked} stretches, ${pradoshas} on Pradosha days`);
+}
+
+// ------------------------------------------------ travel: the tables against the books ---
+const TR = E.EVENTS.TRAVEL;
+const TF = FIX.travel;
+const STAR_N = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'PPhalguni', 'UPhalguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Moola', 'PAshadha', 'UAshadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'PBhadra', 'UBhadra', 'Revati'];
+const SIGN_N = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+const MONTH_N = ['Chaitra', 'Vaishakha', 'Jyeshtha', 'Ashadha', 'Shravana', 'Bhadrapada', 'Ashvin', 'Kartika', 'Margashirsha', 'Pausha', 'Magha', 'Phalguna'];
+const DAY_N = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const idx = (list, n) => { const i = list.indexOf(n); assert.ok(i >= 0, `name ${n}`); return i; };
+const stars = (ns) => sorted(ns.map((n) => (n === 'Abhijit' ? 'ABHIJIT' : idx(STAR_N, n))));
+const days = (ns) => sorted(ns.map((n) => idx(DAY_N, n)));
+const signsOf = (ns) => sorted(ns.map((n) => idx(SIGN_N, n)));
+const ofMap = (m) => Object.fromEntries(Object.entries(m).map(([k, v]) => [k, sorted([...v])]));
+{
+  assert.deepEqual({ ...E.RANK.TRAVEL.words }, TF.words);
+  assert.deepEqual([...TR.order], Object.keys(TF.words).sort((a, b) => TF.words[b] - TF.words[a]));
+  assert.equal(TR.default, TF.default);
+  for (const b of TR.order) {
+    assert.ok(resolveByTitle(E.SOURCES.TRAVEL[b].title), `registered: ${b}`);
+    assert.ok(TR[b].linesTa.length > 0, `${b} described`);
+  }
+  // Stars.
+  const S = TF.stars;
+  assert.deepEqual(sorted(TR.SHRIDHAR.nak.good), stars(S.SHRIDHAR_benefic));
+  assert.deepEqual(sorted(TR.MUHURTA_CHINTAMANI.nak.good), stars(S.MC_sloka9));
+  assert.deepEqual(TR.MUHURTA_CHINTAMANI.nak.mid.length, 0, 'MC: the rest are avoided');
+  assert.deepEqual(sorted(TR.WILHELM.nak.good), stars(S.WILHELM_most));
+  assert.deepEqual(sorted(TR.WILHELM.nak.mid), stars(S.WILHELM_middling));
+  assert.deepEqual(sorted(TR.JOSHI.nak.good), stars(S.JOSHI_best));
+  assert.deepEqual(sorted(TR.JOSHI.nak.mid), stars(S.JOSHI_KR_medium));
+  assert.deepEqual(sorted(TR.KALYANRAMAN.nak.good), stars(S.KR_best));
+  assert.deepEqual(sorted(TR.KALYANRAMAN.nak.mid), stars([...S.JOSHI_KR_medium, 'Moola']), 'Moola: "best" in his note — middling (our reading)');
+  assert.deepEqual(sorted(TR.RAMAN.nak.good), stars(S.RAMAN_good));
+  for (const s of stars(S.RAMAN_never)) assert.ok(!TR.RAMAN.nak.good.includes(s) && !TR.RAMAN.nak.mid.includes(s) && TR.RAMAN.nakAfter[s] === undefined, `Raman never ${s}`);
+  assert.deepEqual(sorted(TR.RANGACHARYA.nak.good), stars(S.RANGACHARYA_excellent_favoured));
+  assert.deepEqual(sorted(TR.RANGACHARYA.nak.mid), stars(S.RANGACHARYA_mediocre));
+  for (const s of stars(S.RANGACHARYA_avoid)) assert.ok(!TR.RANGACHARYA.nak.good.includes(s) && !TR.RANGACHARYA.nak.mid.includes(s));
+  const ghatis = (m) => Object.fromEntries(Object.entries(m).map(([n, g]) => [idx(STAR_N, n), g]));
+  assert.deepEqual({ ...TR.MUHURTA_CHINTAMANI.nakAfter }, ghatis(TF.ghatis_MC_sloka12));
+  for (const b of ['SHRIDHAR', 'JOSHI', 'KALYANRAMAN']) assert.deepEqual({ ...TR[b].nakAfter }, ghatis(TF.ghatis_MC_sloka12), `${b} cites MC's ghatis`);
+  assert.deepEqual({ ...TR.WILHELM.nakAfter }, ghatis(TF.ghatis_WILHELM));
+  // Tithis.
+  const T = TF.tithis;
+  assert.deepEqual(sorted(TR.MUHURTA_CHINTAMANI.tithi), [...Array(30).keys()].map((i) => i + 1).filter((t) => !T.MC_sloka9_avoid.includes(t)));
+  assert.deepEqual(sorted(TR.SHRIDHAR.tithi), sorted(T.SHRIDHAR_beneficial));
+  assert.deepEqual(sorted(TR.SHRIDHAR.tithiNot), sorted(T.SHRIDHAR_failure_p616));
+  assert.deepEqual(sorted(TR.WILHELM.tithi), sorted(T.WILHELM_favorable));
+  assert.deepEqual([...TR.WILHELM.tithiMid], [16], 'Krishna 1 middling');
+  for (const b of ['JOSHI', 'KALYANRAMAN']) assert.deepEqual(sorted(TR[b].tithi), sorted(T.JOSHI_KR_good), b);
+  assert.deepEqual(sorted(TR.RAMAN.tithiNot), sorted(T.RAMAN_avoid_any_cost));
+  assert.deepEqual(sorted(TR.RANGACHARYA.tithiNot), sorted(T.RANGACHARYA_avoid));
+  assert.deepEqual(sorted(TR.RANGACHARYA.tithi), sorted(T.RANGACHARYA_favoured));
+  assert.deepEqual(sorted(TR.VASHISTHA.tithi), sorted(T.VASHISTHA));
+  // Weekdays.
+  const W = TF.weekdays;
+  assert.deepEqual(sorted(TR.SHRIDHAR.vara.good), days(W.SHRIDHAR_benefic));
+  for (const v of days(W.SHRIDHAR_malefic_p616)) assert.ok(!TR.SHRIDHAR.vara.good.includes(v) && !TR.SHRIDHAR.vara.mid.includes(v));
+  assert.deepEqual(sorted(TR.JOSHI.vara.good), days(W.JOSHI_best));
+  assert.deepEqual(sorted(TR.JOSHI.vara.mid), days(W.JOSHI_medium));
+  assert.deepEqual(sorted(TR.RANGACHARYA.vara.good), days(W.RANGACHARYA_good));
+  // The direction tables.
+  assert.deepEqual(ofMap(E.TITHI_DIR8), ofMap(TF.tithi_shoola_8));
+  const kp = Object.fromEntries(Object.entries(TF.yogini_KP_wilhelm).map(([d, ts]) => [d, ts.map((t) => (t[0] === 'S' ? 0 : 15) + Number(t.slice(1)))]));
+  assert.deepEqual(ofMap(E.YOGINI_KP), ofMap(kp));
+  const dayMap = (m) => Object.fromEntries(Object.entries(m).map(([d, ns]) => [d, days(ns)]));
+  const spread = (m) => ({ E: m.E, SE: m.E, S: m.S, SW: m.S, W: m.W, NW: m.W, N: m.N, NE: m.N });
+  assert.deepEqual(ofMap(TR.MUHURTA_CHINTAMANI.vaarShoola[0].map), spread(dayMap(TF.vaar_shoola_MC)), 'four directions over eight');
+  assert.deepEqual(ofMap(TR.JOSHI.vaarShoola[0].map), dayMap(TF.vaar_shoola_JOSHI_11_2));
+  assert.deepEqual(ofMap(TR.KALYANRAMAN.vaarShoola[0].map), dayMap(TF.vaar_shoola_KR_MC_table));
+  assert.deepEqual(ofMap(TR.SHRIDHAR.vaarShoola[1].map), dayMap(TF.kona_SHRIDHAR));
+  assert.deepEqual(ofMap(TR.WILHELM.vaarShoola[1].map), dayMap(TF.kantaka));
+  const rel = (m) => Object.fromEntries(Object.entries(m).map(([d, g]) => [idx(DAY_N, d), g]));
+  assert.deepEqual({ ...TR.WILHELM.vaarShoola[0].release }, rel(TF.release_KP));
+  assert.deepEqual({ ...TR.SHRIDHAR.vaarShoola[0].release }, rel(TF.release_SHRIDHAR_23_3));
+  for (const [d, n] of Object.entries(TF.nak_shoola_MC)) assert.deepEqual([...TR.MUHURTA_CHINTAMANI.nakShoola[d]], [idx(STAR_N, n)]);
+  const D8 = E.DIRECTIONS.order;
+  for (const [d, k] of Object.entries(TF.kaala_day)) assert.equal(D8[KAALA_DAY[idx(DAY_N, d)]], k);
+  for (const [d, p] of Object.entries(TF.pasha_day)) assert.equal(D8[(KAALA_DAY[idx(DAY_N, d)] + 4) % 8], p);
+  for (const [d, k] of Object.entries(TF.vaar_rahu)) assert.equal(D8[VAAR_RAHU[idx(DAY_N, d)]], k);
+  assert.deepEqual(JSON.parse(JSON.stringify(E.LALATIKA)), TF.lalatika);
+  assert.deepEqual(JSON.parse(JSON.stringify(TR.KALYANRAMAN.lalatika)), { ...TF.lalatika, ...TF.lalatika_KR_as_printed });
+  // Ghaata.
+  const GH = TF.ghata;
+  assert.deepEqual([...E.GHATA.nak], SIGN_N.map((s) => idx(STAR_N, GH.nak[s])));
+  const CLASS_N = ['Nanda', 'Bhadra', 'Jaya', 'Rikta', 'Poorna'];
+  assert.deepEqual([...E.GHATA.tithiClass], SIGN_N.map((s) => CLASS_N.findIndex((c) => GH.tithi[c].includes(s))));
+  assert.deepEqual([...E.GHATA.vara], SIGN_N.map((s) => DAY_N.findIndex((d) => GH.vara[d].includes(s))));
+  assert.deepEqual([...E.GHATA.lagna], GH.lagna_MC_sloka33.map((n) => n - 1));
+  assert.deepEqual([...E.GHATA.lagnaRangacharya], SIGN_N.map((s) => idx(SIGN_N, GH.lagna_RANGACHARYA[s])));
+  assert.deepEqual([...E.GHATA.moon], SIGN_N.map((s) => idx(SIGN_N, GH.moon_WILHELM[s])));
+  const pada = (m) => SIGN_N.map((s) => idx(STAR_N, m[s][0]) * 4 + m[s][1] - 1);
+  assert.deepEqual([...E.GHATA.padaWilhelm], pada(GH.pada_WILHELM));
+  assert.deepEqual([...E.GHATA.padaKR], pada({ ...GH.pada_WILHELM, ...GH.pada_KR_JOSHI_differ }));
+  assert.deepEqual([...E.GHATA.padaVashistha], pada({ ...GH.pada_WILHELM, ...GH.pada_VASHISTHA_differ }));
+  assert.deepEqual([...E.GHATA.monthShridhar], SIGN_N.map((s) => idx(MONTH_N, GH.month_SHRIDHAR_23_1[s])));
+  assert.deepEqual([...E.GHATA.monthKR], GH.month_JOSHI_11_6.map((m) => idx(MONTH_N, m)));
+  // Kaala Shoola, Vashistha's lagnas by tithi, the houses, the lagnas, the Sun's signs.
+  const K = TF.kaal_shoola_MC;
+  assert.deepEqual(E.KAAL_SHOOLA.day.map((g) => sorted(g.map((x) => (x === 'ABHIJIT' ? 99 : x)))), [K.day1, K.day2, K.day3].map((g) => sorted(g.map((n) => (n === 'Abhijit' ? 99 : idx(STAR_N, n))))));
+  assert.deepEqual(E.KAAL_SHOOLA.night.map((g) => sorted(g)), [K.night1, K.night2, K.night3].map(stars));
+  assert.deepEqual(sorted(E.KAAL_SHOOLA.always), stars(K.always));
+  const LT = TF.lagna_tithi_VASHISTHA;
+  assert.deepEqual(TR.VASHISTHA.lagnaTithi.map((g) => sorted(g)), ['Nanda', 'Bhadra', 'Jaya', 'Rikta', 'Poorna'].map((c) => sorted(LT[c].map((n) => n - 1))));
+  const houses = (list) => Object.fromEntries(list.flatMap(([ps, hs]) => ps.map((p) => [p, sorted(hs)])));
+  assert.deepEqual(houses(TR.MUHURTA_CHINTAMANI.notIn), ofMap(TF.houses_MC_sloka56));
+  assert.deepEqual(houses(TR.SHRIDHAR.notIn), ofMap(TF.houses_MC_sloka56), 'Shridhar quotes MC 11/56');
+  assert.deepEqual(houses(TR.WILHELM.notIn), ofMap(TF.houses_WILHELM));
+  const LG = TF.lagnas;
+  assert.deepEqual(sorted(TR.SHRIDHAR.lagna.good), signsOf(LG.SHRIDHAR_not_prishtodaya_aquarius_pisces));
+  assert.deepEqual(sorted(TR.WILHELM.lagna.good), signsOf(LG.WILHELM_most));
+  assert.deepEqual(sorted(TR.WILHELM.lagna.mid), signsOf(LG.WILHELM_middling));
+  assert.deepEqual(sorted(TR.RAMAN.lagna.good), signsOf(LG.RAMAN));
+  assert.deepEqual(sorted(TR.RANGACHARYA.lagna.good), signsOf(LG.RANGACHARYA_good));
+  for (const b of TR.order.filter((x) => TR[x].sunSign)) assert.deepEqual(sorted(TR[b].sunSign.good), signsOf(TF.sun_signs.best), `${b}: the Sun's best signs`);
+  for (const s of signsOf(TF.sun_signs.MC_long)) assert.ok(TR.MUHURTA_CHINTAMANI.sunSign.mid.includes(s));
+  for (const s of signsOf(TF.sun_signs.VASHISTHA_inauspicious)) assert.ok(!TR.VASHISTHA.sunSign.mid.includes(s) && !TR.VASHISTHA.sunSign.good.includes(s));
+}
+
+// ------------------------------------------------ travel: the codes ---
+{
+  const sky = { Sun: 9, Moon: 9, Mars: 2, Mercury: 9, Jupiter: 3, Venus: 8, Saturn: 11, Rahu: 11, Ketu: 5 };
+  const base = {
+    star: 12, tithi: 2, month: 10, sunSign: 9, sunStar: 21, sunDeg: 5, yoga: 3, yogaHalf: 6, vishti: false, sankranti: false, taraCount: 2,
+    signs: sky, navs: { Sun: 1, Jupiter: 2, Moon: 3 }, moonPada: 50, natalMoon: 1, natalLagna: 6, vedha: {}, bana: false,
+    dir: null, starFrac: 0.5, rahuCount: 5, venus: { east: true, sign: 8, star: 19 },
+  };
+  const has = (b, x, c) => pieceCodes(TR[b], { ...base, ...x }).includes(c);
+  // Yogini (MC XI.34 note): on the 1st she is east — in front going east, on the left going south.
+  assert.equal(relOf(0, 2), 6);
+  assert.ok(has('MUHURTA_CHINTAMANI', { tithi: 1, dir: 0 }, 'YOGINI') && has('MUHURTA_CHINTAMANI', { tithi: 1, dir: 2 }, 'YOGINI'));
+  assert.ok(!has('MUHURTA_CHINTAMANI', { tithi: 1, dir: 4 }, 'YOGINI') && !has('MUHURTA_CHINTAMANI', { tithi: 1, dir: 6 }, 'YOGINI'));
+  // Shridhar keeps her on the left: the right is barred instead.
+  assert.ok(has('SHRIDHAR', { tithi: 1, dir: 6 }, 'YOGINI') && !has('SHRIDHAR', { tithi: 1, dir: 2 }, 'YOGINI'));
+  // Joshi marks her: a secondary rule.
+  assert.ok(has('JOSHI', { tithi: 1, dir: 0 }, 'YOGINI_MID') && !has('JOSHI', { tithi: 1, dir: 0 }, 'YOGINI'));
+  // Wilhelm's Kalaprakasika table too: Krishna 6 (21) east.
+  assert.ok(has('WILHELM', { tithi: 21, dir: 0 }, 'YOGINI_MID') && !has('MUHURTA_CHINTAMANI', { tithi: 21, dir: 0 }, 'YOGINI'));
+  // MC's Rahu example (XI.14 note): Rahu in Swati — Ashwini is Grasta (the 15th), Bharani Mrita (16th), Revati Jeeva (14th, Abhijit counted).
+  const ex = TF.rahu_example_MC_sloka14;
+  const r28 = (n) => { const i = idx(STAR_N, n); return i <= 20 ? i : i + 1; };
+  const count = (moon) => ((r28(moon) - r28(ex.rahu) + 28) % 28) + 1;
+  assert.deepEqual([count(ex.kartari), count(ex.jeeva_first), count(ex.jeeva_last), count(ex.grasta), count(ex.mrita_first), count(ex.mrita_last)], [1, 2, 14, 15, 16, 28]);
+  assert.ok(has('MUHURTA_CHINTAMANI', { rahuCount: 15 }, 'RAHU_PAKSHA_MID') && has('JOSHI', { rahuCount: 15 }, 'RAHU_PAKSHA_MID'), 'Joshi rejects Grasta, but marks Rahu altogether');
+  assert.ok(has('MUHURTA_CHINTAMANI', { rahuCount: 16 }, 'RAHU_PAKSHA') && !has('MUHURTA_CHINTAMANI', { rahuCount: 14 }, 'RAHU_PAKSHA'));
+  // The cruel stars' ghatis: Krittika (2) for 21 of 60.
+  assert.ok(has('MUHURTA_CHINTAMANI', { star: 2, starFrac: 0.3 }, 'NAK_GHATI') && has('MUHURTA_CHINTAMANI', { star: 2, starFrac: 21 / 60 }, 'NAK_LATE_MID'));
+  assert.ok(has('MUHURTA_CHINTAMANI', { star: 5 }, 'NAK'), 'Ardra: no ghatis');
+  // Parigha: the Moon in Ardra going west (Shridhar's own example); Pushya is free (MC XI.38).
+  assert.ok(has('SHRIDHAR', { star: 5, dir: 4 }, 'PARIGHA') && !has('SHRIDHAR', { star: 5, dir: 0 }, 'PARIGHA'));
+  assert.ok(!has('MUHURTA_CHINTAMANI', { star: 7, dir: 4 }, 'PARIGHA'));
+  // The Moon in Aries (east): behind going west, on the left going south, on the right going north.
+  const aries = { signs: { ...sky, Moon: 0 }, moonPada: 9 };
+  assert.ok(has('SHRIDHAR', { ...aries, dir: 4 }, 'CHANDRA_DIR') && has('SHRIDHAR', { ...aries, dir: 2 }, 'CHANDRA_DIR'));
+  assert.ok(!has('SHRIDHAR', { ...aries, dir: 6 }, 'CHANDRA_DIR') && !has('SHRIDHAR', { ...aries, dir: 0 }, 'CHANDRA_DIR'));
+  // Venus a morning star (east): in front going east or south-east — not while the Moon is in Revati … Krittika 1 (blind).
+  assert.ok(has('MUHURTA_CHINTAMANI', { dir: 1 }, 'VENUS_FRONT') && has('SHRIDHAR', { dir: 4 }, 'VENUS_FRONT'), 'Shridhar\'s print puts her west');
+  assert.ok(venusBlind(104) && venusBlind(8) && !venusBlind(9));
+  assert.ok(!has('MUHURTA_CHINTAMANI', { dir: 0, moonPada: 105 }, 'VENUS_FRONT'));
+  // Tithi classes: Poorna north, Rikta and the new Moon any way.
+  assert.ok(has('SHRIDHAR', { tithi: 5, dir: 6 }, 'TITHI_DIR') && !has('SHRIDHAR', { tithi: 5, dir: 0 }, 'TITHI_DIR'));
+  assert.ok(has('SHRIDHAR', { tithi: 19, dir: 3 }, 'TITHI_DIR') && has('SHRIDHAR', { tithi: 30, dir: 3 }, 'TITHI_DIR'));
+  // Shridhar's tithis three ways; the 30th is the north-east's Shoola.
+  assert.ok(has('SHRIDHAR', { tithi: 7 }, 'TITHI_MID') && has('SHRIDHAR', { tithi: 6 }, 'TITHI') && !has('SHRIDHAR', { tithi: 2 }, 'TITHI'));
+  assert.ok(has('SHRIDHAR', { tithi: 30, dir: 7 }, 'TITHI_SHOOLA') && !has('SHRIDHAR', { tithi: 15, dir: 7 }, 'TITHI_SHOOLA'));
+  // Panchaka south (Raman, Shridhar); the Sun's middle third of Leo (Wilhelm, marked).
+  assert.ok(has('RAMAN', { signs: { ...sky, Moon: 10 }, dir: 3 }, 'PANCHAKA_SOUTH') && !has('RAMAN', { signs: { ...sky, Moon: 10 }, dir: 0 }, 'PANCHAKA_SOUTH'));
+  assert.ok(has('WILHELM', { sunSign: 4, sunDeg: 15 }, 'SUN_MID_THIRD_MID'));
+  // Ghaata for a Taurus birth Moon: Hasta, Poorna, Chitra 2 (Joshi) / Magha 2 (Wilhelm), Virgo.
+  assert.ok(has('RANGACHARYA', { star: 12 }, 'GHATA_NAK') && has('RANGACHARYA', { tithi: 25 }, 'GHATA_TITHI'));
+  assert.ok(has('JOSHI', { moonPada: 53 }, 'GHATA_PADA_MID') && has('WILHELM', { moonPada: 37 }, 'GHATA_PADA_MID'));
+  assert.ok(has('VASHISTHA', { signs: { ...sky, Moon: 5 } }, 'GHATA_MOON'));
+  // Mahadala (MC XI.25): the Moon's star the 7th from the Sun's (remainder 0).
+  assert.ok(has('MUHURTA_CHINTAMANI', { sunStar: 0, star: 6 }, 'MAHADALA') && !has('MUHURTA_CHINTAMANI', { sunStar: 0, star: 4 }, 'MAHADALA'));
+
+  // Lagna stretches: a Leo lagna on a Monday.
+  const m = {
+    lagna: 4, nav: 4, signs: sky, natalLagna: 6, natalMoon: 1, combust: {}, retro: {}, dayPart: 1, nightPart: 0, pradosha: false,
+    tithi: 2, star: 12, abhijit: false, dir: 0, ghatis: 5, abhijitMuhurta: false,
+  };
+  const sc = (b, x = {}, vara = 1) => stretchCodes(TR[b], { ...m, ...x }, vara);
+  // The Vaar Shoola: Monday east lifts after 8 ghatis (Kalaprakasika), 20 (Shridhar's table); never for MC.
+  assert.ok(sc('RAMAN').includes('VAAR_SHOOLA') && !sc('RAMAN', { ghatis: 8.5 }).includes('VAAR_SHOOLA'));
+  assert.ok(sc('SHRIDHAR', { ghatis: 8.5 }).includes('VAAR_SHOOLA') && !sc('SHRIDHAR', { ghatis: 20.5 }).includes('VAAR_SHOOLA'));
+  assert.ok(sc('MUHURTA_CHINTAMANI', { ghatis: 40 }).includes('VAAR_SHOOLA'));
+  // Wilhelm: the weekday's lord in an upachaya lifts the weekday and its Shoola (the Moon in the 3rd from Leo; in the 5th it does not).
+  const moon5 = sc('WILHELM', { signs: { ...sky, Moon: 8 } });
+  assert.ok(moon5.includes('VARA') && moon5.includes('VAAR_SHOOLA_MID'));
+  assert.ok(!sc('WILHELM').includes('VARA'), 'the Moon in Capricorn: the 6th from Leo');
+  const moon3 = sc('WILHELM', { signs: { ...sky, Moon: 6 } });
+  assert.ok(!moon3.includes('VARA') && !moon3.includes('VAAR_SHOOLA_MID'));
+  // Kaala and Paasha on Sunday: north and south.
+  assert.ok(sc('MUHURTA_CHINTAMANI', { dir: 6 }, 0).includes('KAALA_PASHA') && sc('MUHURTA_CHINTAMANI', { dir: 2 }, 0).includes('KAALA_PASHA'));
+  assert.ok(!sc('MUHURTA_CHINTAMANI', { dir: 0 }, 0).includes('KAALA_PASHA'));
+  // Ayana: both luminaries in Capricorn — east and north; south is against it; Vashistha's spring lifts it.
+  assert.ok(!sc('MUHURTA_CHINTAMANI', { dir: 0 }).includes('AYANA') && sc('MUHURTA_CHINTAMANI', { dir: 2 }).includes('AYANA'));
+  const split = { signs: { ...sky, Moon: 3 } };
+  assert.ok(sc('MUHURTA_CHINTAMANI', { ...split, dir: 2, dayPart: 0, nightPart: 2 }).includes('AYANA') === false, 'by night the Moon\'s (southern) course');
+  assert.ok(sc('MUHURTA_CHINTAMANI', { ...split, dir: 2, dayPart: 2 }).includes('AYANA'), 'by day the Sun\'s');
+  assert.ok(!sc('VASHISTHA', { signs: { ...sky, Sun: 0, Moon: 0 }, dir: 2 }).includes('AYANA'), 'spring: all four directions');
+  // Lalatika: the Sun in the lagna going east.
+  assert.ok(sc('MUHURTA_CHINTAMANI', { signs: { ...sky, Sun: 4 } }).includes('LALATIKA'));
+  // Kaala Shoola: Rohini in the first third of the day; Hasta never; Abhijit in the last third.
+  assert.ok(sc('MUHURTA_CHINTAMANI', { star: 3, dayPart: 1 }).includes('KAAL_SHOOLA') && !sc('MUHURTA_CHINTAMANI', { star: 3, dayPart: 4 }).includes('KAAL_SHOOLA'));
+  assert.ok(!sc('MUHURTA_CHINTAMANI', { star: 12, dayPart: 4 }).includes('KAAL_SHOOLA'));
+  assert.ok(sc('MUHURTA_CHINTAMANI', { star: 20, abhijit: true, dayPart: 4 }).includes('KAAL_SHOOLA'));
+  assert.ok(sc('MUHURTA_CHINTAMANI', { star: 9, dayPart: 0, nightPart: 2 }).includes('KAAL_SHOOLA'), 'Magha at midnight');
+  // Sarvanka (MC's example: 5th, Wednesday, Hasta — 22: no remainder zero); the 7th makes 24 (by 8).
+  const sv = TF.sarvanka_example_MC_sloka24;
+  assert.deepEqual([7, 8, 3].map((k) => (sv.tithi + idx(DAY_N, sv.weekday) + 1 + idx(STAR_N, sv.star) + 1) % k), sv.remainders_7_8_3);
+  assert.ok(!sc('MUHURTA_CHINTAMANI', { tithi: 5 }, 3).includes('SARVANKA') && sc('MUHURTA_CHINTAMANI', { tithi: 7 }, 3).includes('SARVANKA'));
+  // Raman's panchaka example (Aslesha, the 13th, Virgo, Sunday: 29, remainder 2, Agni) — marked; Chora (6) rejects.
+  assert.ok(sc('RAMAN', { star: 8, tithi: 13, lagna: 5 }, 0).includes('YATRA_PANCHAKA_MID'));
+  assert.ok(sc('RAMAN', { star: 8, tithi: 17, lagna: 5 }, 0).includes('YATRA_PANCHAKA'));
+  // Abhijit muhurta south; the digdwar lagna behind (Leo going west) and on the left (Leo going south: Shridhar marks, Joshi rejects).
+  assert.ok(sc('MUHURTA_CHINTAMANI', { abhijitMuhurta: true, dir: 3 }).includes('ABHIJIT_SOUTH'));
+  assert.ok(sc('MUHURTA_CHINTAMANI', { dir: 4 }).includes('DIGDWAR_LAGNA') && !sc('MUHURTA_CHINTAMANI', { dir: 2 }).includes('DIGDWAR_LAGNA'));
+  assert.ok(sc('SHRIDHAR', { dir: 2 }).includes('DIGDWAR_LAGNA_MID') && sc('JOSHI', { dir: 2 }).includes('DIGDWAR_LAGNA'));
+  // A retrograde planet in a kendra (Saturn in Pisces is the 8th from Leo — Mars in Gemini the 11th): none; Jupiter retrograde in Cancer (12th): none; Mercury retrograde in the 7th: yes.
+  assert.ok(!sc('MUHURTA_CHINTAMANI', { retro: { Saturn: true, Jupiter: true } }).includes('RETRO_KENDRA'));
+  assert.ok(sc('MUHURTA_CHINTAMANI', { retro: { Mercury: true }, signs: { ...sky, Mercury: 10 } }).includes('RETRO_KENDRA'));
+  // Without a direction, no direction rule.
+  assert.ok(!sc('MUHURTA_CHINTAMANI', { dir: null }).some((c) => ['VAAR_SHOOLA', 'KAALA_PASHA', 'AYANA', 'LALATIKA', 'DIGDWAR_LAGNA'].includes(c)));
+  assert.ok(!pieceCodes(TR.SHRIDHAR, { ...base, dir: null, tithi: 1 }).some((c) => ['YOGINI', 'TITHI_SHOOLA', 'TITHI_DIR', 'CHANDRA_DIR', 'PARIGHA', 'VENUS_FRONT'].includes(c)));
+}
+
+// ------------------------------------------------ travel: the engine ---
+{
+  const DAY = 86400000;
+  const fromMs = Date.parse('2026-10-10T18:30:00Z');
+  const r = muhurtaStarChecks({ natalMoonLongitude: 45.5, natalLagnaLongitude: 200, fromMs, toMs: fromMs + 20 * DAY, latitude: 13.08, longitude: 80.27, direction: 'SE' });
+  assert.equal(r.direction, 'SE');
+  assert.throws(() => muhurtaStarChecks({ natalMoonLongitude: 45.5, fromMs, toMs: fromMs + DAY, direction: 'UP' }));
+  const jd = (ms) => ms / DAY + 2440587.5;
+  const L360 = (x) => ((x % 360) + 360) % 360;
+  const lonOf = (p, ms) => L360(p === 'Rahu' ? nodeLongitude(jd(ms), 'Lahiri', 'mean') : planetLongitude(jd(ms), p, 'Lahiri'));
+  const elong = (ms) => L360(lonOf('Moon', ms) - lonOf('Sun', ms));
+  const tithiEdge = (ms, dir) => {
+    const k = Math.floor(elong(ms) / 12);
+    let a = ms; let b = ms + dir * 1.2 * DAY;
+    for (let i = 0; i < 45; i += 1) { const c = (a + b) / 2; if (Math.floor(elong(c) / 12) === k) a = c; else b = c; }
+    return a;
+  };
+  const ABH = [276 + 40 / 60, 280 + 53 / 60 + 20 / 3600];
+  const star28 = (lon) => { const s = Math.floor(lon / (360 / 27)); return lon >= ABH[0] && lon < ABH[1] ? 21 : s <= 20 ? s : s + 1; };
+  let n = 0; const seen = {};
+  for (const s of r.segments) {
+    if (Date.parse(s.toUtc) - Date.parse(s.fromUtc) < 2 * 60000) continue;
+    const mid = (Date.parse(s.fromUtc) + Date.parse(s.toUtc)) / 2;
+    const signs = Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu'].map((p) => [p, Math.floor(lonOf(p, mid) / 30)]));
+    signs.Ketu = (signs.Rahu + 6) % 12;
+    const padaOf = (p) => Math.floor(lonOf(p, mid) / (10 / 3)) % 108;
+    const moon = lonOf('Moon', mid);
+    const x = {
+      star: s.star, tithi: s.tithi, month: s.month, sunSign: s.sunSign, sunStar: s.sunStar, sunDeg: Math.floor(lonOf('Sun', mid)) % 30,
+      yoga: Math.floor(L360(moon + lonOf('Sun', mid)) / (360 / 27)), vishti: isVishti(Math.floor(elong(mid) / 6)),
+      sankranti: Math.floor(lonOf('Sun', tithiEdge(mid, -1) + 1000) / 30) !== Math.floor(lonOf('Sun', tithiEdge(mid, 1) - 1000) / 30),
+      taraCount: s.tara.count, signs, navs: { Sun: padaOf('Sun') % 12, Jupiter: padaOf('Jupiter') % 12, Moon: padaOf('Moon') % 12 },
+      moonPada: s.star * 4 + s.pada - 1, natalMoon: 1, natalLagna: 6, vedha: {}, bana: false,
+      dir: 1, starFrac: (moon % (360 / 27)) / (360 / 27), yogaHalf: Math.floor(L360(moon + lonOf('Sun', mid)) / (180 / 27)),
+      rahuCount: ((star28(moon) - star28(lonOf('Rahu', mid)) + 28) % 28) + 1,
+      venus: { east: ((lonOf('Venus', mid) - lonOf('Sun', mid) + 540) % 360) - 180 < 0, sign: signs.Venus, star: Math.floor(lonOf('Venus', mid) / (360 / 27)) },
+    };
+    for (const b of TR.order) {
+      assert.deepEqual(s.ev.TRAVEL[b], pieceCodes(TR[b], x), `travel ${b} ${s.fromUtc}`);
+      for (const c of s.ev.TRAVEL[b]) seen[c] = true;
+    }
+    n += 1;
+  }
+  assert.ok(n > 100, `${n} pieces`);
+  for (const c of ['YOGINI', 'CHANDRA_DIR', 'PARIGHA', 'RAHU_PAKSHA', 'TITHI_DIR', 'NAK_GHATI', 'NAK_LATE_MID']) assert.ok(seen[c], `seen ${c}`);
 }
 
 console.log('test-event-muhurta: all checks passed');

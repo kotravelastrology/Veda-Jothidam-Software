@@ -1,4 +1,4 @@
-# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12)
+# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel (2026-10-13)
 
 `src/report/eventMuhurtaTables.js` (the books' rules) · `src/report/eventMuhurta.js`
 (pure: the codes for a moment) · `test-event-muhurta.js` with
@@ -116,6 +116,85 @@ for a child born 2019-03-10 (in the 8th year), Kalyanraman 3, Rangacharya 7,
 Vashistha 7, the others 0; for the adult test birth of 1990, Kalyanraman 0 —
 Ketu sits 8th from the birth Moon (Sagittarius) all 60 days.
 
+## Travel — eight books (added 2026-10-13)
+
+| Book | Words | Pages |
+|---|---|---|
+| Shridhar (default) | 18112 | ch.23, pp.611-666 |
+| Muhurta Chintamani | 16536 | ch.11, pp.235-287 (one OCR copy counted) |
+| Wilhelm | 7634 | pp.304-322 |
+| Joshi | 4375 | ch.11, pp.126-141 |
+| Kalyanraman | 4304 | vol.2 pp.204-215 |
+| Raman | 1908 | ch.XIV, PDF pp.49-51 (panchaka PDF p.8, Nakshatra Panchaka p.9) |
+| Rangacharya | 1510 | ch.VIII, pp.109-116 |
+| Vashistha | 994 | pp.126-132 |
+
+Agarwal has no travel section. The direction is an input (`direction`, 'E' …
+'NE'; the page's பயணத் திசை switch recomputes); without it the direction rules
+are not computed. A four-direction rule covers the corner after each direction
+(Shridhar p.613); the two halves (ayana, Parigha) are E, SE, N, NE against S, SW, W,
+NW; front, right, behind and left are taken facing the direction of travel.
+
+The rules (each book's own; all page images read): the stars, with the cruel
+stars' first ghatis of 60 (MC XI.12; Wilhelm's and Raman's own lists) — rejected
+inside them, middling after; the first pada (Wilhelm, Raman); the tithis (good,
+bad, and for Shridhar, Raman and Rangacharya the unnamed ones middling); the
+weekdays and Wilhelm's/Rangacharya's lord-in-upachaya release; the tara counts;
+Chandra bala (Joshi, Kalyanraman); Vishti, Vyatipata, Vaidhriti and Parigha's
+first half (54 half-yogas); the solar month and the middle third of Cancer and
+Leo; Sankranti; Holanta, the months and the weak Moon (Joshi, Kalyanraman);
+Ghaata — month, tithi class, weekday, star, pada, the Moon's sign, lagna — from
+each book's table (they differ in the month, Taurus's pada and Rangacharya's
+lagnas); and with a direction: Tithi Shoola, the tithi classes by direction
+(Rikta and the new Moon any way), Yogini (MC's eight-direction map; Wilhelm adds
+Kalaprakasika's paksha table; MC, Joshi, Kalyanraman bar the front and the left,
+Shridhar the front and the right), Nakshatra Shoola, Vaar Shoola with each book's
+ghati release (Kalaprakasika's; Shridhar's table 23.3; Rangacharya's), Kona Shoola
+and Kantaka, Kaala and Paasha, the ayana, the Moon's direction by sign (behind,
+left), Parigha danda (the Digdwar stars free), Venus in front (rising — Shridhar's
+print reversed —, sphere, star; blind while the Moon is in Revati–Krittika 1),
+Mercury and Mars in front by house (Shridhar's method b), Rahu's halves (28 stars
+with Abhijit: Mrita rejected, Kartari and Grasta middling or rejected), the
+Panchaka and Abhijit muhurta southward, Kaala Shoola by the stars of each third of
+the day and the night, Vaar Rahu (Vashistha), the digdwar lagna, Lalatika
+(Kalyanraman's print: Mercury west, Jupiter only in the 2nd), Chandra Kantaka,
+Mahadala, Sarvanka, Trianka, the travel panchaka (Raman: Chora rejected, the
+others marked, Raja ignored), Vashistha's lagnas by tithi class; the lagna signs and
+navamsas, the houses (MC XI.56), the 6th/8th lords in the lagna, a retrograde
+planet in a kendra, the weekday's lord retrograde or set, Venus retrograde,
+combust or debilitated, Mars and Mercury retrograde or combust (Wilhelm), the
+Moon alone and not in the birth signs, the lagna not the birth lagna or the 6th
+from birth (Shridhar), not the birth lagna or its 5th, 7th, 9th (Raman), and the
+kendras' benefics.
+
+`secondary`: what a book itself sets after its main rules is marked, not
+rejected — Wilhelm p.305 (basic factors first, the specific travel doshas "as
+many as possible"), Joshi pp.130/136 (Chandra/Tara, the Moon in front, Vaar and
+Nakshatra Shoola, lagna shuddhi first; in urgency the rest may be left),
+Kalyanraman pp.204/211 (Panchanga, Dik and Nakshatra Shoola, lagna, Chandra and
+Tara first), and for Shridhar what is outside his p.616 failure list (the solar
+month, Ghaata month, Kaala-Paasha, ayana, Kaala Shoola, a set weekday lord, the
+kendras).
+
+The engine adds: the Moon's star cut at 11, 13, 14, 16 and 21 ghatis of 60 (16
+cuts a star), half-yogas, Venus's side of the Sun, Rahu's place among the 28
+stars; lagna stretches cut at the night's thirds, at 8, 12, 15, 16, 20, 22 ghatis
+after sunrise and at the Abhijit muhurta (the 8th of the day's 15).
+
+Measured at Erode, 60 days, the 1990 test birth, with every check on the page
+(Latta, the person's stars, tara, chandra bala, general lagna shuddhi): from
+2027-01-20 going east — Shridhar 0, MC 0, Wilhelm 0 (Mars retrograde all 60
+days), Joshi 15 minutes (1 day), Kalyanraman 167 (4), Raman 823 (12),
+Rangacharya 0, Vashistha 233 (2); from 2027-06-01 east — Shridhar, MC, Wilhelm 0,
+Joshi 78 (2), Kalyanraman 94 (2), Raman 178 (5). The three longest books leave
+nothing in any direction: each factor rejects its expected share (the Moon's
+direction ~52%, the tara 45%, Rahu's Mrita 42%, the tithi classes 43%, a
+retrograde planet in a kendra ~58% …) and together they close every window —
+Joshi's "only journey one can afford is the 'Last Journey'". An owner decision.
+
+`/muhurta` judges travel at sunrise without a direction (star and its ghatis,
+tithi, months, yoga, Vishti, weekday, Holanta); the rest are on `/muhurta-stars`.
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are
@@ -127,6 +206,10 @@ narrow — about one day in sixty passes at sunrise.
 
 ## Not done
 
-Travel (direction, Parigha danda, Dik shoola, ghata tithis …), education,
-business, medical treatment and the other events; an old house
-(the books' second list); Yogini, Kala Rahu, forenoon, the wife's pregnancy.
+Education (vidyarambha), business, medical treatment and the other events; an
+old house (the books' second list); for house entry: Yogini, Kala Rahu,
+forenoon, the wife's pregnancy. For travel: omens, Trinavami, eclipses, the
+equinox days, kshaya / adhika months, horas, velas, the month–tithi table,
+Khanda / Yamardha / Muhurta Rahu, Vaar Yogini, dawn / dusk / midnight kaala
+bala, planetary war, the lagna lord's other vargas, Rangacharya's 6-ghati
+release of the Ghaata tithi, Vashistha's tithi yatra chakra, victory yogas.

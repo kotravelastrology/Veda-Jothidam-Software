@@ -10,7 +10,7 @@ for (const key of ['marriage', 'business', 'travel', 'griha', 'upanayana', 'educ
   assert.ok(p && p.label, `${key} has a label`);
   assert.equal(p.goodNak, undefined, `${key}: no unsourced star list`);
 }
-assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA' });
+assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL' });
 
 // ── an unsourced purpose: panchanga, no verdict ──────────────────────────
 const res = searchMuhurta({
@@ -76,5 +76,22 @@ for (const book of [undefined, 'SHRIDHAR']) {
   for (const d of u.days) assert.ok(!d.codes.some((c) => personal.includes(c)), `${d.date}: only sunrise rules`);
   assert.ok(u.days.some((d) => d.score >= 70), `${u.book}: good sunrises in Magha–Chaitra 2027`);
 }
+
+// ── travel: the sunrise rules (no direction, no person, no planets) ───────
+const TR = E.EVENTS.TRAVEL;
+for (const book of TR.order) {
+  const t = searchMuhurta({ startDate: '2027-02-01', endDate: '2027-03-31', purpose: 'travel', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330, book });
+  assert.equal(t.sourced, true);
+  assert.equal(t.book, book);
+  assert.ok(t.noteTa.includes('/muhurta-stars'));
+  const notHere = ['TARA_NOT', 'CHANDRA', 'CHANDRA_MID', 'YOGINI', 'TITHI_SHOOLA', 'TITHI_DIR', 'NAK_SHOOLA', 'CHANDRA_DIR', 'PARIGHA', 'VENUS_FRONT', 'RAHU_PAKSHA', 'GHATA_NAK', 'SANKRANTI'];
+  for (const d of t.days) {
+    assert.ok(!d.codes.some((c) => notHere.includes(c.replace(/_MID$/, ''))), `${book} ${d.date}: only sunrise rules`);
+    assert.ok(d.notes.every((n) => !/^[A-Z_]+$/.test(n)), `${book} ${d.date}: every code in Tamil (${d.notes})`);
+  }
+  // Shridhar's tithis three ways: the 7th neither good nor of his failures — middling, not rejected.
+  if (book === 'SHRIDHAR') for (const d of t.days.filter((x) => /Saptami$/.test(x.tithi))) assert.ok(d.codes.includes('TITHI_MID'), d.date);
+}
+assert.equal(searchMuhurta({ startDate: '2027-02-01', endDate: '2027-02-02', purpose: 'travel', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 }).book, TR.default);
 
 console.log(JSON.stringify({ pass: true, marriageDays: res.days.length, grihaDefault: G.default }, null, 2));

@@ -254,7 +254,12 @@ Not plan items, but real, and they should not be discovered at release:
   cautions; the ten evils are shown, not judged, for other acts; Wilhelm's
   Chandrashtama relief is in the verdict. Upanayana added 2026-10-12 from nine
   books (Kalyanraman first by words), on both pages, with the karana, the
-  Sankranti tithi, the part of the day and Pradosha in the engine. Travel and
-  the other events are next.
+  Sankranti tithi, the part of the day and Pradosha in the engine. Travel
+  added 2026-10-13 from eight books (Shridhar first), with the direction as an
+  input: Shoolas, Yogini, Kaala-Paasha, ayana, the Moon's and Venus's
+  direction, Parigha, Rahu's halves, Ghaata, Lalatika, the digdwar lagna;
+  each book's secondary rules marked. Shridhar, MC and Wilhelm with every rule
+  leave no window in 60 days — an owner decision. Vidyarambha, business,
+  medical treatment and an old house are next.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

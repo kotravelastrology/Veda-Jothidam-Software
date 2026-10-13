@@ -436,7 +436,7 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
   const natalLagna = 200; const natalMoon = 45.5;
   // Birth positions for §13.10.3: the 8th lords from Libra rising and a Taurus Moon are Venus and Jupiter.
   const natalLongitudes = { Sun: 30.5, Moon: natalMoon, Mars: 100, Mercury: 20, Jupiter: 250, Venus: 60, Saturn: 300, Rahu: 120, Ketu: 300 };
-  const r = muhurtaStarChecks({ natalMoonLongitude: natalMoon, natalLagnaLongitude: natalLagna, fromMs, toMs, latitude: lat, longitude: lon, natalLongitudes });
+  const r = muhurtaStarChecks({ natalMoonLongitude: natalMoon, natalLagnaLongitude: natalLagna, fromMs, toMs, latitude: lat, longitude: lon, natalLongitudes, direction: 'SE' });
   const natalNav8 = [...new Set(['Venus', 'Jupiter'].map((p) => Math.floor(natalLongitudes[p] / (10 / 3)) % 12))];
   assert.deepEqual(natalNav8, [6, 3]);
   const jd = (ms) => ms / DAY + 2440587.5;
@@ -528,10 +528,17 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
       const lim = { 12: 2, 6: 1.5, 3: 1 }[(k0 % 15) + 1];
       const pradosha = lim !== undefined && lo < setMs + lim * (nextMs - setMs) / 4;
       const m = { lagna: lg, nav: n108 % 12, signs, natalLagna: sign(natalLagna), natalMoon: sign(natalMoon), combust: combustAt, dayPart, pradosha, tithi: s.tithi, star: s.star };
+      // Travel, going south-east: the night's third, ghatis since sunrise, Abhijit (the 8th of 15 muhurtas), the motion, the Moon in Abhijit.
+      const nightPart = mid < setMs ? 0 : (mid - setMs) / (nextMs - setMs) < 1 / 3 ? 1 : (mid - setMs) / (nextMs - setMs) < 2 / 3 ? 2 : 3;
+      const travel = {
+        ...m, dir: 1, nightPart, ghatis: (mid - lastRise) / (24 * 60000), abhijitMuhurta: mid < setMs && fr >= 7 / 15 && fr < 8 / 15, retro: retroAt,
+        abhijit: lonAt.Moon >= 276 + 40 / 60 && lonAt.Moon < 280 + 53 / 60 + 20 / 3600,
+      };
       assert.deepEqual(plain(r.eventTable[arr[10]]), {
         sunHouse: houseOf(signs.Sun, lg),
         GRIHA_PRAVESHA: stretchCodesOf('GRIHA_PRAVESHA', m, vara),
         UPANAYANA: stretchCodesOf('UPANAYANA', m, vara),
+        TRAVEL: stretchCodesOf('TRAVEL', travel, vara),
       }, `event ${x.fromUtc}`);
       n += 1;
     }

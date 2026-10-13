@@ -362,7 +362,271 @@ const UPANAYANA_YEARS = deepFreeze({
   VAISHYA: { ta: 'வைசியர்', years: [8, 12], limit: 24 },
 });
 
+// ---------------------------------------------------------------------------
+// Travel (yatra), added 2026-10-13
+// ---------------------------------------------------------------------------
+
+/**
+ * The eight directions, clockwise from the east. A rule the books give for four directions holds
+ * for the corner after each too (Shridhar p.613: "east direction includes east to south-east"):
+ * `four` spreads it.
+ */
+const DIRECTIONS = deepFreeze({
+  order: ['E', 'SE', 'S', 'SW', 'W', 'NW', 'N', 'NE'],
+  ta: { E: 'கிழக்கு', SE: 'தென்கிழக்கு', S: 'தெற்கு', SW: 'தென்மேற்கு', W: 'மேற்கு', NW: 'வடமேற்கு', N: 'வடக்கு', NE: 'வடகிழக்கு' },
+});
+const four = (m) => ({ E: m.E, SE: m.E, S: m.S, SW: m.S, W: m.W, NW: m.W, N: m.N, NE: m.N });
+
+/** Tithi Shoola and the Yogini's place (Muhurta Chintamani XI.34): tithis within the paksha, 15 the full Moon, 30 the new. */
+const TITHI_DIR8 = deepFreeze({ E: [1, 9], SE: [3, 11], S: [5, 13], SW: [4, 12], W: [6, 14], NW: [7, 15], N: [2, 10], NE: [8, 30] });
+/** Kalaprakasika's Yogini (Wilhelm's table): tithis 1-30, different in the two pakshas; the 9th, 10th of each are sky and earth. */
+const YOGINI_KP = deepFreeze({ E: [1, 11, 21], SE: [3, 13, 23], S: [5, 15, 25], SW: [4, 14, 24], W: [6, 16, 26], NW: [7, 17, 27], N: [2, 12, 22], NE: [8, 18, 28] });
+const NAK_SHOOLA_MC = deepFreeze(four({ E: [17], S: [24], W: [3], N: [11] }));
+const NAK_SHOOLA_WILHELM = deepFreeze({ E: [17, 20, 21], SE: [17, 24], S: [0, 3, 9, 25], SW: [11, 24], W: [3, 7], NW: [12, 3], N: [12, 11, 21], NE: [0, 11] });
+const VAAR_SHOOLA = deepFreeze(four({ E: [1, 6], S: [4], W: [0, 5], N: [2, 3] }));
+const VAAR_SHOOLA_JOSHI = deepFreeze({ E: [1, 6], SE: [1, 4], S: [4], SW: [0, 5], W: [0, 5], NW: [2], N: [2, 3], NE: [6, 3] });
+const VAAR_SHOOLA_KR = deepFreeze({ E: [1, 6], SE: [1, 2], S: [4], SW: [0, 5], W: [5, 0], NW: [2], N: [2, 3], NE: [3, 6] });
+const VAAR_SHOOLA_VASHISTHA = deepFreeze(four({ E: [6, 1], S: [4], W: [5], N: [2, 3] }));
+const KONA_SHOOLA = deepFreeze({ SE: [1, 4], SW: [5, 0], NW: [2], NE: [3, 6] });
+const KANTAKA = deepFreeze({ SE: [2], SW: [3], NW: [6] });
+/** The ghatis after sunrise when the Vaar Shoola lifts, by weekday (0 = Sunday). */
+const RELEASE_KP = deepFreeze({ 1: 8, 6: 8, 4: 22, 0: 15, 5: 15, 2: 12, 3: 12 });
+const RELEASE_SHRIDHAR = deepFreeze({ 0: 12, 1: 20, 2: 16, 3: 16, 4: 8, 5: 12, 6: 20 });
+const RELEASE_RANGACHARYA = deepFreeze({ 4: 22, 2: 12, 3: 12, 0: 15, 1: 8, 6: 8 });
+/** The direction lords in the houses that form Lalatika: [planet, houses]. */
+const LALATIKA = deepFreeze({ E: ['Sun', [1]], SE: ['Venus', [11, 12]], S: ['Mars', [10]], SW: ['Rahu', [8, 9]], W: ['Saturn', [7]], NW: ['Moon', [5, 6]], N: ['Mercury', [4]], NE: ['Jupiter', [2, 3]] });
+const LALATIKA_KR = deepFreeze({ ...LALATIKA, W: ['Mercury', [7]], NE: ['Jupiter', [2]] });
+/** The stars after whose first ghatis (of 60) a journey may be made in need (Muhurta Chintamani XI.12). */
+const NAK_AFTER_MC = deepFreeze({ 10: 16, 19: 16, 24: 16, 2: 21, 9: 11, 1: 7, 14: 14, 15: 14, 17: 14, 8: 14 });
+/** Kaala Shoola (MC XI.11): the stars to leave in each third of the day and of the night; four are good at all times. */
+const KAAL_SHOOLA = deepFreeze({
+  day: [[3, 11, 20, 25, 15, 2], [18, 17, 5, 8], [12, 0, 7, 'ABHIJIT']],
+  night: [[4, 26, 13, 16], [10, 19, 24, 1, 9], [14, 6, 21, 22, 23]],
+  always: [21, 12, 7, 4],
+});
+const KAAL_SHOOLA_WILHELM = deepFreeze({
+  day: [[2, 3, 5, 8, 11, 15, 17, 20, 25], [5, 8, 17, 18], [0, 2, 7, 12, 14]],
+  night: [[4, 13, 16, 26, 12, 21], [1, 9, 10, 19, 24, 12, 21, 26], [6, 14, 22, 23, 12, 21, 26]],
+  always: [],
+});
+/** Ghaata (by the birth Moon's sign, 0 = Aries): the star, the tithi class (0 Nanda … 4 Poorna), weekday, lagna, the Moon's sign, pada (0-107), lunar month. */
+const GHATA = deepFreeze({
+  nak: [9, 12, 14, 16, 18, 21, 23, 26, 1, 3, 5, 8],
+  tithiClass: [0, 4, 1, 1, 2, 4, 3, 0, 2, 3, 2, 4],
+  vara: [0, 6, 1, 3, 6, 6, 4, 5, 5, 2, 4, 5],
+  lagna: [0, 1, 3, 6, 9, 11, 5, 7, 8, 10, 2, 4],
+  lagnaRangacharya: [0, 2, 5, 9, 0, 4, 11, 2, 4, 7, 0, 3],
+  moon: [0, 5, 10, 4, 9, 2, 8, 1, 11, 4, 8, 10],
+  padaWilhelm: [8, 37, 94, 38, 88, 22, 73, 15, 98, 39, 75, 98],
+  padaKR: [8, 53, 94, 38, 88, 22, 73, 15, 98, 39, 75, 98],
+  padaVashistha: [8, 53, 94, 39, 88, 22, 73, 15, 99, 39, 75, 98],
+  monthShridhar: [7, 8, 3, 9, 2, 5, 10, 6, 4, 1, 0, 11],
+  monthKR: [7, 8, 9, 10, 11, 0, 1, 2, 3, 4, 5, 6],
+});
+/** Vashistha's lagnas to leave in each tithi class (0 Nanda … 4 Poorna), signs 0 = Aries. */
+const LAGNA_TITHI_VASHISTHA = deepFreeze([[4, 6, 7, 9], [8, 11], [2, 5], [0, 3], [1, 10]]);
+const TARA_1357 = Object.freeze([1, 3, 5, 7, 10, 12, 14, 16, 19, 21, 23, 25]);
+const TRAVEL_GOOD_9 = Object.freeze([0, 4, 6, 7, 12, 16, 21, 22, 26]);
+const BENEFIC_PLACES = Object.freeze([1, 4, 7, 10, 5, 9]);
+const MALEFIC_PLACES = Object.freeze([3, 6, 10, 11]);
+const HOUSES_MC56 = deepFreeze([[['Moon'], [1, 12, 6, 8]], [['Saturn'], [10]], [['Venus'], [7]], [['LAGNA_LORD'], [7, 12, 6, 8]]]);
+const tithiBoth = (ns) => bothPakshas(ns).filter((t) => t !== 15);
+
+/**
+ * Travel's rules beyond the other events': the direction rules run only with a direction.
+ * nakAfter { star: ghatis }: the star rejects in its first ghatis, is middling after; tithiNot: with
+ * it, a tithi neither good nor bad is middling; pada1Mid, krishnaMid, sunMidThird (the middle third of
+ * Cancer and Leo), sankranti, yogaHalfNot (54 halves: 36 = Parigha's first), ghata { month, tithi,
+ * nak, pada, moon, vara, lagna }, holanta (Phalguna's bright half), weakMoon (Krishna 10 – Shukla 5);
+ * direction: tithiShoola, tithiDir (Nanda east …, Rikta and the new Moon any way), yogini { maps,
+ * avoid }, nakShoola, vasanta (rules the Sun in Pisces or Aries lifts), chandraDir (the Moon's sign's
+ * quarter: 4 behind, 6 on the left), parigha { free }, venus { rising, sphere, star }, rahuPaksha
+ * ('MID' | 'REJECT' for Kartari and Grasta), panchakaSouth, mahadala; per lagna stretch: vaarShoola
+ * [{ map, release }], varaUpachaya, kaalaPasha, ayana, kaalShoola, abhijitSouth, digdwarLagna { left },
+ * lalatika, chandraKantaka, planetFront, vaarRahu, venusWeak, marsMercWeak, retroKendra, varaLordRetro,
+ * varaLordSet, lagnaLordRetro, moonConj, moonNatal, lagnaNatal, lagnaBirth, lordsInLagna, kendras,
+ * navNot, nakVara, sarvanka, trianka, panchaka9 { reject, mid }, jupVenLagna, lagnaTithi.
+ * `secondary`: the codes the book itself puts after its main rules — marked, not rejecting.
+ */
+const TRAVEL = deepFreeze({
+  labelTa: 'பயணம் (யாத்திரை)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'MUHURTA_CHINTAMANI', 'WILHELM', 'JOSHI', 'KALYANRAMAN', 'RAMAN', 'RANGACHARYA', 'VASHISTHA'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் அத்.23', booksTa: 'ஸ்ரீதர் (மு.சி., K.P., J.V., பிருஹஸ்பதி மேற்கோள்கள்)',
+    nak: { good: TRAVEL_GOOD_9, mid: [3, 11, 20, 25, 18, 23] }, nakAfter: NAK_AFTER_MC, digdwar: false,
+    tithi: [1, ...tithiBoth([2, 3, 5, 10, 11, 13])], tithiNot: tithiBoth([4, 6, 9, 12, 14]),
+    vara: { good: [3, 4, 5], mid: [2] }, taraNot: TARA_1357, vishti: true,
+    sunSign: { good: [0, 4, 8], mid: [1, 2, 5, 6, 9, 10, 11] }, sunMidThird: true,
+    ghata: { month: GHATA.monthShridhar, tithi: true, nak: GHATA.nak, vara: GHATA.vara, lagna: GHATA.lagna },
+    tithiShoola: TITHI_DIR8, tithiDir: true, nakShoola: NAK_SHOOLA_MC,
+    vaarShoola: [{ map: VAAR_SHOOLA, release: RELEASE_SHRIDHAR }, { map: KONA_SHOOLA }],
+    yogini: { maps: ['MC'], avoid: [0, 2] }, chandraDir: [4, 6], parigha: { free: [0, 7, 12, 16, 4, 21, 22, 26] },
+    venus: { rising: 'PRINTED' }, planetFront: ['Mercury', 'Mars'], venusWeak: { enemy: true },
+    rahuPaksha: 'MID', panchakaSouth: true, abhijitSouth: true, kaalaPasha: true, ayana: true, kaalShoola: KAAL_SHOOLA,
+    lagna: { good: [2, 4, 5, 6, 7], mid: [] }, navNot: [10, 11], digdwarLagna: { left: 'MID' }, lalatika: LALATIKA,
+    notIn: HOUSES_MC56, lordsInLagna: [6, 8], retroKendra: true, varaLordRetro: true, varaLordSet: true,
+    lagnaBirth: { houses: [6], from: 'EITHER' }, lagnaNatal: true, moonNatal: true, kendras: true,
+    beneficIn: BENEFIC_PLACES, maleficIn: MALEFIC_PLACES,
+    secondary: ['SUN_SIGN', 'SUN_MID_THIRD', 'GHATA_MONTH', 'KAALA_PASHA', 'AYANA', 'KAAL_SHOOLA', 'VARA_LORD_SET', 'KENDRA_NO_BENEFIC', 'KENDRA_MALEFIC'],
+    linesTa: [
+      'அவரது தோல்விப் பட்டியல் (ப.616) விலக்குகிறது; அத்தியாயத்தின் மற்ற விதிகள் (சௌர மாதம், காத மாதம், காலம்-பாசம், அயனம், நட்சத்திர கால சூலம், கேந்திரத்தில் சுபர், கிழமை அதிபதி அஸ்தங்கம்) குறிக்கப்படும் (எங்கள் வாசிப்பு)',
+      'நட்சத்திரம்: அசுவினி, புனர்பூசம், அனுஷம், மிருகசீரிடம், பூசம், அஸ்தம், திருவோணம், அவிட்டம், ரேவதி; ரோகிணி, மூன்று உத்திரம், மூலம், சதயம் நடுத்தரம் · பரணி 7, கிருத்திகை 21, மகம் 11, மூன்று பூர்வம் 16, சுவாதி, விசாகம், கேட்டை, ஆயில்யம் 14 நாழிகை கழிந்து (அவசரத்தில்) · சித்திரை, திருவாதிரை கூடாது · ஜன்ம, விபத், பிரத்யக், வதை தாரைகள் மூன்று சுற்றிலும் கூடாது',
+      'திதி: வளர் 1; இரு பக்ஷத்திலும் 2, 3, 5, 10, 11, 13 · 6, 12, ரிக்த கூடாது; மற்றவை நடுத்தரம் · கிழமை: புதன், வியாழன், வெள்ளி; செவ்வாய் நடுத்தரம்; ஞாயிறு, திங்கள், சனி கூடாது · விஷ்டி கூடாது',
+      'திசை: திதி சூலம் (1, 9 கிழக்கு …), நந்தா கிழக்கு, பத்ரா தெற்கு, ஜயா மேற்கு, பூர்ணா வடக்கு, ரிக்த / அமாவாசை எந்தத் திசையும் · நட்சத்திர சூலம் (கேட்டை கிழக்கு, பூரட்டாதி தெற்கு, ரோகிணி மேற்கு, உத்திரம் வடக்கு) · வார சூலம் (அட்டவணை 23.3, நாழிகை விடுப்புடன்), கோண சூலம் · யோகினி முன்னும் வலமும் கூடாது · சந்திரன் பின்னும் இடமும் கூடாது · பரிக தண்டம் (எட்டு திக்த்வார நட்சத்திரங்களில் விலக்கு) · சுக்கிரன் முன் (உதயம் — அச்சில் உள்ளபடி), புதன் / செவ்வாய் முன் (லக்னத்திலிருந்து வீடு) · பஞ்சகத்திலும் அபிஜித் முகூர்த்தத்திலும் தெற்கு கூடாது',
+      'ராகு: சந்திரன் மிருத பக்ஷத்தில் கூடாது; கர்த்தரி, கிரஸ்தம் நடுத்தரம் · காத திதி, கிழமை, நட்சத்திரம், லக்னம் கூடாது (நட்சத்திரம், லக்னம் — மு.சி. அட்டவணை; அவர் அத்.9-க்குக் குறிப்பிடுகிறார்)',
+      'லக்னம்: மிதுனம், சிம்மம், கன்னி, துலாம், விருச்சிகம் (பிருஷ்டோதயமும் கும்பம், மீனமும் இல்லை) · கும்ப, மீன நவாம்சம் கூடாது · திக்த்வார லக்னம் பின்னால் கூடாது, இடம் நடுத்தரம் · லலாடிக யோகம் · சந்திரன் 1, 12, 6, 8; சனி 10; சுக்கிரன் 7; லக்னாதிபதி 7, 12, 6, 8 கூடாது · 6, 8-ஆம் அதிபதி லக்னத்தில், வக்ர கிரகம் கேந்திரத்தில், வக்ரக் கிழமை அதிபதி கூடாது · பிறப்பிலிருந்து 6-ஆம் ராசி, ஜன்ம லக்னம், ஜன்ம ராசியில் சந்திரன் கூடாது',
+    ],
+  },
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி அத்.11', booksTa: 'முகூர்த்த சிந்தாமணி ஸ்லோ.8-56',
+    nak: { good: TRAVEL_GOOD_9, mid: [] }, nakAfter: NAK_AFTER_MC, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 11, 13, 16, 17, 18, 20, 22, 25, 26, 28], taraNot: TARA_1357,
+    sunSign: { good: [8, 0, 4], mid: [9, 10, 2, 5, 1, 6, 3, 11, 7] },
+    nakShoola: NAK_SHOOLA_MC, vaarShoola: [{ map: VAAR_SHOOLA }], kaalShoola: KAAL_SHOOLA,
+    rahuPaksha: 'MID', sarvanka: true, mahadala: true,
+    ghata: { tithi: true, nak: GHATA.nak, vara: GHATA.vara, lagna: GHATA.lagna },
+    yogini: { maps: ['MC'], avoid: [0, 6] }, kaalaPasha: true, parigha: { free: [16, 12, 7, 0] },
+    retroKendra: true, varaLordRetro: true, ayana: true,
+    venus: { rising: 'RISING', sphere: true, star: true }, venusWeak: {},
+    lagna: { good: range(0, 9), mid: [] }, navNot: [10, 11], digdwarLagna: {}, lalatika: LALATIKA,
+    notIn: HOUSES_MC56, abhijitSouth: true, beneficIn: BENEFIC_PLACES, maleficIn: MALEFIC_PLACES,
+    secondary: ['VENUS_WEAK'],
+    linesTa: [
+      'நட்சத்திரம் (ஸ்லோ.9): அசுவினி, புனர்பூசம், அனுஷம், மிருகசீரிடம், பூசம், ரேவதி, அஸ்தம், திருவோணம், அவிட்டம் · மற்றவை கூடாது; மூன்று பூர்வம் 16, கிருத்திகை 21, மகம் 11, பரணி 7, சுவாதி, விசாகம், கேட்டை, ஆயில்யம் 14 நாழிகை கழிந்து — தேவையெனில் (ஸ்லோ.12) · ஜன்ம ராசியிலிருந்து (நட்சத்திரம்) 1, 3, 5, 7 தாரைகள் மூன்று சுற்றிலும் கூடாது (ஸ்லோ.8)',
+      'திதி (ஸ்லோ.9): 6, 12, 8, வளர் 1, அமாவாசை, பௌர்ணமி, ரிக்த கூடாது · சூரியன் தனுசு, மேஷம், சிம்மம் நல்லது; கடகம், மீனம், விருச்சிகம் — நீண்ட பயணம் (குறிக்கப்படும்); மற்றவை நடுத்தரம்',
+      'திசை: வார சூலம், நட்சத்திர சூலம் (ஸ்லோ.10) · யோகினி முன்னும் இடமும் கூடாது (ஸ்லோ.34) · காலம், பாசம் முன்னால் கூடாது (ஸ்லோ.35) · பரிக தண்டம் (ஸ்லோ.36; அனுஷம், அஸ்தம், பூசம், அசுவினியில் எல்லாத் திசையும் — ஸ்லோ.38) · அயனம் (ஸ்லோ.39) · சுக்கிரன் முன் மூன்று வழியில் — உதயம், கோளம் (மேஷம்–கன்னி வடக்கு), நட்சத்திரம் (ஸ்லோ.40); சந்திரன் ரேவதி முதல் கிருத்திகை 1-ஆம் பாதம் வரை சுக்கிரன் குருடு (ஸ்லோ.42) · அபிஜித்தில் தெற்கு கூடாது (ஸ்லோ.54)',
+      'நட்சத்திர கால சூலம் (ஸ்லோ.11) · ராகு: சந்திரன் மிருத பக்ஷத்தில் கூடாது, கிரஸ்தம் / கர்த்தரி நடுத்தரம் (ஸ்லோ.14-15) · சர்வாங்கம் — திதி + கிழமை + நட்சத்திரம் 7, 8, 3-ஆல் மீதியின்றி வகுபட்டால் கூடாது (ஸ்லோ.24) · மகாதளம், பிரமம் — சூரிய நட்சத்திரத்திலிருந்து சந்திரன் 7-ஆல் மீதி 2, 0, 3, 6 (ஸ்லோ.25) · காத திதி, கிழமை, நட்சத்திரம், லக்னம் (ஸ்லோ.30-33; காத சந்திரனும் பாதமும் போர், அரசு சேவை, சண்டைக்கு மட்டும்)',
+      'லக்னம்: கும்பம், மீனம், அவற்றின் நவாம்சம் கூடாது (ஸ்லோ.43-44) · திக்த்வாரத்துக்கு எதிர் லக்னம் கூடாது (ஸ்லோ.47) · லலாடிக யோகம் (ஸ்லோ.51) · வக்ர கிரகம் கேந்திரத்தில், வக்ர கிரகத்தின் கிழமை கூடாது (ஸ்லோ.38) · சந்திரன் 1, 12, 6, 8; சனி 10; சுக்கிரன் 7; லக்னாதிபதி 7, 12, 6, 8 கூடாது; சுபர் கேந்திர கோணத்தில், பாவர் 3, 11, 6, 10-ல் நல்லது (ஸ்லோ.56) · சுக்கிரன் வக்ரம், அஸ்தங்கம், நீசம் — போருக்கு (ஸ்லோ.41; குறிக்கப்படும்)',
+    ],
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம்', booksTa: 'வில்ஹெல்ம் (முகூர்த்த சிந்தாமணி, காலப்பிரகாசிகை, யவனஜாதகம் மேற்கோள்கள்)',
+    nak: { good: [0, 4, 7, 12, 16, 21, 22, 26], mid: [3, 6, 11, 13, 18, 20, 23] }, digdwar: false,
+    nakAfter: { 2: 21, 1: 7, 9: 14, 10: 16, 19: 16, 24: 16, 14: 14, 8: 14, 15: 14, 5: 14, 17: 14 }, pada1Mid: true, krishnaMid: true,
+    tithi: [...tithiBoth([2, 3, 5, 7, 10, 11, 13])], tithiMid: [16], taraNot: TARA_1357,
+    vara: { good: [3, 4, 5], mid: [] }, varaUpachaya: { houses: [3, 6, 10, 11], codes: ['VARA', 'VAAR_SHOOLA'] }, varaLordRetro: true, nakVara: [[0, 2], [7, 4], [3, 6]],
+    sunSign: { good: [0, 4, 8], mid: [1, 2, 3, 5, 6, 7, 9, 10, 11] }, sunMidThird: true, sankranti: true,
+    lagna: { good: [1, 4, 6, 8], mid: [0, 3, 9, 5, 7], natalMoonOk: true }, navGood: BENEFIC_PLANET_NAVS, navNot: [10, 11],
+    notIn: [[['Moon'], [1, 4, 6, 8, 12]], [['Saturn'], [10]], [['Venus'], [7]], [['Jupiter'], [3, 7, 8]], [['LAGNA_LORD'], [6, 8, 12, 7]]],
+    empty: [12], lordsInLagna: [6], kendras: true, lagnaLordRetro: true, marsMercWeak: true, venusWeak: {}, moonConj: true, moonNatal: true,
+    jupVenNotSet: true, beneficIn: BENEFIC_PLACES, maleficIn: MALEFIC_PLACES,
+    ayana: true, nakShoola: NAK_SHOOLA_WILHELM, kaalShoola: KAAL_SHOOLA_WILHELM, mahadala: true,
+    ghata: { tithi: true, nak: GHATA.nak, pada: GHATA.padaWilhelm, moon: GHATA.moon, vara: GHATA.vara, lagna: GHATA.lagna },
+    tithiShoola: TITHI_DIR8, tithiDir: true, vaarShoola: [{ map: VAAR_SHOOLA, release: RELEASE_KP }, { map: KANTAKA }],
+    digdwarLagna: {}, lalatika: LALATIKA, chandraKantaka: true, venus: { rising: 'RISING', sphere: true },
+    kaalaPasha: true, yogini: { maps: ['KP', 'MC'], avoid: [0, 6] }, panchaka9: { reject: [1, 2, 4, 6, 8], mid: [] }, sarvanka: true, trianka: true,
+    secondary: ['AYANA', 'NAK_SHOOLA', 'KAAL_SHOOLA', 'MAHADALA', 'GHATA_TITHI', 'GHATA_NAK', 'GHATA_PADA', 'GHATA_MOON', 'GHATA_VARA', 'GHATA_LAGNA',
+      'TITHI_SHOOLA', 'TITHI_DIR', 'VAAR_SHOOLA', 'DIGDWAR_LAGNA', 'LALATIKA', 'CHANDRA_KANTAKA', 'VENUS_FRONT', 'KAALA_PASHA', 'YOGINI',
+      'YATRA_PANCHAKA', 'SARVANKA', 'TRIANKA', 'SUN_MID_THIRD', 'JUP_VEN_SET'],
+    linesTa: [
+      'அவர் (ப.305): இன்றைய சாதாரணப் பயணத்துக்கு அடிப்படை முகூர்த்த அம்சங்களும் வழக்கமான தோஷங்களும் முதன்மை; பயணத்துக்கே உரிய தோஷங்களை முடிந்தவரை — அதனால் அவை குறிக்கப்படும் (திசை, காதம், சூலங்கள், யோகினி, காலம்-பாசம், சுக்கிரன் முன், பஞ்சகம், சர்வாங்கம், த்ரியங்கம், மகாதளம்)',
+      'நட்சத்திரம்: அசுவினி, மிருகசீரிடம், பூசம், அஸ்தம், அனுஷம், திருவோணம், அவிட்டம், ரேவதி; ரோகிணி, புனர்பூசம், உத்திரம், சித்திரை, மூலம், உத்திராடம், சதயம் நடுத்தரம் · கிருத்திகை 21, பரணி 7, மகம் 14, மூன்று பூர்வம் 16, சுவாதி, ஆயில்யம், விசாகம், திருவாதிரை, கேட்டை 14 நாழிகை கழிந்து · முதல் பாதம், தேய்பிறை குறிக்கப்படும் · செவ்வாய்–அசுவினி, வியாழன்–பூசம், சனி–ரோகிணி கூடாது · தாரை சாதகமாக',
+      'திதி: 2, 3, 5, 7, 10, 11, 13; தேய் 1 நடுத்தரம்; வளர் 1, 4, 6, 8, 9, 12, 14, 15 கூடாது · கிழமை: புதன், வியாழன், வெள்ளி (கிழமை அதிபதி 3, 6, 10, 11-ல் இருந்தால் எந்தக் கிழமையும்); வக்ர கிரகத்தின் கிழமை கூடாது · சங்கிராந்தி கூடாது · சூரியன் மேஷம், சிம்மம், தனுசு நல்லது, மற்றவை நடுத்தரம்; கடக, சிம்ம நடு மூன்றில் ஒன்று குறிக்கப்படும்',
+      'லக்னம்: ரிஷபம், சிம்மம், துலாம், தனுசு; மேஷம், கடகம், மகரம், கன்னி, விருச்சிகம் நடுத்தரம்; மிதுனம், கும்பம், மீனம் கூடாது (ஜன்ம ராசி லக்னம் நல்லது) · நவாம்சம்: புதன், குரு, சுக்கிரனுடையது (கும்ப, மீன நவாம்சம் இல்லை) · சந்திரன் 1, 4, 6, 8, 12; சனி 10; சுக்கிரன் 7; குரு 3, 7, 8; லக்னாதிபதி 6, 8, 12, 7 கூடாது · 12 காலி · 6-ஆம் அதிபதி லக்னத்தில் கூடாது · கேந்திரத்தில் சுபர் வேண்டும், பாவர் கூடாது (இரண்டும் — நடுத்தரம்) · லக்னாதிபதி வக்ரம், சுக்கிரன் வக்ரம் / அஸ்தங்கம் / நீசம், செவ்வாய், புதன் வக்ரம் / அஸ்தங்கம் கூடாது · சந்திரன் தனியாக, ஜன்ம லக்ன / ஜன்ம ராசியில் அல்லாமல்',
+    ],
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி', booksTa: 'ஜோஷி (முகூர்த்த சிந்தாமணி, ஜ்யோதிர்விதாபரணம் மேற்கோள்கள்)',
+    nak: { good: [12, 0, 7, 4, 26, 16, 6, 21, 22], mid: [11, 20, 25, 3] }, nakAfter: NAK_AFTER_MC, digdwar: false,
+    tithi: [...tithiBoth([2, 3, 5, 7, 10, 11, 13]), 16], vishti: true, yogaNot: [16, 26], yogaHalfNot: [36],
+    vara: { good: [4, 5], mid: [0, 1, 3] }, vaarShoola: [{ map: VAAR_SHOOLA_JOSHI }], nakShoola: NAK_SHOOLA_MC,
+    chandraDir: [4, 6], venus: { rising: 'RISING' }, parigha: { free: [] }, yogini: { maps: ['MC'], avoid: [0, 6] }, rahuPaksha: 'REJECT',
+    kaalaPasha: true, ayana: true, kaalShoola: KAAL_SHOOLA, taraNot: TARA_1357, chandra: { good: [3, 6, 10, 11, 1, 7], mid: [2, 5, 9] },
+    ghata: { month: GHATA.monthKR, moon: GHATA.moon, vara: GHATA.vara, nak: GHATA.nak, pada: GHATA.padaKR, tithi: true, lagna: GHATA.lagna },
+    lagna: { good: range(0, 9), mid: [] }, navNot: [10, 11], digdwarLagna: { left: 'REJECT' },
+    notIn: [[['Moon'], [1, 6, 8, 12]], [['Saturn'], [10]], [['Venus'], [7]], [['LAGNA_LORD'], [6, 7, 8, 12]]],
+    beneficIn: BENEFIC_PLACES, maleficIn: MALEFIC_PLACES,
+    holanta: true, masa: { good: [0, 1, 2, 6, 7, 8, 9, 10, 11], mid: [], strict: true }, jupVenNotSet: true, harishayana: true, weakMoon: true,
+    secondary: ['VENUS_FRONT', 'PARIGHA', 'YOGINI', 'RAHU_PAKSHA', 'KAALA_PASHA', 'AYANA', 'KAAL_SHOOLA', 'GHATA_MONTH', 'GHATA_MOON', 'GHATA_VARA',
+      'GHATA_NAK', 'GHATA_PADA', 'GHATA_TITHI', 'GHATA_LAGNA', 'HOLANTA', 'MASA', 'JUP_VEN_SET', 'HARISHAYANA', 'WEAK_MOON'],
+    linesTa: [
+      'அவர் (ப.136): எல்லாவற்றையும் பார்த்தால் "கடைசிப் பயணம்" மட்டுமே — சந்திர / தாரா சுத்தி, முன்னால் சந்திரன், வார / நட்சத்திர சூலம், லக்ன சுத்தி முதன்மை; அவசரத்தில் பஞ்சாங்க சுத்தியும் இவையும் போதும் (ப.130). அதனால் மற்றவை குறிக்கப்படும் (சுக்கிரன் முன், பரிகம், யோகினி, ராகு, காலம்-பாசம், அயனம், கால சூலம், காதம், ஹோலாந்தம்; நீண்ட பயணத்துக்கு — ஆஷாட, ஸ்ராவண, பாத்ரபத மாதங்கள், குரு / சுக்கிரன் அஸ்தங்கம், ஹரிசயனம், தேய் 10 – வளர் 5)',
+      'நட்சத்திரம்: அஸ்தம், அசுவினி, பூசம், மிருகசீரிடம், ரேவதி, அனுஷம், புனர்பூசம், திருவோணம், அவிட்டம்; உத்திரம், உத்திராடம், உத்திரட்டாதி, ரோகிணி நடுத்தரம் · மற்றவை கூடாது; அவசரத்தில் மூன்று பூர்வம் 16, பரணி 7, கிருத்திகை 21, மகம் 11, சுவாதி, விசாகம், கேட்டை, ஆயில்யம் 14 நாழிகை கழிந்து · திதி: 2, 3, 5, 7, 10, 11, 13 இரு பக்ஷமும், தேய் 1 · விஷ்டி, வியதீபாதம், வைதிருதி, பரிகத்தின் முதல் பாதி கூடாது · கிழமை: வியாழன், வெள்ளி; ஞாயிறு, திங்கள், புதன் நடுத்தரம்; சனி, செவ்வாய் கூடாது',
+      'திசை: வார சூலம் (அட்டவணை 11.2, எட்டு திசை), நட்சத்திர சூலம் · சந்திரன் பின்னும் இடமும் கூடாது (அட்டவணை 11.3) · ஜன்ம நட்சத்திரத்திலிருந்து 1, 3, 5, 7 தாரைகள் (மூன்று சுற்று) கூடாது · சந்திரன் ஜன்ம ராசியிலிருந்து 3, 6, 10, 11, 1, 7 நல்லது, 4, 8, 12 கூடாது, மற்றவை நடுத்தரம்',
+      'லக்னம்: கும்பம், மீனம், அவற்றின் நவாம்சம் கூடாது · திசைக்குரிய லக்னம் — சந்திரனைப் போலவே பின்னும் இடமும் கூடாது (அட்டவணை 11.3) · சந்திரன் 1, 6, 8, 12; சனி 10; சுக்கிரன் 7; லக்னாதிபதி 6, 7, 8, 12 கூடாது · சுபர் கேந்திர கோணத்தில், பாவர் 3, 6, 10, 11-ல் (குறிக்கப்படும்)',
+    ],
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2)', booksTa: 'கல்யாணராமன் (காலப்பிரகாசிகை, முகூர்த்த சிந்தாமணி மேற்கோள்கள்)',
+    nak: { good: [16, 0, 22, 12, 4, 6, 7, 26, 21], mid: [11, 20, 25, 3, 18] }, nakAfter: NAK_AFTER_MC, digdwar: false,
+    tithi: [...tithiBoth([2, 3, 5, 7, 10, 11, 13]), 16], vishti: true, yogaNot: [16, 26], yogaHalfNot: [36],
+    vara: { good: [4, 5], mid: [0, 1, 3, 2, 6] }, taraNot: TARA_1357, chandra: { good: [1, 3, 6, 7, 10, 11], mid: [2, 5, 9] },
+    vaarShoola: [{ map: VAAR_SHOOLA_KR, release: RELEASE_KP }, { map: KANTAKA }], nakShoola: NAK_SHOOLA_MC,
+    tithiShoola: TITHI_DIR8, tithiDir: true, yogini: { maps: ['MC'], avoid: [0, 6] },
+    chandraDir: [4, 6], kaalaPasha: true, kaalShoola: KAAL_SHOOLA, parigha: { free: [] }, venus: { rising: 'RISING' }, rahuPaksha: 'REJECT', ayana: true,
+    ghata: { month: GHATA.monthKR, nak: GHATA.nak, pada: GHATA.padaKR, lagna: GHATA.lagna, moon: GHATA.moon, vara: GHATA.vara, tithi: true },
+    lagna: { good: range(0, 9).concat([11]), mid: [] }, navNot: [10], digdwarLagna: { left: 'REJECT' }, lalatika: LALATIKA_KR,
+    notIn: [[['Moon'], [1, 4, 6, 8, 12]], [['Saturn'], [10]], [['Venus'], [7]], [['LAGNA_LORD'], [6, 7, 8, 12]]],
+    beneficIn: BENEFIC_PLACES, maleficIn: MALEFIC_PLACES,
+    masa: { good: [0, 1, 2, 6, 7, 8, 9, 10, 11], mid: [], strict: true }, jupVenNotSet: true, holanta: true, harishayana: true, weakMoon: true,
+    panchaka9: { reject: [1, 2, 4, 6, 8], mid: [] },
+    secondary: ['CHANDRA_DIR', 'KAALA_PASHA', 'KAAL_SHOOLA', 'PARIGHA', 'VENUS_FRONT', 'RAHU_PAKSHA', 'AYANA', 'YOGINI', 'TITHI_SHOOLA', 'TITHI_DIR',
+      'GHATA_MONTH', 'GHATA_NAK', 'GHATA_PADA', 'GHATA_LAGNA', 'GHATA_MOON', 'GHATA_VARA', 'GHATA_TITHI', 'DIGDWAR_LAGNA', 'LALATIKA', 'YATRA_PANCHAKA',
+      'HARISHAYANA', 'WEAK_MOON'],
+    linesTa: [
+      'அவர் (ப.204, 211): இன்றைய பயணத்துக்கு விஜய யாத்திரையின் எல்லா விதிகளும் தேவையில்லை — பஞ்சாங்க சுத்தி, திக் சுத்தி, நட்சத்திர சூலம், லக்ன சுத்தி, சந்திர / தாரா பலம் முதன்மை; ஆஷாட, பாத்ரபத, ஸ்ராவண மாதங்கள், குரு / சுக்கிரன் அஸ்தங்கம், பால்குன வளர்பிறை கூடாது; மற்றவை குறிக்கப்படும்',
+      'நட்சத்திரம்: அனுஷம், அசுவினி, அவிட்டம், அஸ்தம், மிருகசீரிடம், புனர்பூசம், பூசம், ரேவதி, திருவோணம்; உத்திரம், உத்திராடம், உத்திரட்டாதி, ரோகிணி நடுத்தரம் (மூலம் — "சிறந்தது" என்ற குறிப்பு; நடுத்தரம், எங்கள் வாசிப்பு) · மற்றவை கூடாது; மூன்று பூர்வம் 16, கிருத்திகை 21, மகம் 11, பரணி 7, சுவாதி, விசாகம், கேட்டை, ஆயில்யம் 14 நாழிகை கழிந்து · திதி: 2, 3, 5, 7, 10, 11, 13 இரு பக்ஷமும், தேய் 1 · விஷ்டி, வியதீபாதம், வைதிருதி, பரிகத்தின் முதல் பாதி கூடாது · கிழமை: வியாழன், வெள்ளி; மற்றவை நடுத்தரம் ("செவ்வாய், சனியில் பயணமே இல்லை என்பதல்ல")',
+      'திசை: வார சூலம் (முகூர்த்த சிந்தாமணி அட்டவணை, எட்டு திசை; காலப்பிரகாசிகை நாழிகை விடுப்பு), வார கண்டகம், நட்சத்திர சூலம் · திதி சூலம், திதி வகை, யோகினி (முன், இடம்), சந்திர நிவாசம், காலம்-பாசம், கால சூலம், பரிகம், சுக்கிரன் முன், ராகு (மிருத, கிரஸ்த, கர்த்தரி), அயனம் — குறிக்கப்படும் · ஜன்ம நட்சத்திரத்திலிருந்து 1, 3, 5, 7 தாரைகள்; சந்திரன் 1, 3, 6, 7, 10, 11 நல்லது, 4, 8, 12 கூடாது (அஷ்டம ராசி "எப்போதும்")',
+      'லக்னம்: கும்ப லக்னமும் நவாம்சமும் "எப்போதும்" கூடாது · சந்திரன் 1, 4, 6, 8, 12; சனி 10; சுக்கிரன் 7; லக்னாதிபதி 6, 7, 8, 12 கூடாது · திசைக்குரிய லக்னம், லலாடிகம் (அச்சில்: மேற்கு — 7-ல் புதன், வடகிழக்கு — 2-ல் குரு), காத அட்டவணை, யாத்திரா பஞ்சகம் குறிக்கப்படும்',
+    ],
+  },
+  RAMAN: {
+    labelTa: 'ராமன்', booksTa: 'ராமன்',
+    nak: { good: [4, 0, 7, 6, 12, 16, 21, 18, 22, 26], mid: [3, 11, 20, 25, 13, 17, 23] }, digdwar: false,
+    nakAfter: { 8: 14, 15: 14, 10: 16, 24: 16, 9: 14, 19: 16, 14: 14 }, pada1Mid: true,
+    tithi: tithiBoth([2, 3, 5, 7, 10, 11, 13]), tithiNot: [14, 29, 15, 30], taraNot: [1],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [2] }, vaarShoola: [{ map: VAAR_SHOOLA, release: RELEASE_KP }],
+    lagna: { good: [0, 1, 3, 4, 6, 8], mid: [], natalMoonOk: true }, lagnaBirth: { houses: [1, 5, 7, 9], from: 'LAGNA' }, jupVenLagna: true,
+    sankranti: true, panchaka9: { reject: [6], mid: [1, 2, 8] }, panchakaSouth: true,
+    linesTa: [
+      'நட்சத்திரம்: மிருகசீரிடம், அசுவினி, பூசம், புனர்பூசம், அஸ்தம், அனுஷம், திருவோணம், மூலம், அவிட்டம், ரேவதி (முதல் பாதம் முடிந்தவரை தவிர் — குறிக்கப்படும்) · பரணி, கிருத்திகை எப்போதும் கூடாது; திருவாதிரை கூடாது; ஆயில்யம், விசாகம், மகம், சுவாதி 14, பூரம், பூராடம், பூரட்டாதி 16 நாழிகை கழிந்து · மற்றவை சொல்லப்படவில்லை — நடுத்தரம் (எங்கள் வாசிப்பு) · ஜன்ம நட்சத்திரம் பயணத்துக்குக் கூடாது (PDF ப.8)',
+      'திதி: 2, 3, 5, 7, 10, 11, 13 நல்லவை; 14, பௌர்ணமி, அமாவாசை "எந்த விலையிலும்" கூடாது; மற்றவை நடுத்தரம் · வார சூலம் (நாழிகை விடுப்புடன்); செவ்வாய் முடிந்தவரை தவிர் · சூரியன் ராசி மாறும் நாள் கூடாது',
+      'லக்னம்: மேஷம், ரிஷபம், கடகம், சிம்மம், துலாம், தனுசு; ஜன்ம ராசி லக்னம் மிக நல்லது · ஜன்ம லக்னமும் அதிலிருந்து 5, 7, 9-ஆம் ராசியும் கூடாது · லக்னத்தில் குரு அல்லது சுக்கிரன் — நல்லது (குறிக்கப்படும்)',
+      'பஞ்சகம் (PDF ப.8): திதி + கிழமை + நட்சத்திரம் + லக்னம், 9-ஆல் மீதி — பயணத்துக்குச் சோர பஞ்சகம் (6) கூடாது; மிருத்யு, அக்னி, ரோகம் (1, 2, 8) முடிந்தவரை (குறிக்கப்படும்); ராஜ பஞ்சகம் பயணத்துக்குப் பொருட்டல்ல · நட்சத்திர பஞ்சகத்தில் (அவிட்டம் 3-ஆம் பாதம் – ரேவதி) தெற்குப் பயணம் கூடாது (PDF ப.9)',
+    ],
+  },
+  RANGACHARYA: {
+    labelTa: 'ரங்காச்சார்யா அத்.VIII', booksTa: 'ரங்காச்சார்யா',
+    nak: { good: [0, 4, 6, 7, 12, 16, 21, 22, 26, 17, 18], mid: [3, 10, 19, 24, 23, 11, 20, 25] }, digdwar: false,
+    nakAfter: { 1: 7, 2: 21, 8: 11, 14: 14, 15: 14 }, taraNot: [1, 25, 27],
+    tithi: [16, ...tithiBoth([2, 3, 5, 7, 10, 13])], tithiNot: [1, ...tithiBoth([4, 6, 8, 9, 12, 14]), 15, 30],
+    ghata: { tithi: true, vara: GHATA.vara, nak: GHATA.nak, lagna: GHATA.lagnaRangacharya },
+    tithiShoola: four({ E: [1, 9], S: [5, 13], W: [6, 14], N: [2, 10] }),
+    vara: { good: [1, 3, 4, 5], mid: [] }, varaUpachaya: { houses: [3, 6, 11], codes: ['VARA'] }, vaarShoola: [{ map: VAAR_SHOOLA, release: RELEASE_RANGACHARYA }],
+    kaalShoola: KAAL_SHOOLA, sarvanka: true, abhijitSouth: true,
+    lagna: { good: [0, 3, 6, 9, 2, 5, 8], mid: [1, 4, 7] }, navNot: [10, 11],
+    notIn: [[['Moon'], [1, 6, 8, 12]], [['Venus'], [7]], [['Saturn'], [10]], [['LAGNA_LORD'], [6, 7, 8, 12]]],
+    beneficIn: BENEFIC_PLACES, maleficIn: MALEFIC_PLACES,
+    linesTa: [
+      'திதி: 2, 3, 5, 7, 10, 13, தேய் 1 நல்லவை; 1, 4, 6, 8, 9, 12, 14, அமாவாசை, பௌர்ணமி கூடாது; 11 சொல்லப்படவில்லை — நடுத்தரம் (எங்கள் வாசிப்பு) · காத திதி கூடாது (முதல் 6 நாழிகைக்குப் பின் ஏற்கலாம் — கணிக்கப்படவில்லை; முழுத் திதியும் விலக்கு) · திதி சூலம் (நான்கு திசை)',
+      'கிழமை: திங்கள், புதன், வியாழன், வெள்ளி; சனி, ஞாயிறு, செவ்வாய் கூடாது — அந்தக் கிழமையின் கிரகம் லக்னத்திலிருந்து 3, 6, 11-ல் இருந்தால் ஏற்கலாம் · வார சூலம் (வியாழன் 22, செவ்வாய் / புதன் 12, ஞாயிறு 15, திங்கள் / சனி 8 நாழிகை கழிந்து) · காத கிழமை கூடாது',
+      'நட்சத்திரம்: அசுவினி, மிருகசீரிடம், புனர்பூசம், பூசம், அஸ்தம், அனுஷம், திருவோணம், அவிட்டம், ரேவதி, கேட்டை, மூலம் நல்லவை; ரோகிணி, பூரம், பூராடம், பூரட்டாதி, சதயம், உத்திரம், உத்திராடம், உத்திரட்டாதி நடுத்தரம்; சித்திரை, சுவாதி, விசாகம், மகம், ஆயில்யம், கிருத்திகை, திருவாதிரை, பரணி கூடாது (பரணி 7, கிருத்திகை 21, ஆயில்யம் 11, சுவாதி, விசாகம் 14 நாழிகை கழிந்து) · ஜன்ம நட்சத்திரம், 25, 27-ஆவது கூடாது · காத நட்சத்திரம் · நட்சத்திர கால சூலம் · சர்வாங்கம்',
+      'லக்னம்: மேஷம், கடகம், துலாம், மகரம், மிதுனம், கன்னி, தனுசு; கும்பம், மீனம், அவற்றின் நவாம்சம் கூடாது; மற்றவை நடுத்தரம் · காத லக்னம் (அவரது அட்டவணை) · அபிஜித் தெற்கு தவிர · சந்திரன் 1, 6, 8, 12; சுக்கிரன் 7; சனி 10; லக்னாதிபதி 6, 7, 8, 12 கூடாது',
+    ],
+  },
+  VASHISTHA: {
+    labelTa: 'வசிஷ்டா', booksTa: 'வசிஷ்டா',
+    sunSign: { good: [0, 4, 8], mid: [1, 2, 5, 6, 9, 10] }, tithi: [16, 2, 3, 5, 7, 10, 11, 13],
+    ayana: true, vasanta: ['AYANA', 'NAK_SHOOLA', 'VAAR_SHOOLA'], nakShoola: four({ E: [17], S: [24], W: [3], N: [1] }), vaarShoola: [{ map: VAAR_SHOOLA_VASHISTHA }],
+    kaalShoola: KAAL_SHOOLA, taraNot: TARA_1357,
+    ghata: { tithi: true, vara: GHATA.vara, nak: GHATA.nak, moon: GHATA.moon, pada: GHATA.padaVashistha },
+    vaarRahu: true, lagnaTithi: LAGNA_TITHI_VASHISTHA,
+    linesTa: [
+      'சூரியன் மேஷம், சிம்மம், தனுசு சிறந்தது; ரிஷபம், மிதுனம், கன்னி, துலாம், மகரம், கும்பம் நடுத்தரம்; கடகம், விருச்சிகம், மீனம் கூடாது · திதி: தேய் 1, வளர் 2, 3, 5, 7, 10, 11, 13 · நட்சத்திரப் பட்டியல் இல்லை',
+      'அயனம்: சூரியனும் சந்திரனும் உத்தராயணத்தில் கிழக்கு, வடக்கு; தட்சிணாயனத்தில் மேற்கு (தெற்கு); வேறுபட்டால் பகல் சூரியனின், இரவு சந்திரனின் · வசந்தத்தில் (சூரியன் மீனம், மேஷம் — எங்கள் வாசிப்பு) நான்கு திசையும் நல்லது, திசை சூலம் இல்லை',
+      'திசை சூலம்: கிழக்கு — கேட்டை, சனி, திங்கள்; தெற்கு — பூரட்டாதி, வியாழன்; மேற்கு — ரோகிணி, வெள்ளி; வடக்கு — பரணி (அச்சில் உள்ளபடி), செவ்வாய், புதன் · கால சூலம் (அச்சில் "மிஸ்ர" இரவின் முதல் பகுதிக்கும், "லக்ன நட்சத்திரம்" சூரிய அஸ்தமனத்துக்குப் பின்னும் — மற்ற நூல்களின் மித்ர, லகு வகைகளாகக் கணிக்கப்படுகிறது, எங்கள் வாசிப்பு) · வார ராகு (ஞாயிறு மேற்கு, திங்கள் தென்கிழக்கு, செவ்வாய் வடமேற்கு, புதன் வடக்கு, வியாழன் தெற்கு, வெள்ளி தென்மேற்கு, சனி வடகிழக்கு) கூடாது',
+      'ஜன்மத்திலிருந்து 1, 3, 5, 7 தாரைகள் கூடாது · காத திதி, கிழமை, நட்சத்திரம், சந்திரன் (ராசி), பாதம் (கடகம் — மகம் 4, தனுசு — பூரட்டாதி 4: அச்சில் உள்ளபடி) · திதி வகையில் தவிர்க்க வேண்டிய லக்னங்கள் (நந்தா 5, 7, 8, 10; ஜயா 3, 6; பத்ரா 9, 12; ரிக்த 1, 4; பூர்ணா 2, 11 — அச்சில் "பத்ரா 2, 7, 10"; 2, 7, 12 என்று கணிக்கப்படுகிறது)',
+    ],
+  },
+});
+
 const RANK = deepFreeze({
+  TRAVEL: {
+    order: TRAVEL.order,
+    words: { SHRIDHAR: 18112, MUHURTA_CHINTAMANI: 16536, WILHELM: 7634, JOSHI: 4375, KALYANRAMAN: 4304, RAMAN: 1908, RANGACHARYA: 1510, VASHISTHA: 994 },
+    measureTa: 'பயணம் பற்றிய சொற்கள்: ஸ்ரீதர் (அத்.23, பக்.611-666) 18112; முகூர்த்த சிந்தாமணி (அத்.11, பக்.235-287; ஒரு உரைப் படிவம்) 16536; வில்ஹெல்ம் (பக்.304-322) 7634; ஜோஷி (அத்.11, பக்.126-141) 4375; கல்யாணராமன் (தொ.2 பக்.204-215) 4304; ராமன் (அத்.XIV, PDF பக்.49-51) 1908; ரங்காச்சார்யா (அத்.VIII, பக்.109-116) 1510; வசிஷ்டா (பக்.126-132) 994. அகர்வாலில் பயணப் பகுதி இல்லை.',
+  },
   UPANAYANA: {
     order: UPANAYANA.order,
     words: { KALYANRAMAN: 8480, SHRIDHAR: 3443, WILHELM: 3029, MUHURTA_CHINTAMANI: 2701, JOSHI: 968, RANGACHARYA: 861, RAMAN: 742, AGARWAL: 391, VASHISTHA: 265 },
@@ -398,6 +662,16 @@ const SOURCES = deepFreeze({
     AGARWAL: { ...AGARWAL_GS, pageLocus: 'printed pp.307, 309-310 (PDF 306, 308-309): "Avoid Upanayana Samskara in the afternoon (apranha), from tithis 6 to amavasya in krishna paksha, on the days of anadhyaya tithis, on the days of pradoshatithis, on galagrahatithis"; item 7: "Good solar months for this are when Sun is Uttarayana i.e. in Capricorn to Gemini signs, avoiding ashadha shukal 11 to kartika shukla 11. Avoid ashadh shukal 10, jyestha shukal 2, pausa shukal 11, magha shukal 12 and sankranti day, rikta and galgraha tithis, rog panchaka. Good nakshatras are fixed, friendly, short and moveable ... Good tithis are 2,3,5,10,11,12 of shukal paksha and 2,3,5 of krishan paksha. All days except Tuesday and Saturday are good. Avoid Wednesday if Mercury is combust. In muhurta kundli, Moon should not be in 6, 8 or 12. 8th should be unoccupied. Avoid Moon in lagna or in own navamasa or in that of the Mars or of the Sun. Venus & Moon should not conjunt Mars, Saturn or Sun. Jupiter should be strong (ooncha, own sign/ navamsa, in a friendly sign or vargottam). The period of before-noon or of abhijit muhurta is the best"; p.310 "Tithi panchaka: Add tithi and vaar (taking Sunday as 1 ...) and nakshatra number (as counted from Aswini excluding Abhijit) and lagna (rasi number of the lagna) ... Divide this sum by 9. If remainder is 8, it is rog panchaka (to be avoided for marriage & upanayana)"' },
     VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: '"8. Upanayana Samskara", printed pp.91-92 (PDF 78-79): "Shukla paksha is the best for upanayana samskara, krishna paksha is the medium"; "Mas — Chaitra, Baishakha, Jyeshtha, Ashadha, Magha, Phalguna"; "Tithi — 1 of krishna paksha and 2, 3, 5, 11, 12 and 10 of shukla paksha"; "Var — Monday, Wednesday, Thursday and Friday"; "Nakshatra — Ashwini, Rohini, Mrigashirsha, Punarvasu, Sravana, Dhanishtha, Shatabhisha and Revati. Brahmins are advised to ignore Punarvasu"; "Lagna — 2, 3, 5, 6, 8, 9 and 12 lagna should not be afflicted. Malefics in 3, 6, and 11"; Chapter 8, p.93: "Nakshatravedha must be watched for yajyopaveeta muhurta ... There should be no planet opposite the nakshatra"' },
   },
+  TRAVEL: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: 'Chapter 23 "Travel", printed pp.611-666 (PDF 647-702): p.613 "When only four directions are mentioned, east direction includes east to south"; p.616 "Travel started in the following results in failure ...: in Shoolas (nakshatra - Vaar - Tithi); in Lalaatika Yoga; violation of Parigh Danda; when Venus is set, retrograde, in debilitated sign or in inimical sign; Venus, Mercury or Mars are in the direction of travel; retrograde planets are in quadrants; weekday lord is retrograde; 6th, 12th & Rikta Tithis; luminaries in Mrit Paksha of Rahu; the Moon is in the back or left to the direction of travel; when Vishti Karan is current; in Ghaata Vaar - Nakshatra - Tithi - Karan & ascendant; in Janma Lagna - Rashi - nakshatra; travel to south direction in Panchaka & Abhijit Muhurt; ... on a malefic day like Sunday, Monday or Saturday; in 8th or 6th sign from Janma Rashi or Janma Lagna; lords of 6th or 8th signs of election chart in election ascendant; in Aquarius or Pisces signs as election ascendant; when Prishtodya signs are rising; Saturn in 10th or Venus in 7th house"; p.617 §23.3 Sharad and Vasant; p.617 §23.4 "The solar months of Aries, Leo & Sagittarius are considered the best; Taurus, Gemini, Virgo, Libra & Capricorn are middling; while Cancer, Scorpio & Pisces are inauspicious ... K.P. commends that one should not travel in the middle part of Leo & Cancer"; p.618 table 23.1 Ghaat Maasas; "Tithi: 1st (B.H); & 2,3,5,10,11,13 of both the halves are beneficial"; p.619 Ghaat Tithi, Tithi Dik-Shoola table, "One should not travel towards east during Nanda Tithis; towards south during Bhadra Tithis; towards west during Jaya Tithis; & towards north during Poorna Tithis; & in any direction during Rikta Tithis & the New Moon days"; p.621 "Travelling on a weekday whose lord is retrograde causes destruction ... if the weekday lord is set then that day should not be used"; §23.6.1 Vaar-Shoola "after expiry of 12 Ghatis from the beginning of Sunday ... leave 20, 16, 16, 8, 12 & 20 Ghatis on Monday to Saturday"; p.622 Kona-Shoola, table 23.3; p.623 Ghaat Vaar, "towards south during Abhijin Muhurt"; p.624 §23.7.1-2 benefic and malefic constellations and M.C.\'s ghatis; p.625 "Journey undertaken in Janma, Vipat, Pratiyari & Vadha Taras ... in all the three triads"; p.626 table 23.6 Nakshatra Shoola; p.627 table 23.7 Nakshatra Kaal-Shoola; p.631 table 23.9 Ascendants & favourable directions; p.636 "The Moon in 1st, 12th, 6th, 8th; Venus in 7th; Saturn in 10th; & ascendant lord in 7th, 12th, 6th, or 8th house are not auspicious (M.C.-11/56)"; p.637 "Journey should not begin when quadrants in election chart are unoccupied by benefic planets. If benefic & malefic planets occupy quadrants, the results shall be middling (K.P.)"; pp.639-640 Parigh Danda and its Digdwar antidote; pp.640-641 §23.12 the direction of Venus "a) In the direction of her rising (If longitude of Venus is more than that of the Sun - then Venus rises in the east ...) b) Location of Venus in the election chart ... M.C. opines that Venus remains blind when the Moon is in Revati to first quarter of Krittika"; p.643 "The Moon in Jeeva Paksha is like nector & in Mrit Paksha is like dead"; p.646 §23.14 Lalaatik Yoga; p.650 "for all other purposes like business travel & pilgrimage, Yogini should be kept on the left side"; p.650 §23.16 Kaal & Paash "should not exist in the travelling direction for the purpose of war, financial gain etc."' },
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 11 "Journeys and Travels", printed pp.235-287 (PDF 239-291): sloka 8 "If at the time of the Journey the Sun is in the signs of Sagittarius, Aries, and Leo, the journey is auspicious ... Capricorn, Aquarius, Gemini, Virgo, Taurus and Libra ... medium ... Cancer, Pisces and Scorpio, then the journey undertaken in such times is a long one"; "in the Nakshtras 1/3/5/7/10/12/14/16/19/21/23/25 from the Janama Nakshtra, journey should not be undertaken"; sloka 9 "A Journey is not auspicious if it is undertaken on the Tithis of 6th, 12th, 8th, the Pratipada or the First Tithi of the Shukla Paksha ..., Amavasya ..., Pauranmasi ... and on the Tithis named as Rikta (4/9/14). It ... is auspicious if it is undertaken in the Nakshtras of Ashwini, Punar Vasu, Anuradha Mrigashira, Pushya, Rewati, Hasta, Shravana and Dhanishtha"; sloka 10 Vaar and Nakshtra Shoola; sloka 11 Kaala Shoola; sloka 12 "The 16 first ... ghatis of the Nakshtras of the three Poorvas, 21 ghatis of the Kritika Nakhstra, 11 ghatis of Magha, 7 ghatis of Bharani, and 14 ghatis of the Swati, Vishakha, Jyeshtha and Ashlesha"; slokas 14-15 Jeeva, Mrita, Kartari, Grasta; sloka 24 the sum divided by 7, 8 and 3; sloka 25 Mahadala and Bhrama; slokas 27-33 the Ghaata Chandra ("does not need to be avoided in other things"), quarters, tithis, days, Nakshtras, ascendants; sloka 34 "Yogini is not auspicious if she remains in the front or on the left side"; sloka 35 "\'Kaala\' and \'Paasha\' should not be in the front side in journey"; slokas 36-38 Parigha Danda, "In the Nakshtras of Anuradha, Hasta, Pushya and Ashwini the journey in all the Four Directions is auspicious. If a Retrograde Planet is in an Angle ... and the day of a Retrograde Planet is also prohibited"; sloka 39 Ayana; slokas 40-42 Venus in front in three ways, Venus blind "As long as the Moon remains from Rewati to the First Quarter of the Kritika"; slokas 43-44 Aquarius and Pisces ascendant and navamsha; sloka 47 the Digdwar ascendant; sloka 51 Lalatika; sloka 54 "in the Abhijita ... in all the other ones than in the Southern"; sloka 56 "The Moon in the 1/12/6/8 House from the Ascendant, Saturn in the 10th House, Venus in the 7th House, and the Ascendant Lord in the 7/12/6/8 House - these ... are inauspicious"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Travel - Commencing a Journey", printed pp.304-322 (PDF 312-330): p.305 "For an average trip taken these days, one can give most attention to the basic Muhurta factors, avoid the usual Doshas and then try to avoid as many other specific travel Doshas as possible, without becoming overwhelmed"; p.306 Ayana; "Asvini, Mrigasira, Pushya, Hasta, Anuradha, Sravana, Dhanishtha and Revati are most favorable. Rohini, Punarvasu, Uttaraphalguni, Chitra, Mula, Uttarashadha and Satabhisha are middling ... Krittika after 21 Nadis, Bharani after 7 Nadis, Magha after 14 Nadis, Purvaphalguni, Purvashadha and Purvabhadrapada after 16 Nadis; Svati, Aslesha, Visakha, Ardra, Jyeshtha and the Janma Nakshatra after 14 Nadis"; pp.307-308 Ghata Nakshatra and Padas; p.309 "The 2nd, 3rd, 5th, 7th, 10th, 11th, 13th are favorable. The 1st of Shukla Paksha, and the 4th, 6th, 8th, 9th, 12th, 14th and 15th should be avoided. The 1st Tithi of Krishna Paksha is middling"; Sula; Ghata Tithis; p.310 "The Vara of Mercury, Jupiter and Venus are favorable. The Vara of a retrograde planet should be avoided"; p.311 "Any Vara, including Sula and Kantaka Varas, becomes favorable if the lord of the Vara is in an Upachaya"; "Taurus, Leo, Libra and Sagittarius are most favorable. Other moveable Rasis and other Sirodaya Rasis (Virgo and Scorpio) are middling. Gemini should always be avoided ... Aquarius, as well as Aquarius Navamsa, is particularly unfavorable ... Pisces or Pisces Navamsa"; p.315 "The Navamsas of Mercury, Jupiter and Venus are favorable"; "The Moon is most unfavorable in the 1st, 4th, 6th, 8th or 12th, Saturn in the 10th, Venus in the 7th, Jupiter in the 3rd, 7th, or 8th, and the Lagna lord in the 6th, 8th, 12th or 7th ... No planet should be in the 12th. The 6th lord should not be in the Lagna"; p.316 "Do not begin a journey when the angles are unoccupied by benefics, or if they are occupied by malefic planets. If the angles are occupied by malefics and benefics, the results will only be mediocre"; Venus in front; p.317 "Venus should also not be retrograde, combust, or debilitated"; "Mars and Mercury should not be retrograde or combust. The Moon: The Moon must be alone ... The Moon should not be in the Rasi of the natal Lagna or the natal Moon"; p.318 "the middle third of Leo and Cancer"; "Avoid traveling during Sankranti"; Kala & Pasha; Yogini; p.319 Travel Panchaka, the sum by 7, 8, 3; p.320 the tithi, weekday and star multiplied by 2, 3, 4 and divided by 6, 8, 6' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 11 "Journey", printed pp.126-141 (PDF 141-156): "Hasta, Ashwini, Pushya, Mrigashira, Revati, Anuradha, Shravana, Dhanistha and Punarvasu these nine are considered best. All fixed nakshatras ... are medium. Others should be avoided. If it is Urgent ... avoid first 16 ghatis ... of Three Poorvas; first 7 ghaties ... of Bharani; first 21 ghatis ... of Kritika; first 11 ghatis ... of Magha and first 14 ghatis ... of Swati, Vishakha, Jyestha and Ashlesha"; table 11.2 Dik-Shoola; "2/3/5/7/10/11/13 tithis of both bright half and dark half and 1st tithi of dark half ... are considered good"; "Avoid Bhadra"; "Thursday and Friday are best, Sunday Monday and Wednesday are medium, rest ... should be avoided"; "Avoid malefic yogas particularly Vyatipaat, Vaidhriti and first half of Parigha"; table 11.3 Chandra-Nivasa "Benefic positions of Moon and Lagna"; Sammukha Shukra; Parigha-Danda; Yogini "in front and on left hand side should be avoided"; Rahu "Moon should not be placed in \'Mrita Paksha\' ... Even \'Grasta\' and \'Kartari\' nakshatras should be avoided"; Kaala-Pasha; Ayana; "1st, 3rd, 5th, 7th, 10th 12th, 14th, 16th, 19th, 21st, 23rd and 25th nakshatra from one\'s Janma nakshatra should be avoided"; Chandra Shuddhi; table 11.6 Ghaata; Lagna (a)-(e); p.136 "If one considers all the factors discussed above only journey one can afford is the \'Last Journey\'. One must fix priorities ... Chandra/Tara Shuddhi; Sammukha Chandra ... Avoiding \'Vaar and Nakshatra Shoola\' and proper Lagna Shuddhi\' should be given more importance"; "Holanta Paksha (i.e. Phalguna Shukla Paksha) should be avoided for all types of journeys"; long distance journeys' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Undertaking Travel", printed pp.204-215 (PDF 206-217): "it may not be necessary to enforce all those rigid rules intended for Vijayayaatra"; "the best are the nine - Anuradha, Aswini, Dhanishta, Hasta, Mrigasira, Punarvasu, Pushyami, Revati and Sravana. The four nakshatras - Uttara phalguni, Uttarashada, Uttarabhadrapada and Rohini are accepted as mediocre"; "The tithis acceptable ... are 2/3/5/7/10/11/ and 13 of both fortnights. Prathama of Krishna Paksha is however, admitted"; "Thursday and Friday are the best. Sunday, Monday and Wednesday are medium. Nevertheless it cannot be construed that none can undertake any travel on Tuesdays and Saturdays"; Kaalaprakaasika\'s tithi and weekday directions, ghatikas, Vaara Kandakam; Kaala-Pasha; "Avoid Bhadra Karana; and bad Yogas especially, Vyatipata, Vaidhruthi and the first half of Parigha"; Kaalashoola; "Ashtamaraasi days ... must invariably be avoided"; Chandra Nivaasa; p.209 Lalatika as printed ("West when Mercury is in the 7th ... NE when Jupiter is in the 2nd"), "raasi 11 - Aquarius - as Lagna or navaamsa must invariably be avoided"; "Moon must not be in 1/4/6/8/12 houses. Saturn in 10th and Venus in the 7th are not auspicious. Lagna-lord must not be posited in 6/7/8/12"; Yogini; p.211 "only the Panchanga Suddhi, Dik-Suddhi, Nakshatra shoola, Lagna-Suddhi and the Chandra and Taaraabala must be given priority"; Chandra Kandakam; Jeeva, Mrita; Ayanas; Tara and Chandrasuddhi; p.213 "The months to be avoided are Ashada, Bhadrapada and Sravana. Combustion Venus and Jupiter must also be avoided. For long distance journeys ... Harisayana ... Phalguna Shuklapaksha is not also suitable"; Yaatra Panchaka; p.214 the Ghaata table' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XIV "Travel", PDF pp.49-51: "The best lunar days are the 2nd, 3rd, 5th, 7th, 10th, 11th and 13th. The 14th lunar day and Full and New Moon days should be avoided at any cost"; "Mrigasira, Aswini, Pushya, Punarvasu, Hasta, Anuradha, Sravana, Moola, Dhanishta and Revati. It is better that the journey is commenced in the 2nd, 3rd or last quarter"; "No journey should be undertaken on days ruled by Krittika, Bharani. Aslesha. Visakha, Pubba, Poorvabhadra and Aridra. Of these, the following ... fit ... beyond the spheres of evil influence: - Krittika - 13 ghatis; Bharani - 7; Makha - 14; Pubba, Poorvashadha and Poorvabhadra - 16; Swati, Aslesha and Visakha - 14 ... Bharani and Krittika should be invariably rejected"; the Vaar Shoola "Provided the journey is timed to begin beyond 22 ghatis on Thursday ... In our view, Tuesday must preferably be avoided"; "Aries, Taurus, Cancer, Leo, Libra and Sagittarius are favourable"; "Rising sign at the time of journey being one\'s Janma Rasi is highly favoured. But it should never be the sign of one\'s Janma Lagna ... nor ... the 5th, 7th or the 9th from one\'s Janma Lagna"; "(d) the absence of Panchaka Dosha"; "Avoid days of vernal and autumnal equinox and the days on which the Sun enters a new sign"; PDF p.8 Panchaka: "If the remainder is 1 (mrityu panchakam) ... 2 (agni ...) ... 4 (raja ...) ... 6 (chora ...) ... 8 (roga ...) ... In regard to travel, Chora Panchaka should be rejected ... we ignore raja panchaka for travelling"; "But it is inauspicious for ... travel" (the Janma Nakshatra); PDF p.9: "Beginning from the third quarter of Dhanishta and ending with the last part of Revati ... Nakshatra Panchaka ... one should avoid journey towards the south"' },
+    RANGACHARYA: { ...RANGACHARYA_I, pageLocus: 'Chapter VIII, printed pp.109-116 (PDF 117-124): "1,4,6,8,9,12,14, amavasya and poornima should be avoided. 2,3,5,7,10,13 and 1 (D) are favoured. The ghatha tithi of one\'s birth-sign should also be discarded ... Leaving the first 6 ghatis ... in the ghata tithis, in the rest of them travel is acceptable"; Tithi Soola; "Monday, Wednesday, Thursday and Friday are good. Saturday, Sunday and Tuesday are evil. The weekday of the planet placed in 3,6,11 is accepted for travel"; Ghata Vara; Vara Soola and its ghatis; "Aswini, Mrigasira Punarvasu, Pushyami, Hasta, Anuradha, Sravana, Dhanishtta and Revati are excellent ... Jyeshtta and Moola also are favoured. Rohini, Pubba, Poorvashada, Poorvabhadra, Satabhisha, Uttara, Uttarashada and Uttarabhadra are mediocre. Chitra, Swati, Visakha, Makha, Aslesha, Krittika, Ardra and Bharani should be avoided. One should not make a journey in his birth-asterism and in the 25th and 27th"; Ghatha-asterisms; Nakshatra Kala Soola; Sarvanka Yoga; "Mesha, Kataka, Tula, Makha, Mithuna, Kanya and Dhanus good. Kumbha and Meena and their navamsas should be avoided"; "The Abhijit Lagna is good except to the South"; Gatha Lagnas; "The moon should not occupy in 1,6,8,12 and Venus should not occupy the 7th house. Saturn is not good in the 10th. The lord of the Muhurtha Lagna should not occupy in 6,7,8, 12"' },
+    VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: '"Yatra (travel)", printed pp.126-132 (PDF 113-119): "When Moon and Sun are in any sign from Makara to Mithuna (10 to 3), yatra towards east and north is good ... During Basanta (spring), travelling in all the four directions is good. Dishashoola is not taken into account during Basanta"; "Best: When Sun transits in Mesha, Singha and Dhanu. Medium: ... Vrisha, Mithuna, Kanya, Tula, Makara and Kumbha. Inauspicious: ... Karka, Vrishchika and Meena"; "Tithi: 1 (krishna paksha), 2, 3, 5, 7, 10, 11 and 13 of shukla paksha"; Disha Shool "East; Jyeshtha nakshatra, Saturday or Monday; South: Poorvabhadra nakshatra, Thursday; West: Rohini nakashatra and Friday; North: Bharani nakashatra, Tuesday or Wednesday"; Kaal Shool; Ghatak Tithi, Ghat Vara, Ghat Nakshatras, Moon\'s Ghat Rashi ("prohibited in ... travel"), Ghat of Nakshatra charana; Rahu Vaas "Do not travel in the above-mentioned directions"; Tara "1, 3, 5 and 7 taras are unfortunate"; "Leave the following lagnas in the tithis stated against them"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -423,6 +697,21 @@ const CODE_TA = Object.freeze({
   WED_COMBUST: 'புதன் அஸ்தங்கம் — புதன்கிழமை இல்லை', MON_KRISHNA: 'தேய்பிறைத் திங்கள்', NIGHT: 'இரவு', DAY_PART: 'பகலின் இந்தப் பகுதி கூடாது',
   DAY_PART_MID: 'பகலின் இந்தப் பகுதி நடுத்தரம்', PRADOSHA: 'பிரதோஷ நாள்', NAV_MID: 'லக்ன நவாம்சம் (பலன் — குறிக்கப்படும்)',
   POINTS: 'விம்சோபகம் 5-க்குக் கீழ்', POINTS_MID: 'விம்சோபகம் நடுத்தரம்', ROGA_PANCHAKA: 'ரோக பஞ்சகம்',
+  // Travel (a code ending in _MID that is not listed reads as its base code, marked).
+  NAK_GHATI: 'நட்சத்திரத்தின் முதல் நாழிகைகள்', NAK_LATE_MID: 'நட்சத்திரம் — நாழிகைகள் கழிந்து (அவசரத்தில்)', PADA1_MID: 'முதல் பாதம்', KRISHNA_MID: 'தேய்பிறை',
+  SUN_MID_THIRD: 'கடக / சிம்மத்தின் நடு மூன்றில் ஒன்றில் சூரியன்', HOLANTA: 'ஹோலாந்த பக்ஷம் (பால்குன வளர்பிறை)', WEAK_MOON: 'பலவீன சந்திரன் (தேய் 10 – வளர் 5)',
+  GHATA_MONTH: 'காத மாதம்', GHATA_TITHI: 'காத திதி', GHATA_NAK: 'காத நட்சத்திரம்', GHATA_PADA: 'காத பாதம்', GHATA_MOON: 'காத சந்திரன் (ராசி)', GHATA_VARA: 'காத கிழமை', GHATA_LAGNA: 'காத லக்னம்',
+  TITHI_SHOOLA: 'திதி சூலம் (இந்தத் திசைக்கு)', TITHI_DIR: 'திதி வகை இந்தத் திசைக்கு இல்லை', YOGINI: 'யோகினி முன் / பக்கம்', NAK_SHOOLA: 'நட்சத்திர சூலம்',
+  VAAR_SHOOLA: 'வார சூலம்', CHANDRA_DIR: 'சந்திரன் பின்னால் / இடப்புறம்', PARIGHA: 'பரிக தண்டம் கடக்கிறது', VENUS_FRONT: 'சுக்கிரன் முன்னால்',
+  RAHU_PAKSHA: 'சந்திரன் ராகுவின் மிருத பக்ஷத்தில்', RAHU_PAKSHA_MID: 'சந்திரன் கர்த்தரி / கிரஸ்த நட்சத்திரத்தில்', PANCHAKA_SOUTH: 'பஞ்சகத்தில் தெற்கு', MAHADALA: 'மகாதளம் / பிரமம்',
+  KAALA_PASHA: 'காலம் / பாசம் முன்னால்', AYANA: 'அயனத்துக்கு எதிர்த் திசை', KAAL_SHOOLA: 'நட்சத்திர கால சூலம் (பகல் / இரவின் பகுதி)', ABHIJIT_SOUTH: 'அபிஜித் முகூர்த்தத்தில் தெற்கு',
+  DIGDWAR_LAGNA: 'லக்னம் திசைக்கு எதிர் (பின்)', DIGDWAR_LAGNA_MID: 'லக்னம் திசைக்கு இடப்புறம்', LALATIKA: 'லலாடிக யோகம்', CHANDRA_KANTAKA: 'சந்திர கண்டகம்',
+  PLANET_FRONT: 'புதன் / செவ்வாய் முன்னால் (வீடு)', VAAR_RAHU: 'வார ராகு', VENUS_WEAK: 'சுக்கிரன் வக்ரம் / அஸ்தங்கம் / நீசம்', MARS_MERC_WEAK: 'செவ்வாய் / புதன் வக்ரம் அல்லது அஸ்தங்கம்',
+  RETRO_KENDRA: 'வக்ர கிரகம் கேந்திரத்தில்', VARA_LORD_RETRO: 'கிழமை அதிபதி வக்ரம்', VARA_LORD_SET: 'கிழமை அதிபதி அஸ்தங்கம்', LAGNA_LORD_RETRO: 'லக்னாதிபதி வக்ரம்',
+  MOON_CONJ: 'சந்திரன் தனியாக இல்லை', MOON_NATAL: 'சந்திரன் ஜன்ம ராசி / ஜன்ம லக்ன ராசியில்', LAGNA_NATAL: 'ஜன்ம லக்னமே லக்னம்', LAGNA_BIRTH: 'பிறப்பிலிருந்து தவிர்க்க வேண்டிய ராசி லக்னம்',
+  LORD_IN_LAGNA: '6 / 8-ஆம் அதிபதி லக்னத்தில்', KENDRA_NO_BENEFIC: 'கேந்திரத்தில் சுபர் இல்லை', KENDRA_MALEFIC: 'கேந்திரத்தில் பாவர் மட்டும்', KENDRA_MIXED_MID: 'கேந்திரத்தில் சுபரும் பாவரும்',
+  NAK_VARA: 'கிழமை–நட்சத்திரச் சேர்க்கை', SARVANKA: 'சர்வாங்கம் (திதி + கிழமை + நட்சத்திரம்)', TRIANKA: 'த்ரியங்கம்', YATRA_PANCHAKA: 'பஞ்சகம்', YATRA_PANCHAKA_MID: 'பஞ்சகம் (முடிந்தவரை தவிர்)',
+  JUP_VEN_LAGNA_MID: 'லக்னத்தில் குரு / சுக்கிரன் இல்லை', LAGNA_TITHI: 'இந்தத் திதி வகைக்கு லக்னம் கூடாது', NAV_NOT: 'தவிர்க்க வேண்டிய நவாம்சம் (கும்பம் / மீனம்)',
 });
 
 const NOTES_TA = deepFreeze({
@@ -452,9 +741,23 @@ const NOTES_UPANAYANA_TA = Object.freeze([
   'ஸ்ரீதரின் நவாம்சப் பட்டியல் "(2,3,7,9,12)" கன்னியை விடுகிறது; புதன் நவாம்சம் "clever" என்று அவரே சொல்வதால் கன்னியும் சுபர் நவாம்சமாகக் கணிக்கப்படுகிறது (எங்கள் வாசிப்பு). அவரது "பாவர் 1, 6, 8, 12-ல் குருவை அழிக்கும்" — "பாவர் 3, 6, 11-ல்" என்ற விதியுடன் முரண்படுவதால் 6 விடப்பட்டது.',
 ]);
 
-const EVENTS = deepFreeze({ order: ['GRIHA_PRAVESHA', 'UPANAYANA'], GRIHA_PRAVESHA, UPANAYANA });
+const NOTES_TRAVEL_TA = Object.freeze([
+  'திசை = பயணம் தொடங்கும் இடத்திலிருந்து போகும் இடத்தின் திசை (ஜோஷி: டில்லியிலிருந்து பம்பாய் தெற்கு). திசை தேர்ந்தால் மட்டும் திசை விதிகள் (சூலங்கள், யோகினி, சந்திரன், சுக்கிரன், பரிகம், காலம்-பாசம், அயனம், லலாடிகம், திக்த்வார லக்னம்) கணிக்கப்படும்.',
+  'நான்கு திசைக்குச் சொன்ன விதி அதற்கு அடுத்த கோணத்துக்கும் (கிழக்கு — தென்கிழக்கும், தெற்கு — தென்மேற்கும், மேற்கு — வடமேற்கும், வடக்கு — வடகிழக்கும்; ஸ்ரீதர் ப.613). இரண்டு பகுதியாக (அயனம், பரிகம்): கிழக்கு, தென்கிழக்கு, வடக்கு, வடகிழக்கு ஒன்று; தெற்கு, தென்மேற்கு, மேற்கு, வடமேற்கு ஒன்று.',
+  'முன் / வலம் / பின் / இடம்: பயணத் திசையை நோக்கி நிற்கும்போது — கிழக்கே போகும்போது தெற்கு வலம், வடக்கு இடம். சந்திரனின் திசை அதன் ராசியால் (மேஷம், சிம்மம், தனுசு கிழக்கு; ரிஷபம், கன்னி, மகரம் தெற்கு; மிதுனம், துலாம், கும்பம் மேற்கு; கடகம், விருச்சிகம், மீனம் வடக்கு); லக்னத்தின் திசையும் அப்படியே.',
+  'ராகுவின் பக்ஷம்: அபிஜித் உட்பட 28 நட்சத்திரங்கள்; ராகு நிற்கும் நட்சத்திரம் கர்த்தரி (1), அதிலிருந்து முன்னோக்கி 2-14 ஜீவ பக்ஷம், 15 கிரஸ்தம், 16-28 மிருத பக்ஷம் (மு.சி. ஸ்லோ.14; ஸ்ரீதர் அட்டவணை 23.11).',
+  'சுக்கிரன் உதயம்: சூரியனை விடக் குறைந்த பாகையில் இருந்தால் கிழக்கில் உதிக்கிறார் (வில்ஹெல்ம், ஜோஷி). ஸ்ரீதர் அச்சில் இதற்கு எதிராக ("சூரியனை விட அதிகம் — கிழக்கு") — அவரது வாசிப்பில் அச்சில் உள்ளபடி; உங்கள் முடிவுக்கு. வில்ஹெல்மின் "வடக்கு / தெற்கு கிராந்தி" மு.சி.யின் கோளமாக (மேஷம்–கன்னி வடக்கு) கணிக்கப்படுகிறது (எங்கள் வாசிப்பு).',
+  'நாழிகை: ஒரு நட்சத்திரத்தின் 60-ல் (மு.சி. "60 என்று கொண்டு, விகிதப்படி"); வார சூல விடுப்பு — சூரிய உதயத்திலிருந்து நாழிகை (24 நிமிடம்). பகல் / இரவின் மூன்றில் ஒன்று: உதயம் முதல் அஸ்தமனம், அஸ்தமனம் முதல் உதயம். அபிஜித் முகூர்த்தம்: பகலின் 15 முகூர்த்தங்களில் 8-வது.',
+  'காதம்: ஜன்ம ராசியால் (சந்திரன் பிறப்பில் நின்ற ராசி) — மாதம், திதி வகை, கிழமை, நட்சத்திரம், பாதம், சந்திரன் நிற்கும் ராசி, லக்னம். நூல்களின் அட்டவணைகள் பெரும்பாலும் ஒன்றே; வேறுபடுபவை — மாதம் (ஸ்ரீதர் அட்டவணை 23.1; ஜோஷி, கல்யாணராமன்: மேஷத்துக்குக் கார்த்திகை முதல் வரிசையாக), பாதம் (ரிஷபம் — வில்ஹெல்ம், மு.சி. மகம் 2; ஜோஷி, கல்யாணராமன், வசிஷ்டா சித்திரை 2), லக்னம் (ரங்காச்சார்யாவின் தனி அட்டவணை).',
+  'சர்வாங்கம், பஞ்சகம்: திதி 1-30 (வளர் பிரதமை 1), கிழமை (ஞாயிறு 1), நட்சத்திரம் (அசுவினி 1), லக்னம் (மேஷம் 1). பஞ்சகம்: கூட்டுத்தொகை 9-ஆல் மீதி 1, 2, 4, 6, 8 (காலப்பிரகாசிகையின் +15, +12, +10, +8, +4 முறையும் இதுவே).',
+  '"குறிக்கப்படும்" — அந்த நூலே முதன்மை விதிகளுக்குப் பின் வைப்பவை (வில்ஹெல்ம் ப.305, ஜோஷி ப.130/136, கல்யாணராமன் ப.211, ஸ்ரீதரின் ப.616 பட்டியலுக்கு வெளியே உள்ளவை): விலக்கவில்லை, காட்டப்படும்.',
+  'கணிக்கப்படாதவை: சகுனம், உடல் நிலை, மனைவி கர்ப்பம், குடும்ப ஆசௌசம், திரிநவமி (திரும்பிய நாளிலிருந்து), கிரகணம், சம இரவு-பகல் நாள், க்ஷய / அதிக மாதம், ஹோரை, வேளை, மாத–திதி அட்டவணை, கண்ட / யாமார்த்த / முகூர்த்த ராகு, வார யோகினி, உஷை / கோதூளி / நள்ளிரவுக் காலபலம், கிரக யுத்தம், லக்னாதிபதியின் ஷட்வர்க்க வக்ரம் (ராசி மட்டும்), பிறந்த 8, 6-ஆம் அதிபதி லக்னத்தில், ரங்காச்சார்யாவின் காத திதியின் 6 நாழிகை விடுப்பு, வசிஷ்டாவின் திதி யாத்திரா சக்கரம், ஜாதகத்தில் சுபர் நின்ற ராசி லக்னம், ராஜ யோகங்கள், வெற்றி யோகங்கள்.',
+]);
+
+const EVENTS = deepFreeze({ order: ['GRIHA_PRAVESHA', 'UPANAYANA', 'TRAVEL'], GRIHA_PRAVESHA, UPANAYANA, TRAVEL });
 
 module.exports = {
-  EVENTS, DOORS, MONTH_TA, RANK, SOURCES, CODE_TA, NOTES_TA: deepFreeze({ ...NOTES_TA, UPANAYANA: NOTES_UPANAYANA_TA }),
+  EVENTS, DOORS, MONTH_TA, RANK, SOURCES, CODE_TA, NOTES_TA: deepFreeze({ ...NOTES_TA, UPANAYANA: NOTES_UPANAYANA_TA, TRAVEL: NOTES_TRAVEL_TA }),
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,
+  DIRECTIONS, TITHI_DIR8, YOGINI_KP, GHATA, KAAL_SHOOLA, LALATIKA, TARA_1357,
 };

@@ -9,10 +9,42 @@
  *   lagnaCodes(reading, { lagna, nav, signs, natalLagna, natalMoon, combust, dayPart, pradosha,
  *     tithi, star, vara })                                               for a lagna stretch
  *   doorCodes(reading, door, { tithi, star, sunHouse })                 the door's own rules
+ *
+ * Travel adds, for a piece: dir (0 = east … 7 = north-east, clockwise; null without a direction),
+ * starFrac (how far into its star the Moon is), yogaHalf (0-53), rahuCount (the Moon's star from
+ * Rahu's, Abhijit counted, 1-28), venus { east, sign, star }, natalLagna; for a stretch: dir,
+ * nightPart (1-3, 0 by day), ghatis (since sunrise), abhijitMuhurta, retro, abhijit (the Moon in it).
  */
 
 const E = require('./eventMuhurtaTables');
 const { RASI_LORDS } = require('./lagnaShuddhiTables');
+
+const DIR8 = E.DIRECTIONS.order;
+/** A four-direction rule over eight: the corner after each takes its rule (Shridhar p.613). */
+const dir4Of = (d) => d - (d % 2);
+/** Where something lies for one going in a direction: 0 in front, 2 on the right, 4 behind, 6 on the left. */
+const relOf = (obj, dir) => (obj - dir + 8) % 8;
+/** Two halves (ayana, Parigha): east, south-east, north, north-east against south, south-west, west, north-west. */
+const halfOf = (d) => ([0, 1, 6, 7].includes(d) ? 0 : 1);
+/** A sign's direction: fire east, earth south, air west, water north. */
+const signDir = (s) => [0, 2, 4, 6][s % 4];
+/** A star's quarter of the sky (MC XI.36-40): Krittika-Ashlesha east, Magha-Vishakha south, Anuradha-Shravana west, Dhanishtha-Bharani north. */
+const starDir = (s) => (s >= 2 && s <= 8 ? 0 : s >= 9 && s <= 15 ? 2 : s >= 16 && s <= 21 ? 4 : 6);
+/** The house's direction in the chart (Lalatika, Shridhar's method b): the lagna east, the 10th south, the 7th west, the 4th north. */
+const HOUSE_DIR = Object.freeze([null, 0, 7, 7, 6, 5, 5, 4, 3, 3, 2, 1, 1]);
+/** Kaala's direction by day, by weekday (Sunday north, then back round); Paasha opposite; at night they change places. */
+const KAALA_DAY = Object.freeze([6, 5, 4, 3, 2, 1, 0]);
+/** Vaar Rahu (Shridhar §23.13.5, Vashistha): by weekday. */
+const VAAR_RAHU = Object.freeze([4, 1, 5, 6, 2, 3, 7]);
+const VARA_LORDS = Object.freeze(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn']);
+/** The tithi as the direction tables write it: within the paksha, 15 the full Moon, 30 the new. */
+const tithiKey = (t) => (t === 15 || t === 30 ? t : ((t - 1) % 15) + 1);
+/** 0 Nanda, 1 Bhadra, 2 Jaya, 3 Rikta, 4 Poorna. */
+const tithiClass = (t) => (((t - 1) % 15) % 5);
+const inMap = (map, dir, v) => Boolean(map && map[DIR8[dir]] && map[DIR8[dir]].includes(v));
+/** The Moon in Revati to Krittika's first quarter: Venus is blind (MC XI.42; Wilhelm "Revati or Aries"). */
+const venusBlind = (moonPada) => moonPada >= 104 || moonPada <= 8;
+const KENDRA_HOUSES = Object.freeze([1, 4, 7, 10]);
 
 const BENEFICS = Object.freeze(['Mercury', 'Jupiter', 'Venus']);
 const MALEFICS = Object.freeze(['Sun', 'Mars', 'Saturn']);
@@ -82,11 +114,14 @@ function panchangaCodes(r, x) {
   if (r.harishayana && inHarishayana(x.month, x.tithi)) out.push('HARISHAYANA');
   if (r.nak) {
     if (r.nak.mid.includes(x.star)) out.push('NAK_MID');
-    else if (!r.nak.good.includes(x.star)) out.push('NAK');
+    // A cruel star after its first ghatis (of 60): middling, for need (MC XI.12).
+    else if (!r.nak.good.includes(x.star)) out.push(r.nakAfter?.[x.star] === undefined ? 'NAK' : x.starFrac < r.nakAfter[x.star] / 60 - 1e-9 ? 'NAK_GHATI' : 'NAK_LATE_MID');
   }
+  if (r.pada1Mid && x.moonPada % 4 === 0) out.push('PADA1_MID');
+  if (r.krishnaMid && x.tithi > 15) out.push('KRISHNA_MID');
   if (r.tithi) {
     if (r.tithiMid && r.tithiMid.includes(x.tithi)) out.push('TITHI_MID');
-    else if (!r.tithi.includes(x.tithi)) out.push('TITHI');
+    else if (!r.tithi.includes(x.tithi)) out.push(r.tithiNot && !r.tithiNot.includes(x.tithi) ? 'TITHI_MID' : 'TITHI');
   }
   if (r.anadhyaya) {
     const A = r.anadhyaya;
@@ -123,8 +158,150 @@ function panchangaCodes(r, x) {
     const n = x.navs.Jupiter;
     if (![3, 8, 11, 0, 4, 7].includes(s) && ![8, 11].includes(n) && s !== n) out.push('JUP_WEAK');
   }
+  out.push(...travelPieceCodes(r, x));
   return out;
 }
+
+/** Travel's rules for a piece of the period (the direction rules only with a direction). */
+function travelPieceCodes(r, x) {
+  const out = [];
+  // The middle third of Cancer and Leo (K.P., Wilhelm).
+  if (r.sunMidThird && [3, 4].includes(x.sunSign) && x.sunDeg >= 10 && x.sunDeg < 20) out.push('SUN_MID_THIRD');
+  if (r.sankranti && x.sankranti) out.push('SANKRANTI');
+  if (r.yogaHalfNot && r.yogaHalfNot.includes(x.yogaHalf)) out.push('YOGA');
+  if (r.holanta && x.month === 11 && x.tithi <= 15) out.push('HOLANTA');
+  if (r.weakMoon && (x.tithi >= 25 || x.tithi <= 5)) out.push('WEAK_MOON');
+  const G = r.ghata;
+  if (G && Number.isInteger(x.natalMoon)) {
+    const n = x.natalMoon;
+    if (G.month && G.month[n] === x.month) out.push('GHATA_MONTH');
+    if (G.tithi && E.GHATA.tithiClass[n] === tithiClass(x.tithi)) out.push('GHATA_TITHI');
+    if (G.nak && G.nak[n] === x.star) out.push('GHATA_NAK');
+    if (G.pada && G.pada[n] === x.moonPada) out.push('GHATA_PADA');
+    if (G.moon && G.moon[n] === x.signs.Moon) out.push('GHATA_MOON');
+  }
+  // Rahu's halves: the Moon's star counted from Rahu's (Abhijit in the count): 1 Kartari, 2-14 Jeeva, 15 Grasta, 16-28 Mrita.
+  if (r.rahuPaksha && Number.isInteger(x.rahuCount)) {
+    if (x.rahuCount >= 16) out.push('RAHU_PAKSHA');
+    else if (x.rahuCount === 1 || x.rahuCount === 15) out.push(r.rahuPaksha === 'REJECT' ? 'RAHU_PAKSHA' : 'RAHU_PAKSHA_MID');
+  }
+  // Mahadala and Bhrama (MC XI.25; Wilhelm): the Moon's star from the Sun's (the Sun's the 1st), by 7.
+  if (r.mahadala && [0, 2, 3, 6].includes(kumbhaCount(x.sunStar, x.star) % 7)) out.push('MAHADALA');
+  if (r.moonConj && PLANETS.some((p) => p !== 'Moon' && x.signs[p] === x.signs.Moon)) out.push('MOON_CONJ');
+  if (r.moonNatal && [x.natalMoon, x.natalLagna].includes(x.signs.Moon)) out.push('MOON_NATAL');
+  const d = x.dir;
+  if (!Number.isInteger(d)) return out;
+  const d4 = dir4Of(d);
+  const vasanta = [11, 0].includes(x.sunSign) ? (r.vasanta ?? []) : [];
+  const tk = tithiKey(x.tithi);
+  if (r.tithiShoola && inMap(r.tithiShoola, d, tk)) out.push('TITHI_SHOOLA');
+  // Nanda east, Bhadra south, Jaya west, Poorna north; Rikta and the new Moon any way (Kalaprakasika).
+  if (r.tithiDir && (x.tithi === 30 || tithiClass(x.tithi) === 3 || [0, 2, 4, null, 6][tithiClass(x.tithi)] === d4)) out.push('TITHI_DIR');
+  if (r.yogini) {
+    const at = [];
+    if (r.yogini.maps.includes('MC')) at.push(...DIR8.map((_, i) => i).filter((i) => inMap(E.TITHI_DIR8, i, tk)));
+    if (r.yogini.maps.includes('KP')) at.push(...DIR8.map((_, i) => i).filter((i) => inMap(E.YOGINI_KP, i, x.tithi)));
+    if (at.some((i) => r.yogini.avoid.includes(relOf(i, d)))) out.push('YOGINI');
+  }
+  if (r.nakShoola && inMap(r.nakShoola, d, x.star) && !vasanta.includes('NAK_SHOOLA')) out.push('NAK_SHOOLA');
+  if (r.chandraDir && r.chandraDir.includes(relOf(signDir(x.signs.Moon), d4))) out.push('CHANDRA_DIR');
+  if (r.parigha && halfOf(starDir(x.star)) !== halfOf(d) && !r.parigha.free.includes(x.star)) out.push('PARIGHA');
+  if (r.venus && x.venus && !venusBlind(x.moonPada)) {
+    const V = r.venus;
+    const at = [];
+    // Rising: east when her longitude is less than the Sun's (Wilhelm, Joshi); Shridhar's print has it the other way.
+    if (V.rising) at.push((x.venus.east !== (V.rising === 'PRINTED')) ? 0 : 4);
+    if (V.sphere) at.push(x.venus.sign < 6 ? 6 : 2);
+    if (V.star) at.push(starDir(x.venus.star));
+    if (at.includes(d4)) out.push('VENUS_FRONT');
+  }
+  if (r.panchakaSouth && [10, 11].includes(x.signs.Moon) && d4 === 2) out.push('PANCHAKA_SOUTH');
+  return out;
+}
+
+/** Travel's rules for a lagna stretch; `H` the planets' houses from the lagna. */
+function travelStretchCodes(r, m, H) {
+  const out = [];
+  const lord = RASI_LORDS[m.lagna];
+  if (r.navNot && r.navNot.includes(m.nav)) out.push('NAV_NOT');
+  if (r.lagnaNatal && m.lagna === m.natalLagna) out.push('LAGNA_NATAL');
+  if (r.lagnaBirth) {
+    const from = r.lagnaBirth.from === 'LAGNA' ? [m.natalLagna] : [m.natalLagna, m.natalMoon];
+    if (from.filter(Number.isInteger).some((s) => r.lagnaBirth.houses.includes(houseOf(m.lagna, s)))) out.push('LAGNA_BIRTH');
+  }
+  if (r.lordsInLagna && r.lordsInLagna.some((h) => H[RASI_LORDS[(m.lagna + h - 1) % 12]] === 1)) out.push('LORD_IN_LAGNA');
+  if (r.kendras) {
+    const ben = BENEFICS.some((p) => KENDRA_HOUSES.includes(H[p]));
+    const mal = ['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'].some((p) => KENDRA_HOUSES.includes(H[p]));
+    if (!ben) out.push(mal ? 'KENDRA_MALEFIC' : 'KENDRA_NO_BENEFIC');
+    else if (mal) out.push('KENDRA_MIXED_MID');
+  }
+  const retro = m.retro ?? {};
+  const combust = m.combust ?? {};
+  if (r.retroKendra && Object.keys(retro).some((p) => retro[p] && KENDRA_HOUSES.includes(H[p]))) out.push('RETRO_KENDRA');
+  if (r.varaLordRetro && retro[VARA_LORDS[m.vara]]) out.push('VARA_LORD_RETRO');
+  if (r.varaLordSet && combust[VARA_LORDS[m.vara]]) out.push('VARA_LORD_SET');
+  if (r.lagnaLordRetro && retro[lord]) out.push('LAGNA_LORD_RETRO');
+  if (r.venusWeak && (combust.Venus || retro.Venus || m.signs.Venus === 5 || (r.venusWeak.enemy && [3, 4].includes(m.signs.Venus)))) out.push('VENUS_WEAK');
+  if (r.marsMercWeak && (retro.Mars || combust.Mars || retro.Mercury || combust.Mercury)) out.push('MARS_MERC_WEAK');
+  if (r.nakVara && r.nakVara.some(([s, v]) => s === m.star && v === m.vara)) out.push('NAK_VARA');
+  if (r.ghata && Number.isInteger(m.natalMoon)) {
+    if (r.ghata.vara && r.ghata.vara[m.natalMoon] === m.vara) out.push('GHATA_VARA');
+    if (r.ghata.lagna && r.ghata.lagna[m.natalMoon] === m.lagna) out.push('GHATA_LAGNA');
+  }
+  // The stars of each third of the day and of the night (MC XI.11); four are good at any time.
+  if (r.kaalShoola) {
+    const K = r.kaalShoola;
+    const group = m.dayPart === 0 ? K.night[(m.nightPart || 1) - 1] : K.day[[0, 0, 1, 1, 2][m.dayPart]];
+    if ((group.includes(m.star) && !K.always.includes(m.star)) || (m.abhijit && group.includes('ABHIJIT'))) out.push('KAAL_SHOOLA');
+  }
+  // The numbers: tithi (1-30), weekday (Sunday 1), star (Ashwini 1), lagna (Aries 1).
+  const t = m.tithi; const v = m.vara + 1; const n = m.star + 1; const l = m.lagna + 1;
+  if (r.sarvanka && [7, 8, 3].some((k) => (t + v + n) % k === 0)) out.push('SARVANKA');
+  if (r.trianka && ((2 * t) % 6 === 0 || (3 * v) % 8 === 0 || (4 * n) % 6 === 0)) out.push('TRIANKA');
+  if (r.panchaka9) {
+    const rem = (t + v + n + l) % 9;
+    if (r.panchaka9.reject.includes(rem)) out.push('YATRA_PANCHAKA');
+    else if (r.panchaka9.mid.includes(rem)) out.push('YATRA_PANCHAKA_MID');
+  }
+  if (r.jupVenLagna && H.Jupiter !== 1 && H.Venus !== 1) out.push('JUP_VEN_LAGNA_MID');
+  if (r.lagnaTithi && r.lagnaTithi[tithiClass(t)].includes(m.lagna)) out.push('LAGNA_TITHI');
+  const d = m.dir;
+  if (!Number.isInteger(d)) return out;
+  const d4 = dir4Of(d);
+  const vasanta = [11, 0].includes(m.signs.Sun) ? (r.vasanta ?? []) : [];
+  if (r.vaarShoola && !vasanta.includes('VAAR_SHOOLA')
+    && r.vaarShoola.some(({ map, release }) => inMap(map, d, m.vara) && !(release && release[m.vara] !== undefined && m.ghatis >= release[m.vara]))) out.push('VAAR_SHOOLA');
+  if (r.kaalaPasha) {
+    const kaala = m.dayPart === 0 ? (KAALA_DAY[m.vara] + 4) % 8 : KAALA_DAY[m.vara];
+    if (d === kaala || d === (kaala + 4) % 8) out.push('KAALA_PASHA');
+  }
+  // Ayana (MC XI.39): both luminaries in the northern course, east and north; both in the southern, south and
+  // west; otherwise the Sun's by day and the Moon's by night.
+  if (r.ayana && !vasanta.includes('AYANA')) {
+    const north = (s) => UTTARAYANA.includes(s);
+    const sunN = north(m.signs.Sun);
+    const goes = sunN === north(m.signs.Moon) || m.dayPart > 0 ? sunN : north(m.signs.Moon);
+    if (halfOf(d) !== (goes ? 0 : 1)) out.push('AYANA');
+  }
+  if (r.abhijitSouth && m.abhijitMuhurta && d4 === 2) out.push('ABHIJIT_SOUTH');
+  if (r.digdwarLagna) {
+    const rel = relOf(signDir(m.lagna), d4);
+    if (rel === 4) out.push('DIGDWAR_LAGNA');
+    else if (rel === 6 && r.digdwarLagna.left) out.push(r.digdwarLagna.left === 'MID' ? 'DIGDWAR_LAGNA_MID' : 'DIGDWAR_LAGNA');
+  }
+  if (r.lalatika) {
+    const [p, houses] = r.lalatika[DIR8[d]];
+    if (houses.includes(H[p])) out.push('LALATIKA');
+  }
+  if (r.chandraKantaka && H.Moon === 1 && relOf(signDir(m.lagna), d4) === 4) out.push('CHANDRA_KANTAKA');
+  if (r.planetFront && r.planetFront.some((p) => HOUSE_DIR[H[p]] === d)) out.push('PLANET_FRONT');
+  if (r.vaarRahu && VAAR_RAHU[m.vara] === d) out.push('VAAR_RAHU');
+  return out;
+}
+
+/** The codes a book puts after its main rules, marked rather than rejecting. */
+const withSecondary = (r, codes) => (r.secondary ? codes.map((c) => (!c.endsWith('_MID') && r.secondary.includes(c) ? `${c}_MID` : c)) : codes);
 
 function varaCodes(r, vara, m = {}) {
   if (!r.vara) return [];
@@ -146,8 +323,10 @@ function lagnaCodes(r, m) {
     const movableOk = MOVABLE.includes(m.lagna) && (
       (L.movable === 'NAV_TAURUS' && m.nav === 1)
       || (L.movable === 'BENEFIC_NAV_AND_UPACHAYA' && BENEFIC_NAVS.includes(m.nav) && [m.natalLagna, m.natalMoon].filter(Number.isInteger).some((s) => [3, 6, 10, 11].includes(houseOf(m.lagna, s)))));
-    if (L.mid.includes(m.lagna)) out.push('LAGNA_MID');
-    else if (!L.good.includes(m.lagna) && !(upachaya && !(L.alt.notMovable && MOVABLE.includes(m.lagna))) && !movableOk) out.push('LAGNA');
+    // The birth Moon's sign rising is good for a journey (Wilhelm "generally favorable"; Raman "highly favoured").
+    const natalMoonOk = L.natalMoonOk && m.lagna === m.natalMoon;
+    if (L.mid.includes(m.lagna) && !natalMoonOk) out.push('LAGNA_MID');
+    else if (!L.good.includes(m.lagna) && !(upachaya && !(L.alt.notMovable && MOVABLE.includes(m.lagna))) && !movableOk && !natalMoonOk) out.push('LAGNA');
   }
   if (r.nav === 'BENEFIC' && !BENEFIC_NAVS.includes(m.nav)) out.push('NAV');
   for (const h of r.empty ?? []) if (PLANETS.some((p) => H[p] === h)) out.push(`EMPTY_${h}`);
@@ -193,6 +372,7 @@ function lagnaCodes(r, m) {
   }
   // Agarwal's tithi panchaka: tithi (1-30) + weekday (Sunday 1) + star (Ashwini 1) + lagna (Aries 1), remainder 8 by 9.
   if (r.panchaka && (m.tithi + (m.vara + 1) + (m.star + 1) + (m.lagna + 1)) % 9 === 8) out.push('ROGA_PANCHAKA');
+  out.push(...travelStretchCodes(r, m, H));
   return out;
 }
 
@@ -210,14 +390,30 @@ function withDoorStars(r, door, codes, star) {
   return codes.filter((c) => c !== 'NAK' && c !== 'NAK_MID');
 }
 
+/** A reading's codes for a piece, its secondary rules marked. */
+const pieceCodes = (r, x) => withSecondary(r, panchangaCodes(r, x));
+/**
+ * A reading's codes for a lagna stretch, the weekday's with them. A weekday (and its Shoola, where the
+ * book says so) is good with its lord in the given houses from the lagna (Wilhelm, Rangacharya).
+ */
+function stretchCodes(r, m, vara) {
+  const mm = { ...m, vara };
+  let codes = [...varaCodes(r, vara, mm), ...lagnaCodes(r, mm)];
+  if (r.varaUpachaya && r.varaUpachaya.houses.includes(houseOf(mm.signs[VARA_LORDS[vara]], mm.lagna))) {
+    codes = codes.filter((c) => !r.varaUpachaya.codes.includes(c));
+  }
+  return withSecondary(r, codes);
+}
 /** All readings of an event for a piece: { book: codes }. */
-const piecesCodesOf = (event, x) => Object.fromEntries(E.EVENTS[event].order.map((b) => [b, panchangaCodes(E.EVENTS[event][b], x)]));
+const piecesCodesOf = (event, x) => Object.fromEntries(E.EVENTS[event].order.map((b) => [b, pieceCodes(E.EVENTS[event][b], x)]));
 /** All readings for a lagna stretch, the weekday's codes with them. */
-const stretchCodesOf = (event, m, vara) => Object.fromEntries(E.EVENTS[event].order.map((b) => [b, [...varaCodes(E.EVENTS[event][b], vara, m), ...lagnaCodes(E.EVENTS[event][b], { ...m, vara })]]));
+const stretchCodesOf = (event, m, vara) => Object.fromEntries(E.EVENTS[event].order.map((b) => [b, stretchCodes(E.EVENTS[event][b], m, vara)]));
 
 const rejects = (codes) => codes.filter((c) => !c.endsWith('_MID'));
 
 module.exports = {
   panchangaCodes, varaCodes, lagnaCodes, doorCodes, withDoorStars, piecesCodesOf, stretchCodesOf, rejects,
+  pieceCodes, stretchCodes, withSecondary, travelPieceCodes, travelStretchCodes,
   guruCodes, raviCodes, inHarishayana, isVishti, kumbhaCount, inPaksha, houseOf, UTTARAYANA,
+  dir4Of, relOf, halfOf, signDir, starDir, tithiKey, tithiClass, venusBlind, HOUSE_DIR, KAALA_DAY, VAAR_RAHU, VARA_LORDS,
 };

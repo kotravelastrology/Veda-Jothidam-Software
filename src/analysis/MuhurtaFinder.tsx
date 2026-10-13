@@ -199,7 +199,7 @@ export function MuhurtaFinder() {
               </select>
             </div>
 
-            {(filters.purpose === 'houseWarming' || filters.purpose === 'upanayana') && meta?.books && (
+            {(filters.purpose === 'houseWarming' || filters.purpose === 'upanayana' || filters.purpose === 'travel') && meta?.books && (
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-ink">நூல் (விதிகள்)</label>
                 <select value={book} onChange={(e) => { setBook(e.target.value); handleSearch(e.target.value); }}
