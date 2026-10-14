@@ -775,7 +775,7 @@ const VF = FIX.vidyarambha;
       vijaya: inV,
     };
     for (const b of VR.order) assert.deepEqual(s.ev.VIDYARAMBHA[b], pieceCodes(VR[b], x), `vidyarambha ${b} ${s.fromUtc}`);
-    for (const ev of ['OLD_HOUSE', 'BUSINESS', 'MEDICINE', 'SURGERY']) {
+    for (const ev of ['OLD_HOUSE', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA']) {
       for (const b of E.EVENTS[ev].order) assert.deepEqual(s.ev[ev][b], pieceCodes(E.EVENTS[ev][b], x), `${ev} ${b} ${s.fromUtc}`);
     }
     if (inV) {
@@ -1138,6 +1138,77 @@ const SF = FIX.surgery;
   assert.ok(sc('SURGERY', 'RANGACHARYA', { signs: { ...x.signs, Sun: 5 } }, 2).includes('MALEFIC_6_MID') && !sc('SURGERY', 'RANGACHARYA', { signs: { ...x.signs, Sun: 5 } }, 2).includes('SUN_MOON_KENDRA_MID'));
   assert.ok(sc('SURGERY', 'SHRIDHAR', { lagna: 3 }).includes('LAGNA_LORD_MID') && sc('SURGERY', 'SHRIDHAR', { lagna: 2 }).includes('LAGNA'));
   for (const c of ['EMPTY_6', 'EMPTY_7', 'BEN_LAGNA_MID', 'MARS_SATURN', 'MARS_SATURN_MUTUAL', 'MALEFIC_6_MID', 'SUN_MOON_KENDRA_MID']) assert.ok(E.CODE_TA[c], c);
+}
+
+// ------------------------------------------------ recovery bath: the tables against the books ---
+const RS = E.EVENTS.ROGA_SNANA;
+const RF = FIX.roga_snana;
+{
+  assert.deepEqual({ ...E.RANK.ROGA_SNANA.words }, RF.words);
+  assert.deepEqual([...RS.order], Object.keys(RF.words).sort((a, b) => RF.words[b] - RF.words[a]));
+  assert.equal(RS.default, RF.default);
+  for (const b of RS.order) {
+    assert.ok(resolveByTitle(E.SOURCES.ROGA_SNANA[b].title), `registered: ${b}`);
+    assert.ok(RS[b].linesTa.length > 0, `${b} described`);
+  }
+  const S = RF.stars;
+  const all27 = [...Array(27).keys()];
+  const mc18 = all27.filter((st) => !stars(S.MC_SHRIDHAR_RANGACHARYA_avoid9).includes(st));
+  assert.equal(mc18.length, 18);
+  assert.deepEqual(sorted(E.BATH_MC_18), mc18);
+  for (const b of ['SHRIDHAR', 'MUHURTA_CHINTAMANI', 'RANGACHARYA']) assert.deepEqual(sorted(RS[b].nak.good), mc18, b);
+  for (const b of ['KALYANRAMAN', 'JOSHI']) assert.deepEqual(sorted(RS[b].nak.good), stars(S.KR_JOSHI_18), b);
+  for (const b of ['WILHELM', 'RAMAN', 'AGARWAL']) assert.deepEqual(sorted(RS[b].nak.good), stars(S.WILHELM_RAMAN_AGARWAL_13), b);
+  assert.deepEqual(sorted(RS.WILHELM.nak.mid), stars(S.WILHELM_middling));
+  const T = RF.tithis;
+  const ALL = [...Array(30).keys()].map((i) => i + 1);
+  const not = (ns) => ALL.filter((t) => !E.bothPakshas(ns.filter((n) => n < 15)).includes(t) && !ns.includes(t));
+  for (const b of ['SHRIDHAR', 'KALYANRAMAN', 'MUHURTA_CHINTAMANI', 'JOSHI', 'RANGACHARYA']) assert.deepEqual(sorted(RS[b].tithi), E.bothPakshas(T.rikta), b);
+  for (const b of ['WILHELM', 'RAMAN']) assert.deepEqual(sorted(RS[b].tithi), not(T.WILHELM_RAMAN_avoid), b);
+  assert.deepEqual(sorted(RS.AGARWAL.tithi), not(T.AGARWAL_avoid));
+  const W = RF.weekdays;
+  for (const b of ['SHRIDHAR', 'KALYANRAMAN', 'MUHURTA_CHINTAMANI', 'JOSHI', 'RANGACHARYA']) assert.deepEqual(sorted(RS[b].vara.good), days(W.MC_school), b);
+  assert.deepEqual(sorted(RS.WILHELM.vara.good), days(W.WILHELM_good));
+  for (const v of days(W.WILHELM_very_bad)) assert.ok(!RS.WILHELM.vara.good.includes(v) && !RS.WILHELM.vara.mid.includes(v));
+  assert.deepEqual(sorted(RS.RAMAN.vara.good), days(W.RAMAN));
+  assert.deepEqual(sorted(RS.AGARWAL.vara.good), days(W.AGARWAL));
+  for (const b of RF.lagna_movable) assert.deepEqual(sorted(RS[b].lagna.good), [0, 3, 6, 9], b);
+  // Wilhelm: the signs of Mars, Mercury, Jupiter that are not movable; their navamsas marked.
+  const lordSigns = { Mars: [0, 7], Mercury: [2, 5], Jupiter: [8, 11] };
+  const ws = RF.WILHELM_lagna_lords.flatMap((p) => lordSigns[p]);
+  assert.deepEqual(sorted(RS.WILHELM.lagna.good), sorted(ws.filter((x) => ![0, 3, 6, 9].includes(x))));
+  assert.deepEqual(sorted(RS.WILHELM.navMid), sorted(ws));
+  assert.deepEqual([...RS.WILHELM.taraNot], RF.WILHELM_tara_avoid);
+  for (const b of RS.order) assert.equal(Boolean(RS[b].chandra) && !RS[b].chandra.good.includes(8), RF.chandrashtama_avoid.includes(b), `${b}: Chandrashtama`);
+  for (const b of RF.malefics_kendra_kona_11) assert.deepEqual(sorted(RS[b].maleficIn), [1, 4, 5, 7, 9, 10, 11], b);
+  for (const b of RF.malefics_kendra_kona) assert.deepEqual(sorted(RS[b].maleficIn), [1, 4, 5, 7, 9, 10], b);
+  for (const b of ['SHRIDHAR', 'MUHURTA_CHINTAMANI', 'RANGACHARYA', 'KALYANRAMAN']) assert.deepEqual([...RS[b].moonWeak.houses], RF.moon_weak_houses, b);
+}
+
+// ------------------------------------------------ recovery bath: the codes ---
+{
+  // Moola, Shukla 4, the birth Moon in Taurus, the Moon in Sagittarius (the 8th: Chandrashtama, and "weak" from it).
+  const x = { star: 18, tithi: 4, month: 7, sunSign: 6, sunStar: 14, taraCount: 2, signs: { Moon: 8 }, natalMoon: 1, moonPada: 72 };
+  const pc = (b, y = {}) => pieceCodes(RS[b], { ...x, ...y });
+  for (const b of ['SHRIDHAR', 'KALYANRAMAN', 'MUHURTA_CHINTAMANI', 'JOSHI', 'RANGACHARYA']) assert.deepEqual(pc(b), [], b);
+  for (const b of ['WILHELM', 'RAMAN']) assert.ok(pc(b).includes('TITHI') && pc(b).includes('CHANDRA'), `${b}: Rikta, Chandrashtama`);
+  assert.ok(pc('AGARWAL').includes('CHANDRA') && pc('AGARWAL', { tithi: 16 }).includes('TITHI'));
+  // Shridhar wants the Moon 4th, 8th or 12th from the birth Moon: the 5th is marked.
+  assert.ok(pc('SHRIDHAR', { signs: { Moon: 5 } }).includes('MOON_NOT_WEAK_MID') && !pc('MUHURTA_CHINTAMANI', { signs: { Moon: 5 } }).includes('MOON_NOT_WEAK_MID'));
+  assert.ok(pc('WILHELM', { tithi: 2, signs: { Moon: 5 }, taraCount: 3 }).includes('TARA_NOT') && pc('WILHELM', { tithi: 2, signs: { Moon: 5 }, star: 16 }).includes('NAK_MID'));
+  assert.ok(pc('KALYANRAMAN', { star: 6 }).length === 0 && pc('MUHURTA_CHINTAMANI', { star: 6 }).includes('NAK'), 'Punarvasu: in the printed 18, out of MC\'s');
+  // A Cancer lagna: the Moon (Sagittarius) 6th; malefics — the Sun (Libra) 4th, Mars (Aries) 10th, Saturn (Pisces) 9th.
+  const m = { lagna: 3, nav: 3, signs: { Sun: 6, Moon: 8, Mars: 0, Mercury: 6, Jupiter: 2, Venus: 5, Saturn: 11, Rahu: 9, Ketu: 3 }, natalLagna: 6, natalMoon: 1, combust: {}, dayPart: 1, nightPart: 0, pradosha: false, tithi: 4, star: 18, month: 7 };
+  const sc = (b, y = {}, vara = 2) => stretchCodes(RS[b], { ...m, ...y }, vara);
+  assert.ok(!sc('MUHURTA_CHINTAMANI').includes('MALEFIC_PLACE_MID') && sc('MUHURTA_CHINTAMANI').includes('MOON_NOT_WEAK_MID'), 'MC: malefics placed; the Moon 6th from the lagna — not weak');
+  assert.ok(!sc('MUHURTA_CHINTAMANI', { signs: { ...m.signs, Moon: 10 } }).includes('MOON_NOT_WEAK_MID'), 'the Moon 8th from the lagna');
+  assert.ok(sc('KALYANRAMAN', { signs: { ...m.signs, Moon: 10 } }).includes('MOON_WEAK_MID') && !sc('KALYANRAMAN').includes('MOON_WEAK_MID'), 'KR: the Moon must not be weak');
+  assert.ok(sc('WILHELM').includes('MALEFIC_PLACE_MID') && sc('WILHELM').includes('LAGNA'), 'Wilhelm: malefics not in 3 and 6; Cancer movable');
+  assert.ok(sc('WILHELM', { lagna: 5 }).filter((c) => c.startsWith('LAGNA')).length === 0 && sc('WILHELM', { lagna: 4 }).includes('LAGNA_MID'));
+  assert.ok(sc('WILHELM', { lagna: 5, nav: 1 }).includes('NAV_MID') && !sc('WILHELM', { lagna: 5, nav: 2 }).includes('NAV_MID'));
+  assert.ok(sc('WILHELM', {}, 1).includes('VARA') && sc('WILHELM', {}, 0).includes('VARA_MID') && sc('MUHURTA_CHINTAMANI', {}, 5).includes('VARA'));
+  assert.ok(sc('JOSHI', { lagna: 1 }).includes('LAGNA'));
+  for (const c of ['MOON_NOT_WEAK_MID', 'MOON_WEAK_MID']) assert.ok(E.CODE_TA[c], c);
 }
 
 console.log('test-event-muhurta: all checks passed');

@@ -24,7 +24,7 @@ const EV = require('./eventMuhurtaTables');
 const { panchangaCodes, varaCodes, rejects, isVishti, isSthiraKarana, withSecondary, vijayadashamiOf } = require('./eventMuhurta');
 
 /** Purposes with rules read from the books, and their event. */
-const SOURCED = Object.freeze({ griha: 'GRIHA_PRAVESHA', oldhouse: 'OLD_HOUSE', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION', business: 'BUSINESS', medical: 'MEDICINE', surgery: 'SURGERY' });
+const SOURCED = Object.freeze({ griha: 'GRIHA_PRAVESHA', oldhouse: 'OLD_HOUSE', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION', business: 'BUSINESS', medical: 'MEDICINE', surgery: 'SURGERY', rogasnana: 'ROGA_SNANA' });
 /** The rules a sunrise can judge without the person, the direction or the planets (the rest are on /muhurta-stars). */
 const SUNRISE_RULES = Object.freeze([
   'masa', 'uttarayana', 'sunSign', 'harishayana', 'nak', 'nakAfter', 'abhijitOk', 'tithi', 'tithiMid', 'tithiNot', 'anadhyaya', 'galagraha', 'yogaNot', 'yogaHalfNot',
@@ -64,6 +64,7 @@ const PURPOSES = {
   ritual: { label: 'சடங்கு / பொதுச் சுப காரியம்' },
   medical: { label: 'மருந்து / சிகிச்சை தொடக்கம்' },
   surgery: { label: 'அறுவை சிகிச்சை' },
+  rogasnana: { label: 'நோய் நீங்கிய முதல் குளியல்' },
 };
 
 const norm = (d) => ((d % 360) + 360) % 360;
@@ -162,6 +163,8 @@ function searchMuhurta(q) {
         rankTa: EV.RANK[event].measureTa, source: EV.SOURCES[event][book],
         noteTa: event === 'UPANAYANA'
           ? 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (மாதம், சௌர மாதம், நட்சத்திரம், திதி, அனத்யாயம், கலக்ரஹம், யோகம், விஷ்டி, கிழமை). குரு / சூரிய / சந்திர பலம், லக்னம், பகலின் பகுதி, பிரதோஷம், சங்கிராந்தி, வயது: /muhurta-stars பக்கம், "உபநயனம்" தேர்வுடன் — குழந்தையின் ஜாதகத்துடன்.'
+          : event === 'ROGA_SNANA'
+            ? 'நோய் நீங்கிய முதல் குளியல்: சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (நட்சத்திரம், திதி, கிழமை). லக்னம், பாவர் / சுபர் இடம், சந்திரன் க்ஷீணம், சந்திராஷ்டமம், ஜன்மத்திலிருந்து தீய நட்சத்திரங்கள், தாரா / சந்திர பலம்: /muhurta-stars பக்கம், "நோய் நீங்கிய குளியல்" தேர்வுடன் — நோயாளியின் ஜாதகத்துடன்.'
           : event === 'MEDICINE' || event === 'SURGERY'
             ? `${event === 'MEDICINE' ? 'மருந்து / சிகிச்சை தொடக்கம்' : 'அறுவை சிகிச்சை'}: சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (நட்சத்திரம், திதி, கிழமை${event === 'SURGERY' ? ', தேய்பிறை' : ''}; வசிஷ்டாவுக்கு விஷ்டி). ஜன்ம நட்சத்திரம், சந்திரன் ஜன்ம ராசியிலிருந்து, லக்னம், 6 / 7 / 8 / 12-ல் கிரகம், லக்னத்தில் சுபர்${event === 'SURGERY' ? ', செவ்வாய்–சனி' : ''}, தாரா / சந்திர பலம்: /muhurta-stars பக்கம், "${event === 'MEDICINE' ? 'மருந்து / சிகிச்சை' : 'அறுவை சிகிச்சை'}" தேர்வுடன் — நோயாளியின் ஜாதகத்துடன்.`
           : event === 'BUSINESS'

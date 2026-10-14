@@ -268,7 +268,8 @@ Not plan items, but real, and they should not be discovered at release:
   Taking medicine (eight books) and surgery (six books) added the same day,
   Wilhelm first for both, with Mars–Saturn by sign. Entering an old house
   added 2026-10-14 from five books (Shridhar first), each its new-house rules
-  plus the books' months and stars, combustion lifted. The bath after recovery
-  is next.
+  plus the books' months and stars, combustion lifted. The first bath after
+  recovery added the same day from eight books (Shridhar first; MC's and K.P.'s
+  schools both computed).
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

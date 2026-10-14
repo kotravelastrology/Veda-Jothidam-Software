@@ -96,6 +96,9 @@ for (const c of citations) {
     assert.deepEqual(scanCitations({ root: tmp }).map((c) => c.title), [null], 'an ambiguous constant name resolves to no title');
     fs.writeFileSync(path.join(tmp, 'b.js'), "const KAPOOR = Object.freeze({\n  title: 'Book A',\n});\n");
     assert.deepEqual(scanCitations({ root: tmp }).map((c) => c.title), ['Book A'], 'the same title declared twice is fine');
+    // An escaped quote inside a locator (or opening it) is part of it, not its end (2026-10-14).
+    fs.writeFileSync(path.join(tmp, 'b.js'), "const Y = { ...KAPOOR, pageLocus: '\"\\'Roga-mukta Snana\\' or bath\", Jupiter\\'s place, p.2' };\n");
+    assert.deepEqual(scanCitations({ root: tmp }).map((c) => c.pageLocus), ['p.1 of A', '"\'Roga-mukta Snana\' or bath", Jupiter\'s place, p.2']);
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }

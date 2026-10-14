@@ -10,7 +10,7 @@ for (const key of ['marriage', 'business', 'travel', 'griha', 'upanayana', 'educ
   assert.ok(p && p.label, `${key} has a label`);
   assert.equal(p.goodNak, undefined, `${key}: no unsourced star list`);
 }
-assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', oldhouse: 'OLD_HOUSE', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION', business: 'BUSINESS', medical: 'MEDICINE', surgery: 'SURGERY' });
+assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', oldhouse: 'OLD_HOUSE', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION', business: 'BUSINESS', medical: 'MEDICINE', surgery: 'SURGERY', rogasnana: 'ROGA_SNANA' });
 assert.ok(PURPOSES.ritual && !SOURCED.ritual, '"Ritual" is not read from the books yet');
 
 // ── an unsourced purpose: panchanga, no verdict ──────────────────────────
@@ -167,7 +167,7 @@ assert.equal(searchMuhurta({ startDate: '2027-03-01', endDate: '2027-03-02', pur
 }
 
 // ── medicine and surgery: the sunrise rules (no person, no planets) ───────
-for (const [purpose, ev] of [['medical', 'MEDICINE'], ['surgery', 'SURGERY']]) {
+for (const [purpose, ev] of [['medical', 'MEDICINE'], ['surgery', 'SURGERY'], ['rogasnana', 'ROGA_SNANA']]) {
   const EV = E.EVENTS[ev];
   for (const book of EV.order) {
     const v = searchMuhurta({ startDate: '2027-02-01', endDate: '2027-03-31', purpose, latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330, book });
@@ -175,7 +175,7 @@ for (const [purpose, ev] of [['medical', 'MEDICINE'], ['surgery', 'SURGERY']]) {
     assert.equal(v.event, ev);
     assert.equal(v.book, book);
     assert.ok(v.noteTa.includes('/muhurta-stars'));
-    const personal = ['TARA_NOT', 'CHANDRA', 'MARS_SATURN', 'MARS_SATURN_MUTUAL', 'LAGNA', 'EMPTY_8', 'BEN_LAGNA'];
+    const personal = ['TARA_NOT', 'CHANDRA', 'MARS_SATURN', 'MARS_SATURN_MUTUAL', 'LAGNA', 'EMPTY_8', 'BEN_LAGNA', 'MOON_NOT_WEAK', 'MOON_WEAK', 'MALEFIC_PLACE', 'NAV'];
     for (const d of v.days) {
       assert.ok(!d.codes.some((c) => personal.includes(c.replace(/_MID$/, ''))), `${ev} ${book} ${d.date}: only sunrise rules`);
       assert.ok(d.notes.every((n) => !/^[A-Z_]+$/.test(n)), `${ev} ${book} ${d.date}: in Tamil`);

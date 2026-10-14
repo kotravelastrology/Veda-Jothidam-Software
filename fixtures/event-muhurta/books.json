@@ -272,5 +272,27 @@
     "SHRIDHAR_MG": ["Dhanishtha", "Shatabhisha", "Pushya", "UPhalguni", "UAshadha", "UBhadra", "Rohini", "Mrigashira", "Chitra", "Swati", "Anuradha"],
     "combustion_not_considered": ["SHRIDHAR", "JOSHI", "WILHELM", "MUHURTA_CHINTAMANI"],
     "dakshinayana_allowed": ["SHRIDHAR"]
+  },
+  "roga_snana": {
+    "_about": "Transcribed 2026-10-14 from the page images: the first bath after recovering from illness. Names as in the travel block; tithis within the paksha unless said; houses of the Moon from the birth Moon unless said.",
+    "words": { "SHRIDHAR": 251, "WILHELM": 199, "KALYANRAMAN": 186, "MUHURTA_CHINTAMANI": 128, "JOSHI": 89, "RANGACHARYA": 72, "RAMAN": 70, "AGARWAL": 37 },
+    "default": "SHRIDHAR",
+    "stars": {
+      "MC_SHRIDHAR_RANGACHARYA_avoid9": ["Revati", "Punarvasu", "Rohini", "UPhalguni", "UAshadha", "UBhadra", "Magha", "Swati", "Ashlesha"],
+      "KR_JOSHI_18": ["Ashwini", "Bharani", "Krittika", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "PPhalguni", "Hasta", "Chitra", "Vishakha", "Jyeshtha", "Moola", "PAshadha", "Shravana", "Dhanishtha", "Shatabhisha", "PBhadra"],
+      "WILHELM_RAMAN_AGARWAL_13": ["Ashwini", "Bharani", "Krittika", "Mrigashira", "Ardra", "Pushya", "PPhalguni", "Hasta", "Chitra", "Vishakha", "Moola", "PAshadha", "PBhadra"],
+      "WILHELM_middling": ["Anuradha", "Jyeshtha", "Shravana", "Dhanishtha", "Shatabhisha"]
+    },
+    "tithis": { "rikta": [4, 9, 14], "WILHELM_RAMAN_avoid": [4, 8, 9, 14, 30], "AGARWAL_avoid": [1, 4, 8, 9, 14, 30] },
+    "weekdays": {
+      "MC_school": ["Sun", "Tue", "Wed", "Thu", "Sat"], "WILHELM_good": ["Tue", "Wed", "Thu"], "WILHELM_very_bad": ["Mon", "Fri"],
+      "RAMAN": ["Tue", "Wed", "Thu"], "AGARWAL": ["Sun", "Tue", "Wed", "Thu"]
+    },
+    "lagna_movable": ["SHRIDHAR", "KALYANRAMAN", "MUHURTA_CHINTAMANI", "JOSHI", "RANGACHARYA"],
+    "WILHELM_lagna_lords": ["Mars", "Mercury", "Jupiter"],
+    "WILHELM_tara_avoid": [1, 3, 5, 7, 10, 12, 14, 16, 22],
+    "chandrashtama_avoid": ["WILHELM", "RAMAN", "AGARWAL"],
+    "malefics_kendra_kona_11": ["SHRIDHAR", "MUHURTA_CHINTAMANI", "RANGACHARYA"], "malefics_kendra_kona": ["KALYANRAMAN", "JOSHI"],
+    "moon_weak_houses": [4, 8, 12]
   }
 }

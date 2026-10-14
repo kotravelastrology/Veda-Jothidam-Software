@@ -1155,7 +1155,110 @@ const OLD_HOUSE = deepFreeze({
   AGARWAL: oldHouseOf(GRIHA_PRAVESHA.AGARWAL, 'அகர்வால்'),
 });
 
+// ---------------------------------------------------------------------------
+// The first bath after recovering from illness (roga-mukta snana), added 2026-10-14
+// ---------------------------------------------------------------------------
+
+/** MC 2/40: all stars but Revati, Punarvasu, the Dhruvas (Rohini, the Uttaras), Magha, Swati, Ashlesha. */
+const BATH_MC_18 = Object.freeze(range(0, 26).filter((s) => ![26, 6, 3, 11, 20, 25, 9, 14, 8].includes(s)));
+/** Kalyanraman's and Joshi's printed eighteen: Punarvasu in, Anuradha out. */
+const BATH_KR_18 = Object.freeze([...BATH_MC_18.filter((s) => s !== 16), 6].sort((a, b) => a - b));
+/** Wilhelm's, Raman's and Agarwal's thirteen. */
+const BATH_13 = Object.freeze([0, 1, 2, 4, 5, 7, 10, 12, 13, 15, 18, 19, 24]);
+const NOT_4_8_9_14_30 = Object.freeze(ALL_TITHIS.filter((t) => ![...bothPakshas([4, 8, 9, 14]), 30].includes(t)));
+const NOT_CHANDRASHTAMA = deepFreeze({ good: range(1, 12).filter((h) => h !== 8), mid: [] });
+const KENDRA_KONA_11 = Object.freeze([1, 4, 7, 10, 5, 9, 11]);
+
+/**
+ * The recovery bath's rules beyond the other events': moonWeak { from: 'LAGNA' | 'NATAL', houses, want }
+ * (MC's "हीने विधौ" — the Moon in the 4th, 8th or 12th; marked when not, or, want false, when it is).
+ * Two schools: MC (Rikta tithis, a movable lagna, malefics in kendras, konas and the 11th, the Moon weak)
+ * and K.P. (Wilhelm, Raman, Agarwal: no Rikta, malefics in 3 and 6, no Chandrashtama).
+ */
+const ROGA_SNANA = deepFreeze({
+  labelTa: 'நோய் நீங்கிய முதல் குளியல் (ரோகமுக்த ஸ்நானம்)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'WILHELM', 'KALYANRAMAN', 'MUHURTA_CHINTAMANI', 'JOSHI', 'RANGACHARYA', 'RAMAN', 'AGARWAL'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.5', booksTa: 'ஸ்ரீதர் (மு.சி., J.V., K.P. மேற்கோள்கள்)',
+    nak: { good: BATH_MC_18, mid: [] }, digdwar: false, tithi: RIKTA, vara: { good: [0, 2, 3, 4, 6], mid: [] },
+    lagna: { good: MOVABLE_SIGNS, mid: [] }, maleficIn: KENDRA_KONA_11, moonWeak: { from: 'NATAL', houses: [4, 8, 12], want: true },
+    linesTa: [
+      '"Bath after recovery from illness" (ப.605): திதி — ரிக்த (4, 9, 14) · கிழமை — ஞாயிறு, செவ்வாய், புதன், வியாழன், சனி · நட்சத்திரம் — ஸ்திர (ரோகிணி, மூன்று உத்திரம்), மகம், சுவாதி, ஆயில்யம், புனர்பூசம், ரேவதி (9) தவிர மற்ற 18',
+      'லக்னம்: சர ராசி · பாவர் (சூரியன், செவ்வாய், சனி, ராகு, கேது) 1, 4, 7, 10, 5, 9, 11-ல் (குறிக்கப்படும்) · "க்ஷீண" சந்திரன் ஜன்ம ராசிக்கு 4, 8, 12-ல் (இல்லையெனில் குறிக்கப்படும்)',
+      'J.V.: க்ஷீண சந்திரன் = தேய் 10 முதல் வளர் 5 வரை; 1-8-ல் பாவர், 10-ல் சுபர்; ஞாயிறு, செவ்வாய்; அசுவினி, சித்திரை, கிருத்திகை, அவிட்டம் · K.P. இதற்கு மாறாக: சந்திராஷ்டமம், ஜன்ம / 3, 5, 7, 10, 12, 14, 16, 22-வது நட்சத்திரம், ரிக்த, அமாவாசை கூடாது; செவ்வாய், புதன், வியாழன்; சுபர் கேந்திர கோணத்தில், பாவர் 3, 6, 11-ல் — வில்ஹெல்ம், ராமன், அகர்வால் வாசிப்புகளில்',
+    ],
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம்', booksTa: 'வில்ஹெல்ம் (மு.சி. மேற்கோள்)',
+    nak: { good: BATH_13, mid: [16, 17, 21, 22, 23] }, digdwar: false, taraNot: [1, 3, 5, 7, 10, 12, 14, 16, 22], chandra: NOT_CHANDRASHTAMA,
+    tithi: NOT_4_8_9_14_30, vara: { good: [2, 3, 4], mid: [0, 6] },
+    lagna: { good: [2, 5, 7, 8, 11], mid: [1, 4, 10] }, navMid: [0, 7, 2, 5, 8, 11], maleficIn: [3, 6], beneficIn: [1, 4, 7, 10, 5, 9],
+    linesTa: [
+      '"Medical- Bathing after illness" (ப.268-269): நட்சத்திரம் — அசுவினி, பரணி, கிருத்திகை, மிருகசீரிடம், திருவாதிரை, பூசம், பூரம், அஸ்தம், சித்திரை, விசாகம், மூலம், பூராடம், பூரட்டாதி; அனுஷம், கேட்டை, திருவோணம், அவிட்டம், சதயம் (மு.சி.) நடுத்தரம்',
+      'ஜன்ம நட்சத்திரமும் அதிலிருந்து 3, 5, 7, 10, 12, 14, 16, 22-வதும் கூடாது; சந்திராஷ்டமம் கூடாது · திதி: 4, 8, 9, 14, அமாவாசை கூடாது · கிழமை: செவ்வாய், புதன், வியாழன்; திங்கள், வெள்ளி "மிகத் தீயவை"; ஞாயிறு (இரண்டாம் குளியலுக்கு), சனி நடுத்தரம்',
+      'லக்னம்: செவ்வாய், புதன், குருவின் ராசி / நவாம்சம் (நவாம்சம் — குறிக்கப்படும்); சர ராசி கூடாது; மற்றவை நடுத்தரம் (எங்கள் வாசிப்பு) · பாவர் 3, 6-ல், சுபர் கேந்திர கோணத்தில் (குறிக்கப்படும்) · "சந்திரன் பாவராக இருக்கக் கூடாது" — கணிக்கப்படவில்லை',
+    ],
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2)', booksTa: 'கல்யாணராமன்',
+    nak: { good: BATH_KR_18, mid: [] }, digdwar: false, tithi: RIKTA, vara: { good: [0, 2, 3, 4, 6], mid: [] },
+    lagna: { good: MOVABLE_SIGNS, mid: [] }, maleficIn: [1, 4, 7, 10, 5, 9], moonWeak: { from: 'LAGNA', houses: [4, 8, 12], want: false },
+    linesTa: [
+      '"Rogamuktha Snana" (ப.202): நட்சத்திரம் 18 (அச்சில்) — அசுவினி, பரணி, கிருத்திகை, மிருகசீரிடம், திருவாதிரை, புனர்பூசம், பூசம், பூரம், அஸ்தம், சித்திரை, விசாகம், கேட்டை, மூலம், பூராடம், திருவோணம், அவிட்டம், சதயம், பூரட்டாதி · திதி: ரிக்த · கிழமை: ஞாயிறு, செவ்வாய், புதன், வியாழன், சனி',
+      'குறிப்புகள்: மு.சி. ஒன்பதைத் தவிர்க்கிறது (அதில் புனர்பூசமும் — அச்சுப் பட்டியலுடன் முரண்); சர லக்னம், கேந்திர கோணத்தில் பாவர் (குறிக்கப்படும்); சந்திரன் "க்ஷீணமாக" — 4, 8, 12-ல் — இருக்கக் கூடாது (குறிக்கப்படும்); குறிப்பு 5 "பாவர் 11, கேந்திர, கோணத்தில் கூடாது" — குறிப்பு 3-க்கு முரண், கணிக்கப்படவில்லை; செவ்வாய் பலவீனம் நல்லது (கணிக்கப்படவில்லை)',
+    ],
+  },
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி அத்.2', booksTa: 'முகூர்த்த சிந்தாமணி ஸ்லோ.2/40',
+    nak: { good: BATH_MC_18, mid: [] }, digdwar: false, tithi: RIKTA, vara: { good: [0, 2, 3, 4, 6], mid: [] },
+    lagna: { good: MOVABLE_SIGNS, mid: [] }, maleficIn: KENDRA_KONA_11, moonWeak: { from: 'LAGNA', houses: [4, 8, 12], want: true },
+    linesTa: [
+      'ஸ்லோ.2/40: "व्यन्त्यादितिध्रुवमघानिलसार्पधिष्ण्ये रिक्ते तिथौ चरतनौ विकवीन्दुवारे । स्नानं रुजा विरहितस्य जनस्य शस्तं हीने विधौ खलखगैर्भवकेन्द्रकोणे" — ரேவதி, புனர்பூசம், துருவ (ரோகிணி, மூன்று உத்திரம்), மகம், சுவாதி, ஆயில்யம் தவிர; ரிக்த திதி; சர லக்னம்; வெள்ளி, திங்கள் தவிர',
+      '"हीने विधौ" — சந்திரன் க்ஷீணம் (உரை: 4, 8, 12 வீடுகளில் — லக்னத்திலிருந்து, எங்கள் வாசிப்பு; இல்லையெனில் குறிக்கப்படும்) · "खलखगैर्भवकेन्द्रकोणे" — பாவர் 11, கேந்திர, கோணத்தில் (குறிக்கப்படும்)',
+    ],
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி அத்.13', booksTa: 'ஜோஷி',
+    nak: { good: BATH_KR_18, mid: [] }, digdwar: false, tithi: RIKTA, vara: { good: [0, 2, 3, 4, 6], mid: [] },
+    lagna: { good: MOVABLE_SIGNS, mid: [] }, maleficIn: [1, 4, 7, 10, 5, 9],
+    linesTa: [
+      '"Roga-mukta Snana" (ப.147): நட்சத்திரம் 18 (கல்யாணராமனின் பட்டியலே) · திதி: ரிக்த "நல்லவை" · கிழமை: ஞாயிறு, செவ்வாய், புதன், வியாழன், சனி',
+      'லக்னம்: சர ராசி, பாவர் (சூரியன், செவ்வாய், சனி, ராகு, கேது) கேந்திர கோணத்தில் (குறிக்கப்படும்) · செவ்வாய் கோசாரத்தில் பலவீனம் நல்லது (கணிக்கப்படவில்லை)',
+    ],
+  },
+  RANGACHARYA: {
+    labelTa: 'ரங்காச்சார்யா', booksTa: 'ரங்காச்சார்யா',
+    nak: { good: BATH_MC_18, mid: [] }, digdwar: false, tithi: RIKTA, vara: { good: [0, 2, 3, 4, 6], mid: [] },
+    lagna: { good: MOVABLE_SIGNS, mid: [] }, maleficIn: KENDRA_KONA_11, moonWeak: { from: 'LAGNA', houses: [4, 8, 12], want: true },
+    linesTa: [
+      '"First bath after illness" (ப.133): ரேவதி, புனர்பூசம், உத்திரம், உத்திராடம், உத்திரட்டாதி, ரோகிணி, மகம், சுவாதி, ஆயில்யம், வெள்ளி, திங்கள் கூடாது',
+      'அச்சில் "Avoid the rikta tithis, Sunday, Tuesday, Wednesday, Thursday and Saturday" — அப்படியெனில் எந்தக் கிழமையும் மிஞ்சாது; மு.சி.யைப் போல "ரிக்த திதி, ஞாயிறு, செவ்வாய், புதன், வியாழன், சனி நல்லவை" என்று படித்தோம் (எங்கள் வாசிப்பு) · சர லக்னம், சந்திரன் பலவீனம் (மு.சி. உரைப்படி 4, 8, 12 — குறிக்கப்படும்), கேந்திர, கோண, 11-ல் பாவர் (குறிக்கப்படும்) · தாரா, சந்திர பலம் அவசியம் (பொது)',
+    ],
+  },
+  RAMAN: {
+    labelTa: 'ராமன் அத்.XV', booksTa: 'ராமன்',
+    nak: { good: BATH_13, mid: [] }, digdwar: false, tithi: NOT_4_8_9_14_30, vara: { good: [2, 3, 4], mid: [] }, chandra: NOT_CHANDRASHTAMA,
+    linesTa: [
+      '"Taking First Bath after illness" (PDF ப.53-54): அசுவினி, பரணி, கிருத்திகை, மிருகசீரிடம், திருவாதிரை, பூசம், பூரம், அஸ்தம், சித்திரை, விசாகம், மூலம், பூராடம், பூரட்டாதி · தாரா பலம் (பொது); சந்திராஷ்டமம் கூடாது · செவ்வாய், புதன், வியாழன் · 4, 8, 9, 14, அமாவாசை கூடாது',
+    ],
+  },
+  AGARWAL: {
+    labelTa: 'அகர்வால்', booksTa: 'அகர்வால்',
+    nak: { good: BATH_13, mid: [] }, digdwar: false, tithi: ALL_TITHIS.filter((t) => ![...bothPakshas([1, 4, 8, 9, 14]), 30].includes(t)),
+    vara: { good: [0, 2, 3, 4], mid: [] }, chandra: NOT_CHANDRASHTAMA,
+    linesTa: [
+      '"Taking first bath after prolonged illness" (ப.329): ஞாயிறு, செவ்வாய், புதன், வியாழன் · 1, 4, 8, 9, 14, அமாவாசை தவிர எல்லாத் திதியும் · மூன்று பூர்வம், பரணி, கிருத்திகை, திருவாதிரை, மிருகசீரிடம், பூசம், சித்திரை, அஸ்தம், அசுவினி, மூலம், விசாகம் · சந்திராஷ்டமம் கூடாது',
+    ],
+  },
+});
+
 const RANK = deepFreeze({
+  ROGA_SNANA: {
+    order: ROGA_SNANA.order,
+    words: { SHRIDHAR: 251, WILHELM: 199, KALYANRAMAN: 186, MUHURTA_CHINTAMANI: 128, JOSHI: 89, RANGACHARYA: 72, RAMAN: 70, AGARWAL: 37 },
+    measureTa: 'நோய் நீங்கிய முதல் குளியல் பற்றிய சொற்கள் (பக்கத் தலைப்புகள் தவிர): ஸ்ரீதர் (§22.5, ப.605) 251; வில்ஹெல்ம் (ப.268-269) 199; கல்யாணராமன் (தொ.2 ப.202) 186; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/40 உரை, ப.76) 128; ஜோஷி (ப.147) 89; ரங்காச்சார்யா (ப.133) 72; ராமன் (PDF ப.53-54) 70; அகர்வால் (ப.329) 37. வசிஷ்டாவில் இல்லை.',
+  },
   OLD_HOUSE: {
     order: OLD_HOUSE.order,
     words: { SHRIDHAR: 264, JOSHI: 102, WILHELM: 99, MUHURTA_CHINTAMANI: 94, AGARWAL: 16 },
@@ -1265,6 +1368,16 @@ const SOURCES = deepFreeze({
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 sloka 17, printed p.58 (PDF 62): "… रिक्ताभौमघटान्विना च विपणिर्मैत्रध्रुवक्षिप्रभैर्लग्ने चन्द्रसिते व्ययाष्टरहितैः पापैः शुभैर्ध्यायखे ॥१७॥" — "The opening of a shop is auspicious, on other tithis, days and in ascendant leaving Rikta tithis, the day of Tuesday and the Ascendant of Aquarius, in the Nakshtras called Mitra, Dhruwa and Kshipra, if Venus and the Moon are in the Ascendant, if there are no malefics in the 8/12 Houses and if there are benefics in the 2/10/11 Houses"' },
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Shop Opening", printed p.128 (PDF 136): "Avoid Tuesday, and the rikta tithis. Choose the fixed and soft asterisms. The placement of the moon and Venus in Lagna is excellent for opening any shop. The malefics should not occupy the 8th and 12th houses. The placement of the benefics in the 2nd, 11th and 10th is good"' },
   },
+  ROGA_SNANA: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.5 "Bath after recovery from illness", printed p.605 (PDF 642): "Tithi: Rikta (4.9.14) Tithis. Day: Sunday, Tuesday, Wednesday, Thursday & Saturday. Cont.: Barring Fixed (Rohini, 3 Uttras), Magha, Swati, Aslesha, Punarvasu & Revati (9 No.), the balance 18 number of the asterisms are beneficial. Ascendant: Movable signs are favourable. Malefics (the Sun, Mars, Saturn, Rahu, and Ketu) should be in 1,4,7,10, 5,9,11 houses; & emaciated Moon should be in 4,8,12 signs from J.R. J.V. further directs that emaciated Moon should be in 10th Tithi of D.H. to 5th Tithi of B.H. … K.P. mostly differs from the above … It has been advised to avoid the Moon in 8th; Janma Nakshatra, 3rd, 5th, 7th, 10th, 12th, 14th, 16th & 22nd asterisms from Janma Nakshatra. Tuesday, Wednesday & Thursday; their signs & Vargas are held as benefic. Rikta Tithis & New Moon should be avoided. Benfics should be in trines or in squares; & malefics in 3,6,11 places"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Medical- Bathing after illness", printed pp.268-269 (PDF 276-277): "Nakshatra: Asvini, Bharani, Krittika, Mrigasira, Ardra, Pushya, Purvaphalguni, Hasta, Chitra, Visakha, Mula, Purvashadha and Purvabhadrapada are favorable. Muhurta Chintamani additionally considers Anuradha, Jyeshtha, Sravana, Dhanishtha and Satabhisha as favorable, which may be considered middling. Tara: Avoid the Janma Nakshatra and the 3rd, 5th, 7th, 10th, 12th, 14th, 16th and 22nd Nakshatras from there. Avoid Chandra Ashtama. Tithi: Avoid the 4th, 8th, 9th, 14th and Amavasya … Vara: The Varas of Mars, Mercury and Jupiter are favorable. The Moon\'s and Venus\'s are very unfavorable. Lagna: Rasis and Navamsas of Mars, Mercury and Jupiter are favorable. Moveable Rasis are unfavorable. Bhavas: Avoid malefics in the angles, trines and 11th as much as possible. Malefics are favorable in the 3rd and 6th and benefics in the angles and trines. Grahas: The Moon should not be a malefic"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Taking the First Bath for the Recovered Patients (Rogamuktha Snana)", printed p.202 (PDF 204): "Nakshatra Aswini, Bharani, Krittika, Mrigasira, Aridra, Punarvasu, Pushyami, Poorvaphalguni, Hasta, Chitra, Visaka, Jyeshta, Moola, Poorvashada, Sravana, Dhanishta, Satabhisha and Poorvabhadrapada (18) … Tithis The Rikta tithis 4/9/14. Weekdays Sunday, Tuesday, Wednesday, Thursday and Saturday. Notes: 1. Muhoortha Chintaamani wants to avoid the five nakshatras Revati, Punarvasu, Makha, Swati, Aslesha and the four Dhruva nakshatras … 2. Mondays and Fridays are unsuitable. 3. The Lagna must be moveable raasis 1/4/7/10 with Malefics - Sun, Mars, Saturn, Raahu, Ketu - in Kendras or Trikonas. 4. The Moon must not be emaciated - i.e., must not be in 4/8/12 houses; 5. Malefics must not be in 11th house, angles or trines. 6. Mars, when weak in transit is considered auspicious"' },
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 sloka 40, printed p.76 (PDF 80): "व्यन्त्यादितिध्रुवमघानिलसार्पधिष्ण्ये, रिक्ते तिथौ चरतनौ विकवीन्दुवारे । स्नानं रुजा विरहितस्य जनस्य शस्तं, हीने विधौ खलखगैर्भवकेन्द्रकोणे ॥४०॥" — "The bathing of a patient when he is relieved of the disease he has been suffering from is auspicious in all the other Nakshtras than those of Rewati, Punarvasu, the Nakshtras named \'Dhruwa\' … those of Magha, Swati and Ashlesha, on the Rikta Tithis (4/9/14), in the chara or Movable Ascendants (1/4/7/10), on other days than those of Friday and Monday, in the event of the Moon being emaciated (she is emaciated when she is in the 4/8/12 Houses) when the Malefic Planets are in the 11th House, or in Angles or in Trines"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"\'Roga-mukta Snana\' or taking bath after recovering from illness", printed p.147 (PDF 162): "Nakshatras: Ashwini, Bharani, Kritika, Mrigshira, Ardra, Punarvasu, Pushya, Poorvaphalguni, Hasta, Chitra, Vishakha, Jyestha, Moola, Poorvashada, Shravana, Dhanistha, Shatbhisha and Poorvabhadrapad nakshatras. Tithis: Rikta tithis (4/9/14 tithis) are considered auspicious. Days: Sunday, Tuesday, Wednesday, Thursday and Saturday are good. Lagnas: Lagnas of movable rashis (1/4/7/10 rashis) with malefics (Sun, Mars, Saturn, Rahu, Ketu) in Kendras and Trikonas, and Mars weak in transit is considered auspicious"' },
+    RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"First bath after illness", printed p.133 (PDF 141): "After the recovery of long illness, one should not take his first bath in Revati, Punarvasu, Uttara, Uttarashada, Uttarabyhadra, Rohini, Makha, Swati, Aslesha and on Friday and Monday. Avoid the rikta tithis, Sunday, Tuesday, Wednesday, Thursday and Saturday. Cardinal lagnas are good for bath when the Moon also is week and when the kendras, konas and 11th house are occupied by the malefics, Tarabala and Chandrabala are necessary"' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XV "Medical Elections", PDF pp.53-54: "Taking First Bath after illness. - When one has completely recovered from an illness of long duration the first bath should be given on a day ruled by Aswini, Bharani, Krittika, Mrigasira, Aridra, Pushya, Pubba, Hasta, Chitta, Visakha, Moola, Poorvashadha and Poorvabhadra. There must be Tarabala also. Chandrashtamas should be avoided. Tuesday, Wednesday and Thursday are good. The 4th, 8th, 9th, 14th and New Moon days should be avoided"' },
+    AGARWAL: { ...AGARWAL_GS, pageLocus: '"Taking first bath after prolonged illness", printed p.329 (PDF 328): "Days: Sunday, Tuesday, Wednesday, Thursday. Tithis: all except 1, 4, 8, 9, 14, 30. Nakshatras: all 3 Poorvas, Bharni, Krittika, Aridra, Mrigashira, Pushya, Chitra, Hasta, Aswini, Moola, Vishakha. Avoid chandrashtama"' },
+  },
   OLD_HOUSE: {
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§27.16 "Entering into house", printed pp.732-733 (PDF 766-767): "b) entry into an old house (rented, repaired, or reconstructed house destroyed in fire / flood / lightening / cyclone etc.) … For entry into old houses defined above, lunar months of Margshirsha, Karttika, Shravana; asterisms of Shatbhish, Pushya, Swati, Dhanishta are beneficial (M.C). B.S. commends that asterisms of Chitra, 3 Uttras, Rohini, Mrigshira, Anuradha, Dhanishta, Shatbhish & Revati bestow longevity, wealth, health, fame, sons & grandsons … Exponents opine that maleficence due to combustion of Jupiter & Venus, their Baal & Vridh Avasthas, Jupiter in Leo are not considered in entry into an old house … Although in all types of houses Uttrayana is auspicious, but entry into such houses can be made in Dakshinayana. M.G. recommends that asterisms of Dhanishta, Shatbhish, Pushya, 3 Uttras, Rohini, Mrigshira, Chaitra, Swati & Anuradha are auspicious in entry into an old house"' },
     JOSHI: { ...JOSHI_KK, pageLocus: '"For entering in to an old house", printed p.124 (PDF 139): "For entering in to a old house (i.e. purchased house, rented house or repaired house) Vaishakh, Jyestha, Magha, Falguna, Margsheersha, Kartika and Shravana months (lunar) are considered auspicious. There is no need to consider combustor of Jupiter and Venus and Jupiter\'s placement in LEO or CAPRICORN. All other considerations regarding tithi, nakshatra, lagna etc. are similar to those of entering in to a new house. In addition to the nakshatras stated for entry in to new house. Shatbhisha, Pushya, Swati and Dhanistha nakshatras can also be chosen for entry in to an old house"' },
@@ -1340,6 +1453,8 @@ const CODE_TA = Object.freeze({
   EMPTY_6: '6-ல் கிரகம்', EMPTY_7: '7-ல் கிரகம்', BEN_LAGNA_MID: 'லக்னத்தில் சுபர் (சந்திரன், புதன், குரு, சுக்கிரன்) இல்லை',
   MARS_SATURN: 'செவ்வாய் மீது சனியின் தொடர்பு (சேர்க்கை / பார்வை)', MARS_SATURN_MUTUAL: 'செவ்வாய், சனி பரஸ்பரப் பார்வை',
   MALEFIC_6_MID: '6-ல் பாவர் இல்லை', SUN_MOON_KENDRA_MID: 'சூரியன், சந்திரன் கேந்திரத்தில் இல்லை',
+  // The recovery bath.
+  MOON_NOT_WEAK_MID: 'சந்திரன் "க்ஷீணம்" இல்லை (4 / 8 / 12-ல் இல்லை)', MOON_WEAK_MID: 'சந்திரன் க்ஷீணம் (4 / 8 / 12-ல்)',
 });
 
 const NOTES_TA = deepFreeze({
@@ -1405,6 +1520,12 @@ const NOTES_BUSINESS_TA = Object.freeze([
   'கணிக்கப்படாதவை: வசிஷ்டாவின் "சந்திரன் பலவீனமில்லாமல்" (வரையறை இல்லை), காரக கிரகம், புதன் பலம்; மாத / ஆண்டு இறுதி அமாவாசை அவரது திதிப் பட்டியலிலேயே இல்லை; சந்திர / தாரா சுத்தி பொதுப் பகுதியில்.',
 ]);
 
+const NOTES_ROGA_SNANA_TA = Object.freeze([
+  'இரண்டு மரபுகள்: மு.சி. (ஸ்ரீதர், கல்யாணராமன், ஜோஷி, ரங்காச்சார்யா) — ரிக்த திதி நல்லது, சர லக்னம், பாவர் கேந்திர கோணத்தில் (மு.சி.: 11-லும்), சந்திரன் க்ஷீணம்; K.P. (வில்ஹெல்ம், ராமன், அகர்வால்) — ரிக்த, அமாவாசை கூடாது, சந்திராஷ்டமம் கூடாது, பாவர் 3, 6-ல், சுபர் கேந்திர கோணத்தில். ஸ்ரீதர் இரண்டையும் தருகிறார்; அவரது முதல் வாசிப்பு மு.சி.',
+  'பாவர் / சுபர் இருக்க வேண்டிய இடங்கள், சந்திரன் க்ஷீணம் — குறிக்கப்படும், விலக்கவில்லை (எங்கள் வாசிப்பு — மற்ற காரியங்களைப் போல). "க்ஷீண சந்திரன்": மு.சி. உரை — 4, 8, 12 வீடுகள் (லக்னத்திலிருந்து — எங்கள் வாசிப்பு); ஸ்ரீதர் — ஜன்ம ராசிக்கு 4, 8, 12; J.V. — தேய் 10 முதல் வளர் 5 வரை (கணிக்கப்படவில்லை); கல்யாணராமன் — "க்ஷீணமாக இருக்கக் கூடாது" (மாறாக).',
+  'அச்சுப் பிழைகள் போலத் தெரிபவை: கல்யாணராமன், ஜோஷியின் 18-ல் புனர்பூசம் உள்ளது, அனுஷம் இல்லை (மு.சி.யின் 18-ல் அனுஷம் உண்டு, புனர்பூசம் இல்லை) — அச்சில் உள்ளபடி; ரங்காச்சார்யாவின் "Avoid the rikta tithis, Sunday …" — "நல்லவை" என்று படித்தோம்; கல்யாணராமனின் குறிப்பு 5 குறிப்பு 3-க்கு முரண் — கணிக்கப்படவில்லை.',
+  'கணிக்கப்படாதவை: செவ்வாய் கோசாரத்தில் பலவீனம் (ஜோஷி, கல்யாணராமன்), "சந்திரன் பாவராக இருக்கக் கூடாது" (வில்ஹெல்ம்), இரண்டாம் குளியலுக்கு ஞாயிறு / சூரியனின் ராசி (வில்ஹெல்ம்), நோய் நீங்கிய பின் வெளியே செல்லுதல் (ஸ்ரீதர் §22.6), எண்ணெய்க் குளியல்.',
+]);
 const NOTES_OLD_HOUSE_TA = Object.freeze([
   'பழைய வீடு — வாங்கிய, வாடகை, பழுது பார்த்த, தீ / வெள்ளம் முதலியவற்றால் அழிந்து மீண்டும் கட்டிய வீடு. ஒவ்வொரு நூலும் புது வீட்டு விதிகளுடன் கூடுதலாக: கார்த்திக, மார்கசீர்ஷ, ஸ்ராவண மாதங்கள் (புது வீட்டின் நடுத்தர மாதங்கள் இங்கே நல்லவை); சதயம், பூசம், சுவாதி, அவிட்டம்; குரு, சுக்கிரன் அஸ்தங்கம் (பால்ய, விருத்த நிலை, சிம்மத்தில் குரு) பார்க்க வேண்டாம். திதி, கிழமை, லக்னம், கும்ப சக்கரம், வாசல் திசை — அந்த நூலின் புது வீட்டு வாசிப்பே.',
   'உத்தராயணம்: ஸ்ரீதர் — பழைய வீட்டுக்கு தக்ஷிணாயனத்திலும் நுழையலாம். மற்ற நூல்கள் சேர்த்த மாதங்கள் தக்ஷிணாயன மாதங்கள்; ஆகவே அவற்றிலும் உத்தராயண விதி இல்லை (எங்கள் வாசிப்பு).',
@@ -1423,17 +1544,17 @@ const NOTES_SURGERY_TA = Object.freeze([
 ]);
 
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY'],
-  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA,
 });
 
 module.exports = {
   EVENTS, DOORS, MONTH_TA, RANK, SOURCES, CODE_TA,
   NOTES_TA: deepFreeze({
     ...NOTES_TA, UPANAYANA: NOTES_UPANAYANA_TA, TRAVEL: NOTES_TRAVEL_TA, VIDYARAMBHA: NOTES_VIDYARAMBHA_TA, EDUCATION: NOTES_EDUCATION_TA, BUSINESS: NOTES_BUSINESS_TA,
-    MEDICINE: NOTES_MEDICINE_TA, SURGERY: NOTES_SURGERY_TA, OLD_HOUSE: NOTES_OLD_HOUSE_TA,
+    MEDICINE: NOTES_MEDICINE_TA, SURGERY: NOTES_SURGERY_TA, OLD_HOUSE: NOTES_OLD_HOUSE_TA, ROGA_SNANA: NOTES_ROGA_SNANA_TA,
   }),
-  AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS,
+  AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS, BATH_MC_18, BATH_KR_18, BATH_13,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,
   DIRECTIONS, TITHI_DIR8, YOGINI_KP, GHATA, KAAL_SHOOLA, LALATIKA, TARA_1357,
 };

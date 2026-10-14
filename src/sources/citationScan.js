@@ -84,9 +84,15 @@ function enclosingObject(text, index) {
   return text.slice(Math.max(0, index - 800), index);
 }
 
+/**
+ * A string literal: its quote, then escaped characters or any character but that quote, then the quote.
+ * (A citation quoting "Jupiter\'s" used to end at the backslash, and one opening with an escaped quote came out empty.)
+ */
+const LITERAL = String.raw`(['"${'`'}])((?:\\[\s\S]|(?!\1)[^\\])*)\1`;
+const unescape = (s) => s.replace(/\\([\s\S])/g, '$1').replace(/\s+/g, ' ').trim();
 const quoted = (text, key) => {
-  const m = text.match(new RegExp(`\\b${key}:\\s*(['"\`])([\\s\\S]*?)\\1`));
-  return m ? m[2].replace(/\s+/g, ' ').trim() : null;
+  const m = text.match(new RegExp(String.raw`\b${key}:\s*` + LITERAL));
+  return m ? unescape(m[2]) : null;
 };
 
 /**
@@ -126,14 +132,14 @@ function scanCitations({ root = null } = {}) {
   for (const file of files) {
     const text = fs.readFileSync(file, 'utf8');
     const rel = path.relative(base, file).split(path.sep).join('/');
-    for (const m of text.matchAll(/pageLocus:\s*(['"`])([\s\S]*?)\1/g)) {
+    for (const m of text.matchAll(new RegExp(String.raw`pageLocus:\s*` + LITERAL, 'g'))) {
       const before = enclosingObject(text, m.index);
-      const inline = [...before.matchAll(/title:\s*(['"`])([\s\S]*?)\1/g)].pop();
+      const inline = [...before.matchAll(new RegExp(String.raw`title:\s*` + LITERAL, 'g'))].pop();
       const spread = [...before.matchAll(/\.\.\.\s*([A-Z][A-Z_0-9]*)/g)].pop();
-      const title = (inline && inline[2].replace(/\s+/g, ' ').trim())
+      const title = (inline && unescape(inline[2]))
         || (spread && titles.get(spread[1]))
         || null;
-      const locus = m[2].replace(/\s+/g, ' ').trim();
+      const locus = unescape(m[2]);
       citations.push({
         module: rel,
         line: text.slice(0, m.index).split('\n').length,

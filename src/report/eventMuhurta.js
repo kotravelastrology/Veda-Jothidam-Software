@@ -165,6 +165,11 @@ function panchangaCodes(r, x) {
     if (r.marsSaturn === 'INFLUENCE' && (sOnM || x.signs.Mars === x.signs.Saturn)) out.push('MARS_SATURN');
     if (r.marsSaturn === 'MUTUAL' && sOnM && mOnS) out.push('MARS_SATURN_MUTUAL');
   }
+  // The recovery bath: the Moon in the 4th, 8th or 12th from the birth Moon (Shridhar wants it; marked).
+  if (r.moonWeak?.from === 'NATAL' && Number.isInteger(x.natalMoon) && x.signs) {
+    const there = r.moonWeak.houses.includes(houseOf(x.signs.Moon, x.natalMoon));
+    if (r.moonWeak.want ? !there : there) out.push(r.moonWeak.want ? 'MOON_NOT_WEAK_MID' : 'MOON_WEAK_MID');
+  }
   if (r.jupStrong) {
     const s = x.signs.Jupiter;
     const n = x.navs.Jupiter;
@@ -377,6 +382,11 @@ function lagnaCodes(r, m) {
   if (r.sunMarsNav && m.navSigns && (m.navSigns.Sun === m.nav || m.navSigns.Mars === m.nav)) out.push('SUN_MARS_NAV');
   if (r.benHouse && !r.benHouse.planets.some((p) => r.benHouse.houses.includes(H[p]))) out.push(r.benHouse.code ?? 'BEN_HOUSE_MID');
   if (r.lagnaLordBenefic && !BENEFICS.includes(RASI_LORDS[m.lagna])) out.push('LAGNA_LORD_MID');
+  // The recovery bath: the Moon in the 4th, 8th or 12th from the lagna (MC's commentary wants it; Kalyanraman not).
+  if (r.moonWeak?.from === 'LAGNA') {
+    const there = r.moonWeak.houses.includes(H.Moon);
+    if (r.moonWeak.want ? !there : there) out.push(r.moonWeak.want ? 'MOON_NOT_WEAK_MID' : 'MOON_WEAK_MID');
+  }
   // Places a book asks for (Rangacharya's surgery: a malefic in the 6th; the Sun and the Moon in kendras) — marked.
   for (const w of r.want ?? []) {
     const there = (p) => w.houses.includes(H[p]);

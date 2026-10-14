@@ -382,6 +382,7 @@ const TIERS = deepFreeze({
   BUSINESS: { EVENT: 'MUST', ASHTAMA: 'MUST', PDB: 'MUST', KARTARI: 'MUST', GANDANTA: 'MUST', BANA: 'MUST', NAV_WHICH: 'MUST', UDAYA: 'PREFER', SHADVARGA: 'MUST', DREKKANA: 'PREFER', VISHANADI: 'MUST', ADVERSE: 'PREFER' },
   MEDICINE: { EVENT: 'MUST', ASHTAMA: 'MUST', PDB: 'MUST', KARTARI: 'MUST', GANDANTA: 'MUST', BANA: 'MUST', NAV_WHICH: 'MUST', UDAYA: 'PREFER', SHADVARGA: 'MUST', DREKKANA: 'PREFER', VISHANADI: 'MUST', ADVERSE: 'PREFER' },
   SURGERY: { EVENT: 'MUST', ASHTAMA: 'MUST', PDB: 'MUST', KARTARI: 'MUST', GANDANTA: 'MUST', BANA: 'MUST', NAV_WHICH: 'MUST', UDAYA: 'PREFER', SHADVARGA: 'MUST', DREKKANA: 'PREFER', VISHANADI: 'MUST', ADVERSE: 'PREFER' },
+  ROGA_SNANA: { EVENT: 'MUST', ASHTAMA: 'MUST', PDB: 'MUST', KARTARI: 'MUST', GANDANTA: 'MUST', BANA: 'MUST', NAV_WHICH: 'MUST', UDAYA: 'PREFER', SHADVARGA: 'MUST', DREKKANA: 'PREFER', VISHANADI: 'MUST', ADVERSE: 'PREFER' },
 });
 const TIER_TA = Object.freeze({ MUST: 'கட்டாயம்', PREFER: 'விரும்பத்தக்கது' });
 const TIER_NOTE_TA = 'கட்டாயம் — பொருந்தாவிட்டால் விலக்கு; விரும்பத்தக்கது — "கவனம்" எனக் காட்டப்படும். இயல்பு: மூன்று அல்லது அதற்கு மேற்பட்ட நூல்கள் விலக்கச் சொல்பவை கட்டாயம்; ஒரே நூல் சொல்பவை (திரேக்காணம் — ஸ்ரீதர்; §13.10 — ஸ்ரீதர்) விரும்பத்தக்கவை; மற்ற காரியங்களுக்கு உதய-அஸ்த சுத்தி விரும்பத்தக்கது (உரிமையாளர் முடிவு). ஒவ்வொன்றையும் மாற்றலாம்.';
@@ -399,7 +400,7 @@ const ADVERSE_TA = Object.freeze({
  */
 const EVENTS = deepFreeze({
   default: 'MARRIAGE',
-  order: ['MARRIAGE', 'OTHER', 'GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY'],
+  order: ['MARRIAGE', 'OTHER', 'GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA'],
   MARRIAGE: { labelTa: 'திருமணம்', checks: ['PLACEMENTS', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: {} },
   OTHER: { labelTa: 'மற்ற சுப காரியம்', checks: ['COMMON', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_WHICH', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: { NAV_WHICH: ['BENEFIC_LORD'], UDAYA: ['ANY_OF_FOUR'] } },
   // An event with its own rules (eventMuhurtaTables.js): those take the general rule's place.
@@ -412,6 +413,7 @@ const EVENTS = deepFreeze({
   BUSINESS: { labelTa: 'வியாபாரம்', checks: ['EVENT', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_WHICH', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: { NAV_WHICH: ['BENEFIC_LORD'], UDAYA: ['ANY_OF_FOUR'] }, event: 'BUSINESS' },
   MEDICINE: { labelTa: 'மருந்து / சிகிச்சை', checks: ['EVENT', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_WHICH', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: { NAV_WHICH: ['BENEFIC_LORD'], UDAYA: ['ANY_OF_FOUR'] }, event: 'MEDICINE' },
   SURGERY: { labelTa: 'அறுவை சிகிச்சை', checks: ['EVENT', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_WHICH', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: { NAV_WHICH: ['BENEFIC_LORD'], UDAYA: ['ANY_OF_FOUR'] }, event: 'SURGERY' },
+  ROGA_SNANA: { labelTa: 'நோய் நீங்கிய குளியல்', checks: ['EVENT', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_WHICH', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: { NAV_WHICH: ['BENEFIC_LORD'], UDAYA: ['ANY_OF_FOUR'] }, event: 'ROGA_SNANA' },
 });
 
 const RANK_ADVERSE = {

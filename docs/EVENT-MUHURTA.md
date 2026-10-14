@@ -1,4 +1,4 @@
-# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel, vidyarambha, education, opening a shop, medicine and surgery (2026-10-13), an old house (2026-10-14)
+# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel, vidyarambha, education, opening a shop, medicine and surgery (2026-10-13), an old house and the bath after recovery (2026-10-14)
 
 `src/report/eventMuhurtaTables.js` (the books' rules) · `src/report/eventMuhurta.js`
 (pure: the codes for a moment) · `test-event-muhurta.js` with
@@ -425,6 +425,71 @@ Measured at Erode, 60 days, every check, new house → old house:
 
 `/muhurta` has it as "oldhouse" (பழைய வீட்டில் நுழைதல்).
 
+## The first bath after recovering from illness — eight books (added 2026-10-14)
+
+| Book | Words | Pages |
+|---|---|---|
+| Shridhar (default) | 251 | §22.5, p.605 |
+| Wilhelm | 199 | pp.268-269 |
+| Kalyanraman | 186 | vol.2 p.202 |
+| Muhurta Chintamani | 128 | sloka 2/40, p.76 |
+| Joshi | 89 | p.147 |
+| Rangacharya | 72 | p.133 |
+| Raman | 70 | PDF pp.53-54 |
+| Agarwal | 37 | p.329 |
+
+The books follow two schools.
+
+- **MC 2/40** ("…रिक्ते तिथौ चरतनौ विकवीन्दुवारे … हीने विधौ खलखगैर्भवकेन्द्रकोणे"),
+  followed by Shridhar (his first reading), Kalyanraman, Joshi and Rangacharya:
+  - all stars but nine (Revati, Punarvasu, the Dhruvas, Magha, Swati, Ashlesha);
+  - Rikta tithis;
+  - a movable lagna;
+  - not Monday or Friday;
+  - a weak Moon;
+  - malefics in the kendras, konas and 11th.
+- **K.P.** (quoted by Shridhar), followed by Wilhelm, Raman and Agarwal:
+  - thirteen stars;
+  - no Rikta tithi or Amavasya;
+  - no Chandrashtama;
+  - Tuesday, Wednesday, Thursday;
+  - malefics in 3 and 6, benefics in kendras and konas.
+
+Every reading is computed as printed. Where a book seems to have a misprint,
+we chose a reading:
+- Kalyanraman's and Joshi's printed eighteen stars have Punarvasu and not
+  Anuradha (MC's eighteen are the reverse). We kept them as printed.
+- Rangacharya prints "Avoid the rikta tithis, Sunday, Tuesday, Wednesday,
+  Thursday and Saturday". Taken literally, no weekday would remain, so we read
+  it as MC's "good".
+- Kalyanraman's note 5 contradicts his note 3 and is not computed. His note 4
+  says the Moon "must not be emaciated" (in 4/8/12); that is marked.
+
+Marked, not rejected, as in the other events:
+- **The places of malefics and benefics.**
+- **The weak Moon (new `moonWeak`):**
+  - MC's commentary puts it in the 4th, 8th or 12th house. We count from the
+    lagna (our reading); Rangacharya is read the same way.
+  - Shridhar counts from the birth Moon.
+  - J.V.'s phase rule (Krishna 10 to Shukla 5) is not computed.
+
+Wilhelm's lagna: the signs of Mars, Mercury and Jupiter that are not movable
+are good; movable signs are rejected; the rest are middling. Their navamsas
+are marked.
+
+Not computed:
+- Mars weak in transit
+- "the Moon not a malefic"
+- the second bath
+- going out after recovery
+
+Measured at Erode, 60 days, every check (the MC school / Wilhelm / Raman / Agarwal):
+- from 2027-01-20: 0 / 5 / 6 / 7 days
+- from 2027-03-25: 3 / 3 / 0 / 4
+- from 2027-06-01: 2 / 1 / 3 / 3
+
+`/muhurta` has it as "rogasnana".
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are
@@ -436,7 +501,7 @@ narrow — about one day in sixty passes at sunrise.
 
 ## Not done
 
-The bath after recovery and the other events; the subject-by-subject education stars; for house entry: Yogini, Kala Rahu,
+The other events; the subject-by-subject education stars; for house entry: Yogini, Kala Rahu,
 forenoon, the wife's pregnancy. For travel: omens, Trinavami, eclipses, the
 equinox days, kshaya / adhika months, horas, velas, the month–tithi table,
 Khanda / Yamardha / Muhurta Rahu, Vaar Yogini, dawn / dusk / midnight kaala
