@@ -815,7 +815,7 @@ export default function MuhurtaStarsView() {
                         {r.masa && <li>மாதம்: {months(r.masa.good)}{r.masa.mid.length > 0 && <> · நடுத்தரம் {months(r.masa.mid)}</>}{!r.masa.strict && ' (விருப்பம்)'}</li>}
                         {r.uttarayana && <li>உத்தராயணம்: {r.uttarayana === 'REQUIRED' ? 'வேண்டும்' : 'விருப்பம்'}</li>}
                         {r.nak && <li>நட்சத்திரம்: {stars(r.nak.good)}{r.abhijitOk && ', அபிஜித்'}{r.nak.mid.length > 0 && <> · நடுத்தரம் {stars(r.nak.mid)}</>}{r.digdwar && ' · வாசலை நோக்கியவையும்'}</li>}
-                        {r.tithi && <li>திதி: {r.tithi.length >= 23 ? `${30 - r.tithi.length} தவிர மற்றவை (${tithiList([...Array(30).keys()].map((i) => i + 1).filter((t) => !r.tithi.includes(t)))} இல்லை)` : tithiList(r.tithi)}{r.tithiDoor && ' · வாசல் திசைக்கு உரிய வகை'}
+                        {r.tithi && <li>திதி: {r.tithi.length >= 23 ? `${tithiList([...Array(30).keys()].map((i) => i + 1).filter((t) => !r.tithi.includes(t)))} தவிர மற்றவை எல்லாம்` : tithiList(r.tithi)}{r.tithiDoor && ' · வாசல் திசைக்கு உரிய வகை'}
                           {r.tithiMid && <> · நடுத்தரம் {tithiList(r.tithiMid)}</>}
                           {r.tithiNot && <> · கூடாது {tithiList(r.tithiNot)} (மற்றவை நடுத்தரம்)</>}</li>}
                         {r.vara && <li>கிழமை: {days(r.vara.good)}{r.vara.mid.length > 0 && <> · நடுத்தரம் {days(r.vara.mid)}</>}</li>}
