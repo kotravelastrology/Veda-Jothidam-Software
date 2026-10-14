@@ -1,4 +1,4 @@
-# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel, vidyarambha, education and opening a shop (2026-10-13)
+# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel, vidyarambha, education, opening a shop, medicine and surgery (2026-10-13)
 
 `src/report/eventMuhurtaTables.js` (the books' rules) · `src/report/eventMuhurta.js`
 (pure: the codes for a moment) · `test-event-muhurta.js` with
@@ -310,6 +310,85 @@ computed but never shown on a good lagna; they are now listed after "கவன�
 (`EVENT_MARK` in `lagnaVerdict`, never rejecting). `/muhurta` judges `business`
 at sunrise.
 
+## Taking medicine / beginning treatment — eight books (added 2026-10-13)
+
+| Book | Words | Pages |
+|---|---|---|
+| Wilhelm (default) | 886 | pp.275-277 "Treatment of disease & taking medicine" (with blood-letting p.269, dental p.272, laxatives p.273) |
+| Raman | 633 | ch.XV "Medical Elections", PDF pp.52-53 |
+| Shridhar | 328 | §22.3, pp.603-604 |
+| Muhurta Chintamani | 218 | sloka 2/15 (p.57), 2/30's blood-letting and purgatives (pp.66-67) |
+| Kalyanraman | 215 | vol.2 pp.201-203 |
+| Joshi | 106 | ch.13, pp.146-147 |
+| Vashistha | 103 | p.133 "Aushadh-Sevana" with its note |
+| Rangacharya | 71 | pp.132-133 "Medical matters" |
+
+Counted: treatment and taking medicine, disease by disease, purgatives,
+blood-letting and dental work; not the onset-of-disease prognosis, preparing
+medicine, the bath after recovery or surgery. Agarwal has the bath only.
+
+Five books follow MC 2/15: Laghu, Mridu and Chara stars and Moola; a dual lagna
+with a benefic in it; no planet in the 7th, 8th or 12th; not Rikta or Amavasya;
+not the Janma star. Wilhelm and Shridhar call the dual lagna "best" (others
+middling) and take the fixed stars as middling (Kalaprakasika, K.P.).
+Kalyanraman's own table is stars, tithis and days; MC's lagna rules and the
+Janma star are in his notes, so they are marked. Raman gives the stars for
+chronic disease only. Vashistha has his own lists, the lagna, 7th, 8th and 12th
+free of malefics, and his note's other houses marked, Bhadra rejected.
+Rangacharya prints Sunday as good and then "never begin … on Sunday" — middling
+here; Thursday is not printed and is rejected.
+
+A benefic in the lagna is marked in every book. MC's verse makes it a
+condition (our reading — as for business).
+
+Measured at Erode (birth 1990-05-15), 60 days from 2027-01-20, every check:
+Wilhelm and Shridhar 6 days, Raman 10, Kalyanraman 6, Rangacharya 3, MC 1,
+Joshi and Vashistha 0 (a dual lagna with the 7th, 8th and 12th empty; Rahu and
+Ketu count as planets).
+
+## Surgery — six books (added 2026-10-13)
+
+| Book | Words | Pages |
+|---|---|---|
+| Wilhelm (default) | 499 | pp.273-275 (surgery, cosmetic surgery) |
+| Raman | 194 | PDF p.53 |
+| Shridhar | 152 | §22.4, pp.604-605 |
+| Vashistha | 65 | p.133 "Shalyakarma" with its note |
+| Kalyanraman | 40 | vol.2 p.203 |
+| Rangacharya | 32 | p.133 |
+
+MC, Joshi and Agarwal have no surgery section. Wilhelm, Raman and Shridhar's
+K.P. take the sharp stars (Ardra, Ashlesha, Jyeshtha, Moola) and Rikta tithis.
+Shridhar adds B.J.S.'s eleven stars to them. Kalyanraman leaves out the Rikta
+tithis and Saturday.
+
+- **Moon from the birth Moon:** in the same sign, Wilhelm marks it and Raman
+  rejects it. Shridhar rejects the 4th, 8th and 12th.
+- **New: Mars and Saturn by sign** (`marsSaturn`):
+  - Wilhelm: Saturn with Mars or aspecting it (3rd, 7th, 10th) rejects.
+  - Raman: a mutual aspect rejects.
+- **New: `want`** (places a book asks for — marked): Rangacharya's malefic in
+  the 6th, and the Sun and Moon in kendras.
+- **Wilhelm's "in addition to treatment":** its 7th and 12th empty are marked.
+- **Raman's waxing Moon "when possible":** waning is marked. `/muhurta` now
+  takes `krishnaMid` at sunrise.
+
+Not computed:
+- Mars "powerful"
+- the bhava, lord and tissue planet of the part operated on
+- the Moon's sign's body part
+- Jupiter and Moon aspecting the lagna
+- Ghaata planets
+- cosmetic surgery
+
+Measured at Erode, 60 days from 2027-01-20, every check: Wilhelm 3 days,
+Kalyanraman 3, Rangacharya 8; Raman, Shridhar and Vashistha 0. At sunrise
+(Chennai), Shridhar's three-way rule gives one day in six months: Tuesday,
+8 June 2027 (Shukla Chaturthi, Pushya).
+
+`/muhurta` splits the old "medical" purpose into "medical" (medicine) and
+"surgery".
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are
@@ -321,7 +400,7 @@ narrow — about one day in sixty passes at sunrise.
 
 ## Not done
 
-Medical treatment and the other events; an old house (the books'
+The bath after recovery and the other events; an old house (the books'
 second list); the subject-by-subject education stars; for house entry: Yogini, Kala Rahu,
 forenoon, the wife's pregnancy. For travel: omens, Trinavami, eclipses, the
 equinox days, kshaya / adhika months, horas, velas, the month–tithi table,

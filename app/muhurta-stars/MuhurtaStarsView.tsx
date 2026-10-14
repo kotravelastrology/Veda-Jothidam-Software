@@ -811,7 +811,7 @@ export default function MuhurtaStarsView() {
                   );
                 })}
                 <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-2 space-y-0.5">{B.lagna.eventNotesTa[evName].map((n: string) => <li key={n}>{n}</li>)}</ul>
-                <Cites list={[...B.lagna.eventSources.MONTHS, ...(['UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'BUSINESS'].includes(evName) ? [B.lagna.eventSources.VISHTI] : [])]} />
+                <Cites list={[...B.lagna.eventSources.MONTHS, ...(['UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'BUSINESS', 'MEDICINE', 'SURGERY'].includes(evName) ? [B.lagna.eventSources.VISHTI] : [])]} />
               </section>
             );
           })()}

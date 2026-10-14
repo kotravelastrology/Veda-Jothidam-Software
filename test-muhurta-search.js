@@ -10,7 +10,7 @@ for (const key of ['marriage', 'business', 'travel', 'griha', 'upanayana', 'educ
   assert.ok(p && p.label, `${key} has a label`);
   assert.equal(p.goodNak, undefined, `${key}: no unsourced star list`);
 }
-assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION', business: 'BUSINESS' });
+assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION', business: 'BUSINESS', medical: 'MEDICINE', surgery: 'SURGERY' });
 assert.ok(PURPOSES.ritual && !SOURCED.ritual, '"Ritual" is not read from the books yet');
 
 // ── an unsourced purpose: panchanga, no verdict ──────────────────────────
@@ -150,5 +150,32 @@ for (const book of BU.order) {
   for (const d of holi) assert.equal(d.codes.includes('BHURUDAN'), book === 'VASHISTHA', `${book} ${d.date}`);
 }
 assert.equal(searchMuhurta({ startDate: '2027-03-01', endDate: '2027-03-02', purpose: 'business', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 }).book, BU.default);
+
+// ── medicine and surgery: the sunrise rules (no person, no planets) ───────
+for (const [purpose, ev] of [['medical', 'MEDICINE'], ['surgery', 'SURGERY']]) {
+  const EV = E.EVENTS[ev];
+  for (const book of EV.order) {
+    const v = searchMuhurta({ startDate: '2027-02-01', endDate: '2027-03-31', purpose, latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330, book });
+    assert.equal(v.sourced, true);
+    assert.equal(v.event, ev);
+    assert.equal(v.book, book);
+    assert.ok(v.noteTa.includes('/muhurta-stars'));
+    const personal = ['TARA_NOT', 'CHANDRA', 'MARS_SATURN', 'MARS_SATURN_MUTUAL', 'LAGNA', 'EMPTY_8', 'BEN_LAGNA'];
+    for (const d of v.days) {
+      assert.ok(!d.codes.some((c) => personal.includes(c.replace(/_MID$/, ''))), `${ev} ${book} ${d.date}: only sunrise rules`);
+      assert.ok(d.notes.every((n) => !/^[A-Z_]+$/.test(n)), `${ev} ${book} ${d.date}: in Tamil`);
+    }
+    // Shridhar's, Raman's and Vashistha's surgery need the Rikta tithi, the weekday and the star together: a day or two in months.
+    if (!(ev === 'SURGERY' && ['SHRIDHAR', 'RAMAN', 'VASHISTHA'].includes(book))) assert.ok(v.days.some((d) => d.score >= 70), `${ev} ${book}: some good sunrises`);
+    // Raman's surgery: the waning Rikta tithis are marked at sunrise.
+    if (ev === 'SURGERY' && book === 'RAMAN') for (const d of v.days.filter((x) => /^Krishna (Chaturthi|Navami|Chaturdashi)$/.test(x.tithi))) assert.ok(d.codes.includes('KRISHNA_MID'), d.date);
+  }
+  assert.equal(searchMuhurta({ startDate: '2027-02-01', endDate: '2027-02-02', purpose, latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 }).book, EV.default);
+}
+// Shridhar's surgery at Chennai, June–July 2027: one sunrise — Tuesday 8 June, Shukla Chaturthi, Pushya.
+{
+  const v = searchMuhurta({ startDate: '2027-06-01', endDate: '2027-07-31', purpose: 'surgery', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330, book: 'SHRIDHAR' });
+  assert.deepEqual(v.days.filter((d) => d.score >= 70).map((d) => [d.date, d.weekday, d.tithi, d.nakshatra]), [['2027-06-08', 'Tuesday', 'Shukla Chaturthi', 'Pushya']]);
+}
 
 console.log(JSON.stringify({ pass: true, marriageDays: res.days.length, grihaDefault: G.default }, null, 2));

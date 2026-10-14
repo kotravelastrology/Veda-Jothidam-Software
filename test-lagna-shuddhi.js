@@ -550,6 +550,8 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
         VIDYARAMBHA: stretchCodesOf('VIDYARAMBHA', { ...travel, month: s.month, navSigns: pieceNav }, vara),
         EDUCATION: stretchCodesOf('EDUCATION', { ...travel, month: s.month, navSigns: pieceNav }, vara),
         BUSINESS: stretchCodesOf('BUSINESS', { ...travel, month: s.month, navSigns: pieceNav }, vara),
+        MEDICINE: stretchCodesOf('MEDICINE', { ...travel, month: s.month, navSigns: pieceNav }, vara),
+        SURGERY: stretchCodesOf('SURGERY', { ...travel, month: s.month, navSigns: pieceNav }, vara),
       }, `event ${x.fromUtc}`);
       n += 1;
     }

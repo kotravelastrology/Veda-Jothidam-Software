@@ -221,5 +221,44 @@
     "lagna_avoid": { "all_but_RANGACHARYA": [11] },
     "places": { "malefics_not_in": [8, 12], "VASHISTHA_empty": [8, 12], "benefics_in": [2, 10, 11], "in_lagna": { "VASHISTHA": ["Moon", "Mercury"], "others": ["Moon", "Venus"] } },
     "VASHISTHA_more": { "jupiter_venus_not_combust": true, "avoid_month": "Pausha", "chaturmas": true, "yogas_avoid": ["Vyaghata", "Vyatipata", "Vaidhriti"], "bhadra": true, "bhurudan_holi": { "month": "Phalguna", "tithi": 15 } }
+  },
+  "medicine": {
+    "_about": "Transcribed 2026-10-13 from the page images: taking medicine / beginning treatment. Names as in the travel block; Abhijit listed apart; tithis within the paksha unless said; signs 1 = Aries.",
+    "words": { "WILHELM": 886, "RAMAN": 633, "SHRIDHAR": 328, "MUHURTA_CHINTAMANI": 218, "KALYANRAMAN": 215, "JOSHI": 106, "VASHISTHA": 103, "RANGACHARYA": 71 },
+    "default": "WILHELM",
+    "stars": {
+      "WILHELM_favorable": ["Ashwini", "Mrigashira", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Anuradha", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"],
+      "WILHELM_mediocre": ["Moola", "Rohini", "UPhalguni", "UAshadha", "UBhadra"],
+      "MC_laghu_mridu_chara_moola": ["Hasta", "Ashwini", "Pushya", "Mrigashira", "Revati", "Chitra", "Anuradha", "Swati", "Punarvasu", "Shravana", "Dhanishtha", "Shatabhisha", "Moola"],
+      "KR_table": ["Ashwini", "Mrigashira", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Anuradha", "Moola", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"],
+      "SHRIDHAR_KP_fixed": ["Rohini", "UPhalguni", "UAshadha", "UBhadra"],
+      "RAMAN_chronic": ["Ashwini", "Rohini", "Mrigashira", "Punarvasu", "Pushya", "UPhalguni", "UAshadha", "UBhadra", "Hasta", "Chitra", "Swati", "Anuradha", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"],
+      "VASHISTHA": ["Ashwini", "Krittika", "Rohini", "Mrigashira", "Punarvasu", "Pushya", "Magha", "UPhalguni", "UAshadha", "UBhadra", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Moola", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"]
+    },
+    "abhijit": ["MUHURTA_CHINTAMANI", "KALYANRAMAN", "JOSHI"],
+    "tithis": { "WILHELM_avoid": [4, 9, 14, 30], "KR_JOSHI": [1, 2, 3, 5, 7, 10, 11, 13], "VASHISTHA_K1_and_shukla": [16, 2, 3, 5, 7, 10, 11, 12], "MC_SHRIDHAR_RANGACHARYA_avoid": [4, 9, 14, 30] },
+    "weekdays": {
+      "WILHELM": ["Sun", "Mon", "Wed", "Thu", "Fri"], "SHRIDHAR": ["Mon", "Wed", "Thu", "Fri"], "SHRIDHAR_JV_also": ["Sun"], "MC": ["Fri", "Mon", "Thu", "Wed", "Sun"],
+      "KR_JOSHI": ["Mon", "Wed", "Thu", "Fri"], "KR_MC_also": ["Sun"], "VASHISTHA": ["Sun", "Mon", "Wed", "Thu", "Fri"], "RANGACHARYA_good": ["Mon", "Wed", "Fri"], "RANGACHARYA_printed_good_and_never": ["Sun"]
+    },
+    "lagna_dual": [3, 6, 9, 12],
+    "empty": { "WILHELM_SHRIDHAR_MC_KR_JOSHI": [7, 8, 12], "RANGACHARYA": [6, 12], "VASHISTHA_free_of_affliction": [1, 7, 8, 12], "VASHISTHA_note": [1, 4, 7, 10, 6, 8, 12] },
+    "benefics_in_lagna": ["Moon", "Mercury", "Jupiter", "Venus"]
+  },
+  "surgery": {
+    "_about": "Transcribed 2026-10-13 from the page images: surgery. Names as in the travel block; signs 1 = Aries; houses of the Moon from the birth Moon.",
+    "words": { "WILHELM": 499, "RAMAN": 194, "SHRIDHAR": 152, "VASHISTHA": 65, "KALYANRAMAN": 40, "RANGACHARYA": 32 },
+    "default": "WILHELM",
+    "stars": {
+      "sharp_WILHELM_RAMAN_KP": ["Ardra", "Ashlesha", "Jyeshtha", "Moola"], "WILHELM_then": ["Krittika"],
+      "SHRIDHAR_BJS": ["Hasta", "Chitra", "Swati", "Ashwini", "Pushya", "Shatabhisha", "Rohini", "Mrigashira", "Shravana", "Anuradha", "Jyeshtha"],
+      "VASHISTHA": ["Ashwini", "Mrigashira", "Punarvasu", "Hasta", "Swati", "Anuradha", "Jyeshtha", "Shravana", "Shatabhisha"],
+      "KR": ["Ashwini", "Ardra", "Ashlesha", "Magha", "Jyeshtha", "Moola"]
+    },
+    "tithis": { "rikta": [4, 9, 14], "WILHELM_then": [3, 13], "WILHELM_avoid": [6, 8, 12, 15, 30], "KR": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15] },
+    "weekdays": { "WILHELM_best": ["Tue", "Sat"], "WILHELM_not": ["Sun"], "RAMAN": ["Tue", "Sat"], "SHRIDHAR_KP_RANGACHARYA": ["Tue", "Sun"], "VASHISTHA": ["Sun", "Tue", "Thu"], "KR": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri"] },
+    "lagnas_WILHELM_SHRIDHAR": [1, 2, 4, 6],
+    "moon_from_birth_moon_avoid": { "WILHELM_best_not": [1], "RAMAN": [1], "SHRIDHAR": [4, 8, 12] },
+    "eighth_empty": ["WILHELM", "RAMAN", "SHRIDHAR", "RANGACHARYA"]
   }
 }

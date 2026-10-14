@@ -948,7 +948,191 @@ const BUSINESS = deepFreeze({
   },
 });
 
+// ---------------------------------------------------------------------------
+// Taking medicine / beginning treatment, and surgery, added 2026-10-13
+// ---------------------------------------------------------------------------
+
+/** MC 2/15's stars for the first dose: Laghu (Hasta, Ashwini, Pushya; Abhijit), Mridu (Mrigashira, Revati, Chitra, Anuradha), Chara (Swati, Punarvasu, Shravana, Dhanishtha, Shatabhisha), Moola. */
+const MEDICINE_13 = Object.freeze([12, 0, 7, 4, 26, 13, 16, 14, 6, 21, 22, 23, 18]);
+const FIXED_STARS = Object.freeze([3, 11, 20, 25]);
+/** The sharp (Tikshna) stars: Jyeshtha, Ardra, Ashlesha, Moola. */
+const SHARP_STARS = Object.freeze([17, 5, 8, 18]);
+const NOT_RIKTA_AMAVASYA = Object.freeze(NOT_RIKTA.filter((t) => t !== 30));
+const NOT_DUAL = Object.freeze(range(0, 11).filter((s) => !DUAL_SIGNS.includes(s)));
+const BEN_LAGNA = deepFreeze({ houses: [1], planets: ['Moon', 'Mercury', 'Jupiter', 'Venus'], code: 'BEN_LAGNA_MID' });
+const EMPTY_7_8_12 = Object.freeze([7, 8, 12]);
+
+/**
+ * Medicine's rules beyond the other events': benHouse BEN_LAGNA (a benefic in the lagna — marked).
+ * Disease by disease (fever, leprosy, rheumatism …), purgatives, blood-letting, preparing medicine: notes.
+ */
+const MEDICINE = deepFreeze({
+  labelTa: 'மருந்து உட்கொள்ளுதல் / சிகிச்சை தொடக்கம்',
+  default: 'WILHELM',
+  order: ['WILHELM', 'RAMAN', 'SHRIDHAR', 'MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'JOSHI', 'VASHISTHA', 'RANGACHARYA'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — நோய்ச் சிகிச்சை, மருந்து', booksTa: 'வில்ஹெல்ம் (மு.சி., காலப்பிரகாசிகை மேற்கோள்கள்)',
+    nak: { good: [0, 4, 6, 7, 12, 13, 14, 16, 21, 22, 23, 26], mid: [18, ...FIXED_STARS] }, digdwar: false, taraNot: [1],
+    tithi: ALL_TITHIS.filter((t) => ![...RIKTA, 30].includes(t)), vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    lagna: { good: DUAL_SIGNS, mid: NOT_DUAL }, benHouse: BEN_LAGNA, empty: EMPTY_7_8_12,
+    linesTa: [
+      '"Treatment of disease & taking medicine" (ப.275-277): நட்சத்திரம் — அசுவினி, மிருகசீரிடம், புனர்பூசம், பூசம், அஸ்தம், சித்திரை, சுவாதி, அனுஷம், திருவோணம், அவிட்டம், சதயம், ரேவதி; மூலம் (மு.சி.), ரோகிணி, மூன்று உத்திரம் (காலப்பிரகாசிகை) நடுத்தரம் · ஜன்ம நட்சத்திரம் "குறிப்பாகக்" கூடாது',
+      'திதி: 4, 9, 14, அமாவாசை "குறிப்பாகக்" கூடாது · கிழமை: ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி · லக்னம்: சுபருடன் உபய ராசி சிறந்தது (மற்றவை நடுத்தரம்; லக்னத்தில் சுபர் — குறிக்கப்படும்) · 7, 8, 12-ல் கிரகம் கூடாது',
+      'உக்ர யோகங்கள் (திதி–நட்சத்திரச் சேர்க்கைகள்) எந்த நோய்க்கும் நல்லவை; சந்திரன், புதன், குரு, சுக்கிரன் தம் வர்க்கங்களில், சர லக்னம் / நவாம்சம் — காய்ச்சலுக்குச் சிறப்பு; நோய்வாரி விதிகள் — கணிக்கப்படவில்லை (குறிப்புகளில்)',
+    ],
+  },
+  RAMAN: {
+    labelTa: 'ராமன் அத்.XV', booksTa: 'ராமன்',
+    nak: { good: [0, 3, 4, 6, 7, 11, 20, 25, 12, 13, 14, 16, 21, 22, 23, 26], mid: [] }, digdwar: false,
+    linesTa: [
+      '"Beginning Treatment" (ப.52): நீண்ட நாள் நோய்க்குச் சிகிச்சை — அசுவினி, ரோகிணி, மிருகசீரிடம், புனர்பூசம், பூசம், மூன்று உத்திரம், அஸ்தம், சித்திரை, சுவாதி, அனுஷம், திருவோணம், அவிட்டம், சதயம், ரேவதி · திதி, கிழமை, லக்னம் — பொது விதி இல்லை',
+      'நீண்ட நாள் நோய், மீண்டும் வரும் காய்ச்சல்: திங்கள்–அஸ்தம், புதன்–அசுவினி, வியாழன்–சித்திரை, வெள்ளி–புனர்பூசம், சந்திரன், புதன், குரு, சுக்கிரன் தம் வர்க்கங்களில், சர ராசி / அம்சம் உதயம் · உக்ர யோகங்கள் · நோய்வாரி விதிகள் — கணிக்கப்படவில்லை (குறிப்புகளில்)',
+    ],
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3', booksTa: 'ஸ்ரீதர் (மு.சி., J.V., K.P. மேற்கோள்கள்)',
+    nak: { good: MEDICINE_13, mid: FIXED_STARS }, digdwar: false, taraNot: [1],
+    tithi: NOT_RIKTA_AMAVASYA, vara: { good: [1, 3, 4, 5], mid: [0] },
+    lagna: { good: DUAL_SIGNS, mid: NOT_DUAL }, benHouse: BEN_LAGNA, empty: EMPTY_7_8_12,
+    linesTa: [
+      '"Administration of medicine" (ப.603): நட்சத்திரம் — லகு (அஸ்தம், அசுவினி, பூசம்), மிருது (மிருகசீரிடம், சித்திரை, அனுஷம், ரேவதி), சர (புனர்பூசம், சுவாதி, திருவோணம், சதயம், அவிட்டம்), மூலம் (மு.சி.); ஸ்திர (ரோகிணி, மூன்று உத்திரம்) — K.P. (நடுத்தரம்); ஜன்ம நட்சத்திரம் கூடாது (K.P.)',
+      'திதி: ரிக்த அல்லாத சுப திதி (அமாவாசையும் இல்லை — எங்கள் வாசிப்பு); J.V.: நந்தா, பூர்ணா, பௌர்ணமி அருகில் · கிழமை: திங்கள், புதன், வியாழன், வெள்ளி; ஞாயிறு — J.V. (நடுத்தரம்)',
+      'லக்னம்: உபய ராசி சிறந்தது (J.V.: ஒற்றை ராசி; மற்றவை நடுத்தரம்) · லக்னத்தில் சந்திரன் உட்பட சுபர் (குறிக்கப்படும்) · 7, 8, 12 காலி · ஆயுள் யோகங்கள் நல்லவை (காஷ்யபர், ஸ்ரீபதி — கணிக்கப்படவில்லை)',
+    ],
+  },
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி அத்.2', booksTa: 'முகூர்த்த சிந்தாமணி ஸ்லோ.2/15',
+    nak: { good: MEDICINE_13, mid: [] }, abhijitOk: true, digdwar: false, taraNot: [1],
+    tithi: NOT_RIKTA_AMAVASYA, vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    lagna: { good: DUAL_SIGNS, mid: [] }, benHouse: BEN_LAGNA, empty: EMPTY_7_8_12,
+    linesTa: [
+      'ஸ்லோ.2/15: "भैषज्यं सल्लघुमृदुचरे मूलभे द्व्यङ्गलग्ने शुक्रेन्द्विज्ये विदि च दिवसे चापि तेषां रवेश्च । शुद्धे रिःफद्युनमृतिगृहे सत्तिथौ नो जनर्क्षे" — மருந்து: லகு, மிருது, சர நட்சத்திரங்கள், மூலம் (அபிஜித் உட்பட); உபய லக்னம், அதில் சுக்கிரன், சந்திரன், குரு, புதன் (குறிக்கப்படும் — எங்கள் வாசிப்பு); 12, 7, 8 சுத்தம்',
+      'கிழமை: அந்தச் சுபர்களுடையவை, ஞாயிறும் · நல்ல திதி — ரிக்த, அமாவாசை தவிர (உரை) · ஜன்ம நட்சத்திரம் கூடாது · தையல் (சூசி கர்மம்): புனர்பூசம், அவிட்டம், சித்திரை, அனுஷம், அசுவினி, பூசம் (கணிக்கப்படவில்லை)',
+    ],
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2)', booksTa: 'கல்யாணராமன் (முகூர்த்த சிந்தாமணி மேற்கோள்)',
+    nak: { good: MEDICINE_13, mid: [] }, abhijitOk: true, digdwar: false, taraNot: [1],
+    tithi: bothPakshas([1, 2, 3, 5, 7, 10, 11, 13]), vara: { good: [1, 3, 4, 5], mid: [0] },
+    lagna: { good: DUAL_SIGNS, mid: [] }, benHouse: BEN_LAGNA, empty: EMPTY_7_8_12,
+    secondary: ['LAGNA', 'EMPTY_7', 'EMPTY_8', 'EMPTY_12', 'TARA_NOT'],
+    linesTa: [
+      '"Taking Medicines" (ப.201-202): நட்சத்திரம் 13 + அபிஜித் — அசுவினி, மிருகசீரிடம், புனர்பூசம், பூசம், அஸ்தம், சித்திரை, சுவாதி, அனுஷம், மூலம், திருவோணம், அவிட்டம், சதயம், ரேவதி · திதி: 1, 2, 3, 5, 7, 10, 11, 13 · கிழமை: திங்கள், புதன், வியாழன், வெள்ளி',
+      'குறிப்புகள் (மு.சி.யின்படி — குறிக்கப்படும்): ஞாயிறும் (நடுத்தரம்), ஜன்ம நட்சத்திரம், ரிக்த, அமாவாசை கூடாது; உபய லக்னத்தில் சுக்கிரன், சந்திரன், குரு, புதன்; 12, 7, 8-ல் கிரகம் இல்லாமல்',
+      '"Commencing Treatment" (ப.203): ரோகிணி, திருவோணம், சதயம்; "Herbal medication": பரணி — இவை தனிப் பட்டியல்கள், கணிக்கப்படவில்லை',
+    ],
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி அத்.13', booksTa: 'ஜோஷி',
+    nak: { good: MEDICINE_13, mid: [] }, abhijitOk: true, digdwar: false, taraNot: [1],
+    tithi: bothPakshas([1, 2, 3, 5, 7, 10, 11, 13]), vara: { good: [1, 3, 4, 5], mid: [] },
+    lagna: { good: DUAL_SIGNS, mid: [] }, benHouse: BEN_LAGNA, empty: EMPTY_7_8_12,
+    linesTa: [
+      '"For taking medicines" (ப.146-147): லகு (அஸ்தம், அசுவினி, பூசம், அபிஜித்), மைத்ர (மிருகசீரிடம், ரேவதி, சித்திரை, அனுஷம்), சர (சுவாதி, புனர்பூசம், திருவோணம், அவிட்டம், சதயம்), மூலம் · திதி: 1, 2, 3, 5, 7, 10, 11, 13 · கிழமை: திங்கள், புதன், வியாழன், வெள்ளி',
+      'லக்னம்: உபய ராசி, சுபருடன் (லக்னத்தில் சுபர் — குறிக்கப்படும்); 7, 8, 12-ல் கிரகம் இல்லை · ஆயுள் யோகங்கள் கூடுதல் நன்மை (கணிக்கப்படவில்லை) · ஜன்ம நட்சத்திரம் "எப்போதும்" கூடாது',
+    ],
+  },
+  VASHISTHA: {
+    labelTa: 'வசிஷ்டா — ஔஷத சேவனம்', booksTa: 'வசிஷ்டா',
+    tithi: [16, 2, 3, 5, 7, 10, 11, 12], vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    nak: { good: [0, 2, 3, 4, 6, 7, 9, 11, 20, 25, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 26], mid: [] }, digdwar: false,
+    lagna: { good: DUAL_SIGNS, mid: [] }, notIn: [[M5, [1, 7, 8, 12]], [M5, [4, 6, 10], true]], vishti: true,
+    linesTa: [
+      '"Aushadh-Sevana muhurta" (ப.133): திதி — தேய் 1, வளர் 2, 3, 5, 7, 10, 11, 12 · கிழமை: ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி · நட்சத்திரம்: அசுவினி, கிருத்திகை, ரோகிணி, மிருகசீரிடம், புனர்பூசம், பூசம், மகம், மூன்று உத்திரம், அஸ்தம், சித்திரை, சுவாதி, விசாகம், அனுஷம், கேட்டை, மூலம், திருவோணம், அவிட்டம், சதயம், ரேவதி',
+      'லக்னம்: 3, 6, 9, 12 (உபயம்); லக்னம், 7, 8, 12 பாதிப்பின்றி (பாவர் இல்லாமல்) · குறிப்பு (சிகிச்சைக்கு): 1, 4, 7, 10, 6, 8, 12 பாதிப்பின்றி (4, 6, 10 — குறிக்கப்படும்), பத்ரை கூடாது; அம்ருத யோகம், குரு சுபம், தாரா சுத்தி — பொதுப் பகுதியில் / கணிக்கப்படவில்லை',
+    ],
+  },
+  RANGACHARYA: {
+    labelTa: 'ரங்காச்சார்யா', booksTa: 'ரங்காச்சார்யா',
+    nak: { good: MEDICINE_13, mid: [] }, digdwar: false, taraNot: [1],
+    tithi: NOT_RIKTA_AMAVASYA, vara: { good: [1, 3, 5], mid: [0] },
+    lagna: { good: DUAL_SIGNS, mid: NOT_DUAL }, benHouse: BEN_LAGNA, empty: [6, 12],
+    linesTa: [
+      '"Medical matters" (ப.132-133): சர, லகு, மிருது நட்சத்திரங்கள், மூலம் · ஜன்ம நட்சத்திரத்தில் "ஒருபோதும்" கூடாது · உபய லக்னம் விருப்பம் (மற்றவை நடுத்தரம்); சுக்கிரன், சந்திரன், குரு, புதன் — "மிக விருப்பம்" (குறிக்கப்படும்) · 6, 12 காலி',
+      'கிழமை: "ஞாயிறு-திங்கள், புதன், வெள்ளி நல்லவை" — பின் "ஞாயிறு, செவ்வாயில் ஒருபோதும் தொடங்கக் கூடாது": ஞாயிறு நடுத்தரம் (எங்கள் வாசிப்பு); வியாழன் அச்சில் இல்லை · சுப திதி (ரிக்த, அமாவாசை தவிர — எங்கள் வாசிப்பு)',
+    ],
+  },
+});
+
+/**
+ * Surgery's rules beyond the other events': marsSaturn ('INFLUENCE': Saturn with Mars or aspecting it;
+ * 'MUTUAL': each aspecting the other), want [{ planets, houses, all, code }] (places a book asks for — marked).
+ */
+const SURGERY = deepFreeze({
+  labelTa: 'அறுவை சிகிச்சை',
+  default: 'WILHELM',
+  order: ['WILHELM', 'RAMAN', 'SHRIDHAR', 'VASHISTHA', 'KALYANRAMAN', 'RANGACHARYA'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — அறுவை (பல் உட்பட)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: SHARP_STARS, mid: [2] }, digdwar: false, taraNot: [1], chandra: { good: range(2, 12), mid: [1] },
+    tithi: RIKTA, tithiMid: [3, 13, 18, 28], tithiNot: [...bothPakshas([6, 8, 12]), 15, 30],
+    vara: { good: [2, 6], mid: [1, 3, 4, 5] }, lagna: { good: [0, 1, 3, 5], mid: [2, 4, 6, 7, 8, 9, 10, 11] },
+    empty: [8], emptyPref: [7, 12], marsSaturn: 'INFLUENCE',
+    linesTa: [
+      '"Surgery (including oral surgery, pulling & drilling teeth)" (ப.273-274): நட்சத்திரம் — திருவாதிரை, ஆயில்யம், கேட்டை, மூலம் சிறந்தவை, பின் கிருத்திகை (நடுத்தரம்) · ஜன்ம நட்சத்திரம் கூடாது; சந்திரன் ஜன்ம ராசியில் இல்லாமல் இருப்பது சிறந்தது (குறிக்கப்படும்)',
+      'திதி: ரிக்த (4, 9, 14) சிறந்தவை, பின் 3, 13 (நடுத்தரம்); பௌர்ணமி, 6, 8, 12, அமாவாசை கூடாது; மற்றவை நடுத்தரம் (எங்கள் வாசிப்பு) · கிழமை: செவ்வாய், சனி சிறந்தவை; ஞாயிறு தவிர மற்றவை ஏற்கலாம் (நடுத்தரம்)',
+      'லக்னம்: மேஷம், ரிஷபம், கடகம், கன்னி சிறந்தவை (மற்றவை நடுத்தரம்) · 8 காலி; "சிகிச்சைக்கு" சொன்ன 7, 12 காலியும் (குறிக்கப்படும்) · செவ்வாய் மீது சனியின் தொடர்பு (சேர்க்கை, 3 / 7 / 10 பார்வை) கூடாது · உறுப்புக்குரிய பாவமும் அதிபதியும், திசு கிரகம், செவ்வாய் பலம் — கணிக்கப்படவில்லை',
+    ],
+  },
+  RAMAN: {
+    labelTa: 'ராமன் அத்.XV', booksTa: 'ராமன்',
+    nak: { good: SHARP_STARS, mid: [] }, digdwar: false, tithi: RIKTA, krishnaMid: true, chandra: { good: range(2, 12), mid: [] },
+    vara: { good: [2, 6], mid: [] }, empty: [8], marsSaturn: 'MUTUAL',
+    linesTa: [
+      '"Surgical Operations" (ப.53): முடிந்தால் வளர்பிறையில் (தேய்பிறை — குறிக்கப்படும்); சரியான பௌர்ணமியில் ஒருபோதும் இல்லை · சந்திரன் ஜன்ம ராசியில் இருக்கக் கூடாது',
+      'செவ்வாய் அல்லது சனிக்கிழமை · திருவாதிரை, கேட்டை, ஆயில்யம், மூலம் — 4, 9, 14 திதியுடன் · 8 காலி · செவ்வாய், சனி பரஸ்பரப் பார்வை கூடாது · செவ்வாய் பலம், உறுப்புக்குரிய பாவம், சந்திரன் செல்லும் ராசியின் உறுப்பு — கணிக்கப்படவில்லை',
+    ],
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.4', booksTa: 'ஸ்ரீதர் (B.J.S., K.P. மேற்கோள்கள்)',
+    nak: { good: [12, 13, 14, 0, 7, 23, 3, 4, 21, 16, 17, 5, 8, 18], mid: [] }, digdwar: false,
+    tithi: RIKTA, vara: { good: [0, 2], mid: [] }, lagna: { good: [0, 1, 3, 5], mid: [] }, empty: [8],
+    chandra: { good: [1, 2, 3, 5, 6, 7, 9, 10, 11], mid: [] }, lagnaLordBenefic: true,
+    linesTa: [
+      '"Surgery" (ப.604-605): B.J.S. — அஸ்தம், சித்திரை, சுவாதி, அசுவினி, பூசம், சதயம், ரோகிணி, மிருகசீரிடம், திருவோணம், அனுஷம், கேட்டை சிறந்தவை; K.P. — தீக்ஷ்ண நட்சத்திரங்கள் (கேட்டை, திருவாதிரை, ஆயில்யம், மூலம்): இரண்டும் சேர்த்து',
+      'K.P.: ரிக்த திதி; செவ்வாய் அல்லது ஞாயிறு; செவ்வாய் பலம் (கணிக்கப்படவில்லை); 8 காலி; லக்னம் மேஷம், ரிஷபம், கடகம், கன்னி · சந்திரன் ஜன்ம ராசிக்கு 4, 8, 12-ல் கூடாது; தாரா சுபம், வைநாசிகம் தவிர் (பொது); லக்னம் ஜன்ம ராசி / லக்னத்துக்கு 8 இல்லை (பொது லக்ன சுத்தி)',
+      'லக்னம் சுப ராசி (லக்னாதிபதி சுபர் — குறிக்கப்படும்), குரு, சந்திரன் பார்வையுடன் (கணிக்கப்படவில்லை) · கோசாரத்தில் காத கிரகம் இல்லை (கணிக்கப்படவில்லை) · "விரை அறுவை" பத்தி (ரேவதி, பூசம் …; ஞாயிறு, செவ்வாய், வியாழன்) — §26.13-லும் உள்ளது, இங்கே சேர்க்கப்படவில்லை',
+    ],
+  },
+  VASHISTHA: {
+    labelTa: 'வசிஷ்டா — சல்ய கர்மம்', booksTa: 'வசிஷ்டா',
+    tithi: [4, 9, 14], tithiMid: [19, 24, 29], vara: { good: [0, 2, 4], mid: [] },
+    nak: { good: [0, 4, 6, 12, 14, 16, 17, 21, 23], mid: [] }, digdwar: false,
+    notIn: [[M5, [1, 4, 6, 7, 8, 10, 12], true]], vishti: true,
+    linesTa: [
+      '"Shalyakarma muhurta" (ப.133): திதி — 4, 9, 14, வளர்பிறையில் சிறப்பு (தேய்பிறை ரிக்த — நடுத்தரம்) · கிழமை: ஞாயிறு, செவ்வாய், வியாழன் · நட்சத்திரம்: அசுவினி, மிருகசீரிடம், புனர்பூசம், அஸ்தம், சுவாதி, அனுஷம், கேட்டை, திருவோணம், சதயம்',
+      'குறிப்பு: 1, 4, 7, 10, 6, 8, 12 பாவங்கள் பாதிப்பின்றி (பாவர் — குறிக்கப்படும்), பத்ரை கூடாது; அம்ருத யோகம், குரு சுபம், தாரா சுத்தி — பொதுப் பகுதியில் / கணிக்கப்படவில்லை',
+    ],
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 5, 8, 9, 17, 18], mid: [] }, digdwar: false,
+    tithi: [...tithiBoth([1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13]), 15], vara: { good: [0, 1, 2, 3, 4, 5], mid: [] },
+    linesTa: [
+      '"Performing Surgery" (ப.203): நட்சத்திரம் — அசுவினி, திருவாதிரை, ஆயில்யம், மகம், கேட்டை, மூலம் · திதி: 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, பௌர்ணமி (ரிக்த, அமாவாசை இல்லை) · கிழமை: சனி தவிர',
+    ],
+  },
+  RANGACHARYA: {
+    labelTa: 'ரங்காச்சார்யா', booksTa: 'ரங்காச்சார்யா',
+    vara: { good: [0, 2], mid: [] }, empty: [8],
+    want: [{ planets: M5, houses: [6], code: 'MALEFIC_6_MID' }, { planets: ['Sun', 'Moon'], houses: [1, 4, 7, 10], all: true, code: 'SUN_MOON_KENDRA_MID' }],
+    linesTa: [
+      '"Surgical operation" (ப.133): செவ்வாய் அல்லது ஞாயிறு · 8 காலி · 6-ல் பாவர், சூரியன், சந்திரன் கேந்திரத்தில் (குறிக்கப்படும் — எங்கள் வாசிப்பு) · நட்சத்திரம், திதி — விதி இல்லை',
+    ],
+  },
+});
+
 const RANK = deepFreeze({
+  MEDICINE: {
+    order: MEDICINE.order,
+    words: { WILHELM: 886, RAMAN: 633, SHRIDHAR: 328, MUHURTA_CHINTAMANI: 218, KALYANRAMAN: 215, JOSHI: 106, VASHISTHA: 103, RANGACHARYA: 71 },
+    measureTa: 'மருந்து / சிகிச்சை பற்றிய சொற்கள் (நோய்வாரி சிகிச்சை, பேதி மருந்து, ரத்தம் எடுத்தல், பல் உட்பட; நோய் தொடங்கிய நட்சத்திரப் பலன், மருந்து தயாரித்தல், நோய் நீங்கிய குளியல், அறுவை தவிர): வில்ஹெல்ம் (ப.269, 272-273, 275-277) 886; ராமன் (அத்.XV, ப.52-53) 633; ஸ்ரீதர் (§22.3, ப.603-604) 328; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/15, 2/30 உரை) 218; கல்யாணராமன் (தொ.2 ப.201-203) 215; ஜோஷி (அத்.13, ப.146-147) 106; வசிஷ்டா (ப.133) 103; ரங்காச்சார்யா (ப.132-133) 71. அகர்வாலில் இதற்குப் பகுதி இல்லை (நோய் நீங்கிய குளியல் மட்டும்).',
+  },
+  SURGERY: {
+    order: SURGERY.order,
+    words: { WILHELM: 499, RAMAN: 194, SHRIDHAR: 152, VASHISTHA: 65, KALYANRAMAN: 40, RANGACHARYA: 32 },
+    measureTa: 'அறுவை சிகிச்சை பற்றிய சொற்கள்: வில்ஹெல்ம் (அறுவை, அழகு அறுவை / பச்சை குத்தல், ப.273-275) 499; ராமன் (ப.53) 194; ஸ்ரீதர் (§22.4, ப.604-605) 152; வசிஷ்டா (ப.133, குறிப்புடன்) 65; கல்யாணராமன் (தொ.2 ப.203) 40; ரங்காச்சார்யா (ப.133) 32. முகூர்த்த சிந்தாமணி, ஜோஷி, அகர்வாலில் அறுவைக்குப் பகுதி இல்லை.',
+  },
   BUSINESS: {
     order: BUSINESS.order,
     words: { VASHISTHA: 217, KALYANRAMAN: 190, WILHELM: 112, JOSHI: 83, SHRIDHAR: 66, MUHURTA_CHINTAMANI: 65, RANGACHARYA: 52 },
@@ -1043,6 +1227,24 @@ const SOURCES = deepFreeze({
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 sloka 17, printed p.58 (PDF 62): "… रिक्ताभौमघटान्विना च विपणिर्मैत्रध्रुवक्षिप्रभैर्लग्ने चन्द्रसिते व्ययाष्टरहितैः पापैः शुभैर्ध्यायखे ॥१७॥" — "The opening of a shop is auspicious, on other tithis, days and in ascendant leaving Rikta tithis, the day of Tuesday and the Ascendant of Aquarius, in the Nakshtras called Mitra, Dhruwa and Kshipra, if Venus and the Moon are in the Ascendant, if there are no malefics in the 8/12 Houses and if there are benefics in the 2/10/11 Houses"' },
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Shop Opening", printed p.128 (PDF 136): "Avoid Tuesday, and the rikta tithis. Choose the fixed and soft asterisms. The placement of the moon and Venus in Lagna is excellent for opening any shop. The malefics should not occupy the 8th and 12th houses. The placement of the benefics in the 2nd, 11th and 10th is good"' },
   },
+  MEDICINE: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Medical- Treatment of disease & taking medicine", printed pp.275-277 (PDF 283-285): "Nakshatra: Asvini, Mrigasira, Punarvasu, Pushya, Hasta, Chitra, Svati, Anuradha, Sravana, Dhanishtha, Satabhisha and Revati are favorable. Muhurta Chintamani also considers Mula as favorable while Kalaprakasika also considers Rohini, Uttaraphalguni, Uttarashadha and Uttarabhadrapada as favorable, which all of these can be taken as mediocre. Tara: Particularly avoid the Janma Nakshatra. Tithi: Particularly avoid the 4th, 9th, 14th and Amavasya. Vara: The Varas of the Sun, Moon, Mercury, Jupiter and Venus are favorable. Lagna: Dual Rasis with a benefic are best. Bhavas: There should be no planets in 7th, 8th and 12th"; also blood-letting (p.269), dental cleaning (p.272), laxatives (p.273)' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XV "Medical Elections", PDF pp.52-53: "Beginning Treatment. - If one is suffering from a chronic disease, the treatment should begin under Aswini, Rohini, Mrigasira, Punarvasu, Pushyami, Uttara, Uttarashadha, Uttarabhadra, Hasta, Chitta, Swati, Anuradha, Sravana, Dhanishta, Satabhisha, and Revati … In regard to long-standing diseases or recurrent fevers, the best time for taking medicine is Monday, Wednesday, Thursday and Friday, coinciding with Hasta, Aswini, Chitta and Punarvasu respectively and especially at the time when the Moon, Mercury, Jupiter and Venus occupy their own vargas and a moveable Rasi or Amsa is rising"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3 "Administration of medicine", printed p.603 (PDF 640): "Tithi: a benefic Tithi other than Rikta. J.V. commends that Nanda & Poorna Tithis are suitable, especially when the Moon is Full. Day: Monday, Wednesday, Thursday & Friday. J.V. recommends Sunday also, but not Wednesday in the above list. Const.: Small (Hasta, Ashvani, Pushya), Sweet (Mrigshira, Chitra, Anuradha, Revati), Movable (Punarvasu, Swati, Shravana, Shatbhisha, Dhanishta) & Moola (M.C.) K.P. recommends Fixed (Rohini, 3 Uttras) in addition to the above asterisms; but directs to avoid Janma Nakshatra. Ascendant: Common signs are the best. J.V. recommends odd signs. Ascendant should be occupied by benefic including the Moon. 7, 8 & 12th houses should be vacant"' },
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 sloka 15, printed p.57 (PDF 61): "भैषज्यं सल्लघुमृदुचरे मूलभे द्व्यङ्गलग्ने शुक्रेन्द्विज्ये विदि च दिवसे चापि तेषां रवेश्च । शुद्धे रिःफद्युनमृतिगृहे सत्तिथौ नो जनर्क्षे …" — "At the time when the patient takes the First Dose of a medicine there should be the Nakshtras called Laghu, Mridu and Chara and the Nakshtras of Moola; there should be the presence of the benefic planets like Venus, the Moon, Jupiter and Mercury in the Ascendant of Dual Nature (3/6/9/12) and there should be no planet in the 12/7/8 Houses from the Ascendant; and there should be the day of Friday, Monday, Thursday, Wednesday and Sunday and any Tithis leaving the tithis called Rikta and Amavasya. It is inauspicious to take medicine in the Nakshtra of one\'s own birth"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Taking Medicines", printed pp.201-202 (PDF 203-204): "Nakshatra Abhijith, Aswini, Mrigasira, Punarvasu, Pushyami, Hasta, Chitra, Swati, Anuradha, Moola, Sravana, Dhanishta, Satabhisha, Revati (13+1) … Tithis 1/2/3/5/7/10/11/13. Weekdays Monday, Wednesday, Thursday, Friday. Notes: Muhoortha Chintaamani admits Sunday also. It wants to avoid Janma Nakshatra - Rikta tithis and Amavasya. It prefers benefic like Venus, the Moon, Jupiter, Mercury in the ascendant of dual nature (3/6/9/12) with no planet in 12/7/8 houses from the ascendant"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 13 "For taking medicines", printed pp.146-147 (PDF 161-162): "Nakshatras: All short nakshatras (i.e. Hasta, Ashwini, Pushya and Abhijit), all friendly nakshatras (i.e. Mrigshira, Revati, Chitra and Anuradha) all movable nakshatras (i.e. Swati, Punarvasu, Shravana, Dhanistha and Shatbhisha) and Moola nakshatras are considered auspicious for taking medicines. Tithis: 1/2/3/5/7/10/11/13 tithis. Days: Monday, Wednesday, Thursday and Friday. Lagnas: Lagnas of dual signs (3/6/9/12 rashis) occupied by benefics with no planet placed in 7th, 8th and 12th house. Combinations of long life if present will be an additional advantage. Always avoid Janma nakshatra for taking medicine"' },
+    VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: '"Aushadh-Sevana muhurta (Time for taking medicine)", printed p.133 (PDF 120): "Tithi — 1 (krishna paksha), 2, 3, 5, 7, 10, 11 and 12 (shukla paksha); Vara — Sunday, Monday, Wednesday, Thursday and Friday; Nakashatra — Ashwini, Krittika, Rohini, Mrigashirsha, Punarvasu, Pushya, Magha, all the 3 uttaras, Hasta, Chitra, Swati, Vishakha, Anuradha, Jyeshtha, Moola, Sravana, Dhanishtha, Shatabhisha, Revati; Lagna — 3, 6, 9, 12. Lagna, saptama, ashtama and dwadasha (12) bhavas should be free of affliction … Note: For taking treatment Amrit yoga, 1, 4, 7, 10, 6, 7, 8 and 12 bhavas, unblemished in transit, Jupiter should be auspicious, tara shuddhi from natal Moon are recommended. Leave Bhadra"' },
+    RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Medical matters", printed pp.132-133 (PDF 140-141): "For taking medicine, the movable the light and the soft asterisms and Moola are commended. Never begin taking the medicine in your janma Nakshatra. Prefer the dual lagnas. The placement of venus, Moon Jupiter or Mercury is most preferred. Sunday-Monday, Wednesday and Friday are good. The 6th and 12th house should lie vacant. Take medicine in the auspicious tithis. Never begin taking medicine on Sunday and Tuesday"' },
+  },
+  SURGERY: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Medical- Surgery (including oral surgery, pulling & drilling teeth)", printed pp.273-274 (PDF 281-282): "In addition to what is given below for TREATMENT OF DISEASE … Nakshatra: Ardra, Aslesha, Jyeshtha and Mula are particularly favorable, followed by Krittika. Tara: Not only should the Janma Nakshatra particularly be avoided, it is best if the Moon is not in the same Rasi as the natal Moon. Tithi: Rikta Tithis (4th, 9th and 14th) are particularly favorable, followed by the 3rd and 13th … Avoid Purnima and the other generally unfavorable Tithis (6th, 8th, 12th and Amavasya). Vara: The Varas of Mars and Saturn are particularly favorable, though Varas other than that of the Sun are quite acceptable. Lagna: Aries, Taurus, Cancer and Virgo are most favorable. Bhavas: The 8th must be unoccupied … Grahas: Mars should be favorable and not influenced by Saturn"; cosmetic surgery, p.275' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XV "Medical Elections", PDF p.53: "Surgical Operations. - When possible, operate in the period of the intrease [sic] of the Moon. Never operate at the exact time of the Full Moon … Let not the Moon at the time of the operation be in the same sign as at birth … For surgical operations Tuesday or Saturday is recommended. Mars must be powerful. The 8th house should be unoccupied. And the ruling constellation is Aridra, Jyeshta, Aslesha or Moola coinciding with the 4th, 9th or 14th lunar day … Mutual aspects between Mars and Saturn should be avoided"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.4 "Surgery", printed pp.604-605 (PDF 641-642): "B.J.S recommends Hasta, Chitra, Swati, Ashvani, Pushya, Shatbhisha, Rohini, Mrigshira, Shravana, Anuradha & Jyeshta are the best. However K.P recommend that surgery & other external treatments are beneficial in Sharp asterisms (Jyeshta, Ardra, Ashlesha, Moola); on Rikta Tithis; on Tuesday or Sunday, when Mars is powerful. 8th house should be unoccupied. Rising signs should be Aries, Taurus, Cancer or Virgo … The Moon should not be in 4th or 8th or 12th from J.R. Tara should be benefic & avoid Vinashika Tara. The rising sign should not be in 8th from J.R. or Janma Lagna. Planets should not be Ghaata in transit. The rising sign should be benefic having aspects of Jupiter & the Moon"' },
+    VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: '"Shalyakarma muhurta (Surgery muhurta)", printed p.133 (PDF 120): "Tithi — 4, 9, 14 Shukla specially good (Rikta tithis); Vara — Sunday, Tuesday and Thursday; Nakshatra — Ashwini, Mrigashirsha, Punarvasu, Hasta, Swati, Anuradha, Jyeshtha, Sravana and Shatabhisha. Note: For taking treatment Amrit yoga, 1, 4, 7, 10, 6, 7, 8 and 12 bhavas, unblemished in transit, Jupiter should be auspicious, tara shuddhi from natal Moon are recommended. Leave Bhadra"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Performing Surgery", printed p.203 (PDF 205): "Nakshatra Aswini, Aridra, Aslesha, Makha, Jyeshta, Moola (6) … Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Tuesday, Wednesday, Thursday, Friday"' },
+    RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Medical matters", printed p.133 (PDF 141): "Surgical operation should be done on Tuesday or Sunday, when the 8th house is vacant and the 6th house is occupied by malefics, the sun and Moon should be in the kendras"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -1089,6 +1291,10 @@ const CODE_TA = Object.freeze({
   MATRIKA: 'மாத்ருகா சக்கரம் (சூரிய நட்சத்திரத்திலிருந்து 1-7, 12-15)', LAGNA_LORD_MID: 'லக்னாதிபதி சுபர் அல்ல',
   // Business.
   MOON_VENUS_LAGNA_MID: 'லக்னத்தில் சந்திரன் / சுக்கிரன் இல்லை', MOON_MERC_LAGNA_MID: 'லக்னத்தில் சந்திரன் / புதன் இல்லை', BHURUDAN: 'பூருதன நாள் (ஹோலி — பால்குன பௌர்ணமி)',
+  // Medicine, surgery.
+  EMPTY_6: '6-ல் கிரகம்', EMPTY_7: '7-ல் கிரகம்', BEN_LAGNA_MID: 'லக்னத்தில் சுபர் (சந்திரன், புதன், குரு, சுக்கிரன்) இல்லை',
+  MARS_SATURN: 'செவ்வாய் மீது சனியின் தொடர்பு (சேர்க்கை / பார்வை)', MARS_SATURN_MUTUAL: 'செவ்வாய், சனி பரஸ்பரப் பார்வை',
+  MALEFIC_6_MID: '6-ல் பாவர் இல்லை', SUN_MOON_KENDRA_MID: 'சூரியன், சந்திரன் கேந்திரத்தில் இல்லை',
 });
 
 const NOTES_TA = deepFreeze({
@@ -1154,12 +1360,29 @@ const NOTES_BUSINESS_TA = Object.freeze([
   'கணிக்கப்படாதவை: வசிஷ்டாவின் "சந்திரன் பலவீனமில்லாமல்" (வரையறை இல்லை), காரக கிரகம், புதன் பலம்; மாத / ஆண்டு இறுதி அமாவாசை அவரது திதிப் பட்டியலிலேயே இல்லை; சந்திர / தாரா சுத்தி பொதுப் பகுதியில்.',
 ]);
 
-const EVENTS = deepFreeze({ order: ['GRIHA_PRAVESHA', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS'], GRIHA_PRAVESHA, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS });
+const NOTES_MEDICINE_TA = Object.freeze([
+  'இங்கே: மருந்தின் முதல் வேளை / சிகிச்சை தொடக்கம். கணிக்கப்படாதவை (நூல்களில் உள்ளன): நோய்வாரி சிகிச்சைகள் — காய்ச்சல், தொழுநோய், வாதம், பித்தம், கபம், மேகநோய், காசம், ஜலோதரம், வலிப்பு, மூக்கு (வில்ஹெல்ம், ராமன், ஸ்ரீதர்); பேதி / வாந்தி மருந்து, ரத்தம் எடுத்தல் (மு.சி. 2/30, ஸ்ரீதர், வில்ஹெல்ம்); ஊசி, பல் (ராமன், வில்ஹெல்ம்); மருந்து தயாரித்தல் (ஸ்ரீதர் §22.2, வில்ஹெல்ம், ராமன்); உக்ர யோகங்கள்.',
+  'ஜன்ம நட்சத்திரம் — பெரும்பாலான நூல்கள் விலக்கு (பொதுப் பகுதியிலும் விலக்கு). "லக்னத்தில் சுபர்" — மு.சி.யின் ஸ்லோகத்தில் நிபந்தனையாக உள்ளது; மற்ற நூல்கள் "சிறந்தது", "விருப்பம்": எல்லா நூலிலும் குறிக்கப்படும், விலக்கவில்லை (எங்கள் வாசிப்பு — வியாபாரத்தைப் போல).',
+  'நோய் தொடங்கிய நட்சத்திரப் பலன் (எத்தனை நாளில் குணம்), பாம்புக்கடி நட்சத்திரங்கள் — சிகிச்சை முகூர்த்தம் அல்ல; காட்டப்படவில்லை. நோய் நீங்கிய முதல் குளியல் (ரோகமுக்த ஸ்நானம்) — தனிக் காரியம், இன்னும் கட்டப்படவில்லை.',
+]);
+const NOTES_SURGERY_TA = Object.freeze([
+  'செவ்வாய் "பலமாக" (ராமன், ஸ்ரீதர் — K.P.), "சாதகமாக" (வில்ஹெல்ம்) — வரையறை இல்லை, கணிக்கப்படவில்லை. அறுக்கும் உறுப்புக்குரிய பாவம், அதன் அதிபதி, திசு கிரகம் — அறுவையின் இடம் தெரிய வேண்டும்; கணிக்கப்படவில்லை.',
+  'செவ்வாய்–சனி: வில்ஹெல்ம் — "சனியின் தாக்கம் இல்லாமல்": சேர்க்கை அல்லது சனியின் 3, 7, 10 பார்வை விலக்கு; ராமன் — "பரஸ்பரப் பார்வை": செவ்வாய் சனியை (4, 7, 8), சனி செவ்வாயை (3, 7, 10) இரண்டும் பார்த்தால் விலக்கு. ராசிப் பார்வை (எங்கள் வாசிப்பு).',
+  'வில்ஹெல்ம்: "சிகிச்சைக்குச் சொன்னதுடன் கூடுதலாக" — அதன் 7, 12 காலி குறிக்கப்படும்; நட்சத்திரம், திதி, கிழமை, லக்னம் அறுவையின் சொந்தப் பட்டியல். அழகு அறுவை / பச்சை குத்தல் (திதி 1, 3, 11, 13; வெள்ளியும்; துலாமும்) — கணிக்கப்படவில்லை.',
+]);
+
+const EVENTS = deepFreeze({
+  order: ['GRIHA_PRAVESHA', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY'],
+  GRIHA_PRAVESHA, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY,
+});
 
 module.exports = {
   EVENTS, DOORS, MONTH_TA, RANK, SOURCES, CODE_TA,
-  NOTES_TA: deepFreeze({ ...NOTES_TA, UPANAYANA: NOTES_UPANAYANA_TA, TRAVEL: NOTES_TRAVEL_TA, VIDYARAMBHA: NOTES_VIDYARAMBHA_TA, EDUCATION: NOTES_EDUCATION_TA, BUSINESS: NOTES_BUSINESS_TA }),
-  AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS,
+  NOTES_TA: deepFreeze({
+    ...NOTES_TA, UPANAYANA: NOTES_UPANAYANA_TA, TRAVEL: NOTES_TRAVEL_TA, VIDYARAMBHA: NOTES_VIDYARAMBHA_TA, EDUCATION: NOTES_EDUCATION_TA, BUSINESS: NOTES_BUSINESS_TA,
+    MEDICINE: NOTES_MEDICINE_TA, SURGERY: NOTES_SURGERY_TA,
+  }),
+  AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,
   DIRECTIONS, TITHI_DIR8, YOGINI_KP, GHATA, KAAL_SHOOLA, LALATIKA, TARA_1357,
 };

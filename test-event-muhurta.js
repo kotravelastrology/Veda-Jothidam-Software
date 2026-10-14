@@ -775,7 +775,9 @@ const VF = FIX.vidyarambha;
       vijaya: inV,
     };
     for (const b of VR.order) assert.deepEqual(s.ev.VIDYARAMBHA[b], pieceCodes(VR[b], x), `vidyarambha ${b} ${s.fromUtc}`);
-    for (const b of E.EVENTS.BUSINESS.order) assert.deepEqual(s.ev.BUSINESS[b], pieceCodes(E.EVENTS.BUSINESS[b], x), `business ${b} ${s.fromUtc}`);
+    for (const ev of ['BUSINESS', 'MEDICINE', 'SURGERY']) {
+      for (const b of E.EVENTS[ev].order) assert.deepEqual(s.ev[ev][b], pieceCodes(E.EVENTS[ev][b], x), `${ev} ${b} ${s.fromUtc}`);
+    }
     if (inV) {
       vijaya += 1;
       assert.deepEqual(s.ev.VIDYARAMBHA.KALYANRAMAN, []);
@@ -947,6 +949,147 @@ const BF = FIX.business;
   assert.ok(sc('VASHISTHA', { combust: { Venus: true } }).includes('JUP_VEN_SET') && !sc('JOSHI', { combust: { Venus: true } }).includes('JUP_VEN_SET'));
   assert.ok(sc('JOSHI', {}, 2).includes('VARA') && !sc('JOSHI', {}, 6).includes('VARA'), 'Tuesday');
   for (const c of ['MOON_VENUS_LAGNA_MID', 'MOON_MERC_LAGNA_MID', 'BHURUDAN']) assert.ok(E.CODE_TA[c], c);
+}
+
+// ------------------------------------------------ medicine: the tables against the books ---
+const MD = E.EVENTS.MEDICINE;
+const MF = FIX.medicine;
+const ALL30 = [...Array(30).keys()].map((i) => i + 1);
+const range12 = [...Array(12).keys()].map((i) => i + 1);
+{
+  assert.deepEqual({ ...E.RANK.MEDICINE.words }, MF.words);
+  assert.deepEqual([...MD.order], Object.keys(MF.words).sort((a, b) => MF.words[b] - MF.words[a]));
+  assert.equal(MD.default, MF.default);
+  for (const b of MD.order) {
+    assert.ok(resolveByTitle(E.SOURCES.MEDICINE[b].title), `registered: ${b}`);
+    assert.ok(MD[b].linesTa.length > 0, `${b} described`);
+    assert.equal(Boolean(MD[b].abhijitOk), MF.abhijit.includes(b), `${b}: Abhijit`);
+    if (b !== 'RAMAN') assert.deepEqual(sorted(MD[b].lagna.good), MF.lagna_dual.map((n) => n - 1), `${b}: dual lagna`);
+    if (!['RAMAN', 'VASHISTHA'].includes(b)) assert.deepEqual({ ...MD[b].benHouse, houses: [...MD[b].benHouse.houses], planets: [...MD[b].benHouse.planets] }, { houses: [1], planets: MF.benefics_in_lagna, code: 'BEN_LAGNA_MID' }, b);
+  }
+  const S = MF.stars;
+  assert.deepEqual(sorted(MD.WILHELM.nak.good), stars(S.WILHELM_favorable));
+  assert.deepEqual(sorted(MD.WILHELM.nak.mid), stars(S.WILHELM_mediocre));
+  assert.deepEqual(sorted(E.MEDICINE_13), stars(S.MC_laghu_mridu_chara_moola));
+  for (const b of ['SHRIDHAR', 'MUHURTA_CHINTAMANI', 'JOSHI', 'RANGACHARYA']) assert.deepEqual(sorted(MD[b].nak.good), stars(S.MC_laghu_mridu_chara_moola), b);
+  assert.deepEqual(sorted(MD.KALYANRAMAN.nak.good), stars(S.KR_table));
+  assert.deepEqual(sorted(MD.SHRIDHAR.nak.mid), stars(S.SHRIDHAR_KP_fixed));
+  assert.deepEqual(sorted(MD.RAMAN.nak.good), stars(S.RAMAN_chronic));
+  assert.deepEqual(sorted(MD.VASHISTHA.nak.good), stars(S.VASHISTHA));
+  const T = MF.tithis;
+  const notOf = (ns) => ALL30.filter((t) => !E.bothPakshas(ns.filter((n) => n < 15)).includes(t) && !ns.filter((n) => n >= 15).includes(t));
+  assert.deepEqual(sorted(MD.WILHELM.tithi), notOf(T.WILHELM_avoid));
+  for (const b of ['SHRIDHAR', 'MUHURTA_CHINTAMANI', 'RANGACHARYA']) assert.deepEqual(sorted(MD[b].tithi), notOf(T.MC_SHRIDHAR_RANGACHARYA_avoid), b);
+  for (const b of ['KALYANRAMAN', 'JOSHI']) assert.deepEqual(sorted(MD[b].tithi), E.bothPakshas(T.KR_JOSHI), b);
+  assert.deepEqual(sorted(MD.VASHISTHA.tithi), sorted(T.VASHISTHA_K1_and_shukla));
+  const W = MF.weekdays;
+  assert.deepEqual(sorted(MD.WILHELM.vara.good), days(W.WILHELM));
+  assert.deepEqual(sorted(MD.SHRIDHAR.vara.good), days(W.SHRIDHAR));
+  assert.deepEqual(sorted(MD.SHRIDHAR.vara.mid), days(W.SHRIDHAR_JV_also));
+  assert.deepEqual(sorted(MD.MUHURTA_CHINTAMANI.vara.good), days(W.MC));
+  for (const b of ['KALYANRAMAN', 'JOSHI']) assert.deepEqual(sorted(MD[b].vara.good), days(W.KR_JOSHI), b);
+  assert.deepEqual(sorted(MD.KALYANRAMAN.vara.mid), days(W.KR_MC_also));
+  assert.deepEqual(sorted(MD.VASHISTHA.vara.good), days(W.VASHISTHA));
+  assert.deepEqual(sorted(MD.RANGACHARYA.vara.good), days(W.RANGACHARYA_good));
+  assert.deepEqual(sorted(MD.RANGACHARYA.vara.mid), days(W.RANGACHARYA_printed_good_and_never));
+  const Y = MF.empty;
+  for (const b of ['WILHELM', 'SHRIDHAR', 'MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'JOSHI']) assert.deepEqual([...MD[b].empty], Y.WILHELM_SHRIDHAR_MC_KR_JOSHI, b);
+  assert.deepEqual([...MD.RANGACHARYA.empty], Y.RANGACHARYA);
+  const [[p1, h1], [p2, h2, mid2]] = MD.VASHISTHA.notIn;
+  assert.deepEqual([[...p1], sorted(h1)], [['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'], sorted(Y.VASHISTHA_free_of_affliction)]);
+  assert.ok(mid2 && [...p2].join() === [...p1].join() && sorted([...h1, ...h2]).join() === sorted([...new Set(Y.VASHISTHA_note)]).join(), 'the note: the rest marked');
+  for (const b of ['WILHELM', 'SHRIDHAR', 'MUHURTA_CHINTAMANI', 'JOSHI', 'RANGACHARYA']) assert.deepEqual([...MD[b].taraNot], [1], `${b}: the Janma star`);
+  assert.ok(MD.KALYANRAMAN.secondary.includes('TARA_NOT') && MD.KALYANRAMAN.secondary.includes('LAGNA'), 'KR: MC\'s rules in his notes, marked');
+}
+
+// ------------------------------------------------ surgery: the tables against the books ---
+const SU = E.EVENTS.SURGERY;
+const SF = FIX.surgery;
+{
+  assert.deepEqual({ ...E.RANK.SURGERY.words }, SF.words);
+  assert.deepEqual([...SU.order], Object.keys(SF.words).sort((a, b) => SF.words[b] - SF.words[a]));
+  assert.equal(SU.default, SF.default);
+  for (const b of SU.order) {
+    assert.ok(resolveByTitle(E.SOURCES.SURGERY[b].title), `registered: ${b}`);
+    assert.ok(SU[b].linesTa.length > 0, `${b} described`);
+    assert.equal((SU[b].empty ?? []).includes(8), SF.eighth_empty.includes(b), `${b}: the 8th`);
+  }
+  const S = SF.stars;
+  assert.deepEqual(sorted(E.SHARP_STARS), stars(S.sharp_WILHELM_RAMAN_KP));
+  for (const b of ['WILHELM', 'RAMAN']) assert.deepEqual(sorted(SU[b].nak.good), stars(S.sharp_WILHELM_RAMAN_KP), b);
+  assert.deepEqual(sorted(SU.WILHELM.nak.mid), stars(S.WILHELM_then));
+  assert.deepEqual(sorted(SU.SHRIDHAR.nak.good), sorted([...new Set([...stars(S.SHRIDHAR_BJS), ...stars(S.sharp_WILHELM_RAMAN_KP)])]));
+  assert.deepEqual(sorted(SU.VASHISTHA.nak.good), stars(S.VASHISTHA));
+  assert.deepEqual(sorted(SU.KALYANRAMAN.nak.good), stars(S.KR));
+  assert.equal(SU.RANGACHARYA.nak, undefined);
+  const T = SF.tithis;
+  for (const b of ['WILHELM', 'RAMAN', 'SHRIDHAR']) assert.deepEqual(sorted(SU[b].tithi), E.bothPakshas(T.rikta), b);
+  assert.deepEqual(sorted(SU.WILHELM.tithiMid), E.bothPakshas(T.WILHELM_then));
+  assert.deepEqual(sorted(SU.WILHELM.tithiNot), sorted([...E.bothPakshas(T.WILHELM_avoid.filter((t) => t < 15)), 15, 30]));
+  assert.deepEqual(sorted([...SU.VASHISTHA.tithi, ...SU.VASHISTHA.tithiMid]), sorted(E.bothPakshas(T.rikta)), 'Vashistha: Shukla Rikta, Krishna middling');
+  assert.deepEqual(sorted(SU.KALYANRAMAN.tithi), sorted([...E.bothPakshas(T.KR.filter((t) => t < 15)), 15]));
+  const W = SF.weekdays;
+  assert.deepEqual(sorted(SU.WILHELM.vara.good), days(W.WILHELM_best));
+  assert.deepEqual(sorted([...SU.WILHELM.vara.good, ...SU.WILHELM.vara.mid]), [...Array(7).keys()].filter((v) => !days(W.WILHELM_not).includes(v)));
+  assert.deepEqual(sorted(SU.RAMAN.vara.good), days(W.RAMAN));
+  for (const b of ['SHRIDHAR', 'RANGACHARYA']) assert.deepEqual(sorted(SU[b].vara.good), days(W.SHRIDHAR_KP_RANGACHARYA), b);
+  assert.deepEqual(sorted(SU.VASHISTHA.vara.good), days(W.VASHISTHA));
+  assert.deepEqual(sorted(SU.KALYANRAMAN.vara.good), days(W.KR));
+  for (const b of ['WILHELM', 'SHRIDHAR']) assert.deepEqual(sorted(SU[b].lagna.good), SF.lagnas_WILHELM_SHRIDHAR.map((n) => n - 1), b);
+  const M = SF.moon_from_birth_moon_avoid;
+  assert.deepEqual([...SU.WILHELM.chandra.mid], M.WILHELM_best_not);
+  assert.deepEqual(range12.filter((h) => !SU.RAMAN.chandra.good.includes(h)), M.RAMAN);
+  assert.deepEqual(range12.filter((h) => !SU.SHRIDHAR.chandra.good.includes(h)), M.SHRIDHAR);
+  assert.equal(SU.WILHELM.marsSaturn, 'INFLUENCE');
+  assert.equal(SU.RAMAN.marsSaturn, 'MUTUAL');
+}
+
+// ------------------------------------------------ medicine and surgery: the codes ---
+{
+  // Chitra, Shukla 2, a Monday's piece; the birth Moon in Taurus, the Moon in Virgo (the 5th).
+  const x = { star: 13, tithi: 2, month: 8, sunSign: 7, sunStar: 16, taraCount: 5, signs: { Sun: 7, Moon: 5, Mars: 2, Mercury: 7, Jupiter: 3, Venus: 6, Saturn: 11, Rahu: 9, Ketu: 3 }, natalMoon: 1, moonPada: 52, yoga: 0, vishti: false };
+  const pc = (ev, b, y = {}) => pieceCodes(E.EVENTS[ev][b], { ...x, ...y });
+  for (const b of MD.order) assert.deepEqual(pc('MEDICINE', b), [], `medicine ${b}`);
+  for (const b of MD.order.filter((b) => b !== 'RAMAN')) assert.ok(pc('MEDICINE', b, { tithi: 9 }).includes('TITHI'), `${b}: Navami`);
+  assert.ok(pc('MEDICINE', 'WILHELM', { star: 3 }).includes('NAK_MID') && pc('MEDICINE', 'JOSHI', { star: 3 }).includes('NAK'), 'Rohini: mediocre (Kalaprakasika) / not listed');
+  assert.ok(pc('MEDICINE', 'WILHELM', { taraCount: 1 }).includes('TARA_NOT') && pc('MEDICINE', 'KALYANRAMAN', { taraCount: 1 }).includes('TARA_NOT_MID'), 'the Janma star: rejected; KR\'s note marks it');
+  assert.ok(!pc('MEDICINE', 'JOSHI', { star: 20, moonAbhijit: true }).includes('NAK') && pc('MEDICINE', 'RANGACHARYA', { star: 20, moonAbhijit: true }).includes('NAK'), 'Abhijit: named by Joshi, not Rangacharya');
+  assert.ok(pc('MEDICINE', 'VASHISTHA', { vishti: true }).includes('VISHTI') && !pc('MEDICINE', 'WILHELM', { vishti: true }).includes('VISHTI'));
+  assert.ok(pc('MEDICINE', 'VASHISTHA', { tithi: 17 }).includes('TITHI') && !pc('MEDICINE', 'VASHISTHA', { tithi: 16 }).includes('TITHI'), 'Krishna 1 only');
+  // Surgery: Moola, Shukla 4.
+  const sx = { star: 18, tithi: 4 };
+  for (const b of ['WILHELM', 'RAMAN', 'SHRIDHAR']) assert.deepEqual(pc('SURGERY', b, sx), [], `surgery ${b}`);
+  assert.ok(pc('SURGERY', 'WILHELM', { ...sx, star: 2 }).includes('NAK_MID') && pc('SURGERY', 'WILHELM', { ...sx, tithi: 3 }).includes('TITHI_MID'));
+  assert.ok(pc('SURGERY', 'WILHELM', { ...sx, tithi: 8 }).includes('TITHI') && pc('SURGERY', 'WILHELM', { ...sx, tithi: 2 }).includes('TITHI_MID'), 'the 8th avoided; the 2nd middling');
+  assert.ok(pc('SURGERY', 'RAMAN', { ...sx, tithi: 19 }).includes('KRISHNA_MID') && pc('SURGERY', 'RAMAN', { ...sx, tithi: 3 }).includes('TITHI'));
+  assert.ok(pc('SURGERY', 'VASHISTHA', { star: 17, tithi: 24 }).includes('TITHI_MID') && !pc('SURGERY', 'VASHISTHA', { star: 17, tithi: 9 }).includes('TITHI_MID'));
+  // The Moon in the birth Moon's sign: Wilhelm marks, Raman rejects; the 8th from it: Shridhar rejects.
+  assert.ok(pc('SURGERY', 'WILHELM', { ...sx, signs: { ...x.signs, Moon: 1 } }).includes('CHANDRA_MID') && pc('SURGERY', 'RAMAN', { ...sx, signs: { ...x.signs, Moon: 1 } }).includes('CHANDRA'));
+  assert.ok(pc('SURGERY', 'SHRIDHAR', { ...sx, signs: { ...x.signs, Moon: 8 } }).includes('CHANDRA') && !pc('SURGERY', 'WILHELM', { ...sx, signs: { ...x.signs, Moon: 8 } }).some((c) => c.startsWith('CHANDRA')));
+  // Mars and Saturn: together (Wilhelm only); Saturn 7th from Mars (both); Saturn 4th from Mars — Mars aspects Saturn, Saturn Mars (10th): mutual.
+  const ms = (mars, sat) => ({ ...sx, signs: { ...x.signs, Mars: mars, Saturn: sat } });
+  assert.ok(pc('SURGERY', 'WILHELM', ms(2, 2)).includes('MARS_SATURN') && !pc('SURGERY', 'RAMAN', ms(2, 2)).includes('MARS_SATURN_MUTUAL'));
+  assert.ok(pc('SURGERY', 'WILHELM', ms(2, 8)).includes('MARS_SATURN') && pc('SURGERY', 'RAMAN', ms(2, 8)).includes('MARS_SATURN_MUTUAL'));
+  assert.ok(pc('SURGERY', 'RAMAN', ms(2, 5)).includes('MARS_SATURN_MUTUAL') && pc('SURGERY', 'WILHELM', ms(2, 5)).includes('MARS_SATURN'));
+  assert.ok(!pc('SURGERY', 'RAMAN', ms(2, 9)).includes('MARS_SATURN_MUTUAL') && !pc('SURGERY', 'WILHELM', ms(2, 9)).includes('MARS_SATURN'), 'Saturn 8th from Mars: Mars aspects it, not Saturn Mars');
+  // The lagna: Gemini; Jupiter (Cancer) 2nd, Venus (Libra) 5th, Saturn (Pisces) 10th, Rahu (Capricorn) 8th, Ketu (Cancer) 2nd, the Sun and Mercury (Scorpio) 6th, Mars in the lagna, the Moon (Virgo) 4th.
+  const m = { lagna: 2, nav: 4, signs: x.signs, natalLagna: 6, natalMoon: 1, combust: {}, dayPart: 1, nightPart: 0, pradosha: false, tithi: 2, star: 13, month: 8 };
+  const sc = (ev, b, y = {}, vara = 1) => stretchCodes(E.EVENTS[ev][b], { ...m, ...y }, vara);
+  assert.ok(sc('MEDICINE', 'WILHELM').includes('EMPTY_8') && sc('MEDICINE', 'WILHELM').includes('BEN_LAGNA_MID'));
+  assert.ok(sc('MEDICINE', 'KALYANRAMAN').includes('EMPTY_8_MID') && !sc('MEDICINE', 'KALYANRAMAN').includes('EMPTY_8'), 'KR: MC\'s rules marked');
+  assert.ok(sc('MEDICINE', 'VASHISTHA').includes('IN_Rahu_8') && sc('MEDICINE', 'VASHISTHA').includes('IN_Mars_1') && sc('MEDICINE', 'VASHISTHA').includes('IN_Sun_6_MID'));
+  assert.ok(sc('MEDICINE', 'RANGACHARYA').includes('EMPTY_6') && !sc('MEDICINE', 'RANGACHARYA').includes('EMPTY_8'));
+  assert.ok(sc('MEDICINE', 'JOSHI', { lagna: 0 }).includes('LAGNA') && sc('MEDICINE', 'WILHELM', { lagna: 0 }).includes('LAGNA_MID'));
+  assert.ok(sc('MEDICINE', 'RANGACHARYA', {}, 4).includes('VARA') && sc('MEDICINE', 'RANGACHARYA', {}, 0).includes('VARA_MID'), 'Thursday not printed; Sunday both ways');
+  assert.ok(!sc('MEDICINE', 'WILHELM', { signs: { ...x.signs, Jupiter: 2 } }).includes('BEN_LAGNA_MID'));
+  assert.ok(sc('SURGERY', 'WILHELM').includes('EMPTY_8') && !sc('SURGERY', 'WILHELM').includes('EMPTY_7_MID'));
+  assert.ok(sc('SURGERY', 'WILHELM', {}, 2).includes('LAGNA_MID') && !sc('SURGERY', 'WILHELM', { lagna: 5 }, 2).includes('LAGNA_MID'), 'Gemini middling; Virgo best');
+  assert.ok(sc('SURGERY', 'WILHELM', {}, 0).includes('VARA') && sc('SURGERY', 'WILHELM', {}, 1).includes('VARA_MID') && !sc('SURGERY', 'WILHELM', {}, 6).some((c) => c.startsWith('VARA')));
+  // Rangacharya: the Sun in the 6th — a malefic there, no mark; the Sun (6th) and the Moon (4th) not both in kendras — marked.
+  assert.ok(!sc('SURGERY', 'RANGACHARYA', {}, 2).includes('MALEFIC_6_MID') && sc('SURGERY', 'RANGACHARYA', {}, 2).includes('SUN_MOON_KENDRA_MID'));
+  assert.ok(sc('SURGERY', 'RANGACHARYA', { signs: { ...x.signs, Sun: 5 } }, 2).includes('MALEFIC_6_MID') && !sc('SURGERY', 'RANGACHARYA', { signs: { ...x.signs, Sun: 5 } }, 2).includes('SUN_MOON_KENDRA_MID'));
+  assert.ok(sc('SURGERY', 'SHRIDHAR', { lagna: 3 }).includes('LAGNA_LORD_MID') && sc('SURGERY', 'SHRIDHAR', { lagna: 2 }).includes('LAGNA'));
+  for (const c of ['EMPTY_6', 'EMPTY_7', 'BEN_LAGNA_MID', 'MARS_SATURN', 'MARS_SATURN_MUTUAL', 'MALEFIC_6_MID', 'SUN_MOON_KENDRA_MID']) assert.ok(E.CODE_TA[c], c);
 }
 
 console.log('test-event-muhurta: all checks passed');

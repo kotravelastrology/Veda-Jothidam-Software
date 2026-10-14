@@ -265,6 +265,8 @@ Not plan items, but real, and they should not be discovered at release:
   the same day from seven books (Wilhelm first). Opening a shop / starting a
   business added the same day from seven books (Vashistha first; six follow
   MC 2/17), with Holi; every event's lagna marks now shown on the page.
-  Medical treatment and an old house are next.
+  Taking medicine (eight books) and surgery (six books) added the same day,
+  Wilhelm first for both, with Mars–Saturn by sign. The bath after recovery
+  and an old house are next.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

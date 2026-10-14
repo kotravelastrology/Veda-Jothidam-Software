@@ -158,6 +158,13 @@ function panchangaCodes(r, x) {
   if (r.natal8 && others.some((p) => houseOf(x.signs[p], x.natalMoon) === 8)) out.push('NATAL_8');
   if (r.moon8 && others.some((p) => p !== 'Moon' && houseOf(x.signs[p], x.signs.Moon) === 8)) out.push('MOON_8');
   // Agarwal: Jupiter exalted, in own sign or navamsa, a friend's sign (the Sun's, the Moon's, Mars's), or vargottama.
+  // Surgery: Mars and Saturn by sign. Wilhelm — Saturn with Mars or aspecting it (3, 7, 10); Raman — each aspecting the other.
+  if (r.marsSaturn && x.signs) {
+    const sOnM = [3, 7, 10].includes(houseOf(x.signs.Mars, x.signs.Saturn));
+    const mOnS = [4, 7, 8].includes(houseOf(x.signs.Saturn, x.signs.Mars));
+    if (r.marsSaturn === 'INFLUENCE' && (sOnM || x.signs.Mars === x.signs.Saturn)) out.push('MARS_SATURN');
+    if (r.marsSaturn === 'MUTUAL' && sOnM && mOnS) out.push('MARS_SATURN_MUTUAL');
+  }
   if (r.jupStrong) {
     const s = x.signs.Jupiter;
     const n = x.navs.Jupiter;
@@ -370,6 +377,11 @@ function lagnaCodes(r, m) {
   if (r.sunMarsNav && m.navSigns && (m.navSigns.Sun === m.nav || m.navSigns.Mars === m.nav)) out.push('SUN_MARS_NAV');
   if (r.benHouse && !r.benHouse.planets.some((p) => r.benHouse.houses.includes(H[p]))) out.push(r.benHouse.code ?? 'BEN_HOUSE_MID');
   if (r.lagnaLordBenefic && !BENEFICS.includes(RASI_LORDS[m.lagna])) out.push('LAGNA_LORD_MID');
+  // Places a book asks for (Rangacharya's surgery: a malefic in the 6th; the Sun and the Moon in kendras) — marked.
+  for (const w of r.want ?? []) {
+    const there = (p) => w.houses.includes(H[p]);
+    if (!(w.all ? w.planets.every(there) : w.planets.some(there))) out.push(w.code);
+  }
   if (r.dayParts) {
     if (m.dayPart === 0) { if (!(r.dayParts.nightOk ?? []).includes(m.nightPart)) out.push('NIGHT'); }
     else if (r.dayParts.mid.includes(m.dayPart)) out.push('DAY_PART_MID');

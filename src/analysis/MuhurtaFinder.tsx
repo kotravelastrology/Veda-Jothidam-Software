@@ -16,7 +16,7 @@ interface AuspiciousTime {
 }
 
 interface MuhurtaFilters {
-  purpose: 'marriage' | 'business' | 'travel' | 'surgery' | 'ritual' | 'houseWarming' | 'upanayana' | 'vidyarambha' | 'study';
+  purpose: 'marriage' | 'business' | 'travel' | 'medicine' | 'surgery' | 'ritual' | 'houseWarming' | 'upanayana' | 'vidyarambha' | 'study';
   duration: number; // in hours
   startDate: string;
   endDate: string;
@@ -46,7 +46,7 @@ export function MuhurtaFinder() {
 
   // The unsourced per-purpose lists that stood here were removed (2026-10-11); the
   // rules come from the books through the engine, or the purpose shows SOURCE REQUIRED.
-  const DURATION_HOURS: Record<MuhurtaFilters['purpose'], number> = { marriage: 1.5, business: 2, travel: 1, surgery: 4, ritual: 2, houseWarming: 2, upanayana: 2, vidyarambha: 1, study: 1 };
+  const DURATION_HOURS: Record<MuhurtaFilters['purpose'], number> = { marriage: 1.5, business: 2, travel: 1, medicine: 1, surgery: 4, ritual: 2, houseWarming: 2, upanayana: 2, vidyarambha: 1, study: 1 };
 
   // Real electional results (from the src/report/muhurtaSearch engine via a
   // server action). No mock — computed on demand from the Swiss Ephemeris.
@@ -58,7 +58,7 @@ export function MuhurtaFinder() {
   const PURPOSE_TO_ENGINE: Record<string, string> = {
     marriage: 'marriage', business: 'business', travel: 'travel',
     // "Ritual" is no event read from the books yet (it used to borrow education's old unsourced list).
-    surgery: 'medical', ritual: 'ritual', houseWarming: 'griha', upanayana: 'upanayana', vidyarambha: 'education', study: 'study',
+    medicine: 'medical', surgery: 'surgery', ritual: 'ritual', houseWarming: 'griha', upanayana: 'upanayana', vidyarambha: 'education', study: 'study',
   };
 
   const handleSearch = async (bookId: string = book) => {
@@ -132,7 +132,8 @@ export function MuhurtaFinder() {
                 <option value="marriage">💒 Marriage</option>
                 <option value="business">💼 Business</option>
                 <option value="travel">✈️ Travel</option>
-                <option value="surgery">⚕️ Surgery</option>
+                <option value="medicine">💊 மருந்து / சிகிச்சை (Medicine)</option>
+                <option value="surgery">⚕️ அறுவை சிகிச்சை (Surgery)</option>
                 <option value="ritual">🙏 Ritual</option>
                 <option value="houseWarming">🏠 House Warming</option>
                 <option value="upanayana">🧵 உபநயனம் (Upanayana)</option>
@@ -202,7 +203,7 @@ export function MuhurtaFinder() {
               </select>
             </div>
 
-            {['houseWarming', 'upanayana', 'travel', 'vidyarambha', 'study', 'business'].includes(filters.purpose) && meta?.books && (
+            {['houseWarming', 'upanayana', 'travel', 'vidyarambha', 'study', 'business', 'medicine', 'surgery'].includes(filters.purpose) && meta?.books && (
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-ink">நூல் (விதிகள்)</label>
                 <select value={book} onChange={(e) => { setBook(e.target.value); handleSearch(e.target.value); }}
