@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Consultation - Veda Jothidam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #1f2937;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        /* Astrologer List */
+        .astrologer-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .astrologer-card {
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .astrologer-card:hover {
+            border-color: #3b82f6;
+            background: #f0f9ff;
+        }
+
+        .astrologer-card.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+        }
+
+        .astrologer-card input[type="radio"] {
+            width: auto;
+        }
+
+        .astrologer-name {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .astrologer-detail {
+            font-size: 12px;
+            color: #6b7280;
+            display: flex;
+            justify-content: space-between;
+            margin: 4px 0;
+        }
+
+        .rating {
+            color: #f59e0b;
+            font-size: 12px;
+        }
+
+        .price {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .loading-list {
+            text-align: center;
+            padding: 20px;
+            color: #6b7280;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            border-left: 4px solid #dc2626;
+            display: none;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            border-left: 4px solid #16a34a;
+            display: none;
+        }
+
+        .consultation-types {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .type-option {
+            position: relative;
+        }
+
+        .type-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .type-label {
+            display: block;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+
+        .type-option input[type="radio"]:checked + .type-label {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            color: #1e40af;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .consultation-types {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 Book a Consultation</h1>
+            <p>Connect with expert astrologers for personalized guidance</p>
+        </div>
+
+        <div class="content-grid">
+            <!-- Left: Booking Form -->
+            <div>
+                <div class="card">
+                    <h2>Consultation Details</h2>
+
+                    <div id="error-message" class="error-message"></div>
+                    <div id="success-message" class="success-message"></div>
+
+                    <form id="booking-form">
+                        <div class="form-group">
+                            <label for="title">Consultation Title *</label>
+                            <input
+                                type="text"
+                                id="title"
+                                placeholder="e.g., Career Guidance, Relationship Advice"
+                                required
+                            >
+                            <p class="help-text">What would you like guidance on?</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea
+                                id="description"
+                                placeholder="Provide more details about what you'd like to discuss..."
+                            ></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Consultation Type *</label>
+                            <div class="consultation-types">
+                                <div class="type-option">
+                                    <input type="radio" id="type-online" name="type" value="online" required>
+                                    <label for="type-online" class="type-label">🌐 Online</label>
+                                </div>
+                                <div class="type-option">
+                                    <input type="radio" id="type-phone" name="type" value="phone">
+                                    <label for="type-phone" class="type-label">☎️ Phone</label>
+                                </div>
+                                <div class="type-option">
+                                    <input type="radio" id="type-in-person" name="type" value="in-person">
+                                    <label for="type-in-person" class="type-label">👤 In-Person</label>
+                                </div>
+                                <div class="type-option">
+                                    <input type="radio" id="type-email" name="type" value="email">
+                                    <label for="type-email" class="type-label">📧 Email</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="date">Preferred Date *</label>
+                            <input
+                                type="date"
+                                id="date"
+                                required
+                            >
+                            <p class="help-text">Choose a date at least 24 hours from now</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="time">Preferred Time *</label>
+                            <input
+                                type="time"
+                                id="time"
+                                required
+                            >
+                            <p class="help-text">In your local timezone</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duration">Duration (minutes) *</label>
+                            <select id="duration" required>
+                                <option value="">Select duration</option>
+                                <option value="30">30 minutes - $25</option>
+                                <option value="60" selected>60 minutes - $50</option>
+                                <option value="90">90 minutes - $75</option>
+                                <option value="120">120 minutes - $100</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="submit-btn">
+                            Book Consultation
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right: Astrologer Selection -->
+            <div>
+                <div class="card">
+                    <h2>Select Astrologer</h2>
+
+                    <div id="astrologers-loading" class="loading-list">
+                        <div class="loading-spinner"></div> Loading astrologers...
+                    </div>
+
+                    <div id="astrologers-list" class="astrologer-list" style="display: none;"></div>
+
+                    <p class="help-text" style="margin-top: 16px;">
+                        💡 Don't see your favorite astrologer? Leave the selection empty and we'll match you with an available expert
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('booking-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorMsg = document.getElementById('error-message');
+        const successMsg = document.getElementById('success-message');
+        const astrologersContainer = document.getElementById('astrologers-list');
+        const astrologersLoading = document.getElementById('astrologers-loading');
+
+        // Load astrologers
+        async function loadAstrologers() {
+            try {
+                const response = await fetch('/api/astrologers/available', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to load astrologers');
+                }
+
+                astrologersLoading.style.display = 'none';
+                astrologersContainer.style.display = 'flex';
+
+                const astrologers = data.astrologers || [];
+
+                if (astrologers.length === 0) {
+                    astrologersContainer.innerHTML = '<p class="help-text">No astrologers available at the moment</p>';
+                    return;
+                }
+
+                astrologersContainer.innerHTML = astrologers.map(a => `
+                    <div class="astrologer-card" onclick="selectAstrologer(this, '${a.id}')">
+                        <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                            <input type="radio" name="astrologer" value="${a.id}">
+                            <div style="flex: 1;">
+                                <div class="astrologer-name">${a.name}</div>
+                                <div class="astrologer-detail">
+                                    <span class="rating">⭐ ${a.rating}/5 (${a.total_reviews} reviews)</span>
+                                </div>
+                                <div class="astrologer-detail">
+                                    <span>Expertise: ${(a.expertise || []).join(', ')}</span>
+                                    <span class="price">$${a.rate_per_hour}/hr</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                astrologersLoading.textContent = 'Error loading astrologers. Try refreshing.';
+                console.error('Error loading astrologers:', error);
+            }
+        }
+
+        function selectAstrologer(element, id) {
+            document.querySelectorAll('.astrologer-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            element.querySelector('input[type="radio"]').checked = true;
+        }
+
+        // Validate date is in the future
+        const dateInput = document.getElementById('date');
+        dateInput.addEventListener('change', () => {
+            const selected = new Date(dateInput.value);
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+
+            if (selected < tomorrow) {
+                errorMsg.textContent = 'Please select a date at least 24 hours from now';
+                errorMsg.style.display = 'block';
+                dateInput.value = '';
+            } else {
+                errorMsg.style.display = 'none';
+            }
+        });
+
+        // Set minimum date
+        const today = new Date();
+        today.setDate(today.getDate() + 1);
+        dateInput.min = today.toISOString().split('T')[0];
+
+        // Form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            errorMsg.style.display = 'none';
+            successMsg.style.display = 'none';
+
+            const astrologerId = document.querySelector('input[name="astrologer"]:checked')?.value;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="loading-spinner"></span>Booking...';
+
+            try {
+                const response = await fetch('/api/consultations', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                    },
+                    body: JSON.stringify({
+                        title: document.getElementById('title').value,
+                        description: document.getElementById('description').value,
+                        consultation_type: document.querySelector('input[name="type"]:checked').value,
+                        scheduled_date: `${document.getElementById('date').value}T${document.getElementById('time').value}`,
+                        duration_minutes: parseInt(document.getElementById('duration').value),
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        astrologer_id: astrologerId || undefined,
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to book consultation');
+                }
+
+                successMsg.textContent = 'Consultation booked successfully! Confirmation email sent.';
+                successMsg.style.display = 'block';
+
+                setTimeout(() => {
+                    window.location.href = '/consultations/' + data.consultation_id;
+                }, 2000);
+
+            } catch (error) {
+                errorMsg.textContent = error.message;
+                errorMsg.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Book Consultation';
+            }
+        });
+
+        // Load astrologers on page load
+        loadAstrologers();
+    </script>
+</body>
+</html>

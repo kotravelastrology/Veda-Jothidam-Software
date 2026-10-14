@@ -89,6 +89,15 @@ export function TopMenuBar() {
     dashas: '/report?section=dasha',
     transits: '/report?section=transit',
     varshaphala: '/varshaphala',
+    saturn: '/saturn-transit',
+    vedha: '/gochara-vedha',
+    nakshatraGochara: '/nakshatra-gochara',
+    moorthi: '/moorthi-nirnaya',
+    latta: '/latta',
+    pada88: '/pada-88',
+    bandYears: '/band-of-years',
+    mangala: '/mangala-dosha',
+    gems: '/gemstones',
     compatibility: '/porutham',
     kelvi: '/kelvi',
     astronomy: '/report?section=grahaBala',
@@ -162,6 +171,15 @@ export function TopMenuBar() {
         { label: 'Dashas', key: 'dashas' },
         { label: 'Transits', key: 'transits' },
         { label: 'Varshaphala', key: 'varshaphala' },
+        { label: 'Saturn Transit (ஏழரைச் சனி)', key: 'saturn' },
+        { label: 'Gochara Vedha (கோசார வேதை)', key: 'vedha' },
+        { label: 'Nakshatra Gochara (நட்சத்திரக் கோசாரம்)', key: 'nakshatraGochara' },
+        { label: 'Moorthi Nirnaya (மூர்த்தி நிர்ணயம்)', key: 'moorthi' },
+        { label: 'Latta (லத்தை)', key: 'latta' },
+        { label: '88th Pada (88-வது பாதம்)', key: 'pada88' },
+        { label: 'Band of Years (ஆண்டுப் பட்டை)', key: 'bandYears' },
+        { label: 'Mangala Dosha (மங்கள தோஷம்)', key: 'mangala' },
+        { label: 'Gemstones (ரத்தினங்கள்)', key: 'gems' },
         { label: 'Compatibility', key: 'compatibility' },
         { label: 'Prashna (கேள்வி–விடை)', key: 'kelvi' },
         { label: 'Astronomy', key: 'astronomy' },
@@ -201,6 +219,7 @@ export function TopMenuBar() {
         { label: 'Date Converter', key: 'dateconverter' },
         { label: '', key: 'divider1' },
         { label: 'Muhurta Finder', key: 'muhurta' },
+        { label: 'Muhurta Star (லத்தை / வைநாசிகம் / 88-108 பாதம்)', key: 'muhurtastars' },
         { label: 'Transit Finder', key: 'transit_finder' },
         { label: 'Rectification Tool', key: 'rectification_tool' },
         { label: 'Jamakkol Prasnam', key: 'jamakkol' },
@@ -410,6 +429,9 @@ export function TopMenuBar() {
         break;
       case 'muhurta':
         router.push('/muhurta');
+        break;
+      case 'muhurtastars':
+        router.push('/muhurta-stars');
         break;
       case 'transit_finder':
         router.push('/report?chart=transit');

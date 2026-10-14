@@ -3,6 +3,7 @@ import { Noto_Sans_Tamil, Noto_Serif_Tamil } from "next/font/google";
 import "./globals.css";
 import { NavigationProvider } from "@/src/navigation/NavigationProvider";
 import { MainLayout } from "@/src/navigation/MainLayout";
+import { WorkspaceProvider } from "@/src/workspace/WorkspaceProvider";
 
 const notoSansTamil = Noto_Sans_Tamil({
   subsets: ["tamil", "latin"],
@@ -31,9 +32,11 @@ export default function RootLayout({
       <body
         className={`${notoSansTamil.variable} ${notoSerifTamil.variable} font-[family-name:var(--font-tamil-sans)] antialiased`}
       >
-        <NavigationProvider>
-          <MainLayout>{children}</MainLayout>
-        </NavigationProvider>
+        <WorkspaceProvider>
+          <NavigationProvider>
+            <MainLayout>{children}</MainLayout>
+          </NavigationProvider>
+        </WorkspaceProvider>
       </body>
     </html>
   );

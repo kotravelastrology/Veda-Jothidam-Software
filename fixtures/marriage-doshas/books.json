@@ -1,0 +1,63 @@
+{
+  "_about": "Transcribed 2026-10-11 from the page images. Stars 0-26 from Ashwini; in 28-star lists Abhijit is 21 and Shravana-Revati 22-27. Yogas 0-26 from Vishkambha. Padas 0-107. Signs 0 = Aries.",
+  "tenInOrder": {
+    "JOSHI": "printed p.67: Latta, Paata, Yuti, Vedha, Jamitra, Mrityu Panchaka, Ekargala, Upgraha, Kranti Samya, Dagdha tithi",
+    "order": ["LATTA", "PAATA", "YUTI", "VEDHA", "JAMITRA", "BANA", "EKARGALA", "UPAGRAHA", "KRANTI", "DAGDHA"],
+    "vashisthaOrder": ["LATTA", "PAATA", "YUTI", "VEDHA", "JAMITRA", "BANA", "EKARGALA", "KRANTI", "UPAGRAHA", "DAGDHA"],
+    "seriousByNumber": [3, 4, 6, 8, 10],
+    "seriousByName": { "SHRIDHAR": ["YUTI", "VEDHA", "BANA", "KRANTI", "DAGDHA"], "JOSHI": ["YUTI", "VEDHA", "BANA", "KRANTI", "DAGDHA"] },
+    "_note": "Vashistha numbers Kranti 8th, so her 3,4,6,8,10 are Shridhar's and Joshi's five by name; Agarwal gives the same numbers but lists Upgraha 8th and Kranti 9th."
+  },
+  "paataNarada": [
+    { "book": "MUHURTA_CHINTAMANI", "page": "printed p.197", "sun": 12, "struck": [1, 4, 9, 14, 23, 24], "note": "Sun in Hasta: Bharani, Mrigashira, Magha, Swati, Shatabhisha, Poorvabhadrapada" },
+    { "book": "RANGACHARYA", "page": "printed p.63", "sun": 14, "struck": [21, 22, 2, 26, 7, 12], "note": "Sun in Swati: Sravana, Dhanishtta, Krittika, Revati, Pushyami, Hastha" }
+  ],
+  "paataSwati": [
+    { "book": "SHRIDHAR", "page": "printed p.197", "sun": 3, "struck": [5, 6, 11, 13, 18, 23], "note": "Sun in Rohini: Ardra, Punarvasu, U.Falguni, Chitra, Moola, Shatbhish" },
+    { "book": "SHRIDHAR", "page": "printed p.197", "sun": 4, "struck": [4, 5, 10, 12, 17, 22], "note": "Sun in Mrigshira: Mrigshira, Ardra, P.Falguni, Hasta, Jyeshta, Dhanishta" }
+  ],
+  "joshiTable62": { "page": "printed p.68", "marriageStar": 3, "sunStars": [5, 6, 23, 10, 13, 18], "note": "Rohini: Ardra, Punarvasu, Shatbhisha, Poorvaphalguni, Chitra and Moola" },
+  "shridharPaataExample": { "page": "printed p.196", "vaidhritiEndIST": "1998-12-09T13:07", "maghaFromIST": "1998-12-09T00:20", "maghaToIST": "1998-12-10T01:30", "pada3FromIST": "1998-12-09T12:55", "pada3ToIST": "1998-12-09T19:13", "moonStar": 9, "moonPada": 38 },
+  "upagraha": { "MC_verse": [5, 8, 10, 14, 7, 19, 15, 18, 21, 22, 23, 24, 25], "MP": [5, 8, 14, 18, 19, 22, 23, 24] },
+  "murdha": { "_note": "Shridhar: odd yoga n → (n+1)/2, even → (n+28)/2 (1-based); Kalaprakasika, Rangacharya, Kalyanraman name them", "0": 0, "5": 16, "8": 4, "9": 18, "12": 6, "14": 7, "16": 8, "18": 9, "26": 13 },
+  "ekargala": [
+    { "book": "RANGACHARYA", "page": "printed pp.59-60", "yoga": 8, "sun": 13, "moon": 22, "present": ["ODD_COUNT", "KHARJURA_27"], "note": "Soola; the Sun in Chitta-1, the Moon in Dhanishtta-1: 11 counting Abhijit; on one line with Mrigasira on top" },
+    { "book": "KALAPRAKASIKA", "page": "printed p.169", "yoga": 18, "sun": 0, "moon": 18, "present": ["KHARJURA_27"], "note": "Parigham, Magha on top; the Sun in Aswini, the Moon in Mula" },
+    { "book": "SHRIDHAR", "page": "printed p.188", "yoga": 5, "sun": 1, "moon": 3, "present": ["KHARJURA_28"], "absent": ["KHARJURA_27"], "note": "Atiganda; the Sun in Bharni, the Moon in Rohini" },
+    { "book": "WILHELM", "page": "printed p.141", "yoga": 0, "sun": 5, "moon": 9, "present": ["WILHELM"], "note": "Vishkambha → Pushya; the Moon in Magha, the Sun in Ardra" }
+  ],
+  "ekargalaExempt": { "book": "KALAPRAKASIKA p.192 = WILHELM p.141", "stars": [0, 4, 6, 7, 12, 13, 22, 26] },
+  "banaTable": { "page": "Shridhar Table 8.10 (completed degrees)", "ROGA": [8, 17, 26], "AGNI": [2, 11, 20, 29], "RAJA": [4, 13, 22], "CHORA": [6, 15, 24], "MRITYU": [1, 10, 19, 28] },
+  "banaExamples": [
+    { "book": "SHRIDHAR", "page": "printed p.197", "deg": 13, "bana": "RAJA", "remainders": [1, 7, 5, 3, 8], "sashalya": false },
+    { "book": "MUHURTA_CHINTAMANI", "page": "printed p.207", "deg": 17, "bana": "ROGA", "remainders": [5, 2, 0, 7, 3], "sashalya": false }
+  ],
+  "banaTithiLagna": [
+    { "book": "SHRIDHAR", "page": "printed p.198", "tithi": 6, "lagna": 5, "bana": "AGNI" },
+    { "book": "JOSHI", "page": "printed p.38", "tithi": 10, "lagna": 9, "bana": "MRITYU" }
+  ],
+  "jamitra55": [
+    { "book": "MUHURTA_CHINTAMANI", "page": "printed p.201", "lagnaPada": 19, "planetPada": 73, "note": "lagna in the 2nd navamsa of Gemini; the 55th is Sagittarius' 2nd" },
+    { "book": "JOSHI", "page": "printed p.71", "lagnaPada": 20, "planetPada": 74, "note": "3rd navamsha of Mithuna; 3rd navamsha of Dhanu" }
+  ],
+  "kranti": { "MC_verse": [[4, 0], [1, 9], [6, 10], [5, 11], [3, 7], [8, 2]], "agarwal1based": [[1, 5], [2, 10], [9, 3], [4, 8], [6, 12], [7, 11]] },
+  "dagdhaVashistha": [[1, 6, "S"], [2, 4, "K"], [3, 8, "S"], [4, 6, "K"], [5, 10, "S"], [6, 8, "K"], [7, 12, "S"], [8, 10, "K"], [9, 2, "S"], [10, 12, "K"], [11, 4, "S"], [12, 2, "K"]],
+  "panchaShridhar": [["Ashvani", 0, "P.Falguni", 10], ["Bharni", 1, "Anuradha", 16], ["Krittika", 2, "Vishakha", 15], ["Rohini", 3, "Abhijit", 21], ["Mrigshira", 4, "U.Shada", 20], ["Ardra", 5, "P.Shada", 19], ["Punarvasu", 6, "Moola", 18], ["Pushya", 7, "Jyeshta", 17], ["Ashlesha", 8, "Dhanishta", 23], ["Magha", 9, "Shravana", 22], ["U.Falguni", 11, "Revati", 27], ["Hasta", 12, "U.Bhadra", 26], ["Chittra", 13, "P.Bhadra", 25], ["Swati", 14, "Shatbhish", 24]],
+  "vedha": {
+    "mcAnuradha": { "page": "printed p.193", "marriageStar": 16, "planetStar": 1, "note": "married in Anuradha: no planet in Bharani" },
+    "mcQuarter": { "page": "printed p.193", "planetPada": 83, "moonPadaHit": 16, "planetPada2": 81, "moonPadaHit2": 18, "note": "a planet in Uttarashadha's 4th quarter: Mrigashira's 1st; in its 2nd: Mrigashira's 3rd" }
+  },
+  "words": {
+    "PAATA": { "SHRIDHAR": 619, "MUHURTA_CHINTAMANI": 247, "RANGACHARYA": 237, "JOSHI": 212, "WILHELM": 75, "KALYANRAMAN": 56, "VASHISTHA": 27, "AGARWAL": 17 },
+    "YUTI": { "SHRIDHAR": 478, "RANGACHARYA": 219, "MUHURTA_CHINTAMANI": 160, "WILHELM": 149, "AGARWAL": 109, "JOSHI": 94, "VASHISTHA": 38, "KALYANRAMAN": 28 },
+    "VEDHA": { "MUHURTA_CHINTAMANI": 1014, "SHRIDHAR": 668, "RANGACHARYA": 357, "JOSHI": 342, "AGARWAL": 67, "VASHISTHA": 16 },
+    "JAMITRA": { "SHRIDHAR": 673, "MUHURTA_CHINTAMANI": 526, "RANGACHARYA": 241, "WILHELM": 175, "JOSHI": 138, "AGARWAL": 42, "VASHISTHA": 15 },
+    "BANA": { "SHRIDHAR": 867, "MUHURTA_CHINTAMANI": 728, "WILHELM": 597, "JOSHI": 552, "RANGACHARYA": 489, "VASHISTHA": 50, "AGARWAL": 17 },
+    "EKARGALA": { "KALYANRAMAN": 477, "SHRIDHAR": 462, "RANGACHARYA": 407, "KALAPRAKASIKA": 271, "WILHELM": 184, "MUHURTA_CHINTAMANI": 166, "JOSHI": 62, "AGARWAL": 46, "RAMAN": 33, "VASHISTHA": 19 },
+    "UPAGRAHA": { "SHRIDHAR": 284, "MUHURTA_CHINTAMANI": 187, "RANGACHARYA": 117, "WILHELM": 83, "AGARWAL": 44, "JOSHI": 40, "VASHISTHA": 33 },
+    "KRANTI": { "SHRIDHAR": 590, "MUHURTA_CHINTAMANI": 226, "JOSHI": 115, "RANGACHARYA": 93, "AGARWAL": 72, "VASHISTHA": 12 },
+    "DAGDHA": { "SHRIDHAR": 214, "MUHURTA_CHINTAMANI": 133, "RANGACHARYA": 107, "JOSHI": 76, "WILHELM": 67, "VASHISTHA": 59, "AGARWAL": 39 },
+    "RULE": { "JOSHI": 73, "AGARWAL": 71, "SHRIDHAR": 60, "VASHISTHA": 35 }
+  },
+  "defaults": { "PAATA": "YOGA_END", "YUTI": "SIGN_ANY", "VEDHA": "PANCHA", "JAMITRA": "SEVENTH", "BANA": "SUN_DEGREE", "EKARGALA": "KHARJURA_28", "UPAGRAHA": "UPA13", "KRANTI": "SIGN_PAIRS", "DAGDHA": "BOTH", "RULE": "SIX_OF_TEN" }
+}

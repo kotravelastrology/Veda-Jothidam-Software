@@ -21,3 +21,16 @@ yarn-error.log*
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+# env files — .env holds real credentials; only *.example is tracked
+.env
+backend/.env
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# VJ-008 spike: copied at package time by spikes/electron/standalone/prepare.js
+spikes/electron/standalone/node_modules/

@@ -1,257 +1,304 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  listCharts, recordConsultation, listConsultations, getConsultation,
+  addJournalEvent, listJournalEvents, deleteJournalEvent,
+  saveDraft, getDraft, discardDraft,
+} from '../library/actions';
+
+interface ChartRow { profileId: string; name: string; revision: number; birthDate: string | null }
+interface ConsultationRow {
+  consultationId: string; revision: number; snapshotId: string | null;
+  occurredAt: string; summary: string | null;
+}
+interface JournalRow {
+  eventId: string; eventDate: string; category: string | null; description: string;
+}
+
+const EMPTY_NOTE = { summary: '', notes: '', recommendations: '', remedies: '' };
 
 export default function ConsultationToolsView() {
-  const [activeTab, setActiveTab] = useState<'notes' | 'recommendations' | 'remedies'>('notes');
-  const [consultation, setConsultation] = useState({
-    clientName: '',
-    date: new Date().toISOString().split('T')[0],
-    duration: '30',
-    consultationNotes: '',
-    recommendations: '',
-    remedies: '',
-    followUpDate: '',
-  });
+  const [clients, setClients] = useState<ChartRow[]>([]);
+  const [selected, setSelected] = useState<ChartRow | null>(null);
+  const [consultations, setConsultations] = useState<ConsultationRow[]>([]);
+  const [journal, setJournal] = useState<JournalRow[]>([]);
+  const [note, setNote] = useState(EMPTY_NOTE);
+  const [draftNotice, setDraftNotice] = useState<string | null>(null);
+  const [event, setEvent] = useState({ eventDate: '', category: '', description: '' });
+  const [detail, setDetail] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const draftTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const [savedConsultations, setSavedConsultations] = useState<typeof consultation[]>([]);
+  const draftKey = selected ? `consultation:${selected.profileId}` : null;
 
-  const handleSave = () => {
-    if (consultation.clientName && consultation.consultationNotes) {
-      setSavedConsultations([...savedConsultations, { ...consultation }]);
-      setConsultation({
-        clientName: '',
-        date: new Date().toISOString().split('T')[0],
-        duration: '30',
-        consultationNotes: '',
-        recommendations: '',
-        remedies: '',
-        followUpDate: '',
-      });
+  useEffect(() => {
+    listCharts().then(setClients).catch((e) => setError(String(e)));
+  }, []);
+
+  const loadFor = useCallback(async (client: ChartRow) => {
+    setError(null);
+    setDetail(null);
+    const [cs, js, draft] = await Promise.all([
+      listConsultations(client.profileId),
+      listJournalEvents(client.profileId),
+      getDraft(`consultation:${client.profileId}`),
+    ]);
+    setConsultations(cs);
+    setJournal(js);
+    if (draft) {
+      setNote({ ...EMPTY_NOTE, ...(draft.payload as object) });
+      setDraftNotice(`சேமிக்கப்படாத வரைவு மீட்கப்பட்டது (${new Date(draft.updatedAt).toLocaleString()})`);
+    } else {
+      setNote(EMPTY_NOTE);
+      setDraftNotice(null);
+    }
+  }, []);
+
+  const choose = (client: ChartRow) => { setSelected(client); loadFor(client); };
+
+  // Autosave, so a crash or navigating away does not lose a half-written note.
+  useEffect(() => {
+    if (!draftKey || !selected) return;
+    if (Object.values(note).every((v) => !v.trim())) return;
+    if (draftTimer.current) clearTimeout(draftTimer.current);
+    const profileId = selected.profileId;
+    draftTimer.current = setTimeout(() => {
+      saveDraft(draftKey, note, profileId).catch(() => { /* autosave is best-effort */ });
+    }, 800);
+    return () => { if (draftTimer.current) clearTimeout(draftTimer.current); };
+  }, [note, draftKey, selected]);
+
+  const submit = async () => {
+    if (!selected) return;
+    if (!note.summary.trim() && !note.notes.trim()) { setError('சுருக்கம் அல்லது குறிப்பு தேவை'); return; }
+    setBusy(true);
+    setError(null);
+    try {
+      await recordConsultation({ profileId: selected.profileId, ...note });
+      if (draftKey) await discardDraft(draftKey);
+      setNote(EMPTY_NOTE);
+      setDraftNotice(null);
+      await loadFor(selected);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
     }
   };
 
-  const handleDelete = (index: number) => {
-    setSavedConsultations(savedConsultations.filter((_, i) => i !== index));
+  const addEvent = async () => {
+    if (!selected || !event.eventDate || !event.description.trim()) {
+      setError('நிகழ்வுக்கு தேதியும் விவரமும் தேவை'); return;
+    }
+    setBusy(true);
+    try {
+      await addJournalEvent({ profileId: selected.profileId, ...event });
+      setEvent({ eventDate: '', category: '', description: '' });
+      setJournal(await listJournalEvents(selected.profileId));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const removeEvent = async (eventId: string) => {
+    await deleteJournalEvent(eventId);
+    if (selected) setJournal(await listJournalEvents(selected.profileId));
   };
 
   return (
-    <main className="min-h-screen p-6 max-w-7xl mx-auto">
-      {/* Header */}
+    <main className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-6">
         <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">
           Consultation Tools
         </p>
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
-          ஆலோசனை கருவிகள் (Consultation Tools)
+          ஆலோசனைக் குறிப்புகள்
         </h1>
         <p className="text-sm text-ink-soft mt-1">
-          ஆலோசனை குறிப்பு மற்றும் பரிந்துரைகள் பதிவு. Record consultation notes and recommendations.
+          ஒவ்வொரு ஆலோசனையும் அப்போதிருந்த revision-உடன் பிணைக்கப்படுகிறது — பின்னர் பிறந்த நேரம் திருத்தப்பட்டாலும் பழைய பதிவு மாறாது.
         </p>
       </header>
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Input Panel */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Client Info */}
-          <div className="bg-surface border border-line rounded-2xl p-5">
-            <h2 className="text-lg font-semibold text-ink mb-4">ஆலோசனை விவரம்</h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <label>
-                <span className="block text-sm font-medium text-ink-soft mb-2">Client Name *</span>
-                <input
-                  type="text"
-                  value={consultation.clientName}
-                  onChange={(e) => setConsultation({ ...consultation, clientName: e.target.value })}
-                  className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded"
-                />
-              </label>
-              <label>
-                <span className="block text-sm font-medium text-ink-soft mb-2">Consultation Date</span>
-                <input
-                  type="date"
-                  value={consultation.date}
-                  onChange={(e) => setConsultation({ ...consultation, date: e.target.value })}
-                  className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded"
-                />
-              </label>
-              <label>
-                <span className="block text-sm font-medium text-ink-soft mb-2">Duration (minutes)</span>
-                <input
-                  type="number"
-                  value={consultation.duration}
-                  onChange={(e) => setConsultation({ ...consultation, duration: e.target.value })}
-                  className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded"
-                />
-              </label>
-              <label>
-                <span className="block text-sm font-medium text-ink-soft mb-2">Follow-up Date</span>
-                <input
-                  type="date"
-                  value={consultation.followUpDate}
-                  onChange={(e) => setConsultation({ ...consultation, followUpDate: e.target.value })}
-                  className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded"
-                />
-              </label>
-            </div>
-          </div>
+      {error && (
+        <div className="bg-rose/10 border border-rose rounded-lg p-4 mb-6 text-sm text-rose">{error}</div>
+      )}
 
-          {/* Tabs */}
-          <div className="bg-surface border border-line rounded-2xl">
-            <div className="flex border-b border-line">
-              {(['notes', 'recommendations', 'remedies'] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`flex-1 px-4 py-3 font-medium transition border-b-2 ${
-                    activeTab === tab
-                      ? 'border-saffron text-saffron'
-                      : 'border-transparent text-ink-soft hover:text-ink'
-                  }`}
-                >
-                  {tab === 'notes' && '📝 Consultation Notes'}
-                  {tab === 'recommendations' && '💡 Recommendations'}
-                  {tab === 'remedies' && '✨ Remedies'}
+      <div className="bg-surface border border-line rounded-2xl p-5 mb-6">
+        <p className="text-xs font-semibold text-ink-soft uppercase mb-2">வாடிக்கையாளர்</p>
+        {clients.length === 0 ? (
+          <p className="text-sm text-ink-soft">
+            யாரும் சேமிக்கப்படவில்லை. முதலில் வாடிக்கையாளர் நிர்வாகத்தில் ஒருவரைச் சேர்க்கவும்.
+          </p>
+        ) : (
+          <div className="flex gap-2 flex-wrap">
+            {clients.map((c) => (
+              <button key={c.profileId} onClick={() => choose(c)}
+                className={`px-3 py-2 rounded-lg border text-sm transition ${
+                  selected?.profileId === c.profileId
+                    ? 'border-saffron bg-saffron/10 text-ink'
+                    : 'border-line text-ink-soft hover:border-line/60'
+                }`}>
+                {c.name}
+                <span className="ml-2 font-mono text-xs text-ink-soft">v{c.revision}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {selected && (
+        <div className="grid lg:grid-cols-2 gap-6">
+          <section className="space-y-4">
+            <div className="bg-surface border border-line rounded-2xl p-5">
+              <h2 className="font-semibold text-ink mb-1">புதிய ஆலோசனை</h2>
+              <p className="text-xs text-ink-soft mb-4">
+                {selected.name} · தற்போதைய revision <span className="font-mono">v{selected.revision}</span>
+              </p>
+
+              {draftNotice && (
+                <div className="bg-orange/10 border border-orange/40 rounded p-3 mb-4 text-xs text-ink-soft">
+                  {draftNotice}
+                </div>
+              )}
+
+              {([
+                ['summary', 'சுருக்கம்'],
+                ['notes', 'குறிப்புகள்'],
+                ['recommendations', 'பரிந்துரைகள்'],
+                ['remedies', 'பரிகாரங்கள்'],
+              ] as Array<[keyof typeof EMPTY_NOTE, string]>).map(([key, label]) => (
+                <label key={key} className="block mb-3">
+                  <span className="block text-xs font-medium text-ink-soft mb-1">{label}</span>
+                  <textarea
+                    value={note[key]}
+                    onChange={(e) => setNote({ ...note, [key]: e.target.value })}
+                    rows={key === 'summary' ? 1 : 3}
+                    className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded text-sm"
+                  />
+                </label>
+              ))}
+
+              <button onClick={submit} disabled={busy}
+                className="px-4 py-2 bg-green text-white rounded font-medium text-sm disabled:opacity-50">
+                {busy ? 'பதிவு செய்கிறது…' : 'ஆலோசனையைப் பதிவு செய்'}
+              </button>
+              <p className="text-xs text-ink-soft/70 mt-2">
+                தட்டச்சு செய்யும்போது தானாக வரைவாகச் சேமிக்கப்படுகிறது.
+              </p>
+            </div>
+
+            <div className="bg-surface border border-line rounded-2xl p-5">
+              <h2 className="font-semibold text-ink mb-3">வாழ்க்கை நிகழ்வுகள்</h2>
+              <div className="grid grid-cols-2 gap-2 mb-2">
+                <input type="date" value={event.eventDate}
+                  onChange={(e) => setEvent({ ...event, eventDate: e.target.value })}
+                  className="px-3 py-2 bg-ink-soft/10 border border-line rounded text-sm" />
+                <input type="text" placeholder="வகை" value={event.category}
+                  onChange={(e) => setEvent({ ...event, category: e.target.value })}
+                  className="px-3 py-2 bg-ink-soft/10 border border-line rounded text-sm" />
+              </div>
+              <input type="text" placeholder="என்ன நடந்தது" value={event.description}
+                onChange={(e) => setEvent({ ...event, description: e.target.value })}
+                className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded text-sm mb-2" />
+              <button onClick={addEvent} disabled={busy}
+                className="px-4 py-2 bg-info/10 text-info rounded font-medium text-sm disabled:opacity-50">
+                + நிகழ்வு சேர்
+              </button>
+
+              <div className="mt-4 space-y-2">
+                {journal.map((j) => (
+                  <div key={j.eventId} className="flex justify-between items-start gap-3 border-t border-line/30 pt-2">
+                    <div>
+                      <p className="text-sm text-ink">{j.description}</p>
+                      <p className="text-xs text-ink-soft tabular-nums">
+                        {j.eventDate}{j.category ? ` · ${j.category}` : ''}
+                      </p>
+                    </div>
+                    <button onClick={() => removeEvent(j.eventId)}
+                      className="text-xs text-rose">நீக்கு</button>
+                  </div>
+                ))}
+                {journal.length === 0 && (
+                  <p className="text-xs text-ink-soft">இன்னும் நிகழ்வுகள் இல்லை.</p>
+                )}
+              </div>
+            </div>
+          </section>
+
+          <section className="bg-surface border border-line rounded-2xl p-5">
+            <h2 className="font-semibold text-ink mb-3">
+              ஆலோசனை வரலாறு ({consultations.length})
+            </h2>
+            <div className="space-y-2">
+              {consultations.map((c) => (
+                <button key={c.consultationId}
+                  onClick={async () => setDetail(await getConsultation(c.consultationId))}
+                  className="w-full text-left border border-line/40 rounded p-3 hover:border-saffron/50 transition">
+                  <div className="flex justify-between items-start gap-2">
+                    <span className="text-sm text-ink">{c.summary || '(சுருக்கம் இல்லை)'}</span>
+                    <span className="font-mono text-xs text-ink-soft whitespace-nowrap">v{c.revision}</span>
+                  </div>
+                  <p className="text-xs text-ink-soft tabular-nums mt-1">
+                    {new Date(c.occurredAt).toLocaleDateString()}
+                    {c.snapshotId && <span className="ml-2">· snapshot {c.snapshotId.slice(0, 8)}</span>}
+                  </p>
                 </button>
               ))}
-            </div>
-
-            <div className="p-5">
-              {activeTab === 'notes' && (
-                <div>
-                  <label>
-                    <span className="block text-sm font-medium text-ink-soft mb-2">Consultation Notes *</span>
-                    <textarea
-                      value={consultation.consultationNotes}
-                      onChange={(e) =>
-                        setConsultation({ ...consultation, consultationNotes: e.target.value })
-                      }
-                      rows={6}
-                      placeholder="Record key points from consultation, client concerns, chart observations..."
-                      className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded text-sm"
-                    />
-                  </label>
-                  <p className="text-xs text-ink-soft/60 mt-2">
-                    💡 Tip: Note significant planetary placements, current dasha effects, and client questions.
-                  </p>
-                </div>
-              )}
-
-              {activeTab === 'recommendations' && (
-                <div>
-                  <label>
-                    <span className="block text-sm font-medium text-ink-soft mb-2">Recommendations</span>
-                    <textarea
-                      value={consultation.recommendations}
-                      onChange={(e) =>
-                        setConsultation({ ...consultation, recommendations: e.target.value })
-                      }
-                      rows={6}
-                      placeholder="Suggest follow-up actions, lifestyle changes, timing for important decisions..."
-                      className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded text-sm"
-                    />
-                  </label>
-                  <p className="text-xs text-ink-soft/60 mt-2">
-                    💡 Tip: Include specific recommendations based on dasha timing and planetary strengths.
-                  </p>
-                </div>
-              )}
-
-              {activeTab === 'remedies' && (
-                <div>
-                  <label>
-                    <span className="block text-sm font-medium text-ink-soft mb-2">Astrological Remedies</span>
-                    <textarea
-                      value={consultation.remedies}
-                      onChange={(e) => setConsultation({ ...consultation, remedies: e.target.value })}
-                      rows={6}
-                      placeholder="Recommend mantras, gemstones, rituals, charity suggestions, puja timing..."
-                      className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded text-sm"
-                    />
-                  </label>
-                  <p className="text-xs text-ink-soft/60 mt-2">
-                    💡 Tip: Provide remedies aligned with weak planets and benefic yogas.
-                  </p>
-                </div>
+              {consultations.length === 0 && (
+                <p className="text-xs text-ink-soft">இன்னும் ஆலோசனைகள் பதிவாகவில்லை.</p>
               )}
             </div>
-          </div>
 
-          <button
-            onClick={handleSave}
-            className="w-full px-4 py-3 bg-saffron text-ink rounded-lg font-semibold hover:bg-saffron/90 transition"
-          >
-            💾 Save Consultation
-          </button>
-        </div>
-
-        {/* Side Panel - Consultation History */}
-        <div className="bg-surface border border-line rounded-2xl p-5 h-fit">
-          <h3 className="font-semibold text-ink mb-4">📋 Consultation History</h3>
-          <div className="space-y-3 max-h-96 overflow-y-auto">
-            {savedConsultations.length > 0 ? (
-              savedConsultations.map((cons, index) => (
-                <div key={index} className="p-3 bg-info/5 border border-info/20 rounded">
-                  <div className="flex justify-between items-start gap-2 mb-2">
-                    <div className="flex-1">
-                      <p className="font-medium text-ink text-sm">{cons.clientName}</p>
-                      <p className="text-xs text-ink-soft">{cons.date}</p>
-                    </div>
-                    <button
-                      onClick={() => handleDelete(index)}
-                      className="text-rose hover:text-rose/80 text-sm"
-                    >
-                      ✕
-                    </button>
+            {detail && (
+              <div className="mt-4 border-t border-line pt-4 space-y-3 text-sm">
+                <p className="text-xs text-ink-soft">
+                  பதிவு செய்யப்பட்ட revision <span className="font-mono">v{detail.revision}</span>
+                  {selected.revision !== detail.revision && (
+                    <span className="text-orange"> · தற்போதைய v{selected.revision} — பழைய பதிவு மாறவில்லை</span>
+                  )}
+                </p>
+                {detail.notes && (
+                  <div>
+                    <p className="text-xs font-semibold text-ink-soft uppercase">குறிப்புகள்</p>
+                    <p className="text-ink-soft">{detail.notes}</p>
                   </div>
-                  <div className="flex gap-2 text-xs text-ink-soft/60 flex-wrap">
-                    <span>⏱ {cons.duration}m</span>
-                    {cons.followUpDate && <span>📅 Follow: {cons.followUpDate}</span>}
+                )}
+                {detail.recommendations && (
+                  <div>
+                    <p className="text-xs font-semibold text-ink-soft uppercase">பரிந்துரைகள்</p>
+                    <p className="text-ink-soft">{detail.recommendations}</p>
                   </div>
-                  <p className="text-xs text-ink-soft mt-2 line-clamp-2">{cons.consultationNotes}</p>
-                </div>
-              ))
-            ) : (
-              <p className="text-xs text-ink-soft text-center py-6">No consultations saved yet</p>
+                )}
+                {detail.remedies && (
+                  <div>
+                    <p className="text-xs font-semibold text-ink-soft uppercase">பரிகாரங்கள்</p>
+                    <p className="text-ink-soft">{detail.remedies}</p>
+                  </div>
+                )}
+                {detail.evidence?.length > 0 && (
+                  <div>
+                    <p className="text-xs font-semibold text-ink-soft uppercase mb-1">ஆதாரம்</p>
+                    {detail.evidence.map((e: any) => (
+                      <p key={e.ruleId} className="text-xs text-ink-soft">
+                        {e.name} — {e.status === 'SOURCE_REQUIRED' ? 'ஆதாரம் தேவை' : e.source?.pageLocus}
+                      </p>
+                    ))}
+                  </div>
+                )}
+              </div>
             )}
-          </div>
+          </section>
         </div>
-      </div>
-
-      {/* Quick Reference */}
-      <div className="mt-8 grid sm:grid-cols-3 gap-4">
-        <div className="bg-green/10 border border-green rounded-lg p-4">
-          <p className="text-sm font-semibold text-green mb-2">✓ Best Practices</p>
-          <ul className="text-xs text-ink-soft space-y-1 list-disc list-inside">
-            <li>Always record current dasha/antardasha</li>
-            <li>Note transit effects</li>
-            <li>Reference chart weaknesses</li>
-            <li>Suggest timeline for actions</li>
-          </ul>
-        </div>
-        <div className="bg-info/10 border border-info rounded-lg p-4">
-          <p className="text-sm font-semibold text-info mb-2">📊 Follow-up Tips</p>
-          <ul className="text-xs text-ink-soft space-y-1 list-disc list-inside">
-            <li>Schedule 3-6 month review</li>
-            <li>Check dasha change timing</li>
-            <li>Verify remedy compliance</li>
-            <li>Assess life changes</li>
-          </ul>
-        </div>
-        <div className="bg-orange/10 border border-orange rounded-lg p-4">
-          <p className="text-sm font-semibold text-orange mb-2">🎯 Key Areas</p>
-          <ul className="text-xs text-ink-soft space-y-1 list-disc list-inside">
-            <li>Career & finances</li>
-            <li>Marriage & relationships</li>
-            <li>Health & longevity</li>
-            <li>Spiritual growth</li>
-          </ul>
-        </div>
-      </div>
+      )}
 
       <footer className="mt-12 pt-6 border-t border-line text-xs text-ink-soft text-center">
         <p>
-          ஆலோசனை கருவிகள் — ஒவ்வொரு ஆலோசனையின் முக்கிய புள்ளிகள் பதிவு செய்யவும் மற்றும் ஈவாலுவேட் செய்யவும்.
+          ஆலோசனைகள் அவை கொடுக்கப்பட்ட revision-உடன் நிரந்தரமாகப் பிணைக்கப்படுகின்றன;
+          குறிப்பைத் திருத்தினாலும் அந்தப் பிணைப்பு மாறாது.
         </p>
       </footer>
     </main>

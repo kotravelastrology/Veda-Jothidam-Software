@@ -99,6 +99,27 @@ assert.ok(report.wealthYogas.source, 'Wealth yogas source attribution');
 assert.ok(report.wealthYogas.source.convention.includes('Ch.'),
   'Source cites BPHS chapters for wealth yogas');
 
+// Gochara: Phaladeepika (the default vedha book since 2026-10-10), and its chapter 26 for the same moment.
+{
+  const g = report.gocharaPhala;
+  assert.equal(g.methodId, 'PHALADEEPIKA_SASTRI');
+  assert.ok(g.rows.every((r) => r.source.startsWith('Phaladeepika (V. Subrahmanya Sastri, 1950)')));
+  const pd = g.phaladeepika;
+  assert.deepEqual(Object.keys(pd.planets), g.rows.map((r) => r.graha));
+  for (const r of g.rows) assert.equal(pd.planets[r.graha].house, r.houseFromMoon, `${r.graha}: one moment, one house`);
+  for (const r of g.rows) assert.equal(pd.planets[r.graha].goodHouse, r.isBenefic, `${r.graha}: verse 2's good houses in both`);
+  assert.ok(pd.sources.length > 10 && pd.verse34Now.positions.length === 8);
+  // Verse 41 from the natal Ashtakavarga: both tables; Varahamihira's = the report's own Ashtakavarga.
+  assert.deepEqual(Object.keys(pd.planets.Sun.bindus), ['PHALADEEPIKA', 'VARAHAMIHIRA']);
+  for (const p of CLASSICAL_GRAHAS) {
+    const s = g.rows.find((r) => r.graha === p);
+    const sign = (report.chart.grahas.Moon.rasiIndex + s.houseFromMoon - 1) % 12;
+    assert.equal(pd.planets[p].bindus.VARAHAMIHIRA.bav, report.ashtakavarga.bhinna[p][sign], `${p}: the same count as the report's Ashtakavarga`);
+    assert.equal(pd.planets[p].bindus.VARAHAMIHIRA.sav, report.ashtakavarga.sarva[sign]);
+  }
+  assert.equal(pd.planets.Rahu.bindus.PHALADEEPIKA.bav, null);
+}
+
 // Determinism: same birth input -> same chartId and same Lagna.
 const reportAgain = buildReportData({
   name: 'Test Native', gender: 'female',
