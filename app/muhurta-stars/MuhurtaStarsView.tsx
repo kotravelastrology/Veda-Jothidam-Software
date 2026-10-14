@@ -817,7 +817,7 @@ export default function MuhurtaStarsView() {
                         {r.nak && <li>நட்சத்திரம்: {stars(r.nak.good)}{r.abhijitOk && ', அபிஜித்'}{r.nak.mid.length > 0 && <> · நடுத்தரம் {stars(r.nak.mid)}</>}{r.digdwar && ' · வாசலை நோக்கியவையும்'}</li>}
                         {r.tithi && <li>திதி: {r.tithi.length >= 23 ? `${tithiList([...Array(30).keys()].map((i) => i + 1).filter((t) => !r.tithi.includes(t)))} தவிர மற்றவை எல்லாம்` : tithiList(r.tithi)}{r.tithiDoor && ' · வாசல் திசைக்கு உரிய வகை'}
                           {r.tithiMid && <> · நடுத்தரம் {tithiList(r.tithiMid)}</>}
-                          {r.tithiNot && <> · கூடாது {tithiList(r.tithiNot)} (மற்றவை நடுத்தரம்)</>}</li>}
+                          {r.tithiNot && (r.tithiNot.length > 0 ? <> · கூடாது {tithiList(r.tithiNot)} (மற்றவை நடுத்தரம்)</> : ' · மற்றவை நடுத்தரம்')}</li>}
                         {r.vara && <li>கிழமை: {days(r.vara.good)}{r.vara.mid.length > 0 && <> · நடுத்தரம் {days(r.vara.mid)}</>}</li>}
                         {r.taraNot && <li>ஜன்ம நட்சத்திரத்திலிருந்து {r.taraNot.join(', ')}-வது நட்சத்திரம் கூடாது{r.taraNot.length === 1 && r.taraNot[0] === 1 && ' (ஜன்ம நட்சத்திரம்)'}</li>}
                         {r.chandra && <li>சந்திரன் ஜன்ம ராசியிலிருந்து: {r.chandra.good.join(', ')}-ல்{r.chandra.mid.length > 0 && <> · நடுத்தரம் {r.chandra.mid.join(', ')}</>}</li>}

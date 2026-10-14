@@ -963,8 +963,8 @@ const GP = E.EVENTS.GRIHA_PRAVESHA;
   const mo = (ns) => sorted(ns.map((n) => idx(MONTH_N, n)));
   assert.deepEqual(sorted(E.OLD_HOUSE_MONTHS), mo(OF.months_added));
   assert.deepEqual(sorted(E.OLD_HOUSE_STARS), stars(OF.stars_added));
-  for (const b of OH.order) {
-    assert.ok(resolveByTitle(E.SOURCES.OLD_HOUSE[b].title), `registered: ${b}`);
+  for (const b of OH.order) assert.ok(resolveByTitle(E.SOURCES.OLD_HOUSE[b].title), `registered: ${b}`);
+  for (const b of OH.order.filter((b) => !OF.own[b])) {
     const n = GP[b];
     const o = OH[b];
     // The new house's months (good and middling) and the three more; its stars and the four more.
@@ -980,6 +980,11 @@ const GP = E.EVENTS.GRIHA_PRAVESHA;
   }
   assert.ok(OF.combustion_not_considered.every((b) => GP[b].jupVenNotSet), 'the books that lift combustion had it for a new house');
   assert.deepEqual(mo(OF.JOSHI_months_listed), sorted(OH.JOSHI.masa.good), 'Joshi lists the seven months');
+  // Raman's own rules: four weekdays, Rikta rejected, no month or star rule.
+  const R = OH.RAMAN;
+  assert.deepEqual(R.vara, { good: OF.own.RAMAN.weekdays.map((w) => DAY_N.indexOf(w)), mid: [] });
+  assert.deepEqual([...Array(30).keys()].map((i) => i + 1).filter((t) => !R.tithi.includes(t)), [4, 9, 14, 19, 24, 29]);
+  assert.ok(!R.masa && !R.nak && !R.lagna, 'Raman: no month, star or lagna rule');
   for (const st of [...stars(OF.SHRIDHAR_BS), ...stars(OF.SHRIDHAR_MG)]) assert.ok(OH.SHRIDHAR.nak.good.includes(st), `Shridhar: B.S. / M.G. star ${STAR_N[st]}`);
 }
 
@@ -987,7 +992,7 @@ const GP = E.EVENTS.GRIHA_PRAVESHA;
 {
   // Kartika, Shukla 2, Pushya (counted 9th from the Sun's Swati: Kumbha good), a Wednesday.
   const x = { star: 7, tithi: 2, month: 7, sunSign: 6, sunStar: 25, taraCount: 2, signs: { Moon: 3 }, natalMoon: 1, moonPada: 28 };
-  for (const b of OH.order) {
+  for (const b of OH.order.filter((b) => !OF.own[b])) {
     const n = pieceCodes(GP[b], x);
     const o = pieceCodes(OH[b], x);
     assert.ok(!o.some((c) => c.startsWith('MASA') || c.startsWith('NAK') || c.startsWith('UTTARAYANA')), `old ${b}: ${o}`);
