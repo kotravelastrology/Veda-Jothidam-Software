@@ -1,4 +1,4 @@
-# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel, vidyarambha, education, opening a shop, medicine and surgery (2026-10-13)
+# An event's own muhurta rules — entering a new house (2026-10-11), upanayana (2026-10-12), travel, vidyarambha, education, opening a shop, medicine and surgery (2026-10-13), an old house (2026-10-14)
 
 `src/report/eventMuhurtaTables.js` (the books' rules) · `src/report/eventMuhurta.js`
 (pure: the codes for a moment) · `test-event-muhurta.js` with
@@ -389,6 +389,42 @@ Kalyanraman 3, Rangacharya 8; Raman, Shridhar and Vashistha 0. At sunrise
 `/muhurta` splits the old "medical" purpose into "medical" (medicine) and
 "surgery".
 
+## Entering an old house — five books (added 2026-10-14)
+
+| Book | Words | Pages |
+|---|---|---|
+| Shridhar (default) | 264 | §27.16 (b), pp.732-733 |
+| Joshi | 102 | p.124 |
+| Wilhelm | 99 | p.246 |
+| Muhurta Chintamani | 94 | sloka 13/2 and a line of 13/1's notes, p.314 |
+| Agarwal | 16 | p.326 |
+
+An old house is one bought, rented, repaired or rebuilt after fire or flood.
+Each book gives its new-house rules plus three changes:
+- Kartika, Margashirsha and Shravana are added to the months (MC 13/2:
+  "मार्गोर्जयोः श्रावणिकेऽपि").
+- Shatabhisha, Pushya, Swati and Dhanishtha are added to the stars.
+- Jupiter's and Venus's combustion is not considered ("नावश्यमस्तादिविचारणात्र").
+
+So each reading is built from the same book's new-house reading (`oldHouseOf`).
+The new house's middling months become good, and the Uttarayana rule goes.
+Shridhar allows Dakshinayana; for the others the added months fall in
+Dakshinayana anyway (our reading). Tithis, weekdays, lagna, Kumbha chakra and
+the door rules stay the new house's.
+
+Not computed: Shridhar's other quotes — Vasishtha's "panchanga only", M.M.'s
+re-entry after a journey or after leaving in fear, and Vedha. Rangacharya
+(p.42) only says an old house may be entered during combustion; his new-house
+reading has no combustion rule, so there is no separate reading.
+Kalyanraman, Raman and Vashistha have no old-house rule.
+
+Measured at Erode, 60 days, every check, new house → old house:
+- From 2026-11-10 (Kartika): Joshi 0 → 1 day, Agarwal 0 → 2, Wilhelm 1 → 1.
+- From 2027-01-20: Joshi and MC 1 → 3, Agarwal 1 → 3, Shridhar 0 → 1
+  (combustion lifted).
+
+`/muhurta` has it as "oldhouse" (பழைய வீட்டில் நுழைதல்).
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are
@@ -400,8 +436,7 @@ narrow — about one day in sixty passes at sunrise.
 
 ## Not done
 
-The bath after recovery and the other events; an old house (the books'
-second list); the subject-by-subject education stars; for house entry: Yogini, Kala Rahu,
+The bath after recovery and the other events; the subject-by-subject education stars; for house entry: Yogini, Kala Rahu,
 forenoon, the wife's pregnancy. For travel: omens, Trinavami, eclipses, the
 equinox days, kshaya / adhika months, horas, velas, the month–tithi table,
 Khanda / Yamardha / Muhurta Rahu, Vaar Yogini, dawn / dusk / midnight kaala

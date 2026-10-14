@@ -775,7 +775,7 @@ const VF = FIX.vidyarambha;
       vijaya: inV,
     };
     for (const b of VR.order) assert.deepEqual(s.ev.VIDYARAMBHA[b], pieceCodes(VR[b], x), `vidyarambha ${b} ${s.fromUtc}`);
-    for (const ev of ['BUSINESS', 'MEDICINE', 'SURGERY']) {
+    for (const ev of ['OLD_HOUSE', 'BUSINESS', 'MEDICINE', 'SURGERY']) {
       for (const b of E.EVENTS[ev].order) assert.deepEqual(s.ev[ev][b], pieceCodes(E.EVENTS[ev][b], x), `${ev} ${b} ${s.fromUtc}`);
     }
     if (inV) {
@@ -949,6 +949,54 @@ const BF = FIX.business;
   assert.ok(sc('VASHISTHA', { combust: { Venus: true } }).includes('JUP_VEN_SET') && !sc('JOSHI', { combust: { Venus: true } }).includes('JUP_VEN_SET'));
   assert.ok(sc('JOSHI', {}, 2).includes('VARA') && !sc('JOSHI', {}, 6).includes('VARA'), 'Tuesday');
   for (const c of ['MOON_VENUS_LAGNA_MID', 'MOON_MERC_LAGNA_MID', 'BHURUDAN']) assert.ok(E.CODE_TA[c], c);
+}
+
+// ------------------------------------------------ old house: the tables against the books ---
+const OH = E.EVENTS.OLD_HOUSE;
+const OF = FIX.old_house;
+const GP = E.EVENTS.GRIHA_PRAVESHA;
+{
+  assert.deepEqual({ ...E.RANK.OLD_HOUSE.words }, OF.words);
+  assert.deepEqual([...OH.order], Object.keys(OF.words).sort((a, b) => OF.words[b] - OF.words[a]));
+  assert.equal(OH.default, OF.default);
+  const mo = (ns) => sorted(ns.map((n) => idx(MONTH_N, n)));
+  assert.deepEqual(sorted(E.OLD_HOUSE_MONTHS), mo(OF.months_added));
+  assert.deepEqual(sorted(E.OLD_HOUSE_STARS), stars(OF.stars_added));
+  for (const b of OH.order) {
+    assert.ok(resolveByTitle(E.SOURCES.OLD_HOUSE[b].title), `registered: ${b}`);
+    const n = GP[b];
+    const o = OH[b];
+    // The new house's months (good and middling) and the three more; its stars and the four more.
+    assert.deepEqual(sorted(o.masa.good), sorted([...new Set([...n.masa.good, ...n.masa.mid, ...mo(OF.months_added)])]), `${b} months`);
+    assert.deepEqual(o.masa.mid, []);
+    assert.deepEqual(sorted(o.nak.good), sorted([...new Set([...n.nak.good, ...stars(OF.stars_added)])]), `${b} stars`);
+    for (const st of stars(OF.stars_added)) assert.ok(!o.nak.mid.includes(st));
+    // Combustion not considered; no Uttarayana rule (the added months are Dakshinayana).
+    assert.equal(o.jupVenNotSet, undefined, `${b}: combustion`);
+    assert.equal(o.uttarayana, undefined, `${b}: Uttarayana`);
+    // Everything else is the new house's.
+    for (const k of Object.keys(n).filter((k) => !['masa', 'nak', 'uttarayana', 'jupVenNotSet', 'labelTa'].includes(k))) assert.deepEqual(o[k], n[k], `${b}.${k}`);
+  }
+  assert.ok(OF.combustion_not_considered.every((b) => GP[b].jupVenNotSet), 'the books that lift combustion had it for a new house');
+  assert.deepEqual(mo(OF.JOSHI_months_listed), sorted(OH.JOSHI.masa.good), 'Joshi lists the seven months');
+  for (const st of [...stars(OF.SHRIDHAR_BS), ...stars(OF.SHRIDHAR_MG)]) assert.ok(OH.SHRIDHAR.nak.good.includes(st), `Shridhar: B.S. / M.G. star ${STAR_N[st]}`);
+}
+
+// ------------------------------------------------ old house: the codes ---
+{
+  // Kartika, Shukla 2, Pushya (counted 9th from the Sun's Swati: Kumbha good), a Wednesday.
+  const x = { star: 7, tithi: 2, month: 7, sunSign: 6, sunStar: 25, taraCount: 2, signs: { Moon: 3 }, natalMoon: 1, moonPada: 28 };
+  for (const b of OH.order) {
+    const n = pieceCodes(GP[b], x);
+    const o = pieceCodes(OH[b], x);
+    assert.ok(!o.some((c) => c.startsWith('MASA') || c.startsWith('NAK') || c.startsWith('UTTARAYANA')), `old ${b}: ${o}`);
+    assert.ok(n.some((c) => c.startsWith('MASA') || c.startsWith('UTTARAYANA') || c.startsWith('NAK')), `new ${b}: ${n}`);
+  }
+  // Jupiter or Venus combust: the new house rejects (where the book says so), the old does not.
+  const m = { lagna: 1, nav: 1, signs: { Sun: 6, Moon: 3, Mars: 0, Mercury: 6, Jupiter: 6, Venus: 4, Saturn: 11, Rahu: 9, Ketu: 3 }, natalLagna: 6, natalMoon: 1, combust: { Jupiter: true }, dayPart: 1, nightPart: 0, pradosha: false, tithi: 2, star: 7, month: 7 };
+  for (const b of OF.combustion_not_considered) {
+    assert.ok(stretchCodes(GP[b], m, 3).includes('JUP_VEN_SET') && !stretchCodes(OH[b], m, 3).includes('JUP_VEN_SET'), b);
+  }
 }
 
 // ------------------------------------------------ medicine: the tables against the books ---

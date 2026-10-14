@@ -260,5 +260,17 @@
     "lagnas_WILHELM_SHRIDHAR": [1, 2, 4, 6],
     "moon_from_birth_moon_avoid": { "WILHELM_best_not": [1], "RAMAN": [1], "SHRIDHAR": [4, 8, 12] },
     "eighth_empty": ["WILHELM", "RAMAN", "SHRIDHAR", "RANGACHARYA"]
+  },
+  "old_house": {
+    "_about": "Transcribed 2026-10-14 from the page images: entering an old house (bought, rented, repaired, rebuilt). Each book: its new-house rules plus these; months 0 = Chaitra.",
+    "words": { "SHRIDHAR": 264, "JOSHI": 102, "WILHELM": 99, "MUHURTA_CHINTAMANI": 94, "AGARWAL": 16 },
+    "default": "SHRIDHAR",
+    "months_added": ["Kartika", "Margashirsha", "Shravana"],
+    "JOSHI_months_listed": ["Vaishakha", "Jyeshtha", "Magha", "Phalguna", "Margashirsha", "Kartika", "Shravana"],
+    "stars_added": ["Shatabhisha", "Pushya", "Swati", "Dhanishtha"],
+    "SHRIDHAR_BS": ["Chitra", "UPhalguni", "UAshadha", "UBhadra", "Rohini", "Mrigashira", "Anuradha", "Dhanishtha", "Shatabhisha", "Revati"],
+    "SHRIDHAR_MG": ["Dhanishtha", "Shatabhisha", "Pushya", "UPhalguni", "UAshadha", "UBhadra", "Rohini", "Mrigashira", "Chitra", "Swati", "Anuradha"],
+    "combustion_not_considered": ["SHRIDHAR", "JOSHI", "WILHELM", "MUHURTA_CHINTAMANI"],
+    "dakshinayana_allowed": ["SHRIDHAR"]
   }
 }

@@ -544,6 +544,7 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
       assert.deepEqual(plain(r.eventTable[arr[10]]), {
         sunHouse: houseOf(signs.Sun, lg),
         GRIHA_PRAVESHA: stretchCodesOf('GRIHA_PRAVESHA', m, vara),
+        OLD_HOUSE: stretchCodesOf('OLD_HOUSE', m, vara),
         UPANAYANA: stretchCodesOf('UPANAYANA', m, vara),
         TRAVEL: stretchCodesOf('TRAVEL', travel, vara),
         // Vidyarambha: the night's third, the lunar month (the segment's), the planets' navamsa signs at the piece.

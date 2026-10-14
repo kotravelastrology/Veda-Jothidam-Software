@@ -1122,7 +1122,45 @@ const SURGERY = deepFreeze({
   },
 });
 
+// ---------------------------------------------------------------------------
+// Entering an old house (bought, rented, repaired, rebuilt), added 2026-10-14
+// ---------------------------------------------------------------------------
+
+/** MC 13/2's stars for an old house: Shatabhisha (Ambupa), Pushya (Ijya), Swati (Anila), Dhanishtha (Vasava). */
+const OLD_HOUSE_STARS = Object.freeze([23, 7, 14, 22]);
+/** … and its months besides the new house's: Kartika, Margashirsha, Shravana. */
+const OLD_HOUSE_MONTHS = Object.freeze([7, 8, 4]);
+/**
+ * A book's old-house reading: its new-house reading with the months and stars added (the new house's middling
+ * months become good), Jupiter's and Venus's combustion not considered, and no Uttarayana rule — the added
+ * months fall in Dakshinayana (Shridhar says so; for the others our reading).
+ */
+const oldHouseOf = (base, labelTa) => {
+  const { uttarayana, jupVenNotSet, ...rest } = base;
+  void uttarayana; void jupVenNotSet;
+  return {
+    ...rest, labelTa,
+    masa: { good: [...new Set([...base.masa.good, ...base.masa.mid, ...OLD_HOUSE_MONTHS])], mid: [], strict: base.masa.strict },
+    nak: { good: [...new Set([...base.nak.good, ...OLD_HOUSE_STARS])], mid: base.nak.mid.filter((s) => !OLD_HOUSE_STARS.includes(s)) },
+  };
+};
+const OLD_HOUSE = deepFreeze({
+  labelTa: 'பழைய வீட்டில் நுழைதல் (வாங்கிய, வாடகை, பழுது பார்த்த, மீண்டும் கட்டிய வீடு)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'JOSHI', 'WILHELM', 'MUHURTA_CHINTAMANI', 'AGARWAL'],
+  SHRIDHAR: oldHouseOf(GRIHA_PRAVESHA.SHRIDHAR, 'ஸ்ரீதர் §27.16 (b)'),
+  JOSHI: oldHouseOf(GRIHA_PRAVESHA.JOSHI, 'ஜோஷி'),
+  WILHELM: oldHouseOf(GRIHA_PRAVESHA.WILHELM, 'வில்ஹெல்ம்'),
+  MUHURTA_CHINTAMANI: oldHouseOf(GRIHA_PRAVESHA.MUHURTA_CHINTAMANI, 'முகூர்த்த சிந்தாமணி ஸ்லோ.13/2'),
+  AGARWAL: oldHouseOf(GRIHA_PRAVESHA.AGARWAL, 'அகர்வால்'),
+});
+
 const RANK = deepFreeze({
+  OLD_HOUSE: {
+    order: OLD_HOUSE.order,
+    words: { SHRIDHAR: 264, JOSHI: 102, WILHELM: 99, MUHURTA_CHINTAMANI: 94, AGARWAL: 16 },
+    measureTa: 'பழைய வீட்டில் நுழைதல் பற்றிய சொற்கள் (பக்கத் தலைப்புகள் தவிர): ஸ்ரீதர் (§27.16, ப.732-733) 264; ஜோஷி (ப.124) 102; வில்ஹெல்ம் (ப.246) 99; முகூர்த்த சிந்தாமணி (13/1 உரையின் ஒரு வாக்கியம், 13/2 உரை, ப.314) 94; அகர்வால் (ப.326) 16. ரங்காச்சார்யா ஒரு வரி மட்டும் (மௌட்யத்திலும் செய்யலாம், ப.42); கல்யாணராமன், ராமன், வசிஷ்டாவில் இல்லை.',
+  },
   MEDICINE: {
     order: MEDICINE.order,
     words: { WILHELM: 886, RAMAN: 633, SHRIDHAR: 328, MUHURTA_CHINTAMANI: 218, KALYANRAMAN: 215, JOSHI: 106, VASHISTHA: 103, RANGACHARYA: 71 },
@@ -1226,6 +1264,13 @@ const SOURCES = deepFreeze({
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.4 "Opening a shop", printed p.684 (PDF 719): "In Sweet (Mrigshira, Chitra, Anuradha, Revati), Stationary (Rohini, 3 Uttras), Small (Hasta, Ashvani, Pushya, Abhijit); the Moon & Venus in ascendant; benefics in 2,10,11 houses, & malefics not in 8th or 12th houses; is fortuitous time to open a shop …; but Rikta Tithis, Tuesday, & Aquarius should not be rising at that time (M.C)"' },
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 sloka 17, printed p.58 (PDF 62): "… रिक्ताभौमघटान्विना च विपणिर्मैत्रध्रुवक्षिप्रभैर्लग्ने चन्द्रसिते व्ययाष्टरहितैः पापैः शुभैर्ध्यायखे ॥१७॥" — "The opening of a shop is auspicious, on other tithis, days and in ascendant leaving Rikta tithis, the day of Tuesday and the Ascendant of Aquarius, in the Nakshtras called Mitra, Dhruwa and Kshipra, if Venus and the Moon are in the Ascendant, if there are no malefics in the 8/12 Houses and if there are benefics in the 2/10/11 Houses"' },
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Shop Opening", printed p.128 (PDF 136): "Avoid Tuesday, and the rikta tithis. Choose the fixed and soft asterisms. The placement of the moon and Venus in Lagna is excellent for opening any shop. The malefics should not occupy the 8th and 12th houses. The placement of the benefics in the 2nd, 11th and 10th is good"' },
+  },
+  OLD_HOUSE: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§27.16 "Entering into house", printed pp.732-733 (PDF 766-767): "b) entry into an old house (rented, repaired, or reconstructed house destroyed in fire / flood / lightening / cyclone etc.) … For entry into old houses defined above, lunar months of Margshirsha, Karttika, Shravana; asterisms of Shatbhish, Pushya, Swati, Dhanishta are beneficial (M.C). B.S. commends that asterisms of Chitra, 3 Uttras, Rohini, Mrigshira, Anuradha, Dhanishta, Shatbhish & Revati bestow longevity, wealth, health, fame, sons & grandsons … Exponents opine that maleficence due to combustion of Jupiter & Venus, their Baal & Vridh Avasthas, Jupiter in Leo are not considered in entry into an old house … Although in all types of houses Uttrayana is auspicious, but entry into such houses can be made in Dakshinayana. M.G. recommends that asterisms of Dhanishta, Shatbhish, Pushya, 3 Uttras, Rohini, Mrigshira, Chaitra, Swati & Anuradha are auspicious in entry into an old house"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"For entering in to an old house", printed p.124 (PDF 139): "For entering in to a old house (i.e. purchased house, rented house or repaired house) Vaishakh, Jyestha, Magha, Falguna, Margsheersha, Kartika and Shravana months (lunar) are considered auspicious. There is no need to consider combustor of Jupiter and Venus and Jupiter\'s placement in LEO or CAPRICORN. All other considerations regarding tithi, nakshatra, lagna etc. are similar to those of entering in to a new house. In addition to the nakshatras stated for entry in to new house. Shatbhisha, Pushya, Swati and Dhanistha nakshatras can also be chosen for entry in to an old house"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"House/Buildings — Entering an old dilapidated house", printed p.246 (PDF 254): "If the house is old and dilapidated such that there is concern of fire or other disasters the following should be adhered to: Masa: The months stated above for ENTERING A NEW HOUSE as well as Karttika, Margasira and Sravana are favorable. Nakshatra: The Nakshatras stated above for ENTERING A NEW HOUSE as well as Pushya, Svati, Dhanishtha and Satabhisha are favorable. Miscellaneous: Unlike ENTERING A NEW HOUSE, no consideration need be given the combustion and afflictions of Jupiter and Venus. Other factors are the same as ENTERING A NEW HOUSE above"' },
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 13 sloka 2, printed p.314 (PDF 318): "जीर्णे गृहेऽग्न्यादिभयान्नवेऽपि मार्गोर्जयोः श्रावणिकेऽपि सत्स्यात् । वेशोऽम्बुपेज्यानिलवासवेषु नावश्यमस्तादिविचारणात्र ॥२॥" — "Entering an old, dilapidated, newly constructed house because of the fear of fire etc. is excellent or auspicious in the months stated above and in the month of Kartika, Margashirsha, and Shravana, and in the Nakshtras of Shatabhisha, Pushya, Swati and Dhanishtha also, and no consideration should be made of the combustion of Jupiter and Venus when entering an old, dilapidated house"' },
+    AGARWAL: { ...AGARWAL_GS, pageLocus: '"Entering an old house", printed p.326 (PDF 325): "Above muhurtas plus months Shravana, Kartika, Margashirsha. Nakshatras, Satbhisha, Pushya, Swati, Dhanishta"' },
   },
   MEDICINE: {
     WILHELM: { ...WILHELM_E, pageLocus: '"Medical- Treatment of disease & taking medicine", printed pp.275-277 (PDF 283-285): "Nakshatra: Asvini, Mrigasira, Punarvasu, Pushya, Hasta, Chitra, Svati, Anuradha, Sravana, Dhanishtha, Satabhisha and Revati are favorable. Muhurta Chintamani also considers Mula as favorable while Kalaprakasika also considers Rohini, Uttaraphalguni, Uttarashadha and Uttarabhadrapada as favorable, which all of these can be taken as mediocre. Tara: Particularly avoid the Janma Nakshatra. Tithi: Particularly avoid the 4th, 9th, 14th and Amavasya. Vara: The Varas of the Sun, Moon, Mercury, Jupiter and Venus are favorable. Lagna: Dual Rasis with a benefic are best. Bhavas: There should be no planets in 7th, 8th and 12th"; also blood-letting (p.269), dental cleaning (p.272), laxatives (p.273)' },
@@ -1360,6 +1405,12 @@ const NOTES_BUSINESS_TA = Object.freeze([
   'கணிக்கப்படாதவை: வசிஷ்டாவின் "சந்திரன் பலவீனமில்லாமல்" (வரையறை இல்லை), காரக கிரகம், புதன் பலம்; மாத / ஆண்டு இறுதி அமாவாசை அவரது திதிப் பட்டியலிலேயே இல்லை; சந்திர / தாரா சுத்தி பொதுப் பகுதியில்.',
 ]);
 
+const NOTES_OLD_HOUSE_TA = Object.freeze([
+  'பழைய வீடு — வாங்கிய, வாடகை, பழுது பார்த்த, தீ / வெள்ளம் முதலியவற்றால் அழிந்து மீண்டும் கட்டிய வீடு. ஒவ்வொரு நூலும் புது வீட்டு விதிகளுடன் கூடுதலாக: கார்த்திக, மார்கசீர்ஷ, ஸ்ராவண மாதங்கள் (புது வீட்டின் நடுத்தர மாதங்கள் இங்கே நல்லவை); சதயம், பூசம், சுவாதி, அவிட்டம்; குரு, சுக்கிரன் அஸ்தங்கம் (பால்ய, விருத்த நிலை, சிம்மத்தில் குரு) பார்க்க வேண்டாம். திதி, கிழமை, லக்னம், கும்ப சக்கரம், வாசல் திசை — அந்த நூலின் புது வீட்டு வாசிப்பே.',
+  'உத்தராயணம்: ஸ்ரீதர் — பழைய வீட்டுக்கு தக்ஷிணாயனத்திலும் நுழையலாம். மற்ற நூல்கள் சேர்த்த மாதங்கள் தக்ஷிணாயன மாதங்கள்; ஆகவே அவற்றிலும் உத்தராயண விதி இல்லை (எங்கள் வாசிப்பு).',
+  'ஸ்ரீதரின் மற்ற மேற்கோள்கள் (கணிக்கப்படவில்லை): வசிஷ்டர் — பஞ்சாங்க சுத்தி மட்டும், மாதம் / அயனம் பார்க்க வேண்டாம்; M.M. — ஏற்கெனவே நுழைந்த வீடு அல்லது நீண்ட பயணத்துக்குப் பின்: ஸ்திர, மிருது நட்சத்திரங்கள்; பயத்தால் விட்டுச் சென்ற வீட்டுக்குத் திரும்ப: திருவோணம், மூலம், அசுவினியும்; மூன்று வகை நுழைவிலும் வேதை உள்ள நட்சத்திரம் கூடாது; தேய்பிறை 10 வரை மட்டும் (அவரது திதிப் பட்டியல் ஏற்கெனவே அப்படி).',
+  'ரங்காச்சார்யா (ப.42): பழைய வீட்டில் நுழைவு மௌட்யத்திலும் (குரு / சுக்கிரன் அஸ்தங்கம்) செய்யலாம் — அவரது புது வீட்டு வாசிப்பிலேயே அஸ்தங்க விதி இல்லை, ஆகவே தனி வாசிப்பு இல்லை. கல்யாணராமன், ராமன், வசிஷ்டாவில் பழைய வீட்டுக்குத் தனி விதி இல்லை.',
+]);
 const NOTES_MEDICINE_TA = Object.freeze([
   'இங்கே: மருந்தின் முதல் வேளை / சிகிச்சை தொடக்கம். கணிக்கப்படாதவை (நூல்களில் உள்ளன): நோய்வாரி சிகிச்சைகள் — காய்ச்சல், தொழுநோய், வாதம், பித்தம், கபம், மேகநோய், காசம், ஜலோதரம், வலிப்பு, மூக்கு (வில்ஹெல்ம், ராமன், ஸ்ரீதர்); பேதி / வாந்தி மருந்து, ரத்தம் எடுத்தல் (மு.சி. 2/30, ஸ்ரீதர், வில்ஹெல்ம்); ஊசி, பல் (ராமன், வில்ஹெல்ம்); மருந்து தயாரித்தல் (ஸ்ரீதர் §22.2, வில்ஹெல்ம், ராமன்); உக்ர யோகங்கள்.',
   'ஜன்ம நட்சத்திரம் — பெரும்பாலான நூல்கள் விலக்கு (பொதுப் பகுதியிலும் விலக்கு). "லக்னத்தில் சுபர்" — மு.சி.யின் ஸ்லோகத்தில் நிபந்தனையாக உள்ளது; மற்ற நூல்கள் "சிறந்தது", "விருப்பம்": எல்லா நூலிலும் குறிக்கப்படும், விலக்கவில்லை (எங்கள் வாசிப்பு — வியாபாரத்தைப் போல).',
@@ -1372,17 +1423,17 @@ const NOTES_SURGERY_TA = Object.freeze([
 ]);
 
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY'],
-  GRIHA_PRAVESHA, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY,
 });
 
 module.exports = {
   EVENTS, DOORS, MONTH_TA, RANK, SOURCES, CODE_TA,
   NOTES_TA: deepFreeze({
     ...NOTES_TA, UPANAYANA: NOTES_UPANAYANA_TA, TRAVEL: NOTES_TRAVEL_TA, VIDYARAMBHA: NOTES_VIDYARAMBHA_TA, EDUCATION: NOTES_EDUCATION_TA, BUSINESS: NOTES_BUSINESS_TA,
-    MEDICINE: NOTES_MEDICINE_TA, SURGERY: NOTES_SURGERY_TA,
+    MEDICINE: NOTES_MEDICINE_TA, SURGERY: NOTES_SURGERY_TA, OLD_HOUSE: NOTES_OLD_HOUSE_TA,
   }),
-  AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS,
+  AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,
   DIRECTIONS, TITHI_DIR8, YOGINI_KP, GHATA, KAAL_SHOOLA, LALATIKA, TARA_1357,
 };

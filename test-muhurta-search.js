@@ -10,7 +10,7 @@ for (const key of ['marriage', 'business', 'travel', 'griha', 'upanayana', 'educ
   assert.ok(p && p.label, `${key} has a label`);
   assert.equal(p.goodNak, undefined, `${key}: no unsourced star list`);
 }
-assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION', business: 'BUSINESS', medical: 'MEDICINE', surgery: 'SURGERY' });
+assert.deepEqual({ ...SOURCED }, { griha: 'GRIHA_PRAVESHA', oldhouse: 'OLD_HOUSE', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION', business: 'BUSINESS', medical: 'MEDICINE', surgery: 'SURGERY' });
 assert.ok(PURPOSES.ritual && !SOURCED.ritual, '"Ritual" is not read from the books yet');
 
 // ── an unsourced purpose: panchanga, no verdict ──────────────────────────
@@ -150,6 +150,21 @@ for (const book of BU.order) {
   for (const d of holi) assert.equal(d.codes.includes('BHURUDAN'), book === 'VASHISTHA', `${book} ${d.date}`);
 }
 assert.equal(searchMuhurta({ startDate: '2027-03-01', endDate: '2027-03-02', purpose: 'business', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 }).book, BU.default);
+
+// ── old house: Kartika and Margashirsha pass the month rule; the new house's books reject them ──
+{
+  const days = (purpose, book) => searchMuhurta({ startDate: '2026-11-12', endDate: '2027-01-05', purpose, latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330, book }).days;
+  for (const book of E.EVENTS.OLD_HOUSE.order) {
+    const kartika = days('oldhouse', book).filter((d) => [E.MONTH_TA[7], E.MONTH_TA[8]].includes(d.month));
+    assert.ok(kartika.length > 20, `${book}: Kartika–Margashirsha days`);
+    for (const d of kartika) assert.ok(!d.codes.some((c) => c.startsWith('MASA') || c.startsWith('UTTARAYANA')), `${book} ${d.date}: ${d.codes}`);
+  }
+  for (const d of days('griha', 'MUHURTA_CHINTAMANI').filter((d) => d.month === E.MONTH_TA[7])) assert.ok(d.codes.includes('MASA'), d.date);
+  const v = searchMuhurta({ startDate: '2026-11-12', endDate: '2026-11-13', purpose: 'oldhouse', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 });
+  assert.equal(v.event, 'OLD_HOUSE');
+  assert.equal(v.book, E.EVENTS.OLD_HOUSE.default);
+  assert.ok(v.noteTa.includes('"பழைய வீடு"'));
+}
 
 // ── medicine and surgery: the sunrise rules (no person, no planets) ───────
 for (const [purpose, ev] of [['medical', 'MEDICINE'], ['surgery', 'SURGERY']]) {
