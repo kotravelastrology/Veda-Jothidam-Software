@@ -401,6 +401,14 @@ const ADVERSE_TA = Object.freeze({
 const EVENTS = deepFreeze({
   default: 'MARRIAGE',
   order: ['MARRIAGE', 'OTHER', 'GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA'],
+  // The page's chooser: the acts by family (every act in `order` is in one group).
+  groups: [
+    { labelTa: 'திருமணம், பொது', ids: ['MARRIAGE', 'OTHER'] },
+    { labelTa: 'வீடு', ids: ['GRIHA_PRAVESHA', 'OLD_HOUSE'] },
+    { labelTa: 'சம்ஸ்காரம், கல்வி', ids: ['UPANAYANA', 'VIDYARAMBHA', 'EDUCATION'] },
+    { labelTa: 'பயணம், வியாபாரம்', ids: ['TRAVEL', 'BUSINESS'] },
+    { labelTa: 'மருத்துவம்', ids: ['MEDICINE', 'SURGERY', 'ROGA_SNANA'] },
+  ],
   MARRIAGE: { labelTa: 'திருமணம்', checks: ['PLACEMENTS', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_LAST', 'NAV_WHICH', 'NAV_NATAL', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: {} },
   OTHER: { labelTa: 'மற்ற சுப காரியம்', checks: ['COMMON', 'ASHTAMA', 'PDB', 'KARTARI', 'GANDANTA', 'NAV_WHICH', 'UDAYA', 'SHADVARGA', 'DREKKANA', 'VISHANADI', 'ADVERSE'], only: { NAV_WHICH: ['BENEFIC_LORD'], UDAYA: ['ANY_OF_FOUR'] } },
   // An event with its own rules (eventMuhurtaTables.js): those take the general rule's place.

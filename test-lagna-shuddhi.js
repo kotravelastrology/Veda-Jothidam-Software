@@ -292,6 +292,9 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
   assert.equal(T.TIERS.OTHER.UDAYA, 'PREFER');
   assert.equal(T.TIERS.GRIHA_PRAVESHA.UDAYA, 'PREFER');
   for (const e of T.EVENTS.order) assert.equal(T.TIERS[e].ADVERSE, 'PREFER');
+  // The page's chooser: every act in exactly one family, and nothing else.
+  assert.deepEqual(T.EVENTS.groups.flatMap((g) => g.ids).sort(), [...T.EVENTS.order].sort());
+  assert.ok(T.EVENTS.groups.every((g) => g.labelTa && g.ids.length > 0));
   // Shridhar's 4–10 points pass, marked "emergency only".
   const pl = (grade) => ({ placements: { SHRIDHAR: { pass: T.PLACEMENTS.SHRIDHAR.pass.includes(grade), grade } }, ashtama: { X: [] }, pdb: { present: false }, kartari: { X: false }, gandanta: { X: false } });
   const ch = { PLACEMENTS: 'SHRIDHAR', ASHTAMA: 'X', KARTARI: 'X', GANDANTA: 'X', EVENT: 'MARRIAGE' };

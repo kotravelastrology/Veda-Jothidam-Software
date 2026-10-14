@@ -491,8 +491,18 @@ export default function MuhurtaStarsView() {
                   ))}
                 </div>
               </details>
-              <Switch label="லக்ன சுத்தி — நிகழ்ச்சி" value={lagnaEvent} onChange={(v) => { setLagnaEvent(v); setTierReading({}); }}
-                options={B.lagna.events.order.map((id: string) => [id, `${B.lagna.events[id].labelTa}${id === B.lagna.events.default ? ' (இயல்பு)' : ''}`])} />
+              {/* The acts, by family: a list, since there are many. */}
+              <label className="inline-flex items-center gap-1 text-[11px] mr-3 mb-1">
+                <span className="text-ink-soft">லக்ன சுத்தி — நிகழ்ச்சி:</span>
+                <select value={lagnaEvent} onChange={(e) => { setLagnaEvent(e.target.value); setTierReading({}); }}
+                  className="px-2 py-0.5 rounded border border-saffron bg-saffron/10 text-ink font-semibold">
+                  {B.lagna.events.groups.map((g: { labelTa: string; ids: string[] }) => (
+                    <optgroup key={g.labelTa} label={g.labelTa}>
+                      {g.ids.map((id) => <option key={id} value={id}>{B.lagna.events[id].labelTa}{id === B.lagna.events.default ? ' (இயல்பு)' : ''}</option>)}
+                    </optgroup>
+                  ))}
+                </select>
+              </label>
               {evName && (
                 <>
                   <Switch label={`${B.lagna.eventRules[evName].labelTa} — நூல்`} value={evBookId!} onChange={(v) => setEventBook({ ...eventBook, [evName]: v })}
