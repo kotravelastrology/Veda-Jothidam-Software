@@ -294,5 +294,27 @@
     "chandrashtama_avoid": ["WILHELM", "RAMAN", "AGARWAL"],
     "malefics_kendra_kona_11": ["SHRIDHAR", "MUHURTA_CHINTAMANI", "RANGACHARYA"], "malefics_kendra_kona": ["KALYANRAMAN", "JOSHI"],
     "moon_weak_houses": [4, 8, 12]
+  },
+  "acts": {
+    "VEHICLE": {
+      "words": {"WILHELM": 152, "SHRIDHAR": 102, "VASHISTHA": 85, "KALYANRAMAN_BUY": 76, "KALYANRAMAN": 67},
+      "default": "WILHELM",
+      "books": {
+        "WILHELM": {"keys": ["nak", "tithi", "tithiMid", "tithiNot", "vara", "lagna", "navMid"], "stars": ["Ashwini", "Rohini", "Mrigashira", "Punarvasu", "Magha", "UPhalguni", "Hasta", "Chitra", "Swati", "Anuradha", "UAshadha", "Shravana", "UBhadra", "Revati"], "stars_mid": ["Pushya", "Vishakha", "Dhanishtha"], "tithis": {"both": [2, 3, 5, 7, 10, 12]}, "tithis_mid": {"both": [13]}, "tithis_not": {"both": [1, 4, 6, 9, 11, 14], "full_moon": true}, "weekdays": ["Mon", "Wed", "Thu", "Fri"], "weekdays_mid": ["Sat"], "lagnas": [2, 3, 4, 6, 7], "lagnas_mid": [10], "lagna_natal_moon": true, "nav_marked": [2, 3, 6, 7, 9, 12]},
+        "SHRIDHAR": {"keys": ["nak", "abhijitOk", "tithi", "vara", "lagna"], "stars": ["Hasta", "Ashwini", "Pushya", "Punarvasu", "Swati", "Shravana", "Shatabhisha", "Dhanishtha", "Mrigashira", "Chitra", "Anuradha", "Revati", "Rohini", "Jyeshtha", "Vishakha"], "abhijit": true, "tithis": {"both": [1, 6, 11, 3, 8, 13, 5, 10], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"], "lagnas": [3, 6, 9, 12, 2, 7]},
+        "VASHISTHA": {"keys": ["tithi", "vara", "nak", "lagna", "empty", "notIn"], "stars": ["Ashlesha", "Mrigashira", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Shravana", "Dhanishtha", "Shatabhisha", "Revati", "Anuradha", "Rohini"], "tithis": {"both": [2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "krishna": [1], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"], "lagnas": [1, 4, 7, 10, 3, 6, 9, 12], "empty": [8], "not_in": [[["Sun", "Mars", "Saturn", "Rahu", "Ketu"], [4], true]]},
+        "KALYANRAMAN_BUY": {"keys": ["nak", "tithi", "vara"], "stars": ["Ashwini", "Mrigashira", "Punarvasu", "Pushya", "Hasta", "Swati", "Dhanishtha", "Shatabhisha", "Revati"], "tithis": {"both": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri", "Sat"]},
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara"], "stars": ["Ashwini", "Krittika", "Rohini", "Mrigashira", "Ardra", "Magha", "UPhalguni", "Hasta", "Chitra", "Swati", "Anuradha", "Moola", "PAshadha", "UAshadha", "Dhanishtha", "PBhadra", "UBhadra", "Revati"], "tithis": {"both": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "VEHICLE_MAKE": {
+      "words": {"KALYANRAMAN": 109, "SHRIDHAR": 102, "WILHELM": 56},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "abhijitOk", "tithi", "vara", "lagna"], "stars": ["Ashwini", "Rohini", "Mrigashira", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"], "abhijit": true, "tithis": {"both": [1, 6, 11, 3, 8, 13, 5, 10], "full_moon": true, "new_moon": true}, "weekdays": ["Sun"], "lagnas": [2, 3, 6, 7, 9, 12], "lagnas_mid": [1, 4, 5, 8, 10, 11]},
+        "SHRIDHAR": {"keys": ["nak", "abhijitOk", "tithi", "vara", "lagna"], "stars": ["Hasta", "Ashwini", "Pushya", "Punarvasu", "Swati", "Shravana", "Shatabhisha", "Dhanishtha", "Mrigashira", "Chitra", "Anuradha", "Revati", "Rohini", "Jyeshtha", "Vishakha"], "abhijit": true, "tithis": {"both": [1, 6, 11, 3, 8, 13, 5, 10], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"], "lagnas": [3, 6, 9, 12, 2, 7]},
+        "WILHELM": {"keys": ["nak", "tithi", "tithiMid", "lagna"], "stars": ["Ashwini", "Rohini", "Mrigashira", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"], "tithis": {"both": [1, 3, 5, 6, 10, 11, 13]}, "tithis_mid": {"both": [2, 7], "full_moon": true}, "lagnas": [2, 3, 6, 7, 9, 12]}
+      }
+    }
   }
 }

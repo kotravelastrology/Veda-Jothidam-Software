@@ -21,11 +21,24 @@ const { julianDay } = require('@swisseph/node');
 const { sunriseJulianDay, sunMoonLongitudes, siderealAscendant } = require('../ephemeris/siderealPositions');
 const { calculateDailyMuhurta } = require('./dailyMuhurta');
 const EV = require('./eventMuhurtaTables');
+const LT = require('./lagnaShuddhiTables');
 const { panchangaCodes, varaCodes, rejects, isVishti, isSthiraKarana, withSecondary, vijayadashamiOf } = require('./eventMuhurta');
 
 /** Purposes with rules read from the books, and their event. */
 const SOURCED = Object.freeze({ griha: 'GRIHA_PRAVESHA', oldhouse: 'OLD_HOUSE', upanayana: 'UPANAYANA', travel: 'TRAVEL', education: 'VIDYARAMBHA', study: 'EDUCATION', business: 'BUSINESS', medical: 'MEDICINE', surgery: 'SURGERY', rogasnana: 'ROGA_SNANA' });
 /** The rules a sunrise can judge without the person, the direction or the planets (the rest are on /muhurta-stars). */
+/** The other acts read from the books: purpose 'act:<EVENT>' for every event no purpose above names. */
+const ACT_PREFIX = 'act:';
+const eventOf = (purpose) => SOURCED[purpose]
+  ?? (String(purpose).startsWith(ACT_PREFIX) && EV.EVENTS.order.includes(purpose.slice(ACT_PREFIX.length)) ? purpose.slice(ACT_PREFIX.length) : null);
+/** Those acts for a chooser, with their family (the muhurta-stars page's groups). */
+function actPurposes() {
+  const named = new Set(Object.values(SOURCED));
+  return EV.EVENTS.order.filter((e) => !named.has(e)).map((e) => ({
+    key: ACT_PREFIX + e, label: EV.EVENTS[e].labelTa,
+    groupTa: (LT.EVENTS.groups.find((g) => g.ids.includes(e)) ?? { labelTa: 'மற்றவை' }).labelTa,
+  }));
+}
 const SUNRISE_RULES = Object.freeze([
   'masa', 'uttarayana', 'sunSign', 'harishayana', 'nak', 'nakAfter', 'abhijitOk', 'tithi', 'tithiMid', 'tithiNot', 'anadhyaya', 'galagraha', 'yogaNot', 'yogaHalfNot',
   'vishti', 'karanaFixed', 'kumbha', 'matrika', 'vara', 'holanta', 'holi', 'krishnaMid', 'vijayadashami', 'secondary',
@@ -83,10 +96,10 @@ function monthAt(jd) {
 
 /** @param q { startDate, endDate 'YYYY-MM-DD', purpose, latitude, longitude, utcOffsetMinutes, book? } */
 function searchMuhurta(q) {
-  const purpose = PURPOSES[q.purpose] ? q.purpose : 'marriage';
-  const P = PURPOSES[purpose];
+  const purpose = PURPOSES[q.purpose] || eventOf(q.purpose) ? q.purpose : 'marriage';
+  const event = eventOf(purpose);
+  const P = PURPOSES[purpose] ?? { label: EV.EVENTS[event].labelTa };
   const off = q.utcOffsetMinutes || 0;
-  const event = SOURCED[purpose] ?? null;
   const R = event ? EV.EVENTS[event] : null;
   const book = R ? (R.order.includes(q.book) ? q.book : R.default) : null;
 
@@ -175,10 +188,12 @@ function searchMuhurta(q) {
             ? 'வித்யாரம்பம் (அக்ஷராப்யாசம் — குழந்தையின் முதல் எழுத்துகள்): சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (நட்சத்திரம், திதி, சௌர / சந்திர மாதம், யோகம், கரணம், கிழமை; விஜயதசமி). லக்னம், 8-ஆம் வீடு, புதன் / குரு / சுக்கிரன் அஸ்தங்கம், பகலின் பகுதி, தாரா / சந்திர பலம், வயது: /muhurta-stars பக்கம், "வித்யாரம்பம்" தேர்வுடன் — குழந்தையின் ஜாதகத்துடன்.'
             : event === 'TRAVEL'
               ? 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (நட்சத்திரம், அதன் நாழிகை, திதி, சௌர / சந்திர மாதம், யோகம், விஷ்டி, கிழமை). திசை விதிகள் (சூலம், யோகினி, சந்திரன், சுக்கிரன், பரிகம், காலம்-பாசம், அயனம்), ராகு, காதம், தாரா / சந்திர பலம், லக்னம்: /muhurta-stars பக்கம், "பயணம்" தேர்வுடன், திசையுடன் — பயணம் செய்பவரின் ஜாதகத்துடன்.'
+              : event !== 'GRIHA_PRAVESHA' && event !== 'OLD_HOUSE'
+                ? `${P.label}: சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (நட்சத்திரம், திதி, கிழமை, மாதம் — நூல் சொன்னவை). லக்னம், கிரக நிலைகள், தாரா / சந்திர பலம்: /muhurta-stars பக்கம், "${LT.EVENTS[event]?.labelTa ?? P.label}" தேர்வுடன்.`
               : 'சூரிய உதயத்தின் பஞ்சாங்கம் மட்டும் (மாதம், நட்சத்திரம், திதி, கிழமை, கும்ப சக்கரம்). லக்னம், தாரா / சந்திர பலம், வாசல் திசை: /muhurta-stars பக்கம், "' + (event === 'OLD_HOUSE' ? 'பழைய வீடு' : 'கிரகப்பிரவேசம்') + '" தேர்வுடன்.',
       }
       : { missingTa: SOURCE_REQUIRED_TA, noteTa: purpose === 'marriage' ? 'திருமணத்தின் தசதோஷம், லத்தை, தாரா / சந்திர பலம், லக்ன சுத்தி நூல்களுடன்: /muhurta-stars பக்கம்.' : null }),
   };
 }
 
-module.exports = { searchMuhurta, PURPOSES, SOURCED, monthAt };
+module.exports = { searchMuhurta, PURPOSES, SOURCED, monthAt, actPurposes, eventOf, ACT_PREFIX };

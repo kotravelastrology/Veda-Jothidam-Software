@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { computeMuhurtaSearch } from '@/app/muhurta/actions';
+import { computeMuhurtaSearch, muhurtaActs } from '@/app/muhurta/actions';
 
 interface AuspiciousTime {
   date: string;
@@ -16,7 +16,8 @@ interface AuspiciousTime {
 }
 
 interface MuhurtaFilters {
-  purpose: 'marriage' | 'business' | 'travel' | 'medicine' | 'surgery' | 'recoveryBath' | 'ritual' | 'houseWarming' | 'oldHouse' | 'upanayana' | 'vidyarambha' | 'study';
+  /** One of the named purposes below, or 'act:<EVENT>' — another act read from the books. */
+  purpose: string;
   duration: number; // in hours
   startDate: string;
   endDate: string;
@@ -46,7 +47,7 @@ export function MuhurtaFinder() {
 
   // The unsourced per-purpose lists that stood here were removed (2026-10-11); the
   // rules come from the books through the engine, or the purpose shows SOURCE REQUIRED.
-  const DURATION_HOURS: Record<MuhurtaFilters['purpose'], number> = { marriage: 1.5, business: 2, travel: 1, medicine: 1, surgery: 4, recoveryBath: 1, ritual: 2, houseWarming: 2, oldHouse: 2, upanayana: 2, vidyarambha: 1, study: 1 };
+  const DURATION_HOURS: Record<string, number> = { marriage: 1.5, business: 2, travel: 1, medicine: 1, surgery: 4, recoveryBath: 1, ritual: 2, houseWarming: 2, oldHouse: 2, upanayana: 2, vidyarambha: 1, study: 1 };
 
   // Real electional results (from the src/report/muhurtaSearch engine via a
   // server action). No mock — computed on demand from the Swiss Ephemeris.
@@ -54,6 +55,8 @@ export function MuhurtaFinder() {
   const [searchError, setSearchError] = useState<string | null>(null);
   const [meta, setMeta] = useState<any>(null);
   const [book, setBook] = useState<string>('');
+  const [acts, setActs] = useState<{ key: string; label: string; groupTa: string }[]>([]);
+  useEffect(() => { muhurtaActs().then(setActs).catch(() => setActs([])); }, []);
 
   const PURPOSE_TO_ENGINE: Record<string, string> = {
     marriage: 'marriage', business: 'business', travel: 'travel',
@@ -69,14 +72,14 @@ export function MuhurtaFinder() {
       const res: any = await computeMuhurtaSearch({
         startDate: filters.startDate,
         endDate: filters.endDate,
-        purpose: PURPOSE_TO_ENGINE[filters.purpose] ?? 'marriage',
+        purpose: PURPOSE_TO_ENGINE[filters.purpose] ?? filters.purpose,
         latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330,
         book: bookId || undefined,
       });
       const { days, ...rest } = res;
       setMeta(rest);
       if (res.book) setBook(res.book);
-      const dur = DURATION_HOURS[filters.purpose];
+      const dur = DURATION_HOURS[filters.purpose] ?? 1;
       const mapped: AuspiciousTime[] = (days || []).flatMap((d: any) => {
         const dayOfWeek = d.weekday.slice(0, 3);
         if (filters.preferredDayOfWeek && dayOfWeek !== filters.preferredDayOfWeek) return [];
@@ -141,6 +144,12 @@ export function MuhurtaFinder() {
                 <option value="upanayana">🧵 உபநயனம் (Upanayana)</option>
                 <option value="vidyarambha">📚 வித்யாரம்பம் (Aksharabhyasa)</option>
                 <option value="study">🎓 கல்வி தொடக்கம் (Vidya)</option>
+                {/* The other acts read from the books, by family. */}
+                {[...new Set(acts.map((a) => a.groupTa))].map((g) => (
+                  <optgroup key={g} label={g}>
+                    {acts.filter((a) => a.groupTa === g).map((a) => <option key={a.key} value={a.key}>{a.label}</option>)}
+                  </optgroup>
+                ))}
               </select>
             </div>
 
@@ -205,7 +214,7 @@ export function MuhurtaFinder() {
               </select>
             </div>
 
-            {['houseWarming', 'oldHouse', 'upanayana', 'travel', 'vidyarambha', 'study', 'business', 'medicine', 'surgery', 'recoveryBath'].includes(filters.purpose) && meta?.books && (
+            {meta?.sourced && meta?.books && (meta.purpose === (PURPOSE_TO_ENGINE[filters.purpose] ?? filters.purpose)) && (
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-ink">நூல் (விதிகள்)</label>
                 <select value={book} onChange={(e) => { setBook(e.target.value); handleSearch(e.target.value); }}

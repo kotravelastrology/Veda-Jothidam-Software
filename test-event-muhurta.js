@@ -775,7 +775,8 @@ const VF = FIX.vidyarambha;
       vijaya: inV,
     };
     for (const b of VR.order) assert.deepEqual(s.ev.VIDYARAMBHA[b], pieceCodes(VR[b], x), `vidyarambha ${b} ${s.fromUtc}`);
-    for (const ev of ['OLD_HOUSE', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA']) {
+    // Every act from business on, and every one added since, takes these inputs.
+    for (const ev of E.EVENTS.order.filter((e) => !['GRIHA_PRAVESHA', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION'].includes(e))) {
       for (const b of E.EVENTS[ev].order) assert.deepEqual(s.ev[ev][b], pieceCodes(E.EVENTS[ev][b], x), `${ev} ${b} ${s.fromUtc}`);
     }
     if (inV) {
@@ -1239,6 +1240,52 @@ const RF = FIX.roga_snana;
   assert.ok(sc('WILHELM', {}, 1).includes('VARA') && sc('WILHELM', {}, 0).includes('VARA_MID') && sc('MUHURTA_CHINTAMANI', {}, 5).includes('VARA'));
   assert.ok(sc('JOSHI', { lagna: 1 }).includes('LAGNA'));
   for (const c of ['MOON_NOT_WEAK_MID', 'MOON_WEAK_MID']) assert.ok(E.CODE_TA[c], c);
+}
+
+// ------------------------------------------------ the other acts (2026-10-14 on): the tables against the books ---
+// Each act's fixture block (`acts`) is transcribed from the pages; the tables are written separately and must agree.
+{
+  const tset = (o) => sorted([...new Set([
+    ...E.bothPakshas(o.both ?? []), ...(o.shukla ?? []), ...(o.krishna ?? []).map((n) => n + 15),
+    ...(o.full_moon ? [15] : []), ...(o.new_moon ? [30] : []),
+  ])]);
+  const signsOf = (ns) => sorted(ns.map((n) => n - 1));
+  const RULE_KEYS_IGNORED = ['labelTa', 'booksTa', 'noteTa', 'linesTa', 'digdwar'];
+  for (const [ev, A] of Object.entries(FIX.acts ?? {})) {
+    const T = E.EVENTS[ev];
+    assert.ok(T, `${ev}: an event`);
+    assert.deepEqual({ ...E.RANK[ev].words }, A.words, `${ev}: words`);
+    assert.deepEqual([...T.order], Object.keys(A.words).sort((a, b) => A.words[b] - A.words[a]), `${ev}: most explaining first`);
+    assert.equal(T.default, A.default, `${ev}: default`);
+    assert.ok(E.RANK[ev].measureTa && E.NOTES_TA[ev] && T.labelTa, `${ev}: measure, notes, label`);
+    assert.deepEqual(Object.keys(A.books).sort(), [...T.order].sort(), `${ev}: books`);
+    for (const [b, f] of Object.entries(A.books)) {
+      const r = T[b];
+      const at = `${ev}.${b}`;
+      assert.ok(resolveByTitle(E.SOURCES[ev][b].title) && E.SOURCES[ev][b].pageLocus.length > 20, `${at}: source`);
+      assert.deepEqual(Object.keys(r).filter((k) => !RULE_KEYS_IGNORED.includes(k)).sort(), [...f.keys].sort(), `${at}: rule keys`);
+      if (f.stars) {
+        assert.deepEqual(sorted(r.nak.good), stars(f.stars), `${at}: stars`);
+        assert.deepEqual(sorted(r.nak.mid), stars(f.stars_mid ?? []), `${at}: middling stars`);
+      }
+      assert.equal(Boolean(r.abhijitOk), Boolean(f.abhijit), `${at}: Abhijit`);
+      if (f.tithis) assert.deepEqual(sorted(r.tithi), tset(f.tithis), `${at}: tithis`);
+      if (f.tithis_mid) assert.deepEqual(sorted(r.tithiMid), tset(f.tithis_mid), `${at}: middling tithis`);
+      if (f.tithis_not) assert.deepEqual(sorted(r.tithiNot), tset(f.tithis_not), `${at}: tithis avoided`);
+      if (f.weekdays) {
+        assert.deepEqual(sorted(r.vara.good), days(f.weekdays), `${at}: weekdays`);
+        assert.deepEqual(sorted(r.vara.mid), days(f.weekdays_mid ?? []), `${at}: middling weekdays`);
+      }
+      if (f.lagnas) {
+        assert.deepEqual(sorted(r.lagna.good), signsOf(f.lagnas), `${at}: lagnas`);
+        assert.deepEqual(sorted(r.lagna.mid), signsOf(f.lagnas_mid ?? []), `${at}: middling lagnas`);
+        assert.equal(Boolean(r.lagna.natalMoonOk), Boolean(f.lagna_natal_moon), `${at}: the birth Moon's sign rising`);
+      }
+      if (f.empty) assert.deepEqual([...r.empty], f.empty, `${at}: empty houses`);
+      if (f.nav_marked) assert.deepEqual(sorted(r.navMid), signsOf(f.nav_marked), `${at}: navamsas marked`);
+      if (f.not_in) assert.deepEqual(r.notIn.map(([p, h, mid]) => [[...p], [...h], Boolean(mid)]), f.not_in, `${at}: planets kept out`);
+    }
+  }
 }
 
 console.log('test-event-muhurta: all checks passed');

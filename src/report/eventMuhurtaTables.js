@@ -1253,7 +1253,82 @@ const ROGA_SNANA = deepFreeze({
   },
 });
 
+// ---------------------------------------------------------------------------
+// Vehicles, added 2026-10-14
+// ---------------------------------------------------------------------------
+
+/** Shridhar §25.5's stars: Small (Hasta, Ashwini, Pushya; Abhijit), Movable, Sweet, Rohini, Jyeshtha, Vishakha. */
+const CHARIOT_STARS = Object.freeze([12, 0, 7, 6, 14, 21, 23, 22, 4, 13, 16, 26, 3, 17, 15]);
+/** Nanda, Jaya and Poorna in both halves; the new Moon Shridhar leaves out (p.29: Pitri works only). */
+const NANDA_JAYA_POORNA = Object.freeze([...bothPakshas([1, 6, 11, 3, 8, 13, 5, 10]), 15]);
+const SHRIDHAR_CHARIOT = deepFreeze({
+  labelTa: 'ஸ்ரீதர் §25.5', booksTa: 'ஸ்ரீதர் (B.J.S. மேற்கோள்)',
+  nak: { good: CHARIOT_STARS, mid: [] }, abhijitOk: true, digdwar: false, tithi: NANDA_JAYA_POORNA,
+  vara: { good: [0, 1, 3, 4, 5], mid: [] }, lagna: { good: [2, 5, 8, 11, 1, 6], mid: [] },
+  noteTa: 'B.J.S.: ஞாயிறு வாகனம் ஓட்டத் தொடங்கச் "சிறப்பு" (கணிக்கப்படவில்லை) · பூர்ண திதியில் அமாவாசை — ஸ்ரீதர் ப.29: சுப காரியத்துக்கு இல்லை',
+});
+const VEHICLE = deepFreeze({
+  labelTa: 'புது வாகனம் — வாங்குதல், முதலில் ஓட்டுதல்',
+  default: 'WILHELM',
+  order: ['WILHELM', 'SHRIDHAR', 'VASHISTHA', 'KALYANRAMAN_BUY', 'KALYANRAMAN'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — வாகனம் ஓட்டுதல்', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 3, 4, 6, 9, 11, 12, 13, 14, 16, 20, 21, 25, 26], mid: [7, 15, 22] }, digdwar: false,
+    tithi: bothPakshas([2, 3, 5, 7, 10, 12]), tithiMid: bothPakshas([13]), tithiNot: [...bothPakshas([1, 4, 6, 9, 11, 14]), 15],
+    vara: { good: [1, 3, 4, 5], mid: [6] }, lagna: { good: [1, 2, 3, 5, 6], mid: [9], natalMoonOk: true }, navMid: [1, 2, 5, 6, 8, 11],
+    noteTa: 'புதன், குரு, சுக்கிரனின் நவாம்சம் "மிகச் சிறந்தது" (குறிக்கப்படும்) · சுக்கிரன் கேந்திர / கோணத்தில், ஆட்சி / உச்சம் / நட்பு ராசியில் — "மிக நல்லது" (கணிக்கப்படவில்லை) · அஷ்டமியும் அமாவாசையும் அச்சில் இல்லை — நடுத்தரம் (எங்கள் வாசிப்பு)',
+  },
+  SHRIDHAR: SHRIDHAR_CHARIOT,
+  VASHISTHA: {
+    labelTa: 'வசிஷ்டா', booksTa: 'வசிஷ்டா',
+    tithi: [...bothPakshas([2, 3, 5, 6, 7, 8, 10, 11, 12, 13]), 16, 15], vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    nak: { good: [8, 4, 6, 7, 12, 13, 14, 21, 22, 23, 26, 16, 3], mid: [] }, digdwar: false,
+    lagna: { good: [0, 3, 6, 9, 2, 5, 8, 11], mid: [] }, empty: [8], notIn: [[M5, [4], true]],
+    noteTa: 'சந்திரன், சுக்கிரன் பலம்; வாகன உரிமையாளரின் பெயர் — கணிக்கப்படவில்லை · 4-ஆம் வீடு "பாதிப்பின்றி" — பாவர் இல்லாமல் (குறிக்கப்படும், எங்கள் வாசிப்பு) · நட்சத்திரப் பட்டியலில் ஆயில்யம் உண்டு, அசுவினி இல்லை — அச்சில் உள்ளபடி',
+  },
+  KALYANRAMAN_BUY: {
+    labelTa: 'கல்யாணராமன் — வாங்குதல், ஓட்டப் பழகுதல்', booksTa: 'கல்யாணராமன் (தொ.2)',
+    nak: { good: [0, 4, 6, 7, 12, 14, 22, 23, 26], mid: [] }, digdwar: false,
+    tithi: [...tithiBoth([1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13]), 15], vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    noteTa: 'தலைப்பு: குதிரை ஏற்றம், வாகனம் வாங்குதல் / விற்றல், ஓட்டப் பழகுதல் · சந்திர, தாரா சுத்தி (பொது) · செவ்வாய், ரிக்த கூடாது',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் — புது வாகனம் ஓட்டுதல்', booksTa: 'கல்யாணராமன் (தொ.2)',
+    nak: { good: [0, 2, 3, 4, 5, 9, 11, 12, 13, 14, 16, 18, 19, 20, 22, 24, 25, 26], mid: [] }, digdwar: false,
+    tithi: [...tithiBoth([1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13]), 15], vara: { good: [0, 1, 3, 4, 5], mid: [] },
+  },
+});
+const VEHICLE_MAKE = deepFreeze({
+  labelTa: 'வாகனம் — தயாரித்தல், வாகன வியாபாரம்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'SHRIDHAR', 'WILHELM'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2)', booksTa: 'கல்யாணராமன்',
+    nak: { good: CHARIOT_STARS, mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [...bothPakshas([1, 6, 11, 3, 8, 13, 5, 10]), 15, 30], vara: { good: [0], mid: [] },
+    lagna: { good: [1, 2, 5, 6, 8, 11], mid: [0, 3, 4, 7, 9, 10] },
+    noteTa: 'கிழமை அச்சில் ஞாயிறு மட்டும் · லக்னம் 2, 3, 6, 7, 9, 12 "விருப்பம்" (மற்றவை நடுத்தரம்) · பூர்ண திதியில் அமாவாசையும் (அச்சில் உள்ளபடி)',
+  },
+  SHRIDHAR: SHRIDHAR_CHARIOT,
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — வாகனம் தயாரித்தல்', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 3, 4, 6, 7, 12, 13, 14, 15, 16, 17, 21, 22, 23, 26], mid: [] }, digdwar: false,
+    tithi: bothPakshas([1, 3, 5, 6, 10, 11, 13]), tithiMid: [...bothPakshas([2, 7]), 15], lagna: { good: [1, 2, 5, 6, 8, 11], mid: [] },
+    noteTa: 'கிழமை — விதி இல்லை · சொல்லப்படாத திதிகள் கூடாது (எங்கள் வாசிப்பு)',
+  },
+});
+
 const RANK = deepFreeze({
+  VEHICLE: {
+    order: VEHICLE.order,
+    words: { WILHELM: 152, SHRIDHAR: 102, VASHISTHA: 85, KALYANRAMAN_BUY: 76, KALYANRAMAN: 67 },
+    measureTa: 'வாகனம் வாங்குதல் / முதலில் ஓட்டுதல் பற்றிய சொற்கள் (பக்கத் தலைப்புகள் தவிர): வில்ஹெல்ம் ("Vehicles- Driving", ப.328-329) 152; ஸ்ரீதர் (§25.5, ப.684-685) 102; வசிஷ்டா (ப.136) 85; கல்யாணராமன் (தொ.2 ப.186 — வாங்குதல், ஓட்டப் பழகுதல்) 76; கல்யாணராமன் (ப.242 — புது வாகனம் ஓட்டுதல்) 67. மு.சி., ஜோஷி, ராமன், ரங்காச்சார்யா, அகர்வாலில் வாகனத்துக்குப் பகுதி இல்லை.',
+  },
+  VEHICLE_MAKE: {
+    order: VEHICLE_MAKE.order,
+    words: { KALYANRAMAN: 109, SHRIDHAR: 102, WILHELM: 56 },
+    measureTa: 'வாகனம் தயாரித்தல் / வியாபாரம் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.189) 109; ஸ்ரீதர் (§25.5, ப.684-685) 102; வில்ஹெல்ம் ("Vehicles- Manufacturing", ப.329) 56.',
+  },
   ROGA_SNANA: {
     order: ROGA_SNANA.order,
     words: { SHRIDHAR: 251, WILHELM: 199, KALYANRAMAN: 186, MUHURTA_CHINTAMANI: 128, JOSHI: 89, RANGACHARYA: 72, RAMAN: 70, AGARWAL: 37 },
@@ -1403,6 +1478,18 @@ const SOURCES = deepFreeze({
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Performing Surgery", printed p.203 (PDF 205): "Nakshatra Aswini, Aridra, Aslesha, Makha, Jyeshta, Moola (6) … Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Tuesday, Wednesday, Thursday, Friday"' },
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Medical matters", printed p.133 (PDF 141): "Surgical operation should be done on Tuesday or Sunday, when the 8th house is vacant and the 6th house is occupied by malefics, the sun and Moon should be in the kendras"' },
   },
+  VEHICLE: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Vehicles- Driving", printed pp.328-329 (PDF 336-337): "The first time that one drives a particularly type of vehicle as well as the first time one drives a new vehicle are important and a favorable Muhurta should be selected. Nakshatra: Asvini, Rohini, Mrigasira, Punarvasu, Magha, Uttaraphalguni, Hasta, Chitra, Svati, Anuradha, Uttarashadha, Sravana, Uttarabhadrapada and Revati are favorable. Pushya, Visakha and Dhanishtha are middling. Tithi: The 2nd, 3rd, 5th, 7th, 10th, and 12th are favorable. Avoid the 1st, 4th, 6th, 9th, 11th, 14th and 15th. The 13th is middling. Vara: Avoid the Varas of the Sun and Mars. Saturn\'s Vara is middling. Other Varas are favorable. Lagna: Taurus, Gemini, Cancer, Virgo and Libra are favorable. Capricorn is middling. The Lagna being the Rasi of the natal Moon is also quite favorable. Navamsa: The Navamsas of Mercury, Jupiter, and Venus are most favorable. Combinations: Venus in an angle or trine, in own, exaltation or friendly Rasi is very favorable"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.5 "Chariot - transport works", printed pp.684-685 (PDF 719-720): "In Small (Hasta, Ashvani, Pushya, Abhijit), Movable (Punarvasu, Swati, Shravana, Shatbhish, Dhanishta), Sweet (Mrigshira, Chitra, Anuradha, Revati), Rohini, Jyeshta, Vishakha; on benefic weekdays (including Sunday); Jaya, Nanda & Pooma Tithis; in rising signs ruled by Mercury, Jupiter & Venus; all types of works related to chariot are benefical. B.J.S recommends the above asterisms along with benefic days especially Sunday as auspicious for starting automotive vehicles & man driven devices (Rikshaw)"; Poorna tithis "5th, 10th, 15th & 30th … Though 30th is a Poorna Tithi in technical terms, it is not recommended for the above elections", p.29' },
+    VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: '"Muhurta for Driving and Buying a New Vehicle", printed p.136 (PDF 123): "Tithi — 2, 3, 5, 6, 7, 8, 10, 11, 12 and 13 of both the pakshas; pratipada of krishna pakasha and poornima are good. Nakashatra — Ashlesha, Mrigashirsha, Punaravasu, Pushya, Hasta, Chitra, Swati, Sravana, Dhanishtha, Shatabhisha, Revati, Anuradha and Rohini. Vara — Sunday, Monday, Wednesday, Thursday and Friday. Lagna — Chara or dwiswabhava (1, 4, 7, 10, 3, 6, 9 and 12) Moon and Venus strong, unafflicted 4th house, the vehicle owner\'s name has importance, 8th house should be vacant"' },
+    KALYANRAMAN_BUY: { ...KALYANRAMAN_V2, pageLocus: '"Training or Riding Horses, Getting Trained in Riding of Houses, Selling, Purchasing Conveyances, Getting Trained in driving Conveyances, Learning Driving", printed p.186 (PDF 188): "Nakshatra Aswini, Mrigasira, Punarvasu, Pushyami, Hasta, Swati, Dhanishta, Satabhisha and Revati. (9) Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Weekdays Sunday, Monday, Wednesday, Thursday, Friday, Saturday. Notes: Ensure Chandra Suddhi and Tara Suddhi. Avoid Tuesday and Rikta tithis"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Driving New Vehicles", printed p.242 (PDF 244): "Nakshatra Aswini, Krittika, Rohini, Mrigasira, Aridra, Makha, Uttaraphalguni, Hasta, Chitra, Swati, Anuradha, Moola, Poorvashada, Uttarashada, Dhanishta, Poorvabhadrapada, Uttarabhadrapada and Revati. (18) … Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Weekdays Sunday, Monday, Wednesday, Thursday, Friday"' },
+  },
+  VEHICLE_MAKE: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Manufacturing, Sale or Purchase of Vehicles, Doing Business Connected with Vehicles", printed p.189 (PDF 191): "Nakshatra Abhijith, Aswini, Rohini, Mrigasira, Punarvasu, Pushyami, Hasta, Chitra, Swati, Visaka, Anuradha, Jyeshta, Sravana, Dhanishta, Satabhisha, Revati, (15+1) … Tithis 1/6/11/3/8/13/5/10/15 Nanda- 1/6/11 Jaya- 3/8/13 Poorna- 5/10/15/30 Weekdays Sunday. Notes: Prefer Ascendant of raasis 2, 3, 6, 7, 9 or 12"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.5 "Chariot - transport works", printed p.684 (PDF 719): "In Small (Hasta, Ashvani, Pushya, Abhijit), Movable (Punarvasu, Swati, Shravana, Shatbhish, Dhanishta), Sweet (Mrigshira, Chitra, Anuradha, Revati), Rohini, Jyeshta, Vishakha; on benefic weekdays (including Sunday); Jaya, Nanda & Pooma Tithis; in rising signs ruled by Mercury, Jupiter & Venus; all types of works related to chariot are benefical"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Vehicles- Manufacturing", printed p.329 (PDF 337): "Nakshatra: Asvini, Rohini, Mrigasira, Punarvasu, Pushya, Hasta, Chitra, Svati, Visakha, Anuradha, Jyeshtha, Sravana, Dhanishtha, Satabhisha and Revati are favorable. Tithi: The 1st, 3rd, 5th, 6th, 10th, 11th and 13th are most favorable. The 2nd, 7th and Purnima are middling. Lagna: Taurus, Gemini, Virgo, Libra, Sagittarius and Pisces are favorable"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -1543,9 +1630,18 @@ const NOTES_SURGERY_TA = Object.freeze([
   'வில்ஹெல்ம்: "சிகிச்சைக்குச் சொன்னதுடன் கூடுதலாக" — அதன் 7, 12 காலி குறிக்கப்படும்; நட்சத்திரம், திதி, கிழமை, லக்னம் அறுவையின் சொந்தப் பட்டியல். அழகு அறுவை / பச்சை குத்தல் (திதி 1, 3, 11, 13; வெள்ளியும்; துலாமும்) — கணிக்கப்படவில்லை.',
 ]);
 
+const NOTES_VEHICLE_TA = Object.freeze([
+  'வாகனம் வாங்குதல், முதன்முதலில் ஓட்டுதல், ஓட்டப் பழகுதல். வசிஷ்டா (ப.137): வாகனம் ஓட்டுதல் / வாங்குதல் "சர இயல்புடைய காரியம் — சர லக்னமே பொருத்தம்".',
+  'கல்யாணராமனில் இரண்டு பகுதிகள் — வாங்குதல் / ஓட்டப் பழகுதல் (ப.186), புது வாகனம் ஓட்டுதல் (ப.242): இரண்டும் தனி வாசிப்புகள். ஸ்ரீதர் §25.5 "தேர் — போக்குவரத்து வேலைகள்": வாகனம் தயாரித்தலிலும் அதே வாசிப்பு.',
+  'மு.சி., ஜோஷி, ராமன், ரங்காச்சார்யா, அகர்வாலில் வாகனத்துக்குத் தனிப் பகுதி இல்லை.',
+]);
+const NOTES_VEHICLE_MAKE_TA = Object.freeze([
+  'வாகனம் தயாரித்தல், விற்றல் / வாங்குதல் — வியாபாரமாக. ஸ்ரீதர் §25.5 "தேர் சம்பந்தமான எல்லா வேலைகளும்" — வாங்கி ஓட்டுதலிலும் அதே வாசிப்பு.',
+]);
+
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA'],
-  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE,
 });
 
 module.exports = {
@@ -1553,6 +1649,8 @@ module.exports = {
   NOTES_TA: deepFreeze({
     ...NOTES_TA, UPANAYANA: NOTES_UPANAYANA_TA, TRAVEL: NOTES_TRAVEL_TA, VIDYARAMBHA: NOTES_VIDYARAMBHA_TA, EDUCATION: NOTES_EDUCATION_TA, BUSINESS: NOTES_BUSINESS_TA,
     MEDICINE: NOTES_MEDICINE_TA, SURGERY: NOTES_SURGERY_TA, OLD_HOUSE: NOTES_OLD_HOUSE_TA, ROGA_SNANA: NOTES_ROGA_SNANA_TA,
+    VEHICLE: NOTES_VEHICLE_TA,
+    VEHICLE_MAKE: NOTES_VEHICLE_MAKE_TA,
   }),
   AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS, BATH_MC_18, BATH_KR_18, BATH_13,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,

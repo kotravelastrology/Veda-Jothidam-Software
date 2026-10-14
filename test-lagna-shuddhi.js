@@ -5,6 +5,9 @@ const T = require('./src/report/lagnaShuddhiTables');
 const { lagnaShuddhiOf, lagnaVerdict, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishanadiOf, sees, pointsOf, placementsOf, ashtamaOf, pdbOf, kartariOf, commonOf, adverseOf, houseOf } = require('./src/report/lagnaShuddhi');
 const { combustionOrb } = require('./src/report/phaladeepikaGocharaTables');
 const { stretchCodesOf } = require('./src/report/eventMuhurta');
+const EV = require('./src/report/eventMuhurtaTables');
+/** The acts compared one by one below; every later act is compared with the last one's inputs. */
+const EARLY_EVENTS = ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA'];
 const { muhurtaStarChecks } = require('./src/report/muhurtaStars');
 const { planetLongitude, nodeLongitude, sunriseJulianDay, sunsetJulianDay } = require('./src/ephemeris/siderealPositions');
 const { siderealAscendant } = require('./src/ephemeris/swissEphemeris');
@@ -557,6 +560,8 @@ const housesFrom = (lagna, signs) => Object.fromEntries(T.PLANETS.map((p) => [p,
         MEDICINE: stretchCodesOf('MEDICINE', { ...travel, month: s.month, navSigns: pieceNav }, vara),
         SURGERY: stretchCodesOf('SURGERY', { ...travel, month: s.month, navSigns: pieceNav }, vara),
         ROGA_SNANA: stretchCodesOf('ROGA_SNANA', { ...travel, month: s.month, navSigns: pieceNav }, vara),
+        // Every act added since (2026-10-14): the same inputs as the last.
+        ...Object.fromEntries(EV.EVENTS.order.filter((e) => !EARLY_EVENTS.includes(e)).map((e) => [e, stretchCodesOf(e, { ...travel, month: s.month, navSigns: pieceNav }, vara)])),
       }, `event ${x.fromUtc}`);
       n += 1;
     }

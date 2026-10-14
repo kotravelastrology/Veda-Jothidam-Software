@@ -778,6 +778,13 @@ export default function MuhurtaStarsView() {
             const ER = B.lagna.eventRules[evName];
             const stars = (xs: number[]) => xs.map((i) => B.lagna.starTa[i]).join(', ');
             const tithiTa = (t: number) => (t === 15 ? 'பௌர்ணமி' : t === 30 ? 'அமாவாசை' : t < 15 ? `வளர் ${t}` : `தேய் ${t - 15}`);
+            // A number in both halves once; then either half's own, the full and the new Moon.
+            const tithiList = (xs: number[]) => {
+              const has = new Set(xs);
+              const both = [...Array(14).keys()].map((i) => i + 1).filter((n) => has.has(n) && has.has(n + 15));
+              const rest = xs.filter((t) => !(t < 15 && both.includes(t)) && !(t > 15 && t < 30 && both.includes(t - 15))).sort((a, b) => a - b);
+              return [...(both.length ? [`இரு பக்ஷமும் ${both.join(', ')}`] : []), ...rest.map(tithiTa)].join('; ');
+            };
             const rasis = (xs: number[]) => xs.map((i) => RASI_TA[i]).join(', ');
             const days = (xs: number[]) => xs.map((i) => B.lagna.varaTa[i]).join(', ');
             const months = (xs: number[]) => xs.map((i) => B.lagna.monthTa[i]).join(', ');
@@ -807,9 +814,17 @@ export default function MuhurtaStarsView() {
                       {!r.linesTa && <ul className="mt-1 space-y-0.5 text-ink">
                         {r.masa && <li>மாதம்: {months(r.masa.good)}{r.masa.mid.length > 0 && <> · நடுத்தரம் {months(r.masa.mid)}</>}{!r.masa.strict && ' (விருப்பம்)'}</li>}
                         {r.uttarayana && <li>உத்தராயணம்: {r.uttarayana === 'REQUIRED' ? 'வேண்டும்' : 'விருப்பம்'}</li>}
-                        {r.nak && <li>நட்சத்திரம்: {stars(r.nak.good)}{r.nak.mid.length > 0 && <> · நடுத்தரம் {stars(r.nak.mid)}</>}{r.digdwar && ' · வாசலை நோக்கியவையும்'}</li>}
-                        {r.tithi && <li>திதி: {r.tithi.length >= 23 ? `${30 - r.tithi.length} தவிர மற்றவை (${[...Array(30).keys()].map((i) => i + 1).filter((t) => !r.tithi.includes(t)).map(tithiTa).join(', ')} இல்லை)` : r.tithi.map(tithiTa).join(', ')}{r.tithiDoor && ' · வாசல் திசைக்கு உரிய வகை'}</li>}
+                        {r.nak && <li>நட்சத்திரம்: {stars(r.nak.good)}{r.abhijitOk && ', அபிஜித்'}{r.nak.mid.length > 0 && <> · நடுத்தரம் {stars(r.nak.mid)}</>}{r.digdwar && ' · வாசலை நோக்கியவையும்'}</li>}
+                        {r.tithi && <li>திதி: {r.tithi.length >= 23 ? `${30 - r.tithi.length} தவிர மற்றவை (${tithiList([...Array(30).keys()].map((i) => i + 1).filter((t) => !r.tithi.includes(t)))} இல்லை)` : tithiList(r.tithi)}{r.tithiDoor && ' · வாசல் திசைக்கு உரிய வகை'}
+                          {r.tithiMid && <> · நடுத்தரம் {tithiList(r.tithiMid)}</>}
+                          {r.tithiNot && <> · கூடாது {tithiList(r.tithiNot)} (மற்றவை நடுத்தரம்)</>}</li>}
                         {r.vara && <li>கிழமை: {days(r.vara.good)}{r.vara.mid.length > 0 && <> · நடுத்தரம் {days(r.vara.mid)}</>}</li>}
+                        {r.taraNot && <li>ஜன்ம நட்சத்திரத்திலிருந்து {r.taraNot.join(', ')}-வது நட்சத்திரம் கூடாது{r.taraNot.length === 1 && r.taraNot[0] === 1 && ' (ஜன்ம நட்சத்திரம்)'}</li>}
+                        {r.chandra && <li>சந்திரன் ஜன்ம ராசியிலிருந்து: {r.chandra.good.join(', ')}-ல்{r.chandra.mid.length > 0 && <> · நடுத்தரம் {r.chandra.mid.join(', ')}</>}</li>}
+                        {r.yogaNot && <li>யோகம் கூடாது: {r.yogaNot.map((y: number) => B.dasha.yogaTa[y]).join(', ')}</li>}
+                        {r.vishti && <li>விஷ்டி (பத்ரை) கூடாது</li>}
+                        {r.karanaFixed && <li>ஸ்திர கரணம் கூடாது</li>}
+                        {r.krishnaMid && <li>தேய்பிறை (குறிக்கப்படும்)</li>}
                         {r.lagna && <li>லக்னம்: {rasis(r.lagna.good)}{r.lagna.mid.length > 0 && <> · நடுத்தரம் {rasis(r.lagna.mid)}</>}
                           {r.lagna.alt && <> · அல்லது {r.lagna.alt.from === 'MOON' ? 'ஜன்ம ராசியிலிருந்து' : 'பிறந்த லக்னம் / ஜன்ம ராசியிலிருந்து'} {r.lagna.alt.houses.join(', ')}-ஆம் ராசி{r.lagna.alt.notMovable && ' (சர ராசி அல்லாமல்)'}</>}
                           {r.lagna.movable === 'NAV_TAURUS' && ' · சர ராசி ரிஷப நவாம்சத்துடன் மட்டும்'}
@@ -823,6 +838,15 @@ export default function MuhurtaStarsView() {
                         {r.jupVenNotSet && <li>குரு, சுக்கிரன் அஸ்தங்கம் கூடாது</li>}
                         {r.kumbha && <li>கும்ப சக்கரம்: சூரியனின் நட்சத்திரம் முதலாக எண்ணி {r.kumbha.join(', ')}-ஆவது நல்லவை</li>}
                         {r.sunLeft && <li>சூரியன் "இடப்புறம்" (வாசல் திசைப்படி)</li>}
+                        {r.lagna?.natalMoonOk && <li>ஜன்ம ராசியே லக்னமாக இருப்பதும் நல்லது</li>}
+                        {(r.navGood || r.navMid) && <li>லக்ன நவாம்சம்: {rasis(r.navGood ?? r.navMid)}{!r.navGood && ' (குறிக்கப்படும்)'}</li>}
+                        {r.navNot && <li>லக்ன நவாம்சம் கூடாது: {rasis(r.navNot)}</li>}
+                        {r.benHouse && <li>{r.benHouse.planets.map((p: string) => PLANET_NAME_TA[p] ?? p).join(' / ')} {r.benHouse.houses.join(', ')}-ல் (குறிக்கப்படும்)</li>}
+                        {(r.notIn ?? []).map(([ps, hs, mid]: [string[], number[], boolean], i: number) => (
+                          <li key={`n${i}`}>{ps.map((p) => (p === 'LAGNA_LORD' ? LAGNA_LORD_TA : PLANET_NAME_TA[p] ?? p)).join(', ')} {hs.join(', ')}-ல் கூடாது{mid && ' (குறிக்கப்படும்)'}</li>
+                        ))}
+                        {(r.want ?? []).map((w: any) => <li key={w.code}>{w.planets.map((p: string) => PLANET_NAME_TA[p] ?? p).join(', ')}{w.all ? ' எல்லாம்' : ''} {w.houses.join(', ')}-ல் (குறிக்கப்படும்)</li>)}
+                        {r.noteTa && <li className="text-ink-soft">{r.noteTa}</li>}
                       </ul>}
                       <Cites list={[B.lagna.eventSources[evName][id]]} />
                     </details>

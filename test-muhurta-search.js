@@ -193,4 +193,22 @@ for (const [purpose, ev] of [['medical', 'MEDICINE'], ['surgery', 'SURGERY'], ['
   assert.deepEqual(v.days.filter((d) => d.score >= 70).map((d) => [d.date, d.weekday, d.tithi, d.nakshatra]), [['2027-06-08', 'Tuesday', 'Shukla Chaturthi', 'Pushya']]);
 }
 
+// ── the other acts ('act:<EVENT>'): each at sunrise, its codes in Tamil ──
+{
+  const { actPurposes, eventOf } = require('./src/report/muhurtaSearch');
+  const named = new Set(Object.values(SOURCED));
+  const acts = actPurposes();
+  assert.deepEqual(acts.map((a) => eventOf(a.key)), E.EVENTS.order.filter((e) => !named.has(e)), 'every act a purpose');
+  for (const a of acts) {
+    assert.ok(a.label && a.groupTa, a.key);
+    const v = searchMuhurta({ startDate: '2027-02-01', endDate: '2027-02-28', purpose: a.key, latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 });
+    assert.equal(v.purpose, a.key);
+    assert.equal(v.event, eventOf(a.key));
+    assert.equal(v.sourced, true);
+    assert.ok(v.noteTa.includes('/muhurta-stars'), a.key);
+    for (const d of v.days) assert.ok(d.notes.every((n) => !/^[A-Z_]+$/.test(n)), `${a.key} ${d.date}: in Tamil (${d.notes})`);
+  }
+  assert.equal(searchMuhurta({ startDate: '2027-02-01', endDate: '2027-02-02', purpose: 'act:NOPE', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 }).purpose, 'marriage');
+}
+
 console.log(JSON.stringify({ pass: true, marriageDays: res.days.length, grihaDefault: G.default }, null, 2));
