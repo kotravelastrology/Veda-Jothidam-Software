@@ -804,6 +804,19 @@ const VF = FIX.vidyarambha;
   assert.ok(eve && eve.lagnas.some((st) => r.eventTable[st[10]].VIDYARAMBHA.KALYANRAMAN.includes('NIGHT')), 'the 20th evening is not Vijayadashami');
 }
 
+// A general-list reading (the book has no section; its star-class lists name the act): stars, Abhijit, weekdays.
+const generalLists = (EV, XF) => {
+  for (const [b, f] of Object.entries(XF.general_lists)) {
+    const r = EV[b];
+    assert.ok(EV.order.includes(b) && r.noteTa.startsWith('பொதுப் பட்டியல்') && !r.linesTa, `${b}: a general-list reading`);
+    assert.deepEqual(sorted(r.nak.good), stars(f.stars), `${b}: stars`);
+    assert.deepEqual(sorted(r.nak.mid), stars(f.stars_mid ?? []), `${b}: middling stars`);
+    assert.equal(Boolean(r.abhijitOk), Boolean(f.abhijit), `${b}: Abhijit`);
+    if (f.weekdays) assert.deepEqual(sorted(r.vara.good), days(f.weekdays), `${b}: weekdays`);
+    else assert.equal(r.vara, undefined, `${b}: no weekday rule`);
+  }
+};
+
 // ------------------------------------------------ education: the tables against the books ---
 const ED = E.EVENTS.EDUCATION;
 const EF = FIX.education;
@@ -811,10 +824,9 @@ const EF = FIX.education;
   assert.deepEqual({ ...E.RANK.EDUCATION.words }, EF.words);
   assert.deepEqual([...ED.order], Object.keys(EF.words).sort((a, b) => EF.words[b] - EF.words[a]));
   assert.equal(ED.default, EF.default);
-  for (const b of ED.order) {
-    assert.ok(resolveByTitle(E.SOURCES.EDUCATION[b].title), `registered: ${b}`);
-    assert.ok(ED[b].linesTa.length > 0, `${b} described`);
-  }
+  for (const b of ED.order) assert.ok(resolveByTitle(E.SOURCES.EDUCATION[b].title), `registered: ${b}`);
+  for (const b of ED.order.filter((b) => !EF.general_lists[b])) assert.ok(ED[b].linesTa.length > 0, `${b} described`);
+  generalLists(ED, EF);
   const S = EF.stars;
   assert.deepEqual(sorted(ED.WILHELM.nak.good), stars(S.WILHELM_best));
   assert.deepEqual(sorted(ED.WILHELM.nak.mid), stars(S.WILHELM_middling));
@@ -887,8 +899,9 @@ const BF = FIX.business;
   assert.deepEqual({ ...E.RANK.BUSINESS.words }, BF.words);
   assert.deepEqual([...BU.order], Object.keys(BF.words).sort((a, b) => BF.words[b] - BF.words[a]));
   assert.equal(BU.default, BF.default);
-  for (const b of BU.order) {
-    assert.ok(resolveByTitle(E.SOURCES.BUSINESS[b].title), `registered: ${b}`);
+  for (const b of BU.order) assert.ok(resolveByTitle(E.SOURCES.BUSINESS[b].title), `registered: ${b}`);
+  generalLists(BU, BF);
+  for (const b of BU.order.filter((b) => !BF.general_lists[b])) {
     assert.ok(BU[b].linesTa.length > 0, `${b} described`);
     assert.equal(Boolean(BU[b].abhijitOk), BF.abhijit.includes(b), `${b}: Abhijit`);
     for (const v of days(BF.weekdays.all_avoid)) assert.ok(!BU[b].vara.good.includes(v) && !BU[b].vara.mid.includes(v), `${b}: Tuesday`);
@@ -923,8 +936,9 @@ const BF = FIX.business;
   // Chitra (every book's), Shukla 2, Margashirsha.
   const x = { star: 13, tithi: 2, month: 8, sunSign: 7, sunStar: 16, taraCount: 2, signs: { Moon: 5 }, natalMoon: 1, moonPada: 52, yoga: 0, vishti: false };
   const pc = (b, y = {}) => pieceCodes(BU[b], { ...x, ...y });
-  for (const b of BU.order) assert.deepEqual(pc(b), [], b);
-  for (const b of BU.order) assert.ok(pc(b, { tithi: 9 }).includes('TITHI'), `${b}: rikta`);
+  const BS = BU.order.filter((b) => !BF.general_lists[b]);
+  for (const b of BS) assert.deepEqual(pc(b), [], b);
+  for (const b of BS) assert.ok(pc(b, { tithi: 9 }).includes('TITHI'), `${b}: rikta`);
   // Vashistha alone: Krishna tithis, Pausha, Chaturmas, the three yogas, Bhadra, Holi.
   assert.ok(pc('VASHISTHA', { tithi: 17 }).includes('TITHI') && !pc('JOSHI', { tithi: 17 }).includes('TITHI'));
   assert.ok(pc('VASHISTHA', { month: 9 }).includes('MASA') && !pc('KALYANRAMAN', { month: 9 }).includes('MASA'));
@@ -1014,8 +1028,9 @@ const range12 = [...Array(12).keys()].map((i) => i + 1);
   assert.deepEqual({ ...E.RANK.MEDICINE.words }, MF.words);
   assert.deepEqual([...MD.order], Object.keys(MF.words).sort((a, b) => MF.words[b] - MF.words[a]));
   assert.equal(MD.default, MF.default);
-  for (const b of MD.order) {
-    assert.ok(resolveByTitle(E.SOURCES.MEDICINE[b].title), `registered: ${b}`);
+  for (const b of MD.order) assert.ok(resolveByTitle(E.SOURCES.MEDICINE[b].title), `registered: ${b}`);
+  generalLists(MD, MF);
+  for (const b of MD.order.filter((b) => !MF.general_lists[b])) {
     assert.ok(MD[b].linesTa.length > 0, `${b} described`);
     assert.equal(Boolean(MD[b].abhijitOk), MF.abhijit.includes(b), `${b}: Abhijit`);
     if (b !== 'RAMAN') assert.deepEqual(sorted(MD[b].lagna.good), MF.lagna_dual.map((n) => n - 1), `${b}: dual lagna`);
@@ -1063,8 +1078,9 @@ const SF = FIX.surgery;
   assert.deepEqual({ ...E.RANK.SURGERY.words }, SF.words);
   assert.deepEqual([...SU.order], Object.keys(SF.words).sort((a, b) => SF.words[b] - SF.words[a]));
   assert.equal(SU.default, SF.default);
-  for (const b of SU.order) {
-    assert.ok(resolveByTitle(E.SOURCES.SURGERY[b].title), `registered: ${b}`);
+  for (const b of SU.order) assert.ok(resolveByTitle(E.SOURCES.SURGERY[b].title), `registered: ${b}`);
+  generalLists(SU, SF);
+  for (const b of SU.order.filter((b) => !SF.general_lists[b])) {
     assert.ok(SU[b].linesTa.length > 0, `${b} described`);
     assert.equal((SU[b].empty ?? []).includes(8), SF.eighth_empty.includes(b), `${b}: the 8th`);
   }
@@ -1103,8 +1119,9 @@ const SF = FIX.surgery;
   // Chitra, Shukla 2, a Monday's piece; the birth Moon in Taurus, the Moon in Virgo (the 5th).
   const x = { star: 13, tithi: 2, month: 8, sunSign: 7, sunStar: 16, taraCount: 5, signs: { Sun: 7, Moon: 5, Mars: 2, Mercury: 7, Jupiter: 3, Venus: 6, Saturn: 11, Rahu: 9, Ketu: 3 }, natalMoon: 1, moonPada: 52, yoga: 0, vishti: false };
   const pc = (ev, b, y = {}) => pieceCodes(E.EVENTS[ev][b], { ...x, ...y });
-  for (const b of MD.order) assert.deepEqual(pc('MEDICINE', b), [], `medicine ${b}`);
-  for (const b of MD.order.filter((b) => b !== 'RAMAN')) assert.ok(pc('MEDICINE', b, { tithi: 9 }).includes('TITHI'), `${b}: Navami`);
+  const MS = MD.order.filter((b) => !MF.general_lists[b]);
+  for (const b of MS) assert.deepEqual(pc('MEDICINE', b), [], `medicine ${b}`);
+  for (const b of MS.filter((b) => b !== 'RAMAN')) assert.ok(pc('MEDICINE', b, { tithi: 9 }).includes('TITHI'), `${b}: Navami`);
   assert.ok(pc('MEDICINE', 'WILHELM', { star: 3 }).includes('NAK_MID') && pc('MEDICINE', 'JOSHI', { star: 3 }).includes('NAK'), 'Rohini: mediocre (Kalaprakasika) / not listed');
   assert.ok(pc('MEDICINE', 'WILHELM', { taraCount: 1 }).includes('TARA_NOT') && pc('MEDICINE', 'KALYANRAMAN', { taraCount: 1 }).includes('TARA_NOT_MID'), 'the Janma star: rejected; KR\'s note marks it');
   assert.ok(!pc('MEDICINE', 'JOSHI', { star: 20, moonAbhijit: true }).includes('NAK') && pc('MEDICINE', 'RANGACHARYA', { star: 20, moonAbhijit: true }).includes('NAK'), 'Abhijit: named by Joshi, not Rangacharya');

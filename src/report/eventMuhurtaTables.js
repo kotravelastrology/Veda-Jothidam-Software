@@ -780,7 +780,7 @@ const MATRIKA_GOOD = Object.freeze([...range(8, 11), ...range(16, 27)]);
 const EDUCATION = deepFreeze({
   labelTa: 'கல்வி தொடக்கம் (உபநயனத்துக்குப் பின்)',
   default: 'WILHELM',
-  order: ['WILHELM', 'SHRIDHAR', 'RAMAN', 'KALYANRAMAN', 'JOSHI', 'VASHISTHA', 'MUHURTA_CHINTAMANI', 'RANGACHARYA'],
+  order: ['WILHELM', 'SHRIDHAR', 'RAMAN', 'KALYANRAMAN', 'JOSHI', 'VASHISTHA', 'MUHURTA_CHINTAMANI', 'RANGACHARYA', 'AGARWAL'],
   ageTa: 'வயது: ஒற்றை ஆண்டுகள் சிறந்தவை; இரட்டை ஆண்டின் முதல், கடைசி மூன்று மாதமும் நல்லவை (வில்ஹெல்ம், ஸ்ரீதர் — J.V., ஜோஷி, கல்யாணராமன்). காட்டப்படும், தீர்ப்பில் இல்லை.',
   WILHELM: {
     labelTa: 'வில்ஹெல்ம் — வித்யா, உபவித்யா', booksTa: 'வில்ஹெல்ம் (காலப்பிரகாசிகை, முகூர்த்த சிந்தாமணி மேற்கோள்கள்)',
@@ -878,6 +878,11 @@ const EDUCATION = deepFreeze({
       'லக்னம்: சர, உபய ராசிகள் · நட்சத்திரம்: அசுவினி, மிருகசீரிடம், திருவாதிரை, புனர்பூசம், பூசம், ஆயில்யம், மூன்று பூர்வம், அஸ்தம், சித்திரை, சுவாதி, திருவோணம், அவிட்டம், சதயம்',
     ],
   },
+  AGARWAL: {
+    labelTa: 'அகர்வால் — நட்சத்திர வகைகள்', booksTa: 'அகர்வால் (பொதுப் பட்டியல்)',
+    nak: { good: [0, 6, 7, 12, 14, 21, 22, 23], mid: [3, 4, 11, 13, 16, 20, 25, 26] }, abhijitOk: true, digdwar: false,
+    noteTa: 'பொதுப் பட்டியல் (உபநயனத்துக்குப் பின் கல்விக்குத் தனிப் பகுதி இல்லை; வித்யாரம்பம் தனி): க்ஷிப்ரம் (அபிஜித் உட்பட) — "கல்வி தொடங்குதல்"; சரம் — "க்ஷிப்ரத்தின் காரியங்களும்"; மிருது — "கற்றல்" (பொதுவாக — நடுத்தரம்); ஸ்திரம் — "மிருதுவின் காரியங்களும்" (நடுத்தரம்) · திதி, கிழமை — விதி இல்லை',
+  },
 });
 
 // ---------------------------------------------------------------------------
@@ -894,7 +899,7 @@ const SHOP_PLACES = deepFreeze({ empty8_12: [[M5, [8, 12]]], benefic: [2, 10, 11
 const BUSINESS = deepFreeze({
   labelTa: 'வியாபாரம் தொடங்குதல் / கடை திறப்பு',
   default: 'VASHISTHA',
-  order: ['VASHISTHA', 'KALYANRAMAN', 'WILHELM', 'JOSHI', 'SHRIDHAR', 'MUHURTA_CHINTAMANI', 'RANGACHARYA'],
+  order: ['VASHISTHA', 'KALYANRAMAN', 'WILHELM', 'JOSHI', 'SHRIDHAR', 'MUHURTA_CHINTAMANI', 'RANGACHARYA', 'AGARWAL', 'RAMAN'],
   VASHISTHA: {
     labelTa: 'வசிஷ்டா — விபணி கரணம்', booksTa: 'வசிஷ்டா',
     tithi: [2, 3, 5, 7, 10, 12, 13, 15], vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
@@ -965,6 +970,16 @@ const BUSINESS = deepFreeze({
       '"Shop opening" (ப.128): செவ்வாய், ரிக்த திதி கூடாது · ஸ்திர, மிருது நட்சத்திரங்கள் (ரோகிணி, மூன்று உத்திரம்; மிருகசீரிடம், சித்திரை, அனுஷம், ரேவதி) · லக்னத்தில் சந்திரன், சுக்கிரன் மிகச் சிறந்தது (குறிக்கப்படும்) · 8, 12-ல் பாவர் கூடாது · 2, 11, 10-ல் சுபர் நல்லது (குறிக்கப்படும்)',
     ],
   },
+  RAMAN: {
+    labelTa: 'ராமன் அத்.IV — லகு நட்சத்திரம்', booksTa: 'ராமன் (பொதுப் பட்டியல்)',
+    nak: { good: [0, 7, 12], mid: [] }, abhijitOk: true, digdwar: false,
+    noteTa: 'பொதுப் பட்டியல் (கடை திறப்புக்குத் தனிப் பகுதி இல்லை; அத்.X வாங்குதல் / விற்றல் மட்டும்): லகு நட்சத்திரங்கள் "தொழில் தொடங்குதலுக்கு" · திதி, கிழமை — விதி இல்லை',
+  },
+  AGARWAL: {
+    labelTa: 'அகர்வால் — நட்சத்திர வகைகள்', booksTa: 'அகர்வால் (பொதுப் பட்டியல்)',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 13, 14, 16, 20, 21, 22, 23, 25, 26], mid: [] }, abhijitOk: true, digdwar: false,
+    noteTa: 'பொதுப் பட்டியல் (கடை திறப்புக்குத் தனிப் பகுதி இல்லை; ப.329 வாங்குதல் / விற்றல் மட்டும்): க்ஷிப்ரம் (அபிஜித் உட்பட) — "கடை தொடங்குதல், விற்றல்"; மிருது — "தொழில் / வேலை / வியாபாரம் தொடங்குதல்"; ஸ்திரம் — "மிருதுவின் காரியங்களும்"; சரம் — "க்ஷிப்ரத்தின் காரியங்களும்" · திதி, கிழமை — விதி இல்லை',
+  },
 });
 
 // ---------------------------------------------------------------------------
@@ -988,7 +1003,7 @@ const EMPTY_7_8_12 = Object.freeze([7, 8, 12]);
 const MEDICINE = deepFreeze({
   labelTa: 'மருந்து உட்கொள்ளுதல் / சிகிச்சை தொடக்கம்',
   default: 'WILHELM',
-  order: ['WILHELM', 'RAMAN', 'SHRIDHAR', 'MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'JOSHI', 'VASHISTHA', 'RANGACHARYA'],
+  order: ['WILHELM', 'RAMAN', 'SHRIDHAR', 'MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'JOSHI', 'VASHISTHA', 'RANGACHARYA', 'AGARWAL'],
   WILHELM: {
     labelTa: 'வில்ஹெல்ம் — நோய்ச் சிகிச்சை, மருந்து', booksTa: 'வில்ஹெல்ம் (மு.சி., காலப்பிரகாசிகை மேற்கோள்கள்)',
     nak: { good: [0, 4, 6, 7, 12, 13, 14, 16, 21, 22, 23, 26], mid: [18, ...FIXED_STARS] }, digdwar: false, taraNot: [1],
@@ -1071,6 +1086,11 @@ const MEDICINE = deepFreeze({
       'கிழமை: "ஞாயிறு-திங்கள், புதன், வெள்ளி நல்லவை" — பின் "ஞாயிறு, செவ்வாயில் ஒருபோதும் தொடங்கக் கூடாது": ஞாயிறு நடுத்தரம் (எங்கள் வாசிப்பு); வியாழன் அச்சில் இல்லை · சுப திதி (ரிக்த, அமாவாசை தவிர — எங்கள் வாசிப்பு)',
     ],
   },
+  AGARWAL: {
+    labelTa: 'அகர்வால் — உக்ர நட்சத்திரம்', booksTa: 'அகர்வால் (பொதுப் பட்டியல்)',
+    nak: { good: [1, 9, 10, 19, 24], mid: [] }, digdwar: false,
+    noteTa: 'பொதுப் பட்டியல் (மருந்துக்குத் தனிப் பகுதி இல்லை): உக்ர நட்சத்திரம் — "மருந்து கொடுத்தல்" (கொல்லுதல், விஷம், அறுவை … உடன்; அச்சில் உள்ளபடி — மற்ற நூல்கள் லகு, மிருது, சரம்) · மிஸ்ர நட்சத்திரம் — "மருந்து தயாரித்தல்" (தனிக் காரியம்) · திதி, கிழமை — விதி இல்லை',
+  },
 });
 
 /**
@@ -1080,7 +1100,7 @@ const MEDICINE = deepFreeze({
 const SURGERY = deepFreeze({
   labelTa: 'அறுவை சிகிச்சை',
   default: 'WILHELM',
-  order: ['WILHELM', 'RAMAN', 'SHRIDHAR', 'VASHISTHA', 'KALYANRAMAN', 'RANGACHARYA'],
+  order: ['WILHELM', 'RAMAN', 'SHRIDHAR', 'VASHISTHA', 'KALYANRAMAN', 'RANGACHARYA', 'JOSHI', 'AGARWAL'],
   WILHELM: {
     labelTa: 'வில்ஹெல்ம் — அறுவை (பல் உட்பட)', booksTa: 'வில்ஹெல்ம்',
     nak: { good: SHARP_STARS, mid: [2] }, digdwar: false, taraNot: [1], chandra: { good: range(2, 12), mid: [1] },
@@ -1138,6 +1158,16 @@ const SURGERY = deepFreeze({
     linesTa: [
       '"Surgical operation" (ப.133): செவ்வாய் அல்லது ஞாயிறு · 8 காலி · 6-ல் பாவர், சூரியன், சந்திரன் கேந்திரத்தில் (குறிக்கப்படும் — எங்கள் வாசிப்பு) · நட்சத்திரம், திதி — விதி இல்லை',
     ],
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி அத்.2 — உக்ர நட்சத்திரம்', booksTa: 'ஜோஷி (பொதுப் பட்டியல்)',
+    nak: { good: [1, 9, 10, 19, 24], mid: [] }, digdwar: false, vara: { good: [2], mid: [0, 1, 3, 4, 5, 6] },
+    noteTa: 'பொதுப் பட்டியல் (அறுவைக்குத் தனிப் பகுதி இல்லை): உக்ர நட்சத்திரம், செவ்வாய் — "அறுவை சிகிச்சை" · மற்ற கிழமை நடுத்தரம் (எங்கள் வாசிப்பு) · திதி — விதி இல்லை',
+  },
+  AGARWAL: {
+    labelTa: 'அகர்வால் — உக்ர நட்சத்திரம்', booksTa: 'அகர்வால் (பொதுப் பட்டியல்)',
+    nak: { good: [1, 9, 10, 19, 24], mid: [] }, digdwar: false,
+    noteTa: 'பொதுப் பட்டியல் (அறுவைக்குத் தனிப் பகுதி இல்லை): உக்ர நட்சத்திரம் — "அறுவை சிகிச்சை" · திதி, கிழமை — விதி இல்லை',
   },
 });
 
@@ -1295,7 +1325,7 @@ const SHRIDHAR_CHARIOT = deepFreeze({
 const VEHICLE = deepFreeze({
   labelTa: 'புது வாகனம் — வாங்குதல், முதலில் ஓட்டுதல்',
   default: 'WILHELM',
-  order: ['WILHELM', 'SHRIDHAR', 'VASHISTHA', 'KALYANRAMAN_BUY', 'KALYANRAMAN', 'JOSHI', 'RANGACHARYA', 'MUHURTA_CHINTAMANI', 'RAMAN'],
+  order: ['WILHELM', 'SHRIDHAR', 'VASHISTHA', 'KALYANRAMAN_BUY', 'KALYANRAMAN', 'JOSHI', 'AGARWAL', 'RANGACHARYA', 'MUHURTA_CHINTAMANI', 'RAMAN'],
   WILHELM: {
     labelTa: 'வில்ஹெல்ம் — வாகனம் ஓட்டுதல்', booksTa: 'வில்ஹெல்ம்',
     nak: { good: [0, 3, 4, 6, 9, 11, 12, 13, 14, 16, 20, 21, 25, 26], mid: [7, 15, 22] }, digdwar: false,
@@ -1343,6 +1373,11 @@ const VEHICLE = deepFreeze({
     nak: { good: [0, 4, 6, 7, 12, 13, 14, 16, 17, 21, 22, 23, 26], mid: [] }, abhijitOk: true, digdwar: false,
     tithi: bothPakshas([2, 7, 12]), tithiNot: [],
     noteTa: 'பொதுப் பட்டியல் (வாகனத்துக்குத் தனிப் பகுதி இல்லை): பத்ர திதி (2, 7, 12) — "வாகனம் சம்பந்தமான காரியங்கள்"; சர நட்சத்திரம் — "வாகனம் ஓட்டுதல்"; லகு (அபிஜித் உட்பட) — "சர காரியங்களும்"; திர்யக் — "மோட்டார் சைக்கிள் ஓட்டுதல்" · மற்ற திதி நடுத்தரம் (எங்கள் வாசிப்பு) · கிழமை — விதி இல்லை',
+  },
+  AGARWAL: {
+    labelTa: 'அகர்வால் — நட்சத்திர வகைகள்', booksTa: 'அகர்வால் (பொதுப் பட்டியல்)',
+    nak: { good: [0, 4, 6, 7, 12, 13, 14, 16, 17, 21, 22, 23, 26], mid: [] }, abhijitOk: true, digdwar: false,
+    noteTa: 'பொதுப் பட்டியல் (வாகனத்துக்குத் தனிப் பகுதி இல்லை): சரம் — "வாகனம், குதிரை, யானை ஏறுதல்; தொழிற்சாலை / இயந்திரம் / வாகனம் தொடங்குதல்"; க்ஷிப்ரம் (அபிஜித்) — "சரத்தின் காரியங்களும்"; திர்யக் — "ஏறுதல், ஓட்டுதல், பயணம்" · திதி, கிழமை — விதி இல்லை',
   },
 });
 const VEHICLE_MAKE = deepFreeze({
@@ -1399,7 +1434,7 @@ const ORNAMENTS_KR = deepFreeze({
 const NEW_CLOTHES = deepFreeze({
   labelTa: 'புது ஆடை அணிதல்',
   default: 'SHRIDHAR',
-  order: ['SHRIDHAR', 'WILHELM', 'KALYANRAMAN', 'MUHURTA_CHINTAMANI', 'JOSHI', 'RAMAN', 'VASHISTHA', 'RANGACHARYA'],
+  order: ['SHRIDHAR', 'WILHELM', 'KALYANRAMAN', 'MUHURTA_CHINTAMANI', 'JOSHI', 'RAMAN', 'VASHISTHA', 'RANGACHARYA', 'AGARWAL'],
   SHRIDHAR: {
     labelTa: 'ஸ்ரீதர் §19.14.1', booksTa: 'ஸ்ரீதர் (K.P., M.G. மேற்கோள்கள்)',
     tithi: bothPakshas([2, 3, 5, 7, 10, 11, 13]), tithiNot: [...RIKTA, 30], vara: { good: [3, 4, 5], mid: [0, 1] },
@@ -1438,11 +1473,16 @@ const NEW_CLOTHES = deepFreeze({
     tithi: [...bothPakshas([1, 6, 10, 11]), 13], tithiNot: [30], vara: { good: [0, 4, 5], mid: [1, 2, 3, 6] },
     noteTa: 'பொதுப் பட்டியல் (புது ஆடைக்குத் தனிப் பகுதி இல்லை): திதி — சஷ்டி ("ஆடை"), தசமி ("வஸ்திரம்"), வளர் திரயோதசி, நந்தா (1, 6, 11); அமாவாசையில் சுப காரியம் கூடாது · கிழமை — ஞாயிறு, வியாழன், வெள்ளி · நட்சத்திரம் — துருவம், மிருது, தீக்ஷ்ணம் (அச்சில் உள்ளபடி; மூலம் எந்த வகையிலும் இல்லை) · மற்ற திதி, கிழமை நடுத்தரம் (எங்கள் வாசிப்பு)',
   },
+  AGARWAL: {
+    labelTa: 'அகர்வால் — நட்சத்திர வகைகள்', booksTa: 'அகர்வால் (பொதுப் பட்டியல்)',
+    nak: { good: [3, 4, 11, 13, 16, 20, 25, 26], mid: [] }, digdwar: false,
+    noteTa: 'பொதுப் பட்டியல் (புது ஆடைக்குத் தனிப் பகுதி இல்லை): மிருது — "ஆடை செய்தல், அணிதல்"; ஸ்திரம் — "மிருதுவின் காரியங்களும்" · திதி, கிழமை — விதி இல்லை',
+  },
 });
 const NEW_ORNAMENTS = deepFreeze({
   labelTa: 'புது ஆபரணம் அணிதல்',
   default: 'KALYANRAMAN',
-  order: ['KALYANRAMAN', 'SHRIDHAR', 'WILHELM', 'MUHURTA_CHINTAMANI', 'VASHISTHA', 'JOSHI', 'RANGACHARYA', 'RAMAN'],
+  order: ['KALYANRAMAN', 'SHRIDHAR', 'WILHELM', 'MUHURTA_CHINTAMANI', 'VASHISTHA', 'JOSHI', 'AGARWAL', 'RANGACHARYA', 'RAMAN'],
   KALYANRAMAN: ORNAMENTS_KR,
   SHRIDHAR: {
     labelTa: 'ஸ்ரீதர் §19.13.1', booksTa: 'ஸ்ரீதர் (J.V., B.J.S., K.P., பாதராயணர் மேற்கோள்கள்)',
@@ -1476,11 +1516,16 @@ const NEW_ORNAMENTS = deepFreeze({
     nak: { good: [0, 7, 12], mid: [] }, abhijitOk: true, digdwar: false,
     noteTa: 'பொதுப் பட்டியல்: லகு நட்சத்திரங்கள் "ஆபரணம் அணிதலுக்கு" · ஆபரணம் வாங்குதல் (அத்.X) — வாங்குதல் குடும்பத்தில் வரும் · திதி, கிழமை — விதி இல்லை',
   },
+  AGARWAL: {
+    labelTa: 'அகர்வால் — நட்சத்திர வகைகள்', booksTa: 'அகர்வால் (பொதுப் பட்டியல்)',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 13, 14, 16, 20, 21, 22, 23, 25, 26], mid: [] }, abhijitOk: true, digdwar: false,
+    noteTa: 'பொதுப் பட்டியல் (ஆபரணத்துக்குத் தனிப் பகுதி இல்லை): க்ஷிப்ரம் (அபிஜித்), மிருது — "ஆபரணம் செய்தல், அணிதல்"; சரம் — "க்ஷிப்ரத்தின் காரியங்களும்"; ஸ்திரம் — "மிருதுவின் காரியங்களும்" · திதி, கிழமை — விதி இல்லை',
+  },
 });
 const ORNAMENT_MAKING = deepFreeze({
   labelTa: 'ஆபரணம் செய்தல் (தங்கம், ரத்தினம், முத்து)',
   default: 'KALYANRAMAN',
-  order: ['KALYANRAMAN', 'WILHELM', 'JOSHI', 'SHRIDHAR', 'MUHURTA_CHINTAMANI', 'VASHISTHA', 'RANGACHARYA'],
+  order: ['KALYANRAMAN', 'WILHELM', 'JOSHI', 'SHRIDHAR', 'MUHURTA_CHINTAMANI', 'AGARWAL', 'VASHISTHA', 'RANGACHARYA'],
   KALYANRAMAN: ORNAMENTS_KR,
   JOSHI: {
     labelTa: 'ஜோஷி (ப.107-108) — பொன் வேலை', booksTa: 'ஜோஷி',
@@ -1515,6 +1560,11 @@ const ORNAMENT_MAKING = deepFreeze({
     labelTa: 'ரங்காச்சார்யா — நட்சத்திர வகைகள்', booksTa: 'ரங்காச்சார்யா (பொதுப் பட்டியல்)',
     nak: { good: [0, 6, 7, 12, 14, 21, 22, 23], mid: [] }, abhijitOk: true, digdwar: false,
     noteTa: 'பொதுப் பட்டியல்: சர நட்சத்திரம் — "தங்கம், வெள்ளி, ஆபரணம் செய்யக் கொடுத்தல்"; லகு (அபிஜித் உட்பட) — "சர காரியங்களும்" · திதி, கிழமை — விதி இல்லை',
+  },
+  AGARWAL: {
+    labelTa: 'அகர்வால் — நட்சத்திர வகைகள்', booksTa: 'அகர்வால் (பொதுப் பட்டியல்)',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 13, 14, 16, 20, 21, 22, 23, 25, 26], mid: [] }, abhijitOk: true, digdwar: false,
+    noteTa: 'பொதுப் பட்டியல் (ஆபரணத்துக்குத் தனிப் பகுதி இல்லை): க்ஷிப்ரம் (அபிஜித்), மிருது — "ஆபரணம் செய்தல், அணிதல்"; சரம் — "க்ஷிப்ரத்தின் காரியங்களும்"; ஸ்திரம் — "மிருதுவின் காரியங்களும்" · திதி, கிழமை — விதி இல்லை',
   },
 });
 const CLOTHES_WASHING = deepFreeze({
@@ -1579,18 +1629,18 @@ const STITCHING = deepFreeze({
 const RANK = deepFreeze({
   NEW_CLOTHES: {
     order: NEW_CLOTHES.order,
-    words: { SHRIDHAR: 686, WILHELM: 432, KALYANRAMAN: 389, MUHURTA_CHINTAMANI: 226, JOSHI: 97, RAMAN: 60, VASHISTHA: 49, RANGACHARYA: 39 },
-    measureTa: 'புது ஆடை அணிதல் பற்றிய சொற்கள் (பக்கத் தலைப்புகள் தவிர): ஸ்ரீதர் (§19.14.1, ப.561-563) 686; வில்ஹெல்ம் (ப.216-217) 432; கல்யாணராமன் (தொ.2 ப.237-238) 389; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/10 உரை, குறிப்புகள், ப.53-54) 226; ஜோஷி (ஆடை, ஆபரணம், ப.146) 97; ராமன் (அத்.X, PDF ப.36) 60; ரங்காச்சார்யா (ப.131) 39; வசிஷ்டா (பொதுப் பட்டியல்கள், ப.42-46, 54-58 — இக்காரியத்தைக் குறிக்கும் சொற்கள் மட்டும்) 49. அகர்வாலில் இல்லை.',
+    words: { SHRIDHAR: 686, WILHELM: 432, KALYANRAMAN: 389, MUHURTA_CHINTAMANI: 226, JOSHI: 97, RAMAN: 60, VASHISTHA: 49, RANGACHARYA: 39, AGARWAL: 18 },
+    measureTa: 'புது ஆடை அணிதல் பற்றிய சொற்கள் (பக்கத் தலைப்புகள் தவிர): ஸ்ரீதர் (§19.14.1, ப.561-563) 686; வில்ஹெல்ம் (ப.216-217) 432; கல்யாணராமன் (தொ.2 ப.237-238) 389; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/10 உரை, குறிப்புகள், ப.53-54) 226; ஜோஷி (ஆடை, ஆபரணம், ப.146) 97; ராமன் (அத்.X, PDF ப.36) 60; ரங்காச்சார்யா (ப.131) 39. பொதுப் பட்டியல்கள் (இக்காரியத்தைக் குறிக்கும் சொற்கள் மட்டும்): வசிஷ்டா (ப.42-46, 54-58) 49; அகர்வால் (ப.299) 18.',
   },
   NEW_ORNAMENTS: {
     order: NEW_ORNAMENTS.order,
-    words: { KALYANRAMAN: 594, SHRIDHAR: 511, WILHELM: 497, MUHURTA_CHINTAMANI: 226, VASHISTHA: 99, JOSHI: 97, RANGACHARYA: 28, RAMAN: 2 },
-    measureTa: 'புது ஆபரணம் அணிதல் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.235-236, செய்தலும் அணிதலும்) 594; ஸ்ரீதர் (§19.13.1, ப.558-559) 511; வில்ஹெல்ம் (ப.248-249) 497; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/10 — பவளம், தந்தம், சங்கு, தங்கம், ஆடை) 226; ஜோஷி (ஆடை, ஆபரணம்) 97; பொதுப் பட்டியல்கள் (இக்காரியத்தைக் குறிக்கும் சொற்கள் மட்டும்): வசிஷ்டா (ப.41-46, 54-58) 99; ரங்காச்சார்யா (ப.6, 10, 17-18) 28; ராமன் (அத்.IV, PDF ப.9) 2. அகர்வாலில் இல்லை.',
+    words: { KALYANRAMAN: 594, SHRIDHAR: 511, WILHELM: 497, MUHURTA_CHINTAMANI: 226, VASHISTHA: 99, JOSHI: 97, AGARWAL: 37, RANGACHARYA: 28, RAMAN: 2 },
+    measureTa: 'புது ஆபரணம் அணிதல் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.235-236, செய்தலும் அணிதலும்) 594; ஸ்ரீதர் (§19.13.1, ப.558-559) 511; வில்ஹெல்ம் (ப.248-249) 497; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/10 — பவளம், தந்தம், சங்கு, தங்கம், ஆடை) 226; ஜோஷி (ஆடை, ஆபரணம்) 97; பொதுப் பட்டியல்கள் (இக்காரியத்தைக் குறிக்கும் சொற்கள் மட்டும்): வசிஷ்டா (ப.41-46, 54-58) 99; அகர்வால் (ப.299) 37; ரங்காச்சார்யா (ப.6, 10, 17-18) 28; ராமன் (அத்.IV, PDF ப.9) 2.',
   },
   ORNAMENT_MAKING: {
     order: ORNAMENT_MAKING.order,
-    words: { KALYANRAMAN: 594, WILHELM: 178, JOSHI: 106, SHRIDHAR: 90, MUHURTA_CHINTAMANI: 75, VASHISTHA: 35, RANGACHARYA: 20 },
-    measureTa: 'ஆபரணம் செய்தல் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.235-236, செய்தலும் அணிதலும்) 594; வில்ஹெல்ம் ("Jewelry- Making & Gold smithing", ப.247) 178; ஜோஷி (பொன் வேலை, ப.107-108) 106; ஸ்ரீதர் (§19.13.2, ப.559-560) 90; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/16 உரை, ஆயுதம் தவிர, ப.59) 75; பொதுப் பட்டியல்கள் (இக்காரியத்தைக் குறிக்கும் சொற்கள் மட்டும்): வசிஷ்டா (ப.42-46, 54-58) 35; ரங்காச்சார்யா (ப.17-18) 20. ராமன், அகர்வாலில் இல்லை.',
+    words: { KALYANRAMAN: 594, WILHELM: 178, JOSHI: 106, SHRIDHAR: 90, MUHURTA_CHINTAMANI: 75, AGARWAL: 37, VASHISTHA: 35, RANGACHARYA: 20 },
+    measureTa: 'ஆபரணம் செய்தல் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.235-236, செய்தலும் அணிதலும்) 594; வில்ஹெல்ம் ("Jewelry- Making & Gold smithing", ப.247) 178; ஜோஷி (பொன் வேலை, ப.107-108) 106; ஸ்ரீதர் (§19.13.2, ப.559-560) 90; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/16 உரை, ஆயுதம் தவிர, ப.59) 75; பொதுப் பட்டியல்கள் (இக்காரியத்தைக் குறிக்கும் சொற்கள் மட்டும்): அகர்வால் (ப.299) 37; வசிஷ்டா (ப.42-46, 54-58) 35; ரங்காச்சார்யா (ப.17-18) 20. ராமனில் இல்லை.',
   },
   CLOTHES_WASHING: {
     order: CLOTHES_WASHING.order,
@@ -1604,8 +1654,8 @@ const RANK = deepFreeze({
   },
   VEHICLE: {
     order: VEHICLE.order,
-    words: { WILHELM: 152, SHRIDHAR: 102, VASHISTHA: 85, KALYANRAMAN_BUY: 76, KALYANRAMAN: 67, JOSHI: 54, RANGACHARYA: 18, MUHURTA_CHINTAMANI: 12, RAMAN: 4 },
-    measureTa: 'வாகனம் வாங்குதல் / முதலில் ஓட்டுதல் பற்றிய சொற்கள் (பக்கத் தலைப்புகள் தவிர): வில்ஹெல்ம் ("Vehicles- Driving", ப.328-329) 152; ஸ்ரீதர் (§25.5, ப.684-685) 102; வசிஷ்டா (ப.136) 85; கல்யாணராமன் (தொ.2 ப.186 — வாங்குதல், ஓட்டப் பழகுதல்) 76; கல்யாணராமன் (ப.242 — புது வாகனம் ஓட்டுதல்) 67. பொதுப் பட்டியல்கள் (இக்காரியத்தைக் குறிக்கும் சொற்கள் மட்டும்): ஜோஷி (அத்.2, ப.9-11, 25) 54; ரங்காச்சார்யா (ப.6, 17-18) 18; மு.சி. (ஸ்லோ.2/4, 2/9 உரை) 12; ராமன் (அத்.IV, PDF ப.9) 4. அகர்வாலில் இல்லை; ஜோஷியின் தனிப் பகுதி (ப.107) தயாரித்தல் / வியாபாரம் — அங்கே.',
+    words: { WILHELM: 152, SHRIDHAR: 102, VASHISTHA: 85, KALYANRAMAN_BUY: 76, KALYANRAMAN: 67, JOSHI: 54, AGARWAL: 32, RANGACHARYA: 18, MUHURTA_CHINTAMANI: 12, RAMAN: 4 },
+    measureTa: 'வாகனம் வாங்குதல் / முதலில் ஓட்டுதல் பற்றிய சொற்கள் (பக்கத் தலைப்புகள் தவிர): வில்ஹெல்ம் ("Vehicles- Driving", ப.328-329) 152; ஸ்ரீதர் (§25.5, ப.684-685) 102; வசிஷ்டா (ப.136) 85; கல்யாணராமன் (தொ.2 ப.186 — வாங்குதல், ஓட்டப் பழகுதல்) 76; கல்யாணராமன் (ப.242 — புது வாகனம் ஓட்டுதல்) 67. பொதுப் பட்டியல்கள் (இக்காரியத்தைக் குறிக்கும் சொற்கள் மட்டும்): ஜோஷி (அத்.2, ப.9-11, 25) 54; அகர்வால் (ப.298-299) 32; ரங்காச்சார்யா (ப.6, 17-18) 18; மு.சி. (ஸ்லோ.2/4, 2/9 உரை) 12; ராமன் (அத்.IV, PDF ப.9) 4. ஜோஷியின் தனிப் பகுதி (ப.107) தயாரித்தல் / வியாபாரம் — அங்கே.',
   },
   VEHICLE_MAKE: {
     order: VEHICLE_MAKE.order,
@@ -1624,23 +1674,23 @@ const RANK = deepFreeze({
   },
   MEDICINE: {
     order: MEDICINE.order,
-    words: { WILHELM: 886, RAMAN: 633, SHRIDHAR: 328, MUHURTA_CHINTAMANI: 218, KALYANRAMAN: 215, JOSHI: 106, VASHISTHA: 103, RANGACHARYA: 71 },
-    measureTa: 'மருந்து / சிகிச்சை பற்றிய சொற்கள் (நோய்வாரி சிகிச்சை, பேதி மருந்து, ரத்தம் எடுத்தல், பல் உட்பட; நோய் தொடங்கிய நட்சத்திரப் பலன், மருந்து தயாரித்தல், நோய் நீங்கிய குளியல், அறுவை தவிர): வில்ஹெல்ம் (ப.269, 272-273, 275-277) 886; ராமன் (அத்.XV, ப.52-53) 633; ஸ்ரீதர் (§22.3, ப.603-604) 328; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/15, 2/30 உரை) 218; கல்யாணராமன் (தொ.2 ப.201-203) 215; ஜோஷி (அத்.13, ப.146-147) 106; வசிஷ்டா (ப.133) 103; ரங்காச்சார்யா (ப.132-133) 71. அகர்வாலில் இதற்குப் பகுதி இல்லை (நோய் நீங்கிய குளியல் மட்டும்).',
+    words: { WILHELM: 886, RAMAN: 633, SHRIDHAR: 328, MUHURTA_CHINTAMANI: 218, KALYANRAMAN: 215, JOSHI: 106, VASHISTHA: 103, RANGACHARYA: 71, AGARWAL: 2 },
+    measureTa: 'மருந்து / சிகிச்சை பற்றிய சொற்கள் (நோய்வாரி சிகிச்சை, பேதி மருந்து, ரத்தம் எடுத்தல், பல் உட்பட; நோய் தொடங்கிய நட்சத்திரப் பலன், மருந்து தயாரித்தல், நோய் நீங்கிய குளியல், அறுவை தவிர): வில்ஹெல்ம் (ப.269, 272-273, 275-277) 886; ராமன் (அத்.XV, ப.52-53) 633; ஸ்ரீதர் (§22.3, ப.603-604) 328; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/15, 2/30 உரை) 218; கல்யாணராமன் (தொ.2 ப.201-203) 215; ஜோஷி (அத்.13, ப.146-147) 106; வசிஷ்டா (ப.133) 103; ரங்காச்சார்யா (ப.132-133) 71. அகர்வால் (பொதுப் பட்டியல் — உக்ர நட்சத்திரம், ப.299) 2; தனிப் பகுதி இல்லை (நோய் நீங்கிய குளியல் மட்டும்).',
   },
   SURGERY: {
     order: SURGERY.order,
-    words: { WILHELM: 499, RAMAN: 194, SHRIDHAR: 152, VASHISTHA: 65, KALYANRAMAN: 40, RANGACHARYA: 32 },
-    measureTa: 'அறுவை சிகிச்சை பற்றிய சொற்கள்: வில்ஹெல்ம் (அறுவை, அழகு அறுவை / பச்சை குத்தல், ப.273-275) 499; ராமன் (ப.53) 194; ஸ்ரீதர் (§22.4, ப.604-605) 152; வசிஷ்டா (ப.133, குறிப்புடன்) 65; கல்யாணராமன் (தொ.2 ப.203) 40; ரங்காச்சார்யா (ப.133) 32. முகூர்த்த சிந்தாமணி, ஜோஷி, அகர்வாலில் அறுவைக்குப் பகுதி இல்லை.',
+    words: { WILHELM: 499, RAMAN: 194, SHRIDHAR: 152, VASHISTHA: 65, KALYANRAMAN: 40, RANGACHARYA: 32, JOSHI: 3, AGARWAL: 2 },
+    measureTa: 'அறுவை சிகிச்சை பற்றிய சொற்கள்: வில்ஹெல்ம் (அறுவை, அழகு அறுவை / பச்சை குத்தல், ப.273-275) 499; ராமன் (ப.53) 194; ஸ்ரீதர் (§22.4, ப.604-605) 152; வசிஷ்டா (ப.133, குறிப்புடன்) 65; கல்யாணராமன் (தொ.2 ப.203) 40; ரங்காச்சார்யா (ப.133) 32. பொதுப் பட்டியல்கள் (உக்ர நட்சத்திரம் — "அறுவை"): ஜோஷி (அத்.2, ப.10) 3; அகர்வால் (ப.299) 2. முகூர்த்த சிந்தாமணியில் இல்லை.',
   },
   BUSINESS: {
     order: BUSINESS.order,
-    words: { VASHISTHA: 217, KALYANRAMAN: 190, WILHELM: 112, JOSHI: 83, SHRIDHAR: 66, MUHURTA_CHINTAMANI: 65, RANGACHARYA: 52 },
-    measureTa: 'கடை திறப்பு / வியாபாரம் தொடங்குதல் பற்றிய சொற்கள்: வசிஷ்டா ("Vipani karana", பக்.100-101) 217; கல்யாணராமன் (தொ.2 பக்.186-187) 190; வில்ஹெல்ம் (ப.193) 112; ஜோஷி (அத்.9, ப.101) 83; ஸ்ரீதர் (§25.4, ப.684) 66; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/17 — கடை திறப்புப் பகுதி, ப.58; ஒரு உரைப் படிவம்) 65; ரங்காச்சார்யா (ப.128) 52. ராமன், அகர்வாலில் கடை திறப்புக்குத் தனிப் பகுதி இல்லை (வாங்குதல் / விற்றல் மட்டும்).',
+    words: { VASHISTHA: 217, KALYANRAMAN: 190, WILHELM: 112, JOSHI: 83, SHRIDHAR: 66, MUHURTA_CHINTAMANI: 65, RANGACHARYA: 52, AGARWAL: 40, RAMAN: 2 },
+    measureTa: 'கடை திறப்பு / வியாபாரம் தொடங்குதல் பற்றிய சொற்கள்: வசிஷ்டா ("Vipani karana", பக்.100-101) 217; கல்யாணராமன் (தொ.2 பக்.186-187) 190; வில்ஹெல்ம் (ப.193) 112; ஜோஷி (அத்.9, ப.101) 83; ஸ்ரீதர் (§25.4, ப.684) 66; முகூர்த்த சிந்தாமணி (ஸ்லோ.2/17 — கடை திறப்புப் பகுதி, ப.58; ஒரு உரைப் படிவம்) 65; ரங்காச்சார்யா (ப.128) 52. பொதுப் பட்டியல்கள் (இக்காரியத்தைக் குறிக்கும் சொற்கள் மட்டும்): அகர்வால் (நட்சத்திர வகைகள், ப.298-299) 40; ராமன் (அத்.IV, PDF ப.9) 2 — இவ்விருவரிலும் கடை திறப்புக்குத் தனிப் பகுதி இல்லை (வாங்குதல் / விற்றல் மட்டும்).',
   },
   EDUCATION: {
     order: EDUCATION.order,
-    words: { WILHELM: 1038, SHRIDHAR: 863, RAMAN: 656, KALYANRAMAN: 313, JOSHI: 222, VASHISTHA: 153, MUHURTA_CHINTAMANI: 147, RANGACHARYA: 70 },
-    measureTa: 'உபநயனத்துக்குப் பின் கல்வி தொடங்குதல் பற்றிய சொற்கள்: வில்ஹெல்ம் (பக்.233-237, பாடவாரி நட்சத்திரங்கள், யோகங்கள் உட்பட) 1038; ஸ்ரீதர் (§17.11.2-3, பக்.436-438) 863; ராமன் (அத்.XI, PDF பக்.39-40, பாடவாரி நட்சத்திரங்கள் உட்பட) 656; கல்யாணராமன் (தொ.2 பக்.151-152) 313; ஜோஷி (அத்.8, பக்.96) 222; வசிஷ்டா (பக்.84-85) 153; முகூர்த்த சிந்தாமணி (ஸ்லோ.5/38, பக்.135; ஒரு உரைப் படிவம்) 147; ரங்காச்சார்யா (பக்.118-119) 70. அகர்வாலில் இதற்குத் தனிப் பகுதி இல்லை.',
+    words: { WILHELM: 1038, SHRIDHAR: 863, RAMAN: 656, KALYANRAMAN: 313, JOSHI: 222, VASHISTHA: 153, MUHURTA_CHINTAMANI: 147, RANGACHARYA: 70, AGARWAL: 32 },
+    measureTa: 'உபநயனத்துக்குப் பின் கல்வி தொடங்குதல் பற்றிய சொற்கள்: வில்ஹெல்ம் (பக்.233-237, பாடவாரி நட்சத்திரங்கள், யோகங்கள் உட்பட) 1038; ஸ்ரீதர் (§17.11.2-3, பக்.436-438) 863; ராமன் (அத்.XI, PDF பக்.39-40, பாடவாரி நட்சத்திரங்கள் உட்பட) 656; கல்யாணராமன் (தொ.2 பக்.151-152) 313; ஜோஷி (அத்.8, பக்.96) 222; வசிஷ்டா (பக்.84-85) 153; முகூர்த்த சிந்தாமணி (ஸ்லோ.5/38, பக்.135; ஒரு உரைப் படிவம்) 147; ரங்காச்சார்யா (பக்.118-119) 70. அகர்வால் (பொதுப் பட்டியல் — நட்சத்திர வகைகள், ப.299) 32; தனிப் பகுதி இல்லை.',
   },
   VIDYARAMBHA: {
     order: VIDYARAMBHA.order,
@@ -1710,6 +1760,7 @@ const SOURCES = deepFreeze({
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Aksharabhyasa (Learning of alphabet)", printed pp.76-77 (PDF 84-85): "should be done in the 5th day of the 5th month of the 5th year of the child. It should be done in the Uttarayana. Kumbha masa should be avoided. It should be done in the forenoon or in the noon. The moudyam of Jupiter and Venus should be avoided. TITHI 2,3,5,6,10,11,12 WEEKDAY Monday, Wednesday, Thursday, Friday. ASTERISM Aswini, Pushyami, Hasta, Punarvasu, Sravana, Mithuna, Revathi, Swati, Chitra, Anuradha. LAGNA Mesha, Kataka, Tula and Makara are commended. Midhuna, Kanya, Dhanus and Meena are mediocre. The 8th house should lie vacant. Mercury, Venus or Jupiter in the 9th house is par excellence. The malefics in 3,6,11 and the benefics in the kendras and konas are favoured"' },
   },
   EDUCATION: {
+    AGARWAL: { ...AGARWAL_GS, pageLocus: 'Classification of nakshatras, printed pp.298-299 (PDF 297-298): "5. Short and dynamic kshipra, laghu Hasta, Aswini, Pushya, Abhijit … Suitable for construction & starting a shop, selling, sex. starting education, making and wearing ornaments, fine arts, learning & display of arts etc., travelling, dancing, singing, acting, beauty parlours. All acts mentioned in movable nakshatras can also be done in these nakshatars"; "2. Movable chara, chala Swati, Punarvasu, Shravana, Dhanishtha, Satabhisha … Good for riding on vehicles, horses, elephants, starting of factory/machinery/vehical (wherever motion is profitable). All acts mentioned in Short and Dynamic nakshatras can also be done in diese nakshatras"; "6. Gentle friendly mridu, maitri Mrigshira, Revati, Chitra, Anuradha … Good for all auspicious ceremonies, 16 samskaras, start of occupation/service/business, singing, learning, music, making & wearing clothes, playing, learning game, making friends, making & wearing ornamnets … All acts mentioned in Fixed and Constant nakshatras can also be done in these nakshatras"; "A. 1. Fixed sthira (constant) Utlaraphalguni, Uttarashada, Uttarabhadra, Rohini … Good for coronation, foundation laying, digging a well, house building, upnayana, nagar or graha pravesha, agriculture or horticulture, starting service, etc. and All acts mentioned in Gentle and Friendly nakshatras can also be done in these"' },
     RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XI "Elections Pertaining to Education", PDF pp.39-40: "The most beneficial constellations for commencing education are Mrigasira, Aridra, Punarvasu, Pushya, Hasta, Chitta, Swati, Sravana, Dhanishta and Satabhisha. Aswini is held by some writers to be one of the best. Rohini, Uttara, Uttarashadha and Revati are neutral. The remaining ones are to be rejected. Tuesday and Saturday should invariably be avoided. Sunday can be considered permissible if other astrological conditions are satisfactory. The following lunar days are auspicious: 1st (of dark half), 2nd, 3rd, 5th, 6th, 10th and 11th. The 4th, 8th, 9th, 14th and New and Full Moon days should be avoided. The Lagna should not be a fixed sign. Common signs are the best and the movable ones ordinary … The forenoon and the noon are the best. Malefics should be disposed in the 3rd, 6th and 11th houses. The 8th house should be clean and unoccupied by benefic or malefic planets"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"Education - Vidya & Upavidya", printed pp.233-237 (PDF 241-245): "Nakshatra: Asvini, Mrigasira, Ardra, Punarvasu, Pushya, Hasta, Chitta, Svati, Sravana, Dhanishtha and Satabhisha are best. Kalaprakasika also considers Rohini, Uttaraphalguni, Uttarashadha, Uttarabhadrapada and Revati to be middling, while Muhurta Chintamani considers Aslesha, Purvaphalguni, Mula, Purvashadha and Purvabhadrapada as also favorable, which all of these may be considered as middling"; "Tithi: The 2nd, 3rd, 5th, 6th, 10th and 11th are favorable. Kalaprakasika also considers the 1st as favorable, while Muhurta Chintamani also considers the 12th as favorable, both of which may be considered as middling. Particularly avoid the 4th, 8th, 9th, 14th and 15th Tithis"; Galagraha, Anadhyaya, Pradosha; "Vara: Avoid the Varas of Mars and Saturn, as well as the Moon\'s … The Sun\'s Vara prolongs life, though according to some it impedes progress"; "Lagna: Dual Rasis are best, moveable Rasis are middling, while fixed Rasis should be avoided … Navamsa: Avoid the Navamsas of Mars and Saturn. Bhavas: The 8th must be unoccupied and, according to some, the 4th as well. Malefics should certainly not be in the 4th. Malefics are best in the 3rd, 6th and 11th … Benefics are best in angles and trines. Grahas: Avoid the afflictions of Jupiter and Venus. Miscellaneous: Forenoon and noon are best, the afternoon and night should be avoided"' },
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§17.11.2 "All types of educations" and §17.11.3 "Prohibited time for study", printed pp.436-438 (PDF 476-478): "Tithi: 2,3,5,10 & 11 Tithis are favourable. B.H. is recommended … Avoid 4,6,8,9 Tithis, the Full Moon & New Moon days. Anadhyaya Tithis are prohibited. Day: Wednesday, Thursday, Friday are the best … M.C. has recommended Sunday also … Tuesday & Saturday, & their navamshas in the rising should be avoided … Majority of exponents including Acharya Shripati commend that Monday is prohibited"; "Constellation: Mrigshira, Ardra, Punarvasu, Pushya, Hasta, Chitra, Swati, Shravana, Shatbhish, Dhanishta … the best; Ashvani, Rohini, 3 Poorvas are … neutral. M.C. opines that Bharni, Krittika & 3 Uttras (5 nos.) should be avoided & balance can be used. J.V. … constellation number 1st to 7th, & 12th to 15th from that of the Sun are unfavourable"; p.437: "Ascendant: The common signs are the best; movable signs are of middling quality …; while the fixed signs are bad according to K.P. Malefics in 3,6 & 11 houses will increase happiness; while benefics in these houses will certainly cause obstructions. Benefics in quadrants or trines are beneficial. There should be no planet in the 8th house … Some opine that 4th house should also be vacant"; "According to J.V. Jupiter & Venus should not be set; avoid Vishnu Shayana"; "Time: Forenoon & the Noontime are the best; afternoon & night-time should be avoided"; p.438 §17.11.3: "1st Tithi …, 8th Tithi …, 14th & the New Moon …, the Full Moon …; Ayana & Vishuva Sankranti, Harishayan & Haibodhan"' },
@@ -1720,6 +1771,8 @@ const SOURCES = deepFreeze({
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: 'Chapter IX "Commencing Education", printed pp.118-119 (PDF 126-127): "The 1st (D) 2,3,5,6,12,10,11 are good, 4,8,9,14 Amavasya and Poornima should be avoided. Wednesday, Thursday and Friday are good. Sunday and Monday are mediocre. Tuesday and Saturday should be avoided. The movable and the dual lagnas should be the choice. Aswini, Mrigasira, Aridra, Punarvasu, Pushyami, Aslesha, Poorva (3) Hasta, Chitra, Swati, Sravana, Dhanishtta and Satabhisha are acceptable"' },
   },
   BUSINESS: {
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter IV "Influence of Constellations", PDF p.9: "Aswini, Pushya, Hasta and Abhijit are light constellations, and they can be selected for putting ornamentation, pleasures and sports, administering medicine, starting industries and undertaking travels"' },
+    AGARWAL: { ...AGARWAL_GS, pageLocus: 'Classification of nakshatras, printed pp.298-299 (PDF 297-298): "5. Short and dynamic kshipra, laghu Hasta, Aswini, Pushya, Abhijit … Suitable for construction & starting a shop, selling, sex. starting education, making and wearing ornaments, fine arts, learning & display of arts etc., travelling, dancing, singing, acting, beauty parlours. All acts mentioned in movable nakshatras can also be done in these nakshatars"; "6. Gentle friendly mridu, maitri Mrigshira, Revati, Chitra, Anuradha … Good for all auspicious ceremonies, 16 samskaras, start of occupation/service/business, singing, learning, music, making & wearing clothes, playing, learning game, making friends, making & wearing ornamnets … All acts mentioned in Fixed and Constant nakshatras can also be done in these nakshatras"; "A. 1. Fixed sthira (constant) Utlaraphalguni, Uttarashada, Uttarabhadra, Rohini … Good for coronation, foundation laying, digging a well, house building, upnayana, nagar or graha pravesha, agriculture or horticulture, starting service, etc. and All acts mentioned in Gentle and Friendly nakshatras can also be done in these"; "2. Movable chara, chala Swati, Punarvasu, Shravana, Dhanishtha, Satabhisha … Good for riding on vehicles, horses, elephants, starting of factory/machinery/vehical (wherever motion is profitable). All acts mentioned in Short and Dynamic nakshatras can also be done in diese nakshatras"' },
     VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: '"7. Vipani karana muhurta", printed pp.100-101 (PDF 87-88): "To start a business on a small scale or to open a shop the following muhurta is advised: Tithi — 2, 3, 5, 7, 10, 12, 13 (shukla) and 15; Vara — Sunday, Monday, Wednesday, Thursday, Friday and Saturday; Nakshatra — Ashwini, Rohini, Mrigashirsha, Punarvasu, 3 uttaras, Hasta, Chitra, Swati, Anuradha, Moola, Sravana, Abhijita, Dhanishtha, Poorva Bhadra and Revati; Lagna — Any lagna except Kumbha. It is better to take either chara (movable) or dual lagna … The business should not be started on Bhurudan day. (Bhu-rudan day is end of month, end of year amavasya, festival of Holi and Tuesday.) Taurus, Gemini, Leo, Virgo, Scorpio and Capricorn lagnas are good. Moon and Mercury in lagna are best, 8 and 12 bhava should be vacant (no planet). Benefics should be in 2, 10 and 11 houses … Jupiter and Venus should not be combust. Pausha, Chaturmas, Vyaghata, Bhadra, Vyatipata, Vaidhriti should be rejected. Moon should not be weak. Rikta tithis and Tuesday should also be rejected"' },
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Openings Shops, Opening Commercial Outlets", printed pp.186-187 (PDF 188-189): "Nakshatra Abhijith, Aswini, Rohini, Mrigasira, Pushyami, Uttaraphalguni, Hasta, Chitra, Anuradha, Uttarashada, Uttarabhadrapada and Revati (11+1) … Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Wednesday, Thursday, Friday, Saturday. Notes: … 2. Avoid Rikta tithis, Tuesday and Aquarius as ascendant. 3. Lagna should have benefics in 2/10/11 houses. 4. Venus and the Moon are preferable in Lagna. 5. Malefics must not occupy 8/12 houses"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"Business/Finance - Store/Business Opening", printed p.193 (PDF 201): "Nakshatra: Asvini, Rohini, Mrigasira, Pushya, Uttaraphalguni, Hasta, Chitta, Anuradha, Uttarashadha, Uttarabhadrapada and Revati are favorable. Tithi: Choose a favorable Tithi and definitely avoid the 4th, 9th and 14th. Vara: Avoid Mars\'s Vara particularly. Lagna: Avoid Aquarius. Bhavas: Venus or the Moon is very favorable in the Lagna. There should be no malefics in the 8th and 12th. Benefics are best in the 2nd, 10th and 11th"' },
@@ -1747,6 +1800,7 @@ const SOURCES = deepFreeze({
     AGARWAL: { ...AGARWAL_GS, pageLocus: '"Entering an old house", printed p.326 (PDF 325): "Above muhurtas plus months Shravana, Kartika, Margashirsha. Nakshatras, Satbhisha, Pushya, Swati, Dhanishta"' },
   },
   MEDICINE: {
+    AGARWAL: { ...AGARWAL_GS, pageLocus: 'Classification of nakshatras, printed pp.298-299 (PDF 297-298): "3. Aggressive, cruel uggara, karoora Poorvaphalguni, Poorvashada, Poorvabhadra, Bharani, Magha … Suitable for killing, cheating, works involving use of fire, theft, poisoning, research on poisonous medicines, purchase sale and use of arms, surgical operations, obtaining licence of a gun etc, administering medicine, ignite, vandalism and violent acts"; "4. Mixed & ordinary … Vishakha and Krittika … Good for fire works, welding, melting, gas works, fabrications, preparing medicines …"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"Medical- Treatment of disease & taking medicine", printed pp.275-277 (PDF 283-285): "Nakshatra: Asvini, Mrigasira, Punarvasu, Pushya, Hasta, Chitra, Svati, Anuradha, Sravana, Dhanishtha, Satabhisha and Revati are favorable. Muhurta Chintamani also considers Mula as favorable while Kalaprakasika also considers Rohini, Uttaraphalguni, Uttarashadha and Uttarabhadrapada as favorable, which all of these can be taken as mediocre. Tara: Particularly avoid the Janma Nakshatra. Tithi: Particularly avoid the 4th, 9th, 14th and Amavasya. Vara: The Varas of the Sun, Moon, Mercury, Jupiter and Venus are favorable. Lagna: Dual Rasis with a benefic are best. Bhavas: There should be no planets in 7th, 8th and 12th"; also blood-letting (p.269), dental cleaning (p.272), laxatives (p.273)' },
     RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XV "Medical Elections", PDF pp.52-53: "Beginning Treatment. - If one is suffering from a chronic disease, the treatment should begin under Aswini, Rohini, Mrigasira, Punarvasu, Pushyami, Uttara, Uttarashadha, Uttarabhadra, Hasta, Chitta, Swati, Anuradha, Sravana, Dhanishta, Satabhisha, and Revati … In regard to long-standing diseases or recurrent fevers, the best time for taking medicine is Monday, Wednesday, Thursday and Friday, coinciding with Hasta, Aswini, Chitta and Punarvasu respectively and especially at the time when the Moon, Mercury, Jupiter and Venus occupy their own vargas and a moveable Rasi or Amsa is rising"' },
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3 "Administration of medicine", printed p.603 (PDF 640): "Tithi: a benefic Tithi other than Rikta. J.V. commends that Nanda & Poorna Tithis are suitable, especially when the Moon is Full. Day: Monday, Wednesday, Thursday & Friday. J.V. recommends Sunday also, but not Wednesday in the above list. Const.: Small (Hasta, Ashvani, Pushya), Sweet (Mrigshira, Chitra, Anuradha, Revati), Movable (Punarvasu, Swati, Shravana, Shatbhisha, Dhanishta) & Moola (M.C.) K.P. recommends Fixed (Rohini, 3 Uttras) in addition to the above asterisms; but directs to avoid Janma Nakshatra. Ascendant: Common signs are the best. J.V. recommends odd signs. Ascendant should be occupied by benefic including the Moon. 7, 8 & 12th houses should be vacant"' },
@@ -1757,6 +1811,8 @@ const SOURCES = deepFreeze({
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Medical matters", printed pp.132-133 (PDF 140-141): "For taking medicine, the movable the light and the soft asterisms and Moola are commended. Never begin taking the medicine in your janma Nakshatra. Prefer the dual lagnas. The placement of venus, Moon Jupiter or Mercury is most preferred. Sunday-Monday, Wednesday and Friday are good. The 6th and 12th house should lie vacant. Take medicine in the auspicious tithis. Never begin taking medicine on Sunday and Tuesday"' },
   },
   SURGERY: {
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 2 "Basic Components of Muhurta", printed p.10 (PDF 25): "(3) Ugra-Kroora (Aggressive Cruel) Poorvaphalguni, Poorvashada, Poorva bhadrapad, Bharani, Magha, and Tuesday are aggressive in nature and suitable for killing, cheating, works involving use of fire, theft, poisoning, research on poisonous medicines, purchase sale and use of arms, surgical operations, obtaining licence of a gun etc."' },
+    AGARWAL: { ...AGARWAL_GS, pageLocus: 'Classification of nakshatras, printed pp.298-299 (PDF 297-298): "3. Aggressive, cruel uggara, karoora Poorvaphalguni, Poorvashada, Poorvabhadra, Bharani, Magha … Suitable for killing, cheating, works involving use of fire, theft, poisoning, research on poisonous medicines, purchase sale and use of arms, surgical operations, obtaining licence of a gun etc, administering medicine, ignite, vandalism and violent acts"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"Medical- Surgery (including oral surgery, pulling & drilling teeth)", printed pp.273-274 (PDF 281-282): "In addition to what is given below for TREATMENT OF DISEASE … Nakshatra: Ardra, Aslesha, Jyeshtha and Mula are particularly favorable, followed by Krittika. Tara: Not only should the Janma Nakshatra particularly be avoided, it is best if the Moon is not in the same Rasi as the natal Moon. Tithi: Rikta Tithis (4th, 9th and 14th) are particularly favorable, followed by the 3rd and 13th … Avoid Purnima and the other generally unfavorable Tithis (6th, 8th, 12th and Amavasya). Vara: The Varas of Mars and Saturn are particularly favorable, though Varas other than that of the Sun are quite acceptable. Lagna: Aries, Taurus, Cancer and Virgo are most favorable. Bhavas: The 8th must be unoccupied … Grahas: Mars should be favorable and not influenced by Saturn"; cosmetic surgery, p.275' },
     RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XV "Medical Elections", PDF p.53: "Surgical Operations. - When possible, operate in the period of the intrease [sic] of the Moon. Never operate at the exact time of the Full Moon … Let not the Moon at the time of the operation be in the same sign as at birth … For surgical operations Tuesday or Saturday is recommended. Mars must be powerful. The 8th house should be unoccupied. And the ruling constellation is Aridra, Jyeshta, Aslesha or Moola coinciding with the 4th, 9th or 14th lunar day … Mutual aspects between Mars and Saturn should be avoided"' },
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.4 "Surgery", printed pp.604-605 (PDF 641-642): "B.J.S recommends Hasta, Chitra, Swati, Ashvani, Pushya, Shatbhisha, Rohini, Mrigshira, Shravana, Anuradha & Jyeshta are the best. However K.P recommend that surgery & other external treatments are beneficial in Sharp asterisms (Jyeshta, Ardra, Ashlesha, Moola); on Rikta Tithis; on Tuesday or Sunday, when Mars is powerful. 8th house should be unoccupied. Rising signs should be Aries, Taurus, Cancer or Virgo … The Moon should not be in 4th or 8th or 12th from J.R. Tara should be benefic & avoid Vinashika Tara. The rising sign should not be in 8th from J.R. or Janma Lagna. Planets should not be Ghaata in transit. The rising sign should be benefic having aspects of Jupiter & the Moon"' },
@@ -1765,6 +1821,7 @@ const SOURCES = deepFreeze({
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Medical matters", printed p.133 (PDF 141): "Surgical operation should be done on Tuesday or Sunday, when the 8th house is vacant and the 6th house is occupied by malefics, the sun and Moon should be in the kendras"' },
   },
   VEHICLE: {
+    AGARWAL: { ...AGARWAL_GS, pageLocus: 'Classification of nakshatras, printed pp.298-299 (PDF 297-298): "2. Movable chara, chala Swati, Punarvasu, Shravana, Dhanishtha, Satabhisha … Good for riding on vehicles, horses, elephants, starting of factory/machinery/vehical (wherever motion is profitable). All acts mentioned in Short and Dynamic nakshatras can also be done in diese nakshatras"; "5. Short and dynamic kshipra, laghu Hasta, Aswini, Pushya, Abhijit … Suitable for construction & starting a shop, selling, sex. starting education, making and wearing ornaments, fine arts, learning & display of arts etc., travelling, dancing, singing, acting, beauty parlours. All acts mentioned in movable nakshatras can also be done in these nakshatars"; "Straight or side looking Mrigshira, Revati, Chitra, Anuradha, Hasta, Swati, Punarvasu, Aswini and Jyestha are suitable for riding, driving, journey, construction of roads, buying pets, departure"' },
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 sloka 4, printed p.50 (PDF 54): "The Nakshtras Swati, Punarvasu, Shravana, Dhanistha, Satbhisha and the day of Monday-these are called Chara and Chala. In these Nakshtras and on this day such things as riding an elephant etc. walking in a garden and things which are too be done in the Nakshtras called Laghu may be auspiciously performed"; sloka 9 notes, printed p.53 (PDF 57): "And Anuradha, Hasta, Swati, Poonarvasu, Jyestha and Ashwini, these are called Tiryaka Mukha Nakshtras … In these Nakshtras it is auspicious to make purchases of elephant, horse, camel, ox etc. and to train them. Ploughing, … learning to drive motor bus …"' },
     JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 2 "Basic Components of Muhurta", printed pp.9-11 (PDF 24-26): "(2) Char-Chala (Movable) Swati, Punarvasu, Shravana, Dhanishtha Satbhisha and Monday are movable in nature. All movable activities like riding on vehicles, horses, elephants and journeys and any other act needing motion can be done in these nakshatras"; "(5) Kshipra - Laghu … Hasta, Ashwini, Pushya, Abhijit and Thursday … All acts done under Char-Chala (Movable) nakshatras can also be done in these"; "(iii) Tiryang-Mukha … Mrigshira, Revati, Chitra, Anuradha, Hasta, Swati, Punarvasu, Ashwini and Jyestha are facing straight and are suitable for riding, driving, journey"; p.25 (PDF 40): "chose movable signs (1/4/7/10 rashis) for activities needing motion e.g., journey, riding, driving, starting business and so on"' },
     RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter IV "Influence of Constellations", PDF p.9: "Saravana, Dhanishta, Satabhisha, Punarvasu and Swati are movable stars and they are auspicious for acquiring vehicles, for gardening and for going on procession"' },
@@ -1782,6 +1839,7 @@ const SOURCES = deepFreeze({
     WILHELM: { ...WILHELM_E, pageLocus: '"Vehicles- Manufacturing", printed p.329 (PDF 337): "Nakshatra: Asvini, Rohini, Mrigasira, Punarvasu, Pushya, Hasta, Chitra, Svati, Visakha, Anuradha, Jyeshtha, Sravana, Dhanishtha, Satabhisha and Revati are favorable. Tithi: The 1st, 3rd, 5th, 6th, 10th, 11th and 13th are most favorable. The 2nd, 7th and Purnima are middling. Lagna: Taurus, Gemini, Virgo, Libra, Sagittarius and Pisces are favorable"' },
   },
   NEW_CLOTHES: {
+    AGARWAL: { ...AGARWAL_GS, pageLocus: 'Classification of nakshatras, printed pp.298-299 (PDF 297-298): "6. Gentle friendly mridu, maitri Mrigshira, Revati, Chitra, Anuradha … Good for all auspicious ceremonies, 16 samskaras, start of occupation/service/business, singing, learning, music, making & wearing clothes, playing, learning game, making friends, making & wearing ornamnets … All acts mentioned in Fixed and Constant nakshatras can also be done in these nakshatras"; "A. 1. Fixed sthira (constant) Utlaraphalguni, Uttarashada, Uttarabhadra, Rohini … Good for coronation, foundation laying, digging a well, house building, upnayana, nagar or graha pravesha, agriculture or horticulture, starting service, etc. and All acts mentioned in Gentle and Friendly nakshatras can also be done in these"' },
     VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: 'Tithi uses (after Piyooshdhara), printed pp.42-44 (PDF 29-31): "(vi) Shashthi All auspicious works related to war, shilpa, vastu, ornaments, dresses …"; "(x) Dashami … vastra, ornaments …"; "(xiii) Trayodashi (Shukla Paksha) … wearing of new clothes and jewellery etc. are all suitable"; "(xvi) Amavasya (30) … auspicious works and cohabitation should not be done"; p.46 (PDF 33): "(i) Nanda (Lord Venus) One can use new clothes …"; weekdays, printed pp.54-55 (PDF 41-42): Sunday "… wearing of new clothes etc.", Thursday "… wearing of new clothes …", Friday "… wearing of new clothes and ornaments …"; nakshatras, printed pp.56-58 (PDF 43-45): "Dhruva (fixed) nakshatra … new clothing …"; "Mridu … Wearing of new clothes …"; "Teekshna or daruna … wearing of new clothes and ornaments are permissible"' },
     RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter X "Elections Concerning General Matters", PDF p.36: "Wearing New Clothes. - Aswini, Rohini, Punarvasu, Pushyami, Uttara, Hasta, Chitta, Swati, Visakha, Dhanishta and Revati are the best. Monday, Wednesday, Thursday and Friday are good. Sunday is middling. Tuesday and Saturday are inauspicious. The 4th, 9th, 14th lunar days and New Moon day should be avoided. The Moon should be as far as possible in good aspect to the Sun"' },
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.14.1 "Wearing of new clothes", printed pp.561-562 (PDF 599-600): "Tithi: 2,3,5,7,10,11 & 13 are the best Tithis. Rikta (4,9,13) Tithis & the New Moon day should be avoided. Day: Wednesday, Thursday & Friday are the best; & their lords\' amshas are benefic. Sunday & Monday are middling; avoid Sunday & Tuesday … Const.: Stationary (Rohini, 3 Uttras), Small (Hasta, Ashvani, Pushya), Punarvasu, Chitra, Swati, Vishakha, Anuradha, Dhanishta & Revati, are the most felicitous … Ascendant: 2,3,6,7,11 & 12 are suitable, balance be rejected … New clothes should not be worn by wife when the Moon is transiting 4,8,12 places from the husband\'s J.R."' },
@@ -1792,6 +1850,7 @@ const SOURCES = deepFreeze({
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Wearing new clothes", printed p.131 (PDF 139): "Hasta, Chitra, Swati, visakha, Anuradha, Dhanishtta and Revati are good for women, and for men those asterisms and Pushyami, Aswini, Uttara, Uttarashada and Uttarabhadra, Punarvasu and Rohini are good. Sunday, Wednesday, thursday and Friday are good"' },
   },
   NEW_ORNAMENTS: {
+    AGARWAL: { ...AGARWAL_GS, pageLocus: 'Classification of nakshatras, printed pp.298-299 (PDF 297-298): "5. Short and dynamic kshipra, laghu Hasta, Aswini, Pushya, Abhijit … Suitable for construction & starting a shop, selling, sex. starting education, making and wearing ornaments, fine arts, learning & display of arts etc., travelling, dancing, singing, acting, beauty parlours. All acts mentioned in movable nakshatras can also be done in these nakshatars"; "6. Gentle friendly mridu, maitri Mrigshira, Revati, Chitra, Anuradha … Good for all auspicious ceremonies, 16 samskaras, start of occupation/service/business, singing, learning, music, making & wearing clothes, playing, learning game, making friends, making & wearing ornamnets … All acts mentioned in Fixed and Constant nakshatras can also be done in these nakshatras"; "2. Movable chara, chala Swati, Punarvasu, Shravana, Dhanishtha, Satabhisha … Good for riding on vehicles, horses, elephants, starting of factory/machinery/vehical (wherever motion is profitable). All acts mentioned in Short and Dynamic nakshatras can also be done in diese nakshatras"; "A. 1. Fixed sthira (constant) Utlaraphalguni, Uttarashada, Uttarabhadra, Rohini … Good for coronation, foundation laying, digging a well, house building, upnayana, nagar or graha pravesha, agriculture or horticulture, starting service, etc. and All acts mentioned in Gentle and Friendly nakshatras can also be done in these"' },
     VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: 'Tithi uses (after Piyooshdhara), printed pp.41-44 (PDF 28-31): "(ii) Dwiteeya Marriage, travel, bhushan (ornaments) …"; "(iii) Triteeya … abhushan-related works … purchase and use of jewellery are permissible"; "(v) Panchami … all the works that are permissible on dwiteeya and triteeya can be performed on this tithi"; "(vi) Shashthi … ornaments, dresses …"; "(vii) Saptami … making of ornaments and wearing them …"; "(x) Dashami … vastra, ornaments …"; "(xiii) Trayodashi (Shukla Paksha) … wearing of new clothes and jewellery"; "(xv) Poornamasi Shilpa, ornaments …"; "(xvi) Amavasya (30) … auspicious works … should not be done"; p.46 (PDF 33): "(ii) Bhadra … making of ornaments and their use"; weekdays, pp.54-55 (PDF 41-42): Monday "Making and wearing of ornaments", Thursday "purchase and sale of ornaments … donning of new ornaments", Friday "wearing of new clothes and ornaments"; nakshatras, pp.56-58 (PDF 43-45): Dhruva "making and wearing of ornaments", Chara "getting gold, silver and gem jewellery", Kshipra "using and purchasing ornaments", Teekshna "wearing of new clothes and ornaments are permissible"' },
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Kinds of tithis", printed p.6 (PDF 14): "2) BHADRA … Upanayana, marriage, wearing of ornaments, activities connected with vehicles"; p.10 (PDF 18): "11th Temple activities, house construction, preparation of liquors, travel wearing new clothes and ornaments etc."; "13th All auspicious activities mentioned above, but oilbath, wearing new clothes and ornaments and yajnopaveeta dharana are prohibited"; "Kinds of asterisms", pp.17-18 (PDF 25-26): "(1) FIXED : Rohini, Uttara, Uttarashada, Uttarabhadra favourable for the seed-sowing, wearing new clothes, and ornaments …"; "(6) SHARP : Ardra, Aslesha, Moola and Jyeshtta - for … wearing gold ornaments …"' },
     RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter IV "Influence of Constellations", PDF p.9: "Aswini, Pushya, Hasta and Abhijit are light constellations, and they can be selected for putting ornamentation, pleasures and sports, administering medicine, starting industries and undertaking travels"' },
@@ -1802,6 +1861,7 @@ const SOURCES = deepFreeze({
     JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 13 "Wearing clothes and ornaments", printed p.146 (PDF 161): "Nakshatras: All fixed nakshatras (i.e. Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini), all short nakshatras (i.e. Hasta, Ashwini, Pushya and Abhijit), Revati, Chitra, Anuradha, Swati, Punarvasu, Dhanistha and Vishakha nakshatras. Tithis: Avoid Rikta tithis and Amavasya. Days: Sunday, Monday, Thursday and Friday are considered auspicious. Yogas: Avoid Vyatipaat and Vaidhriti yogas. One should also avoid Bhadra and malefic yogas formed by tithi-vaar-nakshatra. Proper Chandra/Tara Shuddhi is necessary. A married women should not wear new clothes or ornaments on Sunday and in Uttaraphalguni, Uttarashada, Uttarabhadrapad Rohini, Punarvasu and Pushya nakshatras"' },
   },
   ORNAMENT_MAKING: {
+    AGARWAL: { ...AGARWAL_GS, pageLocus: 'Classification of nakshatras, printed pp.298-299 (PDF 297-298): "5. Short and dynamic kshipra, laghu Hasta, Aswini, Pushya, Abhijit … Suitable for construction & starting a shop, selling, sex. starting education, making and wearing ornaments, fine arts, learning & display of arts etc., travelling, dancing, singing, acting, beauty parlours. All acts mentioned in movable nakshatras can also be done in these nakshatars"; "6. Gentle friendly mridu, maitri Mrigshira, Revati, Chitra, Anuradha … Good for all auspicious ceremonies, 16 samskaras, start of occupation/service/business, singing, learning, music, making & wearing clothes, playing, learning game, making friends, making & wearing ornamnets … All acts mentioned in Fixed and Constant nakshatras can also be done in these nakshatras"; "2. Movable chara, chala Swati, Punarvasu, Shravana, Dhanishtha, Satabhisha … Good for riding on vehicles, horses, elephants, starting of factory/machinery/vehical (wherever motion is profitable). All acts mentioned in Short and Dynamic nakshatras can also be done in diese nakshatras"; "A. 1. Fixed sthira (constant) Utlaraphalguni, Uttarashada, Uttarabhadra, Rohini … Good for coronation, foundation laying, digging a well, house building, upnayana, nagar or graha pravesha, agriculture or horticulture, starting service, etc. and All acts mentioned in Gentle and Friendly nakshatras can also be done in these"' },
     VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: 'Tithi uses (after Piyooshdhara), printed pp.42-44 (PDF 29-31): "(vii) Saptami … making of ornaments and wearing them …"; "(ix) Navami Hunting, quarrel, gambling, making ornaments …"; "(x) Dashami … All ceremonies that can be done on dwiteeya, triteeya, panchami and saptami can be done on dashami also"; "(xvi) Amavasya (30) … auspicious works … should not be done"; p.46 (PDF 33): "(ii) Bhadra … making of ornaments and their use"; weekdays, p.54 (PDF 41): "Monday … Making and wearing of ornaments"; nakshatras, pp.57-58 (PDF 44-45): Dhruva "making and wearing of ornaments"; Mridu "making of ornaments"' },
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Kinds of asterisms", printed pp.17-18 (PDF 25-26): "(2) MOVABLE : Punarvasu, Swati, Sravana, Dhanishtta, Satabhisha --favoured for vehicle-drive, gardening, opening shop, sexual intercourse, for giving to make the articles of gold, silver and for jewellery"; "(4) LIGHT : Aswini, Pushyami, Hasta, Abhijit - for the activities mentioned for the movable asterisms …"' },
     JOSHI: { ...JOSHI_KK, pageLocus: '"Acts relating to gold, gold ornaments", printed pp.107-108 (PDF 122-123): "All movable nakshatras (i.e. Swati, Punarvasu, Shravana, Dhanistha and Shatbhisha), all ordinary nakshatras (i.e. Vishakha and Kritika), all short nakshatras (Hasta, Ashwini, Pushya and Abhijit) Mrigshira and Chitra nakshatras; Sunday, Tuesday, Thursday and Friday; ascendents of 1/2/5/7/8/9/12 rashis with Jupiter and Moon strongly placed in lagna are considered good for all acts relating to gold. The above muhurta can also be used for starting a business relating to manufacturing/trading in silver ornaments, artificial jewellery and the like"' },
@@ -1966,7 +2026,7 @@ const NOTES_SURGERY_TA = Object.freeze([
 const NOTES_VEHICLE_TA = Object.freeze([
   'வாகனம் வாங்குதல், முதன்முதலில் ஓட்டுதல், ஓட்டப் பழகுதல். வசிஷ்டா (ப.137): வாகனம் ஓட்டுதல் / வாங்குதல் "சர இயல்புடைய காரியம் — சர லக்னமே பொருத்தம்".',
   'கல்யாணராமனில் இரண்டு பகுதிகள் — வாங்குதல் / ஓட்டப் பழகுதல் (ப.186), புது வாகனம் ஓட்டுதல் (ப.242): இரண்டும் தனி வாசிப்புகள். ஸ்ரீதர் §25.5 "தேர் — போக்குவரத்து வேலைகள்": வாகனம் தயாரித்தலிலும் அதே வாசிப்பு.',
-  'மு.சி., ஜோஷி, ராமன், ரங்காச்சார்யாவில் வாங்குதல் / ஓட்டுதலுக்குத் தனிப் பகுதி இல்லை — அவற்றின் திதி / நட்சத்திர / ராசி வகைப் பட்டியல்களில் இக்காரியம் பெயரிடப்பட்ட இடங்களிலிருந்து வாசிப்பு (பொதுப் பட்டியல்: பெயரிட்ட நட்சத்திரங்கள் மட்டும்; பெயரிட்ட திதி / கிழமை / லக்னம் நல்லவை, மற்றவை நடுத்தரம் — எங்கள் வாசிப்பு). அகர்வாலில் இல்லை; ஜோஷி (ப.107) — தயாரித்தல் / வியாபாரம்.',
+  'மு.சி., ஜோஷி, ராமன், ரங்காச்சார்யா, அகர்வாலில் வாங்குதல் / ஓட்டுதலுக்குத் தனிப் பகுதி இல்லை — அவற்றின் திதி / நட்சத்திர / ராசி வகைப் பட்டியல்களில் இக்காரியம் பெயரிடப்பட்ட இடங்களிலிருந்து வாசிப்பு (பொதுப் பட்டியல்: பெயரிட்ட நட்சத்திரங்கள் மட்டும்; பெயரிட்ட திதி / கிழமை / லக்னம் நல்லவை, மற்றவை நடுத்தரம் — எங்கள் வாசிப்பு). ஜோஷி (ப.107) — தயாரித்தல் / வியாபாரம்.',
 ]);
 const NOTES_VEHICLE_MAKE_TA = Object.freeze([
   'வாகனம் தயாரித்தல், விற்றல் / வாங்குதல் — வியாபாரமாக. ஸ்ரீதர் §25.5 "தேர் சம்பந்தமான எல்லா வேலைகளும்" — வாங்கி ஓட்டுதலிலும் அதே வாசிப்பு.',

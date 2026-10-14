@@ -141,7 +141,7 @@ for (const book of BU.order) {
   for (const d of v.days) {
     assert.ok(!d.codes.some((c) => ['LAGNA', 'EMPTY_8', 'EMPTY_12', 'JUP_VEN_SET', 'MOON_VENUS_LAGNA_MID', 'MOON_MERC_LAGNA_MID', 'BENEFIC_PLACE_MID', 'TARA_NOT', 'CHANDRA'].includes(c)), `${book} ${d.date}: only sunrise rules`);
     assert.ok(d.notes.every((n) => !/^[A-Z_]+$/.test(n)), `${book} ${d.date}: in Tamil`);
-    assert.equal(d.codes.includes('VARA'), d.weekday === 'Tuesday', `${book} ${d.date}: Tuesday`);
+    if (BU[book].vara) assert.equal(d.codes.includes('VARA'), d.weekday === 'Tuesday', `${book} ${d.date}: Tuesday`);
   }
   assert.ok(v.days.some((d) => d.score >= 70), `${book}: some good sunrises`);
   // Phalguna's full Moon at sunrise (Holi, March 2027): Vashistha's Bhurudan day.
