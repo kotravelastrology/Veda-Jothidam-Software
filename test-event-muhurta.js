@@ -1140,6 +1140,36 @@ const SF = FIX.surgery;
   for (const c of ['EMPTY_6', 'EMPTY_7', 'BEN_LAGNA_MID', 'MARS_SATURN', 'MARS_SATURN_MUTUAL', 'MALEFIC_6_MID', 'SUN_MOON_KENDRA_MID']) assert.ok(E.CODE_TA[c], c);
 }
 
+// ------------------------------------------------ only the chosen act is computed (2026-10-14) ---
+{
+  const base = { natalMoonLongitude: 45.5, natalLagnaLongitude: 200, fromMs: Date.parse('2027-01-19T18:30:00Z'), toMs: Date.parse('2027-01-21T18:30:00Z'), latitude: 13.08, longitude: 80.27 };
+  const all = muhurtaStarChecks(base);
+  const one = muhurtaStarChecks({ ...base, events: ['SURGERY'] });
+  const none = muhurtaStarChecks({ ...base, events: ['MARRIAGE'] });
+  assert.deepEqual(all.events, [...E.EVENTS.order]);
+  assert.deepEqual(one.events, ['SURGERY']);
+  assert.deepEqual(none.events, [], 'marriage has no act rules of its own');
+  for (const s of one.segments) assert.deepEqual(Object.keys(s.ev), ['SURGERY']);
+  // The same codes as the full run, piece by piece and stretch by stretch.
+  const at = (r, ms) => r.segments.find((s) => Date.parse(s.fromUtc) <= ms && ms < Date.parse(s.toUtc));
+  for (const s of one.segments) {
+    const mid = (Date.parse(s.fromUtc) + Date.parse(s.toUtc)) / 2;
+    assert.deepEqual(s.ev.SURGERY, at(all, mid).ev.SURGERY, s.fromUtc);
+    for (const st of s.lagnas) {
+      // A stretch's ends are seconds from the period's start.
+      const t = base.fromMs + ((st[0] + st[1]) / 2) * 1000;
+      const full = at(all, t).lagnas.find((x) => base.fromMs + x[0] * 1000 <= t && t < base.fromMs + x[1] * 1000);
+      assert.deepEqual(one.eventTable[st[10]].SURGERY, all.eventTable[full[10]].SURGERY);
+    }
+  }
+  assert.ok(one.segments.length <= all.segments.length, 'fewer or as many pieces');
+  // Only the chosen act's tables go to the page.
+  const lg = one.books.lagna;
+  assert.deepEqual(Object.keys(lg.eventSources).sort(), ['MONTHS', 'SURGERY', 'VISHTI']);
+  assert.deepEqual(lg.eventRules.order, ['SURGERY']);
+  assert.ok(lg.eventRules.SURGERY && !lg.eventRules.TRAVEL && lg.eventNotesTa.SURGERY && !lg.eventNotesTa.TRAVEL && lg.eventRank.SURGERY);
+}
+
 // ------------------------------------------------ recovery bath: the tables against the books ---
 const RS = E.EVENTS.ROGA_SNANA;
 const RF = FIX.roga_snana;

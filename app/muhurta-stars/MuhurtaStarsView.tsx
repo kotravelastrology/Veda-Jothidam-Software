@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeMuhurtaStars } from './actions';
 
@@ -84,15 +84,21 @@ export default function MuhurtaStarsView() {
   const [eventPlace, setEventPlace] = useState<{ name?: string; latitude: number; longitude: number } | null>(null);
   const [show, setShow] = useState<Show>('ALL');
 
+  // The readings start at their defaults for a new person, period or place — not when only the act changes.
+  const readingsFor = useRef<string | null>(null);
   useEffect(() => {
     if (!party) { setResult(null); return; }
     let cancelled = false;
     setLoading(true); setError(null);
     const who = party.kind === 'profile' ? { profile: { profileId: party.profileId, revision: party.revision } } : { form: party.input };
-    computeMuhurtaStars({ ...who, fromDate: fromDate || undefined, days, place: eventPlace ?? undefined, direction: direction || undefined })
+    const key = JSON.stringify([who, fromDate, days, eventPlace, direction]);
+    // Only the chosen act's own rules are computed (each act adds to every piece and lagna stretch).
+    computeMuhurtaStars({ ...who, fromDate: fromDate || undefined, days, place: eventPlace ?? undefined, direction: direction || undefined, events: [lagnaEvent] })
       .then((r) => {
         if (cancelled) return;
         setResult(r);
+        if (readingsFor.current === key) return;
+        readingsFor.current = key;
         setPlace({ name: r.eventPlace.name ?? '', latitude: String(r.eventPlace.latitude), longitude: String(r.eventPlace.longitude) });
         setLagnaReading({});
         setRahu(r.books.rahu.default); setPadaRule(r.books.padaRules.default); setVainashika(r.books.vainashika.default);
@@ -105,7 +111,7 @@ export default function MuhurtaStarsView() {
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [party, fromDate, days, eventPlace, direction]);
+  }, [party, fromDate, days, eventPlace, direction, lagnaEvent]);
   // A new person starts at their birth place.
   useEffect(() => { setEventPlace(null); }, [party]);
 
@@ -148,7 +154,9 @@ export default function MuhurtaStarsView() {
 
   // An event with its own rules (eventMuhurtaTables.js): the chosen book's codes, with the door's rules.
   const isReject = (c: string) => !c.endsWith('_MID');
-  const evName: string | undefined = B?.lagna.events[lagnaEvent]?.event;
+  // The act's own rules once the result for it has come (a switch recomputes; until then, the general rules only).
+  const evWanted: string | undefined = B?.lagna.events[lagnaEvent]?.event;
+  const evName: string | undefined = evWanted && (result?.events ?? []).includes(evWanted) ? evWanted : undefined;
   const evRule = evName ? B.lagna.eventRules[evName][eventBook[evName] ?? B.lagna.eventRules[evName].default] : null;
   const evBookId = evName ? (eventBook[evName] ?? B.lagna.eventRules[evName].default) : null;
   // The door's direction matters only where a book of the event gives door rules (house entry).

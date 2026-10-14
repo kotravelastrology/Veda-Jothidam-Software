@@ -24,6 +24,8 @@ export interface MuhurtaStarsRequest {
   place?: { name?: string; latitude: number; longitude: number };
   /** A journey's direction ('E' … 'NE'), for travel's rules; none when omitted. */
   direction?: string;
+  /** The acts (lagna shuddhi events) whose own rules are computed — the chosen one; none for marriage or another act. */
+  events?: string[];
 }
 
 /**
@@ -71,6 +73,7 @@ export async function computeMuhurtaStars(req: MuhurtaStarsRequest) {
     latitude: eventPlace.latitude, longitude: eventPlace.longitude,
     natalLongitudes: Object.fromEntries(Object.entries(chart.grahas).map(([p, g]: [string, any]) => [p, g.longitude])),
     direction: req.direction || null,
+    events: Array.isArray(req.events) ? req.events.filter((e) => typeof e === 'string').slice(0, 4) : [],
   });
   return JSON.parse(JSON.stringify({
     ...result, fromDate, days, eventPlace,

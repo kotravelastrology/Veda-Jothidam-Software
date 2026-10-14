@@ -127,7 +127,7 @@ const lagnaKeyParts = (key) => {
  * motion constant in each, and lagna shuddhi computed for it. Returns a
  * function of the piece, or null without a place.
  */
-function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType, natalLagnaLongitude, natalMoonSign, natalLongitudes, tithiSegAt, dir = null }) {
+function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType, natalLagnaLongitude, natalMoonSign, natalLongitudes, tithiSegAt, dir = null, evOrder = EV.EVENTS.order }) {
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
   const PAD = 3 * 3600000;
   const MIN = 60000;
@@ -338,7 +338,7 @@ function lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType
         // Each event's own rules for this stretch, book by book, and the Sun's house (for the door).
         e: evTable.ref({
           sunHouse: ((piece.signs.Sun - sign + 12) % 12) + 1,
-          ...Object.fromEntries(EV.EVENTS.order.map((ev) => [ev, stretchCodesOf(ev, {
+          ...Object.fromEntries(evOrder.map((ev) => [ev, stretchCodesOf(ev, {
             lagna: sign, nav: n108 % 12, signs: piece.signs, natalLagna, natalMoon: natalMoonSign, combust: motionAt(mid).combust,
             dayPart: dayPartAt(mid), pradosha: pradoshaAt(mid), tithi: piece.tithi, star: Math.floor(piece.moonPada / 4),
             // Travel: the direction, the night's third, ghatis since sunrise, Abhijit muhurta, the planets' motion, the Moon in Abhijit.
@@ -469,11 +469,18 @@ function lattaOf(moonPada, kickerPadas) {
  * @param latitude, longitude the event's place: the lagna (shuddhi and the 88th-pada remedy), sunrise and sunset
  * @param natalLongitudes     { planet: sidereal longitude } at birth, for Shridhar §13.10.3 (optional)
  * @param direction           a journey's direction, 'E' … 'NE' (eventMuhurtaTables DIRECTIONS), for travel's rules (optional)
+ * @param events              the events (eventMuhurtaTables EVENTS) whose own rules are computed — all when omitted; the
+ *                            page asks for the chosen one, since each event adds to every piece and lagna stretch
  */
-function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, toMs, atMs = Date.now(), ayanamsha = 'Lahiri', nodeType = 'mean', latitude, longitude, natalLongitudes = null, direction = null }) {
+function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, toMs, atMs = Date.now(), ayanamsha = 'Lahiri', nodeType = 'mean', latitude, longitude, natalLongitudes = null, direction = null, events = null }) {
   if (!Number.isFinite(natalMoonLongitude)) throw new UnsupportedInputError('natalMoonLongitude is required', 'natalMoonLongitude');
   if (!(toMs > fromMs) || toMs - fromMs > MAX_DAYS * DAY_MS) throw new UnsupportedInputError(`period must be 1-${MAX_DAYS} days`, 'toMs');
   const dir = direction === null || direction === undefined || direction === '' ? null : EV.DIRECTIONS.order.indexOf(direction);
+  // A lagna shuddhi event's name (MARRIAGE, OTHER …) maps to its own rules' event, where it has one.
+  const wanted = Array.isArray(events) ? events.map((e) => L.EVENTS[e]?.event ?? e) : null;
+  const evOrder = wanted ? EV.EVENTS.order.filter((e) => wanted.includes(e)) : EV.EVENTS.order;
+  // The books' tables for those events only (the others' run to hundreds of kilobytes); the rest of each table as it is.
+  const onlyEvents = (t) => Object.fromEntries(Object.entries(t).filter(([k]) => !EV.EVENTS.order.includes(k) || evOrder.includes(k)));
   if (dir === -1) throw new UnsupportedInputError(`direction must be one of ${EV.DIRECTIONS.order.join(', ')}`, 'direction');
   const natalLagnaSign = Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null;
   const janmaPada = padaOf(natalMoonLongitude);
@@ -576,7 +583,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
     const abhijit = moonInAbhijit(star, slice);
     const star28 = (inAbh, s) => (inAbh ? 21 : s <= 20 ? s : s + 1);
     const rahu28 = star28(Boolean(bits & (1 << DOSHA_PLANETS.indexOf('Rahu'))), Math.floor(kickerPadas.Rahu / 4));
-    const ev = Object.fromEntries(EV.EVENTS.order.map((e) => [e, piecesCodesOf(e, {
+    const ev = Object.fromEntries(evOrder.map((e) => [e, piecesCodesOf(e, {
       star, tithi, month, sunSign: planetSigns.Sun, sunStar, sunDeg: keyAt('sunDeg', mid) % 30, yoga: keyAt('yoga', mid),
       vishti: isVishti(keyAt('karana', mid)), sankranti: sankrantiAt(mid), taraCount: tara.count, signs, navs, moonPada, natalMoon: natalSign,
       vedha: { PANCHA: Boolean(doshas.VEDHA.readings.PANCHA), SAPTA: Boolean(doshas.VEDHA.readings.SAPTA) }, bana: Boolean(doshas.BANA.readings.SUN_DEGREE),
@@ -591,7 +598,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
     pieces.push({ sig, fromMs: a, toMs: b, moonPada, latta, personal, tara, chandra, taraVerdicts, chandraBala, tithi, doshas, signs, month, sunStar, ev, abhijit, vijaya: vijayaAt(mid) });
   }
 
-  const lagnasFor = lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType, natalLagnaLongitude, natalMoonSign: natalSign, natalLongitudes, tithiSegAt, dir });
+  const lagnasFor = lagnaStretches({ fromMs, toMs, latitude, longitude, ayanamsha, nodeType, natalLagnaLongitude, natalMoonSign: natalSign, natalLongitudes, tithiSegAt, dir, evOrder });
 
   // The remedy, inside the 88th pada: the lagna sign through those hours.
   const remedyFor = (a, b) => {
@@ -636,6 +643,8 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
     },
     place: Number.isFinite(latitude) && Number.isFinite(longitude) ? { latitude, longitude } : null,
     direction: dir === null ? null : EV.DIRECTIONS.order[dir],
+    // The events whose own rules were computed (`ev` on each piece, `eventTable`).
+    events: evOrder,
     segments,
     // Jamitra from the lagna: [signs → planets in their 7th, lagna navamsas (padas) → planets in their 55th].
     jamitraLagnas: lagnaTable.map((s) => JSON.parse(s)),
@@ -670,7 +679,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
         common: L.COMMON, commonWhyTa: L.COMMON_WHY_TA, events: L.EVENTS, scope: L.SCOPE, scopeOutTa: L.SCOPE_OUT_TA,
         adverse: L.ADVERSE, adverseTa: L.ADVERSE_TA, adverseCautionTa: L.ADVERSE_CAUTION_TA,
         tiers: L.TIERS, tierTa: L.TIER_TA, tierNoteTa: L.TIER_NOTE_TA,
-        eventRules: EV.EVENTS, doors: EV.DOORS, monthTa: EV.MONTH_TA, starTa: NAKSHATRA_TA, eventRank: EV.RANK, eventSources: EV.SOURCES, eventCodeTa: EV.CODE_TA, eventNotesTa: EV.NOTES_TA, eventYears: EV.UPANAYANA_YEARS, directions: EV.DIRECTIONS,
+        eventRules: { ...onlyEvents(EV.EVENTS), order: evOrder }, doors: EV.DOORS, monthTa: EV.MONTH_TA, starTa: NAKSHATRA_TA, eventRank: onlyEvents(EV.RANK), eventSources: onlyEvents(EV.SOURCES), eventCodeTa: EV.CODE_TA, eventNotesTa: onlyEvents(EV.NOTES_TA), eventYears: EV.UPANAYANA_YEARS, directions: EV.DIRECTIONS,
         natalLagna: Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null,
       },
     },
