@@ -1251,6 +1251,8 @@ const RF = FIX.roga_snana;
   ])]);
   const signsOf = (ns) => sorted(ns.map((n) => n - 1));
   const RULE_KEYS_IGNORED = ['labelTa', 'booksTa', 'noteTa', 'linesTa', 'digdwar'];
+  const YOGA_N = ['Vishkumbha', 'Priti', 'Ayushman', 'Saubhagya', 'Shobhana', 'Atiganda', 'Sukarma', 'Dhriti', 'Shula', 'Ganda', 'Vriddhi', 'Dhruva', 'Vyaghata',
+    'Harshana', 'Vajra', 'Siddhi', 'Vyatipata', 'Variyan', 'Parigha', 'Shiva', 'Siddha', 'Sadhya', 'Shubha', 'Shukla', 'Brahma', 'Indra', 'Vaidhriti'];
   for (const [ev, A] of Object.entries(FIX.acts ?? {})) {
     const T = E.EVENTS[ev];
     assert.ok(T, `${ev}: an event`);
@@ -1284,6 +1286,11 @@ const RF = FIX.roga_snana;
       if (f.empty) assert.deepEqual([...r.empty], f.empty, `${at}: empty houses`);
       if (f.nav_marked) assert.deepEqual(sorted(r.navMid), signsOf(f.nav_marked), `${at}: navamsas marked`);
       if (f.not_in) assert.deepEqual(r.notIn.map(([p, h, mid]) => [[...p], [...h], Boolean(mid)]), f.not_in, `${at}: planets kept out`);
+      if (f.nav_good) assert.deepEqual(sorted(r.navGood), signsOf(f.nav_good), `${at}: navamsas`);
+      if (f.benefic_in) assert.deepEqual(sorted(r.beneficIn), sorted(f.benefic_in), `${at}: benefics' places`);
+      if (f.malefic_in) assert.deepEqual(sorted(r.maleficIn), sorted(f.malefic_in), `${at}: malefics' places`);
+      if (f.yogas_not) assert.deepEqual(sorted(r.yogaNot), sorted(f.yogas_not.map((n) => YOGA_N.indexOf(n))), `${at}: yogas`);
+      for (const k of ['vishti', 'sankranti']) assert.equal(Boolean(r[k]), Boolean(f[k]), `${at}: ${k}`);
     }
   }
 }
