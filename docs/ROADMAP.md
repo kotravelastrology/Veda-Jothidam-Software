@@ -270,6 +270,12 @@ Not plan items, but real, and they should not be discovered at release:
   added 2026-10-14 from five books (Shridhar first), each its new-house rules
   plus the books' months and stars, combustion lifted. The first bath after
   recovery added the same day from eight books (Shridhar first; MC's and K.P.'s
-  schools both computed).
+  schools both computed). The other acts, family by family (the owner's request,
+  2026-10-14): vehicles, clothes and ornaments, then agriculture (eleven acts
+  with the Hala, Rahu, Vriksha, Venus and Navanna chakras computed from the
+  planets' stars); a whole-book audit added the readings the first searches
+  missed; books with no section for an act are read from their tithi / weekday /
+  star-class lists ("general lists"). Service, litigation, MC ch.2's others and
+  the crafts follow.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

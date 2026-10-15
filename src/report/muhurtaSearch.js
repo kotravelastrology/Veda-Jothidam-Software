@@ -18,7 +18,7 @@
  * /muhurta-stars.
  */
 const { julianDay } = require('@swisseph/node');
-const { sunriseJulianDay, sunMoonLongitudes, siderealAscendant } = require('../ephemeris/siderealPositions');
+const { sunriseJulianDay, sunMoonLongitudes, siderealAscendant, planetLongitude, nodeLongitude } = require('../ephemeris/siderealPositions');
 const { calculateDailyMuhurta } = require('./dailyMuhurta');
 const EV = require('./eventMuhurtaTables');
 const LT = require('./lagnaShuddhiTables');
@@ -42,6 +42,7 @@ function actPurposes() {
 const SUNRISE_RULES = Object.freeze([
   'masa', 'uttarayana', 'sunSign', 'harishayana', 'nak', 'nakAfter', 'abhijitOk', 'tithi', 'tithiMid', 'tithiNot', 'anadhyaya', 'galagraha', 'yogaNot', 'yogaHalfNot',
   'vishti', 'karanaFixed', 'kumbha', 'matrika', 'vara', 'holanta', 'holi', 'krishnaMid', 'vijayadashami', 'secondary',
+  'starCount', 'bhuRajasvala', 'agniNakshatra', 'karanaOnly', 'sunStarNot',
 ]);
 const ABHIJIT = Object.freeze([276 + 40 / 60, 280 + 53 / 60 + 20 / 3600]);
 const sunriseReading = (r) => Object.fromEntries(Object.entries(r).filter(([k]) => SUNRISE_RULES.includes(k)));
@@ -81,6 +82,13 @@ const PURPOSES = {
 };
 
 const norm = (d) => ((d % 360) + 360) % 360;
+/** The Sun's, Rahu's (mean node), Venus's and Mercury's stars at jd, and whether each is in Abhijit. */
+function starsAt(jd, sunLongitude) {
+  const lons = { Sun: sunLongitude, Rahu: nodeLongitude(jd, 'Lahiri', 'mean'), Venus: planetLongitude(jd, 'Venus', 'Lahiri'), Mercury: planetLongitude(jd, 'Mercury', 'Lahiri') };
+  return Object.fromEntries(Object.entries(lons).map(([p, l]) => [p, {
+    star: Math.floor(norm(l) / (360 / 27)) % 27, abhijit: norm(l) >= ABHIJIT[0] && norm(l) < ABHIJIT[1],
+  }]));
+}
 
 /** The lunar month (amanta) at jd: back to the new moon (Moon − Sun = 0), the Sun's sign there, plus one (Chaitra = Sun in Pisces). */
 function monthAt(jd) {
@@ -152,6 +160,9 @@ function searchMuhurta(q) {
       // How far into its star the Moon is (a cruel star's first ghatis), the yoga's half, the fixed karanas, the Moon in Abhijit.
       starFrac: (norm(moonLongitude) % (360 / 27)) / (360 / 27), yogaHalf: Math.floor(norm(moonLongitude + sunLongitude) / (180 / 27)) % 54,
       karanaFixed: isSthiraKarana(Math.floor(elong / 6)), moonAbhijit: norm(moonLongitude) >= ABHIJIT[0] && norm(moonLongitude) < ABHIJIT[1],
+      // Agriculture: the Sun's degree, the karana, and the stars a chakra counts the Moon's from (only when a book has one).
+      sunDeg: norm(sunLongitude) % 30, karana: Math.floor(elong / 6),
+      planetStars: reading.starCount ? starsAt(sunrise, sunLongitude) : null,
     };
     // Vijayadashami (Kalyanraman's vidyarambha): nothing else is considered.
     const codes = vijayadashamiOf(reading, x) ? [] : withSecondary(reading, [...panchangaCodes(reading, x), ...varaCodes(reading, wd)]);

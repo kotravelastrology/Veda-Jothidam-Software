@@ -767,12 +767,16 @@ const VF = FIX.vidyarambha;
     const inV = mid >= vStart && mid < vEnd;
     const signs = Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu'].map((p) => [p, Math.floor(lonOf(p, mid) / 30)]));
     signs.Ketu = (signs.Rahu + 6) % 12;
+    const inAbhijit = (l) => l >= 276 + 40 / 60 && l < 280 + 53 / 60 + 20 / 3600;
     const x = {
-      star: s.star, tithi: s.tithi, month: s.month, sunSign: s.sunSign, sunStar: s.sunStar, sunDeg: Math.floor(lonOf('Sun', mid)) % 30,
+      star: s.star, tithi: s.tithi, month: s.month, sunSign: s.sunSign, sunStar: s.sunStar, sunDeg: lonOf('Sun', mid) % 30,
       yoga: Math.floor(L360(moon + lonOf('Sun', mid)) / (360 / 27)), vishti: isVishti(Math.floor(elong(mid) / 6)), karanaFixed: isSthiraKarana(Math.floor(elong(mid) / 6)),
-      moonAbhijit: moon >= 276 + 40 / 60 && moon < 280 + 53 / 60 + 20 / 3600, taraCount: s.tara.count, signs, moonPada: s.star * 4 + s.pada - 1, natalMoon: 1,
-      sankranti: Math.floor(lonOf('Sun', tithiEdge(mid, -1) + 1000) / 30) !== Math.floor(lonOf('Sun', tithiEdge(mid, 1) - 1000) / 30), navs: {},
-      vijaya: inV,
+      moonAbhijit: inAbhijit(moon), taraCount: s.tara.count, signs, moonPada: s.star * 4 + s.pada - 1, natalMoon: 1,
+      sankranti: Math.floor(lonOf('Sun', tithiEdge(mid, -1) + 1000) / 30) !== Math.floor(lonOf('Sun', tithiEdge(mid, 1) - 1000) / 30),
+      navs: { Moon: (s.star * 4 + s.pada - 1) % 12 }, vijaya: inV,
+      // Agriculture: the karana; the Sun's, Rahu's, Venus's and Mercury's stars for the chakras.
+      karana: Math.floor(elong(mid) / 6),
+      planetStars: Object.fromEntries(['Sun', 'Rahu', 'Venus', 'Mercury'].map((p) => [p, { star: Math.floor(lonOf(p, mid) / (360 / 27)), abhijit: inAbhijit(lonOf(p, mid)) }])),
     };
     for (const b of VR.order) assert.deepEqual(s.ev.VIDYARAMBHA[b], pieceCodes(VR[b], x), `vidyarambha ${b} ${s.fromUtc}`);
     // Every act from business on, and every one added since, takes these inputs.
@@ -1273,6 +1277,7 @@ const RF = FIX.roga_snana;
   ])]);
   const signsOf = (ns) => sorted(ns.map((n) => n - 1));
   const RULE_KEYS_IGNORED = ['labelTa', 'booksTa', 'noteTa', 'linesTa', 'digdwar'];
+  const KARANA_N = ['Bava', 'Balava', 'Kaulava', 'Taitila', 'Gara', 'Vanija', 'Vishti'];
   const YOGA_N = ['Vishkumbha', 'Priti', 'Ayushman', 'Saubhagya', 'Shobhana', 'Atiganda', 'Sukarma', 'Dhriti', 'Shula', 'Ganda', 'Vriddhi', 'Dhruva', 'Vyaghata',
     'Harshana', 'Vajra', 'Siddhi', 'Vyatipata', 'Variyan', 'Parigha', 'Shiva', 'Siddha', 'Sadhya', 'Shubha', 'Shukla', 'Brahma', 'Indra', 'Vaidhriti'];
   for (const [ev, A] of Object.entries(FIX.acts ?? {})) {
@@ -1313,8 +1318,82 @@ const RF = FIX.roga_snana;
       if (f.malefic_in) assert.deepEqual(sorted(r.maleficIn), sorted(f.malefic_in), `${at}: malefics' places`);
       if (f.yogas_not) assert.deepEqual(sorted(r.yogaNot), sorted(f.yogas_not.map((n) => YOGA_N.indexOf(n))), `${at}: yogas`);
       for (const k of ['vishti', 'sankranti']) assert.equal(Boolean(r[k]), Boolean(f[k]), `${at}: ${k}`);
+      // Agriculture's rules: taras, chakras, months, karanas, the Sun's star, the Moon's navamsa, the weekday lord's lagna.
+      if (f.tara_not) assert.deepEqual([...r.taraNot], f.tara_not, `${at}: taras`);
+      if (f.empty_pref) assert.deepEqual([...r.emptyPref], f.empty_pref, `${at}: houses preferably empty`);
+      if (f.nav_not) assert.deepEqual(sorted(r.navNot), signsOf(f.nav_not), `${at}: navamsas avoided`);
+      if (f.star_count) assert.deepEqual(r.starCount.map((c) => ({ from: c.from, of: c.of, good: [...c.good], code: c.code, ...(c.mark ? { mark: true } : {}) })), f.star_count, `${at}: chakras`);
+      if (f.months) {
+        const mo = (ns) => sorted(ns.map((n) => idx(MONTH_N, n)));
+        assert.deepEqual({ good: sorted(r.masa.good), mid: sorted(r.masa.mid), strict: r.masa.strict }, { good: mo(f.months.good), mid: mo(f.months.mid), strict: f.months.strict }, `${at}: months`);
+      }
+      if (f.karana_only) assert.deepEqual([...r.karanaOnly], f.karana_only.map((k) => idx(KARANA_N, k)), `${at}: karanas`);
+      if (f.sun_star_not) assert.deepEqual(sorted(r.sunStarNot), stars(f.sun_star_not), `${at}: the Sun's star`);
+      if (f.moon_nav_good) assert.deepEqual([...Array(12).keys()].filter((s) => !r.moonNavMid.not.includes(s)), signsOf(f.moon_nav_good), `${at}: the Moon's navamsa`);
+      assert.equal(r.varaLordLagna, f.vara_lord_lagna, `${at}: the weekday lord's lagna`);
+      if (f.general_list) assert.ok(r.noteTa.startsWith('பொதுப் பட்டியல்'), `${at}: a general-list reading`);
     }
   }
+}
+
+// ------------------------------------------------ agriculture: the new keys' behaviour ---
+{
+  const { starCountFrom } = require('./src/report/eventMuhurta');
+  // The count: the Sun's star is 1; with Abhijit the 28 run Ashwini … Uttarashadha (0-20), Abhijit (21), Shravana … Revati (22-27).
+  assert.equal(starCountFrom({ star: 0 }, { star: 2 }, 27), 3);
+  assert.equal(starCountFrom({ star: 25 }, { star: 0 }, 27), 3, 'wraps round the 27: Uttarabhadra 1, Revati 2, Ashwini 3');
+  assert.equal(starCountFrom({ star: 0 }, { star: 20, moonAbhijit: false }, 28), 21);
+  assert.equal(starCountFrom({ star: 0 }, { star: 20, moonAbhijit: true }, 28), 22, 'Abhijit takes the 22nd');
+  assert.equal(starCountFrom({ star: 0 }, { star: 21 }, 28), 23, 'Shravana follows Abhijit');
+  assert.equal(starCountFrom({ star: 20, abhijit: true }, { star: 21 }, 28), 2, 'from Abhijit');
+
+  const PL = E.EVENTS.PLOUGHING;
+  // MC's Hala chakra (28 with Abhijit): 1-8 and 18-25 from the Sun's star are good (3 bad before, 8, 9, 8).
+  const ploughing = (b, count) => pieceCodes(PL[b], { star: (count - 1) % 27, sunStar: 0, planetStars: { Sun: { star: 0, abhijit: false } }, moonAbhijit: false, tithi: 2, month: 0, signs: {}, navs: {}, taraCount: 2 });
+  const halaMC = (n) => ploughing('MUHURTA_CHINTAMANI', n).includes('HALA_CHAKRA');
+  for (const n of [1, 5, 8, 18, 21]) assert.ok(!halaMC(n), `MC: ${n} from the Sun is good`);
+  for (const n of [9, 10, 14, 17, 26]) assert.ok(halaMC(n), `MC: ${n} from the Sun is bad`);
+  // Kalyanraman's note 14: the Sun's star and the 6-8, 14-16, 22-24th are rejected.
+  const halaKR = (n) => ploughing('KALYANRAMAN', n).includes('HALA_CHAKRA');
+  for (const n of [1, 6, 7, 8, 14, 15, 16, 22, 23, 24]) assert.ok(halaKR(n), `KR: ${n} rejected`);
+  for (const n of [2, 5, 9, 13, 17, 21, 25, 27]) assert.ok(!halaKR(n), `KR: ${n} accepted`);
+  // Wilhelm's (Kalaprakasika): 3-7, 11-15, 19, 20, 24-26 good.
+  const halaW = (n) => ploughing('WILHELM', n).includes('HALA_CHAKRA');
+  for (const n of [3, 7, 11, 15, 19, 20, 24, 26]) assert.ok(!halaW(n), `Wilhelm: ${n} good`);
+  for (const n of [1, 2, 8, 16, 21, 27]) assert.ok(halaW(n), `Wilhelm: ${n} bad`);
+
+  // Rahu's chakra: 9-11, 13-15, 17-19, 21-23 from Rahu's star (sowing).
+  const SO = E.EVENTS.SOWING;
+  const sowing = (b, count, extra = {}) => pieceCodes(SO[b], { star: (count - 1 + 5) % 27, tithi: 2, month: 0, signs: {}, navs: {}, taraCount: 2, moonAbhijit: false, sunStar: 0,
+    planetStars: { Sun: { star: 0 }, Rahu: { star: 5 }, Venus: { star: 5 }, Mercury: { star: 5 } }, ...extra });
+  for (const n of [9, 11, 13, 17, 23]) assert.ok(!sowing('MUHURTA_CHINTAMANI', n).includes('RAHU_CHAKRA'), `Rahu ${n}`);
+  for (const n of [1, 8, 12, 16, 20, 24, 27]) assert.ok(sowing('MUHURTA_CHINTAMANI', n).includes('RAHU_CHAKRA'), `Rahu ${n} bad`);
+  // Kalyanraman marks it; Shridhar's Srīpati table (7-18 from Rahu) rejects, his Venus table (7-18) marks.
+  assert.ok(sowing('KALYANRAMAN', 1).includes('RAHU_CHAKRA_MID') && !sowing('KALYANRAMAN', 1).includes('RAHU_CHAKRA'));
+  assert.ok(sowing('SHRIDHAR', 3).includes('RAHU_CHAKRA') && sowing('SHRIDHAR', 3).includes('VENUS_CHAKRA_MID'));
+  // The Sun's days: Agni Nakshatra (20° to 43°20′), Bhu-rajasvala (Gemini 6°40′ to 9°40′), no new grain with the Sun in Vishakha.
+  const agni = (deg) => pieceCodes(SO.KALYANRAMAN, { star: 3, tithi: 2, month: 0, sunSign: Math.floor(deg / 30), sunDeg: deg % 30, signs: {}, navs: {}, taraCount: 2, moonAbhijit: false, sunStar: 0, planetStars: { Rahu: { star: 0 } } }).includes('AGNI_NAKSHATRA');
+  assert.ok(agni(25) && agni(40) && !agni(19) && !agni(44), 'Bharani 20° to Rohini 43°20′');
+  const bhu = (sunSign, sunDeg) => pieceCodes(SO.SHRIDHAR, { star: 3, tithi: 3, month: 0, sunSign, sunDeg, signs: {}, navs: {}, taraCount: 2, moonAbhijit: false, sunStar: 0, planetStars: { Rahu: { star: 0 }, Venus: { star: 0 } } }).includes('BHU_RAJASVALA');
+  assert.ok(bhu(2, 7) && bhu(2, 9) && !bhu(2, 6) && !bhu(2, 9.8) && !bhu(1, 7));
+  const NG = E.EVENTS.NEW_GRAIN;
+  const grain = (sunStar, count) => pieceCodes(NG.SHRIDHAR, { star: (count - 1 + 3) % 27, tithi: 2, month: 0, sunStar, signs: {}, navs: {}, taraCount: 2, moonAbhijit: false, planetStars: { Mercury: { star: 3 } } });
+  assert.ok(grain(15, 1).includes('SUN_STAR') && !grain(14, 1).includes('SUN_STAR'), 'the Sun in Vishakha (15)');
+  // Navanna chakra from Mercury's star: 1-15, 21-24, 27 good.
+  for (const n of [1, 15, 21, 24, 27]) assert.ok(!grain(14, n).includes('NAVANNA_CHAKRA'), `Navanna ${n}`);
+  for (const n of [16, 20, 25, 26]) assert.ok(grain(14, n).includes('NAVANNA_CHAKRA'), `Navanna ${n} bad`);
+  // Kalyanraman's karanas (ploughing): Bava, Balava, Gara only; the fixed ones never.
+  const kar = (k) => pieceCodes(PL.KALYANRAMAN, { star: 3, tithi: 2, month: 0, signs: {}, navs: {}, taraCount: 2, moonAbhijit: false, sunStar: 0, planetStars: { Sun: { star: 0 } }, karana: k }).includes('KARANA');
+  assert.ok(!kar(1) && !kar(2) && !kar(5), 'Bava, Balava, Gara (the 2nd karana is Balava: k = 1)');
+  assert.ok(kar(3) && kar(4) && kar(6) && kar(0) && kar(57), 'Kaulava, Taitila, Vanija, Vishti, the fixed karanas');
+  // The lagna owned by the weekday's lord: Raman, Agarwal require it; Wilhelm marks.
+  const m = { lagna: 1, nav: 0, signs: {}, natalLagna: 6, natalMoon: 1, combust: {}, dayPart: 1, nightPart: 0, pradosha: false, tithi: 2, star: 3, month: 0 };
+  const lordLagna = (b, vara) => stretchCodes(SO[b], m, vara);
+  assert.ok(!lordLagna('RAMAN', 5).includes('VARA_LORD_LAGNA') && lordLagna('RAMAN', 2).includes('VARA_LORD_LAGNA'), 'Taurus: Venus (Friday)');
+  assert.ok(lordLagna('WILHELM', 2).includes('VARA_LORD_LAGNA_MID') && !lordLagna('WILHELM', 2).includes('VARA_LORD_LAGNA'));
+  // The chakras' names are in Tamil for the page.
+  for (const c of ['HALA_CHAKRA', 'RAHU_CHAKRA', 'VENUS_CHAKRA', 'VRIKSHA_CHAKRA', 'NAVANNA_CHAKRA', 'BHU_RAJASVALA', 'AGNI_NAKSHATRA', 'KARANA', 'VARA_LORD_LAGNA', 'SUN_STAR', 'JUP_LAGNA_MID', 'JUP_4_MID', 'SAT_4_MID', 'JMV_LAGNA_MID', 'BEN_4_10_MID']) assert.ok(E.CODE_TA[c], c);
+  for (const c of ['HALA_CHAKRA', 'RAHU_CHAKRA', 'VENUS_CHAKRA', 'VRIKSHA_CHAKRA', 'NAVANNA_CHAKRA']) assert.ok(E.CHAKRA_TA[c], c);
 }
 
 console.log('test-event-muhurta: all checks passed');

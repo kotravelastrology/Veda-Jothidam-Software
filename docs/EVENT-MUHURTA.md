@@ -490,6 +490,66 @@ Measured at Erode, 60 days, every check (the MC school / Wilhelm / Raman / Agarw
 
 `/muhurta` has it as "rogasnana".
 
+## The other acts, family by family (added 2026-10-14)
+
+The owner asked for every act the books give. Each act is an event in
+`eventMuhurtaTables.js` with one reading per book, a fixture block under `acts`
+in `books.json` (the exact rule keys, names, words, default), and a generic test
+(`test-event-muhurta.js`). `/muhurta` lists them as `act:<EVENT>`; the page's
+chooser groups them by family. Only the chosen act is computed (`events` option).
+
+**Vehicles** (buying / first drive; making / trade), **clothes and ornaments**
+(new clothes, new ornaments, making ornaments, washing, stitching).
+
+**Agriculture** (11 acts): general farm work, first step on the field,
+ploughing, sowing, transplanting, trees and creepers, garden / orchard, harvest,
+threshing, gathering and storing grain, eating new grain. Shridhar ch.21,
+Kalyanraman vol.2 pp.165-183, Wilhelm pp.178-188, Muhurta Chintamani 2/28-37,
+Raman ch.XIII, Joshi pp.104-107, Rangacharya pp.125-128, Agarwal p.329.
+
+New engine keys for the farm family:
+- **`starCount`** — the Moon's star counted from a planet's (the Sun's: Hala and
+  Vriksha chakras; Rahu's: Rahu / Phani chakra; Venus's; Mercury's: Navanna
+  chakra), among 27 or among 28 with Abhijit. A count is good, bad, or marked.
+  The Sun's, Rahu's (mean node), Venus's and Mercury's stars are passed to every
+  piece (and computed at sunrise for `/muhurta`).
+- **`agniNakshatra`** (Kalyanraman: the Sun from 20° to 43°20′), **`bhuRajasvala`**
+  (B.J.S.: three days from the Sun's entry into Ardra), **`sunStarNot`** (no new
+  grain with the Sun in Vishakha), **`karanaOnly`** (Kalyanraman: Bava, Balava,
+  Gara), **`varaLordLagna`** (the lagna the weekday lord's), **`moonNavMid`**.
+
+How the chakras differ between books (all computed as printed):
+- *Hala chakra, ploughing:*
+  - Muhurta Chintamani 2/29: counts 1-8 and 18-25 of 28 (Abhijit in) from the
+    Sun's star (printed 3 bad before, 8 good, 9 bad, 8 good).
+  - Wilhelm (Kalaprakasika): 3-7, 11-15, 19, 20, 24-26 of 27.
+  - Kalyanraman note 14: the Sun's star and the 6-8, 14-16, 22-24th rejected.
+  - Rangacharya: 4-6, 10-14, 18-22, 26-27.
+  - Shridhar: Narad's table (1-3 bad, 4-6, 7-11, 12-20 death …) as page-read;
+    J.V. / B.J.S.'s 28-count marked.
+- *Rahu chakra, sowing:* 9-11, 13-15, 17-19, 21-23 from Rahu's star (MC, Wilhelm,
+  Shridhar's B.J.S.; Kalyanraman marks it; Rangacharya's print drops a group —
+  we read it as MC's 8-3-1-3-1-3-1-3-4).
+- *Vriksha chakra, trees:* 4-6, 13-15, 22-27 from the Sun's star (Shridhar's
+  B.J.S., Kalyanraman, Joshi, Wilhelm).
+
+**General-list readings.** Where a book has no section for an act but its tithi,
+weekday or star-class lists name it (Vashistha, Rangacharya, Raman, MC's notes,
+Joshi, Agarwal), a reading is built from the named stars only; named tithis and
+weekdays are good and the rest middling. The words counted are the clauses naming
+the act, so these rank last. The owner kept this method (2026-10-14).
+
+**The audit (2026-10-14).** The first searches covered only each book's act
+chapters. A whole-book search added: Joshi (vehicle trade, gold), Raman (new
+clothes, education, moving house), Agarwal (travel's ayana rule, the star classes),
+Kalyanraman (washing clothes), and the general lists above.
+
+Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
+the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
+omens at ploughing, the garden's directions (Shridhar), keeping animals, buying
+and selling cattle, farm implements, water (wells, hydraulic devices), mustard
+oil and sugar-cane juice extraction (Shridhar's Kolhu and juice chakras).
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are

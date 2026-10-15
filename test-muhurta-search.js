@@ -211,4 +211,54 @@ for (const [purpose, ev] of [['medical', 'MEDICINE'], ['surgery', 'SURGERY'], ['
   assert.equal(searchMuhurta({ startDate: '2027-02-01', endDate: '2027-02-02', purpose: 'act:NOPE', latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 }).purpose, 'marriage');
 }
 
+// ── agriculture: every book of every farm act at sunrise; the chakras against the ephemeris ──
+{
+  const { eventOf } = require('./src/report/muhurtaSearch');
+  const { nodeLongitude, planetLongitude, sunriseJulianDay } = require('./src/ephemeris/siderealPositions');
+  const { julianDay } = require('@swisseph/node');
+  const FARM = ['AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN'];
+  const at = { latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 };
+  for (const ev of FARM) {
+    for (const book of E.EVENTS[ev].order) {
+      const v = searchMuhurta({ startDate: '2027-03-01', endDate: '2027-04-15', purpose: `act:${ev}`, ...at, book });
+      assert.equal(v.event, ev);
+      assert.equal(v.book, book);
+      for (const d of v.days) assert.ok(d.notes.every((n) => !/^[A-Z_]+$/.test(n)), `${ev} ${book} ${d.date}: in Tamil (${d.notes})`);
+    }
+  }
+  // MC's Rahu chakra for sowing: a day's code is exactly "the Moon's star is not 9-11, 13-15, 17-19, 21-23 from Rahu's".
+  const norm = (d) => ((d % 360) + 360) % 360;
+  const star = (l) => Math.floor(norm(l) / (360 / 27)) % 27;
+  const v = searchMuhurta({ startDate: '2027-03-01', endDate: '2027-04-15', purpose: 'act:SOWING', ...at, book: 'MUHURTA_CHINTAMANI' });
+  assert.ok(v.days.length > 40);
+  let withCode = 0;
+  for (const d of v.days) {
+    const [Y, M, D] = d.date.split('-').map(Number);
+    const sunrise = sunriseJulianDay(julianDay(Y, M, D, -at.utcOffsetMinutes / 60), at.latitude, at.longitude);
+    const moon = sunMoonLongitudes(sunrise, 'Lahiri').moonLongitude;
+    const count = ((star(moon) - star(nodeLongitude(sunrise, 'Lahiri', 'mean')) + 27) % 27) + 1;
+    const good = [9, 10, 11, 13, 14, 15, 17, 18, 19, 21, 22, 23].includes(count);
+    assert.equal(d.codes.includes('RAHU_CHAKRA'), !good, `${d.date}: ${count} from Rahu`);
+    if (!good) withCode += 1;
+  }
+  assert.ok(withCode > 10 && withCode < v.days.length - 10, `both kinds of days: ${withCode} of ${v.days.length}`);
+  // Mercury's Navanna chakra (Shridhar's new grain) and the Sun's Hala chakra (Kalyanraman's ploughing, note 14).
+  const n = searchMuhurta({ startDate: '2027-03-01', endDate: '2027-03-20', purpose: 'act:NEW_GRAIN', ...at, book: 'SHRIDHAR' });
+  for (const d of n.days) {
+    const [Y, M, D] = d.date.split('-').map(Number);
+    const sunrise = sunriseJulianDay(julianDay(Y, M, D, -at.utcOffsetMinutes / 60), at.latitude, at.longitude);
+    const count = ((star(sunMoonLongitudes(sunrise, 'Lahiri').moonLongitude) - star(planetLongitude(sunrise, 'Mercury', 'Lahiri')) + 27) % 27) + 1;
+    const good = [...Array(15).keys()].map((i) => i + 1).concat([21, 22, 23, 24, 27]).includes(count);
+    assert.equal(d.codes.includes('NAVANNA_CHAKRA'), !good, `${d.date}: ${count} from Mercury`);
+  }
+  const p = searchMuhurta({ startDate: '2027-03-01', endDate: '2027-03-20', purpose: 'act:PLOUGHING', ...at, book: 'KALYANRAMAN' });
+  for (const d of p.days) {
+    const [Y, M, D] = d.date.split('-').map(Number);
+    const sunrise = sunriseJulianDay(julianDay(Y, M, D, -at.utcOffsetMinutes / 60), at.latitude, at.longitude);
+    const { sunLongitude, moonLongitude } = sunMoonLongitudes(sunrise, 'Lahiri');
+    const count = ((star(moonLongitude) - star(sunLongitude) + 27) % 27) + 1;
+    assert.equal(d.codes.includes('HALA_CHAKRA'), [1, 6, 7, 8, 14, 15, 16, 22, 23, 24].includes(count), `${d.date}: ${count} from the Sun`);
+  }
+}
+
 console.log(JSON.stringify({ pass: true, marriageDays: res.days.length, grihaDefault: G.default }, null, 2));

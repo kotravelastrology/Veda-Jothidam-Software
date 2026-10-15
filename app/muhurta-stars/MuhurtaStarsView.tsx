@@ -26,6 +26,10 @@ const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்
 const DIGNITY_TA: Record<string, string> = { OWN: 'சொந்த ராசி', EXALTED: 'உச்சம்', FRIEND: 'நட்பு ராசி' };
 const planetsTa = (list: string[]) => list.map((p) => PLANET_NAME_TA[p] ?? p).join(', ');
 const LAGNA_LORD_TA = 'லக்னாதிபதி';
+/** "The Sun's" etc., for the chakras counted from a planet's star. */
+const PLANET_OF_TA: Record<string, string> = { Sun: 'சூரியனின்', Rahu: 'ராகுவின்', Venus: 'சுக்கிரனின்', Mercury: 'புதனின்' };
+/** The movable karanas, 0 Bava … 6 Vishti. */
+const KARANA_TA = ['பவ', 'பாலவ', 'கௌலவ', 'தைதில', 'கர', 'வணிஜ', 'விஷ்டி'];
 /** Each lagna check's table in `books.lagna`. */
 const LAGNA_TABLE: Record<string, string> = {
   COMMON: 'common', PLACEMENTS: 'placements', ASHTAMA: 'ashtama', KARTARI: 'kartari', GANDANTA: 'gandanta', NAV_LAST: 'navLast',
@@ -788,6 +792,12 @@ export default function MuhurtaStarsView() {
             const rasis = (xs: number[]) => xs.map((i) => RASI_TA[i]).join(', ');
             const days = (xs: number[]) => xs.map((i) => B.lagna.varaTa[i]).join(', ');
             const months = (xs: number[]) => xs.map((i) => B.lagna.monthTa[i]).join(', ');
+            // Counts as runs: 4, 5, 6, 10 → "4-6, 10".
+            const spans = (xs: number[]) => [...xs].sort((a, b) => a - b).reduce((acc: number[][], n) => {
+              const last = acc[acc.length - 1];
+              if (last && n === last[1] + 1) last[1] = n; else acc.push([n, n]);
+              return acc;
+            }, []).map(([a, b]) => (a === b ? `${a}` : `${a}-${b}`)).join(', ');
             return (
               <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
                 <h2 className="text-sm font-semibold text-ink mb-1">{ER.labelTa} — நூல்களின் தனி விதிகள்</h2>
@@ -837,6 +847,16 @@ export default function MuhurtaStarsView() {
                         {r.moonNot && <li>சந்திரன் {r.moonNot.join(', ')}-ல் கூடாது</li>}
                         {r.jupVenNotSet && <li>குரு, சுக்கிரன் அஸ்தங்கம் கூடாது</li>}
                         {r.kumbha && <li>கும்ப சக்கரம்: சூரியனின் நட்சத்திரம் முதலாக எண்ணி {r.kumbha.join(', ')}-ஆவது நல்லவை</li>}
+                        {(r.starCount ?? []).map((c: any, i: number) => (
+                          <li key={`sc${i}`}>{B.lagna.eventChakraTa[c.code]}: {PLANET_OF_TA[c.from] ?? c.from} நட்சத்திரம் முதலாக எண்ணி{c.of === 28 ? ' (அபிஜித் உட்பட 28)' : ''} {spans(c.good)}-ஆவது நல்லவை{c.mid?.length ? <> · நடுத்தரம் {spans(c.mid)}</> : null}{c.mark && ' (குறிக்கப்படும்)'}</li>
+                        ))}
+                        {r.sunStarNot && <li>சூரியன் {stars(r.sunStarNot)} நட்சத்திரத்தில் இருக்கும்போது கூடாது</li>}
+                        {r.bhuRajasvala && <li>சூரியன் திருவாதிரையில் நுழைந்த மூன்று நாள் (மிதுனம் 6°40′–9°40′) கூடாது</li>}
+                        {r.agniNakshatra && <li>அக்னி நட்சத்திர நாட்கள் (சூரியன் 20° முதல் 43°20′ வரை) கூடாது</li>}
+                        {r.karanaOnly && <li>கரணம்: {r.karanaOnly.map((k: number) => KARANA_TA[k]).join(', ')} மட்டும்</li>}
+                        {r.varaLordLagna && <li>லக்னம் கிழமை அதிபதியின் ராசியாக{r.varaLordLagna === 'MARK' && ' (குறிக்கப்படும்)'}</li>}
+                        {r.dayParts && <li>{r.dayParts.good.length === 4 && !r.dayParts.nightOk ? 'இரவில் கூடாது' : `பகலின் ${r.dayParts.good.join(', ')}-ஆம் பகுதி நல்லது`}</li>}
+                        {r.moonNavMid && <li>சந்திரனின் நவாம்சம்: {rasis([...Array(12).keys()].filter((s) => !r.moonNavMid.not.includes(s)))} (குறிக்கப்படும்)</li>}
                         {r.sunLeft && <li>சூரியன் "இடப்புறம்" (வாசல் திசைப்படி)</li>}
                         {r.lagna?.natalMoonOk && <li>ஜன்ம ராசியே லக்னமாக இருப்பதும் நல்லது</li>}
                         {(r.navGood || r.navMid) && <li>லக்ன நவாம்சம்: {rasis(r.navGood ?? r.navMid)}{!r.navGood && ' (குறிக்கப்படும்)'}</li>}

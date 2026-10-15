@@ -591,6 +591,11 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
       venus: { east: keyAt('venusSide', mid) === 1, sign: planetSigns.Venus, star: Math.floor(kickerPadas.Venus / 4) }, natalLagna: natalLagnaSign,
       // Vidyarambha: the fixed karanas, the Moon in Abhijit, Vijayadashami's day.
       karanaFixed: isSthiraKarana(keyAt('karana', mid)), moonAbhijit: abhijit, vijaya: vijayaAt(mid),
+      // Agriculture's chakras: the stars the Moon's is counted from; the karana for a book's good ones.
+      karana: keyAt('karana', mid),
+      planetStars: Object.fromEntries(['Sun', 'Rahu', 'Venus', 'Mercury'].map((p) => [p, {
+        star: Math.floor(kickerPadas[p] / 4), abhijit: Boolean(bits & (1 << DOSHA_PLANETS.indexOf(p))),
+      }])),
     })]));
     const sig = JSON.stringify([moonPada, latta, personal, tara.n, tara.cycle, chandra, taraVerdicts, doshas, tithi, month, sunStar, ev, vijayaAt(mid)]);
     const last = pieces[pieces.length - 1];
@@ -679,7 +684,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
         common: L.COMMON, commonWhyTa: L.COMMON_WHY_TA, events: L.EVENTS, scope: L.SCOPE, scopeOutTa: L.SCOPE_OUT_TA,
         adverse: L.ADVERSE, adverseTa: L.ADVERSE_TA, adverseCautionTa: L.ADVERSE_CAUTION_TA,
         tiers: L.TIERS, tierTa: L.TIER_TA, tierNoteTa: L.TIER_NOTE_TA,
-        eventRules: { ...onlyEvents(EV.EVENTS), order: evOrder }, doors: EV.DOORS, monthTa: EV.MONTH_TA, starTa: NAKSHATRA_TA, eventRank: onlyEvents(EV.RANK), eventSources: onlyEvents(EV.SOURCES), eventCodeTa: EV.CODE_TA, eventNotesTa: onlyEvents(EV.NOTES_TA), eventYears: EV.UPANAYANA_YEARS, directions: EV.DIRECTIONS,
+        eventRules: { ...onlyEvents(EV.EVENTS), order: evOrder }, doors: EV.DOORS, monthTa: EV.MONTH_TA, starTa: NAKSHATRA_TA, eventRank: onlyEvents(EV.RANK), eventSources: onlyEvents(EV.SOURCES), eventCodeTa: EV.CODE_TA, eventChakraTa: EV.CHAKRA_TA, eventNotesTa: onlyEvents(EV.NOTES_TA), eventYears: EV.UPANAYANA_YEARS, directions: EV.DIRECTIONS,
         natalLagna: Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null,
       },
     },

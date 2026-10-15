@@ -55,6 +55,12 @@ const UTTARAYANA = Object.freeze([9, 10, 11, 0, 1, 2]); // the Sun in Capricorn 
 const houseOf = (sign, from) => ((sign - from + 12) % 12) + 1;
 /** The Moon's star counted from the Sun's (the Sun's star is the 1st). */
 const kumbhaCount = (sunStar, star) => ((star - sunStar + 27) % 27) + 1;
+/** A star among the 28 with Abhijit (0 Ashwini … 20 Uttarashadha, 21 Abhijit, 22 Shravana … 27 Revati). */
+const star28 = (inAbhijit, s) => (inAbhijit ? 21 : s <= 20 ? s : s + 1);
+/** The Moon's star counted from a planet's (that star 1), among 27 or among 28 with Abhijit. */
+const starCountFrom = (p, x, of) => (of === 28
+  ? ((star28(x.moonAbhijit, x.star) - star28(p.abhijit, p.star) + 28) % 28) + 1
+  : ((x.star - p.star + 27) % 27) + 1);
 const inPaksha = (tithi) => ((tithi - 1) % 15) + 1;
 
 /** Harishayana: Ashadha Shukla 11 to Kartika Shukla 11 (amanta months; Joshi, Kalyanraman, Agarwal). */
@@ -141,6 +147,22 @@ function panchangaCodes(r, x) {
   if (r.kumbha && !r.kumbha.includes(kumbhaCount(x.sunStar, x.star))) out.push('KUMBHA');
   // J.V.'s Matrika chakra (Shridhar §17.11.2): counted from the Sun's star like the Kumbha chakra.
   if (r.matrika && !r.matrika.includes(kumbhaCount(x.sunStar, x.star))) out.push('MATRIKA');
+  // Agriculture's chakras: the Moon's star counted from the Sun's (Hala, Vriksha), Rahu's (Phani), Venus's, Mercury's (Navanna).
+  for (const c of r.starCount ?? []) {
+    const p = x.planetStars?.[c.from];
+    if (!p) continue;
+    const n = starCountFrom(p, x, c.of);
+    if (c.mid?.includes(n)) out.push(`${c.code}_MID`);
+    else if (!c.good.includes(n)) out.push(c.mark ? `${c.code}_MID` : c.code);
+  }
+  // The Sun in a star a book forbids (Shridhar, K.P.: no new grain while the Sun is in Vishakha).
+  if (r.sunStarNot && r.sunStarNot.includes(x.sunStar)) out.push('SUN_STAR');
+  // B.J.S. (Shridhar): the earth's courses — three days from the Sun's entry into Ardra (Gemini 6°40′ to 9°40′).
+  if (r.bhuRajasvala && x.sunSign === 2 && x.sunDeg >= 20 / 3 && x.sunDeg < 29 / 3) out.push('BHU_RAJASVALA');
+  // Kalyanraman: Agninakshatra days — the Sun from 20° (in Bharani) to 43°20′ (in Rohini).
+  if (r.agniNakshatra && x.sunSign * 30 + x.sunDeg >= 20 && x.sunSign * 30 + x.sunDeg < 130 / 3) out.push('AGNI_NAKSHATRA');
+  // Only the named movable karanas (0 Bava, 1 Balava … 6 Vishti); the fixed ones never.
+  if (r.karanaOnly && Number.isInteger(x.karana) && !(x.karana >= 1 && x.karana <= 56 && r.karanaOnly.includes((x.karana - 1) % 7))) out.push('KARANA');
   if (r.guru) out.push(...guruCodes(r.guru, x));
   if (r.ravi) out.push(...raviCodes(r.ravi, x));
   if (r.chandra) {
@@ -398,6 +420,8 @@ function lagnaCodes(r, m) {
     else if (!r.dayParts.good.includes(m.dayPart)) out.push('DAY_PART');
   }
   if (r.pradosha && m.pradosha) out.push('PRADOSHA');
+  // The lagna owned by the weekday's lord (Raman, Agarwal: sowing; Wilhelm "very favorable", marked).
+  if (r.varaLordLagna && Number.isInteger(m.vara) && RASI_LORDS[m.lagna] !== VARA_LORDS[m.vara]) out.push(r.varaLordLagna === 'MARK' ? 'VARA_LORD_LAGNA_MID' : 'VARA_LORD_LAGNA');
   // Rangacharya's vimsopaka: a planet in a good place adds its share, in an evil place takes it away.
   if (r.points) {
     const P = r.points;
@@ -452,6 +476,6 @@ const rejects = (codes) => codes.filter((c) => !c.endsWith('_MID'));
 module.exports = {
   panchangaCodes, varaCodes, lagnaCodes, doorCodes, withDoorStars, piecesCodesOf, stretchCodesOf, rejects,
   pieceCodes, stretchCodes, withSecondary, travelPieceCodes, travelStretchCodes, vijayadashamiOf, isSthiraKarana,
-  guruCodes, raviCodes, inHarishayana, isVishti, kumbhaCount, inPaksha, houseOf, UTTARAYANA,
+  guruCodes, raviCodes, inHarishayana, isVishti, kumbhaCount, starCountFrom, inPaksha, houseOf, UTTARAYANA,
   dir4Of, relOf, halfOf, signDir, starDir, tithiKey, tithiClass, venusBlind, HOUSE_DIR, KAALA_DAY, VAAR_RAHU, VARA_LORDS,
 };
