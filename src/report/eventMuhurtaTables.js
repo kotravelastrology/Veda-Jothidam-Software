@@ -3895,8 +3895,337 @@ const WELL_TANK = deepFreeze({
     noteTa: 'பதின்மூன்று நட்சத்திரங்கள் (அனுஷம், அஸ்தம், ஸ்திர 4, தனிஷ்டா, சதயம், மகம், பூராடம், ரேவதி, பூசம், மிருகசீரிடம்) — கல்யாணராமன் இதையே மேற்கோள் காட்டுகிறார் · லக்னத்தில் புதன் / குரு, 10-இல் சுக்கிரன் — குறிக்கப்படுகின்றன · சந்திரன் ஜல ராசியில் (9/10/11/12), பாபர் பலவீனம் — கணிக்கப்படவில்லை · திதி, கிழமை இந்த ஸ்லோகத்தில் இல்லை',
   },
 });
+// ---------------------------------------------------------------------------
+// Religious acts (deity, temple, initiation, havan, idol), added 2026-10-19
+// ---------------------------------------------------------------------------
+const DEITY_INSTALL = deepFreeze({
+  labelTa: 'விக்கிரக பிரதிஷ்டை, கும்பாபிஷேகம்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'KALYANRAMAN', 'WILHELM', 'RAMAN', 'JOSHI'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §24.4', booksTa: 'ஸ்ரீதர் (பிருஹஸ்பதி, வைகானஸ ஸம்ஹிதை, M.M., வசிஷ்டர், நாரதர், J.V., B.S., ரத்னமாலா மேற்கோள்கள்)',
+    masa: { good: [9, 10], mid: [11, 0, 1, 2], strict: true },
+    uttarayana: 'PREFERRED',
+    nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 12, 0, 7, 6, 14, 21, 23, 22], mid: [17, 18] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 8, 10, 12, 13, 15], tithiMid: [6, 11, 17, 18, 20, 22, 23, 25],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    maleficIn: [3, 6, 11],
+    beneficKendra: true,
+    dayParts: { good: [1, 2, 3, 4], mid: [] },
+    noteTa: 'நட்சத்திரம்: ஸ்திர 4 + மது 4 + லகு 3 + சர 5 = 16; வசிஷ்டர் சேர்க்கும் கேட்டை, மூலம் நடுத்தரம் (J.V. சித்திரை, அனுஷம், திருவோணம், தனிஷ்டா, மூலத்தை நடுத்தரம் என்கிறார் — நல்ல பட்டியலில் உள்ளவற்றை அப்படியே வைத்துள்ளோம்) · திதி: நாரதர் 2, 3, 5, 7, 13; பிருஹஸ்பதி 8, 10, 12, 15 சேர்க்கிறார் — இவை நல்லவை; வசிஷ்டர் "வளர்பிறை முழுவதும் (பிரதமை தவிர), தேய்பிறை பத்தாம் திதி வரை" என்பதால் மீதியவை நடுத்தரம்; ரிக்தா, க்ஷய திதி தள்ளு · செவ்வாய் தள்ளு · இரவு தள்ளு (கலியுகத்தில்); முற்பகல் சிறந்தது · கேந்திர / திரிகோணத்தில் சுபர், 3/6/11-இல் பாபர் · ஜாதி வாரியான அட்டவணை, ஜன்ம நட்சத்திரக் கணக்கு — கணிக்கப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.227-229)', booksTa: 'கல்யாணராமன் (மாதவீயம் மேற்கோள்)',
+    masa: { good: [9, 10], mid: [0, 1, 2, 3, 4, 5, 6, 7, 8, 11], strict: false },
+    uttarayana: 'PREFERRED',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 13, 14, 16, 20, 21, 22, 25, 26], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [2, 3, 5, 6, 7, 10, 11, 12, 13, 15, 17, 18, 20, 21, 22, 25, 26, 27, 28],
+    vara: { good: [1, 3, 4, 5], mid: [0] },
+    lagna: { good: [1, 4, 7, 10], mid: [2, 5, 11] },
+    notIn: [[['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'], [5, 8, 9, 12]]],
+    noteTa: 'பதினைந்து நட்சத்திரம் + அபிஜித் · கிழமை: குறிப்பு 5-இல் சனி, வெள்ளி "உகந்தவை அல்ல" என்றும் பின் "சுக்ரன், சந்திரன், குரு, புதன் நாட்கள் நல்லவை" என்றும் முரண்பட்டு வருகிறது — திங்கள், புதன், வியாழன், வெள்ளி நல்லவை; ஞாயிறு "அவ்வளவு நல்லதல்ல" என்பதால் நடுத்தரம்; செவ்வாய், சனி தள்ளு (எங்கள் வாசிப்பு) · லக்னம்: மேஷம், துலாம், மகரம், தனுசு தள்ளு; ஸ்திரம் சிறந்தது; உபய ராசி நடுத்தரம் (தனுசு நீங்கலாக); சர ராசி தள்ளு · பாபர் 5, 8, 9, 12-இல் கூடாது · உக்ர தெய்வங்களுக்குத் தட்சிணாயனமும் ஏற்கத்தக்கது · பஞ்ச வர்க்க வேதை, தெய்வத்தின் நட்சத்திரம் — கணிக்கப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — தெய்வத்தை நிறுவுதல்', booksTa: 'வில்ஹெல்ம் (மு.சி. மேற்கோள்)',
+    masa: { good: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11], mid: [], strict: true },
+    uttarayana: 'REQUIRED',
+    nak: { good: [3, 4, 6, 7, 11, 12, 14, 20, 25], mid: [0, 13, 16, 18, 21, 22, 23, 26] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 13, 15],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    lagna: { good: [1, 4, 7, 10], mid: [2, 5, 8, 11] },
+    empty: [8, 12],
+    maleficIn: [3, 6, 11],
+    want: [{ planets: ['Venus'], houses: [1], code: 'VENUS_LAGNA_MID' }],
+    noteTa: 'மு.சி. சேர்க்கும் சதயம், ரேவதி நடுத்தரம் (வில்ஹெல்மே அப்படிச் சொல்கிறார்) · வளர்பிறை மட்டும்; 9 தவிர ஒற்றைத் திதிகள் + 2, 6, 10 · உத்தராயணம் கட்டாயம்; மாசி மாதம் தள்ளு (ஸ்ரீதர், கல்யாணராமன் மாசியைச் சிறந்ததாகச் சொல்வதற்கு நேர் எதிர் — அச்சில் உள்ளபடியே) · ஸ்திர லக்னம்; பெண் தெய்வத்துக்கு உபய ராசியும் — நடுத்தரமாக · 8, 12 காலி · லக்னத்தில் சுக்கிரன் — குறிக்கப்படுகிறது · ஆண்டின் / அயனத்தின் / நட்சத்திரத்தின் / திதியின் இறுதி, பாவக வாரியான பலன்கள் — கணிக்கப்படவில்லை',
+  },
+  RAMAN: {
+    labelTa: 'ராமன் அத்.XVI', booksTa: 'ராமன் (காலப்பிரகாசிகை மேற்கோள்)',
+    masa: { good: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11], mid: [], strict: true },
+    uttarayana: 'REQUIRED',
+    nak: { good: [3, 4, 6, 7, 11, 12, 14, 20, 25], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 13, 15, 16, 17, 18, 20, 21, 22, 25, 26, 28],
+    lagna: { good: [1, 4, 7, 10], mid: [2, 5, 8, 11] },
+    empty: [8],
+    notIn: [[['Sun', 'Moon', 'Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'], [1]], [['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'], [7]]],
+    jupVenNotSet: true,
+    noteTa: 'வில்ஹெல்மின் அதே ஒன்பது நட்சத்திரம், அதே திதி, அதே ஸ்திர லக்னம் (காலப்பிரகாசிகை மரபு) · லக்னத்தில் சூரியன், சந்திரன், பாபர் கூடாது — "ஊரே அழியும்" · 7-இல் பாபன் கூடாது; 8 காலி · குரு, சுக்கிரன் பலம் (அஸ்தமனம் கூடாது) · கிழமை சொல்லப்படவில்லை · அயனம் / ஆண்டு / திதி / நட்சத்திரத்தின் இறுதி, பரிவேஷம் (சூரிய-சந்திர வட்டம்) — கணிக்கப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி — குரு / சுக்கிர அஸ்தமனப் பட்டியல்', booksTa: 'ஜோஷி',
+    jupVenNotSet: true,
+    noteTa: 'ஜோஷி இந்தக் காரியத்துக்குத் தனி நட்சத்திர / திதிப் பட்டியல் தரவில்லை — குரு அல்லது சுக்கிரன் அஸ்தமனத்தில் தள்ள வேண்டிய காரியங்களின் பட்டியலில் "பிராண பிரதிஷ்டை" (7) என்று பெயர் குறிக்கிறார் · அஸ்தமனம் கணிக்கப்படுகிறது · அதே தடை: க்ஷய மாதம், அதிக மாதம், அஸ்தமனத்துக்கு முன் / பின் மூன்று நாள், குரு சிம்மத்தில் (மகம் அல்லது பூரம் 1-ஆம் பாதத்தில் விசேஷமாக) — இவை கணிக்கப்படவில்லை',
+  },
+});
+const TEMPLE_START = deepFreeze({
+  labelTa: 'கோவில், மண்டபம் கட்டத் தொடங்குதல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'AGARWAL'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.227)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [3, 5, 7, 11, 20, 21, 22, 23, 25], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    yogaNot: [0, 5, 8, 9, 12, 14, 16, 18, 26],
+    vishti: true,
+    noteTa: 'தூண் நடுவதற்கான அதே ஒன்பது மேல்நோக்கு நட்சத்திரங்கள் · திதி இரு பக்ஷமும் (எங்கள் வாசிப்பு) · செவ்வாய், சனி தள்ளு · "யோகமும் கரணமும் சுபமாக இருக்கட்டும்" — தீய ஒன்பது யோகங்களும் விஷ்டியும் தள்ளு (எங்கள் வாசிப்பு) · லக்னம் சொல்லப்படவில்லை',
+  },
+  AGARWAL: {
+    labelTa: 'அகர்வால் (ப.325)', booksTa: 'அகர்வால்',
+    masa: { good: [9, 10, 11, 1, 2, 8], mid: [0, 3, 4, 5, 6, 7], strict: false },
+    uttarayana: 'REQUIRED',
+    nak: { good: [3, 4, 6, 12, 13, 0, 22, 16, 21, 15, 11, 20, 25], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 11, 12, 13, 17, 18, 20, 22, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    empty: [8],
+    notIn: [[['Sun', 'Moon', 'Mars', 'Jupiter'], [1]], [['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'], [7]]],
+    noteTa: 'பதின்மூன்று நட்சத்திரம் (கல்யாணராமனின் பட்டியலோடு ஐந்தே பொதுவானவை — இரு மரபுகளும் தனித்தனியே) · உத்தராயணம் கட்டாயம் · "சூரியன், சந்திரன் அல்லது ஆண் கிரகம் லக்னத்தில் கூடாது" — சூரியன், சந்திரன், செவ்வாய், குரு என்று வாசிக்கிறோம் (எங்கள் வாசிப்பு) · 8 காலி, 7-இல் பாபன் கூடாது · தாரா சுத்தி, சந்திர சுத்தி கட்டாயம்',
+  },
+});
+const MANTRA_DEEKSHA = deepFreeze({
+  labelTa: 'மந்திர தீட்சை பெறுதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'JOSHI', 'WILHELM', 'KALYANRAMAN'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §24.2', booksTa: 'ஸ்ரீதர் (விஶ்வஸார தந்திரம், J.V., B.J.S., B.D.R., M.M. மேற்கோள்கள்)',
+    masa: { good: [1, 4, 6, 7, 8, 10, 11], mid: [], strict: true },
+    nak: { good: [0, 1, 2, 6, 7, 8, 9, 10, 12, 14, 15, 17, 18, 19, 21, 23, 24], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 11, 12, 15],
+    vara: { good: [4, 1, 5, 6], mid: [] },
+    yogaNot: [0, 4, 5, 6, 7, 8, 9, 12, 14, 15, 16, 17, 18, 19, 21, 23, 24, 25, 26],
+    karanaOnly: [0, 1, 2, 3],
+    lagna: { good: [1, 4, 5, 8, 11], mid: [] },
+    noteTa: 'தீட்சைக்குத் தள்ள வேண்டிய பத்து நட்சத்திரங்கள் (திருவாதிரை, சித்திரை, 3 உத்திரங்கள், ரேவதி, மிருகசீரிடம், ரோகிணி, அனுஷம், தனிஷ்டா) நீங்கலாக மீதி பதினேழு · மாதம்: B.J.S. தரும் பலன்களின்படி நல்லவை ஏழு (வைகாசி, ஆவணி, புரட்டாசி, ஐப்பசி, மார்கழி, மாசி, பங்குனி); "புரட்டாசி முதல் ஆறு மாதங்கள் தள்ளு" என்ற முதல் வரிக்கு இது முரண் — பலன்களின் பட்டியலை எடுத்துள்ளோம் (எங்கள் வாசிப்பு) · திதி: மந்திர தீட்சைக்கு வளர்பிறை 2, 3, 5, 7, 10, 11, 12, பௌர்ணமி மட்டும் · கிழமை: வியாழன், திங்கள், வெள்ளி, சனி (B.D.R.); முதல் வரி சனியைத் தள்ளுகிறது — B.D.R.யின் பட்டியலை எடுத்துள்ளோம் · எட்டு சுப யோகங்கள், நான்கு கரணங்கள் மட்டும் · லக்னம் ரிஷபம், சிம்மம், கன்னி, தனுசு, மீனம்',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி — குரு / சுக்கிர அஸ்தமனப் பட்டியல்', booksTa: 'ஜோஷி',
+    jupVenNotSet: true,
+    noteTa: 'ஜோஷி இந்தக் காரியத்துக்குத் தனி நட்சத்திர / திதிப் பட்டியல் தரவில்லை — குரு அல்லது சுக்கிரன் அஸ்தமனத்தில் தள்ள வேண்டிய காரியங்களின் பட்டியலில் "தீக்ஷை — குருவிடம் மந்திரம் பெறுதல்" (8) என்று பெயர் குறிக்கிறார் · அஸ்தமனம் கணிக்கப்படுகிறது · அதே தடை: க்ஷய மாதம், அதிக மாதம், அஸ்தமனத்துக்கு முன் / பின் மூன்று நாள், குரு சிம்மத்தில் (மகம் அல்லது பூரம் 1-ஆம் பாதத்தில் விசேஷமாக) — இவை கணிக்கப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — மந்திர தீட்சை', booksTa: 'வில்ஹெல்ம்',
+    masa: { good: [1, 4, 6, 7, 10, 11], mid: [], strict: true },
+    nak: { good: [3, 5, 6, 7, 9, 11, 12, 13, 14, 16, 17, 18, 20, 21, 22, 25, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24, 25, 26, 27, 28, 29],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    lagna: { good: [0, 3, 6, 9], mid: [2, 5, 8, 11] },
+    empty: [8],
+    noteTa: 'ஸ்ரீதர் தள்ளும் சித்திரை, ரோகிணி, அனுஷம், தனிஷ்டா, உத்திரங்கள், ரேவதி இவரிடம் நல்லவை — இரு மரபுகளும் தனித்தனியே · மாதம் ஆறு (வைகாசி, ஆவணி, புரட்டாசி, ஐப்பசி, மாசி, பங்குனி) — ஸ்ரீதரின் பட்டியலோடு கிட்டத்தட்ட ஒன்றே · 4, 8, அமாவாசை தள்ளு · செவ்வாய் தள்ளு; புதன் விசேஷம் · சர லக்னம் சிறந்தது, உபயம் நடுத்தரம், ஸ்திரம் பயனற்றது — ஸ்ரீதரின் லக்னப் பட்டியலுக்கு நேர் எதிர் · சங்கராந்தி மிக நல்லது (மற்ற காரியங்களில் தள்ளப்படுவது) — கணிக்கப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.224)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 3, 4, 24, 6, 7, 9, 11, 12, 14, 16, 18, 20, 21, 25, 26], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    yogaNot: [0, 5, 8, 9, 12, 14, 16, 18, 26],
+    vishti: true,
+    noteTa: 'பதினாறு நட்சத்திரம் + அபிஜித் — வில்ஹெல்மின் பட்டியலோடு பெரும்பாலும் ஒன்றே (இவரிடம் அசுவினி, மிருகசீரிடம், பூரட்டாதி கூடுதல்; திருவாதிரை, கேட்டை, சித்திரை இல்லை) · செவ்வாய், சனி தள்ளு · "சுப யோகமும் கரணமும்" — தீய ஒன்பது யோகங்களும் விஷ்டியும் தள்ளு (எங்கள் வாசிப்பு) · லக்னம் சொல்லப்படவில்லை',
+  },
+});
+const HAVAN = deepFreeze({
+  labelTa: 'ஹோமம், யாகம், அக்னிஹோத்திரம்',
+  default: 'MUHURTA_CHINTAMANI',
+  order: ['MUHURTA_CHINTAMANI', 'SHRIDHAR', 'JOSHI', 'KALYANRAMAN', 'WILHELM'],
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி 2/35-36', booksTa: 'முகூர்த்த சிந்தாமணி (காஶ்யபர் மேற்கோள்)',
+    starCount: [{ from: 'Sun', of: 27, good: [4, 5, 6, 7, 8, 9, 13, 14, 15, 19, 20, 21], code: 'AGNI_CHAKRA' }],
+    havanFire: true,
+    noteTa: 'ஸ்ரீதர் மேற்கோள் காட்டும் மூல நூல் — அதே இரண்டு கணக்குகள், ஆனால் ஒன்பது கிரகக் கட்டத்துக்கும் பலன் தனித்தனியே (சூரியன் — சுப பலன் நாசம்; சந்திரன் — பயிர் நீரில் மூழ்கும்; செவ்வாய் — அக்னி பயம்; புதன் — அறிவு பெருகும்; குரு — காரிய சித்தி; சுக்கிரன் — இம்மை மறுமைச் செல்வம்; சனி — செல்வ நாசம், அரசிழப்பு; ராகு — எல்லா இழப்பு; கேது — பஞ்சம், மரணம், அரசிழப்பு) · ராகு, கேது பலன்கள் ஸ்ரீதரின் அட்டவணையில் இல்லை · நட்சத்திரம், திதி, கிழமை, லக்னம் இந்த ஸ்லோகங்களில் சொல்லப்படவில்லை',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §24.5', booksTa: 'ஸ்ரீதர் (காஶ்யபர், M.C., மனு, ரத்னாவளி, J.V. மேற்கோள்கள்)',
+    starCount: [{ from: 'Sun', of: 27, good: [4, 5, 6, 7, 8, 9, 13, 14, 15, 19, 20, 21], code: 'AGNI_CHAKRA' }],
+    havanFire: true,
+    noteTa: 'இரண்டு கணக்குகள் மட்டுமே — அக்னி சக்கரம் (சூரியனின் நட்சத்திரத்திலிருந்து மூன்று மூன்றாக; புதன், சுக்கிரன், சந்திரன், குரு கட்டங்கள் நல்லவை = 4-9, 13-15, 19-21) மற்றும் அக்னி எங்கே தங்குகிறது என்ற திதி-கிழமைக் கணக்கு · நட்சத்திரம், கிழமை, லக்னம் தனியே சொல்லப்படவில்லை (காரியத்துக்கு ஏற்ப மற்ற காரியங்களின் விதிகளே) · சிந்தாமணியின் வேறு கணக்கு (திதி + கிழமை + 25 ÷ 3) — கணிக்கப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி — குரு / சுக்கிர அஸ்தமனப் பட்டியல்', booksTa: 'ஜோஷி',
+    jupVenNotSet: true,
+    noteTa: 'ஜோஷி இந்தக் காரியத்துக்குத் தனி நட்சத்திர / திதிப் பட்டியல் தரவில்லை — குரு அல்லது சுக்கிரன் அஸ்தமனத்தில் தள்ள வேண்டிய காரியங்களின் பட்டியலில் "ஹோமம், யாகம்" (15), "சோம யாகம்" (6) என்று பெயர் குறிக்கிறார் · அஸ்தமனம் கணிக்கப்படுகிறது · அதே தடை: க்ஷய மாதம், அதிக மாதம், அஸ்தமனத்துக்கு முன் / பின் மூன்று நாள், குரு சிம்மத்தில் (மகம் அல்லது பூரம் 1-ஆம் பாதத்தில் விசேஷமாக) — இவை கணிக்கப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.226)', booksTa: 'கல்யாணராமன்',
+    uttarayana: 'PREFERRED',
+    nak: { good: [2, 3, 4, 7, 11, 15, 17, 20, 25, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    lagna: { good: [3, 9, 10, 11], mid: [] },
+    navMid: [3, 9, 10, 11],
+    empty: [8],
+    maleficIn: [3, 6, 10, 11],
+    jupVenNotSet: true,
+    noteTa: 'பத்து நட்சத்திரம் · "எல்லாக் கிழமைகளும்" · அமாவாசையும் சேர்க்கப்படுகிறது (ரிக்தா தள்ளு) · லக்னமும் நவாம்சமும் ஜல ராசிகளில் (கடகம், மகரம், கும்பம், மீனம்) · 8 காலி · பாபர் 3, 6, 10, 11-இல் · சந்திரன், செவ்வாய், குரு, சுக்கிரன் நீசம் / அஸ்தமனம் / பகை வீடு / கிரக யுத்தத்தில் தோல்வி கூடாது — அஸ்தமனம் மட்டும் கணிக்கப்படுகிறது',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — அக்னிஹோத்திரம்', booksTa: 'வில்ஹெல்ம்',
+    uttarayana: 'PREFERRED',
+    nak: { good: [2, 3, 4, 7, 11, 15, 17, 20, 25, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    lagna: { good: [0, 1, 2, 4, 5, 6, 7, 8], mid: [] },
+    navNot: [3, 9, 10, 11],
+    empty: [8],
+    jupVenNotSet: true,
+    noteTa: 'கல்யாணராமனின் அதே பத்து நட்சத்திரம் · ஆனால் லக்னம்: கல்யாணராமன் கடகம், மகரம், கும்பம், மீனம் "ஆகலாம்" என்கிறார், வில்ஹெல்ம் அவற்றைத் "தள்ளு" என்கிறார் — நேர் எதிர், இரண்டும் அச்சில் உள்ளபடியே · ரிக்தா திதி தள்ளு · 8 காலி · சந்திரனின் நவாம்சம் ஜல ராசியாக இருக்கக் கூடாது · சூரியன், சந்திரன், செவ்வாய், குரு கேந்திர / திரிகோண / உபசயத்தில் — கணிக்கப்படவில்லை',
+  },
+});
+const IDOL_MAKING = deepFreeze({
+  labelTa: 'விக்கிரகம் செய்தல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §24.3', booksTa: 'ஸ்ரீதர் (B.S. மேற்கோள்)',
+    nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 12, 0, 7], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    notIn: [[['Moon'], [2, 4, 5, 6, 8, 9, 12]]],
+    noteTa: 'ஸ்திர 4 + மது 4 + லகு 3 + அபிஜித் = 12 · "சுப கிழமை, சுப திதி" — திங்கள், புதன், வியாழன், வெள்ளி; ரிக்தா, அமாவாசை தள்ளு (எங்கள் வாசிப்பு) · சந்திரன் 1, 3, 7, 10, 11-ஆம் வீடுகளில் இருக்க வேண்டும் — மற்ற வீடுகள் தள்ளப்படுகின்றன · ஜன்ம நட்சத்திரம் தள்ளு — பக்கத்தில் தனியே குறிக்கப்படுகிறது',
+  },
+});
+// ---------------------------------------------------------------------------
+// Religious acts, part 2 (discourses, Agnyadhaan, mantra sadhana), added 2026-10-19
+// ---------------------------------------------------------------------------
+const DISCOURSE = deepFreeze({
+  labelTa: 'புராணம், சொற்பொழிவு கேட்பது',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §24.1', booksTa: 'ஸ்ரீதர் (J.V., B.J.S. மேற்கோள்கள்)',
+    masa: { good: [5, 6, 7, 8, 3, 4], mid: [], strict: false },
+    nak: { good: [4, 13, 16, 26, 12, 0, 7, 3, 11, 20, 25, 6, 14, 21, 23, 22], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    starCount: [{ from: 'Jupiter', of: 27, good: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 21, 22, 23, 24, 25, 26, 27], code: 'KATHA_CHAKRA' }],
+    lagna: { good: [0, 3, 6, 9], mid: [] },
+    beneficKendra: true,
+    jupVenNotSet: true,
+    noteTa: 'மது 4 + லகு 3 + அபிஜித் + ஸ்திர 4 + சர 5 = 17 ("மூன்று உத்திரம்" ஸ்திரத்திலேயே அடங்கும்) · செவ்வாய், சனி தள்ளு · ரிக்தா தள்ளு; அமாவாசையும் தள்ளப்படுகிறது (சந்திரன் அஸ்தமனம் = அமாவாசை என்று அச்சு சொல்வதால்) · சர லக்னம்; சுபர் கேந்திரத்தில் · குரு, சுக்கிரன் அஸ்தமனம் கூடாது · மோக்ஷம் தரும் ஆறு மாதங்கள் நல்லதாகக் குறிக்கப்படுகின்றன; அதிக மாதம் ஸ்ரீமத் பாகவதத்துக்கு விசேஷம் என்பது குறிப்பில் · குர்வாதித்யம் (குரு சிம்மத்தில் / சூரியன் தனுசு-மீனத்தில்), தனுர்-மீன சங்கிரமம், திதி க்ஷயம், மல மாதம் — கணிக்கப்படவில்லை',
+  },
+});
+const AGNYADHANA = deepFreeze({
+  labelTa: 'அக்னியாதானம் (அக்னி ஸ்தாபனம்)',
+  default: 'MUHURTA_CHINTAMANI',
+  order: ['MUHURTA_CHINTAMANI', 'SHRIDHAR', 'JOSHI', 'KALYANRAMAN', 'WILHELM'],
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி அத்.9', booksTa: 'முகூர்த்த சிந்தாமணி (மூல நூல்)',
+    uttarayana: 'REQUIRED',
+    nak: { good: [2, 3, 4, 7, 11, 15, 17, 20, 25, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    lagna: { good: [0, 1, 2, 4, 5, 6, 7, 8], mid: [] },
+    navNot: [3, 9, 10, 11],
+    empty: [8],
+    jupVenNotSet: true,
+    noteTa: 'ஸ்ரீதரும் வில்ஹெல்மும் பின்பற்றும் மூல நூல் · அதே பத்து நட்சத்திரம் (மிச்ர 2 + ஸ்திர 4 + ரேவதி, மிருகசீரிடம், கேட்டை, பூசம்) · உத்தராயணம் கட்டாயம் · ரிக்தா தள்ளு · கடகம், மகரம், கும்பம், மீனம் லக்னமும் நவாம்சமும் கூடாது; சந்திரனும் அவற்றில் கூடாது · 8 காலி · சந்திரன், செவ்வாய், குரு, சுக்கிரன் நீசம் / அஸ்தமனம் / பகை வீடு / கிரக யுத்தத் தோல்வி கூடாது — அஸ்தமனம் மட்டும் கணிக்கப்படுகிறது · கிரகங்கள் இருக்க வேண்டிய வீடுகள் (சூரியன், சந்திரன், குரு, செவ்வாய் 1, 3, 4, 5, 6, 7, 9, 10, 11; புதன், சுக்கிரன், சனி, ராகு, கேது 3, 6, 11) — விரும்பத்தக்கதாக மட்டும், கட்டாயமில்லை',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §24.6', booksTa: 'ஸ்ரீதர் (J.V., ஆசார்ய லல்லா, M.M. மேற்கோள்கள்)',
+    uttarayana: 'REQUIRED',
+    nak: { good: [2, 3, 4, 7, 11, 15, 17, 20, 25, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    yogaNot: [0, 5, 8, 9, 12, 14, 16, 18, 26],
+    lagna: { good: [0, 1, 2, 4, 5, 6, 7, 8], mid: [] },
+    navNot: [3, 9, 10, 11],
+    empty: [8],
+    notIn: [[['Moon', 'Mars', 'Jupiter'], [6]], [['Moon'], [8]]],
+    jupVenNotSet: true,
+    dayParts: { good: [1, 2, 3, 4], mid: [] },
+    noteTa: 'சிந்தாமணியின் அதே பத்து நட்சத்திரம், அதே உத்தராயணம், அதே லக்ன சுத்தி · கூடுதலாக: சனி (J.V.), செவ்வாய், ஞாயிறு தள்ளு · பூர்வாஹ்னம் (முற்பகல்) — நான்கு பகல் பாகங்களில் முதல் இரண்டு என்று எடுக்கப்படவில்லை, நாள் முழுவதும் நல்லது எனக் கொண்டு 4-ஆம் பஹர் மட்டும் குறிப்பில் · சந்திரன், செவ்வாய், குரு 6-இல் கூடாது; சந்திரன் 8-இல் கூடாது (கணவனுக்குக் கேடு) · இரு பக்ஷமும் ஆகும் · குரு சிம்மத்தில் கூடாது (லல்லா), அதிக / க்ஷய மாதம், சைத்திரத்தில் சூரியன் மேஷத்தில், கிரகணம், சங்கிரமம், நில நடுக்கம் போன்ற சகுனங்கள் — கணிக்கப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி — குரு / சுக்கிர அஸ்தமனப் பட்டியல்', booksTa: 'ஜோஷி',
+    jupVenNotSet: true,
+    noteTa: 'ஜோஷி இந்தக் காரியத்துக்குத் தனி நட்சத்திர / திதிப் பட்டியல் தரவில்லை — குரு அல்லது சுக்கிரன் அஸ்தமனத்தில் தள்ள வேண்டிய காரியங்களின் பட்டியலில் "சோம யாகம்" (6), "ஹோமம், யாகம்" (15) என்று பெயர் குறிக்கிறார் · அஸ்தமனம் கணிக்கப்படுகிறது · அதே தடை: க்ஷய மாதம், அதிக மாதம், அஸ்தமனத்துக்கு முன் / பின் மூன்று நாள், குரு சிம்மத்தில் (மகம் அல்லது பூரம் 1-ஆம் பாதத்தில் விசேஷமாக) — இவை கணிக்கப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.226)', booksTa: 'கல்யாணராமன்',
+    uttarayana: 'PREFERRED',
+    nak: { good: [2, 3, 4, 7, 11, 15, 17, 20, 25, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    lagna: { good: [3, 9, 10, 11], mid: [] },
+    navMid: [3, 9, 10, 11],
+    empty: [8],
+    maleficIn: [3, 6, 10, 11],
+    jupVenNotSet: true,
+    noteTa: '"அக்னிஹோத்திரம்" என்ற ஒரே பிரிவையே ஹோமம் செய்தலுக்கும் அக்னியாதானத்துக்கும் தருகிறார் — அதனால் இரு காரியங்களிலும் இதே வாசிப்பு · பத்து நட்சத்திரம் மற்ற நூல்களோடு ஒன்றே · ஆனால் லக்னம்: கடகம், மகரம், கும்பம், மீனம் "ஆகலாம், லக்னத்தில் செவ்வாயுடன்" என்று அச்சு — சிந்தாமணி, ஸ்ரீதர், வில்ஹெல்ம் மூவரும் இவற்றைத் தள்ளு என்கின்றனர்; அச்சில் உள்ளபடியே வைக்கப்பட்டுள்ளது · "எல்லாக் கிழமைகளும்" · அமாவாசையும் சேர்க்கப்படுகிறது',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — அக்னிஹோத்திரம்', booksTa: 'வில்ஹெல்ம்',
+    uttarayana: 'PREFERRED',
+    nak: { good: [2, 3, 4, 7, 11, 15, 17, 20, 25, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    lagna: { good: [0, 1, 2, 4, 5, 6, 7, 8], mid: [] },
+    navNot: [3, 9, 10, 11],
+    empty: [8],
+    jupVenNotSet: true,
+    noteTa: 'சிந்தாமணியின் அக்னியாதான ஸ்லோகத்தையே ஆங்கிலத்தில் தருகிறார் — அதே பத்து நட்சத்திரம், அதே நான்கு ராசித் தடை, 8 காலி, அதே நீண்ட யாக யோகம் · "அக்னிஹோத்திரம்" என்ற தலைப்பில் இருப்பதால் ஹோமம் செய்தலுக்கும் இதே வாசிப்பு · ரிக்தா திதி தள்ளு · கிழமை, மாதம் சொல்லப்படவில்லை',
+  },
+});
+const MANTRA_SADHANA = deepFreeze({
+  labelTa: 'யந்திர – மந்திர சாதனை தொடங்குதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'WILHELM'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §24.7', booksTa: 'ஸ்ரீதர் (J.V. மேற்கோள்)',
+    masa: { good: [4, 8, 10, 11, 1], mid: [6], strict: false },
+    nak: { good: [11, 12, 0, 21, 15, 4, 14, 5, 7, 17, 3, 20, 25], mid: [] }, digdwar: false,
+    tithi: [6, 13, 15, 21, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    vishti: true,
+    jupVenNotSet: true,
+    sunSign: { good: [0, 1, 2, 3, 4, 5, 6, 7, 9, 10], mid: [] },
+    noteTa: 'இரு பட்டியல்களின் கூட்டு = 13 நட்சத்திரம் (உத்திரம், அஸ்தம், அசுவினி, திருவோணம், விசாகம், மிருகசீரிடம் + சுவாதி, திருவாதிரை, பூசம், கேட்டை, ரோகிணி, உத்திராடம், உத்திரட்டாதி) · திதி 6, 13, பௌர்ணமி; அமாவாசையும் பிரதமையும் தள்ளு · வியாழன், புதன், ஞாயிறு, வெள்ளி (சிலர் திங்களையும் — சேர்க்கப்பட்டுள்ளது) · விஷ்டி கரணம் தள்ளு · சூரியன் தனுசு அல்லது மீனத்தில் இருக்கும்போது கூடாது · குரு / சுக்கிரன் அஸ்தமனம் கூடாது · J.V.-இன் ஐந்து மாதம் நல்லது, ஐப்பசி நடுநிலை (ஆனால் வேத மந்திரம் தொடங்க ஐப்பசி முழுவதும் தள்ளு என்று அச்சு — முரண், அச்சில் உள்ளபடியே) · "அந்த்யாய திதி" என்பது தெளிவில்லை; "பத்ரா திதி" (2, 7, 12) நல்லது என்பதும் விஷ்டி (பத்ரா) கரணம் தள்ளு என்பதும் வேறு வேறு — கணிக்கப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — மந்திரம் தொடங்குதல்', booksTa: 'வில்ஹெல்ம்',
+    masa: { good: [1, 4, 6, 7, 10, 11], mid: [], strict: false },
+    nak: { good: [3, 5, 6, 7, 9, 11, 12, 13, 14, 16, 17, 18, 20, 21, 22, 25, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24, 25, 26, 27, 28, 29],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    lagna: { good: [0, 3, 6, 9], mid: [2, 5, 8, 11] },
+    empty: [8],
+    noteTa: '"மந்திரத்தில் தீக்ஷை பெறுவது அல்லது மந்திரத்தைத் தொடங்குவது" என்று ஒரே பிரிவாகத் தருகிறார் — அதனால் தீக்ஷை பெறுதலுக்கும் இதே வாசிப்பு · பதினேழு நட்சத்திரம் · திதி 4, 8, அமாவாசை தள்ளு · செவ்வாய் தள்ளு, புதன் விசேஷம் (நடுநிலைப் பிரிவு தனியே இல்லை) · சர லக்னம் சிறந்தது, உபய ராசி நடுநிலை, ஸ்திர ராசி பயனில்லை · 8 காலி · சங்கிரமம் மிக நல்லது என்கிறார் — மற்ற நூல்கள் சங்கிரமத்தைத் தள்ளுவதற்கு நேர் எதிர்; நல்லதாகக் கணிக்கும் வழி இல்லாததால் கணிக்கப்படவில்லை · ஜன்ம நட்சத்திரமும் அதிலிருந்து 10, 19-ஆவதும் நல்லது — தாரா விதிக்கு விலக்கு, பக்கத்தில் தனியே குறிக்கப்படுகிறது',
+  },
+});
 
 const RANK = deepFreeze({
+  DISCOURSE: {
+    order: DISCOURSE.order,
+    words: { SHRIDHAR: 212 },
+    measureTa: 'சொற்பொழிவு பற்றிய சொற்கள்: ஸ்ரீதர் (§24.1, ப.667-668) 212.',
+  },
+  AGNYADHANA: {
+    order: AGNYADHANA.order,
+    words: { MUHURTA_CHINTAMANI: 677, SHRIDHAR: 488, JOSHI: 222, KALYANRAMAN: 170, WILHELM: 160 },
+    measureTa: 'அக்னியாதானம் பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (அத்.9, ப.230-231) 677; ஸ்ரீதர் (§24.6, ப.677-678) 488; ஜோஷி (ப.41-42) 222; கல்யாணராமன் (தொ.2 ப.226) 170; வில்ஹெல்ம் (ப.288) 160.',
+  },
+  MANTRA_SADHANA: {
+    order: MANTRA_SADHANA.order,
+    words: { SHRIDHAR: 196, WILHELM: 177 },
+    measureTa: 'மந்திர சாதனை பற்றிய சொற்கள்: ஸ்ரீதர் (§24.7, ப.678-679) 196; வில்ஹெல்ம் (ப.288-289) 177.',
+  },
+  DEITY_INSTALL: {
+    order: DEITY_INSTALL.order,
+    words: { SHRIDHAR: 1453, KALYANRAMAN: 951, WILHELM: 702, RAMAN: 253, JOSHI: 222 },
+    measureTa: 'பிரதிஷ்டை பற்றிய சொற்கள்: ஸ்ரீதர் (§24.4, ப.671-675) 1453; கல்யாணராமன் (தொ.2 ப.227-229) 951; வில்ஹெல்ம் (ப.289-292) 702; ராமன் (அத்.XVI, PDF ப.55) 253; ஜோஷி (ப.41-42) 222.',
+  },
+  TEMPLE_START: {
+    order: TEMPLE_START.order,
+    words: { KALYANRAMAN: 72, AGARWAL: 64 },
+    measureTa: 'கோவில் கட்டுதல் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.227) 72; அகர்வால் (ப.325) 64.',
+  },
+  MANTRA_DEEKSHA: {
+    order: MANTRA_DEEKSHA.order,
+    words: { SHRIDHAR: 787, JOSHI: 222, WILHELM: 177, KALYANRAMAN: 62 },
+    measureTa: 'மந்திர தீட்சை பற்றிய சொற்கள்: ஸ்ரீதர் (§24.2, ப.668-670) 787; வில்ஹெல்ம் (ப.288-289) 177; கல்யாணராமன் (தொ.2 ப.224) 62; ஜோஷி (ப.41-42) 222.',
+  },
+  HAVAN: {
+    order: HAVAN.order,
+    words: { MUHURTA_CHINTAMANI: 1347, SHRIDHAR: 542, JOSHI: 222, KALYANRAMAN: 170, WILHELM: 160 },
+    measureTa: 'ஹோமம் பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (2/35-36, ப.71-73) 1347; ஸ்ரீதர் (§24.5, ப.675-677) 542; ஜோஷி (ப.41-42) 222; கல்யாணராமன் (தொ.2 ப.226) 170; வில்ஹெல்ம் (ப.288) 160.',
+  },
+  IDOL_MAKING: {
+    order: IDOL_MAKING.order,
+    words: { SHRIDHAR: 127 },
+    measureTa: 'விக்கிரகம் செய்தல் பற்றிய சொற்கள்: ஸ்ரீதர் (§24.3, ப.670) 127.',
+  },
   PILLARS: {
     order: PILLARS.order,
     words: { WILHELM: 149, SHRIDHAR: 126, KALYANRAMAN: 103, JOSHI: 24 },
@@ -4685,6 +5014,47 @@ const SOURCES = deepFreeze({
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Muhurtha for digging a well or bore-well", printed p.106 (PDF 114): "Tithi 2,3,5,7,10,13, Poornima. Weekday Monday, Thursday, Friday are most preferred. The rest should be avoided. Asterism Chitra, Swati, Punarvasu, Mrigasira, Moola, Rohini, Hasta, Pushyami, Dhanishtta, Satabhisha, Revati (Jyeshtta). Lagna Makara, Kataka and Meena are excellent. Kumbha is mediocre. 1. Jupiter and the Moon should be in the kendras. 2. The Moon and Venus together in any Kendra is best preferred. 3. The Moon and Mercury together should not be in any kendra. 4. If Lagna has a malefic in it, a rock may obstruct the flow of water at the depth of 9 feet …"; "Digging a well or a bore-well", printed p.105 (PDF 113): "This should be done in the North-East sector of the site, before the commencement of house-construction"' },
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 1 "The Nakshatras", sloka 63, printed p.63 (PDF 67): "THE MUHURTAS WITH REGARD TO DIGGING WELLS OR TANKS AND BEGINNING DANCING: In the Nakshtras of Anuradha, Hasta, those called Dhruwa, and those of Dhanishta, Shatbhisha, Magha, Poorvashadha, Revati, Pushya and Mrigshira; if there is Mercury or Jupiter in the Ascendant; if the Malefics are weak; if Venus is situated in the 10th House from the Ascendant and the Moon is of the watery signs (9/10/11/12), in such a Muhurta the digging of a well and a tank etc is auspicious"' },
   },
+  DEITY_INSTALL: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§24.4 "Devpratishta - installation of God\'s idol", printed pp.671-675 (PDF 707-711): "Ayana: According to Sage Brihaspati, it is auspicious to install idol of the god in Uttrayana … However, Vaikhans Samhita prescribes that idol of those gods having gentle (Saumya) nature should be installed in Uttrayana, & of those having wrathful (Ugra) nature … be installed in southerly course of the Sun. Month: Lunar month of Pausha is the most auspicious. Sage Brihaspati commends Magha also, which brings wealth … Ashada causes destruction of doer; Shravana month causes loss to the nation; Bhadrapada inclines to demolish land; Ashvin damages the nation; Karttika increases enemies; & Margshirsha helps in expansion of enemy. Nakshatra: Fixed (Rohini, 3 Uttras), Sweet (Mrigshira, Chitra, Anuradha, Revati), Small (Hasta, Ashvani, Pushya) & Movable (Punarvasu, Swati, Shatbhish, Shravana, Dhanishta). Sage Vasist in addition recommends Jyeshta & Moola also. J.V. opines that Chitra, Anuradha, Shravana, Dhanishta & Moola are of middling nature. Sage Narad advises that 10th, 16th, 18th, 23rd & 25th asterisms [from the Janma Nakshatra] … should be left … Tithi: Sage Narad recommends 2, 3, 5, 7 & 13 Tithi. In addition to these, Sage Brihaspati recommends 8, 10, 12 & 15 (the Full Moon). Sage Vasist recommends full B.H. except 1st Tithi, & D.H. up to 10th Tithi only; & Rikta & Kshaya Tithis are to be left. B.S. recommends bright half only. Weekday: All days except Tuesday are favourable … Poorvanha is the best, followed by Madhyanha. The Pratishtan in the night-time (in Kaliyuga era) is inauspicious … Election chart: Benefics in angles & trines; & the Moon, the Sun, Mars & Saturn in 3/6/11 houses blesses the doer"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Performing Kalasa or Kumbhabhishekam of Temples", printed pp.227-229 (PDF 229-231): "Nakshatra Abhijith, Aswini, Rohini, Mrigasira, Punarvasu, Pushyami, Uttaraphalguni, Hasta, Chitra, Swati, Anuradha, Uttarashada, Sravana, Dhanishta, Uttarabhadrapada and Revati, (15+1) Tithis 2/3/5/6/7/10/11/12/13/15. Weekdays Avoid Saturday and Tuesday. Notes: 1. Uttaraayana is the best … Pausha and Magha months of the Uttaraayana are the best. 2. Though Uttaraayana is the best Dakshinaayana can also be considered for the installation of deities like Varaahamoorthi, Bhairava moorthi, Vaamanamoorthy and Narasimhamoorthy … 4. … The nakshatra of the particular Devata is good for installation of the respective idol and on his Tithi. Avoid Rikta tithis. 5. Of the weekdays Saturday and Friday are not suitable. Some take Saturday as mediocre, some reject Tuesday. Even Sunday is not that good. It will be better to do this in Sukra, Chandra, Guru, Budha days, i.e., Monday, Wednesday, Thursday and Friday … 6. Avoid Mesha, Thula, Makara and Dhanus as Lagna. Sthira raasis are the best as Lagna. Ubhaya raasis are taken as mediocre. But Dhanus is rejected. However, all the Chara raasis must be rejected … 7. Avoid malefics in 5, 8, 9 and 12 of the Prathishta muhoortha Lagna … 10. The Pancha Varga Vedha Nakshatras must be eschewed"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Religious - Installing a deity", printed pp.289-292 (PDF 297-300): "Year: Avoid the end of the lunar year. Ayana: Deities should be installed in Uttarayana. Avoid installing deities at the end of an Ayana. Masa: Avoid the month of Magha. Nakshatra: Rohini, Mrigasira, Punarvasu, Pushya, Uttaraphalguni, Hasta, Svati, Uttarashadha and Uttarabhadrapada are favorable. Asvini, Chitta, Anuradha, Mula, Sravana and Dhanishtha are middling. The rest should be avoided, though Muhurta Chintamani considers Satabhisha and Revati to be favorable as well, which can be considered as middling … The Nakshatra related to the deity is always favorable … Tithi: Should be done in the Shukla Paksha. All the odd Tithis are favorable except for the 9th. Of the even Tithis the 2nd, 6th and 10th are good … Vara: Particularly avoid Mars\'s Vara. Lagna: Fixed Rasis are best. For a female deity a dual Rasi is also very favorable. Avoid moveable Rasis under any circumstances … Bhavas: Venus is favorable in the Lagna. Malefics are favorable in the 3rd, 6th and 11th, and the Moon in the 3rd and 11th. Benefics should not be in the 8th or 12th, nor should malefics be there … Planets in the 8th: There should be no planets in the 8th, lest the family perish"' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XVI "Public Matters", PDF p.55: "Installing a Deity. - … The installation of a deity should be done when the Sun is in the Northern course. The lunar month of Magha should be avoided. According to Kalaprakasika, the ceremony is to be done when Jupiter and Venus are dignified and devoid of adverse influences. Rohini, Mrigasira, Punarvasu, Pushya, Uttara, Hasta, Swati, Uttarashadha and Uttarabhadra are good constellations for this purpose. All odd lunar days (except the 9th) including the 2nd, 6th and 10th are favourable. The Lagna must be a fixed sign. A common sign may be selected for a female Deity. Movable signs should always be rejected. The Lagna should not be conjoined by the luminaries or malefics or otherwise the town concerned will be destroyed. No malefic should occupy the 7th. There should be no planet in the 8th. The ceremony should be avoided at the end of an Ayana, the end of a year, of a lunar day and of an asterism; and on days on which halos round the Sun and the Moon are visible"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"Jupiter-Venus combustion", printed pp.40-42 (PDF 55-57): "The following acts should be avoided during combustion of Jupiter or Venus … 6. Soma Yagna 7. Prana Pratistha 8. Deeksha (Taking Mantra from Guru) … 15. Havana, Yagna. All the above acts should not be performed in Jupiter-Venus Combustion and in a Kshaya Masa or Adhika Masa … At least three days before combustion and three days after rising of Jupiter and Venus should also be avoided for all those acts which are avoided in Jupiter, Venus Combustion as the planets are weak … JUPITER IN LEO: Some learned say that all acts which are avoided in Jupier-Venus Combustion should also be avoided when Jupiter transits Leo or Simha. Jupiter in Leo is considered particularly inauspicious when it is in Magha nakshatra or first quarter of Poorvafalguni"' },
+  },
+  TEMPLE_START: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Construction of Temples, Construction of Mantaps, Marriage Halls, Hoisting Flags", printed p.227 (PDF 229): "Nakshatra Rohini, Aridra, Pushyami, Uttaraphalguni, Uttarashada, Sravana, Dhanishta, Satabhisha, Uttarabhadrapada, (9) Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Weekdays Sunday, Monday, Wednesday, Thursday, Friday. Notes: Ensure that the yogas and Karanas are beneficial"' },
+    AGARWAL: { ...AGARWAL_GS, pageLocus: '"Temple construction", printed p.325 (PDF 325): "Days: Sunday, Monday, Wednesday, Thursday, Friday. Tithis: 2, 3, 5, 7, 11, 12, 13. Nakshatras: Rohini, Mrigshira, Punarvasu, Hasta, Chitra, Aswini, Dhanishta, Anuradha, Sharavana, Vishakha all 3 Uttras. Months: Pausa, Magha, Phalguna, Vaisakha, Jyestha, Margashirsha. Sun should be Uttarayan. Muhurta kundli: Sun, Moon or a male planet should not be in lagna. 8th should be vacant and not malefics in 7th"' },
+  },
+  MANTRA_DEEKSHA: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§24.2 "Deekshagrahana", printed pp.668-670 (PDF 704-706): "Deeksha should not be taken during asterisms of Ardra, Chitra, 3 Uttras, Revati, Mrigshira, Rohini, Anuradha & Dhanishta; Saturday & Tuesday; six months from Ashvina (Ashvina, Karttika, Margshirsha, Pausha, Magha, Falguni) lunar months … Whenever there is blessing of the Guru, Deeksha can be taken without Muhurt. J.V. opines that all the times are suitable for those who aspire to get Deeksha. However, it is suggested that Ardra asterism should be left … B.J.S. opines that Deeksha when taken in lunar month of Chaitra, causes lot of pain … Vaishakha brings gain of gems & land; Jyeshta causes death; Ashada destroys friends & relatives; Shravana is auspicious & gives comforts; Bhadrapada results poverty & loss of son; Ashvina bestows all kinds of comforts; Karttika expands wealth; Margshirsha is also auspicious; Pausha causes loss in wisdom; Magha increases intellect; & Falguni bestows good fortune. Mantra as Deeksha should be taken on 2,3,5,7,10,11,12 Tithis & the Full Moon; as other Tithis are not auspicious … the New Moon day breeds quarrels & hence should always be left out. B.D.R. recommends that Deeksha on Saturday gives comforts; on Thursday all types of wealth; it results in comforts if taken on Monday & Friday; balance days are not benefic. Preeti, Saubhagya, Dhruva, Aayushman, Shubh, Siddha, Vriddhi, Harshana Yogas; & Vava, Balav, Taitil, Kaulav Karanas are auspicious in Mantra Deeksha. Taurus, Leo, Virgo, Sagittarius & Pisces as rising signs & favourable Moon & Tara are auspicious in Deeksha. Receiving of Vishnu Mantra Deeksha in fixed signs; Shiva Deeksha in movable signs; & Shakti Mantras in common signs is auspicious"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"Jupiter-Venus combustion", printed pp.40-42 (PDF 55-57): "The following acts should be avoided during combustion of Jupiter or Venus … 6. Soma Yagna 7. Prana Pratistha 8. Deeksha (Taking Mantra from Guru) … 15. Havana, Yagna. All the above acts should not be performed in Jupiter-Venus Combustion and in a Kshaya Masa or Adhika Masa … At least three days before combustion and three days after rising of Jupiter and Venus should also be avoided for all those acts which are avoided in Jupiter, Venus Combustion as the planets are weak … JUPITER IN LEO: Some learned say that all acts which are avoided in Jupier-Venus Combustion should also be avoided when Jupiter transits Leo or Simha. Jupiter in Leo is considered particularly inauspicious when it is in Magha nakshatra or first quarter of Poorvafalguni"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Religious - Initiation into or beginning a mantra", printed pp.288-289 (PDF 296-297): "The following guidelines would also apply to spiritual initiations of any sort. Masa: Learning a mantra during Visakha, Sravana, Asvina, Karttika, Magha or Phalguna will produce most favorable results. Chaitra produces great misery, Visakha brings gems, Jyeshtha is fatal, Ashadha harms the relatives, Sravana gives exaltation, Bhadrapada causes loss of children, Asvina gives well-being, Karttika supports mental development, Margasiras produces evil, Pushya ruins the intellect, Magha produces intellectual growth, Phalguna makes the disciple liked and loved by all. Nakshatra: Rohini, Ardra, Punarvasu, Pushya, Magha, Uttaraphalguni, Hasta, Chitta, Svati, Anuradha, Jyeshtha, Mula, Uttarashadha, Sravana, Dhanishtha, Uttarabhadrapada and Revati are favorable. Tara: In addition to the normally favorable Taras, the Janma Nakshatra as well as the 10th and 19th from there are favorable. Tithi: Avoid the 4th, 8th and Amavasya. Vara: Avoid Mars\'s Vara. Mercury\'s Vara is particularly favorable. Lagna: Moveable Rasis are best, dual Rasis are middling, while fixed Rasis are useless for starting a mantra. Bhavas: The 8th house should be unoccupied. Miscellaneous: Sankranti is very favorable"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Getting Initiated in Mantra Japa", printed p.224 (PDF 226): "Nakshatra Abhijith, Aswini, Rohini, Mrigasira, Poorvabhadrapada, Punarvasu, Pushyami, Makha, Uttaraphalguni, Hasta, Swati, Anuradha, Moola, Uttarashada, Sravana, Uttarabhadrapada, Revati (16+1) Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Weekdays Sunday, Monday, Wednesday, Thursday, Friday. Notes: Prefer benefic yogas and Karanas"' },
+  },
+  HAVAN: {
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 "The Nakshatras", slokas 35-36, printed pp.71-73 (PDF 74-77): "THE MUHURTA FOR DOING HAVANA OR YAJNA (BURNING SACRED FIRE): In the three Nakshtras each from the Nakshtra of the Sun to that of the Moon, the Planets respectively of the Sun, Mercury, Venus, Saturn, Moon, Mars, Jupiter, Rahu and Ketu are the Sharers of the ahuti of the Havana … The Ahuti of the Havana is inauspicious in the Nakshtra which belongs to a Malefic Planet … According to Maharishi Kashyap … if the Sun receives the Ahuti there is the destruction of the Auspicious effects; if the Moon receives it the crops will be inundated; if Mars is the receiver there will be the fear of fire; if Mercury, the increase in the intellectual powers; if Jupiter, the fulfilment of the desired objective; if Venus, there is the profit of the worldly and the other worldly property or wealth; if Saturn, there is the destruction of wealth and the loss of kingdom; if Rahu, there will be loss of every kind and; if Ketu there will be famine, death and loss of kingdom. THE ABODE OF LIVING OF FIRE IN THE HAVANA AND THE AUSPICIOUS AND INAUSPICIOUS EFFECTS OF IT: One should be added to the Tithi … and then the number of the day (the number from Sunday) is to be added to it and the Sum is to be divided by 4. If the reminder is 3 or 0 then the abode of the Fire is on the Earth and by doing the Havana on that day the performer gets happiness; if the remainder comes to be 1, the abode of the Fire is in Heaven and by doing Havana on that day there is the loss of life; if the remainder comes to be 2, the abode of the Fire is in the Paatal … there is the loss of wealth"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§24.5 "Ahuti in Havan", printed pp.675-677 (PDF 711-713): "An aspirant should select a suitable Tithi & constellation for Ahutis in Havan obtained from Agni Chakra … In the Agni Chakra, from the constellation occupied by the Sun, 3 planets each are allocated to the Sun, Mercury, Venus, Saturn, the Moon, Mars, Jupiter, Rahu & Ketu in order. If the current constellation of the Moon thus obtained from that of the Sun is in the block of the benefic planet, the desired results are accomplished. The Havan should not be performed when the Moon is in the block of a malefic planet as it causes adverse effects (M.C-2/35) … According to J.V. the Agni Chakra is not to be considered in Agnihotra, planetary Yagya & warding off evil of omens. According to Ratnavalli & Muhurt Darpan, the Agni Chakra should not be considered in marriage, Upanayana, tonsure, Vishnu Pooja, Durga Pujan-Navratris, Pooja of family deity, daily Homa; propitiation of planets in transit, during eclipse & Gandanta … Add one to the Tithi number (counted from the New Moon as one), & add day number to it. If the remainder after dividing by 4 is: 3 or 0 - then the fire of the Havan resides on the earth; if it is 1 - then it resides in the Heavens; if the remainder is 2 - then the fire resides on the Patal Loka. Havan is done when the fire resides on the earth as it augurs comforts & auspiciousness; in Heavens - it indicates loss of life; & if it resides in Patal Loka - it portends loss of wealth. Sage Manu, M.C. & Ratnavali prescribe the above mode"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"Jupiter-Venus combustion", printed pp.40-42 (PDF 55-57): "The following acts should be avoided during combustion of Jupiter or Venus … 6. Soma Yagna 7. Prana Pratistha 8. Deeksha (Taking Mantra from Guru) … 15. Havana, Yagna. All the above acts should not be performed in Jupiter-Venus Combustion and in a Kshaya Masa or Adhika Masa … At least three days before combustion and three days after rising of Jupiter and Venus should also be avoided for all those acts which are avoided in Jupiter, Venus Combustion as the planets are weak … JUPITER IN LEO: Some learned say that all acts which are avoided in Jupier-Venus Combustion should also be avoided when Jupiter transits Leo or Simha. Jupiter in Leo is considered particularly inauspicious when it is in Magha nakshatra or first quarter of Poorvafalguni"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Performing Yagjnas or Sacrificial Homas, To Perform Havana Yagjna and the like (Agnihotra)", printed p.226 (PDF 228): "Nakshatra Krittika, Rohini, Mrigasira, Pushyami, Uttaraphalguni, Visaka, Jyeshta, Uttarashada, Uttarabhadrapada, Revati (10) Tithis 1/2/3/5/6/7/8/10/11/12/13/15/30 Avoid Rikta. Weekdays All days. Notes: Good in Uttaraayana. The Lagna and Navaamsa can be in Cancer, Capricorn, Aquarius, Pisces with Mars in the Lagna, Sun, Moon, Mars and Jupiter preferably in 1/3/4/5/6/7/9/10/11 houses. Malefics in 3/6/10/11 houses. House 8 must be free of any planet. Jupiter in Sagittarius, Lagna, Mars in Aries, Lagna, Mars in 7 or 10, Moon or Sun in 3/6/11 are good. Moon, Mars, Jupiter, Venus must not be debilitated, combust, placed in enemy houses or defeated in grahayuddha"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Religious - Agnihotra", printed p.288 (PDF 296): "Ayana: Uttarayana is best. Nakshatra: Krittika, Rohini, Mrigasira, Pushya, Uttaraphalguni, Visakha, Jyeshtha, Uttarashadha, Uttarabhadrapada and Revati are favorable. Tithi: Particularly avoid the 4th, 9th and 14th Tithi. Lagna: The Lagna and Navamsa Lagna should not be Cancer, Capricorn, Aquarius or Pisces. Bhavas: The 8th house should be unoccupied. The Sun, Moon, Mars and Jupiter are particularly favorable in angles, trines or Upachayas, while Mercury, Venus, Saturn, Rahu and Ketu are particularly favorable in the 3rd, 6th and 11th. Grahas: The Moon, Mars, Jupiter and Venus should not be debilitated, combust, in enemy\'s Rasi or overcome in war. The Moon should not be in Cancer, Capricorn, Aquarius or Pisces Navamsa"' },
+  },
+  IDOL_MAKING: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§24.3 "Idol making", printed p.670 (PDF 706): "It is auspicious to make an idol of God in Stationary (Rohini, 3 Uttras), Sweet (Mrigshira, Chitra, Anuradha, Revati) & Small (Hasta, Ashvani, Pushya, Abhijit) asterisms; on a benefic day & Tithi; & when the Moon is in 3,10,7,1,11 houses in the election chart. Janma nakshatra should be avoided in crafting or making the idol. Idol of wood bestows longevity, wealth, strength & victory; idol studded with gems increases welfare of people; idol made of gold brings stability & firmness; of silver increases fame; of brass increases progeny; of stone & also Shiva Linga blesses with gain of land (B.S.)"' },
+  },
+  DISCOURSE: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§24.1 "Listening to religious discourses", printed pp.667-668 (PDF 703-704): "Listening to the stories of the Puranas & religious lectures is auspicious in Sweet, Small, Stationary, Movable (Punarvasu, Swati, Shravana, Shatbhish, Dhanishta) & three Uttra asterisms; on days other than Tuesday & Saturday; during Tithis other than Rikta; & in movable ascendant and the benefic planets in quadrants (J.V). Mall Maas, combustion of Venus or Jupiter or the Moon (the New Moon day), Gurvaditya (Jupiter in Leo or the Sun in signs ruled by Jupiter), Sankranti of Sagittarius & Pisces, Tithi Kshaya, Saturday & Tuesday; are prohibited in Bhagvat Katha … Discourses started in lunar months of Bhadrapada, Ashvina, Karttika, Margshirsha, Ashada & Shravana bestow Moksha to the listeners. Adhika Maas is especially beneficial in listening to Shrimadbhagvad. B.J.S. quoting an ancient saint states that fruit of the religious discourses / stories is obtained from Katha Chakra, in which current asterism is counted from that of the one occupied by Jupiter. First 4 asterisms are givers of wealth; next 4 bestow Siddhi; next 4 are beneficial; next 4 are indicative of death; next 4 incline to cause fear from government (king); & the last three bless with Moksha"' },
+  },
+  AGNYADHANA: {
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 9 "The doing of Yajnas", slokas 1-3, printed pp.230-231 (PDF 234-235): "THE MUHURTA FOR AGNYADHAAN OR WORSHIP OF FIRE: The doing of Agnihotra (Yajna) is auspicious at the time when the Sun is in Uttarayana … on the other Tithis except those of Rikta (4/9/14) in the Nakshtras named as Mishra or mixed (Vishakha and Kritika), in those named as Dhruva or Sthira (the 3 Uttaras and Rohini), in those of Rewati, Mrigashira, Jyeshtha, and Pushya - in these 10 Nakshtras. The doing of Yajna or Havana is inauspicious if the Moon, Mars, Jupiter and Venus are in their debilitation signs, are combust, are defeated in the Planetary war and are in the enemy signs. Notes: The worship of fire … is known by the name of Agnyadhan or Agnihotra … It is done by men with their wives … At the time of the division of property among brothers the doing of Agnyadhaan is regarded as the most important thing … If Agnyadhaan is done at the time of marriage there is no need for it to consult the Muhurta. LAGNA SHUDHDHI IN AGNYADHAAN: The situation of the Moon and of the Navamshas of the Cancer, Capricorn, Pisces, Aquarius signs and of the Lagna or Ascendant of these is regarded as inauspicious in Agnyadhaan. If in the 9/5/1/4/7/10/3/6/11 Houses from the Lagna there are the Sun, the Moon, Jupiter and Mars and in the 6/3/11 Houses there are Mercury, Venus, Saturn, Rahu and Ketu, and the 8th House from the Lagna is without any Planet, then Agnyadhaan is auspicious. THE YOGA DUE TO WHICH THE NATIVE CONTINUOUSLY DOES YAJNAS: If Jupiter is situated in the Ascendant of Sagittarius or there is Aries sign in the Ascendant and Mars is situated in it or Mars is there in the 10th or the 7th House from the Ascendant or in the 3/6/11 Houses there is the Moon or the Sun, then the doer of Agnihotra does Yajnas for a long time"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§24.6 "Agnyadhaan - worship of fire", printed pp.677-678 (PDF 713-714): "Worshipping of fire done through the Vedic or Smart Karam done after marriage is known as Agnihotra or Agnyadhaan. It is done by a couple only, & not alone by husband … Agnihotra Yagya should be done in Uttrayana; on the Tithis other than Rikta; in asterisms of Mixed (Vishakha, Krittika); Stationary (Rohini, 3 Uttras); Revati, Mrigshira, Jyeshta, Pushya. The Moon, Jupiter & Venus should not be combust, debilitated or inimical signs & defeated in the planetary war. Rising sign or navamsha of Cancer, Capricorn, Aquarius & Pisces, is inauspicious; & the Moon should be neither in these signs or navamshas. J.V. does not recommend Saturday & malefic Yogas, but could be done in both B.H. & D.H. … Agnyadhaan is auspicious when the Sun, the Moon, Jupiter & Mars are in angles, trine & 3/6/11 houses; Mercury, Venus, Saturn, Rahu & Ketu are in 6/3/11 houses; & the 8th house of the election chart is vacant. Poorvanha is suitable time & the Moon & the Tara should be auspicious. It should not be performed when Jupiter is in Leo (Acharya Lalla); the Moon, Mars, Jupiter should not be in 6th house or combust or debilitated; Tuesday & Sunday; Adhika or Kshaya Maasas; the Moon is unfavourable; portents like earthquake, lightening, meteor etc. are seen … The Moon in 8th house destroys husband; benefic in 8th causes illness to the couple … It is prohibited in Chaitra when the Sun is in Aries; in 4th Pahar; Dhakshinayana; combustion period of Jupiter or Venus; eclipse; Kshaya & Vridhi Kaal; Sankranti as they soil the pious Yagya"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"Jupiter-Venus combustion", printed pp.40-42 (PDF 55-57): "The following acts should be avoided during combustion of Jupiter or Venus … 6. Soma Yagna 7. Prana Pratistha 8. Deeksha (Taking Mantra from Guru) … 15. Havana, Yagna. All the above acts should not be performed in Jupiter-Venus Combustion and in a Kshaya Masa or Adhika Masa … At least three days before combustion and three days after rising of Jupiter and Venus should also be avoided for all those acts which are avoided in Jupiter, Venus Combustion as the planets are weak … JUPITER IN LEO: Some learned say that all acts which are avoided in Jupier-Venus Combustion should also be avoided when Jupiter transits Leo or Simha. Jupiter in Leo is considered particularly inauspicious when it is in Magha nakshatra or first quarter of Poorvafalguni"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Performing Yagjnas or Sacrificial Homas, To Perform Havana Yagjna and the like (Agnihotra)", printed p.226 (PDF 228): "Nakshatra Krittika, Rohini, Mrigasira, Pushyami, Uttaraphalguni, Visaka, Jyeshta, Uttarashada, Uttarabhadrapada, Revati (10) … Tithis 1/2/3/5/6/7/8/10/11/12/13/15/30 Avoid Rikta. Weekdays All days. Notes: Good in Uttaraayana. The Lagna and Navaamsa can be in Cancer, Capricorn, Aquarius, Pisces with Mars in the Lagna, Sun, Moon, Mars and Jupiter preferably in 1/3/4/5/6/7/9/10/11 houses. Malefics in 3/6/10/11 houses. House 8 must be free of any planet. Jupiter in Sagittarius, Lagna, Mars in Aries, Lagna, Mars in 7 or 10, Moon or Sun in 3/6/11 are good. Moon, Mars, Jupiter, Venus must not be debilitated, combust, placed in enemy houses or defeated in grahayuddha"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Religious - Agnihotra", printed p.288 (PDF 296): "Ayana: Uttarayana is best. Nakshatra: Krittika, Rohini, Mrigasira, Pushya, Uttaraphalguni, Visakha, Jyeshtha, Uttarashadha, Uttarabhadrapada and Revati are favorable. Tithi: Particularly avoid the 4th, 9th and 14th Tithi. Lagna: The Lagna and Navamsa Lagna should not be Cancer, Capricorn, Aquarius or Pisces. Bhavas: The 8th house should be unoccupied. The Sun, Moon, Mars and Jupiter are particularly favorable in angles, trines or Upachayas, while Mercury, Venus, Saturn, Rahu and Ketu are particularly favorable in the 3rd, 6th and 11th. Grahas: The Moon, Mars, Jupiter and Venus should not be debilitated, combust, in enemy\'s Rasi or overcome in war. The Moon should not be in Cancer, Capricorn, Aquarius or Pisces Navamsa. Combinations: If Jupiter is in Sagittarius Lagna, or if Mars is in Aries Lagna, or if Mars is in the 7th or 10th, or if the Sun or Moon is in the 3rd, 6th or 11th, the doer of the Agnihotra does Yajnas for a long time"' },
+  },
+  MANTRA_SADHANA: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§24.7 "Yantra - Mantra Sadhana", printed pp.678-679 (PDF 714-715): "Starting of works related to Yantra & Mantra in asterisms of Uttra Falguni, Hasta, Ashvani, Shravana, Vishakha & Mrigshira; & on auspicious days (including Sunday) is fortuitous. Month & Tithi of the specific deity & eclipse are specifically benefic. According to J.V., Yantra, Mantra & their related matters should be learnt in asterisms of Shravana, Mrigshira, Magha, U.Falguni & Vishakha; & in the months represented by them (viz., Shravana, Margshirsha, Magha, Falguni & Vaishakha). Some Acharyas recommend Ashvina also. Leave Andhyaya Tithis, the New Moon & 1st Tithi; & the full month of Ashvina in starting of Ved Mantra. Mantra - Yantra - Vrata is not recommended when the Sun is in Sagittarius or Pisces or when Jupiter or Venus is set. Select weekday (Tithi) of Devta of the Mantra for initiating Sadhana, which shall give beneficial results. Exponents have recommended Thursday, Wednesday, Sunday & Friday (some recommend Monday also); without Bhadra Vishti; for initiating all types of Mantras. Yantra - Mantra & Vrata should be initiated on 6th, 13th, Poorna & Bhadra Tithis; in asterisms of Swati, Vishakha, Ardra, Pushya, Jyeshta, Ashvani, Shravana & Stationary (Rohini & 3 Uttras). However Mantra Sadhana of Yaksha Devatas is done on malefic days in Sharp asterisms (Jyeshta, Ardra, Ashlesha & Moola)"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Religious - Initiation into or beginning a mantra", printed pp.288-289 (PDF 296-297): "The following guidelines would also apply to spiritual initiations of any sort. Masa: Learning a mantra during Visakha, Sravana, Asvina, Karttika, Magha or Phalguna will produce most favorable results. Chaitra produces great misery, Visakha brings gems, Jyeshtha is fatal, Ashadha harms the relatives, Sravana gives exaltation, Bhadrapada causes loss of children, Asvina gives well-being, Karttika supports mental development, Margasiras produces evil, Pushya ruins the intellect, Magha produces intellectual growth, Phalguna makes the disciple liked and loved by all. Nakshatra: Rohini, Ardra, Punarvasu, Pushya, Magha, Uttaraphalguni, Hasta, Chitta, Svati, Anuradha, Jyeshtha, Mula, Uttarashadha, Sravana, Dhanishtha, Uttarabhadrapada and Revati are favorable. Tara: In addition to the normally favorable Taras, the Janma Nakshatra as well as the 10th and 19th from there are favorable. Tithi: Avoid the 4th, 8th and Amavasya. Vara: Avoid Mars\'s Vara. Mercury\'s Vara is particularly favorable. Lagna: Moveable Rasis are best, dual Rasis are middling, while fixed Rasis are useless for starting a mantra. Bhavas: The 8th house should be unoccupied. Miscellaneous: Sankranti is very favorable"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -4749,7 +5119,9 @@ const CODE_TA = Object.freeze({
   SAT_11_MID: '11-ல் சனி இல்லை', SAT_6_11_MID: '6 / 11-ல் சனி இல்லை', VEN_MOON_4_MID: '4-ல் சுக்கிரன், சந்திரன் இல்லை', JUP_TRIKONA_MID: 'குரு 1 / 5 / 9-ல் இல்லை',
   JUP_KONA_MID: 'குரு 5 / 9-ல் இல்லை', SAT_UPACHAYA_12_MID: 'சனி 3 / 6 / 10 / 11 / 12-ல் இல்லை',
   STAMBHA_CHAKRA: 'ஸ்தம்ப சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 7-26 அல்ல', DWAR_CHAKRA: 'த்வார சக்கரம்: நூல் சொன்ன பகுதி அல்ல',
-  TADAG_CHAKRA: 'தடாக சக்கரம்: நீர் தரும் எண் அல்ல', VENUS_LAGNA_MID: 'லக்னத்தில் சுக்கிரன் இல்லை',
+  TADAG_CHAKRA: 'தடாக சக்கரம்: நீர் தரும் எண் அல்ல',
+  AGNI_CHAKRA: 'அக்னி சக்கரம்: பாப கிரகக் கட்டம்', HAVAN_FIRE: 'ஹோம அக்னி பூமியில் இல்லை (திதி + கிழமை)',
+  KATHA_CHAKRA: 'கதா சக்கரம்: குரு நட்சத்திரத்திலிருந்து 13-20 (மரணம் / அரச பயம்)', VENUS_LAGNA_MID: 'லக்னத்தில் சுக்கிரன் இல்லை',
   JUP_VEN_MOON_KENDRA_MID: 'கேந்திரத்தில் குரு / சுக்கிரன் / சந்திரன் இல்லை', VEN_MOON_KENDRA_MID: 'கேந்திரத்தில் சுக்கிரனும் சந்திரனும் இல்லை',
   JUP_MOON_KENDRA_MID: 'கேந்திரத்தில் குருவும் சந்திரனும் இல்லை', JUP_MERC_LAGNA_MID: 'லக்னத்தில் குருவோ புதனோ இல்லை',
   BHU_SHAYANA: 'பூமி சயனம் (சூரிய நட்சத்திரத்திலிருந்து 5, 7, 9, 12, 19, 26)', VASTU_CHAKRA: 'வாஸ்து சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 8-18 அல்ல',
@@ -5091,9 +5463,58 @@ const NOTES_WELL_TANK_TA = Object.freeze([
   'தடாக சக்கரம் (ஸ்ரீதர்): சூரியனின் நட்சத்திரத்திலிருந்து எண்ணி (அபிஜித் உட்பட, 28) — 3-4, 7-10, 13-14, 17-22 நீர் நல்லது; 1-2, 5-6, 11-12, 15-16, 23-28 சோகம் / நீரின்மை / கெட்ட நீர். கணிக்கப்படுகிறது. கூப சக்கரத்தின் அச்சு மங்கலாக உள்ளது — கணிக்கப்படவில்லை.',
 ]);
 
+const NOTES_DEITY_INSTALL_TA = Object.freeze([
+  'தெய்வ விக்கிரகத்தை நிறுவுதல் (தேவ பிரதிஷ்டை), கோவில் கும்பாபிஷேகம். உத்தராயணமே உகந்தது; ஆனால் உக்ர தெய்வங்கள் (வராகர், நரசிம்மர், பைரவர், துர்க்கை) தட்சிணாயனத்தில் (ஸ்ரீதர் வைகானஸ ஸம்ஹிதை, கல்யாணராமன்).',
+  'தெய்வத்தின் சொந்த நட்சத்திரமும் திதியும் எப்போதும் நல்லவை (வில்ஹெல்ம், கல்யாணராமன்) — தெய்வம் யார் என்பது இங்கே தெரியாததால் கணிக்கப்படவில்லை.',
+  'செவ்வாய்க்கிழமை தவிர்க்க (நான்கு நூலும்); ஸ்திர லக்னம் சிறந்தது, பெண் தெய்வத்துக்கு த்விஸ்வபாவமும் நல்லது (வில்ஹெல்ம்); சர லக்னம் எக்காரணத்தாலும் கூடாது.',
+  'கணிக்கப்படவில்லை: பஞ்ச வர்க்க வேதை நட்சத்திரக் குழுக்கள் (கல்யாணராமன்), தந்திரி / ஊர்த் தலைவரின் ஜன்மாஷ்டம ராசி, ஜாதி வாரியான அட்டவணை (ஸ்ரீதர்), பாவக வாரியான பலன்கள் (வில்ஹெல்ம்), ஜன்ம நட்சத்திரத்திலிருந்து 10, 16, 18, 23, 25-ஆவது நட்சத்திரங்கள் (நாரதர்).',
+]);
+const NOTES_TEMPLE_START_TA = Object.freeze([
+  'கோவில், மண்டபம், திருமண மண்டபம் கட்டத் தொடங்குதல், கொடி ஏற்றுதல்.',
+  'வீடு கட்டும் விதிகள் (மாதம், வாஸ்து சக்கரம், பூமி சயனம்) இங்கேயும் பொருந்தும் — "வீடு கட்டத் தொடங்குதல்" காரியத்தைப் பார்க்கவும். கோவிலுக்கான ராகு முகத் திசை வீட்டுக்கானதிலிருந்து வேறு (மு.சி. ஸ்லோ.19, ஸ்ரீதர் அட்டவணை 27.12) — திசை கணிக்கப்படவில்லை.',
+  'விக்கிரக பிரதிஷ்டை, கும்பாபிஷேகம் — தனிக் காரியம்.',
+]);
+const NOTES_MANTRA_DEEKSHA_TA = Object.freeze([
+  'குருவிடம் மந்திர தீட்சை / உபதேசம் பெறுதல். "குருவின் அருள் இருக்கும்போது முகூர்த்தம் இல்லாமலும் தீட்சை பெறலாம்" (ஸ்ரீதர்).',
+  'ஸ்ரீதர் தரும் விதி தவிர்ப்புகளால் ஆனது: திருவாதிரை, சித்திரை, 3 உத்திரங்கள், ரேவதி, மிருகசீரிடம், ரோகிணி, அனுஷம், தனிஷ்டா; சனி, செவ்வாய்; புரட்டாசி முதல் ஆறு மாதங்கள். வில்ஹெல்மும் கல்யாணராமனும் நேரடியாக நல்ல நட்சத்திரங்களைத் தருகின்றனர்.',
+  'விஷ்ணு மந்திரம் ஸ்திர ராசியில், சிவ தீட்சை சர ராசியில், சக்தி மந்திரம் த்விஸ்வபாவ ராசியில் (ஸ்ரீதர்) — எந்த மந்திரம் என்பது இங்கே தெரியாததால் கணிக்கப்படவில்லை.',
+  'ஜாதி வாரியான ருது / நேரம், சதுஷ்க தோஷம், மாத வாரியான சிறப்புத் திதிகள் (ராம நவமி, அக்ஷய திருதியை போன்றவை) — கணிக்கப்படவில்லை.',
+]);
+const NOTES_HAVAN_TA = Object.freeze([
+  'ஹோமம், யாகம், ஆகுதி, அக்னிஹோத்திரம். அக்னியாதானம் (அக்னியை ஸ்தாபித்து வழிபடுதல், ஸ்ரீதர் §24.6, மு.சி. அத்.9) தனி காரியமாகக் கொடுக்கப்பட்டுள்ளது.',
+  'அக்னி சக்கரம் (ஸ்ரீதர், மு.சி. 2/35): சூரியனின் நட்சத்திரத்திலிருந்து மூன்று மூன்றாக சூரியன், புதன், சுக்கிரன், சனி, சந்திரன், செவ்வாய், குரு, ராகு, கேது என்று பிரிக்க — சந்திரன் சுப கிரகக் கட்டத்தில் வந்தால் பலன் கிட்டும், பாப கிரகக் கட்டத்தில் வந்தால் கூடாது. கணிக்கப்படுகிறது.',
+  'ஹோம அக்னி எங்கே தங்குகிறது (மனு, மு.சி., ரத்னாவளி): திதி எண் + 1 + கிழமை எண் (ஞாயிறு 1) ÷ 4; மீதி 3 அல்லது 0 — அக்னி பூமியில் (நல்லது); 1 — சொர்க்கத்தில் (ஆயுள் இழப்பு); 2 — பாதாளத்தில் (பொருள் இழப்பு). கணிக்கப்படுகிறது.',
+  'J.V.: அக்னிஹோத்திரம், கிரக யாகம், சகுன சாந்திக்கு அக்னி சக்கரம் பார்க்கத் தேவையில்லை; ரத்னாவளி, முகூர்த்த தர்பணம்: திருமணம், உபநயனம், சவரம், விஷ்ணு பூஜை, துர்கா பூஜை, குல தெய்வ பூஜை, நித்திய ஹோமம், கிரக சாந்தி, கிரகணம், கண்டாந்தத்திலும் தேவையில்லை.',
+]);
+const NOTES_IDOL_MAKING_TA = Object.freeze([
+  'தெய்வ விக்கிரகத்தைச் செதுக்குதல் / செய்தல் — பிரதிஷ்டைக்கு முந்தைய படி. ஒரே நூலே (ஸ்ரீதர்) இதைத் தனியே தருகிறது.',
+  'செய்பவரின் ஜன்ம நட்சத்திரத்தைத் தவிர்க்க வேண்டும் — பக்கத்தில் தனியே குறிக்கப்படுகிறது.',
+  'எந்தப் பொருளில் செய்வது என்பதன் பலன்கள் (மரம் — ஆயுள், ரத்தினம் — நலன், தங்கம் — நிலைப்பு, வெள்ளி — புகழ், பித்தளை — சந்ததி, கல் / சிவலிங்கம் — நிலம்) மற்றும் வராகமிஹிரரின் அளவு விதிகள் (பிருஹத் ஸம்ஹிதை அத்.58) — முகூர்த்தம் அல்ல.',
+]);
+
+const NOTES_DISCOURSE_TA = Object.freeze([
+  'புராணக் கதை, பாகவதம், மத சொற்பொழிவு கேட்கத் தொடங்குவது. ஒரே நூலே (ஸ்ரீதர் §24.1) இதைத் தனியே தருகிறது — மற்ற ஒன்பது நூல்களிலும் இந்தக் காரியத்துக்குத் தனிப் பிரிவு இல்லை.',
+  'கதா சக்கரம் (B.J.S., ஒரு பழைய முனிவர் மேற்கோள்): குருவின் நட்சத்திரத்திலிருந்து அந்நாள் நட்சத்திரம் வரை எண்ண — முதல் 4 செல்வம், அடுத்த 4 சித்தி, அடுத்த 4 நன்மை, அடுத்த 4 மரணம், அடுத்த 4 அரச பயம், இறுதி 3 மோக்ஷம். 13-20 மட்டும் தள்ளப்படுகிறது.',
+  'அச்சில் 21 முதல் 24 வரையிலான நான்கு எண்களுக்குப் பலன் சொல்லப்படவில்லை (4+4+4+4+4+3 = 23 மட்டுமே). அச்சு கெட்டது என்று சொல்வது 13-20 மட்டுமே; அதனால் அந்த எட்டு மட்டும் தள்ளப்படுகிறது, பெயர் சொல்லப்படாத 21-24 தள்ளப்படவில்லை.',
+  'பாகவத கதைக்குச் சொல்லப்பட்ட தனித் தடைகள் (மல மாதம், சுக்கிரன் / குரு / சந்திரன் அஸ்தமனம், குர்வாதித்யம், தனுர் / மீன சங்கிரமம், திதி க்ஷயம்) மற்றும் மாத பலன்கள் — குறிப்பில்.',
+]);
+const NOTES_AGNYADHANA_TA = Object.freeze([
+  'திருமணத்துக்குப் பின் வேத / ஸ்மார்த்த முறையில் அக்னியை ஸ்தாபித்து வழிபடுவது — அக்னியாதானம் அல்லது அக்னிஹோத்திரம். கணவன் மனைவி இருவரும் சேர்ந்தே செய்வது; கணவன் தனியாகச் செய்வதில்லை.',
+  'திருமணத்தின்போதே அல்லது தந்தை சொத்தைப் பகிர்ந்தளிக்கும்போது செய்தால் முகூர்த்தம் தேவையில்லை (சொத்துப் பிரிவினையில் முகூர்த்தம் வேண்டும் என்பது சிலர் கருத்து); பக்தி எழும் நேரமே சரியான நேரம் என்பதும் ஒரு கருத்து.',
+  'ஹோமம் / யாகம் செய்வது (அக்னி சக்கரம், அக்னி வாசம்) தனி காரியமாகக் கொடுக்கப்பட்டுள்ளது. கல்யாணராமனும் வில்ஹெல்மும் ஒரே பிரிவையே "அக்னிஹோத்திரம்" என்று தருவதால் அவர்களின் வாசிப்பு இரு காரியங்களுக்கும் பொதுவானது.',
+  'சிந்தாமணி தரும் நீண்ட யாக யோகம்: குரு தனுசு லக்னத்தில், அல்லது மேஷ லக்னத்தில் செவ்வாய், அல்லது செவ்வாய் 7 / 10-இல், அல்லது சூரியன் / சந்திரன் 3, 6, 11-இல் — யாகம் நெடுங்காலம் தொடரும். கணிக்கப்படுகிறது.',
+]);
+const NOTES_MANTRA_SADHANA_TA = Object.freeze([
+  'யந்திரம், மந்திரம், விரதம் தொடர்பான சாதனையைத் தொடங்குவது — குருவிடம் தீக்ஷை பெறுவது (தனி காரியம்) அல்ல, பெற்ற மந்திரத்தை ஜபிக்கத் / சாதிக்கத் தொடங்குவது.',
+  'ஸ்ரீதர் §24.7-இல் இரு வேறு ஆசாரியர்களின் இரு நட்சத்திரப் பட்டியல்கள் உள்ளன: (அ) தொடங்குவதற்கு — உத்திரம், அஸ்தம், அசுவினி, திருவோணம், விசாகம், மிருகசீரிடம்; (ஆ) யந்திர-மந்திர-விரதம் தொடங்குவதற்கு — சுவாதி, விசாகம், திருவாதிரை, பூசம், கேட்டை, அசுவினி, திருவோணம் மற்றும் ஸ்திர 4. இரண்டின் கூட்டே நல்ல நட்சத்திரமாக எடுக்கப்பட்டுள்ளது; எது எந்தப் பட்டியல் என்பது கீழே தனியே.',
+  'J.V. மந்திரம் கற்பதற்கு: திருவோணம், மிருகசீரிடம், மகம், உத்திரம், விசாகம் — மேலும் அவற்றின் பெயர் மாதங்கள் (ஆவணி, மார்கழி, தை, பங்குனி, வைகாசி); சிலர் ஐப்பசியையும் சேர்க்கின்றனர்.',
+  'தேவதையின் மாதம், திதி, கிழமை தேர்ந்தெடுப்பது சிறப்பு; கிரகணம் மந்திர சாதனைக்கு விசேஷமாக நல்லது என்று அச்சு சொல்கிறது — கிரகணம் கணிக்கப்படவில்லை.',
+  'யக்ஷ தேவதா மந்திரங்கள் மட்டும் தீய கிழமைகளில், தீக்ஷண நட்சத்திரங்களில் (கேட்டை, திருவாதிரை, ஆயில்யம், மூலம்) — இது பொது விதிக்கு நேர் எதிர், குறிப்பாக மட்டும்.',
+]);
+
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK'],
-  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA,
 });
 
 module.exports = {
@@ -5151,6 +5572,14 @@ module.exports = {
     UPPER_STOREY: NOTES_UPPER_STOREY_TA,
     HOUSE_REPAIR: NOTES_HOUSE_REPAIR_TA,
     WELL_TANK: NOTES_WELL_TANK_TA,
+    DEITY_INSTALL: NOTES_DEITY_INSTALL_TA,
+    TEMPLE_START: NOTES_TEMPLE_START_TA,
+    MANTRA_DEEKSHA: NOTES_MANTRA_DEEKSHA_TA,
+    HAVAN: NOTES_HAVAN_TA,
+    IDOL_MAKING: NOTES_IDOL_MAKING_TA,
+    DISCOURSE: NOTES_DISCOURSE_TA,
+    AGNYADHANA: NOTES_AGNYADHANA_TA,
+    MANTRA_SADHANA: NOTES_MANTRA_SADHANA_TA,
   }),
   AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS, BATH_MC_18, BATH_KR_18, BATH_13,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,

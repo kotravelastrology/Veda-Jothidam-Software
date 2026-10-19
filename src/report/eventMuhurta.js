@@ -474,6 +474,9 @@ function stretchCodes(r, m, vara) {
   const mm = { ...m, vara };
   if (vijayadashamiOf(r, mm)) return [];
   let codes = [...varaCodes(r, vara, mm), ...lagnaCodes(r, mm)];
+  // Shridhar §24.5 (Manu, M.C., Ratnavali): the tithi (new Moon 1) plus one plus the weekday's number
+  // (Sunday 1), by 4 — the Havan fire rests on the earth at 3 or 0 (good), in the heavens at 1, in Patala at 2.
+  if (r.havanFire && Number.isInteger(mm.tithi) && ![3, 0].includes((mm.tithi + 1 + vara + 1) % 4)) codes = [...codes, 'HAVAN_FIRE'];
   if (r.varaUpachaya && r.varaUpachaya.houses.includes(houseOf(mm.signs[VARA_LORDS[vara]], mm.lagna))) {
     codes = codes.filter((c) => !r.varaUpachaya.codes.includes(c));
   }

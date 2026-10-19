@@ -689,6 +689,38 @@ Mars's transit star for repairs (the three books' shared prohibition), Dhanishth
 padas for the roof, the direction of the first pillar, the well's direction and shape, and the
 depth at which rock will obstruct the water.
 
+**Temple and worship** (8 acts, added 2026-10-19): the whole of Shridhar's chapter 24 plus building
+a temple — listening to a religious discourse (one book), taking a mantra initiation (four), making
+an idol (one), installing a deity or kumbhabhisheka (five), performing a havan or yajna (five),
+Agnyadhaan or establishing the fire (five), starting a yantra-mantra sadhana (two), starting a
+temple or hall (two). Sources: Shridhar §24.1-24.7 (pp.667-679), Muhurta Chintamani 2/35-36 and
+ch.9, Wilhelm pp.288-292, Kalyanraman vol.2 pp.224-229, Raman ch.XVI, Agarwal p.325, Joshi pp.40-42.
+
+Two more chakras are computed. The **Agni chakra** (Shridhar §24.5, M.C. 2/35) divides the 27 stars
+from the Sun's into blocks of three belonging to the Sun, Mercury, Venus, Saturn, the Moon, Mars,
+Jupiter, Rahu and Ketu; the ahuti is good only in a benefic's block, and the Chintamani gives an
+effect for each of the nine where Shridhar's table omits Rahu and Ketu. The **Katha chakra** (B.J.S.)
+counts the day's star from Jupiter's: 1-4 wealth, 5-8 siddhi, 9-12 benefit, 13-16 death, 17-20 fear
+from the ruler, the last three moksha. That is 23 counts, so 21-24 go unnamed in the print; only the
+eight the book calls bad are rejected. Where the fire rests (the tithi plus one plus the weekday, by
+four) is computed under both havan readings.
+
+Three readings each stand under two acts, because the book prints one section for both: Wilhelm's
+and Kalyanraman's Agnihotra entry (performing a havan, and Agnyadhaan — the Chintamani's note says
+the two names mean one thing), and Wilhelm's "initiation into or beginning a mantra" (the initiation
+and the sadhana). Four books print the same ten stars for the fire; tests assert that, and assert
+that Kalyanraman's print keeps exactly the four signs the other three bar.
+
+Joshi gives none of these acts a star or tithi list — he names Soma Yagna, Prana Pratishtha, Deeksha
+and Havana-Yagna in one list of acts barred while Jupiter or Venus is combust, so that is his
+reading for the four, with the combustion computed and the Kshaya-Adhika masa and Jupiter-in-Leo
+bars left in the note.
+
+Not computed here: Gurvaditya, Tithi Kshaya and the Dhanu-Meena sankranti for a discourse, the
+Chatushka dosha and the per-deity star lists for an installation, Shridhar's second Chintamani fire
+count (tithi + weekday + 25 by 3), "Andhyaya" tithis, the eclipse that the print calls specially
+good for a mantra, and Wilhelm's favourable sankranti (the engine can only mark a sankranti bad).
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying

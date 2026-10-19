@@ -285,7 +285,9 @@ Not plan items, but real, and they should not be discovered at release:
   of earth computed through the new `padaOnly` key). House building began 2026-10-19 with
   starting construction, digging and the foundation (the Bhu-shayana and Vastu chakras computed).
   Part 2 followed the same day: pillars, door frames, roofs, upper storeys, repairs and
-  wells (the Stambha, Dwar and Tadag chakras computed). Temples and deities, M.C. ch.2's
-  others and the crafts follow.
+  wells (the Stambha, Dwar and Tadag chakras computed). The temple and worship family followed the same
+  day: all seven of Shridhar's ch.24 acts plus building a temple, with the Agni and Katha
+  chakras computed. M.C. ch.2's others (cattle, horses, elephants, coins, boats, weapons) and
+  the crafts follow.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

@@ -1547,4 +1547,46 @@ const RF = FIX.roga_snana;
   for (const c of ['STAMBHA_CHAKRA', 'DWAR_CHAKRA', 'TADAG_CHAKRA', 'VENUS_LAGNA_MID', 'JUP_MERC_LAGNA_MID']) assert.ok(E.CODE_TA[c], c);
 }
 
+// ------------------------------------------------ the religious family: the Katha and Agni chakras ---
+{
+  const base = { star: 12, tithi: 2, month: 1, sunSign: 9, sunStar: 21, sunDeg: 10, taraCount: 2, moonAbhijit: false, signs: {}, navs: {}, planetStars: {}, karana: 3 };
+  // B.J.S.'s Katha chakra: the day's star counted from Jupiter's. The print calls only the 13th to the
+  // 20th bad (death, fear from the ruler), so only those are rejected; 21-24, which it leaves unnamed, are not.
+  const D = E.EVENTS.DISCOURSE.SHRIDHAR;
+  const katha = (n) => pieceCodes(D, { ...base, star: n - 1, planetStars: { Jupiter: { star: 0 } } }).includes('KATHA_CHAKRA');
+  for (const n of [13, 16, 17, 20]) assert.ok(katha(n), `the Katha chakra rejects ${n}`);
+  for (const n of [1, 4, 8, 12, 21, 24, 25, 27]) assert.ok(!katha(n), `the Katha chakra allows ${n}`);
+  // The Agni chakra: blocks of three from the Sun's star to the Sun, Mercury, Venus, Saturn, the Moon,
+  // Mars, Jupiter, Rahu, Ketu — only the benefics' blocks pass. Shridhar and his root text agree.
+  assert.deepEqual(E.EVENTS.HAVAN.SHRIDHAR.starCount, E.EVENTS.HAVAN.MUHURTA_CHINTAMANI.starCount, 'the same Agni chakra');
+  const H = E.EVENTS.HAVAN.MUHURTA_CHINTAMANI;
+  const agni = (n) => pieceCodes(H, { ...base, sunStar: 0, star: n - 1, planetStars: { Sun: { star: 0 } } }).includes('AGNI_CHAKRA');
+  for (const n of [4, 8, 14, 20]) assert.ok(!agni(n), `the Agni chakra allows ${n}`);  // Mercury, Venus, Moon, Jupiter
+  for (const n of [1, 3, 11, 17, 25, 27]) assert.ok(agni(n), `the Agni chakra rejects ${n}`);  // Sun, Saturn, Mars, Rahu, Ketu
+  // Four books print the same ten stars for the fire, and the same ten stand under performing a havan.
+  const FIRE10 = sorted(E.EVENTS.AGNYADHANA.MUHURTA_CHINTAMANI.nak.good);
+  assert.equal(FIRE10.length, 10, 'ten stars for the fire');
+  for (const b of ['SHRIDHAR', 'WILHELM', 'KALYANRAMAN']) {
+    assert.deepEqual(sorted(E.EVENTS.AGNYADHANA[b].nak.good), FIRE10, `${b}: the same ten stars`);
+  }
+  for (const b of ['WILHELM', 'KALYANRAMAN']) {
+    assert.deepEqual(sorted(E.EVENTS.HAVAN[b].nak.good), FIRE10, `${b}: one fire reading under both acts`);
+  }
+  // Kalyanraman's print makes the four signs the others bar the only good ones — kept as printed.
+  const WATER = [3, 9, 10, 11];
+  for (const b of ['MUHURTA_CHINTAMANI', 'SHRIDHAR', 'WILHELM']) {
+    const good = E.EVENTS.AGNYADHANA[b].lagna.good;
+    for (const s of WATER) assert.ok(!good.includes(s), `${b}: bars sign ${s + 1}`);
+  }
+  assert.deepEqual(sorted(E.EVENTS.AGNYADHANA.KALYANRAMAN.lagna.good), WATER, 'Kalyanraman keeps only those four');
+  // Wilhelm prints one section for initiation into or beginning a mantra: it stands under both acts.
+  assert.deepEqual(E.EVENTS.MANTRA_SADHANA.WILHELM.nak.good, E.EVENTS.MANTRA_DEEKSHA.WILHELM.nak.good, 'one mantra reading under both');
+  // Joshi names these acts only in his list of acts barred while Jupiter or Venus is combust.
+  for (const ev of ['HAVAN', 'AGNYADHANA', 'MANTRA_DEEKSHA', 'DEITY_INSTALL']) {
+    assert.ok(E.EVENTS[ev].JOSHI.jupVenNotSet, `${ev}: Joshi's combustion bar`);
+    assert.ok(!E.EVENTS[ev].JOSHI.nak, `${ev}: Joshi gives no star list`);
+  }
+  for (const c of ['KATHA_CHAKRA', 'AGNI_CHAKRA', 'HAVAN_FIRE']) assert.ok(E.CODE_TA[c], c);
+}
+
 console.log('test-event-muhurta: all checks passed');
