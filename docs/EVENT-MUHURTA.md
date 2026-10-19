@@ -569,6 +569,46 @@ Joshi's eight victory combinations for the plaintiff, the Jeeva / Mrita paksha, 
 "shatru danda", Joshi "punishing enemies"), questioning criminals (Kalyanraman), taking charge on transfer,
 dealing with government bodies, and war.
 
+**Money and trade** (11 acts, added 2026-10-19): lending money / pledging (nine books), borrowing
+(eight), repaying a debt (five), collecting money due (four), depositing or storing wealth and
+investing (six), making a will (two), purchasing goods (seven), selling goods (eight),
+speculation (one), lottery and competitions (three), starting accounts and correspondence (two).
+Sources: Shridhar §20.16, §20.19, §25.2-25.3 (pp.583-584, 682-684), Muhurta Chintamani 2/16, 2/17,
+2/24, 2/27 (pp.57, 58, 62, 64), Wilhelm pp.189-195, Kalyanraman vol.2 pp.217-219, Joshi pp.101,
+103, 149, Raman ch.X and XVII (PDF pp.38-39, 55), Rangacharya pp.128-129, Agarwal pp.325, 328,
+Vashistha pp.135-136.
+
+The 15 stars Muhurta Chintamani 2/24 rejects for a loan given, buried or kept in a chest —
+Teekshna (Ardra, Ashlesha, Jyeshtha, Moola), Mishra (Krittika, Vishakha), Dhruva (Rohini and the
+three Uttaras), Ugra (Bharani, Magha and the three Poorvas), with Bhadra karana and Vyatipata —
+leave the other twelve for lending (Kalyanraman, Agarwal). Wednesday is barred for lending and
+good for depositing and collecting; Tuesday is barred for borrowing and good for repaying; the
+days barred for borrowing (Sankranti, Vriddhi yoga, Hasta, Sunday, Tuesday) are the good days to
+repay (Shridhar, Joshi, Rangacharya). Purchase has one six-star list in five books (Revati,
+Shatabhisha, Ashwini, Swati, Shravana, Chitra) and sale a seven-star list (the three Poorvas,
+Vishakha, Krittika, Ashlesha, Bharani) in six; what is bought under a star should not be sold
+under it.
+
+New engine keys: `lagnaBirth` for an event (Raman's recovering money due — the muhurta lagna not
+the 8th or 9th from the birth lagna or Moon; the key already existed for travel) and `conj` with
+different `planets` and `with` lists (Raman: the Moon with Mars or Saturn when borrowing; the Moon
+and Mercury with Mars when selling). `CONJ`'s Tamil now names the rule generically, the planets
+being printed in the rule line.
+
+Not computed here: Amrita Siddhi yoga (Sunday with Hasta), Dhanishtha Panchaka and the
+dwipushkara / tripushkara yogas (Rangacharya's interest business), Wilhelm's Gulika, Pradosha and
+Maitra combinations for paying debts and his object-by-object storing rules (metals, fragrant
+substances, libraries, silverware), Shridhar's vargottama Jupiter with Mercury and Venus in
+quadrants, the recipient's janma rashi for a will, the 8th house's strength (Raman's will), the
+Moon's sign for a lender or seller (Raman), the 11th lord in the 12th and Saturn's aspect on the
+2nd (lottery), the planet ruling the thing bought or the purpose of a loan (Wilhelm).
+
+Not done in this family: buying land, a house or a shop site, cattle, horses, elephants, jewellery
+and utensils (Raman ch.X, Joshi pp.101-102, Shridhar §25.3.4, Vashistha pp.134-135), horse races
+(Raman), coining money, treasure hunting and catching a thief (Shridhar §20.17), the division of
+property (Shridhar §20.18), tribute and contributions (Wilhelm), transport and chariot works
+(Shridhar §25.5).
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying

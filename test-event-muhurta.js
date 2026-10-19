@@ -1335,7 +1335,11 @@ const RF = FIX.roga_snana;
       assert.equal(r.uttarayana, f.uttarayana, `${at}: Uttarayana`);
       if (f.sun_sign) assert.deepEqual({ good: sorted(r.sunSign.good), mid: sorted(r.sunSign.mid) }, { good: signsOf(f.sun_sign.good), mid: signsOf(f.sun_sign.mid ?? []) }, `${at}: the Sun's sign`);
       if (f.janma_count) assert.deepEqual([...r.janmaCount.good], f.janma_count, `${at}: the janma-star count`);
-      if (f.conj) assert.deepEqual({ planets: [...r.conj.planets], with: [...r.conj.with] }, { planets: f.conj, with: f.conj }, `${at}: conjunctions`);
+      if (f.conj) {
+        const want = Array.isArray(f.conj) ? { planets: f.conj, with: f.conj } : f.conj;
+        assert.deepEqual({ planets: [...r.conj.planets], with: [...r.conj.with] }, want, `${at}: conjunctions`);
+      }
+      if (f.lagna_birth) assert.deepEqual({ houses: [...r.lagnaBirth.houses], from: r.lagnaBirth.from }, { houses: f.lagna_birth, from: 'EITHER' }, `${at}: the lagna from the birth sign`);
       assert.equal(Boolean(r.nripBana), Boolean(f.nrip_bana), `${at}: Nrip-Baana`);
       assert.equal(Boolean(r.rajaPanchaka), Boolean(f.raja_panchaka), `${at}: Raja-Panchaka`);
       assert.equal(Boolean(r.harishayana), Boolean(f.harishayana), `${at}: Hari-shayana`);
@@ -1443,6 +1447,34 @@ const RF = FIX.roga_snana;
   // The codes' names in Tamil.
   for (const c of ['NRIP_BANA', 'RAJA_PANCHAKA', 'JANMA_BODY', 'CONJ', 'JUP_7_MID', 'SAT_6_MID', 'SUN_MARS_3_10_11_MID', 'SUN_MARS_10_11_MID', 'VEN_MOON_1_4_MID', 'VEN_MOON_LAGNA_MID', 'SUN_10_11_MID',
     'SAT_11_MID', 'SAT_6_11_MID', 'VEN_MOON_4_MID', 'JUP_TRIKONA_MID', 'JUP_KONA_MID', 'SAT_UPACHAYA_12_MID']) assert.ok(E.CODE_TA[c], c);
+}
+
+// ------------------------------------------------ money and trade acts: the new keys' behaviour ---
+{
+  const base = { star: 12, tithi: 2, month: 1, sunSign: 9, sunStar: 21, sunDeg: 10, taraCount: 2, moonAbhijit: false, signs: {}, navs: {}, planetStars: {}, karana: 3 };
+  const m = { lagna: 0, nav: 0, signs: {}, natalLagna: 6, natalMoon: 1, combust: {}, dayPart: 1, nightPart: 0, pradosha: false, tithi: 3, star: 12, month: 1 };
+  // Raman's borrowing: the Moon with Mars or Saturn — but Mars with Saturn alone is not his rule.
+  const BM = E.EVENTS.BORROW_MONEY.RAMAN;
+  const borrow = (signs) => pieceCodes(BM, { ...base, star: 0, signs }).includes('CONJ');
+  assert.ok(borrow({ Moon: 3, Mars: 3, Saturn: 8 }), 'the Moon with Mars');
+  assert.ok(borrow({ Moon: 3, Mars: 8, Saturn: 3 }), 'the Moon with Saturn');
+  assert.ok(!borrow({ Moon: 1, Mars: 5, Saturn: 5 }), 'Mars with Saturn is not the rule');
+  // Raman's recovering money due: the muhurta lagna not the 8th or 9th from the birth lagna or Moon.
+  const CM = E.EVENTS.COLLECT_MONEY.RAMAN;
+  const far = (lagna, natalLagna, natalMoon) => stretchCodes(CM, { ...m, lagna, natalLagna, natalMoon, star: 2 }, 1).includes('LAGNA_BIRTH');
+  assert.ok(far(7, 0, 0), 'Scorpio is the 8th from Aries');
+  assert.ok(far(8, 0, 0), 'Sagittarius is the 9th from Aries');
+  assert.ok(far(7, 2, 0), 'the 8th from the birth Moon counts too');
+  assert.ok(!far(6, 0, 0) && !far(9, 0, 0), 'the 7th and the 10th are free');
+  // Wilhelm's paying debts: Rikta tithis are the best, the 6th, 8th and 12th rejected, the rest middling.
+  const RD = E.EVENTS.REPAY_DEBT.WILHELM;
+  const tc = (tithi) => pieceCodes(RD, { ...base, star: 0, tithi });
+  assert.ok(!tc(4).includes('TITHI') && !tc(4).includes('TITHI_MID'), 'the 4th is best');
+  assert.ok(tc(6).includes('TITHI') && tc(23).includes('TITHI'), 'the 6th of either half rejected');
+  assert.ok(tc(2).includes('TITHI_MID'), 'the others middling');
+  // The codes' names in Tamil.
+  for (const c of ['MERC_589_MID', 'BEN_5_9_MID', 'MAL_8_MID', 'JUP_SAT_LAGNA_MID', 'MARS_6_MID', 'VENUS_10_MID',
+    'MARS_SAT_3_11_MID', 'MERC_KENDRA_MID', 'LAGNA_BIRTH']) assert.ok(E.CODE_TA[c], c);
 }
 
 console.log('test-event-muhurta: all checks passed');

@@ -868,6 +868,8 @@ export default function MuhurtaStarsView() {
                           <li key={`n${i}`}>{ps.map((p) => (p === 'LAGNA_LORD' ? LAGNA_LORD_TA : PLANET_NAME_TA[p] ?? p)).join(', ')} {hs.join(', ')}-ல் கூடாது{mid && ' (குறிக்கப்படும்)'}</li>
                         ))}
                         {(r.want ?? []).map((w: any) => <li key={w.code}>{w.planets.map((p: string) => PLANET_NAME_TA[p] ?? p).join(', ')}{w.all ? ' எல்லாம்' : ''} {w.houses.join(', ')}-ல் (குறிக்கப்படும்)</li>)}
+                        {r.conj && <li>{r.conj.planets.map((p: string) => PLANET_NAME_TA[p] ?? p).join(', ')} — {r.conj.with.map((p: string) => PLANET_NAME_TA[p] ?? p).join(', ')} சேர்க்கை கூடாது</li>}
+                        {r.lagnaBirth && <li>ஜன்ம லக்னம் / ஜன்ம ராசியிலிருந்து {r.lagnaBirth.houses.join(', ')}-ஆம் ராசி லக்னமாகக் கூடாது</li>}
                         {r.noteTa && <li className="text-ink-soft">{r.noteTa}</li>}
                       </ul>}
                       <Cites list={[B.lagna.eventSources[evName][id]]} />

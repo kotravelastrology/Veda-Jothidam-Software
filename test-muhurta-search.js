@@ -217,7 +217,9 @@ for (const [purpose, ev] of [['medical', 'MEDICINE'], ['surgery', 'SURGERY'], ['
   const { nodeLongitude, planetLongitude, sunriseJulianDay } = require('./src/ephemeris/siderealPositions');
   const { julianDay } = require('@swisseph/node');
   const FARM = ['AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN',
-    'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE'];
+    'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE',
+    'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS',
+    'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS'];
   const at = { latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 };
   for (const ev of FARM) {
     for (const book of E.EVENTS[ev].order) {
