@@ -4468,8 +4468,348 @@ const HUNTING = deepFreeze({
     noteTa: 'தீக்ஷண நான்கு + பரணி + மூன்று பூர்வம் + சுவாதி, விசாகம் = 10 · கல்யாணராமனின் பதினொன்றில் சதயம் தவிர அனைத்தும் இதே; இவரிடம் பூரம் கூடுதல் · "பாப கிழமைகள்" — ஞாயிறு, செவ்வாய், சனி (எங்கள் வாசிப்பு) · திதி, லக்னம் சொல்லப்படவில்லை',
   },
 });
+// ---------------------------------------------------------------------------
+// War and state (army, war, weapons, treaty, coins, thief), added 2026-10-19
+// ---------------------------------------------------------------------------
+const ARMY_RAISE = deepFreeze({
+  labelTa: 'சேனை சேர்த்தல், படை நகர்வு திட்டமிடல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'WILHELM', 'KALYANRAMAN'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §20.8', booksTa: 'ஸ்ரீதர் (J.V. மேற்கோள்)',
+    nak: { good: [1, 3, 7, 8, 12, 16, 14, 22, 26, 11, 20, 25], mid: [] }, digdwar: false,
+    tithi: [3, 8, 13, 18, 23, 28],
+    vara: { good: [0, 2], mid: [] },
+    noteTa: 'அகுல பன்னிரண்டு (பரணி, ரோகிணி, பூசம், ஆயில்யம், அஸ்தம், அனுஷம், சுவாதி, தனிஷ்டா, ரேவதி + 3 உத்திரம்) · ஜய திதி 3, 8, 13 மட்டும் · ஞாயிறு, செவ்வாய் · லக்னம் சொல்லப்படவில்லை · அபிஜித் முகூர்த்தம் / பிற்பகல் — கணிக்கப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — படை நகர்வு', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [1, 3, 7, 8, 12, 16, 14, 22, 26, 11, 20, 25], mid: [] }, digdwar: false,
+    tithi: [3, 8, 13, 18, 23, 28],
+    vara: { good: [0, 2], mid: [5] },
+    noteTa: 'ஸ்ரீதரின் அதே பன்னிரண்டு நட்சத்திரம், அதே ஜய திதி, அதே ஞாயிறு / செவ்வாய் · வெள்ளி நடுநிலை என்பது இவரிடம் மட்டும் · "மற்ற சுப திதிகளும் ஆகும்" என்றாலும் 3, 8, 13 சிறந்தவை என்பதால் அவை மட்டுமே எடுக்கப்பட்டுள்ளன · லக்னம் சொல்லப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.234)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [1, 3, 7, 8, 12, 16, 14, 22, 26, 11, 20, 25], mid: [] }, digdwar: false,
+    tithi: [3, 8, 13, 18, 23, 28],
+    vara: { good: [0, 2], mid: [] },
+    noteTa: 'ஸ்ரீதரின் அதே பன்னிரண்டு, அதே ஜய திதி, அதே இரு கிழமை — அச்சு வேறுபாடே இல்லை · லக்னம், யோகம், கரணம் சொல்லப்படவில்லை',
+  },
+});
+const WAR_START = deepFreeze({
+  labelTa: 'போர் தொடங்குதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'KALYANRAMAN'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §20.9', booksTa: 'ஸ்ரீதர் (J.V. மேற்கோள்)',
+    nak: { good: [12, 0, 7, 22, 26, 6, 16, 4, 21], mid: [] }, digdwar: false,
+    tithi: [3, 5, 6, 7, 8, 10, 11, 13, 18, 20, 21, 22, 23, 25, 26, 28],
+    vara: { good: [4, 5], mid: [] },
+    noteTa: 'லகு 3 + தனிஷ்டா, ரேவதி, புனர்பூசம், அனுஷம், மிருகசீரிடம், திருவோணம் = 9 · திதி 1, 2, 4, 9, 12, 14, 15, அமாவாசை தள்ளு (இரு பக்ஷமும்) · வியாழன், வெள்ளி — போருக்குச் சுப கிழமைகளைச் சொல்வது இவரிடம் மட்டும்; கல்யாணராமனின் தாக்குதல் வாசிப்பு ஞாயிறு, செவ்வாயைச் சொல்கிறது · திரிபுஷ்கர யோகம், முன் யோகினி, காத வாரம் தள்ளு — கணிக்கப்படவில்லை · திசைக் கணக்குகள் நான்கும் கணிக்கப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.242, ப.234)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 1, 3, 4, 5, 7, 9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 21, 23], mid: [8, 24] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'சண்டையில் ஈடுபடுவதற்குப் பதினெட்டு நட்சத்திரம் · தாக்குதல் வாசிப்பின் ஒன்பதில் ஏழு இதில் ஏற்கனவே உள்ளன; மீதி இரண்டு (ஆயில்யம், பூரட்டாதி) நடுநிலையாக · ரிக்தாவும் அமாவாசையும் தள்ளு — தாக்குதல் வாசிப்பு ரிக்தாவை விரும்பத்தக்கதாகச் சொல்வதற்கு நேர் எதிர் · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி; செவ்வாய், சனி தள்ளு · ஸ்ரீதரின் ஒன்பதில் ஏழு இதில் உள்ளன (தனிஷ்டா, ரேவதி மட்டும் இல்லை)',
+  },
+});
+const WEAPON_MAKE = deepFreeze({
+  labelTa: 'ஆயுதம் செய்தல்',
+  default: 'MUHURTA_CHINTAMANI',
+  order: ['MUHURTA_CHINTAMANI', 'SHRIDHAR', 'KALYANRAMAN', 'WILHELM'],
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி 2/19', booksTa: 'முகூர்த்த சிந்தாமணி (மூல நூல்)',
+    nak: { good: [5, 8, 17, 18, 9, 1, 10, 19, 24, 0, 4, 15, 2], mid: [] }, digdwar: false,
+    noteTa: 'தீக்ஷண 4 + க்ரூர 5 + அசுவினி, மிருகசீரிடம், விசாகம், கிருத்திகை = 13 · கல்யாணராமனின் பதின்மூன்றும் இதே பதின்மூன்றே · திதி, கிழமை, லக்னம் இந்த ஸ்லோகத்தில் ஆயுதத்துக்குச் சொல்லப்படவில்லை (நகைக்கு மட்டும் திரிபுஷ்கர யோகம், மேஷ / விருச்சிக / சிம்ம லக்னம்)',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §20.10', booksTa: 'ஸ்ரீதர் (M.M., M.G. மேற்கோள்கள்)',
+    nak: { good: [5, 8, 17, 18, 9, 1, 10, 19, 24, 15, 2, 4], mid: [21, 12, 13, 14, 26, 6] }, digdwar: false,
+    tithi: [3, 4, 8, 9, 13, 14, 18, 19, 23, 24, 28, 29],
+    vara: { good: [0, 2, 4, 6], mid: [] },
+    noteTa: 'தீ அல்லாத + தீ ஆயுதப் பட்டியல்களின் கூட்டு = 12 · துப்பாக்கிக்கு மட்டும் சொல்லப்பட்ட திருவோணம், அஸ்தம், சித்திரை, சுவாதி, ரேவதி, புனர்பூசம் நடுநிலை · ரிக்தா, ஜய திதி மட்டுமே (துப்பாக்கி வாசிப்பு) — மற்ற காரியங்களில் தள்ளப்படும் ரிக்தா இங்கு நல்லது · ஞாயிறு, செவ்வாய், சனி (தீ அல்லாத) + வியாழன் (தீ ஆயுதம்) · "சுப லக்னம்" — எந்த ராசி என்று சொல்லாததால் கணிக்கப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.187-188)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [5, 8, 17, 18, 9, 1, 10, 19, 24, 0, 4, 15, 2], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'சிந்தாமணியின் அதே பதின்மூன்று நட்சத்திரம் · ஆனால் திதியும் கிழமையும் நேர் எதிர்: ரிக்தாவைத் தள்ளுகிறார், ஸ்ரீதர் ரிக்தாவையே நல்லதாகச் சொல்கிறார்; ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி என்கிறார், ஸ்ரீதர் ஞாயிறு, செவ்வாய், சனி என்கிறார் — இரண்டும் அச்சில் உள்ளபடியே',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — ஆயுதம் செய்தல்', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 1, 2, 4, 9, 10, 15, 19, 24], mid: [5, 8, 17, 18] }, digdwar: false,
+    noteTa: 'ஒன்பது நட்சத்திரம் நல்லது, தீக்ஷண நான்கு நடுநிலை — சிந்தாமணியும் கல்யாணராமனும் தீக்ஷணத்தை முதன்மையாக வைக்கிறார்கள், இவர் இரண்டாம் நிலைக்குத் தள்ளுகிறார் · திதி, கிழமை, லக்னம் எதுவும் சொல்லவில்லை',
+  },
+});
+const WEAPON_WEAR = deepFreeze({
+  labelTa: 'ஆயுதம் தரித்தல், கவசம் அணிதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'KALYANRAMAN', 'WILHELM', 'MUHURTA_CHINTAMANI'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §20.13', booksTa: 'ஸ்ரீதர் (ந்ரிசிம்ஹர், M.C., J.V. மேற்கோள்கள்)',
+    nak: { good: [0, 1, 2, 13, 23, 26, 10, 5, 8, 17, 18, 9], mid: [4, 13, 16, 26, 12, 0, 7, 6, 15, 14, 21, 3, 11, 20, 25] }, digdwar: false,
+    tithi: [3, 4, 8, 9, 13, 14, 18, 19, 23, 24, 28, 29],
+    vara: { good: [0, 2, 4, 6], mid: [] },
+    lagna: { good: [1, 4, 7, 10], mid: [] },
+    maleficIn: [3, 6, 10, 11],
+    noteTa: 'ந்ரிசிம்ஹரின் பட்டியல் (அசுவினி, பரணி, கிருத்திகை, தீக்ஷண 4 — மகம் உட்பட, பூரம், சித்திரை, சதயம், ரேவதி) முதன்மை · சிந்தாமணியின் மது + லகு + புனர்பூசம், கேட்டை, விசாகம் மற்றும் துப்பாக்கி / கவச உட்பிரிவுகளின் நட்சத்திரங்கள் நடுநிலை · ரிக்தா + ஜய திதி (ந்ரிசிம்ஹர், துப்பாக்கி) — சிந்தாமணி ரிக்தாவைத் தள்ளுவதற்கு எதிர், இரண்டும் அச்சில் உள்ளபடியே · ஞாயிறு, செவ்வாய், வியாழன், சனி · ஸ்திர லக்னம்; பாபர் 3, 6, 10, 11-இல்',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.241, ப.243)', booksTa: 'கல்யாணராமன் (மு.சி. மேற்கோள்)',
+    nak: { good: [0, 3, 4, 5, 7, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23], mid: [6, 11, 25, 26] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 4], mid: [1, 3] },
+    noteTa: 'ஏந்தி உபயோகிக்கப் பதினேழு நட்சத்திரம்; பயிற்சி பெறுவதற்கான பதினான்கும் இதில் அடங்கும் · சிந்தாமணி பதினைந்தையே ஏற்கிறது என்று மேற்கோள் காட்டுகிறார் — அதில் கூடுதலாக உள்ள புனர்பூசம், உத்திரம், உத்திரட்டாதி, ரேவதி, அபிஜித் நடுநிலையாகச் சேர்க்கப்பட்டுள்ளன · ரிக்தாவும் அமாவாசையும் தள்ளு — ஸ்ரீதரின் ந்ரிசிம்ஹர் வாசிப்புக்கு எதிர் · ஞாயிறு, வியாழன்; திங்கள், புதன் நடுநிலை · லக்னம் சொல்லப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — ஆயுதம், கவசம்', booksTa: 'வில்ஹெல்ம் (காலப்பிரகாசிகை, மு.சி. மேற்கோள்கள்)',
+    nak: { good: [0, 13, 17, 26], mid: [1, 2, 5, 8, 9, 10, 23, 3, 4, 6, 7, 11, 12, 16, 15, 20, 25] }, digdwar: false,
+    tithi: [4, 9, 14, 19, 24, 29],
+    vara: { good: [0, 2, 4, 5], mid: [] },
+    lagna: { good: [1, 4, 7, 10], mid: [] },
+    beneficIn: [1, 4, 7, 10],
+    noteTa: 'இரு நூல் ஒன்றுபடும் நான்கே (அசுவினி, சித்திரை, கேட்டை, ரேவதி) முதன்மை என்று இவரே சொல்கிறார்; காலப்பிரகாசிகையின் மீதி ஏழும் சிந்தாமணியின் மீதி பத்தும் நடுநிலை · ரிக்தா திதி நல்லது (காலப்பிரகாசிகை) — "விஷ்டி கரணம் நல்லது என்பதால் ரிக்தாவும் நல்லது; அழிவுச் செயல்களுக்கு அவை பொருந்தும்" என்று காரணம் சொல்கிறார்; கவசத்துக்கு மட்டும் ரிக்தா அல்லாத திதி · ஞாயிறு, செவ்வாய், வியாழன், வெள்ளி · ஸ்திர லக்னம் சிறந்தது; சுபர் கேந்திரத்தில் · விஷ்டி கரணம் விசேஷம் — தள்ளு விதியாக இல்லை',
+  },
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி 2/21', booksTa: 'முகூர்த்த சிந்தாமணி (மூல நூல்)',
+    nak: { good: [4, 13, 16, 26, 3, 11, 20, 25, 12, 0, 7, 6, 17, 15], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [0, 4, 5], mid: [] },
+    lagna: { good: [1, 4, 7, 10], mid: [] },
+    beneficIn: [1, 4, 7, 10],
+    noteTa: 'மைத்ர (மது) 4 + த்ருவ (ஸ்திர) 4 + லகு 3 + அபிஜித் + புனர்பூசம், கேட்டை, விசாகம் = 15 — கல்யாணராமன் மேற்கோள் காட்டும் அதே பதினைந்து · ரிக்தா தள்ளு — ஸ்ரீதரின் ந்ரிசிம்ஹர், வில்ஹெல்மின் காலப்பிரகாசிகை இருவருக்கும் நேர் எதிர் · வெள்ளி, வியாழன், ஞாயிறு · ஸ்திர லக்னம்; சுபர் கேந்திரத்தில்; லக்னத்தில் சந்திரனுக்குச் சுப பார்வை · அதே ஸ்லோகம் கட்டில் / ஆசனம் முதல் முறை பயன்படுத்துவதையும் சேர்த்துச் சொல்கிறது',
+  },
+});
+const MISSILE_SETUP = deepFreeze({
+  labelTa: 'தீ ஆயுதம், ஏவுகணை நிறுத்துதல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'WILHELM'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.233)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [5, 7, 3, 4, 11, 12, 13, 17, 19, 20, 21, 22, 25, 26], mid: [] }, digdwar: false,
+    tithi: [3, 4, 8, 9, 13, 14, 18, 19, 23, 24, 28, 29],
+    vara: { good: [0, 2, 6], mid: [] },
+    lagna: { good: [1, 4, 7, 10], mid: [] },
+    maleficIn: [3, 6, 10, 11],
+    noteTa: 'பதினான்கு நட்சத்திரம் — வில்ஹெல்மின் பதினான்கோடு பதினொன்று ஒன்றே · ஜய + ரிக்தா திதி மட்டுமே · ஞாயிறு, செவ்வாய், சனி — பாப கிழமைகள் · ஸ்திர லக்னம் 2, 5, 8, 11; பாபர் 3, 6, 10, 11-இல்',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — ஏவுகணை நிறுத்துதல்', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [3, 4, 5, 7, 20, 12, 13, 16, 17, 19, 21, 22, 25, 26], mid: [] }, digdwar: false,
+    vara: { good: [0, 2, 6], mid: [] },
+    lagna: { good: [1, 4, 7, 10], mid: [2, 5, 8, 11] },
+    noteTa: 'பதினான்கு நட்சத்திரம் (அச்சில் உத்திராடம் இரு முறை வருகிறது) — கல்யாணராமனின் பட்டியலில் உத்திரம் மட்டும் இவரிடம் இல்லை, அனுஷம் கூடுதல் · அதே ஞாயிறு, செவ்வாய், சனி · ஸ்திர லக்னம் சிறந்தது, சர ராசி தள்ளு; உபய ராசி நடுநிலையாகக் கொள்ளப்பட்டுள்ளது · திதி சொல்லப்படவில்லை',
+  },
+});
+const ARMY_CAMP = deepFreeze({
+  labelTa: 'சேனைத் தலைமையிடம், கூடாரம்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'WILHELM'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §20.11', booksTa: 'ஸ்ரீதர் (J.V., M.G. மேற்கோள்கள்)',
+    nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 21, 22], mid: [23, 0, 7, 12, 14, 6] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: 'ஸ்திர 4 + மது 4 + திருவோணம், தனிஷ்டா = 10 · கூடாரத்துக்கான கூடுதல் ஆறு நட்சத்திரம் நடுநிலை · ரிக்தா தள்ளு · திங்கள், புதன், வியாழன், வெள்ளி — சுப கிழமைகள் · லக்னம் சொல்லப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — சேனை முகாம்', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 21, 22], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    noteTa: 'ஸ்ரீதரின் அதே பத்து நட்சத்திரம் — அச்சு வேறுபாடே இல்லை · ரிக்தாவுடன் பௌர்ணமியையும் தள்ளுகிறார், ஸ்ரீதர் ரிக்தாவை மட்டும் · கிழமை, லக்னம் சொல்லப்படவில்லை',
+  },
+});
+const DAGGER_TIE = deepFreeze({
+  labelTa: 'கத்தி கட்டுதல் (சூரிகா பந்தனம்)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'WILHELM'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §20.12', booksTa: 'ஸ்ரீதர் (நாரதர், N.S., M.M., M.C., P.K. மேற்கோள்கள்)',
+    masa: { good: [10, 11, 1, 2], mid: [], strict: false },
+    nak: { good: [6, 14, 21, 22, 23, 12, 0, 7, 3, 11, 20, 25, 4, 13, 16, 26, 15], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 6, 7, 10, 11, 12, 17, 18, 20, 21, 22, 25, 26, 27],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    lagna: { good: [1, 2, 4, 5, 8], mid: [] },
+    empty: [8],
+    beneficIn: [1, 2, 4, 5, 7, 9, 10],
+    maleficIn: [3, 6, 11],
+    notIn: [[['Moon'], [6, 8, 12]]],
+    jupVenNotSet: true,
+    noteTa: 'சர 5 + லகு 3 + ஸ்திர 4 + மது 4 + விசாகம் = 17 · திதி 2, 3, 5, 6, 7, 10, 11, 12 (இரு பக்ஷமும்) · செவ்வாய் தள்ளு · தை, பங்குனி, வைகாசி, ஆனி நல்லது; சித்திரை தள்ளு (மாதப் பட்டியல் குறுகியது — நாரதர் திருமண மாதங்கள் அனைத்தும் ஆகும் என்கிறார்) · லக்னம் 2, 3, 5, 6, 9 · 8 காலி; சந்திரன் 6, 8, 12-இல் கூடாது · சுபர் 1, 2, 4, 5, 7, 9, 10-இல்; பாபர் 3, 6, 11-இல் · குரு, சுக்கிரன், செவ்வாய் அஸ்தமனம் கூடாது (சிந்தாமணி செவ்வாயை மட்டும் சொல்கிறது) · ஜன்ம ராசியிலிருந்து 8-இல் கிரகம், செவ்வாய் நவாம்ச லக்னம் — கணிக்கப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — சூரிகா பந்தனம்', booksTa: 'வில்ஹெல்ம்',
+    masa: { good: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], mid: [], strict: false },
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    noteTa: 'தனி நட்சத்திரப் பட்டியல் தரவில்லை — "உபநயனத்துக்கு நல்லது அனைத்தும் இதற்கும் நல்லது" என்கிறார்; எனவே உபநயன நட்சத்திரங்களே பொருந்தும் (அந்தக் காரியம் தனியே உள்ளது) · சித்திரை தவிர மற்ற எல்லா மாதமும் ஆகும் — ஸ்ரீதர் நான்கு மாதங்களை மட்டும் பெயரிடுகிறார் · செவ்வாய்க்கிழமை தள்ளு · செவ்வாய் அஸ்தமனமும் தள்ளு — இது இவரிடம் மட்டும் வெளிப்படையாக · கத்தியை "முதுகில்" கட்டுவது என்கிறார், ஸ்ரீதர் "இடுப்பின் இடப்பக்கம்" என்கிறார்',
+  },
+});
+const TREATY = deepFreeze({
+  labelTa: 'உடன்படிக்கை, நட்பு கொள்ளுதல்',
+  default: 'MUHURTA_CHINTAMANI',
+  order: ['MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'SHRIDHAR', 'JOSHI', 'WILHELM'],
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி', booksTa: 'முகூர்த்த சிந்தாமணி (மூல நூல்)',
+    nak: { good: [4, 7, 16, 10], mid: [] }, digdwar: false,
+    tithi: [8, 12, 23, 27],
+    karanaOnly: [3],
+    noteTa: 'நான்கு நட்சத்திரம் மட்டும் · 8 அல்லது 12 திதி (இரு பக்ஷமும்) · தைதுல கரணம் · "சுப கிழமை" — எந்தக் கிழமை என்று சொல்லாததால் கணிக்கப்படவில்லை · லக்னத்துக்குச் சுக்கிர பார்வை — கணிக்கப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.235)', booksTa: 'கல்யாணராமன் (மு.சி. மேற்கோள்)',
+    nak: { good: [4, 13, 16, 26], mid: [7, 10] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'மது நான்கு (மிருகசீரிடம், சித்திரை, அனுஷம், ரேவதி) · சிந்தாமணியின் பூசம், பூரம் நடுநிலையாகச் சேர்க்கப்பட்டுள்ளன · திதிப் பட்டியல் விரிவானது (ரிக்தாவும் அமாவாசையும் தள்ளு) — சிந்தாமணியின் 8 / 12 மட்டும் என்பதை அவரே குறிப்பில் சொல்கிறார் · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி · தைதுல கரணமும் சுக்கிர பார்வையும் குறிப்பில் மட்டும்',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §20.14', booksTa: 'ஸ்ரீதர் (M.C., வசிஷ்டர், கேசித, காஶ்யபர், ரத்னமாலா மேற்கோள்கள்)',
+    nak: { good: [16, 10, 7], mid: [9] }, digdwar: false,
+    tithi: [2, 3, 5, 6, 8, 10, 12, 13],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    yogaNot: [0, 5, 8, 9, 12, 14, 16, 18, 26],
+    karanaOnly: [3],
+    noteTa: 'சிந்தாமணியின் மூன்று நட்சத்திரம் (அனுஷம், பூரம், பூசம்); "மற்றவர்கள்" சொல்லும் மகம் நடுநிலை — மிருகசீரிடம் இவரிடம் இல்லை · திதி வளர்பிறை மட்டும் (2, 3, 5, 6, 8, 10, 12, 13); 8, 12 சிறந்தவை · திங்கள், புதன், வியாழன், வெள்ளி · தைதுல கரணம்; பத்ரா கரணமும் தீய யோகங்களும் தள்ளு · லக்னத்தில் அல்லது லக்னத்துக்குச் சுக்கிரன் — கணிக்கப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.149)', booksTa: 'ஜோஷி',
+    nak: { good: [7, 16, 10], mid: [] }, digdwar: false,
+    tithi: [8, 12, 23, 27],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    karanaOnly: [3],
+    noteTa: 'ஸ்ரீதரின் அதே மூன்று நட்சத்திரம், அதே நான்கு கிழமை, அதே தைதுல கரணம் · திதி 8, 12 மட்டும் (சிந்தாமணியைப் போல) · அவரது பிரிவு "சமரசம், உடன்படிக்கை" என்று இரண்டையும் சேர்த்துச் சொல்வதால் இந்த வாசிப்பு "சமரசம்" காரியத்துக்கும் பொருந்தும் · லக்னத்துக்குச் சுக்கிர பார்வை — கணிக்கப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — நட்பு கொள்ளுதல்', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [4, 7, 16, 10], mid: [] }, digdwar: false,
+    tithi: [8, 12, 23, 27],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    karanaOnly: [3],
+    noteTa: 'சிந்தாமணியின் அதே நான்கு நட்சத்திரம், அதே 8 / 12 திதி, அதே தைதுல கரணம் · "சுப கிழமைகள்" — திங்கள், புதன், வியாழன், வெள்ளி (எங்கள் வாசிப்பு) · "மற்ற சுப நட்சத்திரமும் திதியும் ஆகும்" என்றாலும் சிறந்தவை மட்டுமே எடுக்கப்பட்டுள்ளன · லக்னத்துக்குச் சுக்கிர பார்வை — கணிக்கப்படவில்லை',
+  },
+});
+const MINT_COINS = deepFreeze({
+  labelTa: 'நாணயம் அடித்தல், நோட்டு அச்சிடுதல்',
+  default: 'MUHURTA_CHINTAMANI',
+  order: ['MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'WILHELM', 'SHRIDHAR'],
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி 2/20', booksTa: 'முகூர்த்த சிந்தாமணி (மூல நூல்)',
+    nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 6, 14, 21, 22, 23, 12, 0, 7], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [3, 5, 8, 10, 13, 15, 18, 20, 23, 25, 28],
+    vara: { good: [0, 2, 3, 4, 5], mid: [] },
+    jupVenNotSet: true,
+    noteTa: 'த்ருவ 4 + மது 4 + சர 5 + க்ஷிப்ர 3 + அபிஜித் = 17 · ஜய (3, 8, 13) + பூர்ண (5, 10, 15) திதி · திங்கள், சனி தள்ளு · குரு, சுக்கிரன் அஸ்தமனம் கூடாது · லக்னம் சொல்லப்படவில்லை · அதே ஸ்லோகம் துணி துவைப்பதையும் சேர்த்துச் சொல்கிறது — அது தனி காரியமாக உள்ளது',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.247)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 6, 14, 21, 22, 23, 12, 0, 7], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [3, 5, 8, 10, 13, 15, 18, 20, 23, 25, 28],
+    vara: { good: [0, 2, 3, 4, 5], mid: [] },
+    jupVenNotSet: true,
+    noteTa: 'சிந்தாமணியின் அதே நான்கு குடும்பம், அதே பதினேழு நட்சத்திரம் — அவையே பெயரிட்டுத் தருகிறார் · அதே ஜய + பூர்ண திதி · அதே திங்கள், சனி தள்ளு · குரு, சுக்கிரன் அஸ்தமனம் மட்டுமல்ல, பால்யம் / விருத்தாவஸ்தையும் கூடாது — அஸ்தமனம் மட்டும் கணிக்கப்படுகிறது',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — நாணயம், நோட்டு', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 6, 14, 21, 22, 23, 12, 0, 7], mid: [] }, digdwar: false,
+    vara: { good: [3, 4, 5], mid: [0, 2] },
+    jupVenNotSet: true,
+    noteTa: 'சிந்தாமணி, கல்யாணராமனின் அதே பதினாறு நட்சத்திரம் (அபிஜித் சொல்லப்படவில்லை) · திங்கள், சனி தள்ளு — மற்ற மூன்று நூலோடு ஒன்றே · ஆனால் காகிதப் பணத்துக்கு ஞாயிறும் செவ்வாயும் சிறந்தவை அல்ல என்பதால் அவை நடுநிலை — இந்த வேறுபாடு இவரிடம் மட்டும் · குரு, சுக்கிரன் அஸ்தமனம் கூடாது · திதி, லக்னம் சொல்லப்படவில்லை',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §20.15', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 6, 14, 21, 22, 23, 12, 0, 7], mid: [] }, digdwar: false,
+    tithi: [3, 5, 8, 10, 13, 15, 18, 20, 23, 25, 28],
+    vara: { good: [0, 2, 3, 4, 5], mid: [] },
+    notIn: [[['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'], [1]]],
+    jupVenNotSet: true,
+    noteTa: 'சிந்தாமணியின் அதே நான்கு குடும்பம், அதே ஜய + பூர்ண திதி, அதே திங்கள் / சனி தள்ளு, அதே குரு-சுக்கிர அஸ்தமன விதி — அச்சு வேறுபாடே இல்லை · கூடுதலாக லக்னத்தில் பாபன் கூடாது என்பது இவரிடம் மட்டும் · அபிஜித் சொல்லப்படவில்லை',
+  },
+});
+const CATCH_THIEF = deepFreeze({
+  labelTa: 'திருடனைப் பிடித்தல், மறைமுகச் செயல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'WILHELM', 'KALYANRAMAN'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §20.17', booksTa: 'ஸ்ரீதர் (M.G. மேற்கோள்)',
+    nak: { good: [5, 8, 17, 18, 9, 1, 10, 19, 24, 2, 15], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 11, 12, 13, 15, 16, 17, 18, 20, 22, 25, 26, 27, 28],
+    krishnaMid: true,
+    vara: { good: [2, 6], mid: [] },
+    want: [{ planets: ['Mars'], houses: [1, 10], code: 'MARS_1_10_MID' }],
+    noteTa: 'தீக்ஷண 4 + க்ரூர 5 + கிருத்திகை, விசாகம் = 11 · திதி 2, 3, 5, 7, 10, 11, 12, 13, 15 (இரு பக்ஷமும்) + தேய்பிறைப் பிரதமை · தேய்பிறை மிகச் சிறந்தது என்பது தனியே குறிக்கப்படுகிறது · செவ்வாய், சனி · லக்னத்தில் அல்லது 10-இல் செவ்வாய் — இல்லாவிட்டால் பக்கத்தில் குறிக்கப்படுகிறது · லக்னத்தில் சனி நல்லது, சகுனம் முக்கியம் — கணிக்கப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — தப்பியோடியவரைத் தேடுதல்', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 3, 5, 8, 10, 13, 15, 18, 20, 26], mid: [1, 17, 19, 24, 25] }, digdwar: false,
+    vara: { good: [1, 2, 6], mid: [] },
+    lagna: { good: [0, 3, 6, 9], mid: [2, 5, 8, 11] },
+    notIn: [[['Moon'], [12]]],
+    noteTa: 'தப்பியோடியவரைத் தேடுவதற்குப் பத்து நட்சத்திரம் · "திருடுவதற்கான" தனிப் பிரிவின் பதினொன்றில் ஏற்கனவே இல்லாத ஐந்து நடுநிலையாகச் சேர்க்கப்பட்டுள்ளன · திங்கள், செவ்வாய், சனி — ஸ்ரீதரின் செவ்வாய், சனியுடன் திங்களும் · சர லக்னம் சிறந்தது, ஸ்திர ராசி தள்ளு; உபய ராசி நடுநிலை · சந்திரன் 12-இல் கூடாது; தனியாக இருக்க வேண்டும் — தனிமை கணிக்கப்படவில்லை · திதி சொல்லப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.248)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [1, 5, 8, 10, 13, 15, 17, 18, 19, 24, 25], mid: [] }, digdwar: false,
+    tithi: [3, 4, 8, 9, 13, 14, 18, 19, 23, 24, 28, 29],
+    vara: { good: [0, 1, 2, 3, 4, 5, 6], mid: [] },
+    noteTa: 'வில்ஹெல்மின் "திருடுவதற்கான" பதினொன்றும் இதே பதினொன்றே — இரு நூலும் ஒன்றே · மகம் மட்டும் க்ரூரத்திலிருந்து விலக்கப்படுகிறது · ரிக்தா + ஜய திதி மட்டுமே · எல்லாக் கிழமையும் ஆகும் — ஸ்ரீதர் செவ்வாய், சனியை மட்டும் சொல்வதற்கு வேறுபாடு · வியதிபாத, வைத்ருதி மற்றும் தீய யோகங்கள், விஷ்டி கரணம் விரும்பத்தக்கவை — தள்ளு விதிகளாக மாற்றப்படவில்லை',
+  },
+});
 
 const RANK = deepFreeze({
+  ARMY_RAISE: {
+    order: ARMY_RAISE.order,
+    words: { SHRIDHAR: 115, WILHELM: 65, KALYANRAMAN: 44 },
+    measureTa: 'சேனை பற்றிய சொற்கள்: ஸ்ரீதர் (§20.8, ப.575) 115; வில்ஹெல்ம் (ப.330) 65; கல்யாணராமன் (தொ.2 ப.234) 44.',
+  },
+  WAR_START: {
+    order: WAR_START.order,
+    words: { SHRIDHAR: 985, KALYANRAMAN: 167 },
+    measureTa: 'போர் பற்றிய சொற்கள்: ஸ்ரீதர் (§20.9, ப.575-579) 985; கல்யாணராமன் (தொ.2 ப.234, ப.242) 167.',
+  },
+  WEAPON_MAKE: {
+    order: WEAPON_MAKE.order,
+    words: { MUHURTA_CHINTAMANI: 166, SHRIDHAR: 123, KALYANRAMAN: 94, WILHELM: 24 },
+    measureTa: 'ஆயுதம் செய்தல் பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (2/19, ப.59) 166; ஸ்ரீதர் (§20.10, ப.579) 123; கல்யாணராமன் (தொ.2 ப.187-188) 94; வில்ஹெல்ம் (ப.332) 24.',
+  },
+  WEAPON_WEAR: {
+    order: WEAPON_WEAR.order,
+    words: { SHRIDHAR: 534, KALYANRAMAN: 245, WILHELM: 230, MUHURTA_CHINTAMANI: 118 },
+    measureTa: 'ஆயுதம் தரித்தல் பற்றிய சொற்கள்: ஸ்ரீதர் (§20.13-20.13.5, ப.580-581) 534; கல்யாணராமன் (தொ.2 ப.241, ப.243) 245; வில்ஹெல்ம் (ப.331-332) 230; முகூர்த்த சிந்தாமணி (2/21, ப.59-60) 118.',
+  },
+  MISSILE_SETUP: {
+    order: MISSILE_SETUP.order,
+    words: { KALYANRAMAN: 97, WILHELM: 68 },
+    measureTa: 'ஏவுகணை பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.233) 97; வில்ஹெல்ம் (ப.330-331) 68.',
+  },
+  ARMY_CAMP: {
+    order: ARMY_CAMP.order,
+    words: { SHRIDHAR: 102, WILHELM: 28 },
+    measureTa: 'சேனை முகாம் பற்றிய சொற்கள்: ஸ்ரீதர் (§20.11, §20.11.1, ப.579) 102; வில்ஹெல்ம் (ப.329) 28.',
+  },
+  DAGGER_TIE: {
+    order: DAGGER_TIE.order,
+    words: { SHRIDHAR: 361, WILHELM: 55 },
+    measureTa: 'கத்தி கட்டுதல் பற்றிய சொற்கள்: ஸ்ரீதர் (§20.12, ப.579-580) 361; வில்ஹெல்ம் (ப.331) 55.',
+  },
+  TREATY: {
+    order: TREATY.order,
+    words: { MUHURTA_CHINTAMANI: 106, KALYANRAMAN: 105, SHRIDHAR: 76, JOSHI: 58, WILHELM: 52 },
+    measureTa: 'உடன்படிக்கை பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (அத்.4, ப.77) 106; கல்யாணராமன் (தொ.2 ப.235) 105; ஸ்ரீதர் (§20.14, ப.582) 76; ஜோஷி (ப.149) 58; வில்ஹெல்ம் (ப.326) 52.',
+  },
+  MINT_COINS: {
+    order: MINT_COINS.order,
+    words: { MUHURTA_CHINTAMANI: 310, KALYANRAMAN: 116, WILHELM: 87, SHRIDHAR: 56 },
+    measureTa: 'நாணயம் பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (2/20, ப.59) 310; கல்யாணராமன் (தொ.2 ப.247) 116; வில்ஹெல்ம் (ப.236) 87; ஸ்ரீதர் (§20.15, ப.582-583) 56.',
+  },
+  CATCH_THIEF: {
+    order: CATCH_THIEF.order,
+    words: { SHRIDHAR: 119, WILHELM: 108, KALYANRAMAN: 80 },
+    measureTa: 'திருடனைப் பிடித்தல் பற்றிய சொற்கள்: ஸ்ரீதர் (§20.17, ப.583) 119; வில்ஹெல்ம் (ப.323-324) 108; கல்யாணராமன் (தொ.2 ப.248) 80.',
+  },
   CATTLE: {
     order: CATTLE.order,
     words: { SHRIDHAR: 377, WILHELM: 115, MUHURTA_CHINTAMANI: 102, RAMAN: 38 },
@@ -5427,6 +5767,57 @@ const SOURCES = deepFreeze({
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Butcheries, Meat Shops (Vyadhakarma), Acts Involving Killing Animals, Birds", printed p.184 (PDF 186): "Nakshatra Bharani, Aridra, Aslesha, Poorvaphalguni, Swati, Visaka, Jyeshta, Moola, Poorvashada, Satabhisha, Poorvabhadrapada, (11) Ferocious/Teekshna: Moola, Jyeshta, Aridra, Aslesha (4) Others: Poorvaphalguni, Poorvashada, Poorvabhadrapada, Swati, Visaka, Satabhisha, Bharani (7) Tithis 4/6/8/9/12/14/30. Weekdays Sunday, Tuesday, Saturday. Yoga 1/6/9/10/13/15/17/19/27 (prefer malefic yogas) Karana Bhadra, Sakuni, Chatushpada, Naga, Kimsatugna (prefer malefic Karanas) Others Malefic Lagnas 1/5/8/10/11 raasis, Malefics in the 11th"' },
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.12 "Hunting", printed p.699 (PDF 734): "Hunting is beneficial in Sharp (Jyeshta, Ardra, Ashlesha, Moola), Bharni, 3 Poorvas, Swati & Vishakha; on malefic weekdays"' },
   },
+  ARMY_RAISE: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.8 "Inauguration (collection) of army", printed p.575 (PDF 612): "Tithi: Jaya (3,8,13) Tithis. Day: Sunday & Tuesday are the most beneficial. (preferably choose Abhijit Muhurt or after-noon) Const.: J.V. recommends Akul asterisms - Bharni, Rohini, Pushya, Ashlesha, Hasta, Anuradha, Swati, Dhanishta, Revati, 3 Uttras. - 12 nos. PRAKASH: With an aim to defeat enemy, new army units should be inaugurated in this election. The defence academies should inaugurate fresh courses, & also commission the officers in the said election"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"War - Planning troop movements", printed p.330 (PDF 338): "These guidelines would also apply to making any type of war strategies, whether covert or overt. Nakshatra: Bharani, Rohini, Pushya, Aslesha, Uttaraphalguni, Hasta, Svati, Anuradha, Uttarashadha, Dhanishtha, Uttarabhadrapada and Revati are favorable. Tithi: The 3rd, 8th and 13th are best. Other favorable Tithis are also acceptable. Vara: The Varas of the Sun and Mars are most favorable. Venus\'s Vara is middling"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Planning Army Movements", printed p.234 (PDF 236): "Nakshatra Bharani, Rohini, Pushyami, Aslesha, Uttaraphalguni, Hasta, Swati, Anuradha, Uttarashada, Dhanishta, Uttarabhadrapada and Revati. (12) Tithis Jaya tithis. 3/8/13. Weekdays Sunday and Tuesday"' },
+  },
+  WAR_START: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.9 "Starting of war", printed pp.575-579 (PDF 612-616): "Tithi: leave 1,2,4,9,12,14,15 & 30. Day: Thursday & Friday are beneficial. Const.: Small (Hasta, Ashvani, Pushya), Dhanishta, Revati, Punarvasu, Anuradha, Mrigshira, Shravana. Leave Tripushkar Yoga, front Yogini, Ghaata Vaar. Time: Time & direction of starting war / battle is decided by a number of different ways. a) Favourable direction of attack … I) Vighana Kaal Chakra: To win war, attacking king & army should not fight on the specific day in the direction shown by the Vighana Kaal Chakra (diagram 20.4) … III) Direction as signified by the Sun: The Sun moves in the 8 directions in 24 hours starting from east at the Sunrise … c) Signification of asterism occupied by Rahu: 13 asterisms already traversed by Rahu are called Jeeva Paksha & the 13 asterisms yet to be transited are called Mrit Paksha … d) Kul, Akul & Kula-Kul elements: Details of asterisms, Tithis & weekdays under Kul, Akul & Kula-Kul groups are given in table 20.6. These are considered in war & litigation"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Getting Involved in Combatant Activities", printed p.242 (PDF 244): "Nakshatra Aswini, Bharani, Rohini, Mrigasira, Aridra, Pushyami, Makha, Poorvaphalguni, Hasta, Chitra, Swati, Visaka, Anuradha, Jyeshta, Moola, Poorvashada, Sravana, Satabhisha, (18) Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Wednesday, Thursday, Friday"; "Overpowering Enemies, Getting Success in Attacks over Rivals, Vanquishing Enemies or Stalling Action by Enemies", printed p.234 (PDF 236): "Nakshatra Bharani, Aridra, Aslesha, Makha, Poorvaphalguni, Jyeshta, Moola, Poorvashada and Poorvabhadrapada. (9) Aggressive: Poorvaphalguni, Poorvashada, Poorvabhadrapada, Bharani and Makha (5) Ferocious: Moola, Jyeshta, Aridra, Aslesha (4) Tithis 3/8/13/4/9/14. (Prefer Jaya, Rikta Tithis) Weekdays Sunday, Tuesday … Others Prefer the Lagna of raasis of malefics 1/5/8/10/11"' },
+  },
+  WEAPON_MAKE: {
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 "The Nakshatras", sloka 19, printed p.59 (PDF 63): "MUHURTAS FOR GETTING JEWELS AND WEAPONS MADE: … And it is auspicious to get weapons made in the Nakshtras called Tikshna and Ugra, the Nakshtras of Ashwini, Mrigsira, Vishakha and Krittika"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.10 "Manufacture of weapons", printed p.579 (PDF 616): "Non-fiery: In the asterisms of Vishakha & Krittika, on Sunday, Tuesday & Saturday; & in an auspicious ascendant it is beneficial to manufacture non-fiery weapons like sword, dagger, trident & the like. Such weapons are givers of victories. Fire-arms: Vishakha, Krittika, Mrigshirsha, Sharp (Jyeshta, Ardra, Ashlesha, Moola) & Cruel (Magha, Bharni, 3 Poorvas) asterisms; on Sunday, Tuesday, Saturday & Thursday; in an auspicious ascendant. M.M. recommends that in these asterisms it is also auspicious to wear on such weapons. Gun-Rifle: The works related to fire arms, having barrel, making is auspicious in asterisms of Ashlesha, Krittika, Moola, Jyeshta, Ardra, Bharni, Shravana, 3 Poorvas, Hasta, Chitra, Swati, Vishakha, Revati, Punarvasu, Magha; in Rikta & Jaya Tithis; & in malefic days (M.G.)"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Manufacturing or Selling Arms and Ammunition", printed pp.187-188 (PDF 189-190): "Nakshatra Aswini, Bharani, Krittika, Mrigasira, Aridra, Aslesha, Makha, Poorvaphalguni, Visaka, Jyeshta, Moola, Poorvashada and Poorvabhadrapada. (13) Ferocious/Teekshna Moola, Jyeshta, Aridra, Aslesha (4) Aggressive: Poorvaphalguni, Poorvashada, Poorvabhadrapada, Bharani, Makha (5) Others: Aswini, Mrigasira, Visaka, Krittika, (4) Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Wednesday, Thursday, Friday. Notes: For starting an industry of making weapons or for using new weapons Krittika is good"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Weapons / Armor - Making weapons", printed p.332 (PDF 340): "Nakshatra: Asvini, Bharani, Krittika, Mrigasira, Magha, Purvaphalguni, Visakha, Purvashadha and Purvabhadrapada are favorable. Ardra, Aslesha, Jyeshtha and Mula are middling"' },
+  },
+  WEAPON_WEAR: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.13 "Wearing of arms & weapons" with 20.13.1-20.13.5, printed pp.580-581 (PDF 617-619): "According to Acharya Nrisingh, arms of offensive & defensive should be worn in Ashvani, Bharni, Krittika, Sharp (Ardra, Ashlesha, Magha, Jyeshta), P.Falguni, Chitra, Shatbhish & Revati. Rikta Tithis (4,9,14), Bhadra Karan; in the days & navamshas of Sunday, Tuesday, Thursday & Saturday are suitable. M.C. has prescribed that on Thursday or Sunday; Sweet (Mrigshira, Chitra, Anuradha, Revati), Small (Hasta, Ashvani, Pushya), Punarvasu, Jyeshta, & Vishakha asterisms; on Tithis other than Rikta; & when the Moon is in benefic places aspected by benefics; & on fixed signs as ascendant; it is beneficial to weapons like spear, arrow, sword, dagger etc. … 20.13.1 Fire arms: Tithi: Jaya (3,8,13) & Rikta (4,9,14) Day: Sunday, Tuesday, Saturday Const.: Cruel, Sharp, Mixed (Vishakha, Krittika), Swati, Chitra, Revati, Hasta, Pushya, Shravana. Ascendant: 2,5,8,11 - (fixed signs) & malefics in 3,6,10,11. 20.13.2 Armoured dress (Kavach): Day: Sunday, Thursday, Friday, Saturday. Const.: Chitra, Punarvasu, Shravana, Anuradha, Revati, Ashvani & Fixed (Rohini, 3 Uttras). Ascendant: Fixed signs (M.C.) … 20.13.5 Bow-arrow & club: Tithi: Bhadra (2,7,12), Poorna (5,10,15), and Jaya (3,8,13) Day: Sunday, Monday, Tuesday, Saturday. Ascendant: fixed signs (M.C.)"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Holding Weapons or Instruments and Using Them", printed p.243 (PDF 245): "Nakshatra Aswini, Rohini, Mrigasira, Aridra, Pushyami, Poorvaphalguni, Hasta, Chitra, Swati, Visaka, Anuradha, Jyeshta, Moola, Poorvashada, Uttarashada, Sravana and Satabhisha. (17) Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday and Thursday. (some allow Monday and Wednesday also) Notes: 1. Muhoortha Chintaamani admits only 15 nakshatras namely Aswini, Rohini, Mrigasira, Punarvasu, Pushya, Uttaraphalguni, Hasta, Chitra, Visaka, Anuradha, Jyeshta, Uttarashada, Abhijith, Uttarabhadrapada and Revati"; "Getting Trained in the Use of Weapons, Arms and Ammunitions", printed p.241 (PDF 243): "Nakshatra Aswini, Rohini, Mrigasira, Aridra, Poorvaphalguni, Hasta, Chitra, Swati, Visaka, Anuradha, Jyeshta, Sravana and Satabhisha, (14) Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Wednesday, Thursday, Friday"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Weapons / Armor - Bearing", printed pp.331-332 (PDF 339-340): "Nakshatra: Asvini, Bharani, Krittika, Ardra, Aslesha, Magha, Purvaphalguni, Chitta, Jyeshtha, Satabhisha and Revati are favorable for bearing arms both in offence and defense according to Kalaprakasika, though Muhurta Chintamani considers Asvini, Rohini, Mrigasira, Punarvasu, Pushya, Uttaraphalguni, Hasta, Chitra, Anuradha, Visakha, Jyeshtha, Uttarashadha, Uttarabhadrapada and Revati as favorable. These two sources only agree on four Nakshatras - Asvini, Chitra, Jyeshtha and Revati, which may be considered the best. Otherwise, my preference is to lean towards Kalaprakasika. Tithi: The 4th, 9th and 14th are fortunate according to Kalaprakasika, though Muhurta Chintamani instead recommends avoiding these … since Vishti Karana is favorable the Rikta Tithis should also be favorable, as they like Vishti Karana, are favorable for destructive acts. For armor, however, it seems best to choose a favorable Tithi rather than the 4th, 9th or 14th. Karana: Vishti Karana is particularly favorable. Vara: The Varas of the Sun, Mars, Jupiter and Venus are favorable. Lagna: The Rasis and Navamsas of the Sun, Mars, Jupiter and Saturn are favorable. Fixed Rasis are best, though not necessary. Bhavas: Benefics are best in the angles. Combinations: The Moon in the Lagna aspected by a benefic is very favorable"' },
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 "The Nakshatras", sloka 21, printed pp.59-60 (PDF 64): "THE MUHURTAS WITH REGARD TO BEARING WEAPONS AND USING BED ETC.: Spear, armour, bow and arrow, dagger etc. these weapons are to be borne on tithis other than Rikta tithis (4/9/14), on the days of Friday, Thursday and Sunday, in the Nakshtras called Maitra, Dhruwa and Laghu, Punarvasu, Jyeshtha and Vishakha, in the sthir (fixed) Lagnas or Ascendants (2/5/8/11), if the Moon in the Ascendant is aspected by a benefic and benefic planets are situated in the Angles (1/4/7/10)"' },
+  },
+  MISSILE_SETUP: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Inducting Firey Arms or Missiles in the Army for Ready use", printed p.233 (PDF 235): "Nakshatra Aridra, Pushyami, Rohini, Mrigasira, Uttaraphalguni, Hasta, Chitra, Jyeshta, Poorvashada, Uttarashada, Sravana, Dhanishta, Uttarabhadrapada and Revati. (14) Fixed: Uttaraphalguni, Uttarashada, Uttarabhadrapada and Rohini. (4) Friendly: Mrigasira, Revati, Chitra, Pushyami, Hasta and Sravana. (6) Others: Aridra, Jyeshta, Poorvashada, Dhanishta. (4) Tithis Jaya and Rikta tithis. 3/8/13/4/9/14 Weekdays Days of Malefics Sunday, Tuesday, Saturday. Notes: Lagnas of fixed raasis 2/5/8/11 with malefics placed in 3/6/10/11"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"War - Missiles & weapons, setting up", printed pp.330-331 (PDF 338-339): "These guidelines are those that are to be followed when setting up an array of missile weapons either as defense or as an ambush. Nakshatra: Rohini, Mrigasira, Ardra, Pushya, Uttarashadha, Hasta, Chitta, Anuradha, Jyeshtha, Purvashadha, Uttarashadha, Sravana, Dhanishtha, Uttarabhadrapada and Revati are favorable. Vara: The Varas of the Sun, Mars and Saturn are favorable. Lagna: Fixed Rasis are best. Avoid moveable Rasis"' },
+  },
+  ARMY_CAMP: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.11 "Making army head-quarter or temporary post" and §20.11.1 "Pitching tent", printed p.579 (PDF 616): "Tithi: Other than Rikta Tithis. Day: Benefic (Monday, Wednesday, Thursday, and Friday) days. Const.: Fixed (Rohini, 3 Uttras), Sweet (Mrigshira, Chitra, Anuradha, Revati), Shravana & Dhanishta. (J.V.) Regarding fort refer to para 28.19. 20.11.1 Pitching tent: Tent should be pitched in Shravana, Dhanishta, Shatbhish, Ashvani, Pushya, Anuradha, Rohini, Mrigshira, Hasta, Chitra, Swati, Punarvasu, Revati & 3 Uttras (M.G.). M.G. recommends that for fixing tent or making a house of cloth, asterisms of Shravana, Dhanishta, Shatbhish, Ashvani, Pushya, Anuradha, Rohini, Mrigshira, Hasta, Chitra, Swati, Punarvasu, Revati & 3 Uttras are beneficial"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"War - Encamping an army", printed p.329 (PDF 337): "Nakshatra: Rohini, Mrigasira, Uttaraphalguni, Chitra, Anuradha, Uttarashadha, Sravana, Dhanishtha, Uttarabhadrapada and Revati are favorable. Tithi: Particularly avoid the 4th, 9th, 14th, and 15th Tithis"' },
+  },
+  DAGGER_TIE: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.12 "Tying of dagger - Churika - Bandhan", printed pp.579-580 (PDF 616-617): "After Upanayana but before marriage, Kshatriyas should tie on sword (Talwar), dagger (Katar) or scalpel (Churi) in the Muhurt prescribed for Upnayana Samskar, except in the month of Chaitra & Tuesday. The weapon should be tied on the left side of the waist after worshipping Devtas, Pitras & the weapon itself … Tithi: 2,3,5,6,7,10,11,12 - all. Day: All days except Tuesday. Const.: Movable (Punarvasu, Swati, Shravana, Shatbhish, Dhanishta), Small (Hasta, Ashvani, Pushya), Fixed (3 Uttras, Rohini), Sweet (Mrigshira, Chitra, Anuradha, Revati) & Vishakha. Month: Maagh, Falguni, Vaishakha, Jyeshta are beneficial. Chaitra is prohibited. Sage Narad recommends all the months prescribed for marriage as suitable. Ascendant: 2,3,5,6,9 signs. No planet should be in 8th from Janma Rashi or in election chart; & the Moon should not be in 6,8,12 of the chart. Benefics should be 2,5,9,1,4,7,10; & malefics in 3,6,11 in the election chart (N.S.) … Navamsha of Mars in the rising should be left out along with Tuesday (M.M.). The ceremony should be performed when neither of the Jupiter, Venus or Mars is set … However M.C. stresses that only Mars should not be set. Sage Narad has given a method to find auspiciousness of the weapon. Measure the length of the weapon in the units of middle finger of the wearer. Divide the length by 11. If the remainder is 1, it signifies gain of son; 2 - increase of enemy; 3 - gain of woman; 4 - travel; 5 - auspiciousness; 6 - loss of money; 7 - gain of money; 8 - love / affection; 9 - Siddhi; 10 - victory; 11 or 0 - praise (N.S.)"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Weapons / Armor - Churika Bandhana, tying the knife", printed p.331 (PDF 339): "For Kshatriyas a special ceremony of tying a knife onto the back is performed after Upanayanam, but before Marriage. The factors favorable for Upanayanam are also favorable for Churika Bhandhana, except that the month of Chaitra, Mars\'s Vara, and any day when Mars is combust should be avoided"' },
+  },
+  TREATY: {
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: '"The Muhurta for making treaty for friendship", printed p.77 (PDF 81): "It is good and auspicious to make mutual friendship in the Nakshtras of Mrigshira, Pushya, Anuradha, Poorvaphalguni, on the 8th or 12th Tithi or in the Taitil Karana, on an auspicious day and when the Ascendant is aspected by Venus. Notes: The Taitil Karana never comes on the 8th Tithi. It (the Taitil karana) comes in the latter half of the 12th Tithi of the Krishna Paksha or the Dark Half of the Month. Therefore, making treaty for friendship on the 8th or on the 12th Tithi or in the Taitil Karana, this interpretation is quite proper"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Attending to Dealings with Friends, Doing work for Friends, Befriending new Persons", printed p.235 (PDF 237): "Nakshatra Mrigasira, Chitra, Anuradha, Revati (4) Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Weekdays Sunday, Monday, Wednesday, Thursday, Friday. Notes: 1. Muhoortha Chintaamani admits only Mrigasira, Pushyami, Anuradha, Poorvaphalguni. It does not include Chitra and Revati but adds Pushyami and Poorvaphalguni. It admits only tithis: 8/12 and Karana - Taitila. The ascendant is to be aspected by Venus. 2. Taitila Karana never comes on the 8th tithi. It comes on later half of the 12th Tithi of Krishnapaksha. So we can interpret this as: prefer 8th or tithi or Taitila Karana"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.14 "Making treaty - friendship", printed p.582 (PDF 619): "Tithi: 2,3,5,6,8,10,12,13 - all B.H.; 8th & 12th are the best. Day: Benefic days (Monday, Wednesday, Thursday & Friday). Const.: Anuradha, P.Falguni, Pushya according to M.C. Others recommend Anuradha, Pushya & Magha. Taitil Karan is the most favourable. Bhadra Karan & malefic Yogas be avoided. Host of exponents like Sage Vasist, Kechita, Kashyapa, & M.C. and Ratanmala recommend that ascendant should either be occupied or aspected by Venus"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"For compromise, treaty", printed p.149 (PDF 163-164): "Pushya, Anuradha and Poorvaphalguni nakshatras, 8th, 12th tithi and taitil karana, Monday, Thursday, Friday and Wednesday are considered good for entering into a compromise agreement or Treaty … Lagna having the aspect of Venus is considered auspicious"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Friendship - establishing", printed p.326 (PDF 334): "Nakshatra: Mrigasira, Pushya, Anuradha and Purvaphalguni are best, though any favorable Nakshatra will do. Tithi/Karana: The 8th or 12th Tithi or Taitila Karana is best, though any favorable Tithi and Karana will do. Vara: The Varas of benefics are favorable. Lagna: Any Lagna aspected by Venus is particularly favorable"' },
+  },
+  MINT_COINS: {
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 "The Nakshatras", sloka 20, printed p.59 (PDF 63): "THE MUHURTAS WITH REGARD TO COINING AND GETTING CLOTHES WASHED: It is auspicious to get a coin minted in the Nakshtras called Dhruwa, Mridu, Chara, and Kshipra, on other days except Monday and Saturday, on the tithis of Poorna and Jaya and when Jupiter and Venus are not combust, that is, they are rising"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Printing Currency Notes, Security Papers, Bonds, Minting Coins, Making Silver or Gold Dollars", printed p.247 (PDF 249): "Nakshatra Abhijith, Aswini, Rohini, Mrigasira, Punarvasu, Pushyami, Uttaraphalguni, Hasta, Chitra, Swati, Anuradha, Uttarashada, Sravana, Dhanishta, Satabhisha, Uttarabhadrapada, Revati, (16 + 1) Fixed: Uttaraphalguni, Uttarashada, Uttarabhadrapada, Rohini (4) Friendly: Mrigasira, Revati, Chitra, Anuradha, (4) Movable: Swati, Punarvasu, Sravana, Dhanishta, Satabhisha, (5) Short: Hasta, Aswini, Pushyami, Abhijith, (4) Tithis 3/5/8/10/13/15 (Poorna- 5/10/15 and Jaya- 3/8/13) Weekdays Sunday, Tuesday, Wednesday, Thursday, Friday, Reject Monday and Saturday. Notes Avoid Jupiter and Venus combustions and their Balaavasta or Vruddhaavasta conditions"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Currency - Minting coins", printed p.236 (PDF 244): "Paper currency is a relatively new medium of exchange. The conditions presented for minting coins should be quite acceptable for printing paper currency as well. Nakshatra: Asvini, Rohini, Mrigasira, Punarvasu, Pushya, Uttaraphalguni, Hasta, Chitra, Svati, Anuradha, Uttarashadha, Sravana, Dhanishtha, Satabhisha, Uttarabhadrapada and Revati are favorable. Vara: Avoid the Varas of the Moon and Saturn. The Varas of the Sun and Mars are not best for paper currency. Grahas: Jupiter and Venus should not be combust. Avoid also the other afflictions of Jupiter and Venus"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.15 "Printing currency - minting coins", printed pp.582-583 (PDF 619-620): "Tithi: Jaya & Poorna (3,8,13; 5,10,15). Day: Other than Monday & Saturday. Const.: Stationary (Rohini, 3 Uttras), Sweet (Mrigshira, Chitra, Anuradha, Revati), Movable (Punarvasu, Swati, Shravana, Shatbhish, Dhanishta), Small (Hasta, Ashvani, Pushya). Jupiter & Venus should not be set, & malefic should not be in the election ascendant"' },
+  },
+  CATCH_THIEF: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.17 "Catching thief - secret works", printed p.583 (PDF 620): "Tithi: 2,3,5,7,10,11,12,13,15 of both halves & 1st of D.H. D.H. is more beneficial. Day: Tuesday & Saturday. Const.: Sharp (Jyeshta, Ardra, Ashlesha, Moola), Cruel (Magha, Bharni, 3 Poorvas), Krittika, Vishakha. Mars in ascendant or in 10th house of election chart is fruitful. Saturn in ascendant is also beneficial. Omen is given high importance in such matters. This election perhaps can also be used to make a theft, but is prohibited to use due to moral ethics. Tying & beating the enemy is beneficial in Jyeshta, Ardra, Bharni, 3 Poorvas, Moola, Ashlesha, and Magha asterisms; on malefic weekdays & when the ascendant is having malefic planets (M.G.)"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Criminals - Seeking escaped prisoners", printed pp.323-324 (PDF 331-332): "Nakshatra: Asvini, Rohini, Ardra, Aslesha, Purvaphalguni, Chitta, Visakha, Mula, Uttarashadha and Revati are favorable. Vara: The Varas of the Moon, Mars and Saturn are favorable. Lagna: Moveable Rasis are best. Fixed Rasis should be avoided. Grahas: The Moon must not be in the 12th and should be alone. Combinations: 1. Mercury or the Moon aspecting the Lagna supports catching the criminal. 2. Parivartana between Lagna and 7th supports catching the criminal. 3. The 6th lord in the 11th supports catching the criminal"; "Criminals - Stealing, etc.", printed p.324 (PDF 332): "Nakshatra: Bharani, Ardra, Aslesha, Purvaphalguni, Chitta, Visakha, Jyeshtha, Mula, Purvashadha, Purvabhadrapada and Uttarabhadrapada are favorable"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Chorakarmas, Committing Thefts, Robbery Etc.", printed p.248 (PDF 250): "Nakshatra Bharani, Aridra, Aslesha, Poorvaphalguni, Chitra, Visaka, Jyeshta, Moola, Poorvashada, Poorvabhadrapada and Uttarabhadrapada. (11) All Sharp nakshatras - Moola, Jyeshta, Aridra, Aslesha (4) All Cruel nakshatras except Makha - i.e., Poorvaphalguni, Poorvashada, Poorvabhadrapada and Bharani. (4) Others: Uttarabhadrapada, Chitra, Visaka (3) Tithis 4/9/14/3/8/13. Rikta-4/9/14 Jaya-3/8/13 Weekdays Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday. Yoga Vyatipata, Vydhruti and other malefic yogas. Karana Vishti Karana is the best suited"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -5494,7 +5885,8 @@ const CODE_TA = Object.freeze({
   TADAG_CHAKRA: 'தடாக சக்கரம்: நீர் தரும் எண் அல்ல',
   AGNI_CHAKRA: 'அக்னி சக்கரம்: பாப கிரகக் கட்டம்', HAVAN_FIRE: 'ஹோம அக்னி பூமியில் இல்லை (திதி + கிழமை)',
   KATHA_CHAKRA: 'கதா சக்கரம்: குரு நட்சத்திரத்திலிருந்து 13-20 (மரணம் / அரச பயம்)',
-  ASHVA_CHAKRA: 'அஷ்வ சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 16-26', VENUS_LAGNA_MID: 'லக்னத்தில் சுக்கிரன் இல்லை',
+  ASHVA_CHAKRA: 'அஷ்வ சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 16-26',
+  MARS_1_10_MID: 'லக்னம் / 10-ல் செவ்வாய் இல்லை', VENUS_LAGNA_MID: 'லக்னத்தில் சுக்கிரன் இல்லை',
   JUP_VEN_MOON_KENDRA_MID: 'கேந்திரத்தில் குரு / சுக்கிரன் / சந்திரன் இல்லை', VEN_MOON_KENDRA_MID: 'கேந்திரத்தில் சுக்கிரனும் சந்திரனும் இல்லை',
   JUP_MOON_KENDRA_MID: 'கேந்திரத்தில் குருவும் சந்திரனும் இல்லை', JUP_MERC_LAGNA_MID: 'லக்னத்தில் குருவோ புதனோ இல்லை',
   BHU_SHAYANA: 'பூமி சயனம் (சூரிய நட்சத்திரத்திலிருந்து 5, 7, 9, 12, 19, 26)', VASTU_CHAKRA: 'வாஸ்து சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 8-18 அல்ல',
@@ -5939,9 +6331,74 @@ const NOTES_HUNTING_TA = Object.freeze([
   'கல்யாணராமன் தீய யோகங்களையும் தீய கரணங்களையும் (பத்ரா, சகுனி, சதுஷ்பத, நாகம், கிம்ஸ்துக்னம்) விரும்பத்தக்கதாகச் சொல்கிறார்; பாப லக்னமும் (1, 5, 8, 10, 11) 11-இல் பாபரும். இவை "விரும்பத்தக்கது" என்பதால் தள்ளு விதிகளாக மாற்றப்படவில்லை — குறிப்பில் மட்டும்.',
 ]);
 
+const NOTES_ARMY_RAISE_TA = Object.freeze([
+  'புதிய படைப் பிரிவு தொடங்குதல், வீரர்களைச் சேர்த்தல், படை நகர்வைத் திட்டமிடுதல். ஸ்ரீதர் "சேனை சேர்த்தல்" என்கிறார்; கல்யாணராமனும் வில்ஹெல்மும் "படை நகர்வு திட்டமிடல்" என்கிறார்கள் — தரவு ஒன்றே என்பதால் ஒரே காரியமாக வைக்கப்பட்டுள்ளது.',
+  'மூன்று நூல்களும் அச்சு வேறுபாடின்றி ஒன்றே: அகுல பன்னிரண்டு நட்சத்திரம், ஜய திதி (3, 8, 13), ஞாயிறு / செவ்வாய். சோதனையில் உறுதி செய்யப்பட்டுள்ளது.',
+  'ஸ்ரீதர்: பாதுகாப்புப் பயிற்சி நிலையங்கள் புதிய பாடப்பிரிவுகளைத் தொடங்குவதற்கும் அதிகாரிகளுக்குப் பொறுப்பு வழங்குவதற்கும் இதே முகூர்த்தம்; அபிஜித் முகூர்த்தம் அல்லது பிற்பகல் விரும்பத்தக்கது — நாளின் பாகம் கணிக்கப்படவில்லை.',
+  'வில்ஹெல்ம்: மறைமுக அல்லது நேரடி — எந்த வித போர்த் திட்டத்துக்கும் இதே விதிகள்.',
+]);
+const NOTES_WAR_START_TA = Object.freeze([
+  'போர், சண்டை, ஆயுதப் போராட்டம் தொடங்குதல்.',
+  'கல்யாணராமனில் இரு எதிர் வாசிப்புகள்: "சண்டையில் ஈடுபடுதல்" (ப.242) சுப நட்சத்திரம், சுப கிழமை என்கிறது; "எதிரியை வெல்லுதல், தாக்குதல்" (ப.234) பாப நட்சத்திரம் (தீக்ஷண 4 + க்ரூர 5), ரிக்தா திதி, பாப லக்னம் என்கிறது. முதலாவதே கணிக்கப்படுகிறது; இரண்டாவது நடுநிலையாகக் குறிக்கப்படுகிறது.',
+  'ஸ்ரீதர் திசையைக் கணிக்க நான்கு வழிகள் தருகிறார் — விக்னகால சக்கரம் (கிழமைக்கு ஒரு திசை), திசா ஸ்வர், சூரியனின் திசை (அட்டவணை 20.5), ராகுவின் ஜீவ / ம்ருத பக்ஷம். எதுவும் கணிக்கப்படவில்லை: விக்னகால சக்கரத்தின் அச்சு (படம் 20.4) ஏழு கிழமையை எட்டுத் திசையோடு பொருத்தாமல் சிதைந்துள்ளது, மேலும் அச்சின் தலைப்பு "இந்தத் திசையில் போரிடக் கூடாது" என்றும் உரை "இந்தத் திசையில் போரிட வேண்டும்" என்றும் நேர் எதிராகச் சொல்கின்றன.',
+  'குல, அகுல, குலாகுல திதி-நட்சத்திர-கிழமைச் சேர்க்கை (அட்டவணை 20.6) போரிலும் வழக்கிலும் பார்க்கப்படுகிறது — ஏற்கனவே "வழக்குத் தொடுத்தல்" காரியத்தில் கணிக்கப்படுகிறது.',
+  'வில்ஹெல்ம் போருக்குத் தனிப் பட்டியல் தரவில்லை — "எதிரியை வெல்லப் புறப்படும் பயணத்தின் விதிகளே போருக்கும்" என்று பயணக் காரியத்துக்கு அனுப்புகிறார்.',
+]);
+const NOTES_WEAPON_MAKE_TA = Object.freeze([
+  'வாள், கத்தி, சூலம் போன்ற தீ அல்லாத ஆயுதங்கள் மற்றும் துப்பாக்கி, குண்டு போன்ற தீ ஆயுதங்கள் செய்தல்; ஆயுதத் தொழிற்சாலை தொடங்குதல்.',
+  'நான்கு நூல்களும் ஒரே குடும்பத்தைச் சொல்கின்றன: தீக்ஷண (திருவாதிரை, ஆயில்யம், கேட்டை, மூலம்), க்ரூர (மகம், பரணி, மூன்று பூர்வம்), மிச்ர (விசாகம், கிருத்திகை) — மற்ற எல்லாக் காரியங்களிலும் தள்ளப்படும் நட்சத்திரங்கள்.',
+  'ஸ்ரீதர் மூன்றாகப் பிரிக்கிறார்: தீ அல்லாத ஆயுதம் (விசாகம், கிருத்திகை; ஞாயிறு, செவ்வாய், சனி), தீ ஆயுதம் (மேலும் மிருகசீரிடம், தீக்ஷண, க்ரூர; வியாழனும் சேர்ந்து), துப்பாக்கி / ரைபிள் (பதினைந்து நட்சத்திரம்; ரிக்தா, ஜய திதி; பாப கிழமைகள்). மூன்றின் கூட்டே கணிக்கப்படுகிறது.',
+  'கல்யாணராமன்: ஆயுதத் தொழிற்சாலை தொடங்குவதற்கும் புதிய ஆயுதத்தைப் பயன்படுத்துவதற்கும் கிருத்திகை விசேஷம்.',
+  'சிந்தாமணியின் அதே ஸ்லோகம் நகை செய்வதையும் சேர்த்துச் சொல்கிறது — நகைப் பகுதி "நகை செய்தல்" காரியத்தில் ஏற்கனவே உள்ளது.',
+]);
+const NOTES_WEAPON_WEAR_TA = Object.freeze([
+  'ஆயுதம் தரித்தல், கையில் ஏந்துதல், கவசம் / குண்டு துளைக்காத உடை அணிதல். ஸ்ரீதர் துப்பாக்கி, கவசம், வாள் – ஈட்டி, பர்ச்சா, வில் – அம்பு – கதை என்று ஐந்து உட்பிரிவுகளைத் தனித்தனியே தருகிறார்.',
+  'ஸ்ரீதருக்குள்ளேயே முரண்: ஆசார்ய ந்ரிசிம்ஹர் ரிக்தா திதியும் பத்ரா (விஷ்டி) கரணமும் பொருத்தமானவை என்கிறார்; அதே பிரிவில் முகூர்த்த சிந்தாமணி ரிக்தா அல்லாத திதிகளைச் சொல்கிறது. வில்ஹெல்ம் இதை வெளிப்படையாகத் தீர்க்கிறார் — "விஷ்டி கரணம் நல்லது என்பதால் ரிக்தா திதியும் நல்லதாக இருக்க வேண்டும்; அழிவுச் செயல்களுக்கு அவை பொருந்தும்" — ஆனால் கவசத்துக்கு ரிக்தா அல்லாத திதியே நல்லது என்கிறார்.',
+  'வில்ஹெல்ம்: காலப்பிரகாசிகையின் பதினொன்றும் சிந்தாமணியின் பதினான்கும் நான்கில் மட்டுமே ஒன்றுபடுகின்றன — அசுவினி, சித்திரை, கேட்டை, ரேவதி; அவையே சிறந்தவை என்கிறார். அந்த நான்கு சோதனையில் உறுதி செய்யப்பட்டுள்ளது.',
+  'ஸ்ரீதரின் நவீன விளக்கம்: காவல் / இராணுவப் பயிற்சி நிலையங்கள் துப்பாக்கி வழங்குவதற்கு இதே முகூர்த்தம்; தற்காப்புக்கு ஆயுதம் ஏந்துபவர் செவ்வாய் 3, 6, 11-இல் இருக்கும் நேரத்தைத் தேர்வு செய்ய வேண்டும், லக்னம் செவ்வாயின் ராசி / நவாம்சமாக இருக்கக் கூடாது — கணிக்கப்படவில்லை.',
+]);
+const NOTES_MISSILE_SETUP_TA = Object.freeze([
+  'ஏவுகணை, தீ ஆயுதங்களைத் தற்காப்புக்கோ மறைந்திருந்து தாக்குவதற்கோ நிறுத்துதல்; படையில் தீ ஆயுதங்களைப் பயன்பாட்டுக்குக் கொண்டுவருதல். இரு நூல்களே இதைத் தனியே தருகின்றன.',
+  'இரு நூல்களும் ஒரே திசையில்: ஸ்திர லக்னம் (சர ராசியைத் தள்ளு), ஞாயிறு / செவ்வாய் / சனி — பாப கிழமைகள்.',
+  'கல்யாணராமன் ஜய மற்றும் ரிக்தா திதிகளைச் சொல்கிறார் (3, 8, 13, 4, 9, 14) — அழிவுச் செயல்களுக்கு ரிக்தா நல்லது என்ற அதே வாசிப்பு; வில்ஹெல்ம் திதி சொல்லவில்லை.',
+]);
+const NOTES_ARMY_CAMP_TA = Object.freeze([
+  'படைத் தலைமையிடம், தற்காலிகக் காவல் நிலை அமைத்தல், கூடாரம் அடித்தல். கோட்டை கட்டுவது வேறு (ஸ்ரீதர் §27.19).',
+  'இரு நூல்களும் ஒரே பத்து நட்சத்திரத்தைச் சொல்கின்றன: ஸ்திர 4 + மது 4 + திருவோணம், தனிஷ்டா. சோதனையில் உறுதி செய்யப்பட்டுள்ளது.',
+  'ஸ்ரீதர் கூடாரத்துக்குத் தனியே பதினாறு நட்சத்திரம் தருகிறார் (மேலே உள்ள பத்துடன் சதயம், அசுவினி, பூசம், அஸ்தம், சுவாதி, புனர்பூசம்) — நடுநிலையாகச் சேர்க்கப்பட்டுள்ளது.',
+  'போர்க் குடும்பத்தில் சுப கிழமைகளைச் (திங்கள், புதன், வியாழன், வெள்ளி) சொல்லும் இரண்டு காரியங்களில் இது ஒன்று; மற்றவை பாப கிழமைகளைச் சொல்கின்றன.',
+]);
+const NOTES_DAGGER_TIE_TA = Object.freeze([
+  'உபநயனத்துக்குப் பின், திருமணத்துக்கு முன் வாள், கத்தி அல்லது கட்டாரியை இடுப்பின் இடப்பக்கம் கட்டும் சடங்கு. தேவர், பித்ரு மற்றும் ஆயுதத்தையே வழிபட்ட பின் கட்ட வேண்டும்.',
+  'இரு நூல்களும் ஒரே அடிப்படையைச் சொல்கின்றன: உபநயன முகூர்த்தமே இதற்கும்; சித்திரை மாதமும் செவ்வாய்க்கிழமையும் மட்டும் விலக்கு. வில்ஹெல்ம் செவ்வாய் அஸ்தமனத்தையும் சேர்க்கிறார்.',
+  'ஸ்ரீதர் ஆயுதத்தின் நீளத்தால் பலன் பார்க்கும் முறையையும் தருகிறார் (நாரதர்): அணிபவரின் நடுவிரல் அளவில் நீளத்தை அளந்து 11-ஆல் வகுக்க — மீதி 1 புத்திர லாபம், 2 எதிரி பெருக்கம், 3 பெண் லாபம், 4 பயணம், 5 மங்கலம், 6 பொருள் இழப்பு, 7 பொருள் லாபம், 8 அன்பு, 9 சித்தி, 10 வெற்றி, 11 அல்லது 0 புகழ். ஆயுதத்தின் அளவு உள்ளீடாக இல்லாததால் கணிக்கப்படவில்லை.',
+  'த்வஜ, சிம்ம, அஶ்வ, கஜ ஆய ஆயுதத்துக்கு நல்லது, மற்ற நான்கு கெட்டது (நாரதர்) — கணிக்கப்படவில்லை.',
+]);
+const NOTES_TREATY_TA = Object.freeze([
+  'அரசுகளுக்கு இடையே உடன்படிக்கை, நட்பு கொள்ளுதல், புதியவரோடு நட்பு கொள்ளுதல். "சமரசம், ஒப்பந்தம், சமாதானம்" என்ற காரியம் தனியே உள்ளது — அங்கு ராமனின் "Making Peace", வில்ஹெல்மின் "War - Making peace & treaties" வாசிப்புகள் உள்ளன; இங்கு வில்ஹெல்மின் "Friendship - establishing" பிரிவு எடுக்கப்பட்டுள்ளது.',
+  'ஐந்து நூல்களும் வியப்பூட்டும் அளவுக்கு ஒன்றுபடுகின்றன: பூசம், அனுஷம், பூரம் (+ மிருகசீரிடம்) நட்சத்திரம்; 8 அல்லது 12 திதி; தைதுல கரணம்; லக்னத்தில் அல்லது லக்னத்துக்குச் சுக்கிர பார்வை. சோதனையில் உறுதி செய்யப்பட்டுள்ளது.',
+  'முரண்: சிந்தாமணியும் கல்யாணராமனும் "தைதுல கரணம் எட்டாம் திதியில் ஒருபோதும் வராது; தேய்பிறை துவாதசியின் பின் பாதியில் வரும்; எனவே 8 அல்லது 12 திதி அல்லது தைதுல கரணம் என்று பொருள் கொள்ள வேண்டும்" என்று விளக்குகிறார்கள். அதே விளக்கமே இரு நூலிலும்.',
+  'ரங்காச்சார்யா கரண அட்டவணையில் நட்பு கொள்வதற்குக் கௌலவ கரணத்தைச் சொல்கிறார் — மற்ற நான்கு நூலும் தைதுலத்தைச் சொல்வதற்கு வேறுபாடு; தைதுலத்தை அவர் "சுமங்கலிப் பெண்களுக்கு" என்கிறார்.',
+  'கல்யாணராமன் மது நான்கையும் (மிருகசீரிடம், சித்திரை, அனுஷம், ரேவதி) சொல்கிறார்; சிந்தாமணி சித்திரை, ரேவதியை நீக்கி பூசம், பூரத்தைச் சேர்க்கிறது என்று அவரே குறிப்பிடுகிறார்.',
+]);
+const NOTES_MINT_COINS_TA = Object.freeze([
+  'நாணயம் அடித்தல், காகித நோட்டு, பத்திரம், பாண்டு அச்சிடுதல். வில்ஹெல்ம்: "காகிதப் பணம் புதிய ஊடகம்; நாணயத்துக்குச் சொன்ன விதிகளே அதற்கும் பொருந்தும்."',
+  'நான்கு நூல்களும் ஒரே நான்கு நட்சத்திரக் குடும்பத்தைச் சொல்கின்றன: ஸ்திர (த்ருவ) 4 + மது 4 + சர 5 + லகு 4 (அபிஜித் உட்பட) = 17. சோதனையில் உறுதி செய்யப்பட்டுள்ளது.',
+  'திங்களும் சனியும் தள்ளு என்பதில் நான்கு நூலும் ஒன்றுபடுகின்றன; குரு, சுக்கிரன் அஸ்தமனம் கூடாது என்பதிலும் ஒன்றுபடுகின்றன. இது முழு அட்டவணையிலும் மிக நெருக்கமாக ஒன்றுபடும் காரியங்களில் ஒன்று.',
+  'ஜய (3, 8, 13) மற்றும் பூர்ண (5, 10, 15) திதிகளே — மூன்று நூல் ஒன்றே; வில்ஹெல்ம் மட்டும் திதி சொல்லவில்லை.',
+  'வில்ஹெல்ம்: காகிதப் பணத்துக்கு ஞாயிறும் செவ்வாயும் சிறந்தவை அல்ல — நாணயத்துக்கும் நோட்டுக்கும் வேறுபாடு சொல்லும் ஒரே நூல்.',
+]);
+const NOTES_CATCH_THIEF_TA = Object.freeze([
+  'திருடனைப் பிடித்தல், தப்பியோடியவரைத் தேடுதல், மறைமுகமான செயல்கள். எதிரியைக் கட்டுதல், அடித்தல் என்பதையும் ஸ்ரீதர் இதில் சேர்க்கிறார்.',
+  'நூல்கள் இரு திசையிலும் சொல்கின்றன: ஸ்ரீதர் திருடனைப் பிடிப்பதற்குச் சொல்கிறார்; கல்யாணராமனின் "சோரகர்மம்" மற்றும் வில்ஹெல்மின் "stealing" பிரிவுகள் திருடுவதற்கே சொல்கின்றன. ஸ்ரீதரே இதைக் கவனித்து எழுதுகிறார்: "இந்த முகூர்த்தம் திருடுவதற்கும் பயன்படும், ஆனால் ஒழுக்க நெறி காரணமாக அப்படிப் பயன்படுத்தத் தடை." பிடிப்பதே இங்கு முதன்மைப் பொருள்.',
+  'மூன்று நூல்களும் ஒரே நட்சத்திரக் குடும்பத்தைச் சொல்கின்றன: தீக்ஷண (திருவாதிரை, ஆயில்யம், கேட்டை, மூலம்) + க்ரூர (மகம், பரணி, மூன்று பூர்வம்) — ஆயுதம் செய்வதற்குச் சொல்லப்பட்ட அதே குடும்பம்.',
+  'ஸ்ரீதர்: தேய்பிறை இதற்கு மிகவும் நல்லது; லக்னத்தில் அல்லது 10-இல் செவ்வாய் பலன் தரும்; லக்னத்தில் சனியும் நல்லது — அரிதாக பாபர்களை விரும்பும் வாசிப்பு. சகுனத்துக்கு இதில் மிக முக்கியத்துவம்.',
+  'வில்ஹெல்ம் தப்பியோடிய கைதியைத் தேடுவதற்குச் சர லக்னம், ஸ்திர லக்னம் தள்ளு என்கிறார் — ஸ்ரீதர் லக்னம் சொல்லவில்லை. மேலும் சந்திரன் 12-இல் இருக்கக் கூடாது, தனியாக இருக்க வேண்டும் என்பதும் இவரிடம் மட்டும்.',
+]);
+
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING'],
-  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING', 'ARMY_RAISE', 'WAR_START', 'WEAPON_MAKE', 'WEAPON_WEAR', 'MISSILE_SETUP', 'ARMY_CAMP', 'DAGGER_TIE', 'TREATY', 'MINT_COINS', 'CATCH_THIEF'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING, ARMY_RAISE, WAR_START, WEAPON_MAKE, WEAPON_WEAR, MISSILE_SETUP, ARMY_CAMP, DAGGER_TIE, TREATY, MINT_COINS, CATCH_THIEF,
 });
 
 module.exports = {
@@ -6015,6 +6472,16 @@ module.exports = {
     FISH_FARM: NOTES_FISH_FARM_TA,
     POULTRY: NOTES_POULTRY_TA,
     HUNTING: NOTES_HUNTING_TA,
+    ARMY_RAISE: NOTES_ARMY_RAISE_TA,
+    WAR_START: NOTES_WAR_START_TA,
+    WEAPON_MAKE: NOTES_WEAPON_MAKE_TA,
+    WEAPON_WEAR: NOTES_WEAPON_WEAR_TA,
+    MISSILE_SETUP: NOTES_MISSILE_SETUP_TA,
+    ARMY_CAMP: NOTES_ARMY_CAMP_TA,
+    DAGGER_TIE: NOTES_DAGGER_TIE_TA,
+    TREATY: NOTES_TREATY_TA,
+    MINT_COINS: NOTES_MINT_COINS_TA,
+    CATCH_THIEF: NOTES_CATCH_THIEF_TA,
   }),
   AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS, BATH_MC_18, BATH_KR_18, BATH_13,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,

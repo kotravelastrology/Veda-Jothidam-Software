@@ -756,6 +756,50 @@ the house and the Saturday-Capricorn rule), first milking, the half-star rules f
 elephants, catching elephants and snakes, cutting an elephant's teeth, and §26.13 castration
 (one book, surgical rather than electional).
 
+**War and state** (10 acts, added 2026-10-19): raising an army and planning its movements (three
+books), starting a war (two), making weapons (four), bearing weapons and armour (four), setting up
+missiles (two), an army camp and tent (two), tying the dagger — Churika Bandhana (two), a treaty or
+friendship (five), minting coins and printing notes (four), catching a thief (three). Sources:
+Shridhar §20.8-20.17, Wilhelm's War, Weapons/Armor, Currency, Friendship and Criminals families
+(pp.323-332), Muhurta Chintamani 2/19-2/21 and the treaty sloka, Kalyanraman vol.2 pp.187-248,
+Joshi p.149, Rangacharya p.36.
+
+Two acts show the closest agreement anywhere in the table. For an **army**, Shridhar, Wilhelm and
+Kalyanraman print the same twelve Akul stars, the same Jaya tithis (3, 8, 13) and the same two
+weekdays, with no divergence at all; Shridhar calls it collecting an army where the other two call
+it planning troop movements, so the three stand as one act. For **minting coins**, four books print
+the same four star families (Dhruva, Mridu, Chara and Kshipra), all four reject Monday and Saturday,
+and all four want Jupiter and Venus out of combustion. A **treaty** is nearly as close: five books
+give Pushya and Anuradha, the 8th or 12th tithi, the Taitila karana and a Venus aspect on the lagna.
+
+This family is where the ordinary rules invert, and the tests assert it. The Tikshna and Ugra stars
+and the Rikta tithis — barred almost everywhere else — are the good ones for making a weapon, for
+setting up missiles and for catching a thief. Wilhelm argues the inversion explicitly: since the
+Vishti karana suits destructive acts, the Rikta tithis must suit them too; but for armour he wants
+an ordinary favourable tithi instead. Shridhar's §20.13 carries the same split unresolved — Acharya
+Nrisingha calls the Rikta tithis and the Bhadra karana suitable where the Chintamani, in the same
+section, bars them. Kalyanraman holds both sides as well: his combatant reading wants benefic stars
+and days, his overpowering-enemies reading wants the malefic ones.
+
+Catching a thief is printed in both directions. Shridhar gives it for catching, and notes himself
+that the same election would serve a theft but is barred on ethical grounds; Kalyanraman's
+Chorakarma and Wilhelm's stealing sections give it for committing one, and those two print the same
+eleven stars. Catching is the act's sense here, with the reverse named in the notes.
+
+Rangacharya appears once, through his karana table: he gives the Kaulava karana for making
+friendship where the other four books give Taitila, and assigns Taitila to married women instead.
+
+A treaty sits beside the existing **compromise** act (சமரசம், ஒப்பந்தம், சமாதானம்), which already
+holds Raman's "Making peace" and Wilhelm's "War - making peace & treaties"; the treaty act takes
+Wilhelm's separate "Friendship - establishing" section so that no reading is counted twice, and
+Joshi's section, which names both, is noted as standing under either.
+
+Not computed here: all four of Shridhar's direction methods for starting a war (the Vighana Kaal
+chakra's diagram does not line up seven weekdays with eight directions, and its heading and its text
+state the rule in opposite senses), the Tripushkar yoga, the front Yogini and the Ghata Vaar, Sage
+Narada's weapon-length remainder and the weapon's Aya, the omens Shridhar weights heavily for a
+thief, and §20.22 filing nomination papers.
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying

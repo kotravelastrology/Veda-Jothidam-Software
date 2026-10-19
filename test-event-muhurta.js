@@ -1639,4 +1639,55 @@ const RF = FIX.roga_snana;
   for (const c of ['ASHVA_CHAKRA']) assert.ok(E.CODE_TA[c], c);
 }
 
+// ------------------------------------------------ war and state: where the books agree, and where they invert ---
+{
+  // Three books print the same twelve Akul stars, the same Jaya tithis and the same two weekdays for an army.
+  const AK = sorted(E.EVENTS.ARMY_RAISE.SHRIDHAR.nak.good);
+  assert.equal(AK.length, 12, 'twelve Akul stars');
+  for (const b of ['WILHELM', 'KALYANRAMAN']) {
+    assert.deepEqual(sorted(E.EVENTS.ARMY_RAISE[b].nak.good), AK, `${b}: the same army stars`);
+    assert.deepEqual(sorted(E.EVENTS.ARMY_RAISE[b].tithi), sorted(E.EVENTS.ARMY_RAISE.SHRIDHAR.tithi), `${b}: the same Jaya tithis`);
+    assert.deepEqual(sorted(E.EVENTS.ARMY_RAISE[b].vara.good), [0, 2], `${b}: Sunday and Tuesday`);
+  }
+  // Shridhar and Wilhelm print the same ten stars for an army camp.
+  assert.deepEqual(sorted(E.EVENTS.ARMY_CAMP.SHRIDHAR.nak.good), sorted(E.EVENTS.ARMY_CAMP.WILHELM.nak.good), 'the same camp stars');
+  // Minting coins: four books print the same four star families, reject Monday and Saturday, and
+  // want Jupiter and Venus out of combustion.
+  const MC_COIN = sorted(E.EVENTS.MINT_COINS.MUHURTA_CHINTAMANI.nak.good);
+  for (const b of ['KALYANRAMAN', 'SHRIDHAR', 'WILHELM']) {
+    const r = E.EVENTS.MINT_COINS[b];
+    assert.deepEqual(sorted(r.nak.good), MC_COIN, `${b}: the same coin stars`);
+    assert.ok(!r.vara.good.includes(1) && !r.vara.good.includes(6), `${b}: Monday and Saturday are out`);
+    assert.ok(r.jupVenNotSet, `${b}: Jupiter and Venus must not be combust`);
+  }
+  // A treaty: Pushya and Anuradha in every book, the 8th and 12th tithi, and the Taitila karana.
+  for (const b of E.EVENTS.TREATY.order) {
+    const r = E.EVENTS.TREATY[b];
+    const good = [...r.nak.good, ...(r.nak.mid ?? [])];
+    for (const n of [7, 16]) assert.ok(good.includes(n), `${b}: keeps star ${n}`);
+    if (r.karanaOnly) assert.deepEqual(r.karanaOnly, [3], `${b}: the Taitila karana`);
+    for (const t of [8, 12]) assert.ok(r.tithi.includes(t), `${b}: keeps tithi ${t}`);
+  }
+  // Wilhelm says the only four stars Kalaprakasika and the Chintamani agree on are the best for
+  // bearing a weapon: Ashwini, Chitra, Jyeshtha and Revati.
+  assert.deepEqual(sorted(E.EVENTS.WEAPON_WEAR.WILHELM.nak.good), [0, 13, 17, 26], "Wilhelm's four agreed stars");
+  // Making a weapon and catching a thief both want the stars every other act bars.
+  for (const [ev, b] of [['WEAPON_MAKE', 'MUHURTA_CHINTAMANI'], ['CATCH_THIEF', 'SHRIDHAR']]) {
+    const good = E.EVENTS[ev][b].nak.good;
+    for (const n of [5, 8, 17, 18]) assert.ok(good.includes(n), `${ev}: wants Tikshna star ${n}`);
+  }
+  // The Rikta tithis, barred nearly everywhere, are the good ones for weapons and for a thief.
+  for (const [ev, b] of [['WEAPON_MAKE', 'SHRIDHAR'], ['WEAPON_WEAR', 'WILHELM'], ['MISSILE_SETUP', 'KALYANRAMAN'], ['CATCH_THIEF', 'KALYANRAMAN']]) {
+    for (const t of [4, 9, 14]) assert.ok(E.EVENTS[ev][b].tithi.includes(t), `${ev}/${b}: Rikta tithi ${t} is good`);
+  }
+  // ... and the Chintamani bars them for bearing a weapon, which is the contradiction the notes name.
+  for (const t of [4, 9, 14]) assert.ok(!E.EVENTS.WEAPON_WEAR.MUHURTA_CHINTAMANI.tithi.includes(t), `the Chintamani bars tithi ${t}`);
+  // Kalyanraman's thief list and Wilhelm's stealing list are the same eleven stars.
+  const KT = sorted(E.EVENTS.CATCH_THIEF.KALYANRAMAN.nak.good);
+  assert.equal(KT.length, 11, 'eleven thief stars');
+  const WT = sorted([...E.EVENTS.CATCH_THIEF.WILHELM.nak.good, ...E.EVENTS.CATCH_THIEF.WILHELM.nak.mid]);
+  for (const n of KT) assert.ok(WT.includes(n), `Wilhelm also keeps thief star ${n}`);
+  for (const c of ['MARS_1_10_MID']) assert.ok(E.CODE_TA[c], c);
+}
+
 console.log('test-event-muhurta: all checks passed');

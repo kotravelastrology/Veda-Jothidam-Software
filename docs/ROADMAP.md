@@ -288,8 +288,10 @@ Not plan items, but real, and they should not be discovered at release:
   wells (the Stambha, Dwar and Tadag chakras computed). The temple and worship family followed the same
   day: all seven of Shridhar's ch.24 acts plus building a temple, with the Agni and Katha
   chakras computed. The animal family followed: cattle, horses, elephants,
-  goats, pets, fish, poultry and hunting, with the Ashva chakra computed. Left: the war and
-  state family (army, weapons, treaty, minting coins, treasure) and the crafts and trades
-  (shop, transport, boat and ship, pottery, weaving, dyeing, tailoring).
+  goats, pets, fish, poultry and hunting, with the Ashva chakra computed. The war and state family followed:
+  army, war, weapons, armour, missiles, camp, dagger, treaty, coins and catching a thief.
+  Left: the crafts and trades (shop, transport, boat and ship, pottery, weaving, dyeing,
+  tailoring), and the stragglers in Shridhar's ch.20 and ch.26 (oath taking, adoption,
+  nomination papers, castration).
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.
