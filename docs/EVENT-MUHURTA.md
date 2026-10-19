@@ -547,7 +547,7 @@ Kalyanraman (washing clothes), and the general lists above.
 **Government, service and law** (7 acts, added 2026-10-19): assuming office (coronation / oath,
 nine books), meeting a superior (six), joining service (seven), applying for a job (four),
 employing a servant (eight), filing a suit (seven), compromise / peace (three). Sources:
-Shridhar ch.20, Muhurta Chintamani ch.10 and 2/13, 2/27, Wilhelm pp.237, 250, 279-282, 325-330,
+Shridhar ch.20, Muhurta Chintamani ch.10 and 2/13, 2/26, Wilhelm pp.237, 250, 279-282, 325-330,
 Kalyanraman vol.2 pp.198-199, 220-223, Joshi pp.103, 137-138, 142-143, Vashistha pp.93-100,
 Raman ch.X, XVI, XVII, Rangacharya pp.117-118, 132, Agarwal pp.325-326.
 
@@ -558,7 +558,7 @@ seeking employment), `conj` (Mars, Saturn, Rahu together — the peace books), a
 counted from the birth lagna or Moon (the coronation books). Coronation also uses the Sun-count chakra
 (Shridhar: the 1st, 2nd, 7th, 13th, 14th and 19th-22nd from the Sun's star lose power or the kingdom).
 
-Akula / Kulakula / Kula (Joshi, Kalyanraman, Wilhelm — a suit in an Akula star, tithi and weekday is won by the
+Akula / Kulakula / Kula (Shridhar §20.9d / §20.21, Joshi, Kalyanraman, Wilhelm — a suit in an Akula star, tithi and weekday is won by the
 plaintiff; Kulakula ends in a compromise; Kula is won by the defendant): Akula stars are good, Kulakula
 middling, Kula rejected. Wilhelm adds the Chidra tithis and the lagna.
 
