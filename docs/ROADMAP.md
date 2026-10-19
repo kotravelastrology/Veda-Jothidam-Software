@@ -280,6 +280,9 @@ Not plan items, but real, and they should not be discovered at release:
   Raja-Panchaka and janma-star count computed). Money and trade added 2026-10-19
   (eleven acts, lending to accounts; M.C. 2/24's fifteen rejected stars, the six purchase
   and seven sale stars; Raman's lagna from the birth sign for recovering money).
-  Land and property, M.C. ch.2's others and the crafts follow.
+  Land and property added 2026-10-19 (five acts: a building site, farm land, a house,
+  taking possession, dividing property; the two site traditions kept apart, the handful
+  of earth computed through the new `padaOnly` key). Building a house (foundation to roof),
+  wells and temples, M.C. ch.2's others and the crafts follow.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

@@ -609,6 +609,36 @@ and utensils (Raman ch.X, Joshi pp.101-102, Shridhar §25.3.4, Vashistha pp.134-
 property (Shridhar §20.18), tribute and contributions (Wilhelm), transport and chariot works
 (Shridhar §25.5).
 
+**Land and property** (5 acts, added 2026-10-19): buying a building site (seven books), buying
+farm land (three), buying a house (three), taking possession of land (three), dividing property
+(four). Sources: Shridhar §20.18, §21.17, §25.3.4, §27.17.1 (pp.583, 599, 684, 738), Wilhelm
+pp.250, 287, Kalyanraman vol.2 p.243, Joshi pp.102, 149, Raman ch.XII and XIII (PDF pp.45, 47),
+Rangacharya p.129, Agarwal p.325, Vashistha p.119.
+
+Buying a site has two traditions that barely overlap: Shridhar, Joshi, Vashistha and Rangacharya
+give M.G./J.V.'s twelve stars (Mrigashira, Punarvasu, Ashlesha, Magha, Vishakha, Anuradha, the
+three Poorvas, Moola, Revati), Nanda and Poorna tithis and Thursday–Friday; Wilhelm, Raman and
+Agarwal give fourteen (Ashwini, Rohini, Mrigashira, Punarvasu, Pushya, UPhalguni, Hasta, Swati,
+Anuradha, UAshadha, Shravana, Dhanishtha, Shatabhisha, UBhadra), Rikta avoided, and Monday,
+Wednesday and Saturday. Both are computed, neither is merged into the other. Dividing property
+is the opposite case: Kalyanraman, Joshi, Wilhelm and Shridhar give the same fifteen stars, the
+same tithis (2, 3, 5, 7, 10, 11, 13) and the same five weekdays, which a test asserts.
+
+New engine key: `padaOnly` — the Moon only in the named padas of its star. It computes the one
+rule the three possession books share: to claim contested land, carry away a handful of its earth
+with Cancer rising and the Moon in the 4th pada of Bharani, Ardra, Vishakha (Shridhar and Wilhelm
+add Hasta).
+
+Not computed here: the Sun and Ketu in the navamsa lagna (the lagna is), B.D.R.'s arithmetic for
+whether a plot is auspicious (Shridhar §27.17.2), the lagna lord with the 7th lord, the 11th lord
+in the 12th, and whether a division made at a marriage or by the father needs a muhurta at all.
+
+Not done in this family: starting construction, Bhumi Puja, digging, laying the foundation, bricks,
+pillars, door frames, roofs, upper storeys, repairs and whitewashing (Shridhar ch.27, Kalyanraman
+pp.190-199, Wilhelm pp.217-232, MC's Griha Arambha chapter, Raman ch.XII, Vashistha ch.10,
+Agarwal p.325), wells, tanks and ponds with their Koop and Tadag chakras (Shridhar §21.18),
+temples and installing a deity, and town planning.
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying

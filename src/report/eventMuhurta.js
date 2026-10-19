@@ -126,6 +126,9 @@ function panchangaCodes(r, x) {
     else if (!r.nak.good.includes(x.star) && !(r.abhijitOk && x.moonAbhijit)) out.push(r.nakAfter?.[x.star] === undefined ? 'NAK' : x.starFrac < r.nakAfter[x.star] / 60 - 1e-9 ? 'NAK_GHATI' : 'NAK_LATE_MID');
   }
   if (r.pada1Mid && x.moonPada % 4 === 0) out.push('PADA1_MID');
+  // Claiming contested land by carrying away a handful of earth: the Moon in the 4th pada of the named
+  // stars (Shridhar's K.P., Wilhelm, Raman).
+  if (r.padaOnly && Number.isInteger(x.moonPada) && !r.padaOnly.includes((x.moonPada % 4) + 1)) out.push('PADA');
   if (r.krishnaMid && x.tithi > 15) out.push('KRISHNA_MID');
   if (r.tithi) {
     if (r.tithiMid && r.tithiMid.includes(x.tithi)) out.push('TITHI_MID');

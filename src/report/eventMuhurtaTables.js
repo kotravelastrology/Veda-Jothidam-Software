@@ -3237,8 +3237,230 @@ const ACCOUNTS = deepFreeze({
     noteTa: 'பதின்மூன்று நட்சத்திரங்கள் (ஜோஷியின் பட்டியலோடு கிட்டத்தட்ட ஒன்றே; அபிஜித் இல்லை) · திதி சொல்லப்படவில்லை · சுப கிரக ராசி லக்னம்; 8, 12 காலி',
   },
 });
+// ---------------------------------------------------------------------------
+// Land and property acts, added 2026-10-19
+// ---------------------------------------------------------------------------
+const BUY_LAND = deepFreeze({
+  labelTa: 'நிலம் வாங்குதல் (கட்டிடத்துக்கு)',
+  default: 'RAMAN',
+  order: ['RAMAN', 'WILHELM', 'SHRIDHAR', 'JOSHI', 'RANGACHARYA', 'VASHISTHA', 'AGARWAL'],
+  RAMAN: {
+    labelTa: 'ராமன் அத்.XII', booksTa: 'ராமன்',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 14, 16, 20, 21, 22, 23, 25], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [1, 3, 4, 6], mid: [] },
+    lagna: { good: [1, 4, 7, 10], mid: [0, 2, 3, 5, 6, 8, 9, 11] },
+    notIn: [[['Mars'], [1]]],
+    want: [{ planets: ['Jupiter'], houses: [1, 4, 5, 7, 9, 10], code: 'JUP_KENDRA_KONA_MID' }, { planets: ['Mars'], houses: [11], code: 'MARS_11_MID' }],
+    varaLordLagna: 'MARK',
+    noteTa: '"சில பழைய நூல்கள் செவ்வாயையும் சொல்கின்றன; எங்கள் தாழ்மையான கருத்தில் செவ்வாய் தள்ளப்பட வேண்டும்" — ராமன் தள்ளுகிறார் · ஸ்திர ராசி "விரும்பத்தக்கது" (இறுதிப் பேரம் பேசும்போது) — மற்ற ராசிகள் நடுத்தரம் (எங்கள் வாசிப்பு) · கிழமை அதிபதி லக்னத்தில், குரு கேந்திர / திரிகோணத்தில், செவ்வாய் 11-இல் — குறிக்கப்படுகின்றன; செவ்வாய் லக்னத்தில் கூடாது · லக்னாதிபதி–7-ஆம் அதிபதி பொருத்தம், 11-ஆம் அதிபதி 12-இல் — கணிக்கப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — ரியல் எஸ்டேட் வாங்குதல்', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 14, 16, 20, 21, 22, 23, 25], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [1, 2, 3, 6], mid: [] },
+    vishti: true,
+    lagna: { good: [1, 4, 7, 10], mid: [2, 5, 8, 11] },
+    empty: [8],
+    want: [{ planets: ['Sun', 'Ketu'], houses: [1], code: 'SUN_KETU_LAGNA_MID' }],
+    varaLordLagna: 'MARK',
+    noteTa: 'ராமனின் அதே பதினான்கு நட்சத்திரங்கள் · திங்கள், செவ்வாய், புதன், சனி (ராமன் செவ்வாயைத் தள்ளுகிறார், வியாழனைச் சேர்க்கிறார்) · ஸ்திர ராசி சிறந்தது, த்விஸ்வபாவம் நடுத்தரம் — சர ராசி தள்ளு · 8 காலி · லக்னத்திலோ நவாம்சத்திலோ சூரியனும் கேதுவும் — நிலம் நிரந்தரமாகத் தங்கும் (குறிக்கப்படுகிறது; நவாம்சம் கணிக்கப்படவில்லை)',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §25.3.4, §27.17.1', booksTa: 'ஸ்ரீதர் (J.V. மேற்கோள்)',
+    nak: { good: [4, 6, 8, 9, 15, 16, 10, 19, 24, 18, 26], mid: [] }, digdwar: false,
+    tithi: [5, 6, 10, 11, 15, 16],
+    vara: { good: [4, 5], mid: [] },
+    noteTa: '§27.17.1-இல் "மிருகசீரிடம்" இருமுறை அச்சாகியுள்ளது; §21.17, §25.3.4 மற்றும் வசிஷ்டாவின் அதே பட்டியலில் அந்த இடத்தில் மூலம் உள்ளது — மூலம் என்று வாசிக்கிறோம் · திதி: §27.17.1-இன் தெளிவான பட்டியல் (தேய்பிறைப் பிரதமை + வளர்பிறை 5, 6, 10, 11, பௌர்ணமி); §25.3.4 "நந்தா, பூர்ணா திதிகள்" என்கிறது (1, 6, 11 / 5, 10, 15) — அகலமான வாசிப்பு ஜோஷி, ரங்காச்சார்யாவிடம் உள்ளது',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.102)', booksTa: 'ஜோஷி',
+    nak: { good: [6, 8, 9, 15, 16, 10, 19, 24, 18, 26, 4], mid: [] }, digdwar: false,
+    tithi: [1, 5, 6, 10, 11, 15, 16, 20, 21, 25, 26],
+    vara: { good: [4, 5], mid: [1, 3] },
+    noteTa: 'ஸ்ரீதரின் அதே பட்டியல் (பதினொன்று; ஸ்ரீதரிடம் உள்ள ரேவதியும் உண்டு) · நந்தா (1, 6, 11) + பூர்ணா (5, 10, 15) — இரு பக்ஷமும் (எங்கள் வாசிப்பு) · "சுப கிழமைகள், குறிப்பாக வியாழன், வெள்ளி" — அவ்விரண்டு நல்லவை, மற்ற சுப கிழமைகள் (திங்கள், புதன்) நடுத்தரம் (எங்கள் வாசிப்பு)',
+  },
+  RANGACHARYA: {
+    labelTa: 'ரங்காச்சார்யா (ப.129)', booksTa: 'ரங்காச்சார்யா',
+    nak: { good: [18, 4, 10, 16, 6], mid: [] }, digdwar: false,
+    tithi: [1, 6, 11, 16, 21, 26],
+    vara: { good: [4, 5], mid: [] },
+    beneficIn: [2, 4, 5, 7, 9, 10],
+    maleficIn: [3, 10, 11],
+    noteTa: 'ஐந்து நட்சத்திரங்கள் மட்டும் — ஸ்ரீதர் / ஜோஷியின் பட்டியலின் சுருக்கம் · நந்தா திதி (1, 6, 11, இரு பக்ஷமும் — எங்கள் வாசிப்பு) · சுபர் 2, 5, 9, 4, 7, 10-இல்; பாபர் 3, 10, 11-இல் — குறிக்கப்படுகின்றன · வீடும் நிலமும் ஒரே விதி',
+  },
+  VASHISTHA: {
+    labelTa: 'வசிஷ்டா (ப.119)', booksTa: 'வசிஷ்டா',
+    nak: { good: [4, 6, 8, 9, 15, 16, 10, 19, 24, 18, 26], mid: [] }, digdwar: false,
+    tithi: [5, 6, 10, 11, 15, 16],
+    vara: { good: [4, 5], mid: [] },
+    noteTa: 'ஸ்ரீதர் §27.17.1-இன் அதே திதி, கிழமை, நட்சத்திரம் (ஒரே மரபு) · லக்னம், வீடு சொல்லப்படவில்லை',
+  },
+  AGARWAL: {
+    labelTa: 'அகர்வால் (ப.325) — கட்டிடத்துக்கு', booksTa: 'அகர்வால்',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 14, 16, 20, 21, 22, 23, 25], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [1, 3, 4, 6], mid: [] },
+    varaLordLagna: 'MARK',
+    noteTa: 'ராமனின் அதே பதினான்கு நட்சத்திரங்களும் அதே நான்கு கிழமைகளும் · ரிக்தா திதி தள்ளு · "பரிவர்த்தனை நேரத்தில் கிழமை அதிபதி லக்னத்தில் இருந்தால் நல்லது" (விவசாய நிலப் பகுதியின் கீழ் அச்சிடப்பட்டது; இரண்டுக்கும் பொருந்தும் — எங்கள் வாசிப்பு) · தாரா சுத்தி, சந்திர சுத்தி கட்டாயம்',
+  },
+});
+const BUY_FARMLAND = deepFreeze({
+  labelTa: 'விவசாய நிலம் வாங்குதல்',
+  default: 'RAMAN',
+  order: ['RAMAN', 'AGARWAL', 'SHRIDHAR'],
+  RAMAN: {
+    labelTa: 'ராமன் அத்.XIII', booksTa: 'ராமன்',
+    nak: { good: [0, 3, 4, 6, 7, 11, 21, 23, 25], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    krishnaMid: true,
+    vara: { good: [1, 3, 6], mid: [] },
+    vishti: true,
+    want: [{ planets: ['Mars'], houses: [4], code: 'MARS_4_MID' }],
+    noteTa: '"சந்திரன் வளர்பிறையில்" — தேய்பிறை நடுத்தரம் (எங்கள் வாசிப்பு) · "உத்திரம்" = உத்திரப் பல்குனி மட்டும் (கட்டிட நிலப் பட்டியலோடு ஒத்தது) · செவ்வாய் 4-இல் — குறிக்கப்படுகிறது · விஷ்டி கரணம் தள்ளு',
+  },
+  AGARWAL: {
+    labelTa: 'அகர்வால் (ப.325) — விவசாயத்துக்கு', booksTa: 'அகர்வால்',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 14, 16, 20, 21, 22, 23, 25], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [1, 3, 6], mid: [] },
+    varaLordLagna: 'MARK',
+    noteTa: 'கட்டிட நிலத்தின் அதே பதினான்கு நட்சத்திரங்கள்; கிழமை மட்டும் வேறு (வியாழன் இல்லை) · ரிக்தா திதி தள்ளு · கிழமை அதிபதி லக்னத்தில் — குறிக்கப்படுகிறது',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §21.17', booksTa: 'ஸ்ரீதர் (M.G. மேற்கோள்)',
+    nak: { good: [4, 6, 8, 9, 15, 16, 10, 19, 24, 18, 26], mid: [] }, digdwar: false,
+    tithi: [5, 6, 10, 11, 15, 16],
+    vara: { good: [4, 5], mid: [] },
+    noteTa: 'விவசாய அத்தியாயத்தில் அச்சிடப்பட்டாலும் §27.17.1 (வீட்டுக்கான நிலம்) அதே பட்டியலையே தருகிறது — ஸ்ரீதர் இரண்டையும் பிரிக்கவில்லை · ராமன், அகர்வால் தரும் திங்கள் / புதன் / சனிக்கு மாறாக இவர் வியாழன், வெள்ளி',
+  },
+});
+const BUY_HOUSE = deepFreeze({
+  labelTa: 'வீடு வாங்குதல்',
+  default: 'AGARWAL',
+  order: ['AGARWAL', 'RAMAN', 'RANGACHARYA'],
+  AGARWAL: {
+    labelTa: 'அகர்வால் (ப.325)', booksTa: 'அகர்வால்',
+    nak: { good: [4, 1, 0, 10, 15, 18, 6, 26], mid: [] }, digdwar: false,
+    tithi: [1, 5, 11, 16, 20, 26],
+    vara: { good: [4, 5], mid: [] },
+    lagna: { good: [1, 2, 4, 6, 7], mid: [] },
+    notIn: [[['Mars'], [1]], [['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'], [7]]],
+    want: [{ planets: ['Mars'], houses: [11], code: 'MARS_11_MID' }],
+    noteTa: '"நந்தா, அதாவது 1, 5, 11" என்று அச்சில் — வழக்கமான நந்தா 1, 6, 11; அச்சில் உள்ளபடியே வைக்கிறோம் (இரு பக்ஷமும் — எங்கள் வாசிப்பு) · இறுதிப் பேரத்தின்போது ஸ்திர ராசி உதயமாக வேண்டும், செவ்வாய் 11-இல் — குறிக்கப்படுகிறது · லக்னாதிபதி–7-ஆம் அதிபதி பொருத்தம், 11-ஆம் அதிபதி 12-இல் — கணிக்கப்படவில்லை',
+  },
+  RAMAN: {
+    labelTa: 'ராமன் அத்.XII', booksTa: 'ராமன்',
+    nak: { good: [4, 8, 9, 10, 15, 18, 6, 26], mid: [] }, digdwar: false,
+    tithi: [1, 6, 11, 16, 21, 26],
+    vara: { good: [4, 5], mid: [] },
+    lagna: { good: [1, 2, 4, 6, 7], mid: [] },
+    notIn: [[['Mars'], [1]], [['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'], [7]]],
+    noteTa: 'நந்தா திதிகள் (1, 6, 11 — ராமனின் பிற்சேர்க்கையின்படி, இரு பக்ஷமும்) · ஸ்ரீதர் / ஜோஷியின் நிலப் பட்டியலையே ஒத்தது (ஆயில்யம், மகம் உட்பட) · 7-இல் பாபன் கூடாது; செவ்வாய் லக்னத்தில் கூடாது',
+  },
+  RANGACHARYA: {
+    labelTa: 'ரங்காச்சார்யா (ப.129)', booksTa: 'ரங்காச்சார்யா',
+    nak: { good: [18, 4, 10, 16, 6], mid: [] }, digdwar: false,
+    tithi: [1, 6, 11, 16, 21, 26],
+    vara: { good: [4, 5], mid: [] },
+    beneficIn: [2, 4, 5, 7, 9, 10],
+    maleficIn: [3, 10, 11],
+    noteTa: 'வீட்டுக்கும் நிலத்துக்கும் ஒரே விதி (நிலம் வாங்குதல் காரியத்திலும் இதே வாசிப்பு) · நந்தா திதி · சுபர், பாபர் இடங்கள் குறிக்கப்படுகின்றன',
+  },
+});
+const LAND_POSSESSION = deepFreeze({
+  labelTa: 'நிலத்தை ஆட்கொள்ளுதல் (ஒரு பிடி மண்)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'RAMAN', 'WILHELM'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §25.3.4 (K.P.)', booksTa: 'ஸ்ரீதர் (K.P. மேற்கோள்)',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 14, 16, 20, 21, 22, 23, 25], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vishti: true,
+    want: [{ planets: ['Sun', 'Ketu'], houses: [1], code: 'SUN_KETU_LAGNA_MID' }],
+    noteTa: 'K.P.யின் பதினான்கு நட்சத்திரங்கள் (கட்டிட நிலம் வாங்கும் அதே பட்டியல்) · ரிக்தா திதி, விஷ்டி கரணம் தள்ளு · சூரியனும் கேதுவும் லக்னத்தில் — குறிக்கப்படுகிறது (நவாம்சம் கணிக்கப்படவில்லை) · ஒரு பிடி மண் விதி (கடக லக்னம் + பரணி / திருவாதிரை / விசாகம் / அஸ்தத்தின் 4-ஆம் பாதம்) வில்ஹெல்ம், ராமன் வாசிப்புகளில் கணிக்கப்படுகிறது',
+  },
+  RAMAN: {
+    labelTa: 'ராமன் அத்.XII, XIII', booksTa: 'ராமன்',
+    nak: { good: [1, 5, 15], mid: [] }, digdwar: false,
+    lagna: { good: [3], mid: [] },
+    want: [{ planets: ['Sun', 'Ketu'], houses: [1], code: 'SUN_KETU_LAGNA_MID' }],
+    padaOnly: [4],
+    noteTa: 'ஸ்ரீதர், வில்ஹெல்ம் தரும் நான்கில் அஸ்தம் ராமனிடம் இல்லை · "கடைசிப் பாதம்" = நான்காம் பாதம் · கடக லக்னம் · சூரியனும் கேதுவும் லக்னத்தில் / நவாம்சத்தில் — குறிக்கப்படுகிறது (லக்னம் மட்டும்) · திதி, கிழமை சொல்லப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — தகராறு நிலம்', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [1, 5, 15, 12], mid: [] }, digdwar: false,
+    lagna: { good: [3], mid: [] },
+    padaOnly: [4],
+    noteTa: 'ஸ்ரீதரின் அதே நான்கு நட்சத்திரங்கள் (அஸ்தம் உட்பட), நான்காம் பாதம், கடக லக்னம் · "மற்ற முகூர்த்தக் கூறுகளும் சாதகமாக இருக்கட்டும்" — பக்கத்தின் பொதுச் சோதனைகள் · திதி, கிழமை சொல்லப்படவில்லை',
+  },
+});
+const DIVIDE_PROPERTY = deepFreeze({
+  labelTa: 'சொத்துப் பிரிவினை',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'JOSHI', 'SHRIDHAR', 'WILHELM'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.243)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 13, 14, 20, 21, 22, 23, 25, 26], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 11, 13, 17, 18, 20, 22, 25, 26, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    lagna: { good: [1, 2, 5, 6, 8, 11], mid: [] },
+    noteTa: 'லகு (4, அபிஜித் உட்பட), ஸ்திர (4), சர (5) + மிருகசீரிடம், சித்திரை, ரேவதி = 15 + அபிஜித் · திதி இரு பக்ஷமும் (எங்கள் வாசிப்பு) · சுப கிரக ராசி லக்னம், லக்ன சுத்தி',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.149)', booksTa: 'ஜோஷி',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 13, 14, 20, 21, 22, 23, 25, 26], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 11, 13, 17, 18, 20, 22, 25, 26, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    lagna: { good: [1, 2, 5, 6, 8, 11], mid: [] },
+    noteTa: 'கல்யாணராமனின் அதே பதினைந்து (ஜோஷி அபிஜித்தைச் சேர்க்கவில்லை) · திதி, கிழமை ஒன்றே · சுப கிரக ராசி லக்னம், லக்ன சுத்தி',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §20.18', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 13, 14, 21, 22, 25, 26, 20], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 11, 13, 15, 17, 18, 20, 22, 25, 26, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    lagna: { good: [1, 2, 5, 6, 8, 11], mid: [] },
+    beneficKendra: true,
+    noteTa: 'அச்சில் "2,3,5,7,19,11,13,15" — 19 என்பது பத்தின் அச்சுப்பிழை (மற்ற மூன்று நூல்களும் 10 தருகின்றன); 10 என்று வாசிக்கிறோம் · பௌர்ணமியும் அமாவாசையும் "இரு பக்ஷத்திலும் 15" என்பதால் சேர்க்கப்படுகின்றன (மற்ற நூல்கள் 13-உடன் நிறுத்துகின்றன) · சதயம் இவரது பட்டியலில் இல்லை · கேந்திரத்தில் சுபர் — குறிக்கப்படுகிறது',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — சொத்துப் பிரிவினை', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 13, 14, 20, 21, 22, 23, 25, 26], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 11, 13, 17, 18, 20, 22, 25, 26, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'கல்யாணராமன், ஜோஷியின் அதே பதினைந்து நட்சத்திரம், அதே திதி, அதே கிழமை — மூன்று நூல்களும் ஒரே மரபு · லக்னம் சொல்லப்படவில்லை',
+  },
+});
 
 const RANK = deepFreeze({
+  BUY_LAND: {
+    order: BUY_LAND.order,
+    words: { RAMAN: 133, WILHELM: 104, SHRIDHAR: 69, JOSHI: 46, RANGACHARYA: 46, VASHISTHA: 44, AGARWAL: 28 },
+    measureTa: 'நிலம் வாங்குதல் பற்றிய சொற்கள்: ராமன் (அத்.XII, PDF ப.45) 133; வில்ஹெல்ம் (ப.287) 104; ஸ்ரீதர் (§25.3.4 ப.684 + §27.17.1 ப.738) 69; ஜோஷி (ப.102) 46; ரங்காச்சார்யா (ப.129) 46; வசிஷ்டா (ப.119) 44; அகர்வால் (ப.325) 28.',
+  },
+  BUY_FARMLAND: {
+    order: BUY_FARMLAND.order,
+    words: { RAMAN: 46, AGARWAL: 39, SHRIDHAR: 35 },
+    measureTa: 'விவசாய நிலம் பற்றிய சொற்கள்: ராமன் (அத்.XIII, PDF ப.47) 46; அகர்வால் (ப.325) 39; ஸ்ரீதர் (§21.17, ப.599) 35.',
+  },
+  BUY_HOUSE: {
+    order: BUY_HOUSE.order,
+    words: { AGARWAL: 78, RAMAN: 68, RANGACHARYA: 46 },
+    measureTa: 'வீடு வாங்குதல் பற்றிய சொற்கள்: அகர்வால் (ப.325) 78; ராமன் (அத்.XII, PDF ப.45) 68; ரங்காச்சார்யா (ப.129) 46.',
+  },
+  LAND_POSSESSION: {
+    order: LAND_POSSESSION.order,
+    words: { SHRIDHAR: 90, RAMAN: 90, WILHELM: 61 },
+    measureTa: 'நிலம் ஆட்கொள்ளுதல் பற்றிய சொற்கள்: ஸ்ரீதர் (§25.3.4 K.P., ப.684) 90; ராமன் (அத்.XII + XIII, PDF ப.45, 47) 90; வில்ஹெல்ம் (ப.250) 61.',
+  },
+  DIVIDE_PROPERTY: {
+    order: DIVIDE_PROPERTY.order,
+    words: { KALYANRAMAN: 97, JOSHI: 76, SHRIDHAR: 43, WILHELM: 36 },
+    measureTa: 'சொத்துப் பிரிவினை பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.243) 97; ஜோஷி (ப.149) 76; ஸ்ரீதர் (§20.18, ப.583) 43; வில்ஹெல்ம் (ப.287) 36.',
+  },
   LEND_MONEY: {
     order: LEND_MONEY.order,
     words: { KALYANRAMAN: 481, MUHURTA_CHINTAMANI: 260, RANGACHARYA: 171, WILHELM: 142, SHRIDHAR: 136, JOSHI: 128, RAMAN: 106, VASHISTHA: 66, AGARWAL: 29 },
@@ -3867,6 +4089,36 @@ const SOURCES = deepFreeze({
     JOSHI: { ...JOSHI_KK, pageLocus: '"For correspondence, accounts etc.", printed p.149 (PDF 164): "Nakshatras: All short nakshatras (i.e. Hasta Ashwini, Pushya and Abhijit) all fixed nakshatras (i.e. Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini), all friendly nakshatras (i.e. Mrigshira, Revati, Chitra, Anuradha) Punarvasu and Shravana nakshatras are considered auspicious for starting correspondence or starting work relating to Accountancy and book-keeping. Tithis: 1/2/3/5/7/10/11/13. Days: Sunday, Monday, Wednesday, Thursday and Friday. Lagna: Lagna of benefic planets with benefics occupying Kendras and Trikonas and no planet posited in 8th or 12th house"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"Business/Finance - Accounting, bookkeeping & business correspondence", printed p.189 (PDF 197): "Nakshatra: Asvini, Rohini, Mrigasira, Punarvasu, Pushya, Uttaraphalguni, Hasta, Chitra, Anuradha, Uttarashadha, Sravana, Uttarabhadrapada and Revati are favorable. Vara: The Varas of the Sun, Moon, Mercury, Jupiter and Venus are favorable. Lagna: The Lagna should be of a benefic. Bhavas: The 8th and 12th should be empty"' },
   },
+  BUY_LAND: {
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XII "House Building", PDF p.45: "Buying Lands for Buildings. - The best asterisms for buying a land are Aswini, Rohini, Mrigasira, Punarvasu, Pushyami, Uttara, Hasta, Swati, Anuradha, Uttarashadha, Sravana, Dhanishta, Satabhisha and Uttarabhadra. Riktha tithis must be scrupulously avoided. Monday, Wednesday, Thursday and Saturday are good. It would be better if the lord of the weekday concerned occupies the Lagna at the time of the transaction. Some ancient astrological works recommend Tuesday also as suitable. But in our humble view, Tuesday should be rejected. At the time of making the final negotiations, let preferably a fixed sign rise and let Jupiter occupy a kendra or trikona. Mars should be placed in the 11th house and he should not be in Lagna. The lords of Lagna and the 7th should be harmoniously disposed. Avoid the 11th lord in the 12th"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Real estate - Purchasing", printed p.287 (PDF 295-296): "Nakshatra: Asvini, Rohini, Mrigasira, Punarvasu, Pushya, Uttaraphalguni, Hasta, Svati, Anuradha, Uttarashadha, Sravana, Dhanishtha, Satabhisha, and Uttarabhadrapada are favorable. Tithi: Particularly avoid the 4th, 9th and 14th Tithis. Karana: Definitely avoid Vishti Karana. Vara: The Varas of the Moon, Mars, Mercury and Saturn are favorable. Lagna: Fixed Rasis are most favorable and dual Rasis middling. Bhavas: No planet should be in the 8th. Miscellaneous: It is very favorable to have the lord of the Vara in the Lagna. Combinations: The Lagna or Navamsa Lagna occupied by the Sun and Ketu indicates that the land obtained will be a permanent possession"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.3.4 "Sale - purchase of land", printed p.684 (PDF 719): "Sale & purchase of land during asterisms of Punarvasu, Mrigshira, Anuradha, Revati, Magha, Moola, Ashlesha, Vishakha & 3 Poorvas; Nanda & Poorna Tithis; & on Thursday & Friday; brings prosperity (J.V.)"; §27.17.1 "Purchase of land", printed p.738 (PDF 772): "1st (D.H.); 5,6,10,11 Tithis of B.H. & the Full Moon; Thursday & Friday; asterisms of Mrigshira, Punarvasu, Ashlesha, Magha, Vishakha, Anuradha, 3 Poorvas, Mrigshira & Revati are auspicious"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 9 "Sale-Purchase of Land", printed p.102 (PDF 117): "Punarvasu, Mrigshira, Revati, Anuradha, Magha, Moola, Ashlesha, Vishakha, Poorvaphalguni, Poorvashada and Poorvabhadrapad nakshatras; Nanda and Poorna Tithis (i.e. 1/6/11/5/10/15 tithis) and benefic days, particularly Thursday and Friday, are considered auspicious for sale and purchase of land"' },
+    RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Sale and purchase", printed p.129 (PDF 137): "The benefics in the 2nd, 5th, 9th, 4th, 7th and 10th houses, and the malefics in 3rd 10th and 11th houses are good for sale and purchase. Thursday and Friday and the Nanda tithis are favoured for sale and purchase of houses and lands etc. Prefer asterisms viz. Moola, Mrigasira, Pubba, Anuradha, and Punarvasu for sale and purchase of houses, lands etc. sale of paddy is profitable in Rohini Dhanishtta, Satabhisha, Uttarashada, Uttarabhadra"' },
+    VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: '"Land-buying muhurta", printed p.119 (PDF 106): "Tithi 1 of krishna paksha, 5, 6, 10, 11, and 15 (shukla), Thursday, Friday. Nakshatra - Mrigashirsha, Punarvasu, Ashlesha, Magha, Vishakha, Anuradha, 3 poorvas, Moola and Revati"' },
+    AGARWAL: { ...AGARWAL_GS, pageLocus: '"Buying lands (for buildings)", printed p.325 (PDF 325): "Days: Monday, Wednesday, Thursday, Saturday. Tithis: avoid Rikta tithi. Nakshatras: Rohini, Mrigshira, Punarvasu, Pushya, Hasta, Swati, Aswini, Anuradha, Shatbhisha, Dhanishta all 3 Uttras, Shravana"; under the agriculture block: "Better if lord of week day occupies lagna at the time of transaction"' },
+  },
+  BUY_FARMLAND: {
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XIII "Agricultural Operations", PDF p.47: "Buying Land for Agriculture. - Monday, Wednesday and Saturday are good. Let the Moon be waxing and Mars be in the 4th house. As usual, avoid the Riktha tithis. The best asterisms are: Aswini, Rohini, Mrigasira, Punarvasu, Pushyami, Uttara, Sravana, Satabhisha, Uttarabhadra. Vishitikarana may also be avoided"' },
+    AGARWAL: { ...AGARWAL_GS, pageLocus: '"Buying lands (for agriculture)", printed p.325 (PDF 325): "Days: Monday, Wednesday, Saturday. Tithis: avoid Rikta tithi. Nakshatras: Rohini, Mrigshira, Punarvasu, Pushya, Hasta, Swati, Aswini, Anuradha, Shatbhisha, Dhanishta all 3 Uttras, Shravana. Better if lord of week day occupies lagna at the time of transaction"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§21.17 "Sale - purchase of land", printed p.599 (PDF 636): "5,6,10,11,15 - of B.H., & 1 of D.H. Day: Thursday & Friday. Const.: Mrigshira, Punarvasu, Ashlesha, Magha, Vishakha, Anuradha, 3 Poorvas, Moola & Revati are beneficial (M.G.)"' },
+  },
+  BUY_HOUSE: {
+    AGARWAL: { ...AGARWAL_GS, pageLocus: '"Buying a house", printed p.325 (PDF 325): "Days: Thursday, Friday. Tithis: Nanda, i.e. 1, 5, 11. Nakshatras: Mrigshira, Bharani, Aswini, P. phalguni, Vishakha, Moola, Punarvasu, Revati. Muhurta kundli: Lagna signs should be 2, 3, 5, 7, 8. Mars should not be in lagna and there should not be any malefic in 7. At the time of making final negotiation, fixed sign should rise, Mars should be in 11th and not in lagna. Lagnesh and 7th lord be harmoniously disposed. Avoid 11th lord in 12th"' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XII "House Building", PDF p.45: "Buying Houses. - As usual Nanda thithis are favourable. New and old houses can be purchased on Thursdays and Fridays. The auspicious constellations are Mrigasira, Aslesha, Makha, Pubba, Visakha, Moola, Punarvasu and Revati. Taurus, Gemini, Leo, Libra and Scorpio are the best signs. Malefics should be avoided in the 7th house, as they may cause trouble and annoyance. Mars should not be in Lagna"' },
+    RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Sale and purchase", printed p.129 (PDF 137): "The benefics in the 2nd, 5th, 9th, 4th, 7th and 10th houses, and the malefics in 3rd 10th and 11th houses are good for sale and purchase. Thursday and Friday and the Nanda tithis are favoured for sale and purchase of houses and lands etc. Prefer asterisms viz. Moola, Mrigasira, Pubba, Anuradha, and Punarvasu for sale and purchase of houses, lands etc."' },
+  },
+  LAND_POSSESSION: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.3.4 "Sale - purchase of land", printed p.684 (PDF 719): "K.P. opines that the best asterisms to take possession of land are, Ashvani, Rohini, Mrigshira, Punarvasu, Pushya, 3 Uttras, Hasta, Swati, Anuradha, Shravana, Dhanishta, Shatbhish: Rikta Tithis & Vishti Karan be avoided. If the Sun & Ketu (both) are in rising sign & navamsha, then there is permanent possession of the land. Further to gain possession of the rightful land, the claimant may scoop out & carry a handful of the land when Cancer is rising; & the Moon is in 4th quarter of any of the four asterisms - Bharni, Ardra, Vishakha or Hasta"' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XII "House Building", PDF p.45: "The land can be taken possession of when the Lagna and Navamsa are occupied by the Sun and Ketu. When these planets are together in Lagna or Navamsa, the land is supposed to remain with the purchaser, permanently"; Chapter XIII "Agricultural Operations", PDF p.47: "If due to any unavoidable circumstances, it is not possible to be present at the land to gain possession at the auspicious moment selected, then pick up and carry away a handful of earth, from that land when Cancer is rising and the last pada of Bharani, Aridra or Visakha is ruling"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Land Contestation", printed p.250 (PDF 258): "To gain possession of land of which one\'s rights to which is contested, scoop out and carry away a handful of earth from the land at a time when the Lagna is Cancer and the Moon is in the fourth Pada of Bharani, Ardra, Visakha, or Hasta. (Also make sure that other Muhurta factors are favorable when doing this.)"' },
+  },
+  DIVIDE_PROPERTY: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Doing Partitions of Properties", printed p.243 (PDF 245): "Nakshatra Abhijith, Aswini, Rohini, Mrigasira, Punarvasu, Pushyami, Uttaraphalguni, Hasta, Chitra, Swati, Uttarashada, Sravana, Dhanishta, Satabhisha, Uttarabhadrapada and Revati, (15+1) Short: Hasta, Aswini, Pushyami, Abhijith, (4) Fixed: Uttaraphalguni, Uttarashada, Uttarabhadrapada, Rohini (4) Movable: Swati, Punarvasu, Sravana, Dhanishta, Satabhisha, (5) Others: Mrigasira, Chitra, Revati (3) … Tithis 2/3/5/7/10/11/13 Weekdays Sunday, Monday, Wednesday, Thursday, Friday. Note: The Lagna Suddhi and the Lagna of benefic raasis are needed"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"To divide property", printed p.149 (PDF 164): "To divide property among co-borns the following considerations are necessary. Nakshatras: All short nakshatras (i.e. Hasta, Ashwini and Pushya), all fixed nakshatras (i.e. Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini), all movable nakshatras (i.e. Swati, Punarvasu, Shravana, Dhanistha and Shatbhisha) Mrigshira, Chitra and Revati nakshatras. Tithis: 2/3/5/7/10/11/13 tithis. Days: Sunday, Monday, Wednesday, Thursday and Friday. Lagna of benefics with proper lagna shuddhi should be chosen"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.18 "Division of property", printed p.583 (PDF 620-621): "Tithi: 2,3,5,7,10,11,13,15 of both halves. Day: Sunday, Monday, Wednesday, Thursday, Friday. Const: Ashvani, Rohini, Mrigshira, Punarvasu, Pushya, 3 Uttras, Hasta, Chitra, Swati, Shravana, Dhanishta, Revati. In benefic ascendant; & benefics in angles"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Real estate - Dividing property", printed p.287 (PDF 295): "Nakshatra: Asvini, Rohini, Mrigasira, Punarvasu, Pushya, Uttaraphalguni, Hasta, Chitta, Svati, Uttarashadha, Sravana, Dhanishtha, Satabhisha, Uttarabhadrapada and Revati are favorable. Tithi: The 2nd, 3rd, 5th, 7th, 10th, 11th and 13th are favorable. Vara: The Varas of the Sun, Moon, Mercury, Jupiter and Venus are favorable"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -3930,6 +4182,7 @@ const CODE_TA = Object.freeze({
   VEN_MOON_1_4_MID: 'லக்னம் / 4-ல் சுக்கிரன், சந்திரன் இல்லை', VEN_MOON_LAGNA_MID: 'லக்னத்தில் சுக்கிரன், சந்திரன் இல்லை', SUN_10_11_MID: '10 / 11-ல் சூரியன் இல்லை',
   SAT_11_MID: '11-ல் சனி இல்லை', SAT_6_11_MID: '6 / 11-ல் சனி இல்லை', VEN_MOON_4_MID: '4-ல் சுக்கிரன், சந்திரன் இல்லை', JUP_TRIKONA_MID: 'குரு 1 / 5 / 9-ல் இல்லை',
   JUP_KONA_MID: 'குரு 5 / 9-ல் இல்லை', SAT_UPACHAYA_12_MID: 'சனி 3 / 6 / 10 / 11 / 12-ல் இல்லை',
+  PADA: 'நூல் சொன்ன பாதம் அல்ல', MARS_4_MID: '4-ல் செவ்வாய் இல்லை', JUP_KENDRA_KONA_MID: 'குரு கேந்திரம் / திரிகோணத்தில் இல்லை', SUN_KETU_LAGNA_MID: 'லக்னத்தில் சூரியனும் கேதுவும் இல்லை', MARS_11_MID: '11-ல் செவ்வாய் இல்லை',
   MERC_589_MID: 'புதன் 5 / 8 / 9-ல் இல்லை', BEN_5_9_MID: '5 / 9-ல் சுபர் இல்லை', MAL_8_MID: '8-ல் பாபன் இல்லை',
   JUP_SAT_LAGNA_MID: 'லக்னத்தில் குருவோ சனியோ இல்லை', MARS_6_MID: '6-ல் செவ்வாய் இல்லை', VENUS_10_MID: '10-ல் சுக்கிரன் இல்லை',
   MARS_SAT_3_11_MID: 'செவ்வாயும் சனியும் 3 / 11-ல் இல்லை', MERC_KENDRA_MID: 'புதன் கேந்திரத்தில் இல்லை',
@@ -4191,9 +4444,36 @@ const NOTES_ACCOUNTS_TA = Object.freeze([
   'இரண்டு நூல்களே இதைத் தருகின்றன; இரண்டிலும் கிழமை ஒன்றே (ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி) — செவ்வாயும் சனியும் தள்ளு.',
 ]);
 
+const NOTES_BUY_LAND_TA = Object.freeze([
+  'கட்டிடத்துக்கான நிலம் / மனை வாங்குதல், விற்றல். இரு மரபுகள்: ஸ்ரீதர், ஜோஷி, வசிஷ்டா, ரங்காச்சார்யா — M.G. / J.V.யின் பன்னிரண்டு நட்சத்திரம், நந்தா / பூர்ணா திதி, வியாழன் - வெள்ளி; வில்ஹெல்ம், ராமன், அகர்வால் — பதினான்கு நட்சத்திரம், ரிக்தா தவிர்த்து, திங்கள் - புதன் - சனி.',
+  'இரு மரபுகளின் நட்சத்திரப் பட்டியல்கள் கிட்டத்தட்ட முற்றிலும் வேறு; இரண்டையும் தனித்தனியே கணிக்கிறோம், ஒன்றையொன்று கலக்கவில்லை.',
+  'கிழமை அதிபதி லக்னத்தில் இருப்பது சிறப்பு (ராமன், அகர்வால், வில்ஹெல்ம்) — குறிக்கப்படுகிறது. நிலம் நல்லதா என்பதை அளவு + பெயர் எழுத்துகளால் பார்க்கும் B.D.R.யின் கணக்கு (ஸ்ரீதர் §27.17.2) — கணிக்கப்படவில்லை.',
+  'விவசாய நிலம், வீடு வாங்குதல், நிலத்தை ஆட்கொள்ளுதல், சொத்துப் பிரிவினை — தனிக் காரியங்கள்.',
+]);
+const NOTES_BUY_FARMLAND_TA = Object.freeze([
+  'விவசாயத்துக்கு நிலம் வாங்குதல். ராமனும் அகர்வாலும் கட்டிட நிலத்திலிருந்து இதைத் தனியே பிரிக்கின்றனர் — கிழமை வேறு (திங்கள், புதன், சனி; வியாழன் இல்லை).',
+  'ஸ்ரீதர் §21.17 (விவசாய அத்தியாயத்தில்) தரும் பட்டியல் அவரது §27.17.1 (வீட்டு அத்தியாயம்) பட்டியலே — அவர் இரண்டையும் பிரிக்கவில்லை.',
+  'நிலத்தை ஆட்கொள்ளுதல் (ஒரு பிடி மண்) — தனிக் காரியம்.',
+]);
+const NOTES_BUY_HOUSE_TA = Object.freeze([
+  'புதிய அல்லது பழைய வீடு வாங்குதல். மூன்று நூல்களும் வியாழன், வெள்ளி மற்றும் நந்தா திதிகளைச் சொல்கின்றன.',
+  'ராமனும் அகர்வாலும் ஒரே நட்சத்திரப் பட்டியலையே தருகின்றனர் (அகர்வால் புனர்பூசத்துக்குப் பதிலாக பரணி, அசுவினியையும் சேர்க்கிறார்); லக்னம் ரிஷபம், மிதுனம், சிம்மம், துலாம், விருச்சிகம்; 7-இல் பாபன் கூடாது; செவ்வாய் லக்னத்தில் கூடாது.',
+  'புது வீட்டில் நுழைதல் (கிரகப்பிரவேசம்) மற்றும் பழைய வீட்டில் நுழைதல் — ஏற்கெனவே தனிக் காரியங்கள்.',
+]);
+const NOTES_LAND_POSSESSION_TA = Object.freeze([
+  'வாங்கிய / உரிமையுள்ள நிலத்தை ஆட்கொள்ளுதல்; தகராறில் உள்ள நிலத்தை உரிமை கொள்ளுதல். மூன்று நூல்களும் ஒரே விதியைத் தருகின்றன: கடக லக்னத்தில், சந்திரன் பரணி / திருவாதிரை / விசாகம் (ஸ்ரீதர், வில்ஹெல்ம்: அஸ்தமும்) நட்சத்திரத்தின் நான்காம் பாதத்தில் இருக்கும்போது அந்த நிலத்திலிருந்து ஒரு பிடி மண்ணை எடுத்துச் செல்ல வேண்டும்.',
+  'லக்னத்திலோ நவாம்சத்திலோ சூரியனும் கேதுவும் இருந்தால் நிலம் நிரந்தரமாகத் தங்கும் (ஸ்ரீதர் K.P., வில்ஹெல்ம், ராமன்) — லக்னம் மட்டும் கணிக்கப்படுகிறது, நவாம்சம் இல்லை.',
+  'ஸ்ரீதரின் K.P. பதினான்கு நட்சத்திரங்கள் ஆட்கொள்ளுதலுக்குப் பொதுவானவை; ஒரு பிடி மண் விதி அவற்றுக்கு வெளியே தனி வழி.',
+]);
+const NOTES_DIVIDE_PROPERTY_TA = Object.freeze([
+  'உடன்பிறந்தோருக்கிடையே சொத்தைப் பிரித்தல். நான்கு நூல்களும் கிட்டத்தட்ட ஒரே விதிகளைத் தருகின்றன: பதினைந்து நட்சத்திரம் (லகு, ஸ்திர, சர + மிருகசீரிடம், சித்திரை, ரேவதி), திதி 2, 3, 5, 7, 10, 11, 13, கிழமை ஞாயிறு - திங்கள் - புதன் - வியாழன் - வெள்ளி.',
+  'சுப கிரகத்தின் ராசி லக்னம், லக்ன சுத்தி (கல்யாணராமன், ஜோஷி, ஸ்ரீதர்); ஸ்ரீதர் கேந்திரத்தில் சுபர்களையும் கேட்கிறார்.',
+  'திருமணத்தின்போதோ தந்தை பிரித்துக் கொடுக்கும்போதோ தனி முகூர்த்தம் தேவையில்லை என்று சிலர்; சிலர் தேவை என்கின்றனர் (ஸ்ரீதர் §27-இன் குறிப்பு) — கணிக்கப்படவில்லை.',
+]);
+
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS'],
-  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY,
 });
 
 module.exports = {
@@ -4237,6 +4517,11 @@ module.exports = {
     SPECULATION: NOTES_SPECULATION_TA,
     LOTTERY: NOTES_LOTTERY_TA,
     ACCOUNTS: NOTES_ACCOUNTS_TA,
+    BUY_LAND: NOTES_BUY_LAND_TA,
+    BUY_FARMLAND: NOTES_BUY_FARMLAND_TA,
+    BUY_HOUSE: NOTES_BUY_HOUSE_TA,
+    LAND_POSSESSION: NOTES_LAND_POSSESSION_TA,
+    DIVIDE_PROPERTY: NOTES_DIVIDE_PROPERTY_TA,
   }),
   AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS, BATH_MC_18, BATH_KR_18, BATH_13,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,

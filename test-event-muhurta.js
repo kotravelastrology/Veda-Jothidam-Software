@@ -1339,6 +1339,7 @@ const RF = FIX.roga_snana;
         const want = Array.isArray(f.conj) ? { planets: f.conj, with: f.conj } : f.conj;
         assert.deepEqual({ planets: [...r.conj.planets], with: [...r.conj.with] }, want, `${at}: conjunctions`);
       }
+      if (f.pada_only) assert.deepEqual([...r.padaOnly], f.pada_only, `${at}: padas`);
       if (f.lagna_birth) assert.deepEqual({ houses: [...r.lagnaBirth.houses], from: r.lagnaBirth.from }, { houses: f.lagna_birth, from: 'EITHER' }, `${at}: the lagna from the birth sign`);
       assert.equal(Boolean(r.nripBana), Boolean(f.nrip_bana), `${at}: Nrip-Baana`);
       assert.equal(Boolean(r.rajaPanchaka), Boolean(f.raja_panchaka), `${at}: Raja-Panchaka`);
@@ -1475,6 +1476,27 @@ const RF = FIX.roga_snana;
   // The codes' names in Tamil.
   for (const c of ['MERC_589_MID', 'BEN_5_9_MID', 'MAL_8_MID', 'JUP_SAT_LAGNA_MID', 'MARS_6_MID', 'VENUS_10_MID',
     'MARS_SAT_3_11_MID', 'MERC_KENDRA_MID', 'LAGNA_BIRTH']) assert.ok(E.CODE_TA[c], c);
+}
+
+// ------------------------------------------------ land and property acts: the handful of earth ---
+{
+  const base = { star: 12, tithi: 2, month: 1, sunSign: 9, sunStar: 21, sunDeg: 10, taraCount: 2, moonAbhijit: false, signs: {}, navs: {}, planetStars: {}, karana: 3 };
+  // Wilhelm's land contestation: Bharani, Ardra, Visakha or Hasta, and only their 4th pada.
+  const LP = E.EVENTS.LAND_POSSESSION.WILHELM;
+  const pada = (star, quarter) => pieceCodes(LP, { ...base, star, moonPada: star * 4 + quarter - 1 });
+  assert.ok(!pada(1, 4).includes('PADA') && !pada(1, 4).includes('NAK'), 'Bharani, 4th pada');
+  for (const q of [1, 2, 3]) assert.ok(pada(1, q).includes('PADA'), `Bharani pada ${q} rejected`);
+  assert.ok(pada(0, 4).includes('NAK'), 'Ashwini is not one of the four');
+  assert.ok(!pieceCodes(E.EVENTS.LAND_POSSESSION.SHRIDHAR, { ...base, star: 0, moonPada: 1 }).includes('PADA'), 'no pada rule in the K.P. list');
+  // The four division books agree on the stars, tithis and weekdays.
+  const D = E.EVENTS.DIVIDE_PROPERTY;
+  for (const b of ['KALYANRAMAN', 'JOSHI', 'WILHELM']) {
+    assert.deepEqual(sorted(D[b].nak.good), sorted(D.WILHELM.nak.good), `${b}: the same fifteen stars`);
+    assert.deepEqual(sorted(D[b].tithi), sorted(D.WILHELM.tithi), `${b}: the same tithis`);
+    assert.deepEqual(sorted(D[b].vara.good), sorted(D.WILHELM.vara.good), `${b}: the same weekdays`);
+  }
+  // The codes' names in Tamil.
+  for (const c of ['PADA', 'SUN_KETU_LAGNA_MID', 'MARS_11_MID', 'MARS_4_MID', 'JUP_KENDRA_KONA_MID']) assert.ok(E.CODE_TA[c], c);
 }
 
 console.log('test-event-muhurta: all checks passed');
