@@ -1690,4 +1690,47 @@ const RF = FIX.roga_snana;
   for (const c of ['MARS_1_10_MID']) assert.ok(E.CODE_TA[c], c);
 }
 
+// ------------------------------------------------ crafts: the books that print one and the same list ---
+{
+  const base = { star: 12, tithi: 2, month: 1, sunSign: 9, sunStar: 21, sunDeg: 10, taraCount: 2, moonAbhijit: false, signs: {}, navs: {}, planetStars: {}, karana: 3 };
+  // The Chintamani bars eight stars for a boat; the nineteen that remain are exactly the nineteen
+  // Wilhelm names one by one.
+  const B19 = sorted(E.EVENTS.BOAT_SHIP.MUHURTA_CHINTAMANI.nak.good);
+  assert.equal(B19.length, 19, 'nineteen boat stars');
+  assert.deepEqual(sorted(E.EVENTS.BOAT_SHIP.WILHELM.nak.good), B19, "Wilhelm's list is the Chintamani's complement");
+  for (const n of [1, 2, 3, 5, 8, 9, 15, 17]) assert.ok(!B19.includes(n), `star ${n} is one of the eight barred`);
+  // Weaving: four books, the same eleven stars (the five Chara, the four Mridu, Rohini, Jyeshtha).
+  const W11 = sorted(E.EVENTS.WEAVING.KALYANRAMAN.nak.good);
+  assert.equal(W11.length, 11, 'eleven weaving stars');
+  for (const b of ['SHRIDHAR', 'JOSHI', 'WILHELM']) {
+    assert.deepEqual(sorted(E.EVENTS.WEAVING[b].nak.good), W11, `${b}: the same weaving stars`);
+  }
+  // Pottery: four books, the same ten stars, and three of them want a movable lagna.
+  const P10 = sorted(E.EVENTS.POTTERY.KALYANRAMAN.nak.good);
+  assert.equal(P10.length, 10, 'ten pottery stars');
+  for (const b of ['JOSHI', 'WILHELM', 'SHRIDHAR']) {
+    assert.deepEqual(sorted(E.EVENTS.POTTERY[b].nak.good), P10, `${b}: the same pottery stars`);
+    assert.deepEqual(sorted(E.EVENTS.POTTERY[b].lagna.good), [0, 3, 6, 9], `${b}: a movable lagna`);
+  }
+  // Learning a craft: three books, the same sixteen stars, and all three want Mercury or Jupiter
+  // in the lagna or the 10th.
+  const C16 = sorted(E.EVENTS.CRAFT_LEARN.WILHELM.nak.good);
+  assert.equal(C16.length, 16, 'sixteen craft stars');
+  for (const b of ['KALYANRAMAN', 'MUHURTA_CHINTAMANI']) {
+    assert.deepEqual(sorted(E.EVENTS.CRAFT_LEARN[b].nak.good), C16, `${b}: the same craft stars`);
+  }
+  for (const b of ['WILHELM', 'MUHURTA_CHINTAMANI']) {
+    assert.deepEqual(E.EVENTS.CRAFT_LEARN[b].want[0].houses, [1, 10], `${b}: Mercury or Jupiter in the 1st or 10th`);
+  }
+  // Stonework: Kalyanraman and Joshi print the same fifteen.
+  assert.deepEqual(sorted(E.EVENTS.SCULPTURE.KALYANRAMAN.nak.good), sorted(E.EVENTS.SCULPTURE.JOSHI.nak.good), 'the same stone stars');
+  // Shridhar's Shilpa count is marked, not a bar: only four counts of 27 pass, so it must not reject a day.
+  const SH = E.EVENTS.SCULPTURE.SHRIDHAR;
+  assert.equal(SH.starCount[0].mark, true, 'the Shilpa count is marked');
+  const at = (n) => pieceCodes(SH, { ...base, sunStar: 0, star: n - 1, planetStars: { Sun: { star: 0 } } });
+  assert.ok(!at(2).includes('SHILPA_COUNT_MID'), 'the 2nd count passes');
+  assert.ok(at(3).includes('SHILPA_COUNT_MID'), 'the 3rd count is marked, not rejected');
+  for (const c of ['MERC_JUP_1_10_MID', 'SHILPA_COUNT_MID']) assert.ok(E.CODE_TA[c], c);
+}
+
 console.log('test-event-muhurta: all checks passed');

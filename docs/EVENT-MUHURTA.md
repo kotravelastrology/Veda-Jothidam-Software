@@ -800,6 +800,40 @@ state the rule in opposite senses), the Tripushkar yoga, the front Yogini and th
 Narada's weapon-length remainder and the weapon's Aya, the omens Shridhar weights heavily for a
 thief, and §20.22 filing nomination papers.
 
+**Crafts and trades, part 1** (6 acts, added 2026-10-19): building and launching a boat (three
+books), weaving, cloth mills and dyeing (four), pottery (four), painting (four), sculpture and
+stonework (three), learning a craft (three). Sources: Shridhar §25.6-25.11, Wilhelm pp.188-253,
+Muhurta Chintamani ch.4, Kalyanraman vol.2 pp.154-190, Joshi pp.108-109. Shridhar's chapter 25 runs
+to 35 sections, so this family is being built in parts, as the house family was.
+
+This is the closest-agreeing family in the table. **Weaving**: four books print the same eleven
+stars — the five Chara, the four Mridu, Rohini and Jyeshtha — with no divergence. **Pottery**: four
+books print the same ten, and three of them add the same rule, a movable lagna with Saturn in a
+water sign and benefics in the angles. **Learning a craft**: three books print the same sixteen
+(Mridu, Dhruva, Kshipra and Chara together) and all three want Mercury or Jupiter in the lagna or
+the 10th. **Stonework**: Kalyanraman's and Joshi's fifteen are identical. For a **boat**, the
+Chintamani works by exclusion — it bars eight stars and calls the rest good — and the nineteen that
+remain are exactly the nineteen Wilhelm names one by one; the tests assert that equivalence.
+
+Shridhar's §25.11 adds a count the other books do not have: from the Sun's star, the 2nd, 5th, 10th
+and 24th suit cutting stone, steel, wood and gems. Four counts out of twenty-seven would reject
+almost every day, so it is marked beside the reading rather than made a bar, and the test asserts it
+stays marked. His cutting reading also wants what sculpture does not — the 4th, 8th, 11th, 12th and
+13th tithis and a malefic in a malefic lagna — the same inversion the weapons acts show; that stays
+in the note, since the act here is carving, not demolition.
+
+Two readings could not be taken as printed. Shridhar's loom rule bars "the 10th and the [?]th star
+from the Sun's" and the second number is lost in the print, so neither is computed. His boat list
+keeps Rohini where the Chintamani explicitly bars it, which Shridhar himself points out; both stand
+as printed, and M.M.'s ship stars (the three Poorvas, Ashlesha, Magha) are marked rather than good,
+since every other book bars them.
+
+Still to do from chapter 25: the washerman, leatherwork, a salon, salt, drinks, a wrestling ring,
+acting and circus, a bridge or dam, perfume, betel, a dairy, a grinding machine, gemology, bed
+making, a library, storing metals, bricks and lime, a brick kiln, a lathe, melting iron, and iron,
+stone and gem work — most of them Shridhar alone, with Wilhelm, Kalyanraman and Joshi covering
+leather, the salon, the dairy and wine.
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying
