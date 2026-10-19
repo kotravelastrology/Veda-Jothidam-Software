@@ -544,6 +544,31 @@ chapters. A whole-book search added: Joshi (vehicle trade, gold), Raman (new
 clothes, education, moving house), Agarwal (travel's ayana rule, the star classes),
 Kalyanraman (washing clothes), and the general lists above.
 
+**Government, service and law** (7 acts, added 2026-10-19): assuming office (coronation / oath,
+nine books), meeting a superior (six), joining service (seven), applying for a job (four),
+employing a servant (eight), filing a suit (seven), compromise / peace (three). Sources:
+Shridhar ch.20, Muhurta Chintamani ch.10 and 2/13, 2/27, Wilhelm pp.237, 250, 279-282, 325-330,
+Kalyanraman vol.2 pp.198-199, 220-223, Joshi pp.103, 137-138, 142-143, Vashistha pp.93-100,
+Raman ch.X, XVI, XVII, Rangacharya pp.117-118, 132, Agarwal pp.325-326.
+
+New engine keys: `nripBana` (the Sun in the 5th / 14th / 23rd degree — Shridhar's joining a government
+service), `rajaPanchaka` (tithi + lagna by 9 leaving 4), `janmaCount` (the day's star counted from the
+person's janma star among the 28 with Abhijit: 1-7 and 15-21 good — Shridhar §20.7, employing a servant /
+seeking employment), `conj` (Mars, Saturn, Rahu together — the peace books), and `lagna.alt` for the signs
+counted from the birth lagna or Moon (the coronation books). Coronation also uses the Sun-count chakra
+(Shridhar: the 1st, 2nd, 7th, 13th, 14th and 19th-22nd from the Sun's star lose power or the kingdom).
+
+Akula / Kulakula / Kula (Joshi, Kalyanraman, Wilhelm — a suit in an Akula star, tithi and weekday is won by the
+plaintiff; Kulakula ends in a compromise; Kula is won by the defendant): Akula stars are good, Kulakula
+middling, Kula rejected. Wilhelm adds the Chidra tithis and the lagna.
+
+Not computed here: the planets' strength (the Sun, Mars, the lagna and dasha lords), the master's star for
+Shridhar's Daas chakra, the master's and servant's yoni and rashi lords, "the master's star not before the
+servant's", the caste of the master (Shridhar 20.4), Agarwal's unfit lagna / month / tithi / day tables,
+Joshi's eight victory combinations for the plaintiff, the Jeeva / Mrita paksha, criminal cases (Vashistha
+"shatru danda", Joshi "punishing enemies"), questioning criminals (Kalyanraman), taking charge on transfer,
+dealing with government bodies, and war.
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying

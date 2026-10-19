@@ -161,6 +161,14 @@ function panchangaCodes(r, x) {
   if (r.bhuRajasvala && x.sunSign === 2 && x.sunDeg >= 20 / 3 && x.sunDeg < 29 / 3) out.push('BHU_RAJASVALA');
   // Kalyanraman: Agninakshatra days — the Sun from 20° (in Bharani) to 43°20′ (in Rohini).
   if (r.agniNakshatra && x.sunSign * 30 + x.sunDeg >= 20 && x.sunSign * 30 + x.sunDeg < 130 / 3) out.push('AGNI_NAKSHATRA');
+  // Shridhar (joining a government service): Nrip-Baana — the Sun in the 5th, 14th or 23rd degree of a sign (the Raja bana: completed degrees 4, 13, 22, i.e. (degrees + 1) ≡ 5 mod 9, as the marriage bana table counts).
+  if (r.nripBana && Number.isFinite(x.sunDeg) && (Math.floor(x.sunDeg) + 1) % 9 === 5) out.push('NRIP_BANA');
+  // Shridhar §20.7 (employing a servant / seeking employment): the day's star counted from the person's janma star among the 28 with Abhijit —
+  // the 1st-7th (head) and 15th-21st (stomach) are beneficial, the back and the feet not.
+  if (r.janmaCount && Number.isInteger(x.janmaStar)) {
+    const n = ((star28(x.moonAbhijit, x.star) - star28(false, x.janmaStar) + 28) % 28) + 1;
+    if (!r.janmaCount.good.includes(n)) out.push(r.janmaCount.code);
+  }
   // Only the named movable karanas (0 Bava, 1 Balava … 6 Vishti); the fixed ones never.
   if (r.karanaOnly && Number.isInteger(x.karana) && !(x.karana >= 1 && x.karana <= 56 && r.karanaOnly.includes((x.karana - 1) % 7))) out.push('KARANA');
   if (r.guru) out.push(...guruCodes(r.guru, x));
@@ -431,6 +439,8 @@ function lagnaCodes(r, m) {
   }
   // Agarwal's tithi panchaka: tithi (1-30) + weekday (Sunday 1) + star (Ashwini 1) + lagna (Aries 1), remainder 8 by 9.
   if (r.panchaka && (m.tithi + (m.vara + 1) + (m.star + 1) + (m.lagna + 1)) % 9 === 8) out.push('ROGA_PANCHAKA');
+  // Shridhar (the south of the Narmada): the tithi (1-30) added to the lagna (Aries 1), by 9 leaving 4 — Raja-Panchaka.
+  if (r.rajaPanchaka && (m.tithi + m.lagna + 1) % 9 === 4) out.push('RAJA_PANCHAKA');
   out.push(...travelStretchCodes(r, m, H));
   return out;
 }

@@ -216,7 +216,8 @@ for (const [purpose, ev] of [['medical', 'MEDICINE'], ['surgery', 'SURGERY'], ['
   const { eventOf } = require('./src/report/muhurtaSearch');
   const { nodeLongitude, planetLongitude, sunriseJulianDay } = require('./src/ephemeris/siderealPositions');
   const { julianDay } = require('@swisseph/node');
-  const FARM = ['AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN'];
+  const FARM = ['AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN',
+    'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE'];
   const at = { latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 };
   for (const ev of FARM) {
     for (const book of E.EVENTS[ev].order) {
@@ -251,6 +252,18 @@ for (const [purpose, ev] of [['medical', 'MEDICINE'], ['surgery', 'SURGERY'], ['
     const good = [...Array(15).keys()].map((i) => i + 1).concat([21, 22, 23, 24, 27]).includes(count);
     assert.equal(d.codes.includes('NAVANNA_CHAKRA'), !good, `${d.date}: ${count} from Mercury`);
   }
+  // Shridhar's joining service: Nrip-Baana is exactly the Sun's 5th / 14th / 23rd degree at sunrise.
+  const js = searchMuhurta({ startDate: '2027-03-01', endDate: '2027-04-15', purpose: 'act:JOIN_SERVICE', ...at, book: 'SHRIDHAR' });
+  let nripDays = 0;
+  for (const d of js.days) {
+    const [Y, M, D] = d.date.split('-').map(Number);
+    const sunrise = sunriseJulianDay(julianDay(Y, M, D, -at.utcOffsetMinutes / 60), at.latitude, at.longitude);
+    const deg = Math.floor(norm(sunMoonLongitudes(sunrise, 'Lahiri').sunLongitude) % 30);
+    const nrip = [4, 13, 22].includes(deg);
+    assert.equal(d.codes.includes('NRIP_BANA'), nrip, `${d.date}: the Sun at ${deg}°`);
+    if (nrip) nripDays += 1;
+  }
+  assert.ok(nripDays >= 3 && nripDays < js.days.length / 2, `Nrip-Baana days: ${nripDays}`);
   const p = searchMuhurta({ startDate: '2027-03-01', endDate: '2027-03-20', purpose: 'act:PLOUGHING', ...at, book: 'KALYANRAMAN' });
   for (const d of p.days) {
     const [Y, M, D] = d.date.split('-').map(Number);

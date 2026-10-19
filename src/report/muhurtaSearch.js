@@ -42,7 +42,7 @@ function actPurposes() {
 const SUNRISE_RULES = Object.freeze([
   'masa', 'uttarayana', 'sunSign', 'harishayana', 'nak', 'nakAfter', 'abhijitOk', 'tithi', 'tithiMid', 'tithiNot', 'anadhyaya', 'galagraha', 'yogaNot', 'yogaHalfNot',
   'vishti', 'karanaFixed', 'kumbha', 'matrika', 'vara', 'holanta', 'holi', 'krishnaMid', 'vijayadashami', 'secondary',
-  'starCount', 'bhuRajasvala', 'agniNakshatra', 'karanaOnly', 'sunStarNot',
+  'starCount', 'bhuRajasvala', 'agniNakshatra', 'karanaOnly', 'sunStarNot', 'nripBana',
 ]);
 const ABHIJIT = Object.freeze([276 + 40 / 60, 280 + 53 / 60 + 20 / 3600]);
 const sunriseReading = (r) => Object.fromEntries(Object.entries(r).filter(([k]) => SUNRISE_RULES.includes(k)));

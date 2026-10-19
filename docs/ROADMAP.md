@@ -275,7 +275,8 @@ Not plan items, but real, and they should not be discovered at release:
   with the Hala, Rahu, Vriksha, Venus and Navanna chakras computed from the
   planets' stars); a whole-book audit added the readings the first searches
   missed; books with no section for an act are read from their tithi / weekday /
-  star-class lists ("general lists"). Service, litigation, MC ch.2's others and
-  the crafts follow.
+  star-class lists ("general lists"). Government, service and law added 2026-10-19
+  (seven acts, coronation to a compromise; Akula / Kula for suits; Shridhar's Nrip-Baana,
+  Raja-Panchaka and janma-star count computed). MC ch.2's others and the crafts follow.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

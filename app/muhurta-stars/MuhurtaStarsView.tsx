@@ -851,6 +851,8 @@ export default function MuhurtaStarsView() {
                           <li key={`sc${i}`}>{B.lagna.eventChakraTa[c.code]}: {PLANET_OF_TA[c.from] ?? c.from} நட்சத்திரம் முதலாக எண்ணி{c.of === 28 ? ' (அபிஜித் உட்பட 28)' : ''} {spans(c.good)}-ஆவது நல்லவை{c.mid?.length ? <> · நடுத்தரம் {spans(c.mid)}</> : null}{c.mark && ' (குறிக்கப்படும்)'}</li>
                         ))}
                         {r.sunStarNot && <li>சூரியன் {stars(r.sunStarNot)} நட்சத்திரத்தில் இருக்கும்போது கூடாது</li>}
+                        {r.nripBana && <li>சூரியன் ஒரு ராசியின் 5, 14, 23-ஆம் பாகையில் (ந்ருப பாணம்) கூடாது</li>}
+                        {r.rajaPanchaka && <li>ராஜ பஞ்சகம் கூடாது (திதி + லக்னம் ÷ 9 மீதி 4)</li>}
                         {r.bhuRajasvala && <li>சூரியன் திருவாதிரையில் நுழைந்த மூன்று நாள் (மிதுனம் 6°40′–9°40′) கூடாது</li>}
                         {r.agniNakshatra && <li>அக்னி நட்சத்திர நாட்கள் (சூரியன் 20° முதல் 43°20′ வரை) கூடாது</li>}
                         {r.karanaOnly && <li>கரணம்: {r.karanaOnly.map((k: number) => KARANA_TA[k]).join(', ')} மட்டும்</li>}

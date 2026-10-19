@@ -775,7 +775,7 @@ const VF = FIX.vidyarambha;
       sankranti: Math.floor(lonOf('Sun', tithiEdge(mid, -1) + 1000) / 30) !== Math.floor(lonOf('Sun', tithiEdge(mid, 1) - 1000) / 30),
       navs: { Moon: (s.star * 4 + s.pada - 1) % 12 }, vijaya: inV,
       // Agriculture: the karana; the Sun's, Rahu's, Venus's and Mercury's stars for the chakras.
-      karana: Math.floor(elong(mid) / 6),
+      karana: Math.floor(elong(mid) / 6), janmaStar: Math.floor(45.5 / (360 / 27)),
       planetStars: Object.fromEntries(['Sun', 'Rahu', 'Venus', 'Mercury'].map((p) => [p, { star: Math.floor(lonOf(p, mid) / (360 / 27)), abhijit: inAbhijit(lonOf(p, mid)) }])),
     };
     for (const b of VR.order) assert.deepEqual(s.ev.VIDYARAMBHA[b], pieceCodes(VR[b], x), `vidyarambha ${b} ${s.fromUtc}`);
@@ -1331,6 +1331,16 @@ const RF = FIX.roga_snana;
       if (f.sun_star_not) assert.deepEqual(sorted(r.sunStarNot), stars(f.sun_star_not), `${at}: the Sun's star`);
       if (f.moon_nav_good) assert.deepEqual([...Array(12).keys()].filter((s) => !r.moonNavMid.not.includes(s)), signsOf(f.moon_nav_good), `${at}: the Moon's navamsa`);
       assert.equal(r.varaLordLagna, f.vara_lord_lagna, `${at}: the weekday lord's lagna`);
+      if (f.uttarayana || f.months === undefined) { /* the months are checked above */ }
+      assert.equal(r.uttarayana, f.uttarayana, `${at}: Uttarayana`);
+      if (f.sun_sign) assert.deepEqual({ good: sorted(r.sunSign.good), mid: sorted(r.sunSign.mid) }, { good: signsOf(f.sun_sign.good), mid: signsOf(f.sun_sign.mid ?? []) }, `${at}: the Sun's sign`);
+      if (f.janma_count) assert.deepEqual([...r.janmaCount.good], f.janma_count, `${at}: the janma-star count`);
+      if (f.conj) assert.deepEqual({ planets: [...r.conj.planets], with: [...r.conj.with] }, { planets: f.conj, with: f.conj }, `${at}: conjunctions`);
+      assert.equal(Boolean(r.nripBana), Boolean(f.nrip_bana), `${at}: Nrip-Baana`);
+      assert.equal(Boolean(r.rajaPanchaka), Boolean(f.raja_panchaka), `${at}: Raja-Panchaka`);
+      assert.equal(Boolean(r.harishayana), Boolean(f.harishayana), `${at}: Hari-shayana`);
+      if (f.lagna_alt) assert.deepEqual({ houses: [...r.lagna.alt.houses], moon: r.lagna.alt.from === 'MOON' }, { houses: f.lagna_alt, moon: Boolean(f.lagna_alt_moon) }, `${at}: the lagna from the birth sign`);
+      else assert.equal(r.lagna?.alt, undefined, `${at}: no lagna from the birth sign`);
       if (f.general_list) assert.ok(r.noteTa.startsWith('பொதுப் பட்டியல்'), `${at}: a general-list reading`);
     }
   }
@@ -1394,6 +1404,45 @@ const RF = FIX.roga_snana;
   // The chakras' names are in Tamil for the page.
   for (const c of ['HALA_CHAKRA', 'RAHU_CHAKRA', 'VENUS_CHAKRA', 'VRIKSHA_CHAKRA', 'NAVANNA_CHAKRA', 'BHU_RAJASVALA', 'AGNI_NAKSHATRA', 'KARANA', 'VARA_LORD_LAGNA', 'SUN_STAR', 'JUP_LAGNA_MID', 'JUP_4_MID', 'SAT_4_MID', 'JMV_LAGNA_MID', 'BEN_4_10_MID']) assert.ok(E.CODE_TA[c], c);
   for (const c of ['HALA_CHAKRA', 'RAHU_CHAKRA', 'VENUS_CHAKRA', 'VRIKSHA_CHAKRA', 'NAVANNA_CHAKRA']) assert.ok(E.CHAKRA_TA[c], c);
+}
+
+// ------------------------------------------------ government, service and legal acts: the new keys' behaviour ---
+{
+  const JS = E.EVENTS.JOIN_SERVICE;
+  const base = { star: 12, tithi: 2, month: 1, sunSign: 9, sunStar: 21, sunDeg: 10, taraCount: 2, moonAbhijit: false, signs: {}, navs: {}, planetStars: {}, karana: 3 };
+  // Nrip-Baana: the Sun in the 5th, 14th or 23rd degree (4°-5°, 13°-14°, 22°-23°).
+  const nrip = (deg) => pieceCodes(JS.SHRIDHAR, { ...base, sunDeg: deg }).includes('NRIP_BANA');
+  assert.ok(nrip(4.2) && nrip(13.9) && nrip(22.5) && !nrip(5.2) && !nrip(14.1) && !nrip(3.9) && !nrip(23.1));
+  assert.ok(!pieceCodes(JS.KALYANRAMAN, { ...base, sunDeg: 4.2 }).includes('NRIP_BANA'), 'Shridhar only');
+  // Raja-Panchaka: the tithi (1-30) + the lagna (Aries 1), by 9 leaving 4 — Shridhar's joining service.
+  const m = { lagna: 0, nav: 0, signs: {}, natalLagna: 6, natalMoon: 1, combust: {}, dayPart: 1, nightPart: 0, pradosha: false, tithi: 3, star: 12, month: 1 };
+  const raja = (tithi, lagna) => stretchCodes(JS.SHRIDHAR, { ...m, tithi, lagna }, 1).includes('RAJA_PANCHAKA');
+  assert.ok(raja(3, 0) && raja(12, 0) && raja(2, 1) && !raja(3, 1) && !raja(4, 0));
+  // Shridhar's employing a servant: the day's star from the janma star among the 28 (Abhijit in): 1-7 and 15-21 are good.
+  const ES = E.EVENTS.EMPLOY_SERVANT;
+  const emp = (count, extra = {}) => pieceCodes(ES.SHRIDHAR, { ...base, janmaStar: 0, star: (count - 1) % 27, ...extra }).includes('JANMA_BODY');
+  for (const n of [1, 7, 15, 21]) assert.ok(!emp(n), `janma count ${n} good`);
+  for (const n of [8, 14, 22, 27]) assert.ok(emp(n), `janma count ${n} bad`);
+  assert.ok(!emp(21, { star: 20 }) && emp(22, { star: 20, moonAbhijit: true }), 'Abhijit is the 22nd of the 28');
+  assert.ok(!pieceCodes(ES.SHRIDHAR, { ...base }).includes('JANMA_BODY'), 'no janma star, no verdict');
+  // Mars, Saturn, Rahu together: the peace books reject any two in one sign.
+  const CP = E.EVENTS.COMPROMISE;
+  const peace = (signs) => pieceCodes(CP.RAMAN, { ...base, signs, star: 3, tithi: 3 }).includes('CONJ');
+  assert.ok(peace({ Mars: 2, Saturn: 2, Rahu: 7 }) && peace({ Mars: 2, Saturn: 5, Rahu: 2 }) && peace({ Mars: 1, Saturn: 4, Rahu: 4 }) && !peace({ Mars: 1, Saturn: 2, Rahu: 3 }));
+  // Kalyanraman's compromise: Taitila only (the 4th movable karana: k = 22 is Taitila — (k-1) % 7 = 3).
+  const kc = (k) => pieceCodes(CP.KALYANRAMAN, { ...base, star: 16, tithi: 8, karana: k }).includes('KARANA');
+  assert.ok(!kc(4) && !kc(11) && kc(1) && kc(5) && kc(57));
+  // The lagna counted from the birth sign: coronation signs 3/6/10/11 from the natal Moon (Wilhelm) and from the natal lagna or Moon (MC).
+  const AO = E.EVENTS.ASSUMING_OFFICE;
+  const lagnaOf = (b, lagna, natalMoon, natalLagna) => stretchCodes(AO[b], { ...m, lagna, natalMoon, natalLagna, tithi: 2 }, 1).includes('LAGNA');
+  // MC (from the birth lagna or the birth Moon): Aries is the 3rd from Aquarius (Moon) — good; from Aries / Taurus it is the 1st / 12th — not.
+  assert.ok(!lagnaOf('MUHURTA_CHINTAMANI', 0, 10, 4) && lagnaOf('MUHURTA_CHINTAMANI', 0, 0, 1), 'MC: the 3rd from the Moon, or not');
+  assert.ok(!lagnaOf('MUHURTA_CHINTAMANI', 0, 4, 10), 'MC: or the 3rd from the birth lagna');
+  // Wilhelm (Upachaya signs from the Moon only): Capricorn is the 10th from Aries — good; from Virgo the 5th — not, whatever the birth lagna.
+  assert.ok(!lagnaOf('WILHELM', 9, 0, 5) && lagnaOf('WILHELM', 9, 5, 5) && lagnaOf('WILHELM', 9, 5, 0), 'Wilhelm: from the Moon only');
+  // The codes' names in Tamil.
+  for (const c of ['NRIP_BANA', 'RAJA_PANCHAKA', 'JANMA_BODY', 'CONJ', 'JUP_7_MID', 'SAT_6_MID', 'SUN_MARS_3_10_11_MID', 'SUN_MARS_10_11_MID', 'VEN_MOON_1_4_MID', 'VEN_MOON_LAGNA_MID', 'SUN_10_11_MID',
+    'SAT_11_MID', 'SAT_6_11_MID', 'VEN_MOON_4_MID', 'JUP_TRIKONA_MID', 'JUP_KONA_MID', 'SAT_UPACHAYA_12_MID']) assert.ok(E.CODE_TA[c], c);
 }
 
 console.log('test-event-muhurta: all checks passed');

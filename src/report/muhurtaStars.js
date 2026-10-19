@@ -592,7 +592,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
       // Vidyarambha: the fixed karanas, the Moon in Abhijit, Vijayadashami's day.
       karanaFixed: isSthiraKarana(keyAt('karana', mid)), moonAbhijit: abhijit, vijaya: vijayaAt(mid),
       // Agriculture's chakras: the stars the Moon's is counted from; the karana for a book's good ones.
-      karana: keyAt('karana', mid),
+      karana: keyAt('karana', mid), janmaStar,
       planetStars: Object.fromEntries(['Sun', 'Rahu', 'Venus', 'Mercury'].map((p) => [p, {
         star: Math.floor(kickerPadas[p] / 4), abhijit: Boolean(bits & (1 << DOSHA_PLANETS.indexOf(p))),
       }])),
