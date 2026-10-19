@@ -287,7 +287,9 @@ Not plan items, but real, and they should not be discovered at release:
   Part 2 followed the same day: pillars, door frames, roofs, upper storeys, repairs and
   wells (the Stambha, Dwar and Tadag chakras computed). The temple and worship family followed the same
   day: all seven of Shridhar's ch.24 acts plus building a temple, with the Agni and Katha
-  chakras computed. M.C. ch.2's others (cattle, horses, elephants, coins, boats, weapons) and
-  the crafts follow.
+  chakras computed. The animal family followed: cattle, horses, elephants,
+  goats, pets, fish, poultry and hunting, with the Ashva chakra computed. Left: the war and
+  state family (army, weapons, treaty, minting coins, treasure) and the crafts and trades
+  (shop, transport, boat and ship, pottery, weaving, dyeing, tailoring).
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

@@ -4184,8 +4184,332 @@ const MANTRA_SADHANA = deepFreeze({
     noteTa: '"மந்திரத்தில் தீக்ஷை பெறுவது அல்லது மந்திரத்தைத் தொடங்குவது" என்று ஒரே பிரிவாகத் தருகிறார் — அதனால் தீக்ஷை பெறுதலுக்கும் இதே வாசிப்பு · பதினேழு நட்சத்திரம் · திதி 4, 8, அமாவாசை தள்ளு · செவ்வாய் தள்ளு, புதன் விசேஷம் (நடுநிலைப் பிரிவு தனியே இல்லை) · சர லக்னம் சிறந்தது, உபய ராசி நடுநிலை, ஸ்திர ராசி பயனில்லை · 8 காலி · சங்கிரமம் மிக நல்லது என்கிறார் — மற்ற நூல்கள் சங்கிரமத்தைத் தள்ளுவதற்கு நேர் எதிர்; நல்லதாகக் கணிக்கும் வழி இல்லாததால் கணிக்கப்படவில்லை · ஜன்ம நட்சத்திரமும் அதிலிருந்து 10, 19-ஆவதும் நல்லது — தாரா விதிக்கு விலக்கு, பக்கத்தில் தனியே குறிக்கப்படுகிறது',
   },
 });
+// ---------------------------------------------------------------------------
+// Animals (cattle, horses, elephants, goats, pets, fish, poultry, hunting), added 2026-10-19
+// ---------------------------------------------------------------------------
+const CATTLE = deepFreeze({
+  labelTa: 'பசு, மாடு வாங்குதல் / விற்றல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'WILHELM', 'MUHURTA_CHINTAMANI', 'RAMAN'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §26.1, §26.5, §26.11', booksTa: 'ஸ்ரீதர் (J.V., K.P., M.C. மேற்கோள்கள்)',
+    nak: { good: [0, 6, 7, 12, 14, 15, 17, 22, 26, 23], mid: [2, 5, 9, 16] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 21, 22, 24, 25, 26, 27, 28, 29],
+    sankranti: true,
+    vara: { good: [1, 2, 3, 6], mid: [] },
+    varaLordLagna: 'LAGNA',
+    noteTa: '§26.1-இன் பசுப் பட்டியல் (9) + §26.11-இன் பட்டியல் (அபிஜித், சதயம் உட்பட) = 10 + அபிஜித் · கிருத்திகை, திருவாதிரை, மகம், அனுஷம் — வாங்க மட்டும் (நடுநிலை); சுவாதி இரண்டிலும் இருப்பதால் நல்லது · 4, 8 திதிகளும் அமாவாசையும் தள்ளு · திங்கள், செவ்வாய், புதன், சனி (K.P.); ஞாயிறு தள்ளு · சங்கிரம நாள் தள்ளு · கிழமை அதிபதி லக்னத்தில் இருக்க வேண்டும் (K.P.) · ஆயில்யம் K.P.-இல் இல்லை, வில்ஹெல்மில் உள்ளது',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — பசு', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 6, 7, 12, 15, 17, 22, 23, 26], mid: [2, 5, 9, 8, 14, 16] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [2, 3, 6], mid: [] },
+    empty: [8],
+    noteTa: 'ஸ்ரீதரின் K.P. பட்டியலே — சுவாதியை மட்டும் "வாங்க மட்டும்" பக்கம் வைக்கிறார், ஸ்ரீதர் இரு பக்கமும் வைக்கிறார் · ஆயில்யம் கூடுதல் · ரிக்தா மற்றும் பௌர்ணமி தள்ளு · செவ்வாய், புதன், சனி — ஸ்ரீதரின் நான்கில் திங்கள் மட்டும் இவரிடம் இல்லை · 8 காலி · "சுப கிரக ராசி / நவாம்சம் லக்னமாக" — எந்த ராசி என்று சொல்லாததால் கணிக்கப்படவில்லை',
+  },
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி 2/9', booksTa: 'முகூர்த்த சிந்தாமணி',
+    nak: { good: [26, 15, 6, 17, 23, 22, 12, 0, 7], mid: [] }, abhijitOk: true, digdwar: false,
+    noteTa: 'ஆறு + க்ஷிப்ர (அஸ்தம், அசுவினி, பூசம், அபிஜித்) = 10 · திதி, கிழமை, லக்னம் இந்த ஸ்லோகத்தில் சொல்லப்படவில்லை · ஸ்ரீதரும் வில்ஹெல்மும் தரும் பட்டியலோடு ஒன்பது நட்சத்திரம் ஒன்றே; சுவாதி மட்டும் இவரிடம் இல்லை',
+  },
+  RAMAN: {
+    labelTa: 'ராமன் (அத்.XIII)', booksTa: 'ராமன்',
+    nak: { good: [0, 6, 7, 12, 14, 15, 17, 26], mid: [] }, digdwar: false,
+    vara: { good: [1, 2, 3, 6], mid: [] },
+    lagna: { good: [1], mid: [] },
+    notIn: [[['Mars'], [8]]],
+    varaLordLagna: 'LAGNA',
+    noteTa: 'எட்டு நட்சத்திரம் — ஸ்ரீதரின் K.P. பட்டியலில் தனிஷ்டா தவிர மற்ற எட்டும் இதே · ரிஷப லக்னம் விரும்பத்தக்கது (மற்ற லக்னங்கள் தள்ளப்படுகின்றன) · 8-இல் செவ்வாய் கூடாது · திங்கள், செவ்வாய், புதன், சனி; கிழமை அதிபதி லக்னத்தில் · திதி சொல்லப்படவில்லை',
+  },
+});
+const HORSE = deepFreeze({
+  labelTa: 'குதிரை வாங்குதல், பழக்குதல், ஏறுதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'KALYANRAMAN', 'WILHELM', 'JOSHI', 'MUHURTA_CHINTAMANI', 'RAMAN'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §26.3', booksTa: 'ஸ்ரீதர் (M.C., நாரதர், தைவஜ்ஞ மனோகர், J.V. மேற்கோள்கள்)',
+    nak: { good: [12, 0, 7, 26, 4, 22, 14, 23, 6], mid: [13, 16, 3, 11, 20, 25] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    starCount: [{ from: 'Sun', of: 28, good: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 27, 28], code: 'ASHVA_CHAKRA' }],
+    lagna: { good: [0, 3, 6, 9], mid: [] },
+    beneficIn: [1, 3, 4, 7, 10, 11],
+    noteTa: 'M.C.-இன் ஒன்பது (லகு 3 + ரேவதி, மிருகசீரிடம், தனிஷ்டா, சுவாதி, சதயம், புனர்பூசம்) + அபிஜித் · நாரதர் மது, ஸ்திரத்தையும் சேர்க்கிறார் — நடுநிலையாக · ரிக்தா தள்ளு · செவ்வாய் தள்ளு (நாரதர் சனியைச் சிறப்பாகச் சொல்கிறார், தள்ளப்படவில்லை) · சர லக்னம்; சுபர் 1, 3, 4, 7, 10, 11-இல் · அஷ்வ சக்கரம் கணிக்கப்படுகிறது',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.245-246)', booksTa: 'கல்யாணராமன் (ஜ்யோதிர்நிபந்தம், மு.சி. மேற்கோள்கள்)',
+    nak: { good: [0, 4, 6, 7, 14, 22, 23, 26], mid: [5, 8, 17, 18, 12] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    noteTa: 'வாங்க / விற்க எட்டு நட்சத்திரம் · பழக்க, ஏற "தீக்ஷண நட்சத்திரங்களே சிறந்தவை" (திருவாதிரை, ஆயில்யம், கேட்டை, மூலம்) — மற்ற நூல்கள் இவற்றைத் தள்ளுவதற்கு நேர் எதிர்; நடுநிலையாகக் குறிக்கப்படுகிறது · சிந்தாமணியின் பத்தை (அஸ்தம் உட்பட) மேற்கோள் காட்டுகிறார் — அஸ்தம் நடுநிலையாகச் சேர்க்கப்பட்டுள்ளது · ரிக்தா, செவ்வாய் தள்ளு · அமாவாசையும் தள்ளு',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — குதிரை', booksTa: 'வில்ஹெல்ம் (மு.சி., காலப்பிரகாசிகை மேற்கோள்கள்)',
+    nak: { good: [0, 4, 6, 7, 25, 12, 14, 15, 16, 22], mid: [23, 26, 2] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    lagna: { good: [], mid: [], natalMoonOk: true },
+    empty: [8],
+    noteTa: 'பத்து நட்சத்திரம்; சிந்தாமணியின் சதயம், ரேவதி மற்றும் காலப்பிரகாசிகையின் கிருத்திகை நடுநிலை · உத்திரட்டாதி, விசாகம், அனுஷம் இவரிடம் கூடுதல்; பூசம் ஸ்ரீதரிடமும் உண்டு · ரிக்தா தள்ளு, செவ்வாய் தள்ளு · 8 காலி · ஜன்ம ராசியே லக்னமாக வருவதும் நல்லது · கழுதை, ஒட்டகம், கோவேறு கழுதைக்கும் இதே விதி என்கிறார் · முதல் முறை குதிரை ஏறுவதற்குத் தனிப் பட்டியல் (14 நட்சத்திரம்; 1, 6, 11, பௌர்ணமி தள்ளு; ஞாயிறு, செவ்வாய் தள்ளு) — குறிப்பில்',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.101-102)', booksTa: 'ஜோஷி (ஜ்யோதிர் நிபந்தம் மேற்கோள்)',
+    nak: { good: [12, 0, 7, 26, 22, 4, 14, 23, 6], mid: [5, 8, 17, 18] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    starCount: [{ from: 'Sun', of: 28, good: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 27, 28], code: 'ASHVA_CHAKRA' }],
+    noteTa: 'ஸ்ரீதரின் M.C. ஒன்பதே — அதே ஒன்பது நட்சத்திரம், அதே ரிக்தா, அதே செவ்வாய் · பழக்குவதற்குச் சனியும் தீக்ஷண நட்சத்திரங்களும் விசேஷம் (நடுநிலை) · அஷ்வ சக்கரத்தின் முதல் 15 நல்லது என்பதைச் ஸ்ரீதரைப் போலவே சொல்கிறார் — கணிக்கப்படுகிறது · அபிஜித் சொல்லப்படவில்லை',
+  },
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி 2/10', booksTa: 'முகூர்த்த சிந்தாமணி (மூல நூல்)',
+    nak: { good: [12, 0, 7, 26, 22, 4, 14, 23, 6], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    noteTa: 'ஸ்ரீதர், ஜோஷி, கல்யாணராமன் மூவரும் மேற்கோள் காட்டும் மூல ஸ்லோகம் — க்ஷிப்ர 4 (அபிஜித் உட்பட) + ஆறு = 10 · ரிக்தா தள்ளு, செவ்வாய் தள்ளு · லக்னம் சொல்லப்படவில்லை',
+  },
+  RAMAN: {
+    labelTa: 'ராமன் (அத்.XIII)', booksTa: 'ராமன்',
+    lagna: { good: [8], mid: [2, 6, 10] },
+    noteTa: 'நட்சத்திரம், திதி, கிழமை சொல்லவில்லை — லக்னம் மட்டும் · தனுசு லக்னம் சிறந்தது (ஸ்ரீதரின் குதிரைக் கொட்டில் லக்னமும் தனுசே) · பந்தயக் குதிரைக்கு வாயு ராசி (மிதுனம், துலாம், கும்பம்) — நடுநிலை · சந்திரனும் லக்னாதிபதியும் நட்பாக இருக்க வேண்டும், அவர்களுக்கு இடையே 2-12 இருக்கக் கூடாது — கணிக்கப்படவில்லை',
+  },
+});
+const ELEPHANT = deepFreeze({
+  labelTa: 'யானை வாங்குதல், பழக்குதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'WILHELM', 'KALYANRAMAN', 'JOSHI'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §26.4', booksTa: 'ஸ்ரீதர் (M.C., J.V., K.P., B.D.R., M.G., B.J.S. மேற்கோள்கள்)',
+    nak: { good: [4, 13, 16, 26, 12, 0, 7, 6, 14, 21, 22, 23, 9], mid: [3, 11, 20, 25] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    lagna: { good: [2, 4, 5, 6, 7, 10], mid: [] },
+    noteTa: 'மது 4 + லகு 3 + சர 5 (M.C.) + K.P.-இன் மகம் = 13 + அபிஜித் · J.V. மதுவுக்கு மாற்றாகச் சொல்லும் ஸ்திர 4 நடுநிலை · பௌர்ணமி தள்ளு (M.C.); அமாவாசையும் தள்ளப்படுகிறது · செவ்வாய் தள்ளு · சிரோதய ராசி லக்னம் (மிதுனம், சிம்மம், கன்னி, துலாம், விருச்சிகம், கும்பம்) · குரு கேந்திர / திரிகோணத்தில், சனி 3, 8, 11-இல் — கணிக்கப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — யானை', booksTa: 'வில்ஹெல்ம் (மு.சி., காலப்பிரகாசிகை மேற்கோள்கள்)',
+    nak: { good: [0, 4, 6, 7, 12, 16, 21, 22, 25, 26], mid: [13, 14, 23, 9, 11, 20] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    lagna: { good: [2, 4, 5, 6, 7, 10], mid: [] },
+    empty: [8],
+    noteTa: 'பத்து நட்சத்திரம் · சிந்தாமணியின் சித்திரை, சுவாதி, சதயம் மற்றும் காலப்பிரகாசிகையின் மகம், உத்திரம், உத்திராடம் நடுநிலை · ரிக்தா, அமாவாசை, பௌர்ணமி தள்ளு — ஸ்ரீதர் பௌர்ணமியை மட்டும் சொல்கிறார் · ஸ்ரீதரின் அதே சிரோதய லக்னம் · 8 காலி · கிழமை சொல்லப்படவில்லை (ஸ்ரீதர் செவ்வாயைத் தள்ளுகிறார்)',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.185)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 4, 6, 7, 12, 13, 14, 16, 21, 22, 23, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    noteTa: 'பன்னிரண்டு நட்சத்திரம் — வில்ஹெல்மின் பத்தில் உத்திரட்டாதி தவிர அனைத்தும், மேலும் சித்திரை, சுவாதி, சதயம் (வில்ஹெல்ம் அவற்றை நடுநிலையாக வைக்கிறார்) · அமாவாசை தள்ளு, பௌர்ணமி நல்லது — ஸ்ரீதர், வில்ஹெல்ம் இருவரும் பௌர்ணமியைத் தள்ளுவதற்கு எதிர் · செவ்வாய் தள்ளு · யானையை லாரி, கனரக வாகனத்துடன் ஒரே பிரிவில் வைக்கிறார்',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.102)', booksTa: 'ஜோஷி',
+    nak: { good: [4, 13, 16, 26, 12, 0, 7, 6, 14, 21, 22, 23], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    noteTa: 'மது 4 + லகு 3 + சர 5 = 12 — ஸ்ரீதர் மேற்கோள் காட்டும் M.C.-இன் அதே பட்டியல், மகம் இல்லாமல் · ரிக்தா தள்ளு, செவ்வாய் தள்ளு · அபிஜித், லக்னம் சொல்லப்படவில்லை',
+  },
+});
+const GOAT_SHEEP = deepFreeze({
+  labelTa: 'ஆடு, எருமை, ஒட்டகம் வாங்குதல்',
+  default: 'WILHELM',
+  order: ['WILHELM', 'RAMAN', 'JOSHI', 'SHRIDHAR'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — ஆடு, செம்மறி', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 4, 6, 7, 10, 12, 15, 17, 19, 22, 23, 24, 26], mid: [2] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [0, 1, 4, 5, 6], mid: [] },
+    empty: [8],
+    noteTa: 'பதின்மூன்று நட்சத்திரம் · கிருத்திகை நடுநிலை (முதல் பாதி மட்டும் என்பதால்) · ரிக்தா, பௌர்ணமி தள்ளு · ஞாயிறு, திங்கள், வெள்ளி, சனி சிறந்தவை; ஆயிரம் மடங்கு சேர்க்கைக்கு வியாழனும் சேர்க்கப்பட்டுள்ளது · 8 காலி · சனியை நல்லதாகச் சொல்கிறார் — ஸ்ரீதர் §26.6 சனியைத் தள்ளுவதற்கு எதிர்',
+  },
+  RAMAN: {
+    labelTa: 'ராமன் (அத்.XIII)', booksTa: 'ராமன்',
+    nak: { good: [7], mid: [0, 1, 3, 4, 6, 10, 11, 12, 13, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26] }, digdwar: false,
+    vara: { good: [4], mid: [] },
+    lagna: { good: [0, 9], mid: [] },
+    notIn: [[['Saturn'], [8]]],
+    noteTa: 'மேஷ லக்னம்; மகரமும் ஆகும் · 8-இல் சனி கூடாது · "எந்த விலங்கையும் வியாழன் + பூசம் + மேஷ லக்னத்தில் வாங்கலாம்" — பூசம் நல்லது, மற்ற நட்சத்திரங்கள் நடுநிலை · கிருத்திகை, திருவாதிரை, மகம், ஆயில்யம், சுவாதி, அனுஷத்தில் எந்த விலங்கையும் விற்கக் கூடாது — அந்த ஆறு தள்ளப்படுகின்றன · திதி சொல்லப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.102)', booksTa: 'ஜோஷி',
+    nak: { good: [10, 19, 24, 15, 26, 18, 4, 22, 6, 23, 12, 0, 7], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 4, 5], mid: [] },
+    noteTa: 'மூன்று பூர்வம் + ஏழு + லகு 3 + அபிஜித் = 14 · ஸ்ரீதர் §26.1-இன் J.V. பட்டியலோடு கிட்டத்தட்ட ஒன்றே · "சுப திதி" — ரிக்தாவும் அமாவாசையும் தள்ளு (எங்கள் வாசிப்பு) · ஞாயிறு, திங்கள், வியாழன், வெள்ளி — ஸ்ரீதரின் §26.1 நான்கு கிழமைகளே · லக்னம் சொல்லப்படவில்லை',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §26.6', booksTa: 'ஸ்ரீதர் (J.V. மேற்கோள்)',
+    nak: { good: [4, 26, 13, 16, 12, 14, 6, 0, 17, 19, 21, 22, 23], mid: [] }, digdwar: false,
+    vara: { good: [0, 1, 2, 3, 4, 5], mid: [] },
+    noteTa: 'த்ரியந்தமுக ஒன்பது + நான்கு = 13 · சனி ஒன்றே தள்ளு — வில்ஹெல்ம் சனியைச் சிறந்ததாகச் சொல்வதற்கு நேர் எதிர் · திதி, லக்னம் சொல்லப்படவில்லை · §26.1-இல் ஆடு, செம்மறி, எருமைக்கு வேறு பட்டியலும் தருகிறார் (மூன்று பூர்வம், விசாகம், ரேவதி, மூலம், மிருகசீரிடம், பூசம், தனிஷ்டா, புனர்பூசம் + லகு; ஞாயிறு, திங்கள், வியாழன், வெள்ளி) — ஜோஷியின் பட்டியல் அதுவே',
+  },
+});
+const PET_ANIMALS = deepFreeze({
+  labelTa: 'செல்லப் பிராணி வளர்த்தல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'KALYANRAMAN', 'WILHELM', 'MUHURTA_CHINTAMANI', 'JOSHI'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §26.2, §26.7, §26.8', booksTa: 'ஸ்ரீதர் (M.C., M.G., J.V. மேற்கோள்கள்)',
+    nak: { good: [6, 14, 21, 22, 23], mid: [12, 7, 18, 4, 5] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    lagna: { good: [1, 2, 3, 5, 6, 8, 11], mid: [] },
+    empty: [8],
+    noteTa: 'சிந்தாமணியின் சர 5 + விலங்கின் யோனி நட்சத்திரம் · கடிவாளம், சேணத்துக்குச் சொன்ன அஸ்தம், பூசம், மூலம், மிருகசீரிடம், புனர்பூசம் மற்றும் வன்முறை விலங்குகளுக்கான திருவாதிரை நடுநிலையாக · 4, 8, 9, 14 திதிகளும் அமாவாசையும் தள்ளு · செவ்வாய் தள்ளு · சுப லக்னம் 2, 3, 4, 6, 7, 9, 12; 8 காலி · ரோகிணி, 3 உத்திரம், சித்திரை, திருவோணம் தள்ளு என்று அச்சு சொன்னாலும் சர பட்டியலில் திருவோணம் இருப்பதால், சர பட்டியலே எடுக்கப்பட்டுள்ளது',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.244-245)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [6, 14, 21, 22, 23], mid: [0, 3, 4, 5, 7, 11, 12, 20, 25] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    vishti: true,
+    lagna: { good: [1, 2, 3, 5, 6, 8, 11], mid: [] },
+    empty: [8],
+    noteTa: 'ஸ்ரீதரின் சிந்தாமணி வாசிப்போடு சர 5-ம் யோனி நட்சத்திரமும் ஒன்றே · குரங்கு, மான், வன்முறையற்ற பறவைகளுக்கான ஒன்பது நடுநிலையாகச் சேர்க்கப்பட்டுள்ளது (ஜோஷியின் பட்டியலும் அதே ஒன்பது) · ரிக்தா, அஷ்டமி, அமாவாசை தள்ளு — ஸ்ரீதரோடு ஒன்றே · செவ்வாய் தள்ளு · அதே சுப லக்னம், 8 காலி · பத்ரா (விஷ்டி) கரணம் தள்ளு · வன்முறை விலங்குகளுக்குத் தனிப் பட்டியலும் ஞாயிறு, செவ்வாய், வியாழன், சனியும் — குறிப்பில்',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — செல்லப் பிராணி, கொட்டில்', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 6, 7, 12, 14, 22, 23], mid: [3, 4, 11, 13, 16, 20, 25, 26] }, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: 'இரு பிரிவும் சேர்த்து — கொட்டிலில் சேர்ப்பதற்கான ஏழு (சர 5-இல் திருவோணம் தவிர, மேலும் அசுவினி, அஸ்தம், பூசம்) நல்லது · செல்லப் பிராணி வாங்குவதற்கான பதினொன்று நடுநிலை, ஏனெனில் அவற்றில் ஆறை (ரோகிணி, உத்திரம், சித்திரை, உத்திராடம், திருவோணம், உத்திரட்டாதி) கொட்டிலுக்குத் தள்ளு என்கிறார் — ஒரே நூலுக்குள் முரண், அச்சில் உள்ளபடியே · சுப கிழமைகள் (திங்கள், புதன், வியாழன், வெள்ளி) · அனுஷத்தில் விற்கக் கூடாது · திதி, லக்னம் சொல்லப்படவில்லை · விலங்குகளின் யோனி நட்சத்திரப் பட்டியல் முழுவதும் இவரிடமே உள்ளது',
+  },
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி 2/9', booksTa: 'முகூர்த்த சிந்தாமணி (மூல நூல்)',
+    nak: { good: [6, 14, 22, 23], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    empty: [8],
+    noteTa: 'மற்ற நான்கு நூலும் பின்பற்றும் மூல ஸ்லோகம் · சர நட்சத்திரம் + விலங்கின் யோனி நட்சத்திரம் · ஆனால் அதே ஸ்லோகம் திருவோணம், சித்திரை, த்ருவ (ஸ்திர) நட்சத்திரங்களைத் தள்ளு என்பதால், சர 5-இல் திருவோணம் நீக்கப்பட்டுள்ளது — ஸ்ரீதர், கல்யாணராமன், ஜோஷி மூவரும் திருவோணத்தை வைத்தே பட்டியலிடுகின்றனர் · ரிக்தா, அஷ்டமி, அமாவாசை தள்ளு · செவ்வாய் தள்ளு · 8 காலி',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.102, ப.105)', booksTa: 'ஜோஷி',
+    nak: { good: [6, 14, 21, 22, 23], mid: [5, 11, 20, 25, 3, 12, 0, 7, 4] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    yogaNot: [0, 5, 8, 9, 12, 14, 16, 18, 26],
+    vishti: true,
+    lagna: { good: [1, 2, 3, 5, 6, 8, 11], mid: [] },
+    empty: [8],
+    noteTa: 'கல்யாணராமனின் அதே வாசிப்பு — அதே சர 5, அதே யோனி நட்சத்திரம், அதே திதி, கிழமை, லக்னம், 8 காலி · குரங்கு, மானுக்கான ஒன்பதும் கல்யாணராமனின் அதே ஒன்பதே — நடுநிலையாக · பத்ரா (விஷ்டி) கரணமும் தீய யோகங்களும் தள்ளு · திருவோணம், சித்திரை, ஸ்திரத்தைக் கொட்டில் நுழைவுக்குத் தள்ளு என்கிறார், ஆனால் சர பட்டியலில் திருவோணத்தை வைக்கிறார் — ஸ்ரீதரிலும் அதே முரண்',
+  },
+});
+const FISH_FARM = deepFreeze({
+  labelTa: 'மீன் வளர்ப்பு தொடங்குதல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'SHRIDHAR', 'JOSHI', 'WILHELM'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.181)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [1, 3, 12, 14, 19, 23], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 25, 26, 27, 28],
+    vara: { good: [0, 2, 5], mid: [] },
+    noteTa: 'ஆறு நட்சத்திரம் · ரிக்தாவும் அஷ்டமியும் அமாவாசையும் தள்ளு · ஞாயிறு, செவ்வாய், வெள்ளி — ஸ்ரீதரின் அதே மூன்று · லக்னம் சொல்லப்படவில்லை',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §26.10', booksTa: 'ஸ்ரீதர் (J.V. மேற்கோள்)',
+    nak: { good: [23, 14, 3, 19], mid: [] }, digdwar: false,
+    vara: { good: [0, 2, 5], mid: [] },
+    noteTa: 'நான்கு நட்சத்திரம் — மற்ற மூன்று நூலிலும் இவை நான்கும் உள்ளன · செவ்வாய், வெள்ளி, ஞாயிறு · திதி, லக்னம் சொல்லப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.105)', booksTa: 'ஜோஷி',
+    nak: { good: [23, 14, 3, 19, 1, 12], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [0, 2, 5], mid: [] },
+    yogaNot: [0, 5, 8, 9, 12, 14, 16, 18, 26],
+    vishti: true,
+    noteTa: 'கல்யாணராமனின் அதே ஆறு நட்சத்திரம், அதே மூன்று கிழமை · ரிக்தா தள்ளு · பத்ரா (விஷ்டி) கரணமும் தீய யோகங்களும் தள்ளு · லக்னம் சொல்லப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — மீன் வளர்ப்பு', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [1, 3, 19, 12, 14, 23], mid: [] }, digdwar: false,
+    noteTa: 'கல்யாணராமனின் அதே ஆறு நட்சத்திரம் — திதி, கிழமை, லக்னம் எதுவும் சொல்லவில்லை',
+  },
+});
+const POULTRY = deepFreeze({
+  labelTa: 'கோழி, பறவை வளர்ப்பு',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'SHRIDHAR', 'WILHELM'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.181-182)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 3, 4, 5, 6, 7, 11, 12, 13, 14, 16, 17, 20, 21, 22, 23, 25, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'பதினெட்டு நட்சத்திரம் — வில்ஹெல்மின் பட்டியலோடு ஒன்றே · ரிக்தாவும் அமாவாசையும் தள்ளு · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி — ஸ்ரீதரின் அதே ஐந்து · செவ்வாய், சனி தள்ளு',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §26.9', booksTa: 'ஸ்ரீதர் (J.V. மேற்கோள்)',
+    nak: { good: [4, 26, 13, 16, 12, 14, 6, 0, 17, 5, 7, 21, 22, 3, 11, 20, 25], mid: [] }, digdwar: false,
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'த்ரியந்தமுக ஒன்பது + ஊர்த்வமுக எட்டு = 17 · கல்யாணராமன், வில்ஹெல்மின் பதினெட்டில் சதயம், உத்திரட்டாதி தவிர அனைத்தும் இதில் உள்ளன · ஞாயிறு, புதன், வியாழன், வெள்ளி, திங்கள் — மூன்று நூலிலும் அதே ஐந்து · திதி, லக்னம் சொல்லப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — கோழி வளர்ப்பு', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 3, 4, 5, 6, 7, 11, 12, 13, 14, 16, 17, 20, 21, 22, 23, 25, 26], mid: [] }, digdwar: false,
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'கல்யாணராமனின் அதே பதினெட்டு நட்சத்திரம் — ஒன்று கூட வேறுபாடில்லை · செவ்வாய், சனி தள்ளு (கல்யாணராமன் ஐந்து கிழமைகளைப் பெயரிடுகிறார், அதுவும் இதே) · திதி, லக்னம் சொல்லப்படவில்லை',
+  },
+});
+const HUNTING = deepFreeze({
+  labelTa: 'வேட்டை, விலங்கு வதை',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'SHRIDHAR'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.184)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [1, 5, 8, 10, 14, 15, 17, 18, 19, 23, 24], mid: [] }, digdwar: false,
+    tithi: [4, 6, 8, 9, 12, 14, 19, 21, 23, 24, 27, 29, 30],
+    vara: { good: [0, 2, 6], mid: [] },
+    lagna: { good: [0, 4, 7, 9, 10], mid: [] },
+    maleficIn: [11],
+    noteTa: 'பதினொரு நட்சத்திரம் — தீக்ஷண நான்கு + ஏழு · திதி 4, 6, 8, 9, 12, 14, அமாவாசை — மற்ற எல்லாக் காரியங்களிலும் தள்ளப்படுபவை · ஞாயிறு, செவ்வாய், சனி · பாப லக்னம் 1, 5, 8, 10, 11; 11-இல் பாபர் · தீய யோகம், தீய கரணம் விரும்பத்தக்கது — தள்ளு விதியாக மாற்றப்படவில்லை',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §26.12', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [5, 8, 17, 18, 1, 10, 19, 24, 14, 15], mid: [] }, digdwar: false,
+    vara: { good: [0, 2, 6], mid: [] },
+    noteTa: 'தீக்ஷண நான்கு + பரணி + மூன்று பூர்வம் + சுவாதி, விசாகம் = 10 · கல்யாணராமனின் பதினொன்றில் சதயம் தவிர அனைத்தும் இதே; இவரிடம் பூரம் கூடுதல் · "பாப கிழமைகள்" — ஞாயிறு, செவ்வாய், சனி (எங்கள் வாசிப்பு) · திதி, லக்னம் சொல்லப்படவில்லை',
+  },
+});
 
 const RANK = deepFreeze({
+  CATTLE: {
+    order: CATTLE.order,
+    words: { SHRIDHAR: 377, WILHELM: 115, MUHURTA_CHINTAMANI: 102, RAMAN: 38 },
+    measureTa: 'மாடு வாங்குதல் பற்றிய சொற்கள்: ஸ்ரீதர் (§26.1, §26.5, §26.11, ப.693-699) 377; வில்ஹெல்ம் (ப.250-251) 115; முகூர்த்த சிந்தாமணி (2/9, ப.56) 102; ராமன் (அத்.XIII, PDF ப.49) 38.',
+  },
+  HORSE: {
+    order: HORSE.order,
+    words: { SHRIDHAR: 475, KALYANRAMAN: 208, WILHELM: 182, JOSHI: 109, MUHURTA_CHINTAMANI: 88, RAMAN: 45 },
+    measureTa: 'குதிரை பற்றிய சொற்கள்: ஸ்ரீதர் (§26.3, ப.694-696) 475; கல்யாணராமன் (தொ.2 ப.245-246) 208; வில்ஹெல்ம் (ப.252-253) 182; ஜோஷி (ப.101-102) 109; முகூர்த்த சிந்தாமணி (2/10, ப.58) 88; ராமன் (அத்.XIII, PDF ப.49) 45.',
+  },
+  ELEPHANT: {
+    order: ELEPHANT.order,
+    words: { SHRIDHAR: 610, WILHELM: 205, KALYANRAMAN: 59, JOSHI: 39 },
+    measureTa: 'யானை பற்றிய சொற்கள்: ஸ்ரீதர் (§26.4, ப.696-698) 610; வில்ஹெல்ம் (ப.251-252) 205; கல்யாணராமன் (தொ.2 ப.185) 59; ஜோஷி (ப.102) 39.',
+  },
+  GOAT_SHEEP: {
+    order: GOAT_SHEEP.order,
+    words: { WILHELM: 113, RAMAN: 82, JOSHI: 43, SHRIDHAR: 41 },
+    measureTa: 'ஆடு, எருமை பற்றிய சொற்கள்: வில்ஹெல்ம் (ப.254) 113; ராமன் (அத்.XIII, PDF ப.49) 82; ஜோஷி (ப.102) 43; ஸ்ரீதர் (§26.6, ப.698) 41.',
+  },
+  PET_ANIMALS: {
+    order: PET_ANIMALS.order,
+    words: { SHRIDHAR: 290, KALYANRAMAN: 231, WILHELM: 222, MUHURTA_CHINTAMANI: 133, JOSHI: 131 },
+    measureTa: 'செல்லப் பிராணி பற்றிய சொற்கள்: ஸ்ரீதர் (§26.2, §26.7, §26.8, ப.694-698) 290; கல்யாணராமன் (தொ.2 ப.244-245) 231; வில்ஹெல்ம் (ப.253-255) 222; முகூர்த்த சிந்தாமணி (2/9, ப.55-56) 133; ஜோஷி (ப.102, ப.105) 131.',
+  },
+  FISH_FARM: {
+    order: FISH_FARM.order,
+    words: { KALYANRAMAN: 40, SHRIDHAR: 39, JOSHI: 36, WILHELM: 14 },
+    measureTa: 'மீன் வளர்ப்பு பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.181) 40; ஸ்ரீதர் (§26.10, ப.699) 39; ஜோஷி (ப.105) 36; வில்ஹெல்ம் (ப.252) 14.',
+  },
+  POULTRY: {
+    order: POULTRY.order,
+    words: { KALYANRAMAN: 95, SHRIDHAR: 43, WILHELM: 34 },
+    measureTa: 'கோழி வளர்ப்பு பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.181-182) 95; ஸ்ரீதர் (§26.9, ப.699) 43; வில்ஹெல்ம் (ப.254) 34.',
+  },
+  HUNTING: {
+    order: HUNTING.order,
+    words: { KALYANRAMAN: 94, SHRIDHAR: 20 },
+    measureTa: 'வேட்டை பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.184) 94; ஸ்ரீதர் (§26.12, ப.699) 20.',
+  },
   DISCOURSE: {
     order: DISCOURSE.order,
     words: { SHRIDHAR: 212 },
@@ -5055,6 +5379,54 @@ const SOURCES = deepFreeze({
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§24.7 "Yantra - Mantra Sadhana", printed pp.678-679 (PDF 714-715): "Starting of works related to Yantra & Mantra in asterisms of Uttra Falguni, Hasta, Ashvani, Shravana, Vishakha & Mrigshira; & on auspicious days (including Sunday) is fortuitous. Month & Tithi of the specific deity & eclipse are specifically benefic. According to J.V., Yantra, Mantra & their related matters should be learnt in asterisms of Shravana, Mrigshira, Magha, U.Falguni & Vishakha; & in the months represented by them (viz., Shravana, Margshirsha, Magha, Falguni & Vaishakha). Some Acharyas recommend Ashvina also. Leave Andhyaya Tithis, the New Moon & 1st Tithi; & the full month of Ashvina in starting of Ved Mantra. Mantra - Yantra - Vrata is not recommended when the Sun is in Sagittarius or Pisces or when Jupiter or Venus is set. Select weekday (Tithi) of Devta of the Mantra for initiating Sadhana, which shall give beneficial results. Exponents have recommended Thursday, Wednesday, Sunday & Friday (some recommend Monday also); without Bhadra Vishti; for initiating all types of Mantras. Yantra - Mantra & Vrata should be initiated on 6th, 13th, Poorna & Bhadra Tithis; in asterisms of Swati, Vishakha, Ardra, Pushya, Jyeshta, Ashvani, Shravana & Stationary (Rohini & 3 Uttras). However Mantra Sadhana of Yaksha Devatas is done on malefic days in Sharp asterisms (Jyeshta, Ardra, Ashlesha & Moola)"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"Religious - Initiation into or beginning a mantra", printed pp.288-289 (PDF 296-297): "The following guidelines would also apply to spiritual initiations of any sort. Masa: Learning a mantra during Visakha, Sravana, Asvina, Karttika, Magha or Phalguna will produce most favorable results. Chaitra produces great misery, Visakha brings gems, Jyeshtha is fatal, Ashadha harms the relatives, Sravana gives exaltation, Bhadrapada causes loss of children, Asvina gives well-being, Karttika supports mental development, Margasiras produces evil, Pushya ruins the intellect, Magha produces intellectual growth, Phalguna makes the disciple liked and loved by all. Nakshatra: Rohini, Ardra, Punarvasu, Pushya, Magha, Uttaraphalguni, Hasta, Chitta, Svati, Anuradha, Jyeshtha, Mula, Uttarashadha, Sravana, Dhanishtha, Uttarabhadrapada and Revati are favorable. Tara: In addition to the normally favorable Taras, the Janma Nakshatra as well as the 10th and 19th from there are favorable. Tithi: Avoid the 4th, 8th and Amavasya. Vara: Avoid Mars\'s Vara. Mercury\'s Vara is particularly favorable. Lagna: Moveable Rasis are best, dual Rasis are middling, while fixed Rasis are useless for starting a mantra. Bhavas: The 8th house should be unoccupied. Miscellaneous: Sankranti is very favorable"' },
   },
+  CATTLE: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.1 "Sale & purchase", §26.5 "Bullock" and §26.11 "Cow & calf", printed pp.693-699 (PDF 728-734): "But K.P. opines that Krittika, Ardra, Magha, Swati & Anuradha are suitable for buying cattle; & not recommended for selling as the transaction shall end in loss … Sale & purchase of quadrupeds is not auspicious in asterisms of Shravana, Rohini, Chitra, 3 Uttras; 4th & 8th Tithis & on the New Moon; solar ingress day (Sankranti) & on Sunday. Their entry & exit from the house on these days is always prohibited (M.C. & J.V.). K.P. opines that Monday, Tuesday, Wednesday, Saturday are good days to buy cattle & land also; & the lord of the day should occupy the rising sign at the time of purchase. Cows: selling & purchase of cows done in asterisms of Ashvani, Punarvasu, Pushya, Hasta, Swati, Vishakha, Jyeshta, Dhanishta & Revati, makes the property of cows increase many folds (K.P.) … 26.5 In Movable (Swati, Shatbhish, Shravana, Dhanishta), Fixed (Rohini, 3 Uttras), Small (Hasta, Pushya, Ashvani, Abhijit), Revati, Moola, Anuradha, Vishakha & Ashvani asterisms; on days other than Tuesday, Wednesday & Saturday; all types of works related to bullocks / oxen are auspicious (J.V.) … 26.11 All types of works related to cow & calf are beneficial in asterisms of Small (Hasta, Ashvani, Pushya, Abhijit), Shatbhish, Revati, Punarvasu, Jyeshta, Dhanishta; & on benefic days (J.V.). K.P. opines that to increase yield of milk from cows, commence milking when the Moon is rising & occupying a favourable asterism & navamsha"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Livestock / Animals - Cows, buying, selling & milking", printed pp.250-251 (PDF 258-259): "Nakshatra: Asvini, Punarvasu, Pushya, Hasta, Visakha, Jyeshtha, Dhanishtha, Satabhisha and Revati are favorable for both buying and selling. Krittika, Ardra, Magha, Aslesha, Svati, and Anuradha are favorable only for buying cattle and not for selling, which will end in loss. Tithi: All Tithis except for Rikta Tithis (4th, 9th, 14th) and the 15th are favorable. Vara: The Varas of Mars, Mercury and Saturn are favorable. Lagna: A Rasi and Navamsa of benefics are favorable and are said to enhance the welfare of the owner. Bhavas: The 8th must be unoccupied. Milking: The Moon in the Lagna in a favorable Navamsa is a favorable time to first milk a cow"' },
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 "The Nakshatras", sloka 9, printed p.56 (PDF 60): "MUHURTA WITH REGARD TO PLANTING OF TREES, SEEING ROYALTY, PREPARING WINE AND TRADING OF CATTLE ETC.: … The purchase and sale of cows is auspicious in the Nakshtras of Revati, Vishakha, Punarvasu, Jyestha, Shatbhisha, Dhanistha and the Nakshtras called Kshipra"' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XIII, PDF p.49: "Buying or Selling Cows. - Buying or selling of cows or cattle can be done under the constellations of Aswini, Punarvasu, Pushya, Hasta, Swati, Visakha, Jyeshta and Revati. Let preferably Taurus be rising. Avoid Mars in the 8th house"; Chapter XIII, PDF p.38: "Buying Cattle. - Monday, Tuesday, Wednesday and Saturday are good. The lord of the day in question should occupy the rising sign at the time of transaction"' },
+  },
+  HORSE: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.3 "Horses", printed pp.694-696 (PDF 729-731): "In asterisms of Small (Hasta, Ashvani, Pushya), Revati, Mrigshira, Dhanishta, Swati, Shatbhish & Punarvasu; leaving Rikta (4,9,14) Tithis & Tuesdays; works related to horses like sale-purchase, training, & bringing up are auspicious (M.C.). According to Sage Narad all works related to the horses should be done in Small, Sweet, Stationary, Dhanishta, Swati, Shatbhish & Punarvasu asterisms & on Saturday. Horse born in Ashvani & mare born in Shatbhish are auspicious. According to Daivyga Manohar, it is auspicious to first time ride on a horse in the first 15 asterisms when counted from that of the asterism occupied by the Sun; next 11 are inauspicious; next 2 are beneficial. Abhijit is to be counted in this mode. J.V. differs with the above & opines that only the first 11 asterisms are beneficial. According to J.V. in the above said asterisms (9 nos. recommended by M.C.), when rising sign is a movable one & benefics are in 3rd, 11th & quadrants; & asterisms are beneficial in accordance with Ashva Chakra (table 26.1), it is auspicious to conduct all types of horse related works … Stable of horses should be made in election recommended for houses; training in the election of Vidyarambh … Stable should be made when Sagittarius is rising"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Sale and Purchase of Horses", printed p.246 (PDF 248): "Nakshatras Aswini, Mrigasira, Punarvasu, Pushyami, Swati, Dhanishta, Satabhisha and Revati. (8) Tithi Avoid Rikta 4/9/14. Weekday Avoid Tuesday"; "Training, Riding of Horses and Others and Other Animals", printed p.245 (PDF 247): "Nakshatra Aridra, Aslesha, Jyeshta, Moola are the best. (4) Ferocious: Moola, Jyeshta, Aridra, Aslesha (4) Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Avoid Rikta. Weekdays Avoid Tuesday. Notes: 1. Jyotirnibandha says that the time for starting education will also be suitable for training horses. 2. According to Muhoortha Chintaamani all deeds relating to horses purchasing, selling, training, riding are to be done in the four Kshipra nakshatras - Hasta, Aswini, Pushyami and Abhijith and the other six - Revati, Dhanishta, Mrigasira, Swati, Satabhisha and Punarvasu - a total of 10 nakshatras. Rikta tithis must be avoided and also Tuesdays"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Livestock / Animals - Horses, buying, selling, breaking & mounting", printed pp.252-253 (PDF 260-261): "The following guidelines would also apply to donkeys, camels, mules, etc. Nakshatra: Asvini, Mrigasira, Punarvasu, Pushya, Uttarabhadrapada, Hasta, Svati, Visakha, Anuradha and Dhanishtha are favorable. Satabhisha and Revati are also considered favorable by Muhurta Chintamani, while Krittika is also considered favorable by Kalaprakasika; these all can be considered as middling. Mares are governed by Satabhisha and studs by Asvini - these two Nakshatras are particularly favorable for purchasing and training, respectively, a mare or a stud. Tithi: Particularly avoid the 4th, 9th and 14th. Vara: Particularly avoid the Vara of Mars. Lagna: A Rasi and Navamsa of benefics enhance the welfare of the owner. The Lagna being the Rasi of the natal Moon is also favorable. Bhavas: The 8th must be unoccupied"; "Livestock / Animals - Horse, sitting on for the first time in one\'s life", printed p.253 (PDF 261): "Nakshatra: Asvini, Rohini, Mrigasira, Punarvasu, Magha, Uttaraphalguni, Hasta, Chitra, Svati, Anuradha, Uttarashadha, Sravana, Uttarabhadrapada and Revati are favorable. Tithi: All Tithis except the 1st, 6th, 11th, and Purnima are favorable. Vara: Avoid the Varas of the Sun and Mars"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"Sale, Purchase, Training, Riding of Horses", printed pp.101-102 (PDF 116-117): "Hasta, Ashwini, Pushya, Revati, Dhanistha, Mrigshira, Swati, Shatbhisha and Punarvasu nakshatras; all tithis except Rikta tithis (4/9/14); all days except Tuesday are considered auspicious for sale and purchase of horses, for their training and riding. For training horses and other animals Saturday and Teekshna nakshatras (i.e. Jyestha, Moola, Ardra and Ashlesha) are considered specially auspicious. Jyotir Nibandha suggests that the time for starting education will also be good for training horses. For horse riding, count from the nakshatra occupied by Sun to the nakshatra occupied by Moon. First fifteen nakshatras from the nakshatra occupied by Sun are considered good"' },
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 "The Nakshatras", sloka 10, printed p.58 (PDF 62): "MUHURTAS WITH REGARD TO ELEPHANT AND HORSE: All the deeds relating to horses (purchasing, selling, riding and training of horses) may be auspiciously done in the Nakshtras called Kshipra, the Nakshtras Revati, Dhanishtha, Mrigshira, Swati, Shatabhisha and Punarvasu, on other tithis and days except Rikta Tithis and the day of Tuesday"' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XIII, PDF p.49: "Buying or Selling Horses. - Let the Moon and the lord of Lagna be friendly. Avoid their Dwirdwadasa rotations. It is better that the transaction is done when Sagittarius is rising. Let the lagna be an airy sign if you wish to buy a race horse"' },
+  },
+  ELEPHANT: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.4 "Elephants", printed pp.696-698 (PDF 731-733): "Works related to elephants should be done in Sweet (Mrigshira, Chitra, Anuradha, Revati), Small (Hasta, Ashvani, Pushya) & Movable (Punarvasu, Swati, Shravana, Shatbhish, Dhanishta) asterisms. The Full Moon & Tuesday should be avoided (M.C.). Birth of female & male elephant in first & second half of Mrigshira asterism is held as auspicious. J.V. recommends Fixed asterisms (Rohini, 3 Uttras) instead of Sweet asterisms. Further favourable asterism of the Moon should be selected as per Gaja Chakra given in table 26.2 … K.P. opines that asterisms of Ashvani, Mrigshira, Punarvasu, Pushya, Magha, Hasta, Anuradha, Shravana, Dhanishta & 3 Uttras are beneficial asterisms to buy, tame & use elephants. Weekday, signs & amshas of Moon, Mercury, Jupiter & Venus are good for mounting or training elephants. Rising signs should be Shirodhya Rashis aspected by benefics. However, when Jupiter is in angle or trine & Saturn is in 11/8/3 houses then, all the works related to the elephants should be done. Goad (Ankush) on an elephant should be put in rising signs of Capricorn or Aquarius; navamsha of benefic planet on Saturday in the just said asterisms (K.P.) … Catching of Elephants: Triyandamukha asterisms (Mrigshira, Revati, Chitra, Anuradha, Hasta, Swati, Punarvasu, Ashvani, Jyeshta); on Sunday, Saturday, Thursday & Wednesday; in fixed ascendant when angles & trines are Shuddha & Gaja Chakra is favourable … B.J.S. recommends that elephants teeth should not be cut on Tuesday & Saturday; solar months of Sagittarius & Pisces"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Livestock / Animals - Elephants, buying, selling, taming & using", printed pp.251-252 (PDF 259-260): "Nakshatra: Asvini, Mrigasira, Punarvasu, Pushya, Hasta, Anuradha, Sravana, Dhanishtha, Uttarabhadrapada and Revati are favorable. Chitta, Svati and Satabhisha are also considered favorable by Muhurta Chintamani, whereas Kalaprakasika also considers Magha, Uttaraphalguni and Uttarashadha as favorable; all these can be taken as middling. Additionally, for buying elephants, the second halves of Bharani and Revati, which govern elephants, are excellent. Tithi: All Tithis except for Rikta Tithis (4th, 9th, 14th), Amavasya and Purnima are favorable. Lagna: Sirodaya Rasis (Gemini, Leo, Virgo, Libra, Scorpio and Aquarius) aspected by benefics are best. Rasis of the Moon, Mercury, Jupiter and Venus are also favorable and enhance the welfare of the owner, as do their Navamsas. Bhavas: The 8th must be unoccupied. Goad: To place the goad on the elephant, choose a benefic Navamsa in Capricorn or Aquarius Lagna on Saturn\'s Vara with the Moon in one of the favorable Nakshatras mentioned. The Stable: To lay the foundation for the construction of the elephant\'s stable the most favorable time is when the Sun is exalted or in own Rasi, the Moon is in the Navamsa of a benefic, and Jupiter, Venus or the Moon is well-placed in the Lagna"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Selling or Purchasing Heavy Vehicles, Trucks Or Elephants", printed p.185 (PDF 187): "Nakshatra Aswini, Mrigasira, Punarvasu, Pushyami, Hasta, Chitra, Swati, Anuradha, Sravana, Dhanishta, Satabhisha and Revati. (12) Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Wednesday, Thursday, Friday, Saturday"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"Sale, Purchase etc. of Elephants", printed p.102 (PDF 117): "Mrigshira, Revati, Chitra, Anuradha, Hasta, Ashwini, Pushya, Swati, Punarvasu, Shravana, Dhanistha and Shatbhisha nakshatras are considered good for sale-purchase of elephants. Here also Rikta Tithis (4/9/14) and Tuesday should be avoided"' },
+  },
+  GOAT_SHEEP: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Livestock / Animals - Sheep & goats, buying & selling", printed p.254 (PDF 262): "Nakshatra: Asvini, Mrigasira, Punarvasu, Pushya, Purvaphalguni, Hasta, Visakha, Jyeshtha, Purvashadha, Dhanishtha, Satabhisha, Purvabhadrapada and Revati are favorable. The first halves of Krittika or Pushya, which govern sheep, are particularly favorable for dealing with sheep. Tithi: All Tithis except for Rikta Tithis (4th, 9th, 14th) and the 15th are favorable. Vara: The Varas of the Sun, Moon, Venus and Saturn are most favorable. Lagna: A Rasi and Navamsa of benefics enhance the welfare of the owner. Bhavas: The 8th must be unoccupied. Combinations: Jupiter\'s Vara with the Moon in Pushya while the Lagna is Aries is the best time to buy sheep, which will multiply a thousand fold"' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XIII, PDF p.49: "Buying Sheep. - Let the Lagna be Aries. Avoid Saturn in the 8th house. Let Aries or Capricorn be rising at the time of the transaction. The Lagna and the 6th house should be strong when buying dogs or hounds. Birds should be purchased when the Lagna is an airy sign. Any animal may be purchased on a Thursday ruled by Pushya when the Lagna is Aries. No animal should be sold on days ruled by Krittika, Aridra, Makha, Aslesha, Swati and Anuradha"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"Sale-Purchase of Goats, Buffalows etc.", printed p.102 (PDF 117): "Poorvaphalguni, Poorvashada, Poorvabhadrapad, Vishakha, Revati, Moola, Mrigshira, Pushya, Dhanistha, Punarvasu, Shatbhisha, Hasta, Ashwini, Pushya and Abhijit nakshatras; benefic tithis; and Sunday, Monday, Thursday and Friday are considered auspicious for sale-purchase of goats, buffalows and the like"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.6 "Buffalo, elephant, camel & sheep", printed p.698 (PDF 733): "According to J.V., in Triyandamukh asterisms (Mrigshira, Revati, Chitra, Anuradha, Hasta, Swati, Punarvasu, Ashvani, Jyeshta), P.Shada, Shravana, Dhanishta, Shatbhish; on all weekdays except Saturday; works related to buffalo, elephant, camel & sheep are recommended"' },
+  },
+  PET_ANIMALS: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.2 "Bringing up of animals", §26.7 "Lion & tiger" and §26.8 "Monkeys & deer", printed pp.694-698 (PDF 729-733): "M.C. has given general guidelines that in Movable (Punarvasu, Swati, Shatbhish, Shravana, Dhanishta) asterisms & in the asterisms of the animal concerned …; when a benefic sign (2,3,4,6,7,9,12) is rising & the 8th house is Shuddha (unoccupied), it is beneficial to look after / provide safety to the animals. Bridle & seat on horse, elephant & camel should be fixed in asterisms of Shravana, Shatbhish, Hasta, Pushya, Moola, Mrigshira, Punarvasu - M.G. … In general, 8th Tithi, the New Moon, & Rikta Tithis; Rohini, 3 Uttras, Chitra, Shravana; & Tuesday, are inauspicious for works related to animals. Exit & entrance of animals is auspicious in asterisms representing their Yonis. Works related to animals having nails (like lion, dog) should be done in asterisms of Jyeshta, Ardra, Rohini, Hasta, Vishakha, Pushya, Ashvani; & cruel weekdays … 26.7 In Sweet (Mrigshira, Chitra, Anuradha, Revati), Small (Hasta, Ashvani, Pushya, Abhijit), Ardra, Rohini, Jyeshta, 3 Poorvas asterisms; on Sunday, Saturday, Tuesday & Thursday; bringing up of animals like tiger, lion, leopard, which use their nail as weapon of attack is beneficial (J.V.) … 26.8 In Fixed (Rohini, 3 Uttras), Small (Hasta, Ashvani, Pushya, Abhijit), Ardra & Mrigshira asterisms; on benefic weekdays; it is useful to bring up monkeys & deer for entertainment purposes (J.V.)"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"For Keeping Pet Animals", printed pp.244-245 (PDF 246-247): "Nakshatra Swati, Punarvasu, Sravana, Dhanishta, Satabhisha and the yoni-nakshatra of the specific animals. Tithis Avoid Rikta tithis, Ashtami and Amavasya. Weekdays Avoid Tuesdays. Notes: 1. Choose Lagna of benefic planets 2/3/4/6/7/9/12 with the 8th house unoccupied by any planet … 2. Sravana, Chitra and the fixed nakshatras - Rohini, Uttaraphalguni, Uttarashada and Uttarabhadrapada are to be avoided for entry of pets into the house or for taking them out from one place to another"; "Keeping Monkeys and Deers non Violent Animals and Birds", printed p.245 (PDF 247): "Nakshatra Aswini, Rohini, Mrigasira, Aridra, Pushyami, Uttaraphalguni, Hasta, Uttarashada and Uttarabhadrapada. (9) Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Avoid Rikta. Weekdays Monday, Wednesday, Thursday & Friday. Others Avoid Malefic Yogas and Bhadra Karana"; "Keeping Violent Animals as Pets", printed p.245: "Nakshatra Abhijith, Anuradha, Aridra, Aswini, Chitra, Hasta, Jyeshta, Mrigasira, Poorvabhadrapada, Poorvaphalguni, Poorvashada, Pushyami, Revati, Rohini (13+1) Tithis 2/3/5/6/7/10/11/12/13/15 Weekdays Sunday, Tuesday, Thursday, Saturday"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Livestock / Animals - Pets, purchasing, obtaining & selling", printed p.253 (PDF 261): "Nakshatra: Asvini, Rohini, Mrigasira, Pushya, Uttaraphalguni, Hasta, Chitta, Anuradha, Uttarashadha, Uttarabhadrapada and Revati are favorable. However, no pet should be sold under Anuradha. For violent pets Asvini, Rohini, Mrigasira, Ardra, Pushya, Purvaphalguni, Hasta, Chitra, Anuradha, Jyeshtha, Purvashadha, Purvabhadrapada and Revati are favorable. Vara: The Varas of benefics are favorable for most pets, though for violent animals the Varas of the Sun, Jupiter and Saturn are favorable. Combinations: Jupiter\'s Vara with the Moon in Pushya and Aries Lagna is a favorable time for purchasing any animal"; "Livestock / Animals - Sheltering animals", printed pp.254-255 (PDF 262-263): "Nakshatra: Asvini, Punarvasu, Pushya, Hasta, Svati, Dhanishtha, Satabhisha and the Nakshatras of which the Yoni is that of the animal to be sheltered are favorable. Avoid Rohini, Uttaraphalguni, Chitta, Uttarashadha, Sravana and Uttarabhadrapada. (The Nakshatras rule the Yonies of the following animals: horse - Asvini and Satabhisha, elephant - Bharani and Revati, sheep - Krittika and Pushya, snake - Rohini and Mrigasira, dog - Ardra and Mula, cat - Punarvasu and Aslesha, rat - Magha and Purvaphalguni, cow - Uttaraphalguni and Uttarabhadrapada, buffalo - Hasta and Svati, tiger - Chitta and Visakha, hare - Anuradha and Jyeshtha, monkey - Purvashadha and Sravana)"' },
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 "The Nakshatras", sloka 9, printed pp.55-56 (PDF 60): "THE MUHURTAS WITH REGARD TO THE ENTERING AND GOING OUT OF ANIMALS FROM CATTLE PROTECTION AND COW SHEDS: In such an auspicious ascendant when there is no planet in the 8th House, in the Nakshtra of one\'s own yoni (described in chapter 6) in the Nakshtras called chara it is excellent to protect animals. And in the Rikta Tithi, Ashtami (the 8th Hindi tithi), Amavasya (the 30th tithi), on Tuesday, in Shravana, Chitra and the Nakshtras called Dhruva the going of animals (cattle) out of cow shed and their entering, bringing up in it, this is not auspicious. Notes: It has occurred in the Pashu Raksha Muhurta that on that day there should be the Nakshatra of that yoni which is the yoni of the animal"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"For Pet Animals", printed p.102 (PDF 117): "Lagna of benefic planets (2/3/4/6/7/9/12) with 8th house not occupied by any planet; in Swati, Punarvasu, Shravana, Dhanistha, Shatbhisha nakshatras and yoni-nakshatras of that specific animal are considered good for keeping pets. Rikta Tithis (4/9/14), Ashtami (8th tithi) and Amavashya (30th tithi); Tuesday; Shravana, Chitra and Fixed nakshatras (Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini) are to be avoided for entry of animals into the house or for taking animals from one place to another"; "For Keeping Monkeys and Deers as Pets", printed p.105 (PDF 120): "Ardra, Uttaraphalguni, Uttarashada, Uttarabhadrapad, Rohini, Hasta, Ashwini, Pushya and Mrigshira nakshatras and all benefic days (i.e. Monday, Wednesday, Thursday & Friday) are considered good for keeping monkeys and deers as pets. Avoid Bhadra, Rikta Tithis and malefic yogas"' },
+  },
+  FISH_FARM: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Starting Fish Farming", printed p.181 (PDF 183): "Nakshatra Bharani, Rohini, Hasta, Swati, Poorvashada, Satabhisha, (6) Tithis 1/2/3/5/6/7/10/11/12/13/15. Weekdays Sunday, Tuesday and Friday"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.10 "Aquatic animals", printed p.699 (PDF 734): "Shatbhish, Swati, Rohini & P.Shada asterisms; on Tuesday, Friday & Sunday; it is auspicious to catch aquatic animals like fish, & storing in a pot or bringing up such animals afresh in a pond etc. (J.V.)"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"Fish Farming", printed p.105 (PDF 120): "Shatbhisha, Swati, Rohini, Poorvashada, Bharani and Hasta nakshatras; Tuesday, Sunday and Friday are good for starting fish farming i.e. to put fish seed into fish Pond. Avoid Bhadra, Rikta Tithis and malefic yogas"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Livestock / Animals - Fish farming", printed p.252 (PDF 260): "Nakshatra: Bharani, Rohini, Purvashadha, Hasta, Svati and Satabhisha are favorable"' },
+  },
+  POULTRY: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Starting Poultry Farming", printed pp.181-182 (PDF 183-184): "Nakshatra Aswini, Rohini, Mrigasira, Aridra, Punarvasu, Pushyami, Uttaraphalguni, Hasta, Chitra, Swati, Anuradha, Jyeshta, Uttarashada, Sravana, Dhanishta, Satabhisha, Uttarabhadrapada, Revati. (18) Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Wednesday, Thursday and Friday"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.9 "Birds & hen", printed p.699 (PDF 734): "In Triyandamukh asterisms (Mrigshira, Revati, Chitra, Anuradha, Hasta, Swati, Punarvasu, Ashvani, Jyeshta) & Urdhamukh asterisms (Ardra, Pushya, Shravana, Dhanishta, 3 Uttras, Rohini); & on Sunday, Wednesday, Thursday, Friday, Monday; bringing up of hens & various kinds of birds is beneficial (J.V.)"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Livestock / Animals - Poultry farming", printed p.254 (PDF 262): "Nakshatra: Asvini, Rohini, Mrigasira, Ardra, Punarvasu, Pushya, Uttaraphalguni, Hasta, Chitta, Svati, Anuradha, Jyeshtha, Uttarashadha, Sravana, Dhanishtha, Satabhisha, Uttarabhadrapada and Revati are favorable. Vara: Avoid the Varas of Mars and Saturn"' },
+  },
+  HUNTING: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Butcheries, Meat Shops (Vyadhakarma), Acts Involving Killing Animals, Birds", printed p.184 (PDF 186): "Nakshatra Bharani, Aridra, Aslesha, Poorvaphalguni, Swati, Visaka, Jyeshta, Moola, Poorvashada, Satabhisha, Poorvabhadrapada, (11) Ferocious/Teekshna: Moola, Jyeshta, Aridra, Aslesha (4) Others: Poorvaphalguni, Poorvashada, Poorvabhadrapada, Swati, Visaka, Satabhisha, Bharani (7) Tithis 4/6/8/9/12/14/30. Weekdays Sunday, Tuesday, Saturday. Yoga 1/6/9/10/13/15/17/19/27 (prefer malefic yogas) Karana Bhadra, Sakuni, Chatushpada, Naga, Kimsatugna (prefer malefic Karanas) Others Malefic Lagnas 1/5/8/10/11 raasis, Malefics in the 11th"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.12 "Hunting", printed p.699 (PDF 734): "Hunting is beneficial in Sharp (Jyeshta, Ardra, Ashlesha, Moola), Bharni, 3 Poorvas, Swati & Vishakha; on malefic weekdays"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -5121,7 +5493,8 @@ const CODE_TA = Object.freeze({
   STAMBHA_CHAKRA: 'ஸ்தம்ப சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 7-26 அல்ல', DWAR_CHAKRA: 'த்வார சக்கரம்: நூல் சொன்ன பகுதி அல்ல',
   TADAG_CHAKRA: 'தடாக சக்கரம்: நீர் தரும் எண் அல்ல',
   AGNI_CHAKRA: 'அக்னி சக்கரம்: பாப கிரகக் கட்டம்', HAVAN_FIRE: 'ஹோம அக்னி பூமியில் இல்லை (திதி + கிழமை)',
-  KATHA_CHAKRA: 'கதா சக்கரம்: குரு நட்சத்திரத்திலிருந்து 13-20 (மரணம் / அரச பயம்)', VENUS_LAGNA_MID: 'லக்னத்தில் சுக்கிரன் இல்லை',
+  KATHA_CHAKRA: 'கதா சக்கரம்: குரு நட்சத்திரத்திலிருந்து 13-20 (மரணம் / அரச பயம்)',
+  ASHVA_CHAKRA: 'அஷ்வ சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 16-26', VENUS_LAGNA_MID: 'லக்னத்தில் சுக்கிரன் இல்லை',
   JUP_VEN_MOON_KENDRA_MID: 'கேந்திரத்தில் குரு / சுக்கிரன் / சந்திரன் இல்லை', VEN_MOON_KENDRA_MID: 'கேந்திரத்தில் சுக்கிரனும் சந்திரனும் இல்லை',
   JUP_MOON_KENDRA_MID: 'கேந்திரத்தில் குருவும் சந்திரனும் இல்லை', JUP_MERC_LAGNA_MID: 'லக்னத்தில் குருவோ புதனோ இல்லை',
   BHU_SHAYANA: 'பூமி சயனம் (சூரிய நட்சத்திரத்திலிருந்து 5, 7, 9, 12, 19, 26)', VASTU_CHAKRA: 'வாஸ்து சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 8-18 அல்ல',
@@ -5512,9 +5885,63 @@ const NOTES_MANTRA_SADHANA_TA = Object.freeze([
   'யக்ஷ தேவதா மந்திரங்கள் மட்டும் தீய கிழமைகளில், தீக்ஷண நட்சத்திரங்களில் (கேட்டை, திருவாதிரை, ஆயில்யம், மூலம்) — இது பொது விதிக்கு நேர் எதிர், குறிப்பாக மட்டும்.',
 ]);
 
+const NOTES_CATTLE_TA = Object.freeze([
+  'பசு, எருது, கன்று வாங்குதல், விற்றல், பால் முதல் முறை கறத்தல்.',
+  'ஸ்ரீதரில் முரண்: §26.1 நாற்கால் விலங்குகளுக்குத் திருவோணம், ரோகிணி, சித்திரை, மூன்று உத்திரங்களைத் தள்ளு என்கிறது; ஆனால் §26.5 எருதுக்கு ஸ்திர (ரோகிணி + 3 உத்திரம்) மற்றும் சர (திருவோணம், தனிஷ்டா) நட்சத்திரங்களை நல்லதாகச் சொல்கிறது. பசுவுக்கான §26.1, §26.11 பட்டியல்களே கணிக்கப்படுகின்றன.',
+  'வாங்க மட்டும் நல்லது, விற்கக் கூடாது என்று சொல்லப்பட்ட நட்சத்திரங்கள் (கிருத்திகை, திருவாதிரை, மகம், ஆயில்யம், சுவாதி, அனுஷம் — K.P., வில்ஹெல்ம்) நடுநிலையாகக் குறிக்கப்படுகின்றன; விற்றால் நஷ்டம் என்கிறது அச்சு.',
+  'ராமன்: "எந்த விலங்கையும் வியாழக்கிழமை பூச நட்சத்திரத்தில் மேஷ லக்னத்தில் வாங்கலாம்; கிருத்திகை, திருவாதிரை, மகம், ஆயில்யம், சுவாதி, அனுஷத்தில் எந்த விலங்கையும் விற்கக் கூடாது."',
+  'பால் கறக்கத் தொடங்குவது: சந்திரன் லக்னத்தில், நல்ல நவாம்சத்தில் (வில்ஹெல்ம், K.P.) — கணிக்கப்படவில்லை. கொட்டில் கட்டுவது வீடு கட்டும் முகூர்த்தத்தைப் பின்பற்றும்.',
+]);
+const NOTES_HORSE_TA = Object.freeze([
+  'குதிரை வாங்குதல், விற்றல், பழக்குதல், முதல் முறை ஏறுதல். ஆறு நூல்களும் இதைத் தருகின்றன — விலங்குக் குடும்பத்தில் மிக அதிகம்.',
+  'அஷ்வ சக்கரம் (தைவஜ்ஞ மனோகர், ஸ்ரீதர் §26.3; ஜோஷியும் அதே): சூரியனின் நட்சத்திரத்திலிருந்து (அபிஜித் உட்பட, 28) எண்ண — முதல் 15 நல்லது, அடுத்த 11 கூடாது, இறுதி 2 நல்லது. கணிக்கப்படுகிறது.',
+  'J.V. வேறுபடுகிறார்: முதல் 11 மட்டுமே நல்லது என்கிறார் — அச்சில் உள்ளபடியே குறிப்பில், கணிக்கப்படவில்லை.',
+  'அஷ்வ சக்கர அட்டவணையின் (ப.695, அட்டவணை 26.1) உடல் பாகப் பலன்கள் — தலை, வாய், இதயம், கால்கள் — அச்சு சிதைந்துள்ளதால் கணிக்கப்படவில்லை; உரையில் உள்ள 15-11-2 பிரிவே பின்பற்றப்படுகிறது.',
+  'அசுவினியில் பிறந்த ஆண் குதிரையும் சதயத்தில் பிறந்த பெண் குதிரையும் சிறந்தவை; அசுவினி பழக்குவதற்கும் சதயம் வாங்குவதற்கும் விசேஷம் (K.P., வில்ஹெல்ம்).',
+  'கொட்டில் வீடு கட்டும் முகூர்த்தத்தில், பழக்குவது வித்யாரம்ப முகூர்த்தத்தில் (ஸ்ரீதர், கல்யாணராமன், ஜோஷி — மூன்று நூலும் ஒன்றே). கொட்டில் தனுசு லக்னத்தில்; சிகிச்சை புதன், வியாழன், வெள்ளி — கணிக்கப்படவில்லை.',
+]);
+const NOTES_ELEPHANT_TA = Object.freeze([
+  'யானை வாங்குதல், விற்றல், பழக்குதல், பயன்படுத்துதல். கல்யாணராமன் இதையே கனரக வாகனம், லாரி வாங்குவதற்கும் சேர்த்துத் தருகிறார்.',
+  'கஜ சக்கரம் (J.V., ஸ்ரீதர் ப.696 அட்டவணை 26.2): சூரியனின் நட்சத்திரத்திலிருந்து எண்ணி யானையின் எந்த உடல் பாகம் வருகிறது என்று பார்ப்பது — நெற்றி (அரசு, செல்வம்), வாய் (மரணம்), இதயம் (சுகம்), முன்னிடது கால் (நோய்), பின்னிடது கால் (பயம்), வால், முதுகு (மரணம்). அச்சில் எண் வரிசையும் பாகமும் ஒன்றோடொன்று பொருந்தாமல் சிதைந்துள்ளதால் கணிக்கப்படவில்லை.',
+  'ஸ்ரீதரில் முரண்: M.C. மது நட்சத்திரங்களைச் சொல்கிறது, J.V. அவற்றுக்கு மாற்றாக ஸ்திர நட்சத்திரங்களைச் சொல்கிறார் — இரண்டும் சேர்த்து, ஸ்திரம் நடுநிலையாக.',
+  'அங்குசம் (தோட்டி) மகர / கும்ப லக்னத்தில் சனிக்கிழமை (K.P., வில்ஹெல்ம், M.G. — மூன்றும் ஒன்றே); யானைக் கொட்டில் சூரியன் உச்சம் / சொந்த வீட்டில், சந்திரன் சுப நவாம்சத்தில் — கணிக்கப்படவில்லை.',
+  'பரணி, ரேவதியின் பின் பாதி யானையின் யோனி நட்சத்திரம் — வாங்குவதற்கு விசேஷம் (ஸ்ரீதர், வில்ஹெல்ம்). பாதம் கணிக்கப்படவில்லை.',
+  'யானை பிடிப்பது (ஸ்ரீதர் §26.4, J.V.): த்ரியந்தமுக ஒன்பது; ஞாயிறு, சனி, வியாழன், புதன்; ஸ்திர லக்னம் — தனியே கணிக்கப்படவில்லை. பல் வெட்டுவது செவ்வாய், சனி, தனுர் / மீன மாதங்களில் கூடாது (B.J.S.).',
+]);
+const NOTES_GOAT_SHEEP_TA = Object.freeze([
+  'ஆடு, செம்மறி, எருமை, ஒட்டகம் வாங்குதல், விற்றல். ஸ்ரீதர் யானையையும் இதே பிரிவில் சேர்க்கிறார் (§26.6), ஆனால் யானைக்குத் தனி பிரிவும் (§26.4) தருகிறார்.',
+  'கிருத்திகை, பூசத்தின் முதல் பாதி ஆட்டின் யோனி நட்சத்திரம் — ஆடு வாங்குவதற்கு விசேஷம் (ஸ்ரீதர், வில்ஹெல்ம்). பாதம் கணிக்கப்படவில்லை.',
+  'மூன்று நூல்களும் ஒரே சேர்க்கையைச் சொல்கின்றன: வியாழக்கிழமை + பூச நட்சத்திரம் + மேஷ லக்னம் — ஆயிரம் மடங்கு பெருகும் (ஸ்ரீதர் K.P., வில்ஹெல்ம், ராமன்). வியாழனும் பூசமும் கணிக்கப்படுகின்றன; மேஷ லக்னம் ராமனின் வாசிப்பில்.',
+  'கிழமையில் முரண்: ஸ்ரீதர் §26.6 சனி ஒன்றை மட்டும் தள்ளு என்கிறது; வில்ஹெல்ம் சனியை நல்லதாகச் சொல்கிறார். இரண்டும் அச்சில் உள்ளபடியே.',
+]);
+const NOTES_PET_ANIMALS_TA = Object.freeze([
+  'விலங்குகளை வளர்ப்பது, காப்பது, கொட்டிலுக்குள் சேர்ப்பது, ஓரிடத்திலிருந்து வேறிடம் கொண்டு செல்வது.',
+  'ஐந்து நூல்களும் ஒரே அடிப்படையைச் சொல்கின்றன: சர நட்சத்திரங்கள் (புனர்பூசம், சுவாதி, திருவோணம், தனிஷ்டா, சதயம்) + அந்த விலங்கின் யோனி நட்சத்திரம்; சுப லக்னம் (2, 3, 4, 6, 7, 9, 12); 8 காலி.',
+  'விலங்கின் யோனி நட்சத்திரம் — குதிரை அசுவினி / சதயம், யானை பரணி / ரேவதி, ஆடு கிருத்திகை / பூசம், பாம்பு ரோகிணி / மிருகசீரிடம், நாய் திருவாதிரை / மூலம், பூனை புனர்பூசம் / ஆயில்யம், எலி மகம் / பூரம், பசு உத்திரம் / உத்திரட்டாதி, எருமை அஸ்தம் / சுவாதி, புலி சித்திரை / விசாகம், முயல் அனுஷம் / கேட்டை, குரங்கு பூராடம் / திருவோணம் — எந்த விலங்கு என்பது உள்ளீடாக இல்லாததால் கணிக்கப்படவில்லை.',
+  'ஸ்ரீதரில் முரண்: §26.2 ரோகிணி, மூன்று உத்திரம், சித்திரை, திருவோணத்தைத் தள்ளு என்கிறது; ஆனால் அதே பிரிவின் சர பட்டியலில் திருவோணம் உள்ளது, §26.8 குரங்கு, மானுக்கு ஸ்திரத்தை (ரோகிணி + 3 உத்திரம்) நல்லதாகச் சொல்கிறது. சர பட்டியலே கணிக்கப்படுகிறது; தள்ளு பட்டியல் குறிப்பில்.',
+  'வன்முறை விலங்குகளுக்குத் (சிங்கம், புலி, நகம் கொண்டவை) தனிப் பட்டியலும் தனிக் கிழமைகளும் — ஸ்ரீதர் §26.7 (ஞாயிறு, சனி, செவ்வாய், வியாழன்), கல்யாணராமன் (ஞாயிறு, செவ்வாய், வியாழன், சனி), வில்ஹெல்ம் (ஞாயிறு, வியாழன், சனி) — மூன்றும் கிட்டத்தட்ட ஒன்றே; குறிப்பில் மட்டும்.',
+  'வில்ஹெல்ம்: அனுஷத்தில் எந்தச் செல்லப் பிராணியையும் விற்கக் கூடாது. கல்யாணராமன், ஜோஷி, சிந்தாமணி: திருவோணம், சித்திரை, ஸ்திர நட்சத்திரங்களில் கொட்டிலுக்குள் சேர்க்கவோ வெளியே கொண்டு செல்லவோ கூடாது.',
+]);
+const NOTES_FISH_FARM_TA = Object.freeze([
+  'மீன் பிடிப்பது, குட்டையில் / தொட்டியில் மீன் குஞ்சு விடுவது, மீன் வளர்க்கத் தொடங்குவது.',
+  'நான்கு நூல்களும் ஒரே நட்சத்திரக் குடும்பத்தைச் சொல்கின்றன — சதயம், சுவாதி, ரோகிணி, பூராடம் நான்கும் அனைத்திலும்; பரணி, அஸ்தம் மூன்று நூல்களில். ஸ்ரீதர் மட்டும் பரணியையும் அஸ்தத்தையும் சொல்லவில்லை.',
+  'கிழமையும் ஒன்றே: செவ்வாய், வெள்ளி, ஞாயிறு — மூன்று நூல்களிலும் அதே மூன்று. இது விலங்குக் குடும்பத்தில் செவ்வாயை நல்லதாகச் சொல்லும் ஒரே காரியம்.',
+]);
+const NOTES_POULTRY_TA = Object.freeze([
+  'கோழி, பறவைகள் வளர்க்கத் தொடங்குவது.',
+  'ஸ்ரீதர் த்ரியந்தமுக (கீழ்நோக்கு) ஒன்பதையும் ஊர்த்வமுக (மேல்நோக்கு) எட்டையும் சேர்த்துச் சொல்கிறார் — இரு எதிர் குடும்பங்களும் ஒரே காரியத்துக்கு. வில்ஹெல்மும் கல்யாணராமனும் தரும் பதினெட்டு நட்சத்திரப் பட்டியல் இந்த இரண்டின் கூட்டோடு கிட்டத்தட்ட ஒன்றே.',
+  'வில்ஹெல்ம், கல்யாணராமன் இருவரும் தரும் பதினெட்டு ஒரே பட்டியல் (ஒரு நட்சத்திரம் மட்டும் வேறு) — சோதனையில் உறுதி செய்யப்பட்டுள்ளது.',
+  'ராமன்: பறவைகளை வாயு ராசி லக்னத்தில் வாங்க வேண்டும் — தனிப் பிரிவு இல்லாததால் இங்கு சேர்க்கப்படவில்லை.',
+]);
+const NOTES_HUNTING_TA = Object.freeze([
+  'வேட்டையாடுதல், இறைச்சிக் கடை, விலங்கு பறவை வதை தொடர்பான காரியங்கள். இரு நூல்களே இதைத் தருகின்றன.',
+  'மற்ற எல்லாக் காரியங்களிலும் தள்ளப்படும் தீக்ஷண (கேட்டை, திருவாதிரை, ஆயில்யம், மூலம்) மற்றும் க்ரூர நட்சத்திரங்களே இதற்கு நல்லவை; ரிக்தா திதியும் பாப கிழமைகளும் நல்லவை — முகூர்த்த விதிகள் தலைகீழாகும் ஒரே காரியம்.',
+  'கல்யாணராமன் தீய யோகங்களையும் தீய கரணங்களையும் (பத்ரா, சகுனி, சதுஷ்பத, நாகம், கிம்ஸ்துக்னம்) விரும்பத்தக்கதாகச் சொல்கிறார்; பாப லக்னமும் (1, 5, 8, 10, 11) 11-இல் பாபரும். இவை "விரும்பத்தக்கது" என்பதால் தள்ளு விதிகளாக மாற்றப்படவில்லை — குறிப்பில் மட்டும்.',
+]);
+
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA'],
-  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING,
 });
 
 module.exports = {
@@ -5580,6 +6007,14 @@ module.exports = {
     DISCOURSE: NOTES_DISCOURSE_TA,
     AGNYADHANA: NOTES_AGNYADHANA_TA,
     MANTRA_SADHANA: NOTES_MANTRA_SADHANA_TA,
+    CATTLE: NOTES_CATTLE_TA,
+    HORSE: NOTES_HORSE_TA,
+    ELEPHANT: NOTES_ELEPHANT_TA,
+    GOAT_SHEEP: NOTES_GOAT_SHEEP_TA,
+    PET_ANIMALS: NOTES_PET_ANIMALS_TA,
+    FISH_FARM: NOTES_FISH_FARM_TA,
+    POULTRY: NOTES_POULTRY_TA,
+    HUNTING: NOTES_HUNTING_TA,
   }),
   AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS, BATH_MC_18, BATH_KR_18, BATH_13,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,

@@ -1589,4 +1589,54 @@ const RF = FIX.roga_snana;
   for (const c of ['KATHA_CHAKRA', 'AGNI_CHAKRA', 'HAVAN_FIRE']) assert.ok(E.CODE_TA[c], c);
 }
 
+// ------------------------------------------------ animals: the Ashva chakra and the books that agree ---
+{
+  const base = { star: 12, tithi: 2, month: 1, sunSign: 9, sunStar: 21, sunDeg: 10, taraCount: 2, moonAbhijit: false, signs: {}, navs: {}, planetStars: {}, karana: 3 };
+  // Daivyaga Manohar's Ashva chakra (Shridhar 26.3, Joshi p.102): the Moon's star from the Sun's among
+  // the 28 with Abhijit - the first 15 good, the next 11 bad, the last 2 good again.
+  for (const b of ['SHRIDHAR', 'JOSHI']) {
+    const r = E.EVENTS.HORSE[b];
+    const at = (n) => pieceCodes(r, { ...base, sunStar: 0, star: n - 1, planetStars: { Sun: { star: 0 } } }).includes('ASHVA_CHAKRA');
+    for (const n of [1, 8, 15]) assert.ok(!at(n), `${b}: the Ashva chakra allows ${n}`);
+    for (const n of [16, 18, 20]) assert.ok(at(n), `${b}: the Ashva chakra rejects ${n}`);
+    const atAbhijit = pieceCodes(r, { ...base, sunStar: 20, star: 20, moonAbhijit: true, planetStars: { Sun: { star: 20, abhijit: false } } });
+    assert.ok(!atAbhijit.includes('ASHVA_CHAKRA'), `${b}: Abhijit itself is the 2nd count and passes`);
+    assert.equal(r.starCount[0].of, 28, `${b}: Abhijit is counted`);
+  }
+  // The root sloka's ten horse stars (M.C. 2/10) are what Shridhar and Joshi print as nine plus Abhijit.
+  const MC_H = sorted(E.EVENTS.HORSE.MUHURTA_CHINTAMANI.nak.good);
+  for (const b of ['SHRIDHAR', 'JOSHI']) {
+    assert.deepEqual(sorted(E.EVENTS.HORSE[b].nak.good), MC_H, `${b}: the same horse stars`);
+  }
+  // Wilhelm and Kalyanraman print the same eighteen stars for poultry.
+  assert.deepEqual(sorted(E.EVENTS.POULTRY.WILHELM.nak.good), sorted(E.EVENTS.POULTRY.KALYANRAMAN.nak.good), 'the same poultry stars');
+  assert.equal(E.EVENTS.POULTRY.WILHELM.nak.good.length, 18, 'eighteen poultry stars');
+  // Kalyanraman, Joshi and Wilhelm print the same six stars for fish farming; Shridhar's four are a subset.
+  const KF = sorted(E.EVENTS.FISH_FARM.KALYANRAMAN.nak.good);
+  assert.deepEqual(sorted(E.EVENTS.FISH_FARM.JOSHI.nak.good), KF, 'Joshi: the same fish stars');
+  assert.deepEqual(sorted(E.EVENTS.FISH_FARM.WILHELM.nak.good), KF, 'Wilhelm: the same fish stars');
+  for (const n of E.EVENTS.FISH_FARM.SHRIDHAR.nak.good) assert.ok(KF.includes(n), 'Shridhar fish star is in the six');
+  // Fish farming is the one animal act where three books call Mars's day good.
+  for (const b of ['KALYANRAMAN', 'SHRIDHAR', 'JOSHI']) {
+    assert.ok(E.EVENTS.FISH_FARM[b].vara.good.includes(2), `${b}: Tuesday is good for fish`);
+  }
+  for (const b of ['SHRIDHAR', 'JOSHI', 'MUHURTA_CHINTAMANI', 'KALYANRAMAN']) {
+    assert.ok(!E.EVENTS.HORSE[b].vara.good.includes(2), `${b}: Tuesday is barred for horses`);
+  }
+  // Hunting turns the rules over: the Tikshna stars and the Rikta tithis are the good ones.
+  const H = E.EVENTS.HUNTING.KALYANRAMAN;
+  for (const n of [5, 8, 17, 18]) assert.ok(H.nak.good.includes(n), `hunting wants star ${n}`);
+  for (const t of [4, 9, 14]) assert.ok(H.tithi.includes(t), `hunting wants tithi ${t}`);
+  assert.deepEqual(sorted(E.EVENTS.HUNTING.SHRIDHAR.vara.good), [0, 2, 6], "Shridhar's malefic weekdays");
+  // Four books agree that the animal's own yoni star, plus the Chara stars, suit keeping a pet; the
+  // Chintamani drops Shravana from its own Chara five because the same sloka bars it.
+  const MC_P = E.EVENTS.PET_ANIMALS.MUHURTA_CHINTAMANI.nak.good;
+  assert.ok(!MC_P.includes(21), 'the Chintamani bars Shravana');
+  for (const b of ['SHRIDHAR', 'KALYANRAMAN', 'JOSHI']) {
+    assert.ok(E.EVENTS.PET_ANIMALS[b].nak.good.includes(21), `${b}: keeps Shravana`);
+    assert.deepEqual(E.EVENTS.PET_ANIMALS[b].lagna.good, [1, 2, 3, 5, 6, 8, 11], `${b}: the same benefic lagnas`);
+  }
+  for (const c of ['ASHVA_CHAKRA']) assert.ok(E.CODE_TA[c], c);
+}
+
 console.log('test-event-muhurta: all checks passed');

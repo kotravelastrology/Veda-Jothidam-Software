@@ -721,6 +721,41 @@ Chatushka dosha and the per-deity star lists for an installation, Shridhar's sec
 count (tithi + weekday + 25 by 3), "Andhyaya" tithis, the eclipse that the print calls specially
 good for a mantra, and Wilhelm's favourable sankranti (the engine can only mark a sankranti bad).
 
+**Animals** (8 acts, added 2026-10-19): cattle (four books), horses (six — the widest in the
+whole table), elephants (four), goats, sheep and buffaloes (four), keeping pets (five), fish
+farming (four), poultry (three), hunting (two). Sources: Shridhar ch.26 (pp.693-699, all thirteen
+sections), Wilhelm's Livestock family (pp.250-255), Muhurta Chintamani 2/9-2/10, Kalyanraman vol.2
+pp.181-246, Joshi pp.101-105, Raman ch.XIII. Agarwal, Vashistha and Rangacharya have nothing here.
+
+The **Ashva chakra** (Daivyaga Manohar, Shridhar §26.3) is computed: the Moon's star counted from
+the Sun's among the 28 with Abhijit, the first fifteen good, the next eleven bad, the last two good
+again. Joshi prints the same first fifteen independently, so both readings compute it. J.V.'s
+variant — only the first eleven — stays in the note. The **Gaja chakra** (§26.4) is not computed:
+the print's number ranges and the elephant's body parts do not line up, so which count means the
+mouth and which the heart cannot be read.
+
+Three contradictions are kept as printed rather than smoothed. Shridhar's §26.1 bars Rohini, the
+three Uttaras, Chitra and Shravana for quadrupeds, while his own §26.5 and §26.8 recommend exactly
+those for bullocks, monkeys and deer; the cow lists are what compute, and the note says so.
+Wilhelm calls Saturn's day best for sheep where Shridhar's §26.6 bars it alone of the seven.
+Kalyanraman calls the full Moon good for elephants where Shridhar and Wilhelm both bar it, and he
+alone recommends the Tikshna stars for training a horse, which every other book bars.
+
+Hunting is the one act in the table where the rules inverse: the Tikshna stars, the Rikta tithis
+and the malefic weekdays are the good ones, and the tests assert that. Kalyanraman's preference
+for malefic yogas and karanas there is left in the note rather than turned into a rule, since
+"prefer" is not the same as "reject the rest". Fish farming is the one animal act where three
+books call Tuesday good, against the Tuesday bar that runs through the rest of the family.
+
+The animal's own yoni star is good for keeping or sheltering it in five books, with Wilhelm and
+Kalyanraman printing the full table (horse — Ashwini and Shatabhisha, elephant — Bharani and
+Revati, and so on). It is not computed, because which animal it is never enters as input.
+
+Not computed here: the Gaja chakra, the yoni star, Shridhar's stable and goad rules (they follow
+the house and the Saturday-Capricorn rule), first milking, the half-star rules for sheep and
+elephants, catching elephants and snakes, cutting an elephant's teeth, and §26.13 castration
+(one book, surgical rather than electional).
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying
