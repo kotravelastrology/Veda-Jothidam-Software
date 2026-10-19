@@ -220,7 +220,8 @@ for (const [purpose, ev] of [['medical', 'MEDICINE'], ['surgery', 'SURGERY'], ['
     'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE',
     'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS',
     'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS',
-    'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY'];
+    'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY',
+    'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION'];
   const at = { latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 };
   for (const ev of FARM) {
     for (const book of E.EVENTS[ev].order) {

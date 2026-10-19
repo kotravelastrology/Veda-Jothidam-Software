@@ -639,6 +639,30 @@ pp.190-199, Wilhelm pp.217-232, MC's Griha Arambha chapter, Raman ch.XII, Vashis
 Agarwal p.325), wells, tanks and ponds with their Koop and Tadag chakras (Shridhar §21.18),
 temples and installing a deity, and town planning.
 
+**House building, part 1** (3 acts, added 2026-10-19): starting construction / Griharambha (eight
+books), digging the foundation (four), laying the foundation stone (seven). Sources: Shridhar
+§27.2, §27.9, §27.10 (pp.704-727), Wilhelm pp.217-223, Kalyanraman vol.2 pp.190-192, Joshi
+pp.114-118, Raman ch.XII (PDF pp.42-43), Rangacharya ch.VI pp.102-104, Vashistha ch.10
+pp.120-123, Muhurta Chintamani slokas 15 and 18 (pp.303, 305), Agarwal p.325.
+
+Six books print the same thirteen stars for starting a house — the four Dhruva, the four Mridu,
+Shatabhisha, Swati, Dhanishtha, Hasta and Pushya — and a test asserts it. Wilhelm and Raman do
+not separate the start from the foundation ("the time of laying the foundation is the most
+important time in the construction"), so their one reading stands under both acts. Digging is
+separate in Shridhar, Kalyanraman and Joshi: the downward-looking stars plus the construction
+stars, a movable lagna, and the earth's sleep.
+
+Two chakras are computed, both counted from the Sun's star: `BHU_SHAYANA` (the earth sleeps at
+the 5th, 7th, 9th, 12th, 19th and 26th — all four digging books) and `VASTU_CHAKRA` (only the 8th
+to the 18th are good — Vaastusaar through Shridhar, Kalyanraman and Joshi). Both use the existing
+`starCount` key.
+
+Not computed here: the Vastu Purusha's posture and the navel spot, Rahu Mukha's digging corner,
+the door-direction tables of months, tithis and stars (Wilhelm, MC, Joshi), Saptashalaka vedha,
+Aaya-Vyaya and the house's Nadi, the building's lifespan yogas, the owner's gochara from his natal
+Moon, the Sun's degrees for the earth's sleep (Wilhelm's version), Siddha and Amrita yoga, and
+whether the wife is pregnant.
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying

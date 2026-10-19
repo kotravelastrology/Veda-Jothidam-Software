@@ -1499,4 +1499,29 @@ const RF = FIX.roga_snana;
   for (const c of ['PADA', 'SUN_KETU_LAGNA_MID', 'MARS_11_MID', 'MARS_4_MID', 'JUP_KENDRA_KONA_MID']) assert.ok(E.CODE_TA[c], c);
 }
 
+// ------------------------------------------------ house building: the earth's sleep and the Vastu chakra ---
+{
+  const base = { star: 12, tithi: 2, month: 1, sunSign: 9, sunStar: 21, sunDeg: 10, taraCount: 2, moonAbhijit: false, signs: {}, navs: {}, planetStars: {}, karana: 3 };
+  // The earth sleeps when the Moon's star is the 5th, 7th, 9th, 12th, 19th or 26th from the Sun's — all four digging books.
+  for (const b of ['SHRIDHAR', 'KALYANRAMAN', 'JOSHI', 'WILHELM']) {
+    const r = E.EVENTS.DIGGING[b];
+    const at = (n) => pieceCodes(r, { ...base, sunStar: 0, star: n - 1, planetStars: { Sun: { star: 0 } } }).includes('BHU_SHAYANA');
+    for (const n of [5, 7, 9, 12, 19, 26]) assert.ok(at(n), `${b}: the earth sleeps at ${n}`);
+    for (const n of [1, 4, 8, 13, 27]) assert.ok(!at(n), `${b}: awake at ${n}`);
+  }
+  // The Vastu chakra: the 8th to the 18th star from the Sun's (Shridhar, Kalyanraman, Joshi).
+  for (const b of ['SHRIDHAR', 'KALYANRAMAN', 'JOSHI']) {
+    const r = E.EVENTS.CONSTRUCTION_START[b];
+    const at = (n) => pieceCodes(r, { ...base, sunStar: 0, star: n - 1, planetStars: { Sun: { star: 0 } } }).includes('VASTU_CHAKRA');
+    for (const n of [8, 12, 18]) assert.ok(!at(n), `${b}: the Vastu chakra allows ${n}`);
+    for (const n of [1, 7, 19, 27]) assert.ok(at(n), `${b}: the Vastu chakra rejects ${n}`);
+  }
+  // The six books that print the same thirteen stars for starting a house.
+  const S13 = sorted(E.EVENTS.CONSTRUCTION_START.MUHURTA_CHINTAMANI.nak.good);
+  for (const b of ['SHRIDHAR', 'JOSHI', 'KALYANRAMAN']) {
+    assert.deepEqual(sorted(E.EVENTS.CONSTRUCTION_START[b].nak.good), S13, `${b}: the same thirteen stars`);
+  }
+  for (const c of ['BHU_SHAYANA', 'VASTU_CHAKRA']) assert.ok(E.CODE_TA[c], c);
+}
+
 console.log('test-event-muhurta: all checks passed');
