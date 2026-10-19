@@ -1524,4 +1524,27 @@ const RF = FIX.roga_snana;
   for (const c of ['BHU_SHAYANA', 'VASTU_CHAKRA']) assert.ok(E.CODE_TA[c], c);
 }
 
+// ------------------------------------------------ house building, part 2: the Stambha, Dwar and Tadag chakras ---
+{
+  const base = { star: 12, tithi: 2, month: 1, sunSign: 9, sunStar: 21, sunDeg: 10, taraCount: 2, moonAbhijit: false, signs: {}, navs: {}, planetStars: {}, karana: 3 };
+  const from0 = (r, n, abhijit = false) => pieceCodes(r, { ...base, sunStar: 0, star: n - 1, moonAbhijit: abhijit, planetStars: { Sun: { star: 0 } } });
+  // Shridhar's Stambha chakra counts the 28 with Abhijit: only the 7th to the 26th (the centre) are good.
+  const P = E.EVENTS.PILLARS.SHRIDHAR;
+  assert.ok(from0(P, 3).includes('STAMBHA_CHAKRA') && from0(P, 28).includes('STAMBHA_CHAKRA'), 'the base and the top reject');
+  assert.ok(!from0(P, 10).includes('STAMBHA_CHAKRA'), 'the centre passes');
+  // Shridhar's Dwar chakra (27): the 5th to the 12th and the 21st to the 23rd are rejected.
+  const D = E.EVENTS.DOOR_FRAME.SHRIDHAR;
+  for (const n of [6, 12, 22]) assert.ok(from0(D, n).includes('DWAR_CHAKRA'), `the door rejects ${n}`);
+  for (const n of [2, 14, 26]) assert.ok(!from0(D, n).includes('DWAR_CHAKRA'), `the door allows ${n}`);
+  // Shridhar's Tadag chakra (28 with Abhijit): the 5th and the 6th give no water, the 7th to the 10th good water.
+  const W = E.EVENTS.WELL_TANK.SHRIDHAR;
+  for (const n of [1, 5, 12, 24]) assert.ok(from0(W, n).includes('TADAG_CHAKRA'), `the tank rejects ${n}`);
+  for (const n of [3, 8, 18]) assert.ok(!from0(W, n).includes('TADAG_CHAKRA'), `the tank allows ${n}`);
+  // Wilhelm and Raman give the same eight stars for the door frame.
+  assert.deepEqual(sorted(E.EVENTS.DOOR_FRAME.WILHELM.nak.good), sorted(E.EVENTS.DOOR_FRAME.RAMAN.nak.good), 'the same door-frame stars');
+  // Kalyanraman and Joshi give the same nine upward-looking stars for the pillars.
+  assert.deepEqual(sorted(E.EVENTS.PILLARS.KALYANRAMAN.nak.good), sorted(E.EVENTS.PILLARS.JOSHI.nak.good), 'the same pillar stars');
+  for (const c of ['STAMBHA_CHAKRA', 'DWAR_CHAKRA', 'TADAG_CHAKRA', 'VENUS_LAGNA_MID', 'JUP_MERC_LAGNA_MID']) assert.ok(E.CODE_TA[c], c);
+}
+
 console.log('test-event-muhurta: all checks passed');

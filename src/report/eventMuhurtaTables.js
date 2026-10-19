@@ -3524,7 +3524,8 @@ const CONSTRUCTION_START = deepFreeze({
     beneficIn: [1, 2, 3, 4, 5, 7, 9, 10, 11],
     maleficIn: [3, 6, 11],
     sunSign: { good: [0, 1, 3, 4, 6, 7, 9, 10], mid: [] },
-    noteTa: 'திதி வளர்பிறை; "தேய்பிறை பத்தாம் திதி வரை நடுத்தரம்" — தேய்பிறை முழுவதும் நடுத்தரமாக வைத்துள்ளோம் (எங்கள் வாசிப்பு) · கிழமை: புதன், வியாழன், வெள்ளி நல்லவை; சனி நடுத்தரம்; திங்கள் "சந்திரன் வளர்பிறையில் இருந்தால்" — நடுத்தரம்; ஞாயிறு, செவ்வாய் தள்ளு · லக்னம்: மிதுனம், கன்னி, தனுசு, மீனம், ரிஷபம் நல்லவை; விருச்சிகம், சிம்மம் நடுத்தரம்; சர லக்னம் தள்ளு · விம்சோபக மதிப்பீட்டு அட்டவணை — கணிக்கப்படவில்லை',
+    starCount: [{ from: 'Sun', of: 28, good: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], code: 'VASTU_CHAKRA' }],
+    noteTa: 'திதி வளர்பிறை; "தேய்பிறை பத்தாம் திதி வரை நடுத்தரம்" — தேய்பிறை முழுவதும் நடுத்தரமாக வைத்துள்ளோம் (எங்கள் வாசிப்பு) · கிழமை: புதன், வியாழன், வெள்ளி நல்லவை; சனி நடுத்தரம்; திங்கள் "சந்திரன் வளர்பிறையில் இருந்தால்" — நடுத்தரம்; ஞாயிறு, செவ்வாய் தள்ளு · லக்னம்: மிதுனம், கன்னி, தனுசு, மீனம், ரிஷபம் நல்லவை; விருச்சிகம், சிம்மம் நடுத்தரம்; சர லக்னம் தள்ளு · வ்ருஷப சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து (அபிஜித் உட்பட, 28) முதல் 7 கெட்டவை, அடுத்த 11 நல்லவை, அடுத்த 10 கெட்டவை — கணிக்கப்படுகிறது (ஸ்ரீதரின் வாஸ்து சக்கரம் 27-இல் எண்ணுகிறது) · விம்சோபக மதிப்பீட்டு அட்டவணை — கணிக்கப்படவில்லை',
   },
   MUHURTA_CHINTAMANI: {
     labelTa: 'மு.சி. ஸ்லோ.15, 18', booksTa: 'முகூர்த்த சிந்தாமணி',
@@ -3664,8 +3665,268 @@ const FOUNDATION = deepFreeze({
     noteTa: 'ஸ்ரீதர் §27.10-இன் அதே பத்து நட்சத்திரம், அதே கிழமை; திதியில் வளர்பிறைப் பத்தாம் திதி மட்டும் இவரிடம் இல்லை · லக்னம் சொல்லப்படவில்லை',
   },
 });
+// ---------------------------------------------------------------------------
+// House building, part 2 (pillars, doors, roof, upper storeys, repairs, wells), added 2026-10-19
+// ---------------------------------------------------------------------------
+const PILLARS = deepFreeze({
+  labelTa: 'தூண் நடுதல் (ஸ்தம்ப ரோபணம்)',
+  default: 'WILHELM',
+  order: ['WILHELM', 'SHRIDHAR', 'KALYANRAMAN', 'JOSHI'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — தூண், விட்டம்', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [3, 7, 11, 20, 21, 25], mid: [4, 13, 14, 16, 26, 0, 6, 12, 22, 23] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 13, 15, 16, 17, 18, 20, 21, 22, 25, 26, 28],
+    vara: { good: [1, 3, 4, 5, 6], mid: [] },
+    lagna: { good: [1, 4, 7, 10], mid: [2, 5, 8, 11] },
+    navMid: [1, 4, 7, 10],
+    empty: [8],
+    noteTa: '"கட்டுமானத் தொடக்கத்தின் விதிகளோடு சேர்த்து" — அவரது தொடக்க வாசிப்பின் திதி, கிழமை, லக்னம், 8-ஆம் வீடு இங்கேயும் · மேல்நோக்கு ஆறு சிறந்தவை; தொடக்கத்தின் மற்ற நட்சத்திரங்கள் நடுத்தரம்; மூலம் "மிகக் குறைவானது" — தள்ளப்படுகிறது (எங்கள் வாசிப்பு) · வெளித் தூண்களுக்கு லக்னம், லக்ன நவாம்சம், சந்திர ராசி மூன்றும் ஸ்திரமாக இருக்க வேண்டும் — நவாம்சம் குறிக்கப்படுகிறது, சந்திர ராசி கணிக்கப்படவில்லை',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §27.12', booksTa: 'ஸ்ரீதர் (K.P. மேற்கோள்)',
+    nak: { good: [3, 4, 5, 7, 11, 12, 13, 14, 16, 20, 21, 22, 23, 25, 26], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 11, 12, 13, 16],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    starCount: [{ from: 'Sun', of: 28, good: [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26], code: 'STAMBHA_CHAKRA' }],
+    lagna: { good: [1, 4, 7, 10], mid: [] },
+    navMid: [1, 4, 7, 10],
+    noteTa: 'மேல்நோக்கு ஒன்பது + கட்டுமானத்துக்கு உரிய பதின்மூன்று (ஒன்றையொன்று சேர்த்தது) · திதி: அடிக்கலுக்கு உரியவையே (தேய்பிறைப் பிரதமை + வளர்பிறை 2, 3, 5, 7, 10, 11, 12, 13) · ஸ்தம்ப சக்கரம் கணிக்கப்படுகிறது · லக்னம், லக்ன நவாம்சம், சந்திர ராசி ஸ்திரம் (K.P.) — சந்திர ராசி கணிக்கப்படவில்லை · முதல் தூணின் திசை, இரட்டை எண்ணிக்கை — கணிக்கப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.193)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [5, 7, 21, 22, 23, 11, 20, 25, 3], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    yogaNot: [0, 5, 8, 9, 12, 14, 16, 18, 26],
+    karanaOnly: [0, 1, 2, 3, 4, 5],
+    lagna: { good: [1, 4, 7, 10], mid: [] },
+    noteTa: 'மேல்நோக்கு ஒன்பது மட்டும் · "சுப யோகங்கள் 2/3/4/5/7/8/11/12/14/16/18/20-26" — மீதி ஒன்பதே தீயவை (விஷ்கம்பம், அதிகண்டம், சூலம், கண்டம், வ்யாகாதம், வஜ்ரம், வ்யதீபாதம், பரிகம், வைத்ருதி) · கரணம்: பவ முதல் வணிஜ வரை (விஷ்டி தள்ளு) · செவ்வாய் தள்ளு · ஸ்திர லக்னம்',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.116)', booksTa: 'ஜோஷி',
+    nak: { good: [5, 7, 21, 22, 23, 11, 20, 25, 3], mid: [] }, digdwar: false,
+    noteTa: 'கல்யாணராமனின் அதே ஒன்பது மேல்நோக்கு நட்சத்திரங்கள் · திதி, கிழமை, லக்னம் இங்கே சொல்லப்படவில்லை (அடிக்கல் / கட்டுமானப் பகுதியின் விதிகளே பொருந்தும்)',
+  },
+});
+const DOOR_FRAME = deepFreeze({
+  labelTa: 'வாசல் நிலை, கதவு வைத்தல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'RAMAN', 'WILHELM', 'KALYANRAMAN', 'JOSHI'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §27.13.3-4', booksTa: 'ஸ்ரீதர் (பிருஹஸ்பதி, M.M., முகூர்த்த முக்தாவளி மேற்கோள்கள்)',
+    nak: { good: [3, 11, 20, 25, 13, 4], mid: [0, 12, 7, 21, 14, 26, 16, 17, 6] }, digdwar: false,
+    tithi: [1, 3, 5, 6, 8, 10, 11, 13, 15, 16, 18, 20, 21, 23, 25, 26, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    starCount: [{ from: 'Sun', of: 27, good: [1, 2, 3, 4, 13, 14, 15, 16, 17, 18, 19, 20, 24, 25, 26, 27], code: 'DWAR_CHAKRA' }],
+    lagna: { good: [1, 4, 7, 10], mid: [2, 5, 8, 11] },
+    noteTa: 'பிருஹஸ்பதியின் ஆறு (ஸ்திர 4 + சித்திரை, மிருகசீரிடம்) ஸ்திர லக்னத்தில்; M.M., முகூர்த்த முக்தாவளி சேர்க்கும் ஒன்பது நடுத்தரம் (எங்கள் வாசிப்பு) · "ஸ்திர, சர நட்சத்திரங்கள் த்விஸ்வபாவ லக்னத்தில் புதன் / வெள்ளியில்" — த்விஸ்வபாவ லக்னம் நடுத்தரம் · திதி: நந்தா (1, 6, 11), ஜெயா (3, 8, 13), பூர்ணா (5, 10, 15) — இரு பக்ஷமும் (எங்கள் வாசிப்பு) · சூரியனிலிருந்து த்வார சக்கரம் கணிக்கப்படுகிறது; செவ்வாயிலிருந்தான இரண்டாம் சக்கரமும் கபாட சக்கரமும் (கதவுப் பலகை) — அச்சு மங்கல், கணிக்கப்படவில்லை',
+  },
+  RAMAN: {
+    labelTa: 'ராமன் அத்.XII', booksTa: 'ராமன்',
+    nak: { good: [3, 4, 11, 13, 16, 20, 25, 26], mid: [0, 7, 12] }, digdwar: false,
+    vara: { good: [3, 5], mid: [1, 4] },
+    lagna: { good: [1, 4, 7, 10], mid: [2, 5, 8, 11] },
+    noteTa: '"உத்திரம்" = உத்திரப் பல்குனி (வில்ஹெல்மின் அதே பட்டியல்) · நிலைக்கு ஸ்திர லக்னம்; கதவைப் பொருத்த புதன் / வெள்ளி, த்விஸ்வபாவ லக்னம், அசுவினி / பூசம் / அஸ்தம் ஆகியவையும் — நடுத்தரமாகச் சேர்த்துள்ளோம் (எங்கள் வாசிப்பு) · "நல்ல திதி" — பட்டியல் தரவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — நிலை, கதவு', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [3, 4, 11, 13, 16, 20, 25, 26], mid: [0, 7, 12] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 13, 15, 16, 17, 18, 20, 21, 22, 25, 26, 28],
+    vara: { good: [3, 5], mid: [1, 4, 6] },
+    lagna: { good: [1, 4, 7, 10], mid: [2, 5, 8, 11] },
+    empty: [8],
+    noteTa: 'ராமனின் அதே எட்டு நட்சத்திரம், அதே ஸ்திர லக்னம் · "கட்டுமானத் தொடக்கத்தின் விதிகளோடு சேர்த்து" — திதி, 8-ஆம் வீடு அங்கிருந்து · கதவைப் பொருத்த (தொங்கவிட): அசுவினி, பூசம், அஸ்தம், ரோகிணி, 3 உத்திரங்கள்; புதன், வெள்ளி; த்விஸ்வபாவ லக்னம் — நடுத்தரமாகச் சேர்த்துள்ளோம்',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.192-193)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 4, 6, 7, 12, 13, 14, 16, 17, 26], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 7, 10, 11, 13, 15, 16, 17, 18, 20, 22, 25, 26, 28],
+    vara: { good: [1, 3, 4, 5], mid: [0] },
+    starCount: [{ from: 'Sun', of: 27, good: [1, 2, 3, 4, 7, 8, 9, 10, 13, 14, 15, 16, 19, 20, 21, 22], code: 'DWAR_CHAKRA' }],
+    lagna: { good: [1, 2, 4, 5, 7, 10], mid: [] },
+    beneficKendra: true,
+    noteTa: 'மது (4, அபிஜித் உட்பட லகு 4) + கேட்டை, சுவாதி, புனர்பூசம் = 10 + அபிஜித் — ஜோஷியின் அதே பட்டியல் · சூரியனிலிருந்து நல்ல எண்கள் 1-4, 7-10, 13-16, 19-22 (த்வார சக்கரத்தின் வேறு வடிவம்) · "சிலர் ஞாயிற்றையும் ஏற்கின்றனர்" — நடுத்தரம் · லக்னம் 3, 6, 2, 5, 8, 11; கேந்திரத்தில் சுபர்',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.121)', booksTa: 'ஜோஷி',
+    nak: { good: [4, 13, 16, 26, 12, 0, 7, 17, 14, 6], mid: [] }, abhijitOk: true, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    lagna: { good: [1, 2, 4, 5, 7, 10], mid: [] },
+    beneficKendra: true,
+    noteTa: 'கல்யாணராமனின் அதே பதினொன்று (அபிஜித் உட்பட) · திதி சொல்லப்படவில்லை · கதவின் திசையை ஜன்ம ராசியிலிருந்து தீர்மானிக்கும் விதி — கணிக்கப்படவில்லை',
+  },
+});
+const ROOF = deepFreeze({
+  labelTa: 'கூரை வேய்தல்',
+  default: 'WILHELM',
+  order: ['WILHELM', 'KALYANRAMAN', 'SHRIDHAR', 'JOSHI'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — கூரை', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [3, 4, 7, 11, 13, 14, 16, 18, 20, 21, 25, 26], mid: [0, 6, 12, 22, 23] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 13, 15, 16, 17, 18, 20, 21, 22, 25, 26, 28],
+    vara: { good: [1, 3, 4, 5, 6], mid: [] },
+    lagna: { good: [2, 5, 8, 11], mid: [1, 4, 7, 10] },
+    empty: [8],
+    want: [{ planets: ['Venus'], houses: [1], code: 'VENUS_LAGNA_MID' }],
+    noteTa: '"கட்டுமானத் தொடக்கத்தின் விதிகளோடு சேர்த்து" — நட்சத்திரம், திதி, கிழமை, 8-ஆம் வீடு அங்கிருந்து · கூரைக்கு மட்டும் த்விஸ்வபாவ லக்னம் சிறந்தது (தொடக்கத்துக்கு ஸ்திரம்) — ஸ்திரம் நடுத்தரம் (எங்கள் வாசிப்பு) · லக்னத்தில் சுக்கிரன் — குறிக்கப்படுகிறது; மற்ற தீ-தொடர்பான சேர்க்கைகள் கணிக்கப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.193)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [3, 4, 7, 11, 12, 13, 14, 16, 20, 22], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    starCount: [{ from: 'Sun', of: 27, good: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], code: 'VASTU_CHAKRA' }],
+    noteTa: 'தனிஷ்டாவின் முதல் இரு பாதங்கள் மட்டுமே (பஞ்சகம் தொடங்குவதால்) — பாத வேறுபாடு கணிக்கப்படவில்லை, நட்சத்திரம் முழுவதும் நல்லதாக எடுக்கப்படுகிறது · ரிக்தா, அமாவாசை, அஷ்டமி தள்ளு · செவ்வாய் தள்ளு · வாஸ்து சக்கரம் 8-18',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §27.14', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [0, 3, 4, 5, 7, 8, 11, 20, 25, 12, 13, 14, 15, 16, 18, 21], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 8, 10, 12, 13],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    lagna: { good: [1, 2, 3, 5, 6, 8, 11], mid: [] },
+    beneficKendra: true,
+    want: [{ planets: ['Venus'], houses: [1], code: 'VENUS_LAGNA_MID' }],
+    noteTa: 'திதி வளர்பிறை மட்டும் (அச்சில் "B.H.") · லக்னம் 2, 3, 4, 6, 7, 9, 12 — அச்சில் "233,4,6,7,9,12" என்று தவறாக வந்துள்ளது, 2, 3, 4 என்று வாசிக்கிறோம் · கேந்திரத்திலும் லக்னத்திலும் சுபர் · வைக்கோல் கூரைக்கு ஸ்திர லக்னம், லக்னத்தில் சுக்கிரன், கேந்திரத்தில் குரு — சுக்கிரன் குறிக்கப்படுகிறது',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.119)', booksTa: 'ஜோஷி',
+    nak: { good: [3, 11, 20, 4, 13, 16, 14, 12, 7], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    yogaNot: [0, 5, 8, 9, 12, 14, 16, 18, 26],
+    starCount: [{ from: 'Sun', of: 27, good: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18], code: 'VASTU_CHAKRA' }],
+    lagna: { good: [1, 4, 7, 10, 2, 5, 8, 11], mid: [] },
+    noteTa: '"கட்டுமானத் தொடக்கத்தின் அதே விதிகள்" — அவரது தொடக்க வாசிப்பே; பஞ்சக நட்சத்திரங்கள் (தனிஷ்டாவின் கடைசி இரு பாதம், சதயம், பூரட்டாதி, உத்திரட்டாதி, ரேவதி) கூரைக்குக் கட்டாயம் தள்ளு — தனிஷ்டா முழுவதையும் தள்ளியுள்ளோம் (பாதம் கணிக்கப்படவில்லை)',
+  },
+});
+const UPPER_STOREY = deepFreeze({
+  labelTa: 'மேல் மாடி கட்டுதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §27.15', booksTa: 'ஸ்ரீதர் (J.V. மேற்கோள்)',
+    nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 21, 22, 23, 12, 5], mid: [] }, digdwar: false,
+    vara: { good: [3, 4, 5], mid: [] },
+    noteTa: 'ஸ்திர 4 + மது 4 + திருவோணம், தனிஷ்டா, சதயம், அஸ்தம், திருவாதிரை = 13 (கட்டுமானத் தொடக்கத்தின் பட்டியலோடு ஒத்தது; சுவாதி, பூசத்துக்குப் பதிலாகத் திருவோணம், திருவாதிரை) · திதி, லக்னம் சொல்லப்படவில்லை',
+  },
+});
+const HOUSE_REPAIR = deepFreeze({
+  labelTa: 'வீடு பழுது, வெள்ளையடித்தல், சுத்தம்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'WILHELM', 'RAMAN', 'KALYANRAMAN'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §27.14.1-2, §27.17.3-4', booksTa: 'ஸ்ரீதர் (K.P., M.M. மேற்கோள்கள்)',
+    nak: { good: [11, 20, 25, 21, 7, 17, 26, 3, 12], mid: [13, 6, 16, 4, 0] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [3, 4, 5], mid: [0, 1, 6] },
+    lagna: { good: [0, 1, 2, 3, 4, 5, 6, 8, 9], mid: [] },
+    want: [{ planets: ['Venus'], houses: [1], code: 'VENUS_LAGNA_MID' }],
+    noteTa: 'M.M.யின் வெள்ளையடிக்கும் ஒன்பது நட்சத்திரங்கள் நல்லவை; வீடு சுத்தம் செய்யும் பட்டியலில் புதிதாக வருபவை நடுத்தரம் (எங்கள் வாசிப்பு) · கிழமை: புதன், வியாழன், வெள்ளி (வெள்ளையடித்தல்); M.M. ஞாயிறு, வியாழன், சனி என்பதால் ஞாயிறு, சனி நடுத்தரம்; கூரைப் பழுதுக்குத் திங்களும் — நடுத்தரம்; செவ்வாய் தள்ளு · 14-ஆம் திதி, ரிக்தா, அமாவாசை தள்ளு · லக்னம்: விருச்சிகம், கும்பம், மீனம் தள்ளு (சுத்தம் செய்தல்) · லக்னத்தில் சுக்கிரன், கேந்திரத்தில் குரு — குறிக்கப்படுகிறது · மார்ஜாரி (துடைப்பம்) சக்கரம், செவ்வாய் சஞ்சரிக்கும் நட்சத்திரம் — கணிக்கப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — பழுது, வெள்ளையடித்தல்', booksTa: 'வில்ஹெல்ம்',
+    tithi: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: '"14-ஆம் திதியைத் தவிர்" (இரு பக்ஷமும் — எங்கள் வாசிப்பு); "பாப கிரகக் கிழமைகளைத் தவிர்" — ஞாயிறு, செவ்வாய், சனி தள்ளு · "பழுது பார்ப்பது எதுவோ அதைக் கட்டுவதற்கு உரிய நேரமே" — கூரைக்குக் கூரையின் விதி, தூணுக்குத் தூணின் விதி · சந்திரன் செவ்வாயுடன் சேர்ந்து கார்த்திகை / மகம் / பூசம் / பூரம் / அஸ்தம் / மூலம் / ரேவதியில் இருக்கும்போது பழுது தொடங்கக் கூடாது — கணிக்கப்படவில்லை · நட்சத்திரம், லக்னம் இங்கே சொல்லப்படவில்லை',
+  },
+  RAMAN: {
+    labelTa: 'ராமன் அத்.XII', booksTa: 'ராமன்',
+    nak: { good: [0, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14, 16, 17, 18, 20, 21, 22, 23, 25, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [1, 3, 4], mid: [5] },
+    lagna: { good: [1, 6, 3], mid: [0, 2, 4, 5, 7, 8, 9, 10, 11] },
+    noteTa: '"அக்னி நட்சத்திரங்களைத் தவிர்" — உக்ர (க்ரூர) நட்சத்திரங்கள் என்று வாசிக்கிறோம்: பரணி, மகம், 3 பூரங்கள், கார்த்திகை, விசாகம் தள்ளு (எங்கள் வாசிப்பு) · "வழக்கமான கெட்ட திதிகள்" = ரிக்தா, அமாவாசை · திங்கள், புதன், வியாழன் சிறந்தவை; வெள்ளி (ரிஷப / துலா லக்னத்தில்) நடுத்தரம்; செவ்வாய் தள்ளு · வெள்ளியில் ரிஷபம் / துலாம், திங்களில் கடகம் — அந்த மூன்று லக்னங்கள் நல்லவை, மற்றவை நடுத்தரம் · லக்னத்தில் சுபன், சந்திரன் ஜல ராசியில் — கணிக்கப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.194)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 4, 6, 7, 12, 13, 14, 16, 19, 21, 22, 23], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [2, 3, 5, 6, 7, 10, 11, 12, 13, 15, 17, 18, 20, 21, 22, 25, 26, 27, 28],
+    vara: { good: [0, 1, 5], mid: [] },
+    noteTa: 'வீட்டுக்கு வண்ணம் பூசத் தொடங்குதல் (லகு 4 + சர 5 + மிருகசீரிடம், சித்திரை, அனுஷம், பூராடம்) · கிழமை ஞாயிறு, திங்கள், வெள்ளி மட்டும் — மற்ற நூல்களின் புதன் / வியாழனிலிருந்து வேறுபடுகிறது (அச்சில் உள்ளபடியே) · லக்னம் சொல்லப்படவில்லை',
+  },
+});
+const WELL_TANK = deepFreeze({
+  labelTa: 'கிணறு, குளம், போர்வெல் வெட்டுதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'RAMAN', 'KALYANRAMAN', 'RANGACHARYA', 'MUHURTA_CHINTAMANI'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §21.18, §27.17.8', booksTa: 'ஸ்ரீதர் (முகூர்த்த தீபிகை, கர்க்காச்சார்யர், அக்னி புராணம் மேற்கோள்கள்)',
+    masa: { good: [1, 4, 5, 8, 9, 11], mid: [0, 2, 3, 6, 7, 10], strict: false },
+    uttarayana: 'PREFERRED',
+    nak: { good: [3, 11, 20, 25, 7, 16, 23, 22], mid: [18, 0, 21, 12, 26, 17, 4] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    starCount: [{ from: 'Sun', of: 28, good: [3, 4, 7, 8, 9, 10, 13, 14, 17, 18, 19, 20, 21, 22], code: 'TADAG_CHAKRA' }],
+    lagna: { good: [3, 9, 10, 11], mid: [0, 1, 2, 5, 6, 9] },
+    want: [{ planets: ['Jupiter', 'Venus', 'Moon'], houses: [1, 4, 7, 10], code: 'JUP_VEN_MOON_KENDRA_MID' }],
+    jupVenNotSet: true,
+    harishayana: true,
+    sunSign: { good: [1, 2, 3, 5, 6, 7, 9, 10, 11], mid: [0, 4, 8] },
+    noteTa: '§21.18-இன் எட்டு நட்சத்திரங்கள் நல்லவை; §27.17.8 சேர்க்கும் ஏழு நடுத்தரம் (எங்கள் வாசிப்பு) · ஞாயிறு, செவ்வாய், சனி தள்ளு · ரிக்தா, அமாவாசை தள்ளு (§27.17.8-இன் 2, 3, 7, 12, பூர்ணா குறுகிய பட்டியல்) · லக்னம்: ஜல ராசிகள் (கடகம், மகரம், கும்பம், மீனம்) சிறந்தவை; சிம்மம், விருச்சிகம், தனுசு தள்ளு; மீதி நடுத்தரம் · சூரியன் மேஷம், சிம்மம், தனுசில் இருப்பது நடுத்தரம் (அக்னி புராணம்) · தடாக சக்கரம் கணிக்கப்படுகிறது; கூப சக்கரம், கிணற்றின் திசை, வடிவம் — கணிக்கப்படவில்லை',
+  },
+  RAMAN: {
+    labelTa: 'ராமன் அத்.XII', booksTa: 'ராமன்',
+    nak: { good: [26, 25, 12, 16, 9, 21, 3, 7], mid: [] }, digdwar: false,
+    lagna: { good: [11, 3, 9], mid: [0, 2, 5, 6, 7, 8] },
+    want: [{ planets: ['Venus', 'Moon'], houses: [1, 4, 7, 10], code: 'VEN_MOON_KENDRA_MID' }],
+    noteTa: 'மீனம், கடகம், மகரம் சிறந்தவை; கும்பமும் ரிஷபமும் நல்ல நீரைத் தராது — தள்ளு; மற்றவை நடுத்தரம் (எங்கள் வாசிப்பு) · சுக்கிரனும் சந்திரனும் கேந்திரத்தில் — இரண்டும் (குறிக்கப்படுகிறது) · சூரியன் இருக்கும் ராசியில் தொடங்கினால் பாறை தடுக்கும் — கணிக்கப்படவில்லை · திதி, கிழமை சொல்லப்படவில்லை · நீர் இருக்கும் இடத்தைத் தாவரங்களால் கண்டறியும் வராகமிஹிரரின் முறை — இங்கே இல்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.194-195)', booksTa: 'கல்யாணராமன் (மு.சி. மேற்கோள்)',
+    nak: { good: [3, 4, 7, 9, 11, 12, 16, 19, 22, 23, 24, 25, 26], mid: [14, 0, 6, 20] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 11, 13, 17, 18, 20, 22, 25, 26, 28],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    want: [{ planets: ['Jupiter', 'Mercury'], houses: [1], code: 'JUP_MERC_LAGNA_MID' }, { planets: ['Venus'], houses: [10], code: 'VENUS_10_MID' }],
+    noteTa: 'பதின்மூன்று நட்சத்திரங்கள் (மு.சி.யின் அதே பட்டியல், மீதியைத் தள்ளுகிறது) · சிறு கிணறு / கிணறு / குளம் என்று தனித்தனிப் பட்டியல்களும் தருகிறார் — அவற்றில் புதிதாக வருபவை நடுத்தரம் (எங்கள் வாசிப்பு) · லக்னத்தில் குரு அல்லது புதன், 10-இல் சுக்கிரன் — குறிக்கப்படுகின்றன; சந்திரன் ஜல ராசியில், 4-இல் சுபர், பாபர் பலவீனம் — கணிக்கப்படவில்லை',
+  },
+  RANGACHARYA: {
+    labelTa: 'ரங்காச்சார்யா (ப.106)', booksTa: 'ரங்காச்சார்யா',
+    nak: { good: [13, 14, 6, 4, 18, 3, 12, 7, 22, 23, 26], mid: [17] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 13, 15, 17, 18, 20, 22, 25, 28],
+    vara: { good: [1, 4, 5], mid: [] },
+    lagna: { good: [9, 3, 11], mid: [10] },
+    want: [{ planets: ['Jupiter', 'Moon'], houses: [1, 4, 7, 10], code: 'JUP_MOON_KENDRA_MID' }],
+    noteTa: 'கேட்டை அடைப்புக்குறிக்குள் அச்சாகியுள்ளது — நடுத்தரம் (எங்கள் வாசிப்பு) · திங்கள், வியாழன், வெள்ளி மட்டும்; மீதி தள்ளு · மகரம், கடகம், மீனம் சிறந்தவை; கும்பம் நடுத்தரம்; மீதி தள்ளு · குரு, சந்திரன் கேந்திரத்தில் — குறிக்கப்படுகிறது; சந்திரன்-சுக்கிரன் சேர்க்கை கேந்திரத்தில் சிறந்தது, சந்திரன்-புதன் சேர்க்கை கூடாது — கணிக்கப்படவில்லை · லக்னத்தில் பாபன் இருந்தால் பாறை வரும் ஆழம் — கணிக்கப்படவில்லை · வீட்டுக் கட்டுமானத்துக்கு முன் வடகிழக்கில் வெட்ட வேண்டும்',
+  },
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'மு.சி. ஸ்லோ.1/63', booksTa: 'முகூர்த்த சிந்தாமணி',
+    nak: { good: [16, 12, 3, 11, 20, 25, 22, 23, 9, 19, 26, 7, 4], mid: [] }, digdwar: false,
+    want: [{ planets: ['Mercury', 'Jupiter'], houses: [1], code: 'JUP_MERC_LAGNA_MID' }, { planets: ['Venus'], houses: [10], code: 'VENUS_10_MID' }],
+    noteTa: 'பதின்மூன்று நட்சத்திரங்கள் (அனுஷம், அஸ்தம், ஸ்திர 4, தனிஷ்டா, சதயம், மகம், பூராடம், ரேவதி, பூசம், மிருகசீரிடம்) — கல்யாணராமன் இதையே மேற்கோள் காட்டுகிறார் · லக்னத்தில் புதன் / குரு, 10-இல் சுக்கிரன் — குறிக்கப்படுகின்றன · சந்திரன் ஜல ராசியில் (9/10/11/12), பாபர் பலவீனம் — கணிக்கப்படவில்லை · திதி, கிழமை இந்த ஸ்லோகத்தில் இல்லை',
+  },
+});
 
 const RANK = deepFreeze({
+  PILLARS: {
+    order: PILLARS.order,
+    words: { WILHELM: 149, SHRIDHAR: 126, KALYANRAMAN: 103, JOSHI: 24 },
+    measureTa: 'தூண் பற்றிய சொற்கள்: வில்ஹெல்ம் (ப.224-225) 149; ஸ்ரீதர் (§27.12, ப.728) 126; கல்யாணராமன் (தொ.2 ப.193) 103; ஜோஷி (ப.116) 24.',
+  },
+  DOOR_FRAME: {
+    order: DOOR_FRAME.order,
+    words: { SHRIDHAR: 372, RAMAN: 180, WILHELM: 149, KALYANRAMAN: 117, JOSHI: 55 },
+    measureTa: 'வாசல் நிலை பற்றிய சொற்கள்: ஸ்ரீதர் (§27.13.3-4, ப.730-731) 372; ராமன் (அத்.XII, PDF ப.43) 180; வில்ஹெல்ம் (ப.223-224) 149; கல்யாணராமன் (தொ.2 ப.192-193) 117; ஜோஷி (ப.121) 55.',
+  },
+  ROOF: {
+    order: ROOF.order,
+    words: { WILHELM: 172, KALYANRAMAN: 120, SHRIDHAR: 70, JOSHI: 43 },
+    measureTa: 'கூரை பற்றிய சொற்கள்: வில்ஹெல்ம் (ப.225-226) 172; கல்யாணராமன் (தொ.2 ப.193) 120; ஸ்ரீதர் (§27.14, ப.731) 70; ஜோஷி (ப.119) 43.',
+  },
+  UPPER_STOREY: {
+    order: UPPER_STOREY.order,
+    words: { SHRIDHAR: 38 },
+    measureTa: 'மேல் மாடி பற்றிய சொற்கள்: ஸ்ரீதர் (§27.15, ப.732) 38.',
+  },
+  HOUSE_REPAIR: {
+    order: HOUSE_REPAIR.order,
+    words: { SHRIDHAR: 333, WILHELM: 108, RAMAN: 98, KALYANRAMAN: 74 },
+    measureTa: 'பழுது / வெள்ளையடித்தல் பற்றிய சொற்கள்: ஸ்ரீதர் (§27.14.1-2, §27.17.3-4, ப.731, 738-739) 333; வில்ஹெல்ம் (ப.223, 225) 108; ராமன் (அத்.XII, PDF ப.43) 98; கல்யாணராமன் (தொ.2 ப.194 — வண்ணம் பூசுதல்) 74.',
+  },
+  WELL_TANK: {
+    order: WELL_TANK.order,
+    words: { SHRIDHAR: 395, RAMAN: 287, KALYANRAMAN: 226, RANGACHARYA: 161, MUHURTA_CHINTAMANI: 136 },
+    measureTa: 'கிணறு, குளம் பற்றிய சொற்கள்: ஸ்ரீதர் (§21.18 ப.599-600 + §27.17.8 ப.740) 395; ராமன் (அத்.XII, PDF ப.43-44) 287; கல்யாணராமன் (தொ.2 ப.194-195) 226; ரங்காச்சார்யா (ப.106) 161; முகூர்த்த சிந்தாமணி (ஸ்லோ.1/63, ப.63) 136.',
+  },
   CONSTRUCTION_START: {
     order: CONSTRUCTION_START.order,
     words: { SHRIDHAR: 3626, WILHELM: 1672, RAMAN: 602, VASHISTHA: 545, JOSHI: 412, RANGACHARYA: 346, MUHURTA_CHINTAMANI: 328, KALYANRAMAN: 152 },
@@ -4389,6 +4650,41 @@ const SOURCES = deepFreeze({
     JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 10 "(B) Laying foundation", printed p.116 (PDF 131): "Laying foundation is different from digging. Most of the classics prescribe North East (Ishan) or South East (Agni) direction for laying foundation stone. Maharashi Garga says: For laying foundation Fixed nakshatras i.e. (Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini) are best. Other nakshatras recommended for construction i.e. Mrigshira, Revati, Chitra, Anuradha, Shatbhisha, Swati, Dhanistha, Hasta and Pushya are also good. One should select benefic tithis, Yogas and Fixed rashis as lagnas. All days except Tuesday are good"' },
     VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: '"Shilanyasa muhurta", printed p.123 (PDF 110): "Tithi: 1 (Krishna pakasha), 2, 3, 5, 7, 11, 12 and 13 of shukla paksha. Vara: Monday, Wednesday, Thursday, Friday and Saturday. Nakashatra: Ashwini, Rohini, Mrigashirsha, Pushya, 3 uttaras, Hasta, Shravan and Revati"' },
   },
+  PILLARS: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Construction - Pillars, beams, and interior doorways", printed pp.224-225 (PDF 232-233): "The time of constructing the framework of the building, which supports the building, is also important … In addition to the guidelines for CONSTRUCTION BEGINNING … Nakshatra: The Nakshatras given for CONSTRUCTION BEGINNING … are also favorable for constructing pillars, etc. however, of these the Urdhva Mukha (face up) Nakshatras (Rohini, Pushya, Uttaraphalguni, Uttarashadha, Sravana, Uttarabhadrapada) are most favorable, while the Adho Mukha (face down) Nakshatra (Mula) is least favorable. Outer Pillars: External pillars, which are beyond the walls of the house, should be constructed when the Lagna, the Navamsa Lagna and the Rasi of the Moon are fixed Rasis belonging to, or aspected by benefics"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§27.12 "Fixing of pillars", printed p.728 (PDF 762): "First pillar should be fixed in the SE direction, & the pillars should be even in numbers. Further pillars should be fixed in clock-wise manner. Monday, Wednesday, Thursday & Friday; & Tithis recommended for laying foundation are auspicious. Upward looking asterisms & the asterisms recommended for starting construction are prescribed, which should be selected from Stambh Chakra as following in which Abhijit is also included: Moon\'s asterism counted from that of the Sun\'s — 1st to 6th Base: Loss of wealth; 7th to 26th Center: Gain of comfort; 27th to 28th: Death. K.P. opines that pillars must be put up when the rising sign, rising navamsha & the sign occupied by the Moon are fixed signs; & these signs should be benefic & aspected by benefics"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Fixing Pillars", printed p.193 (PDF 195): "Nakshatra Rohini, Aridra, Pushyami, Uttaraphalguni, Uttarashada, Sravana, Dhanishta, Satabhisha, Uttarabhadrapada, (9) Urdhwamukha - Aridra, Pushyami, Sravana, Dhanishta, Satabhisha, Uttaraphalguni, Uttarashada, Uttarabhadrapada, Rohini (9) Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Weekdays Sunday, Monday, Wednesday, Thursday, Friday, Saturday. Yoga Benefic Yogas 2/3/4/5/7/8/11/12/14/16/18/20/21/22/23/24/25/26 Karana Bhava, Baalava, Kaulava, Taitila, Gara, Vanija. Notes: Prefer fixed Raasis 2/5/8/11 as Lagna. Avoid Tuesday"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 10 "(B) Laying foundation", printed p.116 (PDF 131): "For Stambha Ropana (Fixing Pillars), Upward looking nakshatras i.e. Ardra, Pushya, Shravana, Dhanistha, Shatbhisha, Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini are considered auspicious"' },
+  },
+  DOOR_FRAME: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§27.13.3 "Fixing the door frame", printed pp.730-731 (PDF 764-765): "Tithi: Nanda, Jaya & Poorna. Day: Sunday, Monday, Wednesday, Thursday, Friday. Asterisms: Stationary (Rohini, 3 Uttras), Chitra, Mrigshira; in fixed rising sign; or Stationary & Movable asterisms in common rising signs on Wednesday & Friday (Sage Brihaspati). According to M.M. door frame should be fixed in asterisms of Ashvani, 3 Uttras, Hasta, Pushya, Shravana, Mrigshira, Rohini, Swati, Revati. According to Muhurt Muktavali favourable asterisms are Revati, Anuradha, Pushya, Jyeshta, Hasta, Ashvani & Chitra, Swati & Punarvasu. The selected asterism should meet the requirements of two kinds of Dwar (door) Chakra; one with reference from the asterism occupied by the Sun, & other from the asterism occupied by Mars … [from the Sun] 1 to 4 Top: Wealth; 5 to 12 Four corners: No habitation; 13 to 20 Four corners: Comforts; 21 to 23 Bottom: Death; 24 to 27 Center of frame: Comforts"; §27.13.4 "Fixing the door panels", printed p.731 (PDF 765): "While fixing panels on the doors the Kapaat Chakra should be considered in which effects of the Moon\'s asterisms when counted from that of the Sun\'s are as following"' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XII "House Building", PDF p.43: "Fixing the Door-Frame. - … The door-frame should always be fixed at a time when the rising sign is a fixed one. Rohini, Mrigasira, Uttara, Chitta, Anuradha, Uttarashadha, Uttarabhadra and Revati may be elected. The tithi (lunar day), asterism, the day and the rising sign should all be carefully selected, for the moment of fixing the door-frame has an important bearing upon the prosperity of the master. The doors, etc., may be furnished on Wednesday or Friday ruled by any beneficial lunar day, a common sign and any of the following constellations, viz., Aswini, Pushya, Hasta, Rohini, Uttara, Uttarashadha and Uttarabhadra"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Construction - Doorframe, fixing", printed pp.223-224 (PDF 231-232): "The moment of fixing the main doorframe to the building is second in importance only to the foundation and is said to have a significant bearing upon the prosperity of the owner … In addition to the guidelines for CONSTRUCTION BEGINNING … Nakshatra: Rohini, Mrigasira, Uttaraphalguni, Chitra, Anuradha, Uttarashadha, Uttarabhadrapada and Revati are favorable. The rest are best avoided. Lagna: Should be a fixed Rasi"; "Construction - Door, hanging", printed p.224 (PDF 232): "Nakshatra: Asvini, Pushya, Hasta, Rohini, Uttaraphalguni, Uttarashadha and Uttarabhadrapada are favorable. Vara: The Varas of Mercury and Venus are most favorable. Lagna: Dual Rasis are most favorable"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Making and Fitting the Door", printed pp.192-193 (PDF 194-195): "Nakshatra Abhijith, Aswini, Mrigasira, Punarvasu, Pushyami, Hasta, Chitra, Swati, Anuradha, Jyeshta, Revati, (10+1) Friendly/Mridu: Mrigasira, Revati, Chitra, Anuradha, (4) Short/Laghu: Hasta, Aswini, Pushyami, Abhijith, (4) Others: Jyeshta, Swati, Punarvasu, (3) Tithis 1/2/3/5/7/10/11/13/15 Weekdays Monday, Wednesday, Thursday and Friday. Notes: 1. The nakshatras 1/2/3/4/7/8/9/10/13/14/15/16/19/20/21/22 from the one occupied by the Sun are good. Lagna in raasis 3/6/2/5/8/11 with benefics in Kendras are favourable. 2. Some accept Sunday also"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 10 "(E) Door - direction and fittings: Time for door fitting", printed p.121 (PDF 136): "All friendly nakshatras (i.e. Mrigshira, Revati, Chitra and Anuradha), all short nakshatras (i.e. Hasta, Ashwini, Pushya and Abhijit), Jyestha, Swati and Punarvasu nakshatras; benefic days (i.e. Monday, Wednesday, Thursday and Friday) and lagnas of 3/6/2/5/8/11 rashis with benefics in Kendras are considered auspicious"' },
+  },
+  ROOF: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Construction - Roof", printed pp.225-226 (PDF 233-234): "The time of roofing the house of the building is also important, as it is the roof that protects the house … In addition to the guidelines for CONSTRUCTION BEGINNING … Lagna: Dual Rasi are most favorable. Combinations: 1. Mars\'s Vara with a fiery Lagna occupied by Mars will cause the house to take fire and should be avoided. 2. Venus in the Lagna and Jupiter in an angle protect against fire and storm. 3. A benefic in the Lagna with the Moon in a watery Rasi on the Vara of a benefic protects the house from fire. 4. A house roofed on Venus\'s Vara at a moment when the Lagna is Taurus or Libra occupied by Venus will never catch fire. 5. A house roofed on the Moon\'s Vara when the Moon is in Cancer will never be subjected to fire"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Laying Roof", printed p.193 (PDF 195-196): "Nakshatra Rohini, Mrigasira, Pushyami, Uttaraphalguni, Hasta, Chitra, Swati, Anuradha, Uttarashada and Dhanishta 1&2 paadas. (10) Tithis 1/2/3/5/6/7/10/11/12/13/15 Avoid Rikta, Amavasya & Ashtami. Weekdays Sunday, Monday, Wednesday, Thursday, Friday, Saturday, Avoid Tuesday. Notes: 1. All considerations for laying roof are more or less similar to those for starting constructions. 2. For construction avoid Nakshatra Panchaka i.e., nakshatras from Dhanishta to Revati. Count from the Sun\'s nakshatra to the day\'s nakshatra. If the count is within 8 to 18, that day can be selected"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§27.14 "Construction of roof", printed p.731 (PDF 765): "Tithi: 2,3,5,7,8,10,12,13 (B.H.) Day: Monday, Wednesday, Thursday, Friday. Const.: Ashvani, Rohini, Mrigshira, Ardra, Pushya, Ashlesha, 3 Uttras, Hasta, Chitra, Swati, Vishakha, Anuradha, Moola & Shravana. Ascendant: 2,3,4,6,7,9,12 signs; & benefics should be in ascendant & quadrants. Construction of roof of straws is auspicious in fixed rising sign, having Venus in ascendant & Jupiter in a quadrant"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 10 "(D) Laying roof", printed p.119 (PDF 135): "All considerations here are more or less similar to starting construction. Nakshatra Panchaka has to be specifically avoided for roof laying i.e. one should avoid last two quarters of Dhanistha, and full Shatbhisha, Poorvabhadrapad, Uttarabhadrapad and Revati nakshatras"' },
+  },
+  UPPER_STOREY: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§27.15 "Constructing upper stories", printed p.732 (PDF 766): "J.V. commends that Stationary (Rohini, 3 Uttras), Sweet (Mrigshira, Chitra, Anuradha, Revati), Shravana, Dhanishta, Shatbhish, Hasta & Ardra asterisms; Wednesday, Thursday & Friday are auspicious in construction of upper stories over the ground floor"' },
+  },
+  HOUSE_REPAIR: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§27.14.1 "Repair of roof", printed p.731 (PDF 765): "K.P. commends that roof be repaired when Venus is in the rising sign & Jupiter is in a quadrant to make the building safe against fire & storms. One of the most auspicious time is when the ascendant is an aquatic sign & is occupied by the Moon & a benefic; on Monday, Wednesday or Friday … Do not start the repairs on a Tuesday morning when Mars occupies fiery sign. §27.14.2 Repairing of floors: No repairing should be done under asterisms of Krittika, Magha, Pushya, P.Falguni, Hasta, Moola & Revati when they are transited by Mars"; §27.17.3 "White washing", printed p.738 (PDF 772): "White washing & cleaning of wall is auspicious on Wednesday, Thursday & Friday. Avoid 14th Tithi & inauspicious days as these days cause extinction of the building (K.P.). White washing & making of bricks can be done in the same Muhurt according to M.M. which is favourable during 3 Uttras, Shravana, Pushya, Jyeshta, Revati, Rohini, Hasta; rising sign be a fixed sign; on Sunday, Thursday & Saturday"; §27.17.4 "Cleaning of house", printed pp.738-739 (PDF 772-773): "In asterisms of Shravana, Hasta, Chitra, Punarvasu, Anuradha, Pushya, Mrigshira, Rohini & Ashvani cleaning of house is auspicious; but leave Tuesday, Rikta Tithis, & rising signs of Scorpio, Aquarius & Pisces"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Construction - Cleaning and whitewashing walls", printed p.223 (PDF 231): "These guidelines would also include painting walls. If a major painting job is being done, it is well worth following the guidelines given for BEGINNING CONSTRUCTION. Tithis: Avoid the 14th, which causes the extinction of the building. Vara: Avoid the Varas of the malefics"; "Construction - Repairing", printed p.225 (PDF 233): "Repairs should be begun at the moments favorable for constructing that which is being repaired. Additionally, no repairs should be started when the Moon joined with Mars is in Krittika, Magha, Pushya, Purvaphalguni, Hasta, Mula or Revati, else it is said that the building will be exposed to accidents and the life of the children to danger"' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XII "House Building", PDF p.43: "Repairing Houses. - Do not commence repairs on Tuesdays. Friday at a moment when Lagna is Taurus or Libra and Monday when Cancer is rising are very suitable for beginning repairs. The Lagna must be occupied by a benefic and the Moon should be in an aquatic sign. Monday, Wednesday and Thursday are the best. Walls can be whitewashed on Monday, Wednesday, Thursday and Friday. As usual, inauspicious lunar days and fiery constellations should be avoided. No repairs should be started under the constellations of Krittika, Makha, Pushyami, Pubba, Hasta, Moola and Revati when Mars is transiting these constellations"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Starting House Painting Work", printed p.194 (PDF 196): "Nakshatra (Abhijith included) Abhijith, Aswini, Mrigasira, Punarvasu, Pushyami, Hasta, Chitra, Swati, Anuradha, Poorvashada, Sravana, Dhanishta, Satabhisha, (12+1) Short/Laghu: Hasta, Aswini, Pushyami, Abhijith, (4) Movable: Swati, Punarvasu, Sravana, Dhanishta, Satabhisha (5) Others: Mrigasira, Chitra, Anuradha, Poorvashada (4) Tithis 2/3/5/6/7/10/11/12/13/15 Weekdays Sunday, Monday and Friday"' },
+  },
+  WELL_TANK: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§21.18 "Well - tank - water storing", printed pp.599-600 (PDF 636-637): "Tithis: Rikta & the New Moon are inauspicious. Day: Sunday, Tuesday & Saturday are prohibited. Const.: Rohini, 3 Uttras, Pushya, Anuradha, Shatbhish, Dhanishta are favourable. Months: Vaishakha, Shravana, Bhadrapada, Margshirsha, Pausha & Falguni are favourable. Ascendant: Watery signs (4,10,11 & 12) are the best. Leo, Scorpio & Sagittarius are prohibited & the balance signs can be used. Jupiter, Venus & the Full Moon should be in the quadrants, to enable get water in abundance & of good taste. Jupiter & Venus should not be set … For well suitable asterism is selected from Koop Chakra as per table 21.12. For tank or pond asterism is selected from Tadag Chakra … in which asterism of the Moon is counted from that of the Sun. Abhijit is also counted: 1st & 2nd: Brings sorrows; 3rd & 4th: Water in abundance; 5th & 6th: No water; 7th & 8th: Excellent quality of water; 9th & 10th: Water in abundance; 11th & 12th: No water; 13th & 14th: Good water; 15th & 16th: Polluted water; 17th to 22nd: Good water & good quantity; 23rd to 28th: Loss of water, dry pond"; §27.17.8 "Well & tank", printed p.740 (PDF 774): "A well in the center of the house ruins the wealth … Well & tank should be installed in asterisms of Moola, Uttar Shada, Ashvani, Shravana, Pushya, Hasta, Revati, Jyeshta, Rohini, Mrigshira, Anuradha; 2nd, 3rd, 7th, 12th & Poorna Tithis; on Wednesday, Thursday & Friday; in 6 months of Uttrayana, leaving Hari Shayan period, is auspicious (M. Deepika). According to Gargacharya 5 months starting from Magha & B.H. & first 5 Tithis of D.H. are auspicious. Agni Puraan do not recommend solar months of Aries, Leo & Sagittarius"' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XII "House Building", PDF pp.43-44: "Digging Wells. - … Revati, Uttarabhadra, Hasta, Anuradha, Makha, Sravana, Rohini and Pushyami are favourable for digging wells. The rising sign should be Pisces, Cancer or Capricorn. Aquarius and Taurus will not give a good supply of water. Venus and the Moon should be in kendras. If the digging operation is begun in the sign occupied by the Sun, delay will be caused on account of the presence of hard-rock. An abundant supply of sweet water is indicated when the Moon or Venus is in a quadrant identical with a full watery sign"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Digging Wells, Tanks, Tube Wells, Ponds", printed pp.194-195 (PDF 196-197): "Nakshatra Rohini, Mrigasira, Pushyami, Makha, Uttaraphalguni, Hasta, Anuradha, Poorvashada, Dhanishta, Satabhisha, Poorvabhadrapada, Uttarabhadrapada, Revati, (13) Tithis 2/3/5/7/10/11/13 Weekdays Monday, Wednesday, Thursday, Friday. Notes: 1. It is good when malefics are weak (in transit). Prefer the Lagna with Jupiter or Mercury; Venus in 10; Moon in watery signs 9/10/11/12; and benefics in the 4th house … 3. Muhoortha Chintaamani admits these 13 nakshatras and rejects the rest … For small well or vaapi: Swati, Aswini, Pushyami, Hasta, Punarvasu, Revati and Satabhisha. For digging well: Hasta, Pushyami, Dhanishta, Satabhisha, Anuradha, Makha, Uttaraphalguni, Uttarashada, Uttarabhadrapada. For building tanks: Aswini, Mrigasira, Revati, Uttaraphalguni, Uttarashada, Uttarabhadrapada, Rohini, Pushyami, Satabhisha, Poorvashada"' },
+    RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Muhurtha for digging a well or bore-well", printed p.106 (PDF 114): "Tithi 2,3,5,7,10,13, Poornima. Weekday Monday, Thursday, Friday are most preferred. The rest should be avoided. Asterism Chitra, Swati, Punarvasu, Mrigasira, Moola, Rohini, Hasta, Pushyami, Dhanishtta, Satabhisha, Revati (Jyeshtta). Lagna Makara, Kataka and Meena are excellent. Kumbha is mediocre. 1. Jupiter and the Moon should be in the kendras. 2. The Moon and Venus together in any Kendra is best preferred. 3. The Moon and Mercury together should not be in any kendra. 4. If Lagna has a malefic in it, a rock may obstruct the flow of water at the depth of 9 feet …"; "Digging a well or a bore-well", printed p.105 (PDF 113): "This should be done in the North-East sector of the site, before the commencement of house-construction"' },
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 1 "The Nakshatras", sloka 63, printed p.63 (PDF 67): "THE MUHURTAS WITH REGARD TO DIGGING WELLS OR TANKS AND BEGINNING DANCING: In the Nakshtras of Anuradha, Hasta, those called Dhruwa, and those of Dhanishta, Shatbhisha, Magha, Poorvashadha, Revati, Pushya and Mrigshira; if there is Mercury or Jupiter in the Ascendant; if the Malefics are weak; if Venus is situated in the 10th House from the Ascendant and the Moon is of the watery signs (9/10/11/12), in such a Muhurta the digging of a well and a tank etc is auspicious"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -4452,6 +4748,10 @@ const CODE_TA = Object.freeze({
   VEN_MOON_1_4_MID: 'லக்னம் / 4-ல் சுக்கிரன், சந்திரன் இல்லை', VEN_MOON_LAGNA_MID: 'லக்னத்தில் சுக்கிரன், சந்திரன் இல்லை', SUN_10_11_MID: '10 / 11-ல் சூரியன் இல்லை',
   SAT_11_MID: '11-ல் சனி இல்லை', SAT_6_11_MID: '6 / 11-ல் சனி இல்லை', VEN_MOON_4_MID: '4-ல் சுக்கிரன், சந்திரன் இல்லை', JUP_TRIKONA_MID: 'குரு 1 / 5 / 9-ல் இல்லை',
   JUP_KONA_MID: 'குரு 5 / 9-ல் இல்லை', SAT_UPACHAYA_12_MID: 'சனி 3 / 6 / 10 / 11 / 12-ல் இல்லை',
+  STAMBHA_CHAKRA: 'ஸ்தம்ப சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 7-26 அல்ல', DWAR_CHAKRA: 'த்வார சக்கரம்: நூல் சொன்ன பகுதி அல்ல',
+  TADAG_CHAKRA: 'தடாக சக்கரம்: நீர் தரும் எண் அல்ல', VENUS_LAGNA_MID: 'லக்னத்தில் சுக்கிரன் இல்லை',
+  JUP_VEN_MOON_KENDRA_MID: 'கேந்திரத்தில் குரு / சுக்கிரன் / சந்திரன் இல்லை', VEN_MOON_KENDRA_MID: 'கேந்திரத்தில் சுக்கிரனும் சந்திரனும் இல்லை',
+  JUP_MOON_KENDRA_MID: 'கேந்திரத்தில் குருவும் சந்திரனும் இல்லை', JUP_MERC_LAGNA_MID: 'லக்னத்தில் குருவோ புதனோ இல்லை',
   BHU_SHAYANA: 'பூமி சயனம் (சூரிய நட்சத்திரத்திலிருந்து 5, 7, 9, 12, 19, 26)', VASTU_CHAKRA: 'வாஸ்து சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 8-18 அல்ல',
   PADA: 'நூல் சொன்ன பாதம் அல்ல', MARS_4_MID: '4-ல் செவ்வாய் இல்லை', JUP_KENDRA_KONA_MID: 'குரு கேந்திரம் / திரிகோணத்தில் இல்லை', SUN_KETU_LAGNA_MID: 'லக்னத்தில் சூரியனும் கேதுவும் இல்லை', MARS_11_MID: '11-ல் செவ்வாய் இல்லை',
   MERC_589_MID: 'புதன் 5 / 8 / 9-ல் இல்லை', BEN_5_9_MID: '5 / 9-ல் சுபர் இல்லை', MAL_8_MID: '8-ல் பாபன் இல்லை',
@@ -4761,9 +5061,39 @@ const NOTES_FOUNDATION_TA = Object.freeze([
   'கணிக்கப்படவில்லை: வாஸ்து புருஷனின் தொப்புள் இடம் (28 பகுதிகளில் 18-ஆவது), K.P.யின் 16 பகுதி வரைபடம், பிரம்மா / வாஸ்து புருஷ பூஜை, சித்த / அமிர்த யோகம், சூரியன் விட்டகன்ற ராசி லக்னமாக வருதல்.',
 ]);
 
+const NOTES_PILLARS_TA = Object.freeze([
+  'வீட்டின் தூண்களை நிறுத்துதல். முதல் தூண் தென்கிழக்கு மூலையில், தூண்கள் இரட்டை எண்ணிக்கையில், வலஞ்சுழியாக (ஸ்ரீதர்).',
+  'மேல்நோக்கு (ஊர்த்வமுக) நட்சத்திரங்கள் — திருவாதிரை, பூசம், திருவோணம், தனிஷ்டா, சதயம், 3 உத்திரங்கள், ரோகிணி — நான்கு நூல்களிலும் ஒன்றே.',
+  'ஸ்தம்ப சக்கரம் (ஸ்ரீதர்): சூரியனின் நட்சத்திரத்திலிருந்து எண்ணி (அபிஜித் உட்பட, 28) 1-6 அடிப்பகுதி — பொருள் இழப்பு; 7-26 நடுப்பகுதி — சுகம்; 27-28 — மரணம். கணிக்கப்படுகிறது.',
+]);
+const NOTES_DOOR_FRAME_TA = Object.freeze([
+  'வாசல் நிலை (நிலைக்கால்) நிறுத்துதல், கதவு பொருத்துதல். "அடிக்கலுக்கு அடுத்த முக்கியமான நேரம்; வீட்டின் செழிப்பே இதில் உள்ளது" (வில்ஹெல்ம், ராமன்).',
+  'வில்ஹெல்மும் ராமனும் ஒரே எட்டு நட்சத்திரங்களைத் தருகின்றனர் (ரோகிணி, மிருகசீரிடம், உத்திரம், சித்திரை, அனுஷம், உத்திராடம், உத்திரட்டாதி, ரேவதி) மற்றும் ஸ்திர லக்னம்; கதவைப் பொருத்த (தொங்கவிட) அசுவினி, பூசம், அஸ்தம், ரோகிணி, 3 உத்திரங்கள், புதன் / வெள்ளி, த்விஸ்வபாவ லக்னம்.',
+  'த்வார சக்கரம் (ஸ்ரீதர், கல்யாணராமன்): சூரியனின் நட்சத்திரத்திலிருந்து எண்ணி நிலையின் எந்தப் பகுதி வருகிறது என்று பார்ப்பது — கணிக்கப்படுகிறது. ஸ்ரீதர் செவ்வாயிலிருந்தும் ஒரு த்வார சக்கரம் தருகிறார் (அபிஜித் உட்பட) — அச்சு மங்கலாக உள்ளது, கணிக்கப்படவில்லை.',
+]);
+const NOTES_ROOF_TA = Object.freeze([
+  'வீட்டின் கூரை / மேற்கூரை போடுதல். "கூரையே வீட்டைக் காப்பதால் இதற்கும் தனி நேரம் வேண்டும்" (வில்ஹெல்ம்).',
+  'தீ விபத்தைத் தவிர்க்கும் சேர்க்கைகள் (ஸ்ரீதர், வில்ஹெல்ம், ராமன்): லக்னத்தில் சுக்கிரன் + கேந்திரத்தில் குரு; வெள்ளிக்கிழமை ரிஷப / துலா லக்னத்தில் சுக்கிரனுடன்; திங்கள் கடக லக்னத்தில் சந்திரனுடன். செவ்வாய்க்கிழமை அக்னி ராசி லக்னத்தில் செவ்வாய் இருந்தால் வீடு தீப்பிடிக்கும்.',
+  'ஜோஷி: கூரைக்குப் பஞ்சக நட்சத்திரங்களைக் (தனிஷ்டா கடைசி இரு பாதம் முதல் ரேவதி வரை) கட்டாயம் தவிர்க்க வேண்டும்.',
+]);
+const NOTES_UPPER_STOREY_TA = Object.freeze([
+  'தரை தளத்தின் மேல் மாடி கட்டுதல். ஒரே நூலே (ஸ்ரீதர், J.V. மேற்கோள்) இதைத் தனியே தருகிறது.',
+  'மற்ற நூல்கள் "கட்டிடத்தின் பிற பகுதிகள், சேர்த்துக் கட்டுதல்" ஆகியவற்றுக்குக் கட்டுமானத் தொடக்கத்தின் விதிகளையே சொல்கின்றன (வில்ஹெல்ம்) — அதற்கு "வீடு கட்டத் தொடங்குதல்" காரியத்தைப் பார்க்கவும்.',
+]);
+const NOTES_HOUSE_REPAIR_TA = Object.freeze([
+  'வீட்டைப் பழுது பார்த்தல், கூரை / தரை திருத்தம், சுவர் வெள்ளையடித்தல், வண்ணம் பூசுதல், வீடு சுத்தம் செய்தல்.',
+  'மூன்று நூல்களும் ஒரே தடையைச் சொல்கின்றன: கார்த்திகை, மகம், பூசம், பூரம், அஸ்தம், மூலம், ரேவதி — இவற்றில் செவ்வாய் சஞ்சரிக்கும்போது (ராமன், ஸ்ரீதர்) அல்லது சந்திரன் செவ்வாயுடன் சேர்ந்து அவற்றில் இருக்கும்போது (வில்ஹெல்ம்) பழுது தொடங்கக் கூடாது — வீடு தீப்பிடிக்கும், பிள்ளைகளுக்கு ஆபத்து. கணிக்கப்படவில்லை (செவ்வாயின் நட்சத்திரம் தேவை).',
+  'செவ்வாய்க்கிழமை பழுது தொடங்கக் கூடாது (ஸ்ரீதர், ராமன்); 14-ஆம் திதி வெள்ளையடிக்கக் கூடாது — கட்டிடம் அழியும் (ஸ்ரீதர் K.P., வில்ஹெல்ம்).',
+]);
+const NOTES_WELL_TANK_TA = Object.freeze([
+  'கிணறு, ஆழ்துளைக் கிணறு, குளம், நீர்த்தேக்கம் வெட்டத் தொடங்குதல். வீட்டுக்கு வடகிழக்கில் (ரங்காச்சார்யா); நடுவில் வெட்டினால் செல்வம் அழியும் (ஸ்ரீதர், மு.சி.).',
+  'ஜல ராசி லக்னமும் கேந்திரத்தில் குரு / சுக்கிரன் / சந்திரனும் — நான்கு நூல்களும் நீரின் அளவையும் சுவையையும் இவற்றோடு இணைக்கின்றன.',
+  'தடாக சக்கரம் (ஸ்ரீதர்): சூரியனின் நட்சத்திரத்திலிருந்து எண்ணி (அபிஜித் உட்பட, 28) — 3-4, 7-10, 13-14, 17-22 நீர் நல்லது; 1-2, 5-6, 11-12, 15-16, 23-28 சோகம் / நீரின்மை / கெட்ட நீர். கணிக்கப்படுகிறது. கூப சக்கரத்தின் அச்சு மங்கலாக உள்ளது — கணிக்கப்படவில்லை.',
+]);
+
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION'],
-  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK,
 });
 
 module.exports = {
@@ -4815,6 +5145,12 @@ module.exports = {
     CONSTRUCTION_START: NOTES_CONSTRUCTION_START_TA,
     DIGGING: NOTES_DIGGING_TA,
     FOUNDATION: NOTES_FOUNDATION_TA,
+    PILLARS: NOTES_PILLARS_TA,
+    DOOR_FRAME: NOTES_DOOR_FRAME_TA,
+    ROOF: NOTES_ROOF_TA,
+    UPPER_STOREY: NOTES_UPPER_STOREY_TA,
+    HOUSE_REPAIR: NOTES_HOUSE_REPAIR_TA,
+    WELL_TANK: NOTES_WELL_TANK_TA,
   }),
   AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS, BATH_MC_18, BATH_KR_18, BATH_13,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,

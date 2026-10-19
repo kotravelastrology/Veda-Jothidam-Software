@@ -663,6 +663,32 @@ Aaya-Vyaya and the house's Nadi, the building's lifespan yogas, the owner's goch
 Moon, the Sun's degrees for the earth's sleep (Wilhelm's version), Siddha and Amrita yoga, and
 whether the wife is pregnant.
 
+**House building, part 2** (6 acts, added 2026-10-19): fixing the pillars (four books), the door
+frame and hanging the door (five), laying the roof (four), upper storeys (one), repairs,
+whitewashing and cleaning (four), wells, tanks and bore-wells (five). Sources: Shridhar §21.18,
+§27.12, §27.13.3-4, §27.14-27.15, §27.17.3-4, §27.17.8, Wilhelm pp.223-226, Kalyanraman vol.2
+pp.193-195, Joshi pp.116, 119, 121, Raman ch.XII (PDF pp.43, 45), Rangacharya pp.105-106,
+Muhurta Chintamani sloka 1/63 (p.63).
+
+Three more chakras are computed from the Sun's star through `starCount`: `STAMBHA_CHAKRA` (the
+28 with Abhijit — only the 7th to the 26th, the pillar's centre, are good), `DWAR_CHAKRA` (which
+part of the door frame the count falls on; Shridhar's 27-count and Kalyanraman's own list) and
+`TADAG_CHAKRA` (the 28 with Abhijit — which counts give water, which give none). Rangacharya's
+Vrishabha chakra was added to starting construction at the same time: he counts 7 bad, 11 good,
+10 bad over the 28 with Abhijit, where Shridhar's Vastu chakra counts the same shape over 27.
+
+Wilhelm and Raman print the same eight stars for the door frame and the same three for hanging
+the door; Kalyanraman and Joshi print the same nine upward-looking stars for the pillars. Tests
+assert both. Wilhelm's roof, pillars and doorframe sections each say "in addition to the
+guidelines for beginning construction", so his beginning-construction tithis, weekdays and 8th
+house carry into them.
+
+Not computed here: the second Dwar chakra counted from Mars and the Kapaat chakra for the door
+panels (the print is unreadable), the Koop chakra for a well, the Marjari chakra for cleaning,
+Mars's transit star for repairs (the three books' shared prohibition), Dhanishtha's first two
+padas for the roof, the direction of the first pillar, the well's direction and shape, and the
+depth at which rock will obstruct the water.
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying
