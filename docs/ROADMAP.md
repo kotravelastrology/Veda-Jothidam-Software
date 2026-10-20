@@ -294,6 +294,9 @@ Not plan items, but real, and they should not be discovered at release:
   boat, weaving, pottery, painting, sculpture, learning a craft, leather, salon, wine, bed,
   performing, dairy, bricks, iron and the grinding mill - fifteen acts. The last twelve followed - the ch.25 singles
   plus adoption, castration and the cabinet's oath - closing the act table at 113 acts.
+  The samskara family followed (2026-10-20), taking the table to 137: the childhood run — conception to the first solid food —
+  corrected after a second reading to cover Kalyanraman, Joshi and Wilhelm, then tonsure, shaving, ear piercing, keshanta,
+  samavartana, ankurarpana, the rites after death and the nine mother-and-child acts of Shridhar ch.19 (the cradle chakra computed).
   Only 20.22 (nomination papers) is deliberately left out: Shridhar says the texts have no
   reference for it and reasons by analogy to acts already built.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used

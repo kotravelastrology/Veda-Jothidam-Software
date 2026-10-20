@@ -922,12 +922,21 @@ Also left out: Muhurta Chintamani p.127 gives a full reading for a child first e
 which is a samskara rather than the betel trade; the samskara family (beyond upanayana) is not
 built, so it is named in the betel act's notes instead of being folded in.
 
-**Samskaras, part 1** (7 acts, added 2026-10-20): conception — Garbhadhana (three books), Pumsavana (five),
-Seemanta (six), Jatakarma (four), naming the child (four), the first outing — Nishkramana (two) and
-the first solid food — Annaprashana (five). Sources: Shridhar §17.1-17.8, Muhurta Chintamani ch.5,
-Kalyanraman vol.2 pp.34-65, Wilhelm pp.207-213, Joshi pp.50-51, Raman ch.III, Rangacharya ch.III-IV.
+**Samskaras, part 1** (7 acts, added 2026-10-20, corrected the same day): conception — Garbhadhana (six books),
+Pumsavana (five), Seemanta (six), Jatakarma (five), naming the child (six), the first outing — Nishkramana
+(four) and the first solid food — Annaprashana (seven). Sources: Shridhar §17.1-17.8, Muhurta Chintamani
+ch.5, Kalyanraman vol.2 pp.19-75, Wilhelm pp.196-215, Joshi pp.49-55, Raman ch.III, Rangacharya ch.III-IV.
 Upanayana and the start of education were already acts, so this is the childhood run that comes before
 them; ear piercing, tonsure, shaving, the end of study and the funeral rites are part 2.
+
+**Correction.** Part 1 as first committed had missed whole sections: Kalyanraman's own passages for
+conception, naming and the first food, Joshi's for conception and the childhood samskaras, and Wilhelm's
+for conception and the first outing, and it had clipped Kalyanraman's other sections to their first
+sub-heading. Reading part 2 showed it. The books were added, every count now runs to the section's own end
+(`sams_counts.py`), and because the default is the most-explained book Kalyanraman now leads conception,
+naming, jatakarma and the first food. Conception is the one place the books genuinely part: five print
+Shridhar's eleven stars, while Kalyanraman prints seventeen (Ashwini, Moola and Revati among them) and
+lists over twenty authors' variations.
 
 The Chintamani's chapter 5 and Shridhar's chapter 17 are the spine, and again the books agree closely.
 Garbhadhana: three books print the same eleven stars. Seemanta: four books print the same ten stars, and
@@ -947,6 +956,50 @@ combustion of Jupiter and Venus and the intercalary month do not count (Brihaspa
 Pumsavana, Seemanta, naming and the first food), so `jupVenNotSet` is deliberately absent from these
 readings. The month of pregnancy and the child's age in months are not inputs, so the month rules,
 the lords of the ten months and the day count since birth are noted, not computed.
+
+**Samskaras, part 2** (17 acts, added 2026-10-20): in three groups.
+
+*Hair, ears and the end of study* (6): tonsure — Chudakarana (six books), shaving, hair-cutting and nail-cutting
+(five), ear piercing — Karnavedha (six), Keshanta (four), Samavartana (three) and Ankurarpana (Shridhar
+alone). Sources: Shridhar §17.7-17.14, Muhurta Chintamani ch.5, Kalyanraman vol.2 pp.76-94 and 124-125,
+Wilhelm pp.209-212, 230-231, 239-240 and 303, Joshi pp.56-63, Rangacharya ch.IV.
+Tonsure: Kalyanraman and Wilhelm print the same nine best stars; the Chintamani and Joshi the same twelve,
+and Shridhar's eleven are those twelve without Jyeshtha (which he calls middling). All six books allow
+Monday, Wednesday, Thursday and Friday; Rangacharya takes the bright fortnight only. Keshanta says in
+four books "as for tonsure", so each book's keshanta reading is that book's own tonsure reading (the test
+asserts it). Shaving follows the tonsure in Shridhar, the Chintamani and Joshi, with their extra bars —
+Shridhar adds the five stars the books bar for repeated shaving (Krittika, Anuradha, Rohini, Magha, U.
+Phalguni). The Chintamani and Joshi say samavartana takes the upanayana muhurta, which is already an act,
+so those two have no separate reading there.
+
+*Rites after death* (2): Pret Kriya (three books) and burning a dummy when the body is not available — Puttal
+Daha (three). The three books print one list of nine stars for the rites and the Panchaka stars are not in
+it. For the dummy the books **disagree on the fortnight**: Shridhar's printed "D.H." bars the dark fortnight,
+the Chintamani bars the bright one, and Wilhelm asks for the dark. All three are kept as printed and the
+test asserts each. All three agree on the performer's own bars (his Janma star and the 5th, 10th, 14th,
+19th and 23rd from it; the Moon in the 4th, 8th or 12th from his sign), and on barring Friday, Tuesday,
+Saturday and Dakshinayana (one is excused if the news came within a year; the date of death is not an
+input, so Uttarayana is required). The Tripushkara yoga, the adhika and kshaya months and the sixteen days
+of ashaucha are noted, not computed.
+
+*Mother and child, Shridhar chapter 19* (9): the bath after menses (two books), the first bath after
+delivery (five), the first breast feeding (three), the first cow's milk (two), water worship a month after
+delivery (three), the first time on a bed (Shridhar alone, with the Khatwa chakra), the cradle (five), the
+first sitting on the earth (four) and the first betel leaf (two). Sources: Shridhar §19.2-19.10,
+Muhurta Chintamani ch.5 pp.114-127, Kalyanraman vol.2 pp.61-63 and 231-232, Wilhelm pp.196, 207-208, 214-215, Joshi pp.52-56, Rangacharya p.70.
+The books agree to the letter in several places and the tests pin them: water worship is one reading in
+three books; the bath after delivery is the same ten stars and Sunday, Tuesday, Thursday in all five;
+the cradle is the same eleven stars and the same chakra in all five. **The cradle chakra** (the Moon's star
+counted from the Sun's: 1-5 and 21-27 good) is new and computed — `DOLA_CHAKRA`; Kalyanraman gives it as
+"another school" so it is marked, not barring, in his reading. Where they part: sitting on the earth is
+Shridhar fixed signs against the Chintamani and Wilhelm movable; the first betel is Shridhar's thirteen
+stars against the Chintamani's seventeen, with Shridhar's printed "Rohini, 3 Poorvas" read as the three
+Uttaras (as the Chintamani prints it).
+
+Not computed in this family, and named in the notes: the child's age (year, month, day count since birth), the mother's
+pregnancy and her menses, the lord and the days after a death, the 88th pada and the 22nd star from the Janma
+star, Tripushkara, the strength of Mars for the child's first sitting, and the directions of Rahu, Yogini and
+Rudra for the first cow's milk.
 
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
