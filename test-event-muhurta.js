@@ -1865,4 +1865,57 @@ const RF = FIX.roga_snana;
   }
 }
 
+// ------------------------------------------------ samskaras, part 1: conception to the first solid food ---
+{
+  // Conception: Shridhar, Rangacharya and the Chintamani print the same eleven stars.
+  const G11 = sorted(E.EVENTS.GARBHADHANA.SHRIDHAR.nak.good);
+  assert.equal(G11.length, 11, 'eleven conception stars');
+  for (const b of ['RANGACHARYA', 'MUHURTA_CHINTAMANI']) {
+    assert.deepEqual(sorted(E.EVENTS.GARBHADHANA[b].nak.good), G11, `${b}: the same conception stars`);
+  }
+  // Seemanta: four books print the same ten stars (the four Dhruva and the same six).
+  const SE = sorted(E.EVENTS.SEEMANTA.SHRIDHAR.nak.good);
+  assert.equal(SE.length, 10, 'ten seemanta stars');
+  for (const b of ['MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'JOSHI']) {
+    assert.deepEqual(sorted(E.EVENTS.SEEMANTA[b].nak.good), SE, `${b}: the same seemanta stars`);
+  }
+  // ... and five books call Sunday, Tuesday and Thursday the days; Raman alone bars Sunday and Tuesday.
+  for (const b of ['SHRIDHAR', 'MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'JOSHI', 'RANGACHARYA']) {
+    assert.deepEqual(sorted(E.EVENTS.SEEMANTA[b].vara.good), [0, 2, 4], `${b}: Sunday, Tuesday, Thursday`);
+  }
+  const RV = E.EVENTS.SEEMANTA.RAMAN.vara.good;
+  assert.ok(!RV.includes(0) && !RV.includes(2), 'Raman bars Sunday and Tuesday');
+  assert.ok(RV.includes(4), 'but Thursday is common to all six');
+  // Naming, the jatakarma and the first food share one sixteen-star family.
+  const S16 = sorted(E.EVENTS.JATAKARMA.SHRIDHAR.nak.good);
+  assert.equal(S16.length, 16, 'sixteen stars');
+  for (const b of ['MUHURTA_CHINTAMANI', 'KALYANRAMAN']) {
+    assert.deepEqual(sorted(E.EVENTS.JATAKARMA[b].nak.good), S16, `JATAKARMA/${b}: the same sixteen`);
+  }
+  assert.deepEqual(sorted(E.EVENTS.NAMAKARANA.SHRIDHAR.nak.good), S16, 'naming: the same sixteen');
+  assert.deepEqual(sorted(E.EVENTS.ANNAPRASHANA.SHRIDHAR.nak.good), S16, 'first food: the same sixteen');
+  assert.deepEqual(sorted(E.EVENTS.ANNAPRASHANA.RANGACHARYA.nak.good), S16, 'first food, Rangacharya: the same sixteen');
+  // The first food: Shridhar, Rangacharya and Raman all want the 10th house empty, and the
+  // Chintamani and Rangacharya print the same weekday and lagna bars.
+  for (const b of ['SHRIDHAR', 'RANGACHARYA', 'RAMAN']) {
+    assert.ok(E.EVENTS.ANNAPRASHANA[b].empty.includes(10), `${b}: the 10th house empty`);
+  }
+  assert.deepEqual(sorted(E.EVENTS.ANNAPRASHANA.MUHURTA_CHINTAMANI.vara.good), sorted(E.EVENTS.ANNAPRASHANA.RANGACHARYA.vara.good), 'the same weekdays');
+  assert.deepEqual(sorted(E.EVENTS.ANNAPRASHANA.MUHURTA_CHINTAMANI.lagna.good), sorted(E.EVENTS.ANNAPRASHANA.RANGACHARYA.lagna.good), 'the same lagnas');
+  // The Janma star: most books bar it, Rangacharya alone allows it - kept as printed.
+  for (const b of ['SHRIDHAR', 'WILHELM']) {
+    assert.deepEqual(E.EVENTS.ANNAPRASHANA[b].taraNot, [1], `${b}: the Janma star is barred`);
+  }
+  assert.ok(!E.EVENTS.ANNAPRASHANA.RANGACHARYA.taraNot, 'Rangacharya does not bar the Janma star');
+  // Naming: Shridhar, Wilhelm and Raman print the same Jupiter-and-malefic-in-11th combination.
+  for (const b of ['SHRIDHAR', 'WILHELM', 'RAMAN']) {
+    assert.ok(E.EVENTS.NAMAKARANA[b].want, `${b}: the Jupiter combination is marked`);
+  }
+  // Jatakarma and naming are one sloka in the Chintamani and one section in Wilhelm, and the
+  // tables say so: Wilhelm's reading is the same under both.
+  assert.deepEqual(sorted(E.EVENTS.JATAKARMA.WILHELM.nak.good), sorted(E.EVENTS.NAMAKARANA.WILHELM.nak.good), 'one Wilhelm reading under both');
+  // The first outing, with only two books, takes the travel days.
+  assert.equal(E.EVENTS.NISHKRAMANA.order.length, 2, 'two books for the first outing');
+}
+
 console.log('test-event-muhurta: all checks passed');

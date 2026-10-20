@@ -922,6 +922,32 @@ Also left out: Muhurta Chintamani p.127 gives a full reading for a child first e
 which is a samskara rather than the betel trade; the samskara family (beyond upanayana) is not
 built, so it is named in the betel act's notes instead of being folded in.
 
+**Samskaras, part 1** (7 acts, added 2026-10-20): conception — Garbhadhana (three books), Pumsavana (five),
+Seemanta (six), Jatakarma (four), naming the child (four), the first outing — Nishkramana (two) and
+the first solid food — Annaprashana (five). Sources: Shridhar §17.1-17.8, Muhurta Chintamani ch.5,
+Kalyanraman vol.2 pp.34-65, Wilhelm pp.207-213, Joshi pp.50-51, Raman ch.III, Rangacharya ch.III-IV.
+Upanayana and the start of education were already acts, so this is the childhood run that comes before
+them; ear piercing, tonsure, shaving, the end of study and the funeral rites are part 2.
+
+The Chintamani's chapter 5 and Shridhar's chapter 17 are the spine, and again the books agree closely.
+Garbhadhana: three books print the same eleven stars. Seemanta: four books print the same ten stars, and
+five of the six say Sunday, Tuesday and Thursday. **Raman bars Sunday and Tuesday**, the one opposite
+reading in the family; Thursday is common to all six, and the test asserts that precisely, so the
+disagreement is not overstated. Naming, the jatakarma and the first food all draw on one sixteen-star
+family (Mridu, Dhruva, Kshipra and Chara together) that four books give for naming and the first food.
+
+Where books differ they are kept as printed. For the first food, most books bar the child's own birth
+star; Narada, Lalla and the Muhurta Deepika recommend it and Rangacharya allows it, so Shridhar and
+Wilhelm carry the bar and Rangacharya does not. Shridhar, Rangacharya and Raman all want the 10th house
+empty, and the Chintamani and Rangacharya print the same weekday and lagna bars. For the jatakarma and
+naming, Wilhelm and the Chintamani each give one section for both, so each stands under both acts.
+
+A rule common to the whole family is noted rather than built: in an act whose month is fixed, the
+combustion of Jupiter and Venus and the intercalary month do not count (Brihaspati, repeated for
+Pumsavana, Seemanta, naming and the first food), so `jupVenNotSet` is deliberately absent from these
+readings. The month of pregnancy and the child's age in months are not inputs, so the month rules,
+the lords of the ten months and the day count since birth are noted, not computed.
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying
