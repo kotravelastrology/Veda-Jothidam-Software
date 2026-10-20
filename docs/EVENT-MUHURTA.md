@@ -1084,6 +1084,41 @@ missile reading is now the default because he explains more than Kalyanraman (10
 **A page locus corrected**: Wilhelm's "seeking escaped prisoners" (in the thief act) was cited to the war pages (PDF
 331-332); it is printed pp.227-228 (PDF 235-236).
 
+**Kalyanraman's miscellany and its classical sources** (20 new acts and 7 books added to existing acts, 2026-10-20):
+venture of permanent status, peace and fixed things, ephemeral things, sensual sports, amorous activities, leisure and new
+subjects, excavation and mining, underground works, compound walls, mixing / adulteration, automobile workshops, testing
+gadgets, the oven / training / taming, veterinary work, admission for delivery, a married woman's clothes, gold trade,
+gentle animals, violent animals, training and riding. Kalyanraman vol.2 pp.197-251. Most of his tables are star-class
+tables, and the classical source is Muhurta Chintamani ch.2 (printed pp.49-53) and Wilhelm's "Nature of Nakshatras"
+(printed pp.58-61), which name the deeds each class suits: Dhruva (permanent things, house, peace, towns, gardens), Chara
+(ephemeral things), Ugra (enemies, ambush), Mishra (mixing, Agnihotra), Tikshna (hypnotism, taming, alliance with
+kings), Adhomukha (digging, mines, buried wealth), Urdhvamukha (house, temple, flags, boundary walls), Tiryakmukha
+(training animals, ploughing). Where a book names the deed, its class stars are that book's reading (stars only; the
+class's weekday, tithi and lagna are not given). The books part where they part: Kalyanraman prints Rohini alone for a
+venture of permanent status (the other books four fixed stars); ten stars for underground works (the nine downward-facing
+stars and Ashwini; the other books nine); Bharani for the oven (the other books the four sharp stars for taming); his
+hypnotism is eight stars against the Chintamani's four. His yoga rule (2-5, 7, 8, 11, 12, 14, 16, 18, 20-26 allowed) is
+exactly the nine harmful yogas barred, and his karanas Bava to Vanija are the `karana_only` list. Joshi's gold passage
+(the same twelve stars, weekdays and lagnas as Kalyanraman's, the lagna with Jupiter and the Moon) and his gem-cutting
+passage (the same ten stars, Tuesday, Saturday, Sunday, fixed lagnas) were added to the gold trade and the gem acts.
+**Books added to acts that already existed**: the Chintamani's upward-facing nine to the temple act (the same nine as
+Kalyanraman's), the Chintamani's and Wilhelm's Ugra five to the enemies act, the Chintamani's sharp four to hypnotism,
+Wilhelm's sharp four to the alliance act, and Kalyanraman and Joshi to gemology. Left unbuilt and named in the notes:
+the class weekdays; sensual and amorous acts have no classical class list that matches Kalyanraman's stars.
+
+**House, town and building-type leftovers** (17 new acts, 2026-10-20): brick laying, whitewashing, cleaning the house,
+the kitchen, domestic items, the fort, founding a city, entering a city, a road and its gate (Shridhar §27.11, §27.17.3-27.20,
+printed pp.727, 738-743), and Wilhelm's building types (printed pp.218-219: granary, restaurant, military quarters, dining
+hall, bed chamber, lamp room, oven, dormitory, water trough), with Kalyanraman's town planning and Wilhelm's stones and
+bricks (p.304). Four new chakras, each the Moon's star counted from the Sun's, read from the page images: the broom
+(Marjari, 4-6, 13-15, 22-27 good), the kitchen (5-8, 15-18, 24-27), the village (Gram Vatsa, 1-3, 8-14, 19-22) and the road
+(Pratali, all but 19-22). Shridhar bars twelve stars for a city; Kalyanraman gives three; Wilhelm three — printed
+differences kept. The Mars-star counts for bricks (B.D.R.), the Durg chakra for forts, the direction of the main door and
+the sign of the Sun for the month are named in the notes and not computed (the page does not carry Mars's star, the
+fort's entry stars or the door's direction). Deliberately left out: 27.1 (choosing a place by its name star), 27.3-27.8
+(Graha Dhruvanka, the house's area, aaya and compartments), 27.13 (the door's direction and position), 27.17.9 (trees) and 27.18 (the house's
+name) — they are measurements or choices of a site, not times.
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are

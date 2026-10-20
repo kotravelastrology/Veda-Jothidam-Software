@@ -1822,7 +1822,7 @@ const RF = FIX.roga_snana;
     const e = E.EVENTS[ev];
     return e && e.order && !e.order.some((id) => bookOf(id) === 'SHRIDHAR');
   });
-  assert.ok(silent.length > 0 && silent.length < 40, `Shridhar is silent on ${silent.length} acts`);
+  assert.ok(silent.length > 0 && silent.length < 120, `Shridhar is silent on ${silent.length} acts`);
 }
 
 // ------------------------------------------------ the last readings: adoption, sports, the short ones ---
@@ -2277,7 +2277,7 @@ const RF = FIX.roga_snana;
   // The Kalyanraman-only acts and their counts.
   const KR2 = { EXPIATORY: 2, GOVT_DEALINGS: 1, SKILLED_TRAINING: 3, SEEK_POWER_ALLIANCE: 4, HYPNOTISM: 8 };
   for (const [a, n] of Object.entries(KR2)) {
-    assert.deepEqual(E.EVENTS[a].order, ['KALYANRAMAN'], `${a}: one book`);
+    if (!['SEEK_POWER_ALLIANCE', 'HYPNOTISM'].includes(a)) assert.deepEqual(E.EVENTS[a].order, ['KALYANRAMAN'], `${a}: one book`); // those two later gained class readings
     assert.equal(good(a, 'KALYANRAMAN').length, n, `${a}: ${n} stars`);
     assert.deepEqual(sorted(ev(a, 'KALYANRAMAN').vara.good), [0, 1, 3, 4, 5], `${a}: five weekdays`);
   }
@@ -2297,6 +2297,141 @@ const RF = FIX.roga_snana;
   for (const c of ['SUN_10_MID', 'MOON_4_MID']) assert.ok(E.CODE_TA[c], `${c} has a Tamil label`);
   const acts6 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
   assert.ok(acts6.length >= 190, `the whole table now has ${acts6.length} acts`);
+}
+
+// ------------------------------------------------ Kalyanraman's miscellany and the star-class passages behind it ---
+{
+  const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'PPhalguni', 'UPhalguni', 'Hasta',
+    'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Moola', 'PAshadha', 'UAshadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'PBhadra', 'UBhadra', 'Revati'];
+  const ev = (a, b) => E.EVENTS[a][b];
+  const good = (a, b) => sorted(ev(a, b).nak.good);
+  const st = (...ns) => sorted(ns.map((n) => NAMES.indexOf(n)));
+  const D4 = st('Rohini', 'UPhalguni', 'UAshadha', 'UBhadra');
+  const CH5 = st('Punarvasu', 'Swati', 'Shravana', 'Dhanishtha', 'Shatabhisha');
+  const ADHO9 = st('Moola', 'Ashlesha', 'Vishakha', 'Krittika', 'PPhalguni', 'PAshadha', 'PBhadra', 'Bharani', 'Magha');
+  // The Dhruva class: Muhurta Chintamani and Wilhelm print the four fixed stars; Kalyanraman prints Rohini alone for permanent ventures, the four for peace and fixed things.
+  for (const a of ['VENTURE_PERMANENT', 'PEACE_FIXED']) {
+    assert.deepEqual(good(a, 'MUHURTA_CHINTAMANI'), D4, `${a}: the Chintamani's four`);
+    assert.deepEqual(good(a, 'WILHELM'), D4, `${a}: Wilhelm's four`);
+  }
+  assert.deepEqual(good('VENTURE_PERMANENT', 'KALYANRAMAN'), st('Rohini'));
+  assert.deepEqual(good('PEACE_FIXED', 'KALYANRAMAN'), D4);
+  assert.equal(ev('VENTURE_PERMANENT', 'KALYANRAMAN').yogaNot.length, 9, 'the nine yogas he leaves out');
+  assert.deepEqual(ev('VENTURE_PERMANENT', 'KALYANRAMAN').karanaOnly, [0, 1, 2, 3, 4, 5], 'Bava to Vanija');
+  assert.equal(ev('PEACE_FIXED', 'KALYANRAMAN').yogaNot.length, 2, 'Vyatipata and Vaidhriti');
+  assert.equal(E.EVENTS.VENTURE_PERMANENT.default, 'MUHURTA_CHINTAMANI', 'the most-explained book is the default');
+  // Chara, Mishra, Tikshna, Adhomukha, Urdhvamukha, Tiryakmukha.
+  for (const b of ['MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'WILHELM']) assert.deepEqual(good('EPHEMERAL', b), CH5, `ephemeral: ${b}`);
+  for (const b of ['MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'WILHELM']) assert.deepEqual(good('MIXING', b), st('Krittika', 'Vishakha'), `mixing: ${b}`);
+  for (const b of ['MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'WILHELM']) assert.deepEqual(good('EXCAVATION', b), ADHO9, `excavation: ${b}`);
+  assert.deepEqual(good('UNDERGROUND_WORKS', 'KALYANRAMAN'), sorted([...ADHO9, 0]), 'Kalyanraman prints ten: the nine and Ashwini');
+  assert.deepEqual(good('UNDERGROUND_WORKS', 'MUHURTA_CHINTAMANI'), ADHO9);
+  assert.deepEqual(good('OVEN_TAMING', 'KALYANRAMAN'), st('Bharani'));
+  assert.deepEqual(good('OVEN_TAMING', 'MUHURTA_CHINTAMANI'), st('Moola', 'Jyeshtha', 'Ardra', 'Ashlesha'));
+  assert.deepEqual(good('OVEN_TAMING', 'WILHELM'), good('OVEN_TAMING', 'MUHURTA_CHINTAMANI'));
+  assert.deepEqual(sorted(ev('OVEN_TAMING', 'KALYANRAMAN').vara.good), [0, 1, 2, 3, 4, 5], 'Saturday is the only weekday left out');
+  assert.deepEqual(good('HYPNOTISM', 'MUHURTA_CHINTAMANI'), st('Moola', 'Jyeshtha', 'Ardra', 'Ashlesha'));
+  assert.equal(good('HYPNOTISM', 'KALYANRAMAN').length, 8);
+  assert.deepEqual(good('SEEK_POWER_ALLIANCE', 'WILHELM'), good('SEEK_POWER_ALLIANCE', 'KALYANRAMAN'), "Wilhelm's alliance with kings = Kalyanraman's four");
+  assert.deepEqual(good('ENEMY_OVERPOWER', 'MUHURTA_CHINTAMANI'), st('PPhalguni', 'PAshadha', 'PBhadra', 'Bharani', 'Magha'));
+  assert.deepEqual(good('ENEMY_OVERPOWER', 'WILHELM'), good('ENEMY_OVERPOWER', 'MUHURTA_CHINTAMANI'));
+  assert.equal(good('ENEMY_OVERPOWER', 'KALYANRAMAN').length, 9, 'Kalyanraman and Joshi add the four sharp stars');
+  assert.equal(good('COMPOUND_WALL', 'KALYANRAMAN').length, 6);
+  assert.equal(good('COMPOUND_WALL', 'MUHURTA_CHINTAMANI').length, 9);
+  for (const n of good('COMPOUND_WALL', 'KALYANRAMAN')) assert.ok(good('COMPOUND_WALL', 'MUHURTA_CHINTAMANI').includes(n), "his six are among the Chintamani's nine");
+  assert.deepEqual(good('TEMPLE_START', 'MUHURTA_CHINTAMANI'), good('TEMPLE_START', 'KALYANRAMAN'), "the Chintamani's nine upward-facing stars = Kalyanraman's nine");
+  assert.deepEqual(good('TRAIN_RIDE', 'KALYANRAMAN'), st('Moola', 'Jyeshtha', 'Ardra', 'Ashlesha'));
+  assert.deepEqual(good('TRAIN_RIDE', 'MUHURTA_CHINTAMANI'), st('Anuradha', 'Hasta', 'Swati', 'Punarvasu', 'Jyeshtha', 'Ashwini'));
+  assert.ok(!ev('TRAIN_RIDE', 'KALYANRAMAN').vara.good.includes(2), 'Tuesday barred');
+  // Gold: Kalyanraman and Joshi print the same stars, weekdays and lagnas.
+  assert.deepEqual(good('GOLD_TRADE', 'KALYANRAMAN'), good('GOLD_TRADE', 'JOSHI'));
+  assert.equal(good('GOLD_TRADE', 'JOSHI').length, 12);
+  assert.ok(ev('GOLD_TRADE', 'JOSHI').abhijitOk && ev('GOLD_TRADE', 'KALYANRAMAN').abhijitOk);
+  assert.deepEqual(sorted(ev('GOLD_TRADE', 'JOSHI').vara.good), [0, 2, 4, 5]);
+  assert.deepEqual(sorted(ev('GOLD_TRADE', 'JOSHI').lagna.good), [0, 1, 4, 6, 7, 8, 11]);
+  assert.equal(ev('GOLD_TRADE', 'KALYANRAMAN').want.length, 2, 'Jupiter and the Moon in the lagna');
+  // Gems: Kalyanraman and Joshi print the same ten stars, Tuesday, Saturday, Sunday and fixed lagnas.
+  assert.deepEqual(good('GEMOLOGY', 'KALYANRAMAN'), good('GEMOLOGY', 'JOSHI'));
+  assert.equal(good('GEMOLOGY', 'JOSHI').length, 10);
+  assert.deepEqual(sorted(ev('GEMOLOGY', 'JOSHI').vara.good), [0, 2, 6]);
+  assert.equal(E.EVENTS.GEMOLOGY.order.length, 3);
+  // The Kalyanraman-only tables.
+  const KR3 = { SENSUAL_SPORTS: 15, AMOROUS: 6, LEISURE_LEARNING: 8, AUTO_WORKSHOP: 2, TESTING_GADGETS: 18, VET_REPAIR: 1, DELIVERY_ADMISSION: 9, VIP_WOMAN_CLOTHES: 12, GENTLE_ANIMALS: 9, VIOLENT_ANIMALS: 13 };
+  for (const [a, n] of Object.entries(KR3)) {
+    assert.deepEqual(E.EVENTS[a].order, ['KALYANRAMAN'], `${a}: one book`);
+    assert.equal(good(a, 'KALYANRAMAN').length, n, `${a}: ${n} stars`);
+  }
+  assert.ok(ev('VIP_WOMAN_CLOTHES', 'KALYANRAMAN').abhijitOk && ev('VIOLENT_ANIMALS', 'KALYANRAMAN').abhijitOk);
+  assert.deepEqual(sorted(ev('VIP_WOMAN_CLOTHES', 'KALYANRAMAN').vara.good), [1, 4, 5], 'Monday, Thursday, Friday');
+  assert.deepEqual(sorted(ev('VIOLENT_ANIMALS', 'KALYANRAMAN').vara.good), [0, 2, 4, 6]);
+  assert.ok(ev('GENTLE_ANIMALS', 'KALYANRAMAN').vishti && ev('GENTLE_ANIMALS', 'KALYANRAMAN').yogaNot.length === 9);
+  for (const c of ['MOON_LAGNA_MID']) assert.ok(E.CODE_TA[c], `${c} has a Tamil label`);
+  const acts7 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
+  assert.ok(acts7.length >= 210, `the whole table now has ${acts7.length} acts`);
+}
+
+// ------------------------------------------------ house, town and building-type leftovers ---
+{
+  const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'PPhalguni', 'UPhalguni', 'Hasta',
+    'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Moola', 'PAshadha', 'UAshadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'PBhadra', 'UBhadra', 'Revati'];
+  const ev = (a, b) => E.EVENTS[a][b];
+  const good = (a, b) => sorted(ev(a, b).nak.good);
+  const st = (...ns) => sorted(ns.map((n) => NAMES.indexOf(n)));
+  // Bricks: Shridhar (J.V.) twelve stars, Wilhelm fourteen; eleven are common.
+  assert.equal(good('BRICK_LAYING', 'SHRIDHAR').length, 12);
+  assert.equal(good('BRICK_LAYING', 'WILHELM').length, 14);
+  assert.equal(good('BRICK_LAYING', 'SHRIDHAR').filter((n) => good('BRICK_LAYING', 'WILHELM').includes(n)).length, 11);
+  assert.deepEqual(sorted(ev('BRICK_LAYING', 'SHRIDHAR').vara.good), [0, 4, 6], 'Sunday, Thursday, Saturday');
+  assert.deepEqual(sorted(ev('BRICK_LAYING', 'WILHELM').vara.good), [0, 4, 5], 'Sunday, Thursday, Friday');
+  assert.deepEqual(sorted(ev('BRICK_LAYING', 'SHRIDHAR').lagna.good), [1, 4, 7, 10], 'fixed signs');
+  // Whitewash: K.P.'s weekdays are good, M.M.'s two others middling; the 14th barred.
+  assert.equal(good('WHITEWASH', 'SHRIDHAR').length, 9);
+  assert.deepEqual(sorted(ev('WHITEWASH', 'SHRIDHAR').vara.good), [3, 4, 5]);
+  assert.deepEqual(sorted(ev('WHITEWASH', 'SHRIDHAR').vara.mid), [0, 6]);
+  assert.ok(!ev('WHITEWASH', 'SHRIDHAR').tithi.includes(14) && !ev('WHITEWASH', 'SHRIDHAR').tithi.includes(29));
+  // Cleaning the house: nine stars, the broom chakra (4-6, 13-15, 22-27), no Scorpio, Aquarius or Pisces.
+  assert.equal(good('CLEAN_HOUSE', 'SHRIDHAR').length, 9);
+  assert.deepEqual(ev('CLEAN_HOUSE', 'SHRIDHAR').starCount[0].good, [4, 5, 6, 13, 14, 15, 22, 23, 24, 25, 26, 27]);
+  assert.equal(ev('CLEAN_HOUSE', 'SHRIDHAR').starCount[0].code, 'MARJARI_CHAKRA');
+  assert.deepEqual(sorted(ev('CLEAN_HOUSE', 'SHRIDHAR').lagna.good), [0, 1, 2, 3, 4, 5, 6, 8, 9]);
+  assert.ok(!ev('CLEAN_HOUSE', 'SHRIDHAR').vara.good.includes(2), 'Tuesday barred');
+  // Kitchen: the kitchen chakra and the weekdays (Shridhar); Wilhelm's twelve and five.
+  assert.equal(E.EVENTS.KITCHEN_BUILD.default, 'WILHELM', 'Wilhelm explains more (100 against 87 words)');
+  assert.equal(good('KITCHEN_BUILD', 'WILHELM').length, 12);
+  assert.equal(ev('KITCHEN_BUILD', 'WILHELM').nak.mid.length, 5);
+  assert.deepEqual(ev('KITCHEN_BUILD', 'SHRIDHAR').starCount[0].good, [5, 6, 7, 8, 15, 16, 17, 18, 24, 25, 26, 27]);
+  assert.deepEqual(sorted(ev('KITCHEN_BUILD', 'SHRIDHAR').vara.good), [3, 4, 5]);
+  assert.ok(!ev('KITCHEN_BUILD', 'SHRIDHAR').nak, 'the kitchen chakra names no star');
+  // Domestic items; the fort; a city: Shridhar prints twelve stars to avoid, Kalyanraman three, Wilhelm three.
+  assert.equal(good('DOMESTIC_ITEMS', 'SHRIDHAR').length, 9);
+  assert.equal(ev('DOMESTIC_ITEMS', 'SHRIDHAR').nak.mid.length, 3);
+  assert.ok(ev('DOMESTIC_ITEMS', 'SHRIDHAR').vishti);
+  assert.equal(good('FORT_BUILD', 'SHRIDHAR').length, 14);
+  assert.ok(good('FORT_BUILD', 'SHRIDHAR').includes(NAMES.indexOf('Pushya')) && !good('FORT_BUILD', 'SHRIDHAR').includes(NAMES.indexOf('Punarvasu')), 'Shridhar lists Pushya, not Punarvasu, among the movable');
+  assert.ok(!ev('FORT_BUILD', 'SHRIDHAR').vara.good.includes(2) && !ev('FORT_BUILD', 'SHRIDHAR').vara.good.includes(3), 'Tuesday and Wednesday barred');
+  assert.deepEqual(good('FORT_BUILD', 'WILHELM'), st('UBhadra'));
+  assert.equal(good('CITY_FOUNDING', 'SHRIDHAR').length, 15, '27 stars less the twelve he bars');
+  assert.ok(!good('CITY_FOUNDING', 'SHRIDHAR').includes(NAMES.indexOf('Swati')) && !good('CITY_FOUNDING', 'SHRIDHAR').includes(NAMES.indexOf('Magha')));
+  assert.deepEqual(good('CITY_FOUNDING', 'KALYANRAMAN'), st('Rohini', 'UPhalguni', 'UAshadha'));
+  assert.deepEqual(good('CITY_FOUNDING', 'WILHELM'), st('Ashwini', 'Chitra', 'Revati'));
+  assert.deepEqual(ev('CITY_FOUNDING', 'SHRIDHAR').starCount[0].good, [1, 2, 3, 8, 9, 10, 11, 12, 13, 14, 19, 20, 21, 22]);
+  assert.deepEqual(sorted(ev('CITY_FOUNDING', 'SHRIDHAR').lagna.good), [1, 3, 4, 7, 10, 11], 'fixed signs, Cancer and Pisces');
+  assert.equal(good('CITY_ENTRY', 'SHRIDHAR').length, 12);
+  assert.equal(ev('CITY_ENTRY', 'SHRIDHAR').nak.mid.length, 5);
+  assert.equal(ev('ROAD_GATE', 'SHRIDHAR').starCount[0].good.length, 23, 'all but 19-22');
+  assert.ok(!ev('ROAD_GATE', 'SHRIDHAR').starCount[0].good.includes(19) && !ev('ROAD_GATE', 'SHRIDHAR').starCount[0].good.includes(22));
+  // Wilhelm's building types: one book, the stars he calls most favourable.
+  const WB = { GRANARY_BUILD: 6, RESTAURANT_BUILD: 9, DINING_HALL: 1, BED_CHAMBER: 1, LAMP_ROOM: 1, OVEN_INSTALL: 1, DORMITORY: 2, WATER_TROUGH: 3 };
+  for (const [a, n] of Object.entries(WB)) {
+    assert.deepEqual(E.EVENTS[a].order, ['WILHELM'], `${a}: one book`);
+    assert.equal(good(a, 'WILHELM').length, n, `${a}: ${n} stars`);
+  }
+  assert.deepEqual(good('OVEN_INSTALL', 'WILHELM'), st('Revati'));
+  assert.deepEqual(ev('OVEN_INSTALL', 'WILHELM').empty, [8], 'the 8th left unoccupied');
+  assert.deepEqual(good('WATER_TROUGH', 'WILHELM'), st('Anuradha', 'Moola', 'Revati'));
+  for (const c of ['MARJARI_CHAKRA', 'KITCHEN_CHAKRA', 'GRAM_VATSA_CHAKRA', 'PRATALI_CHAKRA', 'MOON_JUP_4_10_MID']) assert.ok(E.CODE_TA[c], `${c} has a Tamil label`);
+  const acts8 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
+  assert.ok(acts8.length >= 225, `the whole table now has ${acts8.length} acts`);
 }
 
 console.log('test-event-muhurta: all checks passed');
