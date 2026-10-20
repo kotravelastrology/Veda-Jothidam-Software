@@ -3848,7 +3848,7 @@ const HOUSE_REPAIR = deepFreeze({
 const WELL_TANK = deepFreeze({
   labelTa: 'கிணறு, குளம், போர்வெல் வெட்டுதல்',
   default: 'SHRIDHAR',
-  order: ['SHRIDHAR', 'RAMAN', 'KALYANRAMAN', 'RANGACHARYA', 'MUHURTA_CHINTAMANI'],
+  order: ['SHRIDHAR', 'RAMAN', 'KALYANRAMAN', 'RANGACHARYA', 'MUHURTA_CHINTAMANI', 'JOSHI'],
   SHRIDHAR: {
     labelTa: 'ஸ்ரீதர் §21.18, §27.17.8', booksTa: 'ஸ்ரீதர் (முகூர்த்த தீபிகை, கர்க்காச்சார்யர், அக்னி புராணம் மேற்கோள்கள்)',
     masa: { good: [1, 4, 5, 8, 9, 11], mid: [0, 2, 3, 6, 7, 10], strict: false },
@@ -3893,6 +3893,14 @@ const WELL_TANK = deepFreeze({
     nak: { good: [16, 12, 3, 11, 20, 25, 22, 23, 9, 19, 26, 7, 4], mid: [] }, digdwar: false,
     want: [{ planets: ['Mercury', 'Jupiter'], houses: [1], code: 'JUP_MERC_LAGNA_MID' }, { planets: ['Venus'], houses: [10], code: 'VENUS_10_MID' }],
     noteTa: 'பதின்மூன்று நட்சத்திரங்கள் (அனுஷம், அஸ்தம், ஸ்திர 4, தனிஷ்டா, சதயம், மகம், பூராடம், ரேவதி, பூசம், மிருகசீரிடம்) — கல்யாணராமன் இதையே மேற்கோள் காட்டுகிறார் · லக்னத்தில் புதன் / குரு, 10-இல் சுக்கிரன் — குறிக்கப்படுகின்றன · சந்திரன் ஜல ராசியில் (9/10/11/12), பாபர் பலவீனம் — கணிக்கப்படவில்லை · திதி, கிழமை இந்த ஸ்லோகத்தில் இல்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.150)', booksTa: 'ஜோஷி',
+    nak: { good: [11, 20, 25, 3, 16, 12, 22, 23, 9, 19, 26, 7, 4], mid: [] }, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    moonNavMid: { not: [0, 1, 2, 4, 5, 6, 7, 8] },
+    want: [{ planets: ['Jupiter', 'Mercury'], houses: [1], code: 'JUP_MERC_LAGNA_MID' }, { planets: ['Venus'], houses: [10], code: 'VENUS_10_MID' }],
+    noteTa: 'பதின்மூன்று நட்சத்திரம் · சுப நாள் (திங்கள், புதன், வியாழன், வெள்ளி) — சுப திதி அளவு சொல்லப்படவில்லை · லக்னத்தில் குரு / புதன்; 10-இல் சுக்கிரன்; சந்திரன் நீர் ராசியில் (கடகம், மகரம், கும்பம், மீனம்) — குறிக்கப்படும் · பாப கிரகங்கள் பலவீனமாக — கணிக்கப்படவில்லை',
   },
 });
 // ---------------------------------------------------------------------------
@@ -4190,7 +4198,7 @@ const MANTRA_SADHANA = deepFreeze({
 const CATTLE = deepFreeze({
   labelTa: 'பசு, மாடு வாங்குதல் / விற்றல்',
   default: 'SHRIDHAR',
-  order: ['SHRIDHAR', 'WILHELM', 'MUHURTA_CHINTAMANI', 'RAMAN'],
+  order: ['SHRIDHAR', 'KALYANRAMAN', 'WILHELM', 'MUHURTA_CHINTAMANI', 'JOSHI', 'RAMAN'],
   SHRIDHAR: {
     labelTa: 'ஸ்ரீதர் §26.1, §26.5, §26.11', booksTa: 'ஸ்ரீதர் (J.V., K.P., M.C. மேற்கோள்கள்)',
     nak: { good: [0, 6, 7, 12, 14, 15, 17, 22, 26, 23], mid: [2, 5, 9, 16] }, abhijitOk: true, digdwar: false,
@@ -4221,6 +4229,18 @@ const CATTLE = deepFreeze({
     notIn: [[['Mars'], [8]]],
     varaLordLagna: 'LAGNA',
     noteTa: 'எட்டு நட்சத்திரம் — ஸ்ரீதரின் K.P. பட்டியலில் தனிஷ்டா தவிர மற்ற எட்டும் இதே · ரிஷப லக்னம் விரும்பத்தக்கது (மற்ற லக்னங்கள் தள்ளப்படுகின்றன) · 8-இல் செவ்வாய் கூடாது · திங்கள், செவ்வாய், புதன், சனி; கிழமை அதிபதி லக்னத்தில் · திதி சொல்லப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.180-181)', booksTa: 'கல்யாணராமன் (முகூர்த்த சிந்தாமணி மேற்கோள்)',
+    nak: { good: [14, 6, 21, 22, 23, 12, 0, 7, 4, 26, 13, 16, 11, 20, 25, 3], mid: [15, 17] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    noteTa: 'பதினாறு நட்சத்திரம்; சிந்தாமணியின் விசாகம், கேட்டை சேர்த்துப் பதினெட்டு என்கிறார் — அவை நடுநிலை · சிந்தாமணி அபிஜித் உட்பட பத்து நட்சத்திரங்களை மட்டுமே சொல்கிறது (ரேவதி, விசாகம், புனர்பூசம், கேட்டை, சதயம், அவிட்டம்; லகு 4) · திதி 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15 · கிழமை சொல்லப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.106)', booksTa: 'ஜோஷி',
+    nak: { good: [14, 6, 21, 22, 23, 12, 0, 7, 4, 26, 13, 16, 11, 20, 25, 3], mid: [] }, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: 'கல்யாணராமனின் அதே பதினாறு நட்சத்திரம் · சுப திதி, சுப நாள் — சுப நாள் எடுக்கப்பட்டது (திங்கள், புதன், வியாழன், வெள்ளி)',
   },
 });
 const HORSE = deepFreeze({
@@ -4312,7 +4332,7 @@ const ELEPHANT = deepFreeze({
 const GOAT_SHEEP = deepFreeze({
   labelTa: 'ஆடு, எருமை, ஒட்டகம் வாங்குதல்',
   default: 'WILHELM',
-  order: ['WILHELM', 'RAMAN', 'JOSHI', 'SHRIDHAR'],
+  order: ['WILHELM', 'RAMAN', 'KALYANRAMAN', 'JOSHI', 'SHRIDHAR'],
   WILHELM: {
     labelTa: 'வில்ஹெல்ம் — ஆடு, செம்மறி', booksTa: 'வில்ஹெல்ம்',
     nak: { good: [0, 4, 6, 7, 10, 12, 15, 17, 19, 22, 23, 24, 26], mid: [2] }, digdwar: false,
@@ -4341,6 +4361,13 @@ const GOAT_SHEEP = deepFreeze({
     nak: { good: [4, 26, 13, 16, 12, 14, 6, 0, 17, 19, 21, 22, 23], mid: [] }, digdwar: false,
     vara: { good: [0, 1, 2, 3, 4, 5], mid: [] },
     noteTa: 'த்ரியந்தமுக ஒன்பது + நான்கு = 13 · சனி ஒன்றே தள்ளு — வில்ஹெல்ம் சனியைச் சிறந்ததாகச் சொல்வதற்கு நேர் எதிர் · திதி, லக்னம் சொல்லப்படவில்லை · §26.1-இல் ஆடு, செம்மறி, எருமைக்கு வேறு பட்டியலும் தருகிறார் (மூன்று பூர்வம், விசாகம், ரேவதி, மூலம், மிருகசீரிடம், பூசம், தனிஷ்டா, புனர்பூசம் + லகு; ஞாயிறு, திங்கள், வியாழன், வெள்ளி) — ஜோஷியின் பட்டியல் அதுவே',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.179)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 4, 6, 7, 10, 12, 15, 18, 19, 22, 23, 24, 26], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 4, 5], mid: [6] },
+    noteTa: 'பதின்மூன்று நட்சத்திரம் + அபிஜித் · திதி 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15 · ஞாயிறு, திங்கள், வியாழன், வெள்ளி; சனி "சிலர்" — நடுநிலை · மாடு, ஆடு, எருமை வாங்கல், விற்றல், வணிகம்',
   },
 });
 const PET_ANIMALS = deepFreeze({
@@ -4427,7 +4454,7 @@ const FISH_FARM = deepFreeze({
 const POULTRY = deepFreeze({
   labelTa: 'கோழி, பறவை வளர்ப்பு',
   default: 'KALYANRAMAN',
-  order: ['KALYANRAMAN', 'SHRIDHAR', 'WILHELM'],
+  order: ['KALYANRAMAN', 'SHRIDHAR', 'JOSHI', 'WILHELM'],
   KALYANRAMAN: {
     labelTa: 'கல்யாணராமன் (தொ.2 ப.181-182)', booksTa: 'கல்யாணராமன்',
     nak: { good: [0, 3, 4, 5, 6, 7, 11, 12, 13, 14, 16, 17, 20, 21, 22, 23, 25, 26], mid: [] }, digdwar: false,
@@ -4446,6 +4473,15 @@ const POULTRY = deepFreeze({
     nak: { good: [0, 3, 4, 5, 6, 7, 11, 12, 13, 14, 16, 17, 20, 21, 22, 23, 25, 26], mid: [] }, digdwar: false,
     vara: { good: [0, 1, 3, 4, 5], mid: [] },
     noteTa: 'கல்யாணராமனின் அதே பதினெட்டு நட்சத்திரம் — ஒன்று கூட வேறுபாடில்லை · செவ்வாய், சனி தள்ளு (கல்யாணராமன் ஐந்து கிழமைகளைப் பெயரிடுகிறார், அதுவும் இதே) · திதி, லக்னம் சொல்லப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.105)', booksTa: 'ஜோஷி',
+    nak: { good: [4, 26, 13, 16, 12, 14, 6, 17, 0, 5, 7, 21, 22, 23, 11, 20, 25, 3], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    yogaNot: [0, 5, 8, 9, 12, 14, 16, 18, 26],
+    vishti: true,
+    noteTa: 'பதினெட்டு நட்சத்திரம் — கல்யாணராமனின் பதினெட்டின் அதே தொகுப்பு · சனி, செவ்வாய் தள்ளு · ரிக்தா, பத்ரா, தீய யோகம் தள்ளு',
   },
 });
 const HUNTING = deepFreeze({
@@ -7348,8 +7384,196 @@ const LEARN_SHUDRA_MANTRAS = deepFreeze({
     noteTa: 'ஒன்பது நட்சத்திரம்: பரணி, கிருத்திகை, ஆயில்யம், மகம், பூரம், விசாகம், மூலம், பூராடம், பூரட்டாதி · திதி 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15 · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி — கல்யாணராமன் அட்டவணையில் எல்லாப் பாடங்களுக்கும் ஒன்றே',
   },
 });
+// ---------------------------------------------------------------------------
+// Farming leftovers (yoking oxen, hydraulic devices, manuring, implements, seeds, selling, sugar-cane, mustard oil, camels and birds), added 2026-10-20
+// ---------------------------------------------------------------------------
+const YOKING_OXEN = deepFreeze({
+  labelTa: 'எருதுகளை நுகத்தில் பூட்டுதல் (முதல் உழவுக்கு ஏர் பூட்டுதல்)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §21.2', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [3, 4, 9, 12, 14, 18, 20, 25, 26], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 11, 13, 15, 16],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: 'ஒன்பது நட்சத்திரம் · தேய்பிறைப் பிரதமை, வளர்பிறை 2, 3, 5, 7, 10, 11, 13, பௌர்ணமி · திங்கள், புதன், வியாழன், வெள்ளி',
+  },
+});
+const HYDRAULIC_DEVICES = deepFreeze({
+  labelTa: 'நீர்ப்பாசன இயந்திரம், பம்ப் செட் பொருத்துதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'KALYANRAMAN'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §21.7', booksTa: 'ஸ்ரீதர் (J.V. மேற்கோள்)',
+    nak: { good: [9, 18, 4, 8, 10, 19, 24, 23], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    starCount: [{ from: 'Sun', of: 27, good: [1, 2, 3, 4, 5, 6, 16, 17, 18, 22, 23, 24, 25, 26, 27], code: 'KOOP_CHAKRA' }],
+    moonNavMid: { not: [0, 1, 2, 4, 5, 6, 7, 8] },
+    noteTa: 'எட்டு நட்சத்திரம் (மகம், மூலம், மிருகசீரிடம், ஆயில்யம், மூன்று பூர்வம், சதயம்) · வளர்பிறை திதி, ரிக்தா தவிர · ஞாயிறு உட்பட சுப நாள் · சந்திரன் நீர் ராசி / நவாம்சத்தில் (கடகம், மகரம், கும்பம், மீனம்) · கூப சக்கரம் (அட்டவணை 21.8): சூரிய நட்சத்திரத்திலிருந்து சந்திர நட்சத்திரம் 1-6, 16-18, 22-27 நல்லது; 7-15, 19-21 கெட்டது',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.179)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 4, 6, 7, 12, 13, 14, 17, 23, 24, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'பதினொரு நட்சத்திரம் · திதி 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15 · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி',
+  },
+});
+const MANURING = deepFreeze({
+  labelTa: 'உரமிடுதல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.172)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [6, 7, 8, 11, 12, 13, 14, 16, 20, 24, 25], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'பதினொரு நட்சத்திரம்: புனர்பூசம், பூசம், ஆயில்யம், உத்திரம், ஹஸ்தம், சித்திரை, சுவாதி, அனுஷம், உத்திராடம், பூரட்டாதி, உத்திரட்டாதி · திதி 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15 · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி',
+  },
+});
+const AGRI_IMPLEMENTS = deepFreeze({
+  labelTa: 'விவசாயக் கருவிகள் செய்தல் / பெறுதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'KALYANRAMAN'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §21.14', booksTa: 'ஸ்ரீதர் (J.V. மேற்கோள்)',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 13, 14, 16, 20, 21, 22, 23, 25, 26], mid: [18] }, digdwar: false,
+    tithi: [1, 3, 5, 6, 8, 10, 11, 13, 15, 16, 18, 20, 21, 23, 25, 26, 28],
+    vara: { good: [0, 4, 5], mid: [] },
+    noteTa: 'பதினாறு நட்சத்திரம்: மிருது 4, ஸ்திர 4, லகு 3, சர 5; மூலம் J.V.யின் கூடுதல் — நடுநிலை · நந்தா (1, 6, 11), ஜயா (3, 8, 13), பூர்ணா (5, 10, 15) — இரு பக்ஷமும், அமாவாசை தவிர · ஞாயிறு, வியாழன், வெள்ளி',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.181)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [3], mid: [0, 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26] }, digdwar: false,
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'ரோகிணி சிறப்பு; மற்ற நட்சத்திரம் நடுநிலை (அச்சில் "எல்லா நட்சத்திரங்களிலும் ரோகிணி சிறப்பாக ஏற்கப்படுகிறது") · சுப திதி — பட்டியல் இல்லை · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி · நீர் சேமிப்புக்கும் இதே வாசிப்பு',
+  },
+});
+const IMPLEMENT_TRAINING = deepFreeze({
+  labelTa: 'விவசாயக் கருவிகளைப் பயன்படுத்தப் பயிற்சி பெறுதல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.179)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [3, 11, 20, 25], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 7, 10, 11, 13, 15, 16, 17, 18, 20, 22, 25, 26, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'ஸ்திர நான்கு: ரோகிணி, உத்திரம், உத்திராடம், உத்திரட்டாதி · திதி 1, 2, 3, 5, 7, 10, 11, 13, 15 · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி',
+  },
+});
+const STORING_SEEDS = deepFreeze({
+  labelTa: 'விதை சேமித்தல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §21.11', booksTa: 'ஸ்ரீதர் (M.G. மேற்கோள்)',
+    nak: { good: [3, 6, 12, 13, 14, 22], mid: [21] }, digdwar: false,
+    vara: { good: [3, 4, 5], mid: [] },
+    lagna: { good: [1, 4, 7, 10], mid: [] },
+    noteTa: 'ஆறு நட்சத்திரம்; திருவோணம் M.G.யின் கூடுதல் — நடுநிலை · புதன், வியாழன், வெள்ளி · ஸ்திர லக்னம்',
+  },
+});
+const SELL_PRODUCE = deepFreeze({
+  labelTa: 'விளைபொருளை விற்றல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §21.13', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [23, 22, 3, 11, 20, 25], mid: [] }, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: 'ஆறு நட்சத்திரம்: சதயம், அவிட்டம், ரோகிணி, மூன்று உத்திரம் · திங்கள், புதன், வியாழன், வெள்ளி · "நல்ல திதி" — பட்டியல் இல்லை',
+  },
+});
+const SUGARCANE_JUICE = deepFreeze({
+  labelTa: 'கரும்புச் சாறு பிழிதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §21.15', booksTa: 'ஸ்ரீதர் (M.M. மேற்கோள்)',
+    starCount: [{ from: 'Sun', of: 27, good: [1, 2, 3, 4, 7, 8, 15, 16, 17, 18, 19, 22, 23, 24, 25, 26, 27], code: 'SUGAR_CHAKRA' }],
+    noteTa: 'அட்டவணை 21.10: சூரிய நட்சத்திரத்திலிருந்து சந்திர நட்சத்திரம் 1-4 (செல்வம்), 7-8 (நன்மை), 15-19 (நன்மை), 22-27 (பயிர், செல்வம்) நல்லது; 5-6 இழப்பு, 9 பயிர் நாசம், 10-14 மரணம், 20-21 வலி — தள்ளு · வேறு விதி இல்லை',
+  },
+});
+const MUSTARD_OIL = deepFreeze({
+  labelTa: 'கடுகு எண்ணெய் (செக்கு / கோல்ஹூ) ஆட்டுதல் தொடங்குதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §21.16', booksTa: 'ஸ்ரீதர்',
+    starCount: [{ from: 'Sun', of: 27, good: [1, 2, 3, 4, 5, 6, 7, 8], code: 'KOLHU_CHAKRA' }],
+    noteTa: 'கோல்ஹூ சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து சந்திர நட்சத்திரம் 1-8 நல்லது; 9-27 தள்ளு · வேறு விதி இல்லை',
+  },
+});
+const CAMEL_BIRD_TRADE = deepFreeze({
+  labelTa: 'ஒட்டகம், குதிரை, கழுதை, பறவை வணிகம் தொடங்குதல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'JOSHI'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.180)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 6, 12, 14, 16, 17], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    noteTa: 'ஆறு நட்சத்திரம்: அசுவினி, புனர்பூசம், ஹஸ்தம், சுவாதி, அனுஷம், கேட்டை · ரிக்தா தள்ளு · கிழமை சொல்லப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.106)', booksTa: 'ஜோஷி',
+    nak: { good: [12, 17, 0, 14, 16, 6], mid: [] }, digdwar: false,
+    vara: { good: [0, 5, 6], mid: [] },
+    noteTa: 'கல்யாணராமனின் அதே ஆறு நட்சத்திரம் · ஞாயிறு, வெள்ளி, சனி',
+  },
+});
 
 const RANK = deepFreeze({
+  YOKING_OXEN: {
+    order: YOKING_OXEN.order,
+    words: { SHRIDHAR: 37 },
+    measureTa: 'எருது பூட்டுதல் பற்றிய சொற்கள்: ஸ்ரீதர் (§21.2, ப.587) 37.',
+  },
+  HYDRAULIC_DEVICES: {
+    order: HYDRAULIC_DEVICES.order,
+    words: { SHRIDHAR: 165, KALYANRAMAN: 52 },
+    measureTa: 'நீர்ப்பாசனக் கருவி பற்றிய சொற்கள்: ஸ்ரீதர் (§21.7, ப.594-595) 165; கல்யாணராமன் (தொ.2 ப.179) 52.',
+  },
+  MANURING: {
+    order: MANURING.order,
+    words: { KALYANRAMAN: 49 },
+    measureTa: 'உரமிடுதல் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.172) 49.',
+  },
+  AGRI_IMPLEMENTS: {
+    order: AGRI_IMPLEMENTS.order,
+    words: { SHRIDHAR: 41, KALYANRAMAN: 28 },
+    measureTa: 'விவசாயக் கருவிகள் பற்றிய சொற்கள்: ஸ்ரீதர் (§21.14, ப.598) 41; கல்யாணராமன் (தொ.2 ப.181) 28.',
+  },
+  IMPLEMENT_TRAINING: {
+    order: IMPLEMENT_TRAINING.order,
+    words: { KALYANRAMAN: 28 },
+    measureTa: 'கருவிப் பயிற்சி பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.179) 28.',
+  },
+  STORING_SEEDS: {
+    order: STORING_SEEDS.order,
+    words: { SHRIDHAR: 33 },
+    measureTa: 'விதை சேமிப்பு பற்றிய சொற்கள்: ஸ்ரீதர் (§21.11, ப.596) 33.',
+  },
+  SELL_PRODUCE: {
+    order: SELL_PRODUCE.order,
+    words: { SHRIDHAR: 34 },
+    measureTa: 'விளைபொருள் விற்பனை பற்றிய சொற்கள்: ஸ்ரீதர் (§21.13, ப.598) 34.',
+  },
+  SUGARCANE_JUICE: {
+    order: SUGARCANE_JUICE.order,
+    words: { SHRIDHAR: 78 },
+    measureTa: 'கரும்புச் சாறு பற்றிய சொற்கள்: ஸ்ரீதர் (§21.15, ப.598) 78.',
+  },
+  MUSTARD_OIL: {
+    order: MUSTARD_OIL.order,
+    words: { SHRIDHAR: 100 },
+    measureTa: 'கடுகு எண்ணெய் பற்றிய சொற்கள்: ஸ்ரீதர் (§21.16, ப.599) 100.',
+  },
+  CAMEL_BIRD_TRADE: {
+    order: CAMEL_BIRD_TRADE.order,
+    words: { KALYANRAMAN: 43, JOSHI: 33 },
+    measureTa: 'ஒட்டகம், பறவை வணிகம் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.180) 43; ஜோஷி (ப.106) 33.',
+  },
   LEARN_NUMEROLOGY: {
     order: LEARN_NUMEROLOGY.order,
     words: { KALYANRAMAN: 66 },
@@ -7822,8 +8046,8 @@ const RANK = deepFreeze({
   },
   CATTLE: {
     order: CATTLE.order,
-    words: { SHRIDHAR: 377, WILHELM: 115, MUHURTA_CHINTAMANI: 102, RAMAN: 38 },
-    measureTa: 'மாடு வாங்குதல் பற்றிய சொற்கள்: ஸ்ரீதர் (§26.1, §26.5, §26.11, ப.693-699) 377; வில்ஹெல்ம் (ப.250-251) 115; முகூர்த்த சிந்தாமணி (2/9, ப.56) 102; ராமன் (அத்.XIII, PDF ப.49) 38.',
+    words: { SHRIDHAR: 377, KALYANRAMAN: 155, WILHELM: 115, MUHURTA_CHINTAMANI: 102, JOSHI: 44, RAMAN: 38 },
+    measureTa: 'மாடு வாங்குதல் பற்றிய சொற்கள்: ஸ்ரீதர் (§26.1, §26.5, §26.11, ப.693-699) 377; வில்ஹெல்ம் (ப.250-251) 115; முகூர்த்த சிந்தாமணி (2/9, ப.56) 102; ராமன் (அத்.XIII, PDF ப.49) 38. கல்யாணராமன் (தொ.2 ப.180-181) 155; ஜோஷி (ப.106) 44.',
   },
   HORSE: {
     order: HORSE.order,
@@ -7837,8 +8061,8 @@ const RANK = deepFreeze({
   },
   GOAT_SHEEP: {
     order: GOAT_SHEEP.order,
-    words: { WILHELM: 113, RAMAN: 82, JOSHI: 43, SHRIDHAR: 41 },
-    measureTa: 'ஆடு, எருமை பற்றிய சொற்கள்: வில்ஹெல்ம் (ப.254) 113; ராமன் (அத்.XIII, PDF ப.49) 82; ஜோஷி (ப.102) 43; ஸ்ரீதர் (§26.6, ப.698) 41.',
+    words: { WILHELM: 113, RAMAN: 82, KALYANRAMAN: 74, JOSHI: 43, SHRIDHAR: 41 },
+    measureTa: 'ஆடு, எருமை பற்றிய சொற்கள்: வில்ஹெல்ம் (ப.254) 113; ராமன் (அத்.XIII, PDF ப.49) 82; ஜோஷி (ப.102) 43; ஸ்ரீதர் (§26.6, ப.698) 41. கல்யாணராமன் (தொ.2 ப.179) 74.',
   },
   PET_ANIMALS: {
     order: PET_ANIMALS.order,
@@ -7852,8 +8076,8 @@ const RANK = deepFreeze({
   },
   POULTRY: {
     order: POULTRY.order,
-    words: { KALYANRAMAN: 95, SHRIDHAR: 43, WILHELM: 34 },
-    measureTa: 'கோழி வளர்ப்பு பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.181-182) 95; ஸ்ரீதர் (§26.9, ப.699) 43; வில்ஹெல்ம் (ப.254) 34.',
+    words: { KALYANRAMAN: 95, SHRIDHAR: 43, JOSHI: 43, WILHELM: 34 },
+    measureTa: 'கோழி வளர்ப்பு பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.181-182) 95; ஸ்ரீதர் (§26.9, ப.699) 43; வில்ஹெல்ம் (ப.254) 34. ஜோஷி (ப.105) 43.',
   },
   HUNTING: {
     order: HUNTING.order,
@@ -7927,8 +8151,8 @@ const RANK = deepFreeze({
   },
   WELL_TANK: {
     order: WELL_TANK.order,
-    words: { SHRIDHAR: 395, RAMAN: 287, KALYANRAMAN: 226, RANGACHARYA: 161, MUHURTA_CHINTAMANI: 136 },
-    measureTa: 'கிணறு, குளம் பற்றிய சொற்கள்: ஸ்ரீதர் (§21.18 ப.599-600 + §27.17.8 ப.740) 395; ராமன் (அத்.XII, PDF ப.43-44) 287; கல்யாணராமன் (தொ.2 ப.194-195) 226; ரங்காச்சார்யா (ப.106) 161; முகூர்த்த சிந்தாமணி (ஸ்லோ.1/63, ப.63) 136.',
+    words: { SHRIDHAR: 395, RAMAN: 287, KALYANRAMAN: 226, RANGACHARYA: 161, MUHURTA_CHINTAMANI: 136, JOSHI: 78 },
+    measureTa: 'கிணறு, குளம் பற்றிய சொற்கள்: ஸ்ரீதர் (§21.18 ப.599-600 + §27.17.8 ப.740) 395; ராமன் (அத்.XII, PDF ப.43-44) 287; கல்யாணராமன் (தொ.2 ப.194-195) 226; ரங்காச்சார்யா (ப.106) 161; முகூர்த்த சிந்தாமணி (ஸ்லோ.1/63, ப.63) 136. ஜோஷி (ப.150) 78.',
   },
   CONSTRUCTION_START: {
     order: CONSTRUCTION_START.order,
@@ -8687,6 +8911,7 @@ const SOURCES = deepFreeze({
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Digging Wells, Tanks, Tube Wells, Ponds", printed pp.194-195 (PDF 196-197): "Nakshatra Rohini, Mrigasira, Pushyami, Makha, Uttaraphalguni, Hasta, Anuradha, Poorvashada, Dhanishta, Satabhisha, Poorvabhadrapada, Uttarabhadrapada, Revati, (13) Tithis 2/3/5/7/10/11/13 Weekdays Monday, Wednesday, Thursday, Friday. Notes: 1. It is good when malefics are weak (in transit). Prefer the Lagna with Jupiter or Mercury; Venus in 10; Moon in watery signs 9/10/11/12; and benefics in the 4th house … 3. Muhoortha Chintaamani admits these 13 nakshatras and rejects the rest … For small well or vaapi: Swati, Aswini, Pushyami, Hasta, Punarvasu, Revati and Satabhisha. For digging well: Hasta, Pushyami, Dhanishta, Satabhisha, Anuradha, Makha, Uttaraphalguni, Uttarashada, Uttarabhadrapada. For building tanks: Aswini, Mrigasira, Revati, Uttaraphalguni, Uttarashada, Uttarabhadrapada, Rohini, Pushyami, Satabhisha, Poorvashada"' },
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: '"Muhurtha for digging a well or bore-well", printed p.106 (PDF 114): "Tithi 2,3,5,7,10,13, Poornima. Weekday Monday, Thursday, Friday are most preferred. The rest should be avoided. Asterism Chitra, Swati, Punarvasu, Mrigasira, Moola, Rohini, Hasta, Pushyami, Dhanishtta, Satabhisha, Revati (Jyeshtta). Lagna Makara, Kataka and Meena are excellent. Kumbha is mediocre. 1. Jupiter and the Moon should be in the kendras. 2. The Moon and Venus together in any Kendra is best preferred. 3. The Moon and Mercury together should not be in any kendra. 4. If Lagna has a malefic in it, a rock may obstruct the flow of water at the depth of 9 feet …"; "Digging a well or a bore-well", printed p.105 (PDF 113): "This should be done in the North-East sector of the site, before the commencement of house-construction"' },
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 1 "The Nakshatras", sloka 63, printed p.63 (PDF 67): "THE MUHURTAS WITH REGARD TO DIGGING WELLS OR TANKS AND BEGINNING DANCING: In the Nakshtras of Anuradha, Hasta, those called Dhruwa, and those of Dhanishta, Shatbhisha, Magha, Poorvashadha, Revati, Pushya and Mrigshira; if there is Mercury or Jupiter in the Ascendant; if the Malefics are weak; if Venus is situated in the 10th House from the Ascendant and the Moon is of the watery signs (9/10/11/12), in such a Muhurta the digging of a well and a tank etc is auspicious"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Miscellaneous Muhurtas, "For digging Wells, Tubewells, Tanks and the like", printed p.150 (PDF 165): "Nakshatras: All fixed nakshatras (Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini), Anuradha, Hasta, Dhanistha, Shatbhisha, Magha, Poorvashada, Revati, Pushya and Mrigshira nakshatras. Benefic tithis and benefic days should be chosen. When malefic planets are weak in transit and lagna has Jupiter and/or Mercury in it. Venus in 10th house and Moon is placed in watery signs it is good for digging and construction of wells, tanks etc."' },
   },
   DEITY_INSTALL: {
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§24.4 "Devpratishta - installation of God\'s idol", printed pp.671-675 (PDF 707-711): "Ayana: According to Sage Brihaspati, it is auspicious to install idol of the god in Uttrayana … However, Vaikhans Samhita prescribes that idol of those gods having gentle (Saumya) nature should be installed in Uttrayana, & of those having wrathful (Ugra) nature … be installed in southerly course of the Sun. Month: Lunar month of Pausha is the most auspicious. Sage Brihaspati commends Magha also, which brings wealth … Ashada causes destruction of doer; Shravana month causes loss to the nation; Bhadrapada inclines to demolish land; Ashvin damages the nation; Karttika increases enemies; & Margshirsha helps in expansion of enemy. Nakshatra: Fixed (Rohini, 3 Uttras), Sweet (Mrigshira, Chitra, Anuradha, Revati), Small (Hasta, Ashvani, Pushya) & Movable (Punarvasu, Swati, Shatbhish, Shravana, Dhanishta). Sage Vasist in addition recommends Jyeshta & Moola also. J.V. opines that Chitra, Anuradha, Shravana, Dhanishta & Moola are of middling nature. Sage Narad advises that 10th, 16th, 18th, 23rd & 25th asterisms [from the Janma Nakshatra] … should be left … Tithi: Sage Narad recommends 2, 3, 5, 7 & 13 Tithi. In addition to these, Sage Brihaspati recommends 8, 10, 12 & 15 (the Full Moon). Sage Vasist recommends full B.H. except 1st Tithi, & D.H. up to 10th Tithi only; & Rikta & Kshaya Tithis are to be left. B.S. recommends bright half only. Weekday: All days except Tuesday are favourable … Poorvanha is the best, followed by Madhyanha. The Pratishtan in the night-time (in Kaliyuga era) is inauspicious … Election chart: Benefics in angles & trines; & the Moon, the Sun, Mars & Saturn in 3/6/11 houses blesses the doer"' },
@@ -8734,6 +8959,8 @@ const SOURCES = deepFreeze({
     WILHELM: { ...WILHELM_E, pageLocus: '"Livestock / Animals - Cows, buying, selling & milking", printed pp.250-251 (PDF 258-259): "Nakshatra: Asvini, Punarvasu, Pushya, Hasta, Visakha, Jyeshtha, Dhanishtha, Satabhisha and Revati are favorable for both buying and selling. Krittika, Ardra, Magha, Aslesha, Svati, and Anuradha are favorable only for buying cattle and not for selling, which will end in loss. Tithi: All Tithis except for Rikta Tithis (4th, 9th, 14th) and the 15th are favorable. Vara: The Varas of Mars, Mercury and Saturn are favorable. Lagna: A Rasi and Navamsa of benefics are favorable and are said to enhance the welfare of the owner. Bhavas: The 8th must be unoccupied. Milking: The Moon in the Lagna in a favorable Navamsa is a favorable time to first milk a cow"' },
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 "The Nakshatras", sloka 9, printed p.56 (PDF 60): "MUHURTA WITH REGARD TO PLANTING OF TREES, SEEING ROYALTY, PREPARING WINE AND TRADING OF CATTLE ETC.: … The purchase and sale of cows is auspicious in the Nakshtras of Revati, Vishakha, Punarvasu, Jyestha, Shatbhisha, Dhanistha and the Nakshtras called Kshipra"' },
     RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XIII, PDF p.49: "Buying or Selling Cows. - Buying or selling of cows or cattle can be done under the constellations of Aswini, Punarvasu, Pushya, Hasta, Swati, Visakha, Jyeshta and Revati. Let preferably Taurus be rising. Avoid Mars in the 8th house"; Chapter XIII, PDF p.38: "Buying Cattle. - Monday, Tuesday, Wednesday and Saturday are good. The lord of the day in question should occupy the rising sign at the time of transaction"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Doing business with cows or cows milk", printed pp.180-181 (PDF 182-183): "Nakshatra Aswini, Rohini, Mrigasira, Punarvasu, Pushyami, Uttaraphalguni, Hasta, Chitra, Swati, Anuradha, Uttarashada, Sravana, Dhanishta, Satabhisha, Uttarabhadrapada, Revati (16). Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Notes: Muhoortha Chintaamani however admits only 10 Nakshatras inclusive of Abhijith. They are: (6) Revati, Visaka, Punarvasu, Jyeshta, Satabhisha, Dhanishta; and Kshipra (4) Hasta, Aswini, Pushyami and Abhijith. Of the 16 nakshatras mentioned above exclusive of Abhijith the following 9 - Rohini, Mrigasira, Uttaraphalguni, Chitra, Swati, Anuradha, Uttarashada, Sravana and Uttarabhadrapada are not approved. As Visaka and Jyeshta are included by Muhoortha Chintaamani, they can also be admitted to the above 16, making the following 18 nakshatras admissible"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Occupational Muhurtas, "Business relating to Cows or Cow-milk", printed p.106 (PDF 121): "Swati, Punarvasu, Shravana, Dhanistha, Shatbhisha, Hasta, Ashwini, Pushya, Mrighshira, Revati, Chitra, Anuradha, Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini nakshatras are good for starting business relating to cows or Cow-milk. One should chose benefic tithis and benefic days"' },
   },
   HORSE: {
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.3 "Horses", printed pp.694-696 (PDF 729-731): "In asterisms of Small (Hasta, Ashvani, Pushya), Revati, Mrigshira, Dhanishta, Swati, Shatbhish & Punarvasu; leaving Rikta (4,9,14) Tithis & Tuesdays; works related to horses like sale-purchase, training, & bringing up are auspicious (M.C.). According to Sage Narad all works related to the horses should be done in Small, Sweet, Stationary, Dhanishta, Swati, Shatbhish & Punarvasu asterisms & on Saturday. Horse born in Ashvani & mare born in Shatbhish are auspicious. According to Daivyga Manohar, it is auspicious to first time ride on a horse in the first 15 asterisms when counted from that of the asterism occupied by the Sun; next 11 are inauspicious; next 2 are beneficial. Abhijit is to be counted in this mode. J.V. differs with the above & opines that only the first 11 asterisms are beneficial. According to J.V. in the above said asterisms (9 nos. recommended by M.C.), when rising sign is a movable one & benefics are in 3rd, 11th & quadrants; & asterisms are beneficial in accordance with Ashva Chakra (table 26.1), it is auspicious to conduct all types of horse related works … Stable of horses should be made in election recommended for houses; training in the election of Vidyarambh … Stable should be made when Sagittarius is rising"' },
@@ -8754,6 +8981,7 @@ const SOURCES = deepFreeze({
     RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter XIII, PDF p.49: "Buying Sheep. - Let the Lagna be Aries. Avoid Saturn in the 8th house. Let Aries or Capricorn be rising at the time of the transaction. The Lagna and the 6th house should be strong when buying dogs or hounds. Birds should be purchased when the Lagna is an airy sign. Any animal may be purchased on a Thursday ruled by Pushya when the Lagna is Aries. No animal should be sold on days ruled by Krittika, Aridra, Makha, Aslesha, Swati and Anuradha"' },
     JOSHI: { ...JOSHI_KK, pageLocus: '"Sale-Purchase of Goats, Buffalows etc.", printed p.102 (PDF 117): "Poorvaphalguni, Poorvashada, Poorvabhadrapad, Vishakha, Revati, Moola, Mrigshira, Pushya, Dhanistha, Punarvasu, Shatbhisha, Hasta, Ashwini, Pushya and Abhijit nakshatras; benefic tithis; and Sunday, Monday, Thursday and Friday are considered auspicious for sale-purchase of goats, buffalows and the like"' },
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.6 "Buffalo, elephant, camel & sheep", printed p.698 (PDF 733): "According to J.V., in Triyandamukh asterisms (Mrigshira, Revati, Chitra, Anuradha, Hasta, Swati, Punarvasu, Ashvani, Jyeshta), P.Shada, Shravana, Dhanishta, Shatbhish; on all weekdays except Saturday; works related to buffalo, elephant, camel & sheep are recommended"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Selling or purchasing cattle or other animals, Doing business with Buffaloes, Sheep, Goats etc.", printed p.179 (PDF 181): "Nakshatra Abhijith Aswini, Mrigasira, Punarvasu, Pushyami, Poorvaphalguni, Hasta, Visaka, Moola, Poorvashada, Dhanishta, Satabhisha, Poorvabhadrapada and Revati. (13+1). Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Thursday and Friday. Some accept Saturday also"' },
   },
   PET_ANIMALS: {
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.2 "Bringing up of animals", §26.7 "Lion & tiger" and §26.8 "Monkeys & deer", printed pp.694-698 (PDF 729-733): "M.C. has given general guidelines that in Movable (Punarvasu, Swati, Shatbhish, Shravana, Dhanishta) asterisms & in the asterisms of the animal concerned …; when a benefic sign (2,3,4,6,7,9,12) is rising & the 8th house is Shuddha (unoccupied), it is beneficial to look after / provide safety to the animals. Bridle & seat on horse, elephant & camel should be fixed in asterisms of Shravana, Shatbhish, Hasta, Pushya, Moola, Mrigshira, Punarvasu - M.G. … In general, 8th Tithi, the New Moon, & Rikta Tithis; Rohini, 3 Uttras, Chitra, Shravana; & Tuesday, are inauspicious for works related to animals. Exit & entrance of animals is auspicious in asterisms representing their Yonis. Works related to animals having nails (like lion, dog) should be done in asterisms of Jyeshta, Ardra, Rohini, Hasta, Vishakha, Pushya, Ashvani; & cruel weekdays … 26.7 In Sweet (Mrigshira, Chitra, Anuradha, Revati), Small (Hasta, Ashvani, Pushya, Abhijit), Ardra, Rohini, Jyeshta, 3 Poorvas asterisms; on Sunday, Saturday, Tuesday & Thursday; bringing up of animals like tiger, lion, leopard, which use their nail as weapon of attack is beneficial (J.V.) … 26.8 In Fixed (Rohini, 3 Uttras), Small (Hasta, Ashvani, Pushya, Abhijit), Ardra & Mrigshira asterisms; on benefic weekdays; it is useful to bring up monkeys & deer for entertainment purposes (J.V.)"' },
@@ -8772,6 +9000,7 @@ const SOURCES = deepFreeze({
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Starting Poultry Farming", printed pp.181-182 (PDF 183-184): "Nakshatra Aswini, Rohini, Mrigasira, Aridra, Punarvasu, Pushyami, Uttaraphalguni, Hasta, Chitra, Swati, Anuradha, Jyeshta, Uttarashada, Sravana, Dhanishta, Satabhisha, Uttarabhadrapada, Revati. (18) Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Wednesday, Thursday and Friday"' },
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.9 "Birds & hen", printed p.699 (PDF 734): "In Triyandamukh asterisms (Mrigshira, Revati, Chitra, Anuradha, Hasta, Swati, Punarvasu, Ashvani, Jyeshta) & Urdhamukh asterisms (Ardra, Pushya, Shravana, Dhanishta, 3 Uttras, Rohini); & on Sunday, Wednesday, Thursday, Friday, Monday; bringing up of hens & various kinds of birds is beneficial (J.V.)"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"Livestock / Animals - Poultry farming", printed p.254 (PDF 262): "Nakshatra: Asvini, Rohini, Mrigasira, Ardra, Punarvasu, Pushya, Uttaraphalguni, Hasta, Chitta, Svati, Anuradha, Jyeshtha, Uttarashadha, Sravana, Dhanishtha, Satabhisha, Uttarabhadrapada and Revati are favorable. Vara: Avoid the Varas of Mars and Saturn"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Occupational Muhurtas, "Poultry Farming", printed p.105 (PDF 120): "Mrigshira, Revati, Chitra, Anuradha, Hasta, Swati, Punarvasu, Jyestha, Ashwini, Ardra, Pushya, Shravana, Dhanistha, Shatbhisha, Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini Nakshatras and all days except Saturday and Tuesday are considered good for starting Poultry farming. Avoid Bhadra, Rikta Tithis and malefic yogas"' },
   },
   HUNTING: {
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Butcheries, Meat Shops (Vyadhakarma), Acts Involving Killing Animals, Birds", printed p.184 (PDF 186): "Nakshatra Bharani, Aridra, Aslesha, Poorvaphalguni, Swati, Visaka, Jyeshta, Moola, Poorvashada, Satabhisha, Poorvabhadrapada, (11) Ferocious/Teekshna: Moola, Jyeshta, Aridra, Aslesha (4) Others: Poorvaphalguni, Poorvashada, Poorvabhadrapada, Swati, Visaka, Satabhisha, Bharani (7) Tithis 4/6/8/9/12/14/30. Weekdays Sunday, Tuesday, Saturday. Yoga 1/6/9/10/13/15/17/19/27 (prefer malefic yogas) Karana Bhadra, Sakuni, Chatushpada, Naga, Kimsatugna (prefer malefic Karanas) Others Malefic Lagnas 1/5/8/10/11 raasis, Malefics in the 11th"' },
@@ -9250,6 +9479,39 @@ const SOURCES = deepFreeze({
   LEARN_SHUDRA_MANTRAS: {
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Learning Shudra mantras, Undertaking Expeditions to Caves and Hazardous Areas", printed p.164 (PDF 166): "Nakshatra Bharani, Krittika, Aslesha, Makha, Poorvaphalguni, Visaka, Moola, Poorvashada and Poorvabhadrapada. (9) 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Wednesday, Thursday, Friday"' },
   },
+  YOKING_OXEN: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§21.2 "Yoking oxen together", printed p.587 (PDF 624): "Tithi: 1 (D.H.); 2,3,5,7,10,11,13 - of B.H. & Full Moon. Day: Monday, Wednesday, Thursday, Friday. Const.: Rohini, Mrigshira, Magha, Hasta, Swati, Moola, U. Shada, U. Bhadra, Revati - are beneficent"' },
+  },
+  HYDRAULIC_DEVICES: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§21.7 "Hydraulic devices for irrigation", printed pp.594-595 (PDF 631-632): "Magha, Moola, Mrigshira, Ashlesha, 3 Poorvas, Shatbhish, asterisms; on benefic days including Sunday; in benefic Tithis of B.H. except Rikta; & the Moon in watery signs is beneficial for installation of hydraulic devices (J.V.-19/31). According to J.V., all types of hydraulic devices used for irrigation, should be used (inaugurated) according to Koop Chakra, in which constellation occupied by the Moon from that of the Sun is counted, as shown in table 21.8. This Koop Chakra is different from Rahat Chakra, the latter is utilised in installation of Rahat. According to J.V.(19/33), 7 asterisms preceding the asterism of the Sun (excluding current asterism of the Sun), 5 asterisms succeeding that of the Sun (including current asterism of the Sun), that is, the 12 asterisms are beneficent to install & use Rahat for irrigation"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Fixing pumpsets", printed p.179 (PDF 181): "Nakshatra Aswini, Mrigasira, Punarvasu, Pushyami, Hasta, Chitra, Swati, Jyeshta, Satabhisha, Poorvabhadrapada, Revati (11). Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Wednesday, Thursday, Friday"' },
+  },
+  MANURING: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Manuring", printed p.172 (PDF 174): "Nakshatra Punarvasu, Pushyami, Aslesha, Uttaraphalguni, Hasta, Chitra, Swati, Anuradha, Uttarashada, Poorvabhadrapada, Uttarabhadrapada. (11) Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Weekdays Sunday, Monday, Wednesday, Thursday, Friday"' },
+  },
+  AGRI_IMPLEMENTS: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§21.14 "Manufacture of agricultural implements", printed p.598 (PDF 635): "Tithi: Nanda, Jaya, Poorna (without New Moon). Day: Sunday, Thursday, Friday. Const.: Sweet (Mrigshira, Chitra, Anuradha, Revati), Fixed (Rohini, 3 Uttras), Small (Hasta, Ashvani, Pushya), Movable (Punarvasu, Swati, Shravana, Shatbhish, Dhanishta) Moola (J.V.)"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Storing water, getting Farming implements", printed p.181 (PDF 183): "Nakshatra Of all the nakshatras Rohini is specially admitted with benefic tithis and the weekdays Sunday, Monday, Wednesday, Thursday, Friday"' },
+  },
+  IMPLEMENT_TRAINING: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Getting trained in the use of agricultural implements", printed p.179 (PDF 181): "Nakshatra Rohini, Uttarashada, Uttarabhadrapada, Uttaraphalguni (4). Tithis 1/2/3/5/7/10/11/13/15. Weekdays Sunday, Monday, Wednesday, Thursday, Friday"' },
+  },
+  STORING_SEEDS: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§21.11 "Storing of seeds", printed p.596 (PDF 633): "It is beneficial to store seeds in Rohini, Punarvasu, Hasta, Chitra, Swati, Dhanishta; on Wednesday, Thursday, Friday; when a fixed sign is rising. M.G. recommends Shravana also"' },
+  },
+  SELL_PRODUCE: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§21.13 "Selling of agricultural produces", printed p.598 (PDF 635): "It is beneficial to sell agricultural produces when the Moon is in Shatbhish, Dhanishta, Fixed (Rohini, 3 Uttras) asterisms; on Monday, Wednesday, Thursday, Friday; in an auspicious Tithi"' },
+  },
+  SUGARCANE_JUICE: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§21.15 "Extraction of sugar cane juice", printed p.598 (PDF 635): "This should be done in a favourable constellation occupied by the Moon from that of the Sun arrived from the table 21.10. M.M. recommends that collection of juices should be done in the asterisms recommended for starting of water. Table 21.10 - Stellar position for extracting sugar cane juice: 1 to 4 wealth gain; 5 to 6 loss; 7 to 8 benefits; 9 crop loss; 10 to 14 death; 15 to 19 benefits; 20 to 21 pain giver; 22 to 27 gain in crop, wealth"' },
+  },
+  MUSTARD_OIL: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§21.16 "Extracting mustard oil", printed p.599 (PDF 636): "Favourable constellation is obtained from Kolhu (machine used for extraction) Chakra arrived from the constellation occupied by the Moon with respect to the constellation occupied by the Sun, as shown in table 21.11. Table 21.11 - Kolhu Chakra: 1st-3rd part ruled foundation, benefic; 4-8 center part, wealth; 9-13 right side, pain; 14-16 head, destruction; 17-19 grinder, destruction; 20-27 scissors, excessive sound from machine"' },
+  },
+  CAMEL_BIRD_TRADE: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Doing business with Camels, Horses, Donkeys, and Birds", printed p.180 (PDF 182): "Nakshatra Aswini, Punarvasu, Hasta, Swati, Anuradha, Jyeshta, (6). Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Avoid Rikta tithis"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Occupational Muhurtas, "Business relating to Camels, Horses, Donkeys and Birds", printed p.106 (PDF 121): "Hasta, Jyestha, Ashwini, Swati, Anuradha and Punarvasu nakshatras and Sunday, Friday and Saturday are good for starting business relating to Camels, Horses, Donkeys and Birds"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -9324,6 +9586,9 @@ const CODE_TA = Object.freeze({
   KHATWA_CHAKRA: 'கட்வா சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 5-12 / 24-27',
   DOLA_CHAKRA: 'தொட்டில் சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 6-20',
   DOLA_CHAKRA_MID: 'தொட்டில் சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 6-20 (குறிப்பு)',
+  KOOP_CHAKRA: 'கூப சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 7-15 / 19-21',
+  SUGAR_CHAKRA: 'கரும்புச் சாறு சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 5-6 / 9-14 / 20-21',
+  KOLHU_CHAKRA: 'கோல்ஹூ சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 9-27',
   JUP_KENDRA_MID: 'குரு கேந்திரத்தில் இல்லை',
   RUDRA_PATT: 'ருத்ர பட்ட சுத்தி: சூரிய நட்சத்திரத்திலிருந்து 4, 11, 18, 25',
   BRAHMA_PATT: 'பிரம்ம பட்ட சுத்தி: சூரிய நட்சத்திரத்திலிருந்து 1-3 / 7-12 / 16-18 / 22-24',
@@ -9730,6 +9995,7 @@ const NOTES_CATTLE_TA = Object.freeze([
   'வாங்க மட்டும் நல்லது, விற்கக் கூடாது என்று சொல்லப்பட்ட நட்சத்திரங்கள் (கிருத்திகை, திருவாதிரை, மகம், ஆயில்யம், சுவாதி, அனுஷம் — K.P., வில்ஹெல்ம்) நடுநிலையாகக் குறிக்கப்படுகின்றன; விற்றால் நஷ்டம் என்கிறது அச்சு.',
   'ராமன்: "எந்த விலங்கையும் வியாழக்கிழமை பூச நட்சத்திரத்தில் மேஷ லக்னத்தில் வாங்கலாம்; கிருத்திகை, திருவாதிரை, மகம், ஆயில்யம், சுவாதி, அனுஷத்தில் எந்த விலங்கையும் விற்கக் கூடாது."',
   'பால் கறக்கத் தொடங்குவது: சந்திரன் லக்னத்தில், நல்ல நவாம்சத்தில் (வில்ஹெல்ம், K.P.) — கணிக்கப்படவில்லை. கொட்டில் கட்டுவது வீடு கட்டும் முகூர்த்தத்தைப் பின்பற்றும்.',
+  'கல்யாணராமன் (தொ.2 ப.180) பசு, பால் வணிகத்துக்கு; ஜோஷி (ப.106) அதே பதினாறு நட்சத்திரத்தைச் சொல்கிறார்.',
 ]);
 const NOTES_HORSE_TA = Object.freeze([
   'குதிரை வாங்குதல், விற்றல், பழக்குதல், முதல் முறை ஏறுதல். ஆறு நூல்களும் இதைத் தருகின்றன — விலங்குக் குடும்பத்தில் மிக அதிகம்.',
@@ -9752,6 +10018,7 @@ const NOTES_GOAT_SHEEP_TA = Object.freeze([
   'கிருத்திகை, பூசத்தின் முதல் பாதி ஆட்டின் யோனி நட்சத்திரம் — ஆடு வாங்குவதற்கு விசேஷம் (ஸ்ரீதர், வில்ஹெல்ம்). பாதம் கணிக்கப்படவில்லை.',
   'மூன்று நூல்களும் ஒரே சேர்க்கையைச் சொல்கின்றன: வியாழக்கிழமை + பூச நட்சத்திரம் + மேஷ லக்னம் — ஆயிரம் மடங்கு பெருகும் (ஸ்ரீதர் K.P., வில்ஹெல்ம், ராமன்). வியாழனும் பூசமும் கணிக்கப்படுகின்றன; மேஷ லக்னம் ராமனின் வாசிப்பில்.',
   'கிழமையில் முரண்: ஸ்ரீதர் §26.6 சனி ஒன்றை மட்டும் தள்ளு என்கிறது; வில்ஹெல்ம் சனியை நல்லதாகச் சொல்கிறார். இரண்டும் அச்சில் உள்ளபடியே.',
+  'கல்யாணராமன் (தொ.2 ப.179) எருமை, ஆடு, செம்மறி வணிகத்துக்கு; ஜோஷியின் ப.106 பகுதி (எருமை, ஆடு, செம்மறி வணிகம்) அவரது ப.102 பகுதியுடன் சேர்த்துப் படிக்கப்பட வேண்டும்.',
 ]);
 const NOTES_PET_ANIMALS_TA = Object.freeze([
   'விலங்குகளை வளர்ப்பது, காப்பது, கொட்டிலுக்குள் சேர்ப்பது, ஓரிடத்திலிருந்து வேறிடம் கொண்டு செல்வது.',
@@ -10314,9 +10581,42 @@ const NOTES_LEARN_SHUDRA_MANTRAS_TA = Object.freeze([
   'கல்யாணராமன் மட்டுமே; ஒன்பது கூர்மை / மூர்க்க / கலப்பு நட்சத்திரம் — மற்ற பாடங்களுக்கு தள்ளப்படுபவை. குகைகள், ஆபத்தான இடங்களுக்குப் பயணம் (புதையல் தேடல்) தனியாகவும் கல்யாணராமன் ப.197, 240-இல் வருகிறது.',
 ]);
 
+const NOTES_YOKING_OXEN_TA = Object.freeze([
+  'ஸ்ரீதர் மட்டுமே (§21.2); உழவு (§21.3) தனிச் செயல்.',
+]);
+const NOTES_HYDRAULIC_DEVICES_TA = Object.freeze([
+  'ஸ்ரீதர் (J.V. 19/31): எல்லாவகை நீர்ப்பாசனக் கருவிகளையும் "கூப சக்கரம்" படி (சூரிய நட்சத்திரத்திலிருந்து சந்திர நட்சத்திரம்) தொடங்க வேண்டும். ராகட் (கிணற்றிலிருந்து நீர் இறைக்கும் கருவி) தனி "ராகட் சக்கரம்": சூரிய நட்சத்திரத்துக்கு முந்தைய 7 (சூரியனுடையதைத் தவிர்த்து), பிந்தைய 5 (சூரியனுடையது உட்பட) — 12 நட்சத்திரம் நல்லது (21-27 மற்றும் 1-5); இங்கே குறிப்பாக மட்டும்.',
+  'கல்யாணராமன் "பம்ப் செட் பொருத்துதல்" — நவீன மொழியில்; ஸ்ரீதரின் பட்டியலுடன் ஒற்றுமையில்லை (அவர் மகம், மூலம், ஆயில்யம், மூன்று பூர்வம், சதயம்; இவர் அசுவினி, புனர்பூசம், பூசம், ஹஸ்தம் முதலியவை).',
+  'கிணறு, குளம், குழாய்க் கிணறு தோண்டுவது "கிணறு, குளம்" செயல் (தனி).',
+]);
+const NOTES_MANURING_TA = Object.freeze([
+  'கல்யாணராமன் மட்டுமே; பன்னிரண்டு திதியும் ஐந்து கிழமையும் அவரது பொது அட்டவணை.',
+]);
+const NOTES_AGRI_IMPLEMENTS_TA = Object.freeze([
+  'ஸ்ரீதர் (§21.14) செய்வதற்கு; கல்யாணராமன் "நீர் சேமிப்பு, விவசாயக் கருவிகளைப் பெறுதல்" (ப.181) — இருவரும் வெவ்வேறு விதிகள் தருகின்றனர். கருவிகளைப் பயன்படுத்தப் பயிற்சி பெறுவது "கருவிப் பயிற்சி" செயல்.',
+]);
+const NOTES_IMPLEMENT_TRAINING_TA = Object.freeze([
+  'கல்யாணராமன் மட்டுமே; நான்கு ஸ்திர நட்சத்திரம்.',
+]);
+const NOTES_STORING_SEEDS_TA = Object.freeze([
+  'ஸ்ரீதர் மட்டுமே (§21.11). தானியம், பழம், பூ சேமிப்பு "தானிய சேமிப்பு" செயல்.',
+]);
+const NOTES_SELL_PRODUCE_TA = Object.freeze([
+  'ஸ்ரீதர் மட்டுமே (§21.13). பொதுவான விற்பனை "பொருள் விற்றல்" செயல்.',
+]);
+const NOTES_SUGARCANE_JUICE_TA = Object.freeze([
+  'ஸ்ரீதர் மட்டுமே: சூரிய நட்சத்திரத்திலிருந்து சந்திர நட்சத்திரத்தை எண்ணி அட்டவணை 21.10 படி. M.M.: சாறு சேகரிப்பு நீர் தொடங்க விதித்த நட்சத்திரங்களில் (ரோகிணி, மூன்று உத்திரம், பூசம், அனுஷம், சதயம், அவிட்டம் — §21.18) — இங்கே குறிப்பாக மட்டும்.',
+]);
+const NOTES_MUSTARD_OIL_TA = Object.freeze([
+  'ஸ்ரீதர் மட்டுமே: கோல்ஹூ சக்கரம் (அட்டவணை 21.11) — சூரிய நட்சத்திரத்திலிருந்து சந்திர நட்சத்திரம் 1-3 அடித்தளம் (நன்று), 4-8 நடுப்பகுதி (செல்வம்) நல்லது; 9-13 வலப்பக்கம் (வலி), 14-16 தலை (அழிவு), 17-19 அரைக்கும் கல் (அழிவு), 20-27 கத்தரி (இயந்திரத்தில் அதிக ஒலி) — தள்ளு. எண்ணெய்ச் செக்குக்குச் சமமாகக் கொள்ளப்பட்டது.',
+]);
+const NOTES_CAMEL_BIRD_TRADE_TA = Object.freeze([
+  'கல்யாணராமனும் ஜோஷியும் ஒரே ஆறு நட்சத்திரத்தைச் சொல்கின்றனர். குதிரை வாங்கல், விற்றல், பழக்குதல் "குதிரை" செயலில் (வில்ஹெல்ம் கழுதை, ஒட்டகம், கோவேறு கழுதைக்கும் அதே).',
+]);
+
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING', 'ARMY_RAISE', 'WAR_START', 'WEAPON_MAKE', 'WEAPON_WEAR', 'MISSILE_SETUP', 'ARMY_CAMP', 'DAGGER_TIE', 'TREATY', 'MINT_COINS', 'CATCH_THIEF', 'BOAT_SHIP', 'WEAVING', 'POTTERY', 'PAINTING', 'SCULPTURE', 'CRAFT_LEARN', 'LEATHER', 'SALON', 'WINE', 'BED_MAKING', 'PERFORMING', 'DAIRY', 'BRICK_KILN', 'METAL_IRON', 'GRINDING_MILL', 'WASHERMAN', 'SALT', 'SPORTS', 'BRIDGE_DAM', 'PERFUME', 'BETEL', 'GEMOLOGY', 'LIBRARY', 'LATHE', 'ADOPTION', 'OATH_MASS', 'CASTRATION', 'GARBHADHANA', 'PUMSAVANA', 'SEEMANTA', 'JATAKARMA', 'NAMAKARANA', 'NISHKRAMANA', 'ANNAPRASHANA', 'CHUDAKARANA', 'SHAVING', 'KARNAVEDHA', 'KESHANTA', 'SAMAVARTANA', 'ANKURARPANA', 'PRET_KRIYA', 'PUTTAL_DAHA', 'BATH_AFTER_MENSES', 'SUTIKA_SNANA', 'BREAST_FEEDING', 'FIRST_MILK', 'JALA_PUJA', 'CHILD_BED', 'DOLAROHANA', 'BHUMYUPAVESHANA', 'CHILD_BETEL', 'KANYA_VARANA', 'VARA_VARANA', 'INVITATION_LETTERS', 'MANDAP', 'VADHU_PRAVESHA', 'DWIRAGAMANA', 'NISHEKA', 'FIRST_COOKING', 'FIRST_RETURN', 'REMARRIAGE', 'LOVE_MARRIAGE', 'LEARN_MATHEMATICS', 'LEARN_ASTROLOGY', 'LEARN_VEDAS_GRAMMAR', 'VEDARAMBHA', 'LEARN_PHILOSOPHY', 'LEARN_LOGIC', 'LEARN_MEDICINE', 'LEARN_ARMS', 'LEARN_MUSIC_DANCE', 'LEARN_INSTRUMENTS', 'LEARN_OTHER_RELIGIONS', 'LEARN_FOREIGN_LANGUAGES', 'LEARN_LAW', 'START_WRITING', 'LEARN_NUMEROLOGY', 'LEARN_WATER_DIVINING', 'LEARN_COMPUTING', 'LEARN_POSITIVE_SCIENCES', 'LEARN_CULINARY_STATECRAFT', 'LEARN_PHRENOLOGY', 'LEARN_HIGHER_STUDIES', 'LEARN_SHUDRA_MANTRAS'],
-  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING, ARMY_RAISE, WAR_START, WEAPON_MAKE, WEAPON_WEAR, MISSILE_SETUP, ARMY_CAMP, DAGGER_TIE, TREATY, MINT_COINS, CATCH_THIEF, BOAT_SHIP, WEAVING, POTTERY, PAINTING, SCULPTURE, CRAFT_LEARN, LEATHER, SALON, WINE, BED_MAKING, PERFORMING, DAIRY, BRICK_KILN, METAL_IRON, GRINDING_MILL, WASHERMAN, SALT, SPORTS, BRIDGE_DAM, PERFUME, BETEL, GEMOLOGY, LIBRARY, LATHE, ADOPTION, OATH_MASS, CASTRATION, GARBHADHANA, PUMSAVANA, SEEMANTA, JATAKARMA, NAMAKARANA, NISHKRAMANA, ANNAPRASHANA, CHUDAKARANA, SHAVING, KARNAVEDHA, KESHANTA, SAMAVARTANA, ANKURARPANA, PRET_KRIYA, PUTTAL_DAHA, BATH_AFTER_MENSES, SUTIKA_SNANA, BREAST_FEEDING, FIRST_MILK, JALA_PUJA, CHILD_BED, DOLAROHANA, BHUMYUPAVESHANA, CHILD_BETEL, KANYA_VARANA, VARA_VARANA, INVITATION_LETTERS, MANDAP, VADHU_PRAVESHA, DWIRAGAMANA, NISHEKA, FIRST_COOKING, FIRST_RETURN, REMARRIAGE, LOVE_MARRIAGE, LEARN_MATHEMATICS, LEARN_ASTROLOGY, LEARN_VEDAS_GRAMMAR, VEDARAMBHA, LEARN_PHILOSOPHY, LEARN_LOGIC, LEARN_MEDICINE, LEARN_ARMS, LEARN_MUSIC_DANCE, LEARN_INSTRUMENTS, LEARN_OTHER_RELIGIONS, LEARN_FOREIGN_LANGUAGES, LEARN_LAW, START_WRITING, LEARN_NUMEROLOGY, LEARN_WATER_DIVINING, LEARN_COMPUTING, LEARN_POSITIVE_SCIENCES, LEARN_CULINARY_STATECRAFT, LEARN_PHRENOLOGY, LEARN_HIGHER_STUDIES, LEARN_SHUDRA_MANTRAS,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING', 'ARMY_RAISE', 'WAR_START', 'WEAPON_MAKE', 'WEAPON_WEAR', 'MISSILE_SETUP', 'ARMY_CAMP', 'DAGGER_TIE', 'TREATY', 'MINT_COINS', 'CATCH_THIEF', 'BOAT_SHIP', 'WEAVING', 'POTTERY', 'PAINTING', 'SCULPTURE', 'CRAFT_LEARN', 'LEATHER', 'SALON', 'WINE', 'BED_MAKING', 'PERFORMING', 'DAIRY', 'BRICK_KILN', 'METAL_IRON', 'GRINDING_MILL', 'WASHERMAN', 'SALT', 'SPORTS', 'BRIDGE_DAM', 'PERFUME', 'BETEL', 'GEMOLOGY', 'LIBRARY', 'LATHE', 'ADOPTION', 'OATH_MASS', 'CASTRATION', 'GARBHADHANA', 'PUMSAVANA', 'SEEMANTA', 'JATAKARMA', 'NAMAKARANA', 'NISHKRAMANA', 'ANNAPRASHANA', 'CHUDAKARANA', 'SHAVING', 'KARNAVEDHA', 'KESHANTA', 'SAMAVARTANA', 'ANKURARPANA', 'PRET_KRIYA', 'PUTTAL_DAHA', 'BATH_AFTER_MENSES', 'SUTIKA_SNANA', 'BREAST_FEEDING', 'FIRST_MILK', 'JALA_PUJA', 'CHILD_BED', 'DOLAROHANA', 'BHUMYUPAVESHANA', 'CHILD_BETEL', 'KANYA_VARANA', 'VARA_VARANA', 'INVITATION_LETTERS', 'MANDAP', 'VADHU_PRAVESHA', 'DWIRAGAMANA', 'NISHEKA', 'FIRST_COOKING', 'FIRST_RETURN', 'REMARRIAGE', 'LOVE_MARRIAGE', 'LEARN_MATHEMATICS', 'LEARN_ASTROLOGY', 'LEARN_VEDAS_GRAMMAR', 'VEDARAMBHA', 'LEARN_PHILOSOPHY', 'LEARN_LOGIC', 'LEARN_MEDICINE', 'LEARN_ARMS', 'LEARN_MUSIC_DANCE', 'LEARN_INSTRUMENTS', 'LEARN_OTHER_RELIGIONS', 'LEARN_FOREIGN_LANGUAGES', 'LEARN_LAW', 'START_WRITING', 'LEARN_NUMEROLOGY', 'LEARN_WATER_DIVINING', 'LEARN_COMPUTING', 'LEARN_POSITIVE_SCIENCES', 'LEARN_CULINARY_STATECRAFT', 'LEARN_PHRENOLOGY', 'LEARN_HIGHER_STUDIES', 'LEARN_SHUDRA_MANTRAS', 'YOKING_OXEN', 'HYDRAULIC_DEVICES', 'MANURING', 'AGRI_IMPLEMENTS', 'IMPLEMENT_TRAINING', 'STORING_SEEDS', 'SELL_PRODUCE', 'SUGARCANE_JUICE', 'MUSTARD_OIL', 'CAMEL_BIRD_TRADE'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING, ARMY_RAISE, WAR_START, WEAPON_MAKE, WEAPON_WEAR, MISSILE_SETUP, ARMY_CAMP, DAGGER_TIE, TREATY, MINT_COINS, CATCH_THIEF, BOAT_SHIP, WEAVING, POTTERY, PAINTING, SCULPTURE, CRAFT_LEARN, LEATHER, SALON, WINE, BED_MAKING, PERFORMING, DAIRY, BRICK_KILN, METAL_IRON, GRINDING_MILL, WASHERMAN, SALT, SPORTS, BRIDGE_DAM, PERFUME, BETEL, GEMOLOGY, LIBRARY, LATHE, ADOPTION, OATH_MASS, CASTRATION, GARBHADHANA, PUMSAVANA, SEEMANTA, JATAKARMA, NAMAKARANA, NISHKRAMANA, ANNAPRASHANA, CHUDAKARANA, SHAVING, KARNAVEDHA, KESHANTA, SAMAVARTANA, ANKURARPANA, PRET_KRIYA, PUTTAL_DAHA, BATH_AFTER_MENSES, SUTIKA_SNANA, BREAST_FEEDING, FIRST_MILK, JALA_PUJA, CHILD_BED, DOLAROHANA, BHUMYUPAVESHANA, CHILD_BETEL, KANYA_VARANA, VARA_VARANA, INVITATION_LETTERS, MANDAP, VADHU_PRAVESHA, DWIRAGAMANA, NISHEKA, FIRST_COOKING, FIRST_RETURN, REMARRIAGE, LOVE_MARRIAGE, LEARN_MATHEMATICS, LEARN_ASTROLOGY, LEARN_VEDAS_GRAMMAR, VEDARAMBHA, LEARN_PHILOSOPHY, LEARN_LOGIC, LEARN_MEDICINE, LEARN_ARMS, LEARN_MUSIC_DANCE, LEARN_INSTRUMENTS, LEARN_OTHER_RELIGIONS, LEARN_FOREIGN_LANGUAGES, LEARN_LAW, START_WRITING, LEARN_NUMEROLOGY, LEARN_WATER_DIVINING, LEARN_COMPUTING, LEARN_POSITIVE_SCIENCES, LEARN_CULINARY_STATECRAFT, LEARN_PHRENOLOGY, LEARN_HIGHER_STUDIES, LEARN_SHUDRA_MANTRAS, YOKING_OXEN, HYDRAULIC_DEVICES, MANURING, AGRI_IMPLEMENTS, IMPLEMENT_TRAINING, STORING_SEEDS, SELL_PRODUCE, SUGARCANE_JUICE, MUSTARD_OIL, CAMEL_BIRD_TRADE,
 });
 
 /**
@@ -10509,6 +10809,16 @@ module.exports = {
     LEARN_PHRENOLOGY: NOTES_LEARN_PHRENOLOGY_TA,
     LEARN_HIGHER_STUDIES: NOTES_LEARN_HIGHER_STUDIES_TA,
     LEARN_SHUDRA_MANTRAS: NOTES_LEARN_SHUDRA_MANTRAS_TA,
+    YOKING_OXEN: NOTES_YOKING_OXEN_TA,
+    HYDRAULIC_DEVICES: NOTES_HYDRAULIC_DEVICES_TA,
+    MANURING: NOTES_MANURING_TA,
+    AGRI_IMPLEMENTS: NOTES_AGRI_IMPLEMENTS_TA,
+    IMPLEMENT_TRAINING: NOTES_IMPLEMENT_TRAINING_TA,
+    STORING_SEEDS: NOTES_STORING_SEEDS_TA,
+    SELL_PRODUCE: NOTES_SELL_PRODUCE_TA,
+    SUGARCANE_JUICE: NOTES_SUGARCANE_JUICE_TA,
+    MUSTARD_OIL: NOTES_MUSTARD_OIL_TA,
+    CAMEL_BIRD_TRADE: NOTES_CAMEL_BIRD_TRADE_TA,
   }),
   AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS, BATH_MC_18, BATH_KR_18, BATH_13,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,

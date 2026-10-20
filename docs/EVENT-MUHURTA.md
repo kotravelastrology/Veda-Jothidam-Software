@@ -1046,6 +1046,18 @@ upanayana and education acts use). New: the `anadhyaya` and `galagraha` keys in 
 Where a book gives only additions to its general list (Wilhelm), the general stars are good and the additions join them;
 the subject readings carry only each book's own subject-wise rules and say that the general education rules also apply.
 
+**Farming leftovers** (10 new acts and 5 books added to existing acts, 2026-10-20): yoking oxen, hydraulic devices and
+pump sets, manuring, making or getting farm implements, training in their use, storing seeds, selling the crop,
+sugar-cane juice, mustard oil (the press) and business in camels, horses, donkeys and birds. Sources: Shridhar
+§21.2-21.16, Kalyanraman vol.2 pp.172-183, Joshi pp.105-106 and 150. Three new computed chakras, all the Moon's star
+counted from the Sun's: Koop (1-6, 16-18, 22-27 good — Shridhar's table 21.8, whose effects were read from the page
+image), sugar-cane (1-4, 7-8, 15-19, 22-27) and Kolhu (1-8). Rahat, the well-bucket's own chakra (the 7 stars before
+the Sun's and the 5 from it), is named in the note and not computed because Shridhar gives it as an alternative for one
+device. **Books added to acts that already existed** — found by comparing each book's sections with what the acts
+cite: Kalyanraman and Joshi for cattle (the same sixteen stars, one list in both books), Kalyanraman for goats and
+sheep, Joshi for poultry (the same eighteen stars as Kalyanraman's) and wells. The ranking, sources, notes and fixture
+of those acts were updated in place (`retro.py`).
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying

@@ -2185,4 +2185,48 @@ const RF = FIX.roga_snana;
   assert.ok(acts4.length >= 170, `the whole table now has ${acts4.length} acts`);
 }
 
+// ------------------------------------------------ farming leftovers ---
+{
+  const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'PPhalguni', 'UPhalguni', 'Hasta',
+    'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Moola', 'PAshadha', 'UAshadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'PBhadra', 'UBhadra', 'Revati'];
+  const ev = (a, b) => E.EVENTS[a][b];
+  const good = (a, b) => sorted(ev(a, b).nak.good);
+  assert.equal(good('YOKING_OXEN', 'SHRIDHAR').length, 9);
+  // Hydraulic devices: the Koop chakra (1-6, 16-18, 22-27 from the Sun's star) and watery signs; Kalyanraman's pump sets are eleven other stars.
+  assert.deepEqual(ev('HYDRAULIC_DEVICES', 'SHRIDHAR').starCount[0].good, [1, 2, 3, 4, 5, 6, 16, 17, 18, 22, 23, 24, 25, 26, 27]);
+  assert.equal(ev('HYDRAULIC_DEVICES', 'SHRIDHAR').starCount[0].code, 'KOOP_CHAKRA');
+  assert.equal(good('HYDRAULIC_DEVICES', 'SHRIDHAR').length, 8);
+  assert.equal(good('HYDRAULIC_DEVICES', 'KALYANRAMAN').length, 11);
+  assert.ok(ev('HYDRAULIC_DEVICES', 'SHRIDHAR').moonNavMid, 'the Moon in a watery navamsa is marked');
+  assert.equal(good('MANURING', 'KALYANRAMAN').length, 11);
+  // Implements: Shridhar's sixteen (Moola middling); Kalyanraman gives Rohini alone and every other star middling; training is the four fixed stars.
+  assert.equal(good('AGRI_IMPLEMENTS', 'SHRIDHAR').length, 16);
+  assert.deepEqual(ev('AGRI_IMPLEMENTS', 'SHRIDHAR').nak.mid, [NAMES.indexOf('Moola')]);
+  assert.deepEqual(good('AGRI_IMPLEMENTS', 'KALYANRAMAN'), [NAMES.indexOf('Rohini')]);
+  assert.equal(ev('AGRI_IMPLEMENTS', 'KALYANRAMAN').nak.mid.length, 26);
+  assert.deepEqual(good('IMPLEMENT_TRAINING', 'KALYANRAMAN'), sorted(['Rohini', 'UPhalguni', 'UAshadha', 'UBhadra'].map((n) => NAMES.indexOf(n))));
+  assert.equal(good('STORING_SEEDS', 'SHRIDHAR').length, 6);
+  assert.deepEqual(ev('STORING_SEEDS', 'SHRIDHAR').lagna.good, [1, 4, 7, 10], 'a fixed sign rising');
+  assert.equal(good('SELL_PRODUCE', 'SHRIDHAR').length, 6);
+  // The two juice chakras.
+  assert.deepEqual(ev('SUGARCANE_JUICE', 'SHRIDHAR').starCount[0].good, [1, 2, 3, 4, 7, 8, 15, 16, 17, 18, 19, 22, 23, 24, 25, 26, 27]);
+  assert.deepEqual(ev('MUSTARD_OIL', 'SHRIDHAR').starCount[0].good, [1, 2, 3, 4, 5, 6, 7, 8]);
+  assert.ok(!ev('MUSTARD_OIL', 'SHRIDHAR').nak, 'the oil press names no star');
+  // Camels and birds: Kalyanraman and Joshi print the same six stars.
+  assert.deepEqual(good('CAMEL_BIRD_TRADE', 'KALYANRAMAN'), good('CAMEL_BIRD_TRADE', 'JOSHI'));
+  assert.equal(good('CAMEL_BIRD_TRADE', 'JOSHI').length, 6);
+  assert.deepEqual(sorted(ev('CAMEL_BIRD_TRADE', 'JOSHI').vara.good), [0, 5, 6], 'Sunday, Friday, Saturday');
+  // Books added to existing acts: cows (Kalyanraman and Joshi the same sixteen), goats, poultry (Joshi = Kalyanraman's eighteen), wells.
+  assert.deepEqual(good('CATTLE', 'KALYANRAMAN'), good('CATTLE', 'JOSHI'));
+  assert.equal(good('CATTLE', 'JOSHI').length, 16);
+  assert.ok(E.EVENTS.CATTLE.order.includes('KALYANRAMAN') && E.EVENTS.CATTLE.order.includes('JOSHI'), 'cattle has both books now');
+  assert.ok(ev('GOAT_SHEEP', 'KALYANRAMAN').abhijitOk && good('GOAT_SHEEP', 'KALYANRAMAN').length === 13);
+  assert.deepEqual(good('POULTRY', 'JOSHI'), good('POULTRY', 'KALYANRAMAN'), 'poultry: the same eighteen');
+  assert.equal(good('WELL_TANK', 'JOSHI').length, 13);
+  assert.equal(E.RANK.CATTLE.words.KALYANRAMAN, 155);
+  for (const c of ['KOOP_CHAKRA', 'SUGAR_CHAKRA', 'KOLHU_CHAKRA']) assert.ok(E.CODE_TA[c], `${c} has a Tamil label`);
+  const acts5 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
+  assert.ok(acts5.length >= 180, `the whole table now has ${acts5.length} acts`);
+}
+
 console.log('test-event-muhurta: all checks passed');
