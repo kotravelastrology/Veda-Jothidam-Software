@@ -290,9 +290,11 @@ Not plan items, but real, and they should not be discovered at release:
   chakras computed. The animal family followed: cattle, horses, elephants,
   goats, pets, fish, poultry and hunting, with the Ashva chakra computed. The war and state family followed:
   army, war, weapons, armour, missiles, camp, dagger, treaty, coins and catching a thief.
-  The crafts and trades began: boat, weaving,
-  pottery, painting, sculpture and learning a craft. Left: the rest of Shridhar's ch.25
-  (leather, salon, dairy, wine, salt, bricks, metals and the others), and the stragglers in
-  his ch.20 and ch.26 (oath taking, adoption, nomination papers, castration).
+  The crafts and trades are done in two parts:
+  boat, weaving, pottery, painting, sculpture, learning a craft, leather, salon, wine, bed,
+  performing, dairy, bricks, iron and the grinding mill - fifteen acts. Left: the one-line
+  singles in Shridhar's ch.25 (washerman, salt, wrestling ring, bridge, perfume, betel,
+  gemology, library, lathe) and the stragglers in his ch.20 and ch.26 (oath taking, adoption,
+  nomination papers, castration).
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

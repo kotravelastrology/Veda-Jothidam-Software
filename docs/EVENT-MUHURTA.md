@@ -834,6 +834,43 @@ making, a library, storing metals, bricks and lime, a brick kiln, a lathe, melti
 stone and gem work — most of them Shridhar alone, with Wilhelm, Kalyanraman and Joshi covering
 leather, the salon, the dairy and wine.
 
+**Crafts and trades, part 2** (9 acts, added 2026-10-20): leather and shoes (three books), a salon
+(three), wine (three), making a bed and first lying on one (three), performing — acting, tricks and
+circus (two), dairy, butter and ghee (two), bricks, lime and a kiln (one), melting iron and stone
+and gem work (one), fixing a grinding mill (one). Sources: Shridhar §25.12-25.35, Wilhelm,
+Muhurta Chintamani 2/9 and 2/21, Kalyanraman vol.2 pp.182-189, Joshi pp.108-109. With part 1 the
+crafts group is fifteen acts.
+
+Two more chakras are computed, both from Shridhar alone. The **Khatwa chakra** (§25.28) counts the
+Moon's star from the Sun's for making a bed: 1-4 auspicious, 5-12 death, 13-20 and 21-23 auspicious,
+24-27 loss, fear and death. The **grinding-mill count** (§25.25) is the only chakra in the whole
+table counted from **Saturn's** star — 1-4, 9-16 and 20-23 auspicious, 5-8, 17-19 and 25-27 not; it
+is also the only rule that act has, since no star, tithi, weekday or lagna is given. Both prints
+name twenty-six counts and leave the 24th unnamed; as with the Katha chakra, it is not rejected.
+
+The agreements continue. Wilhelm's and Joshi's twelve leather stars are identical, and are Shridhar's
+shoe list; three books print the same twelve-plus-Abhijit for a salon and all three say to avoid the
+early morning; three print the same ten for wine — the four Tikshna, the five Ugra and Shatabhisha,
+the same family that suits making a weapon. Shridhar's dairy combinations and Wilhelm's are the same
+four, down to the Cancer lagna, the Chara star, and Jyeshtha or Krittika on Mercury's day.
+
+Wine carries a live disagreement: Shridhar wants the malefic weekdays and the tithis (4, 6, 8, 9,
+12, 14) that the rest of the table bars, while Kalyanraman allows every weekday and bars the Rikta
+tithis. Both stand as printed, and the tests assert the two readings disagree. Melting iron and
+working stone keep the same inversion, where storing metals (§25.30) reads the opposite way, so that
+list is marked rather than good.
+
+Two acts in chapter 25 were left out deliberately. §25.15 gives the timing for a theft, which
+Shridhar himself only prints alongside catching a thief; it is named in the notes of CATCH_THIEF
+rather than built as an act of its own. Still to do, all Shridhar alone and a sentence each: the
+washerman, salt, a wrestling ring (its own inverted reading, noted under performing), a bridge or
+dam, perfume, betel, gemology, a library, and a lathe.
+
+Fixed in passing: four marked chakras in the agriculture family (Hala, Rahu, Venus and Vriksha)
+emit their code with the `_MID` suffix, and their Tamil labels had been written under the plain
+name, so the page showed a bare code. A test now walks every reading's `starCount` and asserts the
+label exists under the name the engine actually emits.
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying

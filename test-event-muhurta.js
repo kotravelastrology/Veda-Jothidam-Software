@@ -1733,4 +1733,64 @@ const RF = FIX.roga_snana;
   for (const c of ['MERC_JUP_1_10_MID', 'SHILPA_COUNT_MID']) assert.ok(E.CODE_TA[c], c);
 }
 
+// ------------------------------------------------ crafts part 2: the Khatwa and grinding chakras ---
+{
+  const base = { star: 12, tithi: 2, month: 1, sunSign: 9, sunStar: 21, sunDeg: 10, taraCount: 2, moonAbhijit: false, signs: {}, navs: {}, planetStars: {}, karana: 3 };
+  // Wilhelm and Joshi print the same twelve leather stars, which are Shridhar's shoe list.
+  assert.deepEqual(sorted(E.EVENTS.LEATHER.WILHELM.nak.good), sorted(E.EVENTS.LEATHER.JOSHI.nak.good), 'the same leather stars');
+  for (const n of E.EVENTS.LEATHER.WILHELM.nak.good) {
+    assert.ok(E.EVENTS.LEATHER.SHRIDHAR.nak.good.includes(n), `Shridhar also keeps leather star ${n}`);
+  }
+  // A salon: three books, the same thirteen stars with Abhijit among them.
+  const S13 = sorted(E.EVENTS.SALON.KALYANRAMAN.nak.good);
+  assert.equal(S13.length, 12, 'twelve salon stars besides Abhijit');
+  for (const b of ['SHRIDHAR', 'JOSHI']) {
+    assert.deepEqual(sorted(E.EVENTS.SALON[b].nak.good), S13, `${b}: the same salon stars`);
+    assert.ok(E.EVENTS.SALON[b].abhijitOk, `${b}: Abhijit counts`);
+  }
+  // Wine: three books, the same ten - the four Tikshna, the five Ugra and Shatabhisha, the very
+  // stars the rest of the table bars. Shridhar wants the tithis the others reject.
+  const W10 = sorted(E.EVENTS.WINE.KALYANRAMAN.nak.good);
+  assert.equal(W10.length, 10, 'ten wine stars');
+  for (const b of ['SHRIDHAR', 'MUHURTA_CHINTAMANI']) {
+    assert.deepEqual(sorted(E.EVENTS.WINE[b].nak.good), W10, `${b}: the same wine stars`);
+  }
+  for (const t of [4, 9, 14]) {
+    assert.ok(E.EVENTS.WINE.SHRIDHAR.tithi.includes(t), `Shridhar wants wine tithi ${t}`);
+    assert.ok(!E.EVENTS.WINE.KALYANRAMAN.tithi.includes(t), `Kalyanraman bars wine tithi ${t}`);
+  }
+  // B.J.S.'s Khatwa chakra for a bed: the 5th to the 12th and the 24th to the 27th from the Sun's.
+  const BED = E.EVENTS.BED_MAKING.SHRIDHAR;
+  const khatwa = (n) => pieceCodes(BED, { ...base, sunStar: 0, star: n - 1, planetStars: { Sun: { star: 0 } } }).includes('KHATWA_CHAKRA');
+  for (const n of [5, 9, 12, 24, 27]) assert.ok(khatwa(n), `the Khatwa chakra rejects ${n}`);
+  for (const n of [1, 4, 13, 20, 23]) assert.ok(!khatwa(n), `the Khatwa chakra allows ${n}`);
+  // The grinding mill is the only chakra in the table counted from Saturn's star.
+  const MILL = E.EVENTS.GRINDING_MILL.SHRIDHAR;
+  assert.equal(MILL.starCount[0].from, 'Saturn', 'counted from Saturn');
+  const mill = (n) => pieceCodes(MILL, { ...base, star: n - 1, planetStars: { Saturn: { star: 0 } } }).includes('CHAKKI_CHAKRA');
+  for (const n of [5, 8, 17, 19, 25, 27]) assert.ok(mill(n), `the mill chakra rejects ${n}`);
+  for (const n of [1, 4, 9, 16, 20, 23, 24]) assert.ok(!mill(n), `the mill chakra allows ${n}`);
+  // Shridhar's dairy combinations and Wilhelm's are the same: Cancer lagna, a Chara star, Monday
+  // and Wednesday, with Jyeshtha, Krittika and Vishakha beside them.
+  for (const b of ['SHRIDHAR', 'WILHELM']) {
+    assert.deepEqual(E.EVENTS.DAIRY[b].lagna.good, [3], `${b}: a Cancer lagna`);
+    assert.ok(E.EVENTS.DAIRY[b].vara.good.includes(1) && E.EVENTS.DAIRY[b].vara.good.includes(3), `${b}: Monday and Wednesday`);
+  }
+  for (const n of E.EVENTS.DAIRY.WILHELM.nak.good) {
+    const S = E.EVENTS.DAIRY.SHRIDHAR;
+    assert.ok(S.nak.good.includes(n) || S.nak.mid.includes(n), `Shridhar also keeps dairy star ${n}`);
+  }
+  // Every code a reading emits must have a Tamil label, marked ones under their _MID name.
+  for (const ev of E.EVENTS.order ?? Object.keys(E.EVENTS)) {
+    const e = E.EVENTS[ev];
+    if (!e || !e.order) continue;
+    for (const b of e.order) {
+      for (const c of E.EVENTS[ev][b].starCount ?? []) {
+        assert.ok(E.CODE_TA[c.mark ? `${c.code}_MID` : c.code], `${ev}/${b}: ${c.code} has a label`);
+      }
+    }
+  }
+  for (const c of ['KHATWA_CHAKRA', 'CHAKKI_CHAKRA', 'HALA_CHAKRA_MID', 'VRIKSHA_CHAKRA_MID']) assert.ok(E.CODE_TA[c], c);
+}
+
 console.log('test-event-muhurta: all checks passed');
