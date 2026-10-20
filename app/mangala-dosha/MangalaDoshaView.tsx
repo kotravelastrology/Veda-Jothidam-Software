@@ -5,6 +5,7 @@ import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
 import { listCharts, searchCharts } from '../library/actions';
 import { computeMangala, type MangalaSide } from './actions';
 import type { BirthFormInput } from '../report/actions';
+import { citeTa } from '@/src/sources/citeTa';
 
 /**
  * Mangala (Kuja) dosha for a bride, a groom, or both.
@@ -354,13 +355,13 @@ export default function MangalaDoshaView() {
               இவை ஒரு நூல் (எஸ்.பி. பகத்) குறிப்பிடும் வழக்கங்கள். இவை பலன் தரும் என்று இந்த மென்பொருள் கூறவில்லை; எதுவும் கணிக்கப்படவில்லை.
             </p>
             <p className="text-xs text-ink">{result.remedies.beforeMarriage.textTa}
-              <span className="block text-ink-soft">{result.remedies.beforeMarriage.source.title} — {result.remedies.beforeMarriage.source.pageLocus}</span></p>
+              <span className="block text-ink-soft">{citeTa(result.remedies.beforeMarriage.source)}</span></p>
             <ul className="list-disc ml-5 text-xs text-ink mt-2">
               {result.remedies.afterMarriage.items.map((x: string, i: number) => <li key={i}>{x}</li>)}
             </ul>
-            <p className="text-[11px] text-ink-soft mt-1">திருமணத்துக்குப் பின் செய்யக்கூடியவை — {result.remedies.afterMarriage.source.pageLocus}</p>
+            <p className="text-[11px] text-ink-soft mt-1">திருமணத்துக்குப் பின் செய்யக்கூடியவை — {citeTa(result.remedies.afterMarriage.source)}</p>
             <p className="text-xs text-ink mt-2">{result.remedies.yantra.textTa}
-              <span className="block text-ink-soft">{result.remedies.yantra.source.pageLocus}</span></p>
+              <span className="block text-ink-soft">{citeTa(result.remedies.yantra.source)}</span></p>
           </section>
 
           <section className="bg-amber-50 border border-amber-200 text-amber-900 rounded-2xl p-4 mb-4 text-xs space-y-2">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { citeTa } from '@/src/sources/citeTa';
 import {
   listCharts, recordConsultation, listConsultations, getConsultation,
   addJournalEvent, listJournalEvents, deleteJournalEvent,
@@ -284,7 +285,7 @@ export default function ConsultationToolsView() {
                     <p className="text-xs font-semibold text-ink-soft uppercase mb-1">ஆதாரம்</p>
                     {detail.evidence.map((e: any) => (
                       <p key={e.ruleId} className="text-xs text-ink-soft">
-                        {e.name} — {e.status === 'SOURCE_REQUIRED' ? 'ஆதாரம் தேவை' : e.source?.pageLocus}
+                        {e.name} — {e.status === 'SOURCE_REQUIRED' ? 'ஆதாரம் தேவை' : citeTa(e.source)}
                       </p>
                     ))}
                   </div>

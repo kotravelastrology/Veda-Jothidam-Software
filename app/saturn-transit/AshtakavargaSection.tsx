@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
+import { citeWith } from '@/src/sources/citeTa';
 
 /**
  * Saturn's transit refined by Ashtakavarga and Kakshya.
@@ -31,7 +32,7 @@ const DAY_MS = 86400000;
 
 const day = (iso: string) => iso.slice(0, 10);
 const num = { fontVariantNumeric: 'tabular-nums' as const };
-const cite = (s: any) => `${BOOK_TA[s.title] ?? s.title} — ${String(s.pageLocus).split(':')[0]}`;
+const cite = (s: any) => citeWith(s, BOOK_TA[s.title]);
 function fmtLon(lon: number) {
   const x = ((lon % 360) + 360) % 360;
   const s = Math.floor(x / 30);

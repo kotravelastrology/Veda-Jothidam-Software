@@ -7,6 +7,7 @@ import { listCharts, searchCharts, openChart } from '../library/actions';
 import { computeSaturn } from './actions';
 import AshtakavargaSection from './AshtakavargaSection';
 import type { BirthFormInput } from '../report/actions';
+import { citeTa } from '@/src/sources/citeTa';
 
 /**
  * Sade Sati, Ardhashtama, Ashtama and Kantaka Saturn.
@@ -838,7 +839,7 @@ export default function SaturnTransitView() {
                   <li key={id}>
                     <span className="font-semibold">{d.nameTa} — {d.houses.join(', ')}-ஆம் இடம்</span>
                     {d.sources.map((s: any, i: number) => (
-                      <span key={i} className="block ml-3 text-amber-800">{s.title}: {s.pageLocus}</span>
+                      <span key={i} className="block ml-3 text-amber-800">{citeTa(s)}</span>
                     ))}
                   </li>
                 ))}

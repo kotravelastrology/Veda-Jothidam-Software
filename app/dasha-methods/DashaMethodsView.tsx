@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { loadDashaMethods } from './actions';
+import { citeTa } from '@/src/sources/citeTa';
 
 /**
  * VJ-027 — what this software knows about each dasha method, and how far that
@@ -72,7 +73,7 @@ function MethodRow({ m }: { m: Method }) {
             <div>
               <p className="font-semibold text-ink">ஆதாரம்</p>
               <p className="text-ink-soft">{m.source.title}{m.source.author ? ` — ${m.source.author}` : ''}</p>
-              <p className="text-ink-soft">{m.source.pageLocus}</p>
+              <p className="text-ink-soft">{citeTa(m.source)}</p>
             </div>
           ) : (
             <p className="text-rose">ஆதார முத்திரை இல்லை.</p>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeNakshatraGochara } from './actions';
+import { citeTa } from '@/src/sources/citeTa';
 
 /**
  * Nakshatra gochara: each planet's star counted from the natal star. The
@@ -20,7 +21,7 @@ const CLASS: Record<string, { ta: string; cls: string }> = {
 const NATURE_TA: Record<string, string> = { BENEFIC: 'சுபர்', MALEFIC: 'பாபர்', UNDETERMINED: 'தீர்மானிக்கவில்லை' };
 const day = (iso: string) => iso.slice(0, 10);
 const num = { fontVariantNumeric: 'tabular-nums' as const };
-const cite = (s: any) => `${s.title} — ${String(s.pageLocus).split(':')[0]}`;
+const cite = (s: any) => citeTa(s);
 const Cites = ({ list }: { list: any[] }) => (
   <span className="block text-[11px] text-ink-soft mt-1">{list.map((s, i) => <span key={i} className="block">{cite(s)}</span>)}</span>
 );

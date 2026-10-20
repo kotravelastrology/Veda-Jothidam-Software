@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeLatta } from './actions';
+import { citeTa } from '@/src/sources/citeTa';
 
 /**
  * Latta: the star each transiting planet kicks, and when one kicks the natal
@@ -13,7 +14,7 @@ import { computeLatta } from './actions';
 
 const num = { fontVariantNumeric: 'tabular-nums' as const };
 const day = (iso: string) => iso.slice(0, 10);
-const cite = (s: any) => `${s.title} — ${String(s.pageLocus).split(' — ')[0]}`;
+const cite = (s: any) => citeTa(s);
 const Cites = ({ list }: { list: any[] }) => (
   <span className="block text-[11px] text-ink-soft mt-1">{list.map((s, i) => <span key={i} className="block">{cite(s)}</span>)}</span>
 );

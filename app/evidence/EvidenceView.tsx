@@ -5,6 +5,7 @@ import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import type { ChartGraha } from '@/src/charts/kattam/rasiNames';
 import { useActiveBirthInput } from '@/src/workspace/useActiveBirthInput';
 import { computeEvidenceSnapshot, citeEvidenceInConsultation } from './actions';
+import { citeTa } from '@/src/sources/citeTa';
 
 type Panel = 'natal' | 'varga' | 'bala';
 
@@ -237,7 +238,7 @@ export default function EvidenceView() {
                   <span>
                     <span className="text-sm font-medium text-ink">{e.name}</span>
                     <span className="block font-mono text-[11px] text-ink-soft">
-                      {e.status === 'SOURCE_REQUIRED' ? 'ஆதாரம் தேவை' : `${e.source.title} — ${e.source.pageLocus}`}
+                      {e.status === 'SOURCE_REQUIRED' ? 'ஆதாரம் தேவை' : citeTa(e.source)}
                     </span>
                   </span>
                 </label>

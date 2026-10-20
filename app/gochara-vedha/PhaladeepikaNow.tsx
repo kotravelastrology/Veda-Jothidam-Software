@@ -4,6 +4,8 @@
  * The data is `phaladeepikaNow()` in `src/report/phaladeepikaGochara.js`.
  */
 
+import { citeTa } from '@/src/sources/citeTa';
+
 export const PLANET_TA: Record<string, string> = {
   Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு',
   Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது',
@@ -11,7 +13,7 @@ export const PLANET_TA: Record<string, string> = {
 export const NATURE_TA: Record<string, string> = { MALEFIC: 'பாபர்', BENEFIC: 'சுபர்' };
 export const REASON_TA: Record<string, string> = { DEBILITATED: 'நீசம்', ENEMY_SIGN: 'பகை வீடு', COMBUST: 'அஸ்தங்கம்' };
 
-export const cite = (s: any) => `${s.title} — ${String(s.pageLocus).split(':')[0]}`;
+export const cite = (s: any) => citeTa(s);
 export const Cites = ({ list }: { list: any[] }) => (
   <span className="block text-[11px] text-ink-soft mt-1">{list.map((s, i) => <span key={i} className="block">{cite(s)}</span>)}</span>
 );

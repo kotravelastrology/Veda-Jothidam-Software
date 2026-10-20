@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeMuhurtaStars } from './actions';
+import { citeTa } from '@/src/sources/citeTa';
 
 /**
  * The star of a muhurta over a period, for one person: Latta (a planet kicks
@@ -13,7 +14,7 @@ import { computeMuhurtaStars } from './actions';
  */
 
 const num = { fontVariantNumeric: 'tabular-nums' as const };
-const cite = (s: any) => `${s.title} — ${String(s.pageLocus).split(/: "| — /)[0]}`;
+const cite = (s: any) => citeTa(s);
 const Cites = ({ list }: { list: any[] }) => (
   <span className="block text-[11px] text-ink-soft mt-1">{list.map((s, i) => <span key={i} className="block">{cite(s)}</span>)}</span>
 );
