@@ -2229,4 +2229,74 @@ const RF = FIX.roga_snana;
   assert.ok(acts5.length >= 180, `the whole table now has ${acts5.length} acts`);
 }
 
+// ------------------------------------------------ religious, legal, government and martial leftovers ---
+{
+  const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'PPhalguni', 'UPhalguni', 'Hasta',
+    'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Moola', 'PAshadha', 'UAshadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'PBhadra', 'UBhadra', 'Revati'];
+  const ev = (a, b) => E.EVENTS[a][b];
+  const good = (a, b) => sorted(ev(a, b).nak.good);
+  const st = (...ns) => sorted(ns.map((n) => NAMES.indexOf(n)));
+  // Pacification: Shridhar, the Chintamani and Wilhelm print the same fifteen; Joshi and Kalyanraman the same fourteen without Revati, with Abhijit.
+  assert.deepEqual(E.EVENTS.SHANTI_KARMA.order.slice().sort(), ['JOSHI', 'KALYANRAMAN', 'MUHURTA_CHINTAMANI', 'SHRIDHAR', 'WILHELM']);
+  assert.equal(E.EVENTS.SHANTI_KARMA.default, 'MUHURTA_CHINTAMANI', 'the most-explained book (322 words) is the default');
+  assert.equal(good('SHANTI_KARMA', 'MUHURTA_CHINTAMANI').length, 15);
+  assert.deepEqual(good('SHANTI_KARMA', 'SHRIDHAR'), good('SHANTI_KARMA', 'MUHURTA_CHINTAMANI'));
+  assert.deepEqual(good('SHANTI_KARMA', 'WILHELM'), good('SHANTI_KARMA', 'MUHURTA_CHINTAMANI'));
+  assert.deepEqual(good('SHANTI_KARMA', 'KALYANRAMAN'), good('SHANTI_KARMA', 'JOSHI'));
+  assert.equal(good('SHANTI_KARMA', 'JOSHI').length, 14);
+  assert.ok(!good('SHANTI_KARMA', 'JOSHI').includes(NAMES.indexOf('Revati')) && good('SHANTI_KARMA', 'MUHURTA_CHINTAMANI').includes(NAMES.indexOf('Revati')));
+  assert.ok(ev('SHANTI_KARMA', 'JOSHI').abhijitOk && !ev('SHANTI_KARMA', 'MUHURTA_CHINTAMANI').abhijitOk);
+  assert.equal(ev('SHANTI_KARMA', 'MUHURTA_CHINTAMANI').want.length, 3, 'Jupiter in the lagna, the Sun in the 10th, the Moon in the 4th');
+  assert.ok(!ev('SHANTI_KARMA', 'SHRIDHAR').want, 'Shridhar says "or", so nothing is marked');
+  for (const b of E.EVENTS.SHANTI_KARMA.order) assert.ok(ev('SHANTI_KARMA', b).jupVenNotSet, `${b}: Jupiter and Venus not combust`);
+  assert.deepEqual(sorted(ev('SHANTI_KARMA', 'KALYANRAMAN').vara.good), [0, 1, 3, 4, 5]);
+  // The lie-detector test: four books, the same five stars, the six Nadi stars from the birth star barred.
+  assert.equal(E.EVENTS.LIE_DETECTOR.order.length, 4);
+  assert.equal(E.EVENTS.LIE_DETECTOR.default, 'MUHURTA_CHINTAMANI');
+  for (const b of E.EVENTS.LIE_DETECTOR.order) {
+    assert.deepEqual(good('LIE_DETECTOR', b), st('Punarvasu', 'Hasta', 'Jyeshtha', 'Shravana', 'Shatabhisha'), `${b}: the five stars`);
+    assert.deepEqual(ev('LIE_DETECTOR', b).taraNot, [1, 10, 16, 18, 23, 25], `${b}: Nadi stars`);
+    assert.deepEqual(sorted(ev('LIE_DETECTOR', b).lagna.good), [0, 2, 3, 5, 6, 8, 9, 11], `${b}: movable and dual signs`);
+  }
+  assert.ok(ev('LIE_DETECTOR', 'KALYANRAMAN').tithi.includes(4) && ev('LIE_DETECTOR', 'KALYANRAMAN').tithi.includes(30), 'Chaturthi and Amavasya are in his list');
+  assert.ok(!ev('LIE_DETECTOR', 'JOSHI').tithi.includes(8) && !ev('LIE_DETECTOR', 'JOSHI').tithi.includes(2), 'the eighth and the Bhadra tithis are barred');
+  assert.ok(ev('LIE_DETECTOR', 'WILHELM').vishti && ev('LIE_DETECTOR', 'WILHELM').notIn, 'Wilhelm bars Vishti and the Sun and Moon in the 8th');
+  assert.deepEqual(sorted(ev('LIE_DETECTOR', 'MUHURTA_CHINTAMANI').vara.good), [0, 1, 3, 4, 5], 'Saturday and Tuesday barred');
+  // Vastu pooja: Kalyanraman and Joshi print the same thirteen stars; Tuesday and Sunday barred.
+  assert.deepEqual(good('VASTU_POOJA', 'KALYANRAMAN'), good('VASTU_POOJA', 'JOSHI'));
+  assert.equal(good('VASTU_POOJA', 'JOSHI').length, 13);
+  assert.deepEqual(sorted(ev('VASTU_POOJA', 'KALYANRAMAN').vara.good), [1, 3, 4, 5, 6], 'Tuesday and Sunday barred');
+  // Enemies and the kavacha: Kalyanraman and Joshi print the same stars and weekdays.
+  assert.equal(good('ENEMY_OVERPOWER', 'KALYANRAMAN').length, 9);
+  assert.deepEqual(good('ENEMY_OVERPOWER', 'JOSHI'), good('ENEMY_OVERPOWER', 'KALYANRAMAN'));
+  assert.deepEqual(sorted(ev('ENEMY_OVERPOWER', 'JOSHI').vara.good), [0, 2, 6]);
+  assert.deepEqual(sorted(ev('ENEMY_OVERPOWER', 'JOSHI').lagna.good), [0, 4, 7, 9, 10]);
+  assert.deepEqual(good('KAVACHA', 'KALYANRAMAN'), good('KAVACHA', 'JOSHI'));
+  assert.equal(good('KAVACHA', 'JOSHI').length, 10);
+  assert.deepEqual(sorted(ev('KAVACHA', 'JOSHI').vara.good), [0, 4, 5, 6]);
+  // The Kalyanraman-only acts and their counts.
+  const KR2 = { EXPIATORY: 2, GOVT_DEALINGS: 1, SKILLED_TRAINING: 3, SEEK_POWER_ALLIANCE: 4, HYPNOTISM: 8 };
+  for (const [a, n] of Object.entries(KR2)) {
+    assert.deepEqual(E.EVENTS[a].order, ['KALYANRAMAN'], `${a}: one book`);
+    assert.equal(good(a, 'KALYANRAMAN').length, n, `${a}: ${n} stars`);
+    assert.deepEqual(sorted(ev(a, 'KALYANRAMAN').vara.good), [0, 1, 3, 4, 5], `${a}: five weekdays`);
+  }
+  // Books added to existing acts.
+  assert.equal(good('BED_MAKING', 'KALYANRAMAN').length, 14);
+  assert.ok(ev('BED_MAKING', 'KALYANRAMAN').abhijitOk);
+  assert.deepEqual(good('ARMY_RAISE', 'JOSHI'), good('ARMY_RAISE', 'SHRIDHAR'), 'Joshi: the same twelve army stars');
+  assert.deepEqual(sorted(ev('ARMY_RAISE', 'JOSHI').vara.good), [0, 2]);
+  assert.equal(E.EVENTS.MISSILE_SETUP.default, 'JOSHI', 'Joshi explains more than Kalyanraman');
+  assert.equal(good('MISSILE_SETUP', 'JOSHI').length, 5);
+  assert.equal(ev('MISSILE_SETUP', 'JOSHI').nak.mid.length, 10);
+  assert.equal(good('MISSILE_SETUP', 'KALYANRAMAN').length, 14, 'Kalyanraman is unchanged');
+  assert.equal(good('ARMY_CAMP', 'JOSHI').length, 10);
+  assert.ok(!ev('ARMY_CAMP', 'JOSHI').tithi.includes(4));
+  // A page locus corrected: Wilhelm's escaped prisoners are on printed pp.227-228 (PDF 235-236), not the war pages.
+  assert.ok(E.SOURCES.CATCH_THIEF.WILHELM.pageLocus.includes('PDF 235-236'));
+  for (const c of ['SUN_10_MID', 'MOON_4_MID']) assert.ok(E.CODE_TA[c], `${c} has a Tamil label`);
+  const acts6 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
+  assert.ok(acts6.length >= 190, `the whole table now has ${acts6.length} acts`);
+}
+
 console.log('test-event-muhurta: all checks passed');

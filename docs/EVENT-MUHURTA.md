@@ -1064,6 +1064,26 @@ omens at ploughing, the garden's directions (Shridhar), keeping animals, buying
 and selling cattle, farm implements, water (wells, hydraulic devices), mustard
 oil and sugar-cane juice extraction (Shridhar's Kolhu and juice chakras).
 
+**Religious, legal, government and martial leftovers** (10 new acts and 4 books added to existing acts, 2026-10-20):
+pacification (shanti karma — five books: Shridhar, Muhurta Chintamani, Wilhelm, Joshi, Kalyanraman), the lie-detector /
+divine test (four books, the same five stars), Vastu pooja before entering a house (Kalyanraman and Joshi, the same
+thirteen stars), overpowering enemies and the kavacha (Kalyanraman and Joshi, the same stars and weekdays), and five
+Kalyanraman-only tables: expiatory ritual, dealing with government bodies, training in skilled jobs, seeking an
+alliance with the powerful, hypnotism. Pacification: Shridhar, the Chintamani and Wilhelm print the same fifteen
+stars; Joshi and Kalyanraman print the same fourteen without Revati and with Abhijit, and Kalyanraman says the
+Chintamani approves "the above" although the Chintamani prints Revati and not Abhijit (kept as printed, named in the
+note). "The Sun in the 10th, the Moon in the 4th, Jupiter in the lagna" is marked in the four books that print the three
+together and not in Shridhar, who says "or"; the combust Jupiter / Venus bar is computed (the books waive it for the
+pacification of omens, a note). Lie detector: the six Nadi stars from the birth star (1, 10, 16, 18, 23, 25) are the Tara
+count that the chart owner's star feeds; the accused's birth month and the 8th from his own chart cannot be computed
+(no chart of the accused), except Wilhelm's "the Sun and Moon not in the 8th", which is read in the muhurta chart.
+**Books added to acts that already existed**: Kalyanraman's new bed / seat (14 + Abhijit); Joshi's army movements (the
+same twelve stars as Shridhar and Kalyanraman), missiles (Joshi prints two lists under one heading — his five stars for
+fiery arms are good and the other ten of his first list middling) and camping the army (ten stars, Rikta barred). Joshi's
+missile reading is now the default because he explains more than Kalyanraman (109 words against 100).
+**A page locus corrected**: Wilhelm's "seeking escaped prisoners" (in the thief act) was cited to the war pages (PDF
+331-332); it is printed pp.227-228 (PDF 235-236).
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are

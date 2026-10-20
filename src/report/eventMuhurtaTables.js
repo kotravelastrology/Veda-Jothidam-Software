@@ -4510,7 +4510,7 @@ const HUNTING = deepFreeze({
 const ARMY_RAISE = deepFreeze({
   labelTa: 'சேனை சேர்த்தல், படை நகர்வு திட்டமிடல்',
   default: 'SHRIDHAR',
-  order: ['SHRIDHAR', 'WILHELM', 'KALYANRAMAN'],
+  order: ['SHRIDHAR', 'WILHELM', 'JOSHI', 'KALYANRAMAN'],
   SHRIDHAR: {
     labelTa: 'ஸ்ரீதர் §20.8', booksTa: 'ஸ்ரீதர் (J.V. மேற்கோள்)',
     nak: { good: [1, 3, 7, 8, 12, 16, 14, 22, 26, 11, 20, 25], mid: [] }, digdwar: false,
@@ -4531,6 +4531,13 @@ const ARMY_RAISE = deepFreeze({
     tithi: [3, 8, 13, 18, 23, 28],
     vara: { good: [0, 2], mid: [] },
     noteTa: 'ஸ்ரீதரின் அதே பன்னிரண்டு, அதே ஜய திதி, அதே இரு கிழமை — அச்சு வேறுபாடே இல்லை · லக்னம், யோகம், கரணம் சொல்லப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.144)', booksTa: 'ஜோஷி',
+    nak: { good: [1, 3, 7, 8, 11, 12, 14, 16, 20, 22, 25, 26], mid: [] }, digdwar: false,
+    tithi: [3, 8, 13, 18, 23, 28],
+    vara: { good: [0, 2], mid: [] },
+    noteTa: 'ஸ்ரீதர், கல்யாணராமனின் அதே பன்னிரண்டு நட்சத்திரம், ஜய திதி, ஞாயிறு, செவ்வாய் · வெற்றிப் பயணம் (விஜய யாத்திரை) — பயண அத்தியாயத்தில்',
   },
 });
 const WAR_START = deepFreeze({
@@ -4622,8 +4629,8 @@ const WEAPON_WEAR = deepFreeze({
 });
 const MISSILE_SETUP = deepFreeze({
   labelTa: 'தீ ஆயுதம், ஏவுகணை நிறுத்துதல்',
-  default: 'KALYANRAMAN',
-  order: ['KALYANRAMAN', 'WILHELM'],
+  default: 'JOSHI',
+  order: ['JOSHI', 'KALYANRAMAN', 'WILHELM'],
   KALYANRAMAN: {
     labelTa: 'கல்யாணராமன் (தொ.2 ப.233)', booksTa: 'கல்யாணராமன்',
     nak: { good: [5, 7, 3, 4, 11, 12, 13, 17, 19, 20, 21, 22, 25, 26], mid: [] }, digdwar: false,
@@ -4640,11 +4647,20 @@ const MISSILE_SETUP = deepFreeze({
     lagna: { good: [1, 4, 7, 10], mid: [2, 5, 8, 11] },
     noteTa: 'பதினான்கு நட்சத்திரம் (அச்சில் உத்திராடம் இரு முறை வருகிறது) — கல்யாணராமனின் பட்டியலில் உத்திரம் மட்டும் இவரிடம் இல்லை, அனுஷம் கூடுதல் · அதே ஞாயிறு, செவ்வாய், சனி · ஸ்திர லக்னம் சிறந்தது, சர ராசி தள்ளு; உபய ராசி நடுநிலையாகக் கொள்ளப்பட்டுள்ளது · திதி சொல்லப்படவில்லை',
   },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.144)', booksTa: 'ஜோஷி',
+    nak: { good: [26, 13, 7, 12, 21], mid: [5, 17, 19, 22, 3, 11, 20, 25, 4, 16] }, digdwar: false,
+    tithi: [3, 4, 8, 9, 13, 14, 18, 19, 23, 24, 28, 29],
+    vara: { good: [0, 2, 6], mid: [] },
+    lagna: { good: [1, 4, 7, 10], mid: [] },
+    maleficIn: [3, 6, 10, 11],
+    noteTa: 'ஜோஷி இரு பட்டியல் தருகிறார்: முதலில் பதினைந்து நட்சத்திரம் (ஏவுகணை நிறுத்துதல்) — அவற்றில் ஐந்தைத் தவிர மீதிப் பத்து இங்கே நடுநிலை; பிறகு தீ ஆயுதத்துக்கு ரேவதி, சித்திரை, பூசம், ஹஸ்தம், திருவோணம் மட்டும் (நல்லது) · பாப கிரக நாட்கள் (ஞாயிறு, செவ்வாய், சனி) · ஜய, ரிக்தா திதி · ஸ்திர லக்னம், பாபர் 3, 6, 10, 11-ல்',
+  },
 });
 const ARMY_CAMP = deepFreeze({
   labelTa: 'சேனைத் தலைமையிடம், கூடாரம்',
   default: 'SHRIDHAR',
-  order: ['SHRIDHAR', 'WILHELM'],
+  order: ['SHRIDHAR', 'JOSHI', 'WILHELM'],
   SHRIDHAR: {
     labelTa: 'ஸ்ரீதர் §20.11', booksTa: 'ஸ்ரீதர் (J.V., M.G. மேற்கோள்கள்)',
     nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 21, 22], mid: [23, 0, 7, 12, 14, 6] }, digdwar: false,
@@ -4657,6 +4673,13 @@ const ARMY_CAMP = deepFreeze({
     nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 21, 22], mid: [] }, digdwar: false,
     tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
     noteTa: 'ஸ்ரீதரின் அதே பத்து நட்சத்திரம் — அச்சு வேறுபாடே இல்லை · ரிக்தாவுடன் பௌர்ணமியையும் தள்ளுகிறார், ஸ்ரீதர் ரிக்தாவை மட்டும் · கிழமை, லக்னம் சொல்லப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.144)', booksTa: 'ஜோஷி',
+    nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 21, 22], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: 'பத்து நட்சத்திரம்: ஸ்திர 4, மிருது 4, திருவோணம், அவிட்டம் · ரிக்தா தவிர எல்லாத் திதியும் · திங்கள், புதன், வியாழன், வெள்ளி',
   },
 });
 const DAGGER_TIE = deepFreeze({
@@ -5057,7 +5080,7 @@ const WINE = deepFreeze({
 const BED_MAKING = deepFreeze({
   labelTa: 'கட்டில் செய்தல், முதல் முறை படுத்தல்',
   default: 'SHRIDHAR',
-  order: ['SHRIDHAR', 'MUHURTA_CHINTAMANI', 'WILHELM'],
+  order: ['SHRIDHAR', 'KALYANRAMAN', 'MUHURTA_CHINTAMANI', 'WILHELM'],
   SHRIDHAR: {
     labelTa: 'ஸ்ரீதர் §25.28', booksTa: 'ஸ்ரீதர் (B.J.S. மேற்கோள்)',
     masa: { good: [0, 1, 2, 3, 6, 7, 8, 9, 10, 11], mid: [], strict: false },
@@ -5077,6 +5100,11 @@ const BED_MAKING = deepFreeze({
     labelTa: 'வில்ஹெல்ம் — கட்டில், ஆசனம்', booksTa: 'வில்ஹெல்ம்',
     nak: { good: [0, 1, 3, 4, 6, 7, 11, 12, 13, 16, 20, 21, 25, 26], mid: [] }, digdwar: false,
     noteTa: 'பதினான்கு நட்சத்திரம் — சிந்தாமணியின் பதினைந்தில் பூசம், அபிஜித் தவிர அனைத்தும்; ஸ்ரீதரின் ஒன்பதும் இதில் அடங்கும் · பரணி சிந்தாமணியைப் போலவே இவரிடமும் உள்ளது · திதி, கிழமை, லக்னம் சொல்லப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.242)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [3, 11, 20, 25, 4, 13, 16, 26, 12, 0, 7, 21, 1, 6], mid: [] }, abhijitOk: true, digdwar: false,
+    noteTa: 'பதினான்கு நட்சத்திரம் + அபிஜித்: ஸ்திர 4, மிருது 4, லகு 3, திருவோணம், பரணி, புனர்பூசம் · திதி, கிழமை சொல்லப்படவில்லை',
   },
 });
 const PERFORMING = deepFreeze({
@@ -7522,8 +7550,270 @@ const CAMEL_BIRD_TRADE = deepFreeze({
     noteTa: 'கல்யாணராமனின் அதே ஆறு நட்சத்திரம் · ஞாயிறு, வெள்ளி, சனி',
   },
 });
+// ---------------------------------------------------------------------------
+// Religious, legal, government and martial leftovers (shanti karma, expiation, Vastu pooja, lie detector, government dealings, skilled training, alliance, enemies, kavacha, hypnotism), added 2026-10-20
+// ---------------------------------------------------------------------------
+const SHANTI_KARMA = deepFreeze({
+  labelTa: 'சாந்தி கர்மம் (கிரக தோஷம், கண்டாந்த தோஷ நிவர்த்தி)',
+  default: 'MUHURTA_CHINTAMANI',
+  order: ['MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'JOSHI', 'SHRIDHAR', 'WILHELM'],
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி (ப.69-70)', booksTa: 'முகூர்த்த சிந்தாமணி',
+    nak: { good: [12, 0, 7, 3, 11, 20, 25, 6, 14, 21, 22, 23, 16, 9, 26], mid: [] }, digdwar: false,
+    want: [{ planets: ['Jupiter'], houses: [1], code: 'JUP_LAGNA_MID' }, { planets: ['Sun'], houses: [10], code: 'SUN_10_MID' }, { planets: ['Moon'], houses: [4], code: 'MOON_4_MID' }],
+    jupVenNotSet: true,
+    noteTa: 'பதினைந்து நட்சத்திரம்: லகு 3, ஸ்திர 4, சர 5, அனுஷம், மகம், ரேவதி · லக்னத்தில் குரு, 10-ல் சூரியன், 4-ல் சந்திரன் (குறிக்கப்படும்) · குரு / சுக்கிரன் அஸ்தமனம் தள்ளு (நிமித்த சாந்திக்குத் தேவையில்லை) · திதி, கிழமை சொல்லப்படவில்லை',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.225)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 3, 6, 7, 9, 11, 12, 14, 16, 20, 21, 22, 23, 25], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    want: [{ planets: ['Jupiter'], houses: [1], code: 'JUP_LAGNA_MID' }, { planets: ['Sun'], houses: [10], code: 'SUN_10_MID' }, { planets: ['Moon'], houses: [4], code: 'MOON_4_MID' }],
+    jupVenNotSet: true,
+    noteTa: 'பதினான்கு நட்சத்திரம் + அபிஜித் (ரேவதி இல்லை) · திதி 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15 · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி · லக்னத்தில் குரு, 10-ல் சூரியன், 4-ல் சந்திரன் (ஆதர்ச நிலை — குறிக்கப்படும்) · குரு / சுக்கிரன் அஸ்தமனம் தள்ளு',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.148)', booksTa: 'ஜோஷி',
+    nak: { good: [12, 0, 7, 3, 11, 20, 25, 6, 14, 21, 22, 23, 16, 9], mid: [] }, abhijitOk: true, digdwar: false,
+    want: [{ planets: ['Jupiter'], houses: [1], code: 'JUP_LAGNA_MID' }, { planets: ['Sun'], houses: [10], code: 'SUN_10_MID' }, { planets: ['Moon'], houses: [4], code: 'MOON_4_MID' }],
+    jupVenNotSet: true,
+    noteTa: 'கல்யாணராமனின் அதே பதினான்கு + அபிஜித் · சுப திதி, சுப யோகம் (பட்டியல் இல்லை) · லக்னத்தில் குரு, 10-ல் சூரியன், 4-ல் சந்திரன் (குறிக்கப்படும்) · குரு / சுக்கிரன் அஸ்தமனம் தள்ளு',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §16.10', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [12, 0, 7, 3, 11, 20, 25, 6, 14, 21, 22, 23, 16, 9, 26], mid: [] }, digdwar: false,
+    jupVenNotSet: true,
+    noteTa: 'பதினைந்து நட்சத்திரம் (சிந்தாமணியின் அதே) · "10-ல் சூரியன், 4-ல் சந்திரன், அல்லது லக்னத்தில் குரு" — "அல்லது" என்பதால் குறிக்கப்படவில்லை · பௌர்ணமி மிகச் சிறப்பு (குறிப்பு) · குரு / சுக்கிரன் தோஷம் தள்ளு (சகுன சாந்திக்குத் தேவையில்லை)',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.304)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [12, 0, 7, 3, 11, 20, 25, 6, 14, 21, 22, 23, 16, 9, 26], mid: [] }, digdwar: false,
+    want: [{ planets: ['Jupiter'], houses: [1], code: 'JUP_LAGNA_MID' }, { planets: ['Sun'], houses: [10], code: 'SUN_10_MID' }, { planets: ['Moon'], houses: [4], code: 'MOON_4_MID' }],
+    jupVenNotSet: true,
+    noteTa: 'சிந்தாமணியின் அதே பதினைந்து நட்சத்திரம் · லக்னத்தில் குரு (மிகச் சிறப்பு), 10-ல் சூரியன், 4-ல் சந்திரன் (குறிக்கப்படும்) · குரு / சுக்கிரன் அஸ்தமனம் தள்ளு (அபசகுன சாந்திக்கு உடனே செய்யலாம்); குரு, சுக்கிரனின் வேறு பீடைகளும் தள்ளு',
+  },
+});
+const EXPIATORY = deepFreeze({
+  labelTa: 'பிராயச்சித்த சடங்கு செய்தல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.224)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [8, 11], mid: [] }, digdwar: false,
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'ஆயில்யம், உத்திரம் · சுப திதி (பட்டியல் இல்லை) · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி · சுப யோகம், கரணம்',
+  },
+});
+const VASTU_POOJA = deepFreeze({
+  labelTa: 'வாஸ்து பூஜை (புதிய வீட்டுக்குள் நுழையும் முன்)',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'JOSHI'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.224-225)', booksTa: 'கல்யாணராமன்',
+    masa: { good: [10, 11, 1, 2], mid: [0, 3, 4, 5, 6, 7, 8, 9], strict: false },
+    uttarayana: 'PREFERRED',
+    nak: { good: [3, 4, 6, 11, 13, 14, 16, 20, 21, 22, 23, 25, 26], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [1, 3, 4, 5, 6], mid: [] },
+    lagna: { good: [1, 4, 7, 10, 2, 5, 8, 11], mid: [] },
+    empty: [4, 8],
+    beneficIn: [1, 7, 10, 5, 9, 2, 3, 11],
+    jupVenNotSet: true,
+    noteTa: 'பதிமூன்று நட்சத்திரம் · திதி 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15 · செவ்வாய், ஞாயிறு தள்ளு · லக்னம் 2, 5, 8, 11, 3, 6, 9, 12 · சுபர் 1, 7, 10, 5, 9, 2, 3, 11-ல் · 4, 8 காலி · உத்தராயணம்; மாசி, பங்குனி, வைகாசி, ஆனி நல்லது · குரு / சுக்கிர அஸ்தமனம் தள்ளு',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.123)', booksTa: 'ஜோஷி',
+    nak: { good: [3, 4, 6, 11, 13, 14, 16, 20, 21, 22, 23, 25, 26], mid: [] }, digdwar: false,
+    noteTa: 'கல்யாணராமனின் அதே பதின்மூன்று நட்சத்திரம் (வாஸ்து பூஜையும் ஹவனமும்) · வேறு விதி இல்லை',
+  },
+});
+const LIE_DETECTOR = deepFreeze({
+  labelTa: 'குற்றவாளியைச் சோதித்தல் (தெய்வச் சோதனை, உண்மை அறியும் சோதனை, விசாரணை)',
+  default: 'MUHURTA_CHINTAMANI',
+  order: ['MUHURTA_CHINTAMANI', 'WILHELM', 'KALYANRAMAN', 'JOSHI'],
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி (ப.77-79)', booksTa: 'முகூர்த்த சிந்தாமணி',
+    nak: { good: [6, 12, 17, 21, 23], mid: [] }, digdwar: false,
+    tithi: [1, 3, 4, 5, 6, 9, 10, 11, 13, 15, 16, 18, 19, 20, 21, 24, 25, 26, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    taraNot: [1, 10, 16, 18, 23, 25],
+    lagna: { good: [0, 2, 3, 5, 6, 8, 9, 11], mid: [] },
+    navNot: [1, 4, 7, 10],
+    noteTa: 'ஐந்து நட்சத்திரம்: புனர்பூசம், ஹஸ்தம், கேட்டை, திருவோணம், சதயம் · 8, 14, பத்ரா (2, 7, 12) திதி தள்ளு · சனி, செவ்வாய் தள்ளு · சர / உபய லக்னம், நவாம்சம் · ஜன்ம நட்சத்திரத்திலிருந்து 1, 10, 16, 18, 23, 25 தள்ளு · பிறந்த மாதம், பிறப்பு லக்னத்திலிருந்து 8-ல் சூரிய / சந்திரன் — சோதிக்கப்படுபவர் ஜாதகம் தேவை (குறிப்பு)',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.226-227)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [6, 12, 17, 21, 23], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 24, 25, 26, 27, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    taraNot: [1, 10, 16, 18, 23, 25],
+    vishti: true,
+    lagna: { good: [0, 2, 3, 5, 6, 8, 9, 11], mid: [] },
+    navNot: [1, 4, 7, 10],
+    notIn: [[['Sun', 'Moon'], [8]]],
+    noteTa: 'அதே ஐந்து நட்சத்திரம் · 8, 14 திதி தள்ளு · விஷ்டி கரணம் தள்ளு · செவ்வாய், சனி தள்ளு · சர / உபய லக்னம், நவாம்சம் · 8-ல் சூரியன், சந்திரன் கூடாது (முகூர்த்த லக்னத்திலிருந்து) · நாடி நட்சத்திரம் தள்ளு · சந்திரன், குரு கோசாரத்தில் நல்ல இடத்தில் (பொதுப் பலத்தில்)',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.198-199)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [6, 12, 17, 21, 23], mid: [] }, digdwar: false,
+    tithi: [1, 3, 4, 5, 6, 9, 10, 11, 13, 15, 16, 18, 19, 20, 21, 24, 25, 26, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    taraNot: [1, 10, 16, 18, 23, 25],
+    lagna: { good: [0, 2, 3, 5, 6, 8, 9, 11], mid: [] },
+    navNot: [1, 4, 7, 10],
+    noteTa: 'அதே ஐந்து நட்சத்திரம் · திதி 1, 3, 4, 5, 6, 9, 10, 11, 13, 15, 30 (4-ஆம் திதி ஏற்கப்படும்); பத்ரா 2, 7, 12 மற்றும் 8, 14 தள்ளு · சனி, செவ்வாய் தள்ளு · சர / உபய லக்னம், நவாம்சம் · நாடி நட்சத்திரம் தள்ளு',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.110)', booksTa: 'ஜோஷி',
+    nak: { good: [6, 12, 17, 21, 23], mid: [] }, digdwar: false,
+    tithi: [1, 3, 4, 5, 6, 9, 10, 11, 13, 15, 16, 18, 19, 20, 21, 24, 25, 26, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    taraNot: [1, 10, 16, 18, 23, 25],
+    lagna: { good: [0, 2, 3, 5, 6, 8, 9, 11], mid: [] },
+    navNot: [1, 4, 7, 10],
+    noteTa: 'அதே ஐந்து நட்சத்திரம் · பத்ரா (2, 7, 12), 8, 14 திதி தள்ளு · சனி, செவ்வாய் தள்ளு · சர / உபய லக்னம், நவாம்சம் · நாடி நட்சத்திரம் தள்ளு · பிறந்த மாதம், பிறப்புச் சந்திரனிலிருந்து 8-ல் சூரிய / சந்திரன் (சோதிக்கப்படுபவர் ஜாதகம் தேவை — குறிப்பு)',
+  },
+});
+const GOVT_DEALINGS = deepFreeze({
+  labelTa: 'அரசு, நிறுவனங்களுடன் வேலை பார்த்தல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.223)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [25], mid: [] }, digdwar: false,
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'உத்திரட்டாதி மட்டும் · சுப திதி (பட்டியல் இல்லை) · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி',
+  },
+});
+const SKILLED_TRAINING = deepFreeze({
+  labelTa: 'திறன் தொழிலைக் கற்றல் (தச்சு, கொல்லு, அலங்கார வேலை தொடங்குதல்)',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.223)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 7, 12], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    yogaNot: [16, 26],
+    noteTa: 'அசுவினி, பூசம், ஹஸ்தம் · திதி 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15 · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி · வ்யதீபாதம், வைதிருதி தள்ளு',
+  },
+});
+const SEEK_POWER_ALLIANCE = deepFreeze({
+  labelTa: 'அதிகாரம் உள்ளவர்களுடன் கூட்டு தேடுதல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.240)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [5, 8, 17, 18], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'திருவாதிரை, ஆயில்யம், கேட்டை, மூலம் · திதி 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15 · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி',
+  },
+});
+const ENEMY_OVERPOWER = deepFreeze({
+  labelTa: 'எதிரிகளை அடக்குதல், வெல்லுதல், தண்டித்தல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'JOSHI'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.234)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [1, 5, 8, 9, 10, 17, 18, 19, 24], mid: [] }, digdwar: false,
+    tithi: [3, 4, 8, 9, 13, 14, 18, 19, 23, 24, 28, 29],
+    vara: { good: [0, 2, 6], mid: [] },
+    lagna: { good: [0, 4, 7, 9, 10], mid: [] },
+    noteTa: 'ஒன்பது நட்சத்திரம்: உக்ர 5 (பரணி, மகம், மூன்று பூர்வம்), தீக்ஷ்ண 4 (மூலம், கேட்டை, திருவாதிரை, ஆயில்யம்) · திதி 3, 8, 13, 4, 9, 14 · ஞாயிறு, செவ்வாய், சனி · லக்னம் 1, 5, 8, 10, 11 · தீய யோகம், கரணம் விரும்பப்படும் (குறிப்பு)',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.143)', booksTa: 'ஜோஷி',
+    nak: { good: [1, 5, 8, 9, 10, 17, 18, 19, 24], mid: [] }, digdwar: false,
+    tithi: [3, 4, 8, 9, 13, 14, 18, 19, 23, 24, 28, 29],
+    vara: { good: [0, 2, 6], mid: [] },
+    lagna: { good: [0, 4, 7, 9, 10], mid: [] },
+    noteTa: 'கல்யாணராமனின் அதே ஒன்பது நட்சத்திரம், திதி, கிழமை, லக்னம்',
+  },
+});
+const KAVACHA = deepFreeze({
+  labelTa: 'கவசம் அணிதல், தனிப் பாதுகாப்பு ஏற்பாடு (குண்டு துளைக்காத உடை, வாகனம், காவலர்)',
+  default: 'JOSHI',
+  order: ['JOSHI', 'KALYANRAMAN'],
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.144)', booksTa: 'ஜோஷி',
+    nak: { good: [13, 6, 21, 16, 26, 0, 3, 11, 20, 25], mid: [] }, digdwar: false,
+    vara: { good: [4, 5, 6, 0], mid: [] },
+    noteTa: 'கல்யாணராமனின் அதே பத்து நட்சத்திரம், அதே நான்கு கிழமை · சுப திதி, யோகம், கரணம் (பட்டியல் இல்லை)',
+  },
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.243)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [13, 6, 21, 16, 26, 0, 3, 11, 20, 25], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [4, 5, 6, 0], mid: [] },
+    noteTa: 'பத்து நட்சத்திரம்: ஸ்திர 4 + சித்திரை, புனர்பூசம், திருவோணம், அனுஷம், ரேவதி, அசுவினி · திதி 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15 · வியாழன், வெள்ளி, சனி, ஞாயிறு · சந்திரனிலிருந்து 4, 7, 10-ல் சுபர், 6, 11-ல் பாபர் (குறிப்பு)',
+  },
+});
+const HYPNOTISM = deepFreeze({
+  labelTa: 'மோகன பிரயோகம் (ஒருவரை வசியம், ஹிப்னாடிசம்)',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.240)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [1, 2, 5, 9, 10, 17, 19, 24], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'பரணி, கிருத்திகை, திருவாதிரை, மகம், பூரம், கேட்டை, பூராடம், பூரட்டாதி · திதி 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15 · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி',
+  },
+});
 
 const RANK = deepFreeze({
+  SHANTI_KARMA: {
+    order: SHANTI_KARMA.order,
+    words: { MUHURTA_CHINTAMANI: 322, KALYANRAMAN: 214, JOSHI: 198, SHRIDHAR: 114, WILHELM: 84 },
+    measureTa: 'சாந்தி கர்மம் பற்றிய சொற்கள்: ஸ்ரீதர் (§16.10, ப.394) 114; முகூர்த்த சிந்தாமணி (ப.69-70) 322; வில்ஹெல்ம் (ப.304) 84; ஜோஷி (ப.148) 198; கல்யாணராமன் (தொ.2 ப.225) 214.',
+  },
+  EXPIATORY: {
+    order: EXPIATORY.order,
+    words: { KALYANRAMAN: 38 },
+    measureTa: 'பிராயச்சித்தம் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.224) 38.',
+  },
+  VASTU_POOJA: {
+    order: VASTU_POOJA.order,
+    words: { KALYANRAMAN: 109, JOSHI: 50 },
+    measureTa: 'வாஸ்து பூஜை பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.224-225) 109; ஜோஷி (ப.123) 50.',
+  },
+  LIE_DETECTOR: {
+    order: LIE_DETECTOR.order,
+    words: { MUHURTA_CHINTAMANI: 503, WILHELM: 167, KALYANRAMAN: 144, JOSHI: 111 },
+    measureTa: 'குற்றவாளிச் சோதனை பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (ப.77-79) 503; வில்ஹெல்ம் (ப.226-227) 167; கல்யாணராமன் (தொ.2 ப.198-199) 144; ஜோஷி (ப.110) 111.',
+  },
+  GOVT_DEALINGS: {
+    order: GOVT_DEALINGS.order,
+    words: { KALYANRAMAN: 36 },
+    measureTa: 'அரசுத் தொடர்பு பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.223) 36.',
+  },
+  SKILLED_TRAINING: {
+    order: SKILLED_TRAINING.order,
+    words: { KALYANRAMAN: 41 },
+    measureTa: 'திறன் தொழில் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.223) 41.',
+  },
+  SEEK_POWER_ALLIANCE: {
+    order: SEEK_POWER_ALLIANCE.order,
+    words: { KALYANRAMAN: 33 },
+    measureTa: 'அதிகாரக் கூட்டு பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.240) 33.',
+  },
+  ENEMY_OVERPOWER: {
+    order: ENEMY_OVERPOWER.order,
+    words: { KALYANRAMAN: 101, JOSHI: 68 },
+    measureTa: 'எதிரியை அடக்குதல் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.234) 101; ஜோஷி (ப.143) 68.',
+  },
+  KAVACHA: {
+    order: KAVACHA.order,
+    words: { JOSHI: 138, KALYANRAMAN: 108 },
+    measureTa: 'கவசம் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.243) 108; ஜோஷி (ப.144) 138.',
+  },
+  HYPNOTISM: {
+    order: HYPNOTISM.order,
+    words: { KALYANRAMAN: 48 },
+    measureTa: 'மோகனம் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.240) 48.',
+  },
   YOKING_OXEN: {
     order: YOKING_OXEN.order,
     words: { SHRIDHAR: 37 },
@@ -7936,8 +8226,8 @@ const RANK = deepFreeze({
   },
   BED_MAKING: {
     order: BED_MAKING.order,
-    words: { SHRIDHAR: 91, MUHURTA_CHINTAMANI: 28, WILHELM: 23 },
-    measureTa: 'கட்டில் பற்றிய சொற்கள்: ஸ்ரீதர் (§25.28, ப.690) 91; முகூர்த்த சிந்தாமணி (2/21, ப.59-60) 28; வில்ஹெல்ம் (ப.188) 23.',
+    words: { SHRIDHAR: 91, KALYANRAMAN: 60, MUHURTA_CHINTAMANI: 28, WILHELM: 23 },
+    measureTa: 'கட்டில் பற்றிய சொற்கள்: ஸ்ரீதர் (§25.28, ப.690) 91; முகூர்த்த சிந்தாமணி (2/21, ப.59-60) 28; வில்ஹெல்ம் (ப.188) 23. கல்யாணராமன் (தொ.2 ப.242) 60.',
   },
   PERFORMING: {
     order: PERFORMING.order,
@@ -7996,8 +8286,8 @@ const RANK = deepFreeze({
   },
   ARMY_RAISE: {
     order: ARMY_RAISE.order,
-    words: { SHRIDHAR: 115, WILHELM: 65, KALYANRAMAN: 44 },
-    measureTa: 'சேனை பற்றிய சொற்கள்: ஸ்ரீதர் (§20.8, ப.575) 115; வில்ஹெல்ம் (ப.330) 65; கல்யாணராமன் (தொ.2 ப.234) 44.',
+    words: { SHRIDHAR: 115, WILHELM: 65, JOSHI: 61, KALYANRAMAN: 44 },
+    measureTa: 'சேனை பற்றிய சொற்கள்: ஸ்ரீதர் (§20.8, ப.575) 115; வில்ஹெல்ம் (ப.330) 65; கல்யாணராமன் (தொ.2 ப.234) 44. ஜோஷி (ப.144-145) 61.',
   },
   WAR_START: {
     order: WAR_START.order,
@@ -8016,13 +8306,13 @@ const RANK = deepFreeze({
   },
   MISSILE_SETUP: {
     order: MISSILE_SETUP.order,
-    words: { KALYANRAMAN: 97, WILHELM: 68 },
-    measureTa: 'ஏவுகணை பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.233) 97; வில்ஹெல்ம் (ப.330-331) 68.',
+    words: { JOSHI: 109, KALYANRAMAN: 97, WILHELM: 68 },
+    measureTa: 'ஏவுகணை பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.233) 97; வில்ஹெல்ம் (ப.330-331) 68. ஜோஷி (ப.144) 109.',
   },
   ARMY_CAMP: {
     order: ARMY_CAMP.order,
-    words: { SHRIDHAR: 102, WILHELM: 28 },
-    measureTa: 'சேனை முகாம் பற்றிய சொற்கள்: ஸ்ரீதர் (§20.11, §20.11.1, ப.579) 102; வில்ஹெல்ம் (ப.329) 28.',
+    words: { SHRIDHAR: 102, JOSHI: 60, WILHELM: 28 },
+    measureTa: 'சேனை முகாம் பற்றிய சொற்கள்: ஸ்ரீதர் (§20.11, §20.11.1, ப.579) 102; வில்ஹெல்ம் (ப.329) 28. ஜோஷி (ப.144) 60.',
   },
   DAGGER_TIE: {
     order: DAGGER_TIE.order,
@@ -9010,6 +9300,7 @@ const SOURCES = deepFreeze({
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.8 "Inauguration (collection) of army", printed p.575 (PDF 612): "Tithi: Jaya (3,8,13) Tithis. Day: Sunday & Tuesday are the most beneficial. (preferably choose Abhijit Muhurt or after-noon) Const.: J.V. recommends Akul asterisms - Bharni, Rohini, Pushya, Ashlesha, Hasta, Anuradha, Swati, Dhanishta, Revati, 3 Uttras. - 12 nos. PRAKASH: With an aim to defeat enemy, new army units should be inaugurated in this election. The defence academies should inaugurate fresh courses, & also commission the officers in the said election"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"War - Planning troop movements", printed p.330 (PDF 338): "These guidelines would also apply to making any type of war strategies, whether covert or overt. Nakshatra: Bharani, Rohini, Pushya, Aslesha, Uttaraphalguni, Hasta, Svati, Anuradha, Uttarashadha, Dhanishtha, Uttarabhadrapada and Revati are favorable. Tithi: The 3rd, 8th and 13th are best. Other favorable Tithis are also acceptable. Vara: The Varas of the Sun and Mars are most favorable. Venus\'s Vara is middling"' },
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Planning Army Movements", printed p.234 (PDF 236): "Nakshatra Bharani, Rohini, Pushyami, Aslesha, Uttaraphalguni, Hasta, Swati, Anuradha, Uttarashada, Dhanishta, Uttarabhadrapada and Revati. (12) Tithis Jaya tithis. 3/8/13. Weekdays Sunday and Tuesday"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 12 "Coronation and related Muhurtas", "To plan Army movements", printed pp.144-145 (PDF 159-160): "Bharani, Rohini, Pushya, Ashlesha, Uttaraphalguni, Hasta, Swati, Anuradha, Uttarashada, Dhanistha, Uttarabhadrapad and Revati nakshatras; Jaya tithis (i.e. 3/8/13 tithis) and Sunday and Tuesday are considered auspicious for all plannings relating to army movements. For muhurtas relating to \'Vijaya yatra\' (i.e. to start journey for attacking enemies) refer to chapter on Journey"' },
   },
   WAR_START: {
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.9 "Starting of war", printed pp.575-579 (PDF 612-616): "Tithi: leave 1,2,4,9,12,14,15 & 30. Day: Thursday & Friday are beneficial. Const.: Small (Hasta, Ashvani, Pushya), Dhanishta, Revati, Punarvasu, Anuradha, Mrigshira, Shravana. Leave Tripushkar Yoga, front Yogini, Ghaata Vaar. Time: Time & direction of starting war / battle is decided by a number of different ways. a) Favourable direction of attack … I) Vighana Kaal Chakra: To win war, attacking king & army should not fight on the specific day in the direction shown by the Vighana Kaal Chakra (diagram 20.4) … III) Direction as signified by the Sun: The Sun moves in the 8 directions in 24 hours starting from east at the Sunrise … c) Signification of asterism occupied by Rahu: 13 asterisms already traversed by Rahu are called Jeeva Paksha & the 13 asterisms yet to be transited are called Mrit Paksha … d) Kul, Akul & Kula-Kul elements: Details of asterisms, Tithis & weekdays under Kul, Akul & Kula-Kul groups are given in table 20.6. These are considered in war & litigation"' },
@@ -9030,10 +9321,12 @@ const SOURCES = deepFreeze({
   MISSILE_SETUP: {
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Inducting Firey Arms or Missiles in the Army for Ready use", printed p.233 (PDF 235): "Nakshatra Aridra, Pushyami, Rohini, Mrigasira, Uttaraphalguni, Hasta, Chitra, Jyeshta, Poorvashada, Uttarashada, Sravana, Dhanishta, Uttarabhadrapada and Revati. (14) Fixed: Uttaraphalguni, Uttarashada, Uttarabhadrapada and Rohini. (4) Friendly: Mrigasira, Revati, Chitra, Pushyami, Hasta and Sravana. (6) Others: Aridra, Jyeshta, Poorvashada, Dhanishta. (4) Tithis Jaya and Rikta tithis. 3/8/13/4/9/14 Weekdays Days of Malefics Sunday, Tuesday, Saturday. Notes: Lagnas of fixed raasis 2/5/8/11 with malefics placed in 3/6/10/11"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"War - Missiles & weapons, setting up", printed pp.330-331 (PDF 338-339): "These guidelines are those that are to be followed when setting up an array of missile weapons either as defense or as an ambush. Nakshatra: Rohini, Mrigasira, Ardra, Pushya, Uttarashadha, Hasta, Chitta, Anuradha, Jyeshtha, Purvashadha, Uttarashadha, Sravana, Dhanishtha, Uttarabhadrapada and Revati are favorable. Vara: The Varas of the Sun, Mars and Saturn are favorable. Lagna: Fixed Rasis are best. Avoid moveable Rasis"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 12 "Coronation and related Muhurtas", "For Induction of missiles in the army and for keeping them ready for use", printed p.144 (PDF 159): "Shravana, Hasta, Ardra, Jyestha, Poorvashada, Pushya, Dhanistha, all fixed nakshatras (i.e. Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini) and all friendly nakshatras (i.e. Mrigshira, Revati, Chitra and Anuradha) are considered auspicious Revati, Chitra, Pushya, Hasta and Shravana nakshatras; days of malefic planets (i.e. Sunday, Tuesday and Saturday); Jaya and Rikta tithis (3/8/13/4/9/14 tithis) and lagnas of fixed rashis (i.e. 2/5/8/11 rashis) with malefics placed in 3/6/10/11 houses are considered auspicious for inducting fiery arms and for keeping them ready for use"' },
   },
   ARMY_CAMP: {
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.11 "Making army head-quarter or temporary post" and §20.11.1 "Pitching tent", printed p.579 (PDF 616): "Tithi: Other than Rikta Tithis. Day: Benefic (Monday, Wednesday, Thursday, and Friday) days. Const.: Fixed (Rohini, 3 Uttras), Sweet (Mrigshira, Chitra, Anuradha, Revati), Shravana & Dhanishta. (J.V.) Regarding fort refer to para 28.19. 20.11.1 Pitching tent: Tent should be pitched in Shravana, Dhanishta, Shatbhish, Ashvani, Pushya, Anuradha, Rohini, Mrigshira, Hasta, Chitra, Swati, Punarvasu, Revati & 3 Uttras (M.G.). M.G. recommends that for fixing tent or making a house of cloth, asterisms of Shravana, Dhanishta, Shatbhish, Ashvani, Pushya, Anuradha, Rohini, Mrigshira, Hasta, Chitra, Swati, Punarvasu, Revati & 3 Uttras are beneficial"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"War - Encamping an army", printed p.329 (PDF 337): "Nakshatra: Rohini, Mrigasira, Uttaraphalguni, Chitra, Anuradha, Uttarashadha, Sravana, Dhanishtha, Uttarabhadrapada and Revati are favorable. Tithi: Particularly avoid the 4th, 9th, 14th, and 15th Tithis"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 12 "Coronation and related Muhurtas", "For camping of army", printed p.144 (PDF 159): "All fixed nakshatras (i.e. Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini), all friendly nakshatras (i.e. Mrigshira, Revati, Chitra and Anuradha), Shravana and Dhanistha nakshatras; benefic days (i.e. Monday, Wednesday, Thursday and Friday) and all tithis except Rikta Tithis (i.e. 4/9/14 tithis) are considered good for camping of army and all related muhurtas"' },
   },
   DAGGER_TIE: {
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.12 "Tying of dagger - Churika - Bandhan", printed pp.579-580 (PDF 616-617): "After Upanayana but before marriage, Kshatriyas should tie on sword (Talwar), dagger (Katar) or scalpel (Churi) in the Muhurt prescribed for Upnayana Samskar, except in the month of Chaitra & Tuesday. The weapon should be tied on the left side of the waist after worshipping Devtas, Pitras & the weapon itself … Tithi: 2,3,5,6,7,10,11,12 - all. Day: All days except Tuesday. Const.: Movable (Punarvasu, Swati, Shravana, Shatbhish, Dhanishta), Small (Hasta, Ashvani, Pushya), Fixed (3 Uttras, Rohini), Sweet (Mrigshira, Chitra, Anuradha, Revati) & Vishakha. Month: Maagh, Falguni, Vaishakha, Jyeshta are beneficial. Chaitra is prohibited. Sage Narad recommends all the months prescribed for marriage as suitable. Ascendant: 2,3,5,6,9 signs. No planet should be in 8th from Janma Rashi or in election chart; & the Moon should not be in 6,8,12 of the chart. Benefics should be 2,5,9,1,4,7,10; & malefics in 3,6,11 in the election chart (N.S.) … Navamsha of Mars in the rising should be left out along with Tuesday (M.M.). The ceremony should be performed when neither of the Jupiter, Venus or Mars is set … However M.C. stresses that only Mars should not be set. Sage Narad has given a method to find auspiciousness of the weapon. Measure the length of the weapon in the units of middle finger of the wearer. Divide the length by 11. If the remainder is 1, it signifies gain of son; 2 - increase of enemy; 3 - gain of woman; 4 - travel; 5 - auspiciousness; 6 - loss of money; 7 - gain of money; 8 - love / affection; 9 - Siddhi; 10 - victory; 11 or 0 - praise (N.S.)"' },
@@ -9054,7 +9347,7 @@ const SOURCES = deepFreeze({
   },
   CATCH_THIEF: {
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.17 "Catching thief - secret works", printed p.583 (PDF 620): "Tithi: 2,3,5,7,10,11,12,13,15 of both halves & 1st of D.H. D.H. is more beneficial. Day: Tuesday & Saturday. Const.: Sharp (Jyeshta, Ardra, Ashlesha, Moola), Cruel (Magha, Bharni, 3 Poorvas), Krittika, Vishakha. Mars in ascendant or in 10th house of election chart is fruitful. Saturn in ascendant is also beneficial. Omen is given high importance in such matters. This election perhaps can also be used to make a theft, but is prohibited to use due to moral ethics. Tying & beating the enemy is beneficial in Jyeshta, Ardra, Bharni, 3 Poorvas, Moola, Ashlesha, and Magha asterisms; on malefic weekdays & when the ascendant is having malefic planets (M.G.)"' },
-    WILHELM: { ...WILHELM_E, pageLocus: '"Criminals - Seeking escaped prisoners", printed pp.323-324 (PDF 331-332): "Nakshatra: Asvini, Rohini, Ardra, Aslesha, Purvaphalguni, Chitta, Visakha, Mula, Uttarashadha and Revati are favorable. Vara: The Varas of the Moon, Mars and Saturn are favorable. Lagna: Moveable Rasis are best. Fixed Rasis should be avoided. Grahas: The Moon must not be in the 12th and should be alone. Combinations: 1. Mercury or the Moon aspecting the Lagna supports catching the criminal. 2. Parivartana between Lagna and 7th supports catching the criminal. 3. The 6th lord in the 11th supports catching the criminal"; "Criminals - Stealing, etc.", printed p.324 (PDF 332): "Nakshatra: Bharani, Ardra, Aslesha, Purvaphalguni, Chitta, Visakha, Jyeshtha, Mula, Purvashadha, Purvabhadrapada and Uttarabhadrapada are favorable"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Criminals - Seeking escaped prisoners", printed pp.227-228 (PDF 235-236): "Nakshatra: Asvini, Rohini, Ardra, Aslesha, Purvaphalguni, Chitta, Visakha, Mula, Uttarashadha and Revati are favorable. Vara: The Varas of the Moon, Mars and Saturn are favorable. Lagna: Moveable Rasis are best. Fixed Rasis should be avoided. Grahas: The Moon must not be in the 12th and should be alone. Combinations: 1. Mercury or the Moon aspecting the Lagna supports catching the criminal. 2. Parivartana between Lagna and 7th supports catching the criminal. 3. The 6th lord in the 11th supports catching the criminal"; "Criminals - Stealing, etc.", printed p.228 (PDF 236): "Nakshatra: Bharani, Ardra, Aslesha, Purvaphalguni, Chitta, Visakha, Jyeshtha, Mula, Purvashadha, Purvabhadrapada and Uttarabhadrapada are favorable"' },
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Chorakarmas, Committing Thefts, Robbery Etc.", printed p.248 (PDF 250): "Nakshatra Bharani, Aridra, Aslesha, Poorvaphalguni, Chitra, Visaka, Jyeshta, Moola, Poorvashada, Poorvabhadrapada and Uttarabhadrapada. (11) All Sharp nakshatras - Moola, Jyeshta, Aridra, Aslesha (4) All Cruel nakshatras except Makha - i.e., Poorvaphalguni, Poorvashada, Poorvabhadrapada and Bharani. (4) Others: Uttarabhadrapada, Chitra, Visaka (3) Tithis 4/9/14/3/8/13. Rikta-4/9/14 Jaya-3/8/13 Weekdays Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday. Yoga Vyatipata, Vydhruti and other malefic yogas. Karana Vishti Karana is the best suited"' },
   },
   BOAT_SHIP: {
@@ -9109,6 +9402,7 @@ const SOURCES = deepFreeze({
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.28 "Bed making", printed p.690 (PDF 725): "Rohini, 3 Uttras, Hasta, Pushya, Punarvasu, Anuradha & Ashvani; Sootaka related to death; Rikta & the New Moon, D.H.; Vaidhriti; Shravana & Bhadrapada months; & a malefic day afflicted by portents [are to be left]. Effect of the Moon\'s constellation when counted from that of the Sun as per Khatwa Chakra is as following: 1 to 4 - Auspicious; 5 to 12 - Death; 13 to 20 - Auspicious; 21 to 23 - Auspicious; 24 to 27 - Loss, fear, death"' },
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2 "The Nakshatras", sloka 21, printed pp.59-60 (PDF 64): "The first ascending on a bed or an aasana (a mat) is auspicious in the Nakshtras called Dhruwa, Mridu and Laghu and in Shravana, Bharani, Punarvasu Nakshtras. Notes: In the Sloka there is the word etc. It means wearing Paduka (wooden protector of feet). Thus the wearing of shoes, chappals (sandals) etc. is also suitable in this very Muhurta"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"Bed / Asana mat - First use", printed p.188 (PDF 196): "Nakshatra: Asvini, Bharani, Rohini, Mrigasira, Punarvasu, Pushya, Uttaraphalguni, Hasta, Chitra, Anuradha, Uttarashadha, Sravana, Uttarabhadrapada and Revati are favorable"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Ascending on a New Bed or Taking a New Aasana Like Chair", printed p.242 (PDF 244): "For ascending a new bed or getting seated in a new chair and the like the nakshatras Dhruva, Rohini, Uttaraphalguni, Uttarashada and Uttarabhadrapada (4); Mridu, Mrigasira, Revati, Chitra, Anuradha, (4) and Laghu Hasta, Aswini, Pushyami, Abhijith, (4) and Sravana, Bharani and Punarvasu nakshatras can be taken as auspicious"' },
   },
   PERFORMING: {
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.18 "Wrestling ring & sports complex", §25.19 "Acting & exhibition of tricks" and §25.20 "Circus artistry", printed pp.688-689 (PDF 723-724): "25.18 Sharp (Jyeshta, Ardra, Ashlesha, Moola) & Cruel (Magha, Bharni, 3 Poorvas); on Jaya & Poorna Tithis; on benefic days including Sunday; when Shirodya Rashi is rising, & benefics including the Sun are in quadrants (B.J.S.). 25.19 Chitra, Ardra, Rohini, Pushya, Shravana, Dhanishta, Shatbhish, and 3 Uttras; on Sunday & Wednesday; it is appropriate to start acting (in plays & motion pictures) & exhibit tumbling & spectacular tricks. M.G. recommend Mrigshira, Punarvasu, Swati & Vishakha also. 25.20 Movable (Punarvasu, Swati, Shravana, Shatbhish, Dhanishta), Fixed (Rohini, 3 Uttras), Chitra, Mrigshira, Ardra & Pushya asterisms; on Sunday, Monday, Thursday & Friday; during auspicious ascendant"' },
@@ -9512,6 +9806,46 @@ const SOURCES = deepFreeze({
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Doing business with Camels, Horses, Donkeys, and Birds", printed p.180 (PDF 182): "Nakshatra Aswini, Punarvasu, Hasta, Swati, Anuradha, Jyeshta, (6). Tithis 1/2/3/5/6/7/8/10/11/12/13/15. Avoid Rikta tithis"' },
     JOSHI: { ...JOSHI_KK, pageLocus: 'Occupational Muhurtas, "Business relating to Camels, Horses, Donkeys and Birds", printed p.106 (PDF 121): "Hasta, Jyestha, Ashwini, Swati, Anuradha and Punarvasu nakshatras and Sunday, Friday and Saturday are good for starting business relating to Camels, Horses, Donkeys and Birds"' },
   },
+  SHANTI_KARMA: {
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: '"The Muhurta for pacification", printed pp.69-70 (PDF 73-74): "The Beneficial rites and the pacification of the planets etc are beneficially and auspiciously performed in the Nakshtras called Kshipra (Hasta, Ashwini and Pushya), in those named as Dhruwa (All the three Uttaras, Uttara Phalguni, Uttara Shadha and Uttara Bhadrapada and Rohini), in that of Rewati, in those called \'Chara\' or Movable (Swati, Poonarvasu, Shravana, Dhanishtha, and Shatbhisha) and in those of Anuradha and Magha, in an Ascendant in which Jupiter is in the Ascendant, the Sun is in the 10th House and the Moon is in the 4th House. The performing of pacification of the planets is not auspicious when Jupiter and Venus are combust. But the pacification of \'Nimitta\' … may be performed even when Jupiter and Venus are combust"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"For Performing Shanti Karmas for Being Born in Gandaantha, To Minimize Evil Effects of Planets", printed p.225 (PDF 227): "Nakshatra Abhijith, Aswini, Rohini, Punarvasu, Pushyami, Makha, Uttaraphalguni, Hasta, Swati, Anuradha, Uttarashada, Sravana, Dhanishta, Satabhisha and Uttarabhadrapada, (14+1) … Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Weekdays Sunday, Monday, Wednesday, Thursday, Friday. Notes: Muhoortha Chintaamani approved the above. For performing Shanti Karma the Sun in 10, Moon in 4 and Jupiter in the Lagna will be an ideal situation. Avoid Jupiter or Venus combustion"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Miscellaneous Muhurtas, "\'Shanti Karma\' or religious processes to do away with the malefic effects of malefic combinations", printed p.148 (PDF 163): "All short nakshatras (i.e. Hasta, Ashwini, Pushya and Abhijit) all fixed nakshatras (i.e. Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini), all movable nakshatras (i.e. Swati, Punarvasu, Shravana, Dhanistha and Shatbhisha), Anuradha and Magha nakshatras are considered auspicious … One should chose benefic tithis and yogas. Lagna should have Sun in 10th, Moon in 4th, Jupiter favourably in lagna. One should avoid Jupiter-Venus combustion"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§16.10 "Muhurt of pacification of planets etc.", printed p.394 (PDF 436): "For pacification of tutelary lords, planets & constellations select; Small (Hasta, Ashvani, Pushya), Stationary (Rohini, 3 Uttras), Movable (Punarvasu, Swati, Shatbhish, Shravana, Dhanishta), Anuradha, Magha & Revati; Sun in the 10th, the Moon in 4th, or Jupiter in ascendant; the full Moon is most beneficial. This should not be done during Doshas of Jupiter or Venus (set, retrograde etc.); but for pacification of Shakunas (omens) the said Dosha may be ignored. The above said election is also useful in increase in measure of pleasure & peace; Vinayaka Shanti; Moola & Gandanta Shanti in case of birth"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Shanti Karma, Pacification of Planets, etc.", printed p.304 (PDF 312): "Nakshatra: Asvini, Rohini, Punarvasu, Magha, Pushya, Uttaraphalguni, Hasta, Svati, Anuradha, Uttarashadha, Sravana, Dhanishtha, Satabhisha, Uttarabhadrapada and Revati are favorable. Bhavas: Jupiter is very favorable in the Lagna, the Sun in the 10th and the Moon in the 4th. Grahas: Jupiter and Venus should not be combust, however, for the pacification of inauspicious omens (which must be done immediately) it is okay if Jupiter and Venus are combust. The other afflictions of Jupiter and Venus should also be avoided"' },
+  },
+  EXPIATORY: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Performing Expiatory Ritual", printed p.224 (PDF 226): "For performing expiatory rituals nakshatras Aslesha and Uttaraphalguni are considered auspicious on days with benefic tithis and on Weekdays - Sunday, Monday, Wednesday, Thursday and Friday. Benefic Yogas and Karanas must be ensured"' },
+  },
+  VASTU_POOJA: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Performing Vaatu Pooja", printed pp.224-225 (PDF 226-227): "Nakshatra Rohini, Mrigasira, Punarvasu, Uttaraphalguni, Chitra, Swati, Anuradha, Uttarashada, Sravana, Dhanishta, Satabhisha, Uttarabhadrapada and Revati. (13) … Tithis 2/3/5/6/7/8/10/11/12/13/15 are good. Weekdays Avoid Tuesday and Sunday. Notes: Avoid Krantisamya. The Lagna to be raasis 2/5/8/11/3/6/9/12. Benefics to be in 1/7/10/5/9/2/3/11 houses. No planet in 4 or 8. Chandra-Tara Suddhi required. Uttaraayana, Lunar Months Magha, Phalguna, Vaisaakha, Jyeshta, are good. Avoid Jupiter or Venus combustion, Jupiter in Leo or Capricorn & Sun in Pisces"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 10 "House Construction and entering into a new house", "Entering into a new house", printed pp.122-123 (PDF 137-138): "Before entering in to a new house proper \'Vastu-Pujan\' and \'Havana\' should be done in Mrigshira, Revati, Chitra, Anuradha Uttaraphalguni, Uttarashada, Uttarabhadrapad, Rohini, Swati, Punarvasu, Shravana, Dhanistha and Shatbhisha nakshatras. Proper religious ceremonies should be performed first and then only one should enter in to a new house"' },
+  },
+  LIE_DETECTOR: {
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: '"The Muhurta for divine test", printed pp.77-79 (PDF 81-83): "It is auspicious and proper to give a test (the test given to know whether the persons accused of theft, sexually loose morals are really guilty of the sins) leaving the Tithis of 8th and 14th, Saturday and Tuesday, the Bhadra Tithi, the Nakshtra of the birth, the month of the birth, when there is the Sun or the Moon in the 8th House from the natal Ascendant and the Nakshtras of the Nadi of the Person, in the Ascendants having dual nature (3/6/9/12) or in the Movable Ascendants and in the same Navamsha Lagnas, when the position of the Moon, Jupiter and Tara is auspicious and in the Nakshtras of Hasta, Punarvasu, Shravana, Jyeshtha and Shatbhisha"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Criminals - Divine test, lie detector test, interrogation", printed pp.226-227 (PDF 234-235): "Masa: Avoid the month of the suspect\'s birth. Nakshatra: Punarvasu, Hasta, Sravana, Jyeshtha and Satabhisha are most favorable. Tara: Avoid the Nadi Nakshatras of the individual and insure a favorable Tara. The Nadi Nakshatras are the 1st, 10th, 16th, 18th, 23rd and 25th Nakshatra from the individuals Janma Nakshatra. Tithi: Avoid the 8th and 14th. Karana: Avoid Vishti Karana. Vara: Avoid the Varas of Mars and Saturn. Lagna: The Lagna and Navamsa Lagna should only be moveable or dual Rasis. Bhavas: The Sun and Moon should not be in the 8th. Gochara: The Moon and Jupiter must be transiting a favorable Gochara Rasi, and should be well placed in the Muhurta charts as well"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Testing or Interrogating Criminals, Subjecting One to Lie Detector Test", printed pp.198-199 (PDF 200-201): "Nakshatra Punarvasu, Hasta, Jyeshta, Sravana Satabhisha, … Tithis 1/3/4/5/6/9/10/11/13/15/30 Avoid the Bhadra 2/7/12 and the 8/14 tithis. Weekdays Sunday, Monday, Wednesday, Thursday, Friday. Saturday and Tuesday are to be rejected. Notes: 1. Avoid the 1st, 10th, 16th, 18th, 23rd, 25th Nakshatras from the Janmanakshatra of the person. 2. Avoid the month of birth of the accused. 3. Avoid the days when the Sun, Moon are in the natal 8th house of the accused. 4. Choose the Lagna and Navaamsa of the moveable or dual raasis 1/4/7/10 and 3/6/9/12. 5. There must be good transit strength for Moon and Jupiter. 6. Tara Suddhi is essential. 7. Chaturthi is accepted"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Occupational Muhurtas, "To test people on lie-detectors", printed p.110 (PDF 125): "Hasta, Shravana, Punarvasu, Jyestha and Shatbhisha nakshatras avoiding 1st, 10th, 16th, 18th, 23rd and 25th (these six) nakshatras from Janma nakshatra (birth constellation), are considered good for testing criminals, thiefs etc. on lie-detectors or for interrogation of such persons. Avoid Bhadra, 8th and 14th tithis, Saturday, Tuesday, Month of birth and Sun and Moon placed in 8th house from natal Moon. One should chose lagna and navamsha of movable or dual rashis (i.e. 1/4/7/10/3/6/9/12 rashis). Transit strength of Moon and Jupiter is to be ensured and proper Tara Shuddhi has to be done"' },
+  },
+  GOVT_DEALINGS: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Dealing with Government or Corporate Bodies", printed p.223 (PDF 225): "Uttarabhadrapada nakshatra is considered good for dealing with government or corporate bodies on the days with benefic tithis. Weekdays - Sunday, Monday, Wednesday, Thursday and Friday"' },
+  },
+  SKILLED_TRAINING: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Getting Trained in Skilled Jobs Like Carpentry or Smithy, Starting Interior Decoration Work", printed p.223 (PDF 225): "Nakshatra Aswini, Pushyami, Hasta, Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Weekdays Sunday, Monday, Wednesday, Thursday, Friday Yoga Avoid Vydhruti and Vyatipata"' },
+  },
+  SEEK_POWER_ALLIANCE: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Seeking Alliance with People in Power or Authority", printed p.240 (PDF 242): "Nakshatra Aridra, Aslesha, Jyeshta, Moola, (4) Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Weekdays Sunday, Monday, Wednesday, Thursday, Friday"' },
+  },
+  ENEMY_OVERPOWER: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Overpowering Enemies, Getting Success in Attacks over Rivals, Vanquishing Enemies or Stalling Action by Enemies", printed p.234 (PDF 236): "Nakshatra Bharani, Aridra, Aslesha, Makha, Poorvaphalguni, Jyeshta, Moola, Poorvashada and Poorvabhadrapada. (9) Aggressive: Poorvaphalguni, Poorvashada, Poorvabhadrapada, Bharani and Makha (5) Ferocious: Moola, Jyeshta, Aridra, Aslesha (4) … Tithis 3/8/13/4/9/14. (Prefer Jaya, Rikta Tithis) Weekdays Sunday, Tuesday and Saturday (Malefic days) Yoga 1/6/9/10/13/15/17/19/27 - all malefic yogas Karana Bhadra, Sakuni, Chatushpada, Naga, Kimsatugna. Others Prefer the Lagna of raasis of malefics 1/5/8/10/11"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 12 "Coronation and related Muhurtas", "For punishing enemies and opponents", printed p.143 (PDF 158): "All aggressive nakshatras (i.e. Poorvaphalguni, Poorvashada, Poorvabhadrapad, Bharani and Magha) and all ferocious nakshatras (i.e. Moola, Jyestha, Ardra and Ashlesha); days of malefic planets (i.e. Sunday, Tuesday and Saturday); Jaya and Rikta tithis (i.e. 3/8/13/4/9/14 tithis) and lagnas of malefic planets (1/5/8/10/11 rashis as lagnas) are considered favourable"' },
+  },
+  KAVACHA: {
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Chapter 12 "Coronation and related Muhurtas", "For wearing \'Kavacha\'", printed p.144 (PDF 159): "Chitra, Punarvasu, Shravana, Anuradha, Revati, Ashwini and all fixed nakshatras (i.e. Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini) and Thursday, Friday, Saturday and Sunday are considered good for wearing bullet-proof jackets and for starting use of bullet-proof cars. One should chose benefic tithis, benefic yogas and benefic karanas. Proper Chandra Shuddhi and/or Tara Shuddhi is an important requirement. … Benefics in 4/7/10 houses and malefics in 6/11 houses from moon are considered good at the time of wearing \'Kavacha\'"' },
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Wearing Kavacha, Providing Personal Security with Arms, Guards, Bullet-Proof Jackets/ or Cars", printed p.243 (PDF 245): "Nakshatra Aswini, Rohini, Punarvasu, Uttaraphalguni, Chitra, Anuradha, Uttarashada, Sravana, Uttarabhadrapada and Revati. (10) Fixed: Uttaraphalguni, Uttarashada, Uttarabhadrapada, Rohini (4) Others: Chitra, Punarvasu, Sravana, Anuradha, Revati, Aswini, (6) Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Weekdays Thursday, Friday, Saturday, Sunday Notes: Benefics must be in 4/7/10 and Malefics in 6/11 from the Moon is good for wearing any shield or kavacha. Ensure Chandra - Tara Suddhi. Prefer benefic Yogas/Karanas and tithi"' },
+  },
+  HYPNOTISM: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Hypnotizing Some One Or Mohana Prayoga", printed p.240 (PDF 242): "Nakshatra Bharani, Krittika, Aridra, Makha, Poorvaphalguni, Jyeshta, Poorvashada and Poorvabhadrapada. (8) … Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Weekdays Sunday, Monday, Wednesday, Thursday, Friday"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -9569,6 +9903,7 @@ const CODE_TA = Object.freeze({
   VENUS_CHAKRA: 'சுக்கிரனிலிருந்து எண்ணி நல்ல நட்சத்திரம் அல்ல', VRIKSHA_CHAKRA: 'விருக்ஷ சக்கரம்: தீய நட்சத்திரம் (சூரியனிலிருந்து)',
   NAVANNA_CHAKRA: 'நவான்ன சக்கரம்: தீய நட்சத்திரம் (புதனிலிருந்து)', BHU_RAJASVALA: 'பூமி ரஜஸ்வலை (சூரியன் திருவாதிரையில் நுழைந்த மூன்று நாள்)',
   AGNI_NAKSHATRA: 'அக்னி நட்சத்திர நாட்கள்', KARANA: 'நூல் சொன்ன கரணம் அல்ல', VARA_LORD_LAGNA: 'லக்னம் கிழமை அதிபதியின் ராசி அல்ல',
+  SUN_10_MID: '10-ல் சூரியன் இல்லை', MOON_4_MID: '4-ல் சந்திரன் இல்லை',
   JUP_LAGNA_MID: 'லக்னத்தில் குரு இல்லை', JUP_4_MID: '4-ல் குரு இல்லை', SAT_4_MID: '4-ல் சனி இல்லை',
   JANMA_BODY: 'ஜன்ம நட்சத்திரத்திலிருந்து எண்ணி முதுகு / பாதப் பகுதி (ஸ்ரீதர் §20.7)', CONJ: 'நூல் தவிர்க்கச் சொன்ன கிரக சேர்க்கை',
   JUP_7_MID: '7-ல் குரு இல்லை', SAT_6_MID: '6-ல் சனி இல்லை', SUN_MARS_3_10_11_MID: '3 / 10 / 11-ல் சூரியன், செவ்வாய் இல்லை', SUN_MARS_10_11_MID: '10 / 11-ல் சூரியன், செவ்வாய் இல்லை',
@@ -10075,6 +10410,7 @@ const NOTES_MISSILE_SETUP_TA = Object.freeze([
   'ஏவுகணை, தீ ஆயுதங்களைத் தற்காப்புக்கோ மறைந்திருந்து தாக்குவதற்கோ நிறுத்துதல்; படையில் தீ ஆயுதங்களைப் பயன்பாட்டுக்குக் கொண்டுவருதல். இரு நூல்களே இதைத் தனியே தருகின்றன.',
   'இரு நூல்களும் ஒரே திசையில்: ஸ்திர லக்னம் (சர ராசியைத் தள்ளு), ஞாயிறு / செவ்வாய் / சனி — பாப கிழமைகள்.',
   'கல்யாணராமன் ஜய மற்றும் ரிக்தா திதிகளைச் சொல்கிறார் (3, 8, 13, 4, 9, 14) — அழிவுச் செயல்களுக்கு ரிக்தா நல்லது என்ற அதே வாசிப்பு; வில்ஹெல்ம் திதி சொல்லவில்லை.',
+  'ஜோஷி (ப.144) ஒரே தலைப்பின் கீழ் இரு பட்டியல் தருகிறார்: பதினைந்து நட்சத்திரம் (கல்யாணராமனின் பதினான்கு + அனுஷம்), பிறகு ஐந்து நட்சத்திரம் + பாப கிரக நாள், ஜய / ரிக்தா திதி, ஸ்திர லக்னம், 3/6/10/11-ல் பாபர் — இங்கே இரண்டாம் பட்டியல் நல்லது, முதலில் மீதிப் பத்து நடுநிலை.',
 ]);
 const NOTES_ARMY_CAMP_TA = Object.freeze([
   'படைத் தலைமையிடம், தற்காலிகக் காவல் நிலை அமைத்தல், கூடாரம் அடித்தல். கோட்டை கட்டுவது வேறு (ஸ்ரீதர் §27.19).',
@@ -10177,6 +10513,7 @@ const NOTES_BED_MAKING_TA = Object.freeze([
   'அச்சு இருபத்தாறு எண்ணுக்கே பலன் தருகிறது; 24-ஆம் எண் இறுதித் தீய கட்டத்தின் தொடக்கமாக எடுக்கப்பட்டுள்ளது.',
   'ஸ்ரீதர் தள்ளுவன: மரண சூதகம், ரிக்தா, அமாவாசை, தேய்பிறை, வைத்ருதி, ஆவணி – புரட்டாசி மாதங்கள், சகுனக் குறைவுள்ள பாப கிழமை. தேய்பிறையும் இரு மாதமும் வைத்ருதியும் கணிக்கப்படுகின்றன.',
   'சிந்தாமணியின் கட்டில் விதி ஆயுதம் தரிக்கும் அதே ஸ்லோகத்தில் (2/21) வருகிறது; அந்த ஸ்லோகம் காலணி, செருப்பு அணிவதையும் சேர்க்கிறது என்று மொழிபெயர்ப்பாளர் குறிப்பிடுகிறார்.',
+  'கல்யாணராமன் (தொ.2 ப.242) புதிய கட்டில், நாற்காலி போன்ற ஆசனத்துக்கு ஒரு வரி மட்டும் தருகிறார்; பதினான்கு + அபிஜித்.',
 ]);
 const NOTES_PERFORMING_TA = Object.freeze([
   'நாடகம், திரைப்படத்தில் நடிக்கத் தொடங்குதல், வித்தை காட்டுதல், சர்க்கஸ் கலை, நடனம், இசை.',
@@ -10614,9 +10951,50 @@ const NOTES_CAMEL_BIRD_TRADE_TA = Object.freeze([
   'கல்யாணராமனும் ஜோஷியும் ஒரே ஆறு நட்சத்திரத்தைச் சொல்கின்றனர். குதிரை வாங்கல், விற்றல், பழக்குதல் "குதிரை" செயலில் (வில்ஹெல்ம் கழுதை, ஒட்டகம், கோவேறு கழுதைக்கும் அதே).',
 ]);
 
+const NOTES_SHANTI_KARMA_TA = Object.freeze([
+  'ஸ்ரீதர், சிந்தாமணி, வில்ஹெல்ம் மூவரும் ஒரே பதினைந்து நட்சத்திரத்தைச் சொல்கின்றனர்; ஜோஷியும் கல்யாணராமனும் ரேவதியை விட்டு அபிஜித்தைச் சேர்த்துப் பதினான்கு + 1 தருகின்றனர் (இருவரும் அதே பட்டியல்). கல்யாணராமன் "சிந்தாமணி இதை ஏற்கிறது" என்கிறார்; ஆனால் சிந்தாமணி அச்சில் ரேவதியைச் சேர்க்கிறது, அபிஜித்தைச் சொல்லவில்லை — அச்சில் உள்ளபடி வைக்கப்பட்டது.',
+  'ஸ்ரீதர் "10-ல் சூரியன், 4-ல் சந்திரன், அல்லது லக்னத்தில் குரு" என்று "அல்லது" சொல்கிறார்; மற்ற நால்வரும் மூன்றையும் சேர்த்து ("ஆதர்ச நிலை") சொல்கின்றனர் — அவற்றில் குறிக்கப்படும்; ஸ்ரீதரில் குறிக்கப்படவில்லை. ஸ்ரீதர் பௌர்ணமியை மிகச் சிறப்பு என்கிறார் (குறிப்பு).',
+  'குரு, சுக்கிரன் அஸ்தமனம் தள்ளு — ஆனால் நிமித்த சாந்திக்கு (அபசகுனம், கிரகணம், தூமகேது உதயம்) அந்த தோஷத்தைப் பொருட்படுத்த வேண்டாம் என்று ஸ்ரீதர், சிந்தாமணி, வில்ஹெல்ம் மூவரும் சொல்கின்றனர் (தோஷம் தவிர்க்கத் தேவையில்லை என்றால் குறிப்பு மட்டும்).',
+  'பிறப்புக்கான சாந்தி (மூலம், கண்டாந்தம், சூலம் முதலிய யோகம், பாத்ரா, அமாவாசை, கிருஷ்ண சதுர்த்தசி, பெற்றோரின் நட்சத்திரத்தில் பிறப்பு) எந்தப் பிறப்புக்கு என்பதைச் சிந்தாமணி, ஜோஷி, கல்யாணராமன் சொல்கின்றனர் — அது முகூர்த்தம் அல்ல, காரணம்; கணிக்கப்படவில்லை.',
+]);
+const NOTES_EXPIATORY_TA = Object.freeze([
+  'கல்யாணராமன் மட்டுமே: ஆயில்யமும் உத்திரமும்; சுப திதி, சுப யோகம், கரணம் (பட்டியல் இல்லை). அதே நூலின் கோயில் பிரதிஷ்டை பகுதி ஆடி மாதத்தையும் 8, 9, 12-ல் பாபரையும் பிராயச்சித்தத்துக்கு அனுமதிக்கிறது (பிரதிஷ்டைச் செயலில் குறிப்பாக).',
+]);
+const NOTES_VASTU_POOJA_TA = Object.freeze([
+  'கல்யாணராமனும் ஜோஷியும் ஒரே பதின்மூன்று நட்சத்திரத்தைச் சொல்கின்றனர். கிரகப்பிரவேசம் தனிச் செயல் (அங்கு "வாஸ்து பூஜை" குறிப்பாக மட்டும் வருகிறது).',
+  'கல்யாணராமன்: ராசி 2, 5, 8, 11, 3, 6, 9, 12 லக்னம்; சுபர் 1, 7, 10, 5, 9, 2, 3, 11-ல்; 4, 8-ல் கிரகம் இல்லை; உத்தராயணம்; மாசி, பங்குனி, வைகாசி, ஆனி நல்லது; குரு / சுக்கிர அஸ்தமனம், குரு சிம்மம் / மகரத்தில், சூரியன் மீனத்தில் தள்ளு; கிராந்திசாம்யம் தள்ளு (கணிக்கப்படவில்லை); சந்திர, தாரா பலம் தேவை.',
+]);
+const NOTES_LIE_DETECTOR_TA = Object.freeze([
+  'நான்கு நூலும் ஒரே ஐந்து நட்சத்திரத்தைச் சொல்கின்றன. சோதிக்கப்படுபவரின் ஜன்ம நட்சத்திரத்திலிருந்து 1, 10, 16, 18, 23, 25-ஆம் நட்சத்திரம் (நாடி நட்சத்திரம்) தள்ளு — சிந்தாமணி உரை அவற்றுக்குப் பெயர் தருகிறது (ஜன்ம, கர்ம, சாங்காதிக, சாமுதாயிக, வினாச, மானச); இங்கே சோதிக்கப்படுபவரின் ஜன்ம நட்சத்திரம் உள்ளீடாக இருந்தால் கணிக்கப்படும் (தாரா எண்ணிக்கை).',
+  'சோதிக்கப்படுபவரின் பிறந்த மாதம், பிறப்பு லக்னம் / சந்திரனிலிருந்து 8-ஆம் வீட்டில் சூரிய சந்திரர் — சிந்தாமணி "பிறப்பு லக்னத்திலிருந்து", ஜோஷி "பிறப்புச் சந்திரனிலிருந்து", வில்ஹெல்ம் "முகூர்த்தத்தில் 8-ல்" என்கின்றனர்; வில்ஹெல்மின் வாசிப்பு மட்டும் முகூர்த்த லக்னத்தில் கணிக்கப்படுகிறது, மற்றவை சோதிக்கப்படுபவரின் ஜாதகம் இல்லாததால் குறிப்பாக மட்டும்.',
+  'ஜோஷி, சிந்தாமணி "பாத்ரா" என்பதைத் திதிகளாகவே (2, 7, 12) எடுக்கின்றனர் (கல்யாணராமன் "பத்ரா 2/7/12 மற்றும் 8/14" என்று வெளிப்படையாகச் சொல்கிறார்); வில்ஹெல்ம் 8, 14 திதியையும் விஷ்டி கரணத்தையும் தள்ளுகிறார். கல்யாணராமன் சதுர்த்தியையும் ஏற்கிறார் (4 அவரது நல்ல பட்டியலில்).',
+  'சந்திரன், குருவின் கோசார பலம், தாரா சுத்தி — நான்கு நூலும் சொல்கின்றன (எல்லாச் செயல்களிலும் பொதுவாகக் காட்டப்படும் சந்திர, தாரா பலத்தில்); பழங்காலத்தில் எரியும் உலோகத்தைத் தொடச் சொல்லும் தெய்வச் சோதனை இன்று நடப்பதில்லை (சிந்தாமணி உரை) — இன்றைய பொருள் விசாரணை, பொய் கண்டறியும் கருவி (வில்ஹெல்ம், ஜோஷி, கல்யாணராமன்).',
+]);
+const NOTES_GOVT_DEALINGS_TA = Object.freeze([
+  'கல்யாணராமன் மட்டுமே: உத்திரட்டாதி ஒன்றே; அரசைச் சந்திப்பது "பெரியோரைச் சந்தித்தல்" செயல், வேலைக்கு விண்ணப்பிப்பது தனிச் செயல்.',
+]);
+const NOTES_SKILLED_TRAINING_TA = Object.freeze([
+  'கல்யாணராமன் மட்டுமே (மூன்று லகு நட்சத்திரம்). "எந்தக் கைவினையையும் கற்றல்" (ப.162) தனிச் செயல் ("கைவினை கற்றல்").',
+]);
+const NOTES_SEEK_POWER_ALLIANCE_TA = Object.freeze([
+  'கல்யாணராமன் மட்டுமே: நான்கு தீக்ஷ்ண (கூர்மையான) நட்சத்திரம் — நட்பு உடன்படிக்கை "நட்பு உடன்படிக்கை" செயலில் தனி.',
+]);
+const NOTES_ENEMY_OVERPOWER_TA = Object.freeze([
+  'கல்யாணராமனும் ஜோஷியும் ஒரே ஒன்பது நட்சத்திரத்தை (ஐந்து உக்ர + நான்கு தீக்ஷ்ண) தருகின்றனர்: பாப கிரக நாட்கள் (ஞாயிறு, செவ்வாய், சனி), ஜய + ரிக்தா திதி (3, 8, 13, 4, 9, 14), பாப ராசி லக்னம் (1, 5, 8, 10, 11) ஏற்கப்படும்.',
+  'கல்யாணராமன் மேலும்: தீய யோகம் (1, 6, 9, 10, 13, 15, 17, 19, 27 — விஷ்கும்பம், அதிகண்டம், சூலம், கண்டம், வியாகாதம், வஜ்ரம், வ்யதீபாதம், பரிகம், வைதிருதி) மற்றும் தீய கரணம் (பத்ரா, சகுனி, சதுஷ்பாதம், நாகம், கிம்ஸ்துக்னம்) விரும்பப்படுகின்றன — மற்ற செயல்களில் இவை தள்ளப்படுவதால் இங்கே எதிர்மாறு; முகூர்த்த வகைகளில் "விரும்பும்" யோக / கரணப் பட்டியல் இல்லாததால் குறிப்பு மட்டும்.',
+  'வழக்குத் தொடுத்தல், போர் தொடங்குதல் தனிச் செயல்கள்; அங்கே "குல / அகுல" பிரிவு (ஆதிக்கம் யாருக்கு) உள்ளது.',
+]);
+const NOTES_KAVACHA_TA = Object.freeze([
+  'கல்யாணராமனும் ஜோஷியும் ஒரே பத்து நட்சத்திரத்தையும் ஒரே நான்கு கிழமையையும் (வியாழன், வெள்ளி, சனி, ஞாயிறு) தருகின்றனர்; ஜோஷி "அரசன், அமைச்சர் தம் பாதுகாப்புக்குச் செய்யும் எல்லாச் செயலுக்கும் (பாதுகாவலரை நியமித்தல்)" இதே முகூர்த்தம் என்கிறார்.',
+  'சந்திரனிலிருந்து 4, 7, 10-ல் சுபர், 6, 11-ல் பாபர் — இரு நூலும் சொல்கின்றன (சந்திரனிலிருந்து எண்ணும் கிரக நிலை இங்கே கணிக்கப்படவில்லை; குறிப்பு மட்டும்); சந்திர, தாரா பலம் தேவை.',
+]);
+const NOTES_HYPNOTISM_TA = Object.freeze([
+  'கல்யாணராமன் மட்டுமே: எட்டு உக்ர / தீக்ஷ்ண நட்சத்திரம்.',
+]);
+
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING', 'ARMY_RAISE', 'WAR_START', 'WEAPON_MAKE', 'WEAPON_WEAR', 'MISSILE_SETUP', 'ARMY_CAMP', 'DAGGER_TIE', 'TREATY', 'MINT_COINS', 'CATCH_THIEF', 'BOAT_SHIP', 'WEAVING', 'POTTERY', 'PAINTING', 'SCULPTURE', 'CRAFT_LEARN', 'LEATHER', 'SALON', 'WINE', 'BED_MAKING', 'PERFORMING', 'DAIRY', 'BRICK_KILN', 'METAL_IRON', 'GRINDING_MILL', 'WASHERMAN', 'SALT', 'SPORTS', 'BRIDGE_DAM', 'PERFUME', 'BETEL', 'GEMOLOGY', 'LIBRARY', 'LATHE', 'ADOPTION', 'OATH_MASS', 'CASTRATION', 'GARBHADHANA', 'PUMSAVANA', 'SEEMANTA', 'JATAKARMA', 'NAMAKARANA', 'NISHKRAMANA', 'ANNAPRASHANA', 'CHUDAKARANA', 'SHAVING', 'KARNAVEDHA', 'KESHANTA', 'SAMAVARTANA', 'ANKURARPANA', 'PRET_KRIYA', 'PUTTAL_DAHA', 'BATH_AFTER_MENSES', 'SUTIKA_SNANA', 'BREAST_FEEDING', 'FIRST_MILK', 'JALA_PUJA', 'CHILD_BED', 'DOLAROHANA', 'BHUMYUPAVESHANA', 'CHILD_BETEL', 'KANYA_VARANA', 'VARA_VARANA', 'INVITATION_LETTERS', 'MANDAP', 'VADHU_PRAVESHA', 'DWIRAGAMANA', 'NISHEKA', 'FIRST_COOKING', 'FIRST_RETURN', 'REMARRIAGE', 'LOVE_MARRIAGE', 'LEARN_MATHEMATICS', 'LEARN_ASTROLOGY', 'LEARN_VEDAS_GRAMMAR', 'VEDARAMBHA', 'LEARN_PHILOSOPHY', 'LEARN_LOGIC', 'LEARN_MEDICINE', 'LEARN_ARMS', 'LEARN_MUSIC_DANCE', 'LEARN_INSTRUMENTS', 'LEARN_OTHER_RELIGIONS', 'LEARN_FOREIGN_LANGUAGES', 'LEARN_LAW', 'START_WRITING', 'LEARN_NUMEROLOGY', 'LEARN_WATER_DIVINING', 'LEARN_COMPUTING', 'LEARN_POSITIVE_SCIENCES', 'LEARN_CULINARY_STATECRAFT', 'LEARN_PHRENOLOGY', 'LEARN_HIGHER_STUDIES', 'LEARN_SHUDRA_MANTRAS', 'YOKING_OXEN', 'HYDRAULIC_DEVICES', 'MANURING', 'AGRI_IMPLEMENTS', 'IMPLEMENT_TRAINING', 'STORING_SEEDS', 'SELL_PRODUCE', 'SUGARCANE_JUICE', 'MUSTARD_OIL', 'CAMEL_BIRD_TRADE'],
-  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING, ARMY_RAISE, WAR_START, WEAPON_MAKE, WEAPON_WEAR, MISSILE_SETUP, ARMY_CAMP, DAGGER_TIE, TREATY, MINT_COINS, CATCH_THIEF, BOAT_SHIP, WEAVING, POTTERY, PAINTING, SCULPTURE, CRAFT_LEARN, LEATHER, SALON, WINE, BED_MAKING, PERFORMING, DAIRY, BRICK_KILN, METAL_IRON, GRINDING_MILL, WASHERMAN, SALT, SPORTS, BRIDGE_DAM, PERFUME, BETEL, GEMOLOGY, LIBRARY, LATHE, ADOPTION, OATH_MASS, CASTRATION, GARBHADHANA, PUMSAVANA, SEEMANTA, JATAKARMA, NAMAKARANA, NISHKRAMANA, ANNAPRASHANA, CHUDAKARANA, SHAVING, KARNAVEDHA, KESHANTA, SAMAVARTANA, ANKURARPANA, PRET_KRIYA, PUTTAL_DAHA, BATH_AFTER_MENSES, SUTIKA_SNANA, BREAST_FEEDING, FIRST_MILK, JALA_PUJA, CHILD_BED, DOLAROHANA, BHUMYUPAVESHANA, CHILD_BETEL, KANYA_VARANA, VARA_VARANA, INVITATION_LETTERS, MANDAP, VADHU_PRAVESHA, DWIRAGAMANA, NISHEKA, FIRST_COOKING, FIRST_RETURN, REMARRIAGE, LOVE_MARRIAGE, LEARN_MATHEMATICS, LEARN_ASTROLOGY, LEARN_VEDAS_GRAMMAR, VEDARAMBHA, LEARN_PHILOSOPHY, LEARN_LOGIC, LEARN_MEDICINE, LEARN_ARMS, LEARN_MUSIC_DANCE, LEARN_INSTRUMENTS, LEARN_OTHER_RELIGIONS, LEARN_FOREIGN_LANGUAGES, LEARN_LAW, START_WRITING, LEARN_NUMEROLOGY, LEARN_WATER_DIVINING, LEARN_COMPUTING, LEARN_POSITIVE_SCIENCES, LEARN_CULINARY_STATECRAFT, LEARN_PHRENOLOGY, LEARN_HIGHER_STUDIES, LEARN_SHUDRA_MANTRAS, YOKING_OXEN, HYDRAULIC_DEVICES, MANURING, AGRI_IMPLEMENTS, IMPLEMENT_TRAINING, STORING_SEEDS, SELL_PRODUCE, SUGARCANE_JUICE, MUSTARD_OIL, CAMEL_BIRD_TRADE,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING', 'ARMY_RAISE', 'WAR_START', 'WEAPON_MAKE', 'WEAPON_WEAR', 'MISSILE_SETUP', 'ARMY_CAMP', 'DAGGER_TIE', 'TREATY', 'MINT_COINS', 'CATCH_THIEF', 'BOAT_SHIP', 'WEAVING', 'POTTERY', 'PAINTING', 'SCULPTURE', 'CRAFT_LEARN', 'LEATHER', 'SALON', 'WINE', 'BED_MAKING', 'PERFORMING', 'DAIRY', 'BRICK_KILN', 'METAL_IRON', 'GRINDING_MILL', 'WASHERMAN', 'SALT', 'SPORTS', 'BRIDGE_DAM', 'PERFUME', 'BETEL', 'GEMOLOGY', 'LIBRARY', 'LATHE', 'ADOPTION', 'OATH_MASS', 'CASTRATION', 'GARBHADHANA', 'PUMSAVANA', 'SEEMANTA', 'JATAKARMA', 'NAMAKARANA', 'NISHKRAMANA', 'ANNAPRASHANA', 'CHUDAKARANA', 'SHAVING', 'KARNAVEDHA', 'KESHANTA', 'SAMAVARTANA', 'ANKURARPANA', 'PRET_KRIYA', 'PUTTAL_DAHA', 'BATH_AFTER_MENSES', 'SUTIKA_SNANA', 'BREAST_FEEDING', 'FIRST_MILK', 'JALA_PUJA', 'CHILD_BED', 'DOLAROHANA', 'BHUMYUPAVESHANA', 'CHILD_BETEL', 'KANYA_VARANA', 'VARA_VARANA', 'INVITATION_LETTERS', 'MANDAP', 'VADHU_PRAVESHA', 'DWIRAGAMANA', 'NISHEKA', 'FIRST_COOKING', 'FIRST_RETURN', 'REMARRIAGE', 'LOVE_MARRIAGE', 'LEARN_MATHEMATICS', 'LEARN_ASTROLOGY', 'LEARN_VEDAS_GRAMMAR', 'VEDARAMBHA', 'LEARN_PHILOSOPHY', 'LEARN_LOGIC', 'LEARN_MEDICINE', 'LEARN_ARMS', 'LEARN_MUSIC_DANCE', 'LEARN_INSTRUMENTS', 'LEARN_OTHER_RELIGIONS', 'LEARN_FOREIGN_LANGUAGES', 'LEARN_LAW', 'START_WRITING', 'LEARN_NUMEROLOGY', 'LEARN_WATER_DIVINING', 'LEARN_COMPUTING', 'LEARN_POSITIVE_SCIENCES', 'LEARN_CULINARY_STATECRAFT', 'LEARN_PHRENOLOGY', 'LEARN_HIGHER_STUDIES', 'LEARN_SHUDRA_MANTRAS', 'YOKING_OXEN', 'HYDRAULIC_DEVICES', 'MANURING', 'AGRI_IMPLEMENTS', 'IMPLEMENT_TRAINING', 'STORING_SEEDS', 'SELL_PRODUCE', 'SUGARCANE_JUICE', 'MUSTARD_OIL', 'CAMEL_BIRD_TRADE', 'SHANTI_KARMA', 'EXPIATORY', 'VASTU_POOJA', 'LIE_DETECTOR', 'GOVT_DEALINGS', 'SKILLED_TRAINING', 'SEEK_POWER_ALLIANCE', 'ENEMY_OVERPOWER', 'KAVACHA', 'HYPNOTISM'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING, ARMY_RAISE, WAR_START, WEAPON_MAKE, WEAPON_WEAR, MISSILE_SETUP, ARMY_CAMP, DAGGER_TIE, TREATY, MINT_COINS, CATCH_THIEF, BOAT_SHIP, WEAVING, POTTERY, PAINTING, SCULPTURE, CRAFT_LEARN, LEATHER, SALON, WINE, BED_MAKING, PERFORMING, DAIRY, BRICK_KILN, METAL_IRON, GRINDING_MILL, WASHERMAN, SALT, SPORTS, BRIDGE_DAM, PERFUME, BETEL, GEMOLOGY, LIBRARY, LATHE, ADOPTION, OATH_MASS, CASTRATION, GARBHADHANA, PUMSAVANA, SEEMANTA, JATAKARMA, NAMAKARANA, NISHKRAMANA, ANNAPRASHANA, CHUDAKARANA, SHAVING, KARNAVEDHA, KESHANTA, SAMAVARTANA, ANKURARPANA, PRET_KRIYA, PUTTAL_DAHA, BATH_AFTER_MENSES, SUTIKA_SNANA, BREAST_FEEDING, FIRST_MILK, JALA_PUJA, CHILD_BED, DOLAROHANA, BHUMYUPAVESHANA, CHILD_BETEL, KANYA_VARANA, VARA_VARANA, INVITATION_LETTERS, MANDAP, VADHU_PRAVESHA, DWIRAGAMANA, NISHEKA, FIRST_COOKING, FIRST_RETURN, REMARRIAGE, LOVE_MARRIAGE, LEARN_MATHEMATICS, LEARN_ASTROLOGY, LEARN_VEDAS_GRAMMAR, VEDARAMBHA, LEARN_PHILOSOPHY, LEARN_LOGIC, LEARN_MEDICINE, LEARN_ARMS, LEARN_MUSIC_DANCE, LEARN_INSTRUMENTS, LEARN_OTHER_RELIGIONS, LEARN_FOREIGN_LANGUAGES, LEARN_LAW, START_WRITING, LEARN_NUMEROLOGY, LEARN_WATER_DIVINING, LEARN_COMPUTING, LEARN_POSITIVE_SCIENCES, LEARN_CULINARY_STATECRAFT, LEARN_PHRENOLOGY, LEARN_HIGHER_STUDIES, LEARN_SHUDRA_MANTRAS, YOKING_OXEN, HYDRAULIC_DEVICES, MANURING, AGRI_IMPLEMENTS, IMPLEMENT_TRAINING, STORING_SEEDS, SELL_PRODUCE, SUGARCANE_JUICE, MUSTARD_OIL, CAMEL_BIRD_TRADE, SHANTI_KARMA, EXPIATORY, VASTU_POOJA, LIE_DETECTOR, GOVT_DEALINGS, SKILLED_TRAINING, SEEK_POWER_ALLIANCE, ENEMY_OVERPOWER, KAVACHA, HYPNOTISM,
 });
 
 /**
@@ -10819,6 +11197,16 @@ module.exports = {
     SUGARCANE_JUICE: NOTES_SUGARCANE_JUICE_TA,
     MUSTARD_OIL: NOTES_MUSTARD_OIL_TA,
     CAMEL_BIRD_TRADE: NOTES_CAMEL_BIRD_TRADE_TA,
+    SHANTI_KARMA: NOTES_SHANTI_KARMA_TA,
+    EXPIATORY: NOTES_EXPIATORY_TA,
+    VASTU_POOJA: NOTES_VASTU_POOJA_TA,
+    LIE_DETECTOR: NOTES_LIE_DETECTOR_TA,
+    GOVT_DEALINGS: NOTES_GOVT_DEALINGS_TA,
+    SKILLED_TRAINING: NOTES_SKILLED_TRAINING_TA,
+    SEEK_POWER_ALLIANCE: NOTES_SEEK_POWER_ALLIANCE_TA,
+    ENEMY_OVERPOWER: NOTES_ENEMY_OVERPOWER_TA,
+    KAVACHA: NOTES_KAVACHA_TA,
+    HYPNOTISM: NOTES_HYPNOTISM_TA,
   }),
   AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS, BATH_MC_18, BATH_KR_18, BATH_13,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,
