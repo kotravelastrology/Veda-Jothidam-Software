@@ -2045,4 +2045,66 @@ const RF = FIX.roga_snana;
   assert.ok(acts2.length >= 137, `the whole table now has ${acts2.length} acts`);
 }
 
+// ------------------------------------------------ the marriage companions: engagement to re-marriage ---
+{
+  const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'PPhalguni', 'UPhalguni', 'Hasta',
+    'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Moola', 'PAshadha', 'UAshadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'PBhadra', 'UBhadra', 'Revati'];
+  const st = (...ns) => sorted(ns.map((n) => NAMES.indexOf(n)));
+  const ev = (a, b) => E.EVENTS[a][b];
+  const same = (a, bs, what) => { for (const b of bs) assert.deepEqual(sorted(ev(a, b).nak.good), sorted(ev(a, bs[0]).nak.good), `${a}/${b}: ${what}`); };
+  // Choosing the bride: the Chintamani, Wilhelm and Joshi print the same nine stars plus the eleven marriage stars.
+  same('KANYA_VARANA', ['MUHURTA_CHINTAMANI', 'WILHELM', 'JOSHI'], 'the same seventeen');
+  assert.equal(ev('KANYA_VARANA', 'JOSHI').nak.good.length, 17);
+  assert.equal(ev('KANYA_VARANA', 'SHRIDHAR').nak.good.length, 18, 'Shridhar: eighteen');
+  assert.deepEqual(sorted(ev('KANYA_VARANA', 'MUHURTA_CHINTAMANI').vara.good), [0, 1, 3, 4, 5, 6], 'the Chintamani bars only Tuesday');
+  // Choosing the bridegroom: the Chintamani and Wilhelm print the same eight; Joshi adds the marriage stars; Shridhar adds Moola, drops Chitra and Mrigashira.
+  same('VARA_VARANA', ['MUHURTA_CHINTAMANI', 'WILHELM'], 'the same eight');
+  assert.equal(ev('VARA_VARANA', 'WILHELM').nak.good.length, 8);
+  for (const n of ev('VARA_VARANA', 'MUHURTA_CHINTAMANI').nak.good) assert.ok(ev('VARA_VARANA', 'JOSHI').nak.good.includes(n), `Joshi includes ${NAMES[n]}`);
+  assert.equal(ev('VARA_VARANA', 'JOSHI').nak.good.length, 15);
+  assert.ok(ev('VARA_VARANA', 'SHRIDHAR').nak.good.includes(NAMES.indexOf('Moola')) && !ev('VARA_VARANA', 'SHRIDHAR').nak.good.includes(NAMES.indexOf('Chitra')) && !ev('VARA_VARANA', 'SHRIDHAR').nak.good.includes(NAMES.indexOf('Mrigashira')), 'Shridhar groom list');
+  assert.deepEqual(sorted(ev('VARA_VARANA', 'VASHISTHA').vara.good), [0, 3, 5], 'Vashistha: Sunday, Wednesday, Friday');
+  assert.equal(ev('VARA_VARANA', 'VASHISTHA').masa.good.length, 6, 'Vashistha: six months');
+  // Invitations: Shridhar and Wilhelm print the same eight stars.
+  same('INVITATION_LETTERS', ['SHRIDHAR', 'WILHELM'], 'the same eight');
+  assert.deepEqual(ev('INVITATION_LETTERS', 'SHRIDHAR').empty, [5]);
+  // Mandap: Shridhar bars Tuesday; the Chintamani gives the eleven marriage stars.
+  assert.ok(!ev('MANDAP', 'SHRIDHAR').vara.good.includes(2), 'no first pillar on Tuesday');
+  assert.equal(ev('MANDAP', 'MUHURTA_CHINTAMANI').nak.good.length, 11);
+  // The bride's first entry: four books print one list of sixteen; the Chintamani and Joshi bar Tuesday and Sunday, Shridhar and Wilhelm Tuesday and Saturday.
+  same('VADHU_PRAVESHA', ['SHRIDHAR', 'MUHURTA_CHINTAMANI', 'WILHELM', 'JOSHI'], 'the same sixteen');
+  assert.equal(ev('VADHU_PRAVESHA', 'SHRIDHAR').nak.good.length, 16);
+  for (const b of ['MUHURTA_CHINTAMANI', 'JOSHI']) assert.deepEqual(sorted(ev('VADHU_PRAVESHA', b).vara.good), [1, 3, 4, 5, 6].filter((d) => d !== 0 && d !== 2), `${b}: Tuesday and Sunday barred`);
+  for (const b of ['SHRIDHAR', 'WILHELM']) assert.ok(!ev('VADHU_PRAVESHA', b).vara.good.includes(2) && !ev('VADHU_PRAVESHA', b).vara.good.includes(6), `${b}: Tuesday and Saturday barred`);
+  assert.deepEqual(ev('VADHU_PRAVESHA', 'SHRIDHAR').lagna.good, [1, 4, 7, 10], 'Shridhar: fixed signs');
+  // The bride's second entry: the Chintamani, Wilhelm and Joshi print the same seventeen; Shridhar has Ardra where they have Chitra.
+  same('DWIRAGAMANA', ['MUHURTA_CHINTAMANI', 'WILHELM', 'JOSHI'], 'the same seventeen');
+  assert.equal(ev('DWIRAGAMANA', 'MUHURTA_CHINTAMANI').nak.good.length, 17);
+  assert.deepEqual(sorted(ev('DWIRAGAMANA', 'SHRIDHAR').nak.good), sorted(ev('DWIRAGAMANA', 'MUHURTA_CHINTAMANI').nak.good.filter((n) => n !== NAMES.indexOf('Chitra')).concat([NAMES.indexOf('Ardra')])), 'Shridhar: Ardra for Chitra');
+  for (const b of E.EVENTS.DWIRAGAMANA.order) assert.deepEqual(sorted(ev('DWIRAGAMANA', b).sunSign.good), [0, 7, 10], `${b}: the Sun in Aries, Scorpio or Aquarius`);
+  for (const b of ['SHRIDHAR', 'WILHELM', 'JOSHI']) assert.deepEqual(sorted(ev('DWIRAGAMANA', b).lagna.good), [1, 2, 5, 6, 11], `${b}: five lagnas`);
+  // The first sexual union: Shridhar, Wilhelm and Raman print the same eleven and the same six middling; Joshi six; Kalyanraman seventeen.
+  same('NISHEKA', ['SHRIDHAR', 'WILHELM', 'RAMAN'], 'the same eleven');
+  for (const b of ['SHRIDHAR', 'WILHELM', 'RAMAN']) assert.deepEqual(sorted(ev('NISHEKA', b).nak.mid), st('Ashwini', 'Mrigashira', 'Punarvasu', 'Pushya', 'Chitra', 'Dhanishtha'), `${b}: the same six middling`);
+  assert.equal(ev('NISHEKA', 'SHRIDHAR').nak.good.length, 11);
+  assert.equal(ev('NISHEKA', 'JOSHI').nak.good.length, 6);
+  assert.equal(ev('NISHEKA', 'KALYANRAMAN').nak.good.length, 17, 'Kalyanraman gives conception and nisheka as one section');
+  assert.deepEqual(sorted(ev('NISHEKA', 'KALYANRAMAN').nak.good), sorted(ev('GARBHADHANA', 'KALYANRAMAN').nak.good), 'the same reading under both');
+  for (const b of ['SHRIDHAR', 'WILHELM', 'RAMAN']) assert.deepEqual(ev('NISHEKA', b).taraNot, [1, 10, 19], `${b}: Janma, 10th and 19th`);
+  // First cooking and the first return: Shridhar alone.
+  assert.equal(ev('FIRST_COOKING', 'SHRIDHAR').nak.good.length, 13);
+  assert.deepEqual(E.EVENTS.FIRST_RETURN.order, ['SHRIDHAR']);
+  assert.equal(ev('FIRST_RETURN', 'SHRIDHAR').nak.good.length, 18, 'eighteen stars remain after the nine barred');
+  // Re-marriage: the two Patt Shuddhi chakras, both from the Sun's star.
+  assert.deepEqual(ev('REMARRIAGE', 'SHRIDHAR').starCount.map((c) => c.code), ['RUDRA_PATT', 'BRAHMA_PATT']);
+  assert.equal(ev('REMARRIAGE', 'SHRIDHAR').nak.good.length, 10);
+  // Love marriage: no star list at all, only the Tripadi chakra counted of 28.
+  assert.ok(!ev('LOVE_MARRIAGE', 'JOSHI').nak, 'love marriage names no star');
+  assert.equal(ev('LOVE_MARRIAGE', 'JOSHI').starCount[0].of, 28);
+  assert.deepEqual(ev('LOVE_MARRIAGE', 'JOSHI').starCount[0].good, [5, 6, 10, 12, 13, 14, 15, 22, 23, 24, 26, 27, 28]);
+  for (const c of ['RUDRA_PATT', 'BRAHMA_PATT', 'TRIPADI_CHAKRA']) assert.ok(E.CODE_TA[c], `${c} has a Tamil label`);
+  const acts3 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
+  assert.ok(acts3.length >= 148, `the whole table now has ${acts3.length} acts`);
+}
+
 console.log('test-event-muhurta: all checks passed');

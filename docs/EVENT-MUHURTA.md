@@ -1001,6 +1001,30 @@ pregnancy and her menses, the lord and the days after a death, the 88th pada and
 star, Tripushkara, the strength of Mars for the child's first sitting, and the directions of Rahu, Yogini and
 Rudra for the first cow's milk.
 
+**Marriage companions** (11 acts, added 2026-10-20): the elections around the wedding that the marriage page does
+not take: choosing the bride — Kanya-varana (four books), choosing the bridegroom / engagement — Vara-varana (five,
+including Vashistha's "sagana muhurta"), invitation letters (two), the mandap (two), the bride's first entry —
+Vadhu-pravesha (four), her second entry — Dwiragamana (four), the first sexual union — Nisheka (five), first cooking
+(Shridhar), the first return to her father's house (Shridhar), re-marriage (Shridhar) and love marriage (Joshi).
+Sources: Shridhar §18.10, Muhurta Chintamani ch.6-8, Wilhelm pp.255-259, Joshi pp.79-81, Vashistha p.118,
+Raman ch.VII, Kalyanraman vol.2 pp.19-33, Rangacharya p.101.
+The books agree closely again, and the tests pin each agreement: the Chintamani, Wilhelm and Joshi print the same
+seventeen stars for choosing the bride (nine of their own plus the eleven marriage stars) and the same seventeen for
+the second entry; Shridhar's second-entry list differs by one star (Ardra for Chitra). The bride's first entry is one
+list of sixteen in four books (Shridhar, the Chintamani — who has a whole chapter 7 for it —, Wilhelm and Joshi); the
+Chintamani and Joshi bar Tuesday and Sunday, Shridhar and Wilhelm Tuesday and Saturday. For nisheka, Shridhar, Wilhelm
+and Raman print the same eleven best and the same six middling stars; Raman's "nuptials" is that list, and
+Kalyanraman gives conception and nisheka as one section ("Garbhaadaana, Sekam, Nisheka, Nuptials"), so his reading
+stands under both acts, seventeen stars against the others' eleven.
+Where they part: the bridegroom's list (Shridhar adds Moola and drops Chitra and Mrigashira; his joint list keeps
+Mrigashira, as printed), re-marriage's Brahma-patt table (whose printed effects contradict its
+auspicious / inauspicious labels; the labels are taken, and the contradiction is noted), and the first-entry
+months — a first-year dosha on a relative — which every book lists but none can be computed without the marriage date.
+New computed chakras: the Rudra-patt and Brahma-patt shuddhi (the Moon's star counted from the Sun's) for re-marriage,
+and Joshi's Tripadi chakra, counted of 28 with Abhijit, which is the whole of his love-marriage rule.
+Not computed: the day count from the wedding, the odd / even years and months, the bride's own Moon (her janma sign is
+not an input here), the Venus-in-front travel dosha, and the first-pillar direction.
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying

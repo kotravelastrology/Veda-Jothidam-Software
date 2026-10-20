@@ -6458,52 +6458,387 @@ const CHILD_BETEL = deepFreeze({
     noteTa: 'பதினேழு நட்சத்திரம் — ஸ்திர 4, மிருது 4, லகு 3, திருவோணம், மூலம், புனர்பூசம், கேட்டை, சுவாதி, அவிட்டம் · செவ்வாய், சனி தள்ளு · லக்னம் மிதுனம், மகரம், கன்னி, கும்பம், ரிஷபம், மீனம் · சுபர் கேந்திர, திரிகோணம்; பாபர் 3, 6, 11 · 2½ மாதம் அல்லது அன்னப்பிராசனத்துடன்',
   },
 });
+// ---------------------------------------------------------------------------
+// Marriage companions (engagement to re-marriage), added 2026-10-20
+// ---------------------------------------------------------------------------
+const KANYA_VARANA = deepFreeze({
+  labelTa: 'கன்னிகா வரணம் (மணப்பெண்ணைத் தேர்ந்தெடுத்தல், நிச்சயம்)',
+  default: 'MUHURTA_CHINTAMANI',
+  order: ['MUHURTA_CHINTAMANI', 'SHRIDHAR', 'WILHELM', 'JOSHI'],
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி அத்.6', booksTa: 'முகூர்த்த சிந்தாமணி (மூல நூல்)',
+    nak: { good: [2, 3, 4, 9, 10, 11, 12, 14, 16, 18, 19, 20, 21, 22, 24, 25, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    noteTa: 'ஒன்பது நட்சத்திரம் + "திருமண நட்சத்திரம்" பதினொன்று (மிருகசீரிடம், ஹஸ்தம், மூலம், அனுஷம், மகம், ரோகிணி, ரேவதி, மூன்று உத்திரம், சுவாதி) = பதினேழு · செவ்வாய் தவிர எல்லா நாளும் · ரிக்தா தவிர எல்லாத் திதியும் · நல்ல லக்னம், பலமான சந்திரன் — லக்னம் கணிக்கப்படவில்லை',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §18.10.1 — மணமகள்', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [4, 13, 16, 26, 3, 11, 20, 25, 2, 6, 9, 10, 19, 24, 12, 14, 21, 22], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: 'பதினெட்டு நட்சத்திரம் (மிருது 4, ஸ்திர 4, கிருத்திகை, புனர்பூசம், மகம், மூன்று பூர்வம், ஹஸ்தம், சுவாதி, திருவோணம், அவிட்டம்) · திதி 2, 3, 5, 6, 7, 8, 10, 11, 12, 13 (இரு பக்ஷமும்) + பௌர்ணமி · திங்கள், புதன், வியாழன், வெள்ளி · இருவரின் நிச்சயமும் ஒன்றாக: கிருத்திகை, ரோகிணி, மிருகசீரிடம், புனர்பூசம், மகம், மூன்று பூர்வம், மூன்று உத்திரம், ஹஸ்தம், சுவாதி, அனுஷம், திருவோணம், அவிட்டம், ரேவதி — மிருகசீரிடம் மணமகனுக்கு நீக்கப்படுவதால் அச்சில் முரண், அச்சில் உள்ளபடியே',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.257)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [2, 3, 4, 9, 10, 11, 12, 14, 16, 18, 19, 20, 21, 22, 24, 25, 26], mid: [] }, digdwar: false,
+    noteTa: 'ஒன்பது நட்சத்திரம் + திருமண நட்சத்திரம் (வில்ஹெல்ம் தரும் அதே பதினொன்று) = பதினேழு — சிந்தாமணி, ஜோஷியின் அதே பட்டியல் · இது ஆண் பெண்ணைச் சந்திக்க, "டேட்" அழைப்பதற்கும் பொருந்தும் என்கிறார் · திதி, கிழமை சொல்லப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.80)', booksTa: 'ஜோஷி',
+    nak: { good: [2, 3, 4, 9, 10, 11, 12, 14, 16, 18, 19, 20, 21, 22, 24, 25, 26], mid: [] }, digdwar: false,
+    noteTa: 'சிந்தாமணியின் அதே ஒன்பது + திருமணத்துக்கு விதித்த நட்சத்திரம் (ஜோஷியின் பதினொன்று: ஸ்திர 4, மிருகசீரிடம், ரேவதி, அனுஷம், மூலம், சுவாதி, மகம், ஹஸ்தம்) · பெண்ணுக்கு மாப்பிள்ளை வீட்டார் மங்களப் பொருள்கள் தருவர் · திதி, கிழமை சொல்லப்படவில்லை',
+  },
+});
+const VARA_VARANA = deepFreeze({
+  labelTa: 'வர வரணம் (மணமகனைத் தேர்ந்தெடுத்தல், நிச்சயதார்த்தம், சகன முகூர்த்தம்)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'MUHURTA_CHINTAMANI', 'JOSHI', 'VASHISTHA', 'WILHELM'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §18.10.1 — மணமகன்', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [16, 26, 3, 11, 20, 25, 2, 6, 9, 10, 19, 24, 12, 14, 21, 22, 18], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: 'மணமகளின் பதினெட்டில் மூலம் கூடுதல்; சித்திரை, மிருகசீரிடம் நீக்கம் — பதினேழு · திதி, கிழமை மணமகளின் அதே · இருவரும் சேர்ந்து நிச்சயம் செய்தால்: இரு பட்டியலிலும் உள்ளவை — அச்சில் மிருகசீரிடம் அதிலும் உள்ளது',
+  },
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி அத்.6', booksTa: 'முகூர்த்த சிந்தாமணி (மூல நூல்)',
+    nak: { good: [3, 11, 20, 25, 2, 10, 19, 24], mid: [] }, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: 'எட்டு நட்சத்திரம்: ஸ்திர 4 (ரோகிணி, மூன்று உத்திரம்) + கிருத்திகை, மூன்று பூர்வம் — வில்ஹெல்மின் அதே எட்டு · "நல்ல நாள்" — திங்கள், புதன், வியாழன், வெள்ளி எடுக்கப்பட்டது',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.79-80)', booksTa: 'ஜோஷி',
+    nak: { good: [2, 3, 4, 9, 10, 11, 12, 14, 16, 18, 19, 20, 24, 25, 26], mid: [] }, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: 'சிந்தாமணியின் எட்டு + திருமண நட்சத்திரம் (பதினொன்றில் மீதி ஏழு: மிருகசீரிடம், மகம், மூலம், ஹஸ்தம், சுவாதி, அனுஷம், ரேவதி) = பதினைந்து · சுப நாள் — திங்கள், புதன், வியாழன், வெள்ளி எடுக்கப்பட்டது; சுப திதி, சுப யோகம் எவை என்று அச்சில் இல்லை',
+  },
+  VASHISTHA: {
+    labelTa: 'வசிஷ்டா (ப.118 — சகன முகூர்த்தம்)', booksTa: 'வசிஷ்டா',
+    masa: { good: [1, 2, 3, 8, 11, 10], mid: [], strict: true },
+    nak: { good: [0, 2, 5, 13, 6, 7, 8, 10, 17, 21, 22, 23], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 6, 7, 8, 10, 12, 13, 15, 16],
+    vara: { good: [0, 3, 5], mid: [] },
+    noteTa: 'பன்னிரண்டு நட்சத்திரம் — மற்ற நான்கு நூலின் எட்டுடன் பெரிதும் மாறுபடுகிறது (அச்சில் "Chaitra" என்பதைச் சித்திரை எனப் படித்தோம்) · மாதம்: வைகாசி, ஆனி, ஆடி, மார்கழி, பங்குனி, மகம் · திதி: தேய்பிறைப் பிரதமை, வளர்பிறை 2, 3, 5, 6, 7, 8, 10, 12, 13, பௌர்ணமி · ஞாயிறு, புதன், வெள்ளி · கோதூளி முகூர்த்தம் அடுத்த பகுதி',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.257)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [3, 11, 20, 25, 2, 10, 19, 24], mid: [] }, digdwar: false,
+    noteTa: 'சிந்தாமணியின் அதே எட்டு நட்சத்திரம் · பெண் ஆணை "ஆம்" என்று ஏற்பதற்கும் பொருந்தும் · திதி, கிழமை சொல்லப்படவில்லை',
+  },
+});
+const INVITATION_LETTERS = deepFreeze({
+  labelTa: 'மங்கல அழைப்பிதழ் எழுதுதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'WILHELM'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §18.10.2', booksTa: 'ஸ்ரீதர் (U.K. 8/13 மேற்கோள்)',
+    nak: { good: [6, 14, 21, 22, 23, 12, 0, 7], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 8, 10, 12, 13, 15, 17, 18, 20, 22, 23, 25, 27, 28],
+    vara: { good: [3, 4, 5], mid: [] },
+    empty: [5],
+    want: [{ planets: ['Jupiter', 'Venus'], houses: [1], code: 'JUP_VEN_LAGNA_MID' }],
+    noteTa: 'சர 5 + லகு 3 = எட்டு நட்சத்திரம் · திதி: பத்ரா (2, 7, 12), ஜயா (3, 8, 13), பூர்ணா (5, 10, 15) — இரு பக்ஷமும் · புதன், வியாழன், வெள்ளி (புதன் பாபருடன் சேராதபோது) · 5 காலி · லக்னத்தில் குரு / சுக்கிரன் (இருப்பது அல்லது பார்ப்பது) · "பௌர்ணமி" என்ற குறிப்பு திதிப் பட்டியலில் 15-ஆக எடுக்கப்பட்டது',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.257-258)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 6, 7, 12, 14, 21, 22, 23], mid: [] }, digdwar: false,
+    vara: { good: [3, 4, 5], mid: [] },
+    empty: [5],
+    want: [{ planets: ['Mercury', 'Jupiter', 'Venus'], houses: [1], code: 'JMV_LAGNA_MID' }],
+    noteTa: 'ஸ்ரீதரின் அதே எட்டு நட்சத்திரம் · புதன், வியாழன், வெள்ளி (புதன் பாபருடன் சேர்ந்தால் தள்ளு) · 5 காலி · லக்னத்தில் புதன் / குரு / சுக்கிரன் இருப்பது அல்லது பார்ப்பது சிறப்பு · திதி சொல்லப்படவில்லை',
+  },
+});
+const MANDAP = deepFreeze({
+  labelTa: 'மணப்பந்தல் (முதல் கால் நாட்டல், அமைத்தல்)',
+  default: 'MUHURTA_CHINTAMANI',
+  order: ['MUHURTA_CHINTAMANI', 'SHRIDHAR'],
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி அத்.6', booksTa: 'முகூர்த்த சிந்தாமணி (மூல நூல்)',
+    nak: { good: [3, 4, 9, 18, 12, 14, 16, 26, 11, 20, 25], mid: [] }, digdwar: false,
+    noteTa: 'பதினொரு திருமண நட்சத்திரம் (மணமக்களின் சந்திர பலம் இல்லாவிட்டால்) · 3, 6, 9-ஆம் நாள் முன் தொடங்கக்கூடாது; பந்தல் பிரிப்பது — நாள் எண்ணிக்கை கணிக்கப்படவில்லை',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §18.10.3', booksTa: 'ஸ்ரீதர்',
+    vara: { good: [0, 1, 3, 4, 5, 6], mid: [] },
+    noteTa: 'செவ்வாய் தள்ளு · பிற விதிகள் (திசை, பஞ்சகம், நாள் எண்ணிக்கை) குறிப்பாக மட்டும் — நட்சத்திரப் பட்டியல் இல்லை; பிரிக்கும்போது "நல்ல நட்சத்திரம்" என்று மட்டும் சொல்கிறார்',
+  },
+});
+const VADHU_PRAVESHA = deepFreeze({
+  labelTa: 'வதூ பிரவேசம் (மணப்பெண் கணவன் வீட்டில் முதல் முறை புகுதல்)',
+  default: 'MUHURTA_CHINTAMANI',
+  order: ['MUHURTA_CHINTAMANI', 'SHRIDHAR', 'WILHELM', 'JOSHI'],
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி அத்.7', booksTa: 'முகூர்த்த சிந்தாமணி (மூல நூல்; முகூர்த்த மார்த்தாண்டம் மேற்கோள்)',
+    nak: { good: [3, 11, 20, 25, 12, 0, 7, 4, 13, 16, 26, 21, 22, 18, 9, 14], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [1, 3, 4, 5, 6], mid: [] },
+    noteTa: 'ஸ்ரீதரின் அதே பதினாறு நட்சத்திரம் · ரிக்தா (4, 9, 14), செவ்வாய், ஞாயிறு தள்ளு — ஜோஷியின் அதே விதி · நாள் எண்ணிக்கை; முதல் ஆண்டில் ஜ்யேஷ்டம், அதிக மாசம், ஆடி, பௌஷம், க்ஷய மாசம் கெடுதல் — கணிக்கப்படவில்லை · "முகூர்த்த மார்த்தாண்டம்: இது மணமக்களின் முதல் சந்திப்பு" · இன்று திருமணத்துடனே நிகழ்வதாகச் சொல்கிறார்',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §18.10.4', booksTa: 'ஸ்ரீதர் (வசிஷ்டர், J.V., நாரதர், ஜ்யோதிஷ் பிரகாசம் மேற்கோள்கள்)',
+    nak: { good: [3, 11, 20, 25, 12, 0, 7, 4, 13, 16, 26, 21, 22, 18, 9, 14], mid: [] }, digdwar: false,
+    tithi: [1, 3, 5, 6, 8, 10, 11, 13, 15, 16, 18, 20, 21, 23, 25, 26, 28],
+    vara: { good: [0, 1, 4, 5], mid: [3] },
+    lagna: { good: [1, 4, 7, 10], mid: [] },
+    jupVenNotSet: true,
+    noteTa: 'பதினாறு நட்சத்திரம்: ஸ்திர 4, லகு 3, மிருது 4, திருவோணம், அவிட்டம், மூலம், மகம், சுவாதி · திதி: ரிக்தா, பத்ரா (2, 7, 12), அமாவாசை தள்ளு (J.V. பத்ராவையும் தள்ளுகிறார்) · செவ்வாய், சனி தள்ளு; J.V. புதனையும் தள்ளுகிறார் — நடுநிலை · ஸ்திர லக்னம் · குரு / சுக்கிர அஸ்தமனம் தள்ளு (தீபாவளி விலக்கு — கணிக்கப்படவில்லை) · மணப்பெண்ணுக்குச் சந்திரன் சுபனாக — அவள் ஜன்ம ராசி உள்ளீடு இல்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.255-256)', booksTa: 'வில்ஹெல்ம் (மணப்பெண் கணவன் வீட்டுக்கு வருதல்)',
+    nak: { good: [0, 3, 4, 7, 9, 11, 12, 13, 14, 16, 18, 20, 21, 22, 25, 26], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    jupVenNotSet: true,
+    noteTa: 'ஸ்ரீதரின் அதே பதினாறு நட்சத்திரம் (அச்சு வடிவம் வேறு; தொகுப்பு ஒன்றே) · 4, 9, 14 தள்ளு · செவ்வாய், சனி கிழமை தள்ளு · குரு / சுக்கிரன் பாதிப்பு தள்ளு',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.80-81)', booksTa: 'ஜோஷி',
+    nak: { good: [3, 11, 20, 25, 12, 0, 7, 4, 13, 16, 26, 21, 22, 18, 9, 14], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [1, 3, 4, 5, 6], mid: [] },
+    noteTa: 'ஸ்ரீதரின் அதே பதினாறு நட்சத்திரம் + அபிஜித் · ரிக்தா தள்ளு · செவ்வாய், ஞாயிறு தள்ளு (ஸ்ரீதர் செவ்வாய், சனி) · நாள் எண்ணிக்கை — திருமணத்தை நாள் கணக்கிடும் ஊர் வழக்கத்துக்கு மட்டும்',
+  },
+});
+const DWIRAGAMANA = deepFreeze({
+  labelTa: 'த்விராகமனம் (மணப்பெண் பிறந்த வீட்டிலிருந்து கணவன் வீட்டுக்கு இரண்டாம் முறை வருதல்)',
+  default: 'MUHURTA_CHINTAMANI',
+  order: ['MUHURTA_CHINTAMANI', 'SHRIDHAR', 'JOSHI', 'WILHELM'],
+  MUHURTA_CHINTAMANI: {
+    labelTa: 'முகூர்த்த சிந்தாமணி', booksTa: 'முகூர்த்த சிந்தாமணி (மூல நூல்)',
+    nak: { good: [12, 0, 7, 3, 11, 20, 25, 14, 6, 21, 22, 23, 4, 26, 13, 16, 18], mid: [] }, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    lagna: { good: [2, 11, 5, 6, 1], mid: [] },
+    sunSign: { good: [10, 0, 7], mid: [] },
+    noteTa: 'பதினேழு நட்சத்திரம்: லகு 3, ஸ்திர 4, சர 5, மிருது 4, மூலம் · சூரியன் கும்பம், மேஷம், விருச்சிகம் · மிதுனம், மீனம், கன்னி, துலாம், ரிஷபம் லக்னம் · "நல்ல நாள்" — திங்கள், புதன், வியாழன், வெள்ளி எடுக்கப்பட்டது · சூரியனும் குருவும் "கன்னியிலிருந்து சுப இடத்தில்" — அச்சில் தெளிவில்லை; கணிக்கப்படவில்லை · ஒற்றை ஆண்டு · சுக்கிர திசை (பயணம்)',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §18.10.8', booksTa: 'ஸ்ரீதர் (ஜ்யோதிஷ் பிரகாசம், P.K. மேற்கோள்கள்)',
+    nak: { good: [12, 0, 7, 4, 14, 23, 21, 22, 3, 11, 20, 25, 6, 5, 16, 26, 18], mid: [] }, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    lagna: { good: [1, 2, 5, 6, 11], mid: [] },
+    sunSign: { good: [0, 7, 10], mid: [] },
+    noteTa: 'பதினேழு நட்சத்திரம் — சிந்தாமணியின் பதினேழில் சித்திரைக்குப் பதில் திருவாதிரை; மற்ற பதினாறு அதே (அச்சில் ஸ்ரீதர் மிருகசீரிடம், சுவாதி, சதயம், திருவோணம், அவிட்டத்தை "மிருது" என்ற தலைப்பில் தருகிறார்) · சூரியன் மேஷம், விருச்சிகம், கும்பம் · திங்கள், புதன், வியாழன், வெள்ளி · மிதுனம், கன்னி, ரிஷபம், துலாம், மீனம் லக்னம் (அச்சு "2, 3, 6, 7, 12") · ஒற்றை ஆண்டு · சூரியன், குரு சுத்தம் அவசியம் — குரு அஸ்தமனம் கணிக்கப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.81)', booksTa: 'ஜோஷி',
+    nak: { good: [12, 0, 7, 3, 11, 20, 25, 14, 6, 21, 22, 23, 4, 26, 13, 16, 18], mid: [] }, abhijitOk: true, digdwar: false,
+    tithi: [1, 2, 3, 5, 7, 10, 11, 13, 16, 17, 18, 20, 22, 25, 26, 28],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    lagna: { good: [1, 2, 5, 6, 11], mid: [] },
+    sunSign: { good: [0, 7, 10], mid: [] },
+    noteTa: 'சிந்தாமணியின் அதே பதினேழு நட்சத்திரம் + அபிஜித் · திதி 1, 2, 3, 5, 7, 10, 11, 13 · திங்கள், புதன், வியாழன், வெள்ளி · லக்னம் 2, 3, 6, 7, 12 · சூரியன் 1, 8, 11-ஆம் ராசி (சூரியன், குரு பலம் — கணிக்கப்படவில்லை) · 1, 3, 5, 7-ஆம் ஆண்டு',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.256-257)', booksTa: 'வில்ஹெல்ம் (மணப்பெண்ணின் இரண்டாம் வருகை)',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 13, 14, 16, 18, 20, 21, 22, 23, 25, 26], mid: [] }, digdwar: false,
+    lagna: { good: [1, 2, 5, 6, 11], mid: [] },
+    sunSign: { good: [0, 7, 10], mid: [] },
+    noteTa: 'சிந்தாமணியின் அதே பதினேழு நட்சத்திரம் · சூரியன் மேஷம், விருச்சிகம், கும்பம் · ரிஷபம், மிதுனம், கன்னி, துலாம், மீனம் லக்னம் · ஒற்றை ஆண்டு · சூரியன், குரு பெண்ணின் ஜன்ம சந்திரனிலிருந்து சுபமாக — அவள் ஜன்ம ராசி உள்ளீடு இல்லை · திதி, கிழமை சொல்லப்படவில்லை',
+  },
+});
+const NISHEKA = deepFreeze({
+  labelTa: 'நிஷேகம் (முதலிரவு — முதல் தாம்பத்தியம்)',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'RAMAN', 'WILHELM', 'SHRIDHAR', 'JOSHI'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.19-33 — "கர்ப்பாதானம், சேகம், நிஷேகம்")', booksTa: 'கல்யாணராமன் (மு.சி., காலவிதானம், சீக்ரபோதம், காலப்பிரகாசிகை மேற்கோள்கள்)',
+    nak: { good: [0, 3, 4, 6, 7, 11, 12, 13, 14, 16, 18, 20, 21, 22, 23, 25, 26], mid: [9, 15] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 7, 10, 11, 12, 13, 16, 17, 18, 20, 22, 25, 26, 27, 28],
+    vara: { good: [3, 4, 5], mid: [1] },
+    yogaNot: [16, 26, 18],
+    vishti: true,
+    karanaFixed: true,
+    lagna: { good: [0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11], mid: [] },
+    noteTa: 'கல்யாணராமன் இந்தப் பிரிவை "கர்ப்பாதானம், சேகம், நிஷேகம், முதலிரவு" என்று ஒரே பிரிவாகத் தருகிறார் — கர்ப்பாதானத்துக்குத் தந்த அதே வாசிப்பு இங்கும் நிற்கிறது · பதினேழு நட்சத்திரம் (அசுவினி, மூலம், ரேவதி உட்பட) — மற்ற நூல்களின் பதினொன்றிலிருந்து வேறுபடுகிறது; மகம், விசாகம் நடுநிலை · திதி 1, 2, 3, 5, 7, 10, 11, 12, 13 · புதன், வியாழன், வெள்ளி; திங்கள் நடுநிலை · வியதிபாத, வைத்ருதி, பரிகம் தள்ளு; பத்ரா, ஸ்திர கரணம் தள்ளு · கன்னி தவிர எல்லா லக்னமும்',
+  },
+  RAMAN: {
+    labelTa: 'ராமன் (அத்.VII)', booksTa: 'ராமன்',
+    nak: { good: [3, 11, 12, 14, 16, 18, 20, 21, 23, 25, 26], mid: [0, 4, 6, 7, 13, 22] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 12, 13, 16, 17, 18, 20, 21, 22, 25, 26, 27, 28],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    taraNot: [1, 10, 19],
+    lagna: { good: [1, 2, 3, 4, 5, 6, 11], mid: [8, 10] },
+    empty: [8],
+    noteTa: 'பதினொரு சிறந்த + ஆறு "சாதாரண" நட்சத்திரம் — ஸ்ரீதர், வில்ஹெல்மின் அதே பட்டியல் · 4, 8, 9, 14, பௌர்ணமி, அமாவாசை தள்ளு · திங்கள், புதன், வியாழன், வெள்ளி · ரிஷபம் முதல் துலாம், மீனம்; 8 காலியாக இருந்தால் தனுசு, கும்பமும் ஆகும் (நடுநிலை) · ஜன்ம, 10, 19-ஆவது நட்சத்திரம் தள்ளு · மாதவிடாய் தொடங்கி ஆறாம் நாள் சிறப்பு (நாள் உள்ளீடு இல்லை)',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.258-259)', booksTa: 'வில்ஹெல்ம் (காலப்பிரகாசிகை மேற்கோள்)',
+    nak: { good: [3, 11, 12, 14, 16, 18, 20, 21, 23, 25, 26], mid: [0, 4, 6, 7, 13, 22] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 12, 13, 16, 17, 18, 20, 21, 22, 25, 26, 27, 28],
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    taraNot: [1, 10, 19],
+    lagna: { good: [1, 2, 3, 4, 5, 6, 11], mid: [8, 10] },
+    empty: [8],
+    notIn: [[['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'], [1]]],
+    noteTa: 'ராமனின் அதே பதினொன்று + ஆறு · திதி 4, 8, 9, 14, 15 தள்ளு (அமாவாசையும் தள்ளப்படுகிறது — "15" பௌர்ணமி, அமாவாசை இரண்டுக்கும் என்று எடுத்தோம்) · பாப கிழமைகள் தள்ளு · லக்னம்: ரிஷபம் முதல் துலாம், மீனம்; 8 காலி என்றால் தனுசு, கும்பம் சரி · லக்னத்தில் பாபன் கூடாது; 8 காலி · ஜன்ம, 10, 19-ஆவது தள்ளு · ஏழாம் வீடு கூடலின் இயல்பைக் காட்டும் — பாபர் கலகம், சுபர் மகிழ்ச்சி',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §18.10.5', booksTa: 'ஸ்ரீதர் (K.P., P.K. மேற்கோள்கள்)',
+    masa: { good: [10, 11, 0, 1, 2, 8], mid: [], strict: false },
+    nak: { good: [3, 11, 12, 14, 16, 18, 20, 21, 23, 25, 26], mid: [0, 4, 6, 7, 13, 22] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 10, 11, 13, 16, 17, 18, 20, 21, 22, 25, 26, 28],
+    vara: { good: [1, 3, 4, 5], mid: [6] },
+    taraNot: [1, 10, 19],
+    lagna: { good: [1, 2, 3, 4, 5, 6, 11], mid: [] },
+    empty: [1, 8],
+    noteTa: 'ஸ்ரீதரின் சிறந்த பதினொன்று + நடுநிலை ஆறு — ராமன், வில்ஹெல்மின் அதே பட்டியல் · திதி: 4, 8, 9, 14, பௌர்ணமி, அமாவாசை, ரிக்தா தள்ளு; K.P. 12-ஐயும் கண்டிப்பாகத் தள்ளுகிறார் · திங்கள், புதன், வியாழன், வெள்ளி; சனி நடுநிலை (P.K.) · சிறந்த மாதங்கள்: மகம், பங்குனி, சித்திரை, வைகாசி, ஆனி, மார்கழி · லக்னம் 2-7, 12 · லக்னம், 8 காலி (வில்ஹெல்ம் லக்னத்தில் பாபன் கூடாது, 8 காலி என்று மட்டும்) · ஜன்ம, 10, 19-ஆவது தள்ளு · நவாம்சம்: சந்திரன், புதன், குரு, சுக்கிரன் ஏற்பு; சூரியன், செவ்வாய், சனி தள்ளு · நள்ளிரவு, காலை தள்ளு (K.P.) — கணிக்கப்படவில்லை; மணப்பெண்ணுக்குச் சந்திரன் சுபனாக',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.50)', booksTa: 'ஜோஷி',
+    nak: { good: [3, 4, 7, 12, 25, 26], mid: [] }, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: 'ஆறு நட்சத்திரம் (ரோகிணி, மிருகசீரிடம், பூசம், ஹஸ்தம், உத்திரட்டாதி, ரேவதி) — மற்ற நூல்களின் பதினொன்றில் மிருகசீரிடம், பூசம் நடுநிலை · சுப நாள், சுப திதி — சுப நாள் எடுக்கப்பட்டது, சுப திதி அளவு சொல்லப்படவில்லை · இரவின் முதல் மூன்று மணி நேரம் தள்ளு — கணிக்கப்படவில்லை',
+  },
+});
+const FIRST_COOKING = deepFreeze({
+  labelTa: 'மணப்பெண்ணின் முதல் சமையல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §18.10.6', booksTa: 'ஸ்ரீதர் (B.D.R. மேற்கோள்)',
+    nak: { good: [4, 11, 20, 25, 7, 2, 17, 21, 22, 23, 3, 15, 26], mid: [] }, digdwar: false,
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    lagna: { good: [1, 4, 7, 10], mid: [] },
+    empty: [4],
+    notIn: [[['Sun'], [8, 10]]],
+    noteTa: 'பதின்மூன்று நட்சத்திரம் · செவ்வாய், சனி தள்ளு · ஸ்திர லக்னம் · 4 காலி; 7 பலமாக — பலம் கணிக்கப்படவில்லை · சூரியன் 8, 10-இல் கூடாது · "நல்ல திதி" — அளவு சொல்லப்படவில்லை',
+  },
+});
+const FIRST_RETURN = deepFreeze({
+  labelTa: 'மணப்பெண்ணின் முதல் தந்தை வீட்டுப் பயணம் (திரும்புதல்)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §18.10.7', booksTa: 'ஸ்ரீதர் (J.V. 13/90 மேற்கோள்)',
+    nak: { good: [0, 2, 3, 4, 6, 7, 11, 12, 13, 14, 15, 16, 20, 21, 22, 23, 25, 26], mid: [] }, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    yogaNot: [0, 5, 8, 9, 12, 14, 16, 18, 26],
+    noteTa: 'கூர்மை 4 (கேட்டை, திருவாதிரை, ஆயில்யம், மூலம்), உக்ர 5 (மகம், பரணி, மூன்று பூர்வம்) தள்ளு — மீதி பதினெட்டு · பாப கிழமைகள் (ஞாயிறு, செவ்வாய், சனி) தள்ளு · "தீய யோகங்கள்" — எங்கள் தீய ஒன்பது யோகப் பட்டியல் (மற்ற பகுதிகளில் ஸ்ரீதர் தருவது) · "மீதி நேரம் நல்லது"',
+  },
+});
+const REMARRIAGE = deepFreeze({
+  labelTa: 'மறுமணம்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §18.10.9', booksTa: 'ஸ்ரீதர் (ருத்ர பட்ட சுத்தி, பிரம்ம பட்ட சுத்தி, முகூர்த்த சங்கிரகம் மேற்கோள்கள்)',
+    nak: { good: [3, 4, 11, 20, 25, 12, 16, 18, 14, 26], mid: [] }, digdwar: false,
+    starCount: [{ from: 'Sun', of: 27, good: [1, 2, 3, 5, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24, 26, 27], code: 'RUDRA_PATT' }, { from: 'Sun', of: 27, good: [4, 5, 6, 13, 14, 15, 19, 20, 21, 25, 26, 27], code: 'BRAHMA_PATT' }],
+    noteTa: 'பத்து நட்சத்திரம் (ரோகிணி, மிருகசீரிடம், மூன்று உத்திரம், ஹஸ்தம், அனுஷம், மூலம், சுவாதி, ரேவதி) · எல்லாத் திதியும் எல்லாக் கிழமையும் நல்லவை · மாதம், சுக்கிர சுத்தி பார்க்கப்படுவதில்லை · ருத்ர பட்ட சுத்தி (4, 11, 18, 25 தள்ளு) · பிரம்ம பட்ட சுத்தி (அச்சில் உள்ள இயல்பின்படி 4-6, 13-15, 19-21, 25-27 நல்லது)',
+  },
+});
+const LOVE_MARRIAGE = deepFreeze({
+  labelTa: 'காதல் திருமணம் (திரிபாதி சக்கரம்)',
+  default: 'JOSHI',
+  order: ['JOSHI'],
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.80)', booksTa: 'ஜோஷி',
+    starCount: [{ from: 'Sun', of: 28, good: [5, 6, 10, 12, 13, 14, 15, 22, 23, 24, 26, 27, 28], code: 'TRIPADI_CHAKRA' }],
+    noteTa: 'திரிபாதி சக்கரம் மட்டும்: சூரியன் இருக்கும் நட்சத்திரத்திலிருந்து (அபிஜித் உட்பட 28) சந்திர நட்சத்திரம் 5, 6, 10, 12, 13, 14, 15, 22, 23, 24, 26, 27, 28 · வேறு விதி இல்லை',
+  },
+});
 
 const RANK = deepFreeze({
+  KANYA_VARANA: {
+    order: KANYA_VARANA.order,
+    words: { MUHURTA_CHINTAMANI: 244, SHRIDHAR: 110, WILHELM: 47, JOSHI: 43 },
+    measureTa: 'கன்னிகா வரணம் பற்றிய சொற்கள்: சிந்தாமணி (அத்.6, ப.150-151) 244; ஸ்ரீதர் (§18.10.1, ப.528-529 — வரணத்துடன் ஒரே பிரிவு) 110; வில்ஹெல்ம் (ப.257) 47; ஜோஷி (ப.80) 43.',
+  },
+  VARA_VARANA: {
+    order: VARA_VARANA.order,
+    words: { SHRIDHAR: 110, MUHURTA_CHINTAMANI: 85, JOSHI: 81, VASHISTHA: 48, WILHELM: 42 },
+    measureTa: 'வர வரணம் பற்றிய சொற்கள்: ஸ்ரீதர் (§18.10.1, ப.528-529) 110; முகூர்த்த சிந்தாமணி (அத்.6, ப.151) 85; வில்ஹெல்ம் (ப.257) 42; ஜோஷி (ப.79-80) 81; வசிஷ்டா (ப.118) 48.',
+  },
+  INVITATION_LETTERS: {
+    order: INVITATION_LETTERS.order,
+    words: { SHRIDHAR: 71, WILHELM: 60 },
+    measureTa: 'அழைப்பிதழ் பற்றிய சொற்கள்: ஸ்ரீதர் (§18.10.2, ப.529) 71; வில்ஹெல்ம் (ப.257-258) 60.',
+  },
+  MANDAP: {
+    order: MANDAP.order,
+    words: { MUHURTA_CHINTAMANI: 212, SHRIDHAR: 132 },
+    measureTa: 'மணப்பந்தல் பற்றிய சொற்கள்: சிந்தாமணி (அத்.6, ப.218) 212; ஸ்ரீதர் (§18.10.3, ப.529) 132; ஜோஷி (ப.80 — தனிப் பட்டியல் இல்லை, 59 சொற்கள்).',
+  },
+  VADHU_PRAVESHA: {
+    order: VADHU_PRAVESHA.order,
+    words: { MUHURTA_CHINTAMANI: 781, SHRIDHAR: 547, WILHELM: 295, JOSHI: 156 },
+    measureTa: 'வதூ பிரவேசம் பற்றிய சொற்கள்: ஸ்ரீதர் (§18.10.4, ப.529-531) 547; சிந்தாமணி (அத்.7, ப.225-226) 781; வில்ஹெல்ம் (ப.255-256) 295; ஜோஷி (ப.80-81) 156; ரங்காச்சார்யா (அத்.V, ப.101 — நாள், மாதக் கணக்கு மட்டும், 148 சொற்கள்).',
+  },
+  DWIRAGAMANA: {
+    order: DWIRAGAMANA.order,
+    words: { MUHURTA_CHINTAMANI: 823, SHRIDHAR: 383, JOSHI: 172, WILHELM: 129 },
+    measureTa: 'த்விராகமனம் பற்றிய சொற்கள்: முகூர்த்த சிந்தாமணி (அத்.8, ப.227-229) 823; ஸ்ரீதர் (§18.10.8, ப.532-533) 383; ஜோஷி (ப.81) 172; வில்ஹெல்ம் (ப.256-257) 129.',
+  },
+  NISHEKA: {
+    order: NISHEKA.order,
+    words: { KALYANRAMAN: 4987, RAMAN: 455, WILHELM: 329, SHRIDHAR: 295, JOSHI: 39 },
+    measureTa: 'நிஷேகம் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.19-33) 4987; ராமன் (அத்.VII) 455; வில்ஹெல்ம் (ப.258-259) 329; ஸ்ரீதர் (§18.10.5, ப.531-532) 295; ஜோஷி (ப.50) 39.',
+  },
+  FIRST_COOKING: {
+    order: FIRST_COOKING.order,
+    words: { SHRIDHAR: 69 },
+    measureTa: 'முதல் சமையல் பற்றிய சொற்கள்: ஸ்ரீதர் (§18.10.6, ப.532) 69.',
+  },
+  FIRST_RETURN: {
+    order: FIRST_RETURN.order,
+    words: { SHRIDHAR: 57 },
+    measureTa: 'தந்தை வீட்டுப் பயணம் பற்றிய சொற்கள்: ஸ்ரீதர் (§18.10.7, ப.532) 57.',
+  },
+  REMARRIAGE: {
+    order: REMARRIAGE.order,
+    words: { SHRIDHAR: 154 },
+    measureTa: 'மறுமணம் பற்றிய சொற்கள்: ஸ்ரீதர் (§18.10.9, ப.533-534) 154.',
+  },
+  LOVE_MARRIAGE: {
+    order: LOVE_MARRIAGE.order,
+    words: { JOSHI: 53 },
+    measureTa: 'காதல் திருமணம் பற்றிய சொற்கள்: ஜோஷி (ப.80) 53.',
+  },
   BATH_AFTER_MENSES: {
     order: BATH_AFTER_MENSES.order,
     words: { SHRIDHAR: 235, MUHURTA_CHINTAMANI: 167 },
-    measureTa: 'மாதவிடாய்க்குப் பின் குளியல் பற்றிய சொற்கள்: ஸ்ரீதர் (§19.2, ப.549) 235; முகூர்த்த சிந்தாமணி (அத்.5, ப.114) 167.',
+    measureTa: 'மாதவிடாய்க்குப் பின் குளியல் பற்றிய சொற்கள்: ஸ்ரீதர் (§19.2, ப.551) 235; முகூர்த்த சிந்தாமணி (அத்.5, ப.114) 167.',
   },
   SUTIKA_SNANA: {
     order: SUTIKA_SNANA.order,
     words: { KALYANRAMAN: 601, SHRIDHAR: 194, MUHURTA_CHINTAMANI: 156, JOSHI: 131, RANGACHARYA: 45 },
-    measureTa: 'சூதிகா ஸ்நானம் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.61-62) 601; ஸ்ரீதர் (§19.3, ப.549-550) 194; முகூர்த்த சிந்தாமணி (அத்.5, ப.122-123) 156; ஜோஷி (ப.54) 131; ரங்காச்சார்யா (அத்.IV, ப.70) 45.',
+    measureTa: 'சூதிகா ஸ்நானம் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.61-62) 601; ஸ்ரீதர் (§19.3, ப.551-552) 194; முகூர்த்த சிந்தாமணி (அத்.5, ப.122-123) 156; ஜோஷி (ப.54) 131; ரங்காச்சார்யா (அத்.IV, ப.70) 45.',
   },
   BREAST_FEEDING: {
     order: BREAST_FEEDING.order,
     words: { WILHELM: 151, JOSHI: 60, SHRIDHAR: 59 },
-    measureTa: 'தாய்ப்பால் பற்றிய சொற்கள்: வில்ஹெல்ம் (ப.196) 151; ஸ்ரீதர் (§19.4, ப.550) 59; ஜோஷி (ப.52) 60.',
+    measureTa: 'தாய்ப்பால் பற்றிய சொற்கள்: வில்ஹெல்ம் (ப.196) 151; ஸ்ரீதர் (§19.4, ப.552) 59; ஜோஷி (ப.52) 60.',
   },
   FIRST_MILK: {
     order: FIRST_MILK.order,
     words: { SHRIDHAR: 283, WILHELM: 125 },
-    measureTa: 'முதல் பசும்பால் பற்றிய சொற்கள்: ஸ்ரீதர் (§19.5, ப.550-551) 283; வில்ஹெல்ம் (ப.207-208) 125.',
+    measureTa: 'முதல் பசும்பால் பற்றிய சொற்கள்: ஸ்ரீதர் (§19.5, ப.552-553) 283; வில்ஹெல்ம் (ப.207-208) 125.',
   },
   JALA_PUJA: {
     order: JALA_PUJA.order,
     words: { KALYANRAMAN: 130, MUHURTA_CHINTAMANI: 119, SHRIDHAR: 100 },
-    measureTa: 'ஜல பூஜை பற்றிய சொற்கள்: ஸ்ரீதர் (§19.6, ப.551) 100; முகூர்த்த சிந்தாமணி (அத்.5, ப.124-125) 119; கல்யாணராமன் (தொ.2 ப.62-63) 130.',
+    measureTa: 'ஜல பூஜை பற்றிய சொற்கள்: ஸ்ரீதர் (§19.6, ப.553) 100; முகூர்த்த சிந்தாமணி (அத்.5, ப.124-125) 119; கல்யாணராமன் (தொ.2 ப.62-63) 130.',
   },
   CHILD_BED: {
     order: CHILD_BED.order,
     words: { SHRIDHAR: 162 },
-    measureTa: 'படுக்கையில் முதல் முறை கிடத்துதல் பற்றிய சொற்கள்: ஸ்ரீதர் (§19.7, ப.551-552) 162.',
+    measureTa: 'படுக்கையில் முதல் முறை கிடத்துதல் பற்றிய சொற்கள்: ஸ்ரீதர் (§19.7, ப.553-554) 162.',
   },
   DOLAROHANA: {
     order: DOLAROHANA.order,
     words: { MUHURTA_CHINTAMANI: 562, KALYANRAMAN: 400, SHRIDHAR: 355, WILHELM: 94, JOSHI: 79 },
-    measureTa: 'தொட்டிலில் இடுதல் பற்றிய சொற்கள்: சிந்தாமணி (அத்.5, ப.123-124) 562; கல்யாணராமன் (தொ.2 ப.231-232) 400; ஸ்ரீதர் (§19.8, ப.552-553) 355; வில்ஹெல்ம் (ப.214-215) 94; ஜோஷி (ப.54-55) 79.',
+    measureTa: 'தொட்டிலில் இடுதல் பற்றிய சொற்கள்: சிந்தாமணி (அத்.5, ப.123-124) 562; கல்யாணராமன் (தொ.2 ப.231-232) 400; ஸ்ரீதர் (§19.8, ப.554-555) 355; வில்ஹெல்ம் (ப.214-215) 94; ஜோஷி (ப.54-55) 79.',
   },
   BHUMYUPAVESHANA: {
     order: BHUMYUPAVESHANA.order,
     words: { JOSHI: 153, SHRIDHAR: 133, MUHURTA_CHINTAMANI: 98, WILHELM: 61 },
-    measureTa: 'தரையில் அமர்த்துதல் பற்றிய சொற்கள்: ஸ்ரீதர் (§19.9, ப.553) 133; ஜோஷி (ப.55-56) 153; சிந்தாமணி (அத்.5, ப.126-127) 98; வில்ஹெல்ம் (ப.214) 61.',
+    measureTa: 'தரையில் அமர்த்துதல் பற்றிய சொற்கள்: ஸ்ரீதர் (§19.9, ப.555) 133; ஜோஷி (ப.55-56) 153; சிந்தாமணி (அத்.5, ப.126-127) 98; வில்ஹெல்ம் (ப.214) 61.',
   },
   CHILD_BETEL: {
     order: CHILD_BETEL.order,
     words: { SHRIDHAR: 247, MUHURTA_CHINTAMANI: 130 },
-    measureTa: 'முதல் வெற்றிலை பற்றிய சொற்கள்: ஸ்ரீதர் (§19.10, ப.553-554) 247; முகூர்த்த சிந்தாமணி (அத்.5, ப.127) 130.',
+    measureTa: 'முதல் வெற்றிலை பற்றிய சொற்கள்: ஸ்ரீதர் (§19.10, ப.555-556) 247; முகூர்த்த சிந்தாமணி (அத்.5, ப.127) 130.',
   },
   PRET_KRIYA: {
     order: PRET_KRIYA.order,
@@ -7985,12 +8320,12 @@ const SOURCES = deepFreeze({
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 2, "The time which is to be rejected in doing Puttala Daha", printed pp.82-84 (PDF 86-88): "The Puttala Daha or the burning (cremation) of someone\'s Dummy is not to be done on the days of Friday, Tuesday, and Saturday, on the Tithis of Amavasya, Chaturdashi, Tryodashi (30,14,13) and on those called Nanda Tithis (1/6/11); in the Nakshtras called Tikshana (Moola, Jyeshtha, Ardra and Ashlesha), in those called Ugra (Poorvaphalguni, Poorvashadha and Poorvabhadrapada, Bharani and Magha) in those of Revati and Shatabhisha, in these 11 Nakshtras; in the Tripushkara yoga; in the Adhikamasa and in the Kshaya Masa, in the Dakshinayana; in the yogas of Vyatipata and Parigha; when the planets of Jupiter and Venus are combust; on the Bhadra and Vaidhriti Karanas and in the Shukla Paksha or the bright half of the month. If the information of the concerned person\'s death is got within a year, the Puttala Daha Sanskara may be done in Dakshinayana also. The person who performs the Pret Kriya should not do such rites in the Janama and Pratyari Taras and when the moon is there in the Houses of 4/8/12 from his Janama Rashi"' },
   },
   BATH_AFTER_MENSES: {
-    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.2 "Bath after menses", printed p.549 (PDF 589): "Tithi: 2,3,5,7,11,12,13. Days: Monday, Wednesday, Thursday & Friday. Constellation: Hasta, Swati, Ashvani, Mrigshira, Rohini, Anuradha, Dhanishta, 3 Uttras. Bhadra Karan should be avoided. If a woman takes bath after menses on Mrigshira, Revati, Swati, Hasta, Ashvani or Rohini then, she soon gets conceived. As per some custom, the bath is taken on 2nd day of appearance of menses, otherwise it is taken on 4th day"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.2 "Bath after menses", printed p.551 (PDF 589): "Tithi: 2,3,5,7,11,12,13. Days: Monday, Wednesday, Thursday & Friday. Constellation: Hasta, Swati, Ashvani, Mrigshira, Rohini, Anuradha, Dhanishta, 3 Uttras. Bhadra Karan should be avoided. If a woman takes bath after menses on Mrigshira, Revati, Swati, Hasta, Ashvani or Rohini then, she soon gets conceived. As per some custom, the bath is taken on 2nd day of appearance of menses, otherwise it is taken on 4th day"' },
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 5, "The Muhurta for the bathing of women after menses", printed p.114 (PDF 118): "The woman having menses should be asked to take bath after menses in the Nakshtras of Hasta, Swati, Ashwini, Mrigashira, Anuradha, Dhanishtha, those named as Dhruwa (all the 3 Uttaras and Rohini) and Jyestha, on the auspicious Tithis (2/3/5/7/11/12/13), on the auspicious days (Monday, Wednesday, Thursday and Friday). The woman who takes bath after menses in the Nakshtras of Mrigashira, Rewati, Swati, Hasta, Ashwini and Rohini gets pregnant or conceives soon"' },
   },
   SUTIKA_SNANA: {
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"5B - Sootikaasnana - Bathing of the Prasuti woman", printed pp.61-62 (PDF 63-64): "Generally the mother and child have to take bath on an auspicious day, a week after the delivery; or on the day when the Naamakarana is performed that is on the 10th or 12th day. This must be done within 36 hours from birth. In short the accepted ten nakshatras are all the four Fixed - Uttaraphalguni, Uttarashada, Uttarabhadrapada and Rohini and also another six namely - Mrigasira, Revati, Anuradha, Aswini, Hasta and Swati. Poorvaphalguni, Poorvashada, Poorvabhadrapada, Aslesha, Jyeshta and Dhanishta are mediocre. The rest are rejected. Muhoortha Chintaamani wants to reject Tithis - Ashtami, Shasti, Dwadasi, Chaturthi, Navami and Chaturdasi. Muhoortha Chintaamani prefers Sundays, Tuesdays and Thursdays. Mondays and Fridays can be accepted as mediocre. Wednesdays and Saturdays must be rejected. Prof Muthuswamy prefers Taurus, Gemini, Cancer, Libra, Sagittarius and Pisces as Lagna and wants benefic aspects for Lagna. Chandrasuddhi and Taarasuddhi for the female to be ensured"' },
-    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.3 "Sootika Snaan - Bath after delivery", printed pp.549-550 (PDF 589-590): "Tithi: 1 (D.H.), 2,3,5,7,10,11,12,13 (B.H.) & 15. Day: Sunday, Tuesday, Thursday. Constellation: Rohini, 3 Uttras, Revati, Mrigshira, Hasta, Swati, Ashvani, Anuradha (10 nos.). If the bath is taken on a Monday it causes loss of milk; Wednesday results in childless even with having a child; Friday causes barrenness; & if taken on a Saturday it results in death (M.C.-5/12). If the bath is taken on Sunday, Tuesday or Thursday then, she gets sons, wealth & fulfillment of the desires. Daivygya Manohar commends that after delivery a lady should not take bath in Krittika, Bhami, Moola, Ardra, Pushya, Punarvasu, Magha, Chitra, Vishakha & Shravana (10 no.). B.D.R. quoting Sage Pravaro opines that in asterisms of Hasta, Jyeshta, P.Falguni, Swati, Dhanishta, Revati, Anuradha, Ashvani, Mrigshira, 3 Uttras & Rohini; Sootika Snaan is auspicious. But leave Rikta Tithis"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.3 "Sootika Snaan - Bath after delivery", printed pp.551-552 (PDF 589-590): "Tithi: 1 (D.H.), 2,3,5,7,10,11,12,13 (B.H.) & 15. Day: Sunday, Tuesday, Thursday. Constellation: Rohini, 3 Uttras, Revati, Mrigshira, Hasta, Swati, Ashvani, Anuradha (10 nos.). If the bath is taken on a Monday it causes loss of milk; Wednesday results in childless even with having a child; Friday causes barrenness; & if taken on a Saturday it results in death (M.C.-5/12). If the bath is taken on Sunday, Tuesday or Thursday then, she gets sons, wealth & fulfillment of the desires. Daivygya Manohar commends that after delivery a lady should not take bath in Krittika, Bhami, Moola, Ardra, Pushya, Punarvasu, Magha, Chitra, Vishakha & Shravana (10 no.). B.D.R. quoting Sage Pravaro opines that in asterisms of Hasta, Jyeshta, P.Falguni, Swati, Dhanishta, Revati, Anuradha, Ashvani, Mrigshira, 3 Uttras & Rohini; Sootika Snaan is auspicious. But leave Rikta Tithis"' },
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 5, "The Muhurta for the bathing of the Prasuti woman", printed pp.122-123 (PDF 126-127): "The bathing of the Prasuti woman has been spoken of as excellent in the 10 Nakshtras, of Rewati, those named as Dhruwa (the 3 Uttaras and Rohini) Mrigashira, Hasta, Swati, Ashwini and Anuradha and on the days of Sunday, Tuesday and Thursday. The Sutika Snaana is not auspicious in the 10 Nakshtras, of Ardra, Punarvasu, Pushya, Shravana, Magha, Bharani, those named as Mishra or Mixed (Vishakha and Kritika) Moola and Chitra; on the days of Wednesday and Saturday and on the Tithis of Ashtami (8th), Shashthi (6th), Dwadashi (12th) and Rikta Tithis (4/9/14). The Sutika Snaana is medium in auspiciousness in the remaining 7 Nakshtras of Ashlesha, Poorvaphalguni, Jyestha, Poorvashadha, Dhanishtha, Poorvabhadrapada and on the days of Monday and Friday"' },
     JOSHI: { ...JOSHI_KK, pageLocus: 'Samskaras, printed p.54 (PDF 69): "Generally mother and child are given bath at the time of name giving ceremony. If name giving ceremony is delayed due to unavoidable reasons then Sootika-Snana can be performed in a properly chosen muhurta taking following factors into consideration: All fixed nakshatras (Uttarashada, Uttaraphalguni, Uttarabhadrapad and Rohini), Mrigshira, Revati, Anuradha, Ashwini, Hasta, and Swati nakshatras and Sunday, Tuesday and Thursday are the best for Sootika-Snana. Poorvaphalguni, Poorvashada, Poorvabhadrapad, Ashlesha, Jyestha and Danistha nakshatras and Monday and Friday are medium. Remaining nakshatras and days should be avoided. One should avoid Rikta tithis (4/9/14 tithis) 6th, 8th and 12th tithis. Proper Chandra and Tara Shuddi for the female should be done"' },
     RANGACHARYA: { ...RANGACHARYA_I, pageLocus: 'Chapter IV "Post-natal ceremonies", "Soothika Snana (Bath after Delivery)", printed p.70 (PDF 78): "The mother should take her first bath after her delivery of child on Sunday, Tuesday or Thursday. The favourable asterism are Aswini, Rohini, Mrigasira, Uttara, Uttarashada, Uttarabhadra, Hasta, Swati, Anuradha, Revti. The 4th, 6th, 8th, 9th, 12th and 14th tithis are evil"' },
@@ -7998,36 +8333,88 @@ const SOURCES = deepFreeze({
   BREAST_FEEDING: {
     WILHELM: { ...WILHELM_E, pageLocus: '"Children - Breast-feeding", printed p.196 (PDF 204): "Breast-feeding should be done after the umbilical cord is cut as soon as the baby finds the breast. Age: The 5th day is ideal. Nakshatra: Any favorable Nakshatra will do, though Mrigasira, Punarvasu, Pushya, Hasta, Sravana and Revati are best. Tithi: Particularly avoid the 4th, 9th and 14th and try to find a favorable Tithi if possible, keeping in mind that the sooner the baby breast-feeds the better. Karana: Avoid Vishti Karana. Vara: The Varas of the benefics are best. Miscellaneous: Definitely avoid the Doshas of Vyatipata and Vaidhriti"' },
     JOSHI: { ...JOSHI_KK, pageLocus: 'Samskaras, "Breast feeding", printed p.52 (PDF 67): "If breast feeding is started after Jaat karma no specific muhurta is needed. If due to certain reasons breast feeding is not done at the time of Jaat karma it can be started on 5th day or in benefic tithis, days, avoiding Vyatipaat, Vaidhriti, Bhadra and Rikta tithis. Best nakshatras are Punarvasu, Pushya, Mrigshira, Hasta, Shravana and Revati"' },
-    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.4 "First breast feeding", printed p.550 (PDF 590): "Tithi: 1 (D.H.); 2,3,5,7,10,11,13 (B.H.) & Full Moon. Days: Monday, Wednesday, Thursday & Friday. Constellation: Muktavali commends Punarvasu, Pushya, Magha, Moola, 3 Uttras, & Vishakha. Others recommend Sweet (Mrigshira, Chitra, Anuradha, Revati), Stationary (Rohini, 3 Uttras), Small (Hasta, Ashvani, Pushya) & Punarvasu. But Bhadra, Vyatipaata, Vaidhriti, Rikta, Tuesday should be avoided"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.4 "First breast feeding", printed p.552 (PDF 590): "Tithi: 1 (D.H.); 2,3,5,7,10,11,13 (B.H.) & Full Moon. Days: Monday, Wednesday, Thursday & Friday. Constellation: Muktavali commends Punarvasu, Pushya, Magha, Moola, 3 Uttras, & Vishakha. Others recommend Sweet (Mrigshira, Chitra, Anuradha, Revati), Stationary (Rohini, 3 Uttras), Small (Hasta, Ashvani, Pushya) & Punarvasu. But Bhadra, Vyatipaata, Vaidhriti, Rikta, Tuesday should be avoided"' },
   },
   FIRST_MILK: {
-    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.5 "First feeding on milk", printed pp.550-551 (PDF 590-591): "A child should be fed on cow\'s milk on 31st day, failing which on 10th star from his birth star by conch shell, on an auspicious day keeping in view direction of Rahu, Yogini & Rudra. Tithi: 1 (D.H.); 2,3,5,7,9,11,13 (B.H.). Day: Monday, Wednesday, Thursday, Friday; their vargas, especially their Horas. Constellation: Bharni, Krittika, Ardra, Ashlesha, Moola, Jyeshta, Vishakha, 3 Poorvas are adverse & balance are auspicious (K.P.). Karan: Vishti & fixed Karanas are bad. Ascendant: Signs occupied & aspected by the Moon, Mercury, Jupiter & Venus are beneficial. Aries, Scorpio & Pisces & sign occupied by the Sun are maleficent. 10th house should be vacant otherwise it shall be disastrous. B.D.R. opines that malefics in 3, 6 & 11 houses are especially beneficial. Time: Fore-noon & after-noon are suitable; avoid night-time. 6th, 8th, Rikta, last triad of D.H., Vishti & Sthir Karanas, inauspicious Yogas, downward looking asterisms should be rejected"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.5 "First feeding on milk", printed pp.552-553 (PDF 590-591): "A child should be fed on cow\'s milk on 31st day, failing which on 10th star from his birth star by conch shell, on an auspicious day keeping in view direction of Rahu, Yogini & Rudra. Tithi: 1 (D.H.); 2,3,5,7,9,11,13 (B.H.). Day: Monday, Wednesday, Thursday, Friday; their vargas, especially their Horas. Constellation: Bharni, Krittika, Ardra, Ashlesha, Moola, Jyeshta, Vishakha, 3 Poorvas are adverse & balance are auspicious (K.P.). Karan: Vishti & fixed Karanas are bad. Ascendant: Signs occupied & aspected by the Moon, Mercury, Jupiter & Venus are beneficial. Aries, Scorpio & Pisces & sign occupied by the Sun are maleficent. 10th house should be vacant otherwise it shall be disastrous. B.D.R. opines that malefics in 3, 6 & 11 houses are especially beneficial. Time: Fore-noon & after-noon are suitable; avoid night-time. 6th, 8th, Rikta, last triad of D.H., Vishti & Sthir Karanas, inauspicious Yogas, downward looking asterisms should be rejected"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"Children - Feeding, bottle", printed pp.207-208 (PDF 215-216): "Age: Should be done on the 31st day from birth or, if that is not possible, during a time when the Moon is in the 10th Nakshatra from the Janma Nakshatra. Nakshatra: Asvini, Rohini, Mrigasira, Punarvasu, Pushya, Magha, Uttaraphalguni, Hasta, Chitra, Svati, Anuradha, Uttarashadha, Sravana, Dhanishtha, Satabhisha, Uttarabhadrapada and Revati are preferred. Karana: Avoid Sthira Karanas and Vishti Karana. Lagna: Aries, Scorpio and Pisces are unfavorable. Other Rasis are favorable, especially the Rasis occupied or aspected by the Moon, Mercury, Jupiter or Venus. Additionally, the Lagna being the same as the Rasi of the natal Moon is favorable. Bhavas: The 10th must be unoccupied. Miscellaneous: Should be done during the forenoon or noon. Night must be avoided"' },
   },
   JALA_PUJA: {
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"5C Jalapoojana", printed pp.62-63 (PDF 64-65): "Muhoortha Chintaamani prescribes a Jalapoojana or worship of water one month after the delivery. She must not do this if Venus and Jupiter are combust. This is prohibited in the months of Chaitra and Pausha and in the malamaasas even though one month would have elapsed since the delivery. It must be done on Wednesdays, Mondays or Thursdays. It wants to reject Rikta tithis. Nakshatras Sravana, Pushyami, Punarvasu, Mrigasira, Hasta, Moola and Anuradha are acceptable. Seegrabhodam says that this is done to worship the pond or well from where water is to be taken for the bath. To do the Pooja nakshatras Moola, Punarvasu, Pushyami, Sravana, Mrigasira and Hasta are acceptable"' },
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 5, "The Muhurta for the Jala Poojana of the Prasuti woman", printed pp.124-125 (PDF 128-129): "The Prasuti woman should not do Jala Poojana in the event of Venus and Jupiter being combust, and in the month of Chaitra, in a Mala Maasa (additional month) and in the month of Paushsha although one month might have been completed since the time of delivery. The Prasuti woman should perform the ceremony of Jala Poojana on the days of Wednesday, Monday and Thursday, on other Tithis than those of Rikta (4/9/14) and in the Nakshtras of Shravana, Pushya, Punarvasu, Mrigashira, Hasta, Moola and Anuradha"' },
-    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.6 "Jal Pooja after delivery", printed p.551 (PDF 591): "After completion of one month of delivery, the woman should do Jal Pooja near a river or a pond; on Monday, Wednesday or Thursday; in the constellation of Shravana, Pushya, Punarvasu, Mrigshira, Hasta, Moola, Anuradha; on Tithis other than Rikta. The Pooja should not be done during combustion period of Jupiter & Venus, & lunar months of Chaitra, Pausha & Adhika Maas (M.C.-5/16)"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.6 "Jal Pooja after delivery", printed p.553 (PDF 591): "After completion of one month of delivery, the woman should do Jal Pooja near a river or a pond; on Monday, Wednesday or Thursday; in the constellation of Shravana, Pushya, Punarvasu, Mrigshira, Hasta, Moola, Anuradha; on Tithis other than Rikta. The Pooja should not be done during combustion period of Jupiter & Venus, & lunar months of Chaitra, Pausha & Adhika Maas (M.C.-5/16)"' },
   },
   CHILD_BED: {
-    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.7 "First time placing child on bed", printed pp.551-552 (PDF 591-592): "Bhavishotar Puraan recommends that in an auspicious day in the asterisms of Sweet (Mrigshira, Chitra, Anuradha, Revati), Small (Hasta, Ashvani, Pushya), & Stationary (Rohini, 3 Uttras); & when the Moon & Tara are strong, the child should be placed on a bed first time by the mother or ladies of the family after remembering Yogashayi God, by keeping his head in east direction. Sage Brihaspati recommends that the child should be placed / made to sleep on the bed on 10th or 12th or 16th day. According to Khatwa Chakra, the Moon\'s asterism, when counted from that of the Sun, is auspicious if it is from 1st to 4th, or 13th to 23rd asterisms"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.7 "First time placing child on bed", printed pp.553-554 (PDF 591-592): "Bhavishotar Puraan recommends that in an auspicious day in the asterisms of Sweet (Mrigshira, Chitra, Anuradha, Revati), Small (Hasta, Ashvani, Pushya), & Stationary (Rohini, 3 Uttras); & when the Moon & Tara are strong, the child should be placed on a bed first time by the mother or ladies of the family after remembering Yogashayi God, by keeping his head in east direction. Sage Brihaspati recommends that the child should be placed / made to sleep on the bed on 10th or 12th or 16th day. According to Khatwa Chakra, the Moon\'s asterism, when counted from that of the Sun, is auspicious if it is from 1st to 4th, or 13th to 23rd asterisms"' },
   },
   DOLAROHANA: {
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 5, "The Muhurta for the cradling of the child", printed pp.123-124 (PDF 127-128): "The 5 Nakshatras from the Nakshatra of the Sun at the time when the child is swung for the first time in the cradle are health-giving for the child. After this the 5 Nakshatras are death-bringing. After this in the 5 Nakshatras the child becomes weak and lean. After this in the 5 Nakshatras, the child gets diseased and lastly in the last 7 Nakshatras it gets happiness. The Dolarohana of the child is auspicious in any of the days, 32, 12, 16, 18 and 10 from the day of his birth, on auspicious days (Monday, Wednesday, Thursday and Friday), in the Nakshtras named as Mridu (Mrigashira, Revati, Chitra and Anuradha), in those named as Laghu (Hasta, Ashwini and Pushya) and those named as Dhruwa (the 3 Uttaras and Rohini) - in these 11 Nakshtras"' },
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Dola-Arohana or placing the new born child for the first time in a cradle", printed pp.231-232 (PDF 233-234): "Nakshatra Abhijith, Aswini, Rohini, Mrigasira, Pushyami, Uttaraphalguni, Hasta, Chitra, Anuradha, Uttarashada, Uttarabhadrapada, Revati. (11+1) Tithis 1/2/3/5/7/10/11/13/15. Weekdays Monday, Wednesday, Thursday, Friday. 1. Muhoortha Chintaamani prefers the four Fixed, the four Delicate and the four Small … 2. Another school of thought is that the five nakshatras ahead and the seven behind the nakshatra occupied by the Sun are deemed good. 7. Chandrabala for the child is essential. The child must be placed in the cradle with head towards East. Accepted raasis for Lagna are 2, 3, 4, 6, 7, 9 and 12. Some reject 1, 11 and 15 tithis"' },
-    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.8 "Cradling - Dolarohan", printed pp.552-553 (PDF 592-593): "On an auspicious day, a child should be made to first time sit on a cradle, coinciding on 10th, 12th, 16th, 18th or 32nd day of his birth, for illness free & good health. Tithi: 1 (D.H.), 2,3,5,7,11,13 (B.H.), 15. Day: Monday, Wednesday, Thursday, Friday. Constellation: Sweet (Mrigshira, Chitra, Anuradha, Revati), Small (Hasta, Ashvani, Pushya), Stationary (Rohini, 3 Uttras). Ascendant: Fixed signs (2,5,8,11). Benefics in 4,5,6,7,9,10,11 houses, & malefics in 11th, 6th & 3rd houses fulfil all the desires of the child as per J.V. J.V. recommends Swati, Punarvasu & Shravana asterisms also, but does not include Mrigshira, Anuradha & Revati among the above said asterisms. The Moon & Tara should be benefic for the child. Seven constellations preceding the Sun\'s constellation & 4 succeeding are beneficial. Table 19.1 - Cradle Chakra"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.8 "Cradling - Dolarohan", printed pp.554-555 (PDF 592-593): "On an auspicious day, a child should be made to first time sit on a cradle, coinciding on 10th, 12th, 16th, 18th or 32nd day of his birth, for illness free & good health. Tithi: 1 (D.H.), 2,3,5,7,11,13 (B.H.), 15. Day: Monday, Wednesday, Thursday, Friday. Constellation: Sweet (Mrigshira, Chitra, Anuradha, Revati), Small (Hasta, Ashvani, Pushya), Stationary (Rohini, 3 Uttras). Ascendant: Fixed signs (2,5,8,11). Benefics in 4,5,6,7,9,10,11 houses, & malefics in 11th, 6th & 3rd houses fulfil all the desires of the child as per J.V. J.V. recommends Swati, Punarvasu & Shravana asterisms also, but does not include Mrigshira, Anuradha & Revati among the above said asterisms. The Moon & Tara should be benefic for the child. Seven constellations preceding the Sun\'s constellation & 4 succeeding are beneficial. Table 19.1 - Cradle Chakra"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"Children - Swing, cradling child in", printed pp.214-215 (PDF 222-223): "Age: Should be done on the 10th, 12th, 16th or 32nd day from birth. Some sources also recommend the 18th day. Nakshatra: Asvini, Rohini, Mrigasira, Pushya, Uttaraphalguni, Hasta, Chitta, Anuradha, Uttarashadha, Uttarabhadrapada and Revati are most favorable. The five Nakshatras from the Nakshatra that the Sun is in are health promoting to the child; the next five are death bringing; the next five cause the child to become weak and thin; the next five cause disease; and the last seven Nakshatras from that of the Sun give happiness"' },
     JOSHI: { ...JOSHI_KK, pageLocus: 'Samskaras, "Craddling or Dola-arohana", printed pp.54-55 (PDF 69-70): "It is to be performed on 10th, 12th, 16th, 18th or 32nd day from birth or on a benefic day (i.e, Wednesday, Monday, Thursday and Friday) in fixed nakshatras (Uttaraphalguni, Uttarashada, Uttarabhabrapad and Rohini), friendly nakshatras (Mrigshira, Revati, Chitra and Anuradha) and in short nakshatras (Hasta, Ashwini, Pushya and Abhjit). Five nakshatras ahead and seven nakshatras behind from the nakshatra occupied by Sun are considered auspicious"' },
   },
   BHUMYUPAVESHANA: {
     JOSHI: { ...JOSHI_KK, pageLocus: 'Samskaras, "Bhumi-Upveshana (First seating on earth)", printed pp.55-56 (PDF 70-71): "This is performed in 5th month after birth when Mars is strong in transit, avoiding Rikta tithis (4/9/14 tithis) and malefic days, in fixed nakshatras (Uttarafalguni, Uttarashada, Uttarabhadrapad and Rohini), short nakshatras (Hasta, Ashwini, Pushya, Abhijit), Mrigshira, Anuradha and Jyestha nakshtras. Lord Varaha and Mother Earth are worshipped and a cotton thread is tied around the waist of the child and he is seated on earth"' },
-    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.9 "Sitting on earth - Bhumyupaveshan", printed p.553 (PDF 593): "Tithi: 1 (B.H.), 3,5,7,10,11,12 (D.H.), 15. Avoid Rikta. Day: Monday, Wednesday, Thursday, Friday. Const.: Small (Hasta, Ashvani, Pushya), Stationary (Rohini, 3 Uttras), Mrigshira, Anuradha, Jyeshta. Ascendant: Fixed (2,5,8,11) signs. A child should be made to sit first time on the earth on 5th month on an auspicious day when especially Mars is strong"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.9 "Sitting on earth - Bhumyupaveshan", printed p.555 (PDF 593): "Tithi: 1 (B.H.), 3,5,7,10,11,12 (D.H.), 15. Avoid Rikta. Day: Monday, Wednesday, Thursday, Friday. Const.: Small (Hasta, Ashvani, Pushya), Stationary (Rohini, 3 Uttras), Mrigshira, Anuradha, Jyeshta. Ascendant: Fixed (2,5,8,11) signs. A child should be made to sit first time on the earth on 5th month on an auspicious day when especially Mars is strong"' },
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 5, "The Muhurta for the seating of the child on the ground", printed pp.126-127 (PDF 130-131): "Making it (the child) wear Kati Sutra the child should be seated on the ground after worshipping in the 5th Month the Earth and the God Varaha, when Mars is strong, on the other Tithis than those named as Riktas (4/9/14), in a Chara or Movable Lagna or Ascendant, on auspicious days and in the Nakshtras named as Sthira or Dhruwa (the 3 Uttaras and Rohini) and in those of Mrigashira, Jyeshtha, Anuradha, and in those named as Laghu or small (Hasta, Ashwini and Pushya)"' },
     WILHELM: { ...WILHELM_E, pageLocus: '"Children - Seating child on the ground", printed p.214 (PDF 222): "Age: Should be done in the 5th Saura month from birth. Nakshatra: Asvini, Rohini, Mrigasira, Pushya, Uttaraphalguni, Hasta, Anuradha, Jyeshtha, Uttarashadha and Uttarabhadrapada are favorable. Tithi: Particularly avoid the 4th, 9th and 14th Tithis. Lagna: Moveable Lagnas are favorable. Miscellaneous: Mars should be strong. The Earth and Varaha Avatar should be worshipped at the time"' },
   },
   CHILD_BETEL: {
-    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.10 "First time taking betel-leaf", printed pp.553-554 (PDF 593-594): "For illness free, Shanti, good fortune & comforts, betel leaf is placed in the mouth of the child when he is two & a half months old. This should be done during Stationary (Rohini, 3 Poorvas), Sweet (Mrigshira, Chitra, Anuradha, Revati), Shravana, Moola, Punarvasu, Swati & Dhanishta asterisms; on days other than Tuesday & Saturday; in the rising signs of Gemini, Virgo, Capricorn, Aquarius & Pisces; when the benefics are placed in quadrants or trines & malefics in 11th, 6th & 3rd houses. If the child is to be fed betel leaf at the said age, only then the above Muhurt is required, otherwise he can be fed betel leaf along with Annaprashan (M.C.-5/23)"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.10 "First time taking betel-leaf", printed pp.555-556 (PDF 593-594): "For illness free, Shanti, good fortune & comforts, betel leaf is placed in the mouth of the child when he is two & a half months old. This should be done during Stationary (Rohini, 3 Poorvas), Sweet (Mrigshira, Chitra, Anuradha, Revati), Shravana, Moola, Punarvasu, Swati & Dhanishta asterisms; on days other than Tuesday & Saturday; in the rising signs of Gemini, Virgo, Capricorn, Aquarius & Pisces; when the benefics are placed in quadrants or trines & malefics in 11th, 6th & 3rd houses. If the child is to be fed betel leaf at the said age, only then the above Muhurt is required, otherwise he can be fed betel leaf along with Annaprashan (M.C.-5/23)"' },
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 5, "The Muhurta for eating Taamboola or Betel leaf", printed p.127 (PDF 131): "It is better to make the child eat betel leaf at the age of 2 1/2 months or at the time of Anna Prashana, on other days than those of Tuesday and Saturday, in the Nakshtras named as Dhruwa (the 3 Uttaras and Rohini) in those named as Mridu (Mrigashira, Rewati, Chitra and Anuradha) in those named as Laghu (Hasta, Ashwini and Pushya), in those of Shravana, Moola, Punarvasu, Jyeshtha, Swati and Dhanishtha, in these 17 Nakshtras, in the Ascendants of Gemini, Capricorn, Virgo, Aquarius, Taurus and Pisces, in the event of the Benefic Planets being in the Angles and the Trines and of the Malefic Planets being in 3/6/11 Houses"' },
+  },
+  KANYA_VARANA: {
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 6, "The Muhurta for choosing bride", printed pp.150-151 (PDF 154-155): "In the Nakshtras of Uttarashadha, Swati, Shravana, Poorvaphalguni, Poorvashadha, Poorvabhadrapada, Anuradha, Dhanishtha, Kritika or in the Nakshtras of marriage (described in the 55th Shloka of this very Chapter) first the girl should be pleased with the gifts of clothes, jewels, fruits and flowers and then having done this she should be chosen as bride. The bride is to be chosen on all the rest auspicious days except Tuesday, on all the tithis except those Tithis which are named as Rikta, in an auspicious Ascendant. At the time of choosing all the five parts of the Panchanga should be auspicious and the Moon should also be strong and favourable"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§18.10.1 "Engagements", printed pp.528-529 (PDF 567-568): "Engagement of bride: Tithi: 2,3,5,6,7,8,10,11,12,13, of both Lunar halves & 15. Day: Monday, Wednesday, Thursday, Friday. Const.: Sweet (Mrigshira, Chitra, Anuradha, Revati), Stationary (Rohini, 3 Uttras), Krittika, Punarvasu, Magha, 3 Poorvas, Hasta, Swati, Shravana, Dhanishta"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Marriage - Choosing a bride", printed p.257 (PDF 265): "This would also apply to a man asking a woman on a date, or to a man and woman meeting. Nakshatra: Krittika, Purvaphalguni, Svati, Anuradha, Purvashadha, Uttarashadha, Sravana, Dhanishtha, Purvabhadrapada and the Nakshatras favorable for the wedding are favorable for choosing a bride"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Marriage, "Kanya-Varana Muhurta (Accepting the bride for marriage)", printed p.80 (PDF 95): "This can be done in Uttarashada, Swati, Shravana, Poorvaphalguni, Poorvabhadrapad, Poorvashada, Anuradha, Dhanishtha and Kritika nakshatras or in nakshatras recommended for marriage. In this the bride is presented with auspicious articles from bridegrooms side"' },
+  },
+  VARA_VARANA: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§18.10.1 "Engagements", printed pp.528-529 (PDF 567-568): "Engagement of bride-groom: In same Tithis, days & constellations add Moola also, but reject Chitra & Mrigshira from the above list. Engagement of the bride & bride groom: These days the ceremony of the engagement is performed together in that case select following asterisms which are common in both the list; such as - Krittika, Rohini, Mrigshira, Punarvasu, Magha, 3 Poorvas, 3 Uttras, Hasta, Swati, Anuradha, Shravana, Dhanishta, Revati"' },
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 6, "The Muhurta for the choosing of the bridegroom or for engagement", printed p.151 (PDF 155): "The Brahmin or the real brother of the bride should choose the bridegroom or should do the engagement on an auspicious day along with the sound of a song and musical instrument and with clothes, Yagyopavecta or Janeu etc in the Nakshtras named as Dhruwa (the 3 Uttaras and Rohini) in those of Kritika, Poorvaphalguni, Poorva Shadha and Poorvabhadrapada"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Marriage, "Vara-Varana muhurta (Accepting the bridegroom for marriage)", printed pp.79-80 (PDF 94-95): "This can be done on benefic days, benefic tithis, benefic yogas and in Uttaraphalguni, Uttarashada, Uttara bhadrapad, Rohini, Kritika; Poorvaphalguni, Poorvashada, and Poorvabhadrapad nakshatras or nakshatras prescribed for marriage. Persons from bride\'s side go to the bridegroom\'s place and present him with auspicious articles and accept him for marriage with the bride"' },
+    VASHISTHA: { ...VASHISTHA_KUSUM, pageLocus: '"Sagana muhurta (engagement)", printed p.118 (PDF 105): "Mas: Baisakha, Jyeshtha, Ashadha, Margashirsha, Phalguna and Magha. Tithi: 1 of krishna paksha, 2, 3, 5, 6, 7, 8, 10, 12, 13 (shukla), and 15. Vara: Sunday, Wednesday and Friday. Nakshatra: Ashwini, Krittika, Ardra, Chaitra, Punarvasu, Pushya, Ashlesha, Poorva Phalguna, Jyeshtha, Sravana, Dhanishtha and Shatabhisha"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Marriage - Engagement or selecting the bridegroom", printed p.257 (PDF 265): "This would also apply to a woman asking a man out on a date, or to a woman answering yes to an engagement, etc. Nakshatra: Krittika, Rohini, Purvaphalguni, Uttaraphalguni, Purvashadha, Uttarashadha, Purvabhadrapada, and Uttarabhadrapada are favorable"' },
+  },
+  INVITATION_LETTERS: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§18.10.2 "Invitation letters", printed p.529 (PDF 568): "According to U.K. (8/13), invitation letters regarding auspicious activities should be written when the Moon is Full; on Thursday, Friday & Wednesday when Mercury is neither aspected nor conjoined with a malefic; on Bhadra, Jaya & Poorna Tithis; in asterisms of Movable (Punarvasu, Shravana, Swati, Shatbhish, Dhanishta) & Small (Hasta, Ashvani Pushya); when the ascendant is aspected / occupied by Jupiter & Venus; & when 5th house is Shuddha"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Marriage - Invitations, writing", printed pp.257-258 (PDF 265-266): "Nakshatra: Asvini, Punarvasu, Pushya, Hasta, Svati, Sravana, Dhanishtha and Satabhisha are favorable. Vara: The Varas of Mercury, Jupiter and Venus are favorable, though Mercury\'s Vara should be avoided if Mercury is with a malefic. Bhava: The 5th should be unoccupied. The Lagna is best if occupied or aspected by Mercury, Jupiter or Venus"' },
+  },
+  MANDAP: {
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 6, "The auspicious time of the other deeds related to the marriage samskar", printed p.218 (PDF 222): "Before marriage the strength of the Moon of the bride and the bridegroom is to be seen or even in the absence of it in the Nakshtras described in marriage, there should be done for marriage preparing of pulses by getting them ground, separating husk from paddy, grinding the wheat etc., decoration of the sacred Pitcher, decoration of the house and its parlour, making of Vedi and Mandap etc. But the above stated deeds should not be started on the 3/6/9th day before marriage. In the left part of the marriage Mandap a Vedi of one hand of height and of 4 hands on each of the four sides should be prepared. The Marriage Mandap should be removed on the other even days than the 6th day and on the odd (5/7 etc.) days"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§18.10.3 "Installation of pillars in Mandap", printed p.529 (PDF 568): "When the Sun is in Taurus, Gemini or Cancer, then the first pillar of the Mandap where marriage is to be performed, should be installed in south-east direction. When the Sun is in 5,6,7 signs - first pillar in north-east; in 8,9,10 signs - first pillar in north-west; & in 11,12 or 1 - in the direction of south-west. It should be installed on left side of the house, pillars should be decorated, & Vedi should have height of one Hasta. The pillars should not be fixed on Tuesdays, & removed during Panchakas. The Visarjan of the Mondap should be done on even days leaving 6th day from marriage, on an auspicious day & asterism. It can be done on 5th & 7th day"' },
+  },
+  VADHU_PRAVESHA: {
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 7, "The coming in of the bride after marriage", printed pp.225-226 (PDF 229-230): "The coming in of the bride (to her husband\'s home) after marriage is regarded as auspicious during the 15 days from the day on which the marriage is celebrated on the even days (2/4/6/8/10/12/14) and if the days are odd then on 5/9/7th day. If the coming in of the bride may not occur during the 16 days after the day of marriage, then it is regarded auspicious during one month on odd days (17/19/21/23/25/27/29th day); then after one month during one year in the odd months and then after one year in the odd years. The first coming in of the bride to her husband\'s home is auspicious in the Nakshtras named as Dhruwa (Uttaraphalguni, Uttarashadha, Uttarabhadrapada and Rohini), those named as Kshipra (Hasta, Ashwini and Pushya), those named as Mridu (Mrigashira, Rewati, Chitra and Anuradha), Shravana, Dhanishtha, Moola, Magha and Swati, on the other Tithis and days except the Rikta Tithis (4/9/14) and Tuesday and Sunday. If after the marriage the bride lives in her husband\'s home in the month of first Jyeshtha, she destroys the elder brother of her husband, if she lives there in the first Adhi massa, she destroys her husband, if in the first Ashadha she destroys her mother-in-law; if in the first Pausha, she destroys the father-in-law; and if in the first Kshaya Maasa she destroys her own self. And if after the marriage she lives in her father\'s house in the month of Chaitra she destroys her father"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§18.10.4 "First entry into husband\'s house", printed pp.529-531 (PDF 568-570): "Tithi: Other than Rikta Tithis; J.V. recommends Bhadra Tithis should also be avoided. Day: Avoid Tuesday & Saturday; J.V. recommends to avoid Wednesday. Const.: Stationary (Rohini, 3 Uttras), Small (Hasta, Ashvani, Pushya), Sweet (Mrigshira, Chitra, Anuradha, Revati), Shravana, Dhanishta, Moola, Magha & Swati are auspicious. Ascendant: fixed signs. Special: Avoid Bhadra Tithis, New Moon, combustion of Jupiter & Venus; but the Moon should be favourable to the bride. If entry is made within 16 days of marriage, then even days - 2,4,6,8,10,12,14,16th; & odd days - 3,5,7,9th are auspicious. If entry is made after 16 days but before one month then, odd days - 17, 19, 21, 23, 25, 27, 29th days are auspicious. After one month, even months (3, 5, 7, 9, 11th) are auspicious. After one year, odd years are beneficial. And after lapse of 5 years, entry can be made on any auspicious month & day"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Marriage - Bride coming to husband\'s home", printed pp.255-256 (PDF 263-264): "The bride should come home to her husband\'s house on an even day amongst the fifteen days following marriage, or the 5th, 7th and 9th days. If this is not possible, the remaining odd days of the month are okay, or in the odd months and odd days of the year following marriage, or in the odd years, odd months and odd days in the 3rd or 5th year from marriage. If the bride does not come home to the husband\'s house within five years, then it may happen any day thereafter. Nakshatra: Asvini, Rohini, Mrigasira, Pushya, Magha, Uttaraphalguni, Hasta, Chitta, Svati, Anuradha, Mula, Uttarashadha, Sravana, Dhanishtha, Uttarabhadrapada and Revati are favorable. Tithis: Avoid particularly the 4th, 9th and 14th Tithis. Vara: Avoid the Varas of Mars and Saturn. Grahas: Avoid the afflictions of Jupiter and Venus"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Marriage, "Vadhu-Pravesha (Bride\'s first entry in bridegroom\'s house)", printed pp.80-81 (PDF 95-96): "2/4/5/6/7/8/9/10/12/14/16/17/19/21/23/25/27/29 days after marriage are suitable for Vadhu-Pravesha. After one month up to one year Vadhu Pravesha can take place in odd months. After one year till five years it can take place in 3rd or 5th year. After 5 years it can take place at any time. Nakshatras: All fixed nakshatras (Uttaraphalguni, Uttarashada, Uttarabhadrapad and Rohini); all friendly nakshatras (Mrigshira, Revati, Chitra and Anuradha); all short nakshatras (Hasta, Ashwini, Pushya and Abhijit), Shravana, Dhanistha, Moola, Magha and Swati Nakshatras are Considered auspicious. Avoid Rikta tithis (4/9/14 tithi) Tuesday and Sunday"' },
+  },
+  DWIRAGAMANA: {
+    MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 8, "The Muhurta for the Dwiragmana (the bride\'s going to her husband\'s home for the second time after marriage)", printed pp.227-229 (PDF 231-233): "The Muhurta for the bride\'s going to her husband\'s home for the second time after her first coming in there is, in odd years, when the Sun is in Aquarius, Aries, Scorpio, when the Sun and Jupiter are in a benefic house from the sign of Virgo, on auspicious days, in the Ascendants of Gemini, Pisces, Virgo, Libra and Taurus, and in the Nakshtras named as Laghu (Hasta, Ashwini and Pushya), those named as Dhruwa (Uttaraphalguni, Uttarashadha, Uttarabhadrapada, and Rohini), those named as Chara (Swati, Punarvasu, Shravana, Dhanishtha and Shatabhisha), those named as Mridu (Mrigashira, Rewati, Chitra, Anuradha) and that of Moola - in these 17 Nakshtras. If at the time of going on a journey Venus happens to be in front and on the right side, then the child on his first journey, and the pregnant woman and the newly wedded woman should not go on the journey"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§18.10.8 "First re-entry to husband\'s house", printed pp.532-533 (PDF 571-572): "Days: Monday, Wednesday, Thursday & Friday. Constellation: Small (Hasta, Ashvani, Pushya), Sweet (Mrigshira, Swati, Shatbhish, Shravana, Dhanishta), Stationary (Rohini, 3 Uttras), Punarvasu, Ardra, Anuradha, Revati & Moola - 17 nos. Ascendant: 2,3,6,7,12 signs. Solar months: Aries (Vaishakha), Scorpio (Margshirsha), Aquarius (Falguni). Years: odd years (1,3,5th...). Special: Purified the Sun & Jupiter (the Sun in Leo, Chaumaasas, Dakshinayana: infant, old stages, set, Retrograde, fast moving, in Leo etc) is essential"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Marriage, "Dwiragamana (Second entry into bridegroom\'s house)", printed p.81 (PDF 96): "Nakshatras: All fixed nakshatras, all friendly nakshatras (Mrigshira, Revati, Chitra and Anuradha), all short nakshatras (Hasta, Ashwini, Pushya and Abhijit), all movable nakshatras (Swati, Punarvasu, Shravana, Dhanistha and Shatbhisa) and Moola are considered good. Tithis: Benefic tithis (1/2/3/5/7/10/11/13 tithi). Days: Monday, Wednesday, Thursday and Friday. Lagnas: Lagnas of 2/3/6/7/12 rashis. Time: After marriage (and after Vadhu Pravesha) in 1/3/5/7 years when Sun is posited in 1/8/11 rashis and Sun and Jupiter are strong in transit Dwiragamana is considered auspicious. At the time of starting journey for Dwiragamana Venus should not fall in front"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Marriage - Bride\'s second coming to husband\'s home", printed pp.256-257 (PDF 264-265): "Traditionally many castes in India would follow the convention of the bride returning to her parents for a visit after having lived with her husband for a short time. The moment she returns from this visit is considered important, though not nearly as important as coming to live with her husband for the first time. Time: The odd years following marriage, including the 1st are favorable. Nakshatra: Asvini, Rohini, Mrigasira, Punarvasu, Pushya, Uttaraphalguni, Hasta, Chitta, Svati, Anuradha, Mula, Uttarashadha, Sravana, Dhanishtha, Satabhisha, Uttarabhadrapada and Revati are favorable. Lagna: Taurus, Gemini, Virgo, Libra and Pisces are favorable. Grahas: The Sun should be in Aries, Scorpio or Aquarius. Gochara: The Sun and Jupiter should be in favorable Gochara Rasis from the woman\'s natal Moon"' },
+  },
+  NISHEKA: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Muhoortha for different samskaaras - 1. Garbhaadaana, Sekam, Nisheka, Nuptials", printed pp.19-33 (PDF 21-35): "Nakshatras (17) Accept - Aswini, Rohini, Mrigasira, Punarvasu, Pushya, Uttaraphalguni, Hasta, Chitra, Swati, Anuradha, Moola, Uttarashada, Sravana, Dhanishta, Satabhisha, Uttarabhadrapada and Revati. Reject - The ten nakshatras: Bharani, Krittika, Aridra, Aslesha, Makha, Poorvaphalguni, Visaakha, Jyeshta, Poorvaashaada and Poorvabhadrapada. Optional - Makha and Visakha can be admitted as mediocre. Tithis Accept 1/2/3/5/7/10/11/12/13 tithis. Reject Rikta tithis (4/9/14) Shasti and Ashtami, Pournami and Amavasya. Weekdays Accept Wednesday, Thursday and Friday. Some take Monday medium. Reject Tuesday and Saturday. Yoga Reject Vydhruti, Vyatipata and Parigha 1st half. Karana Accept Bava, Baalava, Kaulava, Taitila, Gara and Vanija. Reject Bhadra and Sthira Karanas. Lagna Raasi Accept all raasis except Virgo"' },
+    RAMAN: { ...RAMAN_BV, pageLocus: 'Chapter VII, "Pre-natal ceremonies", Nisheka (nuptials), PDF p.14: "Nisheka is used to denote the first sexual contact, while Garbhadana has reference to the subsequent deflorations … The constellations Sravana, Rohini, Anuradha, Swati, Revati, Moola, Uttara, Uttarashadha, Uttarabhadra, Satabhisha are highly favourable for nuptials. Pushyami, Dhanishta, Mrigasira, Aswini, Chitta, Punarvasu are ordinary. The rest of constellations are to be rejected. Monday, Wednesday, Thursday and Friday are auspicious days while Saturday, Tuesday and Sunday should not be considered at all. All lunar days except the 4th, 8th, 9th, 14th, Full Moon and New Moon are good. The favourable signs are Taurus to Libra and Pisces. The birth star, the 10th star and the 19th star should be avoided. At the time of nuptials, the 8th house should be occupied by no planet. Subject to this proviso, even Sagittarius and Aquarius may be selected as auspicious"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Marriage - Nisheka (first sexual union)", printed pp.258-259 (PDF 266-267): "Nakshatra: Rohini, Uttaraphalguni, Hasta, Svati, Anuradha, Mula, Uttarashadha, Sravana, Satabhisha, Uttarabhadrapada and Revati are favorable. Asvini, Mrigasira, Punarvasu, Pushya, Chitra, and Dhanishtha are middling. The remaining should be avoided. Tara: The Janma Nakshatra and the 10th and 19th from there should particularly be avoided. Tithi: All Tithis except the 4th, 8th, 9th, 14th and 15th are favorable. Vara: Avoid the Varas of malefics. Lagna: Taurus, Gemini, Cancer, Leo, Virgo, Libra and Pisces are favorable while the others should be avoided. If there is no planet in the 8th house, then Sagittarius and Aquarius are okay. Bhavas: The Lagna and 8th should be unoccupied. (Some astrologers emphasize that the Lagna must not be occupied, others emphasize that the 8th should be vacant. A malefic should certainly not be in the Lagna, and as a general rule the 8th should be unoccupied.)"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§18.10.5 "First sexual union - Nisheka", printed pp.531-532 (PDF 570-571): "Tithi: All Tithis except 4,8,9,14, Full & New Moon, Rikta & Tithi Kshaya Tithis are good. Day: Monday, Wednesday, Thursday & Friday are good, Saturday is held as middling by P.K. Asterism: Rohini, Hasta, Anuradha, Shravana, Shatbhish, 3 Uttras, Swati, Moola & Revati are the best. Ashvani, Mrigshira, Punarvasu, Pushya, Chitra & Dhanishta are middling. Month: Magha, Falguni, Chaitra, Vaishakha, Jyeshta & Margshirsha are the best. Ascendant: 2,3,4,5,6,7,12 are benefic & avoid other signs. Navamshas of the Moon, Mercury, Jupiter & Venus are auspicious; reject navamshas of the Sun, Mars & Saturn. Time: Mid-night & morning times are prohibited by K.P. K.P. advises that Janma Nakshatra, 10th & 19th therefrom along with 12th Tithi should be strictly avoided. The ascendant & 8th house should be vacant"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"(i) Garbhadhana or Conception", a related sub ceremony, printed p.50 (PDF 65): "A related sub ceremony is Nisheka or first coitus. It should be done on benefic days, benefic tithis, in Rohini, Mrigshira, Pushya, Hasta, Uttarabhadrapad and Revati Nakshatras avoiding first three hours of night in cheerful mood and friendly disposition"' },
+  },
+  FIRST_COOKING: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§18.10.6 "First cooking by bride", printed p.532 (PDF 571): "New bride should cook food first time at her husband\'s place in asterisms of Mrigshira, 3 Uttras, Pushya, Krittika, Jyeshta, Shravana, Dhanishta, Shatbhish, Rohini, Vishakha, Revati; on auspicious Tithi; on days other than Tuesday & Saturday. Ascendant should be a fixed sign, 4th house be empty; 7th should be strong; the Sun should not be in 8th or 10th house (B.D.R.)"' },
+  },
+  FIRST_RETURN: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§18.10.7 "First return to father\'s house", printed p.532 (PDF 571): "J.V. (13/90) has recommended that newly wed bride just after marriage on return from husband\'s house should not visit her father\'s house during currency of Sharp (Jyeshta, Ardra, Ashlesha, Moola), Ugra (Magha, Bharni, 3 Poorva) asterisms, weekdays of malefic planets & malefic Yogas. Balance time is favourable"' },
+  },
+  REMARRIAGE: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§18.10.9 "Re-marriage", printed pp.533-534 (PDF 572-573): "All Tithis & weekdays are auspicious. Rohini, Mrigshira, 3 Uttras, Hasta, Anuradha, Moola, Swati & Revati are auspicious. According to Rudra Patt Shuddhi, 4th, 11th, 18th & 25th asterisms from that of the Sun destroy offsprings; balance are auspicious. Maas & Venus Shuddhi etc. are not considered i.e., all months & even set Venus is acceptable. According to Muhurt Sangraha, after death of wife, second marriage should be conducted in odd years, as the marriage done in the even years brings death. According to Brahma Patt Shuddhi effects of different asterisms occupied by the Moon from that of the Sun at the time of marriage are: Moon\'s star 1 to 3 Inaup. Death; 4 to 6 Ausp. Wealth; 7 to 12 Inaup. Death; 13 to 15 Ausp. Son; 16 to 18 Inaup. Death; 19 to 21 Ausp. Bad luck; 22 to 24 Inaup. Wealth; 25 to 27 Ausp. Progress"' },
+  },
+  LOVE_MARRIAGE: {
+    JOSHI: { ...JOSHI_KK, pageLocus: 'Marriage, "Muhurta for Love Marriage", printed p.80 (PDF 95): "For love marriage no consideration about tithi, nakshatra, lagna etc. are recommended. One should only consider Tripadi chakra shuddhi that is from the nakshatra occupied by Sun, 5th, 6th, 10th, 12th, 13th, 14th, 15th, 22nd, 23rd, 24th, 26th, 27th and 28th nakshatra is considered auspicious for love marriage"' },
   },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
@@ -8103,6 +8490,9 @@ const CODE_TA = Object.freeze({
   KHATWA_CHAKRA: 'கட்வா சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 5-12 / 24-27',
   DOLA_CHAKRA: 'தொட்டில் சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 6-20',
   DOLA_CHAKRA_MID: 'தொட்டில் சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 6-20 (குறிப்பு)',
+  RUDRA_PATT: 'ருத்ர பட்ட சுத்தி: சூரிய நட்சத்திரத்திலிருந்து 4, 11, 18, 25',
+  BRAHMA_PATT: 'பிரம்ம பட்ட சுத்தி: சூரிய நட்சத்திரத்திலிருந்து 1-3 / 7-12 / 16-18 / 22-24',
+  TRIPADI_CHAKRA: 'திரிபாதி சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து (28-இல்) 5, 6, 10, 12-15, 22-24, 26-28 அல்ல',
   CHAKKI_CHAKRA: 'திரிகைச் சக்கரம்: சனி நட்சத்திரத்திலிருந்து 5-8 / 17-19 / 25-27',
   HALA_CHAKRA_MID: 'ஹல சக்கரம்: தீய நட்சத்திரம் (சூரியனிலிருந்து எண்ணி) (குறிப்பு)',
   RAHU_CHAKRA_MID: 'ராகு (பணி) சக்கரம்: தீய நட்சத்திரம் (குறிப்பு)',
@@ -8941,9 +9331,64 @@ const NOTES_CHILD_BETEL_TA = Object.freeze([
   'ஸ்ரீதர் அச்சில் "ஸ்திரம் (ரோகிணி, 3 பூர்வம்)" என்று உள்ளது; மற்ற இடங்களில் அவர் ஸ்திரம் என்பது ரோகிணி + மூன்று உத்திரம் (சிந்தாமணி, இதே பிரிவில்). மூன்று பூர்வம் அச்சுப் பிழையாகக் கருதி மூன்று உத்திரமாகப் படித்தோம்.',
 ]);
 
+const NOTES_KANYA_VARANA_TA = Object.freeze([
+  'மாப்பிள்ளை வீட்டார் பெண்ணைத் தேர்ந்தெடுத்தபின், பெண்ணின் மடியில் துணி, நகை, பழம், பூ, கரும்பு, அரிசி, பாக்கு, வெற்றிலை, மஞ்சள் இட்டு "இவளே மணப்பெண்" என்று வாக்களிக்கும் சடங்கு (சிந்தாமணி); ஜோஷி இதை "கன்யா வரணம்" என்கிறார்.',
+  'ஸ்ரீதர் மணமகள், மணமகன் நிச்சயத்தை ஒரே பிரிவில் தருகிறார்; இரண்டு நிச்சயமும் ஒன்றாகச் செய்தால் இரு பட்டியலிலும் உள்ள நட்சத்திரங்கள். இங்கே அதே பிரிவு கன்னிகா வரணத்துக்கும் வர வரணத்துக்கும் வருகிறது (பகுதி: மணமகள்).',
+  'ஐந்து அங்கங்களும் (திதி, கிழமை, நட்சத்திரம், யோகம், கரணம்) நன்றாக இருக்க வேண்டும்; சந்திரன் பலமாக; நல்ல லக்னம் (சிந்தாமணி) — சந்திர பலம் பெண்ணின் ஜன்ம ராசியிலிருந்து; இங்கே கணிக்கப்படவில்லை.',
+]);
+const NOTES_VARA_VARANA_TA = Object.freeze([
+  'பெண் வீட்டார் மணமகனுக்குத் துணி, பூணூல், பழம், பணம் தந்து ஏற்கும் சடங்கு; பாட்டும் இசையும் உடன் (சிந்தாமணி); இன்றைய நிச்சயதார்த்தம் (ஸ்ரீதர், ஜோஷி, வில்ஹெல்ம்). வசிஷ்டர் "சகன முகூர்த்தம்" என்கிறார்.',
+  'ஸ்ரீதர் மணமகன் நிச்சயத்தை மணமகளின் அதே திதி, கிழமையுடன் தருகிறார்; நட்சத்திரப் பட்டியலில் மூலத்தைச் சேர்த்து, சித்திரை, மிருகசீரிடத்தை நீக்குகிறார்.',
+  'வசிஷ்டர் அச்சில் "Chaitra" என்பதைச் சித்திரை நட்சத்திரமாகப் படித்தோம் (மாதங்கள் வேறு பட்டியலில் தரப்பட்டுள்ளன).',
+  'நிச்சயத்துக்குப் பின் மூன்று தலைமுறையில் மரணம் நேர்ந்தால் ஒரு மாதத்துக்குப் பின் திருமணம்; சிலர் அசௌசம் (13 நாள்) முடிந்தபின் — திருமணப் பக்க விதி (சிந்தாமணி, கல்யாணராமன்); இங்கே கணிக்கப்படவில்லை.',
+]);
+const NOTES_INVITATION_LETTERS_TA = Object.freeze([
+  'திருமணம் போன்ற சுப காரியங்களுக்கு அழைப்பிதழ் எழுதத் தொடங்கும் நேரம்; ஸ்ரீதர், வில்ஹெல்ம் ஆகிய இருவர் மட்டுமே சொல்கின்றனர்.',
+  'புதன் பாபருடன் சேராதபோது மட்டுமே புதன் கிழமை (இரு நூலும்) — புதனின் சேர்க்கை கணிக்கப்படுகிறது.',
+]);
+const NOTES_MANDAP_TA = Object.freeze([
+  'திருமணத்துக்கு முன் மணப்பந்தல், வேதி, மங்கலக் கலசம், வீடு அலங்காரம், பருப்பு அரைத்தல், நெல் குத்துதல் போன்ற தயாரிப்புகள் — மணத்துக்கு 3, 6, 9-ஆம் நாள் முன் தொடங்கக்கூடாது; 2, 4, 5, 7, 8, 10 நாள் முன் தொடங்கலாம் (சிந்தாமணி, ஜோஷி). நாள் எண்ணிக்கை உள்ளீடாக இல்லாததால் கணிக்கப்படவில்லை.',
+  'முதல் கால் திசை: சூரியன் ரிஷபம், மிதுனம், கடகத்தில் இருந்தால் தென்கிழக்கு; 5, 6, 7-ஆம் ராசியில் வடகிழக்கு; 8, 9, 10-இல் வடமேற்கு; 11, 12, 1-இல் தென்மேற்கு; வீட்டின் இடப்புறம், செவ்வாய் கிழமையில் நாட்டக்கூடாது; பஞ்சகத்தில் பந்தல் பிரிக்கக்கூடாது — திசை உள்ளீடாக இல்லை (ஸ்ரீதர்).',
+  'வேதி ஒரு முழ உயரம், நான்கு பக்கமும் நான்கு முழம்; பந்தலைப் பிரிப்பது ஆறாம் நாள் தவிர்த்த இரட்டை நாள்களிலும் 5, 7-ஆம் நாளிலும் (சிந்தாமணி, ஸ்ரீதர்) — நாள் எண்ணிக்கை.',
+  'ஜோஷியில் தனிப் பட்டியல் இல்லை: அவர் சந்திர சுத்தியை மட்டும் சொல்கிறார்.',
+]);
+const NOTES_VADHU_PRAVESHA_TA = Object.freeze([
+  'திருமணம் முடிந்து மணப்பெண் மாமியார் வீட்டுக்கு வருவது; நல்ல நேரத்தில் வந்தால் செல்வம் பெருகும், இல்லையேல் வீட்டுப் பொருள் இழப்பு (வசிஷ்டர்). நான்கு நூலும் (ஸ்ரீதர், சிந்தாமணி, ஜோஷி, வில்ஹெல்ம்) ஒரே பதினாறு நட்சத்திரத்தைச் சொல்கின்றன; ரங்காச்சார்யாவுக்கு நாள் எண்ணிக்கை மட்டுமே.',
+  'நாள்: திருமணத்துக்குப் பின் 16 நாளுக்குள் 2, 4, 6, 8, 10, 12, 14, 16 மற்றும் 3, 5, 7, 9; 16-க்குப் பின் ஒரு மாதத்துக்குள் 17, 19, 21, 23, 25, 27, 29; ஒரு மாதத்துக்குப் பின் ஒரு வருடத்துக்குள் 3, 5, 7, 9, 11-ஆம் மாதம்; ஒரு வருடத்துக்குப் பின் 3, 5-ஆம் ஆண்டு; ஐந்து ஆண்டுக்குப் பின் எப்போதும் (ஸ்ரீதர், ஜோஷி, வில்ஹெல்ம், ரங்காச்சார்யா). ரங்காச்சார்யா 3, 11-ஆம் நாளைத் தள்ளுகிறார். திருமண நாள் உள்ளீடாக இல்லாததால் கணிக்கப்படவில்லை.',
+  'முதல் ஆண்டில் ஜ்யேஷ்டம் கணவனின் அண்ணன், ஆடி மாமியார், பௌஷம் மாமனார், அதிக மாசம் கணவன், க்ஷய மாசம் தான் — இவர்களுக்குக் கேடு; முதல் சித்திரையில் தந்தை வீட்டில் தங்கினால் தந்தைக்குக் கேடு (ஸ்ரீதர், சிந்தாமணி, ரங்காச்சார்யா, வில்ஹெல்ம்); அப்படிப்பட்ட உறவினர் உயிருடன் இல்லாவிட்டால் தோஷமில்லை. இரட்டை மாதம், இரட்டை ஆண்டு தள்ளு (நாரதர்).',
+  'தீபாவளி (கார்த்திகை அமாவாசை) நாளில் நுழைவது குரு / சுக்கிர அஸ்தமனத்திலும் நல்லது (J.V., ஸ்ரீதர்). முதல் நுழைவில் சுக்கிர திசை தோஷம் பார்க்கப்படுவதில்லை (இரண்டாம் நுழைவில் பார்க்கப்படும்) — பயணத் திசை உள்ளீடு இல்லை.',
+  'மகன் மனைவி வந்து ஆறு மாதத்துக்குள் மகளைக் கணவன் வீட்டுக்கு அனுப்பக்கூடாது; ஆண்டு மாறியிருந்தால் ஆகும் (வில்ஹெல்ம்) — குடும்ப விதி; கணிக்கப்படவில்லை.',
+]);
+const NOTES_DWIRAGAMANA_TA = Object.freeze([
+  'மணப்பெண் முதல் வருகைக்குப்பின் பிறந்த வீடு சென்று மீண்டும் கணவன் வீட்டுக்கு வரும் நேரம் (சிந்தாமணி, ஜோஷி); ஸ்ரீதர் "மறு புகுதல்", வில்ஹெல்ம் "இரண்டாம் வருகை" என்கின்றனர். நான்கு நூலும் ஒரே பதினேழு நட்சத்திரத்தைப் பெரும்பாலும் தருகின்றன.',
+  'ஒற்றை ஆண்டுகள் (1, 3, 5, 7-ஆம்); சூரியன் மேஷம், விருச்சிகம், கும்பத்தில்; சூரியனும் குருவும் சுத்தமாக (சிம்மத்தில், சாதுர்மாசத்தில், தக்ஷிணாயனத்தில், அஸ்தமனம், வக்கிரம் இல்லாமல்) — ஆண்டு உள்ளீடாக இல்லாததால் ஆண்டு கணிக்கப்படவில்லை.',
+  'பயணத் திசையில் சுக்கிரன் முன்னாலோ வலப்புறமோ இருந்தால் புதுமணப்பெண் பயணம் தவிர்க்க வேண்டும் (மலடு); சுக்கிரன் கிழக்கில் உதித்தால் கிழக்கு, வடக்கு பயணம் தள்ளு; மேற்கில் உதித்தால் மேற்கு, தெற்கு — முதல் நுழைவில் இந்த தோஷம் பார்க்கப்படுவதில்லை, இரண்டாம் நுழைவில் பார்க்கப்படுகிறது (ஸ்ரீதர், சிந்தாமணி, ஜோஷி). பருவமடைந்து தந்தை வீட்டில் இருந்தவள், ஏழு முனிவர் கோத்திரத்தார் — தோஷம் இல்லை. பயணத் திசை உள்ளீடு இல்லை; பயணத்துக்குத் தனி முகூர்த்தம் தேவை.',
+]);
+const NOTES_NISHEKA_TA = Object.freeze([
+  'திருமணத்துக்குப் பின் முதல் தாம்பத்தியம்; அடுத்தடுத்த கூடல் கர்ப்பாதானம் (ராமன், ஸ்ரீதர்). ஸ்ரீதர், வில்ஹெல்ம், ராமன் மூவரும் ஒரே பதினொரு + ஆறு நட்சத்திரத்தைச் சொல்கின்றனர். கல்யாணராமன் இதையும் கர்ப்பாதானத்தையும் ஒரே பிரிவாகத் தருகிறார்; ஜோஷி ஆறு நட்சத்திரத்தை மட்டும்.',
+  'முதல் நான்கு நாள் (இரத்தப்போக்கு) கூடாது: முதல் நாள் கணவனுக்கு ஆபத்து, இரண்டாம் நாள் பெண்ணின் ஆயுள், மூன்றாம் நாள் கருச்சிதைவு, நான்காம் நாள் ஏழை, மூடனான, குறைந்த ஆயுள் மகன் (வில்ஹெல்ம்). நாள் உள்ளீடாக இல்லை.',
+  'படுக்கையறை சந்தனம், பூ மணத்துடன், புனித நதி நீருடன், மனம் குலையும் எதுவும் இல்லாமல் (காலப்பிரகாசிகை, வில்ஹெல்ம்). 21 திருமண தோஷங்கள் இங்கும் பொருந்தும் (P.K., ஸ்ரீதர்) — திருமண முகூர்த்தத்தின் தோஷங்கள் தனிப் பக்கத்தில் கணிக்கப்படுகின்றன. ஸ்ரீதர்: சூரியன் இடதுபுறம், சுக்கிரன் பின்புறம்; ரேவதி முதல் மிருகசீரிடம் வரை கணவன் மனைவியை நேசிப்பான், ஆர்த்ரா முதல் அனுஷம் வரை இருவரும், கேட்டை முதல் பூரட்டாதி வரை மனைவி கணவனை — சந்திரனின் நட்சத்திரப் பகுதிகள்; அச்சில் உள்ளபடியே குறிப்பாக.',
+  'ஸ்ரீதர்: "மூலம், ரேவதி இரண்டையும் P.K., K.P. சிறந்தவை என்கின்றனர்; கர்ப்பாதானத்தில் அவை கெட்டவை என்பதால் இங்கும் விடலாம்" — அச்சில் உள்ளபடியே; இங்கே சிறந்த பட்டியலில் உள்ளன.',
+]);
+const NOTES_FIRST_COOKING_TA = Object.freeze([
+  'புதுமணப்பெண் கணவன் வீட்டில் முதல் முறை சமைக்கும் நேரம் — ஸ்ரீதர் மட்டுமே (B.D.R. மேற்கோள்).',
+]);
+const NOTES_FIRST_RETURN_TA = Object.freeze([
+  'திருமணம் முடிந்து கணவன் வீட்டிலிருந்து பெண் முதல் முறை தந்தை வீட்டுக்குச் செல்வது — ஸ்ரீதர் மட்டுமே (J.V. 13/90). தடை மட்டுமே சொல்லப்படுகிறது; "மீதி நேரம் நல்லது".',
+  'இந்த வருகையைப் பயணமாகவும் பார்க்க வேண்டும் (பயணம் தனிக் காரியம்); சுக்கிர திசை தோஷம் இதிலும் கணிக்கப்படலாம் (ஸ்ரீதர் §18.10.8).',
+]);
+const NOTES_REMARRIAGE_TA = Object.freeze([
+  'மறுமணத்துக்கு எல்லாத் திதியும் எல்லாக் கிழமையும் நல்லவை; மாத சுத்தி, சுக்கிர சுத்தி பார்க்கப்படுவதில்லை, சுக்கிர அஸ்தமனமும் ஆகும் (ஸ்ரீதர்). மனைவி மறைந்தபின் இரண்டாம் திருமணம் ஒற்றை ஆண்டில்; இரட்டை ஆண்டில் மரணம் (முகூர்த்த சங்கிரகம்) — ஆண்டு உள்ளீடு இல்லை.',
+  'ருத்ர பட்ட சுத்தி: சூரிய நட்சத்திரத்திலிருந்து 4, 11, 18, 25-ஆவது நட்சத்திரம் பிள்ளைகளை அழிக்கும்; மற்றவை நல்லவை. பிரம்ம பட்ட சுத்தி அட்டவணை (சூரிய நட்சத்திரத்திலிருந்து சந்திர நட்சத்திரம்) ஸ்ரீதரில் அச்சில்: 1-3 கெடு (மரணம்), 4-6 நல்லது (செல்வம்), 7-12 கெடு (மரணம்), 13-15 நல்லது (மகன்), 16-18 கெடு (மரணம்), 19-21 நல்லது ("துரதிர்ஷ்டம்" என்று பலன்), 22-24 கெடு ("செல்வம்" என்று பலன்), 25-27 நல்லது (முன்னேற்றம்) — இரண்டு பலன்கள் இயல்புடன் முரண்படுகின்றன; இயல்பு எடுக்கப்பட்டது. இரண்டு விதியும் சேர்ந்து 4, 25-ஐ மறுக்கின்றன — அச்சில் உள்ளபடியே.',
+  'ஸ்ரீதரைத் தவிர்த்து மற்ற நூல்களில் இது தனிப் பகுதியாக இல்லை: சிந்தாமணியின் "மறுமணம்" குறிப்புகள் விதவை யோக நிவாரணம் பற்றியவை (சாவித்ரி, பிப்பல விரதம்) — முகூர்த்தம் அல்ல.',
+]);
+const NOTES_LOVE_MARRIAGE_TA = Object.freeze([
+  'காதல் திருமணத்துக்குத் திதி, நட்சத்திரம், லக்னம் எதுவும் தேவையில்லை; "திரிபாதி சக்கர சுத்தி" மட்டும் — சூரியன் இருக்கும் நட்சத்திரத்திலிருந்து (அபிஜித் உட்பட 28-இல்) 5, 6, 10, 12, 13, 14, 15, 22, 23, 24, 26, 27, 28-ஆவது நட்சத்திரம் நல்லது (ஜோஷி, ப.80). ஜோஷி மட்டுமே சொல்கிறார்.',
+]);
+
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING', 'ARMY_RAISE', 'WAR_START', 'WEAPON_MAKE', 'WEAPON_WEAR', 'MISSILE_SETUP', 'ARMY_CAMP', 'DAGGER_TIE', 'TREATY', 'MINT_COINS', 'CATCH_THIEF', 'BOAT_SHIP', 'WEAVING', 'POTTERY', 'PAINTING', 'SCULPTURE', 'CRAFT_LEARN', 'LEATHER', 'SALON', 'WINE', 'BED_MAKING', 'PERFORMING', 'DAIRY', 'BRICK_KILN', 'METAL_IRON', 'GRINDING_MILL', 'WASHERMAN', 'SALT', 'SPORTS', 'BRIDGE_DAM', 'PERFUME', 'BETEL', 'GEMOLOGY', 'LIBRARY', 'LATHE', 'ADOPTION', 'OATH_MASS', 'CASTRATION', 'GARBHADHANA', 'PUMSAVANA', 'SEEMANTA', 'JATAKARMA', 'NAMAKARANA', 'NISHKRAMANA', 'ANNAPRASHANA', 'CHUDAKARANA', 'SHAVING', 'KARNAVEDHA', 'KESHANTA', 'SAMAVARTANA', 'ANKURARPANA', 'PRET_KRIYA', 'PUTTAL_DAHA', 'BATH_AFTER_MENSES', 'SUTIKA_SNANA', 'BREAST_FEEDING', 'FIRST_MILK', 'JALA_PUJA', 'CHILD_BED', 'DOLAROHANA', 'BHUMYUPAVESHANA', 'CHILD_BETEL'],
-  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING, ARMY_RAISE, WAR_START, WEAPON_MAKE, WEAPON_WEAR, MISSILE_SETUP, ARMY_CAMP, DAGGER_TIE, TREATY, MINT_COINS, CATCH_THIEF, BOAT_SHIP, WEAVING, POTTERY, PAINTING, SCULPTURE, CRAFT_LEARN, LEATHER, SALON, WINE, BED_MAKING, PERFORMING, DAIRY, BRICK_KILN, METAL_IRON, GRINDING_MILL, WASHERMAN, SALT, SPORTS, BRIDGE_DAM, PERFUME, BETEL, GEMOLOGY, LIBRARY, LATHE, ADOPTION, OATH_MASS, CASTRATION, GARBHADHANA, PUMSAVANA, SEEMANTA, JATAKARMA, NAMAKARANA, NISHKRAMANA, ANNAPRASHANA, CHUDAKARANA, SHAVING, KARNAVEDHA, KESHANTA, SAMAVARTANA, ANKURARPANA, PRET_KRIYA, PUTTAL_DAHA, BATH_AFTER_MENSES, SUTIKA_SNANA, BREAST_FEEDING, FIRST_MILK, JALA_PUJA, CHILD_BED, DOLAROHANA, BHUMYUPAVESHANA, CHILD_BETEL,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING', 'ARMY_RAISE', 'WAR_START', 'WEAPON_MAKE', 'WEAPON_WEAR', 'MISSILE_SETUP', 'ARMY_CAMP', 'DAGGER_TIE', 'TREATY', 'MINT_COINS', 'CATCH_THIEF', 'BOAT_SHIP', 'WEAVING', 'POTTERY', 'PAINTING', 'SCULPTURE', 'CRAFT_LEARN', 'LEATHER', 'SALON', 'WINE', 'BED_MAKING', 'PERFORMING', 'DAIRY', 'BRICK_KILN', 'METAL_IRON', 'GRINDING_MILL', 'WASHERMAN', 'SALT', 'SPORTS', 'BRIDGE_DAM', 'PERFUME', 'BETEL', 'GEMOLOGY', 'LIBRARY', 'LATHE', 'ADOPTION', 'OATH_MASS', 'CASTRATION', 'GARBHADHANA', 'PUMSAVANA', 'SEEMANTA', 'JATAKARMA', 'NAMAKARANA', 'NISHKRAMANA', 'ANNAPRASHANA', 'CHUDAKARANA', 'SHAVING', 'KARNAVEDHA', 'KESHANTA', 'SAMAVARTANA', 'ANKURARPANA', 'PRET_KRIYA', 'PUTTAL_DAHA', 'BATH_AFTER_MENSES', 'SUTIKA_SNANA', 'BREAST_FEEDING', 'FIRST_MILK', 'JALA_PUJA', 'CHILD_BED', 'DOLAROHANA', 'BHUMYUPAVESHANA', 'CHILD_BETEL', 'KANYA_VARANA', 'VARA_VARANA', 'INVITATION_LETTERS', 'MANDAP', 'VADHU_PRAVESHA', 'DWIRAGAMANA', 'NISHEKA', 'FIRST_COOKING', 'FIRST_RETURN', 'REMARRIAGE', 'LOVE_MARRIAGE'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING, ARMY_RAISE, WAR_START, WEAPON_MAKE, WEAPON_WEAR, MISSILE_SETUP, ARMY_CAMP, DAGGER_TIE, TREATY, MINT_COINS, CATCH_THIEF, BOAT_SHIP, WEAVING, POTTERY, PAINTING, SCULPTURE, CRAFT_LEARN, LEATHER, SALON, WINE, BED_MAKING, PERFORMING, DAIRY, BRICK_KILN, METAL_IRON, GRINDING_MILL, WASHERMAN, SALT, SPORTS, BRIDGE_DAM, PERFUME, BETEL, GEMOLOGY, LIBRARY, LATHE, ADOPTION, OATH_MASS, CASTRATION, GARBHADHANA, PUMSAVANA, SEEMANTA, JATAKARMA, NAMAKARANA, NISHKRAMANA, ANNAPRASHANA, CHUDAKARANA, SHAVING, KARNAVEDHA, KESHANTA, SAMAVARTANA, ANKURARPANA, PRET_KRIYA, PUTTAL_DAHA, BATH_AFTER_MENSES, SUTIKA_SNANA, BREAST_FEEDING, FIRST_MILK, JALA_PUJA, CHILD_BED, DOLAROHANA, BHUMYUPAVESHANA, CHILD_BETEL, KANYA_VARANA, VARA_VARANA, INVITATION_LETTERS, MANDAP, VADHU_PRAVESHA, DWIRAGAMANA, NISHEKA, FIRST_COOKING, FIRST_RETURN, REMARRIAGE, LOVE_MARRIAGE,
 });
 
 /**
@@ -9103,6 +9548,17 @@ module.exports = {
     DOLAROHANA: NOTES_DOLAROHANA_TA,
     BHUMYUPAVESHANA: NOTES_BHUMYUPAVESHANA_TA,
     CHILD_BETEL: NOTES_CHILD_BETEL_TA,
+    KANYA_VARANA: NOTES_KANYA_VARANA_TA,
+    VARA_VARANA: NOTES_VARA_VARANA_TA,
+    INVITATION_LETTERS: NOTES_INVITATION_LETTERS_TA,
+    MANDAP: NOTES_MANDAP_TA,
+    VADHU_PRAVESHA: NOTES_VADHU_PRAVESHA_TA,
+    DWIRAGAMANA: NOTES_DWIRAGAMANA_TA,
+    NISHEKA: NOTES_NISHEKA_TA,
+    FIRST_COOKING: NOTES_FIRST_COOKING_TA,
+    FIRST_RETURN: NOTES_FIRST_RETURN_TA,
+    REMARRIAGE: NOTES_REMARRIAGE_TA,
+    LOVE_MARRIAGE: NOTES_LOVE_MARRIAGE_TA,
   }),
   AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS, BATH_MC_18, BATH_KR_18, BATH_13,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,
