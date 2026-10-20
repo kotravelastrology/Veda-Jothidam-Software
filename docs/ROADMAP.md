@@ -303,6 +303,7 @@ Not plan items, but real, and they should not be discovered at release:
   Farming leftovers followed (180 acts), with Kalyanraman and Joshi added to the animal, poultry and well acts they were missing from.
   Religious, legal, government and martial leftovers followed (190 acts): pacification, lie detector, Vastu pooja, enemies, kavacha and five Kalyanraman tables.
   Kalyanraman's miscellany with its classical star-class sources (Muhurta Chintamani ch.2, Wilhelm pp.58-61) followed (210 acts), then house, town and building-type leftovers (227 acts).
+  Medicine and bathing leftovers followed (251 acts).
   The gap audit of 2026-10-20 lists what is still unbuilt (memory: project_muhurta_remaining).
   Only 20.22 (nomination papers) is deliberately left out: Shridhar says the texts have no
   reference for it and reasons by analogy to acts already built.

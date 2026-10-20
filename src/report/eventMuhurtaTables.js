@@ -6273,7 +6273,7 @@ const PUTTAL_DAHA = deepFreeze({
 const BATH_AFTER_MENSES = deepFreeze({
   labelTa: 'மாதவிடாய்க்குப் பின் குளியல் (ரஜஸ்வலா ஸ்நானம்)',
   default: 'SHRIDHAR',
-  order: ['SHRIDHAR', 'MUHURTA_CHINTAMANI'],
+  order: ['SHRIDHAR', 'MUHURTA_CHINTAMANI', 'WILHELM'],
   SHRIDHAR: {
     labelTa: 'ஸ்ரீதர் §19.2', booksTa: 'ஸ்ரீதர் (நாரதர், ஆத்ரி மேற்கோள்கள்)',
     nak: { good: [12, 14, 0, 4, 3, 16, 22, 11, 20, 25], mid: [] }, digdwar: false,
@@ -6288,6 +6288,12 @@ const BATH_AFTER_MENSES = deepFreeze({
     tithi: [2, 3, 5, 7, 11, 12, 13, 17, 18, 20, 22, 26, 27, 28],
     vara: { good: [1, 3, 4, 5], mid: [] },
     noteTa: 'பதினொரு நட்சத்திரம் — ஸ்ரீதரின் பத்துடன் கேட்டை கூடுதல் · திதி, கிழமை ஸ்ரீதரின் அதே · பத்ரா பற்றிச் சொல்லவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.277)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 3, 4, 11, 12, 14, 16, 17, 20, 22, 25], mid: [] }, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    noteTa: 'பதினொரு நட்சத்திரம்; கருத்தரிக்க விரும்பினால் அசுவினி, ரோகிணி, மிருகசீரிடம், ஹஸ்தம், சுவாதி, ரேவதி (குறிப்பு) · திங்கள், புதன், வியாழன், வெள்ளி',
   },
 });
 const SUTIKA_SNANA = deepFreeze({
@@ -8378,8 +8384,498 @@ const WATER_TROUGH = deepFreeze({
     noteTa: 'அனுஷம், மூலம், ரேவதி மிகச் சிறப்பு · கட்டுமானம் தொடங்குதல் (வில்ஹெல்மின் அதே பகுதி) செயலின் திதி, கிழமை, லக்னம் விதிகளும் பொருந்தும்',
   },
 });
+// ---------------------------------------------------------------------------
+// Medicine and bathing leftovers (preparing medicines, the diseases, dental, cosmetic surgery, going out, Pushya bath, oil bath, Kalyanraman's treatment), added 2026-10-20
+// ---------------------------------------------------------------------------
+const MED_PREPARE = deepFreeze({
+  labelTa: 'மருந்து தயாரித்தல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'WILHELM'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.2', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [3, 11, 20, 25, 12, 0, 7, 4, 13, 16, 26, 6, 14, 21, 22, 23, 17, 18, 2], mid: [] }, digdwar: false,
+    tithi: [4, 6, 8, 9, 14, 19, 21, 23, 24, 29], tithiMid: [1, 11, 16, 26], tithiNot: [2, 12, 17, 27],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    vishti: true,
+    lagna: { good: [0, 3, 6, 9], mid: [2, 5, 8, 11] },
+    empty: [6, 7, 8],
+    noteTa: 'பத்தொன்பது நட்சத்திரம்: ஸ்திர 4, லகு 3, மிருது 4, சர 5, கேட்டை, மூலம், கிருத்திகை · திதி 4, 6, 8, 9, 14; 1, 11 நடுநிலை; 2, 12 தள்ளு · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி · சர ராசி லக்னம் சிறந்தது, உபயம் நடுநிலை, ஸ்திரம் தள்ளு · 6, 7, 8 காலி · விஷ்டி தள்ளு',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.273)', booksTa: 'வில்ஹெல்ம்',
+    tithi: [4, 6, 8, 9, 14, 19, 21, 23, 24, 29], tithiMid: [1, 11, 16, 26], tithiNot: [2, 12, 17, 27],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    vishti: true,
+    lagna: { good: [0, 3, 6, 9], mid: [2, 5, 8, 11] },
+    empty: [6, 7, 8],
+    noteTa: 'நட்சத்திரம் சொல்லப்படவில்லை · திதி, கிழமை, லக்னம், 6, 7, 8 காலி — ஸ்ரீதரின் அதே · சனி, செவ்வாய், சூரியன் கேந்திரத்தில் (எல்லா நோய்க்கும் ஏற்ற நேரம்) — குறிப்பு · சூரியன், சந்திரன், புதன், குரு, சுக்கிரனின் ராசி, நவாம்சம் நல்லது (குறிப்பு)',
+  },
+});
+const BLOOD_PURIFY = deepFreeze({
+  labelTa: 'இரத்தத்தைச் சுத்தம் செய்யும் மருந்து',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.1', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [13, 14, 16, 17, 1, 4, 23, 21], mid: [] }, digdwar: false,
+    vara: { good: [0, 2, 4], mid: [] },
+    noteTa: 'எட்டு நட்சத்திரம் (சித்திரை, சுவாதி, அனுஷம், கேட்டை, பரணி, மிருகசீரிடம், சதயம், திருவோணம்) · ஞாயிறு, செவ்வாய், வியாழன்',
+  },
+});
+const PURGATIVE = deepFreeze({
+  labelTa: 'பேதி மருந்து, வாந்தி மருந்து, எனிமா',
+  default: 'WILHELM',
+  order: ['WILHELM', 'SHRIDHAR'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.273)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 3, 4, 7, 12, 13, 14, 16, 17, 21, 23], mid: [] }, digdwar: false,
+    vara: { good: [0, 1, 2, 4, 5], mid: [] },
+    noteTa: 'பதினொரு நட்சத்திரம் · புதன், சனி தள்ளு',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.2', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [13, 14, 16, 17, 1, 4, 23, 21], mid: [] }, digdwar: false,
+    vara: { good: [0, 1, 2, 4, 5], mid: [] },
+    noteTa: 'இரத்தச் சுத்திக்கான அதே எட்டு நட்சத்திரம் · புதன், சனி தள்ளு',
+  },
+});
+const TYPHOID = deepFreeze({
+  labelTa: 'குடற்காய்ச்சல் (டைபாய்டு, குடல் நோய்) மருந்து தொடங்குதல்',
+  default: 'WILHELM',
+  order: ['WILHELM', 'SHRIDHAR'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.277)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [5, 1, 15, 16], mid: [] }, digdwar: false,
+    tithi: [4, 9, 14, 19, 24, 29],
+    vara: { good: [0], mid: [] },
+    noteTa: 'திருவாதிரை, பரணி, விசாகம், அனுஷம் · ரிக்தா திதி · ஞாயிறு',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.3', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [5, 1, 15, 16], mid: [] }, digdwar: false,
+    tithi: [4, 9, 14, 19, 24, 29],
+    vara: { good: [0], mid: [] },
+    noteTa: 'அதே நான்கு நட்சத்திரம் · ரிக்தா திதி · ஞாயிறு',
+  },
+});
+const VENEREAL = deepFreeze({
+  labelTa: 'பாலியல் நோய் (வெனீரியல்) மருந்து தொடங்குதல்',
+  default: 'WILHELM',
+  order: ['WILHELM', 'SHRIDHAR'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.277)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [12, 0, 7, 9, 1, 10, 19, 24, 6, 14, 21, 22, 23], mid: [] }, digdwar: false,
+    tithi: [30],
+    lagna: { good: [0, 3], mid: [] },
+    noteTa: 'லகு 3 + உக்ர 5 + சர 5 · அமாவாசை · மேஷம், கடகம் லக்னம்',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.4', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [12, 0, 7, 9, 1, 10, 19, 24, 6, 14, 21, 22, 23], mid: [] }, digdwar: false,
+    tithi: [30],
+    lagna: { good: [0, 3], mid: [] },
+    noteTa: 'அதே பதின்மூன்று நட்சத்திரம் · அமாவாசை · மேஷம், கடகம் லக்னம்',
+  },
+});
+const GONORRHOEA = deepFreeze({
+  labelTa: 'கொனோரியா மருந்து தொடங்குதல்',
+  default: 'WILHELM',
+  order: ['WILHELM', 'SHRIDHAR'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.276)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [12, 0, 7, 9, 1, 10, 19, 24, 6, 14, 21, 22, 23], mid: [] }, digdwar: false,
+    tithi: [4, 9, 14, 19, 24, 29],
+    vara: { good: [3], mid: [] },
+    noteTa: 'லகு, உக்ர, சர (13) · ரிக்தா திதி · புதன்',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.5', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [12, 0, 7, 9, 1, 10, 19, 24, 6, 14, 21, 22, 23], mid: [] }, digdwar: false,
+    tithi: [4, 9, 14, 19, 24, 29],
+    vara: { good: [3], mid: [] },
+    noteTa: 'அதே பதின்மூன்று நட்சத்திரம் · ரிக்தா திதி · புதன்',
+  },
+});
+const RHEUMATISM = deepFreeze({
+  labelTa: 'வாதம் (ருமாட்டிசம்) மருந்து தொடங்குதல்',
+  default: 'WILHELM',
+  order: ['WILHELM', 'SHRIDHAR'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.277)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 8, 21], mid: [] }, digdwar: false,
+    tithi: [3, 8, 13, 18, 23, 28],
+    vara: { good: [4], mid: [] },
+    noteTa: 'அசுவினி, ஆயில்யம், திருவோணம் · ஜய திதி · வியாழன்',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.6', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [0, 8, 21], mid: [] }, digdwar: false,
+    tithi: [3, 8, 13, 18, 23, 28],
+    vara: { good: [4], mid: [] },
+    noteTa: 'அதே மூன்று நட்சத்திரம் · ஜய திதி · வியாழன்',
+  },
+});
+const BILE_ILLNESS = deepFreeze({
+  labelTa: 'பித்தம் தொடர்பான நோய் (ஸ்ரீதர் §22.3.7)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.7', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [6, 14, 26], mid: [] }, digdwar: false,
+    tithi: [2, 6, 12, 17, 21, 27],
+    vara: { good: [5], mid: [] },
+    lagna: { good: [0, 3, 6, 9], mid: [] },
+    noteTa: 'புனர்பூசம், சுவாதி, ரேவதி · திதி 2, 6, 12 · வெள்ளி · சர ராசி லக்னம்',
+  },
+});
+const BILIOUS = deepFreeze({
+  labelTa: 'பித்தக் கோளாறு (பித்த நோய்) மருந்து தொடங்குதல்',
+  default: 'WILHELM',
+  order: ['WILHELM', 'SHRIDHAR'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.277)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [7, 14, 18], mid: [] }, digdwar: false,
+    tithi: [1, 6, 11, 16, 21, 26],
+    vara: { good: [4], mid: [] },
+    lagna: { good: [0, 3, 6, 9], mid: [] },
+    noteTa: 'பூசம், சுவாதி, மூலம் · திதி 1, 6, 11 · வியாழன் · சர ராசி லக்னம்',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.8', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [7, 14, 18], mid: [] }, digdwar: false,
+    tithi: [1, 6, 11, 16, 21, 26],
+    vara: { good: [4], mid: [] },
+    lagna: { good: [0, 3, 6, 9], mid: [] },
+    noteTa: 'அதே மூன்று நட்சத்திரம் · நந்தா திதி · வியாழன் · சர ராசி லக்னம்',
+  },
+});
+const PHLEGM_WIND = deepFreeze({
+  labelTa: 'கபம், வாதக் கோளாறு மருந்து தொடங்குதல்',
+  default: 'WILHELM',
+  order: ['WILHELM', 'SHRIDHAR'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.277)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [1, 2, 5], mid: [] }, digdwar: false,
+    vara: { good: [2], mid: [] },
+    lagna: { good: [0, 3, 6, 9], mid: [] },
+    noteTa: 'பரணி, கிருத்திகை, திருவாதிரை · செவ்வாய் · சர ராசி லக்னம்',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.9', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [1, 2, 5], mid: [] }, digdwar: false,
+    vara: { good: [2], mid: [] },
+    lagna: { good: [0, 3, 6, 9], mid: [] },
+    noteTa: 'அதே மூன்று நட்சத்திரம் · செவ்வாய் · சர ராசி லக்னம்',
+  },
+});
+const LEPROSY = deepFreeze({
+  labelTa: 'தொழுநோய் மருந்து தொடங்குதல்',
+  default: 'WILHELM',
+  order: ['WILHELM', 'SHRIDHAR'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.277)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [2, 7, 16, 4, 13, 22, 11, 20, 25], mid: [] }, digdwar: false,
+    tithi: [4, 6, 8, 9, 14, 19, 21, 23, 24, 29],
+    vara: { good: [0, 2, 6], mid: [] },
+    lagna: { good: [0, 4, 7, 9, 10], mid: [] },
+    want: [{ planets: ['Sun', 'Mars', 'Saturn'], houses: [8], code: 'MAL_8_MID' }],
+    noteTa: 'ஒன்பது நட்சத்திரம் (கிழமையுடன் இணைத்து) · திதி 4, 6, 8, 9, 14 · ஞாயிறு, செவ்வாய், சனி · லக்னம் 1, 5, 8, 10, 11 · 8-ல் பாபன் (குறிக்கப்படும்)',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.10', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [2, 7, 16, 4, 13, 22, 11, 20, 25], mid: [] }, digdwar: false,
+    tithi: [4, 6, 8, 9, 14, 19, 21, 23, 24, 29],
+    vara: { good: [0, 2, 6], mid: [] },
+    lagna: { good: [0, 4, 7, 9, 10], mid: [] },
+    want: [{ planets: ['Sun', 'Mars', 'Saturn'], houses: [8], code: 'MAL_8_MID' }],
+    noteTa: 'ஒன்பது நட்சத்திரம் · திதி 4, 6, 8, 9, 14 · ஞாயிறு, செவ்வாய், சனி · லக்னம் 1, 5, 8, 10, 11 · 8-ல் பாபன் (குறிக்கப்படும்)',
+  },
+});
+const ASCITES = deepFreeze({
+  labelTa: 'வயிற்று நீர்க்கோவை (அஸைட்ஸ்) மருந்து தொடங்குதல்',
+  default: 'WILHELM',
+  order: ['WILHELM'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.276)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [1, 2, 5, 8, 15, 9, 17], mid: [] }, digdwar: false,
+    vara: { good: [2], mid: [] },
+    noteTa: 'ஏழு நட்சத்திரம் · செவ்வாய்',
+  },
+});
+const CONSUMPTION = deepFreeze({
+  labelTa: 'காசநோய் (க்ஷயம்) மருந்து தொடங்குதல்',
+  default: 'WILHELM',
+  order: ['WILHELM'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.276)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [2, 15], mid: [] }, digdwar: false,
+    vishti: true,
+    noteTa: 'கிருத்திகை, விசாகம் · விஷ்டி தள்ளு · வக்ர கிரகத்தின் பார்வை — குறிப்பு',
+  },
+});
+const EPILEPSY = deepFreeze({
+  labelTa: 'வலிப்பு (கால்-கை வலிப்பு) மருந்து தொடங்குதல்',
+  default: 'WILHELM',
+  order: ['WILHELM'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.276)', booksTa: 'வில்ஹெல்ம்',
+    lagna: { good: [0, 3, 6, 9, 2, 5, 8, 11], mid: [] },
+    want: [{ planets: ['Sun'], houses: [1], code: 'SUN_LAGNA_MID' }, { planets: ['Moon'], houses: [1], code: 'MOON_LAGNA_MID' }],
+    noteTa: 'சர / உபய ராசி லக்னம்; ஸ்திரம் தள்ளு · லக்னத்தில் சூரியனும் சந்திரனும் (குறிக்கப்படும்) · நட்சத்திரம் சொல்லப்படவில்லை',
+  },
+});
+const MEAT_EATING = deepFreeze({
+  labelTa: 'இறைச்சி உண்ணுதல் (மருந்தாக)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.11 (இறைச்சி)', booksTa: 'ஸ்ரீதர்',
+    vara: { good: [0, 2, 6, 5], mid: [] },
+    noteTa: 'ஞாயிறு, செவ்வாய், சனி, வெள்ளி · நட்சத்திரம் சொல்லப்படவில்லை',
+  },
+});
+const INTOXICANT_TAKING = deepFreeze({
+  labelTa: 'மது, போதைப் பொருள் தயாரித்து உண்ணுதல் (வலிமைக்கு)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.11 (மது)', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [9, 1, 10, 19, 24, 17, 5, 8, 18, 23], mid: [] }, digdwar: false,
+    noteTa: 'பத்து நட்சத்திரம்: உக்ர 5, தீக்ஷ்ண 4, சதயம் · பர்வ திதி தள்ளு (குறிப்பு)',
+  },
+});
+const POISON_TAKING = deepFreeze({
+  labelTa: 'விஷத்தை மருந்தாக / முதன்முறை உண்ணுதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.3.11 (விஷம்)', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [6, 14, 21, 22, 23, 12, 0, 7, 3, 11, 20, 25], mid: [] }, digdwar: false,
+    vara: { good: [0, 1, 2, 5], mid: [] },
+    noteTa: 'பன்னிரண்டு நட்சத்திரம்: சர 5, லகு 3, ஸ்திர 4 · ஞாயிறு, திங்கள், செவ்வாய், வெள்ளி',
+  },
+});
+const DENTAL = deepFreeze({
+  labelTa: 'பல் சுத்தம், பல் சிகிச்சை (துளையிடல், பிடுங்கல் இல்லாமல்)',
+  default: 'WILHELM',
+  order: ['WILHELM'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.272)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 4, 6, 7, 12, 13, 21, 22, 26], mid: [3, 11, 14, 16, 17, 20, 23, 25] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 11, 13, 17, 18, 20, 22, 25, 26, 28], tithiMid: [1, 6, 12, 16, 21, 27], tithiNot: [4, 8, 9, 14, 15, 19, 23, 24, 29, 30],
+    sankranti: true,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    dayParts: { good: [1, 2, 3, 4], mid: [] },
+    noteTa: 'ஒன்பது சிறந்தவை; எட்டு "சரி" (நடுநிலை) · திதி 2, 3, 5, 7, 10, 11, 13 சிறந்தவை; 4, 8, 9, 14, 15, அமாவாசை, சங்கிராந்தி தள்ளு · பாப கிரகக் கிழமை (ஞாயிறு, செவ்வாய், சனி) தள்ளு · மாலை, இரவு தள்ளு',
+  },
+});
+const COSMETIC_SURGERY = deepFreeze({
+  labelTa: 'அழகு அறுவை சிகிச்சை, பச்சை குத்துதல்',
+  default: 'WILHELM',
+  order: ['WILHELM'],
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.274-275)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [5, 8, 17, 18], mid: [2] }, digdwar: false,
+    tithi: [3, 11, 13, 18, 26, 28], tithiMid: [4, 9, 14, 19, 24, 29], tithiNot: [6, 8, 12, 15, 21, 23, 27, 30],
+    vara: { good: [2, 5, 6], mid: [1, 3, 4] },
+    lagna: { good: [0, 1, 3, 5, 6], mid: [] },
+    empty: [8],
+    noteTa: 'திருவாதிரை, ஆயில்யம், கேட்டை, மூலம் சிறந்தவை; கிருத்திகை அடுத்து (நடுநிலை) · திதி 3, 11, 13; ரிக்தா நடுநிலை; பௌர்ணமி, 6, 8, 12, அமாவாசை தள்ளு · செவ்வாய், வெள்ளி, சனி சிறப்பு; திங்கள், புதன், வியாழன் நடுநிலை; ஞாயிறு தள்ளு · லக்னம் மேஷம், ரிஷபம், கடகம், கன்னி, துலாம் · 8 காலி',
+  },
+});
+const GOING_OUT_RECOVERY = deepFreeze({
+  labelTa: 'நோய் தீர்ந்த பின் முதன்முறை வெளியே செல்லுதல் (கோயிலுக்கு)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.6', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [0, 12, 4, 21, 7, 6, 22], mid: [] }, digdwar: false,
+    vara: { good: [1, 3, 4, 5], mid: [] },
+    lagna: { good: [2, 4, 5, 6, 7, 10], mid: [] },
+    noteTa: 'ஏழு நட்சத்திரம் (J.V.) · சுப நாள் (திங்கள், புதன், வியாழன், வெள்ளி) · சிரோதய ராசி லக்னம் (3, 5, 6, 7, 8, 11) · நல்ல சந்திரன் (பொது சந்திர பலத்தில்)',
+  },
+});
+const PUSHYA_BATH = deepFreeze({
+  labelTa: 'புஷ்ய ஸ்நானம் (பூசம் நட்சத்திரத்தில் நீராடுதல்)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §16.2', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [7], mid: [] }, digdwar: false,
+    noteTa: 'பூசம் மட்டும் · பூசமும் பௌர்ணமியும் சேர்ந்தால் மிகச் சிறப்பு (குறிப்பு); மற்ற நேரத்தில் பாதிப் பலன்',
+  },
+});
+const OIL_BATH = deepFreeze({
+  labelTa: 'எண்ணெய்க் குளியல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR', 'WILHELM'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §22.7', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [1, 2, 3, 4, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 18, 19, 20, 22, 23, 24, 25, 26], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 13, 17, 18, 20, 22, 25, 28], tithiNot: [1, 4, 6, 9, 14, 16, 19, 21, 24, 29, 30],
+    sankranti: true,
+    vara: { good: [1, 3, 6], mid: [] },
+    taraNot: [1, 10, 19],
+    noteTa: 'திருவோணம், திருவாதிரை, கேட்டை, உத்திரம் (K.P.), அசுவினி (U.K.) தள்ளு · திதி 2, 3, 5, 7, 10, 13 நல்லவை; 1, 4, 6, 9, 14, அமாவாசை தள்ளு · திங்கள், புதன், சனி · ஜன்ம, 10, 19-ஆம் நட்சத்திரம் தள்ளு · சங்கிராந்தி தள்ளு',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் (ப.278-279)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 12, 13, 14, 15, 16, 18, 19, 20, 22, 23, 24, 25, 26], mid: [] }, digdwar: false,
+    tithi: [2, 3, 5, 7, 10, 13, 17, 18, 20, 22, 25, 28], tithiNot: [1, 4, 6, 9, 14, 16, 19, 21, 24, 29, 30],
+    sankranti: true,
+    vara: { good: [1, 3, 5, 6], mid: [] },
+    taraNot: [1, 10, 19],
+    noteTa: 'திருவாதிரை, உத்திரம், கேட்டை, திருவோணம் தள்ளு · திதி 2, 3, 5, 7, 10, 13 நல்லவை · திங்கள், புதன், வெள்ளி, சனி (செவ்வாய் பெண்ணுக்கு மட்டும்) · ஜன்ம, 10, 19 தள்ளு · சங்கிராந்தி தள்ளு',
+  },
+});
+const COMMENCE_TREATMENT = deepFreeze({
+  labelTa: 'சிகிச்சையைத் தொடங்குதல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.203)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [3, 21, 23], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 2, 3, 4, 5, 6], mid: [] },
+    noteTa: 'ரோகிணி, திருவோணம், சதயம் · திதி 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15 · எல்லாக் கிழமையும்',
+  },
+});
+const HERBAL_MEDICATION = deepFreeze({
+  labelTa: 'மூலிகை மருந்தைத் தொடங்குதல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.203)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [1], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28],
+    vara: { good: [0, 1, 2, 3, 4, 5], mid: [] },
+    yogaNot: [16, 26],
+    karanaOnly: [0, 1, 2, 3, 4, 5],
+    noteTa: 'பரணி மட்டும் · திதி 1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15; ரிக்தா தள்ளு · சனி தள்ளு · வ்யதீபாதம், வைதிருதி தள்ளு · கரணம் பவம் முதல் வணிசை வரை',
+  },
+});
 
 const RANK = deepFreeze({
+  MED_PREPARE: {
+    order: MED_PREPARE.order,
+    words: { SHRIDHAR: 264, WILHELM: 111 },
+    measureTa: 'மருந்து தயாரிப்பு பற்றிய சொற்கள்: ஸ்ரீதர் (§22.2, ப.602) 264; வில்ஹெல்ம் (ப.273) 111.',
+  },
+  BLOOD_PURIFY: {
+    order: BLOOD_PURIFY.order,
+    words: { SHRIDHAR: 19 },
+    measureTa: 'இரத்தச் சுத்தி பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.1, ப.603) 19.',
+  },
+  PURGATIVE: {
+    order: PURGATIVE.order,
+    words: { WILHELM: 45, SHRIDHAR: 18 },
+    measureTa: 'பேதி மருந்து பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.2, ப.603) 18; வில்ஹெல்ம் (ப.273) 45.',
+  },
+  TYPHOID: {
+    order: TYPHOID.order,
+    words: { WILHELM: 29, SHRIDHAR: 20 },
+    measureTa: 'குடற்காய்ச்சல் பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.3, ப.603) 20; வில்ஹெல்ம் (ப.277) 29.',
+  },
+  VENEREAL: {
+    order: VENEREAL.order,
+    words: { WILHELM: 24, SHRIDHAR: 24 },
+    measureTa: 'பாலியல் நோய் பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.4, ப.603) 24; வில்ஹெல்ம் (ப.277) 24.',
+  },
+  GONORRHOEA: {
+    order: GONORRHOEA.order,
+    words: { WILHELM: 22, SHRIDHAR: 12 },
+    measureTa: 'கொனோரியா பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.5, ப.603) 12; வில்ஹெல்ம் (ப.276) 22.',
+  },
+  RHEUMATISM: {
+    order: RHEUMATISM.order,
+    words: { WILHELM: 22, SHRIDHAR: 14 },
+    measureTa: 'வாதம் பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.6, ப.603) 14; வில்ஹெல்ம் (ப.277) 22.',
+  },
+  BILE_ILLNESS: {
+    order: BILE_ILLNESS.order,
+    words: { SHRIDHAR: 21 },
+    measureTa: 'பித்த நோய் பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.7, ப.604) 21.',
+  },
+  BILIOUS: {
+    order: BILIOUS.order,
+    words: { WILHELM: 28, SHRIDHAR: 18 },
+    measureTa: 'பித்தக் கோளாறு பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.8, ப.604) 18; வில்ஹெல்ம் (ப.277) 28.',
+  },
+  PHLEGM_WIND: {
+    order: PHLEGM_WIND.order,
+    words: { WILHELM: 25, SHRIDHAR: 18 },
+    measureTa: 'கபம், வாதம் பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.9, ப.604) 18; வில்ஹெல்ம் (ப.277) 25.',
+  },
+  LEPROSY: {
+    order: LEPROSY.order,
+    words: { WILHELM: 63, SHRIDHAR: 31 },
+    measureTa: 'தொழுநோய் பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.10, ப.604) 31; வில்ஹெல்ம் (ப.277) 63.',
+  },
+  ASCITES: {
+    order: ASCITES.order,
+    words: { WILHELM: 23 },
+    measureTa: 'நீர்க்கோவை பற்றிய சொற்கள்: வில்ஹெல்ம் (ப.276) 23.',
+  },
+  CONSUMPTION: {
+    order: CONSUMPTION.order,
+    words: { WILHELM: 24 },
+    measureTa: 'காசநோய் பற்றிய சொற்கள்: வில்ஹெல்ம் (ப.276) 24.',
+  },
+  EPILEPSY: {
+    order: EPILEPSY.order,
+    words: { WILHELM: 25 },
+    measureTa: 'வலிப்பு பற்றிய சொற்கள்: வில்ஹெல்ம் (ப.276) 25.',
+  },
+  MEAT_EATING: {
+    order: MEAT_EATING.order,
+    words: { SHRIDHAR: 97 },
+    measureTa: 'இறைச்சி பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.11, ப.604) 97.',
+  },
+  INTOXICANT_TAKING: {
+    order: INTOXICANT_TAKING.order,
+    words: { SHRIDHAR: 97 },
+    measureTa: 'மது பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.11, ப.604) 97.',
+  },
+  POISON_TAKING: {
+    order: POISON_TAKING.order,
+    words: { SHRIDHAR: 97 },
+    measureTa: 'விஷம் பற்றிய சொற்கள்: ஸ்ரீதர் (§22.3.11, ப.604) 97.',
+  },
+  DENTAL: {
+    order: DENTAL.order,
+    words: { WILHELM: 178 },
+    measureTa: 'பல் சிகிச்சை பற்றிய சொற்கள்: வில்ஹெல்ம் (ப.272) 178.',
+  },
+  COSMETIC_SURGERY: {
+    order: COSMETIC_SURGERY.order,
+    words: { WILHELM: 207 },
+    measureTa: 'அழகு அறுவை பற்றிய சொற்கள்: வில்ஹெல்ம் (ப.274-275) 207.',
+  },
+  GOING_OUT_RECOVERY: {
+    order: GOING_OUT_RECOVERY.order,
+    words: { SHRIDHAR: 98 },
+    measureTa: 'நோய் தீர்ந்த பின் வெளியே செல்லுதல் பற்றிய சொற்கள்: ஸ்ரீதர் (§22.6, ப.606) 98.',
+  },
+  PUSHYA_BATH: {
+    order: PUSHYA_BATH.order,
+    words: { SHRIDHAR: 187 },
+    measureTa: 'புஷ்ய ஸ்நானம் பற்றிய சொற்கள்: ஸ்ரீதர் (§16.2, ப.388-389) 187.',
+  },
+  OIL_BATH: {
+    order: OIL_BATH.order,
+    words: { SHRIDHAR: 602, WILHELM: 211 },
+    measureTa: 'எண்ணெய்க் குளியல் பற்றிய சொற்கள்: ஸ்ரீதர் (§22.7, ப.606-607) 602; வில்ஹெல்ம் (ப.278-279) 211.',
+  },
+  COMMENCE_TREATMENT: {
+    order: COMMENCE_TREATMENT.order,
+    words: { KALYANRAMAN: 34 },
+    measureTa: 'சிகிச்சை தொடக்கம் பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.203) 34.',
+  },
+  HERBAL_MEDICATION: {
+    order: HERBAL_MEDICATION.order,
+    words: { KALYANRAMAN: 45 },
+    measureTa: 'மூலிகை மருந்து பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.203) 45.',
+  },
   BRICK_LAYING: {
     order: BRICK_LAYING.order,
     words: { SHRIDHAR: 154, WILHELM: 34 },
@@ -8832,8 +9328,8 @@ const RANK = deepFreeze({
   },
   BATH_AFTER_MENSES: {
     order: BATH_AFTER_MENSES.order,
-    words: { SHRIDHAR: 235, MUHURTA_CHINTAMANI: 167 },
-    measureTa: 'மாதவிடாய்க்குப் பின் குளியல் பற்றிய சொற்கள்: ஸ்ரீதர் (§19.2, ப.551) 235; முகூர்த்த சிந்தாமணி (அத்.5, ப.114) 167.',
+    words: { SHRIDHAR: 235, MUHURTA_CHINTAMANI: 167, WILHELM: 77 },
+    measureTa: 'மாதவிடாய்க்குப் பின் குளியல் பற்றிய சொற்கள்: ஸ்ரீதர் (§19.2, ப.551) 235; முகூர்த்த சிந்தாமணி (அத்.5, ப.114) 167. வில்ஹெல்ம் (ப.277) 77.',
   },
   SUTIKA_SNANA: {
     order: SUTIKA_SNANA.order,
@@ -10369,6 +10865,7 @@ const SOURCES = deepFreeze({
   BATH_AFTER_MENSES: {
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§19.2 "Bath after menses", printed p.551 (PDF 589): "Tithi: 2,3,5,7,11,12,13. Days: Monday, Wednesday, Thursday & Friday. Constellation: Hasta, Swati, Ashvani, Mrigshira, Rohini, Anuradha, Dhanishta, 3 Uttras. Bhadra Karan should be avoided. If a woman takes bath after menses on Mrigshira, Revati, Swati, Hasta, Ashvani or Rohini then, she soon gets conceived. As per some custom, the bath is taken on 2nd day of appearance of menses, otherwise it is taken on 4th day"' },
     MUHURTA_CHINTAMANI: { ...MC_SHARMA, pageLocus: 'Chapter 5, "The Muhurta for the bathing of women after menses", printed p.114 (PDF 118): "The woman having menses should be asked to take bath after menses in the Nakshtras of Hasta, Swati, Ashwini, Mrigashira, Anuradha, Dhanishtha, those named as Dhruwa (all the 3 Uttaras and Rohini) and Jyestha, on the auspicious Tithis (2/3/5/7/11/12/13), on the auspicious days (Monday, Wednesday, Thursday and Friday). The woman who takes bath after menses in the Nakshtras of Mrigashira, Rewati, Swati, Hasta, Ashwini and Rohini gets pregnant or conceives soon"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Menses, bathing after", printed p.277 (PDF 285): "After menses a woman should bathe at a favorable moment to insure health and the ability to conceive. Nakshatra: Asvini, Rohini, Mrigasira, Uttaraphalguni, Hasta, Svati, Anuradha, Jyeshtha, Uttarashadha, Dhanishtha, Uttarabhadrapada are favorable Nakshatras. For Conceiving: Asvini, Rohini, Mrigasira, Hasta, Svati, and Revati are favorable and help the woman conceive soon if the Tithi and Vara are also favorable"; printed p.278 (PDF 286): "Vara: The Varas of the Moon, Mercury, Jupiter and Venus are favorable"' },
   },
   SUTIKA_SNANA: {
     KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"5B - Sootikaasnana - Bathing of the Prasuti woman", printed pp.61-62 (PDF 63-64): "Generally the mother and child have to take bath on an auspicious day, a week after the delivery; or on the day when the Naamakarana is performed that is on the 10th or 12th day. This must be done within 36 hours from birth. In short the accepted ten nakshatras are all the four Fixed - Uttaraphalguni, Uttarashada, Uttarabhadrapada and Rohini and also another six namely - Mrigasira, Revati, Anuradha, Aswini, Hasta and Swati. Poorvaphalguni, Poorvashada, Poorvabhadrapada, Aslesha, Jyeshta and Dhanishta are mediocre. The rest are rejected. Muhoortha Chintaamani wants to reject Tithis - Ashtami, Shasti, Dwadasi, Chaturthi, Navami and Chaturdasi. Muhoortha Chintaamani prefers Sundays, Tuesdays and Thursdays. Mondays and Fridays can be accepted as mediocre. Wednesdays and Saturdays must be rejected. Prof Muthuswamy prefers Taurus, Gemini, Cancer, Libra, Sagittarius and Pisces as Lagna and wants benefic aspects for Lagna. Chandrasuddhi and Taarasuddhi for the female to be ensured"' },
@@ -10787,6 +11284,88 @@ const SOURCES = deepFreeze({
   WATER_TROUGH: {
     WILHELM: { ...WILHELM_E, pageLocus: '"Construction - Beginning construction (laying foundations)", printed p.219 (PDF 227): "Baths, Water Troughs and Receptacles: To construct a water trough or to set up any receptacle for holding water, Anuradha, Mula and Revati are the most favorable"' },
   },
+  MED_PREPARE: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.2 "Preparation of medicine", printed p.602 (PDF 639): "Tithi: 4, 6, 8, 9 & 14 are beneficent; 1,6, 11 can also be used; avoid 2 & 12 Tithis. Day: Sunday, Monday, Wednesday, Thursday & Friday. Const.: Fixed (Rohini, 3 Uttras), Small (Hasta, Ashvani, Pushya), Sweet (Mrigshira, Chitra, Anuradha, Revati), Movable (Punarvasu, Swati, Shravana, Shatbhish, Dhanishta), Jyeshta, Moola & Krittika are beneficent. Ascendant; Movable signs are the best; Common signs are neutral; fixed signs as ascendant should be avoided. 6, 7 & 8th houses should be vacant; otherwise it is disastrous for the patient. K.P. commends that malefic (the Sun, Mars, Saturn) in ascendant or angles is the most fruitful time to prepare medicines to remove all types of illnesses … Vishti Karan, Bhadra, weak Moon, & malefic Yogas should be avoided"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Medical - Preparing medicines", printed p.273 (PDF 281): "Tithi: The 4th, 6th, 8th, 9th and 14th are favorable. The 2nd and 12th should be avoided. The 1st, 6th and 11th are middling. Karana: Sthira Karanas are particularly favorable. Vishti Karana must be avoided. Vara: The Varas of the Sun, Moon, Mercury, Jupiter and Venus are favorable. Yoga: The Yoga must be favorable. Lagna: Moveable Rasis are best, while fixed Rasis should be avoided. The Rasis and Navamsas of the Sun, Moon, Mercury, Jupiter and Venus are favorable. Bhavas: The 6th, 7th and 8th must be unoccupied. Combinations: Saturn, Mars and the Sun in angles present a favorable time for preparing remedies for all diseases"' },
+  },
+  BLOOD_PURIFY: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.1 "Purification of blood", printed p.603 (PDF 640): "Constellations of Chitra, Swati, Anuradha, Jyeshta, Bhami, Mrigshira, Shatbhisha, Shravana; & Sunday, Tuesday & Thursday are beneficial"' },
+  },
+  PURGATIVE: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Medical - Laxatives, enemas & purgatives, taking", printed p.273 (PDF 281): "This refers to anytime that waste is forcefully removed from the body and would also include colonics. Nakshatra: Asvini, Rohini, Mrigasira, Pushya, Hasta, Chitta, Svati, Anuradha, Jyeshtha, Sravana, and Satabhisha are favorable. Vara: Avoid the Varas of Mercury and Saturn"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.2 "Purgative & vomiting", printed p.603 (PDF 640): "In the asterisms recommended for purification of blood; but on days other than Wednesday & Saturday"' },
+  },
+  TYPHOID: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Specific diseases and treatments - Typhoid & Enteric", printed p.277 (PDF 285): "The Sun\'s Vara under Ardra, Bharani, Visakha or Anuradha coinciding with the 4th, 9th or 14th Tithi is very favorable for treating typhoid or enteric (intestinal disorders)"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.3 "Typhoid or intestinal illness", printed p.603 (PDF 640): "Asterisms of Ardra, Bhami, Vishakha, Anuradha; on Rikta Tithis coinciding on Sunday (K.P.)"' },
+  },
+  VENEREAL: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Specific diseases and treatments - Venereal Disease", printed p.277 (PDF 285): "Amavasya in a Kshipra, Ugra or Cara Nakshatra is favorable for treating venereal disorders. Aries or Cancer is the most favorable Lagna"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.4 "Venereal diseases", printed p.603 (PDF 640): "Select the New Moon day & Small (Kshipra), Cruel or Movable asterisms; when Aries or Cancer is rising (K.P.)"' },
+  },
+  GONORRHOEA: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Specific diseases and treatments - Gonorrhea", printed p.276 (PDF 284): "The 4th, 9th or 14th Tithi on Mercury\'s Vara under Cara, Ugra or Kshipra Nakshatras is very favorable for treating gonorrhea"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.5 "Gonorrhoea", printed p.603 (PDF 640): "Rikta Tithis; on Wednesday; Small, Cruel or Movable asterisms"' },
+  },
+  RHEUMATISM: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Specific diseases and treatments - Rheumatism", printed p.277 (PDF 285): "Jupiter\'s Vara coinciding with Asvini, Aslesha, or Sravana, and the 3rd, 8th or 13th Tithis is very favorable for treating rheumatism"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.6 "Rheumatism", printed p.603 (PDF 640): "Jaya Tithis; Thursday; in the asterisms of Ashvani, Ashlesha & Shravana"' },
+  },
+  BILE_ILLNESS: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.7 "Illness related to bile", printed p.604 (PDF 641): "2, 6, 12 Tithis; Friday ruled by Punarvasu, Swati or Revati; in movable rising sign"' },
+  },
+  BILIOUS: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Specific diseases and treatments - Pitta Disorders", printed p.277 (PDF 285): "The 1st, 6th or 11th Tithi on Jupiter\'s Vara under Pushya, Svati or Mula is very favorable for treating Pitta diseases. The Lagna should be moveable"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.8 "Bilious disorder", printed p.604 (PDF 641): "In Nanda Tithis; on Thursday; asterisms of Swati, Moola or Pushya; in movable signs"' },
+  },
+  PHLEGM_WIND: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Specific diseases and treatments - Vata and Kapha Disorders", printed p.277 (PDF 285): "Mars\'s Vara under Bharani, Krittika or Ardra is very favorable for treating Vata and Kapha disorders. The Lagna should be moveable"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.9 "Phlegmatic & windy disorders", printed p.604 (PDF 641): "On Tuesday; Bhami, Krittika or Ardra; when a movable sign is rising"' },
+  },
+  LEPROSY: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Specific diseases and treatments - Leprosy", printed p.277 (PDF 285): "The 4th, 6th, 8th, 9th or 14th Tithi, Mars\'s Vara and Mrigasira, Chitra or Dhanishtha, or Saturn\'s Vara and Pushya, Anuradha or Uttarabhadrapada, or the Sun\'s Vara and Krittika, Uttaraphalguni or Uttarashadha, with Aries, Leo, Scorpio, Capricorn or Aquarius Lagna and a malefic in the 8th is very favorable for treating leprosy"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.10 "Leprosy", printed p.604 (PDF 641): "Tithi: 4,6,8,9,14 Day: Sunday, Tuesday, Saturday Const.: Krittika, Pushya, Anuradha, Mrigshira, Chitra, Dhanishta, 3 Uttras. Ascendant: 1,5,8,10,11; with malefic in the 8th house"' },
+  },
+  ASCITES: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Specific diseases and treatments - Ascites", printed p.276 (PDF 284): "Mars\'s Vara and Bharani, Krittika, Ardra, Aslesha, Visakha, Magha or Jyeshtha is favorable for treating ascites (dropsy of the belly or peritoneum)"' },
+  },
+  CONSUMPTION: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Specific diseases and treatments - Consumption", printed p.276 (PDF 284): "Krittika or Visakha with the Moon aspected by a retrograde planet and any Karana excepting Vishti Karana is very favorable for treating consumption"' },
+  },
+  EPILEPSY: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Specific diseases and treatments - Epilepsy", printed p.276 (PDF 284): "A dual Rasi or a moveable Rasi on the Lagna occupied by the Sun and the Moon is best. Fixed Rasis should be avoided"' },
+  },
+  MEAT_EATING: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.11 "Meat eating, drinking & poison taking", printed p.604 (PDF 641): "According to J.V. meat eating is benefic on Sunday, Tuesday, Saturday & Friday"' },
+  },
+  INTOXICANT_TAKING: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.11 "Meat eating, drinking & poison taking", printed p.604 (PDF 641): "Manufacturing & taking of intoxicants & drinks on Cruel (Magha, Bharni, 3 Poorvas), Sharp (Jyeshta, Ardra, Aslesha, Moola) & Shatbhish asterisms is nourishing & provides strength; Parvas should be avoided"' },
+  },
+  POISON_TAKING: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.3.11 "Meat eating, drinking & poison taking", printed p.604 (PDF 641): "Those who desire to take poison (as medicine or otherwise) should consume in the asterisms of Movable (Punarvasu, Swati, Shravana, Shatbhisha, Dhanishta), Small (Hasta, Ashvani, Pushya) & Fixed (Rohini, 3 Uttras) asterisms; on Sunday, Monday, Tuesday & Friday (J.V.). This is also a Muhurt for taking poison for the first time"' },
+  },
+  DENTAL: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Medical - Dental, cleaning teeth", printed p.272 (PDF 280): "Nakshatra: Asvini, Mrigasira, Punarvasu, Pushya, Hasta, Chitta, Sravana, Dhanishtha and Revati are best. Rohini, Uttaraphalguni, Svati, Anuradha, Jyeshtha, Uttarashadha, Satabhisha and Uttarabhadrapada are okay, though some sources do not prefer Anuradha and Jyeshtha, which may be considered as only middling. Tithi: The 2nd, 3rd, 5th, 7th, 10th, 11th and 13th Tithis are the most favorable. Avoid the 4th, 8th, 9th, 14th and 15th Tithis and the Tithi prevailing during Sankranti. Vara: Avoid the Varas of malefics and the 9th day from the previous time the teeth were cleaned. Miscellaneous: Avoid the evening and the night"' },
+  },
+  COSMETIC_SURGERY: {
+    WILHELM: { ...WILHELM_E, pageLocus: '"Medical - Surgery, cosmetic & tattoos", printed pp.274-275 (PDF 282-283): "Nakshatra: Ardra, Aslesha, Jyeshtha and Mula are particularly favorable, followed by Krittika. Tara: Not only should the Janma Nakshatra particularly be avoided, it is best if the Moon is not in the same Rasi as the natal Moon. Tithi: For cosmetic surgery the 3rd, 11th and 13th are particularly favorable, followed by the Rikta Tithis (4th, 9th and 14th). Avoid Purnima and the other generally unfavorable Tithis (6th, 8th, 12th and Amavasya). Vara: The Varas of Mars, Venus and Saturn are particularly favorable, though Varas other than that of the Sun are all acceptable. Lagna: Aries, Taurus, Cancer, Virgo and Libra are most favorable. Bhavas: The 8th must be unoccupied"' },
+  },
+  GOING_OUT_RECOVERY: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.6 "Going out after recovery", printed p.606 (PDF 643): "J.V. opines that after recovery from illness, the person should go out of his house (preferably to a temple) in asterisms of Ashvani, Hasta, Mrigshira, Shravana, Pushya, Punarvasu, Dhanishta; on a benefic day; in Shirodhya Rashi (3,5,6,7,8,11). The aspirant should see that the Moon is benefic in transit & there is a benefic omen; but should avoid malefic period. B.J.S. opines that it should be done on benefic days; in asterisms recommended for travelling; on benefic Tithis; in benefic ascendant, when the Moon is auspicious"' },
+  },
+  PUSHYA_BATH: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§16.2 "Pushya bath", printed pp.388-389 (PDF 430-431): "Acharya Varah Mihir in B.S. has given exhaustive procedure for taking bath during currency of Pushya constellation. The bath taken in Pushya star bestows comforts, fame, wealth, & expansion. The full Moon coinciding with Pushya star is par excellent. The Pushya bath taken at any other time gives half the result. The bath should be taken on seeing any portent or Ketu or Upsarga … This bath bestows kingdom (power), prosperity to public, increase in longevity, son, & good luck"' },
+  },
+  OIL_BATH: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§22.7 "Oil bath", printed pp.606-607 (PDF 643-644): "Oil bath is recommended on Monday, Wednesday & Saturday. Oil bath taken on Sunday brings sickness, worry & sensation in heart; on Monday - brings fair complexion, increases wisdom & fame; on Tuesday - untimely death & sickness; on Wednesday - brings wealth & good luck; on Thursday - brings poverty, loss of wealth; on Friday - it causes danger, trouble & loss; & on Saturday - it favours longevity, happiness & all types of prosperity … Oil bath on 10th Tithi is essential otherwise there shall be reduction of longevity, intelligence & reputation. The bath on 2,3,5,7,10 & 13th Tithis is beneficial & bestows strength, wealth, longevity & progeny. Oil bath on 1,4,6,9,14 Tithis & the New Moon has adverse aspects … K.P. opines that Shravana, Ardra, Jyeshta, U.Falguni; Janma Nakshatra & 10th & 19th therefrom; & Sankranti are inauspicious"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Oil bath", printed pp.278-279 (PDF 286-287): "Nakshatra: Ardra, Uttaraphalguni, Jyeshtha and Sravana are unfavorable for oil baths and adversely affect wealth and longevity. Tara: The Janma Nakshatra and the 10th and 19th Nakshatras from there are particularly unfavorable. Vara: The Sun\'s Vara produces a burning sensation in the heart; the Moon\'s a fair complexion; Mars\'s an untimely death; Mercury\'s wealth; Jupiter\'s danger; Venus\'s longevity; Saturn\'s happiness. The Vara of Mars, however, is favorable for a woman to take an oil bath. Tithi: The 2nd, 3rd, 5th, 7th, 10th and 13th give strength, wealth, longevity and children. The 1st, 4th, 6th, 9th and 14th Tithis and Amavasya have an adverse influence … Miscellaneous: Avoid Sankranti"' },
+  },
+  COMMENCE_TREATMENT: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Commencing Treatment", printed p.203 (PDF 205): "Nakshatra Rohini, Sravana, Satabhisha, Tithis 1/2/3/5/6/7/8/10/11/12/13/15 Weekdays Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday"' },
+  },
+  HERBAL_MEDICATION: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Commencing Herbal Medication", printed p.203 (PDF 205): "Nakshatra Bharani Tithis 1/2/3/5/6/7/8/10/11/12/13/15/- AVOID RIKTA Weekdays Sunday, Monday, Tuesday, Wednesday, Thursday, Friday Yoga Avoid Vydhruti and Vyatipata Karana Bhava, Baalava, Kaulava, Taitila, Gara, Vanija, Avoid malefic Karanas"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -10844,7 +11423,7 @@ const CODE_TA = Object.freeze({
   VENUS_CHAKRA: 'சுக்கிரனிலிருந்து எண்ணி நல்ல நட்சத்திரம் அல்ல', VRIKSHA_CHAKRA: 'விருக்ஷ சக்கரம்: தீய நட்சத்திரம் (சூரியனிலிருந்து)',
   NAVANNA_CHAKRA: 'நவான்ன சக்கரம்: தீய நட்சத்திரம் (புதனிலிருந்து)', BHU_RAJASVALA: 'பூமி ரஜஸ்வலை (சூரியன் திருவாதிரையில் நுழைந்த மூன்று நாள்)',
   AGNI_NAKSHATRA: 'அக்னி நட்சத்திர நாட்கள்', KARANA: 'நூல் சொன்ன கரணம் அல்ல', VARA_LORD_LAGNA: 'லக்னம் கிழமை அதிபதியின் ராசி அல்ல',
-  SUN_10_MID: '10-ல் சூரியன் இல்லை', MOON_4_MID: '4-ல் சந்திரன் இல்லை', MOON_LAGNA_MID: 'லக்னத்தில் சந்திரன் இல்லை', MOON_JUP_4_10_MID: '4 / 10-ல் சந்திரனோ குருவோ இல்லை',
+  SUN_10_MID: '10-ல் சூரியன் இல்லை', MOON_4_MID: '4-ல் சந்திரன் இல்லை', MOON_LAGNA_MID: 'லக்னத்தில் சந்திரன் இல்லை', SUN_LAGNA_MID: 'லக்னத்தில் சூரியன் இல்லை', MOON_JUP_4_10_MID: '4 / 10-ல் சந்திரனோ குருவோ இல்லை',
   JUP_LAGNA_MID: 'லக்னத்தில் குரு இல்லை', JUP_4_MID: '4-ல் குரு இல்லை', SAT_4_MID: '4-ல் சனி இல்லை',
   JANMA_BODY: 'ஜன்ம நட்சத்திரத்திலிருந்து எண்ணி முதுகு / பாதப் பகுதி (ஸ்ரீதர் §20.7)', CONJ: 'நூல் தவிர்க்கச் சொன்ன கிரக சேர்க்கை',
   JUP_7_MID: '7-ல் குரு இல்லை', SAT_6_MID: '6-ல் சனி இல்லை', SUN_MARS_3_10_11_MID: '3 / 10 / 11-ல் சூரியன், செவ்வாய் இல்லை', SUN_MARS_10_11_MID: '10 / 11-ல் சூரியன், செவ்வாய் இல்லை',
@@ -11673,6 +12252,7 @@ const NOTES_BATH_AFTER_MENSES_TA = Object.freeze([
   'மாதவிடாய் முடிந்து குளிக்கும் நாள் ஊர் வழக்கம்: சில இடங்களில் இரண்டாம் நாள், பொதுவாக நான்காம் நாள், சில இடங்களில் ஐந்தாம் நாள் (ஸ்ரீதர், சிந்தாமணி). நாள் உள்ளீடாக இல்லாததால் கணிக்கப்படவில்லை; தள்ளப்பட்ட நாட்களில் குளிப்பது தூய்மைக்காகக் கணக்கில் எடுக்கப்படுவதில்லை (சிந்தாமணி).',
   'மிருகசீரிடம், ரேவதி, சுவாதி, ஹஸ்தம், அசுவினி, ரோகிணியில் குளித்தால் விரைவில் கருத்தரிக்கும் (ஸ்ரீதர், சிந்தாமணி இருவரும்).',
   'முதல் மாதவிடாய்க்குப் பின் (பூப்பு) குளியல்: ஸ்ரீதர் (ஆத்ரி) ரோகிணி, அனுஷம், அசுவினி, மிருகசீரிடம், ஹஸ்தம், சுவாதி, கேட்டை, அவிட்டம், மூன்று உத்திரம்; கிழமை விளைவுகள்: திங்கள் சண்டை, வெள்ளி பயம், புதன் / சனி அழிவு, வியாழன் / ஞாயிறு / செவ்வாய் சித்தி — இது மேலுள்ள கிழமைப் பட்டியலுடன் முரண்படுவதால் தனிக் குறிப்பாக மட்டும் வைக்கப்படுகிறது.',
+  'வில்ஹெல்ம் (ப.277): மாதவிடாய்க்குப் பின் குளித்தல் — ஆரோக்கியத்துக்கும் கருத்தரிக்கவும்; கருத்தரிக்க விரும்புவோருக்கு அசுவினி, ரோகிணி, மிருகசீரிடம், ஹஸ்தம், சுவாதி, ரேவதி (திதி, கிழமை நல்லதானால்).',
 ]);
 const NOTES_SUTIKA_SNANA_TA = Object.freeze([
   'பிரசவித்த தாய் தீட்டு நீங்கி எடுக்கும் முதல் குளியல்; பொதுவாக நாமகரணம் (10 / 12-ஆம் நாள்) அன்றே; பிரசவத்துக்கு 36 மணி நேரத்துக்குள் அல்லது ஒரு வாரத்துக்குப் பின் என்பது கல்யாணராமன். நாள் உள்ளீடாக இல்லாததால் கணிக்கப்படவில்லை.',
@@ -12065,9 +12645,85 @@ const NOTES_WATER_TROUGH_TA = Object.freeze([
   'வில்ஹெல்ம் மட்டுமே: அந்தக் கட்டடத்துக்கு "மிகச் சிறப்பு" என்று சொல்லும் நட்சத்திரம்; கட்டுமானம் தொடங்குதல் பகுதியின் பொது விதிகளும் (தாரா: ஜன்ம, 10-ஆம் நட்சத்திரம் நல்லது; திதி 2, 6, 10, ஒற்றைத் திதி (9 தவிர); திங்கள், புதன், வியாழன், வெள்ளி, சனி; ஸ்திர லக்னம் சிறந்தது) இங்கும் பொருந்தும். கிணறு, குளம் "கிணறு, குளம்" செயலில்.',
 ]);
 
+const NOTES_MED_PREPARE_TA = Object.freeze([
+  'ஸ்ரீதர், வில்ஹெல்ம் இருவரின் திதி, கிழமை, லக்ன விதியும் ஒன்றே; நட்சத்திரப் பட்டியல் ஸ்ரீதரிடம் மட்டும் (பத்தொன்பது). வில்ஹெல்ம் ஸ்திர கரணத்தை "சிறப்பு", விஷ்டியைத் தள்ளு என்கிறார் (விஷ்டி தள்ளு மட்டும் கணிக்கப்படுகிறது); 6-ஆம் திதியை நல்லதாகவும் நடுநிலையாகவும் இருமுறை சொல்கிறார் (நல்லது எடுக்கப்பட்டது).',
+  'ஸ்ரீதர்: K.P. — சூரியன், செவ்வாய், சனி லக்னத்தில் அல்லது கேந்திரத்தில் இருந்தால் எல்லா நோய்க்கும் மருந்து தயாரிக்க மிகப் பலன்; J.V. — கற்பூரம், பாதரச மருந்துக்கு: கிருத்திகை, விசாகம், அசுவினி, மூலம், திருவாதிரை, மிருகசீரிடம், கேட்டை, அவிட்டம், ஹஸ்தம்; ஞாயிறு, செவ்வாய், வியாழன்; ஜய திதி; சூரியன் தனுசு, மீனத்தில் இல்லை; குரு, செவ்வாய் அஸ்தமனம் இல்லை; U.K. (தன்வந்திரி) — அமிர்த நாடியில் மருந்து தயாரித்தல் / உண்ணுதல்; ரசாயனம் — நல்ல நாள்; விஷ்டி, பத்ரா, பலவீன சந்திரன், தீய யோகம் தள்ளு; பஞ்சகத்தின் கடைசி மூன்று நட்சத்திரம் தள்ளு என்று சிலர் — இவை குறிப்பாக மட்டும்.',
+]);
+const NOTES_BLOOD_PURIFY_TA = Object.freeze([
+  'ஸ்ரீதர் மட்டுமே. அச்சில் "Bhami" என்பது பரணி. மருந்து கொடுக்கும் பொது விதிகள் "மருந்து உட்கொள்ளுதல்" செயலில்.',
+]);
+const NOTES_PURGATIVE_TA = Object.freeze([
+  'ஸ்ரீதர் இரத்தச் சுத்திக்கான எட்டு நட்சத்திரத்தை இங்கும் சொல்கிறார்; வில்ஹெல்ம் (பேதி மருந்து, எனிமா, கோலன் சுத்தம்) பதினொன்று தருகிறார் — பரணி அவரிடம் இல்லை, அசுவினி, ரோகிணி, பூசம், ஹஸ்தம் உண்டு. இருவரும் புதன், சனி தள்ளுகின்றனர்.',
+]);
+const NOTES_TYPHOID_TA = Object.freeze([
+  'ஸ்ரீதர், வில்ஹெல்ம் இருவரும் ஒரே நான்கு நட்சத்திரம், ரிக்தா திதி, ஞாயிறு (ஸ்ரீதர்: K.P.) சொல்கின்றனர்.',
+]);
+const NOTES_VENEREAL_TA = Object.freeze([
+  'இருவரும் அமாவாசை, மேஷம் அல்லது கடக லக்னம், லகு / உக்ர / சர நட்சத்திரம் என்று ஒரே விதி சொல்கின்றனர் (ஸ்ரீதர்: K.P.).',
+]);
+const NOTES_GONORRHOEA_TA = Object.freeze([
+  'இருவரும் ரிக்தா திதி, புதன், லகு / உக்ர / சர நட்சத்திரம் என்று சொல்கின்றனர்.',
+]);
+const NOTES_RHEUMATISM_TA = Object.freeze([
+  'இருவரும் ஜய திதி (3, 8, 13), வியாழன், அசுவினி, ஆயில்யம், திருவோணம் என்று சொல்கின்றனர்.',
+]);
+const NOTES_BILE_ILLNESS_TA = Object.freeze([
+  'ஸ்ரீதர் மட்டுமே; அச்சில் "Illness related to bile" (§22.3.7) — அடுத்த "Bilious disorder" (§22.3.8, வில்ஹெல்மும் சொல்வது) வேறு விதி தருகிறது: அது "பித்தக் கோளாறு" செயல்.',
+]);
+const NOTES_BILIOUS_TA = Object.freeze([
+  'இருவரும் நந்தா திதி (1, 6, 11), வியாழன், பூசம், சுவாதி, மூலம், சர லக்னம் என்று சொல்கின்றனர்.',
+]);
+const NOTES_PHLEGM_WIND_TA = Object.freeze([
+  'இருவரும் செவ்வாய், பரணி, கிருத்திகை, திருவாதிரை, சர லக்னம் என்று சொல்கின்றனர்.',
+]);
+const NOTES_LEPROSY_TA = Object.freeze([
+  'இருவரும் ஒரே ஒன்பது நட்சத்திரம், ஒரே லக்னம் (மேஷம், சிம்மம், விருச்சிகம், மகரம், கும்பம்), 8-ல் பாபன் என்று சொல்கின்றனர். வில்ஹெல்ம் நட்சத்திரத்தைக் கிழமையோடு இணைக்கிறார்: செவ்வாய் — மிருகசீரிடம், சித்திரை, அவிட்டம்; சனி — பூசம், அனுஷம், உத்திரட்டாதி; ஞாயிறு — கிருத்திகை, உத்திரம், உத்திராடம் (இங்கே ஒன்பது நட்சத்திரமும் மூன்று கிழமையும் தனித்தனியாக; இணைப்பு குறிப்பு).',
+]);
+const NOTES_ASCITES_TA = Object.freeze([
+  'வில்ஹெல்ம் மட்டுமே: செவ்வாய் கிழமை, ஏழு நட்சத்திரம்.',
+]);
+const NOTES_CONSUMPTION_TA = Object.freeze([
+  'வில்ஹெல்ம் மட்டுமே: கிருத்திகை அல்லது விசாகம்; வக்ர கிரகம் சந்திரனைப் பார்க்க (குறிப்பு); விஷ்டியைத் தவிர எந்தக் கரணமும்.',
+]);
+const NOTES_EPILEPSY_TA = Object.freeze([
+  'வில்ஹெல்ம் மட்டுமே: உபய அல்லது சர ராசி லக்னம், அதில் சூரியனும் சந்திரனும்; ஸ்திர ராசி தள்ளு. நட்சத்திரம் சொல்லப்படவில்லை.',
+]);
+const NOTES_MEAT_EATING_TA = Object.freeze([
+  'ஸ்ரீதர் (J.V.) மட்டுமே; ஒரே பகுதியின் மூன்று விதிகளில் முதலாவது — மற்றவை "மதுபானம் தயாரித்து உண்ணுதல்", "விஷம் உண்ணுதல்".',
+]);
+const NOTES_INTOXICANT_TAKING_TA = Object.freeze([
+  'ஸ்ரீதர் (J.V.) மட்டுமே; பர்வ திதி தள்ளு (குறிப்பு). மதுபானத் தொழில் தனிச் செயல் ("மது தயாரித்தல், விற்றல்").',
+]);
+const NOTES_POISON_TAKING_TA = Object.freeze([
+  'ஸ்ரீதர் (J.V.) மட்டுமே: "விஷம் உண்ண விரும்புவோர்" (மருந்தாகவோ வேறுவகையிலோ) — முதன்முறை உண்ணவும் இதே முகூர்த்தம்.',
+]);
+const NOTES_DENTAL_TA = Object.freeze([
+  'வில்ஹெல்ம் மட்டுமே: ஒன்பது நல்லவை; எட்டு "சரி" (அனுஷம், கேட்டை சிலர் விரும்பவில்லை — நடுநிலை) — அனைத்தும் இங்கே நடுநிலை. பல் பிடுங்குதல், துளையிடல் "அறுவை சிகிச்சை" செயலில்; முன்னர் பல் தேய்த்த நாளிலிருந்து 9-ஆம் நாள், போர்க்களம், ஊரில்லா இடம், பயண நாள், குளித்த / உண்ட / எண்ணெய் தேய்த்த பின், மனைவி கர்ப்பம் — குறிப்பு.',
+]);
+const NOTES_COSMETIC_SURGERY_TA = Object.freeze([
+  'வில்ஹெல்ம் மட்டுமே: சாதாரண அறுவை சிகிச்சையின் (அறுவை செயல்) விதிகளுடன் கூடுதல். ரிக்தா (4, 9, 14) 3, 11, 13க்கு அடுத்த நிலை; பௌர்ணமி, 6, 8, 12, அமாவாசை தள்ளு; செவ்வாய், வெள்ளி, சனி சிறப்பு, ஞாயிறு தள்ளு; 8 காலி; செவ்வாய் சனியால் பாதிக்கப்படாதது; அறுவைக்குள்ளாகும் உறுப்பின் பாவம், அதன் அதிபதி நன்றாக (குறிப்பு); ஜன்ம நட்சத்திரம், ஜன்ம ராசியில் சந்திரன் தள்ளு (குறிப்பு). 4, 9, 14-ஆம் திதி செவ்வாய் / சனிக்கிழமையில் திருவாதிரை, ஆயில்யம், கேட்டை, மூலத்தில் — குறிப்பு.',
+]);
+const NOTES_GOING_OUT_RECOVERY_TA = Object.freeze([
+  'ஸ்ரீதர் மட்டுமே: J.V. — அசுவினி, ஹஸ்தம், மிருகசீரிடம், திருவோணம், பூசம், புனர்பூசம், அவிட்டம்; சுப நாள்; சிரோதய ராசி (3, 5, 6, 7, 8, 11); சந்திரன் கோசாரத்தில் நல்லது; நல்ல சகுனம். B.J.S. — சுப நாள், பயணத்துக்குச் சொன்ன நட்சத்திரம், சுப திதி, சுப லக்னம், நல்ல சந்திரன் (பயணச் செயலில்).',
+]);
+const NOTES_PUSHYA_BATH_TA = Object.freeze([
+  'ஸ்ரீதர் (வராகமிஹிரர், B.S. 48): சந்திரன் பூசத்தில் இருக்கும்போது நீராடுதல் சுகம், புகழ், செல்வம், வளர்ச்சி தரும்; பூசத்துடன் பௌர்ணமி சேர்ந்தால் மிகச் சிறப்பு; மற்ற நேரத்தில் பாதிப் பலன்; அபசகுனம், கேது தோன்றுதல், உற்பாதம் காணும்போதும் செய்யலாம் — "இதைவிட மங்கள காரியம் இல்லை". நீராடல் முறை B.S.-இல் (இங்கே இல்லை).',
+]);
+const NOTES_OIL_BATH_TA = Object.freeze([
+  'ஸ்ரீதர், வில்ஹெல்ம் இருவரும்: திங்கள், புதன், சனி நல்லவை; ஞாயிறு தள்ளு; திதி 2, 3, 5, 7, 10, 13 நல்லவை; 1, 4, 6, 9, 14, அமாவாசை தள்ளு (நெய் கலந்தால் தோஷமில்லை); 10-ஆம் திதி எண்ணெய் இன்றிக் குளித்தால் தீது; சங்கிராந்தி தள்ளு. வேறுபாடு: செவ்வாய் (ஸ்ரீதர்: அகால மரணம்; வில்ஹெல்ம் அதையே, ஆனால் பெண்ணுக்கு நல்லது), வியாழன் (ஸ்ரீதர்: வறுமை; வில்ஹெல்ம்: ஆபத்து), வெள்ளி (ஸ்ரீதர்: ஆபத்து; வில்ஹெல்ம்: நீண்ட ஆயுள் — அதனால் அங்கே நல்லது) — அச்சில் உள்ளபடி.',
+  'ஸ்ரீதர்: K.P. — திருவோணம், திருவாதிரை, கேட்டை, உத்திரம், ஜன்ம நட்சத்திரம், அதிலிருந்து 10, 19; சங்கிராந்தி தள்ளு; U.K. — திருவோணம், திருவாதிரை, கேட்டை, அசுவினி தள்ளு (இரண்டையும் சேர்த்து ஐந்து நட்சத்திரம் தள்ளப்படுகிறது); J.V. வேறு பட்டியல்: திதி 2, 6, 7, 9, 10, 11, அமாவாசை; செவ்வாய், வியாழன், வெள்ளி; மூலம், மகம், திருவாதிரை, ஆயில்யம், பரணி, விசாகம், கிருத்திகை — குறிப்பு; N.S.: வ்யதீபாதம், வைதிருதி, சங்கிராந்தி, 6, 11, ஞாயிறு, செவ்வாய் தள்ளு; மூலிகை, மணம் கலந்த எண்ணெய்க்குத் தோஷம் இல்லை. நெல்லிக்காய் குளியல், உப்டான் தடவுதல் வேறு திதி விதிகள் உள்ளன (குறிப்பு).',
+  'வில்ஹெல்ம்: திருவாதிரை, உத்திரம், கேட்டை, திருவோணம் தள்ளு; ஜன்ம, 10, 19-ஆம் நட்சத்திரம் தள்ளு; வியாழன் + சுவாதி + 3 / 8-ஆம் திதி சிறப்பு.',
+]);
+const NOTES_COMMENCE_TREATMENT_TA = Object.freeze([
+  'கல்யாணராமன் மட்டுமே: மூன்று நட்சத்திரம்; எல்லா ஏழு கிழமையும். மருந்து உண்ணுதல், அறுவை சிகிச்சை தனிச் செயல்கள்.',
+]);
+const NOTES_HERBAL_MEDICATION_TA = Object.freeze([
+  'கல்யாணராமன் மட்டுமே: பரணி ஒன்றே; ரிக்தா தள்ளு; சனி தவிர எல்லாக் கிழமையும்; வ்யதீபாதம், வைதிருதி தள்ளு; கரணம் பவம் முதல் வணிசை வரை (தீய கரணம் தள்ளு).',
+]);
+
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING', 'ARMY_RAISE', 'WAR_START', 'WEAPON_MAKE', 'WEAPON_WEAR', 'MISSILE_SETUP', 'ARMY_CAMP', 'DAGGER_TIE', 'TREATY', 'MINT_COINS', 'CATCH_THIEF', 'BOAT_SHIP', 'WEAVING', 'POTTERY', 'PAINTING', 'SCULPTURE', 'CRAFT_LEARN', 'LEATHER', 'SALON', 'WINE', 'BED_MAKING', 'PERFORMING', 'DAIRY', 'BRICK_KILN', 'METAL_IRON', 'GRINDING_MILL', 'WASHERMAN', 'SALT', 'SPORTS', 'BRIDGE_DAM', 'PERFUME', 'BETEL', 'GEMOLOGY', 'LIBRARY', 'LATHE', 'ADOPTION', 'OATH_MASS', 'CASTRATION', 'GARBHADHANA', 'PUMSAVANA', 'SEEMANTA', 'JATAKARMA', 'NAMAKARANA', 'NISHKRAMANA', 'ANNAPRASHANA', 'CHUDAKARANA', 'SHAVING', 'KARNAVEDHA', 'KESHANTA', 'SAMAVARTANA', 'ANKURARPANA', 'PRET_KRIYA', 'PUTTAL_DAHA', 'BATH_AFTER_MENSES', 'SUTIKA_SNANA', 'BREAST_FEEDING', 'FIRST_MILK', 'JALA_PUJA', 'CHILD_BED', 'DOLAROHANA', 'BHUMYUPAVESHANA', 'CHILD_BETEL', 'KANYA_VARANA', 'VARA_VARANA', 'INVITATION_LETTERS', 'MANDAP', 'VADHU_PRAVESHA', 'DWIRAGAMANA', 'NISHEKA', 'FIRST_COOKING', 'FIRST_RETURN', 'REMARRIAGE', 'LOVE_MARRIAGE', 'LEARN_MATHEMATICS', 'LEARN_ASTROLOGY', 'LEARN_VEDAS_GRAMMAR', 'VEDARAMBHA', 'LEARN_PHILOSOPHY', 'LEARN_LOGIC', 'LEARN_MEDICINE', 'LEARN_ARMS', 'LEARN_MUSIC_DANCE', 'LEARN_INSTRUMENTS', 'LEARN_OTHER_RELIGIONS', 'LEARN_FOREIGN_LANGUAGES', 'LEARN_LAW', 'START_WRITING', 'LEARN_NUMEROLOGY', 'LEARN_WATER_DIVINING', 'LEARN_COMPUTING', 'LEARN_POSITIVE_SCIENCES', 'LEARN_CULINARY_STATECRAFT', 'LEARN_PHRENOLOGY', 'LEARN_HIGHER_STUDIES', 'LEARN_SHUDRA_MANTRAS', 'YOKING_OXEN', 'HYDRAULIC_DEVICES', 'MANURING', 'AGRI_IMPLEMENTS', 'IMPLEMENT_TRAINING', 'STORING_SEEDS', 'SELL_PRODUCE', 'SUGARCANE_JUICE', 'MUSTARD_OIL', 'CAMEL_BIRD_TRADE', 'SHANTI_KARMA', 'EXPIATORY', 'VASTU_POOJA', 'LIE_DETECTOR', 'GOVT_DEALINGS', 'SKILLED_TRAINING', 'SEEK_POWER_ALLIANCE', 'ENEMY_OVERPOWER', 'KAVACHA', 'HYPNOTISM', 'VENTURE_PERMANENT', 'PEACE_FIXED', 'EPHEMERAL', 'SENSUAL_SPORTS', 'AMOROUS', 'LEISURE_LEARNING', 'EXCAVATION', 'UNDERGROUND_WORKS', 'COMPOUND_WALL', 'MIXING', 'AUTO_WORKSHOP', 'TESTING_GADGETS', 'OVEN_TAMING', 'VET_REPAIR', 'DELIVERY_ADMISSION', 'VIP_WOMAN_CLOTHES', 'GOLD_TRADE', 'GENTLE_ANIMALS', 'VIOLENT_ANIMALS', 'TRAIN_RIDE', 'BRICK_LAYING', 'WHITEWASH', 'CLEAN_HOUSE', 'KITCHEN_BUILD', 'DOMESTIC_ITEMS', 'FORT_BUILD', 'CITY_FOUNDING', 'CITY_ENTRY', 'ROAD_GATE', 'GRANARY_BUILD', 'RESTAURANT_BUILD', 'DINING_HALL', 'BED_CHAMBER', 'LAMP_ROOM', 'OVEN_INSTALL', 'DORMITORY', 'WATER_TROUGH'],
-  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING, ARMY_RAISE, WAR_START, WEAPON_MAKE, WEAPON_WEAR, MISSILE_SETUP, ARMY_CAMP, DAGGER_TIE, TREATY, MINT_COINS, CATCH_THIEF, BOAT_SHIP, WEAVING, POTTERY, PAINTING, SCULPTURE, CRAFT_LEARN, LEATHER, SALON, WINE, BED_MAKING, PERFORMING, DAIRY, BRICK_KILN, METAL_IRON, GRINDING_MILL, WASHERMAN, SALT, SPORTS, BRIDGE_DAM, PERFUME, BETEL, GEMOLOGY, LIBRARY, LATHE, ADOPTION, OATH_MASS, CASTRATION, GARBHADHANA, PUMSAVANA, SEEMANTA, JATAKARMA, NAMAKARANA, NISHKRAMANA, ANNAPRASHANA, CHUDAKARANA, SHAVING, KARNAVEDHA, KESHANTA, SAMAVARTANA, ANKURARPANA, PRET_KRIYA, PUTTAL_DAHA, BATH_AFTER_MENSES, SUTIKA_SNANA, BREAST_FEEDING, FIRST_MILK, JALA_PUJA, CHILD_BED, DOLAROHANA, BHUMYUPAVESHANA, CHILD_BETEL, KANYA_VARANA, VARA_VARANA, INVITATION_LETTERS, MANDAP, VADHU_PRAVESHA, DWIRAGAMANA, NISHEKA, FIRST_COOKING, FIRST_RETURN, REMARRIAGE, LOVE_MARRIAGE, LEARN_MATHEMATICS, LEARN_ASTROLOGY, LEARN_VEDAS_GRAMMAR, VEDARAMBHA, LEARN_PHILOSOPHY, LEARN_LOGIC, LEARN_MEDICINE, LEARN_ARMS, LEARN_MUSIC_DANCE, LEARN_INSTRUMENTS, LEARN_OTHER_RELIGIONS, LEARN_FOREIGN_LANGUAGES, LEARN_LAW, START_WRITING, LEARN_NUMEROLOGY, LEARN_WATER_DIVINING, LEARN_COMPUTING, LEARN_POSITIVE_SCIENCES, LEARN_CULINARY_STATECRAFT, LEARN_PHRENOLOGY, LEARN_HIGHER_STUDIES, LEARN_SHUDRA_MANTRAS, YOKING_OXEN, HYDRAULIC_DEVICES, MANURING, AGRI_IMPLEMENTS, IMPLEMENT_TRAINING, STORING_SEEDS, SELL_PRODUCE, SUGARCANE_JUICE, MUSTARD_OIL, CAMEL_BIRD_TRADE, SHANTI_KARMA, EXPIATORY, VASTU_POOJA, LIE_DETECTOR, GOVT_DEALINGS, SKILLED_TRAINING, SEEK_POWER_ALLIANCE, ENEMY_OVERPOWER, KAVACHA, HYPNOTISM, VENTURE_PERMANENT, PEACE_FIXED, EPHEMERAL, SENSUAL_SPORTS, AMOROUS, LEISURE_LEARNING, EXCAVATION, UNDERGROUND_WORKS, COMPOUND_WALL, MIXING, AUTO_WORKSHOP, TESTING_GADGETS, OVEN_TAMING, VET_REPAIR, DELIVERY_ADMISSION, VIP_WOMAN_CLOTHES, GOLD_TRADE, GENTLE_ANIMALS, VIOLENT_ANIMALS, TRAIN_RIDE, BRICK_LAYING, WHITEWASH, CLEAN_HOUSE, KITCHEN_BUILD, DOMESTIC_ITEMS, FORT_BUILD, CITY_FOUNDING, CITY_ENTRY, ROAD_GATE, GRANARY_BUILD, RESTAURANT_BUILD, DINING_HALL, BED_CHAMBER, LAMP_ROOM, OVEN_INSTALL, DORMITORY, WATER_TROUGH,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING', 'ARMY_RAISE', 'WAR_START', 'WEAPON_MAKE', 'WEAPON_WEAR', 'MISSILE_SETUP', 'ARMY_CAMP', 'DAGGER_TIE', 'TREATY', 'MINT_COINS', 'CATCH_THIEF', 'BOAT_SHIP', 'WEAVING', 'POTTERY', 'PAINTING', 'SCULPTURE', 'CRAFT_LEARN', 'LEATHER', 'SALON', 'WINE', 'BED_MAKING', 'PERFORMING', 'DAIRY', 'BRICK_KILN', 'METAL_IRON', 'GRINDING_MILL', 'WASHERMAN', 'SALT', 'SPORTS', 'BRIDGE_DAM', 'PERFUME', 'BETEL', 'GEMOLOGY', 'LIBRARY', 'LATHE', 'ADOPTION', 'OATH_MASS', 'CASTRATION', 'GARBHADHANA', 'PUMSAVANA', 'SEEMANTA', 'JATAKARMA', 'NAMAKARANA', 'NISHKRAMANA', 'ANNAPRASHANA', 'CHUDAKARANA', 'SHAVING', 'KARNAVEDHA', 'KESHANTA', 'SAMAVARTANA', 'ANKURARPANA', 'PRET_KRIYA', 'PUTTAL_DAHA', 'BATH_AFTER_MENSES', 'SUTIKA_SNANA', 'BREAST_FEEDING', 'FIRST_MILK', 'JALA_PUJA', 'CHILD_BED', 'DOLAROHANA', 'BHUMYUPAVESHANA', 'CHILD_BETEL', 'KANYA_VARANA', 'VARA_VARANA', 'INVITATION_LETTERS', 'MANDAP', 'VADHU_PRAVESHA', 'DWIRAGAMANA', 'NISHEKA', 'FIRST_COOKING', 'FIRST_RETURN', 'REMARRIAGE', 'LOVE_MARRIAGE', 'LEARN_MATHEMATICS', 'LEARN_ASTROLOGY', 'LEARN_VEDAS_GRAMMAR', 'VEDARAMBHA', 'LEARN_PHILOSOPHY', 'LEARN_LOGIC', 'LEARN_MEDICINE', 'LEARN_ARMS', 'LEARN_MUSIC_DANCE', 'LEARN_INSTRUMENTS', 'LEARN_OTHER_RELIGIONS', 'LEARN_FOREIGN_LANGUAGES', 'LEARN_LAW', 'START_WRITING', 'LEARN_NUMEROLOGY', 'LEARN_WATER_DIVINING', 'LEARN_COMPUTING', 'LEARN_POSITIVE_SCIENCES', 'LEARN_CULINARY_STATECRAFT', 'LEARN_PHRENOLOGY', 'LEARN_HIGHER_STUDIES', 'LEARN_SHUDRA_MANTRAS', 'YOKING_OXEN', 'HYDRAULIC_DEVICES', 'MANURING', 'AGRI_IMPLEMENTS', 'IMPLEMENT_TRAINING', 'STORING_SEEDS', 'SELL_PRODUCE', 'SUGARCANE_JUICE', 'MUSTARD_OIL', 'CAMEL_BIRD_TRADE', 'SHANTI_KARMA', 'EXPIATORY', 'VASTU_POOJA', 'LIE_DETECTOR', 'GOVT_DEALINGS', 'SKILLED_TRAINING', 'SEEK_POWER_ALLIANCE', 'ENEMY_OVERPOWER', 'KAVACHA', 'HYPNOTISM', 'VENTURE_PERMANENT', 'PEACE_FIXED', 'EPHEMERAL', 'SENSUAL_SPORTS', 'AMOROUS', 'LEISURE_LEARNING', 'EXCAVATION', 'UNDERGROUND_WORKS', 'COMPOUND_WALL', 'MIXING', 'AUTO_WORKSHOP', 'TESTING_GADGETS', 'OVEN_TAMING', 'VET_REPAIR', 'DELIVERY_ADMISSION', 'VIP_WOMAN_CLOTHES', 'GOLD_TRADE', 'GENTLE_ANIMALS', 'VIOLENT_ANIMALS', 'TRAIN_RIDE', 'BRICK_LAYING', 'WHITEWASH', 'CLEAN_HOUSE', 'KITCHEN_BUILD', 'DOMESTIC_ITEMS', 'FORT_BUILD', 'CITY_FOUNDING', 'CITY_ENTRY', 'ROAD_GATE', 'GRANARY_BUILD', 'RESTAURANT_BUILD', 'DINING_HALL', 'BED_CHAMBER', 'LAMP_ROOM', 'OVEN_INSTALL', 'DORMITORY', 'WATER_TROUGH', 'MED_PREPARE', 'BLOOD_PURIFY', 'PURGATIVE', 'TYPHOID', 'VENEREAL', 'GONORRHOEA', 'RHEUMATISM', 'BILE_ILLNESS', 'BILIOUS', 'PHLEGM_WIND', 'LEPROSY', 'ASCITES', 'CONSUMPTION', 'EPILEPSY', 'MEAT_EATING', 'INTOXICANT_TAKING', 'POISON_TAKING', 'DENTAL', 'COSMETIC_SURGERY', 'GOING_OUT_RECOVERY', 'PUSHYA_BATH', 'OIL_BATH', 'COMMENCE_TREATMENT', 'HERBAL_MEDICATION'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING, ARMY_RAISE, WAR_START, WEAPON_MAKE, WEAPON_WEAR, MISSILE_SETUP, ARMY_CAMP, DAGGER_TIE, TREATY, MINT_COINS, CATCH_THIEF, BOAT_SHIP, WEAVING, POTTERY, PAINTING, SCULPTURE, CRAFT_LEARN, LEATHER, SALON, WINE, BED_MAKING, PERFORMING, DAIRY, BRICK_KILN, METAL_IRON, GRINDING_MILL, WASHERMAN, SALT, SPORTS, BRIDGE_DAM, PERFUME, BETEL, GEMOLOGY, LIBRARY, LATHE, ADOPTION, OATH_MASS, CASTRATION, GARBHADHANA, PUMSAVANA, SEEMANTA, JATAKARMA, NAMAKARANA, NISHKRAMANA, ANNAPRASHANA, CHUDAKARANA, SHAVING, KARNAVEDHA, KESHANTA, SAMAVARTANA, ANKURARPANA, PRET_KRIYA, PUTTAL_DAHA, BATH_AFTER_MENSES, SUTIKA_SNANA, BREAST_FEEDING, FIRST_MILK, JALA_PUJA, CHILD_BED, DOLAROHANA, BHUMYUPAVESHANA, CHILD_BETEL, KANYA_VARANA, VARA_VARANA, INVITATION_LETTERS, MANDAP, VADHU_PRAVESHA, DWIRAGAMANA, NISHEKA, FIRST_COOKING, FIRST_RETURN, REMARRIAGE, LOVE_MARRIAGE, LEARN_MATHEMATICS, LEARN_ASTROLOGY, LEARN_VEDAS_GRAMMAR, VEDARAMBHA, LEARN_PHILOSOPHY, LEARN_LOGIC, LEARN_MEDICINE, LEARN_ARMS, LEARN_MUSIC_DANCE, LEARN_INSTRUMENTS, LEARN_OTHER_RELIGIONS, LEARN_FOREIGN_LANGUAGES, LEARN_LAW, START_WRITING, LEARN_NUMEROLOGY, LEARN_WATER_DIVINING, LEARN_COMPUTING, LEARN_POSITIVE_SCIENCES, LEARN_CULINARY_STATECRAFT, LEARN_PHRENOLOGY, LEARN_HIGHER_STUDIES, LEARN_SHUDRA_MANTRAS, YOKING_OXEN, HYDRAULIC_DEVICES, MANURING, AGRI_IMPLEMENTS, IMPLEMENT_TRAINING, STORING_SEEDS, SELL_PRODUCE, SUGARCANE_JUICE, MUSTARD_OIL, CAMEL_BIRD_TRADE, SHANTI_KARMA, EXPIATORY, VASTU_POOJA, LIE_DETECTOR, GOVT_DEALINGS, SKILLED_TRAINING, SEEK_POWER_ALLIANCE, ENEMY_OVERPOWER, KAVACHA, HYPNOTISM, VENTURE_PERMANENT, PEACE_FIXED, EPHEMERAL, SENSUAL_SPORTS, AMOROUS, LEISURE_LEARNING, EXCAVATION, UNDERGROUND_WORKS, COMPOUND_WALL, MIXING, AUTO_WORKSHOP, TESTING_GADGETS, OVEN_TAMING, VET_REPAIR, DELIVERY_ADMISSION, VIP_WOMAN_CLOTHES, GOLD_TRADE, GENTLE_ANIMALS, VIOLENT_ANIMALS, TRAIN_RIDE, BRICK_LAYING, WHITEWASH, CLEAN_HOUSE, KITCHEN_BUILD, DOMESTIC_ITEMS, FORT_BUILD, CITY_FOUNDING, CITY_ENTRY, ROAD_GATE, GRANARY_BUILD, RESTAURANT_BUILD, DINING_HALL, BED_CHAMBER, LAMP_ROOM, OVEN_INSTALL, DORMITORY, WATER_TROUGH, MED_PREPARE, BLOOD_PURIFY, PURGATIVE, TYPHOID, VENEREAL, GONORRHOEA, RHEUMATISM, BILE_ILLNESS, BILIOUS, PHLEGM_WIND, LEPROSY, ASCITES, CONSUMPTION, EPILEPSY, MEAT_EATING, INTOXICANT_TAKING, POISON_TAKING, DENTAL, COSMETIC_SURGERY, GOING_OUT_RECOVERY, PUSHYA_BATH, OIL_BATH, COMMENCE_TREATMENT, HERBAL_MEDICATION,
 });
 
 /**
@@ -12317,6 +12973,30 @@ module.exports = {
     OVEN_INSTALL: NOTES_OVEN_INSTALL_TA,
     DORMITORY: NOTES_DORMITORY_TA,
     WATER_TROUGH: NOTES_WATER_TROUGH_TA,
+    MED_PREPARE: NOTES_MED_PREPARE_TA,
+    BLOOD_PURIFY: NOTES_BLOOD_PURIFY_TA,
+    PURGATIVE: NOTES_PURGATIVE_TA,
+    TYPHOID: NOTES_TYPHOID_TA,
+    VENEREAL: NOTES_VENEREAL_TA,
+    GONORRHOEA: NOTES_GONORRHOEA_TA,
+    RHEUMATISM: NOTES_RHEUMATISM_TA,
+    BILE_ILLNESS: NOTES_BILE_ILLNESS_TA,
+    BILIOUS: NOTES_BILIOUS_TA,
+    PHLEGM_WIND: NOTES_PHLEGM_WIND_TA,
+    LEPROSY: NOTES_LEPROSY_TA,
+    ASCITES: NOTES_ASCITES_TA,
+    CONSUMPTION: NOTES_CONSUMPTION_TA,
+    EPILEPSY: NOTES_EPILEPSY_TA,
+    MEAT_EATING: NOTES_MEAT_EATING_TA,
+    INTOXICANT_TAKING: NOTES_INTOXICANT_TAKING_TA,
+    POISON_TAKING: NOTES_POISON_TAKING_TA,
+    DENTAL: NOTES_DENTAL_TA,
+    COSMETIC_SURGERY: NOTES_COSMETIC_SURGERY_TA,
+    GOING_OUT_RECOVERY: NOTES_GOING_OUT_RECOVERY_TA,
+    PUSHYA_BATH: NOTES_PUSHYA_BATH_TA,
+    OIL_BATH: NOTES_OIL_BATH_TA,
+    COMMENCE_TREATMENT: NOTES_COMMENCE_TREATMENT_TA,
+    HERBAL_MEDICATION: NOTES_HERBAL_MEDICATION_TA,
   }),
   AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS, BATH_MC_18, BATH_KR_18, BATH_13,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,

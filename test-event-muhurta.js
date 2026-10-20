@@ -2434,4 +2434,82 @@ const RF = FIX.roga_snana;
   assert.ok(acts8.length >= 225, `the whole table now has ${acts8.length} acts`);
 }
 
+// ------------------------------------------------ medicine and bathing leftovers ---
+{
+  const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'PPhalguni', 'UPhalguni', 'Hasta',
+    'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Moola', 'PAshadha', 'UAshadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'PBhadra', 'UBhadra', 'Revati'];
+  const ev = (a, b) => E.EVENTS[a][b];
+  const good = (a, b) => sorted(ev(a, b).nak.good);
+  const st = (...ns) => sorted(ns.map((n) => NAMES.indexOf(n)));
+  // Preparing medicines: Shridhar's nineteen stars; Wilhelm names none but prints the same tithis, weekdays, lagnas and empty houses.
+  assert.equal(good('MED_PREPARE', 'SHRIDHAR').length, 19);
+  assert.ok(!ev('MED_PREPARE', 'WILHELM').nak, 'Wilhelm names no star for medicines');
+  for (const b of ['SHRIDHAR', 'WILHELM']) {
+    assert.deepEqual(ev('MED_PREPARE', b).empty, [6, 7, 8], `${b}: 6, 7, 8 empty`);
+    assert.deepEqual(sorted(ev('MED_PREPARE', b).lagna.good), [0, 3, 6, 9], `${b}: movable signs best`);
+    assert.deepEqual(sorted(ev('MED_PREPARE', b).vara.good), [0, 1, 3, 4, 5], `${b}: five weekdays`);
+    assert.ok(ev('MED_PREPARE', b).tithiNot.includes(2) && ev('MED_PREPARE', b).tithiNot.includes(12), `${b}: 2 and 12 barred`);
+  }
+  // Blood and purging: Shridhar's eight stars for both; Wilhelm's eleven for laxatives; Wednesday and Saturday barred.
+  assert.equal(good('BLOOD_PURIFY', 'SHRIDHAR').length, 8);
+  assert.deepEqual(good('PURGATIVE', 'SHRIDHAR'), good('BLOOD_PURIFY', 'SHRIDHAR'));
+  assert.equal(good('PURGATIVE', 'WILHELM').length, 11);
+  assert.equal(E.EVENTS.PURGATIVE.default, 'WILHELM', 'Wilhelm explains more (45 against 18 words)');
+  for (const b of ['SHRIDHAR', 'WILHELM']) assert.deepEqual(sorted(ev('PURGATIVE', b).vara.good), [0, 1, 2, 4, 5], `${b}: Wednesday and Saturday barred`);
+  // The seven diseases the two books print identically.
+  const SAME = { TYPHOID: 4, VENEREAL: 13, GONORRHOEA: 13, RHEUMATISM: 3, BILIOUS: 3, PHLEGM_WIND: 3, LEPROSY: 9 };
+  for (const [a, n] of Object.entries(SAME)) {
+    assert.equal(good(a, 'SHRIDHAR').length, n, `${a}: ${n} stars`);
+    assert.deepEqual(good(a, 'WILHELM'), good(a, 'SHRIDHAR'), `${a}: the two books agree`);
+    assert.deepEqual(sorted(ev(a, 'WILHELM').vara?.good ?? []), sorted(ev(a, 'SHRIDHAR').vara?.good ?? []), `${a}: the same weekdays`);
+  }
+  assert.deepEqual(good('TYPHOID', 'WILHELM'), st('Ardra', 'Bharani', 'Vishakha', 'Anuradha'));
+  assert.deepEqual(ev('VENEREAL', 'WILHELM').tithi, [30], 'the new moon');
+  assert.deepEqual(sorted(ev('VENEREAL', 'SHRIDHAR').lagna.good), [0, 3], 'Aries or Cancer');
+  assert.deepEqual(sorted(ev('LEPROSY', 'WILHELM').lagna.good), [0, 4, 7, 9, 10]);
+  assert.equal(ev('LEPROSY', 'SHRIDHAR').want.length, 1, 'a malefic in the 8th');
+  assert.deepEqual(sorted(ev('RHEUMATISM', 'SHRIDHAR').vara.good), [4], 'Thursday');
+  // Wilhelm-only diseases.
+  assert.equal(good('ASCITES', 'WILHELM').length, 7);
+  assert.deepEqual(good('CONSUMPTION', 'WILHELM'), st('Krittika', 'Vishakha'));
+  assert.ok(!ev('EPILEPSY', 'WILHELM').nak && ev('EPILEPSY', 'WILHELM').lagna.good.length === 8, 'epilepsy: movable and dual signs, no star');
+  assert.equal(ev('EPILEPSY', 'WILHELM').want.length, 2, 'the Sun and the Moon in the lagna');
+  // Shridhar's three taking rules.
+  assert.deepEqual(sorted(ev('MEAT_EATING', 'SHRIDHAR').vara.good), [0, 2, 5, 6]);
+  assert.equal(good('INTOXICANT_TAKING', 'SHRIDHAR').length, 10);
+  assert.equal(good('POISON_TAKING', 'SHRIDHAR').length, 12);
+  assert.deepEqual(sorted(ev('POISON_TAKING', 'SHRIDHAR').vara.good), [0, 1, 2, 5]);
+  // Dental and cosmetic surgery (Wilhelm).
+  assert.equal(good('DENTAL', 'WILHELM').length, 9);
+  assert.equal(ev('DENTAL', 'WILHELM').nak.mid.length, 8);
+  assert.ok(ev('DENTAL', 'WILHELM').dayParts && ev('DENTAL', 'WILHELM').sankranti, 'no evening or night; no Sankranti');
+  assert.deepEqual(good('COSMETIC_SURGERY', 'WILHELM'), st('Ardra', 'Ashlesha', 'Jyeshtha', 'Moola'));
+  assert.deepEqual(ev('COSMETIC_SURGERY', 'WILHELM').nak.mid, st('Krittika'));
+  assert.deepEqual(sorted(ev('COSMETIC_SURGERY', 'WILHELM').lagna.good), [0, 1, 3, 5, 6]);
+  assert.deepEqual(sorted(ev('COSMETIC_SURGERY', 'WILHELM').vara.good), [2, 5, 6], 'Mars, Venus, Saturn');
+  // Going out, the Pushya bath, the oil bath: the books part over Friday.
+  assert.equal(good('GOING_OUT_RECOVERY', 'SHRIDHAR').length, 7);
+  assert.deepEqual(good('PUSHYA_BATH', 'SHRIDHAR'), st('Pushya'));
+  assert.equal(good('OIL_BATH', 'SHRIDHAR').length, 22, 'Shridhar bars five stars');
+  assert.equal(good('OIL_BATH', 'WILHELM').length, 23, 'Wilhelm bars four');
+  assert.deepEqual(sorted(ev('OIL_BATH', 'SHRIDHAR').vara.good), [1, 3, 6]);
+  assert.deepEqual(sorted(ev('OIL_BATH', 'WILHELM').vara.good), [1, 3, 5, 6], 'Wilhelm adds Friday (Venus: longevity)');
+  for (const b of ['SHRIDHAR', 'WILHELM']) {
+    assert.deepEqual(ev('OIL_BATH', b).taraNot, [1, 10, 19]);
+    assert.ok(ev('OIL_BATH', b).sankranti);
+    assert.deepEqual(sorted(ev('OIL_BATH', b).tithi), sorted([2, 3, 5, 7, 10, 13, 17, 18, 20, 22, 25, 28]), `${b}: the six good tithis of both fortnights`);
+  }
+  // Kalyanraman's treatment.
+  assert.deepEqual(good('COMMENCE_TREATMENT', 'KALYANRAMAN'), st('Rohini', 'Shravana', 'Shatabhisha'));
+  assert.equal(ev('COMMENCE_TREATMENT', 'KALYANRAMAN').vara.good.length, 7, 'every weekday');
+  assert.deepEqual(good('HERBAL_MEDICATION', 'KALYANRAMAN'), st('Bharani'));
+  assert.deepEqual(ev('HERBAL_MEDICATION', 'KALYANRAMAN').karanaOnly, [0, 1, 2, 3, 4, 5]);
+  // Wilhelm's bath after menses joined Shridhar's and the Chintamani's.
+  assert.equal(good('BATH_AFTER_MENSES', 'WILHELM').length, 11);
+  assert.ok(E.EVENTS.BATH_AFTER_MENSES.order.includes('WILHELM') && E.EVENTS.BATH_AFTER_MENSES.order.includes('SHRIDHAR'));
+  for (const c of ['SUN_LAGNA_MID']) assert.ok(E.CODE_TA[c], `${c} has a Tamil label`);
+  const acts9 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
+  assert.ok(acts9.length >= 250, `the whole table now has ${acts9.length} acts`);
+}
+
 console.log('test-event-muhurta: all checks passed');

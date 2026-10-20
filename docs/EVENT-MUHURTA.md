@@ -1119,6 +1119,24 @@ fort's entry stars or the door's direction). Deliberately left out: 27.1 (choosi
 (Graha Dhruvanka, the house's area, aaya and compartments), 27.13 (the door's direction and position), 27.17.9 (trees) and 27.18 (the house's
 name) — they are measurements or choices of a site, not times.
 
+**Medicine and bathing leftovers** (24 new acts and a book added to an existing act, 2026-10-20): preparing medicines
+(Shridhar §22.2 and Wilhelm p.273), the disease-by-disease rules of Shridhar §22.3.1-22.3.11 and Wilhelm's "Specific
+Diseases and Treatments" (pp.276-277), laxatives, dental work, cosmetic surgery and tattoos, going out after recovery
+(§22.6), the oil bath (§22.7 and Wilhelm pp.278-279), the Pushya bath (§16.2), Kalyanraman's commencing treatment and
+herbal medication (vol.2 p.203). Shridhar and Wilhelm print the same combination for seven diseases — typhoid (Ardra,
+Bharani, Vishakha, Anuradha on Sunday, Rikta tithis), venereal disease (new moon; the short, cruel and movable stars;
+Aries or Cancer rising), gonorrhoea (Wednesday, Rikta), rheumatism (Thursday, Jaya, Ashwini / Ashlesha / Shravana), the
+bilious disorder (Thursday, Nanda, Pushya / Swati / Moola), phlegm and wind (Tuesday, Bharani / Krittika / Ardra) and leprosy
+(nine stars, Aries / Leo / Scorpio / Capricorn / Aquarius, a malefic in the 8th) — so those acts show two books that agree.
+Wilhelm adds ascites, consumption and epilepsy; Shridhar's single section on meat, intoxicants and poison is three acts.
+Parted: laxatives (Shridhar eight stars, Wilhelm eleven); the oil bath — both bar Sunday and Tuesday, but Shridhar bars
+Friday ("danger") and Wilhelm allows it (Venus: longevity); Shridhar bars five stars (K.P.'s four and the U.K.'s Ashwini),
+Wilhelm four. Not computed, named in the notes: Shridhar's J.V. camphor and mercury medicines, the Amrit Nadi, K.P.'s
+"malefics in the angles", Wilhelm's ascites / consumption planet conditions. **Added to an existing act**: Wilhelm's bath
+after menses (eleven stars; six of them for those who wish to conceive) joined Shridhar's and the Chintamani's. Left out
+as not an election: the onset-of-illness tables (Shridhar §22.1, Wilhelm p.270-272, Joshi table 13.1, Kalyanraman
+p.201) — they predict how long a disease will last from the star it began under; they need a table, not a time search.
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are
