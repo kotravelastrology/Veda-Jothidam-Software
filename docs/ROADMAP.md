@@ -299,6 +299,7 @@ Not plan items, but real, and they should not be discovered at release:
   samavartana, ankurarpana, the rites after death and the nine mother-and-child acts of Shridhar ch.19 (the cradle chakra computed).
   The marriage companions followed (148 acts): engagement, invitations, mandap, the bride's two entries, nisheka, first cooking,
   first return, re-marriage and love marriage.
+  Learning by subject followed (170 acts): mathematics to writing, plus Kalyanraman's eight further subjects.
   The gap audit of 2026-10-20 lists what is still unbuilt (memory: project_muhurta_remaining).
   Only 20.22 (nomination papers) is deliberately left out: Shridhar says the texts have no
   reference for it and reasons by analogy to acts already built.

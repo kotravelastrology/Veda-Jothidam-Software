@@ -1822,7 +1822,7 @@ const RF = FIX.roga_snana;
     const e = E.EVENTS[ev];
     return e && e.order && !e.order.some((id) => bookOf(id) === 'SHRIDHAR');
   });
-  assert.ok(silent.length > 0 && silent.length < 20, `Shridhar is silent on ${silent.length} acts`);
+  assert.ok(silent.length > 0 && silent.length < 40, `Shridhar is silent on ${silent.length} acts`);
 }
 
 // ------------------------------------------------ the last readings: adoption, sports, the short ones ---
@@ -2105,6 +2105,84 @@ const RF = FIX.roga_snana;
   for (const c of ['RUDRA_PATT', 'BRAHMA_PATT', 'TRIPADI_CHAKRA']) assert.ok(E.CODE_TA[c], `${c} has a Tamil label`);
   const acts3 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
   assert.ok(acts3.length >= 148, `the whole table now has ${acts3.length} acts`);
+}
+
+// ------------------------------------------------ learning by subject ---
+{
+  const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'PPhalguni', 'UPhalguni', 'Hasta',
+    'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Moola', 'PAshadha', 'UAshadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'PBhadra', 'UBhadra', 'Revati'];
+  const st = (...ns) => sorted(ns.map((n) => NAMES.indexOf(n)));
+  const ev = (a, b) => E.EVENTS[a][b];
+  const good = (a, b) => sorted(ev(a, b).nak.good);
+  const same = (a, bs, what) => { for (const b of bs) assert.deepEqual(good(a, b), good(a, bs[0]), `${a}/${b}: ${what}`); };
+  // Mathematics: four books print one list of eighteen and Sunday, Wednesday.
+  same('LEARN_MATHEMATICS', ['SHRIDHAR', 'KALYANRAMAN', 'JOSHI', 'VASHISTHA'], 'the same eighteen');
+  assert.equal(good('LEARN_MATHEMATICS', 'JOSHI').length, 18);
+  for (const b of ['SHRIDHAR', 'KALYANRAMAN', 'JOSHI', 'VASHISTHA']) assert.deepEqual(sorted(ev('LEARN_MATHEMATICS', b).vara.good), [0, 3], `${b}: Sunday and Wednesday`);
+  assert.deepEqual(good('LEARN_MATHEMATICS', 'RANGACHARYA'), st('Shatabhisha', 'PBhadra', 'Anuradha', 'Ardra', 'Revati', 'Hasta', 'Pushya'));
+  // Astrology: Kalyanraman and Vashistha print the same eight; Wilhelm's eight contain Raman's seven.
+  same('LEARN_ASTROLOGY', ['KALYANRAMAN', 'VASHISTHA'], 'the same eight');
+  assert.equal(good('LEARN_ASTROLOGY', 'KALYANRAMAN').length, 8);
+  for (const n of good('LEARN_ASTROLOGY', 'RAMAN')) assert.ok(good('LEARN_ASTROLOGY', 'WILHELM').includes(n), `Wilhelm has Raman's ${NAMES[n]}`);
+  assert.equal(good('LEARN_ASTROLOGY', 'WILHELM').length, 8);
+  assert.deepEqual(sorted(ev('LEARN_ASTROLOGY', 'KALYANRAMAN').vara.good), [3, 4], 'Wednesday and Thursday');
+  // Vedas and grammar: Shridhar, Kalyanraman and Joshi print the same thirteen (plus Abhijit); Wilhelm's grammar is eight.
+  same('LEARN_VEDAS_GRAMMAR', ['SHRIDHAR', 'KALYANRAMAN', 'JOSHI'], 'the same thirteen');
+  assert.equal(good('LEARN_VEDAS_GRAMMAR', 'KALYANRAMAN').length, 13);
+  assert.ok(ev('LEARN_VEDAS_GRAMMAR', 'KALYANRAMAN').abhijitOk && ev('LEARN_VEDAS_GRAMMAR', 'JOSHI').abhijitOk, 'Abhijit counts');
+  assert.ok(ev('LEARN_VEDAS_GRAMMAR', 'KALYANRAMAN').anadhyaya, 'Anadhyaya days barred');
+  assert.deepEqual(good('LEARN_VEDAS_GRAMMAR', 'WILHELM'), st('Rohini', 'Mrigashira', 'Punarvasu', 'Pushya', 'Hasta', 'Anuradha', 'Dhanishtha', 'Revati'));
+  assert.equal(good('LEARN_VEDAS_GRAMMAR', 'RAMAN').length, 7);
+  // Vedarambha: Kalyanraman and Joshi both print seventeen; Wilhelm and Shridhar's regular study carry the Anadhyaya rule.
+  assert.equal(good('VEDARAMBHA', 'KALYANRAMAN').length, 17);
+  assert.equal(good('VEDARAMBHA', 'JOSHI').length, 17);
+  assert.deepEqual(ev('VEDARAMBHA', 'KALYANRAMAN').tithi, [2, 3, 5, 7, 10, 11, 13], 'Kalyanraman: bright fortnight only');
+  for (const b of ['WILHELM', 'SHRIDHAR', 'KALYANRAMAN']) assert.ok(ev('VEDARAMBHA', b).anadhyaya, `${b}: Anadhyaya`);
+  assert.equal(good('VEDARAMBHA', 'WILHELM').length, 11);
+  assert.deepEqual(ev('VEDARAMBHA', 'WILHELM').lagna.good, [2, 5, 8, 11], 'Wilhelm: dual signs');
+  // Philosophy: Shridhar, Kalyanraman and Joshi print the same seventeen and the same four weekdays.
+  same('LEARN_PHILOSOPHY', ['SHRIDHAR', 'KALYANRAMAN', 'JOSHI'], 'the same seventeen');
+  for (const b of ['SHRIDHAR', 'KALYANRAMAN', 'JOSHI']) assert.deepEqual(sorted(ev('LEARN_PHILOSOPHY', b).vara.good), [1, 3, 4, 5], `${b}: Monday, Wednesday, Thursday, Friday`);
+  // Logic: three different lists, the Rangacharya ten being Wilhelm's eleven without Rohini.
+  assert.deepEqual(good('LEARN_LOGIC', 'RANGACHARYA'), sorted(good('LEARN_LOGIC', 'WILHELM').filter((n) => n !== NAMES.indexOf('Rohini'))));
+  assert.equal(good('LEARN_LOGIC', 'RAMAN').length, 6);
+  // Medicine: Kalyanraman and Joshi the same fifteen; Shridhar, Rangacharya the sixteen with Jyeshtha; Vashistha alone has Bharani.
+  same('LEARN_MEDICINE', ['KALYANRAMAN', 'JOSHI'], 'the same fifteen');
+  same('LEARN_MEDICINE', ['SHRIDHAR', 'RANGACHARYA'], 'the same sixteen');
+  assert.equal(good('LEARN_MEDICINE', 'SHRIDHAR').length, 16);
+  assert.ok(good('LEARN_MEDICINE', 'VASHISTHA').includes(NAMES.indexOf('Bharani')) && !good('LEARN_MEDICINE', 'VASHISTHA').includes(NAMES.indexOf('Mrigashira')), 'Vashistha: Bharani for Mrigashira');
+  for (const b of ['SHRIDHAR', 'KALYANRAMAN', 'JOSHI', 'RANGACHARYA', 'VASHISTHA']) assert.deepEqual(sorted(ev('LEARN_MEDICINE', b).vara.good), [0, 1, 2], `${b}: Sunday, Monday, Tuesday`);
+  // Arms: Shridhar, Kalyanraman and Joshi print the same sixteen and Sunday, Tuesday, Friday.
+  same('LEARN_ARMS', ['SHRIDHAR', 'KALYANRAMAN', 'JOSHI'], 'the same sixteen');
+  for (const b of ['SHRIDHAR', 'KALYANRAMAN', 'JOSHI']) assert.deepEqual(sorted(ev('LEARN_ARMS', b).vara.good), [0, 2, 5], `${b}: Sunday, Tuesday, Friday`);
+  // Music and dance: Shridhar and Joshi the same twelve; Rangacharya's eleven are Shridhar's dance-and-singing list.
+  same('LEARN_MUSIC_DANCE', ['SHRIDHAR', 'JOSHI'], 'the same twelve');
+  assert.equal(good('LEARN_MUSIC_DANCE', 'RANGACHARYA').length, 11);
+  assert.equal(good('LEARN_MUSIC_DANCE', 'KALYANRAMAN').length, 12);
+  // Instruments, other religions, languages, law.
+  assert.deepEqual(sorted(ev('LEARN_INSTRUMENTS', 'SHRIDHAR').vara.good), [1, 5], 'Monday and Friday');
+  for (const n of good('LEARN_INSTRUMENTS', 'KALYANRAMAN')) assert.ok(good('LEARN_INSTRUMENTS', 'SHRIDHAR').includes(n) || n === NAMES.indexOf('Jyeshtha'), `${NAMES[n]} also in Shridhar's list`);
+  same('LEARN_OTHER_RELIGIONS', ['KALYANRAMAN', 'JOSHI'], 'the same eight');
+  assert.equal(good('LEARN_OTHER_RELIGIONS', 'SHRIDHAR').length, 9);
+  same('LEARN_FOREIGN_LANGUAGES', ['KALYANRAMAN', 'JOSHI'], 'the same twelve');
+  assert.ok(!ev('LEARN_FOREIGN_LANGUAGES', 'JOSHI').vara.good.includes(4) && !ev('LEARN_FOREIGN_LANGUAGES', 'SHRIDHAR').vara.good.includes(4), 'Thursday barred for languages');
+  same('LEARN_LAW', ['KALYANRAMAN', 'JOSHI'], 'the same eleven');
+  assert.equal(good('LEARN_LAW', 'SHRIDHAR').length, 10);
+  // Writing: Shridhar, Kalyanraman and Wilhelm print the same ten; Rangacharya's ten differ.
+  same('START_WRITING', ['SHRIDHAR', 'KALYANRAMAN', 'WILHELM'], 'the same ten');
+  assert.ok(ev('START_WRITING', 'SHRIDHAR').galagraha, 'Galagraha tithis barred');
+  assert.ok(good('START_WRITING', 'RANGACHARYA').includes(NAMES.indexOf('Revati')) && !good('START_WRITING', 'RANGACHARYA').includes(NAMES.indexOf('Moola')));
+  // The Kalyanraman-only subjects: one book each, and the counts are as printed.
+  const KR1 = { LEARN_NUMEROLOGY: 16, LEARN_WATER_DIVINING: 6, LEARN_COMPUTING: 3, LEARN_POSITIVE_SCIENCES: 4, LEARN_CULINARY_STATECRAFT: 5, LEARN_PHRENOLOGY: 4, LEARN_SHUDRA_MANTRAS: 9 };
+  for (const [a, n] of Object.entries(KR1)) {
+    assert.deepEqual(E.EVENTS[a].order, ['KALYANRAMAN'], `${a}: one book`);
+    assert.equal(good(a, 'KALYANRAMAN').length, n, `${a}: ${n} stars`);
+    assert.deepEqual(sorted(ev(a, 'KALYANRAMAN').vara.good), [0, 1, 3, 4, 5], `${a}: five weekdays`);
+  }
+  assert.deepEqual(good('LEARN_HIGHER_STUDIES', 'KALYANRAMAN'), st('Rohini'), 'Rohini specially');
+  assert.equal(ev('LEARN_HIGHER_STUDIES', 'KALYANRAMAN').nak.mid.length, 26, 'every other star middling');
+  const acts4 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
+  assert.ok(acts4.length >= 170, `the whole table now has ${acts4.length} acts`);
 }
 
 console.log('test-event-muhurta: all checks passed');

@@ -1680,6 +1680,208 @@
       "books": {
         "JOSHI": {"keys": ["starCount"], "star_count": [{"from": "Sun", "of": 28, "good": [5, 6, 10, 12, 13, 14, 15, 22, 23, 24, 26, 27, 28], "code": "TRIPADI_CHAKRA"}]}
       }
+    },
+    "LEARN_MATHEMATICS": {
+      "words": {"KALYANRAMAN": 115, "JOSHI": 94, "VASHISTHA": 74, "SHRIDHAR": 40, "RANGACHARYA": 21, "WILHELM": 9},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "abhijitOk", "tithi", "dayParts", "vara"], "stars": ["Ashwini", "Bharani", "Krittika", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Magha", "PPhalguni", "Hasta", "Swati", "Moola", "PAshadha", "Shravana", "Dhanishtha", "Shatabhisha", "PBhadra", "Revati"], "abhijit": true, "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Sun", "Wed"]},
+        "JOSHI": {"keys": ["nak", "abhijitOk", "tithi", "vishti", "dayParts", "vara", "yogaNot"], "stars": ["Ashwini", "Bharani", "Krittika", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Magha", "PPhalguni", "Hasta", "Swati", "Moola", "PAshadha", "Shravana", "Dhanishtha", "Shatabhisha", "PBhadra", "Revati"], "abhijit": true, "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Sun", "Wed"], "yogas_not": ["Vishkumbha", "Atiganda", "Shula", "Ganda", "Vyaghata", "Vajra", "Vyatipata", "Parigha", "Vaidhriti"], "vishti": true},
+        "VASHISTHA": {"keys": ["nak", "abhijitOk", "dayParts", "vara"], "stars": ["Ashwini", "Bharani", "Krittika", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Magha", "PPhalguni", "Hasta", "Swati", "Moola", "PAshadha", "Shravana", "Dhanishtha", "Shatabhisha", "PBhadra", "Revati"], "abhijit": true, "weekdays": ["Sun", "Wed"]},
+        "SHRIDHAR": {"keys": ["nak", "vara"], "stars": ["Ashwini", "Bharani", "Krittika", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Magha", "PPhalguni", "Hasta", "Swati", "Moola", "PAshadha", "Shravana", "Dhanishtha", "Shatabhisha", "PBhadra", "Revati"], "stars_mid": ["Anuradha"], "weekdays": ["Sun", "Wed"]},
+        "RANGACHARYA": {"keys": ["nak", "vara"], "stars": ["Shatabhisha", "PBhadra", "Anuradha", "Ardra", "Revati", "Hasta", "Pushya"], "weekdays": ["Wed", "Thu"]},
+        "WILHELM": {"keys": ["nak"], "stars": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Shravana", "Dhanishtha", "Shatabhisha", "Bharani", "Krittika", "Magha"], "stars_mid": ["Rohini", "UPhalguni", "UAshadha", "UBhadra", "Revati", "Ashlesha", "PPhalguni", "Moola", "PAshadha", "PBhadra"]}
+      }
+    },
+    "LEARN_ASTROLOGY": {
+      "words": {"SHRIDHAR": 189, "KALYANRAMAN": 110, "VASHISTHA": 100, "RANGACHARYA": 21, "WILHELM": 17, "RAMAN": 14},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["nak", "abhijitOk", "tithi", "tithiMid", "tithiNot", "vara"], "stars": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Anuradha", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"], "stars_mid": ["Rohini", "UPhalguni", "UAshadha", "UBhadra"], "abhijit": true, "tithis": {"both": [2, 3, 5, 6, 9, 10, 11, 14]}, "tithis_mid": {"both": [7, 13]}, "tithis_not": {"both": [1, 4, 8, 12], "full_moon": true, "new_moon": true}, "weekdays": ["Wed", "Thu", "Fri"]},
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara"], "stars": ["Rohini", "Ardra", "Hasta", "Chitra", "Anuradha", "Shatabhisha", "PBhadra", "Revati"], "stars_mid": ["Bharani", "Krittika"], "tithis": {"both": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "full_moon": true}, "weekdays": ["Wed", "Thu"], "weekdays_mid": ["Sun", "Mon", "Fri"]},
+        "VASHISTHA": {"keys": ["nak", "vara", "lagna", "empty", "beneficIn", "maleficIn"], "stars": ["Rohini", "Ardra", "Hasta", "Chitra", "Anuradha", "Shatabhisha", "PBhadra", "Revati"], "weekdays": ["Wed", "Thu"], "lagnas": [2, 5, 8, 11, 3, 6, 9, 12], "empty": [8], "benefic_in": [1, 4, 7, 10, 5, 9], "malefic_in": [3, 6, 11]},
+        "RANGACHARYA": {"keys": ["nak", "vara"], "stars": ["Shatabhisha", "PBhadra", "Anuradha", "Ardra", "Revati", "Hasta", "Pushya"], "weekdays": ["Wed", "Thu"]},
+        "WILHELM": {"keys": ["nak"], "stars": ["Ashwini", "Punarvasu", "Pushya", "Hasta", "Swati", "Moola", "Shatabhisha", "Revati"]},
+        "RAMAN": {"keys": ["nak"], "stars": ["Ashwini", "Punarvasu", "Pushya", "Hasta", "Swati", "Moola", "Revati"]}
+      }
+    },
+    "LEARN_VEDAS_GRAMMAR": {
+      "words": {"KALYANRAMAN": 208, "SHRIDHAR": 189, "JOSHI": 101, "RANGACHARYA": 53, "RAMAN": 42, "WILHELM": 14},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "abhijitOk", "tithi", "vishti", "anadhyaya", "vara", "yogaNot", "empty", "beneficIn", "maleficIn"], "stars": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Anuradha", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"], "abhijit": true, "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Wed", "Thu", "Fri"], "empty": [8], "benefic_in": [1, 4, 5, 7, 9, 10], "malefic_in": [3, 6, 11], "yogas_not": ["Vishkumbha", "Atiganda", "Shula", "Ganda", "Vyaghata", "Vajra", "Vyatipata", "Parigha", "Vaidhriti"], "vishti": true, "anadhyaya": true},
+        "SHRIDHAR": {"keys": ["nak", "abhijitOk", "tithi", "tithiMid", "tithiNot", "vara"], "stars": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Anuradha", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"], "stars_mid": ["Rohini", "UPhalguni", "UAshadha", "UBhadra"], "abhijit": true, "tithis": {"both": [2, 3, 5, 6, 9, 10, 11, 14]}, "tithis_mid": {"both": [7, 13]}, "tithis_not": {"both": [1, 4, 8, 12], "full_moon": true, "new_moon": true}, "weekdays": ["Wed", "Thu", "Fri"]},
+        "JOSHI": {"keys": ["nak", "abhijitOk", "tithi", "vishti", "vara", "yogaNot", "empty", "beneficIn", "maleficIn"], "stars": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Anuradha", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"], "abhijit": true, "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Wed", "Thu", "Fri"], "empty": [8], "benefic_in": [1, 4, 5, 7, 9, 10], "malefic_in": [3, 6, 11], "yogas_not": ["Vishkumbha", "Atiganda", "Shula", "Ganda", "Vyaghata", "Vajra", "Vyatipata", "Parigha", "Vaidhriti"], "vishti": true},
+        "RANGACHARYA": {"keys": ["nak", "vara"], "stars": ["Ashwini", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Punarvasu", "Pushya", "Mrigashira"], "weekdays": ["Wed", "Thu", "Fri"]},
+        "RAMAN": {"keys": ["nak"], "stars": ["Rohini", "Mrigashira", "Punarvasu", "Pushya", "Hasta", "Dhanishtha", "Revati"]},
+        "WILHELM": {"keys": ["nak"], "stars": ["Rohini", "Mrigashira", "Punarvasu", "Pushya", "Hasta", "Anuradha", "Dhanishtha", "Revati"]}
+      }
+    },
+    "VEDARAMBHA": {
+      "words": {"WILHELM": 611, "JOSHI": 152, "SHRIDHAR": 68, "KALYANRAMAN": 59, "VASHISTHA": 38},
+      "default": "WILHELM",
+      "books": {
+        "WILHELM": {"keys": ["nak", "tithi", "tithiMid", "tithiNot", "anadhyaya", "vara", "lagna", "empty"], "stars": ["Mrigashira", "Ardra", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Anuradha", "Shravana", "Dhanishtha", "Shatabhisha"], "stars_mid": ["Ashwini", "Rohini", "UPhalguni", "UAshadha", "UBhadra", "Revati"], "tithis": {"both": [2, 3, 5, 6, 10, 11]}, "tithis_mid": {"both": [7, 13]}, "tithis_not": {"both": [1, 4, 8, 9, 12, 14], "full_moon": true, "new_moon": true}, "weekdays": ["Wed", "Thu", "Fri"], "weekdays_mid": ["Sun", "Mon"], "lagnas": [3, 6, 9, 12], "lagnas_mid": [1, 4, 7, 10], "empty": [8], "anadhyaya": true},
+        "JOSHI": {"keys": ["nak", "abhijitOk", "tithi", "vara", "beneficIn", "maleficIn"], "stars": ["Ashwini", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "UPhalguni", "Hasta", "Chitra", "Swati", "Anuradha", "UAshadha", "Shravana", "Dhanishtha", "Shatabhisha", "UBhadra", "Revati"], "abhijit": true, "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Sun", "Wed", "Thu", "Fri"], "benefic_in": [1, 4, 7, 10, 5, 9], "malefic_in": [3, 6, 11]},
+        "SHRIDHAR": {"keys": ["masa", "nak", "tithi", "anadhyaya"], "stars": ["Ardra", "Pushya", "UPhalguni", "UAshadha", "UBhadra", "Revati", "Shravana", "Rohini", "Swati"], "tithis": {"both": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "krishna": [1], "full_moon": true}, "months": {"good": ["Ashvin"], "mid": [], "strict": false}, "anadhyaya": true},
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "anadhyaya"], "stars": ["Ashwini", "Rohini", "Ardra", "Magha", "Punarvasu", "Pushya", "UPhalguni", "Hasta", "Chitra", "Swati", "Anuradha", "UAshadha", "Shravana", "Dhanishtha", "Shatabhisha", "UBhadra", "Revati"], "tithis": {"shukla": [2, 3, 5, 7, 10, 11, 13]}, "anadhyaya": true},
+        "VASHISTHA": {"keys": ["masa", "nak", "tithi", "vara"], "stars": ["Ashwini", "Bharani", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "PPhalguni", "Hasta", "Chitra", "Swati", "Shravana", "Dhanishtha", "Shatabhisha"], "tithis": {"shukla": [2, 3, 5, 7, 10, 11, 13]}, "weekdays": ["Wed", "Thu", "Fri"], "months": {"good": ["Ashvin"], "mid": [], "strict": false}}
+      }
+    },
+    "LEARN_PHILOSOPHY": {
+      "words": {"KALYANRAMAN": 173, "JOSHI": 90, "RANGACHARYA": 53, "SHRIDHAR": 31},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "abhijitOk", "tithi", "vara", "empty", "beneficIn", "maleficIn"], "stars": ["Ashwini", "Rohini", "Mrigashira", "Ardra", "Pushya", "PPhalguni", "UPhalguni", "Hasta", "Chitra", "Anuradha", "PAshadha", "UAshadha", "Shravana", "Dhanishtha", "PBhadra", "UBhadra", "Revati"], "abhijit": true, "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Mon", "Wed", "Thu", "Fri"], "empty": [8], "benefic_in": [1, 4, 5, 7, 9, 10], "malefic_in": [3, 6, 11]},
+        "JOSHI": {"keys": ["nak", "abhijitOk", "tithi", "vishti", "vara", "yogaNot", "empty", "beneficIn", "maleficIn"], "stars": ["Ashwini", "Rohini", "Mrigashira", "Ardra", "Pushya", "PPhalguni", "UPhalguni", "Hasta", "Chitra", "Anuradha", "PAshadha", "UAshadha", "Shravana", "Dhanishtha", "PBhadra", "UBhadra", "Revati"], "abhijit": true, "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Mon", "Wed", "Thu", "Fri"], "empty": [8], "benefic_in": [1, 4, 5, 7, 9, 10], "malefic_in": [3, 6, 11], "yogas_not": ["Vishkumbha", "Atiganda", "Shula", "Ganda", "Vyaghata", "Vajra", "Vyatipata", "Parigha", "Vaidhriti"], "vishti": true},
+        "RANGACHARYA": {"keys": ["nak", "vara"], "stars": ["Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Pushya", "Revati", "Mrigashira", "Shravana", "Dhanishtha", "Shatabhisha"], "weekdays": ["Wed", "Thu", "Fri"]},
+        "SHRIDHAR": {"keys": ["nak", "abhijitOk", "vara"], "stars": ["Ashwini", "Rohini", "Mrigashira", "Ardra", "Pushya", "PPhalguni", "UPhalguni", "Hasta", "Chitra", "Anuradha", "PAshadha", "UAshadha", "Shravana", "Dhanishtha", "PBhadra", "UBhadra", "Revati"], "abhijit": true, "weekdays": ["Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "LEARN_LOGIC": {
+      "words": {"RANGACHARYA": 53, "RAMAN": 42, "WILHELM": 16},
+      "default": "RANGACHARYA",
+      "books": {
+        "RANGACHARYA": {"keys": ["nak", "vara"], "stars": ["UPhalguni", "UBhadra", "UAshadha", "Ashwini", "Pushya", "Punarvasu", "Shravana", "Hasta", "Shatabhisha", "Swati"], "weekdays": ["Wed", "Thu", "Fri"]},
+        "RAMAN": {"keys": ["nak"], "stars": ["Shravana", "Shatabhisha", "Hasta", "UPhalguni", "Moola", "Revati"]},
+        "WILHELM": {"keys": ["nak"], "stars": ["Ashwini", "Rohini", "Punarvasu", "Pushya", "UPhalguni", "Hasta", "Swati", "UAshadha", "Shravana", "Shatabhisha", "UBhadra"]}
+      }
+    },
+    "LEARN_MEDICINE": {
+      "words": {"KALYANRAMAN": 126, "JOSHI": 74, "RAMAN": 45, "RANGACHARYA": 43, "VASHISTHA": 42, "SHRIDHAR": 41, "WILHELM": 18},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "abhijitOk", "tithi", "vara"], "stars": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Hasta", "Chitra", "Swati", "Anuradha", "Moola", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"], "stars_mid": ["Jyeshtha"], "abhijit": true, "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Sun", "Mon", "Tue"]},
+        "JOSHI": {"keys": ["nak", "abhijitOk", "tithi", "vara"], "stars": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Hasta", "Chitra", "Swati", "Anuradha", "Moola", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"], "abhijit": true, "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Sun", "Mon", "Tue"]},
+        "RAMAN": {"keys": ["nak", "lagna"], "stars": ["Dhanishtha"], "lagnas": [1, 8, 5]},
+        "RANGACHARYA": {"keys": ["nak", "vara"], "stars": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Hasta", "Chitra", "Swati", "Anuradha", "Jyeshtha", "Moola", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"], "weekdays": ["Sun", "Mon", "Tue"]},
+        "VASHISTHA": {"keys": ["nak", "vara"], "stars": ["Ashwini", "Bharani", "Ardra", "Hasta", "Punarvasu", "Pushya", "Ashlesha", "Chitra", "Swati", "Anuradha", "Jyeshtha", "Moola", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"], "weekdays": ["Sun", "Mon", "Tue"]},
+        "SHRIDHAR": {"keys": ["nak", "abhijitOk", "vara"], "stars": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Hasta", "Chitra", "Swati", "Anuradha", "Jyeshtha", "Moola", "Shravana", "Dhanishtha", "Shatabhisha", "Revati"], "abhijit": true, "weekdays": ["Sun", "Mon", "Tue"]},
+        "WILHELM": {"keys": ["nak"], "stars": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Shravana", "Dhanishtha", "Shatabhisha", "Anuradha", "Ashlesha", "Moola"], "stars_mid": ["Rohini", "UPhalguni", "UAshadha", "UBhadra", "Revati", "PPhalguni", "PAshadha", "PBhadra"]}
+      }
+    },
+    "LEARN_ARMS": {
+      "words": {"KALYANRAMAN": 114, "JOSHI": 72, "WILHELM": 36, "SHRIDHAR": 34},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "abhijitOk", "tithi", "vara"], "stars": ["Ardra", "Shravana", "PAshadha", "PPhalguni", "Ashwini", "Mrigashira", "Rohini", "Pushya", "Shatabhisha", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Moola"], "abhijit": true, "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Sun", "Tue", "Fri"]},
+        "JOSHI": {"keys": ["nak", "abhijitOk", "vara"], "stars": ["Ardra", "Shravana", "PAshadha", "PPhalguni", "Ashwini", "Mrigashira", "Rohini", "Pushya", "Shatabhisha", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Moola"], "abhijit": true, "weekdays": ["Sun", "Tue", "Fri"]},
+        "WILHELM": {"keys": ["nak"], "stars": ["Ashwini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Shravana", "Dhanishtha", "Shatabhisha", "Vishakha", "Anuradha", "Jyeshtha", "PPhalguni", "PAshadha", "PBhadra", "Ashlesha", "Moola"], "stars_mid": ["Rohini", "UPhalguni", "UAshadha", "UBhadra", "Revati"]},
+        "SHRIDHAR": {"keys": ["nak", "vara"], "stars": ["Ardra", "Shravana", "PAshadha", "PPhalguni", "Ashwini", "Mrigashira", "Rohini", "Pushya", "Shatabhisha", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Moola"], "weekdays": ["Sun", "Tue", "Fri"]}
+      }
+    },
+    "LEARN_MUSIC_DANCE": {
+      "words": {"KALYANRAMAN": 219, "JOSHI": 93, "RAMAN": 79, "SHRIDHAR": 73, "VASHISTHA": 50, "RANGACHARYA": 40},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara"], "stars": ["Rohini", "Mrigashira", "Pushya", "UPhalguni", "Hasta", "Anuradha", "Jyeshtha", "UAshadha", "Dhanishtha", "Shatabhisha", "UBhadra", "Revati"], "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Mon", "Wed", "Thu", "Fri"]},
+        "JOSHI": {"keys": ["nak", "tithi", "vara"], "stars": ["Mrigashira", "Revati", "Anuradha", "Hasta", "Pushya", "Swati", "Shravana", "Dhanishtha", "Shatabhisha", "PPhalguni", "Jyeshtha", "UAshadha"], "stars_mid": ["UPhalguni", "UBhadra", "Rohini"], "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Mon", "Wed", "Thu", "Fri"]},
+        "RAMAN": {"keys": ["nak"], "stars": ["Hasta", "Pushya", "Dhanishtha", "Anuradha", "Jyeshtha", "Revati", "Shatabhisha", "UAshadha", "UBhadra"]},
+        "SHRIDHAR": {"keys": ["nak", "vara"], "stars": ["Hasta", "Pushya", "PPhalguni", "Mrigashira", "Jyeshtha", "Anuradha", "UAshadha", "Shravana", "Swati", "Shatabhisha", "Dhanishtha", "Revati"], "stars_mid": ["UPhalguni", "UBhadra", "Rohini"], "weekdays": ["Mon", "Wed", "Thu", "Fri"]},
+        "VASHISTHA": {"keys": ["nak", "vara"], "stars": ["Rohini", "Bharani", "Punarvasu", "UPhalguni", "UAshadha", "UBhadra", "Hasta", "Anuradha", "Jyeshtha", "Dhanishtha", "Shatabhisha", "Revati"], "weekdays": ["Mon", "Wed", "Thu", "Fri"]},
+        "RANGACHARYA": {"keys": ["nak", "vara"], "stars": ["Revati", "Anuradha", "Dhanishtha", "Shatabhisha", "Hasta", "Rohini", "Mrigashira", "Pushya", "UPhalguni", "UAshadha", "UBhadra"], "weekdays": ["Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "LEARN_INSTRUMENTS": {
+      "words": {"SHRIDHAR": 130, "KALYANRAMAN": 35},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["nak", "tithi", "vishti", "vara", "lagna"], "stars": ["Hasta", "Chitra", "Swati", "Anuradha", "Revati", "Punarvasu", "Pushya", "Ashwini", "Shravana", "Dhanishtha", "Shatabhisha", "Mrigashira"], "tithis": {"both": [3, 5, 8, 10, 13], "full_moon": true}, "weekdays": ["Mon", "Fri"], "lagnas": [1, 2, 3, 5, 9], "vishti": true},
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara"], "stars": ["Ashwini", "Mrigashira", "Punarvasu", "Hasta", "Chitra", "Swati", "Anuradha", "Jyeshtha", "Revati"], "tithis": {"both": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "LEARN_OTHER_RELIGIONS": {
+      "words": {"KALYANRAMAN": 57, "JOSHI": 48, "SHRIDHAR": 26},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "tithi"], "stars": ["Ashwini", "Bharani", "Magha", "PPhalguni", "Vishakha", "PAshadha", "PBhadra", "Revati"], "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}},
+        "JOSHI": {"keys": ["nak", "tithi", "vara"], "stars": ["Ashwini", "Bharani", "Magha", "PPhalguni", "Vishakha", "PAshadha", "PBhadra", "Revati"], "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Sun", "Tue", "Fri"]},
+        "SHRIDHAR": {"keys": ["nak", "vara"], "stars": ["Ashwini", "Bharani", "Krittika", "Magha", "PPhalguni", "Vishakha", "PAshadha", "PBhadra", "Revati"], "weekdays": ["Sun", "Tue", "Fri"]}
+      }
+    },
+    "LEARN_FOREIGN_LANGUAGES": {
+      "words": {"KALYANRAMAN": 156, "JOSHI": 95, "SHRIDHAR": 51},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara", "lagna"], "stars": ["Bharani", "Krittika", "Ardra", "Ashlesha", "Magha", "PPhalguni", "Vishakha", "Jyeshtha", "Moola", "PAshadha", "PBhadra", "Revati"], "tithis": {"both": [6, 8, 11], "shukla": [2, 3, 5, 12, 13], "full_moon": true}, "weekdays": ["Sun", "Tue", "Sat"], "weekdays_mid": ["Mon", "Wed", "Fri"], "lagnas": [2, 5, 8, 11]},
+        "JOSHI": {"keys": ["nak", "tithi", "vara", "lagna"], "stars": ["Bharani", "Krittika", "Ardra", "Ashlesha", "Magha", "PPhalguni", "Vishakha", "Jyeshtha", "Moola", "PAshadha", "PBhadra", "Revati"], "tithis": {"both": [5, 10], "shukla": [2, 4, 11, 12, 14], "krishna": [7]}, "weekdays": ["Sun", "Mon", "Tue", "Wed", "Fri", "Sat"], "lagnas": [2, 5, 8, 11]},
+        "SHRIDHAR": {"keys": ["nak", "tithi", "vara"], "stars": ["Bharani", "Krittika", "Ardra", "Ashlesha", "Magha", "PPhalguni", "Vishakha", "Jyeshtha", "Moola", "PAshadha", "Shatabhisha", "PBhadra", "Revati"], "tithis": {"both": [5, 10], "shukla": [2, 4, 9, 11, 12, 14], "krishna": [7]}, "weekdays": ["Sun", "Mon", "Tue", "Wed", "Fri", "Sat"]}
+      }
+    },
+    "LEARN_LAW": {
+      "words": {"KALYANRAMAN": 106, "JOSHI": 54, "SHRIDHAR": 23},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara"], "stars": ["Ashwini", "Rohini", "Punarvasu", "Pushya", "UPhalguni", "Swati", "UAshadha", "Shravana", "Dhanishtha", "Shatabhisha", "UBhadra"], "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Wed", "Thu", "Fri"]},
+        "JOSHI": {"keys": ["nak", "tithi", "vara"], "stars": ["Ashwini", "Rohini", "Punarvasu", "Pushya", "UPhalguni", "Swati", "UAshadha", "Shravana", "Dhanishtha", "Shatabhisha", "UBhadra"], "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Wed", "Thu", "Fri"]},
+        "SHRIDHAR": {"keys": ["nak", "vara"], "stars": ["Ashwini", "Rohini", "Mrigashira", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha"], "weekdays": ["Wed", "Thu", "Fri"]}
+      }
+    },
+    "START_WRITING": {
+      "words": {"SHRIDHAR": 108, "KALYANRAMAN": 92, "WILHELM": 48, "RANGACHARYA": 37},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["nak", "galagraha", "vara", "lagna", "beneficIn", "maleficIn", "want"], "stars": ["Mrigashira", "Ardra", "Punarvasu", "Hasta", "Chitra", "Swati", "Moola", "Shravana", "Dhanishtha", "Shatabhisha"], "stars_mid": ["Revati", "Ashwini", "Bharani", "Anuradha", "Pushya"], "weekdays": ["Wed", "Thu", "Fri"], "lagnas": [1, 3, 5, 7, 9, 11], "benefic_in": [11], "malefic_in": [6], "galagraha": true},
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara", "lagna", "beneficIn", "maleficIn", "want"], "stars": ["Mrigashira", "Ardra", "Punarvasu", "Hasta", "Chitra", "Swati", "Moola", "Shravana", "Dhanishtha", "Shatabhisha"], "tithis": {"both": [2, 3, 5, 6, 10, 11, 12]}, "weekdays": ["Wed", "Thu", "Fri"], "lagnas": [1, 3, 5, 7, 9, 11], "benefic_in": [11], "malefic_in": [6]},
+        "WILHELM": {"keys": ["nak", "vara"], "stars": ["Mrigashira", "Ardra", "Punarvasu", "Hasta", "Chitra", "Swati", "Moola", "Shravana", "Dhanishtha", "Shatabhisha"], "weekdays": ["Wed", "Thu", "Fri"], "weekdays_mid": ["Mon"]},
+        "RANGACHARYA": {"keys": ["nak", "tithi", "vara"], "stars": ["Revati", "Ashwini", "Shravana", "Anuradha", "Ardra", "Punarvasu", "Pushya", "Hasta", "Chitra", "Swati"], "tithis": {"both": [2, 3, 5, 7, 10, 11, 13]}, "weekdays": ["Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "LEARN_NUMEROLOGY": {
+      "words": {"KALYANRAMAN": 66},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "abhijitOk", "tithi", "vara"], "stars": ["Ashwini", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "PPhalguni", "UPhalguni", "Hasta", "Chitra", "Swati", "Anuradha", "PAshadha", "UAshadha", "Shravana", "Dhanishtha", "Revati"], "abhijit": true, "tithis": {"both": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "LEARN_WATER_DIVINING": {
+      "words": {"KALYANRAMAN": 47},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara"], "stars": ["Rohini", "Ardra", "Swati", "UAshadha", "Shravana", "UBhadra"], "tithis": {"both": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "LEARN_COMPUTING": {
+      "words": {"KALYANRAMAN": 28},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara"], "stars": ["Ardra", "Anuradha", "Dhanishtha"], "tithis": {"both": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "LEARN_POSITIVE_SCIENCES": {
+      "words": {"KALYANRAMAN": 28},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara"], "stars": ["Swati", "Moola", "Shatabhisha", "Revati"], "tithis": {"both": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "LEARN_CULINARY_STATECRAFT": {
+      "words": {"KALYANRAMAN": 33},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara"], "stars": ["Rohini", "Ardra", "Swati", "UAshadha", "Shravana"], "tithis": {"both": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "LEARN_PHRENOLOGY": {
+      "words": {"KALYANRAMAN": 32},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara"], "stars": ["Rohini", "Mrigashira", "Punarvasu", "Anuradha"], "tithis": {"both": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "LEARN_HIGHER_STUDIES": {
+      "words": {"KALYANRAMAN": 63},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "vara"], "stars": ["Rohini"], "stars_mid": ["Ashwini", "Bharani", "Krittika", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "PPhalguni", "UPhalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Moola", "PAshadha", "UAshadha", "Shravana", "Dhanishtha", "Shatabhisha", "PBhadra", "UBhadra", "Revati"], "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "LEARN_SHUDRA_MANTRAS": {
+      "words": {"KALYANRAMAN": 53},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara"], "stars": ["Bharani", "Krittika", "Ashlesha", "Magha", "PPhalguni", "Vishakha", "Moola", "PAshadha", "PBhadra"], "tithis": {"both": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"]}
+      }
     }
   }
 }

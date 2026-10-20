@@ -1025,6 +1025,27 @@ and Joshi's Tripadi chakra, counted of 28 with Abhijit, which is the whole of hi
 Not computed: the day count from the wedding, the odd / even years and months, the bride's own Moon (her janma sign is
 not an input here), the Venus-in-front travel dosha, and the first-pillar direction.
 
+**Learning by subject** (22 acts, added 2026-10-20): the general education act names the subject-wise lists and says
+they are not computed there; this builds them. Mathematics, astrology (with astronomy and palmistry), the Vedas and
+grammar, Vedarambha (the samskara of starting the Vedas), philosophy and dharma-shastra, logic, medicine, arms and archery,
+music and dance, instruments, other religions, foreign languages, law, writing; and the subjects only Kalyanraman's
+tables name: numerology, water divining, computing, the positive sciences, the culinary arts and statecraft, palmistry
+and physiognomy, higher and technical studies, the Shudra mantras and expeditions. Sources: Shridhar §17.11.4-25,
+Kalyanraman vol.2 pp.152-164, Joshi pp.97-100, Wilhelm pp.234-235 and 301-302, Raman ch.XI, Rangacharya pp.119-120,
+Vashistha pp.85-87. The painting, sports, sculpture, craft, gemology and mantra acts that were already built are not
+repeated.
+Several subjects are one list in several books, and the tests pin each: mathematics is the same eighteen stars (and
+Sunday, Wednesday) in Shridhar, Kalyanraman, Joshi and Vashistha; philosophy the same seventeen in Shridhar,
+Kalyanraman and Joshi; arms the same sixteen and Sunday, Tuesday, Friday in the same three; the Vedas and grammar the
+same thirteen; Kalyanraman and Vashistha print the same eight for astrology. Where they part: Vashistha's medicine list has
+Bharani where the others have Mrigashira; Rangacharya's mathematics is seven stars against the others' eighteen
+(he gives mathematics, astronomy and astrology as one section, so his reading stands under both); Shridhar's
+Vedas, grammar, astrology and dharma-shastra are one section and stand under the first two.
+Kalyanraman's rule that the Vedas and the Anadhyaya days exclude each other is computed (the same Anadhyaya tithis the
+upanayana and education acts use). New: the `anadhyaya` and `galagraha` keys in the shared reading generator.
+Where a book gives only additions to its general list (Wilhelm), the general stars are good and the additions join them;
+the subject readings carry only each book's own subject-wise rules and say that the general education rules also apply.
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying
