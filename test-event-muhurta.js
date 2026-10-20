@@ -1793,4 +1793,36 @@ const RF = FIX.roga_snana;
   for (const c of ['KHATWA_CHAKRA', 'CHAKKI_CHAKRA', 'HALA_CHAKRA_MID', 'VRIKSHA_CHAKRA_MID']) assert.ok(E.CODE_TA[c], c);
 }
 
+// ------------------------------------------------ the "one book" switch: every reading id maps to a book ---
+{
+  // The page's one-book mode resolves an act's reading by the book it belongs to. A reading id is
+  // either a book id itself or a second reading from that book, which BOOK_OF maps back. If a new
+  // variant id is ever added without a BOOK_OF entry, one-book mode would silently skip that act.
+  const ids = new Set();
+  for (const ev of E.EVENTS.order ?? Object.keys(E.EVENTS)) {
+    const e = E.EVENTS[ev];
+    if (!e || !e.order) continue;
+    for (const id of e.order) ids.add(id);
+  }
+  const bookOf = (id) => E.BOOK_OF[id] ?? id;
+  for (const id of ids) {
+    assert.ok(E.BOOK_TA[bookOf(id)], `${id} resolves to a book with a name (BOOK_TA / BOOK_OF)`);
+  }
+  // Every named book is actually used by some act, so the switch offers nothing dead.
+  const used = new Set([...ids].map(bookOf));
+  for (const b of Object.keys(E.BOOK_TA)) assert.ok(used.has(b), `${b} is used by at least one act`);
+  // The books with a second reading resolve to themselves, not to a separate entry in the switch.
+  for (const [variant, base] of Object.entries(E.BOOK_OF)) {
+    assert.ok(!E.BOOK_TA[variant], `${variant} is not offered as its own book`);
+    assert.ok(E.BOOK_TA[base], `${variant} maps to a named book`);
+  }
+  // Shridhar is the book the owner reads first; these are the acts he is silent on, which
+  // one-book mode has to name rather than leave blank.
+  const silent = [...(E.EVENTS.order ?? Object.keys(E.EVENTS))].filter((ev) => {
+    const e = E.EVENTS[ev];
+    return e && e.order && !e.order.some((id) => bookOf(id) === 'SHRIDHAR');
+  });
+  assert.ok(silent.length > 0 && silent.length < 20, `Shridhar is silent on ${silent.length} acts`);
+}
+
 console.log('test-event-muhurta: all checks passed');

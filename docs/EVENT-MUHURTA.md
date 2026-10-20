@@ -871,6 +871,27 @@ emit their code with the `_MID` suffix, and their Tamil labels had been written 
 name, so the page showed a bare code. A test now walks every reading's `starCount` and asserts the
 label exists under the name the engine actually emits.
 
+**Showing one book at a time** (2026-10-20, the owner's request). The page always judged a time by
+one book's reading per act, with the most-explained book as the default and a switch to change it.
+Two things changed in how that is shown.
+
+The readings the switch is not using no longer each take a line of their own: the reading in force
+is open, and the rest sit behind a single collapsed line that names them — "மேலும் 3 நூல்களில் — …".
+
+A **"ஒரே நூல்"** switch pins the whole page to one book. Where that book carries the act, its
+reading decides; where it does not, the act's own default is used and the page says so in red,
+rather than leaving a blank. This matters because no single book covers everything: Shridhar, the
+fullest, has a reading in 91 of the 101 acts and is the most-explained in only 46 of them. Making
+him the default everywhere would have left ten acts with no rule at all (agriculture in general,
+a garden, a compromise, speculation, a lottery, accounts, buying a house, starting a temple,
+setting up missiles, learning a craft) and replaced the fuller reading with a shorter one in some
+forty-five more, so the switch is offered instead of changing the default.
+
+A reading id is either a book's id or a second reading from the same book (SHRIDHAR_PADDY,
+SHRIDHAR_OLD, SHRIDHAR_GATHER, KALYANRAMAN_BUY), which `BOOK_OF` maps back to the book. A test
+asserts every id in every act resolves to a named book, so a new variant id cannot be added without
+a mapping — which would otherwise make one-book mode skip that act in silence.
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying

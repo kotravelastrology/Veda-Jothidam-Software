@@ -78,6 +78,9 @@ export default function MuhurtaStarsView() {
   const [lagnaReading, setLagnaReading] = useState<Record<string, string>>({});
   const [lagnaEvent, setLagnaEvent] = useState('MARRIAGE');
   const [eventBook, setEventBook] = useState<Record<string, string>>({});
+  // "One book" mode: pin every act to one book. An act that book does not carry falls back to
+  // its own default, and the page says so rather than showing nothing.
+  const [oneBook, setOneBook] = useState<string | null>(null);
   const [tierReading, setTierReading] = useState<Record<string, string>>({});
   const [door, setDoor] = useState<string>('');
   // A journey's direction: the engine computes travel's direction rules for it, so a change recomputes.
@@ -162,8 +165,14 @@ export default function MuhurtaStarsView() {
   // The act's own rules once the result for it has come (a switch recomputes; until then, the general rules only).
   const evWanted: string | undefined = B?.lagna.events[lagnaEvent]?.event;
   const evName: string | undefined = evWanted && (result?.events ?? []).includes(evWanted) ? evWanted : undefined;
-  const evRule = evName ? B.lagna.eventRules[evName][eventBook[evName] ?? B.lagna.eventRules[evName].default] : null;
-  const evBookId = evName ? (eventBook[evName] ?? B.lagna.eventRules[evName].default) : null;
+  // The reading id for a chosen book, where the act has one (a book may give an act two readings).
+  const idOfBook = (ev: string, book: string): string | undefined =>
+    B.lagna.eventRules[ev].order.find((id: string) => (B.lagna.eventBookOf?.[id] ?? id) === book);
+  const evOneBookId = evName && oneBook ? idOfBook(evName, oneBook) : undefined;
+  const evBookId = evName ? (evOneBookId ?? eventBook[evName] ?? B.lagna.eventRules[evName].default) : null;
+  // In one-book mode, an act the chosen book is silent on.
+  const evBookSilent = Boolean(evName && oneBook && !evOneBookId);
+  const evRule = evName ? B.lagna.eventRules[evName][evBookId!] : null;
   // The door's direction matters only where a book of the event gives door rules (house entry).
   const evHasDoor = evName ? B.lagna.eventRules[evName].order.some((id: string) => {
     const r = B.lagna.eventRules[evName][id];
@@ -508,10 +517,26 @@ export default function MuhurtaStarsView() {
                   ))}
                 </select>
               </label>
+              <Switch label="ஒரே நூல்" value={oneBook ?? 'OFF'} onChange={(v) => setOneBook(v === 'OFF' ? null : v)}
+                options={[['OFF', 'வேண்டாம் — அதிகம் விளக்கும் நூல் (இயல்பு)'], ...Object.keys(B.lagna.eventBookTa ?? {}).map((id: string) => [id, B.lagna.eventBookTa[id]] as [string, string])]} />
+              {oneBook && (
+                <p className="text-[11px] text-ink-soft mb-1">
+                  ஒவ்வொரு காரியத்துக்கும் {B.lagna.eventBookTa[oneBook]} நூலின் வாசிப்பே தீர்ப்பு. அந்த நூலில் இல்லாத காரியத்துக்கு அதன் இயல்பு நூல் காட்டப்படும், அது வெளிப்படையாகச் சொல்லப்படும்.
+                </p>
+              )}
               {evName && (
                 <>
-                  <Switch label={`${B.lagna.eventRules[evName].labelTa} — நூல்`} value={evBookId!} onChange={(v) => setEventBook({ ...eventBook, [evName]: v })}
-                    options={B.lagna.eventRules[evName].order.map((id: string) => [id, `${B.lagna.eventRules[evName][id].labelTa}${id === B.lagna.eventRules[evName].default ? ' (இயல்பு)' : ''}`])} />
+                  {!oneBook && (
+                    <Switch label={`${B.lagna.eventRules[evName].labelTa} — நூல்`} value={evBookId!} onChange={(v) => setEventBook({ ...eventBook, [evName]: v })}
+                      options={B.lagna.eventRules[evName].order.map((id: string) => [id, `${B.lagna.eventRules[evName][id].labelTa}${id === B.lagna.eventRules[evName].default ? ' (இயல்பு)' : ''}`])} />
+                  )}
+                  {oneBook && (
+                    <p className="text-[11px] mb-1">
+                      {evBookSilent
+                        ? <span className="text-rose">{B.lagna.eventBookTa[oneBook]} நூலில் "{B.lagna.eventRules[evName].labelTa}" இல்லை — {B.lagna.eventRules[evName][evBookId!].labelTa} காட்டப்படுகிறது.</span>
+                        : <span className="text-ink-soft">நூல்: {B.lagna.eventRules[evName][evBookId!].labelTa}</span>}
+                    </p>
+                  )}
                   {evHasDoor && (
                     <Switch label="வாசல் திசை" value={door} onChange={setDoor}
                       options={[['', 'தேர்வு இல்லை'], ...B.lagna.doors.order.map((d: string) => [d, B.lagna.doors.ta[d]])] as [string, string][]} />
@@ -816,11 +841,13 @@ export default function MuhurtaStarsView() {
                     </p>
                   );
                 })()}
-                {ER.order.map((id: string) => {
+                {(() => {
+                const renderBook = (id: string) => {
                   const r = ER[id];
+                  const own = id === evBookId;
                   return (
-                    <details key={id} className="mt-2 text-xs" open={id === evBookId}>
-                      <summary className="cursor-pointer font-semibold text-ink">{r.labelTa}{id === ER.default ? ' (இயல்பு)' : ''}{id === evBookId ? ' ← தேர்ந்தது' : ''}</summary>
+                    <details key={id} className="mt-2 text-xs" open={own}>
+                      <summary className="cursor-pointer font-semibold text-ink">{r.labelTa}{id === ER.default ? ' (இயல்பு)' : ''}{own ? ' ← தேர்ந்தது' : ''}</summary>
                       {r.linesTa && <ul className="mt-1 space-y-0.5 text-ink list-disc ml-5">{r.linesTa.map((t: string) => <li key={t}>{t}</li>)}</ul>}
                       {!r.linesTa && <ul className="mt-1 space-y-0.5 text-ink">
                         {r.masa && <li>மாதம்: {months(r.masa.good)}{r.masa.mid.length > 0 && <> · நடுத்தரம் {months(r.masa.mid)}</>}{!r.masa.strict && ' (விருப்பம்)'}</li>}
@@ -877,7 +904,22 @@ export default function MuhurtaStarsView() {
                       <Cites list={[B.lagna.eventSources[evName][id]]} />
                     </details>
                   );
-                })}
+                };
+                const others = ER.order.filter((id: string) => id !== evBookId);
+                return (
+                  <>
+                    {renderBook(evBookId!)}
+                    {!oneBook && others.length > 0 && (
+                      <details className="mt-2 text-xs">
+                        <summary className="cursor-pointer text-ink-soft">
+                          மேலும் {others.length} நூல்{others.length > 1 ? 'களில்' : 'லில்'} — {others.map((id: string) => ER[id].labelTa).join(' · ')}
+                        </summary>
+                        <div className="ml-3">{others.map(renderBook)}</div>
+                      </details>
+                    )}
+                  </>
+                );
+                })()}
                 <ul className="text-[11px] text-ink-soft list-disc ml-5 mt-2 space-y-0.5">{B.lagna.eventNotesTa[evName].map((n: string) => <li key={n}>{n}</li>)}</ul>
                 <Cites list={[...B.lagna.eventSources.MONTHS, ...(['UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'BUSINESS', 'MEDICINE', 'SURGERY'].includes(evName) ? [B.lagna.eventSources.VISHTI] : [])]} />
               </section>

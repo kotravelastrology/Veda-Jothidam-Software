@@ -684,7 +684,7 @@ function muhurtaStarChecks({ natalMoonLongitude, natalLagnaLongitude, fromMs, to
         common: L.COMMON, commonWhyTa: L.COMMON_WHY_TA, events: L.EVENTS, scope: L.SCOPE, scopeOutTa: L.SCOPE_OUT_TA,
         adverse: L.ADVERSE, adverseTa: L.ADVERSE_TA, adverseCautionTa: L.ADVERSE_CAUTION_TA,
         tiers: L.TIERS, tierTa: L.TIER_TA, tierNoteTa: L.TIER_NOTE_TA,
-        eventRules: { ...onlyEvents(EV.EVENTS), order: evOrder }, doors: EV.DOORS, monthTa: EV.MONTH_TA, starTa: NAKSHATRA_TA, eventRank: onlyEvents(EV.RANK), eventSources: onlyEvents(EV.SOURCES), eventCodeTa: EV.CODE_TA, eventChakraTa: EV.CHAKRA_TA, eventNotesTa: onlyEvents(EV.NOTES_TA), eventYears: EV.UPANAYANA_YEARS, directions: EV.DIRECTIONS,
+        eventRules: { ...onlyEvents(EV.EVENTS), order: evOrder }, eventBookTa: EV.BOOK_TA, eventBookOf: EV.BOOK_OF, doors: EV.DOORS, monthTa: EV.MONTH_TA, starTa: NAKSHATRA_TA, eventRank: onlyEvents(EV.RANK), eventSources: onlyEvents(EV.SOURCES), eventCodeTa: EV.CODE_TA, eventChakraTa: EV.CHAKRA_TA, eventNotesTa: onlyEvents(EV.NOTES_TA), eventYears: EV.UPANAYANA_YEARS, directions: EV.DIRECTIONS,
         natalLagna: Number.isFinite(natalLagnaLongitude) ? Math.floor(norm360(natalLagnaLongitude) / 30) : null,
       },
     },
