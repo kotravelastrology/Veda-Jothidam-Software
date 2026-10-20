@@ -1254,6 +1254,95 @@
       "books": {
         "SHRIDHAR": {"keys": ["starCount"], "star_count": [{"from": "Saturn", "of": 27, "good": [1, 2, 3, 4, 9, 10, 11, 12, 13, 14, 15, 16, 20, 21, 22, 23, 24], "code": "CHAKKI_CHAKRA"}]}
       }
+    },
+    "WASHERMAN": {
+      "words": {"SHRIDHAR": 28},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["nak", "tithi", "sankranti", "vara", "lagna"], "stars": ["Rohini", "UPhalguni", "UAshadha", "UBhadra", "Punarvasu", "Shravana", "Hasta", "Pushya", "Vishakha", "Dhanishtha", "Revati", "Mrigashira"], "tithis": {"both": [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13]}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"], "lagnas": [1, 3, 5, 7, 9, 11], "sankranti": true}
+      }
+    },
+    "SALT": {
+      "words": {"SHRIDHAR": 32},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["nak", "vara"], "stars": ["Bharani", "Rohini", "Shravana"], "weekdays": ["Sat"]}
+      }
+    },
+    "SPORTS": {
+      "words": {"KALYANRAMAN": 110, "SHRIDHAR": 40, "WILHELM": 13},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara", "beneficIn", "maleficIn"], "stars": ["Bharani", "Ashlesha", "Magha", "PPhalguni", "PAshadha", "PBhadra", "Jyeshtha", "Moola"], "stars_mid": ["Ardra"], "tithis": {"both": [3, 5, 8, 10, 13], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"], "benefic_in": [1, 4, 5, 7, 9, 10], "malefic_in": [3, 6, 11]},
+        "SHRIDHAR": {"keys": ["nak", "tithi", "vara", "lagna", "beneficIn"], "stars": ["Ardra", "Ashlesha", "Jyeshtha", "Moola", "Magha", "Bharani", "PPhalguni", "PAshadha", "PBhadra"], "tithis": {"both": [3, 5, 8, 10, 13], "full_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"], "lagnas": [3, 5, 6, 7, 8, 11], "benefic_in": [1, 4, 7, 10]},
+        "WILHELM": {"keys": ["nak"], "stars": ["Ashlesha", "Magha", "Jyeshtha", "Moola", "PPhalguni", "PAshadha", "PBhadra"]}
+      }
+    },
+    "BRIDGE_DAM": {
+      "words": {"SHRIDHAR": 31},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["nak", "vara"], "stars": ["Rohini", "UPhalguni", "UAshadha", "UBhadra", "Swati", "Mrigashira"], "weekdays": ["Sun", "Tue", "Thu"]}
+      }
+    },
+    "PERFUME": {
+      "words": {"SHRIDHAR": 72},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["nak", "want"], "stars": ["Punarvasu", "Swati", "Shravana", "Dhanishtha", "Shatabhisha", "Mrigashira", "Chitra", "Anuradha", "Revati", "Hasta", "Ashwini", "Pushya"]}
+      }
+    },
+    "BETEL": {
+      "words": {"SHRIDHAR": 41},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["nak", "tithi", "vara", "lagna"], "stars": ["Anuradha", "Jyeshtha", "Moola", "Hasta", "Chitra", "Swati", "Revati", "Ashwini", "Shravana", "Dhanishtha", "Mrigashira", "Punarvasu", "Pushya", "Rohini", "UPhalguni", "UAshadha", "UBhadra"], "tithis": {"both": [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13], "full_moon": true, "new_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"], "lagnas": [1, 4, 7, 10]}
+      }
+    },
+    "GEMOLOGY": {
+      "words": {"SHRIDHAR": 22},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["nak", "tithi", "vara"], "stars": ["Punarvasu", "Shatabhisha", "Hasta", "Shravana", "Jyeshtha"], "tithis": {"both": [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13], "full_moon": true, "new_moon": true}, "weekdays": ["Sun", "Mon", "Wed", "Thu", "Fri"]}
+      }
+    },
+    "LIBRARY": {
+      "words": {"SHRIDHAR": 31},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["vara", "want"], "weekdays": ["Thu"]}
+      }
+    },
+    "LATHE": {
+      "words": {"SHRIDHAR": 36},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["nak", "vara", "lagna"], "stars": ["Revati"], "weekdays": ["Sun"], "lagnas": [5]}
+      }
+    },
+    "ADOPTION": {
+      "words": {"KALYANRAMAN": 81, "SHRIDHAR": 61, "JOSHI": 52, "WILHELM": 26},
+      "default": "KALYANRAMAN",
+      "books": {
+        "KALYANRAMAN": {"keys": ["nak", "tithi", "vara", "lagna"], "stars": ["Ashwini", "Pushya", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Dhanishtha"], "tithis": {"both": [1, 2, 3, 5, 7, 10, 11, 13]}, "weekdays": ["Sun", "Tue", "Thu", "Fri"], "lagnas": [2, 7, 9, 12], "lagnas_mid": [3, 4, 6]},
+        "SHRIDHAR": {"keys": ["nak", "tithi", "vara", "lagna"], "stars": ["Ashwini", "Pushya", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Dhanishtha"], "tithis": {"shukla": [2, 3, 7, 8, 10, 11, 12, 13], "krishna": [1], "full_moon": true}, "weekdays": ["Sun", "Tue", "Thu", "Fri"], "lagnas": [2, 3]},
+        "JOSHI": {"keys": ["nak", "tithi", "vara", "lagna"], "stars": ["Ashwini", "Pushya", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Dhanishtha"], "tithis": {"both": [1, 2, 3, 5, 7, 10, 11, 13]}, "weekdays": ["Sun", "Tue", "Thu", "Fri"], "lagnas": [2, 3, 4, 6, 7, 9, 12]},
+        "WILHELM": {"keys": ["nak", "vara"], "stars": ["Ashwini", "Pushya", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Dhanishtha"], "weekdays": ["Sun", "Tue", "Thu", "Fri"]}
+      }
+    },
+    "OATH_MASS": {
+      "words": {"SHRIDHAR": 222},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["dayParts", "empty", "notIn"], "empty": [8], "not_in": [[["Sun", "Mars", "Saturn", "Rahu", "Ketu"], [1, 2, 4, 7, 12], false]]}
+      }
+    },
+    "CASTRATION": {
+      "words": {"SHRIDHAR": 30},
+      "default": "SHRIDHAR",
+      "books": {
+        "SHRIDHAR": {"keys": ["nak", "vara"], "stars": ["Revati", "Pushya", "Hasta", "Swati", "Mrigashira", "Shravana", "Dhanishtha"], "weekdays": ["Sun", "Tue", "Thu"]}
+      }
     }
   }
 }

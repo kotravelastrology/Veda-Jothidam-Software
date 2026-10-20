@@ -292,9 +292,9 @@ Not plan items, but real, and they should not be discovered at release:
   army, war, weapons, armour, missiles, camp, dagger, treaty, coins and catching a thief.
   The crafts and trades are done in two parts:
   boat, weaving, pottery, painting, sculpture, learning a craft, leather, salon, wine, bed,
-  performing, dairy, bricks, iron and the grinding mill - fifteen acts. Left: the one-line
-  singles in Shridhar's ch.25 (washerman, salt, wrestling ring, bridge, perfume, betel,
-  gemology, library, lathe) and the stragglers in his ch.20 and ch.26 (oath taking, adoption,
-  nomination papers, castration).
+  performing, dairy, bricks, iron and the grinding mill - fifteen acts. The last twelve followed - the ch.25 singles
+  plus adoption, castration and the cabinet's oath - closing the act table at 113 acts.
+  Only 20.22 (nomination papers) is deliberately left out: Shridhar says the texts have no
+  reference for it and reasons by analogy to acts already built.
 - **A Tamil font must be bundled before release** — the VJ-019 PDF proof used
   Windows NirmalaUI, so output currently depends on the user's system fonts.

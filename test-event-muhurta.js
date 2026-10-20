@@ -1825,4 +1825,44 @@ const RF = FIX.roga_snana;
   assert.ok(silent.length > 0 && silent.length < 20, `Shridhar is silent on ${silent.length} acts`);
 }
 
+// ------------------------------------------------ the last readings: adoption, sports, the short ones ---
+{
+  // Four books print the same eight stars and the same four weekdays for adopting a child.
+  const A8 = sorted(E.EVENTS.ADOPTION.KALYANRAMAN.nak.good);
+  assert.equal(A8.length, 8, 'eight adoption stars');
+  for (const b of ['SHRIDHAR', 'JOSHI', 'WILHELM']) {
+    assert.deepEqual(sorted(E.EVENTS.ADOPTION[b].nak.good), A8, `${b}: the same adoption stars`);
+    assert.deepEqual(sorted(E.EVENTS.ADOPTION[b].vara.good), [0, 2, 4, 5], `${b}: Sunday, Tuesday, Thursday, Friday`);
+  }
+  // Kalyanraman and Joshi print the same tithis; Shridhar's differ, which the notes name.
+  assert.deepEqual(sorted(E.EVENTS.ADOPTION.KALYANRAMAN.tithi), sorted(E.EVENTS.ADOPTION.JOSHI.tithi), 'the same adoption tithis');
+  assert.notDeepEqual(sorted(E.EVENTS.ADOPTION.SHRIDHAR.tithi), sorted(E.EVENTS.ADOPTION.JOSHI.tithi), "Shridhar's adoption tithis differ");
+  // Sports: three books, all on the Tikshna and Ugra family that the rest of the table bars.
+  for (const b of E.EVENTS.SPORTS.order) {
+    const good = E.EVENTS.SPORTS[b].nak.good;
+    for (const n of [8, 9, 17, 18]) assert.ok(good.includes(n), `SPORTS/${b}: wants star ${n}`);
+  }
+  // The shortest readings in the table say exactly what the books say and nothing more.
+  assert.deepEqual(sorted(E.EVENTS.SALT.SHRIDHAR.nak.good), [1, 3, 21], 'salt: Bharani, Rohini, Shravana');
+  assert.deepEqual(E.EVENTS.SALT.SHRIDHAR.vara.good, [6], 'salt: Saturday alone');
+  assert.deepEqual(E.EVENTS.LATHE.SHRIDHAR.nak.good, [26], 'lathe: Revati alone');
+  assert.deepEqual(E.EVENTS.LATHE.SHRIDHAR.vara.good, [0], 'lathe: Sunday alone');
+  assert.deepEqual(E.EVENTS.LATHE.SHRIDHAR.lagna.good, [4], 'lathe: Leo alone');
+  // A reading may carry no star list at all, where the book gives none.
+  assert.ok(!E.EVENTS.LIBRARY.SHRIDHAR.nak, 'the library reading names no star');
+  assert.deepEqual(E.EVENTS.LIBRARY.SHRIDHAR.vara.good, [4], 'the library wants Thursday');
+  assert.ok(!E.EVENTS.OATH_MASS.SHRIDHAR.nak, 'the cabinet oath names no star');
+  assert.deepEqual(E.EVENTS.OATH_MASS.SHRIDHAR.empty, [8], 'the cabinet oath wants the 8th empty');
+  // Every act in the table has a label, a default its own order contains, and a source per book.
+  const acts = (E.EVENTS.order ?? Object.keys(E.EVENTS)).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
+  assert.ok(acts.length >= 113, `the whole table: ${acts.length} acts`);
+  for (const ev of acts) {
+    const e = E.EVENTS[ev];
+    assert.ok(e.labelTa, `${ev} has a Tamil label`);
+    assert.ok(e.order.includes(e.default), `${ev}: the default is one of its books`);
+    assert.ok(E.NOTES_TA[ev] && E.NOTES_TA[ev].length > 0, `${ev} has notes`);
+    for (const b of e.order) assert.ok(E.SOURCES[ev][b], `${ev}/${b} has a source`);
+  }
+}
+
 console.log('test-event-muhurta: all checks passed');

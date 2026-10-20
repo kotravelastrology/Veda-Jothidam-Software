@@ -892,6 +892,36 @@ SHRIDHAR_OLD, SHRIDHAR_GATHER, KALYANRAMAN_BUY), which `BOOK_OF` maps back to th
 asserts every id in every act resolves to a named book, so a new variant id cannot be added without
 a mapping — which would otherwise make one-book mode skip that act in silence.
 
+**The last readings** (12 acts, added 2026-10-20) close the table at **113 acts**. Nine are the
+one-line trades left in Shridhar's chapter 25 — the washerman (§25.12), salt (§25.17), a wrestling
+ring and sports (§25.18, with Kalyanraman p.156 and Wilhelm's line inside his education section),
+a bridge or dam (§25.21), perfume (§25.22), betel (§25.23), gemology (§25.27), a library (§25.29)
+and a lathe (§25.33). Three come from elsewhere: adopting a child (§20.20, with Kalyanraman p.231,
+Joshi p.150 and Wilhelm p.211), castration (§26.13) and the cabinet's oath (§20.2).
+
+**Adoption** is one of the table's closest agreements: four books print the same eight stars
+(Ashwini, Pushya, Hasta, Chitra, Swati, Vishakha, Anuradha, Dhanishtha) and the same four weekdays,
+and Kalyanraman's and Joshi's tithis match exactly. Only Shridhar's tithis differ, and the tests
+assert both the agreement and that one difference. **Sports** keeps the inversion: three books put
+it on the Tikshna and Ugra stars, the same family as weapons, hunting and wine.
+
+Some of these are the shortest readings in the table, and they are left short rather than padded.
+**Salt** is three stars and one weekday. The **lathe** is one star, one weekday and one lagna —
+Revati, Sunday, Leo. The **library** and the **cabinet's oath** name no star at all: the library is
+Mercury's placement on a Thursday, and the oath is a set of house rules (the 8th empty, no malefic
+in the 1st, 2nd, 4th, 7th or 12th, daytime), because Shridhar says the stars and tithis follow the
+coronation, which the assuming-office act already carries from nine books. A test asserts those two
+readings have no star list, so the gap is deliberate and stays visible.
+
+**§20.22, filing nomination papers, is not built.** Shridhar writes plainly that the treatises have
+no reference for it and reasons by analogy to an application to the government, winning over an
+enemy and litigation — all three of which are already acts. An act resting on the author's analogy
+rather than a source would not belong beside the rest.
+
+Also left out: Muhurta Chintamani p.127 gives a full reading for a child first eating betel leaf,
+which is a samskara rather than the betel trade; the samskara family (beyond upanayana) is not
+built, so it is named in the betel act's notes instead of being folded in.
+
 Not done in this family: the crafts (weaving, cloth mills, dyeing, gem cutting),
 the crop-by-crop and sign-by-sign planting tables (Raman, Kalyanraman's notes),
 omens at ploughing, the garden's directions (Shridhar), keeping animals, buying

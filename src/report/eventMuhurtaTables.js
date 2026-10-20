@@ -5116,8 +5116,252 @@ const GRINDING_MILL = deepFreeze({
     noteTa: 'சனியின் நட்சத்திரத்திலிருந்து எண்ணும் ஒரே சக்கரம் · 1-4, 9-16, 20-23 நல்லது; 5-8, 17-19, 25-27 கூடாது; 24-க்குப் பெயர் இல்லை, அதனால் தள்ளப்படவில்லை · நட்சத்திரம், திதி, கிழமை, லக்னம் சொல்லப்படவில்லை — பொதுவான தாரா, சந்திர பலமும் லக்ன சுத்தியும் மட்டுமே மற்ற விதிகள்',
   },
 });
+// ---------------------------------------------------------------------------
+// The last readings (trades, adoption, castration, the cabinet oath), added 2026-10-20
+// ---------------------------------------------------------------------------
+const WASHERMAN = deepFreeze({
+  labelTa: 'சலவைத் தொழில் தொடங்குதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §25.12', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [3, 11, 20, 25, 6, 21, 12, 7, 15, 22, 26, 4], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 16, 17, 18, 19, 20, 21, 22, 24, 25, 26, 27, 28],
+    sankranti: true,
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    lagna: { good: [0, 2, 4, 6, 8, 10], mid: [] },
+    noteTa: 'ஸ்திர 4 + எட்டு = 12 (அச்சில் திருவோணம் இரு முறை வருகிறது) · பர்வ திதி தள்ளு — அஷ்டமி, சதுர்த்தசி, பௌர்ணமி, அமாவாசை என்று எடுக்கப்பட்டுள்ளது (எங்கள் வாசிப்பு) · "சுப கிழமைகள்" — ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி · ஒற்றைப்படை லக்னம் · சங்கிரம நாள் தள்ளு',
+  },
+});
+const SALT = deepFreeze({
+  labelTa: 'உப்பு தயாரித்தல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §25.17', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [1, 3, 21], mid: [] }, digdwar: false,
+    vara: { good: [6], mid: [] },
+    noteTa: 'மூன்று நட்சத்திரம் மட்டும் — பரணி, ரோகிணி, திருவோணம் · சனிக்கிழமை மட்டும் · திதி, லக்னம் சொல்லப்படவில்லை · சனியின் பலமும் கோசாரமும் — கணிக்கப்படவில்லை',
+  },
+});
+const SPORTS = deepFreeze({
+  labelTa: 'விளையாட்டு, மல்யுத்தம், உடற்பயிற்சி',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'SHRIDHAR', 'WILHELM'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.156)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [1, 8, 9, 10, 19, 24, 17, 18], mid: [5] }, digdwar: false,
+    tithi: [3, 5, 8, 10, 13, 15, 18, 20, 23, 25, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    beneficIn: [1, 4, 5, 7, 9, 10],
+    maleficIn: [3, 6, 11],
+    noteTa: 'எட்டு நட்சத்திரம் — க்ரூர 5 + தீக்ஷணத்தில் மூன்று (கேட்டை, மூலம், ஆயில்யம்); திருவாதிரை மட்டும் இவரிடம் இல்லை, நடுநிலையாகச் சேர்க்கப்பட்டுள்ளது · திதி 3, 5, 8, 10, 13, 15 = ஜய + பூர்ண · ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி · சுபர் கேந்திர / திரிகோணத்தில்; பாபர் 3, 6, 11-இல் · புதன் பலம் — கணிக்கப்படவில்லை',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §25.18', booksTa: 'ஸ்ரீதர் (B.J.S. மேற்கோள்)',
+    nak: { good: [5, 8, 17, 18, 9, 1, 10, 19, 24], mid: [] }, digdwar: false,
+    tithi: [3, 5, 8, 10, 13, 15, 18, 20, 23, 25, 28],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    lagna: { good: [2, 4, 5, 6, 7, 10], mid: [] },
+    beneficIn: [1, 4, 7, 10],
+    noteTa: 'தீக்ஷண 4 + க்ரூர 5 = 9 · ஜய (3, 8, 13) + பூர்ண (5, 10, 15) திதி — கல்யாணராமனின் அதே ஆறு · "ஞாயிறு உட்பட சுப கிழமைகள்" — ஞாயிறு, திங்கள், புதன், வியாழன், வெள்ளி (எங்கள் வாசிப்பு; கல்யாணராமனின் அதே ஐந்து) · சிரோதய ராசி லக்னம் · சூரியன் உட்பட சுபர் கேந்திரத்தில்',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — விளையாட்டு (கல்விப் பிரிவில்)', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [8, 9, 17, 18, 10, 19, 24], mid: [] }, digdwar: false,
+    noteTa: 'தனிப் பிரிவு இல்லை — கல்வி காரியத்தின் உள்ளே "விளையாட்டுக்கு" என்ற ஒரு வரி · ஏழு நட்சத்திரம்: ஸ்ரீதரின் ஒன்பதில் திருவாதிரையும் பரணியும் தவிர அனைத்தும் · திதி, கிழமை, லக்னம் இந்த வரியில் இல்லை — அவரது கல்வி காரியத்தின் விதிகளே பொருந்தும், அது தனியே உள்ளது',
+  },
+});
+const BRIDGE_DAM = deepFreeze({
+  labelTa: 'பாலம், அணை கட்டுதல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §25.21', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [3, 11, 20, 25, 14, 4], mid: [] }, digdwar: false,
+    vara: { good: [0, 2, 4], mid: [] },
+    noteTa: 'ஸ்திர 4 (ரோகிணி + 3 உத்திரம்) + சுவாதி, மிருகசீரிடம் = 6 · ஞாயிறு, செவ்வாய், வியாழன் · லக்னத்துக்குச் சுப பார்வை — கணிக்கப்படவில்லை · திதி, லக்ன ராசி சொல்லப்படவில்லை',
+  },
+});
+const PERFUME = deepFreeze({
+  labelTa: 'வாசனைப் பொருள், மலர் வியாபாரம்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §25.22', booksTa: 'ஸ்ரீதர் (K.P. மேற்கோள்)',
+    nak: { good: [6, 14, 21, 22, 23, 4, 13, 16, 26, 12, 0, 7], mid: [] }, digdwar: false,
+    want: [{ planets: ['Jupiter'], houses: [1], code: 'JUP_LAGNA_MID' }],
+    noteTa: 'சர 5 + மது 4 + லகு 3 = 12 · லக்னத்தில் குரு — இல்லாவிட்டால் பக்கத்தில் குறிக்கப்படுகிறது; சந்திரன் 12-இல் என்பது அந்தச் சேர்க்கையின் இரண்டாம் பாதி, தனியே கணிக்கப்படவில்லை · திதி, கிழமை, லக்ன ராசி சொல்லப்படவில்லை',
+  },
+});
+const BETEL = deepFreeze({
+  labelTa: 'வெற்றிலை, பாக்கு வியாபாரம்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §25.23', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [16, 17, 18, 12, 13, 14, 26, 0, 21, 22, 4, 6, 7, 3, 11, 20, 25], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25, 26, 27, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    lagna: { good: [0, 3, 6, 9], mid: [] },
+    noteTa: 'பதினேழு நட்சத்திரம் (ஸ்திர 4 உட்பட) · ரிக்தா தள்ளு · செவ்வாய், சனி தள்ளு · சர லக்னம் · இந்தக் குடும்பத்தில் மிகப் பெரிய நட்சத்திரப் பட்டியல் இதுவே',
+  },
+});
+const GEMOLOGY = deepFreeze({
+  labelTa: 'ரத்தினம் பரிசோதித்தல்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §25.27', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [6, 23, 12, 21, 17], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21, 22, 24, 25, 26, 27, 28, 30],
+    vara: { good: [0, 1, 3, 4, 5], mid: [] },
+    noteTa: 'ஐந்து நட்சத்திரம் · அஷ்டமி, சதுர்த்தசி தள்ளு (இரு பக்ஷமும்) · செவ்வாய், சனி தள்ளு · லக்னம் சொல்லப்படவில்லை',
+  },
+});
+const LIBRARY = deepFreeze({
+  labelTa: 'நூலகம், ஆவணத் தொகுப்பு',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §25.29', booksTa: 'ஸ்ரீதர் (K.P. மேற்கோள்)',
+    vara: { good: [4], mid: [] },
+    want: [{ planets: ['Mercury'], houses: [1], code: 'MERC_LAGNA_MID' }],
+    noteTa: 'நட்சத்திரம், திதி சொல்லப்படவில்லை — புதனின் நிலையே விதி · வியாழக்கிழமை · லக்னத்தில் புதன் — இல்லாவிட்டால் பக்கத்தில் குறிக்கப்படுகிறது · "ஆழ்ந்த உச்சம்" (கன்னி 15°) — கணிக்கப்படவில்லை',
+  },
+});
+const LATHE = deepFreeze({
+  labelTa: 'கடைசல் இயந்திரம்',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §25.33', booksTa: 'ஸ்ரீதர் (K.P. மேற்கோள்)',
+    nak: { good: [26], mid: [] }, digdwar: false,
+    vara: { good: [0], mid: [] },
+    lagna: { good: [4], mid: [] },
+    noteTa: 'ரேவதி மட்டும் · ஞாயிறு மட்டும் · சிம்ம லக்னம் மட்டும் · லக்ன நவாம்சாதிபதி செவ்வாய் — கணிக்கப்படவில்லை · திதி சொல்லப்படவில்லை',
+  },
+});
+const ADOPTION = deepFreeze({
+  labelTa: 'குழந்தையைத் தத்து எடுத்தல்',
+  default: 'KALYANRAMAN',
+  order: ['KALYANRAMAN', 'SHRIDHAR', 'JOSHI', 'WILHELM'],
+  KALYANRAMAN: {
+    labelTa: 'கல்யாணராமன் (தொ.2 ப.231)', booksTa: 'கல்யாணராமன்',
+    nak: { good: [0, 7, 12, 13, 14, 15, 16, 22], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 7, 10, 11, 13, 16, 17, 18, 20, 22, 25, 26, 28],
+    vara: { good: [0, 2, 4, 5], mid: [] },
+    lagna: { good: [1, 6, 8, 11], mid: [2, 3, 5] },
+    noteTa: 'எட்டு நட்சத்திரம் · திதி 1, 2, 3, 5, 7, 10, 11, 13 (இரு பக்ஷமும்) — ஜோஷியின் அதே பட்டியல் · ஞாயிறு, செவ்வாய், வியாழன், வெள்ளி · சுப கிரக ராசி லக்னம் (ரிஷபம், துலாம், தனுசு, மீனம்); மிதுனம், கடகம், கன்னி புதனும் சந்திரனும் சுபராக இருந்தால் மட்டும் — நடுநிலையாகக் குறிக்கப்படுகிறது · 5, 9, 10 வீடுகள் பலம் — கணிக்கப்படவில்லை',
+  },
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §20.20', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [0, 7, 12, 13, 14, 15, 16, 22], mid: [] }, digdwar: false,
+    tithi: [2, 3, 7, 8, 10, 11, 12, 13, 15, 16],
+    vara: { good: [0, 2, 4, 5], mid: [] },
+    lagna: { good: [1, 2], mid: [] },
+    noteTa: 'அதே எட்டு நட்சத்திரம், அதே நான்கு கிழமை · திதி: தேய்பிறைப் பிரதமை + வளர்பிறை 2, 3, 7, 8, 10, 11, 12, 13, 15 — மற்ற இரு நூலின் பட்டியலிலிருந்து வேறுபடுகிறது (இவரிடம் 8, 12, 15 கூடுதல்; 5 இல்லை) · ரிஷபம் அல்லது மிதுனம் லக்னம் — குழந்தையின் நல்வாழ்வுக்கு · பெயர் ராசி நட்பு — கணிக்கப்படவில்லை',
+  },
+  JOSHI: {
+    labelTa: 'ஜோஷி (ப.150)', booksTa: 'ஜோஷி',
+    nak: { good: [0, 7, 12, 13, 14, 15, 16, 22], mid: [] }, digdwar: false,
+    tithi: [1, 2, 3, 5, 7, 10, 11, 13, 16, 17, 18, 20, 22, 25, 26, 28],
+    vara: { good: [0, 2, 4, 5], mid: [] },
+    lagna: { good: [1, 2, 3, 5, 6, 8, 11], mid: [] },
+    noteTa: 'கல்யாணராமனின் அதே எட்டு நட்சத்திரம், அதே திதி, அதே நான்கு கிழமை — அச்சு வேறுபாடே இல்லை · "சுப கிரக ராசி லக்னம்" — கல்யாணராமன் பெயரிடும் ஏழு ராசியே எடுக்கப்பட்டுள்ளது · 5, 9, 10 வீடுகள் பலம் — கணிக்கப்படவில்லை',
+  },
+  WILHELM: {
+    labelTa: 'வில்ஹெல்ம் — தத்து', booksTa: 'வில்ஹெல்ம்',
+    nak: { good: [0, 7, 12, 13, 14, 15, 16, 22], mid: [] }, digdwar: false,
+    vara: { good: [0, 2, 4, 5], mid: [] },
+    noteTa: 'அதே எட்டு நட்சத்திரம், அதே நான்கு கிழமை — நான்கு நூலும் இவ்விடத்தில் ஒன்றே · திதி, லக்னம் சொல்லப்படவில்லை',
+  },
+});
+const OATH_MASS = deepFreeze({
+  labelTa: 'கூட்டுச் சத்தியம் (அமைச்சரவையுடன்)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §20.2', booksTa: 'ஸ்ரீதர்',
+    empty: [8],
+    notIn: [[['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'], [1, 2, 4, 7, 12]]],
+    dayParts: { good: [1, 2, 3, 4], mid: [] },
+    noteTa: 'நட்சத்திரம், திதி, கிழமை சொல்லப்படவில்லை — "பொறுப்பு ஏற்றல்" காரியத்தின் வாசிப்புகளே அவற்றுக்கு · 8 காலி (தோஷம் குறைவாக என்பதை அப்படி எடுத்துள்ளோம்) · பாபர் 1, 2, 4, 7, 12-இல் கூடாது · பகலில் மட்டும் · சித்தி யோகம், முகூர்த்தப் பலம் (தோ-கடியா, சார்-கடியா, சிவ-ப்ரோக்த) — கணிக்கப்படவில்லை · ஒவ்வொரு அமைச்சரும் பின்பு தமக்குரிய நல்ல நேரத்தில் பதவியேற்க வேண்டும்',
+  },
+});
+const CASTRATION = deepFreeze({
+  labelTa: 'விதை நீக்கும் அறுவை (மனிதன், விலங்கு)',
+  default: 'SHRIDHAR',
+  order: ['SHRIDHAR'],
+  SHRIDHAR: {
+    labelTa: 'ஸ்ரீதர் §26.13', booksTa: 'ஸ்ரீதர்',
+    nak: { good: [26, 7, 12, 14, 4, 21, 22], mid: [] }, digdwar: false,
+    vara: { good: [0, 2, 4], mid: [] },
+    noteTa: 'ஏழு நட்சத்திரம் · ஞாயிறு, செவ்வாய், வியாழன் · திதி, லக்னம் சொல்லப்படவில்லை — பொது அறுவைச் சிகிச்சை காரியத்தின் விதிகளே மற்றவை',
+  },
+});
 
 const RANK = deepFreeze({
+  CASTRATION: {
+    order: CASTRATION.order,
+    words: { SHRIDHAR: 30 },
+    measureTa: 'விதை நீக்கும் அறுவை பற்றிய சொற்கள்: ஸ்ரீதர் (§26.13, ப.699) 30.',
+  },
+  ADOPTION: {
+    order: ADOPTION.order,
+    words: { KALYANRAMAN: 81, SHRIDHAR: 61, JOSHI: 52, WILHELM: 26 },
+    measureTa: 'தத்து பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.231) 81; ஸ்ரீதர் (§20.20, ப.584) 61; ஜோஷி (ப.150) 52; வில்ஹெல்ம் (ப.211) 26.',
+  },
+  OATH_MASS: {
+    order: OATH_MASS.order,
+    words: { SHRIDHAR: 222 },
+    measureTa: 'கூட்டுச் சத்தியம் பற்றிய சொற்கள்: ஸ்ரீதர் (§20.2, ப.570) 222.',
+  },
+  WASHERMAN: {
+    order: WASHERMAN.order,
+    words: { SHRIDHAR: 28 },
+    measureTa: 'சலவைத் தொழில் பற்றிய சொற்கள்: ஸ்ரீதர் (§25.12, ப.687) 28.',
+  },
+  SALT: {
+    order: SALT.order,
+    words: { SHRIDHAR: 32 },
+    measureTa: 'உப்பு பற்றிய சொற்கள்: ஸ்ரீதர் (§25.17, ப.688) 32.',
+  },
+  SPORTS: {
+    order: SPORTS.order,
+    words: { KALYANRAMAN: 110, SHRIDHAR: 40, WILHELM: 13 },
+    measureTa: 'விளையாட்டு பற்றிய சொற்கள்: கல்யாணராமன் (தொ.2 ப.156) 110; ஸ்ரீதர் (§25.18, ப.688) 40; வில்ஹெல்ம் (ப.234) 13.',
+  },
+  BRIDGE_DAM: {
+    order: BRIDGE_DAM.order,
+    words: { SHRIDHAR: 31 },
+    measureTa: 'பாலம், அணை பற்றிய சொற்கள்: ஸ்ரீதர் (§25.21, ப.689) 31.',
+  },
+  PERFUME: {
+    order: PERFUME.order,
+    words: { SHRIDHAR: 72 },
+    measureTa: 'வாசனைப் பொருள் பற்றிய சொற்கள்: ஸ்ரீதர் (§25.22, ப.689) 72.',
+  },
+  BETEL: {
+    order: BETEL.order,
+    words: { SHRIDHAR: 41 },
+    measureTa: 'வெற்றிலை பற்றிய சொற்கள்: ஸ்ரீதர் (§25.23, ப.689) 41.',
+  },
+  GEMOLOGY: {
+    order: GEMOLOGY.order,
+    words: { SHRIDHAR: 22 },
+    measureTa: 'ரத்தினம் பரிசோதனை பற்றிய சொற்கள்: ஸ்ரீதர் (§25.27, ப.690) 22.',
+  },
+  LIBRARY: {
+    order: LIBRARY.order,
+    words: { SHRIDHAR: 31 },
+    measureTa: 'நூலகம் பற்றிய சொற்கள்: ஸ்ரீதர் (§25.29, ப.690) 31.',
+  },
+  LATHE: {
+    order: LATHE.order,
+    words: { SHRIDHAR: 36 },
+    measureTa: 'கடைசல் பற்றிய சொற்கள்: ஸ்ரீதர் (§25.33, ப.691) 36.',
+  },
   LEATHER: {
     order: LEATHER.order,
     words: { SHRIDHAR: 76, JOSHI: 35, WILHELM: 30 },
@@ -6321,6 +6565,47 @@ const SOURCES = deepFreeze({
   GRINDING_MILL: {
     SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.25 "Fixing wheat grinding machine", printed p.689 (PDF 724): "Count asterism occupied by the Moon from that of the Saturn. 1 to 4; 9 to 16; & 20 to 23 are auspicious; while 5 to 8; 17 to 19; & 25 to 27th asterisms are inauspicious (B.J.S.)"' },
   },
+  WASHERMAN: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.12 "Washerman works", printed p.687 (PDF 722): "Fixed (Rohini, 3 Uttras), Punarvasu, Shravana, Hasta, Pushya, Vishakha, Shravana, Dhanishta, Revati & Mrigshira asterisms; on auspicious weekdays; in odd signs; but leaving Parva Tithis"' },
+  },
+  SALT: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.17 "Salt making", printed p.688 (PDF 723): "Bharni, Rohini & Shravana; on Saturday it is beneficial to start business related to manufacturing salt. Saturn should be strong, & favourable in transit with respect to aspirant\'s Janma Rashi"' },
+  },
+  SPORTS: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Learning athletics or sports skills, Commencing physical Education, Getting involved in sports, Learning exercises", printed p.156 (PDF 158): "Nakshatra Bharani, Aslesha, Makha, Poorvaphalguni, Jyeshta, Moola, Poorvashada and Poorvabhadrapada. (8) Aggressive: Poorvaphalguni, Poorvashada, Poorvabhadrapada, Bharani, Makha (5) Others: Jyeshta, Moola, Aslesha (3) Tithis 3/5/8/10/13/15 Weekdays Sunday, Monday, Wednesday, Thursday, Friday. Notes: 1. Benefics must be in Kendras and Trikonas. (Some prefer even the Sun.) 2. Malefics in 3/6/11 from the Muhoortha Lagna. 3. Mercury must be powerful"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.18 "Wrestling ring & sports complex", printed p.688 (PDF 723): "Sharp (Jyeshta, Ardra, Ashlesha, Moola) & Cruel (Magha, Bharni, 3 Poorvas); on Jaya & Poorna Tithis; on benefic days including Sunday; when Shirodya Rashi is rising, & benefics including the Sun are in quadrants (B.J.S.)"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Education", under the subjects, printed p.234 (PDF 242): "For Sports: Aslesha, Magha, Jyeshtha, Mula and the three Purvas are particularly favorable"' },
+  },
+  BRIDGE_DAM: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.21 "Bridge & dam making", printed p.689 (PDF 724): "In 3 Uttras, Rohini, Swati, Mrigshira; on Sunday, Tuesday & Thursday; when the ascendant is aspected by benefics; is beneficial to make bridge, dam, culvert & the like constructions"' },
+  },
+  PERFUME: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.22 "Perfumes", printed p.689 (PDF 724): "Starting of business related to perfumes (like Kasturi, Kesar, Itar, Sandal etc.) & their usage, and wearing of flowers, is beneficial in Movable (Punarvasu, Swati, Shravana, Shatbhish, Dhanishta), Sweet (Mrigshira, Chitra, Anuradha, Revati) & Small (Hasta, Ashvani, Pushya). K.P. opines that if rising sign is occupied by Jupiter & the Moon is in 12th house; then stock of collections of camphor, sandal & odiferous wood made at that time shall become inexhaustible"' },
+  },
+  BETEL: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.23 "Beetle nut & leaves", printed p.689 (PDF 724): "Anuradha-Jyeshta-Moola, Hasta-Chitra-Swati, Revati-Ashvani, Shravana, Dhanishta, 3 Uttras, Rohini, Mrigshira, Punarvasu, Pushya; in moving signs; leaving Rikta Tithis, Tuesday & Saturday; is auspicious to start business related to trade of beetle leaves & nuts"' },
+  },
+  GEMOLOGY: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.27 "Gemology", printed p.690 (PDF 725): "Inspection & testing of gems should be started in Punarvasu, Shatbhish, Hasta, Shravana, Jyeshta; but leave 8th & 14th Tithis, & Tuesday & Saturday"' },
+  },
+  LIBRARY: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.29 "Library", printed p.690 (PDF 725): "Most fruitful time to form a library or collect records is when Mercury is in deep exaltation, or Mercury in exaltation occupies the rising sign on a Thursday (K.P.)"' },
+  },
+  LATHE: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§25.33 "Lathe machine", printed p.691 (PDF 726): "K.P. recommends that machining on a lathe machine, select when Leo is rising & the occupying it on a Sunday; in the asterism of Revati. Lord of the rising navamsha should be Mars"' },
+  },
+  ADOPTION: {
+    KALYANRAMAN: { ...KALYANRAMAN_V2, pageLocus: '"Adopting a Child", printed p.231 (PDF 233): "Nakshatras Aswini, Pushyami, Hasta, Chitra, Swati, Visaka, Anuradha, Dhanishta. (8) Tithis 1/2/3/5/7/10/11/13. Weekdays Sunday, Tuesday, Thursday, Friday. Notes: Lagna Suddhi is essential. The Lagna must be the raasis of benefics i.e., raasis 2/3/4/6/7/9 or 12. However, raasis 3/4/6 can be admitted only when Mercury and the Moon are benefics. The houses 5, 9 and 10 must be strong"' },
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.20 "Adoption", printed p.584 (PDF 621): "Tithi: 1st of D.H.; 2,3,7,8,10,11,12,13,15 of B.H. Day: Sunday, Tuesday, Thursday, Friday. Const.: Ashvani, Pushya, Hasta, Chitra, Swati, Vishakha, Anuradha, Dhanishta. Naam Rashi of the both (adopted child & the person who adopts) should have friendly relations; & for bestowing luck of the adopted, ascendant should be either Taurus or Gemini"' },
+    JOSHI: { ...JOSHI_KK, pageLocus: '"To adopt a child", printed p.150 (PDF 164): "Nakshatras: Hasta, Ashwini, Pushya, Chitra, Swati, Vishakha, Anuradha and Dhanistha. Tithis: 1/2/3/5/7/10/11/13. Days: Sunday, Tuesday, Thursday and Friday. Proper lagna shuddhi should be done. Lagna of benefics with strong 5th, 9th and 10th house should be chosen for adopting a child"' },
+    WILHELM: { ...WILHELM_E, pageLocus: '"Children - Adopting", printed p.211 (PDF 219): "Nakshatras: Asvini, Pushya, Hasta, Chitra, Svati, Visakha, Anuradha and Dhanishtha are favorable. Vara: The Varas of the Sun, Mars, Jupiter and Venus are favorable"' },
+  },
+  OATH_MASS: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§20.2 "En masse oath taking", printed p.570 (PDF 607): "If oath is taken alone by the head of the government, then the same election time should be taken as in the election of the coronation. If the head of the state & the cabinet ministers take the en masse oath then, the strength of the Muhurt (Do-Ghadia, Char-Ghadia, Shiva-Prokta) gets over-riding importance. However following aspects should be given due consideration: 8th house maleficence should be reduced to the bare minimum. Malefics should not be in 1,4,7,2,12 houses, otherwise the cabinet shall be dismissed or dissolved or defeated prematurely. Daytime should be selected without any blemish, bereft of any adverse qualities, & Siddhi Yoga(s) should be prevailing at the time of the ceremony. Thereafter the individual minister should occupy their respective seats in their offices at individually favourable elections"' },
+  },
+  CASTRATION: {
+    SHRIDHAR: { ...SHRIDHAR_HEA, pageLocus: '§26.13 "Castration", printed p.699 (PDF 734): "Performing surgical operation, cutting, piercing of testicles of humans, horses & bullocks is beneficial in Revati, Pushya, Hasta, Swati, Mrigshira, Shravana, Dhanishta; & Sunday, Tuesday & Thursday"' },
+  },
   VISHTI: { ...SHRIDHAR_HEA, pageLocus: '§6.3 "Vishti Karan — Bhadra", printed p.127 (PDF 172): "Bhadra prevails during first half of 8th & 15th Tithis of B.H. & 7th & 14th Tithis of D.H.; and second half of 4th & 11th of B.H. & 3rd & 10th Tithis of D.H.; of all the lunar months"' },
   MONTHS: [
     { ...SHRIDHAR_HEA, pageLocus: 'Chapter 9 "The Moon", printed p.236 (PDF 280): "In Amant system a lunar month starts just after conjunction of the Sun & the Moon on a New Moon day & the month ends at the next New Moon day. Lunar month of Chaitra starts at New Moon when the Sun is in sidereal Pisces"' },
@@ -6391,6 +6676,7 @@ const CODE_TA = Object.freeze({
   ASHVA_CHAKRA: 'அஷ்வ சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 16-26',
   MARS_1_10_MID: 'லக்னம் / 10-ல் செவ்வாய் இல்லை',
   MERC_JUP_1_10_MID: 'லக்னம் / 10-ல் புதனோ குருவோ இல்லை',
+  MERC_LAGNA_MID: 'லக்னத்தில் புதன் இல்லை',
   KHATWA_CHAKRA: 'கட்வா சக்கரம்: சூரிய நட்சத்திரத்திலிருந்து 5-12 / 24-27',
   CHAKKI_CHAKRA: 'திரிகைச் சக்கரம்: சனி நட்சத்திரத்திலிருந்து 5-8 / 17-19 / 25-27',
   HALA_CHAKRA_MID: 'ஹல சக்கரம்: தீய நட்சத்திரம் (சூரியனிலிருந்து எண்ணி) (குறிப்பு)',
@@ -7008,9 +7294,77 @@ const NOTES_GRINDING_MILL_TA = Object.freeze([
   'நட்சத்திரம், திதி, கிழமை, லக்னம் — எதுவும் சொல்லப்படவில்லை; இந்த எண்ணிக்கை ஒன்றே இந்தக் காரியத்தின் விதி.',
 ]);
 
+const NOTES_WASHERMAN_TA = Object.freeze([
+  'சலவைத் தொழில், வண்ணான் வேலை தொடங்குதல். ஒரே நூலே (ஸ்ரீதர் §25.12) இதைத் தருகிறது.',
+  '"ஆடை துவைத்தல்" என்ற காரியம் தனியே உள்ளது — அது புது ஆடையை முதல் முறை துவைப்பது (ஐந்து நூல்); இது தொழிலைத் தொடங்குவது.',
+  'பர்வ திதிகள் (அமாவாசை, பௌர்ணமி, அஷ்டமி, சதுர்த்தசி, சங்கிரமம்) தள்ளு என்று அச்சு சொல்கிறது — அமாவாசை, பௌர்ணமி, அஷ்டமி, சதுர்த்தசி தள்ளப்படுகின்றன; சங்கிரமம் தனியே கணிக்கப்படுகிறது.',
+]);
+const NOTES_SALT_TA = Object.freeze([
+  'உப்பு உற்பத்தி, உப்பளத் தொழில் தொடங்குதல். ஒரே நூலே (ஸ்ரீதர் §25.17) இதைத் தருகிறது.',
+  'மூன்று நட்சத்திரமும் ஒரே கிழமையும் மட்டுமே — முழு அட்டவணையிலும் மிகக் குறுகிய நட்சத்திரப் பட்டியல் இதுவே.',
+  'சனி பலமாக இருக்க வேண்டும், மேலும் செய்பவரின் ஜன்ம ராசியிலிருந்து சனியின் கோசாரம் சாதகமாக இருக்க வேண்டும் — கோசாரம் இந்தக் காரியத்தில் கணிக்கப்படவில்லை; "சனி பெயர்ச்சி" பக்கத்தில் அது தனியே உள்ளது.',
+]);
+const NOTES_SPORTS_TA = Object.freeze([
+  'மல்யுத்த அரங்கம், விளையாட்டு அரங்கம் அமைத்தல்; விளையாட்டுக் கலை, உடற்பயிற்சி கற்கத் தொடங்குதல்.',
+  'மூன்று நூல்களும் ஒரே நட்சத்திரக் குடும்பத்தைச் சொல்கின்றன: தீக்ஷண (திருவாதிரை, ஆயில்யம், கேட்டை, மூலம்) + க்ரூர (மகம், பரணி, மூன்று பூர்வம்) — ஆயுதம், வேட்டை, மதுவுக்குச் சொல்லப்பட்ட அதே குடும்பம். சோதனையில் உறுதி செய்யப்பட்டுள்ளது.',
+  'வில்ஹெல்ம் இதைத் தனிப் பிரிவாகத் தராமல், கல்வி காரியத்தின் உள்ளே "விளையாட்டுக்கு" என்ற ஒரு வரியாகத் தருகிறார் — ஆயில்யம், மகம், கேட்டை, மூலம், மூன்று பூர்வம். அவரது கல்வி விதிகளே மற்றவை.',
+  'ஸ்ரீதர் ஜய மற்றும் பூர்ண திதி, சுப கிழமைகள், சிரோதய லக்னம், சுபர்களும் சூரியனும் கேந்திரத்தில் என்கிறார். கல்யாணராமன் 3, 5, 8, 10, 13, 15 திதி — ஜய + பூர்ணத்தோடு பஞ்சமியும் தசமியும்; கிழமையும் கிட்டத்தட்ட ஒன்றே.',
+]);
+const NOTES_BRIDGE_DAM_TA = Object.freeze([
+  'பாலம், அணை, கால்வாய்ப் பாலம் போன்ற கட்டுமானங்கள் தொடங்குதல். ஒரே நூலே (ஸ்ரீதர் §25.21) இதைத் தருகிறது.',
+  'கிணறு, குளம் தோண்டுவது தனி காரியம் (ஐந்து நூல்); இது கட்டுமானம்.',
+  'ஞாயிறு, செவ்வாய், வியாழன் — செவ்வாயை நல்லதாகச் சொல்லும் சில காரியங்களில் இதுவும் ஒன்று.',
+]);
+const NOTES_PERFUME_TA = Object.freeze([
+  'கஸ்தூரி, குங்குமப்பூ, அத்தர், சந்தனம் போன்ற வாசனைப் பொருள் வியாபாரம், அவற்றைப் பயன்படுத்துதல், மலர் அணிதல். ஒரே நூலே (ஸ்ரீதர் §25.22) இதைத் தருகிறது.',
+  'K.P.: லக்னத்தில் குரு, சந்திரன் 12-ஆம் வீட்டில் இருக்கும் நேரத்தில் சேர்த்த கற்பூரம், சந்தனம், வாசனை மரங்களின் இருப்பு தீராது — கணிக்கப்படுகிறது.',
+  'சர + மது + லகு மூன்று குடும்பமும் சேர்ந்த பன்னிரண்டு நட்சத்திரம்; திதியும் கிழமையும் சொல்லப்படவில்லை.',
+]);
+const NOTES_BETEL_TA = Object.freeze([
+  'வெற்றிலை, பாக்கு வியாபாரம் தொடங்குதல். ஒரே நூலே (ஸ்ரீதர் §25.23) இதைத் தருகிறது.',
+  'அச்சு நட்சத்திரங்களை மூன்று மூன்றாகக் குழுவாகத் தருகிறது — அனுஷம்-கேட்டை-மூலம், அஸ்தம்-சித்திரை-சுவாதி, ரேவதி-அசுவினி — அவை வானில் அடுத்தடுத்து வருபவை.',
+  'முகூர்த்த சிந்தாமணி (ப.127) "குழந்தைக்கு வெற்றிலை ஊட்டுதல்" என்ற வேறு காரியத்துக்கு முழு வாசிப்பு (17 நட்சத்திரம், ஆறு லக்னம், செவ்வாய் – சனி தள்ளு) தருகிறது — அது ஒரு சம்ஸ்காரம், வியாபாரம் அல்ல; சம்ஸ்கார குடும்பம் இன்னும் கட்டப்படவில்லை என்பதால் இங்கு சேர்க்கப்படவில்லை.',
+]);
+const NOTES_GEMOLOGY_TA = Object.freeze([
+  'ரத்தினங்களைப் பரிசோதித்தல், தரம் சோதித்தல் தொடங்குதல். ஒரே நூலே (ஸ்ரீதர் §25.27) இதைத் தருகிறது.',
+  'ரத்தினம் அணிவது வேறு — அது "ரத்தினங்கள்" பக்கத்தில் தனியே உள்ளது (மூன்று நூல்); இது பரிசோதனைத் தொழில்.',
+  'ஐந்து நட்சத்திரம் மட்டும்; அஷ்டமி, சதுர்த்தசி திதிகளும் செவ்வாய், சனியும் தள்ளு.',
+]);
+const NOTES_LIBRARY_TA = Object.freeze([
+  'நூலகம் அமைத்தல், ஆவணங்களைத் தொகுக்கத் தொடங்குதல். ஒரே நூலே (ஸ்ரீதர் §25.29, K.P. மேற்கோள்) இதைத் தருகிறது.',
+  'இந்தக் காரியத்துக்கு நட்சத்திரமோ திதியோ சொல்லப்படவில்லை — புதனின் நிலையே விதி: புதன் உச்சத்தில் (ஆழ்ந்த உச்சம்), அல்லது உச்ச புதன் லக்னத்தில் வியாழக்கிழமையில்.',
+  'புதன் லக்னத்தில் இருப்பதும் வியாழக்கிழமையும் கணிக்கப்படுகின்றன; "ஆழ்ந்த உச்சம்" (நீச்ச பாகை வரையறை) கணிக்கப்படவில்லை.',
+]);
+const NOTES_LATHE_TA = Object.freeze([
+  'கடைசல் (lathe) இயந்திரத்தில் வேலை தொடங்குதல். ஒரே நூலே (ஸ்ரீதர் §25.33, K.P. மேற்கோள்) இதைத் தருகிறது.',
+  'ஒரே நட்சத்திரம் (ரேவதி), ஒரே கிழமை (ஞாயிறு), ஒரே லக்னம் (சிம்மம்) — முழு அட்டவணையிலும் மிகக் குறுகிய வாசிப்பு இதுவே.',
+  'லக்ன நவாம்சத்தின் அதிபதி செவ்வாயாக இருக்க வேண்டும் என்பது கணிக்கப்படவில்லை. அச்சில் "சிம்மம் உதிக்கும்போது [?] அதில் இருக்க" என்ற இடம் சிதைந்துள்ளது — எந்தக் கிரகம் என்று தெளிவில்லை, எனவே அது கணிக்கப்படவில்லை.',
+]);
+
+const NOTES_ADOPTION_TA = Object.freeze([
+  'குழந்தையைத் தத்து எடுத்தல். நான்கு நூல்களும் இதைத் தருகின்றன.',
+  'நான்கு நூல்களும் ஒரே எட்டு நட்சத்திரத்தைச் சொல்கின்றன: அசுவினி, பூசம், அஸ்தம், சித்திரை, சுவாதி, விசாகம், அனுஷம், தனிஷ்டா. ஒரு நட்சத்திரம் கூட வேறுபாடில்லை — சோதனையில் உறுதி செய்யப்பட்டுள்ளது.',
+  'நான்கு நூலும் ஒரே நான்கு கிழமை: ஞாயிறு, செவ்வாய், வியாழன், வெள்ளி.',
+  'கல்யாணராமனும் ஜோஷியும் ஒரே திதிப் பட்டியல் (1, 2, 3, 5, 7, 10, 11, 13) மற்றும் ஒரே கூடுதல் விதி: சுப கிரக ராசி லக்னம், 5, 9, 10 வீடுகள் பலமாக இருக்க வேண்டும்.',
+  'ஸ்ரீதர் மட்டும் தனியே: தத்து எடுப்பவரின் பெயர் ராசியும் குழந்தையின் பெயர் ராசியும் நட்பாக இருக்க வேண்டும்; குழந்தையின் நல்வாழ்வுக்கு ரிஷபம் அல்லது மிதுனம் லக்னம் — பெயர் ராசி கணிக்கப்படவில்லை.',
+]);
+const NOTES_OATH_MASS_TA = Object.freeze([
+  'அரசுத் தலைவரும் அமைச்சர்களும் சேர்ந்து பதவிச் சத்தியம் ஏற்பது. ஒரே நூலே (ஸ்ரீதர் §20.2) இதைத் தனியே தருகிறது.',
+  'தலைவர் தனியே சத்தியம் ஏற்றால் முடிசூட்டு முகூர்த்தமே — அது "பொறுப்பு ஏற்றல்" காரியத்தில் ஒன்பது நூல்களுடன் உள்ளது. கல்யாணராமன், வில்ஹெல்ம், ரங்காச்சார்யா மூவரும் சத்தியத்தையும் முடிசூட்டையும் ஒரே பிரிவாகவே தருகின்றனர்.',
+  'கூட்டாக ஏற்கும்போது முகூர்த்தத்தின் பலமே (தோ-கடியா, சார்-கடியா, சிவ-ப்ரோக்த) முதன்மை என்று அச்சு சொல்கிறது — அந்த முகூர்த்த வகைகள் கணிக்கப்படவில்லை.',
+  'நட்சத்திரமோ திதியோ தனியே சொல்லப்படவில்லை — வீட்டு விதிகளே இந்த வாசிப்பு: 8-ஆம் வீட்டின் தோஷம் மிகக் குறைவாக; பாபர் 1, 2, 4, 7, 12-இல் கூடாது (இல்லாவிட்டால் அமைச்சரவை முன்பே கலைந்துவிடும்); பகல் நேரம்; சித்தி யோகம்.',
+  'சத்தியத்துக்கு முன் வேத கோஷமும் பூஜையும் வேண்டும், சத்தியம் ஏற்கும்போது உச்சரிப்பில் தடுமாற்றமோ பிழையோ கூடாது என்று ஸ்ரீதர் வலியுறுத்துகிறார் — முகூர்த்தம் அல்ல.',
+]);
+
+const NOTES_CASTRATION_TA = Object.freeze([
+  'மனிதருக்கும் குதிரை, எருது போன்ற விலங்குகளுக்கும் விதை நீக்கும் அறுவைச் சிகிச்சை. ஒரே நூலே (ஸ்ரீதர் §26.13) இதைத் தருகிறது.',
+  'பொது அறுவைச் சிகிச்சை தனி காரியமாக ஆறு நூல்களில் உள்ளது; இது அதன் ஒரு வகை என்று ஸ்ரீதர் தனியே தருகிறார்.',
+  'ஞாயிறு, செவ்வாய், வியாழன் — அறுவைச் சிகிச்சைக்குப் பொதுவாகச் சொல்லப்படும் கிழமைகளோடு ஒப்பிட, இதில் செவ்வாய் நல்லதாகச் சொல்லப்படுகிறது.',
+]);
+
 const EVENTS = deepFreeze({
-  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING', 'ARMY_RAISE', 'WAR_START', 'WEAPON_MAKE', 'WEAPON_WEAR', 'MISSILE_SETUP', 'ARMY_CAMP', 'DAGGER_TIE', 'TREATY', 'MINT_COINS', 'CATCH_THIEF', 'BOAT_SHIP', 'WEAVING', 'POTTERY', 'PAINTING', 'SCULPTURE', 'CRAFT_LEARN', 'LEATHER', 'SALON', 'WINE', 'BED_MAKING', 'PERFORMING', 'DAIRY', 'BRICK_KILN', 'METAL_IRON', 'GRINDING_MILL'],
-  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING, ARMY_RAISE, WAR_START, WEAPON_MAKE, WEAPON_WEAR, MISSILE_SETUP, ARMY_CAMP, DAGGER_TIE, TREATY, MINT_COINS, CATCH_THIEF, BOAT_SHIP, WEAVING, POTTERY, PAINTING, SCULPTURE, CRAFT_LEARN, LEATHER, SALON, WINE, BED_MAKING, PERFORMING, DAIRY, BRICK_KILN, METAL_IRON, GRINDING_MILL,
+  order: ['GRIHA_PRAVESHA', 'OLD_HOUSE', 'UPANAYANA', 'TRAVEL', 'VIDYARAMBHA', 'EDUCATION', 'BUSINESS', 'MEDICINE', 'SURGERY', 'ROGA_SNANA', 'VEHICLE', 'VEHICLE_MAKE', 'NEW_CLOTHES', 'NEW_ORNAMENTS', 'ORNAMENT_MAKING', 'CLOTHES_WASHING', 'STITCHING', 'AGRI_GENERAL', 'FIELD_ENTRY', 'PLOUGHING', 'SOWING', 'TRANSPLANTING', 'TREE_PLANTING', 'GARDEN', 'HARVEST', 'THRESHING', 'GRAIN_STORAGE', 'NEW_GRAIN', 'ASSUMING_OFFICE', 'MEET_SUPERIOR', 'JOIN_SERVICE', 'JOB_APPLICATION', 'EMPLOY_SERVANT', 'FILE_SUIT', 'COMPROMISE', 'LEND_MONEY', 'BORROW_MONEY', 'REPAY_DEBT', 'COLLECT_MONEY', 'DEPOSIT_WEALTH', 'MAKE_WILL', 'PURCHASE_GOODS', 'SALE_GOODS', 'SPECULATION', 'LOTTERY', 'ACCOUNTS', 'BUY_LAND', 'BUY_FARMLAND', 'BUY_HOUSE', 'LAND_POSSESSION', 'DIVIDE_PROPERTY', 'CONSTRUCTION_START', 'DIGGING', 'FOUNDATION', 'PILLARS', 'DOOR_FRAME', 'ROOF', 'UPPER_STOREY', 'HOUSE_REPAIR', 'WELL_TANK', 'DEITY_INSTALL', 'TEMPLE_START', 'MANTRA_DEEKSHA', 'HAVAN', 'IDOL_MAKING', 'DISCOURSE', 'AGNYADHANA', 'MANTRA_SADHANA', 'CATTLE', 'HORSE', 'ELEPHANT', 'GOAT_SHEEP', 'PET_ANIMALS', 'FISH_FARM', 'POULTRY', 'HUNTING', 'ARMY_RAISE', 'WAR_START', 'WEAPON_MAKE', 'WEAPON_WEAR', 'MISSILE_SETUP', 'ARMY_CAMP', 'DAGGER_TIE', 'TREATY', 'MINT_COINS', 'CATCH_THIEF', 'BOAT_SHIP', 'WEAVING', 'POTTERY', 'PAINTING', 'SCULPTURE', 'CRAFT_LEARN', 'LEATHER', 'SALON', 'WINE', 'BED_MAKING', 'PERFORMING', 'DAIRY', 'BRICK_KILN', 'METAL_IRON', 'GRINDING_MILL', 'WASHERMAN', 'SALT', 'SPORTS', 'BRIDGE_DAM', 'PERFUME', 'BETEL', 'GEMOLOGY', 'LIBRARY', 'LATHE', 'ADOPTION', 'OATH_MASS', 'CASTRATION'],
+  GRIHA_PRAVESHA, OLD_HOUSE, UPANAYANA, TRAVEL, VIDYARAMBHA, EDUCATION, BUSINESS, MEDICINE, SURGERY, ROGA_SNANA, VEHICLE, VEHICLE_MAKE, NEW_CLOTHES, NEW_ORNAMENTS, ORNAMENT_MAKING, CLOTHES_WASHING, STITCHING, AGRI_GENERAL, FIELD_ENTRY, PLOUGHING, SOWING, TRANSPLANTING, TREE_PLANTING, GARDEN, HARVEST, THRESHING, GRAIN_STORAGE, NEW_GRAIN, ASSUMING_OFFICE, MEET_SUPERIOR, JOIN_SERVICE, JOB_APPLICATION, EMPLOY_SERVANT, FILE_SUIT, COMPROMISE, LEND_MONEY, BORROW_MONEY, REPAY_DEBT, COLLECT_MONEY, DEPOSIT_WEALTH, MAKE_WILL, PURCHASE_GOODS, SALE_GOODS, SPECULATION, LOTTERY, ACCOUNTS, BUY_LAND, BUY_FARMLAND, BUY_HOUSE, LAND_POSSESSION, DIVIDE_PROPERTY, CONSTRUCTION_START, DIGGING, FOUNDATION, PILLARS, DOOR_FRAME, ROOF, UPPER_STOREY, HOUSE_REPAIR, WELL_TANK, DEITY_INSTALL, TEMPLE_START, MANTRA_DEEKSHA, HAVAN, IDOL_MAKING, DISCOURSE, AGNYADHANA, MANTRA_SADHANA, CATTLE, HORSE, ELEPHANT, GOAT_SHEEP, PET_ANIMALS, FISH_FARM, POULTRY, HUNTING, ARMY_RAISE, WAR_START, WEAPON_MAKE, WEAPON_WEAR, MISSILE_SETUP, ARMY_CAMP, DAGGER_TIE, TREATY, MINT_COINS, CATCH_THIEF, BOAT_SHIP, WEAVING, POTTERY, PAINTING, SCULPTURE, CRAFT_LEARN, LEATHER, SALON, WINE, BED_MAKING, PERFORMING, DAIRY, BRICK_KILN, METAL_IRON, GRINDING_MILL, WASHERMAN, SALT, SPORTS, BRIDGE_DAM, PERFUME, BETEL, GEMOLOGY, LIBRARY, LATHE, ADOPTION, OATH_MASS, CASTRATION,
 });
 
 /**
@@ -7134,6 +7488,18 @@ module.exports = {
     BRICK_KILN: NOTES_BRICK_KILN_TA,
     METAL_IRON: NOTES_METAL_IRON_TA,
     GRINDING_MILL: NOTES_GRINDING_MILL_TA,
+    WASHERMAN: NOTES_WASHERMAN_TA,
+    SALT: NOTES_SALT_TA,
+    SPORTS: NOTES_SPORTS_TA,
+    BRIDGE_DAM: NOTES_BRIDGE_DAM_TA,
+    PERFUME: NOTES_PERFUME_TA,
+    BETEL: NOTES_BETEL_TA,
+    GEMOLOGY: NOTES_GEMOLOGY_TA,
+    LIBRARY: NOTES_LIBRARY_TA,
+    LATHE: NOTES_LATHE_TA,
+    ADOPTION: NOTES_ADOPTION_TA,
+    OATH_MASS: NOTES_OATH_MASS_TA,
+    CASTRATION: NOTES_CASTRATION_TA,
   }),
   AKSHARA_10, AKSHARA_LAGNAS, EDUCATION_16, MATRIKA_GOOD, SHOP_STARS, MEDICINE_13, SHARP_STARS, OLD_HOUSE_STARS, OLD_HOUSE_MONTHS, BATH_MC_18, BATH_KR_18, BATH_13,
   DHRUVA, MRIDU, bothPakshas, UPANAYANA_YEARS, SIXTEEN, ANADHYAYA, ANADHYAYA_MONTH, GALAGRAHA, YOGAS_SHRIDHAR, BENEFIC_PLANET_NAVS,
