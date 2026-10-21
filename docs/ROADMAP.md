@@ -205,6 +205,10 @@ Not plan items, but real, and they should not be discovered at release:
   Rahu 8th (verse: 9th); three books count Ketu; the effects differ most for
   Mars, Saturn, the Moon and Jupiter. Muhurta use of Latta: `/muhurta-stars` (2026-10-10).
 - **The 88th nakshatra pada.** `/pada-88` (`docs/PADA-88.md`), 2026-10-08.
+- **Kakshya for every planet.** `/kakshya-transit` (`docs/KAKSHYA-TRANSIT.md`), 2026-10-21: Patel ch.V for the seven planets together —
+  each one's bhava Kakshya, its lord and bindu / void in its own Ashtakavarga, debilitation / enemy sign / combustion (sloka 5),
+  the slokas 6-10 count of planets in bindu or void Kakshyas, and dated windows. Closes the "Kakshya for the other planets" left open on
+  the Saturn page; the per-planet result texts (ch.VI-XII) are next.
 - **Nakshatras and suitable deeds.** `/nakshatra-deeds` (`docs/NAKSHATRA-DEEDS.md`), 2026-10-21: Kalyanraman vol. 1 ch.9 — for
   each star the deeds it suits (1,858 + 901, in the book's English), the seven kinds with weekdays, the mukha groups, and a
   Tamil / English search from a deed to the stars. The nine act books read the other way round; no time rules.
