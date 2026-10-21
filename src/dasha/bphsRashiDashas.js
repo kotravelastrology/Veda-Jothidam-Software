@@ -191,7 +191,15 @@ function dirga(chart) {
     const dist = (t) => (onward ? forward(sign, t) : backward(sign, t));
     seq.push(sign, ...aspected(sign).sort((a, b) => dist(a) - dist(b)));
   }
-  return { id: 'dirga', source: SOURCES.dirga, start: seq[0], forward: null, detail: {}, periods: seq.map((s) => ({ sign: s, years: stheraYears(s) })) };
+  // A sign reached twice keeps its first place; the verse does not say what to do about the signs then left out
+  // (in the printed chart the 9th, 10th and 11th are movable, fixed, dual in that order and cover all twelve).
+  const distinct = [...new Set(seq)];
+  const missing = Array.from({ length: 12 }, (_, i) => i).filter((s) => !distinct.includes(s));
+  return {
+    id: 'dirga', source: SOURCES.dirga, start: seq[0], forward: null, detail: { missing },
+    reasonTa: missing.length ? 'இந்த லக்னத்தில் 9, 10, 11-ஆம் ராசிகளும் அவை பார்க்கும் ராசிகளும் சில ராசிகளை இருமுறை தொடுகின்றன; விடுபட்ட ராசிகளுக்கு நூல் வரிசை சொல்லவில்லை (நூலின் எடுத்துக்காட்டில் 9, 10, 11 முறையே சர, ஸ்திர, உபயம் என்பதால் 12-ம் வருகின்றன).' : null,
+    periods: distinct.map((s) => ({ sign: s, years: stheraYears(s) })),
+  };
 }
 
 /**

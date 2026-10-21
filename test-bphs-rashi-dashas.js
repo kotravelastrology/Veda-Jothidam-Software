@@ -55,6 +55,11 @@ const dir = R.dirga(chart);
 assert.deepStrictEqual(dir.periods.map((p) => NAMES[p.sign]), ['Libra', 'Leo', 'Taurus', 'Aquarius', 'Scorpio', 'Capricorn', 'Aries', 'Cancer', 'Sagittarius', 'Pisces', 'Gemini', 'Virgo']);
 assert.deepStrictEqual(dir.periods.map((p) => p.years), [7, 8, 8, 8, 8, 7, 7, 7, 9, 9, 9, 9]);
 
+// Another lagna: the 9th, 10th and 11th are fixed, dual, movable, so some signs are reached twice and some never;
+// the first place is kept and the gap is reported, not filled.
+const dir2 = R.dirga({ signs, degrees, lagnaSign: 5 });
+assert.ok(dir2.periods.length < 12 && dir2.detail.missing.length === 12 - dir2.periods.length && dir2.reasonTa);
+
 // Lagnadi: Bhayat 3495 of Bhabhog 3571 palas -> 11s 22d20m17s added to lagna 10s 26d28m05s -> Aquarius 18d48m22s;
 // the first dasha (8 years) has run 18d48m22s/30 of its length: balance 2y 11m 24d (printed p.569-570).
 const lag = R.lagnadi({ lagnaLongitude: 10 * 30 + 26 + 28 / 60 + 5 / 3600, lagnaSign: 10, moonFraction: 3495 / 3571 });
