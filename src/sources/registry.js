@@ -53,6 +53,23 @@ const SOURCES = [
     },
   },
   {
+    id: 'RATH_UPADESA_SUTRAS',
+    title: "Jaimini Maharishi's Upadesa Sutras",
+    titleTa: 'ஜைமினி மகரிஷியின் உபதேச சூத்திரங்கள்',
+    author: 'Sanjay Rath',
+    file: 'Jyotish_Jaimini upadesa sutras_S.Rath ban.pdf',
+    tradition: 'Jaimini',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern translation with commentary. Cited by chapter, quarter and stanza, with the printed page; '
+        + 'Tables 1.9 and 2.7 are read for the dasha year counts and the Narayana order. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Publisher, edition and terms have not been read from the scan.',
+    },
+  },
+  {
     id: 'JAIMINI_SUTRAM_SASTRI',
     title: 'Jaimini Sutram',
     titleTa: 'ஜைமினி சூத்திரம்',

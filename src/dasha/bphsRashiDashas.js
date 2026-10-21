@@ -17,6 +17,7 @@
  */
 
 const JS_SOURCE = require('./jaiminiShoola').SOURCE;
+const JR_SOURCE = require('./jaiminiRashiDashas').SOURCE;
 const BPHS_RASHI = Object.freeze({
   title: 'Brihat Parashara Hora Shastra (BPHS)',
   author: 'R. Santhanam (translation)',
@@ -27,6 +28,8 @@ const locus = (pages, quote) => Object.freeze({ ...BPHS_RASHI, pageLocus: `Chapt
 
 const SOURCES = Object.freeze({
   'niryaana-shoola': JS_SOURCE,
+  'jaimini-chara': JR_SOURCE,
+  narayana: JR_SOURCE,
   chara: locus('pp.553-556 vv.155-167', '"The number of years of Dasa is reckoned from the Rasi up to the house in which its lord is posited … for the odd padas counting is done from Rasi onwards … for the even padas in the reverse order"'),
   sthira: locus('pp.556-558 vv.168-173', '"7 years, 8 years and 9 years are the Dasa spans of the movable, fixed and dual signs … begins from the Brahma Grahashrit rasi"'),
   yogardha: locus('p.560 v.174', '"The spans of Dasas of the signs in the Yogardha Dasa system are half of the total of the Chara and Sthira Dasas"'),
@@ -172,15 +175,6 @@ function mandooka(chart) {
   return { id: 'mandooka', source: SOURCES.mandooka, start, forward: odd, detail: {}, periods: seq.map((s) => ({ sign: s, years: stheraYears(s) })) };
 }
 
-/** Signs a sign aspects (v.185-187 and Rasi Drishti): movable the fixed ones but the adjacent, fixed the movable but the adjacent, dual the other duals. */
-function aspected(sign) {
-  const q = quality(sign);
-  const all = Array.from({ length: 12 }, (_, i) => i);
-  if (q === 0) return all.filter((t) => quality(t) === 1 && t !== (sign + 1) % 12);
-  if (q === 1) return all.filter((t) => quality(t) === 0 && t !== (sign + 11) % 12);
-  return all.filter((t) => quality(t) === 2 && t !== sign);
-}
-
 /** Dirga Dasa: the 9th, 10th and 11th signs each followed by the signs it aspects, nearest first in the kind's direction. */
 function dirga(chart) {
   const seq = [];
@@ -220,9 +214,11 @@ function lagnadi(chart) {
 }
 
 const JS = require('./jaiminiShoola');
+const JR = require('./jaiminiRashiDashas');
+const { aspected } = JS;
 
-const SYSTEMS = { chara, sthira, yogardha, mandooka, dirga, lagnadi, 'niryaana-shoola': JS.niryanaShoola };
-const NAMES_TA = { chara: 'சர தசை', sthira: 'ஸ்திர தசை', yogardha: 'யோகார்த்த தசை', mandooka: 'மண்டூக தசை', dirga: 'தீர்க்க (த்ருக்) தசை', lagnadi: 'லக்னாதி ராசி தசை', 'niryaana-shoola': 'நிர்யாண சூல தசை (ஜைமினி)' };
+const SYSTEMS = { chara, sthira, yogardha, mandooka, dirga, lagnadi, 'niryaana-shoola': JS.niryanaShoola, 'jaimini-chara': JR.jaiminiChara, narayana: JR.narayana };
+const NAMES_TA = { chara: 'சர தசை', sthira: 'ஸ்திர தசை', yogardha: 'யோகார்த்த தசை', mandooka: 'மண்டூக தசை', dirga: 'தீர்க்க (த்ருக்) தசை', lagnadi: 'லக்னாதி ராசி தசை', 'niryaana-shoola': 'நிர்யாண சூல தசை (ஜைமினி)', 'jaimini-chara': 'சர தசை (ஜைமினி — ராத்)', narayana: 'நாராயண தசை (ஜைமினி)' };
 
 const DECLARED_TA = Object.freeze({
   'lagna-kendradi-rashi': 'கேந்திராதி: "பலத்தின் வரிசை", "பாணபர/அபோக்லிம" ஆகியவற்றுக்கு நூல் அளவுகோல் தரவில்லை; எடுத்துக்காட்டு அட்டவணையின் ஆண்டுகள் அதன் உரையுடன் பொருந்தவில்லை.',

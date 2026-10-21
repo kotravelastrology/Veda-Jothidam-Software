@@ -181,19 +181,17 @@ const METHODS = [
   })),
   declared('shashtihayani', 'Shashtihayani', 'ஷஷ்டிஹாயனி', B.SHASTIHAYANI_PROBLEM_TA),
 
-  ...['chara', 'sthira', 'yogardha', 'mandooka', 'dirga', 'lagnadi', 'niryaana-shoola'].map((id) => createCoverage({
+  ...['chara', 'sthira', 'yogardha', 'mandooka', 'dirga', 'lagnadi', 'niryaana-shoola', 'jaimini-chara', 'narayana'].map((id) => createCoverage({
     id,
     name: id.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join(' '), nameTa: RS.NAMES_TA[id],
     family: 'rashi',
     level: 'SOURCED',
     implemented: true,
     source: { ...RS.SOURCES[id] },
-    workedExample: id === 'niryaana-shoola' ? 'jaimini-sutramritam-niryana-shoola' : `bphs-46-${id}`,
+    workedExample: id === 'niryaana-shoola' ? 'jaimini-sutramritam-niryana-shoola' : (id === 'jaimini-chara' || id === 'narayana') ? `rath-upadesa-sutras-${id}` : `bphs-46-${id}`,
     notes: 'ராசி தசை — நூலின் விதிப்படி (BPHS அத்.46), தொடக்கம் பிறப்பில்; இருப்பு இல்லை. '
       + 'நூலின் எடுத்துக்காட்டு அட்டவணையுடன் ஒப்பிட்டு, ஒத்துப்போகாத கட்டங்கள் test-bphs-rashi-dashas.js-இல் பட்டியலிடப்பட்டுள்ளன.',
   })),
-  declared('narayana', 'Narayana', 'நாராயண',
-    'ஜைமினி பத ராசி தசை. மேலே உள்ள அதே தேவை.'),
   declared('drig', 'Drig', 'த்ருக்',
     'ஜைமினி பார்வை அடிப்படையிலான ராசி தசை. மேலே உள்ள அதே தேவை.'),
   declared('lagna-kendradi-rashi', 'Lagna Kendradi Rashi', 'லக்ன கேந்திராதி ராசி', RS.DECLARED_TA['lagna-kendradi-rashi']),

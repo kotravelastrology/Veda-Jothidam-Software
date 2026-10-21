@@ -69,4 +69,13 @@ function niryanaShoola(chart) {
   return { id: 'niryaana-shoola', source: SOURCE, start: winner, forward, detail: { decidedBy: step, shoolaSigns: shoola, lagnaStronger: winner === chart.lagnaSign }, periods };
 }
 
-module.exports = { SOURCE, LORD, dignity, strongerOfPair, niryanaShoola };
+/** Signs a sign aspects (v.185-187 and Rasi Drishti): movable the fixed ones but the adjacent, fixed the movable but the adjacent, dual the other duals. */
+function aspected(sign) {
+  const q = quality(sign);
+  const all = Array.from({ length: 12 }, (_, i) => i);
+  if (q === 0) return all.filter((t) => quality(t) === 1 && t !== (sign + 1) % 12);
+  if (q === 1) return all.filter((t) => quality(t) === 0 && t !== (sign + 11) % 12);
+  return all.filter((t) => quality(t) === 2 && t !== sign);
+}
+
+module.exports = { SOURCE, LORD, aspected, dignity, strongerOfPair, niryanaShoola };
