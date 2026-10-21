@@ -27,6 +27,7 @@
 
 const { createCoverage } = require('./coverage');
 const { createDashaTable } = require('./nakshatraDashaEngine');
+const B = require('./bphsDashas');
 
 const BPHS = {
   title: 'Brihat Parashara Hora Shastra (BPHS)',
@@ -116,12 +117,15 @@ const METHODS = [
     id: 'ashtottari',
     name: 'Ashtottari', nameTa: 'அஷ்டோத்தரி',
     family: 'nakshatra',
-    level: 'STRUCTURE_ONLY',
+    level: 'SOURCED',
     implemented: true,
-    notes: '108 ஆண்டு சுழற்சி, 8 அதிபதிகள். `altDashas.js`-இல் முந்தைய '
-      + 'AstrologicLab engine-லிருந்து port செய்யப்பட்டது; அதன் குறிப்பு BPHS '
-      + 'அத்.49-ஐச் சுட்டுகிறது, ஆனால் `attachSource` முத்திரை இல்லை, பக்கமும் '
-      + 'சரிபார்க்கப்படவில்லை.',
+    source: { ...B.BPHS, pageLocus: B.ASHTOTTARI_SOURCE.pageLocus },
+    workedExample: 'bphs-46-ashtottari-uttarashada',
+    notes: '108 ஆண்டு; 8 அதிபதிகள் 28 பிரிவுகளில் (அபிஜித் உட்பட) 3 அல்லது 4 பிரிவுகளைப் பெறுகிறார்கள்; '
+      + 'நூலின் எடுத்துக்காட்டு (உத்திராடம்: 6 ஆண்டு 2 மாதம் 25 நாள் இருப்பு) மீளுருவாக்கப்படுகிறது — '
+      + 'நூலின் சில கணக்குப் பிழைகள் `test-bphs-dashas.js` இல் பதிவாகியுள்ளன. 2026-10-21 இல் நூலைப் பார்த்துத் '
+      + 'திருத்தப்பட்டது: முந்தைய port 27 நட்சத்திரங்களை 4,3,4,3,4,3,4,2 எனப் பிரித்து தனிஷ்டா முதல் கிருத்திகை வரை தவறாக ஒதுக்கியது. '
+      + 'துணைக் காலங்கள் விம்சோத்தரி போலவே விகிதப்படி (நூல் தனியாகச் சொல்லவில்லை).',
   }),
 
   createCoverage({
@@ -160,14 +164,20 @@ const METHODS = [
   }),
 
   // ── Known, deliberately not implemented ──────────────────────────────
-  declared('shodashottari', 'Shodashottari', 'ஷோடசோத்தரி'),
-  declared('dwadashottari', 'Dwadashottari', 'த்வாதசோத்தரி'),
-  declared('panchottari', 'Panchottari', 'பஞ்சோத்தரி'),
-  declared('shatabdika', 'Shatabdika', 'சதாப்திகா'),
-  declared('chaturashiti-sama', 'Chaturashiti-sama', 'சதுராசீதி சம'),
-  declared('dwisaptati-sama', 'Dwisaptati-sama', 'த்விசப்ததி சம'),
-  declared('shashtihayani', 'Shashtihayani', 'ஷஷ்டிஹாயனி'),
-  declared('shattrimshat-sama', 'Shattrimshat-sama', 'ஷட்த்ரிம்சத் சம'),
+  ...Object.entries(B.SYSTEMS).map(([id, sys]) => createCoverage({
+    id,
+    name: id.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join('-'), nameTa: sys.nameTa,
+    family: 'nakshatra',
+    level: 'SOURCED',
+    implemented: true,
+    source: { ...sys.source },
+    workedExample: sys.example && !sys.example.disagrees ? `bphs-46-${id}-first-lord` : (id === 'shodashottari' ? 'bphs-46-shodashottari-rohini' : null),
+    notes: `${B.TABLES[id].totalYears} ஆண்டு சுழற்சி; தொடக்க அதிபதி: ${sys.dir === 'TO_BIRTH' ? 'நட்சத்திரம்' : 'பிறப்பு நட்சத்திரத்திலிருந்து'} எண்ணி ${sys.mod} ஆல் வகுத்த மீதி — நூலின் விதிப்படி. `
+      + `பொருந்தும் நிலை (நூல்): ${sys.whenTa}; இது இங்கே சரிபார்க்கப்படுவதில்லை, குறிப்பாக மட்டும். `
+      + (sys.example?.disagrees ? 'நூலின் எடுத்துக்காட்டு (மிருகசீரிடம் → செவ்வாய்) அதன் சொந்த விதியுடன் (→ புதன்) ஒத்துப்போகவில்லை; விதி அப்படியே. ' : '')
+      + 'துணைக் காலங்கள் விம்சோத்தரி போலவே விகிதப்படி (நூல் தனியாகச் சொல்லவில்லை).',
+  })),
+  declared('shashtihayani', 'Shashtihayani', 'ஷஷ்டிஹாயனி', B.SHASTIHAYANI_PROBLEM_TA),
 
   declared('chara', 'Chara', 'சர',
     'ஜைமினி ராசி தசை. நட்சத்திர அட்டவணை அல்ல — ராசியிலிருந்து அதன் அதிபதி '
@@ -193,7 +203,7 @@ const METHODS = [
 
 const BY_ID = new Map(METHODS.map((m) => [m.id, m]));
 
-const TABLES = { tribhagi: TRIBHAGI_TABLE };
+const TABLES = { tribhagi: TRIBHAGI_TABLE, ashtottari: B.ASHTOTTARI, ...B.TABLES };
 
 const getMethod = (id) => BY_ID.get(id) ?? null;
 const getTable = (id) => TABLES[id] ?? null;

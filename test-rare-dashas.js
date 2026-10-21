@@ -155,13 +155,17 @@ for (const m of METHODS) {
   }
 }
 
-// The two dashas ported without an attachSource stamp are labelled as such
-// rather than sitting silently beside the verified one.
-for (const id of ['ashtottari', 'yogini']) {
-  const m = getMethod(id);
-  assert.equal(m.level, 'STRUCTURE_ONLY', `${id} carries no source stamp`);
+// Yogini was ported without an attachSource stamp and is labelled as such
+// rather than sitting silently beside the verified one. Ashtottari was read
+// against BPHS ch.46 on 2026-10-21 and is SOURCED (test-bphs-dashas.js).
+{
+  const m = getMethod('yogini');
+  assert.equal(m.level, 'STRUCTURE_ONLY', 'yogini carries no source stamp');
   assert.equal(m.source, null);
   assert.equal(m.promoted, false);
+  const a = getMethod('ashtottari');
+  assert.equal(a.level, 'SOURCED');
+  assert.ok(a.source && a.promoted === false);
 }
 
 // ------------------------------------------------------- Tribhagi -----

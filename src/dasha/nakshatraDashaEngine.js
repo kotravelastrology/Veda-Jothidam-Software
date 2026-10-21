@@ -41,7 +41,7 @@ const norm360 = (d) => ((d % 360) + 360) % 360;
  * @param totalYears  the system's stated total
  * @param lordOfNakshatra  (nakshatraIndex) => lord — the system's start rule
  */
-function createDashaTable({ id, cycle, years, totalYears, lordOfNakshatra }) {
+function createDashaTable({ id, cycle, years, totalYears, lordOfNakshatra, balanceAt }) {
   if (!id) throw new UnsupportedInputError('id is required', 'id');
   if (!Array.isArray(cycle) || cycle.length === 0) {
     throw new UnsupportedInputError(`${id}: cycle must be a non-empty array`, 'cycle');
@@ -79,9 +79,12 @@ function createDashaTable({ id, cycle, years, totalYears, lordOfNakshatra }) {
     }
   }
 
+  if (balanceAt !== undefined && typeof balanceAt !== 'function') {
+    throw new UnsupportedInputError(`${id}: balanceAt must be a function`, 'balanceAt');
+  }
   return Object.freeze({
     id, cycle: Object.freeze([...cycle]), years: Object.freeze({ ...years }),
-    totalYears, lordOfNakshatra,
+    totalYears, lordOfNakshatra, balanceAt,
   });
 }
 
@@ -97,6 +100,8 @@ function birthBalance(table, moonLongitude) {
     throw new UnsupportedInputError('moonLongitude must be a number', 'moonLongitude');
   }
   const normalized = norm360(moonLongitude);
+  // A system whose lords hold blocks of stars (Ashtottari) says its own balance.
+  if (table.balanceAt) return table.balanceAt(normalized);
   const nakshatraIndex = Math.floor(normalized / NAK_SPAN) % NAK_COUNT;
   const lord = table.lordOfNakshatra(nakshatraIndex);
   const elapsedFraction = (normalized - nakshatraIndex * NAK_SPAN) / NAK_SPAN;
