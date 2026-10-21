@@ -143,4 +143,47 @@ const r = kakshyaTransit({ natal, atMs: AT });
 assert.ok(!/\bundefined\b|NaN/.test(JSON.stringify(r)));
 for (const t of [...T.OUR_READINGS_TA, T.SLOKA_14_TA, ...Object.values(T.SLOKA_5_TA), ...Object.values(T.BHAVA_EXTREMES)]) assert.ok(/[஀-௿]/.test(t));
 
+// ------------------------------------------------------------------ chapters VI-XII: the results, as printed ---
+{
+  const R = require('./src/report/kakshyaResultsTables');
+  const A = require('./src/report/saturnAshtakavargaTables');
+  assert.deepEqual(Object.keys(R.RESULTS), ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn']);
+  // Sloka 1's first list gives all nine counts, 8 to 0, for every planet.
+  for (const [p, v] of Object.entries(R.RESULTS)) {
+    assert.deepEqual(Object.keys(v.primary).map(Number).sort(), [0, 1, 2, 3, 4, 5, 6, 7, 8], `${p}: counts 0-8`);
+    for (const t of [...Object.values(v.primary), ...Object.values(v.others), v.kakshyaBindu, v.kakshyaVoid]) assert.ok(/[஀-௿]/.test(t), `${p}: Tamil`);
+    assert.equal(v.sources.length, 2);
+    assert.ok(/printed pp?\.\d/.test(v.sources[0].pageLocus) && /PDF 1\d\d/.test(v.sources[0].pageLocus));
+    for (const src of v.sources) assert.ok(!/PDF/.test(citeTa(src)) && /ப\.\d+/.test(citeTa(src)), citeTa(src));
+  }
+  // The second list ("given by other authors") covers different counts for each planet.
+  const othersKeys = (p) => Object.keys(R.RESULTS[p].others).map(Number).sort((x, y) => x - y);
+  assert.deepEqual(othersKeys('Sun'), [1, 2, 3, 4, 5, 6, 7, 8]);
+  assert.deepEqual(othersKeys('Moon'), [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+  assert.deepEqual(othersKeys('Mars'), [2, 3, 4, 5, 7]);
+  assert.deepEqual(othersKeys('Mercury'), [0, 1, 4, 6, 7, 8]);
+  assert.deepEqual(othersKeys('Jupiter'), [0, 1, 2, 3, 4, 5, 7]);
+  assert.deepEqual(othersKeys('Venus'), [], 'Venus has no second list');
+  assert.deepEqual(othersKeys('Saturn'), [0, 1, 2]);
+  // Saturn's are the ones the Saturn page already holds.
+  assert.equal(R.RESULTS.Saturn.primary, A.PATEL_BY_BINDUS);
+  assert.equal(R.RESULTS.Saturn.others, A.PATEL_OTHER_AUTHORS);
+  // The page chapters: Sun VI p.76, Moon VII p.87, Mars VIII p.96, Mercury IX p.105, Jupiter X p.115, Venus XI p.139, Saturn XII p.153.
+  for (const [p, pg] of Object.entries({ Sun: 76, Moon: 87, Mars: 96, Mercury: 105, Jupiter: 115, Venus: 139, Saturn: 153 })) {
+    assert.ok(citeTa(R.RESULTS[p].sources[0]).includes(`ப.${pg}`), `${p}: sloka 1 on p.${pg}`);
+  }
+  // Two cells read from the images: Mercury's 2 and 3 (the scan runs the lines together) and the Sun has no 0 among the others.
+  assert.match(R.RESULTS.Mercury.primary[2], /முத்தோஷ/);
+  assert.match(R.RESULTS.Mercury.primary[3], /மனக் கவலை/);
+  assert.equal(R.RESULTS.Sun.others[0], undefined);
+  // The engine hands each planet the text for its bhava count and for bindu or void.
+  const eng = kakshyaTransit({ natal, atMs: AT });
+  for (const p of eng.planets) {
+    assert.equal(p.texts.bhava, R.RESULTS[p.planet].primary[p.bhavaBindus]);
+    assert.equal(p.texts.bhavaOthers, R.RESULTS[p.planet].others[p.bhavaBindus] ?? null);
+    assert.equal(p.texts.kakshya, p.bindu ? R.RESULTS[p.planet].kakshyaBindu : R.RESULTS[p.planet].kakshyaVoid);
+  }
+  assert.equal(Object.keys(eng.doctrine.resultSources).length, 7);
+}
+
 console.log('kakshya-transit: ok');

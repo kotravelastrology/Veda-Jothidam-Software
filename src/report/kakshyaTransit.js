@@ -12,6 +12,7 @@ const { kakshyaParts, bhavaKakshyaOf, signKakshyaOf, prastara, ashtakavargaWith,
 const A = require('./saturnAshtakavargaTables');
 const P = require('./phaladeepikaGocharaTables');
 const T = require('./kakshyaTransitTables');
+const R = require('./kakshyaResultsTables');
 const { RASI_TA } = require('./saturnTransit');
 
 const DAY_MS = 86400000;
@@ -96,6 +97,10 @@ function kakshyaTransit({ natal, atMs = Date.now(), ayanamsha = 'Lahiri', method
       unit: at.unit, unitTa: unitTa(at.unit), kakshya: at.kakshya, lord, lordTa: T.PLANET_TA[lord],
       bindu, bhavaBindus: bav, affliction: aff, standing: !bindu ? 'VOID' : aff.afflicted ? 'SORROW' : 'BINDU',
       noBinduAtAll: bav === 0, allBindus: bav === 8,
+      texts: {
+        bhava: R.RESULTS[planet].primary[bav], bhavaOthers: R.RESULTS[planet].others[bav] ?? null,
+        kakshya: bindu ? R.RESULTS[planet].kakshyaBindu : R.RESULTS[planet].kakshyaVoid,
+      },
     };
   });
 
@@ -150,7 +155,8 @@ function kakshyaTransit({ natal, atMs = Date.now(), ayanamsha = 'Lahiri', method
     doctrine: {
       sloka5: T.SLOKA_5_TA, sloka14: T.SLOKA_14_TA, strengthOrder: T.STRENGTH_ORDER, together: T.TOGETHER, bhavaExtremes: T.BHAVA_EXTREMES,
       average: { days: T.AVERAGE_DAYS, ta: T.AVERAGE_TA },
-      sources: T.SOURCES, ourReadingsTa: T.OUR_READINGS_TA,
+      sources: T.SOURCES, ourReadingsTa: [...T.OUR_READINGS_TA, ...R.OUR_READINGS_TA],
+      resultSources: Object.fromEntries(Object.entries(R.RESULTS).map(([p, v]) => [p, v.sources])),
     },
   };
 }

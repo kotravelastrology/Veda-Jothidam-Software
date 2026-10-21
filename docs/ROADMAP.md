@@ -208,7 +208,7 @@ Not plan items, but real, and they should not be discovered at release:
 - **Kakshya for every planet.** `/kakshya-transit` (`docs/KAKSHYA-TRANSIT.md`), 2026-10-21: Patel ch.V for the seven planets together —
   each one's bhava Kakshya, its lord and bindu / void in its own Ashtakavarga, debilitation / enemy sign / combustion (sloka 5),
   the slokas 6-10 count of planets in bindu or void Kakshyas, and dated windows. Closes the "Kakshya for the other planets" left open on
-  the Saturn page; the per-planet result texts (ch.VI-XII) are next.
+  the Saturn page. The result texts of chapters VI-XII (bhava count 8-0, Kakshya with / without a bindu, for each planet) followed.
 - **Nakshatras and suitable deeds.** `/nakshatra-deeds` (`docs/NAKSHATRA-DEEDS.md`), 2026-10-21: Kalyanraman vol. 1 ch.9 — for
   each star the deeds it suits (1,858 + 901, in the book's English), the seven kinds with weekdays, the mukha groups, and a
   Tamil / English search from a deed to the stars. The nine act books read the other way round; no time rules.

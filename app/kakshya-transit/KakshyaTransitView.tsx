@@ -113,6 +113,23 @@ export default function KakshyaTransitView() {
           </section>
 
           <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+            <h2 className="text-sm font-semibold text-ink mb-1">நூல் சொல்லும் பலன் — கிரகம் வாரியாக (படேல் அத்.VI-XII)</h2>
+            <p className="text-[11px] text-ink-soft mb-2">ஒவ்வொரு கிரகமும் தன் சொந்த அஷ்டகவர்க்கத்தில் நிற்கும் பாவத்தின் பிந்து எண்ணிக்கைக்கான பலன் (ஸ்லோகம் 1), மற்றும் இப்போதைய காக்ஷ்யையில் பிந்து இருந்தால் / இல்லாவிட்டால் பலன் (ஸ்லோகம் 2 / 3).</p>
+            <ul className="space-y-2 text-xs">
+              {result.planets.map((p: any) => (
+                <li key={p.planet} className="border-b border-line/40 pb-2">
+                  <strong className="text-ink">{p.planetTa}</strong> <span className="text-ink-soft" style={num}>· {p.unitTa} · {p.bhavaBindus} பிந்து · காக்ஷ்யா {p.kakshya} ({p.lordTa}) {p.bindu ? '— பிந்து உண்டு' : '— பிந்து இல்லை'}</span>
+                  <span className="block text-ink">பாவம்: {p.texts.bhava}</span>
+                  {p.texts.bhavaOthers && <span className="block text-ink-soft">மற்ற ஆசிரியர்கள்: {p.texts.bhavaOthers}</span>}
+                  <span className={`block ${p.bindu ? 'text-ink' : 'text-rose'}`}>காக்ஷ்யா: {p.texts.kakshya}</span>
+                  {p.standing === 'SORROW' && <span className="block text-rose">பிந்து இருந்தும் {p.affliction.reasons.map((r: string) => REASON_TA[r]).join(', ')} — ஸ்லோகம் 5: பெரும் துன்பம்.</span>}
+                  {dc.resultSources[p.planet].map((s: any, i: number) => <Cite key={i} s={s} />)}
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
             <h2 className="text-sm font-semibold text-ink mb-1">பலர் சேர்ந்து (ஸ்லோகம் 6-10)</h2>
             <p className="text-base text-ink" style={num}>பிந்து உள்ள காக்ஷ்யையில் <strong>{tg.binduCount}</strong> · இல்லாதவற்றில் <strong>{tg.voidCount}</strong> (ஏழில்)</p>
             {tg.binduText && <p className="text-sm text-ink mt-1">{tg.binduCount} கிரகம் பிந்து உள்ள காக்ஷ்யையில்: <strong>{tg.binduText}</strong></p>}

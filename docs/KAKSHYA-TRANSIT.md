@@ -43,7 +43,20 @@ Two methods: Patel's bhava method (default) and the sign method (eight equal par
   book's rounded figure.
 - A statement of the book, not a prediction.
 
+## The results (chapters VI-XII)
+
+`src/report/kakshyaResultsTables.js`: for each planet, the three slokas that open its chapter — what its transit through
+a bhava holding 8 to 0 bindus brings (sloka 1, with the shorter list "given by other authors", different for each planet
+and absent for Venus), and what it brings while it crosses a Kakshya with a bindu (sloka 2) or without one (sloka 3).
+Read from the page images (the scan's text layer scrambles the columns; Mercury's 2 and 3 run into one another in it).
+The Tamil is ours; the cells are the book's. Saturn's first sloka is the one `/saturn-transit` already holds. The page
+shows, for each planet now, the text for its bhava's count and for its Kakshya's bindu or void, with the page.
+
+Pages (printed): Sun VI p.76-77, Moon VII pp.87-88, Mars VIII pp.96-97, Mercury IX pp.105-106, Jupiter X pp.115-116,
+Venus XI pp.139-140, Saturn XII pp.153-154.
+
 ## Not here
 
-The per-planet result texts of chapters VI-XII (the effects of 8 to 0 bindus in a bhava, and of a bindu or void Kakshya,
-planet by planet — the Sun's are slokas 1-3 of chapter VI) and the other authors Patel cites. Those are the next stage.
+The rest of each chapter (the planet's rasi-by-rasi rules, the worked examples, the direction and timing rules — for
+example Mars's slokas 4-5 on the direction of the bhava with most bindus), and the other authors Patel cites
+at length. Rahu and Ketu have no Ashtakavarga.
