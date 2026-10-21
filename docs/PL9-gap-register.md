@@ -98,3 +98,5 @@ the preference "North" did not persist, a saved group came back empty, File Mana
 (E797, E915-E918, E948-E952).
 
 2026-10-21: BPHS ch.46 nakshatra dashas (docs/BPHS-DASHAS.md) and Chara, Sthira, Yogardha, Mandooka (docs/BPHS-RASHI-DASHAS.md) built. Left: Kendradi, Trikona, Shoola, Dirga, Navamsha, Narayana, Drig, Padanadhamsa, Shastihayani.
+
+2026-10-21 (later): group 5 (dashas) closed for now. Built: BPHS ch.46 nakshatra dashas, Chara/Sthira/Yogardha/Mandooka/Dirga/Lagnadi, Yogini sourced, Jaimini Niryana Shoola, Jaimini Chara, Narayana. Not built, with reasons: Padanadhamsa (needs the Jaimini navamsa chart and the Arudha lagna; years rule only in articles - Rangacharya, Y. Krishna Rao in "Jaimini dashas"), Jaimini Navamsha/Mandooka/Drig (commentators disagree on the start and order; Rath notes both views), Kendradi/Trikona/Shoola/Sandhya/Pachaka/Panchaswara (BPHS), Shastihayani (table cut off). Next in the register: group 2, the interpretation worksheets.
