@@ -31,9 +31,9 @@ that borrowing is recorded but those lists are not merged.
 The scan's text layer was too broken (run-together bold words, header fragments), so the 72 pages were re-read with
 Tesseract at 3× and the deeds were split by the book's own structure (the "following activities" line, the
 "also good for" line, one item per line in the second list). The scan runs many bold words together
-("Causingdeceit"); they were separated with a vocabulary taken from the book itself, then the 190 items with a
-once-seen word were proofread (several against the page images: Bharani, Chitra, the Ardra / Purva Phalguni
-pages, Abhijit). The book prints "Moingspinning" for Chitra where the other lists print "Doing spinning" — read as
+("Causingdeceit"); they were separated with a vocabulary taken from the book itself, then the ~190 items holding a
+word seen only once were read through and the doubtful ones corrected. Checked against the page images: Bharani,
+Chitra, the Ardra page, Abhijit; the rest from the OCR text alone, so a stray misreading may remain. The book prints "Moingspinning" for Chitra where the other lists print "Doing spinning" — read as
 the latter. Abhijit sits inside Uttara Ashadha's pages and is given its own entry.
 
 ## Our readings
