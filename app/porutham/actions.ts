@@ -10,6 +10,8 @@ const { calculateTamilPorutham, moonToStar } = require('../../src/report/tamilPo
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { calculateExtendedPorutham } = require('../../src/report/extendedPorutham');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const { ashtakoota } = require('../../src/report/ashtakoota');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { openLibrary } = require('../../src/library/chartRepository');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { resolveLibraryPath } = require('../../src/library/libraryPath');
@@ -34,6 +36,7 @@ function match(girl: BirthFormInput, boy: BirthFormInput, parties: unknown) {
   return JSON.parse(JSON.stringify({
     ...calculateTamilPorutham(g, b),
     extended: calculateExtendedPorutham(g, b),
+    ashtakoota: ashtakoota({ bride: { moonLongitude: g.moonLongitude }, groom: { moonLongitude: b.moonLongitude } }),
     girlChart: g.chart,
     boyChart: b.chart,
     // Which two people, from where, on what date, under which method — so a

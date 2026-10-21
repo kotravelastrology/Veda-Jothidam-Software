@@ -27,8 +27,9 @@ side where they differ, tests, docs. Where no classical source is held the row s
 ### 1. Compatibility (PL9: "Ashtkoot 22/36, Dash-Koota 27.5/44, Saptapadi 4/7"; E628, E640, E646)
 - **Ashtkoot Guna chart** (E628): eight kutas — Varna 1, Vashya 2, Tara 3, Yoni 4, Graha Maitri 5, Gana 6, Bhakoot 7, Nadi 8
   = 36 — with each partner's value, marks gained, dosha flag and "area of life" (Work, Dominance, Destiny, Mentality,
-  Friendliness, Temperament, Love, Health), and the Bhakoot / Nadi dosha notes. *Sources held:* Shridhar ch.18 (tables
-  18.x, "Total Gunas in Ashtakuta"), Muhurta Chintamani (the eight kootas in the Melapaka of marriage). **Not built.**
+  Friendliness, Temperament, Love, Health), and the Bhakoot / Nadi dosha notes. **Built 2026-10-21** as a section of `/porutham`
+  from Shridhar's tables (`docs/ASHTAKOOTA.md`) — with one finding: his grand table 18.33 disagrees with his own eight tables
+  in 30 of 54 sampled cells. Muhurta Chintamani's wording is not yet laid beside it.
 - **Saptapadi** (E646): seven pairs of signs, 1 mark each (4/7 in the sample). *No source identified.* Blocked until a book
   names the rule.
 - Dash-Koota table / compatibility (PL9 27.5/44) — `/porutham` has nine of the ten Kalaprakasika tables page-verified;

@@ -205,6 +205,8 @@ Not plan items, but real, and they should not be discovered at release:
   Rahu 8th (verse: 9th); three books count Ketu; the effects differ most for
   Mars, Saturn, the Moon and Jupiter. Muhurta use of Latta: `/muhurta-stars` (2026-10-10).
 - **The 88th nakshatra pada.** `/pada-88` (`docs/PADA-88.md`), 2026-10-08.
+- **Ashtakoota.** `docs/ASHTAKOOTA.md`, 2026-10-21: the eight kootas / 36 gunas on `/porutham` from Shridhar §18.7, read from the page images;
+  his grand table 18.33 disagrees with his own eight tables in 30 of 54 sampled cells (recorded, not hidden). Saptapadi has no source.
 - **Kakshya for every planet.** `/kakshya-transit` (`docs/KAKSHYA-TRANSIT.md`), 2026-10-21: Patel ch.V for the seven planets together —
   each one's bhava Kakshya, its lord and bindu / void in its own Ashtakavarga, debilitation / enemy sign / combustion (sloka 5),
   the slokas 6-10 count of planets in bindu or void Kakshyas, and dated windows. Closes the "Kakshya for the other planets" left open on

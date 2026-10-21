@@ -1,0 +1,1301 @@
+{
+ "_note": "Table 18.33(a), printed p.535 (PDF 574): the total for the bride in the row and the bridegroom in the column, read from the page image at 3.4x for three brides (Ashvani, Bharani, Krittika pada 1) against 18 bridegroom columns (54 cells). \"computed\" is what the eight component tables of 18.8-18.22 give. They agree in 24 of 54; the book's grand table differs from its own component tables by 1 or 2 gunas in the rest, and no single component explains it (Yoni, Gana and Maitri each fit some cells). Recorded as printed.",
+ "cells": [
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "book": 28,
+   "computed": 28,
+   "points": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Bharani",
+    1,
+    1
+   ],
+   "book": 33,
+   "computed": 33,
+   "points": [
+    1,
+    2,
+    3,
+    2,
+    5,
+    5,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Krittika pada 1 (Aries)",
+    2,
+    1
+   ],
+   "book": 28.5,
+   "computed": 27.5,
+   "points": [
+    1,
+    2,
+    1.5,
+    2,
+    5,
+    1,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Krittika padas 2-4 (Taurus)",
+    2,
+    2
+   ],
+   "book": 18.5,
+   "computed": 17.5,
+   "points": [
+    0,
+    2,
+    1.5,
+    2,
+    3,
+    1,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Rohini",
+    3,
+    1
+   ],
+   "book": 21.5,
+   "computed": 22.5,
+   "points": [
+    0,
+    2,
+    1.5,
+    3,
+    3,
+    5,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Mrigashira padas 1-2 (Taurus)",
+    4,
+    1
+   ],
+   "book": 22.5,
+   "computed": 23.5,
+   "points": [
+    0,
+    2,
+    1.5,
+    3,
+    3,
+    6,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Mrigashira padas 3-4 (Gemini)",
+    4,
+    3
+   ],
+   "book": 26,
+   "computed": 27,
+   "points": [
+    0,
+    1,
+    1.5,
+    3,
+    0.5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Ardra",
+    5,
+    1
+   ],
+   "book": 17,
+   "computed": 17,
+   "points": [
+    0,
+    1,
+    1.5,
+    2,
+    0.5,
+    5,
+    7,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Punarvasu padas 1-3 (Gemini)",
+    6,
+    1
+   ],
+   "book": 19,
+   "computed": 18,
+   "points": [
+    0,
+    1,
+    1.5,
+    2,
+    0.5,
+    6,
+    7,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Punarvasu pada 4 (Cancer)",
+    6,
+    4
+   ],
+   "book": 23.5,
+   "computed": 22.5,
+   "points": [
+    1,
+    1,
+    1.5,
+    2,
+    4,
+    6,
+    7,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Pushya",
+    7,
+    1
+   ],
+   "book": 31.5,
+   "computed": 30.5,
+   "points": [
+    1,
+    1,
+    1.5,
+    2,
+    4,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Ashlesha",
+    8,
+    1
+   ],
+   "book": 28,
+   "computed": 27,
+   "points": [
+    1,
+    1,
+    3,
+    2,
+    4,
+    1,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Magha",
+    9,
+    1
+   ],
+   "book": 21,
+   "computed": 20,
+   "points": [
+    1,
+    0,
+    3,
+    2,
+    5,
+    1,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Purva Phalguni",
+    10,
+    1
+   ],
+   "book": 25,
+   "computed": 24,
+   "points": [
+    1,
+    0,
+    3,
+    2,
+    5,
+    5,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Uttara Phalguni pada 1 (Leo)",
+    11,
+    1
+   ],
+   "book": 15.5,
+   "computed": 13.5,
+   "points": [
+    1,
+    0,
+    1.5,
+    1,
+    5,
+    5,
+    0,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Uttara Phalguni padas 2-4 (Virgo)",
+    11,
+    2
+   ],
+   "book": 11,
+   "computed": 9,
+   "points": [
+    0,
+    1,
+    1.5,
+    1,
+    0.5,
+    5,
+    0,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Hasta",
+    12,
+    1
+   ],
+   "book": 9,
+   "computed": 9,
+   "points": [
+    0,
+    1,
+    1.5,
+    0,
+    0.5,
+    6,
+    0,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "groom": [
+    "Chitra padas 1-2 (Virgo)",
+    13,
+    1
+   ],
+   "book": 13,
+   "computed": 13,
+   "points": [
+    0,
+    1,
+    1.5,
+    1,
+    0.5,
+    1,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "book": 34,
+   "computed": 34,
+   "points": [
+    1,
+    2,
+    3,
+    2,
+    5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Bharani",
+    1,
+    1
+   ],
+   "book": 28,
+   "computed": 28,
+   "points": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Krittika pada 1 (Aries)",
+    2,
+    1
+   ],
+   "book": 29,
+   "computed": 29,
+   "points": [
+    1,
+    2,
+    3,
+    3,
+    5,
+    0,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Krittika padas 2-4 (Taurus)",
+    2,
+    2
+   ],
+   "book": 19,
+   "computed": 19,
+   "points": [
+    0,
+    2,
+    3,
+    3,
+    3,
+    0,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Rohini",
+    3,
+    1
+   ],
+   "book": 21.5,
+   "computed": 23.5,
+   "points": [
+    0,
+    2,
+    1.5,
+    3,
+    3,
+    6,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Mrigashira padas 1-2 (Taurus)",
+    4,
+    1
+   ],
+   "book": 14.5,
+   "computed": 15.5,
+   "points": [
+    0,
+    2,
+    1.5,
+    3,
+    3,
+    6,
+    0,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Mrigashira padas 3-4 (Gemini)",
+    4,
+    3
+   ],
+   "book": 18,
+   "computed": 19,
+   "points": [
+    0,
+    1,
+    1.5,
+    3,
+    0.5,
+    6,
+    7,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Ardra",
+    5,
+    1
+   ],
+   "book": 26,
+   "computed": 26,
+   "points": [
+    0,
+    1,
+    1.5,
+    2,
+    0.5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Punarvasu padas 1-3 (Gemini)",
+    6,
+    1
+   ],
+   "book": 27,
+   "computed": 26,
+   "points": [
+    0,
+    1,
+    1.5,
+    2,
+    0.5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Punarvasu pada 4 (Cancer)",
+    6,
+    4
+   ],
+   "book": 31.5,
+   "computed": 30.5,
+   "points": [
+    1,
+    1,
+    1.5,
+    2,
+    4,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Pushya",
+    7,
+    1
+   ],
+   "book": 23.5,
+   "computed": 23.5,
+   "points": [
+    1,
+    1,
+    1.5,
+    3,
+    4,
+    6,
+    7,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Ashlesha",
+    8,
+    1
+   ],
+   "book": 25.5,
+   "computed": 24.5,
+   "points": [
+    1,
+    1,
+    1.5,
+    2,
+    4,
+    0,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Magha",
+    9,
+    1
+   ],
+   "book": 20,
+   "computed": 19,
+   "points": [
+    1,
+    0,
+    3,
+    2,
+    5,
+    0,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Purva Phalguni",
+    10,
+    1
+   ],
+   "book": 18,
+   "computed": 17,
+   "points": [
+    1,
+    0,
+    3,
+    2,
+    5,
+    6,
+    0,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Uttara Phalguni pada 1 (Leo)",
+    11,
+    1
+   ],
+   "book": 26,
+   "computed": 25,
+   "points": [
+    1,
+    0,
+    3,
+    2,
+    5,
+    6,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Uttara Phalguni padas 2-4 (Virgo)",
+    11,
+    2
+   ],
+   "book": 21.5,
+   "computed": 20.5,
+   "points": [
+    0,
+    1,
+    3,
+    2,
+    0.5,
+    6,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Hasta",
+    12,
+    1
+   ],
+   "book": 20,
+   "computed": 20,
+   "points": [
+    0,
+    1,
+    1.5,
+    3,
+    0.5,
+    6,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Bharani",
+    1,
+    1
+   ],
+   "groom": [
+    "Chitra padas 1-2 (Virgo)",
+    13,
+    1
+   ],
+   "book": 4,
+   "computed": 4,
+   "points": [
+    0,
+    1,
+    1.5,
+    1,
+    0.5,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Ashvani",
+    0,
+    1
+   ],
+   "book": 27.5,
+   "computed": 26.5,
+   "points": [
+    1,
+    2,
+    1.5,
+    2,
+    5,
+    0,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Bharani",
+    1,
+    1
+   ],
+   "book": 29,
+   "computed": 29,
+   "points": [
+    1,
+    2,
+    3,
+    3,
+    5,
+    0,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Krittika pada 1 (Aries)",
+    2,
+    1
+   ],
+   "book": 28,
+   "computed": 28,
+   "points": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Krittika padas 2-4 (Taurus)",
+    2,
+    2
+   ],
+   "book": 18,
+   "computed": 18,
+   "points": [
+    0,
+    2,
+    3,
+    4,
+    3,
+    6,
+    0,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Rohini",
+    3,
+    1
+   ],
+   "book": 10,
+   "computed": 10,
+   "points": [
+    0,
+    2,
+    3,
+    2,
+    3,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Mrigashira padas 1-2 (Taurus)",
+    4,
+    1
+   ],
+   "book": 16.5,
+   "computed": 16.5,
+   "points": [
+    0,
+    2,
+    1.5,
+    2,
+    3,
+    0,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Mrigashira padas 3-4 (Gemini)",
+    4,
+    3
+   ],
+   "book": 20,
+   "computed": 20,
+   "points": [
+    0,
+    1,
+    1.5,
+    2,
+    0.5,
+    0,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Ardra",
+    5,
+    1
+   ],
+   "book": 20,
+   "computed": 19,
+   "points": [
+    0,
+    1,
+    1.5,
+    1,
+    0.5,
+    0,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Punarvasu padas 1-3 (Gemini)",
+    6,
+    1
+   ],
+   "book": 21,
+   "computed": 20,
+   "points": [
+    0,
+    1,
+    1.5,
+    2,
+    0.5,
+    0,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Punarvasu pada 4 (Cancer)",
+    6,
+    4
+   ],
+   "book": 25.5,
+   "computed": 24.5,
+   "points": [
+    1,
+    1,
+    1.5,
+    2,
+    4,
+    0,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Pushya",
+    7,
+    1
+   ],
+   "book": 26.5,
+   "computed": 26.5,
+   "points": [
+    1,
+    1,
+    1.5,
+    4,
+    4,
+    0,
+    7,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Ashlesha",
+    8,
+    1
+   ],
+   "book": 23.5,
+   "computed": 22.5,
+   "points": [
+    1,
+    1,
+    1.5,
+    2,
+    4,
+    6,
+    7,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Magha",
+    9,
+    1
+   ],
+   "book": 16.5,
+   "computed": 14.5,
+   "points": [
+    1,
+    0,
+    1.5,
+    1,
+    5,
+    6,
+    0,
+    0
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Purva Phalguni",
+    10,
+    1
+   ],
+   "book": 20,
+   "computed": 18,
+   "points": [
+    1,
+    0,
+    3,
+    1,
+    5,
+    0,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Uttara Phalguni pada 1 (Leo)",
+    11,
+    1
+   ],
+   "book": 20,
+   "computed": 20,
+   "points": [
+    1,
+    0,
+    3,
+    3,
+    5,
+    0,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Uttara Phalguni padas 2-4 (Virgo)",
+    11,
+    2
+   ],
+   "book": 15.5,
+   "computed": 15.5,
+   "points": [
+    0,
+    1,
+    3,
+    3,
+    0.5,
+    0,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Hasta",
+    12,
+    1
+   ],
+   "book": 15.5,
+   "computed": 15.5,
+   "points": [
+    0,
+    1,
+    3,
+    3,
+    0.5,
+    0,
+    0,
+    8
+   ]
+  },
+  {
+   "bride": [
+    "Krittika",
+    2,
+    1
+   ],
+   "groom": [
+    "Chitra padas 1-2 (Virgo)",
+    13,
+    1
+   ],
+   "book": 18,
+   "computed": 18,
+   "points": [
+    0,
+    1,
+    1.5,
+    1,
+    0.5,
+    6,
+    0,
+    8
+   ]
+  }
+ ]
+}

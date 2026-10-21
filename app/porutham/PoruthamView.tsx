@@ -8,6 +8,7 @@ import { useWorkspace } from '@/src/workspace/workspaceContext';
 import { listCharts, searchCharts, openChart } from '../library/actions';
 import { computePorutham, computePoruthamForProfiles } from './actions';
 import type { BirthFormInput } from '../report/actions';
+import { citeTa } from '@/src/sources/citeTa';
 
 const SIGN_TA = ['மேஷ', 'ரிஷப', 'மிது', 'கடக', 'சிம்', 'கன்னி', 'துலா', 'விரு', 'தனு', 'மகர', 'கும்ப', 'மீன'];
 
@@ -458,6 +459,60 @@ export default function PoruthamView() {
           </p>
         </div>
       )}
+
+      {result?.ashtakoota && <AshtakootaSection a={result.ashtakoota} />}
     </main>
+  );
+}
+
+/** Ashtakoota (the eight kootas, 36 gunas) — Shridhar §18.7, the bride in the rows and the bridegroom in the columns. */
+function AshtakootaSection({ a }: { a: any }) {
+  return (
+    <div className="bg-surface border border-line rounded-2xl p-5 mt-4">
+      <div className="flex items-baseline justify-between mb-3">
+        <div>
+          <h2 className="text-sm font-semibold text-ink">அஷ்டகூடம் (36 குணம்)</h2>
+          <p className="text-[11px] text-ink-soft">வட இந்திய முறை — ஷ்ரீதர் (Hindu Electional Astrology §18.7). மணமகள்: {a.bride.starTa} {a.bride.pada}-ஆம் பாதம் / {a.bride.rashiTa} · மணமகன்: {a.groom.starTa} {a.groom.pada}-ஆம் பாதம் / {a.groom.rashiTa}</p>
+        </div>
+        <div className="text-right">
+          <div className="text-2xl font-bold text-saffron">{a.total}/{a.maximum}</div>
+          <div className="text-xs text-ink-soft">{a.band.textTa}</div>
+        </div>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs" style={{ minWidth: 620 }}>
+          <thead><tr className="text-ink-soft border-b border-line text-left">
+            <th className="py-1 pr-2">கூடம்</th><th className="py-1 pr-2">மணமகள்</th><th className="py-1 pr-2">மணமகன்</th><th className="py-1 pr-2 text-right">அதிகபட்சம்</th><th className="py-1 pr-2 text-right">பெற்றது</th><th className="py-1 pr-2">தோஷம்</th><th className="py-1">வாழ்க்கைப் பகுதி</th>
+          </tr></thead>
+          <tbody className="align-top">
+            {a.rows.map((r: any) => (
+              <tr key={r.id} className="border-b border-line/40">
+                <td className="py-1.5 pr-2 font-semibold text-ink">{r.nameTa}</td>
+                <td className="py-1.5 pr-2 text-ink">{r.bride}</td>
+                <td className="py-1.5 pr-2 text-ink">{r.groom}</td>
+                <td className="py-1.5 pr-2 text-right text-ink-soft" style={{ fontVariantNumeric: 'tabular-nums' }}>{r.max}</td>
+                <td className={`py-1.5 pr-2 text-right font-semibold ${r.dosha ? 'text-rose' : 'text-ink'}`} style={{ fontVariantNumeric: 'tabular-nums' }}>{r.points}</td>
+                <td className="py-1.5 pr-2">{r.major ? <span className="text-rose font-semibold">முக்கிய தோஷம்</span> : r.dosha ? <span className="text-rose">குறைவு</span> : <span className="text-ink-soft">—</span>}</td>
+                <td className="py-1.5 text-ink-soft">{r.areaTa}</td>
+              </tr>
+            ))}
+            <tr>
+              <td className="py-1.5 pr-2 font-semibold text-ink" colSpan={3}>மொத்தம்</td>
+              <td className="py-1.5 pr-2 text-right text-ink-soft">{a.maximum}</td>
+              <td className="py-1.5 pr-2 text-right font-bold text-saffron" style={{ fontVariantNumeric: 'tabular-nums' }}>{a.total}</td>
+              <td colSpan={2} />
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <ul className="text-[11px] text-ink-soft mt-3 space-y-1">
+        {a.bhakutaDosha && <li className="text-rose">பகூட தோஷம் உள்ளது (மணமகன் ராசி மணமகளின் ராசியிலிருந்து {a.bhakuta.distance}-ஆவது). அப்போது நூலின் வகுப்பு: 20 வரை நிராகரி; 21-25 நடுத்தரம்; 26-30 மிக நல்லது; 30-க்கு மேல் மிகச் சிறந்தது.</li>}
+        {a.nadiRejectTa && <li className="text-rose">{a.nadiRejectTa}</li>}
+        {(a.tara.deathToBride || a.tara.deathToGroom) && <li>தாரை: {a.tara.deathToBride ? 'மணமகளின் நட்சத்திரம் மணமகனிலிருந்து 3, 5 அல்லது 7-ஆவது (-G)' : ''}{a.tara.deathToBride && a.tara.deathToGroom ? '; ' : ''}{a.tara.deathToGroom ? 'மணமகனின் நட்சத்திரம் மணமகளிலிருந்து 3, 5 அல்லது 7-ஆவது (-B)' : ''}.</li>}
+        {a.ourReadingsTa.map((t: string, i: number) => <li key={i}>{t}</li>)}
+      </ul>
+      <p className="text-[11px] text-ink-soft mt-2">{citeTa(a.sources.overview)}</p>
+      <p className="text-[11px] text-ink-soft">{a.rows.map((r: any) => citeTa(r.sources)).filter((x: string, i: number, arr: string[]) => arr.indexOf(x) === i).join(' · ')}</p>
+    </div>
   );
 }
