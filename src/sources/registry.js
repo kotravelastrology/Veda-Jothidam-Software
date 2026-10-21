@@ -53,6 +53,24 @@ const SOURCES = [
     },
   },
   {
+    id: 'BRIHAT_JATAKA_SASTRI_2007',
+    title: 'Brihat Jataka (P.S. Sastri, 2007)',
+    titleTa: 'பிருஹத் ஜாதகம் (பி.எஸ். சாஸ்திரி, 2007)',
+    author: 'Varahamihira (P.S. Sastri, translation with commentary)',
+    file: 'Jyotish_Brihat jataka P_S_Sastri_2007.pdf',
+    tradition: 'Jataka classic',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit text is ancient; this English translation with commentary is a modern work. '
+        + 'Cited by chapter, verse and printed page; the verse translation is summarised in our own words. '
+        + 'The PDF must not be bundled or redistributed. A different edition from the 1905 Chidambaram text already in the registry.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read.',
+    },
+  },
+  {
     id: 'SARAVALI_SANTHANAM',
     title: 'Saravali',
     titleTa: 'சாராவளி',

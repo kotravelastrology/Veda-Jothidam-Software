@@ -57,6 +57,8 @@ export default function PlanetHouseView() {
               {r.readings.map((x: any) => (
                 <div key={x.bookId} className="mt-2">
                   <p className="text-ink">{x.ta}</p>
+                  {x.sameAs && <p className="text-[11px] text-ink-soft mt-0.5">நூல்: "மற்ற இடங்களில் {x.sameAs === 'Sun' ? 'சூரியனைப்' : x.sameAs === 'Jupiter' ? 'குருவைப்' : x.sameAs} போல" — அந்தக் கிரகத்தின் இதே வீட்டுப் பலன் இங்கே காட்டப்படுகிறது.</p>}
+                  {x.caveat && <p className="text-[11px] text-rose mt-0.5">{x.caveat}</p>}
                   {x.misprint && <p className="text-[11px] text-rose mt-0.5">அச்சுப்பிழை: நூலின் இந்த இடம் தன் சொந்தத் தலைப்புடன் ஒத்துப்போகவில்லை.</p>}
                   {x.gloss && <p className="text-[11px] text-ink-soft mt-0.5">மொழிபெயர்ப்பில் உரையாசிரியர் விளக்கம் மூலத்துடன் கலந்துள்ளது.</p>}
                   <p className="text-[11px] text-ink-soft mt-0.5">{citeTa({ ...x.source, pageLocus: `printed p.${x.page}` })} · பாடல் {x.verse}</p>
