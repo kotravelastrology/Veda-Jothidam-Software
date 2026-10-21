@@ -205,6 +205,9 @@ Not plan items, but real, and they should not be discovered at release:
   Rahu 8th (verse: 9th); three books count Ketu; the effects differ most for
   Mars, Saturn, the Moon and Jupiter. Muhurta use of Latta: `/muhurta-stars` (2026-10-10).
 - **The 88th nakshatra pada.** `/pada-88` (`docs/PADA-88.md`), 2026-10-08.
+- **Nakshatras and suitable deeds.** `/nakshatra-deeds` (`docs/NAKSHATRA-DEEDS.md`), 2026-10-21: Kalyanraman vol. 1 ch.9 — for
+  each star the deeds it suits (1,858 + 901, in the book's English), the seven kinds with weekdays, the mukha groups, and a
+  Tamil / English search from a deed to the stars. The nine act books read the other way round; no time rules.
 - **The onset of an illness.** `/roga-arambha` (`docs/ROGA-ARAMBHA.md`), 2026-10-21: eight books' lengths and fatal
   lists for all 27 stars side by side (Wilhelm first; Kalaprakasika the oldest, Shridhar's Table 22.2 with quarter days read
   from the page image), and for a given moment the combinations of weekday, tithi, karana, tara and Tri-Nadi. Moola,
