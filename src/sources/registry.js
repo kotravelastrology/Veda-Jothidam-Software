@@ -53,6 +53,24 @@ const SOURCES = [
     },
   },
   {
+    id: 'JAIMINI_SUTRAM_SASTRI',
+    title: 'Jaimini Sutram',
+    titleTa: 'ஜைமினி சூத்திரம்',
+    author: 'P.S. Sastri',
+    file: 'Jyotish_Jaimini sutram P.S. Sastri.pdf',
+    tradition: 'Jaimini',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The sutras are ancient; this English translation with notes is a twentieth-century work. '
+        + 'Cited by chapter, pada and sutra; the PDF must not be bundled or redistributed. '
+        + 'Read beside Iranganti Rangacharya, Jaimini Sutramritam, for the strength ladder of the Niryana Shoola dasha.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read.',
+    },
+  },
+  {
     id: 'VINAY_ADITYA_ASHTAKAVARGA',
     title: 'Practical Ashtakavarga',
     titleTa: 'நடைமுறை அஷ்டகவர்க்கம்',

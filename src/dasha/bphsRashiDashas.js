@@ -16,6 +16,7 @@
  * Narayana, Drig, Padanadhamsa — see DECLARED_TA.
  */
 
+const JS_SOURCE = require('./jaiminiShoola').SOURCE;
 const BPHS_RASHI = Object.freeze({
   title: 'Brihat Parashara Hora Shastra (BPHS)',
   author: 'R. Santhanam (translation)',
@@ -25,6 +26,7 @@ const BPHS_RASHI = Object.freeze({
 const locus = (pages, quote) => Object.freeze({ ...BPHS_RASHI, pageLocus: `Chapter 46, printed ${pages}: ${quote}` });
 
 const SOURCES = Object.freeze({
+  'niryaana-shoola': JS_SOURCE,
   chara: locus('pp.553-556 vv.155-167', '"The number of years of Dasa is reckoned from the Rasi up to the house in which its lord is posited … for the odd padas counting is done from Rasi onwards … for the even padas in the reverse order"'),
   sthira: locus('pp.556-558 vv.168-173', '"7 years, 8 years and 9 years are the Dasa spans of the movable, fixed and dual signs … begins from the Brahma Grahashrit rasi"'),
   yogardha: locus('p.560 v.174', '"The spans of Dasas of the signs in the Yogardha Dasa system are half of the total of the Chara and Sthira Dasas"'),
@@ -209,8 +211,10 @@ function lagnadi(chart) {
   return { id: 'lagnadi', source: SOURCES.lagnadi, start, forward: odd, detail: { expiredDegrees: expired, balanceYears: balance }, periods };
 }
 
-const SYSTEMS = { chara, sthira, yogardha, mandooka, dirga, lagnadi };
-const NAMES_TA = { chara: 'சர தசை', sthira: 'ஸ்திர தசை', yogardha: 'யோகார்த்த தசை', mandooka: 'மண்டூக தசை', dirga: 'தீர்க்க (த்ருக்) தசை', lagnadi: 'லக்னாதி ராசி தசை' };
+const JS = require('./jaiminiShoola');
+
+const SYSTEMS = { chara, sthira, yogardha, mandooka, dirga, lagnadi, 'niryaana-shoola': JS.niryanaShoola };
+const NAMES_TA = { chara: 'சர தசை', sthira: 'ஸ்திர தசை', yogardha: 'யோகார்த்த தசை', mandooka: 'மண்டூக தசை', dirga: 'தீர்க்க (த்ருக்) தசை', lagnadi: 'லக்னாதி ராசி தசை', 'niryaana-shoola': 'நிர்யாண சூல தசை (ஜைமினி)' };
 
 const DECLARED_TA = Object.freeze({
   'lagna-kendradi-rashi': 'கேந்திராதி: "பலத்தின் வரிசை", "பாணபர/அபோக்லிம" ஆகியவற்றுக்கு நூல் அளவுகோல் தரவில்லை; எடுத்துக்காட்டு அட்டவணையின் ஆண்டுகள் அதன் உரையுடன் பொருந்தவில்லை.',

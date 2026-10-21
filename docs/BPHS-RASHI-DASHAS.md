@@ -20,3 +20,5 @@ Open choices recorded: start sign of Chara is lagna as in the example (the text 
 
 Added 2026-10-21: Dirga (vv.185-187, pp.567-568: 9th/10th/11th signs each followed by the signs it aspects; movable backward, fixed onward, dual odd onward / even backward; Sthira years) and Lagnadi (vv.188-190, pp.569-570: elapsed fraction of the birth star x 12 signs added to lagna longitude; first dasha has a balance). Both reproduce the printed example. Dirga is no longer in the "not built" list.
 Yogini (BPHS vv.195-199, pp.571-572) promoted STRUCTURE_ONLY -> SOURCED 2026-10-21.
+
+Niryana Shoola (Jaimini Sutras 2.3.18, Sastri printed pp.217-219, strength ladder from Rangacharya's Sutramritam pp.125-127; `src/dasha/jaiminiShoola.js`, test `test-jaimini-shoola.js`): 9 years per sign from the stronger of lagna and 7th, onward if odd and backward if even; Shoola signs = 1st, 5th, 9th from the start. Listed on the same page. Tested on Rangacharya's worked chart (7th, Taurus, wins because Venus is exalted against Mars in moolatrikona). Rahu/Ketu are not taken as lords of Scorpio/Aquarius in the ladder; degrees of the worked chart are not printed, so mid-sign values are used.
