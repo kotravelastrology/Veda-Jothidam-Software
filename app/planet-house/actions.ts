@@ -8,6 +8,8 @@ const { calculateParashariChart } = require('../../src/chart/parashariChart');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const PH = require('../../src/report/planetHouse');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const BH = require('../../src/report/bhaveshHouse');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { describeMatchParty } = require('../../src/report/matchParties');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { openLibrary } = require('../../src/library/chartRepository');
@@ -49,6 +51,8 @@ export async function computePlanetHouse(req: PlanetHouseRequest) {
   return JSON.parse(JSON.stringify({
     lagnaTa: SIGN_TA[lagnaSign],
     rows,
+    bhavesh: BH.bhaveshReadings({ lagnaSign, signs }).map((r: any) => ({ ...r, signTa: SIGN_TA[r.sign], lordTa: PLANET_TA[r.lord], lordSignTa: SIGN_TA[r.lordSign] })),
+    bhaveshBooks: BH.BOOKS.map((b: any) => ({ id: b.id, source: b.source, scope: b.scope })),
     books: PH.BOOKS.map((b: any) => ({ id: b.id, source: b.source, scope: b.scope })),
     native: describeMatchParty(input, ctx, profile),
   }));

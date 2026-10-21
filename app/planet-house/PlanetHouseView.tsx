@@ -32,7 +32,7 @@ export default function PlanetHouseView() {
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
         <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Planets in houses</p>
-        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கிரகம் பாவத்தில் — நூல்கள் சொல்வது</h1>
+        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கிரகம் பாவத்தில், பாவாதிபதி — நூல்கள் சொல்வது</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒவ்வொரு கிரகமும் லக்னத்திலிருந்து எந்த வீட்டில் உள்ளது, அதைப் பற்றி நூல் என்ன சொல்கிறது — நூல் வாரியாக, அச்சுப் பக்கத்துடன். நூலின் சொற்கள் சுருக்கப்பட்டுள்ளன (மேற்கோள் அல்ல).
           இது நூலின் கூற்று மட்டுமே; கிரகத்தின் பலம், பார்வை, சேர்க்கை ஆகியவற்றையும் சேர்த்துப் பார்த்தே பலன் சொல்ல வேண்டும்.
@@ -61,6 +61,19 @@ export default function PlanetHouseView() {
                   {x.caveat && <p className="text-[11px] text-rose mt-0.5">{x.caveat}</p>}
                   {x.misprint && <p className="text-[11px] text-rose mt-0.5">அச்சுப்பிழை: நூலின் இந்த இடம் தன் சொந்தத் தலைப்புடன் ஒத்துப்போகவில்லை.</p>}
                   {x.gloss && <p className="text-[11px] text-ink-soft mt-0.5">மொழிபெயர்ப்பில் உரையாசிரியர் விளக்கம் மூலத்துடன் கலந்துள்ளது.</p>}
+                  <p className="text-[11px] text-ink-soft mt-0.5">{citeTa({ ...x.source, pageLocus: `printed p.${x.page}` })} · பாடல் {x.verse}</p>
+                </div>
+              ))}
+            </section>
+          ))}
+          <h2 className="text-lg font-semibold text-ink mt-6 mb-1">பாவாதிபதி பலன்கள்</h2>
+          <p className="text-[11px] text-ink-soft mb-3">{result.bhaveshBooks.map((b: any) => `${citeTa(b.source)} — ${b.scope}`).join(' · ')}</p>
+          {result.bhavesh.map((r: any) => (
+            <section key={r.bhava} className="bg-surface border border-line rounded-2xl p-4 mb-3 text-sm">
+              <h3 className="font-semibold text-ink">{r.bhava}-ஆம் வீடு ({r.signTa}) அதிபதி {r.lordTa} — {r.lordHouse}-ஆம் வீட்டில் ({r.lordSignTa})</h3>
+              {r.readings.map((x: any) => (
+                <div key={x.bookId} className="mt-2">
+                  <p className="text-ink">{x.ta}</p>
                   <p className="text-[11px] text-ink-soft mt-0.5">{citeTa({ ...x.source, pageLocus: `printed p.${x.page}` })} · பாடல் {x.verse}</p>
                 </div>
               ))}
