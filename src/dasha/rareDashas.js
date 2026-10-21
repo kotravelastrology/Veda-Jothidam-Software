@@ -28,6 +28,7 @@
 const { createCoverage } = require('./coverage');
 const { createDashaTable } = require('./nakshatraDashaEngine');
 const B = require('./bphsDashas');
+const RS = require('./bphsRashiDashas');
 
 const BPHS = {
   title: 'Brihat Parashara Hora Shastra (BPHS)',
@@ -179,26 +180,29 @@ const METHODS = [
   })),
   declared('shashtihayani', 'Shashtihayani', 'ஷஷ்டிஹாயனி', B.SHASTIHAYANI_PROBLEM_TA),
 
-  declared('chara', 'Chara', 'சர',
-    'ஜைமினி ராசி தசை. நட்சத்திர அட்டவணை அல்ல — ராசியிலிருந்து அதன் அதிபதி '
-    + 'வரையிலான எண்ணிக்கையால் காலம் தீர்மானிக்கப்படுகிறது. ஜைமினி சூத்திரங்களின் '
-    + 'சரிபார்க்கப்பட்ட பதிப்பு தேவை.'),
-  declared('sthira', 'Sthira', 'ஸ்திர',
-    'ஜைமினி ராசி தசை (நிலையான காலங்கள்). மேலே உள்ள அதே தேவை.'),
+  ...['chara', 'sthira', 'yogardha', 'mandooka'].map((id) => createCoverage({
+    id,
+    name: id[0].toUpperCase() + id.slice(1), nameTa: RS.NAMES_TA[id],
+    family: 'rashi',
+    level: 'SOURCED',
+    implemented: true,
+    source: { ...RS.SOURCES[id] },
+    workedExample: `bphs-46-${id}`,
+    notes: 'ராசி தசை — நூலின் விதிப்படி (BPHS அத்.46), தொடக்கம் பிறப்பில்; இருப்பு இல்லை. '
+      + 'நூலின் எடுத்துக்காட்டு அட்டவணையுடன் ஒப்பிட்டு, ஒத்துப்போகாத கட்டங்கள் test-bphs-rashi-dashas.js-இல் பட்டியலிடப்பட்டுள்ளன.',
+  })),
   declared('narayana', 'Narayana', 'நாராயண',
     'ஜைமினி பத ராசி தசை. மேலே உள்ள அதே தேவை.'),
   declared('niryaana-shoola', 'Niryaana Shoola', 'நிர்யாண சூல',
     'ஆயுள் தொடர்பான ஜைமினி தசை. மேலே உள்ள அதே தேவை.'),
   declared('drig', 'Drig', 'த்ருக்',
     'ஜைமினி பார்வை அடிப்படையிலான ராசி தசை. மேலே உள்ள அதே தேவை.'),
-  declared('lagna-kendradi-rashi', 'Lagna Kendradi Rashi', 'லக்ன கேந்திராதி ராசி',
-    'ஜைமினி ராசி தசை. மேலே உள்ள அதே தேவை.'),
+  declared('lagna-kendradi-rashi', 'Lagna Kendradi Rashi', 'லக்ன கேந்திராதி ராசி', RS.DECLARED_TA['lagna-kendradi-rashi']),
   declared('navamsha-dasha', 'Navamsha Dasha', 'நவாம்ச தசை',
     'நவாம்சத்தை அடிப்படையாகக் கொண்ட தசை. சரிபார்க்கப்பட்ட ஆதாரம் தேவை.'),
   declared('padanadhamsa', 'Padanadhamsa', 'பாதநாதாம்ச',
     'சரிபார்க்கப்பட்ட ஆதாரம் தேவை.'),
-  declared('shoola', 'Shoola', 'சூல',
-    'சரிபார்க்கப்பட்ட ஆதாரம் தேவை.'),
+  declared('shoola', 'Shoola', 'சூல', RS.DECLARED_TA.shoola),
 ];
 
 const BY_ID = new Map(METHODS.map((m) => [m.id, m]));

@@ -96,3 +96,5 @@ Change Location Tool (F8) and Change Time Tool (F9) — the menu links 404 and w
 The audit also recorded PL9's own faults, which we should not reproduce: Nakshatra statistics column headings overlap,
 the preference "North" did not persist, a saved group came back empty, File Manager refresh made the window vanish
 (E797, E915-E918, E948-E952).
+
+2026-10-21: BPHS ch.46 nakshatra dashas (docs/BPHS-DASHAS.md) and Chara, Sthira, Yogardha, Mandooka (docs/BPHS-RASHI-DASHAS.md) built. Left: Kendradi, Trikona, Shoola, Dirga, Navamsha, Narayana, Drig, Padanadhamsa, Shastihayani.
