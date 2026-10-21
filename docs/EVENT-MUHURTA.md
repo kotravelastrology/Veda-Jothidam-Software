@@ -1137,6 +1137,66 @@ after menses (eleven stars; six of them for those who wish to conceive) joined S
 as not an election: the onset-of-illness tables (Shridhar §22.1, Wilhelm p.270-272, Joshi table 13.1, Kalyanraman
 p.201) — they predict how long a disease will last from the star it began under; they need a table, not a time search.
 
+**Wilhelm's remaining guidelines** (16 new acts and Wilhelm added to 7 existing acts, 2026-10-21), found by listing every
+heading of Wilhelm's guidelines (PDF 190-345) and comparing it with what the acts cite: new chairs and thrones, vessels and
+musical instruments (one rule printed three times: fourteen stars, tithis 2, 3, 5, 7, 10, 11, 12 best, Mercury / Jupiter /
+Venus weekdays best), door hanging, melting butter, cremation (the Panchaka stars barred), nail cutting (with Raman), blood
+letting, moving cows, tribute received and given, the place of birth, Vishnu puja, spirits and possession, religious rites,
+purchasing weapons. Wilhelm's gem-cutting, wine, wells, pumsavana, seemanta, mother's bath after delivery and jala puja
+sections joined the existing acts: his ten gem stars are the same as Kalyanraman's and Joshi's. Two lists were corrected
+from the page images, not the OCR text: religious rites (sixteen stars, all favourable — the OCR text had reordered them
+into favourable and middling) and the seemanta Tara (3, 5, 7, 10, 19, 22, 27). Sheltering animals was already inside the
+pets act and was not repeated. Left out: "Construction - Repairing" (Moon with Mars in seven stars — a pair that the
+engine cannot express), the onset-of-disease table, and "Travel - Setting out to overcome enemies" / "War - Engaging in"
+(the travel act).
+
+**Raman's and Rangacharya's remaining sections** (8 new acts and 9 books added to existing acts, 2026-10-21), found by
+the same heading-by-heading audit. Raman (PDF 36-56): buying utensils, pledging articles, dismantling a building,
+felling trees, horse races, destroying strongholds; and Raman added to shaving (twelve stars), the escaped-prisoners act
+(the same ten stars as Wilhelm), purchasing weapons (the same fourteen stars as Wilhelm; Raman is the default by words,
+61 against 57) and starting a war (eleven stars). Rangacharya (PDF 128-142): footwear, printing work; and Rangacharya
+added to shaving (thirteen stars), the oil bath, adoption, mantra deeksha (sixteen stars, the lagna by the deity's
+nature, Muhurtha Ganapati's chakra suddhi 4, 6, 14, 17, 21, 22 from the Sun's star — new `MANTRA_CHAKRA`) and installing a
+deity (fifteen stars; his deity-by-deity lists are named in the note and not separate readings). Where they part: both
+Rangacharya and Shridhar / Wilhelm give the oil bath, but Rangacharya discards the 10th tithi and Shridhar and
+Wilhelm call it essential — kept as printed. Raman's shaving page is a lecture on the body's electric currents with
+one sentence of rules; the word count uses only the practical part (218 words) so that the lecture does not make him
+the default. Not computed, named in the notes: Raman's "fiery constellation" (undefined in the book), "dry sign", the
+Mars and Saturn aspect conditions of war, the metal-wise Jupiter aspects for utensils.
+
+**Agarwal's and Vashistha's samskara muhurtas** (13 books added to existing acts, 2026-10-21), found because the samskara
+family of 2026-10-20 had cited neither book. Agarwal's "Shodas samskaar" list (printed pp.308-310) gives nishekam,
+garbhadhana, pumsavana, seemanta, naming, the first outing, the first food, tonsure, ear piercing, keshanta and the
+death rites; his women's items (p.329) give the bath after delivery, the first feeding, the bath after menses, religious
+rites and learning a craft. He prints pumsavana and seemanta with the same seven stars, Sunday / Tuesday / Thursday
+("male days"), with different lagna rules: pumsavana in signs 1, 4, 5, 7, 9, 10, seemanta in 2, 3, 4, 6, 7, 9, 12;
+naming and the first food share sixteen stars; keshanta is "the same muhurta as tonsure" (a copy of the tonsure
+reading); Bharani is barred for cremation even when the body is available. The prasuti bath prints Moola in both his
+lists (the page image confirms it) — kept middling. Vashistha (printed pp.88-90, read from the page images) gives
+pumsavana (seventeen stars — Bharani, Ardra, Magha and the three Poorvas included, which other books bar), the first food,
+tonsure (twelve stars with Jyeshtha; the five uttarayana months except Chaitra) and the mother's water worship (the same
+seven stars as the Chintamani, Kalyanraman, Shridhar and Wilhelm: five books agree). Wilhelm's water-worship reading
+now also bars Chaitra and Pausha like the other books. The old samskara tests no longer assume that every book has the same
+weekdays: Agarwal bars Saturday and Wednesday for the delivery bath, and has no weekday for tonsure.
+
+**Joshi's puttala-daha, Shridhar ch.19 leftovers, Kalyanraman's mangalya and auspicious functions** (8 new acts and 2 books
+added, 2026-10-21). Joshi's cremation of an effigy (printed pp.94-95) joined the act that had Shridhar, Wilhelm, the Chintamani
+and Agarwal: five best stars and eleven medium, the dark fortnight only, the performer's taras (1, 5, 10, 14, 19, 23) — the
+same as Shridhar's — and Uttarayana only if the news comes after a year; Shridhar alone admits the bright fortnight. Shridhar
+(printed pp.557-563): wearing bangles, flower work, make-up and kajal, hair dressing, dyeing — the bangles' chakra (Brihat
+Jyotisaar's blocks counted from the Sun's star among 28 with Abhijit: 9-15 and 25-27 good) was read from the table image,
+because the OCR text had dropped two columns. Not built: the first birthday (§19.11, "on the first fall of the birth star
+after a sidereal year" — a rule about the person's own star, not a time to choose), cut and burnt marks on clothes (omens) and
+teething (an effect). Kalyanraman: the making of the mangalya (fourteen stars; ten yogas barred; Bava to Vanija), "conducting
+auspicious functions" (eleven stars) with the Chintamani's lagna rule for all ordinary auspicious deeds (the lagna 3, 6, 10, 11
+from the birth lagna and sign, the 8th and 12th empty) — the Chintamani is the default by words — and his Angurapana
+(nineteen stars) added to Shridhar's ankurarpana.
+
+**Joshi's occupational leftovers** (9 books added, 2026-10-21): monkeys and deer and violent animals (the same stars and
+weekdays as Kalyanraman), writers (the same ten stars as Shridhar, Kalyanraman and Wilhelm), theft (the same eleven as
+Kalyanraman), wine and arms (the sharp, fierce and aggressive stars), killing animals / a meat shop, stones and bricks,
+printing currency (the same sixteen as Kalyanraman and the Chintamani).
+
 ## /muhurta rebuilt
 
 Its per-purpose lists ("classical convention") had no page behind them and are

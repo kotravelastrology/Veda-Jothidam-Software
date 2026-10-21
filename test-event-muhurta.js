@@ -1915,7 +1915,7 @@ const RF = FIX.roga_snana;
   // tables say so: Wilhelm's reading is the same under both.
   assert.deepEqual(sorted(E.EVENTS.JATAKARMA.WILHELM.nak.good), sorted(E.EVENTS.NAMAKARANA.WILHELM.nak.good), 'one Wilhelm reading under both');
   // The first outing: four books now (Joshi and Wilhelm have their own passages).
-  assert.equal(E.EVENTS.NISHKRAMANA.order.length, 4, 'four books for the first outing');
+  assert.ok(E.EVENTS.NISHKRAMANA.order.length >= 4, 'four books at least for the first outing');
   // Second reading (2026-10-20): conception is five books against Kalyanraman's seventeen, and Kalyanraman is the
   // most-explained book, so he is the default; the other five print Shridhar's eleven.
   for (const b of ['JOSHI', 'WILHELM']) assert.deepEqual(sorted(E.EVENTS.GARBHADHANA[b].nak.good), G11, `${b}: the same conception stars`);
@@ -1937,7 +1937,7 @@ const RF = FIX.roga_snana;
   const MON4 = [1, 3, 4, 5];
   const ev = (a, b) => E.EVENTS[a][b];
   // Tonsure: six books; Kalyanraman (the most explained) leads; his nine best are Wilhelm's nine best.
-  assert.equal(E.EVENTS.CHUDAKARANA.order.length, 6, 'tonsure: six books');
+  assert.ok(E.EVENTS.CHUDAKARANA.order.length >= 6, 'tonsure: six books at least');
   assert.equal(E.EVENTS.CHUDAKARANA.default, 'KALYANRAMAN');
   assert.deepEqual(sorted(ev('CHUDAKARANA', 'KALYANRAMAN').nak.good), sorted(ev('CHUDAKARANA', 'WILHELM').nak.good), 'tonsure: the same nine best stars');
   assert.equal(ev('CHUDAKARANA', 'KALYANRAMAN').nak.good.length, 9);
@@ -1947,7 +1947,7 @@ const RF = FIX.roga_snana;
   assert.deepEqual(sorted(ev('CHUDAKARANA', 'SHRIDHAR').nak.good), sorted(ev('CHUDAKARANA', 'MUHURTA_CHINTAMANI').nak.good.filter((n) => n !== 17)), 'Shridhar: the same twelve without Jyeshtha');
   assert.ok(ev('CHUDAKARANA', 'SHRIDHAR').nak.mid.includes(17), 'Shridhar: Jyeshtha is middling');
   // Every tonsure book allows Monday, Wednesday, Thursday and Friday and the same 8th-house rule.
-  for (const b of E.EVENTS.CHUDAKARANA.order) assert.deepEqual(sorted(ev('CHUDAKARANA', b).vara.good), MON4, `tonsure ${b}: the four days`);
+  for (const b of E.EVENTS.CHUDAKARANA.order.filter((x) => x !== 'AGARWAL')) assert.deepEqual(sorted(ev('CHUDAKARANA', b).vara.good), MON4, `tonsure ${b}: the four days`);
   for (const b of ['SHRIDHAR', 'KALYANRAMAN', 'MUHURTA_CHINTAMANI', 'WILHELM', 'JOSHI', 'RANGACHARYA']) assert.ok(ev('CHUDAKARANA', b).empty.includes(8), `tonsure ${b}: the 8th empty`);
   // Aquarius is barred outright where lagnas are listed (Shridhar, Kalyanraman, Wilhelm, Rangacharya).
   for (const b of ['SHRIDHAR', 'KALYANRAMAN', 'WILHELM', 'RANGACHARYA']) assert.ok(!ev('CHUDAKARANA', b).lagna.good.includes(10) && !ev('CHUDAKARANA', b).lagna.mid.includes(10), `tonsure ${b}: Aquarius barred`);
@@ -1961,9 +1961,9 @@ const RF = FIX.roga_snana;
   }
   assert.deepEqual(sorted(ev('SHAVING', 'MUHURTA_CHINTAMANI').nak.good), sorted(ev('CHUDAKARANA', 'MUHURTA_CHINTAMANI').nak.good), 'shaving: the Chintamani follows its tonsure');
   assert.deepEqual(sorted(ev('SHAVING', 'JOSHI').nak.good), sorted(ev('CHUDAKARANA', 'JOSHI').nak.good), 'shaving: Joshi follows his tonsure');
-  assert.equal(E.EVENTS.SHAVING.order.length, 5, 'shaving: five books');
+  assert.ok(E.EVENTS.SHAVING.order.length >= 5, 'shaving: five books at least');
   // Ear piercing: the Chintamani, Joshi, Wilhelm and Rangacharya all allow Wednesday, Thursday, Friday; Rangacharya bars the malefic days only.
-  assert.equal(E.EVENTS.KARNAVEDHA.order.length, 6, 'ear piercing: six books');
+  assert.ok(E.EVENTS.KARNAVEDHA.order.length >= 6, 'ear piercing: six books at least');
   assert.equal(ev('KARNAVEDHA', 'KALYANRAMAN').nak.good.length, 14, 'Kalyanraman: fourteen stars');
   assert.ok(ev('KARNAVEDHA', 'KALYANRAMAN').abhijitOk, 'Kalyanraman counts Abhijit');
   for (const b of ['MUHURTA_CHINTAMANI', 'KALYANRAMAN', 'JOSHI', 'WILHELM']) assert.equal(ev('KARNAVEDHA', b).harishayana, true, `ear piercing ${b}: the sleeping months`);
@@ -1978,7 +1978,7 @@ const RF = FIX.roga_snana;
   assert.equal(E.EVENTS.SAMAVARTANA.order.length, 3);
   for (const b of E.EVENTS.SAMAVARTANA.order) assert.ok(ev('SAMAVARTANA', b).vara.good.includes(0), `samavartana ${b}: Sunday allowed`);
   // Ankurarpana is Shridhar's alone.
-  assert.deepEqual(E.EVENTS.ANKURARPANA.order, ['SHRIDHAR']);
+  assert.ok(E.EVENTS.ANKURARPANA.order.includes('SHRIDHAR') && E.EVENTS.ANKURARPANA.order.includes('KALYANRAMAN'));
   assert.equal(ev('ANKURARPANA', 'SHRIDHAR').nak.good.length, 16, 'seeds: sixteen stars');
   // Rites after death: three books, one list of nine, and the Panchaka stars are not in it.
   for (const b of E.EVENTS.PRET_KRIYA.order) {
@@ -1989,7 +1989,7 @@ const RF = FIX.roga_snana;
   assert.ok(ev('PUTTAL_DAHA', 'SHRIDHAR').tithi.every((t) => t <= 15), 'Shridhar: bright fortnight only');
   assert.ok(ev('PUTTAL_DAHA', 'MUHURTA_CHINTAMANI').tithi.every((t) => t > 15), 'the Chintamani: dark fortnight only');
   assert.ok(ev('PUTTAL_DAHA', 'WILHELM').tithi.every((t) => t > 15), 'Wilhelm: dark fortnight only');
-  for (const b of E.EVENTS.PUTTAL_DAHA.order) {
+  for (const b of E.EVENTS.PUTTAL_DAHA.order.filter((x) => x !== 'AGARWAL' && x !== 'JOSHI')) {
     assert.deepEqual(ev('PUTTAL_DAHA', b).taraNot, [1, 5, 10, 14, 19, 23], `dummy ${b}: the performer's taras`);
     assert.equal(ev('PUTTAL_DAHA', b).uttarayana, 'REQUIRED', `dummy ${b}: Uttarayana`);
     assert.ok(!ev('PUTTAL_DAHA', b).vara.good.includes(5) && !ev('PUTTAL_DAHA', b).vara.good.includes(2) && !ev('PUTTAL_DAHA', b).vara.good.includes(6), `dummy ${b}: Friday, Tuesday, Saturday barred`);
@@ -2000,9 +2000,9 @@ const RF = FIX.roga_snana;
   const SU = st('Rohini', 'UPhalguni', 'UAshadha', 'UBhadra', 'Revati', 'Mrigashira', 'Hasta', 'Swati', 'Ashwini', 'Anuradha');
   for (const b of E.EVENTS.SUTIKA_SNANA.order) {
     assert.deepEqual(sorted(ev('SUTIKA_SNANA', b).nak.good), SU, `bath after delivery ${b}: the same ten`);
-    assert.deepEqual(sorted(ev('SUTIKA_SNANA', b).vara.good), [0, 2, 4], `bath after delivery ${b}: Sunday, Tuesday, Thursday`);
+    if (b !== 'AGARWAL') assert.deepEqual(sorted(ev('SUTIKA_SNANA', b).vara.good), [0, 2, 4], `bath after delivery ${b}: Sunday, Tuesday, Thursday`); // Agarwal bars Saturday and Wednesday instead
   }
-  assert.equal(E.EVENTS.SUTIKA_SNANA.order.length, 5);
+  assert.ok(E.EVENTS.SUTIKA_SNANA.order.length >= 5);
   assert.deepEqual(sorted(ev('SUTIKA_SNANA', 'MUHURTA_CHINTAMANI').vara.mid), [1, 5], 'the Chintamani: Monday and Friday middling');
   // First breast feeding: Wilhelm and Joshi print the same six stars.
   assert.deepEqual(sorted(ev('BREAST_FEEDING', 'WILHELM').nak.good), sorted(ev('BREAST_FEEDING', 'JOSHI').nak.good), 'breast feeding: the same six');
@@ -2354,11 +2354,11 @@ const RF = FIX.roga_snana;
   assert.deepEqual(good('GEMOLOGY', 'KALYANRAMAN'), good('GEMOLOGY', 'JOSHI'));
   assert.equal(good('GEMOLOGY', 'JOSHI').length, 10);
   assert.deepEqual(sorted(ev('GEMOLOGY', 'JOSHI').vara.good), [0, 2, 6]);
-  assert.equal(E.EVENTS.GEMOLOGY.order.length, 3);
+  assert.ok(E.EVENTS.GEMOLOGY.order.length >= 3);
   // The Kalyanraman-only tables.
   const KR3 = { SENSUAL_SPORTS: 15, AMOROUS: 6, LEISURE_LEARNING: 8, AUTO_WORKSHOP: 2, TESTING_GADGETS: 18, VET_REPAIR: 1, DELIVERY_ADMISSION: 9, VIP_WOMAN_CLOTHES: 12, GENTLE_ANIMALS: 9, VIOLENT_ANIMALS: 13 };
   for (const [a, n] of Object.entries(KR3)) {
-    assert.deepEqual(E.EVENTS[a].order, ['KALYANRAMAN'], `${a}: one book`);
+    if (!['GENTLE_ANIMALS', 'VIOLENT_ANIMALS'].includes(a)) assert.deepEqual(E.EVENTS[a].order, ['KALYANRAMAN'], `${a}: one book`); // those two gained Joshi
     assert.equal(good(a, 'KALYANRAMAN').length, n, `${a}: ${n} stars`);
   }
   assert.ok(ev('VIP_WOMAN_CLOTHES', 'KALYANRAMAN').abhijitOk && ev('VIOLENT_ANIMALS', 'KALYANRAMAN').abhijitOk);
@@ -2510,6 +2510,274 @@ const RF = FIX.roga_snana;
   for (const c of ['SUN_LAGNA_MID']) assert.ok(E.CODE_TA[c], `${c} has a Tamil label`);
   const acts9 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
   assert.ok(acts9.length >= 250, `the whole table now has ${acts9.length} acts`);
+}
+
+// ------------------------------------------------ Wilhelm's remaining guidelines ---
+{
+  const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'PPhalguni', 'UPhalguni', 'Hasta',
+    'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Moola', 'PAshadha', 'UAshadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'PBhadra', 'UBhadra', 'Revati'];
+  const ev = (a, b) => E.EVENTS[a][b];
+  const good = (a, b) => sorted(ev(a, b).nak.good);
+  const st = (...ns) => sorted(ns.map((n) => NAMES.indexOf(n)));
+  // Chairs, vessels, musical instruments: one rule, three headings.
+  for (const a of ['CHAIR_FIRST_USE', 'VESSELS_FIRST_USE', 'MUSICAL_FIRST_USE']) {
+    assert.deepEqual(E.EVENTS[a].order, ['WILHELM'], `${a}: one book`);
+    assert.equal(good(a, 'WILHELM').length, 14, `${a}: fourteen stars`);
+    assert.deepEqual(good(a, 'WILHELM'), good('CHAIR_FIRST_USE', 'WILHELM'), `${a}: the same stars`);
+    assert.deepEqual(sorted(ev(a, 'WILHELM').vara.good), [3, 4, 5], `${a}: Wednesday, Thursday, Friday`);
+    assert.deepEqual(sorted(ev(a, 'WILHELM').vara.mid), [0, 1], `${a}: Sunday and Monday middling`);
+    assert.deepEqual(sorted(ev(a, 'WILHELM').lagna.good), [1, 2, 3, 5, 6], `${a}: Taurus to Libra but Leo`);
+    assert.ok(ev(a, 'WILHELM').tithiNot.includes(4) && ev(a, 'WILHELM').tithiNot.includes(30), `${a}: 4, 9, 14 and Amavasya barred`);
+  }
+  assert.deepEqual(good('DOOR_HANGING', 'WILHELM'), st('Ashwini', 'Pushya', 'Hasta', 'Rohini', 'UPhalguni', 'UAshadha', 'UBhadra'));
+  assert.deepEqual(sorted(ev('DOOR_HANGING', 'WILHELM').lagna.good), [2, 5, 8, 11], 'dual signs');
+  assert.deepEqual(good('GHEE_MELTING', 'WILHELM'), st('Jyeshtha', 'Krittika'));
+  assert.deepEqual(ev('GHEE_MELTING', 'WILHELM').nak.mid, st('Vishakha'));
+  assert.equal(good('CREMATION', 'WILHELM').length, 22, 'the Panchaka stars barred');
+  assert.deepEqual(ev('CREMATION', 'WILHELM').nak.mid, st('Dhanishtha'), 'half of Dhanishtha');
+  for (const n of ['Shatabhisha', 'PBhadra', 'UBhadra', 'Revati']) assert.ok(!good('CREMATION', 'WILHELM').includes(NAMES.indexOf(n)), `${n} barred`);
+  // Nail cutting: Wilhelm nine and eight; Raman bars Friday and Saturday and the 8th, 9th, 14th, new and full moon.
+  assert.equal(good('NAIL_CUTTING', 'WILHELM').length, 9);
+  assert.equal(ev('NAIL_CUTTING', 'WILHELM').nak.mid.length, 8);
+  assert.ok(ev('NAIL_CUTTING', 'WILHELM').sankranti && ev('NAIL_CUTTING', 'WILHELM').dayParts);
+  assert.ok(!ev('NAIL_CUTTING', 'RAMAN').nak, 'Raman names no star');
+  assert.deepEqual(sorted(ev('NAIL_CUTTING', 'RAMAN').vara.good), [0, 1, 2, 3, 4]);
+  assert.ok(!ev('NAIL_CUTTING', 'RAMAN').tithi.includes(8) && !ev('NAIL_CUTTING', 'RAMAN').tithi.includes(15) && !ev('NAIL_CUTTING', 'RAMAN').tithi.includes(30));
+  // The single-section acts.
+  assert.equal(good('BLOOD_LETTING', 'WILHELM').length, 11);
+  assert.deepEqual(sorted(ev('BLOOD_LETTING', 'WILHELM').vara.good), [0, 2, 4], 'Mars, the Sun, Jupiter');
+  assert.equal(good('COW_MOVING', 'WILHELM').length, 12);
+  assert.deepEqual(ev('COW_MOVING', 'WILHELM').nak.mid, st('Rohini'), 'some sources do not accept Rohini');
+  for (const n of ['Punarvasu', 'Swati', 'Anuradha']) assert.ok(!good('COW_MOVING', 'WILHELM').includes(NAMES.indexOf(n)), `${n} avoided`);
+  assert.equal(good('TRIBUTE_RECEIVE', 'WILHELM').length, 9);
+  assert.deepEqual(sorted(ev('TRIBUTE_RECEIVE', 'WILHELM').lagna.good), [1, 2, 5, 6, 8, 11], 'the signs of Mercury, Jupiter, Venus');
+  assert.equal(good('TRIBUTE_GIVE', 'WILHELM').length, 6);
+  assert.deepEqual(sorted(ev('TRIBUTE_GIVE', 'WILHELM').vara.good), [0, 3, 4, 6]);
+  assert.equal(good('PLACE_OF_BIRTH', 'WILHELM').length, 12);
+  assert.ok(ev('PLACE_OF_BIRTH', 'WILHELM').karanaFixed && ev('PLACE_OF_BIRTH', 'WILHELM').vishti);
+  assert.deepEqual(good('VISHNU_PUJA', 'WILHELM'), st('Rohini', 'Pushya', 'Shravana'));
+  assert.deepEqual(good('SPIRITS', 'WILHELM'), st('Bharani', 'Mrigashira', 'Ardra', 'Magha', 'Moola'));
+  assert.equal(ev('SPIRITS', 'WILHELM').want.length, 2);
+  assert.equal(good('RELIGIOUS_RITES', 'WILHELM').length, 16, 'all sixteen are favourable (checked on the page image)');
+  assert.equal(good('WEAPON_PURCHASE', 'WILHELM').length, 14);
+  assert.deepEqual(sorted(ev('WEAPON_PURCHASE', 'WILHELM').lagna.good), [0, 1, 6, 7], 'the signs of Mars and Venus');
+  // Wilhelm added to existing acts.
+  assert.deepEqual(good('GEMOLOGY', 'WILHELM'), good('GEMOLOGY', 'KALYANRAMAN'), 'Wilhelm, Kalyanraman and Joshi print the same ten gem stars');
+  assert.equal(E.EVENTS.GEMOLOGY.order.length, 4);
+  assert.equal(good('WINE', 'WILHELM').length, 10);
+  assert.equal(good('WELL_TANK', 'WILHELM').length, 10);
+  assert.equal(ev('WELL_TANK', 'WILHELM').nak.mid.length, 7);
+  assert.deepEqual(sorted(ev('WELL_TANK', 'WILHELM').lagna.good), [3, 9, 11], 'Cancer, Capricorn, Pisces');
+  assert.deepEqual(good('PUMSAVANA', 'WILHELM'), st('Pushya', 'Shravana'));
+  assert.equal(ev('PUMSAVANA', 'WILHELM').nak.mid.length, 8);
+  assert.equal(good('SEEMANTA', 'WILHELM').length, 10);
+  assert.deepEqual(ev('SEEMANTA', 'WILHELM').taraNot, [3, 5, 7, 10, 19, 22, 27], 'checked on the page image');
+  assert.ok(!ev('SEEMANTA', 'WILHELM').lagna.good.includes(4) && !ev('SEEMANTA', 'WILHELM').lagna.good.includes(7), 'Leo and Scorpio barred');
+  assert.equal(good('SUTIKA_SNANA', 'WILHELM').length, 10);
+  assert.equal(ev('SUTIKA_SNANA', 'WILHELM').nak.mid.length, 7, 'the remaining seven are middling');
+  assert.deepEqual(sorted(ev('SUTIKA_SNANA', 'WILHELM').vara.good), [0, 2, 4]);
+  assert.equal(good('JALA_PUJA', 'WILHELM').length, 7);
+  for (const c of ['VENUS_4_MID', 'VENUS_1_10_MID']) assert.ok(E.CODE_TA[c], `${c} has a Tamil label`);
+  const acts10 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
+  assert.ok(acts10.length >= 266, `the whole table now has ${acts10.length} acts`);
+}
+
+// ------------------------------------------------ Raman's and Rangacharya's remaining sections ---
+{
+  const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'PPhalguni', 'UPhalguni', 'Hasta',
+    'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Moola', 'PAshadha', 'UAshadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'PBhadra', 'UBhadra', 'Revati'];
+  const ev = (a, b) => E.EVENTS[a][b];
+  const good = (a, b) => sorted(ev(a, b).nak.good);
+  const st = (...ns) => sorted(ns.map((n) => NAMES.indexOf(n)));
+  // Raman: the new acts.
+  assert.equal(good('BUY_UTENSILS', 'RAMAN').length, 24, 'Ashlesha, Moola, Jyeshtha barred');
+  assert.ok(!ev('BUY_UTENSILS', 'RAMAN').tithi.includes(8) && !ev('BUY_UTENSILS', 'RAMAN').tithi.includes(30));
+  assert.equal(good('PLEDGE_ARTICLES', 'RAMAN').length, 16, 'eleven stars barred');
+  assert.deepEqual(sorted(ev('PLEDGE_ARTICLES', 'RAMAN').vara.good), [0, 1, 3, 4, 6], 'Tuesday and Friday barred');
+  assert.equal(ev('DISMANTLE_BUILDING', 'RAMAN').tithi.length, 12, 'the waning Moon without the 8th, 9th and 30th');
+  assert.deepEqual(sorted(ev('DISMANTLE_BUILDING', 'RAMAN').lagna.good), [0, 3, 6, 9]);
+  assert.ok(!ev('DISMANTLE_BUILDING', 'RAMAN').vara.good.includes(4), 'Thursday barred');
+  assert.deepEqual(ev('FELLING_TREES', 'RAMAN').tithi, [23, 24, 25, 26, 27, 28, 29, 30], 'the last quarter of the Moon');
+  assert.equal(good('HORSE_RACE', 'RAMAN').length, 11);
+  assert.deepEqual(ev('HORSE_RACE', 'RAMAN').lagna.good, [8], 'Sagittarius');
+  assert.deepEqual(sorted(ev('DESTROY_STRONGHOLD', 'RAMAN').lagna.good), [0, 4, 8], 'a fiery sign');
+  // Raman added to existing acts.
+  assert.equal(good('SHAVING', 'RAMAN').length, 12);
+  assert.ok(!ev('SHAVING', 'RAMAN').tithi.includes(4) && !ev('SHAVING', 'RAMAN').tithi.includes(30));
+  assert.deepEqual(good('CATCH_THIEF', 'RAMAN'), good('CATCH_THIEF', 'WILHELM'), "Raman's escaped prisoners = Wilhelm's ten stars");
+  assert.deepEqual(good('WEAPON_PURCHASE', 'RAMAN'), good('WEAPON_PURCHASE', 'WILHELM'), 'the same fourteen stars for buying arms');
+  assert.equal(E.EVENTS.WEAPON_PURCHASE.default, 'RAMAN', 'Raman explains more (61 against 57 words)');
+  assert.deepEqual(sorted(ev('WEAPON_PURCHASE', 'RAMAN').vara.mid), [2], 'Tuesday "some works"');
+  assert.equal(good('WAR_START', 'RAMAN').length, 11);
+  assert.deepEqual(sorted(ev('WAR_START', 'RAMAN').vara.good), [0, 2, 4]);
+  // Rangacharya.
+  assert.deepEqual(E.EVENTS.FOOTWEAR.order, ['RANGACHARYA']);
+  assert.equal(good('FOOTWEAR', 'RANGACHARYA').length, 11);
+  assert.deepEqual(sorted(ev('FOOTWEAR', 'RANGACHARYA').vara.good), [0, 3, 6], 'Sunday, Wednesday, Saturday');
+  assert.equal(good('PRINTING_WORK', 'RANGACHARYA').length, 16);
+  assert.deepEqual(sorted(ev('PRINTING_WORK', 'RANGACHARYA').vara.good), [3, 4, 5]);
+  assert.deepEqual(sorted(ev('PRINTING_WORK', 'RANGACHARYA').vara.mid), [1, 6]);
+  assert.equal(good('SHAVING', 'RANGACHARYA').length, 13, 'the thirteen asterisms for shaving');
+  assert.deepEqual(sorted(ev('SHAVING', 'RANGACHARYA').vara.good), [1, 3, 4, 5]);
+  assert.ok(ev('SHAVING', 'RANGACHARYA').dayParts, 'no shaving at night');
+  assert.ok(!ev('OIL_BATH', 'RANGACHARYA').nak, 'Rangacharya names no star for the oil bath');
+  assert.ok(!ev('OIL_BATH', 'RANGACHARYA').tithi.includes(10) && !ev('OIL_BATH', 'RANGACHARYA').tithi.includes(15), 'he discards the 10th and the full moon (Shridhar and Wilhelm call the 10th essential)');
+  assert.ok(ev('OIL_BATH', 'SHRIDHAR').tithi.includes(10));
+  assert.deepEqual(sorted(ev('OIL_BATH', 'RANGACHARYA').vara.good), [1, 3, 4, 5, 6], 'Sunday and Tuesday barred');
+  assert.equal(good('ADOPTION', 'RANGACHARYA').length, 12);
+  assert.deepEqual(ev('ADOPTION', 'RANGACHARYA').empty, [1], 'the lagna empty');
+  assert.equal(good('MANTRA_DEEKSHA', 'RANGACHARYA').length, 16);
+  assert.deepEqual(ev('MANTRA_DEEKSHA', 'RANGACHARYA').starCount[0].good, [4, 6, 14, 17, 21, 22], "Muhurtha Ganapati's chakra suddhi");
+  assert.equal(ev('MANTRA_DEEKSHA', 'RANGACHARYA').starCount[0].code, 'MANTRA_CHAKRA');
+  assert.deepEqual(sorted(ev('MANTRA_DEEKSHA', 'RANGACHARYA').lagna.good), [1, 4, 5, 8, 11], 'Taurus, Leo, Virgo, Sagittarius, Pisces');
+  assert.equal(good('DEITY_INSTALL', 'RANGACHARYA').length, 15);
+  assert.ok(!ev('DEITY_INSTALL', 'RANGACHARYA').vara.good.includes(2), 'only Tuesday barred');
+  assert.deepEqual(ev('DEITY_INSTALL', 'RANGACHARYA').empty, [8, 12]);
+  for (const c of ['MANTRA_CHAKRA_MID']) assert.ok(E.CODE_TA[c], `${c} has a Tamil label`);
+  const acts11 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
+  assert.ok(acts11.length >= 274, `the whole table now has ${acts11.length} acts`);
+}
+
+// ------------------------------------------------ Agarwal's samskara list and Vashistha's samskara muhurtas ---
+{
+  const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'PPhalguni', 'UPhalguni', 'Hasta',
+    'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Moola', 'PAshadha', 'UAshadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'PBhadra', 'UBhadra', 'Revati'];
+  const ev = (a, b) => E.EVENTS[a][b];
+  const good = (a, b) => sorted(ev(a, b).nak.good);
+  const st = (...ns) => sorted(ns.map((n) => NAMES.indexOf(n)));
+  const MON4 = [1, 3, 4, 5];
+  // Agarwal: the pre-natal samskaras.
+  assert.ok(E.EVENTS.NISHEKA.order.includes('AGARWAL') && E.EVENTS.GARBHADHANA.order.includes('AGARWAL'));
+  assert.deepEqual(sorted(ev('NISHEKA', 'AGARWAL').vara.good), MON4);
+  assert.ok(!ev('NISHEKA', 'AGARWAL').tithi.includes(4) && !ev('NISHEKA', 'AGARWAL').tithi.includes(30));
+  assert.equal(good('GARBHADHANA', 'AGARWAL').length, 10, 'ten best conception stars');
+  assert.equal(ev('GARBHADHANA', 'AGARWAL').nak.mid.length, 6, 'six ordinary');
+  assert.deepEqual(good('PUMSAVANA', 'AGARWAL'), good('SEEMANTA', 'AGARWAL'), 'pumsavana uses the seemanta stars');
+  assert.equal(good('SEEMANTA', 'AGARWAL').length, 7);
+  assert.deepEqual(sorted(ev('PUMSAVANA', 'AGARWAL').vara.good), [0, 2, 4], 'the male days: Sunday, Tuesday, Thursday');
+  assert.deepEqual(sorted(ev('PUMSAVANA', 'AGARWAL').lagna.good), [0, 3, 4, 6, 8, 9]);
+  assert.deepEqual(sorted(ev('SEEMANTA', 'AGARWAL').lagna.good), [1, 2, 3, 5, 6, 8, 11]);
+  assert.deepEqual(ev('SEEMANTA', 'AGARWAL').empty, [8]);
+  // Post-natal: naming and the first food print the same sixteen stars.
+  assert.equal(good('NAMAKARANA', 'AGARWAL').length, 16);
+  assert.deepEqual(good('ANNAPRASHANA', 'AGARWAL'), good('NAMAKARANA', 'AGARWAL'));
+  assert.deepEqual(sorted(ev('NAMAKARANA', 'AGARWAL').vara.good), MON4);
+  assert.ok(ev('NAMAKARANA', 'AGARWAL').vishti && ev('NAMAKARANA', 'AGARWAL').sankranti);
+  assert.ok(!ev('ANNAPRASHANA', 'AGARWAL').lagna.good.includes(0) && !ev('ANNAPRASHANA', 'AGARWAL').lagna.good.includes(7) && !ev('ANNAPRASHANA', 'AGARWAL').lagna.good.includes(11), 'signs 1, 8, 12 barred');
+  assert.equal(good('NISHKRAMANA', 'AGARWAL').length, 11);
+  assert.ok(ev('NISHKRAMANA', 'AGARWAL').abhijitOk);
+  assert.equal(good('CHUDAKARANA', 'AGARWAL').length, 12);
+  assert.deepEqual(good('KESHANTA', 'AGARWAL'), good('CHUDAKARANA', 'AGARWAL'), 'keshanta: the same muhurta as tonsure');
+  assert.deepEqual(ev('CHUDAKARANA', 'AGARWAL').sunSign.good, [9, 10, 0, 1, 2]);
+  assert.equal(good('KARNAVEDHA', 'AGARWAL').length, 7);
+  assert.ok(ev('KARNAVEDHA', 'AGARWAL').abhijitOk && ev('KARNAVEDHA', 'AGARWAL').dayParts, 'friendly and short stars; by day only');
+  assert.deepEqual(sorted(ev('KARNAVEDHA', 'AGARWAL').lagna.good), [1, 6, 8, 11], 'the signs of Venus and Jupiter');
+  // Death rites.
+  assert.equal(good('PUTTAL_DAHA', 'AGARWAL').length, 17, 'aggressive, ferocious and Revati barred');
+  assert.deepEqual(sorted(ev('PUTTAL_DAHA', 'AGARWAL').vara.good), [0, 1, 4]);
+  // Joshi's puttala-daha: five best stars, eleven medium, the dark fortnight only (like the Chintamani and Wilhelm), Uttarayana only after a year (so no flag).
+  assert.equal(good('PUTTAL_DAHA', 'JOSHI').length, 5);
+  assert.equal(ev('PUTTAL_DAHA', 'JOSHI').nak.mid.length, 11);
+  assert.ok(ev('PUTTAL_DAHA', 'JOSHI').tithi.every((t) => t > 15) && !ev('PUTTAL_DAHA', 'JOSHI').tithi.includes(16), 'dark fortnight, the 1st barred');
+  assert.deepEqual(ev('PUTTAL_DAHA', 'JOSHI').taraNot, [1, 5, 10, 14, 19, 23]);
+  assert.deepEqual(sorted(ev('PUTTAL_DAHA', 'JOSHI').vara.good), [0, 1, 4]);
+  assert.equal(good('CREMATION', 'AGARWAL').length, 21);
+  assert.deepEqual(ev('CREMATION', 'AGARWAL').nak.mid, st('Dhanishtha'));
+  assert.ok(!good('CREMATION', 'AGARWAL').includes(NAMES.indexOf('Bharani')), 'Bharani barred even when the body is available');
+  // Women, rites, craft.
+  assert.equal(good('BREAST_FEEDING', 'AGARWAL').length, 13);
+  assert.deepEqual(good('SUTIKA_SNANA', 'AGARWAL'), st('Rohini', 'UPhalguni', 'UAshadha', 'UBhadra', 'Revati', 'Mrigashira', 'Hasta', 'Swati', 'Ashwini', 'Anuradha'), 'the same ten as the other books');
+  assert.deepEqual(ev('SUTIKA_SNANA', 'AGARWAL').nak.mid, st('Moola'), 'printed in both his lists');
+  assert.deepEqual(sorted(ev('SUTIKA_SNANA', 'AGARWAL').vara.good), [0, 1, 2, 4, 5], 'Saturday and Wednesday barred');
+  assert.equal(good('BATH_AFTER_MENSES', 'AGARWAL').length, 14);
+  assert.equal(ev('BATH_AFTER_MENSES', 'AGARWAL').masa.good.length, 5);
+  assert.equal(good('RELIGIOUS_RITES', 'AGARWAL').length, 16);
+  assert.ok(good('RELIGIOUS_RITES', 'AGARWAL').includes(NAMES.indexOf('Ashlesha')) && !good('RELIGIOUS_RITES', 'AGARWAL').includes(NAMES.indexOf('Ashwini')), 'Ashlesha, not Ashwini (the reverse of Wilhelm)');
+  assert.equal(good('CRAFT_LEARN', 'AGARWAL').length, 13);
+  // Vashistha: four samskaras.
+  assert.equal(good('PUMSAVANA', 'VASHISTHA').length, 17, 'he admits Bharani, Ardra, Magha and the three Poorvas');
+  assert.deepEqual(sorted(ev('PUMSAVANA', 'VASHISTHA').vara.good), [0, 2, 4]);
+  assert.deepEqual(sorted(ev('PUMSAVANA', 'VASHISTHA').lagna.good), [1, 4, 5, 7, 8, 10, 11]);
+  assert.equal(good('ANNAPRASHANA', 'VASHISTHA').length, 16);
+  assert.ok(ev('ANNAPRASHANA', 'VASHISTHA').abhijitOk);
+  assert.deepEqual(ev('ANNAPRASHANA', 'VASHISTHA').tithi, [2, 3, 5, 7, 10, 13, 15]);
+  assert.equal(good('CHUDAKARANA', 'VASHISTHA').length, 12);
+  assert.ok(good('CHUDAKARANA', 'VASHISTHA').includes(NAMES.indexOf('Jyeshtha')), 'Vashistha admits Jyeshtha');
+  assert.equal(ev('CHUDAKARANA', 'VASHISTHA').masa.good.length, 5, 'the five uttarayana months but Chaitra');
+  assert.deepEqual(sorted(ev('CHUDAKARANA', 'VASHISTHA').vara.good), MON4);
+  assert.deepEqual(good('JALA_PUJA', 'VASHISTHA'), good('JALA_PUJA', 'MUHURTA_CHINTAMANI'), 'a fifth book with the same seven stars');
+  assert.ok(E.EVENTS.JALA_PUJA.order.includes('VASHISTHA') && E.EVENTS.JALA_PUJA.order.includes('WILHELM'));
+  const acts12 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
+  assert.ok(acts12.length >= 274);
+}
+
+// ------------------------------------------------ Shridhar ch.19 leftovers, Kalyanraman's mangalya and auspicious functions ---
+{
+  const NAMES = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'PPhalguni', 'UPhalguni', 'Hasta',
+    'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Moola', 'PAshadha', 'UAshadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'PBhadra', 'UBhadra', 'Revati'];
+  const ev = (a, b) => E.EVENTS[a][b];
+  const good = (a, b) => sorted(ev(a, b).nak.good);
+  // The bangles chakra is counted among 28 with Abhijit (table read from the page image): 9-15 and 25-27 good.
+  assert.equal(good('BANGLES', 'SHRIDHAR').length, 7);
+  assert.deepEqual(sorted(ev('BANGLES', 'SHRIDHAR').vara.good), [0, 4, 5]);
+  assert.deepEqual(sorted(ev('BANGLES', 'SHRIDHAR').vara.mid), [2], 'Tuesday: some bar it');
+  const bc = ev('BANGLES', 'SHRIDHAR').starCount[0];
+  assert.equal(bc.of, 28);
+  assert.deepEqual(bc.good, [9, 10, 11, 12, 13, 14, 15, 25, 26, 27]);
+  assert.equal(bc.code, 'BANGLE_CHAKRA');
+  assert.equal(good('FLOWER_WORK', 'SHRIDHAR').length, 9);
+  assert.deepEqual(sorted(ev('FLOWER_WORK', 'SHRIDHAR').lagna.good), [0, 2, 4, 6, 8, 10], 'odd signs');
+  assert.equal(good('MAKEUP', 'SHRIDHAR').length, 8);
+  assert.ok(!ev('MAKEUP', 'SHRIDHAR').vara.good.includes(2), 'Tuesday barred');
+  assert.equal(good('HAIR_DRESSING', 'SHRIDHAR').length, 14);
+  assert.equal(ev('HAIR_DRESSING', 'SHRIDHAR').tithi.length, 15, 'the bright half');
+  assert.deepEqual(sorted(ev('HAIR_DRESSING', 'SHRIDHAR').vara.good), [0, 1, 3]);
+  assert.equal(good('DYEING', 'SHRIDHAR').length, 10);
+  assert.deepEqual(sorted(ev('DYEING', 'SHRIDHAR').vara.good), [0, 2, 4, 5]);
+  // Kalyanraman's mangalya: fourteen stars, Tuesday barred, ten yogas barred (the eighth, Dhriti, too), Bava to Vanija.
+  assert.deepEqual(E.EVENTS.MANGALYA_MAKING.order, ['KALYANRAMAN']);
+  assert.equal(good('MANGALYA_MAKING', 'KALYANRAMAN').length, 14);
+  assert.equal(ev('MANGALYA_MAKING', 'KALYANRAMAN').vara.good.length, 6);
+  assert.equal(ev('MANGALYA_MAKING', 'KALYANRAMAN').yogaNot.length, 10);
+  assert.deepEqual(ev('MANGALYA_MAKING', 'KALYANRAMAN').karanaOnly, [0, 1, 2, 3, 4, 5]);
+  // Auspicious functions: the Chintamani gives only a lagna rule; Kalyanraman eleven stars.
+  assert.equal(E.EVENTS.AUSPICIOUS_FUNCTIONS.default, 'MUHURTA_CHINTAMANI', 'the Chintamani explains more (276 against 149 words)');
+  assert.equal(good('AUSPICIOUS_FUNCTIONS', 'KALYANRAMAN').length, 11);
+  assert.ok(!ev('AUSPICIOUS_FUNCTIONS', 'MUHURTA_CHINTAMANI').nak, 'the Chintamani names no star');
+  assert.deepEqual(ev('AUSPICIOUS_FUNCTIONS', 'MUHURTA_CHINTAMANI').lagnaBirth.houses, [3, 6, 10, 11]);
+  assert.deepEqual(ev('AUSPICIOUS_FUNCTIONS', 'MUHURTA_CHINTAMANI').empty, [8, 12]);
+  // Kalyanraman's Angurapana joined Shridhar's ankurarpana.
+  assert.equal(good('ANKURARPANA', 'KALYANRAMAN').length, 19);
+  assert.deepEqual(sorted(ev('ANKURARPANA', 'KALYANRAMAN').lagna.good), [0, 2, 5, 7, 8]);
+  assert.ok(ev('ANKURARPANA', 'KALYANRAMAN').tithi.includes(30) && ev('ANKURARPANA', 'KALYANRAMAN').tithi.includes(16));
+  assert.ok(E.CODE_TA.BANGLE_CHAKRA, 'BANGLE_CHAKRA has a Tamil label');
+  const acts13 = Object.keys(E.EVENTS).filter((k) => E.EVENTS[k] && E.EVENTS[k].order);
+  assert.ok(acts13.length >= 280, `the whole table now has ${acts13.length} acts`);
+}
+
+// ------------------------------------------------ Joshi's occupational leftovers ---
+{
+  const ev = (a, b) => E.EVENTS[a][b];
+  const good = (a, b) => sorted(ev(a, b).nak.good);
+  assert.deepEqual(good('GENTLE_ANIMALS', 'JOSHI'), good('GENTLE_ANIMALS', 'KALYANRAMAN'), 'monkeys and deer: Joshi = Kalyanraman');
+  assert.deepEqual(good('VIOLENT_ANIMALS', 'JOSHI'), good('VIOLENT_ANIMALS', 'KALYANRAMAN'), 'violent animals: Joshi = Kalyanraman');
+  assert.ok(ev('VIOLENT_ANIMALS', 'JOSHI').abhijitOk);
+  assert.deepEqual(sorted(ev('VIOLENT_ANIMALS', 'JOSHI').vara.good), [0, 2, 4, 6]);
+  assert.equal(E.EVENTS.VIOLENT_ANIMALS.default, 'JOSHI', 'Joshi explains more (41 against 38 words)');
+  assert.deepEqual(good('START_WRITING', 'JOSHI'), good('START_WRITING', 'WILHELM'), "Joshi's writers: the same ten as Shridhar, Kalyanraman and Wilhelm");
+  assert.deepEqual(sorted(ev('START_WRITING', 'JOSHI').lagna.good), [0, 2, 4, 6, 8, 10], 'male signs');
+  assert.deepEqual(good('CATCH_THIEF', 'JOSHI'), good('CATCH_THIEF', 'KALYANRAMAN'), "theft: Joshi's eleven = Kalyanraman's");
+  assert.equal(good('WINE', 'JOSHI').length, 10);
+  assert.deepEqual(good('WINE', 'JOSHI'), good('WINE', 'MUHURTA_CHINTAMANI'), 'wine: the Chintamani and Joshi print the sharp, fierce and Shatabhisha');
+  assert.equal(good('WEAPON_MAKE', 'JOSHI').length, 13);
+  assert.deepEqual(good('MINT_COINS', 'JOSHI'), good('MINT_COINS', 'MUHURTA_CHINTAMANI'), 'coins: Joshi prints the same sixteen');
+  assert.ok(ev('MINT_COINS', 'JOSHI').jupVenNotSet);
+  assert.equal(good('HUNTING', 'JOSHI').length, 11);
+  assert.deepEqual(sorted(ev('HUNTING', 'JOSHI').vara.good), [0, 2, 6]);
+  assert.deepEqual(sorted(ev('HUNTING', 'JOSHI').lagna.good), [0, 4, 7, 9, 10]);
+  assert.equal(good('BRICK_LAYING', 'JOSHI').length, 14);
+  assert.ok(ev('BRICK_LAYING', 'JOSHI').abhijitOk);
+  assert.deepEqual(sorted(ev('BRICK_LAYING', 'JOSHI').vara.good), [0, 4, 5]);
 }
 
 console.log('test-event-muhurta: all checks passed');
