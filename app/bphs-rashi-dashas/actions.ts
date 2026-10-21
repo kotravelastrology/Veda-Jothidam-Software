@@ -57,7 +57,7 @@ export async function computeBphsRashiDasha(req: BphsRashiDashaRequest) {
   const degrees = Object.fromEntries(Object.keys(PLANET_TA).map((p) => [p, chart.grahas[p].longitude % 30]));
   const lagnaSign = Math.floor(chart.lagna.longitude / 30);
   const birthMs = (chart.julianDay - 2440587.5) * 86400000;
-  const result = RS.SYSTEMS[req.system]({ signs, degrees, lagnaSign });
+  const result = RS.SYSTEMS[req.system]({ signs, degrees, lagnaSign, lagnaLongitude: chart.lagna.longitude, moonFraction: (chart.grahas.Moon.longitude % (360 / 27)) / (360 / 27) });
   const rows = RS.schedule(result, birthMs, 2).map((p: any) => ({
     cycle: p.cycle, sign: p.sign, signTa: SIGN_TA[p.sign], years: p.years,
     targetTa: p.target == null ? null : SIGN_TA[p.target],

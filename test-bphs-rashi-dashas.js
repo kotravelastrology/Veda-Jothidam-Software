@@ -49,6 +49,20 @@ const man = R.mandooka(chart);
 assert.deepStrictEqual(man.periods.map((p) => NAMES[p.sign]), ['Aquarius', 'Taurus', 'Leo', 'Scorpio', 'Pisces', 'Gemini', 'Virgo', 'Sagittarius', 'Aries', 'Cancer', 'Libra', 'Capricorn']);
 assert.deepStrictEqual(man.periods.map((p) => p.years), [8, 8, 8, 8, 9, 9, 9, 9, 7, 7, 7, 7]);
 
+
+// Dirga: 9th (Libra), 10th (Scorpio), 11th (Sagittarius), each with the signs it aspects (printed p.568).
+const dir = R.dirga(chart);
+assert.deepStrictEqual(dir.periods.map((p) => NAMES[p.sign]), ['Libra', 'Leo', 'Taurus', 'Aquarius', 'Scorpio', 'Capricorn', 'Aries', 'Cancer', 'Sagittarius', 'Pisces', 'Gemini', 'Virgo']);
+assert.deepStrictEqual(dir.periods.map((p) => p.years), [7, 8, 8, 8, 8, 7, 7, 7, 9, 9, 9, 9]);
+
+// Lagnadi: Bhayat 3495 of Bhabhog 3571 palas -> 11s 22d20m17s added to lagna 10s 26d28m05s -> Aquarius 18d48m22s;
+// the first dasha (8 years) has run 18d48m22s/30 of its length: balance 2y 11m 24d (printed p.569-570).
+const lag = R.lagnadi({ lagnaLongitude: 10 * 30 + 26 + 28 / 60 + 5 / 3600, lagnaSign: 10, moonFraction: 3495 / 3571 });
+assert.strictEqual(NAMES[lag.start], 'Aquarius');
+assert.ok(Math.abs(lag.detail.expiredDegrees - (18 + 48 / 60 + 22 / 3600)) < 0.01);
+assert.ok(Math.abs(lag.detail.balanceYears - (2 + 11 / 12 + 24 / 365.25)) < 0.02);
+assert.deepStrictEqual(lag.periods.map((p) => NAMES[p.sign]), ['Aquarius', 'Pisces', 'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn']);
+
 // A lord in its own sign gives 12 years.
 const own = { signs: { ...signs, Sun: 4 }, degrees, lagnaSign: 10 };
 assert.strictEqual(byName(R.chara(own)).Leo, 12);

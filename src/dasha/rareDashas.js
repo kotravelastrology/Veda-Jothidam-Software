@@ -180,7 +180,7 @@ const METHODS = [
   })),
   declared('shashtihayani', 'Shashtihayani', 'ஷஷ்டிஹாயனி', B.SHASTIHAYANI_PROBLEM_TA),
 
-  ...['chara', 'sthira', 'yogardha', 'mandooka'].map((id) => createCoverage({
+  ...['chara', 'sthira', 'yogardha', 'mandooka', 'dirga', 'lagnadi'].map((id) => createCoverage({
     id,
     name: id[0].toUpperCase() + id.slice(1), nameTa: RS.NAMES_TA[id],
     family: 'rashi',

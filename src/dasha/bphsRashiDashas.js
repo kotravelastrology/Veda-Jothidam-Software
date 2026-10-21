@@ -1,6 +1,7 @@
 /**
  * The sign dashas of Brihat Parashara Hora Shastra chapter 46 that the printed text gives a complete rule for:
- * Chara (vv.155-167), Sthira with its Brahma Graha (vv.168-173), Yogardha (v.174) and Mandooka (vv.179-180)
+ * Chara (vv.155-167), Sthira with its Brahma Graha (vv.168-173), Yogardha (v.174), Mandooka (vv.179-180), Dirga
+ * (vv.185-187) and Lagnadi (vv.188-190)
  * (R. Santhanam's translation, Vol.2: printed pp.553-558, 560, 564; PDF page = printed - 489).
  *
  * Signs are 0 = Aries … 11 = Pisces; "odd sign" = Aries, Gemini … (even index). A sign's *pada* is its group of three
@@ -11,7 +12,7 @@
  * Every rule is as printed. Where the printed worked example disagrees with the printed rule (Chara: Scorpio and
  * Capricorn; Yogardha: Leo) both are kept and the test lists the cells.
  *
- * Not built (rule incomplete or its example does not follow it): Kendradi, Trikona, Dirga, Shoola, Navamsha,
+ * Not built (rule incomplete or its example does not follow it): Kendradi, Trikona, Shoola, Navamsha,
  * Narayana, Drig, Padanadhamsa — see DECLARED_TA.
  */
 
@@ -27,6 +28,8 @@ const SOURCES = Object.freeze({
   chara: locus('pp.553-556 vv.155-167', '"The number of years of Dasa is reckoned from the Rasi up to the house in which its lord is posited … for the odd padas counting is done from Rasi onwards … for the even padas in the reverse order"'),
   sthira: locus('pp.556-558 vv.168-173', '"7 years, 8 years and 9 years are the Dasa spans of the movable, fixed and dual signs … begins from the Brahma Grahashrit rasi"'),
   yogardha: locus('p.560 v.174', '"The spans of Dasas of the signs in the Yogardha Dasa system are half of the total of the Chara and Sthira Dasas"'),
+  dirga: locus('pp.567-568 vv.185-187', '"The ninth sign from the Ascendant, the signs aspected by it, the tenth, the signs aspected by it, the eleventh, the signs aspected by it … Movable, Fixed and Dual signs from the 9th, 10th and 11th houses"'),
+  lagnadi: locus('pp.569-570 vv.188-190', '"Multiply the Bhayat by 12 and divide by Bhabhog … add to the longitude of the Lagna … from that rasi will start the Dasas of the 12 signs"'),
   mandooka: locus('p.564 vv.179-180', '"Every Dasa is of the next 3rd sign (after leaving out two signs)"'),
 });
 
@@ -166,14 +169,52 @@ function mandooka(chart) {
   return { id: 'mandooka', source: SOURCES.mandooka, start, forward: odd, detail: {}, periods: seq.map((s) => ({ sign: s, years: stheraYears(s) })) };
 }
 
-const SYSTEMS = { chara, sthira, yogardha, mandooka };
-const NAMES_TA = { chara: 'சர தசை', sthira: 'ஸ்திர தசை', yogardha: 'யோகார்த்த தசை', mandooka: 'மண்டூக தசை' };
+/** Signs a sign aspects (v.185-187 and Rasi Drishti): movable the fixed ones but the adjacent, fixed the movable but the adjacent, dual the other duals. */
+function aspected(sign) {
+  const q = quality(sign);
+  const all = Array.from({ length: 12 }, (_, i) => i);
+  if (q === 0) return all.filter((t) => quality(t) === 1 && t !== (sign + 1) % 12);
+  if (q === 1) return all.filter((t) => quality(t) === 0 && t !== (sign + 11) % 12);
+  return all.filter((t) => quality(t) === 2 && t !== sign);
+}
+
+/** Dirga Dasa: the 9th, 10th and 11th signs each followed by the signs it aspects, nearest first in the kind's direction. */
+function dirga(chart) {
+  const seq = [];
+  for (const house of [9, 10, 11]) {
+    const sign = (chart.lagnaSign + house - 1) % 12;
+    const q = quality(sign);
+    const onward = q === 1 || (q === 2 && isOddSign(sign));
+    const dist = (t) => (onward ? forward(sign, t) : backward(sign, t));
+    seq.push(sign, ...aspected(sign).sort((a, b) => dist(a) - dist(b)));
+  }
+  return { id: 'dirga', source: SOURCES.dirga, start: seq[0], forward: null, detail: {}, periods: seq.map((s) => ({ sign: s, years: stheraYears(s) })) };
+}
+
+/**
+ * Lagnadi Rasi Dasa (vv.188-190): the elapsed part of the birth star (as a fraction of the star) times 12 signs is added
+ * to the lagna longitude; the sign reached starts the twelve signs (onward if odd, backward if even) with Sthira years,
+ * and the first has run `degree/30` of its years. `moonFraction` is the elapsed fraction of the Moon's star.
+ */
+function lagnadi(chart) {
+  const lagnaLongitude = chart.lagnaLongitude ?? chart.lagnaSign * 30;
+  const total = (((lagnaLongitude + chart.moonFraction * 360) % 360) + 360) % 360;
+  const start = Math.floor(total / 30);
+  const expired = total - start * 30;
+  const odd = isOddSign(start);
+  const periods = order(start, odd).map((s) => ({ sign: s, years: stheraYears(s) }));
+  const balance = periods[0].years - (expired * periods[0].years) / 30;
+  periods[0] = { ...periods[0], fullYears: periods[0].years, years: balance };
+  return { id: 'lagnadi', source: SOURCES.lagnadi, start, forward: odd, detail: { expiredDegrees: expired, balanceYears: balance }, periods };
+}
+
+const SYSTEMS = { chara, sthira, yogardha, mandooka, dirga, lagnadi };
+const NAMES_TA = { chara: 'சர தசை', sthira: 'ஸ்திர தசை', yogardha: 'யோகார்த்த தசை', mandooka: 'மண்டூக தசை', dirga: 'தீர்க்க (த்ருக்) தசை', lagnadi: 'லக்னாதி ராசி தசை' };
 
 const DECLARED_TA = Object.freeze({
   'lagna-kendradi-rashi': 'கேந்திராதி: "பலத்தின் வரிசை", "பாணபர/அபோக்லிம" ஆகியவற்றுக்கு நூல் அளவுகோல் தரவில்லை; எடுத்துக்காட்டு அட்டவணையின் ஆண்டுகள் அதன் உரையுடன் பொருந்தவில்லை.',
   trikona: 'திரிகோண: எடுத்துக்காட்டு அட்டவணையின் ஆண்டுகள் (11, 11, 6, 10…) "சர தசை போன்றது" என்ற விதியுடன் பொருந்தவில்லை.',
   shoola: 'சூல: 2-ஆம்/8-ஆம் வீடுகளில் எது வலிது என்று தீர்மானிக்கும் முறையை நூல் எடுத்துக்காட்டில் மட்டுமே தருகிறது (அதிபதிகளின் ஒப்பீடு), விதியாக அல்ல.',
-  dirga: 'தீர்க்க: மூன்று வகை (சர/ஸ்திர/உபய) வழிமுறைகள் பார்வையை அடிப்படையாகக் கொண்டவை; முழு விதி அச்சில் தெளிவாக இல்லை.',
 });
 
 /** Dates for a period list: `birthMs` plus cumulative years (365.25 days). */
@@ -193,5 +234,5 @@ function schedule(result, birthMs, cycles = 1) {
 
 module.exports = {
   BPHS_RASHI, SOURCES, SIGN_LORDS, EXALTED, DEBILITATED, PLANETS, SYSTEMS, NAMES_TA, DECLARED_TA,
-  isOddSign, isOddPada, occupants, strongerSign, charaYears, brahmaGraha, chara, sthira, yogardha, mandooka, schedule,
+  isOddSign, isOddPada, occupants, strongerSign, charaYears, brahmaGraha, chara, sthira, yogardha, mandooka, dirga, lagnadi, aspected, schedule,
 };
