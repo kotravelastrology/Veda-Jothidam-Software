@@ -135,7 +135,7 @@ const METHODS = [
     family: 'nakshatra',
     level: 'SOURCED',
     implemented: true,
-    source: { ...RS.BPHS_RASHI, pageLocus: 'Chapter 46 vv.195-199, printed pp.571-572: "Add 3 to the Janma nakshatra and divide it by 8. The remainder will indicate the Yogini Dasa of Mangala, Pingala, Dhanya, Bhramari, Bhadrika, Ulka, Siddha and Sankata … of 1, 2, 3, 4, 5, 6, 7 and 8 years"' },
+    source: { ...RS.SOURCES.yogini },
     workedExample: 'bphs-46-yogini-mrigashira',
     notes: '36 ஆண்டு சுழற்சி, 8 யோகினிகள் (மங்களா 1 … சங்கடா 8; சந்திரன், சூரியன், குரு, செவ்வாய், புதன், சனி, சுக்கிரன், ராகு). '
       + 'தொடக்கம்: நட்சத்திர எண் + 3 ஐ 8 ஆல் வகுத்த மீதி (0 = சங்கடா) — நூலின் எடுத்துக்காட்டு மிருகசீரிடம் → சங்கடா மீளுருவாக்கப்படுகிறது. '

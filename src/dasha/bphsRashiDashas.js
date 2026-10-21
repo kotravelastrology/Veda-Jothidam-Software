@@ -30,6 +30,7 @@ const SOURCES = Object.freeze({
   yogardha: locus('p.560 v.174', '"The spans of Dasas of the signs in the Yogardha Dasa system are half of the total of the Chara and Sthira Dasas"'),
   dirga: locus('pp.567-568 vv.185-187', '"The ninth sign from the Ascendant, the signs aspected by it, the tenth, the signs aspected by it, the eleventh, the signs aspected by it … Movable, Fixed and Dual signs from the 9th, 10th and 11th houses"'),
   lagnadi: locus('pp.569-570 vv.188-190', '"Multiply the Bhayat by 12 and divide by Bhabhog … add to the longitude of the Lagna … from that rasi will start the Dasas of the 12 signs"'),
+  yogini: locus('pp.571-572 vv.195-199', '"Add 3 to the Janma nakshatra and divide it by 8. The remainder will indicate the Yogini Dasa of Mangala, Pingala, Dhanya, Bhramari, Bhadrika, Ulka, Siddha and Sankata ... of 1, 2, 3, 4, 5, 6, 7 and 8 years"'),
   mandooka: locus('p.564 vv.179-180', '"Every Dasa is of the next 3rd sign (after leaving out two signs)"'),
 });
 
