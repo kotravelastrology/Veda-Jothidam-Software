@@ -1146,9 +1146,10 @@ purchasing weapons. Wilhelm's gem-cutting, wine, wells, pumsavana, seemanta, mot
 sections joined the existing acts: his ten gem stars are the same as Kalyanraman's and Joshi's. Two lists were corrected
 from the page images, not the OCR text: religious rites (sixteen stars, all favourable — the OCR text had reordered them
 into favourable and middling) and the seemanta Tara (3, 5, 7, 10, 19, 22, 27). Sheltering animals was already inside the
-pets act and was not repeated. Left out: "Construction - Repairing" (Moon with Mars in seven stars — a pair that the
-engine cannot express), the onset-of-disease table, and "Travel - Setting out to overcome enemies" / "War - Engaging in"
-(the travel act).
+pets act and was not repeated. "Construction - Repairing" (Moon with Mars in Krittika, Magha, Pushya, Purva Phalguni, Hasta,
+Moola or Revati) was added on 2026-10-21: the `conj` rule takes an optional `stars` list and a `code`
+(`MOON_MARS_STARS`), so the pair counts only while the Moon is in those stars. The onset-of-disease table is `/roga-arambha`.
+Left out: "Travel - Setting out to overcome enemies" / "War - Engaging in" (the travel act).
 
 **Raman's and Rangacharya's remaining sections** (8 new acts and 9 books added to existing acts, 2026-10-21), found by
 the same heading-by-heading audit. Raman (PDF 36-56): buying utensils, pledging articles, dismantling a building,

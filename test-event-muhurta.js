@@ -198,6 +198,14 @@ const UF = FIX.upanayana;
   // Conjunction: the Moon with Saturn; the nodes are not in MC V.52's list.
   assert.ok(panchangaCodes(U.JOSHI, { ...x, signs: { ...signs, Saturn: 1 } }).includes('CONJ'));
   assert.ok(!panchangaCodes(U.JOSHI, { ...x, signs: { ...signs, Rahu: 1, Ketu: 7 } }).includes('CONJ'));
+  // Wilhelm's repairs: the Moon with Mars (one sign) in Krittika, Magha, Pushya, Purva Phalguni, Hasta, Moola or Revati.
+  const WR = E.EVENTS.HOUSE_REPAIR.WILHELM;
+  const withMars = { ...signs, Mars: signs.Moon };
+  assert.ok(panchangaCodes(WR, { ...x, star: 2, signs: withMars }).includes('MOON_MARS_STARS'), 'Krittika, Moon with Mars');
+  assert.ok(panchangaCodes(WR, { ...x, star: 26, signs: withMars }).includes('MOON_MARS_STARS'), 'Revati, Moon with Mars');
+  assert.ok(!panchangaCodes(WR, { ...x, star: 3, signs: withMars }).includes('MOON_MARS_STARS'), 'Rohini is not in the seven');
+  assert.ok(!panchangaCodes(WR, { ...x, star: 2, signs }).includes('MOON_MARS_STARS'), 'Mars in another sign');
+  assert.ok(!panchangaCodes(WR, { ...x, star: 2, signs: { ...signs, Saturn: signs.Moon } }).includes('MOON_MARS_STARS'), 'Saturn is not Mars');
   // Kalyanraman's own reading leaves out item 8 ("Others want …").
   assert.deepEqual(panchangaCodes(U.KALYANRAMAN, { ...x, signs: { ...signs, Saturn: 1 }, navs: { ...x.navs, Moon: 3 }, moonPada: 15 }), []);
 

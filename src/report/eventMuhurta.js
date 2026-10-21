@@ -185,7 +185,8 @@ function panchangaCodes(r, x) {
   for (const [rule, code] of [[r.moonNav, 'MOON_NAV'], [r.moonNavMid, 'MOON_NAV_MID']]) {
     if (rule && rule.not.includes(x.navs.Moon) && !(rule.quarters && [27, 87].includes(x.moonPada))) out.push(code);
   }
-  if (r.conj && r.conj.planets.some((p) => r.conj.with.some((q) => q !== p && x.signs[q] === x.signs[p]))) out.push('CONJ');
+  // `stars`: the pair counts only while the Moon is in one of these stars (Wilhelm's repairs: the Moon with Mars).
+  if (r.conj && (!r.conj.stars || r.conj.stars.includes(x.star)) && r.conj.planets.some((p) => r.conj.with.some((q) => q !== p && x.signs[q] === x.signs[p]))) out.push(r.conj.code ?? 'CONJ');
   // The 8th from the birth Moon's sign and from the Moon's: no planet but Venus.
   const others = PLANETS.filter((p) => p !== 'Venus');
   if (r.natal8 && others.some((p) => houseOf(x.signs[p], x.natalMoon) === 8)) out.push('NATAL_8');
