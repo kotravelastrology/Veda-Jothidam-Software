@@ -112,6 +112,7 @@ export function TopMenuBar() {
   const REFERENCE_KEY_TO_PATH: Record<string, string> = {
     bphs: '/references',
     saravali: '/references',
+    planetHouse: '/planet-house',
     horasara: '/references',
     gargahora: '/references',
     karakas: '/references?category=planet',
@@ -199,6 +200,7 @@ export function TopMenuBar() {
       submenu: [
         { label: 'BPHS (Brihat Parashara Hora Shastra)', key: 'bphs' },
         { label: 'Saravali', key: 'saravali' },
+        { label: 'Planets in Houses (கிரகம் பாவத்தில்)', key: 'planetHouse' },
         { label: 'Hora Sara', key: 'horasara' },
         { label: 'Garga Hora', key: 'gargahora' },
         { label: 'Planetary Significations', key: 'karakas' },

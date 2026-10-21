@@ -53,6 +53,24 @@ const SOURCES = [
     },
   },
   {
+    id: 'SARAVALI_SANTHANAM',
+    title: 'Saravali',
+    titleTa: 'சாராவளி',
+    author: 'Kalyana Varma (R. Santhanam, translation with notes)',
+    file: 'Jyotish_Saravali vol.2_R.Santhanam.pdf',
+    tradition: 'Parashari / Jataka classic',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit text is ancient; the English translation and notes are a twentieth-century work. '
+        + 'Cited by chapter, verse and printed page; the book statements are summarised in our own words, not reproduced. '
+        + 'The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read.',
+    },
+  },
+  {
     id: 'RATH_UPADESA_SUTRAS',
     title: "Jaimini Maharishi's Upadesa Sutras",
     titleTa: 'ஜைமினி மகரிஷியின் உபதேச சூத்திரங்கள்',

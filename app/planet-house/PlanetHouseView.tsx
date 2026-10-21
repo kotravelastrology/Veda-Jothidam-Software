@@ -1,0 +1,71 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
+import { computePlanetHouse } from './actions';
+import { citeTa } from '@/src/sources/citeTa';
+
+/**
+ * Each planet in its house from the lagna, as the classical books describe it. One block per book, never merged;
+ * the page of the printed book is shown. Only the verse itself is summarised (not the translator's notes). The
+ * statements are the books' — a reading of the whole chart weighs dignity, aspects and more; this does not.
+ */
+
+export default function PlanetHouseView() {
+  const [party, setParty] = useState<Party | null>(null);
+  const [result, setResult] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!party) { setResult(null); return; }
+    let cancelled = false;
+    setLoading(true); setError(null);
+    computePlanetHouse(party.kind === 'profile' ? { profile: { profileId: party.profileId, revision: party.revision } } : { form: party.input })
+      .then((r) => { if (!cancelled) setResult(r); })
+      .catch((e) => { if (!cancelled) { setError(e instanceof Error ? e.message : String(e)); setResult(null); } })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [party]);
+
+  return (
+    <main className="min-h-screen p-6 max-w-4xl mx-auto">
+      <header className="mb-5">
+        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Planets in houses</p>
+        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கிரகம் பாவத்தில் — நூல்கள் சொல்வது</h1>
+        <p className="text-sm text-ink-soft mt-1 max-w-3xl">
+          ஒவ்வொரு கிரகமும் லக்னத்திலிருந்து எந்த வீட்டில் உள்ளது, அதைப் பற்றி நூல் என்ன சொல்கிறது — நூல் வாரியாக, அச்சுப் பக்கத்துடன். நூலின் சொற்கள் சுருக்கப்பட்டுள்ளன (மேற்கோள் அல்ல).
+          இது நூலின் கூற்று மட்டுமே; கிரகத்தின் பலம், பார்வை, சேர்க்கை ஆகியவற்றையும் சேர்த்துப் பார்த்தே பலன் சொல்ல வேண்டும்.
+        </p>
+      </header>
+
+      <PartyChooser party={party} setParty={(x) => { setParty(x); if (!x) setResult(null); }} loading={loading} />
+      {loading && <p className="text-sm text-ink-soft mb-4">கணக்கிடப்படுகிறது…</p>}
+      {error && <p className="text-rose text-sm mb-4 bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}
+
+      {result && (
+        <>
+          <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+            <h2 className="font-semibold text-ink">{result.native.name ?? '(பெயர் இல்லை)'} · {result.native.date} {result.native.time} · {result.native.placeName ?? '—'}</h2>
+            <p className="text-xs text-ink-soft">{result.native.method.ayanamsha} அயனாம்சம் · லக்னம்: {result.lagnaTa}</p>
+            <p className="text-[11px] text-ink-soft mt-1">{result.books.map((b: any) => `${citeTa(b.source)} — ${b.scope}`).join(' · ')}</p>
+          </section>
+          {result.rows.map((r: any) => (
+            <section key={r.planet} className="bg-surface border border-line rounded-2xl p-4 mb-3 text-sm">
+              <h2 className="font-semibold text-ink">{r.planetTa} — {r.house}-ஆம் வீடு <span className="text-ink-soft font-normal">({r.signTa})</span></h2>
+              {r.readings.length === 0 && <p className="text-xs text-ink-soft mt-1">இந்த நூல்களில் இந்தக் கிரகத்துக்கு வீட்டுப் பலன் தரப்படவில்லை.</p>}
+              {r.readings.map((x: any) => (
+                <div key={x.bookId} className="mt-2">
+                  <p className="text-ink">{x.ta}</p>
+                  {x.misprint && <p className="text-[11px] text-rose mt-0.5">அச்சுப்பிழை: நூலின் இந்த இடம் தன் சொந்தத் தலைப்புடன் ஒத்துப்போகவில்லை.</p>}
+                  {x.gloss && <p className="text-[11px] text-ink-soft mt-0.5">மொழிபெயர்ப்பில் உரையாசிரியர் விளக்கம் மூலத்துடன் கலந்துள்ளது.</p>}
+                  <p className="text-[11px] text-ink-soft mt-0.5">{citeTa({ ...x.source, pageLocus: `printed p.${x.page}` })} · பாடல் {x.verse}</p>
+                </div>
+              ))}
+            </section>
+          ))}
+        </>
+      )}
+    </main>
+  );
+}
