@@ -205,6 +205,11 @@ Not plan items, but real, and they should not be discovered at release:
   Rahu 8th (verse: 9th); three books count Ketu; the effects differ most for
   Mars, Saturn, the Moon and Jupiter. Muhurta use of Latta: `/muhurta-stars` (2026-10-10).
 - **The 88th nakshatra pada.** `/pada-88` (`docs/PADA-88.md`), 2026-10-08.
+- **The onset of an illness.** `/roga-arambha` (`docs/ROGA-ARAMBHA.md`), 2026-10-21: eight books' lengths and fatal
+  lists for all 27 stars side by side (Wilhelm first; Kalaprakasika the oldest, Shridhar's Table 22.2 with quarter days read
+  from the page image), and for a given moment the combinations of weekday, tithi, karana, tara and Tri-Nadi. Moola,
+  Magha and the death stars differ across the books; Wilhelm's account of Muhurta Chintamani parts from its verse at
+  three stars.
 - **The band of years.** `/band-of-years` (`docs/BAND-OF-YEARS.md`), 2026-10-11:
   Lal Kitab's 35-year cycle in three books (Raj Kumar first: Saturn from
   birth, with the ruler's progression and transit; Gosvami and Mahajan:
