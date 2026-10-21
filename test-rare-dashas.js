@@ -160,8 +160,8 @@ for (const m of METHODS) {
 // against BPHS ch.46 on 2026-10-21 and is SOURCED (test-bphs-dashas.js).
 {
   const m = getMethod('yogini');
-  assert.equal(m.level, 'STRUCTURE_ONLY', 'yogini carries no source stamp');
-  assert.equal(m.source, null);
+  assert.equal(m.level, 'SOURCED', 'yogini read against BPHS ch.46 vv.195-199 on 2026-10-21');
+  assert.ok(m.source);
   assert.equal(m.promoted, false);
   const a = getMethod('ashtottari');
   assert.equal(a.level, 'SOURCED');

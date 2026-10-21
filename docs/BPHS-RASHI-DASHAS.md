@@ -19,3 +19,4 @@ Not built, with reasons on the page: Kendradi, Trikona (printed years do not fol
 Open choices recorded: start sign of Chara is lagna as in the example (the text does not say "stronger of lagna/7th" for Chara); the 4 Atmakaraka variants are not built.
 
 Added 2026-10-21: Dirga (vv.185-187, pp.567-568: 9th/10th/11th signs each followed by the signs it aspects; movable backward, fixed onward, dual odd onward / even backward; Sthira years) and Lagnadi (vv.188-190, pp.569-570: elapsed fraction of the birth star x 12 signs added to lagna longitude; first dasha has a balance). Both reproduce the printed example. Dirga is no longer in the "not built" list.
+Yogini (BPHS vv.195-199, pp.571-572) promoted STRUCTURE_ONLY -> SOURCED 2026-10-21.

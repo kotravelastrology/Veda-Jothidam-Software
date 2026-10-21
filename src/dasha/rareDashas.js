@@ -133,12 +133,13 @@ const METHODS = [
     id: 'yogini',
     name: 'Yogini', nameTa: 'யோகினி',
     family: 'nakshatra',
-    level: 'STRUCTURE_ONLY',
+    level: 'SOURCED',
     implemented: true,
-    notes: '36 ஆண்டு சுழற்சி, 8 யோகினிகள் (மங்களா 1 … சங்கடா 8). '
-      + '`altDashas.js`-இல் port செய்யப்பட்டது; தொடக்க விதி (nakIdx+3) mod 8 '
-      + 'ஒரு BPHS உத்தர மேற்கோளுடன் குறிப்பிடப்பட்டுள்ளது, ஆனால் `attachSource` '
-      + 'முத்திரையும் சரிபார்க்கப்பட்ட பக்கமும் இல்லை.',
+    source: { ...RS.BPHS_RASHI, pageLocus: 'Chapter 46 vv.195-199, printed pp.571-572: "Add 3 to the Janma nakshatra and divide it by 8. The remainder will indicate the Yogini Dasa of Mangala, Pingala, Dhanya, Bhramari, Bhadrika, Ulka, Siddha and Sankata … of 1, 2, 3, 4, 5, 6, 7 and 8 years"' },
+    workedExample: 'bphs-46-yogini-mrigashira',
+    notes: '36 ஆண்டு சுழற்சி, 8 யோகினிகள் (மங்களா 1 … சங்கடா 8; சந்திரன், சூரியன், குரு, செவ்வாய், புதன், சனி, சுக்கிரன், ராகு). '
+      + 'தொடக்கம்: நட்சத்திர எண் + 3 ஐ 8 ஆல் வகுத்த மீதி (0 = சங்கடா) — நூலின் எடுத்துக்காட்டு மிருகசீரிடம் → சங்கடா மீளுருவாக்கப்படுகிறது. '
+      + 'இருப்பு பாயத்/பபோகத்தின் விகிதப்படி. துணைக் காலங்கள் விகிதப்படி (நூல் தனியாகச் சொல்லவில்லை).',
   }),
 
   createCoverage({
