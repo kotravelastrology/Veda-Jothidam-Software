@@ -11,6 +11,21 @@ import { citeTa } from '@/src/sources/citeTa';
  * statements are the books' — a reading of the whole chart weighs dignity, aspects and more; this does not.
  */
 
+const TAG_TA: Record<string, string> = {
+  EXALTED: 'உச்சம்', OWN_SIGN: 'சொந்த வீடு', MOOLATRIKONA: 'மூலத்திரிகோணம்', DEBILITATED: 'நீசம்', KENDRA: 'கேந்திரம்', TRIKONA: 'திரிகோணம்',
+  CONJ_MALEFIC: 'பாபருடன் சேர்க்கை', BENEFIC_CONJ: 'சுபருடன் சேர்க்கை', WANING: 'தேய்பிறைச் சந்திரன்',
+  STRONG_VARGA: 'வர்க்கத்தில் பலம்', BENEFIC_NAVAMSA: 'சுப நவாம்சம்', OWN_NAVAMSA: 'சொந்த நவாம்சம்', EXALTED_NAVAMSA: 'உச்ச நவாம்சம்',
+  FRIEND_SIGN: 'நட்பு வீடு', BENEFIC_SIGN: 'சுப ராசி', BENEFIC_ASPECT: 'சுப பார்வை', MALEFIC_ASPECT: 'பாப பார்வை', COMBUST: 'அஸ்தமனம்',
+};
+const tagTa = (t: string) => {
+  if (TAG_TA[t]) return TAG_TA[t];
+  let m = /^H(\d+)$/.exec(t); if (m) return `${m[1]}-ஆம் வீடு`;
+  m = /^WITH_LORD_(\d+)$/.exec(t); if (m) return `${m[1]}-ஆம் அதிபதியுடன் சேர்க்கை`;
+  m = /^LORD_(\d+)$/.exec(t); if (m) return `${m[1]}-ஆம் அதிபதி`;
+  return t;
+};
+const KIND_TA: Record<string, string> = { fav: 'நல்ல பலன்', unfav: 'தீய பலன்', timing: 'தசையின் காலம்', note: 'மொழிபெயர்ப்பாளர் குறிப்பு', cond: 'குறிப்பிட்ட நிலை' };
+
 export default function PlanetHouseView() {
   const [party, setParty] = useState<Party | null>(null);
   const [result, setResult] = useState<any>(null);
@@ -32,7 +47,7 @@ export default function PlanetHouseView() {
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
         <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Planets in houses</p>
-        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">பிறந்த நட்சத்திரம், கிரகம் பாவத்தில், பாவாதிபதி — நூல்கள் சொல்வது</h1>
+        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">பிறந்த நட்சத்திரம், கிரகம் பாவத்தில், தசாநாதன், பாவாதிபதி — நூல்கள் சொல்வது</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒவ்வொரு கிரகமும் லக்னத்திலிருந்து எந்த வீட்டில் உள்ளது, அதைப் பற்றி நூல் என்ன சொல்கிறது — நூல் வாரியாக, அச்சுப் பக்கத்துடன். நூலின் சொற்கள் சுருக்கப்பட்டுள்ளன (மேற்கோள் அல்ல).
           இது நூலின் கூற்று மட்டுமே; கிரகத்தின் பலம், பார்வை, சேர்க்கை ஆகியவற்றையும் சேர்த்துப் பார்த்தே பலன் சொல்ல வேண்டும்.
@@ -71,6 +86,29 @@ export default function PlanetHouseView() {
                   {x.misprint && <p className="text-[11px] text-rose mt-0.5">அச்சுப்பிழை: நூலின் இந்த இடம் தன் சொந்தத் தலைப்புடன் ஒத்துப்போகவில்லை.</p>}
                   {x.gloss && <p className="text-[11px] text-ink-soft mt-0.5">மொழிபெயர்ப்பில் உரையாசிரியர் விளக்கம் மூலத்துடன் கலந்துள்ளது.</p>}
                   <p className="text-[11px] text-ink-soft mt-0.5">{citeTa({ ...x.source, pageLocus: `printed p.${x.page}` })} · பாடல் {x.verse}</p>
+                </div>
+              ))}
+            </section>
+          ))}
+          <h2 className="text-lg font-semibold text-ink mt-6 mb-1">தசாநாதன் பலன் — {result.dashaEffects.source.title}, அத்.47</h2>
+          <p className="text-[11px] text-ink-soft mb-2">{citeTa(result.dashaEffects.source)} · {result.dashaEffects.scope}</p>
+          <ul className="text-[11px] text-ink-soft mb-3 list-disc pl-5">
+            {result.dashaEffects.general.map((g: any) => <li key={g.verses}>பாடல் {g.verses}: {g.ta}</li>)}
+          </ul>
+          {result.dashaEffects.planets.map((p: any) => (
+            <section key={p.planet} className={`bg-surface border rounded-2xl p-4 mb-3 text-sm ${result.dashaEffects.currentDasha === p.planet ? 'border-rose' : 'border-line'}`}>
+              <h3 className="font-semibold text-ink">{p.planetTa} தசை — {p.house}-ஆம் வீட்டில் ({p.signTa}){result.dashaEffects.currentDasha === p.planet && <span className="text-rose font-normal"> ← நடப்பு மகா தசை</span>}</h3>
+              {p.sections.map((s: any, i: number) => (
+                <div key={i} className="mt-2">
+                  <p className="text-[11px] text-ink-soft">{KIND_TA[s.kind]} · பாடல் {s.verses} · {citeTa({ ...result.dashaEffects.source, pageLocus: `printed p.${s.page}` })}</p>
+                  <p className="text-ink">{s.ta}</p>
+                  {s.conds.length > 0 && (
+                    <p className="text-[11px] mt-0.5">
+                      {s.held.length > 0 && <span className="text-teal">இந்த ஜாதகத்தில் உள்ளவை: {s.held.map(tagTa).join(', ')}. </span>}
+                      {s.failed.length > 0 && <span className="text-ink-soft">இல்லாதவை: {s.failed.map(tagTa).join(', ')}. </span>}
+                      {s.unknown.length > 0 && <span className="text-ink-soft">இங்கே சரிபார்க்கப்படாதவை: {s.unknown.map(tagTa).join(', ')}.</span>}
+                    </p>
+                  )}
                 </div>
               ))}
             </section>

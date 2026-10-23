@@ -12,6 +12,10 @@ const BH = require('../../src/report/bhaveshHouse');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const JN = require('../../src/report/janmaNakshatra');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const DE = require('../../src/report/dashaEffects');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { buildVimshottariDasha } = require('../../src/dasha/vimshottariDasha');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { NAKSHATRA_TA } = require('../../src/report/babyNames');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { describeMatchParty } = require('../../src/report/matchParties');
@@ -51,10 +55,17 @@ export async function computePlanetHouse(req: PlanetHouseRequest) {
   const chart = calculateParashariChart(ctx);
   const signs = Object.fromEntries(Object.keys(PLANET_TA).map((p) => [p, chart.grahas[p].rasiIndex]));
   const lagnaSign = Math.floor(chart.lagna.longitude / 30);
+  const degrees = Object.fromEntries(Object.keys(PLANET_TA).map((p) => [p, chart.grahas[p].longitude % 30]));
+  const elongation = (((chart.grahas.Moon.longitude - chart.grahas.Sun.longitude) % 360) + 360) % 360;
+  const dashaChart = { lagnaSign, signs, degrees, moonWaning: elongation >= 180 };
+  const vim = buildVimshottariDasha(chart.julianDay, chart.grahas.Moon.longitude, input.utcOffsetMinutes ?? 0, { depth: 1 });
+  const nowJd = Date.now() / 86400000 + 2440587.5;
+  const currentDasha = vim.dashas.find((d: any) => d.startJulianDay <= nowJd && nowJd < d.endJulianDay)?.lord ?? null;
   const rows = PH.planetHouseReadings({ lagnaSign, signs }).map((r: any) => ({ ...r, planetTa: PLANET_TA[r.planet], signTa: SIGN_TA[r.sign] }));
   return JSON.parse(JSON.stringify({
     lagnaTa: SIGN_TA[lagnaSign],
     rows,
+    dashaEffects: { ...DE.allDashaEffects(dashaChart), planets: DE.allDashaEffects(dashaChart).planets.map((p: any) => ({ ...p, planetTa: PLANET_TA[p.planet], signTa: SIGN_TA[p.sign] })), currentDasha },
     janma: { ...JN.janmaNakshatra(chart.grahas.Moon.longitude), starTa: NAKSHATRA_TA[JN.starOf(chart.grahas.Moon.longitude) - 1] },
     bhavesh: BH.bhaveshReadings({ lagnaSign, signs }).map((r: any) => ({ ...r, signTa: SIGN_TA[r.sign], lordTa: PLANET_TA[r.lord], lordSignTa: SIGN_TA[r.lordSign] })),
     bhaveshBooks: BH.BOOKS.map((b: any) => ({ id: b.id, source: b.source, scope: b.scope })),
