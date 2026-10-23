@@ -53,6 +53,40 @@ const SOURCES = [
     },
   },
   {
+    id: 'PRASNA_MARGA_RAMAN',
+    title: 'Prasna Marga',
+    titleTa: 'ப்ரஸ்ன மார்கம்',
+    author: 'B.V. Raman (translation)',
+    file: 'prasna-marga-1.pdf',
+    tradition: 'Prasna (Kerala, 16th century)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit text is ancient; B.V. Raman\'s English translation with notes (Part I, chapters I-XVI) is a twentieth-century work held in the owner\'s downloads. '
+        + 'Cited by chapter, stanza and printed page; summarised in our own words. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read.',
+    },
+  },
+  {
+    id: 'PATEL_NAVAMSA_IN_ASTROLOGY',
+    title: 'Navamsa in Astrology',
+    titleTa: 'நவாம்சம் ஜோதிடத்தில்',
+    author: 'C. Patel',
+    file: 'Jyotish_Navamsa in astrology_C. Patel.pdf',
+    tradition: 'Jataka (modern, citing Hora Sara, Prasna Marga and Nadi works)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern book, cited for its statement of the "eventful years" method and its worked chart; the classical verses it cites are Hora Sara and Prasna Marga, which are read separately. '
+        + 'Summarised in our own words; the PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read.',
+    },
+  },
+  {
     id: 'NARAPATI_JAYACARYA_SVARODAYA',
     title: 'Narapatijayacarya Svarodaya',
     titleTa: 'நரபதிஜயசர்யா ஸ்வரோதயம்',
