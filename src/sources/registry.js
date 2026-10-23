@@ -53,6 +53,24 @@ const SOURCES = [
     },
   },
   {
+    id: 'NARAPATI_JAYACARYA_SVARODAYA',
+    title: 'Narapatijayacarya Svarodaya',
+    titleTa: 'நரபதிஜயசர்யா ஸ்வரோதயம்',
+    author: 'Narapati (Subodhini Sanskrit-Hindi commentary of Pt. Ganesh Datt Pathaka)',
+    file: 'C48-narapati-jayacharya-svarodaya-chaukhamba-1971-sanskrit-hindi.pdf',
+    tradition: 'Svarodaya / Jayacarya (Sanskrit, 13th century)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit text is ancient; the Hindi commentary (Chaukhamba, Kashi Sanskrit Series 205, 1971) is a twentieth-century work digitised by the S3 Foundation (JK Sanskrit Academy, Jammu, CC-0 mark on the scan). '
+        + 'Cited by chapter, verse and printed page; the verses are summarised in our own words. The PDF must not be bundled or redistributed. '
+        + 'Also in the corpus: the DLI scan of another edition (C47, C47b).',
+      verified: false,
+      toConfirm: 'The rights of the 1971 commentary have not been read; the scan carries a CC-0 mark from its digitiser, which does not by itself settle the commentary\'s copyright.',
+    },
+  },
+  {
     id: 'BRIHAT_JATAKA_RAO_1986',
     title: 'Brihat Jataka (B.S. Rao, 1986)',
     titleTa: 'பிருஹத் ஜாதகம் (பி.எஸ். ராவ், 1986)',
