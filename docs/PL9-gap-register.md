@@ -106,3 +106,6 @@ the preference "North" did not persist, a saved group came back empty, File Mana
 2026-10-21: bhavesh (house-lord) readings from BPHS ch.24 added to the same page (docs/PLANET-HOUSE.md). Still open in group 2: nakshatra, dasha-period and transit interpretation sets, Characteristics 040, Lucky Points 041.
 
 2026-10-23: group 3 started - Vimshopaka (017) built, `/vimshopaka`, docs/VIMSHOPAKA.md. Group 2 additions since 10-21: `/planet-house` now carries lagna sign, Moon sign, birth star, planet in house, dasha-lord effects (BPHS 47-48) and house lords, book by book (docs/PLANET-HOUSE.md).
+
+2026-10-23: Declination (033) built - `/declination` (src/chart/declination.js, test-declination.js): the Sun-to-Saturn declination from the ephemeris in equatorial mode, the same Kranti the Ayana Bala reads; no result is claimed. PL9's Uranus, Neptune, Pluto, Rahu/Ketu rows and its KP lord/sub column are not built.
+Not built, with the reason found: Kota Chakra (111) and Sanghatta Chakra (112) - the only held sources are modern articles (Imran, "Kota Chakra and Professional Setback"; Vishnu Bhaskar; JHora's help) and Narapati Jayacharya's chapter list, which names the chakra and gives no rule; no classical rule with a printed page was found. Navamsha Ages (010) - PL9 lists the 108 navamshas numbered round the zodiac against each planet; no source for "ages" found yet.
