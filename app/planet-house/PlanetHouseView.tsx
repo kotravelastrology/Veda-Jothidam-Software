@@ -55,7 +55,7 @@ export default function PlanetHouseView() {
           {result.janma.readings.map((x: any) => (
             <section key={x.bookId} className="bg-surface border border-line rounded-2xl p-4 mb-3 text-sm">
               <p className="text-ink">{x.ta}</p>
-              <p className="text-[11px] text-ink-soft mt-0.5">{citeTa({ ...x.source, pageLocus: x.source.pageLocus.includes('PDF pp.') ? `PDF p.${x.page}` : `printed p.${x.page}` })}{x.stanza ? ` · பாடல் ${x.stanza}` : ''}</p>
+              <p className="text-[11px] text-ink-soft mt-0.5">{citeTa({ ...x.source, pageLocus: x.source.pageLocus.includes('PDF pp.') ? `Chapter 28, PDF p.${x.page}` : `printed p.${x.page}` })}{x.stanza ? ` · பாடல் ${x.stanza}` : ''}</p>
             </section>
           ))}
           <h2 className="text-lg font-semibold text-ink mt-6 mb-1">கிரகம் பாவத்தில்</h2>
