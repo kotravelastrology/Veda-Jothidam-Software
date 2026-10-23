@@ -10,6 +10,10 @@ const PH = require('../../src/report/planetHouse');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const BH = require('../../src/report/bhaveshHouse');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const JN = require('../../src/report/janmaNakshatra');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { NAKSHATRA_TA } = require('../../src/report/babyNames');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { describeMatchParty } = require('../../src/report/matchParties');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { openLibrary } = require('../../src/library/chartRepository');
@@ -51,6 +55,7 @@ export async function computePlanetHouse(req: PlanetHouseRequest) {
   return JSON.parse(JSON.stringify({
     lagnaTa: SIGN_TA[lagnaSign],
     rows,
+    janma: { ...JN.janmaNakshatra(chart.grahas.Moon.longitude), starTa: NAKSHATRA_TA[JN.starOf(chart.grahas.Moon.longitude) - 1] },
     bhavesh: BH.bhaveshReadings({ lagnaSign, signs }).map((r: any) => ({ ...r, signTa: SIGN_TA[r.sign], lordTa: PLANET_TA[r.lord], lordSignTa: SIGN_TA[r.lordSign] })),
     bhaveshBooks: BH.BOOKS.map((b: any) => ({ id: b.id, source: b.source, scope: b.scope })),
     books: PH.BOOKS.map((b: any) => ({ id: b.id, source: b.source, scope: b.scope })),

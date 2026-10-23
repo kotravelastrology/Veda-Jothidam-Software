@@ -53,6 +53,40 @@ const SOURCES = [
     },
   },
   {
+    id: 'BRIHAT_JATAKA_RAO_1986',
+    title: 'Brihat Jataka (B.S. Rao, 1986)',
+    titleTa: 'பிருஹத் ஜாதகம் (பி.எஸ். ராவ், 1986)',
+    author: 'Varahamihira (B.S. Rao, translation with notes)',
+    file: 'Jyotish_Brihat jataka_B.S. Rao_1986.pdf',
+    tradition: 'Jataka classic',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit text is ancient; the English translation with notes is a modern work. Cited by chapter, stanza and printed page; '
+        + 'the stanzas are summarised in our own words. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read.',
+    },
+  },
+  {
+    id: 'HORA_SARA_PRITHUYASAS',
+    title: 'Hora Sara',
+    titleTa: 'ஹோரா சாரா',
+    author: 'Prithuyasas, son of Varahamihira',
+    file: 'Jyotish_Hora Sara.pdf',
+    tradition: 'Jataka classic',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit text is ancient; this typed English e-text is a modern translation of uncertain translator and edition. '
+        + 'It carries no printed page numbers, so the scan page is cited and marked. Summarised in our own words. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Translator, edition and terms have not been identified from the file.',
+    },
+  },
+  {
     id: 'BRIHAT_JATAKA_SASTRI_2007',
     title: 'Brihat Jataka (P.S. Sastri, 2007)',
     titleTa: 'பிருஹத் ஜாதகம் (பி.எஸ். சாஸ்திரி, 2007)',
