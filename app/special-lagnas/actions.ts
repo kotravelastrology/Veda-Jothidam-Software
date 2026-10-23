@@ -20,6 +20,14 @@ const PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn',
 const PLANET_TA: Record<string, string> = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' };
 const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
+const LUMINARIES_SOURCE = {
+  title: 'Brihat Parashara Hora Shastra (BPHS)',
+  author: 'R. Santhanam (translation)',
+  tradition: 'Parashari',
+  file: 'C23_BPHS_Santhanam.pdf',
+  pageLocus: 'Chapter 7 "Divisional Consideration" vv.39-43, printed p.72: the 9th, 10th and 11th from the Sun; the 4th, 1st, 2nd, 11th and 9th from the Moon',
+};
+
 export interface SpecialLagnasRequest {
   profile?: { profileId: string; revision?: number };
   form?: BirthFormInput;
@@ -66,7 +74,7 @@ export async function computeSpecialLagnas(req: SpecialLagnasRequest) {
     signTa: SIGN_TA[(signIndex + i) % 12],
     planetsTa: PLANETS.filter((p) => planetSigns[p] === (signIndex + i) % 12).map((p) => PLANET_TA[p]),
   }));
-  const entry = (key: string, nameTa: string, lon: number) => ({ key, nameTa, longitude: lon, signIndex: Math.floor(lon / 30), signTa: SIGN_TA[Math.floor(lon / 30)], dms: dmsOf(lon), houses: housesFrom(Math.floor(lon / 30)) });
+  const entry = (key: string, nameTa: string, lon: number, bookHouses?: number[]) => ({ key, nameTa, longitude: lon, signIndex: Math.floor(lon / 30), signTa: SIGN_TA[Math.floor(lon / 30)], dms: dmsOf(lon), houses: housesFrom(Math.floor(lon / 30)), bookHouses });
   const varnadaSign = sl.varnada.sign - 1;
   return JSON.parse(JSON.stringify({
     sunriseKind: kind,
@@ -79,6 +87,12 @@ export async function computeSpecialLagnas(req: SpecialLagnasRequest) {
       entry('hora', 'ஹோரா லக்னம்', sl.hora),
       entry('ghatika', 'கடிகா லக்னம்', sl.ghatika),
     ],
+    // BPHS ch.7 vv.39-43 (printed p.72): the houses to be read from the Sun and from the Moon
+    fromLuminaries: [
+      entry('surya', 'சூரிய லக்னம்', chart.grahas.Sun.longitude, [9, 10, 11]),
+      entry('chandra', 'சந்திர லக்னம்', chart.grahas.Moon.longitude, [1, 2, 4, 9, 11]),
+    ],
+    luminariesSource: LUMINARIES_SOURCE,
     varnada: { signIndex: varnadaSign, signTa: SIGN_TA[varnadaSign], counts: sl.varnada.counts, total: sl.varnada.total, houses: housesFrom(varnadaSign) },
     source: sl.source,
     native: describeMatchParty(input, ctx, profile),

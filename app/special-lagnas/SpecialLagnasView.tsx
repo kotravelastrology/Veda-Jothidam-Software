@@ -82,6 +82,13 @@ export default function SpecialLagnasView() {
               <HouseGrid houses={l.houses} />
             </section>
           ))}
+          {result.fromLuminaries.map((l: any) => (
+            <section key={l.key} className="bg-surface border border-line rounded-2xl p-4 mb-3 text-sm">
+              <h3 className="font-semibold text-ink">{l.nameTa} — {l.signTa} <span style={num} className="font-mono text-ink-soft font-normal">{l.dms.d}°{String(l.dms.m).padStart(2, '0')}′{String(l.dms.s).padStart(2, '0')}″</span></h3>
+              <p className="text-[11px] text-ink-soft">நூல் இந்த லக்னத்திலிருந்து பார்க்கச் சொல்லும் வீடுகள்: {l.bookHouses.join(', ')} · {citeTa(result.luminariesSource)}</p>
+              <HouseGrid houses={l.houses} />
+            </section>
+          ))}
           <section className="bg-surface border border-line rounded-2xl p-4 mb-3 text-sm">
             <h3 className="font-semibold text-ink">வர்ணத லக்னம் — {result.varnada.signTa}</h3>
             <p className="text-[11px] text-ink-soft">ஜென்ம லக்னத்துக்கும் ஹோரா லக்னத்துக்கும் எண்ணிக்கை {result.varnada.counts.join(' மற்றும் ')} → {result.varnada.total}; ஒற்றை எனில் மேஷத்திலிருந்து, இரட்டை எனில் மீனத்திலிருந்து பின்னோக்கி எண்ணிய ராசி.</p>
