@@ -104,3 +104,5 @@ the preference "North" did not persist, a saved group came back empty, File Mana
 2026-10-21: group 2 started - planets in houses from Saravali ch.30 (docs/PLANET-HOUSE.md). Correction to group 6: Saravali (Santhanam vols 1-2, Bhagat), Hora Sara and Brihat Jataka (several editions) ARE held in D:\1\astro books english\3-CLASSICS_nadi, though not in the curated library. Next: more books for the same page, then lords of houses (bhavesh) and the nakshatra/dasha/transit interpretation sets.
 
 2026-10-21: bhavesh (house-lord) readings from BPHS ch.24 added to the same page (docs/PLANET-HOUSE.md). Still open in group 2: nakshatra, dasha-period and transit interpretation sets, Characteristics 040, Lucky Points 041.
+
+2026-10-23: group 3 started - Vimshopaka (017) built, `/vimshopaka`, docs/VIMSHOPAKA.md. Group 2 additions since 10-21: `/planet-house` now carries lagna sign, Moon sign, birth star, planet in house, dasha-lord effects (BPHS 47-48) and house lords, book by book (docs/PLANET-HOUSE.md).
