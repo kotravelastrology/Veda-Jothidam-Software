@@ -47,7 +47,7 @@ export default function PlanetHouseView() {
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
         <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Planets in houses</p>
-        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">பிறந்த நட்சத்திரம், கிரகம் பாவத்தில், தசாநாதன், பாவாதிபதி — நூல்கள் சொல்வது</h1>
+        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">சந்திர ராசி, பிறந்த நட்சத்திரம், கிரகம் பாவத்தில், தசாநாதன், பாவாதிபதி — நூல்கள் சொல்வது</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒவ்வொரு கிரகமும் லக்னத்திலிருந்து எந்த வீட்டில் உள்ளது, அதைப் பற்றி நூல் என்ன சொல்கிறது — நூல் வாரியாக, அச்சுப் பக்கத்துடன். நூலின் சொற்கள் சுருக்கப்பட்டுள்ளன (மேற்கோள் அல்ல).
           இது நூலின் கூற்று மட்டுமே; கிரகத்தின் பலம், பார்வை, சேர்க்கை ஆகியவற்றையும் சேர்த்துப் பார்த்தே பலன் சொல்ல வேண்டும்.
@@ -65,6 +65,15 @@ export default function PlanetHouseView() {
             <p className="text-xs text-ink-soft">{result.native.method.ayanamsha} அயனாம்சம் · லக்னம்: {result.lagnaTa}</p>
             <p className="text-[11px] text-ink-soft mt-1">{result.books.map((b: any) => `${citeTa(b.source)} — ${b.scope}`).join(' · ')}</p>
           </section>
+          <h2 className="text-lg font-semibold text-ink mb-1">சந்திரன் இருக்கும் ராசி — {result.janmaRasi.signTa}</h2>
+          {result.janmaRasi.joinedTa.length > 0 && <p className="text-[11px] text-rose mb-1">இந்த ராசியில் சந்திரனுடன் {result.janmaRasi.joinedTa.join(', ')} உள்ளது — ஹோரா சாரா: அப்போது அந்தக் கிரகத்தின் பலன்களும் வரும்.</p>}
+          <p className="text-[11px] text-ink-soft mb-3">உடல் அமைப்பும் இயல்பும் — நூல் வாரியாக. ஹோரா சாரா: எந்தக் கிரகமும் சேராத/பார்க்காத போது இவை; பிருஹத் ஜாதகம்: ராசி, அதன் அதிபதி, சந்திரன் மூவரும் வலிமையாக இருந்தால் முழுப் பலன்.</p>
+          {result.janmaRasi.readings.map((x: any) => (
+            <section key={x.bookId} className="bg-surface border border-line rounded-2xl p-4 mb-3 text-sm">
+              <p className="text-ink">{x.ta}</p>
+              <p className="text-[11px] text-ink-soft mt-0.5">{citeTa({ ...x.source, pageLocus: x.source.pageLocus.includes('PDF pp.') ? `Chapter 29, PDF p.${x.page}` : `printed p.${x.page}` })}{x.stanza ? ` · பாடல் ${x.stanza}` : ''}</p>
+            </section>
+          ))}
           <h2 className="text-lg font-semibold text-ink mb-1">பிறந்த நட்சத்திரம் — {result.janma.starTa} (பாதம் {result.janma.pada})</h2>
           <p className="text-[11px] text-ink-soft mb-3">இரு நூல்களும் நட்சத்திரத்தை மட்டுமே சொல்கின்றன, பாதம் வாரியாக அல்ல. நூல்: சந்திரனின் பலத்துக்கு ஏற்ப இவை வெளிப்படும்.</p>
           {result.janma.readings.map((x: any) => (
