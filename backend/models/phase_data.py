@@ -34,8 +34,8 @@ class PhaseData(db.Model):
             'phase_number': self.phase_number,
             'phase_name': self.phase_name,
             'data': self.data,
-            'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }
 
     @staticmethod

@@ -1,0 +1,149 @@
+{
+  "purpose": "Second, independent transcription of Pulippani's vedha tables (Gochar Phaladeepika ch.22) and of where the Saturn result texts sit, read from rendered page images on 2026-10-03. test-saturn-vedha.js asserts src/report/gocharaVedhaTables.js and src/report/saturnHouseResults.js agree with it.",
+  "gochara": {
+    "page": "printed pp.204-205 (PDF 197-198)",
+    "format": "planet | benefic places as printed | Gochara Vedha places as printed | exceptions",
+    "rows": [
+      "Sun|3,6,10,11|9,12,4,5|no vedha by Saturn",
+      "Moon|1,3,6,7,10,11|5,9,12,2,4,8|no vedha by Mercury",
+      "Mars|3,6,11|12,9,5|",
+      "Mercury|2,4,6,8,10,11|5,3,9,1,8,12|no vedha by Moon",
+      "Jupiter|2,5,7,9,11|12,4,3,10,8|",
+      "Venus|1,2,3,4,5,8,9,11,12|8,7,1,10,9,5,11,3,6|no vedha by Sun",
+      "Saturn|3,6,11|12,9,5|no vedha by Sun",
+      "Rahu|3,6,11,10|12,9,5|",
+      "Ketu|3,6,11,10|12,9,5|"
+    ]
+  },
+  "vipareeta": {
+    "page": "printed pp.205-206 (PDF 198-199)",
+    "format": "planet | places of malefic results as printed | Vipareetha Vedha places as printed, column by column",
+    "rows": [
+      "Sun|9,12,4,5|3,6,10,11",
+      "Moon|2,5,12,8,4,9|7,1,6,11,10,3",
+      "Mars|12,5,9|3,11,6",
+      "Mercury|5,3,9,1,8,12|2,4,6,8,10,11",
+      "Jupiter|12,S,10,4,3|2,11,9,5,7",
+      "Venus|8,7,1,10,9,5,11,6,3|1,2,3,4,5,8,9,11,12",
+      "Saturn|12,9,5|3,6,11",
+      "Rahu|12,9,5|3,6,11",
+      "Ketu|12,9,5|3,6,11"
+    ],
+    "exceptions": [
+      "no Vipareetha Vedha to Sun by Saturn",
+      "none to Mercury by Moon"
+    ],
+    "example": "Saturn 12th from Janma Rasi and Jupiter in the 3rd: Saturn's evil not felt for the year Jupiter is there (printed p.206)"
+  },
+  "sudamani": {
+    "verse342": {
+      "page": "printed p.148 (scan 173)",
+      "saturnPairs": "3-12, 6-9, 11-5"
+    },
+    "verse343": {
+      "page": "printed p.149 (scan 174); commentary pp.149-150",
+      "reads": "planets standing the other way round: even cruel planets give good (vipareeta); Sun and Mars give results at the start of a sign, Jupiter and Venus in the middle, Saturn and Moon at the end, Mercury and the nodes throughout"
+    }
+  },
+  "saturnResults": {
+    "scanGap": "printed pp.148-167 are not in the scan (PDF 160 is printed 147, PDF 161 is printed 168)",
+    "main": {
+      "1": null,
+      "2": null,
+      "3": null,
+      "4": "printed p.168",
+      "5": "printed p.168",
+      "6": "printed pp.168-169",
+      "7": "printed p.169",
+      "8": "printed pp.169-170",
+      "9": "printed p.170",
+      "10": "printed pp.170-171",
+      "11": "printed p.171",
+      "12": "printed pp.171-172"
+    },
+    "sundarananda": {
+      "1": "printed p.172",
+      "2": "printed p.172",
+      "3": "printed p.173",
+      "4": "printed p.173",
+      "5": "printed p.173",
+      "6": "printed pp.173-174",
+      "7": "printed p.174",
+      "8": "printed p.174",
+      "9": "printed p.174",
+      "10": "printed p.175",
+      "11": "printed p.175",
+      "12": "printed p.175",
+      "printSlip": "both paragraphs say 'waxing' in every house except the 6th; the 3rd house heading is numbered '1' and the 10th house heading says 'Jupiter'"
+    },
+    "paryaya": {
+      "1": {
+        "1": "printed p.231",
+        "2": "printed p.232",
+        "3": "printed p.233"
+      },
+      "2": {
+        "1": "printed p.231",
+        "2": "printed p.232",
+        "3": "printed p.233"
+      },
+      "3": {
+        "1": "printed p.231",
+        "2": "printed p.232",
+        "3": "printed p.233"
+      },
+      "4": {
+        "1": "printed p.231",
+        "2": "printed pp.232-233",
+        "3": "printed p.234"
+      },
+      "5": {
+        "1": "printed p.231",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "6": {
+        "1": "printed p.231",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "7": {
+        "1": "printed p.231",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "8": {
+        "1": "printed pp.231-232",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "9": {
+        "1": "printed pp.231-232",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "10": {
+        "1": "printed p.232",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "11": {
+        "1": "printed p.232",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "12": {
+        "1": "printed p.232",
+        "2": "printed p.233",
+        "3": "printed p.234"
+      },
+      "thirdRoundGeneral": "houses 10, 11, 12 in the 3rd round: \"what is told in general readings for Saturn earlier will take place\" (p.234)"
+    },
+    "names": {
+      "4": "Ardhashtama Sani or Kantaka Sani; Laghu Kalyani (Sundarananda part)",
+      "7": "Kantaka Shani, worse than his 4th",
+      "8": "Ashtama Kantaka Sani; next to 7 1/2 years Saturn the most malefic place"
+    },
+    "ninth": "printed p.170: \"according to ancient Tamil texts ... (Raja Yoga)\" vs \"as per traditional Sanskrit texts, Saturn in 9th also gives bad results\" — \"both jointly give moderate result\""
+  }
+}

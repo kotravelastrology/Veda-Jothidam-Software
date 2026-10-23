@@ -5,6 +5,7 @@ const { buildYoginiDasha, buildAshtottariDasha, yoginiStartIndex, currentPeriod 
 assert.equal(yoginiStartIndex(0), 3);   // Ashwini -> Bhramari
 assert.equal(yoginiStartIndex(20), 7);  // Uttara Ashadha -> Sankata
 assert.equal(yoginiStartIndex(5), 0);   // Ardra -> Mangala
+assert.equal(yoginiStartIndex(4), 7);   // BPHS ch.46 printed p.572 example: Mrigashira (5th) + 3 = 8 -> Sankata
 
 const birthMs = Date.UTC(1990, 4, 15, 7, 30) - 330 * 60000;
 const moonLon = 268.31; // Dhanu 28.31 (Uttara Ashadha), Lahiri

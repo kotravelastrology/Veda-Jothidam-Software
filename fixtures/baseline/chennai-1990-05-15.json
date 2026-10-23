@@ -1,0 +1,846 @@
+{
+  "fixtureId": "chennai-1990-05-15",
+  "fixtureVersion": 1,
+  "recordedAt": "2026-09-26",
+  "engine": "1.3.1",
+  "settings": {
+    "ayanamsha": "Lahiri",
+    "houseSystem": "Porphyrius",
+    "nodeType": "mean",
+    "calendarMode": "tirukanita"
+  },
+  "hash": "dfcc8a1f8a4a900bdd267682f88b7b456d3eff74c13bc8231caa036972864592",
+  "result": {
+    "lagna": {
+      "longitude": 96.870157,
+      "rasi": "Karkataka",
+      "degreeInSign": 6.870157
+    },
+    "julianDay": 2448026.708333,
+    "ayanamsha": "Lahiri",
+    "houseSystem": "Porphyrius",
+    "nodeType": "mean",
+    "grahas": {
+      "Sun": {
+        "longitude": 30.389071,
+        "rasi": "Vrishabha",
+        "degreeInSign": 0.389071,
+        "house": 10
+      },
+      "Moon": {
+        "longitude": 269.842436,
+        "rasi": "Dhanu",
+        "degreeInSign": 29.842436,
+        "house": 6
+      },
+      "Mars": {
+        "longitude": 324.391417,
+        "rasi": "Kumbha",
+        "degreeInSign": 24.391417,
+        "house": 8
+      },
+      "Mercury": {
+        "longitude": 14.324952,
+        "rasi": "Mesha",
+        "degreeInSign": 14.324952,
+        "house": 10
+      },
+      "Jupiter": {
+        "longitude": 75.760826,
+        "rasi": "Mithuna",
+        "degreeInSign": 15.760826,
+        "house": 12
+      },
+      "Venus": {
+        "longitude": 348.759904,
+        "rasi": "Meena",
+        "degreeInSign": 18.759904,
+        "house": 9
+      },
+      "Saturn": {
+        "longitude": 271.52848,
+        "rasi": "Makara",
+        "degreeInSign": 1.52848,
+        "house": 6
+      },
+      "Rahu": {
+        "longitude": 287.628795,
+        "rasi": "Makara",
+        "degreeInSign": 17.628795,
+        "house": 7
+      },
+      "Ketu": {
+        "longitude": 107.628795,
+        "rasi": "Karkataka",
+        "degreeInSign": 17.628795,
+        "house": 1
+      }
+    },
+    "vargas": {
+      "Sun": {
+        "D1": "Vrishabha",
+        "D3": "Vrishabha",
+        "D4": "Vrishabha",
+        "D7": "Vrischika",
+        "D9": "Makara",
+        "D10": "Makara",
+        "D12": "Vrishabha",
+        "D16": "Simha",
+        "D20": "Dhanu",
+        "D24": "Karkataka",
+        "D27": "Karkataka",
+        "D40": "Tula",
+        "D45": "Simha",
+        "D2": "Moon",
+        "D30": "Vrishabha",
+        "D60": "Vrishabha"
+      },
+      "Moon": {
+        "D1": "Dhanu",
+        "D3": "Simha",
+        "D4": "Kanya",
+        "D7": "Mithuna",
+        "D9": "Dhanu",
+        "D10": "Kanya",
+        "D12": "Vrischika",
+        "D16": "Meena",
+        "D20": "Meena",
+        "D24": "Karkataka",
+        "D27": "Mithuna",
+        "D40": "Karkataka",
+        "D45": "Simha",
+        "D2": "Moon",
+        "D30": "Tula",
+        "D60": "Vrischika"
+      },
+      "Mars": {
+        "D1": "Kumbha",
+        "D3": "Tula",
+        "D4": "Vrischika",
+        "D7": "Karkataka",
+        "D9": "Vrishabha",
+        "D10": "Tula",
+        "D12": "Vrischika",
+        "D16": "Kanya",
+        "D20": "Mesha",
+        "D24": "Meena",
+        "D27": "Karkataka",
+        "D40": "Dhanu",
+        "D45": "Simha",
+        "D2": "Moon",
+        "D30": "Mithuna",
+        "D60": "Kumbha"
+      },
+      "Mercury": {
+        "D1": "Mesha",
+        "D3": "Simha",
+        "D4": "Karkataka",
+        "D7": "Karkataka",
+        "D9": "Simha",
+        "D10": "Simha",
+        "D12": "Kanya",
+        "D16": "Vrischika",
+        "D20": "Makara",
+        "D24": "Karkataka",
+        "D27": "Mesha",
+        "D40": "Vrischika",
+        "D45": "Makara",
+        "D2": "Sun",
+        "D30": "Dhanu",
+        "D60": "Simha"
+      },
+      "Jupiter": {
+        "D1": "Mithuna",
+        "D3": "Tula",
+        "D4": "Dhanu",
+        "D7": "Kanya",
+        "D9": "Kumbha",
+        "D10": "Vrischika",
+        "D12": "Dhanu",
+        "D16": "Simha",
+        "D20": "Mithuna",
+        "D24": "Simha",
+        "D27": "Dhanu",
+        "D40": "Makara",
+        "D45": "Vrischika",
+        "D2": "Moon",
+        "D30": "Dhanu",
+        "D60": "Makara"
+      },
+      "Venus": {
+        "D1": "Meena",
+        "D3": "Karkataka",
+        "D4": "Kanya",
+        "D7": "Makara",
+        "D9": "Dhanu",
+        "D10": "Vrishabha",
+        "D12": "Tula",
+        "D16": "Tula",
+        "D20": "Simha",
+        "D24": "Tula",
+        "D27": "Vrishabha",
+        "D40": "Vrischika",
+        "D45": "Mesha",
+        "D2": "Sun",
+        "D30": "Meena",
+        "D60": "Mesha"
+      },
+      "Saturn": {
+        "D1": "Makara",
+        "D3": "Makara",
+        "D4": "Makara",
+        "D7": "Karkataka",
+        "D9": "Makara",
+        "D10": "Kanya",
+        "D12": "Makara",
+        "D16": "Mesha",
+        "D20": "Vrishabha",
+        "D24": "Simha",
+        "D27": "Simha",
+        "D40": "Dhanu",
+        "D45": "Mithuna",
+        "D2": "Moon",
+        "D30": "Vrishabha",
+        "D60": "Mesha"
+      },
+      "Rahu": {
+        "D1": "Makara",
+        "D3": "Vrishabha",
+        "D4": "Karkataka",
+        "D7": "Vrischika",
+        "D9": "Mithuna",
+        "D10": "Kumbha",
+        "D12": "Simha",
+        "D16": "Makara",
+        "D20": "Meena",
+        "D24": "Kanya",
+        "D27": "Tula",
+        "D40": "Kanya",
+        "D45": "Mithuna",
+        "D2": "Sun",
+        "D30": "Meena",
+        "D60": "Dhanu"
+      },
+      "Ketu": {
+        "D1": "Karkataka",
+        "D3": "Vrischika",
+        "D4": "Makara",
+        "D7": "Vrishabha",
+        "D9": "Dhanu",
+        "D10": "Simha",
+        "D12": "Kumbha",
+        "D16": "Makara",
+        "D20": "Meena",
+        "D24": "Kanya",
+        "D27": "Mesha",
+        "D40": "Kanya",
+        "D45": "Mithuna",
+        "D2": "Sun",
+        "D30": "Meena",
+        "D60": "Mithuna"
+      }
+    },
+    "ashtakavarga": {
+      "sarva": [
+        30,
+        31,
+        22,
+        23,
+        27,
+        28,
+        30,
+        29,
+        31,
+        27,
+        30,
+        29
+      ],
+      "total": 337,
+      "bhinna": {
+        "Sun": [
+          3,
+          4,
+          3,
+          1,
+          5,
+          6,
+          5,
+          4,
+          4,
+          3,
+          7,
+          3
+        ],
+        "Mars": [
+          3,
+          4,
+          1,
+          3,
+          4,
+          5,
+          4,
+          3,
+          2,
+          2,
+          5,
+          3
+        ],
+        "Jupiter": [
+          5,
+          5,
+          4,
+          5,
+          7,
+          3,
+          2,
+          4,
+          7,
+          6,
+          3,
+          5
+        ],
+        "Saturn": [
+          3,
+          5,
+          3,
+          2,
+          2,
+          2,
+          3,
+          5,
+          4,
+          3,
+          4,
+          3
+        ],
+        "Moon": [
+          4,
+          5,
+          6,
+          4,
+          1,
+          4,
+          4,
+          5,
+          6,
+          3,
+          3,
+          4
+        ],
+        "Mercury": [
+          6,
+          5,
+          2,
+          4,
+          4,
+          5,
+          6,
+          4,
+          3,
+          6,
+          4,
+          5
+        ],
+        "Venus": [
+          6,
+          3,
+          3,
+          4,
+          4,
+          3,
+          6,
+          4,
+          5,
+          4,
+          4,
+          6
+        ]
+      }
+    },
+    "vimshottari": {
+      "birthNakshatraIndex": 20,
+      "birthNakshatraLord": "Sun",
+      "startingLord": "Sun",
+      "balanceYearsAtBirth": 4.570904,
+      "mahadashas": [
+        {
+          "lord": "Sun",
+          "durationYears": 4.570904,
+          "startLocal": "1990-05-15 10:30",
+          "endLocal": "1994-12-09 23:03",
+          "bhuktis": [
+            {
+              "lord": "Sun",
+              "startLocal": "1990-05-15 10:30",
+              "endLocal": "1990-08-06 21:56"
+            },
+            {
+              "lord": "Moon",
+              "startLocal": "1990-08-06 21:56",
+              "endLocal": "1990-12-24 00:58"
+            },
+            {
+              "lord": "Mars",
+              "startLocal": "1990-12-24 00:58",
+              "endLocal": "1991-03-31 10:18"
+            },
+            {
+              "lord": "Rahu",
+              "startLocal": "1991-03-31 10:18",
+              "endLocal": "1991-12-06 20:35"
+            },
+            {
+              "lord": "Jupiter",
+              "startLocal": "1991-12-06 20:35",
+              "endLocal": "1992-07-16 11:03"
+            },
+            {
+              "lord": "Saturn",
+              "startLocal": "1992-07-16 11:03",
+              "endLocal": "1993-04-06 19:15"
+            },
+            {
+              "lord": "Mercury",
+              "startLocal": "1993-04-06 19:15",
+              "endLocal": "1993-11-29 07:37"
+            },
+            {
+              "lord": "Ketu",
+              "startLocal": "1993-11-29 07:37",
+              "endLocal": "1994-03-06 16:57"
+            },
+            {
+              "lord": "Venus",
+              "startLocal": "1994-03-06 16:57",
+              "endLocal": "1994-12-09 23:03"
+            }
+          ]
+        },
+        {
+          "lord": "Moon",
+          "durationYears": 10,
+          "startLocal": "1994-12-09 23:03",
+          "endLocal": "2004-12-09 11:03",
+          "bhuktis": [
+            {
+              "lord": "Moon",
+              "startLocal": "1994-12-09 23:03",
+              "endLocal": "1995-10-10 08:03"
+            },
+            {
+              "lord": "Mars",
+              "startLocal": "1995-10-10 08:03",
+              "endLocal": "1996-05-10 09:33"
+            },
+            {
+              "lord": "Rahu",
+              "startLocal": "1996-05-10 09:33",
+              "endLocal": "1997-11-09 06:33"
+            },
+            {
+              "lord": "Jupiter",
+              "startLocal": "1997-11-09 06:33",
+              "endLocal": "1999-03-11 06:33"
+            },
+            {
+              "lord": "Saturn",
+              "startLocal": "1999-03-11 06:33",
+              "endLocal": "2000-10-09 14:03"
+            },
+            {
+              "lord": "Mercury",
+              "startLocal": "2000-10-09 14:03",
+              "endLocal": "2002-03-11 00:33"
+            },
+            {
+              "lord": "Ketu",
+              "startLocal": "2002-03-11 00:33",
+              "endLocal": "2002-10-10 02:03"
+            },
+            {
+              "lord": "Venus",
+              "startLocal": "2002-10-10 02:03",
+              "endLocal": "2004-06-09 20:03"
+            },
+            {
+              "lord": "Sun",
+              "startLocal": "2004-06-09 20:03",
+              "endLocal": "2004-12-09 11:03"
+            }
+          ]
+        },
+        {
+          "lord": "Mars",
+          "durationYears": 7,
+          "startLocal": "2004-12-09 11:03",
+          "endLocal": "2011-12-10 05:03",
+          "bhuktis": [
+            {
+              "lord": "Mars",
+              "startLocal": "2004-12-09 11:03",
+              "endLocal": "2005-05-07 14:30"
+            },
+            {
+              "lord": "Rahu",
+              "startLocal": "2005-05-07 14:30",
+              "endLocal": "2006-05-26 02:48"
+            },
+            {
+              "lord": "Jupiter",
+              "startLocal": "2006-05-26 02:48",
+              "endLocal": "2007-05-02 00:24"
+            },
+            {
+              "lord": "Saturn",
+              "startLocal": "2007-05-02 00:24",
+              "endLocal": "2008-06-09 20:03"
+            },
+            {
+              "lord": "Mercury",
+              "startLocal": "2008-06-09 20:03",
+              "endLocal": "2009-06-07 01:00"
+            },
+            {
+              "lord": "Ketu",
+              "startLocal": "2009-06-07 01:00",
+              "endLocal": "2009-11-03 04:27"
+            },
+            {
+              "lord": "Venus",
+              "startLocal": "2009-11-03 04:27",
+              "endLocal": "2011-01-03 07:27"
+            },
+            {
+              "lord": "Sun",
+              "startLocal": "2011-01-03 07:27",
+              "endLocal": "2011-05-11 03:33"
+            },
+            {
+              "lord": "Moon",
+              "startLocal": "2011-05-11 03:33",
+              "endLocal": "2011-12-10 05:03"
+            }
+          ]
+        },
+        {
+          "lord": "Rahu",
+          "durationYears": 18,
+          "startLocal": "2011-12-10 05:03",
+          "endLocal": "2029-12-09 17:03",
+          "bhuktis": [
+            {
+              "lord": "Rahu",
+              "startLocal": "2011-12-10 05:03",
+              "endLocal": "2014-08-22 09:15"
+            },
+            {
+              "lord": "Jupiter",
+              "startLocal": "2014-08-22 09:15",
+              "endLocal": "2017-01-14 23:39"
+            },
+            {
+              "lord": "Saturn",
+              "startLocal": "2017-01-14 23:39",
+              "endLocal": "2019-11-21 22:45"
+            },
+            {
+              "lord": "Mercury",
+              "startLocal": "2019-11-21 22:45",
+              "endLocal": "2022-06-10 08:03"
+            },
+            {
+              "lord": "Ketu",
+              "startLocal": "2022-06-10 08:03",
+              "endLocal": "2023-06-28 20:21"
+            },
+            {
+              "lord": "Venus",
+              "startLocal": "2023-06-28 20:21",
+              "endLocal": "2026-06-28 14:21"
+            },
+            {
+              "lord": "Sun",
+              "startLocal": "2026-06-28 14:21",
+              "endLocal": "2027-05-23 07:45"
+            },
+            {
+              "lord": "Moon",
+              "startLocal": "2027-05-23 07:45",
+              "endLocal": "2028-11-21 04:45"
+            },
+            {
+              "lord": "Mars",
+              "startLocal": "2028-11-21 04:45",
+              "endLocal": "2029-12-09 17:03"
+            }
+          ]
+        },
+        {
+          "lord": "Jupiter",
+          "durationYears": 16,
+          "startLocal": "2029-12-09 17:03",
+          "endLocal": "2045-12-09 17:03",
+          "bhuktis": [
+            {
+              "lord": "Jupiter",
+              "startLocal": "2029-12-09 17:03",
+              "endLocal": "2032-01-27 21:51"
+            },
+            {
+              "lord": "Saturn",
+              "startLocal": "2032-01-27 21:51",
+              "endLocal": "2034-08-10 05:03"
+            },
+            {
+              "lord": "Mercury",
+              "startLocal": "2034-08-10 05:03",
+              "endLocal": "2036-11-15 02:39"
+            },
+            {
+              "lord": "Ketu",
+              "startLocal": "2036-11-15 02:39",
+              "endLocal": "2037-10-22 00:15"
+            },
+            {
+              "lord": "Venus",
+              "startLocal": "2037-10-22 00:15",
+              "endLocal": "2040-06-22 00:15"
+            },
+            {
+              "lord": "Sun",
+              "startLocal": "2040-06-22 00:15",
+              "endLocal": "2041-04-10 05:03"
+            },
+            {
+              "lord": "Moon",
+              "startLocal": "2041-04-10 05:03",
+              "endLocal": "2042-08-10 05:03"
+            },
+            {
+              "lord": "Mars",
+              "startLocal": "2042-08-10 05:03",
+              "endLocal": "2043-07-17 02:39"
+            },
+            {
+              "lord": "Rahu",
+              "startLocal": "2043-07-17 02:39",
+              "endLocal": "2045-12-09 17:03"
+            }
+          ]
+        },
+        {
+          "lord": "Saturn",
+          "durationYears": 19,
+          "startLocal": "2045-12-09 17:03",
+          "endLocal": "2064-12-09 11:03",
+          "bhuktis": [
+            {
+              "lord": "Saturn",
+              "startLocal": "2045-12-09 17:03",
+              "endLocal": "2048-12-12 12:06"
+            },
+            {
+              "lord": "Mercury",
+              "startLocal": "2048-12-12 12:06",
+              "endLocal": "2051-08-22 15:15"
+            },
+            {
+              "lord": "Ketu",
+              "startLocal": "2051-08-22 15:15",
+              "endLocal": "2052-09-30 10:54"
+            },
+            {
+              "lord": "Venus",
+              "startLocal": "2052-09-30 10:54",
+              "endLocal": "2055-12-01 01:54"
+            },
+            {
+              "lord": "Sun",
+              "startLocal": "2055-12-01 01:54",
+              "endLocal": "2056-11-12 01:36"
+            },
+            {
+              "lord": "Moon",
+              "startLocal": "2056-11-12 01:36",
+              "endLocal": "2058-06-13 09:06"
+            },
+            {
+              "lord": "Mars",
+              "startLocal": "2058-06-13 09:06",
+              "endLocal": "2059-07-23 04:45"
+            },
+            {
+              "lord": "Rahu",
+              "startLocal": "2059-07-23 04:45",
+              "endLocal": "2062-05-29 03:51"
+            },
+            {
+              "lord": "Jupiter",
+              "startLocal": "2062-05-29 03:51",
+              "endLocal": "2064-12-09 11:03"
+            }
+          ]
+        },
+        {
+          "lord": "Mercury",
+          "durationYears": 17,
+          "startLocal": "2064-12-09 11:03",
+          "endLocal": "2081-12-09 17:03",
+          "bhuktis": [
+            {
+              "lord": "Mercury",
+              "startLocal": "2064-12-09 11:03",
+              "endLocal": "2067-05-08 02:30"
+            },
+            {
+              "lord": "Ketu",
+              "startLocal": "2067-05-08 02:30",
+              "endLocal": "2068-05-04 07:27"
+            },
+            {
+              "lord": "Venus",
+              "startLocal": "2068-05-04 07:27",
+              "endLocal": "2071-03-05 04:27"
+            },
+            {
+              "lord": "Sun",
+              "startLocal": "2071-03-05 04:27",
+              "endLocal": "2072-01-09 15:33"
+            },
+            {
+              "lord": "Moon",
+              "startLocal": "2072-01-09 15:33",
+              "endLocal": "2073-06-10 02:03"
+            },
+            {
+              "lord": "Mars",
+              "startLocal": "2073-06-10 02:03",
+              "endLocal": "2074-06-07 07:00"
+            },
+            {
+              "lord": "Rahu",
+              "startLocal": "2074-06-07 07:00",
+              "endLocal": "2076-12-24 16:18"
+            },
+            {
+              "lord": "Jupiter",
+              "startLocal": "2076-12-24 16:18",
+              "endLocal": "2079-04-01 13:54"
+            },
+            {
+              "lord": "Saturn",
+              "startLocal": "2079-04-01 13:54",
+              "endLocal": "2081-12-09 17:03"
+            }
+          ]
+        },
+        {
+          "lord": "Ketu",
+          "durationYears": 7,
+          "startLocal": "2081-12-09 17:03",
+          "endLocal": "2088-12-09 11:03",
+          "bhuktis": [
+            {
+              "lord": "Ketu",
+              "startLocal": "2081-12-09 17:03",
+              "endLocal": "2082-05-07 20:30"
+            },
+            {
+              "lord": "Venus",
+              "startLocal": "2082-05-07 20:30",
+              "endLocal": "2083-07-07 23:30"
+            },
+            {
+              "lord": "Sun",
+              "startLocal": "2083-07-07 23:30",
+              "endLocal": "2083-11-12 19:36"
+            },
+            {
+              "lord": "Moon",
+              "startLocal": "2083-11-12 19:36",
+              "endLocal": "2084-06-12 21:06"
+            },
+            {
+              "lord": "Mars",
+              "startLocal": "2084-06-12 21:06",
+              "endLocal": "2084-11-09 00:33"
+            },
+            {
+              "lord": "Rahu",
+              "startLocal": "2084-11-09 00:33",
+              "endLocal": "2085-11-27 12:51"
+            },
+            {
+              "lord": "Jupiter",
+              "startLocal": "2085-11-27 12:51",
+              "endLocal": "2086-11-03 10:27"
+            },
+            {
+              "lord": "Saturn",
+              "startLocal": "2086-11-03 10:27",
+              "endLocal": "2087-12-13 06:06"
+            },
+            {
+              "lord": "Mercury",
+              "startLocal": "2087-12-13 06:06",
+              "endLocal": "2088-12-09 11:03"
+            }
+          ]
+        },
+        {
+          "lord": "Venus",
+          "durationYears": 20,
+          "startLocal": "2088-12-09 11:03",
+          "endLocal": "2108-12-10 11:03",
+          "bhuktis": [
+            {
+              "lord": "Venus",
+              "startLocal": "2088-12-09 11:03",
+              "endLocal": "2092-04-09 23:03"
+            },
+            {
+              "lord": "Sun",
+              "startLocal": "2092-04-09 23:03",
+              "endLocal": "2093-04-10 05:03"
+            },
+            {
+              "lord": "Moon",
+              "startLocal": "2093-04-10 05:03",
+              "endLocal": "2094-12-09 23:03"
+            },
+            {
+              "lord": "Mars",
+              "startLocal": "2094-12-09 23:03",
+              "endLocal": "2096-02-09 02:03"
+            },
+            {
+              "lord": "Rahu",
+              "startLocal": "2096-02-09 02:03",
+              "endLocal": "2099-02-08 20:03"
+            },
+            {
+              "lord": "Jupiter",
+              "startLocal": "2099-02-08 20:03",
+              "endLocal": "2101-10-10 20:03"
+            },
+            {
+              "lord": "Saturn",
+              "startLocal": "2101-10-10 20:03",
+              "endLocal": "2104-12-10 11:03"
+            },
+            {
+              "lord": "Mercury",
+              "startLocal": "2104-12-10 11:03",
+              "endLocal": "2107-10-11 08:03"
+            },
+            {
+              "lord": "Ketu",
+              "startLocal": "2107-10-11 08:03",
+              "endLocal": "2108-12-10 11:03"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

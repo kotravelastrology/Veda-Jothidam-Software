@@ -1,0 +1,87 @@
+{
+  "purpose": "Transcription record for Mangala (Kuja) dosha. Every entry was read from a rendered page image on 2026-10-02, not from OCR. test-mangala-dosha.js asserts src/report/mangalaDoshaTables.js and the engine agree with this file.",
+  "houseCounting": "From the point of count; 1 = the sign of that point.",
+  "tamilTextsHold": "No Mangala / Kuja / செவ்வாய் தோஷம் rule (searched as OCR text in Sudamani, Kalaprakasika, Jathaka Alangaram and Kalachakram).",
+  "readings": {
+    "MANSAGARI": {
+      "houses": [1, 4, 7, 8, 12],
+      "references": ["LAGNA"],
+      "page": "Maansagari vol.2 printed p.794 (PDF 229), verse 4: लग्ने व्यये च पाताले यामित्रे चाष्टमे कुजः — Ascendant, 12th, 4th, 7th, 8th",
+      "classical": true
+    },
+    "VISHNU_BHASKAR_SUMMARY": {
+      "houses": [1, 4, 7, 8, 12],
+      "references": ["LAGNA", "MOON", "VENUS"],
+      "otherMalefics": ["Saturn", "Rahu", "Ketu"],
+      "page": "Advanced Techniques..., Chapter 9 §II.2, curated scan printed p.94 (PDF 8 of volume-1 part 02): 'Kuja Dosha: Mars, Saturn, Rahu or Ketu in Lagna, 4H, 7H, 8H or in 12H from Lagna, Moon Lagna or Venus'",
+      "note": "the book's own summary; five houses, four malefics, no Sun and no 2nd house"
+    },
+    "VISHNU_BHASKAR": {
+      "houses": [1, 2, 4, 7, 8, 12],
+      "references": ["LAGNA", "MOON", "VENUS"],
+      "otherMalefics": ["Sun", "Saturn", "Rahu", "Ketu"],
+      "page": "Advanced Techniques..., Chapter 9 §VII, curated scan printed p.98: 'Sun, Mars, Saturn, Rahu or Ketu in 12 H, Lagna, 2H, 4H, 7H or in 8H ... Lagna, Moon Lagna and Venus'",
+      "note": "contradicts the summary on p.94"
+    },
+    "VISHNU_BHASKAR_SOUTH": {
+      "houses": [2, 4, 7, 8, 12],
+      "references": ["LAGNA", "MOON", "VENUS"],
+      "otherMalefics": ["Sun", "Saturn", "Rahu", "Ketu"],
+      "page": "curated scan printed p.99: 'In N. India Lagna is taken as relevant house and in S. India 2H is taken in its place'"
+    },
+    "BHAGAT": {
+      "houses": [1, 2, 4, 7, 8, 12],
+      "references": ["LAGNA", "MOON", "VENUS"],
+      "page": "Practical Astrological Remedies Chapter 28, printed p.115 (PDF 116)"
+    }
+  },
+  "intensityPercent": {
+    "12": 50, "1": 60, "2": 80, "4": 80, "7": 100, "8": 100,
+    "page": "Vishnu Bhaskar curated printed p.98 (12H, Lagna) and p.99 (2H, 4H, 7H/8H)"
+  },
+  "unitsTable": {
+    "page": "Vishnu Bhaskar curated printed p.99",
+    "rows": ["DEB", "EH", "NH", "FH", "OH", "EXAL"],
+    "houses7_8": {
+      "Mars": [100, 90, 80, 70, 60, 50],
+      "SaturnRahuKetu": [75, 67.5, 60, 52.5, 45, 37.5],
+      "Sun": [50, 45, 40, 35, 30, 25]
+    },
+    "houses1_2_12_4": {
+      "Mars": [50, 45, 40, 35, 30, 25],
+      "SaturnRahuKetu": [37.5, 33.75, 30, 26.25, 22.5, 18.75],
+      "Sun": [25, 22.5, 20, 17.5, 15, 12.5]
+    }
+  },
+  "compatibility": {
+    "page": "Vishnu Bhaskar curated printed p.99 §4",
+    "statements": ["Both persons have about same unit gives excellent compatibility", "Males unit 25% more indicates satisfactory compatibility", "Female's unit more than male is not good for compatibility"]
+  },
+  "cancellationLists": {
+    "MANSAGARI": {
+      "page": "printed pp.795-796 (PDF 230-231), translator's list; 'culled from the averments made by various savants and sages' and 'not sacrosanct'",
+      "items": 8,
+      "ids": ["MAN_I", "MAN_II", "MAN_III_A", "MAN_III_B", "MAN_IV", "MAN_V", "MAN_VI", "MAN_VII", "MAN_VIII"],
+      "note": "item (iii) is two alternatives and is split; the paragraph before the list adds a judgement-only rule (MAN_STRONG_BENEFIC)"
+    },
+    "BHAGAT": {
+      "page": "printed p.117 (PDF 118), eleven items after the heading line; Characteristics 4 and 5 on printed p.116",
+      "ids": ["BHA_2", "BHA_3", "BHA_4", "BHA_5", "BHA_6", "BHA_7", "BHA_8", "BHA_9", "BHA_10", "BHA_11", "BHA_12", "BHA_TUESDAY", "BHA_BOTH"]
+    },
+    "VISHNU_BHASKAR": {
+      "page": "curated printed pp.99-100 (native's chart), p.100 (partner's chart and effects of other positions)",
+      "ids": ["VB_A", "VB_B", "VB_C", "VB_D", "VB_E", "VB_F", "VB_G", "VB_H", "VB_I", "VB_J", "VB_K", "VB_L", "VB_M", "VB_N", "VB_O", "VB_P", "VB_Q", "VB_R",
+        "VBP_1", "VBP_2", "VBP_3", "VBP_4", "VBP_5A", "VBP_5B", "VBP_5C", "VBP_5D", "VBP_5E", "VBP_5F", "VBP_5G", "VBP_NOT_78", "VBP_NOT_SAME", "VBP_MS", "VBP_RM"]
+    }
+  },
+  "contradictions": [
+    "Mansagari: Mars 'powerful, conjunct or aspected by the malefics ... there will be cancellation'; Bhagat item 12: Mars conjunct or aspected by Sun, Mercury, Saturn or Rahu cancels.",
+    "Vishnu Bhaskar: Jupiter conjunct or aspecting Mars cancels 'as per classics'; 'experience shows' Jupiter+Mars or 1/7 increases the dosha.",
+    "Vishnu Bhaskar: 'Kuja Dosha effect is over after 28 years ... not supported by classics'; Bhagat: marriage should not be performed before 27 to 32 years."
+  ],
+  "remedies": {
+    "page": "Bhagat printed p.118 (PDF 119) and Yantra on p.117",
+    "beforeMarriage": ["Kumbha Vivah", "Vishnu Vivah", "Ashwatha Vivah"],
+    "afterMarriage": ["Kesariya Ganapati worship", "Hanuman Chalisa daily", "Mahamrityunjaya paath", "feed birds something sweet", "keep ivory at home", "worship banyan tree with sweetened milk"]
+  }
+}

@@ -87,21 +87,30 @@ export function Sidebar() {
     },
   ];
 
+  // Every href below resolves to a route that exists. Six of these used to
+  // point at /tools/* and /reference/* paths that were never built, so the
+  // menu advertised three tools and three references that all returned 404.
+  // Rectification was the sharpest case: the page exists at /rectification and
+  // the menu pointed one directory too deep.
+  //
+  // Change Location and Change Time are genuinely not implemented, so they are
+  // gone rather than listed. A menu entry is a promise; an absent line is
+  // honest and a line that 404s is not.
   const toolSections: SidebarSection[] = [
     {
       title: 'Chart Tools',
       items: [
-        { label: 'Change Location', icon: '📍', href: '/tools/location' },
-        { label: 'Change Time', icon: '⏰', href: '/tools/time' },
-        { label: 'Rectification', icon: '🔍', href: '/tools/rectification' },
+        { label: 'Rectification', icon: '🔍', href: '/rectification' },
+        { label: 'Research cohorts', icon: '🧮', href: '/research' },
       ],
     },
     {
       title: 'Reference Tools',
       items: [
-        { label: 'Yoga Dictionary', icon: '📚', href: '/reference/yogas' },
-        { label: 'Nakshatra Info', icon: '⭐', href: '/reference/nakshatras' },
-        { label: 'Karana Meanings', icon: '📖', href: '/reference/karanas' },
+        { label: 'Yoga Detection', icon: '📚', href: '/yoga-detection' },
+        { label: 'Glossary — term, rule, source', icon: '⭐', href: '/learning-resources' },
+        { label: 'Classical references', icon: '📖', href: '/references' },
+        { label: 'Dasha methods & coverage', icon: '🕰️', href: '/dasha-methods' },
       ],
     },
   ];

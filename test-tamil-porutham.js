@@ -8,24 +8,34 @@ assert.equal(moonToStar(268.31).rasiIndex, 8);                 // Sagittarius
 
 // ── calcPorutham: 10 rows, known asymmetric rules ──────────────────────
 // girl Ashwini(0)/Aries(0), boy Rohini(3)/Taurus(1):
-//   Dhinam count = ((3-0+27)%27)+1 = 4 -> in [2,4,6,8,9] -> FAIL
+//   Dhinam count = ((3-0+27)%27)+1 = 4 -> the 4th is Kshema, GOOD in both
+//     Kalaprakasika (p.69) and Sudamani (p.78)
 //   Mahendram count 4 -> in [4,7,10,...] -> PASS
-//   Stree Deergham 4 -> < 7 -> FAIL
+//   Stree Deergham 4 -> < 13 -> FAIL
+//
+// This comment used to read "Dhinam count 4 -> in [2,4,6,8,9] -> FAIL" and the
+// assertion below asserted it. That inverted rule was recorded as intended, in
+// a test, which is how it survived: both books list 2, 4, 6, 8, 9 as the GOOD
+// counts. The full evidence is in test-porutham-source.js.
 const rows = calcPorutham(0, 3, 0, 1);
 assert.equal(rows.length, 10);
 const byName = Object.fromEntries(rows.map((r) => [r.name, r]));
-assert.equal(byName['தினம்'].result, false, 'Dhinam count 4 fails');
+assert.equal(byName['தினம்'].result, true, 'Dhinam count 4 is good');
 assert.equal(byName['மகேந்திரம்'].result, true, 'Mahendram count 4 passes');
-assert.equal(byName['ஸ்திரீ தீர்க்கம்'].result, false, 'Stree Deergham 4 < 7 fails');
-// Rajju: Ashwini group 0 (கால்), Rohini group 3 (கழுத்து) -> different -> PASS
+assert.equal(byName['ஸ்திரீ தீர்க்கம்'].result, false, 'Stree Deergham 4 < 13 fails');
+// Rajju: Ashwini is Padha (கால்), Rohini is Kanta (கழுத்து) -> different -> PASS
 assert.equal(byName['ரஜ்ஜு'].result, true);
-// Vedha: [3,10] is a pair; 0 & 3 is not -> no vedha -> PASS
+// Vedha: Ashwini pairs with Jyeshtha, Rohini with Swathi -> 0 & 3 is no pair -> PASS
 assert.equal(byName['வேதை'].result, true);
+// Gana: Ashwini is Deva, Rohini is Manushya (it used to be Deva) -> acceptable
+assert.equal(byName['கணம்'].note, 'பெண்: தேவர், ஆண்: மனிதர்');
 
-// Same star, same rasi -> Rajju must FAIL (same group), Dhinam count 1 passes.
+// Same star, same rasi -> Rajju must FAIL (same group). Dhinam is graded by the
+// star itself: Ardra is one of the eight excellent common janma nakshatras.
 const same = Object.fromEntries(calcPorutham(5, 5, 4, 4).map((r) => [r.name, r]));
 assert.equal(same['ரஜ்ஜு'].result, false, 'same nakshatra -> same Rajju group -> fail');
 assert.equal(same['ராசி அதிபதி'].result, false, 'same rasi -> same lord -> fail');
+assert.equal(same['தினம்'].result, true, 'Ardra as a common janma nakshatra is excellent');
 
 // ── Full result ─────────────────────────────────────────────────────────
 const r = calculateTamilPorutham(

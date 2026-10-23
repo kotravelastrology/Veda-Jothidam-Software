@@ -1,0 +1,797 @@
+/**
+ * VJ-026 — the one place every classical source this software relies on is
+ * named, together with what we are and are not allowed to do with it.
+ *
+ * The engines cite sources inline, through `attachSource()`, which is right:
+ * a calculator should carry its own provenance. But inline citations cannot
+ * answer two questions the project has to answer:
+ *
+ *   1. *Which* books does the whole product depend on, and may we redistribute
+ *      any of them? (VJ-026 acceptance: "redistribution rights documented".)
+ *   2. Does a source a page shows to a user actually exist, or did a glossary
+ *      entry invent it?
+ *
+ * So this registry names the sources once, and `citationScan.js` checks that
+ * every `pageLocus` in the engines resolves to one of them. A source cannot
+ * be cited without being registered, and cannot be registered without its
+ * rights being stated — including stated as unknown.
+ *
+ * ## On the rights statuses
+ *
+ * `RESTRICTED` is the honest default for a modern book. An ancient text is in
+ * the public domain; a twentieth-century *translation* of it is a new
+ * copyrightable work, and it is the translation we read. Citing a chapter and
+ * verse is not redistribution; shipping the file is.
+ *
+ * `UNVERIFIED` means exactly that — nobody has read the licence yet. It is not
+ * a softer `PERMITTED`. Anything not `PERMITTED` is treated as "cite only, do
+ * not ship" until someone checks, which is the same posture VJ-007 takes with
+ * the Swiss Ephemeris licence.
+ */
+
+const RIGHTS_STATUSES = ['PERMITTED', 'RESTRICTED', 'UNVERIFIED'];
+
+const SOURCES = [
+  {
+    id: 'BPHS_SANTHANAM',
+    title: 'Brihat Parashara Hora Shastra (BPHS)',
+    titleTa: 'பிருஹத் பராசர ஹோரா சாஸ்திரம்',
+    author: 'R. Santhanam (translation)',
+    file: 'C23_BPHS_Santhanam.pdf',
+    tradition: 'Parashari',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit original is ancient and out of copyright; this '
+        + 'twentieth-century English translation is not, and the translation is '
+        + 'what the engines were read against. Chapter and verse may be cited '
+        + 'freely; the PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read. Confirm before '
+        + 'any build ships reference text rather than citations.',
+    },
+  },
+  {
+    id: 'BRIHAT_JATAKA_RAO_1986',
+    title: 'Brihat Jataka (B.S. Rao, 1986)',
+    titleTa: 'பிருஹத் ஜாதகம் (பி.எஸ். ராவ், 1986)',
+    author: 'Varahamihira (B.S. Rao, translation with notes)',
+    file: 'Jyotish_Brihat jataka_B.S. Rao_1986.pdf',
+    tradition: 'Jataka classic',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit text is ancient; the English translation with notes is a modern work. Cited by chapter, stanza and printed page; '
+        + 'the stanzas are summarised in our own words. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read.',
+    },
+  },
+  {
+    id: 'HORA_SARA_PRITHUYASAS',
+    title: 'Hora Sara',
+    titleTa: 'ஹோரா சாரா',
+    author: 'Prithuyasas, son of Varahamihira',
+    file: 'Jyotish_Hora Sara.pdf',
+    tradition: 'Jataka classic',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit text is ancient; this typed English e-text is a modern translation of uncertain translator and edition. '
+        + 'It carries no printed page numbers, so the scan page is cited and marked. Summarised in our own words. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Translator, edition and terms have not been identified from the file.',
+    },
+  },
+  {
+    id: 'BRIHAT_JATAKA_SASTRI_2007',
+    title: 'Brihat Jataka (P.S. Sastri, 2007)',
+    titleTa: 'பிருஹத் ஜாதகம் (பி.எஸ். சாஸ்திரி, 2007)',
+    author: 'Varahamihira (P.S. Sastri, translation with commentary)',
+    file: 'Jyotish_Brihat jataka P_S_Sastri_2007.pdf',
+    tradition: 'Jataka classic',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit text is ancient; this English translation with commentary is a modern work. '
+        + 'Cited by chapter, verse and printed page; the verse translation is summarised in our own words. '
+        + 'The PDF must not be bundled or redistributed. A different edition from the 1905 Chidambaram text already in the registry.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read.',
+    },
+  },
+  {
+    id: 'SARAVALI_SANTHANAM',
+    title: 'Saravali',
+    titleTa: 'சாராவளி',
+    author: 'Kalyana Varma (R. Santhanam, translation with notes)',
+    file: 'Jyotish_Saravali vol.2_R.Santhanam.pdf',
+    tradition: 'Parashari / Jataka classic',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit text is ancient; the English translation and notes are a twentieth-century work. '
+        + 'Cited by chapter, verse and printed page; the book statements are summarised in our own words, not reproduced. '
+        + 'The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read.',
+    },
+  },
+  {
+    id: 'RATH_UPADESA_SUTRAS',
+    title: "Jaimini Maharishi's Upadesa Sutras",
+    titleTa: 'ஜைமினி மகரிஷியின் உபதேச சூத்திரங்கள்',
+    author: 'Sanjay Rath',
+    file: 'Jyotish_Jaimini upadesa sutras_S.Rath ban.pdf',
+    tradition: 'Jaimini',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern translation with commentary. Cited by chapter, quarter and stanza, with the printed page; '
+        + 'Tables 1.9 and 2.7 are read for the dasha year counts and the Narayana order. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Publisher, edition and terms have not been read from the scan.',
+    },
+  },
+  {
+    id: 'JAIMINI_SUTRAM_SASTRI',
+    title: 'Jaimini Sutram',
+    titleTa: 'ஜைமினி சூத்திரம்',
+    author: 'P.S. Sastri',
+    file: 'Jyotish_Jaimini sutram P.S. Sastri.pdf',
+    tradition: 'Jaimini',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The sutras are ancient; this English translation with notes is a twentieth-century work. '
+        + 'Cited by chapter, pada and sutra; the PDF must not be bundled or redistributed. '
+        + 'Read beside Iranganti Rangacharya, Jaimini Sutramritam, for the strength ladder of the Niryana Shoola dasha.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read.',
+    },
+  },
+  {
+    id: 'VINAY_ADITYA_ASHTAKAVARGA',
+    title: 'Practical Ashtakavarga',
+    titleTa: 'நடைமுறை அஷ்டகவர்க்கம்',
+    author: 'Vinay Aditya',
+    file: 'Jyotish_2011_Vinay Aditya_Practical Ashtakavarga.pdf',
+    tradition: 'Parashari',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A 2011 book, in copyright. The bindu tables it prints are '
+        + 'classical data rather than the author\'s invention, but its '
+        + 'arrangement, wording and worked examples are the author\'s work.',
+      verified: false,
+      toConfirm: 'Publisher terms not read.',
+    },
+  },
+  {
+    id: 'IJATET_CHAKRAS_2022',
+    title: 'Chakra papers — International Journal of Advanced Trends in '
+      + 'Engineering and Technology (IJATET), Vol.7 Issue.1, 2022',
+    titleTa: 'சக்கர ஆய்வுக் கட்டுரைகள் (IJATET 2022)',
+    author: 'K. Ilangovan, Dr. A.R. Gowthem & Prof. Dr. Sri Prathyangira Swamy',
+    file: 'IJATET Vol.7 Issue.1, 2022',
+    tradition: 'Parashari / classical muhurta',
+    rights: {
+      status: 'UNVERIFIED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Journal articles. Many such journals are open access under a '
+        + 'Creative Commons licence, which would permit redistribution with '
+        + 'attribution — but this has not been checked for IJATET, and an '
+        + 'assumption is not a licence.',
+      verified: false,
+      toConfirm: 'Read the journal\'s licence statement. If it is CC-BY, this '
+        + 'becomes PERMITTED with attribution and the papers could ship.',
+    },
+  },
+  {
+    id: 'PANCHANGAM_CALCULATIONS',
+    title: 'Panchangam Calculations',
+    titleTa: 'பஞ்சாங்கக் கணக்கீடுகள்',
+    author: null,
+    file: 'Panchangam Calculations (S1-B source set)',
+    tradition: 'Tamil panchangam',
+    rights: {
+      status: 'UNVERIFIED',
+      mayShip: false,
+      mayQuoteShort: false,
+      note: 'No author was recorded when this was catalogued in S1-B, so the '
+        + 'work cannot be identified well enough to assess its rights.',
+      verified: false,
+      toConfirm: 'Identify the actual work — author, publisher, edition — before '
+        + 'relying on it further. A source that cannot be named cannot be checked.',
+    },
+  },
+  {
+    id: 'KALACHAKRAM_THILLAINAYAKA',
+    title: 'காலச்சக்கரம் (தெளிவான உரையுடன்) — தில்லைநாயகப் புலவர்',
+    titleTa: 'காலச்சக்கரம் (தெளிவான உரையுடன்)',
+    author: 'தில்லைநாயகப் புலவர்; பதிப்பாசிரியர் வித்துவான் அடிகளாசிரியர்',
+    file: 'தஞ்சாவூர் சரசுவதி மகால் நூலகம் வெளியீடு எண். 125, 7th edn. 2007 '
+      + '(digitised: Tamil Digital Library / Internet Archive, TVA_BOK_0008536)',
+    tradition: 'Tamil classical — rasi dasha keyed to nakshatra padas',
+    rights: {
+      status: 'UNVERIFIED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A Saraswathi Mahal Library edition, digitised and publicly readable on '
+        + 'the Internet Archive — which makes the scan accessible but does not by '
+        + 'itself grant redistribution. The underlying text is old; the 2007 '
+        + 'edition\'s introduction and commentary, which is exactly the part the '
+        + 'engine was read against (pp.1-13), is modern editorial work.',
+      verified: false,
+      toConfirm: 'Check the Saraswathi Mahal edition\'s terms and the Internet '
+        + 'Archive item\'s rights statement. The distinction that matters is between '
+        + 'the old text and the 2007 editorial apparatus.',
+    },
+  },
+  {
+    id: 'CHOODAMANI_ULLAMUDAIYAN',
+    title: 'சூடாமணி உள்ளமுடையான் : உரையுடன் (சோதிட நூல்)',
+    titleTa: 'சூடாமணி உள்ளமுடையான்',
+    author: 'ஓலைச்சுவடி மூலம்; தஞ்சாவூர் சரசுவதி மகால் நூலகப் பதிப்பு',
+    file: 'தஞ்சாவூர் சரசுவதி மகால் நூலகம், 2007 edn. '
+      + '(digitised: Internet Archive / Tamil Digital Library, TVA_BOK_0008543)',
+    tradition: 'Tamil classical — muhurta, omens, natal, transit and marriage matching',
+    rights: {
+      status: 'UNVERIFIED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A Saraswathi Mahal edition, digitised and publicly readable on the '
+        + 'Internet Archive, which states no licence for the item. The underlying '
+        + 'text is an old palm-leaf work; the 2007 edition\'s commentary and '
+        + 'editorial apparatus are modern. Same posture as the Kalachakra source '
+        + 'from the same series.',
+      verified: false,
+      toConfirm: 'Check the Saraswathi Mahal edition\'s terms and the Internet '
+        + 'Archive item\'s rights statement, distinguishing the old text from the '
+        + '2007 editorial apparatus.',
+    },
+  },
+  {
+    id: 'KALAPRAKASIKA_NPS_IYER',
+    title: 'Kalaprakasika',
+    titleTa: 'காலப்பிரகாசிகை',
+    author: 'N.P. Subramania Iyer (translator)',
+    file: 'kalaprakasika-nps-iyer-1982/raw-scans/full-scan.pdf '
+      + '(1982 English translation; an earlier 1917 print of the same translation is held as OCR text)',
+    tradition: 'Tamil / Sanskrit classical (muhurta)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Kalaprakasika is an old work, and the old text itself is not the difficulty. '
+        + 'What was read here is a twentieth-century English translation, which is a new '
+        + 'copyrightable work in its own right — the same position as the BPHS translation. '
+        + 'Citing printed pages is fine; shipping the file is not.',
+      verified: false,
+      toConfirm: 'Whether the 1917 print (Internet Archive item in.ernet.dli.2015.45999, no licence '
+        + 'stated) is out of copyright in India, which depends on the translator\'s death date. '
+        + 'If it is, the 1917 text — not the 1982 volume — is the one that could ship.',
+    },
+  },
+  {
+    id: 'VISHNU_BHASKAR_ADVANCED_TECHNIQUES',
+    title: 'Advanced Techniques of Predictive Astrology: A Vedic Treatise in Modern Times',
+    titleTa: 'முன்னறிவிப்பு ஜோதிடத்தின் மேம்பட்ட உத்திகள்',
+    author: 'Vishnu Bhaskar',
+    file: 'advanced-techniques-of-predictive-astrology-vishnu-bhaskar/raw-scans/volume-1-part-02-pages-87-183.pdf',
+    tradition: 'Parashari (modern compilation of classics)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern book. Cited by printed page for the Saturn-transit definitions '
+        + '(Sade Sati, Dhaiya, Kantaka). The scan held in the curated library paginates one '
+        + 'page later than another copy of the same book; the citation gives the page of the '
+        + 'curated copy and says so.',
+      verified: false,
+      toConfirm: 'Publisher and edition were not read from the scan; the book is a modern '
+        + 'compilation and should be treated as in copyright.',
+    },
+  },
+  {
+    id: 'PULIPPANI_GOCHAR_PHALADEEPIKA',
+    title: 'Gochar Phaladeepika (Transit Results)',
+    titleTa: 'கோசார பலதீபிகை',
+    author: 'Dr. U.S. Pulippani',
+    file: 'gochar-phaladeepika-pulippani/raw-scans/full-scan.pdf',
+    tradition: 'Tamil / Sanskrit transit tradition (Phaladeepika commentary)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern commentary in English over an old text. Its Saturn chapter is internally '
+        + 'inconsistent about Kantaka Saturn (printed p.69 names the 8th; pp.168-169 name the '
+        + '4th, 7th and 8th), and the software records both readings.',
+      verified: false,
+      toConfirm: 'Edition and publisher not read from the scan.',
+    },
+  },
+  {
+    id: 'PARASHARAS_LIGHT_6_1_MANUAL',
+    title: "Parashara's Light 6.1 manual",
+    titleTa: 'பராசரர் லைட் 6.1 கையேடு',
+    author: 'Parashara\'s Light (publisher not read from the file)',
+    file: 'parasharas-light-6-1-manual/raw-scans/full-scan.pdf',
+    tradition: 'Reference software manual',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A commercial software manual, not a classical text. Cited only to record which '
+        + 'houses the reference software calls Kantaka Saturn. It is the 6.1 manual, not the '
+        + '9.0 that the owner uses; PL9 wording was not read.',
+      verified: false,
+      toConfirm: 'Whether PL 9.0 defines Kantaka Saturn the same way as the 6.1 glossary.',
+    },
+  },
+  {
+    id: 'RATH_VEDIC_REMEDIES',
+    title: 'Vedic Remedies in Astrology',
+    titleTa: 'ஜோதிடத்தில் வேதப் பரிகாரங்கள்',
+    author: 'Sanjay Rath',
+    file: 'vedic-remedies-in-astrology-rath/raw-scans/full-scan.pdf',
+    tradition: 'Jaimini / Parashari (modern)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern book. Cited for its definition of Kantaka Sani (footnote 52) and the '
+        + 'recitation it prescribes; the Sanskrit text of the recitation is not reproduced.',
+      verified: false,
+      toConfirm: 'Edition and publisher not read from the scan.',
+    },
+  },
+  {
+    id: 'SHUBHAKARAN_NAKSHATRA_PREDICTIONS_1',
+    title: 'Nakshatra based predictions, part 1',
+    titleTa: 'நட்சத்திர அடிப்படையிலான பலன்கள், பகுதி 1',
+    author: 'K.T. Shubhakaran',
+    file: 'nakshatra-based-predictions-part1-shubhakaran/raw-scans/full-scan.pdf',
+    tradition: 'Parashari (modern)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern book. Cited for the usual houses of Sade-Sathi and Ashtama Sani, the '
+        + 'author\'s own degree-based variant (recorded, not applied) and two recitation '
+        + 'remedies; the Sanskrit text of the recitations is not reproduced.',
+      verified: false,
+      toConfirm: 'Edition and publisher not read from the scan.',
+    },
+  },
+  {
+    id: 'MANSAGARI_VOL2_VASUDEV',
+    title: 'Maansagari, Volume II',
+    titleTa: 'மானசாகரி, தொகுதி 2',
+    author: 'Harji (original); P.K. Vasudev (English translation and commentary)',
+    file: 'mansagari-vol2-vasudev/raw-scans/full-scan.pdf',
+    tradition: 'Parashari (classical Sanskrit verse with modern commentary)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit verses are old; the English translation and the translator\'s notes are modern '
+        + 'and in copyright. The Mangala verse is a classical statement; the list of cancellations beside it '
+        + 'is the translator\'s own gathering, which he says is "not sacrosanct", and is cited as such.',
+      verified: false,
+      toConfirm: 'Edition and publisher were not read from the scan; the translation should be treated as in copyright.',
+    },
+  },
+  {
+    id: 'BHAGAT_PRACTICAL_ASTROLOGICAL_REMEDIES',
+    title: 'Practical Astrological Remedies',
+    titleTa: 'நடைமுறை ஜோதிடப் பரிகாரங்கள்',
+    author: 'S.P. Bhagat',
+    file: 'practical-astrological-remedies-bhagat/raw-scans/full-scan.pdf',
+    tradition: 'Parashari / popular remedies (modern)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A modern book. Cited for the Manglik Dosha chapter: the houses, a list of cancellations and '
+        + 'the remedies it records. Nothing is reproduced beyond a short paraphrase.',
+      verified: false,
+      toConfirm: 'Edition and publisher were not read from the scan.',
+    },
+  },
+  {
+    id: 'JATAKA_PARIJATA_VOL3',
+    title: 'Jataka Parijata, Vol. III',
+    titleTa: 'ஜாதக பாரிஜாதம், தொகுதி 3',
+    author: 'Vaidyanatha Dikshita (original); V. Subrahmanya Sastri (English translation and notes)',
+    file: 'jataka-parijata-vol3-subrahmanya-sastri/raw-scans/full-scan.pdf',
+    tradition: 'Classical Sanskrit (medieval) with a modern English translation',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the rule, in the notes to Adhyaya XIII sloka 60 (printed p.834), that the Sun and Saturn, and the Moon and Mercury, do not affect each other through vedha. The Sanskrit is classical; the translation\'s rights are not confirmed, so it is treated as cite-only.',
+      verified: false,
+      toConfirm: 'Publication year and the translation\'s copyright status.',
+    },
+  },
+  {
+    id: 'JATAKA_PARIJATA_VOL2',
+    title: 'Jataka Parijata, Vol. II',
+    titleTa: 'ஜாதக பாரிஜாதம், தொகுதி 2',
+    author: 'Vaidyanatha Dikshita (original); V. Subrahmanya Sastri (English translation and notes)',
+    file: 'jataka-parijata-vol2-subrahmanya-sastri/raw-scans/full-scan.pdf',
+    tradition: 'Classical Sanskrit (medieval) with a modern English translation',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the named stars from the Janma star (Adhyaya IX slokas 78-80, printed p.625) — Vainasika the 23rd — '
+        + 'which Sastri gives as the reference for Phaladeepika XXVI.28. Treated as cite-only, as vol. III.',
+      verified: false,
+      toConfirm: 'Publication year and the translation\'s copyright status.',
+    },
+  },
+  {
+    id: 'BRIHAT_JATAKA_CHIDAMBARAM',
+    title: 'The Brihat Jataka of Varaha Mihira (N. Chidambaram Aiyar, 1905)',
+    titleTa: 'வராகமிகிரரின் பிருஹத் ஜாதகம் (சிதம்பரம் ஐயர், 1905)',
+    author: 'Varahamihira; N. Chidambaram Aiyar (English translation and notes), 2nd edition, Thompson & Co., Madras, 1905',
+    file: 'brihat-jataka-chidambaram-1905/raw-scans/full-scan.pdf',
+    tradition: 'Classical Sanskrit (6th century) with an English translation',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the Ashtakavarga benefic places (chapter IX slokas 1-7, printed pp.97-99) — every cell equal to the '
+        + 'table in src/chart/ashtakavarga.js — and IX.8, a place is benefic "if it be more benefic for the planet than malefic". '
+        + 'The translator died in 1892; treated as cite-only until that is confirmed.',
+      verified: false,
+      toConfirm: 'Whether the 1905 edition is in the public domain where the software is published.',
+    },
+  },
+  ...[
+    ['SHRIDHAR_HINDU_ELECTIONAL', 'Hindu Electional Astrology', 'இந்து முகூர்த்த சாஸ்திரம் (ஸ்ரீதர்)', 'V.K. Shridhar', 'hindu-electional-astrology-shridhar',
+      'Latta Dosha §8.10 (printed pp.190-195), Vinashika §4.16 (p.105), p.227.'],
+    ['MUHURTA_CHINTAMANI_SHARMA', 'Muhurta Chintamani (Girish Chand Sharma)', 'முகூர்த்த சிந்தாமணி (கிரிஷ் சந்த் சர்மா)', 'Daivagya Acharya Shriram; Girish Chand Sharma (translation and notes)', 'muhurta-chintamani-girish-chand-sharma',
+      'Chapter VI slokas 56 and 64 (printed pp.196-199) on Latta; Govinda\'s commentary on the Vinasha star (p.78).'],
+    ['KALYANRAMAN_MUHOORTHA_SANGRAHA_1', 'Muhoortha Sangraha, Vol. 1', 'முகூர்த்த சங்கிரகம், தொகுதி 1', 'V.S. Kalyanraman', 'muhoortha-sangraha-kalyanraman-vol1',
+      'Kartru doshas (printed pp.126, 139): the birth star, the 88th and 108th padas, the Vainaasika star.'],
+    ['KALYANRAMAN_MUHOORTHA_SANGRAHA_2', 'Muhoortha Sangraha, Vol. 2', 'முகூர்த்த சங்கிரகம், தொகுதி 2', 'V.S. Kalyanraman', 'muhoortha-sangraha-kalyanraman-vol2',
+      'Printed p.111 (the Vainaasika pada) and p.129 (Seegrabhodam\'s Latta table).'],
+    ['JOSHI_MUHURTA', 'Muhurta: Traditional & Modern', 'முகூர்த்தம்: மரபும் நவீனமும் (ஜோஷி)', 'K.K. Joshi (guide and editor K.N. Rao)', 'muhurta-traditional-modern-joshi',
+      'Latta, Table 6.1 (printed p.67).'],
+    ['VASHISTHA_MUHURTA_PRAKARANA', 'Muhurta Prakarana', 'முகூர்த்த பிரகரணம் (வசிஷ்டா)', 'Kusum Vashistha; Dr Lalita Gupta (English translation)', 'muhurta-prakarana-vashistha',
+      'Latta (printed pp.109-110).'],
+    ['RANGACHARYA_MUHURTHA_SINDHU', 'Muhurtha Sindhu', 'முகூர்த்த சிந்து (ரங்காச்சார்யா)', 'Iranganti Rangacharya', 'muhurtha-sindhu-rangacharya',
+      'Latta (printed pp.64-65).'],
+    ['AGARWAL_PRACTICAL_VEDIC', 'Practical Vedic Astrology', 'நடைமுறை வேத ஜோதிடம் (அகர்வால்)', 'G.S. Agarwal', 'practical-vedic-astrology-agarwal',
+      'Dasa dosha, Latta (printed p.316).'],
+    ['WILHELM_CLASSICAL_MUHURTA', 'Classical Muhurta', 'கிளாசிக்கல் முகூர்த்தம் (வில்ஹெல்ம்)', 'Ernst Wilhelm', 'classical-muhurta-wilhelm',
+      'Tara and Chandra Ashtama (printed pp.89-95); Vainasika and the 88th pada (pp.93-94); Latta Dosha (p.265).'],
+    ['RAMAN_MUHURTHA', 'Muhurtha (Electional Astrology)', 'முகூர்த்தம் (பி.வி. ராமன்)', 'B.V. Raman', 'muhurtha-raman',
+      'Tarabala and Chandrabala (Chapter III, PDF pp.7-8); Chandrashtama exceptions (Chapter V, PDF p.12).'],
+  ].map(([id, title, titleTa, author, slug, cited]) => ({
+    id, title, titleTa, author,
+    file: `${slug}/raw-scans/full-scan.pdf`,
+    tradition: 'Muhurta (electional astrology) — modern English book or translation',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: `Cited for the muhurta star checks (2026-10-10): ${cited} Only short paraphrases are shown.`,
+      verified: false,
+      toConfirm: 'Publisher, year and copyright status.',
+    },
+  })),
+  {
+    id: 'PATEL_ASHTAKAVARGA',
+    title: 'Ashtakavarga (with translation in English and explanatory notes)',
+    titleTa: 'அஷ்டகவர்க்கம் (ஆங்கில மொழிபெயர்ப்பும் விளக்கக் குறிப்புகளும்)',
+    author: 'Chandulal Sakaralal Patel and C.A. Subramania Aiyar',
+    file: 'ashtakavarga-patel-subramania-aiyar/raw-scans/full-scan.pdf',
+    tradition: 'Classical Ashtakavarga verses with modern English notes (bhava method)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the bhava method of Kakshyas (Sripati bhavas, 4 + 4 parts, printed pp.64-71), its two worked charts, '
+        + 'and Saturn\'s transit results by bindu count and by Kakshya (Chapter XII, pp.153-154). The verses are classical; '
+        + 'the translation and notes are the authors\' work. Only short paraphrases are shown.',
+      verified: false,
+      toConfirm: 'Publisher and year of the second edition (the preface names Narinder Sagar).',
+    },
+  },
+  {
+    id: 'SANTHANAM_JYOTISHARNAVA_NAVANITAM',
+    title: 'Jyotisharnava Navanitam',
+    titleTa: 'ஜோதிஷார்ணவ நவநீதம்',
+    author: 'R. Santhanam (translation and commentary)',
+    file: 'jyotisharnava-navanitam-santhanam/raw-scans/full-scan.pdf',
+    tradition: 'Classical Sanskrit text with a modern English translation and commentary',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the nakshatra vedha table and the "vedha for bad places only" table in chapter 3 '
+        + '(printed pp.149-151), both in the translator\'s own appended commentary, not the verses; '
+        + 'and for Moorthi Lakshana (printed pp.152-153), where the commentary quotes a Sanskrit verse.',
+      verified: false,
+      toConfirm: 'Year of publication.',
+    },
+  },
+  {
+    id: 'BHAT_FUNDAMENTALS',
+    title: 'Fundamentals of Astrology',
+    titleTa: 'ஜோதிட அடிப்படைகள்',
+    author: 'M. Ramakrishna Bhat',
+    file: 'fundamentals-of-astrology-ramakrishna-bhat/raw-scans/full-scan.pdf',
+    tradition: 'Classical Indian astrology, modern English textbook',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the Saptasalaka chakra and its transit rules (chapter XXI, printed pp.251-253).',
+      verified: false,
+      toConfirm: 'Edition and year.',
+    },
+  },
+  {
+    id: 'GOUR_CELESTIAL_DELIVERY_BOY',
+    title: 'The Celestial Delivery Boy: Transit',
+    titleTa: 'கோசாரம் (கௌர்)',
+    author: 'A.K. Gour',
+    file: 'celestial-delivery-boy-transit-gour/raw-scans/full-scan.pdf',
+    tradition: 'Modern English book on transits',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the three-line reading of the Saptashalaka chakra (chapter VIII, printed pp.91-93) '
+        + 'and for Murti-Nirnaya (printed pp.30-31).',
+      verified: false,
+      toConfirm: 'Publisher and year.',
+    },
+  },
+  {
+    id: 'CHARAK_ELEMENTS',
+    title: 'Elements of Vedic Astrology',
+    titleTa: 'வேத ஜோதிடத்தின் அடிப்படைகள்',
+    author: 'K.S. Charak',
+    file: 'elements-of-vedic-astrology-charak/raw-scans/full-scan.pdf',
+    tradition: 'Modern English textbook (Parashari)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the span of Abhijit (chapter 11, the note after Table 11-2).',
+      verified: false,
+      toConfirm: 'Edition; printed page numbers (the scan carries none in its text layer).',
+    },
+  },
+  {
+    id: 'RAO_INTEGRATED_APPROACH',
+    title: 'Vedic Astrology: An Integrated Approach',
+    titleTa: 'வேத ஜோதிடம்: ஒருங்கிணைந்த அணுகுமுறை',
+    author: 'P.V.R. Narasimha Rao',
+    file: 'vedic-astrology-integrated-approach-narasimha-rao/raw-scans/full-scan.pdf',
+    tradition: 'Modern English textbook (Parashari / Jaimini)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the murthis of a transit (section 26.2, Table 62, printed pp.306-307).',
+      verified: false,
+      toConfirm: 'Edition and year.',
+    },
+  },
+  {
+    id: 'RAJ_KUMAR_DELINEATING',
+    title: 'Delineating a Horoscope',
+    titleTa: 'ஜாதக விளக்கம்',
+    author: 'Raj Kumar',
+    file: 'delineating-a-horoscope-raj-kumar/raw-scans/full-scan.pdf',
+    tradition: 'Modern English book (Parashari)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for Moorthy Nirnaya (section 2.6, Table No.8) and its Indira Gandhi example. The PDF page is cited.',
+      verified: false,
+      toConfirm: 'Edition, year and printed page numbers.',
+    },
+  },
+  {
+    id: 'RAJ_KUMAR_CHARISMA',
+    title: 'Charisma of Planets: Timing Events',
+    titleTa: 'கிரகங்களின் ஆற்றல்: நிகழ்வுகளின் காலம்',
+    author: 'Raj Kumar',
+    file: 'charisma-of-planets-raj-kumar/raw-scans/full-scan.pdf',
+    tradition: 'Modern English book on timing (Parashari)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for Moorthy Nirnaya (section 6.2, Table No.20) and its 2002 example, for Latta '
+        + '(section 6.3), for the 88th nakshatra pada (section 6.4, Table No.21) and for the band of years '
+        + '(Table No.3, para 10.1, section 6.5). The PDF page is cited.',
+      verified: false,
+      toConfirm: 'Edition, year and printed page numbers.',
+    },
+  },
+  {
+    id: 'GOSVAMI_LAL_KITAB',
+    title: 'Lal Kitab (B.M. Gosvami)',
+    titleTa: 'லால் கிதாப் (பி.எம். கோஸ்வாமி)',
+    author: 'B.M. Gosvami',
+    file: 'lal-kitab-gosvami/raw-scans/full-scan.pdf',
+    tradition: 'Lal Kitab, English rendering',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the 35-year circulation of planets and the intervening planets of each period (§§20-21, printed pp.77-78).',
+      verified: false,
+      toConfirm: 'Publisher, edition and year.',
+    },
+  },
+  {
+    id: 'MAHAJAN_LAL_KITAB',
+    title: 'Lal Kitab (U.C. Mahajan)',
+    titleTa: 'லால் கிதாப் (யு.சி. மகாஜன்)',
+    author: 'U.C. Mahajan',
+    file: 'lal-kitab-mahajan/raw-scans/full-scan.pdf',
+    tradition: 'Lal Kitab, English rendering',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for the life span of planets, the 35-year cycle and the intervening planets (§§XIII-XV, printed pp.24-26).',
+      verified: false,
+      toConfirm: 'Publisher, edition and year.',
+    },
+  },
+  {
+    id: 'PHALADEEPIKA_SASTRI',
+    title: 'Phaladeepika (V. Subrahmanya Sastri, 1950)',
+    titleTa: 'பலதீபிகை (சுப்ரமணிய சாஸ்திரி மொழிபெயர்ப்பு)',
+    author: 'Mantreswara; V. Subrahmanya Sastri (translator), 2nd edition 1950',
+    file: 'phaladeepika-subrahmanya-sastri-1950/raw-scans/full-scan.pdf',
+    tradition: 'Classical Sanskrit (South Indian, c. 14th century) with an English translation',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for Latta (Adhyaya XXVI, slokas 42-47, printed pp.303-304) and gochara vedha (slokas 2-8, '
+        + 'printed pp.286-288; computed as a vedha method): the verses and the translation.',
+      verified: false,
+      toConfirm: 'Copyright status of the 1950 translation.',
+    },
+  },
+  {
+    id: 'PHALADEEPIKA_KAPOOR',
+    title: 'Phala Deepika (G.S. Kapoor, e-text)',
+    titleTa: 'பலதீபிகை (கபூர் மொழிபெயர்ப்பு)',
+    author: 'Mantreswara; G.S. Kapoor (translation, commentary and annotation)',
+    file: 'phaladeepika-kapoor-etext/raw-scans/full-scan.pdf',
+    tradition: 'Classical Sanskrit with a modern English translation (retyped e-text)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'Cited for Latta (chapter 26, slokas 42-47, e-text pp.255-256), where it gives Rahu\'s latta as the 8th, '
+        + 'and for gochara vedha (slokas 2-8, e-text pp.246-247), where two lists are short (Mercury, Venus).',
+      verified: false,
+      toConfirm: 'Publisher and year; whether the printed book also reads "8th" and drops the same numbers.',
+    },
+  },
+  {
+    id: 'KAPOOR_REMEDIAL_MEASURES',
+    title: 'Remedial Measures in Astrology',
+    titleTa: 'ஜோதிடப் பரிகார முறைகள்',
+    author: 'G.S. Kapoor',
+    file: 'remedial-measures-in-astrology-kapoor/raw-scans/full-scan.pdf',
+    tradition: 'Parashari / remedies (modern)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: "A modern book. Cited for the gem of each planet (quoting the Jataka Parijata verse, whose English rendering omits Saturn), the \"ruling stone\" table by Ascendant, and the rules about which lords' gems to strengthen. Short paraphrase only.",
+      verified: false,
+      toConfirm: "Edition and publisher not read from the scan.",
+    },
+  },
+  {
+    id: 'TILAK_RAJ_REMEDIES',
+    title: 'Remedies of Astrological Science',
+    titleTa: 'ஜோதிட அறிவியல் பரிகாரங்கள்',
+    author: 'Tilak Raj',
+    file: 'remedies-of-astrological-science-tilak-raj/raw-scans/full-scan.pdf',
+    tradition: 'Parashari / remedies (modern)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: "A modern book. Cited for a verdict on each gem for each of the twelve Ascendants, with the house lordships it relies on. Paraphrased as structured verdicts; its sentences are not reproduced.",
+      verified: false,
+      toConfirm: "Edition and publisher not read from the scan.",
+    },
+  },
+  {
+    id: 'RAJ_KUMAR_ASTRO_REMEDIES',
+    title: 'Astro Remedies: A Vedic Approach',
+    titleTa: 'ஜோதிடப் பரிகாரங்கள்: வேத முறை',
+    author: 'Raj Kumar',
+    file: 'astro-remedies-a-vedic-approach-raj-kumar/raw-scans/full-scan.pdf',
+    tradition: 'Parashari / remedies (modern)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: "A modern book. Cited for the traditional wear-in-dasha view, the later wear-for-long-term practice by house lordship, and a benefic/malefic gem table by Ascendant or Moon sign. Printed page numbers were not read; the PDF page is cited.",
+      verified: false,
+      toConfirm: "Edition, publisher and printed page numbers not read from the scan.",
+    },
+  },
+  {
+    id: 'TRADITIONAL_CONVENTION',
+    title: 'Widely-practised traditional convention (no single classical verse)',
+    titleTa: 'மரபு வழக்கம் (ஒரே செய்யுள் ஆதாரம் இல்லை)',
+    author: null,
+    file: null,
+    tradition: 'Parashari (popular convention)',
+    rights: {
+      status: 'PERMITTED',
+      mayShip: true,
+      mayQuoteShort: true,
+      note: 'Not a text. This entry exists so a rule that comes from common '
+        + 'practice rather than a book is labelled as such instead of being '
+        + 'given a citation it does not have.',
+      verified: true,
+      toConfirm: null,
+    },
+  },
+];
+
+const BY_ID = new Map(SOURCES.map((s) => [s.id, s]));
+
+/**
+ * Sources are also matched by the `title` the engines write inline, because
+ * that is what `attachSource` stamps onto a result — the id exists only here.
+ */
+const BY_TITLE = new Map(SOURCES.map((s) => [s.title, s]));
+BY_TITLE.set('Kuja (Mangal) Dosha & Kala Sarpa Dosha — traditional vivaha/graha-dosha rules',
+  BY_ID.get('TRADITIONAL_CONVENTION'));
+for (const partial of [
+  'Dasha Chakra in Astrology', 'Nadi Chakra in Astrology', 'Rashi Chakra in Astrology',
+  'Saravatobhadra Chakra in Astrology', 'Yantra Chakra in Astrology',
+]) {
+  BY_TITLE.set(partial, BY_ID.get('IJATET_CHAKRAS_2022'));
+}
+
+function getSource(id) {
+  return BY_ID.get(id) ?? null;
+}
+
+/** Resolves the `title` an engine stamped back to a registered source. */
+function resolveByTitle(title) {
+  return BY_TITLE.get(title) ?? null;
+}
+
+/** The sources whose terms still need someone to read them. */
+function unresolvedRights() {
+  return SOURCES.filter((s) => s.rights.status !== 'PERMITTED' || !s.rights.verified);
+}
+
+module.exports = {
+  SOURCES, RIGHTS_STATUSES, getSource, resolveByTitle, unresolvedRights,
+};

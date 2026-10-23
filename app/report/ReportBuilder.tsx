@@ -11,16 +11,8 @@ import { getChartById, type ChartCategory } from '@/src/charts/chartTypes';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { getChartLibrary } from '@/src/portal/ChartLibraryManager';
-import { useSettings } from '@/src/ui/SettingsPanel';
-
-// Settings values (lowercase UI keys) → the governed chart-context names
-// (@swisseph/node SiderealMode / HouseSystem keys) the engine expects.
-const AYANAMSHA_MAP: Record<string, string> = {
-  lahiri: 'Lahiri', raman: 'Raman', krishnamurti: 'Krishnamurti', truecitra: 'TrueCitra',
-};
-const HOUSE_SYSTEM_MAP: Record<string, string> = {
-  porphyrius: 'Porphyrius', placidus: 'Placidus', whole: 'WholeSign', equal: 'Equal', koch: 'Koch',
-};
+import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
+import { NATURE_TA, Cites, PhaladeepikaNowCell, BinduTablePicker } from '../gochara-vedha/PhaladeepikaNow';
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
 const CHART_POINTS = ['Lagna', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -380,8 +372,8 @@ function AyurdayaSection({ report }: { report: ReportData }) {
 function GocharaPhalaSection({ report }: { report: ReportData }) {
   const g = (report as any).gocharaPhala;
   if (!g?.available) return null;
-  const style: Record<string, string> = { benefic: 'text-teal', vedha: 'text-rose', neutral: 'text-ink-soft' };
-  const label: Record<string, string> = { benefic: 'சுபம்', vedha: 'வேதை (தடை)', neutral: 'நடுநிலை' };
+  const style: Record<string, string> = { benefic: 'text-teal', vedha: 'text-rose', neutral: 'text-ink-soft', notCovered: 'text-ink-soft' };
+  const label: Record<string, string> = { benefic: 'சுபம்', vedha: 'வேதை (தடை)', neutral: 'சுப இடம் அல்ல', notCovered: 'நூலில் இல்லை' };
   return (
     <div className="mb-8">
       <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">சந்திர கோசார பலன் + வேதை</h2>
@@ -398,17 +390,65 @@ function GocharaPhalaSection({ report }: { report: ReportData }) {
               <td className="py-1 text-center">{r.houseFromMoon}</td>
               <td className={`py-1 ${style[r.verdict]}`}>{label[r.verdict]}</td>
               <td className="py-1 text-ink-soft text-xs">
-                {r.isBenefic ? `${r.vedhaHouse}வது` : '—'}
+                {r.isBenefic ? (r.vedhaHouse ? `${r.vedhaHouse}வது` : 'வேதை இடம் இல்லை') : '—'}
                 {r.obstructedBy.length > 0 && ` · ${r.obstructedBy.map((x: string) => POINT_LABEL[x] ?? x).join(', ')}`}
+                {!r.isBenefic && r.vipareetaHouse > 0 && (
+                  <span className={r.relievedBy?.length ? 'text-teal' : ''}>
+                    விபரீத வேதை இடம் {(r.vipareetaHouses?.length ? r.vipareetaHouses : [r.vipareetaHouse]).join(' / ')}வது{r.relievedBy?.length ? ` · ${r.relievedBy.map((x: string) => POINT_LABEL[x] ?? x).join(', ')} — தீமை நீங்கும்` : ''}
+                  </span>
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       <p className="text-[11px] text-ink-soft mt-2">
-        பலதீபிகா ச.26 v.3-8 — சந்திரனிலிருந்து சுப கோசார பாவங்கள் + இணை வேதை பாவம் (சூரியன்↔சனி, சந்திரன்↔புதன் விதிவிலக்கு).
-        முந்தைய AstrologicLab gocharaPhala engine-லிருந்து port.
+        மந்த்ரேஸ்வரர், பலதீபிகை அத். 26, ஸ்லோ. 2-8 (சாஸ்திரி 1950, அச்சுப் பக்கம் 286-288) — சந்திரனிலிருந்து சுப கோசார பாவங்கள், இணை வேதை பாவம்;
+        சூரியன்↔சனி, சந்திரன்↔புதன் விலக்கு. ராகு, கேது "சூரியனைப் போல" 3, 6, 10, 11 — வேதை இடம் சொல்லப்படவில்லை. இந்த அத்தியாயத்தில் விபரீத வேதை இல்லை;
+        புலிப்பாணியின் விபரீத வேதையும் சுக்கிரன்-சூரியன் விலக்கும் மற்ற நூல்களும் ஒப்பீட்டில்: <a href="/gochara-vedha" className="underline">/gochara-vedha</a> (எல்லாக் கிரகங்களின் காலங்களுடன்).
       </p>
+      {g.phaladeepika && <PhaladeepikaNowReport pd={g.phaladeepika} />}
+    </div>
+  );
+}
+
+/** Phaladeepika XXVI.9-34 for today: one row per planet, then verse 34 and the pages. */
+function PhaladeepikaNowReport({ pd }: { pd: any }) {
+  const v34 = pd.verse34Now;
+  const [table, setTable] = useState<string>(pd.bindu?.defaultTable ?? 'PHALADEEPIKA');
+  return (
+    <div className="mt-4">
+      <h3 className="text-sm font-semibold text-ink mb-1">பலதீபிகை அத். 26 — இன்றைய பலன் (ஸ்லோ. 9-25, 30-33, 41)</h3>
+      {pd.bindu && <p className="mb-1"><BinduTablePicker meta={pd.bindu} value={table} onChange={setTable} /></p>}
+      <p className="text-[11px] text-ink-soft mb-2">
+        ஒவ்வொரு கிரகமும் சந்திரனிலிருந்து நிற்கும் இடத்துக்கு நூல் சொல்லும் பலன், அது பலன் தரும் பகுதியில் உள்ளதா (ஸ்லோ. 25), உச்சம் / நீசம் / பகை வீடு / அஸ்தங்கம் (31-32),
+        அதன் மேல் விழும் முழுப் பார்வைகள் (30), 12-8-1 எச்சரிக்கை (33), அஷ்டகவர்க்கப் பரல் (41 — சர்வாஷ்டகம் 28-க்கு மேல் இயல்பு; சொந்த அஷ்டகவர்க்கத்தில் 5 அல்லது மேல் இரண்டாம் வாசிப்பு).
+        இவை நூலின் கூற்றுகள் — இந்த மென்பொருளின் முன்கணிப்பு அல்ல. விவரமும் நூல்களும்: <a href="/gochara-vedha" className="underline">/gochara-vedha</a>.
+        சந்திரன் இப்போது {NATURE_TA[pd.moonNow.nature]} (சூரியனிலிருந்து {pd.moonNow.elongation}°), புதன் {NATURE_TA[pd.mercuryNow.nature]}.
+      </p>
+      <table className="w-full text-sm max-w-3xl">
+        <thead><tr className="text-ink-soft border-b border-line">
+          <th className="text-left py-1 pr-2">கிரகம்</th><th className="text-center py-1 pr-2">இடம்</th><th className="text-left py-1">பலன்</th>
+        </tr></thead>
+        <tbody className="align-top">
+          {Object.values(pd.planets).map((n: any) => (
+            <tr key={n.planet} className="border-b border-line/40">
+              <td className="py-1 pr-2">{n.planetTa}</td>
+              <td className="py-1 pr-2 text-center">{n.house}</td>
+              <td className="py-1 text-xs"><PhaladeepikaNowCell pd={pd} n={n} table={table} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className={`text-[11px] mt-2 ${v34.all ? 'text-rose' : 'text-ink-soft'}`}>
+        ஸ்லோ. 34 ({pd.verse34Ta}) — இப்போது எட்டில் {v34.met} பொருந்துகின்றன{v34.all ? ' — எல்லாம்' : ''}:{' '}
+        {v34.positions.map((x: any) => `${x.planetTa} ${x.nowHouse}${x.nowHouse === x.house ? '✓' : `/${x.house}`}`).join(', ')}.
+      </p>
+      <p className="text-[11px] text-ink-soft mt-1">{pd.ketuNoteTa}</p>
+      <details className="mt-1 text-[11px] text-ink-soft">
+        <summary className="cursor-pointer">மூலங்கள் ({pd.sources.length})</summary>
+        <Cites list={pd.sources} />
+      </details>
     </div>
   );
 }
@@ -902,10 +942,20 @@ function MuhurtaEnhancementsSection({ report }: { report: ReportData }) {
 }
 
 function PredictionEngineSection({ report }: { report: ReportData }) {
-  // Dynamically import the renderer to avoid circular dependencies
-  const PredictionEngineRenderer = require('@/src/charts/chart-renderers/PredictionEngineRenderer').PredictionEngineRenderer;
   const pred = (report as any).predictions;
   if (!pred) return null;
+  if (pred.status === 'SOURCE_REQUIRED') {
+    return (
+      <div className="mb-8">
+        <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink flex items-center gap-2">
+          வாழ்க்கை நிகழ்வு முன்னறிவிப்பு <SourceRequiredBadge reason={pred.reason} />
+        </h2>
+        <p className="text-sm text-ink-soft">{pred.reason}</p>
+      </div>
+    );
+  }
+  // Dynamically import the renderer to avoid circular dependencies
+  const PredictionEngineRenderer = require('@/src/charts/chart-renderers/PredictionEngineRenderer').PredictionEngineRenderer;
   return <PredictionEngineRenderer data={pred} />;
 }
 
@@ -2032,9 +2082,7 @@ export default function ReportBuilder() {
         longitude: birthData.longitude,
         utcOffsetMinutes: birthData.utcOffset,
         ianaTimeZone: 'Asia/Kolkata',
-        ayanamsha: AYANAMSHA_MAP[settings.ayanamsha] ?? 'Lahiri',
-        houseSystem: HOUSE_SYSTEM_MAP[settings.houseSystem] ?? 'Porphyrius',
-        nodeType: settings.nodeType === 'true' ? 'true' : 'mean',
+        ...toEngineOptions(settings),
       };
       const result = await computeReport(formInput);
       setReport(result);
