@@ -95,6 +95,11 @@ export default function PlanetHouseView() {
           <ul className="text-[11px] text-ink-soft mb-3 list-disc pl-5">
             {result.dashaEffects.general.map((g: any) => <li key={g.verses}>பாடல் {g.verses}: {g.ta}</li>)}
           </ul>
+          <p className="text-[11px] text-ink-soft mb-2">அத்.48: {citeTa(result.dashaEffects.lordship.source)} · {result.dashaEffects.lordship.scope}</p>
+          <ul className="text-[11px] text-ink-soft mb-3 list-disc pl-5">
+            {result.dashaEffects.lordship.general.map((g: any) => <li key={g.verses}>பாடல் {g.verses}: {g.ta}</li>)}
+            {result.dashaEffects.lordship.translatorNotes.map((g: any, i: number) => <li key={i}>{g.ta} (ப.{g.page})</li>)}
+          </ul>
           {result.dashaEffects.planets.map((p: any) => (
             <section key={p.planet} className={`bg-surface border rounded-2xl p-4 mb-3 text-sm ${result.dashaEffects.currentDasha === p.planet ? 'border-rose' : 'border-line'}`}>
               <h3 className="font-semibold text-ink">{p.planetTa} தசை — {p.house}-ஆம் வீட்டில் ({p.signTa}){result.dashaEffects.currentDasha === p.planet && <span className="text-rose font-normal"> ← நடப்பு மகா தசை</span>}</h3>
@@ -111,6 +116,26 @@ export default function PlanetHouseView() {
                   )}
                 </div>
               ))}
+              {p.lordship.lordOf.length > 0 && (
+                <div className="mt-3 border-t border-line pt-2">
+                  <p className="text-[11px] text-ink-soft">அத்.48 — {p.planetTa} ஆளும் வீடுகள்: {p.lordship.lordOf.join(', ')}</p>
+                  {p.lordship.houseLords.map((h: any) => (
+                    <p key={h.house} className="text-ink">{h.ta} <span className="text-[11px] text-ink-soft">(பாடல் {h.verses}, {citeTa({ ...result.dashaEffects.lordship.source, pageLocus: `printed p.${h.page}` })})</span></p>
+                  ))}
+                </div>
+              )}
+              {p.lordship.rules.filter((r: any) => r.holds !== false).length > 0 && (
+                <div className="mt-2">
+                  <p className="text-[11px] text-ink-soft">பிறப்பு ஜாதகத்தில் இந்தக் கிரகத்துக்குப் பொருந்தும் அத்.48 விதிகள்:</p>
+                  <ul className="list-disc pl-5 text-[13px]">
+                    {p.lordship.rules.filter((r: any) => r.holds !== false).map((r: any) => (
+                      <li key={r.id} className={r.holds === null ? 'text-ink-soft' : r.kind === 'unfav' ? 'text-rose' : 'text-teal'}>
+                        {r.ta} <span className="text-[11px] text-ink-soft">(பாடல் {r.verses}, ப.{r.page})</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </section>
           ))}
           <h2 className="text-lg font-semibold text-ink mt-6 mb-1">பாவாதிபதி பலன்கள்</h2>

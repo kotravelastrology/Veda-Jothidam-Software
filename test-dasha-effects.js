@@ -52,4 +52,34 @@ const mars2 = D.dashaEffects('Mars', { lagnaSign: 0, signs: { ...signs, Mars: 0 
 assert.ok(!mars2.sections[0].held.includes('MOOLATRIKONA') && mars2.sections[0].held.includes('OWN_SIGN'));
 
 assert.strictEqual(D.allDashaEffects(chart).planets.length, 9);
+// BPHS chapter 48: lordships and the favourable / unfavourable rules. Leo lagna: Sun 1, Mercury 2 & 11, Venus 3 & 10,
+// Mars 4 & 9, Jupiter 5 & 8, Saturn 6 & 7, Moon 12.
+const fx48 = D.FIXTURE_48;
+assert.deepStrictEqual(Object.keys(fx48.houseLords), Array.from({ length: 12 }, (_, i) => String(i + 1)));
+assert.strictEqual(fx48.rules.length, 14);
+assert.ok(fx48.rules.every((r) => r.page >= 590 && r.page <= 594 && ['fav', 'fav+', 'unfav'].includes(r.kind)));
+const holds = (planet) => Object.fromEntries(D.lordshipRules(planet, chart).rules.map((r) => [r.id, r.holds]));
+assert.deepStrictEqual(D.lordshipRules('Venus', chart).lordOf, [3, 10]);
+assert.deepStrictEqual(D.lordshipRules('Saturn', chart).lordOf, [6, 7]);
+assert.deepStrictEqual(D.lordshipRules('Rahu', chart).lordOf, []);
+const hSun = holds('Sun');
+assert.strictEqual(hSun.WITH_LORD5, true, 'Jupiter, lord of the 5th, shares Leo with the Sun');
+assert.strictEqual(hSun.KENDRA_TRIKONA_EXCHANGE, true, 'the lagna lord stands in the lagna');
+assert.strictEqual(hSun.WITH_LORD_3_6_11, true, 'Venus (3rd) and Mercury (11th) share Leo');
+assert.strictEqual(hSun.LORD_3_6_11, false);
+const hVenus = holds('Venus');
+assert.strictEqual(hVenus.LORD9_10_WITH_LORD5, true);
+assert.strictEqual(hVenus.LORD_3_6_11, true);
+const hSat = holds('Saturn');
+assert.strictEqual(hSat.IN_HOUSE_3_6_11, true);
+assert.strictEqual(hSat.LORD_3_6_11, true);
+assert.strictEqual(hSat.KENDRA_TRIKONA_EXCHANGE, false);
+assert.strictEqual(hSat.ASPECTED_BY_KENDRA_TRIKONA_LORD, null, 'aspects are not checked');
+assert.strictEqual(holds('Mars').IN_HOUSE_8, false);
+// 9th lord in the lagna and lagna lord in the 9th: Sagittarius lagna, lord of the 1st Jupiter in Leo (the 9th), lord of the 9th (Leo) the Sun in Sagittarius
+const swap = { lagnaSign: 8, signs: { Sun: 8, Moon: 0, Mars: 0, Mercury: 0, Jupiter: 4, Venus: 0, Saturn: 0, Rahu: 0, Ketu: 6 }, degrees };
+assert.strictEqual(D.lordshipRules('Sun', swap).rules.find((r) => r.id === 'LORD9_IN_1_AND_LORD1_IN_9').holds, true);
+assert.strictEqual(D.lordshipRules('Jupiter', swap).rules.find((r) => r.id === 'LORD9_IN_1_AND_LORD1_IN_9').holds, true);
+assert.strictEqual(D.allDashaEffects(chart).planets[0].lordship.houseLords[0].house, 1);
+
 console.log('test-dasha-effects ok');
