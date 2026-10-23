@@ -16,6 +16,8 @@ const DE = require('../../src/report/dashaEffects');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const JR = require('../../src/report/janmaRasi');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const LR = require('../../src/report/lagnaRasi');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { buildVimshottariDasha } = require('../../src/dasha/vimshottariDasha');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { NAKSHATRA_TA } = require('../../src/report/babyNames');
@@ -68,6 +70,7 @@ export async function computePlanetHouse(req: PlanetHouseRequest) {
     lagnaTa: SIGN_TA[lagnaSign],
     rows,
     dashaEffects: { ...DE.allDashaEffects(dashaChart), planets: DE.allDashaEffects(dashaChart).planets.map((p: any) => ({ ...p, planetTa: PLANET_TA[p.planet], signTa: SIGN_TA[p.sign] })), currentDasha },
+    lagnaRasi: { readings: LR.readings(lagnaSign) },
     janmaRasi: { ...JR.janmaRasi(signs), signTa: SIGN_TA[signs.Moon], joinedTa: JR.janmaRasi(signs).joined.map((p: string) => PLANET_TA[p]) },
     janma: { ...JN.janmaNakshatra(chart.grahas.Moon.longitude), starTa: NAKSHATRA_TA[JN.starOf(chart.grahas.Moon.longitude) - 1] },
     bhavesh: BH.bhaveshReadings({ lagnaSign, signs }).map((r: any) => ({ ...r, signTa: SIGN_TA[r.sign], lordTa: PLANET_TA[r.lord], lordSignTa: SIGN_TA[r.lordSign] })),
