@@ -137,6 +137,22 @@ const SOURCES = [
     },
   },
   {
+    id: 'ASTRO_SECRETS_KP_PART2',
+    title: 'Astro Secrets and Krishnamurti Padhdhati, Part 2',
+    titleTa: 'ஆஸ்ட்ரோ சீக்ரட்ஸ் மற்றும் கிருஷ்ணமூர்த்தி பத்ததி, பாகம் 2',
+    author: 'M.P. Shanmugam',
+    file: 'C52-astrosecrets-and-kp-part2.pdf',
+    tradition: 'Krishnamurti Paddhati (KP)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A late-twentieth-century work under copyright. Cited by printed page; the rules are summarised in our own words. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'The publisher and terms of the book have not been read.',
+    },
+  },
+  {
     id: 'BRIHAT_JATAKA_RAO_1986',
     title: 'Brihat Jataka (B.S. Rao, 1986)',
     titleTa: 'பிருஹத் ஜாதகம் (பி.எஸ். ராவ், 1986)',

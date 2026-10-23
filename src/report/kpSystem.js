@@ -15,6 +15,7 @@
 const { calculateChart } = require('../ephemeris/swissEphemeris');
 const { nodeLongitude } = require('../ephemeris/siderealPositions');
 const { kpLords } = require('./nadiCombinations');
+const { houseSignificators } = require('./kpHouseSignificators');
 
 const norm = (n) => ((n % 360) + 360) % 360;
 
@@ -211,6 +212,7 @@ function calculateKpSystem(birthInput, { nodeType = 'mean' } = {}) {
     obstruction: obstructionHouses(cusps),
     rulingPlanets: rulingPlanets(weekdayPython, moon, cusps[0]),
     significators: significatorBreakdown(positions, cusps),
+    houseSignificators: houseSignificators({ positions, cusps: cusps.map((c) => ({ number: c.number, signLord: c.signLord })) }),
   };
 }
 
