@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
-import { computeEvents, type EventInput } from './actions';
+import { computeEvents, indianToCivil, type EventInput } from './actions';
 import { saveEvent, listSavedEvents, updateSavedEvent, deleteSavedEvent } from '../library/actions';
 
 /** An event on this page; `eventId` is present once it is saved against a profile. */
@@ -22,6 +22,9 @@ const LEVEL_TA: Record<string, string> = { Dasha: 'தசை', Bhukti: 'பு�
 const TITHI_TA: Record<string, string> = { SHUKLA: 'சுக்ல', KRISHNA: 'கிருஷ்ண' };
 const num = { fontVariantNumeric: 'tabular-nums' as const };
 
+const LUNAR_MONTH_TA = ['சைத்ரம்', 'வைசாகம்', 'ஜ்யேஷ்டம்', 'ஆஷாடம்', 'ஸ்ராவணம்', 'பாத்ரபதம்', 'ஆஸ்வினம்', 'கார்த்திகம்', 'மார்கசீர்ஷம்', 'பௌஷம்', 'மாகம்', 'பால்குனம்'];
+const TITHI_NAME_TA = ['பிரதமை', 'துவிதியை', 'திருதியை', 'சதுர்த்தி', 'பஞ்சமி', 'சஷ்டி', 'சப்தமி', 'அஷ்டமி', 'நவமி', 'தசமி', 'ஏகாதசி', 'துவாதசி', 'திரயோதசி', 'சதுர்த்தசி'];
+const tithiLabel = (n: number) => (n === 15 ? 'பௌர்ணமி' : n === 30 ? 'அமாவாசை' : TITHI_NAME_TA[(n - 1) % 15]);
 const pad = (n: number) => String(n).padStart(2, '0');
 const nowParts = () => { const d = new Date(); return { date: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`, time: `${pad(d.getHours())}:${pad(d.getMinutes())}` }; };
 
@@ -32,6 +35,8 @@ export default function EventsView() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [cal, setCal] = useState({ method: 'PURNIMANTA' as 'AMANTA' | 'PURNIMANTA', vs: String(new Date().getFullYear() + 57), month: '0', tithi: '1', adhika: false, vriddhi: false, ghati: '0', pala: '0', vipala: '0' });
+  const [calNote, setCalNote] = useState<string | null>(null);
 
   const run = async (list: Ev[], who: Party | null = party) => {
     if (!who || list.length === 0) { setResult(null); return; }
@@ -85,6 +90,24 @@ export default function EventsView() {
     }
     const next = events.filter((_, k) => k !== i); setEvents(next); run(next);
   };
+  const sortEvents = () => {
+    const key = (e: Ev) => Date.UTC(e.year, e.month - 1, e.day, e.hour, e.minute, e.second ?? 0) - e.utcOffsetMinutes * 60000;
+    const next = [...events].sort((a, b) => key(a) - key(b));
+    setEvents(next); run(next);
+  };
+  /** PL9's "Indian Calendar" box: fill the date and time from a Vikram Samvat date at the place entered below. */
+  const fromCalendar = async () => {
+    setCalNote(null);
+    const r = await indianToCivil({
+      vikramSamvat: parseInt(cal.vs, 10), month: parseInt(cal.month, 10), tithi: parseInt(cal.tithi, 10), method: cal.method, adhika: cal.adhika, vriddhi: cal.vriddhi,
+      ghati: parseInt(cal.ghati, 10) || 0, pala: parseInt(cal.pala, 10) || 0, vipala: parseInt(cal.vipala, 10) || 0,
+      latitude: parseFloat(form.latitude), longitude: parseFloat(form.longitude), utcOffsetMinutes: parseInt(form.offset, 10),
+    });
+    if (!r.ok) { setCalNote(r.reasonTa); return; }
+    const d = r.date;
+    setForm({ ...form, date: `${d.year}-${pad(d.month)}-${pad(d.day)}`, time: `${pad(d.hour)}:${pad(d.minute)}:${pad(d.second)}` });
+    setCalNote(`${d.year}-${pad(d.month)}-${pad(d.day)} ${pad(d.hour)}:${pad(d.minute)}:${pad(d.second)}${r.adhika ? ' (அதிக மாதம்)' : ''}${r.vriddhiDays > 1 ? ' · இந்த திதி இரண்டு நாள் உதயத்தில் உள்ளது (விருத்தி)' : ''}`);
+  };
   const set = (k: string) => (e: any) => setForm({ ...form, [k]: e.target.value });
   const field = 'px-2 py-1.5 text-sm bg-surface border border-line rounded text-ink';
 
@@ -113,6 +136,22 @@ export default function EventsView() {
           <label className="text-xs text-ink-soft">நேர மண்டலம் (நிமிடம்)<br /><input className={`${field} w-20`} value={form.offset} onChange={set('offset')} /></label>
           <label className="text-xs text-ink-soft">விளக்கம்<br /><input className={`${field} w-44`} value={form.description} onChange={set('description')} /></label>
           <button type="button" onClick={add} disabled={!party || loading || events.length >= 20} className="px-3 py-1.5 rounded bg-saffron text-ink text-sm disabled:opacity-50">நிகழ்வைச் சேர்</button>
+        </div>
+        <div className="mt-3 border-t border-line pt-3">
+          <h3 className="text-xs font-semibold text-ink mb-1">இந்திய நாட்காட்டியிலிருந்து தேதி (மேலே உள்ள இடத்துக்கு)</h3>
+          <div className="flex flex-wrap gap-3 items-end text-xs text-ink-soft">
+            <label>முறை<br /><select className={field} value={cal.method} onChange={(e) => setCal({ ...cal, method: e.target.value as 'AMANTA' | 'PURNIMANTA' })}><option value="PURNIMANTA">கிருஷ்ணாதி (பூர்ணிமாந்தம்)</option><option value="AMANTA">சுக்லாதி (அமாந்தம்)</option></select></label>
+            <label>விக்ரம சம்வத்<br /><input className={`${field} w-20`} value={cal.vs} onChange={(e) => setCal({ ...cal, vs: e.target.value })} /></label>
+            <label>மாதம்<br /><select className={field} value={cal.month} onChange={(e) => setCal({ ...cal, month: e.target.value })}>{LUNAR_MONTH_TA.map((m, i) => <option key={m} value={i}>{m}</option>)}</select></label>
+            <label>திதி<br /><select className={field} value={cal.tithi} onChange={(e) => setCal({ ...cal, tithi: e.target.value })}>{Array.from({ length: 30 }, (_, i) => <option key={i} value={i + 1}>{i < 15 ? 'சுக்ல' : 'கிருஷ்ண'} {tithiLabel(i + 1)}</option>)}</select></label>
+            <label className="flex items-center gap-1"><input type="checkbox" checked={cal.adhika} onChange={(e) => setCal({ ...cal, adhika: e.target.checked })} />அதிக மாதம்</label>
+            <label className="flex items-center gap-1"><input type="checkbox" checked={cal.vriddhi} onChange={(e) => setCal({ ...cal, vriddhi: e.target.checked })} />விருத்தி (2-ஆம் நாள்)</label>
+            <label>சூரிய உதயத்துக்குப் பின் (நாழிகை : விநாடி : தற்பரை)<br /><span className="flex gap-1"><input className={`${field} w-12`} value={cal.ghati} onChange={(e) => setCal({ ...cal, ghati: e.target.value })} /><input className={`${field} w-12`} value={cal.pala} onChange={(e) => setCal({ ...cal, pala: e.target.value })} /><input className={`${field} w-12`} value={cal.vipala} onChange={(e) => setCal({ ...cal, vipala: e.target.value })} /></span></label>
+            <button type="button" onClick={fromCalendar} className="px-3 py-1.5 rounded border border-line text-ink text-sm">தேதியாக மாற்று</button>
+            {events.length > 1 && <button type="button" onClick={sortEvents} className="px-3 py-1.5 rounded border border-line text-ink text-sm">நிகழ்வுகளை தேதிப்படி வரிசைப்படுத்து</button>}
+          </div>
+          {calNote && <p className="text-xs text-ink mt-1">{calNote}</p>}
+          <p className="text-[11px] text-ink-soft mt-1">சூரிய உதய நேரத்தில் உள்ள திதியே அந்த நாளின் திதி (சிவெல், இந்தியன் க்ரோனோகிராபி §64, §72); மாதப் பெயர் புதுநிலவில் சூரியன் நிற்கும் ராசியால்; சூரிய சங்கிரமணம் இல்லாத மாதம் அதிகம் (§97). சித்தாந்த எண்கணிதம் அல்ல, உண்மைக் கணக்கு.</p>
         </div>
         {!party && <p className="text-[11px] text-ink-soft mt-2">முதலில் மேலே யாருடைய ஜாதகம் என்பதைத் தேர்வு செய்யுங்கள்.</p>}
         {events.length > 0 && (
@@ -216,6 +255,7 @@ function EventCard({ ev, native }: { ev: any; native: any }) {
             <dt className="text-ink-soft">நட்சத்திரம்</dt><dd>{g.nakshatra.name}</dd>
             <dt className="text-ink-soft">யோகம்</dt><dd>{g.yoga.name}</dd>
             <dt className="text-ink-soft">கரணம்</dt><dd>{g.karana.name}</dd>
+            {g.indian && <><dt className="text-ink-soft">இந்திய நாட்காட்டி</dt><dd>விக்ரம சம்வத் {g.indian.vikramSamvat} · {g.indian.adhika ? 'அதிக ' : ''}{LUNAR_MONTH_TA[g.indian.amantaMonth]} (அமாந்தம்){g.indian.paksha === 'KRISHNA' ? `, ${LUNAR_MONTH_TA[g.indian.purnimantaMonth]} (பூர்ணிமாந்தம்)` : ''} · {g.indian.paksha === 'SHUKLA' ? 'சுக்ல' : 'கிருஷ்ண'} {tithiLabel(g.indian.tithi)}</dd></>}
           </dl>
           <p className="text-[11px] text-ink-soft mt-1">தாரை, சந்திர பலனுக்கான விதிகள், தீர்ப்புகள் <a className="underline" href="/muhurta-stars">/muhurta-stars</a> பக்கத்தில் நூல் ஆதாரத்துடன்.</p>
         </div>

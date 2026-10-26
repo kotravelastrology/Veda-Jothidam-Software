@@ -27,6 +27,7 @@ const { TITHI_NAMES, NAKSHATRA_NAMES, YOGA_NAMES, karanaName } = require('../pan
 const { calculateShadbala } = require('../chart/shadbala');
 const V = require('../chart/vimshopaka');
 const { findSolarReturnUtcMs } = require('./varshaphala');
+const { indianFromJd } = require('../panchangam/indianCalendar');
 
 const GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 const ALL = [...GRAHAS, 'Rahu', 'Ketu'];
@@ -109,6 +110,7 @@ function eventChart({ natal, event, levels = 5 }) {
     nakshatra: { index: eventStar, name: NAKSHATRA_NAMES[eventStar] },
     yoga: { index: yogaIdx, name: YOGA_NAMES[yogaIdx] },
     karana: { serial: karanaSerial, name: karanaName(karanaSerial) },
+    indian: (() => { try { return indianFromJd(eJd, { latitude: event.latitude, longitude: event.longitude, utcOffsetMinutes: event.utcOffsetMinutes || 0 }); } catch (e) { return null; } })(),
   };
 
   // dashas running at the event, from the birth chart
