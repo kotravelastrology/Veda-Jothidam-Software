@@ -373,6 +373,9 @@ export default function VarshaphalaView() {
           {/* Interpretation: Tajika Bhushana's verses for this Muntha and year lord */}
           {(result as any).interpretation && <InterpretationSection it={(result as any).interpretation} />}
 
+          {/* Arishta, yogas: Tajika Bhushana ch.6-7 and the yoga chapter */}
+          {(result as any).yogas && <YogasSection y={(result as any).yogas} />}
+
           {/* Tripataki Chakra */}
           {(result as any).tripataki && (
             <section className="bg-surface border border-line rounded-lg p-5">
@@ -470,6 +473,53 @@ function InterpretationSection({ it }: { it: any }) {
         ))}
       </div>
       <p className="text-[11px] text-ink-soft">கணக்கிடப்படாதவை: {it.notApplied.join(' · ')}.</p>
+    </section>
+  );
+}
+
+const YOGA_STATUS: Record<string, { label: string; cls: string }> = {
+  HELD: { label: 'நிபந்தனை உள்ளது', cls: 'bg-teal-soft text-teal' },
+  NOT_HELD: { label: 'இல்லை', cls: 'bg-surface-2 text-ink-soft' },
+  UNKNOWN: { label: 'அறியப்படவில்லை', cls: 'bg-amber-100 text-amber-800' },
+};
+const YOGA_GROUPS: [string, string][] = [['arishta', 'அரிஷ்டம் (அத்.6)'], ['arishta-bhanga', 'அரிஷ்ட பங்கம் (அத்.7)'], ['yoga', 'யோகங்கள்'], ['raja-bhanga', 'ராஜ பங்கம்']];
+
+/** Tajika Bhushana's arishta, arishta-bhanga and yoga conditions over this year's chart. No verdict: where the book says "arishta", this says the condition holds. */
+function YogasSection({ y }: { y: any }) {
+  const [open, setOpen] = useState<string | null>(null);
+  return (
+    <section className="bg-surface border border-line rounded-lg p-5">
+      <h3 className="font-semibold text-ink mb-1">அரிஷ்டம், அரிஷ்ட பங்கம், யோகங்கள் — தாஜிக பூஷணம் (ப.64-68)</h3>
+      <p className="text-xs text-ink-soft mb-3">
+        நூல் கூறும் நிபந்தனைகள் இந்த வர்ஷ ஜாதகத்தில் உள்ளனவா என்று மட்டும் காட்டுகிறது; "அரிஷ்டம் நிகழும்" என்ற முடிவு தரப்படவில்லை.
+        "அறியப்படவில்லை" = நூல் வரையறுக்காத ஒன்று (பார்வை, அஸ்தமன ஓர்ப், பலத்தின் தரம்) தேவை.
+        {' '}{citeTa(y.source)}
+      </p>
+      <p className="text-xs text-ink-soft mb-3">உள்ளது {y.summary.held} · இல்லை {y.summary.notHeld} · அறியப்படவில்லை {y.summary.unknown}</p>
+      {YOGA_GROUPS.map(([g, title]) => {
+        const rows = y.rules.filter((r: any) => r.group === g);
+        if (!rows.length) return null;
+        return (
+          <div key={g} className="mb-3">
+            <h4 className="text-sm font-semibold text-ink mb-1">{title}</h4>
+            <ul className="space-y-1 text-xs">
+              {rows.map((r: any) => {
+                const st = YOGA_STATUS[r.status];
+                return (
+                  <li key={r.id} className="border-b border-line/40 pb-1">
+                    <button type="button" onClick={() => setOpen(open === r.id ? null : r.id)} className="text-left w-full">
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded mr-2 ${st.cls}`}>{st.label}</span>
+                      <span className="text-ink">{r.titleTa}</span> <span className="text-ink-soft">({r.verse}, ப.{r.printedPage})</span>
+                    </button>
+                    {open === r.id && <p className="mt-1 text-ink-soft leading-relaxed">{r.detail}</p>}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        );
+      })}
+      <p className="text-[11px] text-ink-soft">{y.conventions.join(' · ')}.</p>
     </section>
   );
 }

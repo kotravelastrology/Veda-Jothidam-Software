@@ -21,6 +21,10 @@ No reading is ranked or merged. The book's own rule (v.24) is that the Munthesha
   book's rule for a planet in good places, the lagna dasha graded by the drekkana of the varsha lagna (v.36), and the six antardasha results (v.2-43, 42 in all).
   The book gives no threshold for the four grades, so all four are listed.
 
+- the **arishta, arishta-bhanga and yoga conditions** (chapters 6-7 and the yoga chapter, printed 64-68; `src/report/varshaYogas.js`, `test-varsha-yogas.js`): 19 conditions
+  over the varsha chart, each HELD, NOT_HELD or UNKNOWN with the planets and houses behind it. UNKNOWN where the rule needs an aspect, a combustion orb,
+  a grade of strength or an ithasala, which these verses do not define.
+
 ## Choices to check
 - v.23 does not list the good and bad places. The good places are taken as 1, 2, 3, 5, 9, 10, 11 and the bad as 4, 6, 7, 8, 12 from the tenor of the twelve
   verses (v.12 praises the 2nd; v.14 condemns the 4th).

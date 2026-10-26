@@ -133,3 +133,5 @@ Not built, with the reason found: Kota Chakra (111) and Sanghatta Chakra (112) -
 - 2026-10-26: Varshaphala chart interpretation: the planet-in-bhava verses of Tajika Bhushana ch.5 (eight planets x twelve bhavas, printed 45-63) added to `/varshaphala`. Still open: Mudda dasha results (printed 71-89), sahams, yogas and arishta (64-68), monthly entry (90-93), and Varshaphala event views 121-123.
 
 - 2026-10-26: Varshaphala dasha interpretations: the Mudda dasha results of Tajika Bhushana ch.8-9 (graded results per dasha lord, lagna dasha by drekkana, 42 antardasha results; printed 73-90) added to `/varshaphala`. Still open: arishta and yogas (printed 64-68), sahams (68-71), the monthly entry (90-93), and Varshaphala event views 121-123.
+
+- 2026-10-26: Varshaphala arishta, arishta-bhanga, raja-yoga and raja-bhanga conditions of Tajika Bhushana (printed 64-68) added to `/varshaphala` (src/report/varshaYogas.js). Still open: sahams (68-71), the monthly entry (90-93), Rahu's results in Saturn's dasha (v.99), and Varshaphala event views 121-123.

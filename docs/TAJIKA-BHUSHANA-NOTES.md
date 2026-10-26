@@ -125,3 +125,31 @@ Moon, Mars, Mercury), Venus' (Saturn, Sun, Moon, Mars, Mercury, Jupiter), Saturn
 given a dasha. The order of the antardashas within a dasha in time is not stated in the verses.
 Misprint: v.36 (Venus' dasha, antardasha of the Moon's son = Mercury) the commentary prints "mangala" (Mars), with a hand correction above it in this copy;
 the verse's word "shashankaja" is Mercury, and Mars has its own v.35. Chapter 10 (printed 90 on, the monthly entry) not read.
+
+## Chapters 5 (end), 6, 7 and the yoga chapter: arishta, arishta-bhanga, raja-yoga, printed 64-68
+Read 2026-10-26 on the page images (PDF 68-72 at double size). Printed 64 closes chapter 5: v.99 says each planet's bhava results are to be taken in its
+own dasha and Rahu's in Saturn's dasha; v.100: the lord of the 11th in the 11th, joined or aspected by benefics, exalted and away from the Sun (not combust)
+gives horses, elephants, land, ornaments, a wife and happiness.
+
+**Chapter 6, Arishta (printed 64-66), 9 verses.** v.1: Venus and Jupiter weak and the Moon debilitated give many diseases and separation in the year;
+if the lord of the 8th is in the lagna and the lagna lord in the 8th, with malefic aspect or conjunction, death by a weapon. v.2: the lagna lord and the
+Munthesha combust or aspected by the Sun cause arishta; also if the janma lagna falls in the 8th from the varsha lagna and is joined or aspected by the
+Munthesha. v.3 (printed 65): the Moon in the 8th, 1st, 7th, 6th or 12th, not joined or aspected by Jupiter: arishta; with Mars, fire or weapon pain; with Saturn,
+wind pain. v.4: the lagna lord in the 8th joined or aspected by Mars: a death-yoga; combust by the Sun, with Jupiter or Mercury in the 8th: weapon pain. v.5: the
+lagna between malefics: obstacles to home and wife; malefics in the 12th, 6th, 2nd or 8th: arishta. v.6: the Muntha with a malefic in the 6th, 8th or 12th: danger
+from weapon and fire; with Saturn certainly wind disease. v.7 (printed 66): the Muntha in the 7th, 8th, 4th, 12th, 6th, or the 8th from the janma lagna, with
+malefic aspect: great arishta; with benefics: less. v.8: the Moon in the 7th and the lagna lord and 8th lord in the 8th, 12th or 6th, or the lagna lord and Munthesha
+in the 8th: arishta in war. v.9: the lagna lord, Munthesha or 8th lord in the 6th, 8th or 12th from the lagna or the Moon: great arishta (the old ganakas).
+"Iti arishtadhyaya 6" at printed 66.
+
+**Chapter 7, Arishta-bhanga (printed 66-67), 3 verses.** v.1: the lagna lord and benefics in kendra or trikona destroy the arishta; Jupiter strong in a kendra
+makes even the inauspicious auspicious. v.2: malefics in the 3rd, 11th or 6th from the lagna or the Moon, or a strong lagna lord, or benefic aspect or conjunction,
+or Jupiter or Venus in a kendra at birth. v.3: the lagna lord joined or aspected by a benefic; or a strong Jupiter in the lagna. "Iti saptamah 7" at printed 67.
+
+**Yoga chapter, Raja-yoga (printed 67-68), 6 verses, and Raja-bhanga (printed 68), 1 verse.** v.1: Jupiter or the janma lagna's lord in the lagna, 3rd,
+11th or 4th at the entry: destruction of enemies and gain of wealth. v.2: the lord of the 4th in the 4th with benefics: happiness from wife and sons; the lord of the
+9th or 2nd in the lagna: wealth and conveyance. v.3: the lord of the 7th in the lagna, or Jupiter's aspect: a son; Mars, Sun and Saturn in ithasala with Mercury, Venus and
+Jupiter in turn: a kingdom. v.4: benefics in kendras or in the 5th and 9th and malefics in the 3rd, 6th and 11th: wealth, jewels, elephants, horses, gold. v.5 (printed 68):
+Saturn and Venus not combust, in their own house or exalted: great gain from foreigners. v.6: all malefics in the 3rd, 6th and 11th and all benefics in kendras: long-lasting
+wealth. "Iti rajayogah". Raja-bhanga v.1: malefics debilitated and combust destroy a raja-yoga; also if malefics are debilitated and benefics weak.
+Printed 68 then opens the saham chapter ("atha sahamani"); v.1 of it is the punya (fortune) saham: by day Sun minus Moon added to the lagna, by night the reverse.
