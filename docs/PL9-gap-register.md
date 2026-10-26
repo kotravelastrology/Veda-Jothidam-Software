@@ -121,3 +121,5 @@ Not built, with the reason found: Kota Chakra (111) and Sanghatta Chakra (112) -
 - 2026-10-26: KP Reader IV (C32) rules built as `src/report/kpMarriage.js` + report section (docs/KP-MARRIAGE-ENGINE.md); Porutham C32 second source (docs/PORUTHAM-C32-COMPARISON.md). Partner-description tables, conjunction/aspect conditions and child's sex not built.
 
 - 2026-10-26: Graphical Ephemeris (102/103) built - `/graphical-ephemeris` (docs/GRAPHICAL-EPHEMERIS.md). Animated Transits (093, 098, 099), Yearly Transit South Indian (104) and Events (116-123) still open.
+
+- 2026-10-26: Yearly Transit (South Indian) 104 built - `/yearly-transit` (docs/YEARLY-TRANSIT.md), reproducing PL9's 2026 screen entry for entry. Animated Transits (093, 098, 099) and Events (116-123) still open.
