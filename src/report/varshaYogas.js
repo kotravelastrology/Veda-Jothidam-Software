@@ -1,5 +1,5 @@
 /**
- * Arishta, arishta-bhanga, yogas and raja-bhanga of the annual chart, from Tajika Bhushana (Ganesha Daivajna; corpus C28), chapters 5 (end),
+ * Arishta, arishta-bhanga, yogas, raja-bhanga and the mixed chapter (mishraka, printed 71-73) of the annual chart, from Tajika Bhushana (Ganesha Daivajna; corpus C28), chapters 5 (end),
  * 6, 7 and the yoga chapter, printed pp.64-68 (printed = PDF - 4). Read on the page images 2026-10-26 (docs/TAJIKA-BHUSHANA-NOTES.md).
  *
  * Each rule is a condition the book states over the varsha chart. The result is HELD, NOT_HELD or UNKNOWN: UNKNOWN when the rule needs a thing
@@ -7,9 +7,11 @@
  * the part that can be decided is still reported in `detail`. No rule gives a verdict: where the book says "arishta", this says the condition holds.
  *
  * Convention used (not stated in these pages): "krura" (malefic) = Sun, Mars, Saturn, Rahu, Ketu; "saumya" (benefic) = Moon, Mercury, Jupiter, Venus.
- * Aspects are not computed (the book says "drishti" and these verses give no orb); where a verse needs a conjunction or an aspect, only the
+ * The mixed chapter (printed 71-73) does use aspects; there the aspect is the sign aspect of Tajika Bhushana ch.1 v.14 (printed p.4: the 3rd and 11th a quarter, the 4th and 10th a half,
+ * the 5th and 9th three quarters, the 7th full; a full aspect or conjunction settles an "aspected or joined" condition, a partial share leaves it open) and the rules say so. In the older rules aspects are not computed (the book says "drishti" and these verses give no orb); where a verse needs a conjunction or an aspect, only the
  * conjunction (same sign) is tested and the rule is UNKNOWN unless the conjunction alone settles it.
  */
+const { aspectShare } = require('./varsheshaBook');
 const RASI_LORDS = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter'];
 const MALEFIC = ['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'];
 const BENEFIC = ['Moon', 'Mercury', 'Jupiter', 'Venus'];
@@ -23,7 +25,7 @@ const SOURCE = {
   author: 'Ganesha Daivajna',
   tradition: 'Tajika (Varshaphala)',
   file: 'C28_Tajika_Bhushana_Ganesha.pdf',
-  pageLocus: 'Chapters 6 and 7 and the yoga chapter, printed pp.64-68: Arishta, Arishta-bhanga, Raja-yoga and Raja-bhanga',
+  pageLocus: 'Chapters 6 and 7 and the yoga chapter, printed pp.64-68: Arishta, Arishta-bhanga, Raja-yoga and Raja-bhanga; the mixed chapter (mishrakadhyaya) printed pp.71-73',
 };
 
 function frame(v) {
@@ -166,6 +168,153 @@ function rules(v) {
   }
   out.push(R('RAJABHANGA_1', 'raja-bhanga', 'v.1', '68', 'நீசமும் அஸ்தமனமுமான பாபர்: ராஜயோகம் அழிதல்; பாபர் நீசமாகி சுபர் பலமற்றாலும் அழிவு', 'UNKNOWN',
     `நீச ராசியில் உள்ள கிரகங்கள்: ${ta(Object.keys(f.g).filter((p) => ({ Sun: 6, Moon: 7, Mars: 3, Mercury: 11, Jupiter: 9, Venus: 5, Saturn: 0 })[p] === f.g[p].rasiIndex))}. அஸ்தமனமும் சுபரின் பலமின்மையும் நூலில் வரையறுக்கப்படவில்லை.`, {}));
+
+  // ── The mixed chapter, printed 71-73 (mishrakadhyaya, 12 verses)
+  {
+    const SEVEN = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+    const FALL = { Sun: 6, Moon: 7, Mars: 3, Mercury: 11, Jupiter: 9, Venus: 5, Saturn: 0 };
+    const offices = {};
+    for (const row of (v.varsheshaSelection?.book?.rows ?? [])) offices[row.planet] = row.offices ?? [];
+    const haveOffices = Object.keys(offices).length > 0;
+    const joinedMal = (p) => MALEFIC.filter((q) => q !== p && f.g[q].rasiIndex === f.g[p].rasiIndex);
+    const aspBen = (sign) => BENEFIC.filter((q) => aspectShare(f.g[q].rasiIndex, sign) > 0 && f.g[q].rasiIndex !== sign);
+    const aspMalOnSign = (sign) => MALEFIC.filter((q) => aspectShare(f.g[q].rasiIndex, sign) > 0 && f.g[q].rasiIndex !== sign);
+    // a full aspect (the planet's own sign or the 7th) settles an "aspected or joined" condition; a partial share (a quarter, a half, three quarters) leaves it open
+    const share = (q, sign) => aspectShare(f.g[q].rasiIndex, sign);
+    const presence = (list, sign, except = null) => {
+      let yes = false;
+      let maybe = false;
+      for (const q of list) {
+        if (q === except) continue;
+        const sh = share(q, sign);
+        if (sh === 1) yes = true; else if (sh > 0) maybe = true;
+      }
+      return yes ? 'yes' : maybe ? 'maybe' : 'no';
+    };
+    const PRES_TA = { yes: 'உண்டு', maybe: 'பகுதிப் பார்வை மட்டும்', no: 'இல்லை' };
+    const where = (p) => `${PLANET_TA[p]} ${f.hOf(p)}-இல்`;
+    const lord = (n) => RASI_LORDS[(f.lagna + n - 1) % 12];
+    const vp = v.varshesha ?? null;
+    const lagnaSign = f.lagna;
+
+    // v.1: a planet that is combust, with malefics (joined or aspecting), debilitated, not an office-holder or conquered is "destroyed" and gives suffering in its own dasha
+    {
+      const rows = SEVEN.map((p) => {
+        const conds = [];
+        if (f.g[p].rasiIndex === FALL[p]) conds.push('நீசம்');
+        if (joinedMal(p).length) conds.push(`பாபருடன் சேர்க்கை (${ta(joinedMal(p))})`);
+        const pres = presence(MALEFIC, f.g[p].rasiIndex, p);
+        if (pres === 'yes') conds.push(`பாபர் முழுப் பார்வை (${ta(MALEFIC.filter((q) => q !== p && share(q, f.g[p].rasiIndex) === 1))})`);
+        if (haveOffices && !(offices[p] && offices[p].length)) conds.push('அதிகாரம் இல்லை (ஐந்து அதிகாரிகளில் ஒருவரல்ல)');
+        return { p, conds, partial: pres === 'maybe' };
+      });
+      const hit = rows.filter((r) => r.conds.length);
+      out.push(R('MISHRA_1', 'mishraka', 'v.1', '71', 'அஸ்தமனம், பாப சேர்க்கை/பார்வை, நீசம், அதிகாரமின்மை, தோல்வி — அந்த கிரகம் "நஷ்டம்"; தன் தசையில் துன்பம்', hit.length ? 'HELD' : 'UNKNOWN',
+        `${hit.length ? hit.map((r) => `${PLANET_TA[r.p]}: ${r.conds.join(', ')}`).join('; ') : 'சோதிக்கக்கூடிய நிபந்தனை எந்த கிரகத்துக்கும் இல்லை'}. பாபரின் பகுதிப் பார்வை மட்டும் உள்ளவை (முடிவை மாற்றவில்லை): ${ta(rows.filter((r) => r.partial && !r.conds.length).map((r) => r.p))}. அஸ்தமனம் (ஓர்ப் வரையறுக்கப்படவில்லை) மற்றும் "ஜித" (போரில் தோற்றது) சோதிக்கப்படவில்லை.${haveOffices ? '' : ' (அதிகாரிகள் இந்த முடிவில் இல்லை.)'} பாப கிரகங்கள்: சூரியன், செவ்வாய், சனி, ராகு, கேது; பார்வை: அத்.1 பா.14.`,
+        { planets: hit.map((r) => ({ planet: r.p, conditions: r.conds })) }));
+    }
+    // v.2: a bhava aspected by benefics is strong, even by its own lord if the lord has an evil glance; with both, mixed; its increase by the strength
+    {
+      const rows = Array.from({ length: 12 }, (_, i) => {
+        const sign = (lagnaSign + i) % 12;
+        return { house: i + 1, ben: aspBen(sign), mal: aspMalOnSign(sign) };
+      });
+      out.push(R('MISHRA_2', 'mishraka', 'v.2', '71', 'பாவம் சுபப் பார்வையால் வலிமை; சுபம்-பாபம் இரண்டும் பார்த்தால் கலப்பு', 'UNKNOWN',
+        `பாவங்களின் பார்வை (அத்.1 பா.14, எந்த அளவும்): ${rows.map((r) => `${r.house}: சுபர் ${ta(r.ben)} / பாபர் ${ta(r.mal)}${r.ben.length && r.mal.length ? ' → கலப்பு' : r.ben.length ? ' → வலிமை' : ''}`).join('; ')}. "அதன் அதிபதி தீய பார்வை" மற்றும் வளர்ச்சியின் அளவு பலத்தைப் பொறுத்தது (வரையறுக்கப்படவில்லை).`,
+        { houses: rows }));
+    }
+    // v.3: Jupiter in the 1st or 3rd and the lord of the janma lagna in the 4th: enemies destroyed, wealth increases fully
+    {
+      const jupH = f.hOf('Jupiter');
+      const janmaLord = RASI_LORDS[f.natalLagna];
+      const ok = [1, 3].includes(jupH) && f.hOf(janmaLord) === 4;
+      out.push(R('MISHRA_3', 'mishraka', 'v.3', '71', 'குரு 1 அல்லது 3-இல்; ஜன்ம லக்னாதிபதி 4-இல்: பகைவர் நாசம், முழுமையான தன வளர்ச்சி', held(ok),
+        `குரு ${jupH}-இல்; ஜன்ம லக்னாதிபதி ${where(janmaLord)}.`, { jupiterHouse: jupH, janmaLagnaLordHouse: f.hOf(janmaLord) }));
+    }
+    // v.4: Jupiter the lord of the lagna and in the lagna, not aspected nor joined by malefics: much wealth from the king
+    {
+      const isLord = f.lagnaLord === 'Jupiter';
+      const inLagna = f.hOf('Jupiter') === 1;
+      const j = joinedMal('Jupiter');
+      const a = presence(MALEFIC, f.g.Jupiter.rasiIndex, 'Jupiter');
+      const status = !isLord || !inLagna || a === 'yes' ? 'NOT_HELD' : a === 'maybe' ? 'UNKNOWN' : 'HELD';
+      out.push(R('MISHRA_4', 'mishraka', 'v.4', '72', 'லக்னாதிபதி குரு லக்னத்தில், பாபர் சேர்க்கை/பார்வை இன்றி: அரசால் அதிக தனம்', status,
+        `லக்னாதிபதி ${PLANET_TA[f.lagnaLord]}; குரு ${f.hOf('Jupiter')}-இல்; பாபர் சேர்க்கை: ${ta(j)}; பாபர் முழுப் பார்வை/சேர்க்கை: ${PRES_TA[a]}.`, { lagnaLordIsJupiter: isLord, inLagna, joined: j, malefics: a }));
+    }
+    // v.5: the 2nd lord in the 2nd with Jupiter: wealth increases; the 5th lord in the 5th: happiness from brothers and sons
+    {
+      const l2 = lord(2);
+      const l5 = lord(5);
+      const wealth = f.hOf(l2) === 2 && (l2 === 'Jupiter' || f.g.Jupiter.rasiIndex === f.g[l2].rasiIndex);
+      out.push(R('MISHRA_5A', 'mishraka', 'v.5', '72', '2-ஆம் அதிபதி 2-இல் குருவுடன்: தன வளர்ச்சி', held(wealth),
+        `2-ஆம் அதிபதி ${where(l2)}; குரு ${f.hOf('Jupiter')}-இல். (2-ஆம் அதிபதியே குருவாக இருந்தால் சேர்க்கையாக எடுக்கப்பட்டது.)`, { secondLord: l2 }));
+      out.push(R('MISHRA_5B', 'mishraka', 'v.5', '72', '5-ஆம் அதிபதி 5-இல்: சகோதரர், பிள்ளைகளால் சுகம்', held(f.hOf(l5) === 5),
+        `5-ஆம் அதிபதி ${where(l5)}.`, { fifthLord: l5 }));
+    }
+    // v.6: Jupiter or Venus combust by the Sun and the Moon debilitated: calamity for people that year; worst with the debilitated Moon in the lagna
+    {
+      const moonDeb = f.g.Moon.rasiIndex === 7;
+      out.push(R('MISHRA_6', 'mishraka', 'v.6', '72', 'குரு அல்லது சுக்கிரன் சூரியனால் அஸ்தமனம், சந்திரன் நீசம்: அந்த ஆண்டு மக்களுக்கு ஆபத்து; நீச சந்திரன் லக்னத்தில் எனில் மரண துல்யம்', moonDeb ? 'UNKNOWN' : 'NOT_HELD',
+        `சந்திரன் நீசம் (விருச்சிகம்): ${moonDeb ? 'ஆம்' : 'இல்லை'}; சந்திரன் லக்னத்தில்: ${f.hOf('Moon') === 1 ? 'ஆம்' : 'இல்லை'}; குரு ${f.hOf('Jupiter')}-இல், சுக்கிரன் ${f.hOf('Venus')}-இல். சூரிய அஸ்தமனத்தின் ஓர்ப் வரையறுக்கப்படவில்லை, அதனால் அறியப்படவில்லை.`,
+        { moonDebilitated: moonDeb, moonInLagna: f.hOf('Moon') === 1 }));
+    }
+    // v.7: the lagna lord in the 8th, joined or aspected by Mars: ailments of phlegm, bile and wind, and loss of wealth
+    {
+      const ll = f.lagnaLord;
+      const in8 = f.hOf(ll) === 8;
+      const sh = ll === 'Mars' ? 0 : share('Mars', f.g[ll].rasiIndex);
+      out.push(R('MISHRA_7', 'mishraka', 'v.7', '72', 'லக்னாதிபதி 8-இல், செவ்வாயுடன் சேர்ந்து அல்லது செவ்வாய் பார்த்து: கபம்-பித்தம்-வாத நோய், தன நஷ்டம்', !in8 || ll === 'Mars' ? 'NOT_HELD' : sh === 1 ? 'HELD' : sh > 0 ? 'UNKNOWN' : 'NOT_HELD',
+        `லக்னாதிபதி ${where(ll)}; செவ்வாயின் பார்வை/சேர்க்கை அளவு: ${sh === 1 ? 'முழு (சேர்க்கை அல்லது 7-ஆம்)' : sh > 0 ? `${sh} (பகுதி — முடிவு இல்லை)` : 'இல்லை'}.${ll === 'Mars' ? ' (லக்னாதிபதியே செவ்வாய்.)' : ''}`, { lagnaLordInEighth: in8, marsShare: sh }));
+    }
+    // v.8: the 7th lord strong, in the 7th, free from malefics' aspect and conjunction: daily pleasure from women and increase of wealth
+    {
+      const l7 = lord(7);
+      const in7 = f.hOf(l7) === 7;
+      const j = joinedMal(l7);
+      const a = presence(MALEFIC, f.g[l7].rasiIndex, l7);
+      out.push(R('MISHRA_8', 'mishraka', 'v.8', '72', '7-ஆம் அதிபதி வலிமையுடன் 7-இல், பாபர் சேர்க்கை/பார்வை இன்றி: தினமும் பெண் சுகம், செல்வ வளர்ச்சி', !in7 || a === 'yes' ? 'NOT_HELD' : 'UNKNOWN',
+        `7-ஆம் அதிபதி ${where(l7)}; பாபர் சேர்க்கை: ${ta(j)}; பாபர் முழுப் பார்வை/சேர்க்கை: ${PRES_TA[a]}. "வலிமை" வரையறுக்கப்படவில்லை, அதனால் மற்ற நிபந்தனைகள் இருந்தாலும் அறியப்படவில்லை.`, { seventhLord: l7, inSeventh: in7, joined: j, malefics: a }));
+    }
+    // v.9: the lagna joined or aspected by cruel planets and not by benefics: forbidden food, distress from the slander of the wicked
+    {
+      const mj = MALEFIC.filter((q) => f.g[q].rasiIndex === lagnaSign);
+      const bj = BENEFIC.filter((q) => f.g[q].rasiIndex === lagnaSign);
+      const mp = presence(MALEFIC, lagnaSign);
+      const bp = presence(BENEFIC, lagnaSign);
+      const status = mp === 'no' || bp === 'yes' ? 'NOT_HELD' : mp === 'yes' && bp === 'no' ? 'HELD' : 'UNKNOWN';
+      out.push(R('MISHRA_9', 'mishraka', 'v.9', '72', 'லக்னம் க்ரூரர் சேர்க்கை/பார்வை; சுபர் சேர்க்கை/பார்வை இன்மை: தகாத உணவு, தீயோர் அவதூறு', status,
+        `லக்னத்தில் பாபர்: ${ta(mj)}, சுபர்: ${ta(bj)}; பாபர் முழுப் பார்வை/சேர்க்கை: ${PRES_TA[mp]}; சுபர்: ${PRES_TA[bp]}.`, { maleficsJoined: mj, beneficsJoined: bj, malefics: mp, benefics: bp }));
+    }
+    // v.10: the 7th lord weak: association with prostitutes; the 9th lord combust or joined with malefics: loss of caste
+    {
+      const l7 = lord(7);
+      const l9 = lord(9);
+      const j9 = joinedMal(l9);
+      out.push(R('MISHRA_10A', 'mishraka', 'v.10', '73', '7-ஆம் அதிபதி பலவீனம்: தகாத பெண் தொடர்பு', 'UNKNOWN',
+        `7-ஆம் அதிபதி ${where(l7)}. பலவீனத்தின் அளவு வரையறுக்கப்படவில்லை.`, { seventhLord: l7 }));
+      out.push(R('MISHRA_10B', 'mishraka', 'v.10', '73', '9-ஆம் அதிபதி அஸ்தமனம் அல்லது பாபருடன்: ஜாதி/சமய நிலை தவறுதல்', j9.length ? 'HELD' : 'UNKNOWN',
+        `9-ஆம் அதிபதி ${where(l9)}; பாபர் சேர்க்கை: ${ta(j9)}; அஸ்தமனம் சோதிக்கப்படவில்லை (ஓர்ப் வரையறுக்கப்படவில்லை).`, { ninthLord: l9, joined: j9 }));
+    }
+    // v.11: a weak Varshapati in the 8th, 6th or 12th: distress all year; a benefic Varshapati in a kendra, a kona or the 11th: joy all year
+    {
+      const h = vp ? f.hOf(vp) : null;
+      const bad = h !== null && [8, 6, 12].includes(h);
+      const good = vp !== null && BENEFIC.includes(vp) && [1, 4, 7, 10, 5, 9, 11].includes(h);
+      out.push(R('MISHRA_11A', 'mishraka', 'v.11', '73', 'வர்ஷபதி பலவீனமாக 8, 6, 12-இல்: ஆண்டு முழுவதும் கஷ்டம்', vp && bad ? 'UNKNOWN' : 'NOT_HELD',
+        vp ? `வர்ஷபதி ${where(vp)}. பலவீனம் வரையறுக்கப்படவில்லை; இடம் ${bad ? 'பொருந்துகிறது' : 'பொருந்தவில்லை'}.` : 'வர்ஷபதி இந்த முடிவில் இல்லை.', { varshapati: vp, house: h }));
+      out.push(R('MISHRA_11B', 'mishraka', 'v.11', '73', 'சுப வர்ஷபதி கேந்திரம், கோணம் அல்லது 11-இல்: ஆண்டு முழுவதும் மகிழ்ச்சி', vp ? held(good) : 'UNKNOWN',
+        vp ? `வர்ஷபதி ${where(vp)} (${BENEFIC.includes(vp) ? 'சுபர்' : 'பாபர்'}).` : 'வர்ஷபதி இந்த முடிவில் இல்லை.', { varshapati: vp, house: h }));
+    }
+    // v.12: a malefic Varshapati in the 11th, 3rd or 6th: auspicious year; powerless in the 12th or 8th: ruin of fortune
+    {
+      const h = vp ? f.hOf(vp) : null;
+      const mal = vp !== null && MALEFIC.includes(vp);
+      out.push(R('MISHRA_12A', 'mishraka', 'v.12', '73', 'பாப வர்ஷபதி 11, 3, 6-இல்: ஆண்டு சுபம்', vp ? held(mal && [11, 3, 6].includes(h)) : 'UNKNOWN',
+        vp ? `வர்ஷபதி ${where(vp)} (${mal ? 'பாபர்' : 'சுபர்'}).` : 'வர்ஷபதி இந்த முடிவில் இல்லை.', { varshapati: vp, house: h }));
+      out.push(R('MISHRA_12B', 'mishraka', 'v.12', '73', 'பலமற்ற பாப வர்ஷபதி 12 அல்லது 8-இல்: லக்ஷ்மி நாசம்', vp && mal && [12, 8].includes(h) ? 'UNKNOWN' : 'NOT_HELD',
+        vp ? `வர்ஷபதி ${where(vp)}. பலமின்மை வரையறுக்கப்படவில்லை.` : 'வர்ஷபதி இந்த முடிவில் இல்லை.', { varshapati: vp, house: h }));
+    }
+  }
   return out;
 }
 

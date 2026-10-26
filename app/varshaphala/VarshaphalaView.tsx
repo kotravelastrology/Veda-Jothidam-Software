@@ -491,14 +491,14 @@ const YOGA_STATUS: Record<string, { label: string; cls: string }> = {
   NOT_HELD: { label: 'இல்லை', cls: 'bg-surface-2 text-ink-soft' },
   UNKNOWN: { label: 'அறியப்படவில்லை', cls: 'bg-amber-100 text-amber-800' },
 };
-const YOGA_GROUPS: [string, string][] = [['arishta', 'அரிஷ்டம் (அத்.6)'], ['arishta-bhanga', 'அரிஷ்ட பங்கம் (அத்.7)'], ['yoga', 'யோகங்கள்'], ['raja-bhanga', 'ராஜ பங்கம்']];
+const YOGA_GROUPS: [string, string][] = [['arishta', 'அரிஷ்டம் (அத்.6)'], ['arishta-bhanga', 'அரிஷ்ட பங்கம் (அத்.7)'], ['yoga', 'யோகங்கள்'], ['raja-bhanga', 'ராஜ பங்கம்'], ['mishraka', 'கலப்பு அத்தியாயம் (ப.71-73)']];
 
 /** Tajika Bhushana's arishta, arishta-bhanga and yoga conditions over this year's chart. No verdict: where the book says "arishta", this says the condition holds. */
 function YogasSection({ y }: { y: any }) {
   const [open, setOpen] = useState<string | null>(null);
   return (
     <section className="bg-surface border border-line rounded-lg p-5">
-      <h3 className="font-semibold text-ink mb-1">அரிஷ்டம், அரிஷ்ட பங்கம், யோகங்கள் — தாஜிக பூஷணம் (ப.64-68)</h3>
+      <h3 className="font-semibold text-ink mb-1">அரிஷ்டம், அரிஷ்ட பங்கம், யோகங்கள், கலப்பு அத்தியாயம் — தாஜிக பூஷணம் (ப.64-68, 71-73)</h3>
       <p className="text-xs text-ink-soft mb-3">
         நூல் கூறும் நிபந்தனைகள் இந்த வர்ஷ ஜாதகத்தில் உள்ளனவா என்று மட்டும் காட்டுகிறது; "அரிஷ்டம் நிகழும்" என்ற முடிவு தரப்படவில்லை.
         "அறியப்படவில்லை" = நூல் வரையறுக்காத ஒன்று (பார்வை, அஸ்தமன ஓர்ப், பலத்தின் தரம்) தேவை.

@@ -81,4 +81,37 @@ for (const age of [10, 20, 36, 41]) {
   }
   assert.strictEqual(out.summary.held + out.summary.unknown + out.summary.notHeld, out.rules.length);
 }
+
+// The mixed chapter (printed 71-73). mk() puts the janma lagna at Muntha - age; here lagna 0 (Aries), muntha 0 and age 0 give janma lagna Aries (lord Mars)
+const mishra = (spec, extra = {}) => Y.evaluateVarshaYogas({ ...mk(spec), ...extra });
+// v.3: Jupiter in the 1st or 3rd and the janma lagna lord in the 4th
+let m = mishra({ lagna: 0, muntha: 0, age: 0, signs: all(8, { Jupiter: 2, Mars: 3 }) });
+assert.strictEqual(byId(m, 'MISHRA_3').status, 'HELD', 'Jupiter in Gemini (3rd from Aries), Mars the janma lagna lord in Cancer (4th)');
+assert.strictEqual(byId(mishra({ lagna: 0, muntha: 0, age: 0, signs: all(8, { Jupiter: 4, Mars: 3 }) }), 'MISHRA_3').status, 'NOT_HELD');
+// v.5: the 2nd lord in the 2nd with Jupiter; the 5th lord in the 5th
+m = mishra({ lagna: 0, signs: all(8, { Venus: 1, Jupiter: 1, Sun: 4 }) });
+assert.strictEqual(byId(m, 'MISHRA_5A').status, 'HELD', 'Venus the 2nd lord in Taurus with Jupiter');
+assert.strictEqual(byId(m, 'MISHRA_5B').status, 'HELD', 'the Sun the 5th lord in Leo');
+// v.7: the lagna lord in the 8th with Mars joined: HELD; Mars only a partial glance: UNKNOWN; no glance: NOT_HELD (lagna Taurus, lord Venus in Sagittarius, the 8th)
+assert.strictEqual(byId(mishra({ lagna: 1, signs: all(0, { Venus: 8, Mars: 8 }) }), 'MISHRA_7').status, 'HELD');
+assert.strictEqual(byId(mishra({ lagna: 1, signs: all(0, { Venus: 8, Mars: 5 }) }), 'MISHRA_7').status, 'UNKNOWN', 'Sagittarius is the 4th from Virgo: a half share');
+assert.strictEqual(byId(mishra({ lagna: 1, signs: all(0, { Venus: 8, Mars: 7 }) }), 'MISHRA_7').status, 'NOT_HELD', 'Sagittarius is the 2nd from Scorpio: no glance');
+assert.strictEqual(byId(mishra({ lagna: 1, signs: all(0, { Venus: 6, Mars: 6 }) }), 'MISHRA_7').status, 'NOT_HELD', 'the lagna lord is not in the 8th');
+// v.9: the lagna joined by a malefic and not by benefics (and no benefic or partial glance) is HELD; a benefic in the lagna makes it NOT_HELD
+assert.strictEqual(byId(mishra({ lagna: 0, signs: all(1, { Saturn: 0, Rahu: 0 }) }), 'MISHRA_9').status, 'HELD', 'Saturn and Rahu in the lagna; the benefics in Taurus (the 12th from it) cast no glance on Aries');
+assert.strictEqual(byId(mishra({ lagna: 0, signs: all(2, { Saturn: 0, Rahu: 0 }) }), 'MISHRA_9').status, 'UNKNOWN', 'benefics in Gemini glance Aries by a quarter: left open');
+assert.strictEqual(byId(mishra({ lagna: 0, signs: all(0, { Mercury: 0, Moon: 0, Jupiter: 0, Venus: 0 }) }), 'MISHRA_9').status, 'NOT_HELD', 'benefics in the lagna');
+// v.11 and v.12: the Varshapati's house and nature
+m = mishra({ lagna: 0, signs: all(1, { Jupiter: 3 }) }, { varshesha: 'Jupiter' });
+assert.strictEqual(byId(m, 'MISHRA_11B').status, 'HELD', 'Jupiter in the 4th is a benefic in a kendra');
+assert.strictEqual(byId(m, 'MISHRA_12A').status, 'NOT_HELD');
+m = mishra({ lagna: 0, signs: all(1, { Mars: 10 }) }, { varshesha: 'Mars' });
+assert.strictEqual(byId(m, 'MISHRA_12A').status, 'HELD', 'a malefic Varshapati in the 11th');
+m = mishra({ lagna: 0, signs: all(1, { Saturn: 11 }) }, { varshesha: 'Saturn' });
+assert.strictEqual(byId(m, 'MISHRA_12B').status, 'UNKNOWN', 'a malefic Varshapati in the 12th: the loss of strength is not defined');
+assert.strictEqual(byId(mishra({ lagna: 0, signs: all(1) }), 'MISHRA_11B').status, 'UNKNOWN', 'no Varshapati given');
+// v.6: the Moon in its fall (Scorpio) leaves the rule open (combustion has no orb in the verses); otherwise it fails
+assert.strictEqual(byId(mishra({ lagna: 0, signs: all(1, { Moon: 7 }) }), 'MISHRA_6').status, 'UNKNOWN');
+assert.strictEqual(byId(mishra({ lagna: 0, signs: all(1) }), 'MISHRA_6').status, 'NOT_HELD');
+assert.strictEqual(m.rules.filter((x) => x.group === 'mishraka').length, 16);
 console.log('test-varsha-yogas ok');

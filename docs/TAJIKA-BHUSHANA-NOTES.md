@@ -191,7 +191,7 @@ Food (bhojana-vichara, v.21-24, printed 94-95): the lagna lord gives the food, t
 Mercury mixed, Jupiter sweet, Venus sour, Saturn astringent (v.24). "Iti bhojanavicharah" at printed 95.
 Colophon (v.25-27, printed 95-96): the Tajika Bhushana is an ornament only for those who value the virtues of others; Ganesha Daivajna, son of Dhundhiraja, of Parthapura on the Godavari; the
 Hindi translation by Pandit Sitaram Shastri, Lucknow, finished Samvat 1992 Phalguna Krishna 14, Wednesday, at the instance of Khemraj Shrikrishnadas, Shri Venkateshvar Steam Press, Bombay.
-Not read in this book: the mixed chapter (printed 71-73, "mishrakadhyaya").
+Not read in this book: nothing of the main text; the mixed chapter (printed 71-73) is read, see the last section.
 
 ## Chapter 1 re-read for the Varshapati: printed 4-10 (v.11-37)
 Read 2026-10-26 on the page images (PDF 6-14 at 2.2 times; the Trirashi table at 6 times). What the selection needs:
@@ -211,3 +211,19 @@ the strength of own house, exaltation, hadda, drekkana and mushallaha is 30, 20,
 three quarters of that figure (22.5, 11.25, 7.5, 3.75 for own house, hadda, drekkana and mushallaha), in a neutral's place a half (15, 7.5, 5, 2.5), in an enemy's a quarter (7.5, 3.75, 2.5, 1.25). `panchaVargeeyaBook.js` follows these (maximum 80); the app's older `panchaVargeeyaBala` (Rao) gives a friend half, uses the Parashari drekkana and the Egyptian terms and divides by 4, and stays as `strengthMethod: 'APP'`. On the audit chart the Varshapati differs between the two in 4 of the first 60 years. Exaltation is 20 in the exaltation sign and nothing elsewhere (no graded scale in the verses); friendship is the natural one (the chapter gives no list).
 v.34-37 (printed 10): the selection, as in `src/report/varsheshaBook.js`. The commentary on v.34 says "lagna lord of the Sun" by day; the verse says "arkesha", the lord of the Sun.
 Printed 10 closes chapter 1 ("iti varshesha-nayanadhyaya 1") and begins chapter 2, already read.
+
+## The mixed chapter (mishrakadhyaya), printed 71-73 (read on the page images 2026-10-26)
+Twelve verses with the Hindi commentary; the chapter opens at the foot of printed 71 after "iti sahamadhyayah" and closes "iti mishrakadhyayah" on printed 73, where the Dasha-sadhana chapter begins.
+- v.1 (71): a planet that is combust, joined with malefics, aspected by malefics, in debility, not an office-holder (anadhikari) or conquered (jita) is to be taken as destroyed (nashta) and is a cause of suffering in its own dasha.
+- v.2 (71): a bhava aspected by benefics is strong, even if it is aspected by its own lord; but if the lord's glance is evil the bhava is evil too; if both benefic and malefic glance it is mixed, and its increase is known by estimating strength.
+- v.3 (71): Jupiter in the lagna or the 3rd and the lord of the janma lagna (prasuti-lagna) in the 4th: destruction of enemies and wealth increase in full.
+- v.4 (71-72): the lord of the lagna is Jupiter and he is in the lagna, neither aspected nor joined by malefics: much wealth from the king.
+- v.5 (72): the lord of the 2nd in the 2nd with Jupiter: wealth increases; the lord of the 5th in the 5th: happiness from brothers and sons.
+- v.6 (72): Jupiter or Venus combust by the Sun and the Moon debilitated: calamity to people that year; worst (death-like pain) if the debilitated Moon is in the lagna.
+- v.7 (72): the lord of the lagna in the 8th joined or aspected by Mars: disease from phlegm, bile and wind and loss of wealth.
+- v.8 (72): the lord of the 7th strong, in the 7th, free from the glance and company of malefics: pleasure from women day by day and increase of goods.
+- v.9 (72): the lagna joined or aspected by cruel planets and not by benefics: the man eats forbidden food and is distressed by the slander of the wicked.
+- v.10 (73): the lord of the 7th without strength: association with prostitutes; the lord of the 9th combust or joined with malefics: loss of caste.
+- v.11 (73): the Varshapati weak in the 8th, 6th or 12th: distress all year; a benefic Varshapati in a kendra (1, 4, 7, 10), a kona (5, 9) or the 11th: joy all year.
+- v.12 (73): a malefic Varshapati in the 11th, 3rd or 6th: the year is auspicious; without strength in the 12th or 8th: ruin of fortune (Lakshmi-nasha).
+Built as the group `mishraka` of `src/report/varshaYogas.js` (16 rules, HELD / NOT_HELD / UNKNOWN as the other rules). The aspects here are the sign aspects of ch.1 v.14: a conjunction or the 7th settles an aspect condition, a quarter, half or three-quarter share leaves it open. Combustion, "weak" and "conquered" have no measure in the verses and stay UNKNOWN. Malefic = Sun, Mars, Saturn, Rahu, Ketu (the module's convention).
