@@ -108,6 +108,29 @@ function Houses({ rows, title }: { rows: any[]; title: string }) {
   );
 }
 
+const asChart = (b: any) => fromParashariChart({
+  lagna: { rasiIndex: b.lagnaSign },
+  grahas: Object.fromEntries(b.planets.map((p: any) => [p.planet, { rasiIndex: p.sign, degreeInSign: p.degree }])),
+});
+
+/** PL9's "Progression (n)" pair: the solar-return chart of the year the event falls in, for the birth place and for the event place. */
+function VarshaPair({ v }: { v: any }) {
+  const t = (b: any) => `${b.local.year}-${pad(b.local.month)}-${pad(b.local.day)} ${pad(b.local.hour)}:${pad(b.local.minute)}:${pad(b.local.second)}`;
+  return (
+    <div className="mb-4">
+      <h3 className="text-xs font-semibold text-ink mb-1">வருஷபல கட்டம் — வயது {v.age} (நிகழ்வு நடக்கும் ஆண்டு) · முந்தா (Muntha): {SIGN_TA[v.munthaSign]}</h3>
+      <div className="grid md:grid-cols-2 gap-4">
+        {[['பிறந்த இடம்', v.birthPlace], ['நிகழ்வு இடம்', v.eventPlace]].map(([label, b]: any) => (
+          <div key={label} className="flex flex-col items-center">
+            <VedicChartBox {...asChart(b)} title={`${label}${b.placeName ? ' — ' + b.placeName : ''} · ${t(b)}`} size={280} />
+            <p className="text-[11px] text-ink-soft mt-1">லக்னம் {SIGN_TA[b.lagnaSign]} · முந்தா {SIGN_TA[b.munthaSign]}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function EventCard({ ev, native }: { ev: any; native: any }) {
   const g = ev.gochara;
   return (
@@ -120,6 +143,8 @@ function EventCard({ ev, native }: { ev: any; native: any }) {
         <Houses rows={ev.chart.fromLagna} title={`லக்னத்திலிருந்து (லக்னம் ${SIGN_TA[ev.chart.lagnaSign]})`} />
         <Houses rows={ev.chart.fromMoon} title={`சந்திரனிலிருந்து (${SIGN_TA[ev.chart.moonSign]})`} />
       </div>
+
+      {ev.varsha && <VarshaPair v={ev.varsha} />}
 
       <div className="grid md:grid-cols-2 gap-4">
         <div>

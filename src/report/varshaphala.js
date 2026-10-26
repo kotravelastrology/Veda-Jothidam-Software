@@ -387,4 +387,4 @@ function calculateVarshaphala(birthInput, age, { varsheshaMethod = 'BOOK' } = {}
   };
 }
 
-module.exports = { calculateVarshaphala, calculateVarshaVimsottariDasa, calculateVarshaNarayanaDasa };
+module.exports = { findSolarReturnUtcMs, calculateVarshaphala, calculateVarshaVimsottariDasa, calculateVarshaNarayanaDasa };

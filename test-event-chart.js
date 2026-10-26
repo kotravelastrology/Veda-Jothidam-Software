@@ -44,4 +44,17 @@ const same = E.eventChart({ natal: { ctx, chart }, event: { year: 1990, month: 1
 assert.strictEqual(same.gochara.tara.count, 1);
 assert.strictEqual(same.gochara.chandraFromBirthMoon, 1);
 assert.strictEqual(same.chart.lagnaSign, chart.lagna.rasiIndex);
+// PL9 121: "Progression (35) 5 Oct 2025 03:46:09" and the same for Bengaluru: lagna Leo, Muntha Cancer, Su Vir, Mo Aqu with Ra, Ju Gem, Ve Leo with Ke, Me and Ma Lib, Sa Pis
+const vp = r.varsha;
+assert.deepStrictEqual([vp.age, vp.munthaSign], [35, 3]);
+for (const b of [vp.birthPlace, vp.eventPlace]) {
+  assert.deepStrictEqual([b.local.year, b.local.month, b.local.day, b.local.hour, b.local.minute], [2025, 10, 5, 3, 46], 'return at 03:46, PL9 03:46:09 (the seconds differ by about twelve)');
+  assert.strictEqual(b.lagnaSign, 4);
+  const sg = Object.fromEntries(b.planets.map((p) => [p.planet, p.sign]));
+  assert.deepStrictEqual([sg.Sun, sg.Moon, sg.Rahu, sg.Jupiter, sg.Venus, sg.Ketu, sg.Mercury, sg.Mars, sg.Saturn], [5, 10, 10, 2, 4, 4, 6, 6, 11]);
+}
+// on the day before the 35th return the age is 34; at the instant of birth there is no return chart yet
+const day = E.eventChart({ natal: { ctx, chart }, event: { year: 2025, month: 10, day: 4, hour: 12, minute: 0, latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 } });
+assert.strictEqual(day.varsha.age, 34);
+assert.strictEqual(same.varsha, null);
 console.log('test-event-chart ok');

@@ -24,6 +24,7 @@ const { kakshyaTransit } = require('./kakshyaTransit');
 const { TITHI_NAMES, NAKSHATRA_NAMES, YOGA_NAMES, karanaName } = require('../panchangam/tirukanitaPanchangam');
 const { calculateShadbala } = require('../chart/shadbala');
 const V = require('../chart/vimshopaka');
+const { findSolarReturnUtcMs } = require('./varshaphala');
 
 const GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 const ALL = [...GRAHAS, 'Rahu', 'Ketu'];
@@ -32,6 +33,12 @@ const TARA = [
   ['Janma', 'ஜென்மம்'], ['Sampat', 'சம்பத்து'], ['Vipat', 'விபத்து'], ['Kshema', 'சேமம்'], ['Pratyari', 'பிரத்யரி'],
   ['Sadhaka', 'சாதகம்'], ['Vadha', 'வதை'], ['Mitra', 'மித்திரம்'], ['Ati-Mitra', 'பரம மித்திரம்'],
 ];
+
+/** Wall-clock parts of an instant at a UTC offset. */
+function partsAt(ms, offsetMinutes) {
+  const d = new Date(Math.round(ms / 1000) * 1000 + offsetMinutes * 60000);
+  return { year: d.getUTCFullYear(), month: d.getUTCMonth() + 1, day: d.getUTCDate(), hour: d.getUTCHours(), minute: d.getUTCMinutes(), second: d.getUTCSeconds() };
+}
 
 /** Julian day (UT) of a local date and time at the offset. */
 const jdOfEvent = (e) => julianDay(e.year, e.month, e.day, e.hour + (e.minute || 0) / 60 + (e.second || 0) / 3600 - (e.utcOffsetMinutes || 0) / 60);
@@ -137,7 +144,33 @@ function eventChart({ natal, event, levels = 5 }) {
   const dDegrees = Object.fromEntries(V.PLANETS.map((p) => [p, eChart.grahas[p].longitude % 30]));
   const vim5 = V.allVimshopaka({ signs: dSigns, degrees: dDegrees }, Object.keys(V.SCHEMES)[0]).map((r) => ({ planet: r.planet, total: r.total, reading: r.reading }));
 
-  return { event: { ...event, julianDay: eJd, ayanamsha: ay }, chart, kakshas, kakshaMethod: ks.method.id, gochara, dashas, vimshopaka: { scheme: Object.keys(V.SCHEMES)[0], planets: vim5 }, eventCtx: eCtx, eventChart: eChart };
+  // PL9's "Progression (n)" and relocated "Progression (place n)": the solar-return chart of the year the event falls in, for the birth place and for the event place
+  const birthUtcMs = Date.UTC(bi.year, bi.month - 1, bi.day, bi.hour, bi.minute || 0, bi.second || 0) - (bi.utcOffsetMinutes || 0) * 60000;
+  const sunLon = natal.chart.grahas.Sun.longitude;
+  let age = Math.max(0, Math.floor((eMs - birthUtcMs) / (365.2422 * 86400000)));
+  while (findSolarReturnUtcMs(sunLon, birthUtcMs, age + 1) <= eMs) age += 1;
+  while (age > 0 && findSolarReturnUtcMs(sunLon, birthUtcMs, age) > eMs) age -= 1;
+  let varsha = null;
+  if (age >= 1) {
+    const retMs = findSolarReturnUtcMs(sunLon, birthUtcMs, age);
+    const muntha = (natal.chart.lagna.rasiIndex + age) % 12;
+    const build = (place, lat, lon, off, iana) => {
+      const { chart: vc } = chartOf({ ...partsAt(retMs, off), latitude: lat, longitude: lon, utcOffsetMinutes: off, ianaTimeZone: iana }, base);
+      const vs = Object.fromEntries(ALL.map((p) => [p, vc.grahas[p].rasiIndex]));
+      return {
+        placeName: place, local: partsAt(retMs, off), lagnaSign: vc.lagna.rasiIndex, lagnaDegree: vc.lagna.degreeInSign, munthaSign: muntha,
+        planets: ALL.map((p) => ({ planet: p, sign: vs[p], degree: vc.grahas[p].degreeInSign })),
+        houses: housesFrom(vc.lagna.rasiIndex, vs),
+      };
+    };
+    varsha = {
+      age, returnMs: retMs, munthaSign: muntha,
+      birthPlace: build(bi.placeName ?? '', bi.latitude, bi.longitude, bi.utcOffsetMinutes, bi.ianaTimeZone),
+      eventPlace: build(event.placeName ?? '', event.latitude, event.longitude, event.utcOffsetMinutes, event.ianaTimeZone ?? bi.ianaTimeZone),
+    };
+  }
+
+  return { event: { ...event, julianDay: eJd, ayanamsha: ay }, varsha, chart, kakshas, kakshaMethod: ks.method.id, gochara, dashas, vimshopaka: { scheme: Object.keys(V.SCHEMES)[0], planets: vim5 }, eventCtx: eCtx, eventChart: eChart };
 }
 
 module.exports = { eventChart, TARA, jdOfEvent, GRAHAS, ALL };

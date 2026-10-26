@@ -27,4 +27,7 @@ Saptami, yoga Preeti, karana Vanija, Yogini lord Saturn, Ashtottari Moon, Chara 
   The direction after Brahma's sign is not stated in Rath's sutras; the BPHS rule is used. PL9's sub-levels (e.g. Cp-Aq-Aq-Sc-Cp) are not reproduced; only the main level is claimed.
 - **Glosses.** PL9's "Janma: Danger to body", "Preeti: Loved by all", "Vanija (cow)" and similar one-liners are not used: no source is held for them.
   Names and counts are given; the rules for Tara and Chandra bala with sources are on `/muhurta-stars`.
-- Not built: PL9's other dasha rows at event (Shatabdika, Kalachakra), the Progression and Varshaphala event charts (121-123), and event saving.
+- Not built: PL9's other dasha rows at event (Shatabdika, Kalachakra), and event saving. PL9's five-level Yogini, Ashtottari and Narayana strings in the gochara panel are not shown (we give the main period).
+
+## Varshaphala event view (121-123)
+For each event the solar-return chart of the year the event falls in is shown twice, as PL9's "Progression (35)" and "Progression (Bengaluru 35)": for the birth place and for the event place (same instant, so the planets agree and only the lagna can change). Age is the number of completed returns at the event; Muntha is the birth lagna plus that age. On the audit chart both charts match PL9 (lagna Leo, Muntha Cancer, all nine grahas); the return time is 03:46:21 here and 03:46:09 in PL9.
