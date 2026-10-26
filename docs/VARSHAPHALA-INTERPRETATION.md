@@ -28,6 +28,10 @@ No reading is ranked or merged. The book's own rule (v.24) is that the Munthesha
 - the **sahams of Tajika Bhushana** (printed 68-71; `src/report/varshaSahams.js`, `test-varsha-sahams.js`): 19 formulas computed over the annual chart and set beside the app's own saham table,
   saham by saham (same, differs by the 30-degree correction only, or differs in formula; yasha and stri have no counterpart). The book's reading rule (v.11) is shown with them.
 
+- the **monthly entries** (last chapter, printed 90-96; `src/report/masaPravesha.js`, `test-masa-pravesha.js`): twelve entries (the Sun at the birth Sun plus 0..11 signs), the month's lagna, the two
+  candidate month lords (lord of the navamsha of the lagna lord, lord of the navamsha of the lagna) with their Pancha-Vargeeya figures, and the month lord's results (v.6-12). The book does not
+  say how the stronger is decided, so both are shown and the larger is marked; equal figures choose nothing. The daily-entry and food rules (v.14-24) are recorded, not computed.
+
 ## Choices to check
 - v.23 does not list the good and bad places. The good places are taken as 1, 2, 3, 5, 9, 10, 11 and the bad as 4, 6, 7, 8, 12 from the tenor of the twelve
   verses (v.12 praises the 2nd; v.14 condemns the 4th).

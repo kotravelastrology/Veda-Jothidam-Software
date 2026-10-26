@@ -171,3 +171,24 @@ The 30-degree correction that the app's `sahams.js` applies is not in these page
 putra, vidya and gaurava differ by exactly the 30 degrees; the others differ in formula (rajya: the app has Sun - Jupiter; mrityu: the app adds the lagna, the book Saturn;
 bhratri: the app adds the lagna lord, the book the lagna; pitri: the app has Saturn - Sun, the book Sun - Saturn; bala: the app has punya - Mars; dhana: the app has the 2nd bhava minus its
 lord; jiva, labha, paradesha, karyasiddhi, vyapara also differ: 11 in all). Yasha and stri have no counterpart in the app.
+
+## The last chapter: the monthly entry, the daily entry, food (printed 90-96, 27 verses)
+Read 2026-10-26 on the page images (PDF 94-100 at 2.2 times). It follows "iti Tajikabhushane dashantardashaphalaadhyayah" (printed 90).
+v.1: the results of the monthly entry are very subtle; the method of casting it is given for the ganakas (computers). v.2: put the birth Sun in 11 places and add 1, 2,
+3 ... signs in turn; the first monthly entry's Sun is the varsha entry's (example: birth Sun 7-24-59-19 gives 8-24-59-19 for the second month, 9-24-59-19 for the
+third, and so on). v.3: the monthly entry's mean Sun in vikalas, times 13 ("gunabhu") divided by 890 ("khananda-naga"), added to the same vikalas, gives the ahargana with its
+parts (an almanac computation). v.4: the lagna for the entry's Sun is the month's lagna; the Moon and the other planets are placed in their own places. v.5: the lord of the
+navamsha of the lagna lord and the lord of the navamsha of the lagna: whichever is stronger is the month lord. v.6-12: results by the month lord (Sun v.6, Moon v.7, Mars v.8,
+Mercury v.9, Jupiter v.10, Venus v.11, Saturn v.12). v.13: these are for strong lords; for weak, middle and lowest strength infer by analogy. v.14: the daily results follow the dasha
+division as in the year. "Iti masaphalani" at printed 93.
+Daily entry (dinacharya, v.15-20, printed 93-94): adding one degree to the entry Sun for each day gives the next day's Sun; the day's lagna and planets by that Sun (v.16). The lagna
+lord in the 7th from the lagna or the Moon: great happiness; Mercury, Venus or Jupiter in the 11th, 3rd or 6th: victory, even a great work done (v.17); the lagna lord in the 6th or 8th with
+Jupiter weak or with malefics: many diseases (v.18); a malefic in the 8th or in an enemy's sign: fear of enemies, worry, dejection, quarrels that day (v.19); benefics in kendra, trikona and the 2nd
+and malefics in the 3rd, 11th, 6th: victory, pleasure, wealth that day (v.20). "Iti dinacharya" at printed 94.
+Food (bhojana-vichara, v.21-24, printed 94-95): the lagna lord gives the food, the 4th lord is the thing eaten, the lord of the 7th is hunger, the 10th lord the eater; the lagna lord and the
+11th lord joined or aspected by benefics: excellent food (v.21). Venus and Jupiter in the lagna: good food; Rahu, Sun, Saturn there: harm; malefics joined or aspected by benefics: food with trouble
+(v.22). Sun strong: food with sesame; Moon: rice; Mars: gram; Mercury: mung dal; Jupiter: wheat and kangni; Venus: bajra and gram; Saturn: urad (v.23). Tastes: Sun pungent, Moon salty, Mars sharp,
+Mercury mixed, Jupiter sweet, Venus sour, Saturn astringent (v.24). "Iti bhojanavicharah" at printed 95.
+Colophon (v.25-27, printed 95-96): the Tajika Bhushana is an ornament only for those who value the virtues of others; Ganesha Daivajna, son of Dhundhiraja, of Parthapura on the Godavari; the
+Hindi translation by Pandit Sitaram Shastri, Lucknow, finished Samvat 1992 Phalguna Krishna 14, Wednesday, at the instance of Khemraj Shrikrishnadas, Shri Venkateshvar Steam Press, Bombay.
+Not read in this book: the mixed chapter (printed 71-73, "mishrakadhyaya").

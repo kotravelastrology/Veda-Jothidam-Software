@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
@@ -379,6 +379,9 @@ export default function VarshaphalaView() {
           {/* Sahams as Tajika Bhushana gives them, beside the app's table */}
           {(result as any).bookSahams && <BookSahamsSection b={(result as any).bookSahams} />}
 
+          {/* Monthly entry: Tajika Bhushana's last chapter */}
+          {(result as any).masa && <MasaSection m={(result as any).masa} />}
+
           {/* Tripataki Chakra */}
           {(result as any).tripataki && (
             <section className="bg-surface border border-line rounded-lg p-5">
@@ -559,3 +562,47 @@ function BookSahamsSection({ b }: { b: any }) {
   );
 }
 const SIGN_TA_V = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
+
+/** The monthly entries of the year (Tajika Bhushana printed 90-96): the instant the Sun is at the birth Sun plus k signs, the month's lagna, the month lord and its results. */
+function MasaSection({ m }: { m: any }) {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <section className="bg-surface border border-line rounded-lg p-5">
+      <h3 className="font-semibold text-ink mb-1">மாத பிரவேசம் — தாஜிக பூஷணம் (ப.90-96)</h3>
+      <p className="text-xs text-ink-soft mb-2">
+        மாதம் k இன் பிரவேசம் = சூரியன் ஜன்ம சூரியனுடன் k ராசி கூட்டிய இடத்தை அடையும் கணம் ({m.method.verse}, ப.{m.method.printedPage}); அந்த நேரத்து லக்னம் மாத லக்னம் ({m.lagnaRule.verse}). மாதபதி = லக்னாதிபதியின் நவாம்ச அதிபதி, லக்னத்தின் நவாம்ச அதிபதி — இவ்விருவரில் பலசாலி ({m.lordRule.verse}).
+        {' '}{m.lordRule.text.split('.').slice(-2).join('.')}
+        {' '}{citeTa(m.source)}
+      </p>
+      <p className="text-xs text-ink-soft mb-3">{m.strength.text} ({m.strength.verse}, ப.{m.strength.printedPage})</p>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs" style={{ fontVariantNumeric: 'tabular-nums' }}>
+          <thead><tr className="text-left text-ink-soft border-b border-line"><th className="py-1 pr-2">மாதம்</th><th className="pr-2">பிரவேசம் (பிறந்த இடத்தின் நேரம்)</th><th className="pr-2">சூரியன்</th><th className="pr-2">லக்னம்</th><th>மாதபதி (பலம்)</th></tr></thead>
+          <tbody>
+            {m.months.map((x: any) => (
+              <Fragment key={x.index}>
+                <tr className="border-t border-line/40 cursor-pointer" onClick={() => setOpen(open === x.index ? null : x.index)}>
+                  <td className="py-1 pr-2">{x.index + 1}</td><td className="pr-2">{x.local}</td><td className="pr-2">{x.sunSignTa}</td><td className="pr-2">{x.lagnaSignTa}</td>
+                  <td>{x.candidates.map((c: any) => `${c.planetTa} ${c.pvb}`).join(' / ')}{x.leading ? ` → ${x.candidates.find((c: any) => c.planet === x.leading).planetTa}` : x.sameCandidate ? '' : ' → சமம்'}</td>
+                </tr>
+                {open === x.index && (
+                  <tr className="bg-surface-2/40"><td colSpan={5} className="p-2">
+                    {x.results.map((r: any) => (
+                      <p key={r.planet} className="mb-1"><span className="font-medium text-ink">{r.planetTa}{x.sameCandidate ? '' : r.leading ? ' (முன்னிலை)' : ' (மற்றவர்)'}</span> <span className="text-ink-soft">({r.verse}, ப.{r.printedPage}): {r.text}</span></p>
+                    ))}
+                  </td></tr>
+                )}
+              </Fragment>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <details className="mt-3 text-xs text-ink-soft">
+        <summary className="cursor-pointer">தினசர்யா (தின பிரவேசம்) மற்றும் உணவு விதிகள் — பதிவு மட்டும்</summary>
+        <p className="mt-1">{m.daily.text} ({m.daily.verse}, ப.{m.daily.printedPage})</p>
+        <p className="mt-1">{m.food.text} ({m.food.verse}, ப.{m.food.printedPage})</p>
+      </details>
+      <p className="text-[11px] text-ink-soft mt-2">கணக்கிடப்படாதவை: {m.notApplied.join(' · ')}. பலம் எப்படி என்பதை நூல் கூறவில்லை; இங்கே பஞ்சவர்கீய பலம் காட்டப்பட்டு, அதிகமானது "முன்னிலை" என்று குறிக்கப்படுகிறது; சமமெனில் தேர்வு செய்யப்படவில்லை.</p>
+    </section>
+  );
+}
