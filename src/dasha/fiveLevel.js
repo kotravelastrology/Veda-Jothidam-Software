@@ -12,6 +12,7 @@
  * Parashara's Light prints other strings for the sign dashas below the main level; they are not reproduced.
  */
 const { signYears } = require('./jaiminiRashiDashas');
+const { buildDasha, subPeriods } = require('./nakshatraDashaEngine');
 
 const LEVELS = ['Mahadasha', 'Antardasha', 'Pratyantardasha', 'Sookshma', 'Prana'];
 
@@ -64,4 +65,29 @@ function signChain({ schedule, facts, atMs, depth = 5 }) {
   return out;
 }
 
-module.exports = { proportional, signChain, subOrder, LEVELS };
+/**
+ * The running periods of a nakshatra-based table (`rareDashas.js` getTable) at an instant, to five levels: the engine builds four, the fifth is the proration of the fourth.
+ * A sub-period takes its parent's years in proportion to the lords' years, in the cycle's order from the parent's lord (nakshatraDashaEngine.js).
+ */
+function tableChain({ table, birthMs, moonLongitude, atMs, depth = 5 }) {
+  const YEAR_MS = 365.25 * 86400000;
+  const tree = buildDasha(table, { birthMs, moonLongitude, depth: Math.min(depth, 4), cycles: Math.ceil(125 / table.totalYears) + 1 });
+  const at = (yrs) => birthMs + yrs * YEAR_MS;
+  const inside = (p) => at(p.startYears) <= atMs && atMs < at(p.endYears);
+  const out = [];
+  let list = tree.periods;
+  let node = null;
+  for (let level = 1; level <= Math.min(depth, 4); level += 1) {
+    node = list.find(inside);
+    if (!node) return out;
+    out.push({ level, lord: node.lord, startMs: at(node.startYears), endMs: at(node.endYears) });
+    list = node.children || [];
+  }
+  if (depth >= 5 && node) {
+    const next = subPeriods(table, node.lord, node.durationYears, node.startYears).find(inside);
+    if (next) out.push({ level: 5, lord: next.lord, startMs: at(next.startYears), endMs: at(next.endYears) });
+  }
+  return out;
+}
+
+module.exports = { proportional, signChain, subOrder, tableChain, LEVELS };

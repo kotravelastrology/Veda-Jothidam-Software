@@ -283,10 +283,13 @@ function EventCard({ ev, native }: { ev: any; native: any }) {
               ['யோகினி', (ev.dashas.yogini5 ?? []).map((d: any) => PLANET_TA[d.lord])],
               ['அஷ்டோத்தரி', (ev.dashas.ashtottari5 ?? []).map((d: any) => PLANET_TA[d.lord])],
               ['நாராயண (ராத் 2.4.31-34)', (ev.dashas.narayana5 ?? []).map((d: any) => SIGN_TA[d.sign])],
-              ['ஸ்திர (ஜைமினி, ராத் — BPHS திசை)', (ev.dashas.jaiminiSthira5 ?? []).map((d: any) => SIGN_TA[d.sign])]].map(([label, xs]: any) => xs.length > 0 && (
+              ['ஸ்திர (ஜைமினி, ராத் — BPHS திசை)', (ev.dashas.jaiminiSthira5 ?? []).map((d: any) => SIGN_TA[d.sign])],
+              [`சதாப்திகா (${ev.dashas.shatabdika5?.applies?.applies ? 'லக்னம் வர்கோத்தமம் — நிபந்தனை உண்டு' : 'லக்னம் வர்கோத்தமம் அல்ல — நிபந்தனை இல்லை'})`, (ev.dashas.shatabdika5?.chain ?? []).map((d: any) => PLANET_TA[d.lord])],
+              [`காலச்சக்கரம் (${ev.dashas.kalachakra?.directionTa ?? ''}, மகா – புக்தி)`, ev.dashas.kalachakra ? [SIGN_TA[ev.dashas.kalachakra.maha.rasiIndex], ...(ev.dashas.kalachakra.bhukti ? [SIGN_TA[ev.dashas.kalachakra.bhukti.rasiIndex]] : [])] : []]].map(([label, xs]: any) => xs.length > 0 && (
               <li key={label} className="border-t border-line/40 py-0.5"><span className="text-ink-soft">{label}: </span>{xs.join(' – ')}</li>
             ))}
           </ul>
+          <p className="text-[11px] text-ink-soft mt-1">சதாப்திகா: BPHS அத்.46 (ரேவதியிலிருந்து எண்ணி 7-ஆல் வகுத்து; 5, 5, 10, 10, 20, 20, 30 ஆண்டுகள்); நிபந்தனை லக்னம் வர்கோத்தமம் — இங்கே குறிப்பாக மட்டும், விம்சோத்தரியே பொது தசை. காலச்சக்கரம் (தில்லைநாயகப் புலவர் நூல்): மகா தசை {ev.dashas.kalachakra ? `${SIGN_TA[ev.dashas.kalachakra.maha.rasiIndex]} ${new Date(ev.dashas.kalachakra.maha.startMs).toISOString().slice(0, 10)} → ${new Date(ev.dashas.kalachakra.maha.endMs).toISOString().slice(0, 10)}` : '—'}{ev.dashas.kalachakra?.bhukti ? `; புக்தி ${new Date(ev.dashas.kalachakra.bhukti.startMs).toISOString().slice(0, 10)} → ${new Date(ev.dashas.kalachakra.bhukti.endMs).toISOString().slice(0, 10)}` : ''}; நூலில் புக்தி வரை மட்டுமே. இந்த இரண்டுக்கும் PL9 நிகழ்வுப் பலகையில் மதிப்பு இல்லை.</p>
         </div>
         <div>
           <h3 className="text-xs font-semibold text-ink mb-1">நிகழ்வு ஜாதகத்தின் விம்சோபகம் ({ev.vimshopaka.scheme === 'shadvarga' ? 'ஷட்வர்க்கம்' : ev.vimshopaka.scheme})</h3>

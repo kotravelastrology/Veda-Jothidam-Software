@@ -72,4 +72,13 @@ for (const chain of [r.dashas.yogini5, r.dashas.ashtottari5, r.dashas.narayana5,
 // Narayana main period Pisces as PL9; the lower signs follow Rath 2.4.31-34 (PL9 prints Lib-Pis-Gem-Aqu there, not reproduced); the main period of the Rath Sthira is Capricorn
 assert.strictEqual(r.dashas.narayana5[0].sign, 11);
 assert.strictEqual(r.dashas.jaiminiSthira5[0].sign, 9);
+// Shatabdika (BPHS ch.46: Revati to the birth star, mod 7; 5, 5, 10, 10, 20, 20, 30) and Kalachakra (Thillainayaka Pulavar) at the event: five and two levels inside each other
+const sh = r.dashas.shatabdika5;
+assert.strictEqual(sh.chain.length, 5);
+assert.strictEqual(sh.chain[0].lord, 'Jupiter', 'born in Revati: Sun (balance), Moon, Venus, Mercury, then Jupiter from 2018');
+assert.strictEqual(sh.applies.applies, false, 'the lagna is not vargottama');
+sh.chain.forEach((c, i) => { assert.ok(c.startMs <= eventMs && eventMs < c.endMs + 1); if (i) assert.ok(c.startMs >= sh.chain[i - 1].startMs - 1 && c.endMs <= sh.chain[i - 1].endMs + 1); });
+const kc = r.dashas.kalachakra;
+assert.deepStrictEqual([kc.nakshatra, kc.pada, kc.maha.rasiIndex, kc.bhukti.rasiIndex], ['ரேவதி', 3, 1, 2]);
+assert.ok(kc.maha.startMs <= eventMs && eventMs < kc.maha.endMs && kc.bhukti.startMs <= eventMs && eventMs < kc.bhukti.endMs);
 console.log('test-event-chart ok');

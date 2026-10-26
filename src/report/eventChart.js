@@ -21,6 +21,9 @@ const { chainAtJulianDay } = require('../dasha/timeline');
 const AD = require('../dasha/altDashas');
 const { buildYoginiDasha, buildAshtottariDasha, currentPeriod } = AD;
 const FL = require('../dasha/fiveLevel');
+const RARE = require('../dasha/rareDashas');
+const BPHSD = require('../dasha/bphsDashas');
+const KC = require('./kalachakraDasha');
 const RS = require('../dasha/bphsRashiDashas');
 const { kakshyaTransit } = require('./kakshyaTransit');
 const { TITHI_NAMES, NAKSHATRA_NAMES, YOGA_NAMES, karanaName } = require('../panchangam/tirukanitaPanchangam');
@@ -152,6 +155,24 @@ function eventChart({ natal, event, levels = 5 }) {
     yogini5: FL.proportional({ periods: yog.periods, lords: AD.YOGINI_LORDS, years: AD.YOGINI_YEARS, cycleYears: 36, atMs: eMs }),
     ashtottari5: FL.proportional({ periods: asht.periods, lords: AD.ASHTOTTARI_LORDS, years: AD.ASHTOTTARI_YEARS, cycleYears: 108, atMs: eMs }),
     narayana5: fiveRashi('narayana'),
+    shatabdika5: (() => {
+      try {
+        const chain = FL.tableChain({ table: RARE.getTable('shatabdika'), birthMs, moonLongitude: natal.chart.grahas.Moon.longitude, atMs: eMs });
+        const elong = norm(natal.chart.grahas.Moon.longitude - natal.chart.grahas.Sun.longitude);
+        const sunHouse = ((nSigns.Sun - natal.chart.lagna.rasiIndex + 12) % 12) + 1;
+        const applies = BPHSD.applicability('shatabdika', { lagnaLongitude: natal.chart.lagna.longitude, signs: nSigns, paksha: elong < 180 ? 'SHUKLA' : 'KRISHNA', day: sunHouse >= 7 });
+        return { chain, applies };
+      } catch (e) { return null; }
+    })(),
+    kalachakra: (() => {
+      try {
+        const k = KC.calculateKalachakraDasha({ moonLongitude: natal.chart.grahas.Moon.longitude, birthMs });
+        const r = KC.runningKalachakraPeriod(k, eMs);
+        if (!r) return null;
+        const part = (x) => x && { rasiIndex: x.rasiIndex, lord: x.lord, years: x.years, startMs: x.startMs, endMs: x.endMs };
+        return { directionTa: k.directionTa, nakshatra: k.nakshatra, pada: k.pada, maha: part(r.maha), bhukti: part(r.bhukti) };
+      } catch (e) { return null; }
+    })(),
     jaiminiSthira5: fiveRashi('jaimini-sthira'),
   };
 
