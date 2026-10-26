@@ -61,3 +61,12 @@ body {
   --font-tamil-serif: var(--font-noto-serif-tamil);
   --font-tamil-sans: var(--font-noto-sans-tamil);
 }
+
+/* The print center (/print): when a document is shown, only it is printed; the menus, panels and controls are hidden. */
+@media print {
+  body:has(.print-area) * { visibility: hidden; }
+  body:has(.print-area) .print-area, body:has(.print-area) .print-area * { visibility: visible; }
+  body:has(.print-area) .print-area { position: absolute; left: 0; top: 0; width: 100%; margin: 0; }
+  body:has(.print-area) { background: #fff; }
+  @page { margin: 12mm; }
+}
