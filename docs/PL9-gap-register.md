@@ -125,3 +125,5 @@ Not built, with the reason found: Kota Chakra (111) and Sanghatta Chakra (112) -
 - 2026-10-26: Yearly Transit (South Indian) 104 built - `/yearly-transit` (docs/YEARLY-TRANSIT.md), reproducing PL9's 2026 screen entry for entry. Animated Transits (093, 098, 099) and Events (116-123) still open.
 
 - 2026-10-26: Events 116-123 built as `/events` (docs/EVENT-CHARTS.md): event chart, Kakshas over the birth Ashtakavarga, gochara facts, running dashas, Vimshopaka; matches PL9's screens except the Vimshottari fifth level and Sthira (lagna). Event saving, Shatabdika/Kalachakra rows and the Varshaphala event view still open.
+
+- 2026-10-26: Animated Transits (093, 098, 099) built - `/animated-transits` (docs/ANIMATED-TRANSITS.md). Group 3 of this register (charts and tables) is now complete except the Varshaphala event views (121-123).
