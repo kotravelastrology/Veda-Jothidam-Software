@@ -441,6 +441,34 @@ function InterpretationSection({ it }: { it: any }) {
           </li>
         ))}
       </ul>
+      <h4 className="text-sm font-semibold text-ink mb-1">முத்தா (பத்யாயினி) தசைகளின் பலன் — அத்தியாயங்கள் 8-9 (ப.73-90)</h4>
+      <p className="text-xs text-ink-soft mb-2">ஒவ்வொரு தசைக்கும் நூல் நான்கு நிலைகளுக்குப் பலன் தருகிறது (முழு வலிமை, நடுநிலை, வலிமை குறைவு, பலம் அழிந்தது); எந்த நிலை என்பதற்கு எண் வரம்பு தரவில்லை, எனவே நான்கும் காட்டப்படுகின்றன. தேதிகள் இந்தப் பக்கத்தின் தசைக் கணக்கிலிருந்து (365.25 நாள் ஆண்டு); நூல் 360 நாள் ஆண்டைப் பகிர்கிறது (ப.75) — ஒத்துப்போகவில்லை. அந்தர தசைகளின் வரிசையும் நீளமும் நூற்பாவில் இல்லை.</p>
+      <div className="space-y-2 mb-4">
+        {(it.mudda ?? []).map((d: any, i: number) => (
+          <details key={i} className="border border-line/50 rounded p-2 text-sm">
+            <summary className="cursor-pointer text-ink">{d.lordTa} தசை <span className="text-xs text-ink-soft">({d.start} → {d.end}, {d.days} நாள்)</span></summary>
+            {d.lagna ? (
+              <div className="mt-2 text-ink-soft">
+                <p>({d.lagna.verse}, ப.{d.lagna.printedPage}) {d.lagna.text}</p>
+                <p className="text-xs mt-1">இந்த வர்ஷ லக்னம்: {({ MOVABLE: 'சர', FIXED: 'ஸ்திர', DUAL: 'உபய' } as any)[d.lagna.signType]} ராசி, {d.lagna.drekkana}-ஆம் திரேக்காணம் → {({ BEST: 'சிறப்பு', MIDDLE: 'நடுநிலை', HARD: 'கஷ்டம்', INAUSPICIOUS: 'அசுபம்', AUSPICIOUS: 'சுபம்' } as any)[d.lagna.grade]}. ({d.lagna.note.verse}, ப.{d.lagna.note.printedPage}) {d.lagna.note.text}</p>
+              </div>
+            ) : (
+              <div className="mt-2 space-y-2">
+                <ul className="space-y-1">
+                  {d.tiers.map((t: any) => <li key={t.tier}><span className="font-medium text-ink">{t.tierTa}</span> <span className="text-xs text-ink-soft">({t.verse}, ப.{t.printedPage})</span>: <span className="text-ink-soft">{t.text}</span></li>)}
+                  {d.rule && <li className="text-xs text-ink-soft">({d.rule.verse}, ப.{d.rule.printedPage}) {d.rule.text}</li>}
+                </ul>
+                <div>
+                  <div className="text-xs font-semibold text-ink">அந்தர தசைகள்</div>
+                  <ul className="space-y-0.5 text-xs">
+                    {d.antar.map((a: any) => <li key={a.lord}><span className="font-medium text-ink">{a.lordTa}</span> <span className="text-ink-soft">({a.verse}, ப.{a.printedPage}): {a.text}</span></li>)}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </details>
+        ))}
+      </div>
       <p className="text-[11px] text-ink-soft">கணக்கிடப்படாதவை: {it.notApplied.join(' · ')}.</p>
     </section>
   );

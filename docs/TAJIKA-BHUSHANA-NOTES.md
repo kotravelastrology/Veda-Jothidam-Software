@@ -87,3 +87,41 @@ The Moon's v.19 commentary also prints "sut 9 sthan". Mars v.33 (7th) has the co
 
 Beyond chapter 5, the contents (printed p.4 of the front matter) list the rest: Arishta (printed 64-66), the yogas (67-68 on, rajabhanga), the sahams, the dasha
 chapter (Patyayini, printed 71-82), the antar-dasha (83-89), the monthly entry (90-93), daily routine and food (94). Not read.
+
+## Chapters 7-9: the mixed chapter, the Mudda dasha and its results, printed 71-90
+Read 2026-10-26 on the page images (PDF 73-94 at double size; the dasha chapter's own table read at four times).
+
+**Chapter 8, Dasha-sadhana (printed 73-76).** v.1: planets' results are given; they cannot be timed without the dasha order, so the method follows.
+v.2: take the varsha lagna and the seven planets, leave the sign, and arrange them by their degrees-and-minutes within the sign, the smallest first; each is
+built up by the preceding ones ("hinamsha"), and the differences between neighbours are the "patyamsha". v.3: if two have equal degrees put the stronger
+first; if also equal, the one with the smaller enjoyment first. v.4: the sum of the patyamsha equals the largest hinamsha; take the solar year as 360 days,
+multiply by 60 twice (1,296,000) and divide by the patyamsha total in vikalas, which gives the dhruvanka; each patyamsha by the dhruvanka (gomutrika
+multiplication) gives that planet's dasha in days, ghatis and palas. v.5: the antardasha is made the same way inside each dasha.
+The book's worked table (printed 74), planets in the order Mercury, Lagna, Sun, Venus, Jupiter, Mars, Saturn, Moon:
+hinamsha 2d18'34", 8d53'2", 9d44'59", 16d26'26", 19d23'32", 19d57'8", 21d57'3", 28d16'31"; patyamsha 2d18'34", 6d34'28", 0d51'57", 6d41'27", 2d57'6",
+0d33'36", 1d59'55", 6d19'26"; dasha 29-22-6, 83-44-28, 9-19-34, 85-42-17, 33-46-43, 7-6-44, 25-26-46, 80-31-22 (days-ghatis-palas). The patyamsha sum is
+28d16'31" = 101,791 vikalas = the Moon's hinamsha; 1,296,000 / 101,791 = 12.73, printed "12-43-59" (days-ghatis-palas). Check: Mercury 2.3094 deg x 12.73
+= 29.4 days (printed 29-22-6 = 29.37), Lagna 83.7 (83-44-28), Moon 80.5 (80-31-22), Venus 85.2 (printed 85-42-17 = 85.7), but Sun 11.0 days (printed
+9-19-34) and Jupiter 37.6 (printed 33-46-43) do not follow from their patyamsha; the printed days add to 355, not 360. The table is recorded as printed.
+The app's `varshaphala.js` Patyayini dasha (after Neelakantha) uses a 365.25-day year; the book's year is 360 days. Same method otherwise.
+v.6-9 (printed 76): "Prashna-upari varsha-nayana", finding the year's chart from a question when the birth time is unknown: the Muntha is the number
+got by dividing the degrees-minutes-seconds of the question lagna (sign left out) by 150, counted from Aries; the entry is when the next year's Sun equals the
+Sun at the question.
+
+**Chapter 8 continued, results of each planet's dasha (printed 76-83).** Five verses per planet: strong (purna-bala), middle (madhya), weak (hina),
+destroyed (nashta-bala), then a rule that a planet in good places gives better. The book gives no threshold for the four grades. Sun v.1-5 (printed 76-77),
+Moon v.6-10 (77-78), Mars v.11-15 (78-79), Mercury v.16-20 (79-80), Jupiter v.21-25 (80-81), Venus v.26-30 (81-82), Saturn v.31-35 (82-83). The rules:
+Sun in 3, 6, 11 with lost strength gives the weak result stated, middle strength the middle one, strong the larger (v.5); Moon in 2, 3, 11 with lost
+strength does not give the best (v.10); Mars in 11, 6, 3 gives good even with lost strength (v.15); Mercury with lost strength not in 8, 12, 6 gives the best
+in its dasha (v.20); Jupiter not in 12, 6, 8 does not give evil even if weak (v.25); Venus condemned but not in 12, 6, 8 does not trouble much (v.30);
+Saturn in 11, 3 or 6 does not give the whole evil (v.35). v.36: the lagna's dasha by drekkana: movable lagna 1st best, 2nd middle, 3rd hard; fixed 1st
+inauspicious, 2nd auspicious, 3rd middle; dual 1st middle, 2nd inauspicious, 3rd auspicious. v.37: the lagna's results follow the planets' graded results
+by the lagna lord. "Iti dasha-phaladhyaya" at printed 83.
+
+**Chapter 9, Antar-dasha-phala (printed 83-90), 43 verses.** The first verse is a preface; v.2-43 give the result of each antardasha lord within each
+dasha lord, six per planet, 42 in all, in the book's order: Sun's dasha (Moon, Mars, Mercury, Jupiter, Venus, Saturn), Moon's (Sun, Mars, Mercury,
+Jupiter, Venus, Saturn), Mars' (Mercury, Jupiter, Venus, Saturn, Sun, Moon), Mercury's (Jupiter, Venus, Saturn, Sun, Moon, Mars), Jupiter's (Venus, Saturn, Sun,
+Moon, Mars, Mercury), Venus' (Saturn, Sun, Moon, Mars, Mercury, Jupiter), Saturn's (Sun, Moon, Mars, Mercury, Jupiter, Venus). The Rahu and Ketu are not
+given a dasha. The order of the antardashas within a dasha in time is not stated in the verses.
+Misprint: v.36 (Venus' dasha, antardasha of the Moon's son = Mercury) the commentary prints "mangala" (Mars), with a hand correction above it in this copy;
+the verse's word "shashankaja" is Mercury, and Mars has its own v.35. Chapter 10 (printed 90 on, the monthly entry) not read.

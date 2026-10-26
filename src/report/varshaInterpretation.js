@@ -9,6 +9,7 @@
  * Chapter 5 (printed pp.45-63) is added: each of the Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn and Rahu in the bhava it holds from the varsha
  * lagna, one verse each (v.2-98, twelve per planet; Ketu is not given). The Moon's verse v.14 (the more of her light, the more auspicious) is carried
  * with her reading; the book gives no figure for it.
+ * Chapters 8-9 (printed pp.73-90) add the Mudda dasha of the year: each dasha's four graded results and each antardasha lord's result in it.
  * Not applied: conjunction by degree and aspects (the Tajika aspects of v.1, v.3), combustion and retrogression of the Munthesha (v.1),
  * Rahu-mukha and puccha (v.4: the Muntha is a sign here), and the grade of strength of the year lord (the verses give no thresholds).
  */
@@ -66,6 +67,23 @@ function interpretVarsha(v) {
     planet: lord, planetTa: PLANET_TA[lord], pvb: cand ? cand.pvb : null, roles: cand ? cand.roles : [],
     readings: T.yearLord[lord] ? T.yearLord[lord].map((e) => reading(`YEAR_LORD_${e.tier}`, `வர்ஷபதி ${PLANET_TA[lord]} — ${TIER_TA[e.tier]}`, e, { tier: e.tier, tierTa: TIER_TA[e.tier] })) : [],
   };
+  // Mudda dasha (chapters 8-9, printed pp.73-90): for each dasha of the year, the four grades of its results, the book's rule for planets in good
+  // places, and the results of each antardasha lord in it. The book gives no thresholds for the four grades (purna, madhya, hina, nashta bala),
+  // so all four are listed; the lagna dasha is graded by the drekkana of the varsha lagna (v.36), which needs only the lagna's degree.
+  const M = T.muddaDasha;
+  const lagnaSignType = ['MOVABLE', 'FIXED', 'DUAL'][lagnaSign % 3];
+  const lagnaDrekkana = Math.floor(v.varshaChart.lagna.degreeInSign / 10) + 1;
+  const LAGNA_GRADE = { MOVABLE: ['BEST', 'MIDDLE', 'HARD'], FIXED: ['INAUSPICIOUS', 'AUSPICIOUS', 'MIDDLE'], DUAL: ['MIDDLE', 'INAUSPICIOUS', 'AUSPICIOUS'] };
+  const antarOf = (lord) => Object.keys(M.antarDasha).filter((k) => k.startsWith(`${lord}|`)).map((k) => ({ lord: k.split('|')[1], lordTa: PLANET_TA[k.split('|')[1]], ...M.antarDasha[k] }));
+  const mudda = (v.patyayiniDasha || []).map((d) => {
+    if (d.lord === 'Lagna') {
+      return { lord: 'Lagna', lordTa: 'லக்னம்', days: d.days, start: d.start, end: d.end,
+        lagna: { signType: lagnaSignType, drekkana: lagnaDrekkana, grade: LAGNA_GRADE[lagnaSignType][lagnaDrekkana - 1], ...M.lagnaDasa, note: M.lagnaDasaNote }, tiers: [], rule: null, antar: [] };
+    }
+    return { lord: d.lord, lordTa: PLANET_TA[d.lord], days: d.days, start: d.start, end: d.end, lagna: null,
+      tiers: (M.dasaPhala[d.lord] || []).map((e) => ({ ...e, tierTa: { STRONG: 'முழு வலிமை', MIDDLE: 'நடுநிலை', WEAK: 'வலிமை குறைவு', DESTROYED: 'பலம் அழிந்தது' }[e.tier] })),
+      rule: M.dasaRule[d.lord] || null, antar: antarOf(d.lord) };
+  });
   const BHAVA_PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu'];
   const bhavaPhala = BHAVA_PLANETS.map((planet) => {
     const house = houseFrom(v.varshaChart.grahas[planet].rasiIndex, lagnaSign);
@@ -77,9 +95,10 @@ function interpretVarsha(v) {
     source: SOURCE,
     readings,
     bhavaPhala,
+    mudda,
     yearLord,
     facts: { munthaSign, munthaHouse, munthaHouseFromJanmaLagna: munthaHouseFromJanma, munthesha, munthesheaHouse, planetsWithMuntha: withMuntha },
-    notApplied: T.notRead.concat(['Tajika aspects, combustion and retrogression (v.1, v.3)', 'Year lord strength grade: no thresholds in the verses']),
+    notApplied: T.notRead.concat(['Mudda dasha periods come from the app engine (365.25-day year); the book divides a 360-day year (printed 75): not reconciled', 'The antardasha order and lengths: the verses give no order','Tajika aspects, combustion and retrogression (v.1, v.3)', 'Year lord strength grade: no thresholds in the verses']),
   };
 }
 

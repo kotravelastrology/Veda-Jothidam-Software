@@ -1,6 +1,6 @@
 # Varshaphala interpretations (PL9 gap register group 4)
 
-Source: *Tajika Bhushana* of Ganesha Daivajna (Sanskrit verses, Hindi commentary; corpus C28), chapters 2, 3 and 5, printed pp.10-21 and 45-63 (printed = PDF - 4),
+Source: *Tajika Bhushana* of Ganesha Daivajna (Sanskrit verses, Hindi commentary; corpus C28), chapters 2, 3, 5, 8 and 9, printed pp.10-21, 45-63 and 73-90 (printed = PDF - 4),
 read on the page images; reading notes in `docs/TAJIKA-BHUSHANA-NOTES.md`. Verses glossed in Tamil in `fixtures/varshaphala/tajika-bhushana.json`, embedded as
 `src/report/varshaInterpretationTables.js`. Engine `src/report/varshaInterpretation.js`, test `test-varsha-interpretation.js`, a new section on `/varshaphala`.
 
@@ -17,6 +17,9 @@ No reading is ranked or merged. The book's own rule (v.24) is that the Munthesha
 
 - the **planet-in-bhava** verses of chapter 5 (printed 45-63): for the Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn and Rahu, the verse of the bhava each
   holds from the varsha lagna (v.2-98, twelve per planet; Ketu has none). The Moon's v.14 (more light, more auspicious) is shown with her verse, without a figure.
+- the **Mudda dasha results** (chapters 8-9, printed 73-90): for each dasha of the year, the four graded results of its lord (strong, middle, weak, destroyed), the
+  book's rule for a planet in good places, the lagna dasha graded by the drekkana of the varsha lagna (v.36), and the six antardasha results (v.2-43, 42 in all).
+  The book gives no threshold for the four grades, so all four are listed.
 
 ## Choices to check
 - v.23 does not list the good and bad places. The good places are taken as 1, 2, 3, 5, 9, 10, 11 and the bad as 4, 6, 7, 8, 12 from the tenor of the twelve
@@ -28,10 +31,14 @@ No reading is ranked or merged. The book's own rule (v.24) is that the Munthesha
 ## Not built
 Saturn with the Muntha (v.10, which runs off the edge of the scan); Rahu-mukha and puccha (v.4; the Muntha is a sign here); Tajika aspects, combustion and
 retrogression of the Munthesha (v.1, v.3); the Harsha-sthana chapter (printed 21, built elsewhere as Harsha Bala); Ketu (no verses); the sahams, yogas and arishta (printed 64-68), the
-Mudda dasha results (printed 71-89) and the monthly entry (90-93), which are the rest of the PL9 "Chart" and "Dasha interpretations".
+Mudda dasha results (read; see above), the sahams (printed 68-71) and the monthly entry (90-93), which are the rest of the PL9 "Chart" and "Dasha interpretations".
 
 - The commentary's fifth-bhava number is misprinted "9" for seven planets (see the notes); the verse's own word for son fixes it and the verse numbers run in
   order, so it is read as the fifth.
+
+- The book's Mudda dasha divides a 360-day year (printed 75); `varshaphala.js` divides 365.25 days. The page's dates are the engine's; the book's own worked table
+  does not fully follow its method (Sun and Jupiter differ; the printed days add to 355), so it is not used as a test. Not changed.
+- v.36 of chapter 9 has a printed misprint (Mars for Mercury) in the commentary; the verse's word fixes it as Mercury.
 
 ## A difference to resolve
 The book selects the Varshapati by strength and aspect on the varsha lagna among the five office-holders (ch.1, v.34-37, printed 10). `varshaphala.js`

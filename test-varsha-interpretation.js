@@ -23,6 +23,19 @@ assert.strictEqual(T.moonGeneral.verse, 'v.14');
 let last = 0;
 for (const p of Object.keys(base)) for (let h = 1; h <= 12; h += 1) { const n = Number(String(T.bhavaPhala[p][String(h)].printedPage).split('-')[0]); assert.ok(n >= last, `${p} ${h} page ${n} < ${last}`); last = n; }
 assert.strictEqual(last, 63);
+// Mudda dasha (chapters 8-9): seven planets x four grades, verses in order; 42 antardasha verses v.2-43 in the book's own order of the six other planets
+const grades = ['STRONG', 'MIDDLE', 'WEAK', 'DESTROYED'];
+const firstVerse = { Sun: 1, Moon: 6, Mars: 11, Mercury: 16, Jupiter: 21, Venus: 26, Saturn: 31 };
+for (const [p, b] of Object.entries(firstVerse)) {
+  assert.deepStrictEqual(T.muddaDasha.dasaPhala[p].map((e) => e.tier), grades, p);
+  assert.deepStrictEqual(T.muddaDasha.dasaPhala[p].map((e) => e.verse), [0, 1, 2, 3].map((k) => `v.${b + k}`), p);
+  assert.strictEqual(T.muddaDasha.dasaRule[p].verse, `v.${b + 4}`, `${p} rule`);
+}
+const antar = Object.entries(T.muddaDasha.antarDasha);
+assert.strictEqual(antar.length, 42);
+assert.deepStrictEqual(antar.map(([, e]) => e.verse), Array.from({ length: 42 }, (_, i) => `v.${i + 2}`));
+for (const p of Object.keys(firstVerse)) assert.strictEqual(antar.filter(([k]) => k.startsWith(`${p}|`)).length, 6, p);
+for (const [k] of antar) { const [a, b] = k.split('|'); assert.notStrictEqual(a, b); assert.ok(a in firstVerse && b in firstVerse); }
 // printed pages never run backwards through the verses
 const pages = [];
 for (let h = 1; h <= 12; h += 1) pages.push(Number(T.munthaHouse[String(h)].printedPage));
@@ -56,6 +69,25 @@ for (const age of [20, 30, 36, 41]) {
   }
   // every reading carries a printed page and text
   for (const r of o.readings) assert.ok(r.printedPage && r.text.length > 20 && r.verse.startsWith('v.'), r.id);
+}
+// Mudda dasha on the chart: one entry per dasha of the year, each lord's four grades and six antardasha results; the lagna dasha is graded by the drekkana
+for (const age of [20, 36]) {
+  const v = V.calculateVarshaphala(birth, age);
+  const o = I.interpretVarsha(v);
+  assert.strictEqual(o.mudda.length, v.patyayiniDasha.length);
+  for (const d of o.mudda) {
+    if (d.lord === 'Lagna') {
+      assert.ok(['BEST', 'MIDDLE', 'HARD', 'INAUSPICIOUS', 'AUSPICIOUS'].includes(d.lagna.grade));
+      const sign = v.varshaChart.lagna.rasiIndex % 3;
+      const dr = Math.floor(v.varshaChart.lagna.degreeInSign / 10);
+      const expect = [['BEST', 'MIDDLE', 'HARD'], ['INAUSPICIOUS', 'AUSPICIOUS', 'MIDDLE'], ['MIDDLE', 'INAUSPICIOUS', 'AUSPICIOUS']][sign][dr];
+      assert.strictEqual(d.lagna.grade, expect);
+    } else {
+      assert.strictEqual(d.tiers.length, 4);
+      assert.strictEqual(d.antar.length, 6);
+      assert.ok(d.antar.every((a) => a.lord !== d.lord));
+    }
+  }
 }
 // the Muntha moves a sign a year: age 36 and 37 are one house apart
 const a = I.interpretVarsha(V.calculateVarshaphala(birth, 36));
