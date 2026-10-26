@@ -153,6 +153,22 @@ const SOURCES = [
     },
   },
   {
+    id: 'KP_READER_4_MARRIAGE',
+    title: 'Krishnamurti Padhdhati, Reader IV: Marriage and Married Life',
+    titleTa: 'கிருஷ்ணமூர்த்தி பத்ததி, தொகுதி 4: திருமணமும் இல்லற வாழ்வும்',
+    author: 'K.S. Krishnamurti',
+    file: 'C32_KP_Reader_IV_Marriage_Children_KSK.pdf',
+    tradition: 'Krishnamurti Paddhati (KP)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A twentieth-century work under copyright. Cited by printed page (printed = PDF - 3 in the opening chapters, PDF - 25 in the middle chapters); rules are summarised in our own words. The text layer is a per-page letter shift, so the book was read from page images. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'The publisher terms have not been read.',
+    },
+  },
+  {
     id: 'BRIHAT_JATAKA_RAO_1986',
     title: 'Brihat Jataka (B.S. Rao, 1986)',
     titleTa: 'பிருஹத் ஜாதகம் (பி.எஸ். ராவ், 1986)',
