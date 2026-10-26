@@ -117,3 +117,5 @@ Not built, with the reason found: Kota Chakra (111) and Sanghatta Chakra (112) -
 - 2026-10-23: Sripati bhava built from Sripatipaddhati I.6-11 (`/sripati-bhava`); Sun/Moon lagnas added to `/special-lagnas` from BPHS ch.7 vv.39-43; the KP chart (kpSystem.js) now checked against KP Reader III (test-kp-source.js, registry entries). Open decision: the app's other pages take the Porphyry points as house beginnings, Sripati as house middles (docs/SRIPATI-BHAVA.md). KP Readers I and II (cuspal sub lords) not in the corpus.
 
 - 2026-10-23: KP house significators (levels 1-4 and the golden rule) from Astro Secrets Part 2 pp.148-149, 237-238 (`src/report/kpHouseSignificators.js`); not yet shown on a page; conjunction/aspect and horary levels not computed.
+
+- 2026-10-26: KP Reader IV (C32) rules built as `src/report/kpMarriage.js` + report section (docs/KP-MARRIAGE-ENGINE.md); Porutham C32 second source (docs/PORUTHAM-C32-COMPARISON.md). Partner-description tables, conjunction/aspect conditions and child's sex not built.

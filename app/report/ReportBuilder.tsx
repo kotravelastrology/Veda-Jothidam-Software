@@ -10,6 +10,7 @@ import { ChartDisplay } from '@/src/charts/ChartDisplay';
 import { getChartById, type ChartCategory } from '@/src/charts/chartTypes';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
+import { citeTa } from '@/src/sources/citeTa';
 import { getChartLibrary } from '@/src/portal/ChartLibraryManager';
 import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
 import { NATURE_TA, Cites, PhaladeepikaNowCell, BinduTablePicker } from '../gochara-vedha/PhaladeepikaNow';
@@ -73,6 +74,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'bhriguProgressions', label: 'பிருகு சக்கர / சரள பத்ததி' },
   { id: 'kp', label: 'KP ஜோதிடம்' },
   { id: 'kpEvents', label: 'KP முகூர்த்தம் (80 நிகழ்வு)' },
+  { id: 'kpMarriage', label: 'KP திருமணம் · பிரிவு · குழந்தை விதிகள்' },
 ];
 
 function SourceRequiredBadge({ reason }: { reason?: string }) {
@@ -1605,6 +1607,75 @@ const KP_GRADE_STYLE: Record<string, string> = {
   RED: 'bg-rose-soft text-rose', REVIEW: 'bg-surface-soft text-ink-soft',
 };
 
+const KPM_STATUS: Record<string, { label: string; cls: string }> = {
+  HELD: { label: 'நிபந்தனை உள்ளது', cls: 'bg-teal-soft text-teal' },
+  NOT_HELD: { label: 'நிபந்தனை இல்லை', cls: 'bg-surface-2 text-ink-soft' },
+  INFO: { label: 'தகவல்', cls: 'bg-amber-100 text-amber-800' },
+};
+const KPM_GROUPS: [string, string][] = [['marriage', 'திருமணம்'], ['divorce', 'பிரிவு / விவாகரத்து'], ['children', 'குழந்தைகள்'], ['character', 'இயல்பு'], ['gem', 'ரத்தினம்']];
+
+/** K.S. Krishnamurti, Reader IV, as conditions over this chart. No verdicts: where the book says "will", this says the condition holds. */
+function KpMarriageSection({ report }: { report: ReportData }) {
+  const km = (report as any).kpMarriage;
+  const [open, setOpen] = useState<string | null>(null);
+  if (!km?.available) return null;
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-1 text-ink">KP திருமணம் · பிரிவு · குழந்தை (கே.எஸ். கிருஷ்ணமூர்த்தி, தொகுதி 4)</h2>
+      <p className="text-xs text-ink-soft mb-3">
+        நூல் கூறும் நிபந்தனைகள் இந்த ஜாதகத்தில் உள்ளனவா என்று மட்டும் காட்டுகிறது; "நடக்கும்" என்ற முடிவு எதுவும் தரப்படவில்லை.
+        {' '}{citeTa(km.source)}
+      </p>
+      {KPM_GROUPS.map(([g, title]) => {
+        const rows = km.rules.filter((r: any) => r.group === g);
+        if (!rows.length) return null;
+        return (
+          <div key={g} className="mb-4">
+            <h3 className="text-sm font-semibold text-ink mb-1">{title}</h3>
+            <ul className="space-y-1 text-xs">
+              {rows.map((r: any) => {
+                const st = KPM_STATUS[r.status];
+                return (
+                  <li key={r.id} className="border-b border-line/40 pb-1">
+                    <button type="button" onClick={() => setOpen(open === r.id ? null : r.id)} className="text-left w-full">
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded mr-2 ${st.cls}`}>{st.label}</span>
+                      <span className="text-ink">{r.titleTa}</span>
+                      <span className="text-ink-soft"> (ப.{r.printedPages})</span>
+                      {r.printedContradiction && <span className="ml-1 text-[10px] text-rose">நூலில் முரண்</span>}
+                      {r.derivedShorthand && <span className="ml-1 text-[10px] text-amber-700">சுருக்கம் மாற்றப்பட்டது</span>}
+                    </button>
+                    {open === r.id && <p className="mt-1 text-ink-soft leading-relaxed">{r.detailTa}</p>}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        );
+      })}
+      <div className="mb-3">
+        <h3 className="text-sm font-semibold text-ink mb-1">நடப்பு தசா-புக்தி-அந்தரம்-சூக்ஷ்மம்: எந்த அதிபதி எந்த நிகழ்வின் பாவங்களைக் குறிக்கிறார்</h3>
+        <table className="w-full text-xs">
+          <thead><tr className="text-ink-soft border-b border-line">
+            <th className="text-left py-1">நிலை</th><th className="text-left py-1">அதிபதி</th><th className="text-left py-1">திருமணம் 2,7,11</th><th className="text-left py-1">குழந்தை 2,5,11</th><th className="text-left py-1">பிரிவு 1,6,10,12</th>
+          </tr></thead>
+          <tbody>
+            {km.periods.marriage.map((m: any, i: number) => (
+              <tr key={m.level} className="border-b border-line/40">
+                <td className="py-1">{m.level}</td><td className="py-1">{POINT_LABEL[m.lord] ?? m.lord}</td>
+                <td className="py-1">{m.signifies.join(', ') || '—'}</td>
+                <td className="py-1">{km.periods.children[i].signifies.join(', ') || '—'}</td>
+                <td className="py-1">{km.periods.separation[i].signifies.join(', ') || '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="text-[11px] text-ink-soft mt-1">நூல்: நிகழ்வு, அதன் காரகர்களின் இணைந்த தசா-புக்தி-அந்தரங்களில் வரும் (ப.107, 195). இது தொடர்பை மட்டும் காட்டுகிறது; தேதி கணிக்கப்படவில்லை.</p>
+      </div>
+      <p className="text-[11px] text-ink-soft">கணக்கிடப்படாதவை: {km.notApplied.join(' · ')}.</p>
+    </div>
+  );
+}
+
 function KpEventsSection({ report }: { report: ReportData }) {
   const ke = (report as any).kpEvents;
   const [filter, setFilter] = useState<'all' | 'GREEN' | 'RED'>('all');
@@ -1963,6 +2034,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   bhriguProgressions: BhriguProgressionSection,
   kp: KpSystemSection,
   kpEvents: KpEventsSection,
+  kpMarriage: KpMarriageSection,
   altDashas: AltDashaSection,
   kalachakraDasha: KalachakraDashaSection,
 };

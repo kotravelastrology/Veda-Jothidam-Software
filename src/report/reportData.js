@@ -35,6 +35,7 @@ const { calculateBhriguProgressions } = require('./bhriguProgressions');
 const { calculateKpSystem } = require('./kpSystem');
 const { buildYoginiDasha, buildAshtottariDasha } = require('../dasha/altDashas');
 const { calculateKpEvents } = require('./kpEvents');
+const { evaluateKpMarriage } = require('./kpMarriage');
 const { calculateJaimini } = require('./jaimini');
 const { calculateAvasthas } = require('./avasthas');
 const { calculateNakshatraExtras } = require('./nakshatraExtras');
@@ -210,6 +211,7 @@ function buildReportData(birthInput) {
 
   const kp = calculateKpSystem(profile.chartContext.input, { nodeType: profile.chartContext.nodeType });
   const kpEvents = calculateKpEvents(kp);
+  const kpMarriage = evaluateKpMarriage(kp);
 
   const _jdMidnightUt = sweJulianDay(bi.year, bi.month, bi.day, -(bi.utcOffsetMinutes || 0) / 60);
   const _sunriseJd = sunriseJulianDay(_jdMidnightUt, bi.latitude, bi.longitude);
@@ -453,6 +455,7 @@ function buildReportData(birthInput) {
     bhriguProgressions,
     kp,
     kpEvents,
+    kpMarriage,
     jaimini,
     avasthas,
     nakshatraExtras,
