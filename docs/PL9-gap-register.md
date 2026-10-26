@@ -119,3 +119,5 @@ Not built, with the reason found: Kota Chakra (111) and Sanghatta Chakra (112) -
 - 2026-10-23: KP house significators (levels 1-4 and the golden rule) from Astro Secrets Part 2 pp.148-149, 237-238 (`src/report/kpHouseSignificators.js`); not yet shown on a page; conjunction/aspect and horary levels not computed.
 
 - 2026-10-26: KP Reader IV (C32) rules built as `src/report/kpMarriage.js` + report section (docs/KP-MARRIAGE-ENGINE.md); Porutham C32 second source (docs/PORUTHAM-C32-COMPARISON.md). Partner-description tables, conjunction/aspect conditions and child's sex not built.
+
+- 2026-10-26: Graphical Ephemeris (102/103) built - `/graphical-ephemeris` (docs/GRAPHICAL-EPHEMERIS.md). Animated Transits (093, 098, 099), Yearly Transit South Indian (104) and Events (116-123) still open.
