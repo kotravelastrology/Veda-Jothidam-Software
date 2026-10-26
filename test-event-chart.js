@@ -57,4 +57,19 @@ for (const b of [vp.birthPlace, vp.eventPlace]) {
 const day = E.eventChart({ natal: { ctx, chart }, event: { year: 2025, month: 10, day: 4, hour: 12, minute: 0, latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330 } });
 assert.strictEqual(day.varsha.age, 34);
 assert.strictEqual(same.varsha, null);
+// PL9's "New Event Gochara data" five-level strings: Yogini Saturn-Rahu-Saturn-Mercury-Rahu, Ashtottari Moon-Moon-Venus-Venus-Moon
+assert.deepStrictEqual(r.dashas.yogini5.map((x) => x.lord), ['Saturn', 'Rahu', 'Saturn', 'Mercury', 'Rahu']);
+assert.deepStrictEqual(r.dashas.ashtottari5.map((x) => x.lord), ['Moon', 'Moon', 'Venus', 'Venus', 'Moon']);
+// each level lies inside the one above it and contains the instant
+const eventMs = (r.event.julianDay - 2440587.5) * 86400000;
+for (const chain of [r.dashas.yogini5, r.dashas.ashtottari5, r.dashas.narayana5, r.dashas.jaiminiSthira5]) {
+  assert.strictEqual(chain.length, 5);
+  chain.forEach((c, i) => {
+    assert.ok(c.startMs <= eventMs && eventMs < c.endMs + 1);
+    if (i) assert.ok(c.startMs >= chain[i - 1].startMs - 1 && c.endMs <= chain[i - 1].endMs + 1);
+  });
+}
+// Narayana main period Pisces as PL9; the lower signs follow Rath 2.4.31-34 (PL9 prints Lib-Pis-Gem-Aqu there, not reproduced); the main period of the Rath Sthira is Capricorn
+assert.strictEqual(r.dashas.narayana5[0].sign, 11);
+assert.strictEqual(r.dashas.jaiminiSthira5[0].sign, 9);
 console.log('test-event-chart ok');

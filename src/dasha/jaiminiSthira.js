@@ -13,9 +13,10 @@
  *   6. the lord of the 8th from the Atmakaraka, if it stands in the 8th itself, qualifies as Brahma (2.1.53).
  *  2.3.4: the Sthira dasas begin from the sign occupied by Brahma; 2.3.3: seven, eight and nine years for movable, fixed and dual signs.
  *
- * The direction in which the signs follow is not stated in these sutras. The BPHS rule is used (onward from an odd sign, backward from an even one: bphsRashiDashas.js
- * `sthira`), which is also what reproduces Parashara's Light for the audit chart. Where the text leaves the strength of two qualifying lords to the reader, the Jaimini
- * ladder's dignity is used.
+ * Direction after Brahma's sign. The sutras do not state it; Rath's worked example (Chart 48, printed p.226: Brahma in Virgo, an even sign) runs the Sthira dasas
+ * "regularly in the zodiacal order" (Virgo, Libra, Scorpio ...), so that is the reading `jaimini-sthira-zodiacal` follows. `jaimini-sthira` keeps the BPHS rule
+ * (onward from an odd sign, backward from an even one), which is what gives Parashara's Light's Capricorn for the audit chart; with the printed zodiacal order the
+ * audit chart gives Virgo. Where the text leaves the strength of two qualifying lords to the reader, the Jaimini ladder's dignity is used.
  */
 const { strongerOfPair, dignity, LORD } = require('./jaiminiShoola');
 
@@ -89,15 +90,15 @@ function brahmaRath(chart) {
   return { reference, referenceStep: first.step, qualifying, brahmaFound: found, brahma, replacedFrom, atmakaraka: ak, relaxed, sign: signs[brahma] };
 }
 
-function jaiminiSthira(chart) {
+function jaiminiSthira(chart, { zodiacal = false } = {}) {
   const b = brahmaRath(chart);
   if (b.sign === null) return { id: 'jaimini-sthira', source: SOURCE, start: null, periods: [], detail: b, reasonTa: 'இந்த ஜாதகத்தில் ராத் நூலின் முறைப்படி பிரம்ம கிரகம் அமையவில்லை.' };
-  const forward = isOdd(b.sign);
+  const forward = zodiacal ? true : isOdd(b.sign);
   const periods = Array.from({ length: 12 }, (_, i) => {
     const s = forward ? (b.sign + i) % 12 : (b.sign - i + 12) % 12;
     return { sign: s, years: years(s) };
   });
-  return { id: 'jaimini-sthira', source: SOURCE, start: b.sign, forward, detail: b, periods };
+  return { id: zodiacal ? 'jaimini-sthira-zodiacal' : 'jaimini-sthira', source: SOURCE, start: b.sign, forward, detail: b, periods };
 }
 
 module.exports = { jaiminiSthira, brahmaRath, atmakaraka, REPLACEMENT, SOURCE };

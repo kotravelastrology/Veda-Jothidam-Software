@@ -18,7 +18,9 @@ const { calculateParashariChart } = require('../chart/parashariChart');
 const { sunMoonLongitudes } = require('../ephemeris/siderealPositions');
 const { buildVimshottariDasha } = require('../dasha/vimshottariDasha');
 const { chainAtJulianDay } = require('../dasha/timeline');
-const { buildYoginiDasha, buildAshtottariDasha, currentPeriod } = require('../dasha/altDashas');
+const AD = require('../dasha/altDashas');
+const { buildYoginiDasha, buildAshtottariDasha, currentPeriod } = AD;
+const FL = require('../dasha/fiveLevel');
 const RS = require('../dasha/bphsRashiDashas');
 const { kakshyaTransit } = require('./kakshyaTransit');
 const { TITHI_NAMES, NAKSHATRA_NAMES, YOGA_NAMES, karanaName } = require('../panchangam/tirukanitaPanchangam');
@@ -130,6 +132,12 @@ function eventChart({ natal, event, levels = 5 }) {
       return sched ? { sign: sched.sign, startMs: sched.startMs, endMs: sched.endMs, years: sched.years } : null;
     } catch (e) { return null; }
   };
+  const fiveRashi = (id) => {
+    try {
+      const sched = RS.schedule(RS.SYSTEMS[id](rashiFacts), birthMs, 3);
+      return FL.signChain({ schedule: sched, facts: rashiFacts, atMs: eMs }).map((c) => ({ level: c.level, sign: c.sign, startMs: c.startMs, endMs: c.endMs }));
+    } catch (e) { return null; }
+  };
   const dashas = {
     vimshottari: chainAtJulianDay(vim, eJd).map((c) => ({ level: c.level, lord: c.lord, startLocal: c.startLocal, endLocal: c.endLocal })),
     yogini: (() => { const p = pick(yog); return p && { yogini: p.yogini, yoginiTa: p.yoginiTa, lord: p.lord, start: p.start, end: p.end }; })(),
@@ -137,6 +145,12 @@ function eventChart({ natal, event, levels = 5 }) {
     chara: rashi('chara'),
     sthira: rashi('sthira'),
     jaiminiSthira: rashi('jaimini-sthira'),
+    jaiminiSthiraZodiacal: rashi('jaimini-sthira-zodiacal'),
+    // five levels (main, sub, sub-sub, prana, sookshma)
+    yogini5: FL.proportional({ periods: yog.periods, lords: AD.YOGINI_LORDS, years: AD.YOGINI_YEARS, cycleYears: 36, atMs: eMs }),
+    ashtottari5: FL.proportional({ periods: asht.periods, lords: AD.ASHTOTTARI_LORDS, years: AD.ASHTOTTARI_YEARS, cycleYears: 108, atMs: eMs }),
+    narayana5: fiveRashi('narayana'),
+    jaiminiSthira5: fiveRashi('jaimini-sthira'),
   };
 
   // Graha Bala parts and Vimshopaka of the event chart

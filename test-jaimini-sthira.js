@@ -31,4 +31,19 @@ assert.strictEqual(d.periods.reduce((s, p) => s + p.years, 0), 96, 'four signs e
 // registered beside the BPHS Sthira, which is kept
 assert.ok(RS.SYSTEMS['jaimini-sthira'] && RS.SYSTEMS.sthira && RS.SOURCES['jaimini-sthira']);
 assert.notStrictEqual(RS.SYSTEMS.sthira(facts).start, d.start, 'the two readings differ for this chart and both are shown');
+
+// Rath's printed example (Chart 48, p.226) runs the Sthira dasas in zodiacal order whatever the sign: the audit chart then starts in Taurus and reaches Virgo in 2022
+const z = J.jaiminiSthira(facts, { zodiacal: true });
+assert.strictEqual(z.forward, true);
+assert.deepStrictEqual(z.periods.slice(0, 3).map((p) => p.sign), [1, 2, 3]);
+assert.ok(RS.SYSTEMS['jaimini-sthira-zodiacal']);
+
+// sub-period order, Rath 2.4.31-34: starts at the lord's sign; odd sign forward, even sign reversed; Saturn in the dasa sign forward, Ketu reversed
+const F = require('./src/dasha/fiveLevel');
+const base = { signs: { Sun: 5, Moon: 0, Mars: 6, Mercury: 6, Jupiter: 3, Venus: 4, Saturn: 8, Rahu: 10, Ketu: 4 }, degrees: Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'].map((p) => [p, 10])), lagnaSign: 4 };
+const so = (sign, over) => F.subOrder(sign, { ...base, signs: { ...base.signs, ...over } });
+assert.deepStrictEqual(so(11, {}).order.slice(0, 3), [3, 2, 1], 'Pisces: Jupiter in Cancer (even sign), reversed');
+assert.deepStrictEqual(so(11, { Jupiter: 2 }).order.slice(0, 3), [2, 3, 4], 'Jupiter in Gemini (odd sign), zodiacal');
+assert.strictEqual(so(11, { Saturn: 11 }).forward, true, 'Saturn in Pisces: zodiacal');
+assert.strictEqual(so(11, { Jupiter: 2, Ketu: 11 }).forward, false, 'Ketu in Pisces: reversed');
 console.log('test-jaimini-sthira ok');

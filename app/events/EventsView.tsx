@@ -189,8 +189,19 @@ function EventCard({ ev, native }: { ev: any; native: any }) {
               {ev.dashas.chara && <tr className="border-t border-line/40"><td className="py-0.5 pr-2 text-ink-soft">சர தசை (லக்னம்)</td><td className="pr-2">{SIGN_TA[ev.dashas.chara.sign]}</td><td className="text-ink-soft">{new Date(ev.dashas.chara.startMs).toISOString().slice(0, 10)} → {new Date(ev.dashas.chara.endMs).toISOString().slice(0, 10)}</td></tr>}
               {ev.dashas.sthira && <tr className="border-t border-line/40"><td className="py-0.5 pr-2 text-ink-soft">ஸ்திர தசை (BPHS, சந்தானம்)</td><td className="pr-2">{SIGN_TA[ev.dashas.sthira.sign]}</td><td className="text-ink-soft">{new Date(ev.dashas.sthira.startMs).toISOString().slice(0, 10)} → {new Date(ev.dashas.sthira.endMs).toISOString().slice(0, 10)}</td></tr>}
               {ev.dashas.jaiminiSthira && <tr className="border-t border-line/40"><td className="py-0.5 pr-2 text-ink-soft">ஸ்திர தசை (ஜைமினி, ராத்)</td><td className="pr-2">{SIGN_TA[ev.dashas.jaiminiSthira.sign]}</td><td className="text-ink-soft">{new Date(ev.dashas.jaiminiSthira.startMs).toISOString().slice(0, 10)} → {new Date(ev.dashas.jaiminiSthira.endMs).toISOString().slice(0, 10)}</td></tr>}
+              {ev.dashas.jaiminiSthiraZodiacal && <tr className="border-t border-line/40"><td className="py-0.5 pr-2 text-ink-soft">ஸ்திர தசை (ராத், ராசி வரிசை)</td><td className="pr-2">{SIGN_TA[ev.dashas.jaiminiSthiraZodiacal.sign]}</td><td className="text-ink-soft">{new Date(ev.dashas.jaiminiSthiraZodiacal.startMs).toISOString().slice(0, 10)} → {new Date(ev.dashas.jaiminiSthiraZodiacal.endMs).toISOString().slice(0, 10)}</td></tr>}
             </tbody>
           </table>
+          <h4 className="text-xs font-semibold text-ink mt-3 mb-1">ஐந்து நிலைகள் (தசை-புக்தி-அந்தரம்-சூக்ஷ்மம்-பிராணம்)</h4>
+          <ul className="text-xs" style={num}>
+            {[['விம்சோத்தரி', ev.dashas.vimshottari.map((d: any) => PLANET_TA[d.lord])],
+              ['யோகினி', (ev.dashas.yogini5 ?? []).map((d: any) => PLANET_TA[d.lord])],
+              ['அஷ்டோத்தரி', (ev.dashas.ashtottari5 ?? []).map((d: any) => PLANET_TA[d.lord])],
+              ['நாராயண (ராத் 2.4.31-34)', (ev.dashas.narayana5 ?? []).map((d: any) => SIGN_TA[d.sign])],
+              ['ஸ்திர (ஜைமினி, ராத் — BPHS திசை)', (ev.dashas.jaiminiSthira5 ?? []).map((d: any) => SIGN_TA[d.sign])]].map(([label, xs]: any) => xs.length > 0 && (
+              <li key={label} className="border-t border-line/40 py-0.5"><span className="text-ink-soft">{label}: </span>{xs.join(' – ')}</li>
+            ))}
+          </ul>
         </div>
         <div>
           <h3 className="text-xs font-semibold text-ink mb-1">நிகழ்வு ஜாதகத்தின் விம்சோபகம் ({ev.vimshopaka.scheme === 'shadvarga' ? 'ஷட்வர்க்கம்' : ev.vimshopaka.scheme})</h3>

@@ -32,6 +32,7 @@ const SOURCES = Object.freeze({
   'jaimini-chara': JR_SOURCE,
   narayana: JR_SOURCE,
   'jaimini-sthira': JSTH.SOURCE,
+  'jaimini-sthira-zodiacal': JSTH.SOURCE,
   chara: locus('pp.553-556 vv.155-167', '"The number of years of Dasa is reckoned from the Rasi up to the house in which its lord is posited … for the odd padas counting is done from Rasi onwards … for the even padas in the reverse order"'),
   sthira: locus('pp.556-558 vv.168-173', '"7 years, 8 years and 9 years are the Dasa spans of the movable, fixed and dual signs … begins from the Brahma Grahashrit rasi"'),
   yogardha: locus('p.560 v.174', '"The spans of Dasas of the signs in the Yogardha Dasa system are half of the total of the Chara and Sthira Dasas"'),
@@ -219,8 +220,8 @@ const JS = require('./jaiminiShoola');
 const JR = require('./jaiminiRashiDashas');
 const { aspected } = JS;
 
-const SYSTEMS = { chara, sthira, yogardha, mandooka, dirga, lagnadi, 'niryaana-shoola': JS.niryanaShoola, 'jaimini-chara': JR.jaiminiChara, narayana: JR.narayana, 'jaimini-sthira': JSTH.jaiminiSthira };
-const NAMES_TA = { chara: 'சர தசை', sthira: 'ஸ்திர தசை', yogardha: 'யோகார்த்த தசை', mandooka: 'மண்டூக தசை', dirga: 'தீர்க்க (த்ருக்) தசை', lagnadi: 'லக்னாதி ராசி தசை', 'niryaana-shoola': 'நிர்யாண சூல தசை (ஜைமினி)', 'jaimini-chara': 'சர தசை (ஜைமினி — ராத்)', narayana: 'நாராயண தசை (ஜைமினி)', 'jaimini-sthira': 'ஸ்திர தசை (ஜைமினி — ராத் முறைப்படி பிரம்மம்)' };
+const SYSTEMS = { chara, sthira, yogardha, mandooka, dirga, lagnadi, 'niryaana-shoola': JS.niryanaShoola, 'jaimini-chara': JR.jaiminiChara, narayana: JR.narayana, 'jaimini-sthira': JSTH.jaiminiSthira, 'jaimini-sthira-zodiacal': (c) => JSTH.jaiminiSthira(c, { zodiacal: true }) };
+const NAMES_TA = { chara: 'சர தசை', sthira: 'ஸ்திர தசை', yogardha: 'யோகார்த்த தசை', mandooka: 'மண்டூக தசை', dirga: 'தீர்க்க (த்ருக்) தசை', lagnadi: 'லக்னாதி ராசி தசை', 'niryaana-shoola': 'நிர்யாண சூல தசை (ஜைமினி)', 'jaimini-chara': 'சர தசை (ஜைமினி — ராத்)', narayana: 'நாராயண தசை (ஜைமினி)', 'jaimini-sthira': 'ஸ்திர தசை (ஜைமினி — ராத் முறைப்படி பிரம்மம்)', 'jaimini-sthira-zodiacal': 'ஸ்திர தசை (ராத் — பிரம்மமும் எடுத்துக்காட்டின் ராசி வரிசையும்)' };
 
 const DECLARED_TA = Object.freeze({
   'lagna-kendradi-rashi': 'கேந்திராதி: "பலத்தின் வரிசை", "பாணபர/அபோக்லிம" ஆகியவற்றுக்கு நூல் அளவுகோல் தரவில்லை; எடுத்துக்காட்டு அட்டவணையின் ஆண்டுகள் அதன் உரையுடன் பொருந்தவில்லை.',

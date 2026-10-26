@@ -68,7 +68,7 @@ export async function computeBphsRashiDasha(req: BphsRashiDashaRequest) {
     start: result.start, startTa: result.start == null ? null : SIGN_TA[result.start], forward: result.forward ?? null,
     reasonTa: result.reasonTa ?? null,
     brahma: req.system === 'sthira' ? { planet: result.detail.planet, planetTa: result.detail.planet ? PLANET_TA[result.detail.planet] : null, signTa: result.detail.sign == null ? null : SIGN_TA[result.detail.sign], baseTa: SIGN_TA[result.detail.base] }
-      : req.system === 'jaimini-sthira' ? { planet: result.detail.brahma, planetTa: result.detail.brahma ? PLANET_TA[result.detail.brahma] : null, signTa: result.detail.sign == null ? null : SIGN_TA[result.detail.sign], baseTa: SIGN_TA[result.detail.reference], replacedFromTa: result.detail.replacedFrom ? PLANET_TA[result.detail.replacedFrom] : null }
+      : (req.system === 'jaimini-sthira' || req.system === 'jaimini-sthira-zodiacal') ? { planet: result.detail.brahma, planetTa: result.detail.brahma ? PLANET_TA[result.detail.brahma] : null, signTa: result.detail.sign == null ? null : SIGN_TA[result.detail.sign], baseTa: SIGN_TA[result.detail.reference], replacedFromTa: result.detail.replacedFrom ? PLANET_TA[result.detail.replacedFrom] : null }
       : null,
     lagnaTa: SIGN_TA[lagnaSign],
     periods: rows,

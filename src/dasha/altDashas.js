@@ -136,4 +136,4 @@ function currentPeriod(periods, nowMs = Date.now()) {
   return periods.find((p) => p.startMs <= nowMs && nowMs < p.endMs) || null;
 }
 
-module.exports = { buildYoginiDasha, buildAshtottariDasha, yoginiStartIndex, currentPeriod };
+module.exports = { buildYoginiDasha, buildAshtottariDasha, yoginiStartIndex, currentPeriod, YOGINI_LORDS, YOGINI_YEARS, ASHTOTTARI_LORDS, ASHTOTTARI_YEARS };
