@@ -169,6 +169,22 @@ const SOURCES = [
     },
   },
   {
+    id: 'TAJIKA_BHUSHANA_GANESHA',
+    title: 'Tajika Bhushana',
+    titleTa: 'தாஜிக பூஷணம்',
+    author: 'Ganesha Daivajna',
+    file: 'C28_Tajika_Bhushana_Ganesha.pdf',
+    tradition: 'Tajika (Varshaphala)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit verses are old; the Hindi commentary printed with them is a later work. Cited by chapter, verse and printed page (printed = PDF - 4); the verses are glossed in our own Tamil. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'The terms of the edition and its commentary have not been read.',
+    },
+  },
+  {
     id: 'BRIHAT_JATAKA_RAO_1986',
     title: 'Brihat Jataka (B.S. Rao, 1986)',
     titleTa: 'பிருஹத் ஜாதகம் (பி.எஸ். ராவ், 1986)',

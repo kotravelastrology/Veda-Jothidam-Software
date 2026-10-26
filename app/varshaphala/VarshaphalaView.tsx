@@ -6,6 +6,7 @@ import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeVarshaphala } from './actions';
 import type { BirthFormInput } from '../report/actions';
+import { citeTa } from '@/src/sources/citeTa';
 
 interface VarshaResult {
   yearsElapsed: number;
@@ -369,6 +370,9 @@ export default function VarshaphalaView() {
             </section>
           )}
 
+          {/* Interpretation: Tajika Bhushana's verses for this Muntha and year lord */}
+          {(result as any).interpretation && <InterpretationSection it={(result as any).interpretation} />}
+
           {/* Tripataki Chakra */}
           {(result as any).tripataki && (
             <section className="bg-surface border border-line rounded-lg p-5">
@@ -395,5 +399,39 @@ export default function VarshaphalaView() {
         </div>
       )}
     </main>
+  );
+}
+
+const PLANET_TA_V: Record<string, string> = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி' };
+
+/** Tajika Bhushana's verses that apply to this year's Muntha, Munthesha and year lord. No verdict is drawn; the book's own rule is that the Munthesha's strength raises or lowers them (v.24). */
+function InterpretationSection({ it }: { it: any }) {
+  return (
+    <section className="bg-surface border border-line rounded-lg p-5">
+      <h3 className="font-semibold text-ink mb-1">வருஷபல விளக்கம் — தாஜிக பூஷணம் (கணேச தைவஜ்ஞர்)</h3>
+      <p className="text-xs text-ink-soft mb-3">
+        இந்த ஆண்டின் முந்தா, முந்தேசன், வர்ஷபதிக்குப் பொருந்தும் நூற்பாக்கள். எதுவும் தள்ளப்படவில்லை, கூட்டப்படவில்லை; முந்தேசனின் பலத்தால் இவை கூடிக் குறையும் என்பது நூலின் விதி (பா.24), எண் வரம்பு தரப்படவில்லை.
+        {' '}{citeTa(it.source)}
+      </p>
+      <p className="text-xs text-ink-soft mb-3">
+        முந்தா வர்ஷ லக்னத்திலிருந்து {it.facts.munthaHouse}-ஆம் வீடு, ஜன்ம லக்னத்திலிருந்து {it.facts.munthaHouseFromJanmaLagna}-ஆம் வீடு · முந்தேசன் {PLANET_TA_V[it.facts.munthesha]} வர்ஷ லக்னத்திலிருந்து {it.facts.munthesheaHouse}-ஆம் வீட்டில்.
+      </p>
+      <ul className="space-y-2 text-sm mb-4">
+        {it.readings.map((r: any) => (
+          <li key={r.id} className="border-b border-line/40 pb-2">
+            <div className="font-medium text-ink">{r.titleTa} <span className="text-xs text-ink-soft">({r.verse}, ப.{r.printedPage})</span></div>
+            <div className="text-ink-soft">{r.text}</div>
+          </li>
+        ))}
+      </ul>
+      <h4 className="text-sm font-semibold text-ink mb-1">வர்ஷபதி {it.yearLord.planetTa}{it.yearLord.pvb != null ? ` — இயந்திரம் கணித்த பஞ்சவர்கீய பலம் ${it.yearLord.pvb}` : ''}</h4>
+      <p className="text-xs text-ink-soft mb-2">நூல் வலிமை, நடுநிலை, குறைவு என மூன்று பலன்களைத் தருகிறது; எந்த அளவு எந்த நிலை என்று இப்பாக்கள் கூறவில்லை, எனவே மூன்றும் காட்டப்படுகின்றன.</p>
+      <ul className="space-y-1 text-sm mb-3">
+        {it.yearLord.readings.map((r: any) => (
+          <li key={r.id}><span className="font-medium text-ink">{r.tierTa}</span> <span className="text-xs text-ink-soft">({r.verse}, ப.{r.printedPage})</span>: <span className="text-ink-soft">{r.text}</span></li>
+        ))}
+      </ul>
+      <p className="text-[11px] text-ink-soft">கணக்கிடப்படாதவை: {it.notApplied.join(' · ')}.</p>
+    </section>
   );
 }
