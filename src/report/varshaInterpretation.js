@@ -6,6 +6,9 @@
  * Applied: Muntha in a bhava counted from the varsha lagna (v.11-22); planets in the Muntha's sign (v.5-9; Saturn's verse is not read);
  * the Munthesha's bhava from the varsha lagna (v.1-2); the Muntha's house from the janma lagna against the varsha lagna (v.23); the year
  * lord's three strength readings (v.4-24) beside the strength figure the engine computes.
+ * Chapter 5 (printed pp.45-63) is added: each of the Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn and Rahu in the bhava it holds from the varsha
+ * lagna, one verse each (v.2-98, twelve per planet; Ketu is not given). The Moon's verse v.14 (the more of her light, the more auspicious) is carried
+ * with her reading; the book gives no figure for it.
  * Not applied: conjunction by degree and aspects (the Tajika aspects of v.1, v.3), combustion and retrogression of the Munthesha (v.1),
  * Rahu-mukha and puccha (v.4: the Muntha is a sign here), and the grade of strength of the year lord (the verses give no thresholds).
  */
@@ -16,7 +19,7 @@ const SOURCE = {
   author: 'Ganesha Daivajna',
   tradition: 'Tajika (Varshaphala)',
   file: 'C28_Tajika_Bhushana_Ganesha.pdf',
-  pageLocus: 'Chapters 2-3, printed pp.10-21: Muntha-phala and Varshesha-phala',
+  pageLocus: 'Chapters 2, 3 and 5, printed pp.10-21 and 45-63: Muntha-phala, Varshesha-phala and the planets in the twelve bhavas',
 };
 
 const PLANET_TA = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' };
@@ -63,9 +66,17 @@ function interpretVarsha(v) {
     planet: lord, planetTa: PLANET_TA[lord], pvb: cand ? cand.pvb : null, roles: cand ? cand.roles : [],
     readings: T.yearLord[lord] ? T.yearLord[lord].map((e) => reading(`YEAR_LORD_${e.tier}`, `வர்ஷபதி ${PLANET_TA[lord]} — ${TIER_TA[e.tier]}`, e, { tier: e.tier, tierTa: TIER_TA[e.tier] })) : [],
   };
+  const BHAVA_PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu'];
+  const bhavaPhala = BHAVA_PLANETS.map((planet) => {
+    const house = houseFrom(v.varshaChart.grahas[planet].rasiIndex, lagnaSign);
+    const e = T.bhavaPhala[planet][String(house)];
+    return { planet, planetTa: PLANET_TA[planet], house, sign: v.varshaChart.grahas[planet].rasiIndex, verse: e.verse, printedPage: e.printedPage, text: e.text,
+      note: planet === 'Moon' ? { verse: T.moonGeneral.verse, printedPage: T.moonGeneral.printedPage, text: T.moonGeneral.text } : null };
+  });
   return {
     source: SOURCE,
     readings,
+    bhavaPhala,
     yearLord,
     facts: { munthaSign, munthaHouse, munthaHouseFromJanmaLagna: munthaHouseFromJanma, munthesha, munthesheaHouse, planetsWithMuntha: withMuntha },
     notApplied: T.notRead.concat(['Tajika aspects, combustion and retrogression (v.1, v.3)', 'Year lord strength grade: no thresholds in the verses']),

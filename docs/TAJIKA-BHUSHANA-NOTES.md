@@ -73,3 +73,17 @@ threshold for the three grades in these verses.
   great fear of foreigners, weakness; weak v.24 (printed 21): loss of strength and lustre through wind, failure of one's own purposes, grief for kin.
 Printed 21 ends chapter 3 and begins chapter 4, the four kinds of Harsha-sthana (Sun in the 9th, Moon in the 3rd, Mars in the 6th, Mercury in the 1st, Jupiter in the 11th, Venus in the
 5th, Saturn in the 12th; by day the male planets, by night the female ones; the male planets in 4, 5, 6, 10, 11, 12 and the female in 1, 2, 3, 7, 8, 9 from the lagna).
+
+## Chapter 5 (Dvadasha-bhava-phala by planet), printed 45-63
+Read 2026-10-26 on the page images (PDF 49-67 at double size). Eight planets, twelve verses each, the verse of the bhava the planet holds from the
+varsha lagna: Sun v.2-13 (printed 45-47), Moon v.14-26 (47-49; v.14 is a general verse: the more of her light the more auspicious, the less the worse),
+Mars v.27-38 (49-52), Mercury v.39-50 (52-54), Jupiter v.51-62 (54-56), Venus v.63-74 (56-59), Saturn v.75-86 (59-61), Rahu v.87-98 (61-63). Ketu has no
+verses (the contents list "Rahu ka phal" at p.61 and then the next chapter). Glossed in Tamil in `fixtures/varshaphala/tajika-bhushana.json` under
+`bhavaPhala`; page ranges like "46-47" mean the verse crosses a page.
+
+Misprints in the commentary, kept and flagged: for the fifth bhava the commentary prints "9" (Moon v.19, Mars v.31, Mercury v.43, Jupiter v.55, Venus v.67,
+Saturn v.79, Rahu v.91, in each case beside the word for son: sut, putra, tanuj, nandan), while the verse is the fifth in each planet's run of twelve; read as 5.
+The Moon's v.19 commentary also prints "sut 9 sthan". Mars v.33 (7th) has the commentary's 7 printed "yoon 7".
+
+Beyond chapter 5, the contents (printed p.4 of the front matter) list the rest: Arishta (printed 64-66), the yogas (67-68 on, rajabhanga), the sahams, the dasha
+chapter (Patyayini, printed 71-82), the antar-dasha (83-89), the monthly entry (90-93), daily routine and food (94). Not read.

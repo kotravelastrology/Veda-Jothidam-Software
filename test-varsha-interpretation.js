@@ -12,6 +12,17 @@ assert.deepStrictEqual(Object.values(T.munthaWithPlanet).map((x) => x.verse), ['
 const order = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 order.forEach((p, i) => assert.deepStrictEqual(T.yearLord[p].map((x) => x.verse), [0, 1, 2].map((k) => `v.${4 + i * 3 + k}`), p));
 for (const p of order) assert.deepStrictEqual(T.yearLord[p].map((x) => x.tier), ['STRONG', 'MIDDLE', 'WEAK']);
+// chapter 5: eight planets, twelve bhavas each, verses numbered in order from v.2 (Sun) to v.98 (Rahu); the Sun's first verse is v.2, the Moon's v.15
+const base = { Sun: 2, Moon: 15, Mars: 27, Mercury: 39, Jupiter: 51, Venus: 63, Saturn: 75, Rahu: 87 };
+for (const [p, b] of Object.entries(base)) {
+  assert.strictEqual(Object.keys(T.bhavaPhala[p]).length, 12, p);
+  for (let h = 1; h <= 12; h += 1) assert.strictEqual(T.bhavaPhala[p][String(h)].verse, `v.${b + h - 1}`, `${p} ${h}`);
+}
+assert.strictEqual(T.moonGeneral.verse, 'v.14');
+// printed pages in chapter 5 never run backwards through the verses of a planet or from planet to planet
+let last = 0;
+for (const p of Object.keys(base)) for (let h = 1; h <= 12; h += 1) { const n = Number(String(T.bhavaPhala[p][String(h)].printedPage).split('-')[0]); assert.ok(n >= last, `${p} ${h} page ${n} < ${last}`); last = n; }
+assert.strictEqual(last, 63);
 // printed pages never run backwards through the verses
 const pages = [];
 for (let h = 1; h <= 12; h += 1) pages.push(Number(T.munthaHouse[String(h)].printedPage));
@@ -35,6 +46,14 @@ for (const age of [20, 30, 36, 41]) {
   assert.strictEqual(Boolean(mb), I.BAD_MUNTHESHA.includes(o.facts.munthesheaHouse));
   // planets in the Muntha's sign get their verse; Rahu and Ketu and Saturn have none
   for (const p of o.facts.planetsWithMuntha) assert.ok(o.readings.some((r) => r.id === `MUNTHA_WITH_${p.toUpperCase()}`));
+  // chapter 5: one verse for each of the eight planets, the verse of the bhava it holds from the varsha lagna
+  assert.strictEqual(o.bhavaPhala.length, 8);
+  for (const b of o.bhavaPhala) {
+    const house = ((v.varshaChart.grahas[b.planet].rasiIndex - v.varshaChart.lagna.rasiIndex + 12) % 12) + 1;
+    assert.strictEqual(b.house, house, `${b.planet} age ${age}`);
+    assert.strictEqual(b.verse, `v.${base[b.planet] + house - 1}`, b.planet);
+    assert.strictEqual(Boolean(b.note), b.planet === 'Moon');
+  }
   // every reading carries a printed page and text
   for (const r of o.readings) assert.ok(r.printedPage && r.text.length > 20 && r.verse.startsWith('v.'), r.id);
 }

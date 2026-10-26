@@ -431,6 +431,16 @@ function InterpretationSection({ it }: { it: any }) {
           <li key={r.id}><span className="font-medium text-ink">{r.tierTa}</span> <span className="text-xs text-ink-soft">({r.verse}, ப.{r.printedPage})</span>: <span className="text-ink-soft">{r.text}</span></li>
         ))}
       </ul>
+      <h4 className="text-sm font-semibold text-ink mb-1">வர்ஷ ஜாதகத்தில் கிரகங்கள் நிற்கும் வீடுகளின் பலன் (அத்தியாயம் 5, ப.45-63)</h4>
+      <p className="text-xs text-ink-soft mb-2">ஒவ்வொரு கிரகத்துக்கும் வர்ஷ லக்னத்திலிருந்து அது நிற்கும் வீட்டின் நூற்பா. நூல் கேதுவுக்குப் பலன் தரவில்லை. சந்திரனுக்கு: பாகையில் அதிகமாக (ஒளி கூடக் கூட) பலன் அதிக சுபம், குறையக் குறைய தீயது (பா.14) — அளவு தரப்படவில்லை.</p>
+      <ul className="space-y-1.5 text-sm mb-4">
+        {(it.bhavaPhala ?? []).map((b: any) => (
+          <li key={b.planet}>
+            <span className="font-medium text-ink">{b.planetTa} — {b.house}-ஆம் வீடு</span> <span className="text-xs text-ink-soft">({b.verse}, ப.{b.printedPage})</span>: <span className="text-ink-soft">{b.text}</span>
+            {b.note && <span className="block text-xs text-ink-soft">({b.note.verse}, ப.{b.note.printedPage}) {b.note.text}</span>}
+          </li>
+        ))}
+      </ul>
       <p className="text-[11px] text-ink-soft">கணக்கிடப்படாதவை: {it.notApplied.join(' · ')}.</p>
     </section>
   );
