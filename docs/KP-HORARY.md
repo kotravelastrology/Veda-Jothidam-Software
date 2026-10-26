@@ -12,16 +12,16 @@ then PDF - 21 (read from the page number printed on each page). Engine `src/repo
   rows 10-41 on the page image, and the text layer for the rest (207 of 243 numbers equal; the others are OCR slips such as 25.63.20 for 25.53.20).
 - Ruling planets (printed p.123): the day lord, the lord of the star and of the sign the Moon is in, the lord of the star and the sign of the ascendant; Rahu and Kethu stand for the lord of the sign they
   are in and are counted when that lord is ruling; "those deposited in the constellation of a retrograde planet should be rejected" (marked, not removed).
-- Questions and their houses, where the text names them: marriage (2, 7, 11), trunk-call (3, 9, 11, with three retrograde conditions on p.124), servant returning after cashing a cheque (2, 6, 11), drugs reaching
-  an institution (4, 11), reaching a destination (4, 11; 3 for a journey), interview (3, 9, 11), building a house (4, 11, 12; 6 and 9 too for a ready-made house), competitive examination (4, 9, 11), lottery (2, 6, 11),
-  reunion with husband (2, 7, 11), husband's return (11, 7, 6; separation 12, 7, 6), scholarship as loan (2, 6) or gift (2, 11), donation (2, 6, 11), overseas and foreign assignment (3, 9, 12), return of a missing
-  person (2, 8, 11).
+- Questions and their houses, where the text names them: 74 of the book's about 110 (`kpHoraryTopics.js` for the first 17, `kpHoraryMore.js` for the rest), each with the printed page the page itself shows and my Tamil rendering of the reason the book gives.
+  Where the text states a condition, it is kept as a rule: the sub-lord of a cusp (or the lord of the star it stands in) signifies all of, or one of, a list of houses (the book's "and" read as both, "or" as either), with the direct-motion and badhaka/maraka
+  conditions where the text has them: love affairs (5th cusp), invalid child, partner in business (8th), actor, treasure, dowry, buying him, lottery (11th), going abroad (12th), partnership (7th), suicide and murder (8th and 1st with the badhaka or maraka),
+  reinstatement (10th), income-tax prosecution (10th), the good times to buy, sell, enter service, sign an agreement, engage a servant (2nd, 12th, 6th, 3rd and 7th, 1st) and promotion on probation (6th). The rules say that the condition holds; the page gives no answer.
 
 ## What the page shows
 The sub of the number, the twelve cusps with sign, star and sub lords, the planets of the time of judgment (retrograde marked), the ruling planets, and for a chosen question: the sub-lord of each of its cusps and the
 houses it signifies, every planet that signifies the question's houses (and which of 6, 8, 12 it also signifies), and which ruling planets are among them. No answer is given.
 
 ## Not built
-The book names houses for about a hundred and ten questions (printed pp.124-322); only those above are entered. The section on the twelve houses (pp.116-122), the time-of-event working from the ruling planets and the
+The questions whose houses are worked through derived houses (those counted from a relative's lagna, such as a third son's house, the father's whereabouts, a will from an uncle, relatives' luck, adoption, change of job, politician, seniority, cure, which gem) are not entered; the ruling-planet examples of printed pp.123-142 (friend's arrival, parcels, the train, birth time) and the long-life and eclipsed-planet chapters are not either. The section on the twelve houses (pp.116-122), the time-of-event working from the ruling planets and the
 ascendant's movement, and the judgement lists of each section are not. The author's other readers added to the corpus on 2026-10-26 (C64 Reader I, C65 Reader II, C66-C68 second scans of III, V, VI, C69 KP-Ezine, C70
 Astro Secrets IV) are registered but not yet read for rules; Reader V (transit) is next.

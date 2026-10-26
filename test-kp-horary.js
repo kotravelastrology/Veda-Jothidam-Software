@@ -53,8 +53,9 @@ assert.strictEqual(rp.planets.find((p) => p.planet === 'Mercury').inRetrogradeSt
 
 // the question catalogue: houses stated in the book, with the page
 for (const q of T.TOPICS) {
-  assert.ok(q.houses.length >= 2 && q.houses.every((h) => h >= 1 && h <= 12), q.id);
-  assert.ok(q.page >= 86 && q.page <= 312 && q.reasonTa.length > 5, q.id);
+  assert.ok(q.houses.length >= 1 && q.houses.every((h) => h >= 1 && h <= 12), q.id);
+  assert.ok(q.page >= 86 && q.page <= 322 && q.reasonTa.length > 5, q.id);
+  for (const r of q.rules) assert.ok(r.cusp >= 1 && r.cusp <= 12 && [...r.all, ...r.any].every((h) => h >= 1 && h <= 12) && ['STAR', 'SUB'].includes(r.via) && r.textTa.length > 10, `${q.id} rule`);
 }
 assert.deepStrictEqual(T.BY_ID.TRUNK_CALL.houses, [3, 9, 11]);
 assert.deepStrictEqual(T.BY_ID.OVERSEAS.houses, [3, 9, 12]);
@@ -64,4 +65,38 @@ assert.deepStrictEqual(a.cusps.map((x) => x.house), [3, 9, 11]);
 assert.strictEqual(a.extra.length, 3);
 assert.ok(a.significators.every((s) => s.topicHouses.length > 0));
 assert.strictEqual(T.analyseTopic(c.kp, c.ruling, 'MARRIAGE').extra.length, 0);
+
+// the rest of the questions (kpHoraryMore.js): 74 in all, unique ids, houses as the book states them
+assert.strictEqual(T.TOPICS.length, 74);
+assert.strictEqual(new Set(T.TOPICS.map((q) => q.id)).size, 74);
+assert.deepStrictEqual(T.BY_ID.JOB.houses, [2, 6, 10]);
+assert.deepStrictEqual(T.BY_ID.TRANSFER.houses, [3, 10, 12]);
+assert.deepStrictEqual(T.BY_ID.PROMOTION.houses, [2, 6, 10, 11]);
+assert.deepStrictEqual(T.BY_ID.SECOND_MARRIAGE.houses, [2, 11]);
+assert.deepStrictEqual(T.BY_ID.OVERDRAFT.houses, [6, 2, 10]);
+// a condition is evaluated on the chart: a made-up KP chart where the 5th cusp sub-lord stands in the star of a planet signifying 7 and 11
+const mkKp = (starSigns) => ({
+  cusps: Array.from({ length: 12 }, (_, i) => ({ number: i + 1, sign: 'Aries', sub: i === 4 ? 'Mars' : 'Sun', starLord: 'Sun' })),
+  positions: [{ name: 'Mars', starLord: 'Venus', retrograde: false }, { name: 'Venus', starLord: 'Venus', retrograde: false }, { name: 'Sun', starLord: 'Sun', retrograde: false }],
+  houseSignificators: Array.from({ length: 12 }, (_, i) => ({ house: i + 1, level1: starSigns[i + 1] ?? [], level2: [], level3: [], level4: [] })),
+  obstruction: { badhaka: 11, maraka: [2, 7] },
+});
+const love = T.BY_ID.LOVE_AFFAIR.rules;
+let kpx = mkKp({ 7: ['Venus'], 11: ['Venus'] });
+assert.strictEqual(T.evaluateRule(kpx, love[0]).status, 'HELD', 'star lord Venus signifies 7 and 11');
+assert.strictEqual(T.evaluateRule(kpx, love[1]).status, 'NOT_HELD', 'but not 6 or 12');
+kpx = mkKp({ 7: ['Venus'], 12: ['Venus'] });
+assert.strictEqual(T.evaluateRule(kpx, love[0]).status, 'NOT_HELD', '7 without 11');
+assert.strictEqual(T.evaluateRule(kpx, love[1]).status, 'HELD');
+// direct motion and the badhaka/maraka rule
+kpx = mkKp({ 8: ['Sun'], 2: ['Sun'] });
+kpx.cusps[7].sub = 'Sun'; kpx.cusps[7].starLord = 'Sun';
+assert.strictEqual(T.evaluateRule(kpx, T.BY_ID.SUICIDE.rules[0]).status, 'HELD', 'the star lord signifies 8 and the maraka 2');
+kpx = mkKp({ 8: ['Sun'], 5: ['Sun'] });
+assert.strictEqual(T.evaluateRule(kpx, T.BY_ID.SUICIDE.rules[0]).status, 'NOT_HELD');
+kpx = mkKp({ 3: ['Sun'] });
+kpx.positions.find((p) => p.name === 'Sun').retrograde = true;
+assert.strictEqual(T.evaluateRule(kpx, T.BY_ID.OVERSEAS.rules[0]).status, 'NOT_HELD', 'a retrograde sub-lord fails the direct condition');
+// every rule evaluates on a real chart
+for (const q of T.TOPICS) for (const r of T.analyseTopic(c.kp, c.ruling, q.id).rules) assert.ok(['HELD', 'NOT_HELD'].includes(r.status), q.id);
 console.log('test-kp-horary ok');

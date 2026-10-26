@@ -81,7 +81,7 @@ export default function KpHoraryView() {
           <label>கேள்வி<br />
             <select className={`${field} w-64`} value={form.topic} onChange={set('topic')}>
               <option value="">— தேர்வு இல்லை —</option>
-              {tables?.topics.map((t: any) => <option key={t.id} value={t.id}>{t.titleTa} ({t.houses.join(', ')})</option>)}
+              {tables?.topics.slice().sort((x: any, y: any) => x.page - y.page).map((t: any) => <option key={t.id} value={t.id}>ப.{t.page} · {t.titleTa} ({t.houses.join(', ')})</option>)}
             </select>
           </label>
           <button type="button" onClick={run} disabled={loading} className="px-4 py-1.5 rounded bg-saffron text-ink text-sm disabled:opacity-50">{loading ? 'கணக்கிடுகிறது…' : 'கணக்கிடு'}</button>
@@ -142,6 +142,17 @@ export default function KpHoraryView() {
               </table>
               <h3 className="text-xs font-semibold text-ink mb-1">ஆளும் கிரகங்களில் குறிகாட்டிகள்</h3>
               <p className="text-xs text-ink-soft mb-2">{a.ruling.filter((r: any) => r.topicHouses.length).map((r: any) => `${pt(r.planet)} (${nums(r.topicHouses)})${r.inRetrogradeStar ? ' ✱' : ''}`).join(' · ') || '—'}</p>
+              {a.rules && a.rules.length > 0 && (
+                <div className="mb-2">
+                  <h3 className="text-xs font-semibold text-ink mb-1">நூல் சொல்லும் நிபந்தனைகள் (ஒவ்வொன்றும் "உள்ளது/இல்லை" மட்டும்)</h3>
+                  <ul className="text-xs list-disc pl-4">
+                    {a.rules.map((r: any, i: number) => (
+                      <li key={i}><span className={r.status === 'HELD' ? 'text-rose' : 'text-ink-soft'}>{r.status === 'HELD' ? 'உள்ளது' : 'இல்லை'}</span> — {r.textTa} <span className="text-ink-soft">[{r.via === 'STAR' ? `உப அதிபதி ${pt(r.subLord)} நிற்கும் நட்சத்திர அதிபதி ${pt(r.starLord)}` : `உப அதிபதி ${pt(r.subLord)}`}: குறிக்கும் வீடுகள் {nums(r.houses)}]</span></li>
+                    ))}
+                  </ul>
+                  <p className="text-[11px] text-ink-soft mt-1">நூல் "மற்றும்" என்றால் இரண்டும், "அல்லது" என்றால் ஏதேனும் ஒன்று என்றே படிக்கப்படுகிறது. இவை நூலின் வாக்கியங்கள்; இங்கே பதில் அல்ல.</p>
+                </div>
+              )}
               {a.extra.length > 0 && (
                 <ul className="text-xs list-disc pl-4">
                   {a.extra.map((e: any) => <li key={e.id}><span className={e.status === 'HELD' ? 'text-rose' : 'text-ink-soft'}>{e.status === 'HELD' ? 'உள்ளது' : 'இல்லை'}</span> — {e.textTa}</li>)}
@@ -162,7 +173,7 @@ export default function KpHoraryView() {
             </table>
           </div>
         )}
-        <p className="text-[11px] text-ink-soft mt-2">கணக்கிடப்பட்ட அட்டவணை நூலின் அட்டவணையுடன் ஒப்பிடப்பட்டது: எண் 10-41 பக்கப் படத்தில்; மற்றவை நூலின் உரை அடுக்கில் (243 மதிப்புகளில் 207 நேரடியாகப் பொருந்தின, மீதி எழுத்துணர்வுப் பிழைகள்). நூலின் மற்ற சுமார் 70 கேள்விகளுக்கு (திருமணம் தவிர) வீடுகள் இன்னும் உள்ளிடப்படவில்லை; இங்கே வீடுகளை நூல் வாக்கியமாகச் சொல்லும் கேள்விகள் மட்டுமே உள்ளன.</p>
+        <p className="text-[11px] text-ink-soft mt-2">கணக்கிடப்பட்ட அட்டவணை நூலின் அட்டவணையுடன் ஒப்பிடப்பட்டது: எண் 10-41 பக்கப் படத்தில்; மற்றவை நூலின் உரை அடுக்கில் (243 மதிப்புகளில் 207 நேரடியாகப் பொருந்தின, மீதி எழுத்துணர்வுப் பிழைகள்). நூலின் சுமார் 110 கேள்விகளில் வீடுகளை உரையில் சொல்பவை (74) சேர்க்கப்பட்டுள்ளன; மற்றவை (உறவினரின் லக்னத்திலிருந்து எண்ணுபவை போன்ற சிக்கலானவை) இல்லை.</p>
       </section>
     </main>
   );
