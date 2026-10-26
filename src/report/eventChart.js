@@ -129,6 +129,7 @@ function eventChart({ natal, event, levels = 5 }) {
     ashtottari: (() => { const p = pick(asht); return p && { lord: p.lord, start: p.start, end: p.end }; })(),
     chara: rashi('chara'),
     sthira: rashi('sthira'),
+    jaiminiSthira: rashi('jaimini-sthira'),
   };
 
   // Graha Bala parts and Vimshopaka of the event chart

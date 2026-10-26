@@ -72,7 +72,7 @@ export default function BphsRashiDashasView() {
           <p className="text-xs text-ink-soft">{result.native.method.ayanamsha} அயனாம்சம் · லக்னம்: {result.lagnaTa}</p>
           {result.brahma && (
             <p className="text-sm text-ink mt-2">
-              பிரம்ம கிரகம்: <strong>{result.brahma.planetTa ?? '—'}</strong>{result.brahma.signTa && <> ({result.brahma.signTa})</>} · கணக்கு வீடு: {result.brahma.baseTa}
+              பிரம்ம கிரகம்: <strong>{result.brahma.planetTa ?? '—'}</strong>{result.brahma.signTa && <> ({result.brahma.signTa})</>} · கணக்கு வீடு: {result.brahma.baseTa}{result.brahma.replacedFromTa && <> · {result.brahma.replacedFromTa} பிரம்மமாகத் தகுதி பெற்றதால் நூல் விதிப்படி மாற்று கிரகம்</>}
             </p>
           )}
           {result.reasonTa && <p className="text-sm text-rose mt-2">{result.reasonTa}</p>}

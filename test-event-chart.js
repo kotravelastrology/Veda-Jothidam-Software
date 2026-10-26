@@ -26,9 +26,13 @@ assert.strictEqual(r.gochara.yoga.name, 'Priti');
 assert.strictEqual(r.dashas.yogini.lord, 'Saturn');
 assert.strictEqual(r.dashas.ashtottari.lord, 'Moon');
 assert.strictEqual(r.dashas.chara.sign, 7, 'Chara (As) = Scorpio, as PL9');
-// Vimshottari: Sun-Rahu-Rahu-Ketu as PL9; the fifth level is Moon here, Rahu in PL9 (the two systems may count the year differently)
+// Vimshottari at the event instant: Sun-Rahu-Rahu-Ketu-Moon, which is what PL9's own "New Event Gochara data" panel shows; its overview row is date-only
 assert.deepStrictEqual(r.dashas.vimshottari.slice(0, 4).map((x) => x.lord), ['Sun', 'Rahu', 'Rahu', 'Ketu']);
 assert.strictEqual(r.dashas.vimshottari.length, 5);
+assert.strictEqual(r.dashas.vimshottari[4].lord, 'Moon');
+// Sthira: BPHS (Santhanam) gives Scorpio; Rath's Brahma gives Capricorn, as PL9
+assert.strictEqual(r.dashas.sthira.sign, 7);
+assert.strictEqual(r.dashas.jaiminiSthira.sign, 9);
 // the event chart: Sun in Virgo, Moon in Scorpio, lagna Virgo (PL9 shows As with Su and Me in Vir)
 assert.deepStrictEqual([r.chart.lagnaSign, r.chart.planets.find((p) => p.planet === 'Sun').sign, r.chart.moonSign], [5, 5, 7]);
 assert.strictEqual(r.chart.fromMoon[0].sign, 7);

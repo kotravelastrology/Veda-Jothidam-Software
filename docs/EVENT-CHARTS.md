@@ -19,9 +19,12 @@ all seven Kakshya lines agree (kaksha lord, bindu, Ashtakavarga bindus, Sarvasht
 Saptami, yoga Preeti, karana Vanija, Yogini lord Saturn, Ashtottari Moon, Chara (lagna) Scorpio, and Vimshopaka Sun 7.8 and Moon 11.8.
 
 ## Where it differs from PL9
-- **Vimshottari fifth level.** PL9 prints Su-Ra-Ra-Ke-Ra; here the first four agree and the fifth (Prana) is Moon. The Prana lord depends on how the
-  year is counted (PL9's year length is not known), so this is a disagreement of arithmetic that I have not resolved.
-- **Sthira (lagna).** PL9 prints Capricorn; the engine (built from BPHS ch.? rules in `bphsRashiDashas.js`) gives Scorpio. Not resolved.
+- **Vimshottari fifth level — resolved.** PL9's overview row is date-only (it counts from the start of the day), so its fifth level can differ; PL9's own
+  "New Event Gochara data" panel at the event time gives Sun-Rahu-Rahu-Ketu-Moon, which is what the engine gives (checked in `test-event-chart.js`).
+  PL9's time for its overview "Ra" was not identified.
+- **Sthira (lagna) — two readings shown.** Santhanam's BPHS translation (Brahma by direction) gives Scorpio; Rath's Jaimini Upadesa Sutras 2.1.46-54, 2.3.3-4
+  (Saturn, Rahu, Ketu replaced by Mars, Mercury, Jupiter) gives Capricorn, which is PL9's main period (`src/dasha/jaiminiSthira.js`, `test-jaimini-sthira.js`).
+  The direction after Brahma's sign is not stated in Rath's sutras; the BPHS rule is used. PL9's sub-levels (e.g. Cp-Aq-Aq-Sc-Cp) are not reproduced; only the main level is claimed.
 - **Glosses.** PL9's "Janma: Danger to body", "Preeti: Loved by all", "Vanija (cow)" and similar one-liners are not used: no source is held for them.
   Names and counts are given; the rules for Tara and Chandra bala with sources are on `/muhurta-stars`.
 - Not built: PL9's other dasha rows at event (Shatabdika, Kalachakra), the Progression and Varshaphala event charts (121-123), and event saving.
