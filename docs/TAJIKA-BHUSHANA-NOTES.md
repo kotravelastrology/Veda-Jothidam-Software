@@ -192,3 +192,24 @@ Mercury mixed, Jupiter sweet, Venus sour, Saturn astringent (v.24). "Iti bhojana
 Colophon (v.25-27, printed 95-96): the Tajika Bhushana is an ornament only for those who value the virtues of others; Ganesha Daivajna, son of Dhundhiraja, of Parthapura on the Godavari; the
 Hindi translation by Pandit Sitaram Shastri, Lucknow, finished Samvat 1992 Phalguna Krishna 14, Wednesday, at the instance of Khemraj Shrikrishnadas, Shri Venkateshvar Steam Press, Bombay.
 Not read in this book: the mixed chapter (printed 71-73, "mishrakadhyaya").
+
+## Chapter 1 re-read for the Varshapati: printed 4-10 (v.11-37)
+Read 2026-10-26 on the page images (PDF 6-14 at 2.2 times; the Trirashi table at 6 times). What the selection needs:
+v.11 (printed 4): the Muntha moves a sign in a year, 2d30' in a month, 9 kala in a day; the lord of its sign is the Munthesha. v.12-13: the Trirashi lords by the varsha lagna's sign: by day Sun,
+Venus, Saturn, **Venus**, Jupiter, Moon, Mercury, Mars, Saturn, Mars, Jupiter, Moon; by night Jupiter, Moon, Mercury, Mars, Sun, Venus, Saturn, Venus, Saturn, Mars, Jupiter, Moon (the table and the
+commentary agree; the older table in `varshaphala.js` has the Moon for Cancer by day, after Tajika Neelakanthi). v.14 (printed 4): a planet glances at the 11th and 3rd from it with a quarter,
+the 4th and 10th with a half, the 5th and 9th with three quarters, and at its own sign and the 7th fully. v.15-17 (printed 4-5): the quarter glance gives happiness, gain, affection and increase of
+understanding; the half glance causes quarrels with friends and, secretly, splits among enemies; the trine glance gives wealth, gain, ease, increase of friends; the full glance gives war, quarrel, increase of
+enemies; this holds when malefics are in malefics' glance and benefics in benefics', otherwise the reverse. v.18-19 (printed 5): a computation of each planet's strength in kala at the entry (garbled; not read).
+v.20-22 (printed 5-6): "atha pancha-vargiya-bala": the five office-holders of strength are atma-sthana (own house), uchcha, hadda, trairashika (drekkana) and mushallaha (navamsha); the lords of the signs from the Sun to
+Saturn: Leo, Cancer, Scorpio/Aries, Virgo/Gemini, Sagittarius/Pisces, Libra/Taurus, Capricorn/Aquarius. v.23 (printed 6): exaltation Aries, Taurus, Capricorn, Virgo, Cancer, Pisces, Libra for the Sun
+to Saturn in the order of the verse (Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn: Aries, Taurus, Capricorn, Virgo, Cancer, Pisces, Libra); the 7th from each is the fall. v.24-29 (printed 7): the exaltation degrees (Sun 10,
+Moon 3, Mars 28, Mercury 15, Jupiter 5, Venus 27, Saturn 20) and, for each sign, the hadda divisions (in the table on printed 8: five bands per sign, planet and degrees; my reading of the print gives 30 degrees per sign
+for most signs but a few digits (6, 8 and 9) are not separable in the print, e.g. Gemini, Virgo and Pisces, so the table is not transcribed). v.30 (printed 8): the drekkana lords by sign: the first, second and third drekkana
+take the planets in the order Mars, Mercury, Jupiter, Venus, Saturn, Sun, Moon cycled along the 36 drekkanas from Aries (the table on printed 8 shows this: 10 degrees: Mars, Mercury, Jupiter, Venus, Saturn, Sun, Moon, Mars,
+Mercury, Jupiter, Venus, Saturn; 20: Sun, Moon, Mars ...); the app's Pancha-Vargeeya uses the Parashari drekkana instead. v.31 (printed 9): the mushallaha (navamsha) lords by a 12-lord list repeated for the fire, earth and air signs (not decoded). v.32:
+the strength of own house, exaltation, hadda, drekkana and mushallaha is 30, 20, 15, 10 and 5 (the commentary prints "30, 20, 19, 10, 9", a misprint); v.33 and the table on printed 9: a planet in a friend's place gets
+three quarters of that figure (22.5, 11.25, 7.5, 3.75 for own house, hadda, drekkana and mushallaha), in a neutral's place a half (15, 7.5, 5, 2.5), in an enemy's a quarter (7.5, 3.75, 2.5, 1.25). The app's
+`panchaVargeeyaBala` gives a friend half the own figure (15, 7.5, 5, 2.5), so it is lower for friends than the book, and divides the sum by 4.
+v.34-37 (printed 10): the selection, as in `src/report/varsheshaBook.js`. The commentary on v.34 says "lagna lord of the Sun" by day; the verse says "arkesha", the lord of the Sun.
+Printed 10 closes chapter 1 ("iti varshesha-nayanadhyaya 1") and begins chapter 2, already read.

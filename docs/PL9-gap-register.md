@@ -139,3 +139,5 @@ Not built, with the reason found: Kota Chakra (111) and Sanghatta Chakra (112) -
 - 2026-10-26: Tajika Bhushana's sahams (printed 68-71) added to `/varshaphala` beside the app's table (src/report/varshaSahams.js); on the sample chart 3 agree, 3 differ by the 30-degree correction only, 11 differ in formula and 2 have no counterpart. Still open: the monthly entry (90-93), the mixed chapter (71-73), Varshaphala event views 121-123.
 
 - 2026-10-26: Monthly entries (masa-pravesha) of Tajika Bhushana's last chapter (printed 90-96) added to `/varshaphala` (src/report/masaPravesha.js). Tajika Bhushana is now read except the mixed chapter (71-73). Still open: Varshaphala event views 121-123 and the Varshapati selection of ch.1.
+
+- 2026-10-26: The Varshapati is now selected as Tajika Bhushana ch.1 v.34-37 does (src/report/varsheshaBook.js); the older selection is kept beside it. The book's Pancha-Vargeeya table (hadda, mushallaha) is not transcribed, so the app's strength figure is used. Still open: the mixed chapter (71-73), Varshaphala event views 121-123.

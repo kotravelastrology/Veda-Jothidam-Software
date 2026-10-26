@@ -27,6 +27,7 @@ const { calculateTajikaYogas, calculateExtendedTajikaYogas } = require('./tajika
 const { panchaVargeeyaBala, tajikaAspectOnPoint } = require('./panchaVargeeyaBala');
 const { EXALTATION, MOOLATRIKONA, OWN_SIGNS } = require('../chart/shadbala');
 const { calculateCharaDasha } = require('./jaimini');
+const { selectVarsheshaBook } = require('./varsheshaBook');
 
 // ── Tripataki Chakra (vijayalur.com "Tri Pataki Chakra") ──────────────────
 // D = completed years + 1. Moon: D mod 9 (0→9) forward from natal Moon.
@@ -213,7 +214,7 @@ function calculateVarshaNarayanaDasa(natalLagnaRasi0, yearsElapsed, varshaChart,
  * @param {object} birthInput BirthFormInput (year..minute, latitude, longitude, utcOffsetMinutes, ...)
  * @param {number} age completed years since birth (>=1)
  */
-function calculateVarshaphala(birthInput, age) {
+function calculateVarshaphala(birthInput, age, { varsheshaMethod = 'BOOK' } = {}) {
   const yearsElapsed = Math.max(1, Math.floor(age));
 
   // Natal chart → natal Sun sidereal longitude + natal Lagna rasi
@@ -294,10 +295,22 @@ function calculateVarshaphala(birthInput, age) {
     : withMalefic.length ? 'malefic aspect + highest PVB (no benefic-aspect candidate)'
     : withAny.length ? 'any aspect + highest PVB (no benefic/malefic-aspect candidate)'
     : 'highest PVB alone (no candidate aspects the Varsha Lagna)';
-  const varshesha = withBenefic.length ? pickBest(withBenefic)
+  const legacyVarshesha = withBenefic.length ? pickBest(withBenefic)
     : withMalefic.length ? pickBest(withMalefic)
     : withAny.length ? pickBest(withAny)
     : pickBest(uniqueCandidates);
+
+  // The Varshapati as Tajika Bhushana selects him (ch.1 v.34-37; src/report/varsheshaBook.js). The older "most roles" selection above is kept as
+  // `varsheshaSelection.legacy` and can be chosen with { varsheshaMethod: 'ROLES' }.
+  const bookSelection = selectVarsheshaBook({
+    isDay: daytime, varshaLagnaSign: varshaLagnaRasi0, janmaLagnaSign: natalLagnaRasi0, munthaSign: munthaRasi0,
+    varshaSigns: Object.fromEntries(SEVEN.map((p) => [p, varsha.grahas[p].rasiIndex])),
+    varshaSunSign: varshaSunRasi0, varshaMoonSign: varshaMoonRasi0,
+    birthSigns: Object.fromEntries(SEVEN.map((p) => [p, natal.grahas[p].rasiIndex])),
+    lordOfSign: (sign) => RASI_LORDS[sign],
+    strength: (p) => panchaVargeeyaBala(p, candLon(p)),
+  });
+  const varshesha = varsheshaMethod === 'ROLES' ? legacyVarshesha : bookSelection.planet;
   const patyayiniDasha = calculatePatyayiniDasha(
     { lagnaLon: varsha.lagna.longitude, planetLons },
     returnUtcMs,
@@ -339,7 +352,10 @@ function calculateVarshaphala(birthInput, age) {
     },
     varshesha,
     varsheshaSelection: {
-      tier: varsheshaTier,
+      method: varsheshaMethod,
+      book: bookSelection,
+      legacy: { planet: legacyVarshesha, tier: varsheshaTier },
+      tier: varsheshaMethod === 'ROLES' ? varsheshaTier : `நூல் முறை (தாஜிக பூஷணம் அத்.1 பா.34-37): ${bookSelection.rule}`,
       candidates: uniqueCandidates.map((p) => ({
         planet: p,
         roles: roleLabels.filter((_, i) => roles[i] === p),

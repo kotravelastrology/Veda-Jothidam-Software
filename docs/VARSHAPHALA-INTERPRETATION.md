@@ -51,6 +51,13 @@ Mudda dasha results (read; see above), the sahams (printed 68-71) and the monthl
   does not fully follow its method (Sun and Jupiter differ; the printed days add to 355), so it is not used as a test. Not changed.
 - v.36 of chapter 9 has a printed misprint (Mars for Mercury) in the commentary; the verse's word fixes it as Mercury.
 
-## A difference to resolve
-The book selects the Varshapati by strength and aspect on the varsha lagna among the five office-holders (ch.1, v.34-37, printed 10). `varshaphala.js`
-selects by the number of roles, with a Pancha-Vargeeya tie-break and a lagna-aspect tier (its own comment calls this a simplification). Not changed here.
+## The Varshapati (changed 2026-10-26)
+`varshaphala.js` now selects the year lord as the book does (ch.1, v.34-37, printed 4-10; `src/report/varsheshaBook.js`, `test-varshesha-book.js`): the five office-holders, the
+aspect on the varsha lagna by the book's own shares (v.14: a quarter, a half, three quarters, full), then strength, then the number of offices, then the Munthesha; and, if no one aspects the lagna,
+the one that aspects its sign in the birth chart (v.37). The older "most roles" selection is kept (`varsheshaSelection.legacy`, option `{ varsheshaMethod: 'ROLES' }`) and shown beside the new one.
+On the sample chart over ages 1-60 the two agree in 23 years and differ in 37.
+- The book's Trirashi table has Venus for Cancer by day; the older table had the Moon.
+- The verses do not say what to do when one candidate aspects more and another is stronger (in 33 of those 60 years the leaders differ). v.36 is built "among those of equal aspect the stronger; where the
+  strengths are equal, the one that aspects more", so the aspect level is taken first; the page says when the two leaders differ.
+- The strength used is the app's Pancha-Vargeeya (after Rao), which differs from the book's table in details (friend's share, the drekkana lords, some hadda cells, the division by 4); see the notes. A
+  book-exact figure needs the hadda table (some digits are not separable in the print) and the mushallaha list to be decoded; only the `strength` argument of `selectVarsheshaBook` would change.

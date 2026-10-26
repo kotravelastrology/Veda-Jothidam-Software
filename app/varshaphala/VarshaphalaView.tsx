@@ -162,6 +162,9 @@ export default function VarshaphalaView() {
             </p>
           </section>
 
+          {/* Varshapati as Tajika Bhushana selects him (ch.1 v.34-37), beside the older "most roles" selection above */}
+          {(result as any).varsheshaSelection?.book && <VarsheshaBookSection sel={(result as any).varsheshaSelection} year={result.varshesha} />}
+
           {/* Varsha Rasi chart */}
           <section className="bg-surface border border-line rounded-lg p-5">
             <h3 className="font-semibold text-ink mb-4">வருஷ ராசி (Varsha Rasi chart)</h3>
@@ -603,6 +606,54 @@ function MasaSection({ m }: { m: any }) {
         <p className="mt-1">{m.food.text} ({m.food.verse}, ப.{m.food.printedPage})</p>
       </details>
       <p className="text-[11px] text-ink-soft mt-2">கணக்கிடப்படாதவை: {m.notApplied.join(' · ')}. பலம் எப்படி என்பதை நூல் கூறவில்லை; இங்கே பஞ்சவர்கீய பலம் காட்டப்பட்டு, அதிகமானது "முன்னிலை" என்று குறிக்கப்படுகிறது; சமமெனில் தேர்வு செய்யப்படவில்லை.</p>
+    </section>
+  );
+}
+
+const BOOK_RULE_TA: Record<string, string> = {
+  V35_FULL_ASPECT_AND_STRENGTH: 'முழுப் பார்வையும் அதிக பலமும் ஒருவருக்கே (பா.35)',
+  V36_BEST_ASPECT_THEN_STRENGTH: 'அதிகப் பார்வை கொண்டவர்களுள் அதிக பலமுள்ளவர் (பா.36)',
+  V36_MOST_OFFICES: 'பார்வையும் பலமும் சமம்; அதிக அதிகாரங்களைக் கொண்டவர் (பா.36)',
+  V36_ALL_EQUAL_MUNTHESHA: 'எல்லாம் சமம்; முந்தேசன் (பா.36)',
+  V37_BIRTH_ASPECT: 'வர்ஷ லக்னத்தைப் யாரும் பார்க்கவில்லை; ஜன்மத்தில் அந்த ராசியைப் பார்ப்பவர் (பா.37)',
+  V37_MUNTHESHA: 'யாரும் பார்க்கவில்லை; முந்தேசன் (பா.37)',
+};
+const ASPECT_TA = (x: number) => (x === 1 ? 'முழு' : x === 0.75 ? '¾' : x === 0.5 ? '½' : x === 0.25 ? '¼' : '—');
+const OFFICE_TA: Record<string, string> = { janmaLagnaLord: 'ஜன்ம லக்னாதிபதி', varshaLagnaLord: 'வர்ஷ லக்னாதிபதி', munthesha: 'முந்தேசன்', luminarySignLord: 'சூரிய/சந்திர ராசி அதிபதி', trirashiLord: 'திரிராசி அதிபதி' };
+
+/** The year lord by the book's own selection (Tajika Bhushana ch.1, printed pp.4-10), with the older selection kept beside it. */
+function VarsheshaBookSection({ sel, year }: { sel: any; year: string }) {
+  const b = sel.book;
+  return (
+    <section className="bg-surface border border-line rounded-lg p-5">
+      <h3 className="font-semibold text-ink mb-1">வர்ஷபதி — தாஜிக பூஷணத்தின் தேர்வு (அத்.1, ப.4-10)</h3>
+      <p className="text-xs text-ink-soft mb-2">
+        ஐந்து அதிகாரிகள் (பா.34): ஜன்ம லக்னாதிபதி, வர்ஷ லக்னாதிபதி, முந்தேசன், பகலில் சூரிய ராசி அதிபதி / இரவில் சந்திர ராசி அதிபதி, திரிராசி அதிபதி (அட்டவணை ப.4).
+        இவர்களுள் பலமுள்ளவரும் வர்ஷ லக்னத்தை முழுப் பார்வையால் பார்ப்பவருமே வர்ஷபதி (பா.35); பார்வை சமமெனில் பலமுள்ளவர், பலம் சமமெனில் அதிகப் பார்வை, இரண்டும் சமமெனில் அதிக அதிகாரம், எல்லாம் சமமெனில் முந்தேசன் (பா.36);
+        யாரும் பார்க்காவிடில் ஜன்மத்தில் அந்த ராசியைப் பார்ப்பவர், இல்லையேல் முந்தேசன் (பா.37). பார்வை (பா.14): 3, 11-ஆம் இடம் ¼, 4, 10-ஆம் ½, 5, 9-ஆம் ¾, தன் ராசி-7-ஆம் இடம் முழு. {citeTa(b.source)}
+      </p>
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead><tr className="text-ink-soft border-b border-line"><th className="px-2 py-1.5 text-left">கிரகம்</th><th className="px-2 py-1.5 text-left">அதிகாரங்கள்</th><th className="px-2 py-1.5 text-left">லக்னப் பார்வை</th><th className="px-2 py-1.5 text-left">ஜன்மத்தில் அந்த ராசிக்கு</th><th className="px-2 py-1.5 text-right">பலம் (பஞ்சவர்கீய)</th></tr></thead>
+          <tbody>
+            {b.rows.map((r: any) => (
+              <tr key={r.planet} className={`border-b border-line ${r.planet === year ? 'bg-saffron/10 font-semibold' : ''}`}>
+                <td className="px-2 py-1.5 text-ink">{PLANET_TA_V[r.planet] ?? r.planet}{r.planet === year ? ' ★' : ''}</td>
+                <td className="px-2 py-1.5 text-ink-soft text-xs">{r.offices.map((o: string) => OFFICE_TA[o]).join(', ')}</td>
+                <td className="px-2 py-1.5">{ASPECT_TA(r.aspect)}</td>
+                <td className="px-2 py-1.5 text-ink-soft">{ASPECT_TA(r.birthAspect)}</td>
+                <td className="px-2 py-1.5 text-right">{r.strength.toFixed(2)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-xs text-ink-soft mt-2">
+        தேர்வு: <strong>{BOOK_RULE_TA[b.rule] ?? b.rule}</strong>{sel.method === 'ROLES' ? ' — ஆனால் இப்போது பழைய "அதிகப் பாத்திரம்" முறை தேர்வில் உள்ளது.' : '.'}
+        {b.aspectAndStrengthLeadersDiffer && ' அதிகப் பார்வையுள்ளவரும் அதிக பலமுள்ளவரும் வேறு கிரகங்கள்; யாருக்கு முன்னுரிமை என்பதை நூற்பாக்கள் கூறவில்லை — பா.36-இன் அமைப்பின்படி பார்வை முதலில் எடுக்கப்பட்டது.'}
+        {' '}பழைய முறையின் (அதிகப் பாத்திரம் / பஞ்சவர்கீய பலம்) முடிவு: <strong>{PLANET_TA_V[sel.legacy.planet] ?? sel.legacy.planet}</strong>{sel.legacy.planet === b.planet ? ' (இரண்டும் ஒன்றே)' : ' (வேறு)'}.
+      </p>
+      <p className="text-[11px] text-ink-soft mt-1">பலம்: இந்தப் பக்கத்தின் பஞ்சவர்கீய பலம் (ராவ் நூலின் முறை); நூலின் அட்டவணைகள் சில இடங்களில் வேறுபடுகின்றன (நண்பரின் பங்கு, திரேக்காண அதிபதிகள், சில ஹத்தா கட்டங்கள்) — docs/TAJIKA-BHUSHANA-NOTES.md. திரிராசி அட்டவணையில் பகல்-கடகம் நூலில் சுக்கிரன் (பழைய அட்டவணையில் சந்திரன்).</p>
     </section>
   );
 }
