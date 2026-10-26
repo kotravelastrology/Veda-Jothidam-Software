@@ -14,6 +14,8 @@
  * Input: the object returned by calculateKpSystem.
  */
 
+const { describePartner } = require('./kpPartnerDescription');
+
 const SOURCE = {
   title: 'Krishnamurti Padhdhati, Reader IV: Marriage and Married Life',
   author: 'K.S. Krishnamurti',
@@ -233,6 +235,7 @@ function evaluateKpMarriage(kp) {
     available: true,
     source: SOURCE,
     rules,
+    partner: describePartner(kp),
     periods: {
       marriage: periodSignificators(kp, [2, 7, 11]),
       children: periodSignificators(kp, [2, 5, 11]),

@@ -39,6 +39,8 @@ the connection and does not name a date.
 
 ## Not built, and why
 Conjunction and aspect conditions (the book says "Western aspects", gives no orb), the agent rule for the nodes, the child's sex
-(p.211: "no rule applicable in all cases"), the Mars dosha (see `mangalaDosha.js`), the partner-description tables by sign (pp.86-97, a
-12-by-7 descriptive table), the "Love and Life" sign texts, the Kerala Santana tithi bands (p.220, which overlap as printed), the
+(p.211: "no rule applicable in all cases"), the Mars dosha (see `mangalaDosha.js`), the "Love and Life" sign texts, the Kerala Santana tithi bands (p.220, which overlap as printed), the
 quick horary rules by number (pp.44-46), and the doctrines the author rejects (dasa sandhi, eka-dasa, karako bhava nasaya).
+
+## Partner description (printed 86-97), built
+`src/report/kpPartnerDescription.js` with the 84 paragraphs in `src/report/kpPartnerTables.js` (seven planets x twelve signs, as printed, with a Tamil rendering; test `test-kp-partner.js`). The book's "best and most correct method": the sub-lord of the 7th cusp (the 2nd for a second marriage), the sign it occupies, and that planet's paragraph for that sign. Two readings are shown because the book words it two ways: the sub-lord itself in its own sign, and the lord of the constellation the sub-lord stands in (the Mars heading: "if the sublord is in the constellations of Mars which is in") in the sign that planet occupies, plus that star lord's paragraph for the sub-lord's sign where the signs differ. Rahu and Kethu (printed 97): the paragraph of the conjoined planet; with none conjoined the aspecting planet, which is not computed (no orb), and the star lord of the node last. No verdict. Appears in the KP marriage section of the report.

@@ -1614,6 +1614,39 @@ const KPM_STATUS: Record<string, { label: string; cls: string }> = {
 };
 const KPM_GROUPS: [string, string][] = [['marriage', 'திருமணம்'], ['divorce', 'பிரிவு / விவாகரத்து'], ['children', 'குழந்தைகள்'], ['character', 'இயல்பு'], ['gem', 'ரத்தினம்']];
 
+/** The partner's physical features and characteristic from the 7th cusp sub-lord (and the 2nd for a second marriage), Reader IV printed 86-97, as printed with a Tamil rendering. */
+function KpPartnerDescription({ partner }: { partner: any }) {
+  const [showEn, setShowEn] = useState(false);
+  const block = (title: string, p: any) => (
+    <div className="mb-3">
+      <h4 className="text-xs font-semibold text-ink mb-1">{title}: உப அதிபதி {p.subLordTa} ({p.subLordSignTa}); நட்சத்திர அதிபதி {p.starLordTa}</h4>
+      {p.readings.map((r: any, i: number) => (
+        <div key={i} className="border-b border-line/40 pb-1 mb-1 text-xs">
+          <p className="text-ink-soft">{r.basisTa}{r.node ? ` — ${r.nodeTa} முனை: ${r.noteTa}` : ''}</p>
+          {r.entries.map((e: any) => (
+            <div key={e.planet + e.sign} className="mt-0.5">
+              <p className="text-ink"><span className="font-semibold">{e.planetTa} · {e.signTa}</span> <span className="text-ink-soft">(ப.{e.page})</span> {e.ta}</p>
+              {showEn && <p className="text-ink-soft italic">{e.en}</p>}
+            </div>
+          ))}
+          {r.entries.length === 0 && <p className="text-ink-soft">படிக்க கிரகம் இல்லை.</p>}
+        </div>
+      ))}
+    </div>
+  );
+  return (
+    <div className="mb-4">
+      <h3 className="text-sm font-semibold text-ink mb-1">வருங்கால துணையின் தோற்றமும் குணமும் (7-ஆம் கஸ்ப் உப அதிபதி)</h3>
+      <p className="text-xs text-ink-soft mb-2">
+        {partner.notesTa.join(' ')} {citeTa(partner.source)}
+        {' '}<button type="button" onClick={() => setShowEn(!showEn)} className="underline">{showEn ? 'ஆங்கில மூலத்தை மறை' : 'ஆங்கில மூலத்தையும் காட்டு'}</button>
+      </p>
+      {block('முதல் துணை (7-ஆம் கஸ்ப்)', partner.first)}
+      {block('இரண்டாம் துணை (2-ஆம் கஸ்ப்)', partner.second)}
+    </div>
+  );
+}
+
 /** K.S. Krishnamurti, Reader IV, as conditions over this chart. No verdicts: where the book says "will", this says the condition holds. */
 function KpMarriageSection({ report }: { report: ReportData }) {
   const km = (report as any).kpMarriage;
@@ -1652,6 +1685,7 @@ function KpMarriageSection({ report }: { report: ReportData }) {
           </div>
         );
       })}
+      {km.partner?.available && <KpPartnerDescription partner={km.partner} />}
       <div className="mb-3">
         <h3 className="text-sm font-semibold text-ink mb-1">நடப்பு தசா-புக்தி-அந்தரம்-சூக்ஷ்மம்: எந்த அதிபதி எந்த நிகழ்வின் பாவங்களைக் குறிக்கிறார்</h3>
         <table className="w-full text-xs">
