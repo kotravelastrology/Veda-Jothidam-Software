@@ -622,6 +622,37 @@ const ASPECT_TA = (x: number) => (x === 1 ? 'முழு' : x === 0.75 ? '¾' :
 const OFFICE_TA: Record<string, string> = { janmaLagnaLord: 'ஜன்ம லக்னாதிபதி', varshaLagnaLord: 'வர்ஷ லக்னாதிபதி', munthesha: 'முந்தேசன்', luminarySignLord: 'சூரிய/சந்திர ராசி அதிபதி', trirashiLord: 'திரிராசி அதிபதி' };
 
 /** The year lord by the book's own selection (Tajika Bhushana ch.1, printed pp.4-10), with the older selection kept beside it. */
+const STANDING_TA: Record<string, string> = { own: 'சொந்தம்', friend: 'நட்பு', neutral: 'சமம்', enemy: 'பகை', exalted: 'உச்சம்', 'not exalted': '—' };
+const PVB_PARTS: Array<[string, string, number]> = [['kshetra', 'வீடு', 30], ['uchcha', 'உச்சம்', 20], ['hadda', 'ஹத்தா', 15], ['drekkana', 'திரேக்காணம்', 10], ['mushallaha', 'முசல்லஹா', 5]];
+
+/** The five parts of the Pancha-Vargeeya strength of each candidate, with the owner of the division and the planet's standing there (v.32-33). */
+function PanchaVargeeyaBook({ candidates, year, source }: { candidates: any[]; year: string; source: any }) {
+  return (
+    <div className="mt-3">
+      <h4 className="text-xs font-semibold text-ink mb-1">பஞ்சவர்கீய பலத்தின் உறுப்புகள் (பா.32-33: வீடு 30, உச்சம் 20, ஹத்தா 15, திரேக்காணம் 10, முசல்லஹா 5; நட்பு ¾, சமம் ½, பகை ¼) {citeTa(source)}</h4>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs" style={{ fontVariantNumeric: 'tabular-nums' }}>
+          <thead><tr className="text-ink-soft border-b border-line"><th className="px-2 py-1 text-left">கிரகம்</th>{PVB_PARTS.map(([k, ta, w]) => <th key={k} className="px-2 py-1 text-left">{ta} ({w})</th>)}<th className="px-2 py-1 text-right">மொத்தம் (80)</th><th className="px-2 py-1 text-right">ராவ் முறை (÷4)</th></tr></thead>
+          <tbody>
+            {candidates.map((c: any) => (
+              <tr key={c.planet} className={`border-b border-line ${c.planet === year ? 'bg-saffron/10 font-semibold' : ''}`}>
+                <td className="px-2 py-1 text-ink">{PLANET_TA_V[c.planet] ?? c.planet}</td>
+                {PVB_PARTS.map(([k]) => {
+                  const part = c.pvbBook.parts[k];
+                  return <td key={k} className="px-2 py-1">{part.points}<span className="text-ink-soft"> {part.lord ? `${PLANET_TA_V[part.lord] ?? part.lord} · ` : ''}{STANDING_TA[part.standing]}</span></td>;
+                })}
+                <td className="px-2 py-1 text-right">{c.pvbBook.total}</td>
+                <td className="px-2 py-1 text-right text-ink-soft">{c.pvb.toFixed(2)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-[11px] text-ink-soft mt-1">என் வாசிப்புகள்: ஹத்தா அட்டவணையின் (ப.8) மிதுனம்-சுக்கிரன், விருச்சிகம்-குரு, மீனம்-செவ்வாய் எண்கள் அச்சில் 30-க்குக் கூடவில்லை; ஸ்லோகங்களின் சொல்-எண்கள் (6, 5, 9) எடுக்கப்பட்டன. கன்னிக்கு நூல் சுக்கிரன் 6, சனி 6 (எகிப்திய அட்டவணையில் 10, 2). முசல்லஹா அட்டவணையில் ஒவ்வொரு ராசிக்கும் மூன்று கிரகங்கள் (டிகிரி குறிக்கப்படவில்லை) — முதல், இரண்டாம், மூன்றாம் பத்து டிகிரியாக எடுத்தேன். உச்சம்: உச்ச ராசியில் 20, இல்லையெனில் 0. நட்பு-பகை: இயற்கை நட்பு (நூல் இந்த அத்தியாயத்தில் பட்டியல் தரவில்லை).</p>
+    </div>
+  );
+}
+
 function VarsheshaBookSection({ sel, year }: { sel: any; year: string }) {
   const b = sel.book;
   return (
@@ -653,7 +684,8 @@ function VarsheshaBookSection({ sel, year }: { sel: any; year: string }) {
         {b.aspectAndStrengthLeadersDiffer && ' அதிகப் பார்வையுள்ளவரும் அதிக பலமுள்ளவரும் வேறு கிரகங்கள்; யாருக்கு முன்னுரிமை என்பதை நூற்பாக்கள் கூறவில்லை — பா.36-இன் அமைப்பின்படி பார்வை முதலில் எடுக்கப்பட்டது.'}
         {' '}பழைய முறையின் (அதிகப் பாத்திரம் / பஞ்சவர்கீய பலம்) முடிவு: <strong>{PLANET_TA_V[sel.legacy.planet] ?? sel.legacy.planet}</strong>{sel.legacy.planet === b.planet ? ' (இரண்டும் ஒன்றே)' : ' (வேறு)'}.
       </p>
-      <p className="text-[11px] text-ink-soft mt-1">பலம்: இந்தப் பக்கத்தின் பஞ்சவர்கீய பலம் (ராவ் நூலின் முறை); நூலின் அட்டவணைகள் சில இடங்களில் வேறுபடுகின்றன (நண்பரின் பங்கு, திரேக்காண அதிபதிகள், சில ஹத்தா கட்டங்கள்) — docs/TAJIKA-BHUSHANA-NOTES.md. திரிராசி அட்டவணையில் பகல்-கடகம் நூலில் சுக்கிரன் (பழைய அட்டவணையில் சந்திரன்).</p>
+      {sel.candidates?.[0]?.pvbBook && <PanchaVargeeyaBook candidates={sel.candidates} year={year} source={b.source} />}
+      <p className="text-[11px] text-ink-soft mt-1">பலம்: தாஜிக பூஷணத்தின் பஞ்சவர்கீய பலம் (அத்.1 பா.20-33, ப.5-9) — உறுப்புகள் கீழே. திரிராசி அட்டவணையில் பகல்-கடகம் நூலில் சுக்கிரன் (பழைய அட்டவணையில் சந்திரன்).</p>
     </section>
   );
 }

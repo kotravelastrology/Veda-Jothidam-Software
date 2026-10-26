@@ -25,6 +25,7 @@ const { calculateParashariChart, rasiFromLongitude } = require('../chart/parasha
 const { calculateSahams } = require('./sahams');
 const { calculateTajikaYogas, calculateExtendedTajikaYogas } = require('./tajikaYogas');
 const { panchaVargeeyaBala, tajikaAspectOnPoint } = require('./panchaVargeeyaBala');
+const { panchaVargeeyaBook } = require('./panchaVargeeyaBook');
 const { EXALTATION, MOOLATRIKONA, OWN_SIGNS } = require('../chart/shadbala');
 const { calculateCharaDasha } = require('./jaimini');
 const { selectVarsheshaBook } = require('./varsheshaBook');
@@ -214,7 +215,7 @@ function calculateVarshaNarayanaDasa(natalLagnaRasi0, yearsElapsed, varshaChart,
  * @param {object} birthInput BirthFormInput (year..minute, latitude, longitude, utcOffsetMinutes, ...)
  * @param {number} age completed years since birth (>=1)
  */
-function calculateVarshaphala(birthInput, age, { varsheshaMethod = 'BOOK' } = {}) {
+function calculateVarshaphala(birthInput, age, { varsheshaMethod = 'BOOK', strengthMethod = 'BOOK' } = {}) {
   const yearsElapsed = Math.max(1, Math.floor(age));
 
   // Natal chart → natal Sun sidereal longitude + natal Lagna rasi
@@ -308,7 +309,7 @@ function calculateVarshaphala(birthInput, age, { varsheshaMethod = 'BOOK' } = {}
     varshaSunSign: varshaSunRasi0, varshaMoonSign: varshaMoonRasi0,
     birthSigns: Object.fromEntries(SEVEN.map((p) => [p, natal.grahas[p].rasiIndex])),
     lordOfSign: (sign) => RASI_LORDS[sign],
-    strength: (p) => panchaVargeeyaBala(p, candLon(p)),
+    strength: (p) => (strengthMethod === 'BOOK' ? panchaVargeeyaBook(p, candLon(p)).total : panchaVargeeyaBala(p, candLon(p))),
   });
   const varshesha = varsheshaMethod === 'ROLES' ? legacyVarshesha : bookSelection.planet;
   const patyayiniDasha = calculatePatyayiniDasha(
@@ -353,6 +354,7 @@ function calculateVarshaphala(birthInput, age, { varsheshaMethod = 'BOOK' } = {}
     varshesha,
     varsheshaSelection: {
       method: varsheshaMethod,
+      strengthMethod,
       book: bookSelection,
       legacy: { planet: legacyVarshesha, tier: varsheshaTier },
       tier: varsheshaMethod === 'ROLES' ? varsheshaTier : `நூல் முறை (தாஜிக பூஷணம் அத்.1 பா.34-37): ${bookSelection.rule}`,
@@ -360,6 +362,7 @@ function calculateVarshaphala(birthInput, age, { varsheshaMethod = 'BOOK' } = {}
         planet: p,
         roles: roleLabels.filter((_, i) => roles[i] === p),
         pvb: panchaVargeeyaBala(p, planetLons[p] ?? 0),
+        pvbBook: panchaVargeeyaBook(p, planetLons[p] ?? 0),
         lagnaAspect: aspectOf(p),
       })),
     },

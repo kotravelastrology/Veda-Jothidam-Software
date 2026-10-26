@@ -92,4 +92,13 @@ for (const age of [10, 25, 36, 52]) {
   assert.strictEqual(offices.length, 5, 'five offices, each held once');
   assert.ok(book.varsheshaSelection.book.rows.every((x) => x.aspect >= 0 && x.aspect <= 1));
 }
+
+// the book's Pancha-Vargeeya is the default strength; the app's older figure stays available
+const birth35 = { year: 1990, month: 10, day: 5, hour: 4, minute: 30, utcOffsetMinutes: 330, latitude: 13.0827, longitude: 80.2707, ianaTimeZone: 'Asia/Kolkata' };
+const vb = V.calculateVarshaphala(birth35, 35);
+assert.strictEqual(vb.varsheshaSelection.strengthMethod, 'BOOK');
+assert.ok(vb.varsheshaSelection.candidates.every((c) => c.pvbBook.total >= 0 && c.pvbBook.total <= 80 && Number.isFinite(c.pvb)));
+const bookRow = vb.varsheshaSelection.book.rows.find((r) => r.planet === vb.varsheshaSelection.candidates[0].planet);
+assert.strictEqual(bookRow.strength, vb.varsheshaSelection.candidates[0].pvbBook.total);
+assert.strictEqual(V.calculateVarshaphala(birth35, 35, { strengthMethod: 'APP' }).varsheshaSelection.book.rows[0].strength <= 20, true, 'the app figure is on a 20-point scale');
 console.log('test-varshesha-book ok');

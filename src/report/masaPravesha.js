@@ -13,6 +13,7 @@
 const { calculateChart } = require('../ephemeris/swissEphemeris');
 const { calculateParashariChart } = require('../chart/parashariChart');
 const { panchaVargeeyaBala, d9Rashi } = require('./panchaVargeeyaBala');
+const { panchaVargeeyaBook } = require('./panchaVargeeyaBook');
 const T = require('./varshaInterpretationTables');
 
 const RASI_LORDS = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter'];
@@ -75,7 +76,7 @@ function masaPravesha(birthInput, varsha) {
     const lagnaLord = RASI_LORDS[lagnaSign];
     const lordOfLagnaNavamsha = RASI_LORDS[d9Rashi(chart.lagna.longitude)];
     const lordOfLagnaLordNavamsha = RASI_LORDS[d9Rashi(chart.grahas[lagnaLord].longitude)];
-    const cand = (planet, how) => ({ planet, planetTa: PLANET_TA[planet], how, pvb: panchaVargeeyaBala(planet, chart.grahas[planet].longitude) });
+    const cand = (planet, how) => ({ planet, planetTa: PLANET_TA[planet], how, pvb: panchaVargeeyaBook(planet, chart.grahas[planet].longitude).total, pvbApp: panchaVargeeyaBala(planet, chart.grahas[planet].longitude) });
     const candidates = [cand(lordOfLagnaLordNavamsha, 'லக்னாதிபதியின் நவாம்ச அதிபதி'), cand(lordOfLagnaNavamsha, 'லக்னத்தின் நவாம்ச அதிபதி')];
     const same = candidates[0].planet === candidates[1].planet;
     const leading = same ? candidates[0].planet : candidates[0].pvb === candidates[1].pvb ? null : (candidates[0].pvb > candidates[1].pvb ? candidates[0].planet : candidates[1].planet);

@@ -11,9 +11,9 @@
  *   v.14  how much a planet aspects: the 3rd and 11th from it a quarter, the 4th and 10th a half, the 5th and 9th three quarters, its own sign and the 7th full.
  *
  * What the book leaves open, and what is done here:
- *  - "strength" (bala): the verses give the five-fold Pancha-Vargeeya scheme (printed pp.5-9) but the app's `panchaVargeeyaBala` (after Rao's
- *    "Vedic Astrology: An Integrated Approach") differs from it in details (the friend's share, the drekkana lords, some hadda cells), so the figure used is the
- *    app's, named as such; swapping in a book-exact figure changes only the `strength` function.
+ *  - "strength" (bala): the five-fold Pancha-Vargeeya scheme of printed pp.5-9, as `panchaVargeeyaBook.js` reads it, is the default figure (`strengthMethod: 'BOOK'` in
+ *    varshaphala.js); the app's `panchaVargeeyaBala` (after Rao's "Vedic Astrology: An Integrated Approach") differs in the friend's share, the drekkana lords and the
+ *    Virgo hadda, and can be chosen with `strengthMethod: 'APP'`. Only the `strength` function changes.
  *  - "equal" aspects or strengths: equal to two decimals.
  *  - when one planet has the greater aspect and another the greater strength the verses do not say which governs. v.36 is built as "among those of equal
  *    aspect the stronger; where the strengths are equal, the one that aspects more", so the aspect level is taken first; `aspectAndStrengthLeadersDiffer` reports
