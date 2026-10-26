@@ -129,3 +129,5 @@ Not built, with the reason found: Kota Chakra (111) and Sanghatta Chakra (112) -
 - 2026-10-26: Animated Transits (093, 098, 099) built - `/animated-transits` (docs/ANIMATED-TRANSITS.md). Group 3 of this register (charts and tables) is now complete except the Varshaphala event views (121-123).
 
 - 2026-10-26: Varshaphala interpretations started (group 4) - Muntha, Munthesha and year-lord verses of Tajika Bhushana ch.2-3 on `/varshaphala` (docs/VARSHAPHALA-INTERPRETATION.md). Still open: the annual-chart bhava results (printed 32 on), Mudda dasha results, Varshaphala event views 121-123, and the Varshapati selection of ch.1.
+
+- 2026-10-26: Varshaphala chart interpretation: the planet-in-bhava verses of Tajika Bhushana ch.5 (eight planets x twelve bhavas, printed 45-63) added to `/varshaphala`. Still open: Mudda dasha results (printed 71-89), sahams, yogas and arishta (64-68), monthly entry (90-93), and Varshaphala event views 121-123.
