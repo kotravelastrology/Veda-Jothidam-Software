@@ -55,6 +55,7 @@ function createArchive(libraryPath, archivePath) {
       snapshots: payload.snapshots.length,
       consultations: payload.consultations.length,
       journalEvents: payload.journalEvents.length,
+      savedEvents: payload.savedEvents.length,
     },
     checksum: checksumOf(payload),
     payload,

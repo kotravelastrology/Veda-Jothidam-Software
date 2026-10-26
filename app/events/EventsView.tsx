@@ -5,6 +5,10 @@ import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeEvents, type EventInput } from './actions';
+import { saveEvent, listSavedEvents, updateSavedEvent, deleteSavedEvent } from '../library/actions';
+
+/** An event on this page; `eventId` is present once it is saved against a profile. */
+type Ev = EventInput & { eventId?: string; description?: string };
 
 /**
  * PL9's event worksheets: any moment set against the birth chart. Every event shows its own chart, the Kakshas of its planets over the
@@ -23,27 +27,64 @@ const nowParts = () => { const d = new Date(); return { date: `${d.getFullYear()
 
 export default function EventsView() {
   const [party, setParty] = useState<Party | null>(null);
-  const [form, setForm] = useState({ name: 'நிகழ்வு', ...nowParts(), place: 'சென்னை', latitude: '13.0827', longitude: '80.2707', offset: '330' });
-  const [events, setEvents] = useState<EventInput[]>([]);
+  const [form, setForm] = useState({ name: 'நிகழ்வு', ...nowParts(), place: 'சென்னை', latitude: '13.0827', longitude: '80.2707', offset: '330', description: '' });
+  const [events, setEvents] = useState<Ev[]>([]);
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const run = async (list: EventInput[], who: Party | null = party) => {
+  const run = async (list: Ev[], who: Party | null = party) => {
     if (!who || list.length === 0) { setResult(null); return; }
     setLoading(true); setError(null);
     try {
       setResult(await computeEvents({ ...(who.kind === 'profile' ? { profile: { profileId: who.profileId, revision: who.revision } } : { form: who.input }), events: list }));
     } catch (e) { setError(e instanceof Error ? e.message : String(e)); setResult(null); } finally { setLoading(false); }
   };
+  const choose = async (x: Party | null) => {
+    setParty(x);
+    if (!x) { setResult(null); return; }
+    if (x.kind === 'profile') {
+      try {
+        const saved: Ev[] = await listSavedEvents(x.profileId);
+        const next = [...saved, ...events.filter((e) => !e.eventId)].slice(0, 20);
+        setEvents(next); run(next, x);
+        return;
+      } catch (e) { setError(e instanceof Error ? e.message : String(e)); }
+    }
+    const next = events.filter((e) => !e.eventId);
+    setEvents(next); run(next, x);
+  };
+  const save = async (i: number) => {
+    if (!party || party.kind !== 'profile') return;
+    const { eventId: _id, ...e } = events[i];
+    try {
+      const { eventId } = await saveEvent({ profileId: party.profileId, ...e });
+      setEvents(events.map((x, k) => (k === i ? { ...x, eventId } : x)));
+    } catch (err) { setError(err instanceof Error ? err.message : String(err)); }
+  };
+  const describe = async (i: number) => {
+    const e = events[i];
+    if (!e.eventId) return;
+    const text = window.prompt('நிகழ்வின் விளக்கம்', e.description ?? '');
+    if (text === null) return;
+    await updateSavedEvent(e.eventId, { description: text });
+    setEvents(events.map((x, k) => (k === i ? { ...x, description: text } : x)));
+  };
   const add = () => {
     const [year, month, day] = form.date.split('-').map(Number);
     const [hour, minute, second] = form.time.split(':').map(Number);
-    const ev: EventInput = { name: form.name || 'நிகழ்வு', year, month, day, hour, minute, second: second || 0, latitude: parseFloat(form.latitude), longitude: parseFloat(form.longitude), utcOffsetMinutes: parseInt(form.offset, 10), placeName: form.place };
+    const ev: Ev = { description: form.description || undefined, name: form.name || 'நிகழ்வு', year, month, day, hour, minute, second: second || 0, latitude: parseFloat(form.latitude), longitude: parseFloat(form.longitude), utcOffsetMinutes: parseInt(form.offset, 10), placeName: form.place };
     const next = [...events, ev].slice(0, 20);
     setEvents(next); run(next);
   };
-  const remove = (i: number) => { const next = events.filter((_, k) => k !== i); setEvents(next); run(next); };
+  const remove = async (i: number) => {
+    const e = events[i];
+    if (e.eventId) {
+      if (!window.confirm(`"${e.name}" என்ற சேமித்த நிகழ்வை நிரந்தரமாக நீக்கவா?`)) return;
+      try { await deleteSavedEvent(e.eventId); } catch (err) { setError(err instanceof Error ? err.message : String(err)); return; }
+    }
+    const next = events.filter((_, k) => k !== i); setEvents(next); run(next);
+  };
   const set = (k: string) => (e: any) => setForm({ ...form, [k]: e.target.value });
   const field = 'px-2 py-1.5 text-sm bg-surface border border-line rounded text-ink';
 
@@ -58,7 +99,7 @@ export default function EventsView() {
         </p>
       </header>
 
-      <PartyChooser party={party} setParty={(x) => { setParty(x); if (x) run(events, x); else setResult(null); }} loading={loading} />
+      <PartyChooser party={party} setParty={choose} loading={loading} />
 
       <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
         <h2 className="font-semibold text-ink mb-2">புதிய நிகழ்வு</h2>
@@ -70,6 +111,7 @@ export default function EventsView() {
           <label className="text-xs text-ink-soft">அட்சம்<br /><input className={`${field} w-24`} value={form.latitude} onChange={set('latitude')} /></label>
           <label className="text-xs text-ink-soft">தீர்க்கம்<br /><input className={`${field} w-24`} value={form.longitude} onChange={set('longitude')} /></label>
           <label className="text-xs text-ink-soft">நேர மண்டலம் (நிமிடம்)<br /><input className={`${field} w-20`} value={form.offset} onChange={set('offset')} /></label>
+          <label className="text-xs text-ink-soft">விளக்கம்<br /><input className={`${field} w-44`} value={form.description} onChange={set('description')} /></label>
           <button type="button" onClick={add} disabled={!party || loading || events.length >= 20} className="px-3 py-1.5 rounded bg-saffron text-ink text-sm disabled:opacity-50">நிகழ்வைச் சேர்</button>
         </div>
         {!party && <p className="text-[11px] text-ink-soft mt-2">முதலில் மேலே யாருடைய ஜாதகம் என்பதைத் தேர்வு செய்யுங்கள்.</p>}
@@ -77,8 +119,11 @@ export default function EventsView() {
           <ul className="mt-3 text-xs flex flex-wrap gap-2">
             {events.map((e, i) => (
               <li key={i} className="border border-line rounded px-2 py-1 bg-surface-2">
-                {e.name} · {e.year}-{pad(e.month)}-{pad(e.day)} {pad(e.hour)}:{pad(e.minute)}
-                <button type="button" onClick={() => remove(i)} className="ml-2 text-rose">✕</button>
+                {e.eventId && <span title="சேமிக்கப்பட்டது">💾 </span>}{e.name} · {e.year}-{pad(e.month)}-{pad(e.day)} {pad(e.hour)}:{pad(e.minute)}
+                {e.description && <span className="text-ink-soft"> — {e.description}</span>}
+                {party?.kind === 'profile' && !e.eventId && <button type="button" onClick={() => save(i)} className="ml-2 text-teal">சேமி</button>}
+                {e.eventId && <button type="button" onClick={() => describe(i)} className="ml-2 text-ink-soft" title="விளக்கம் மாற்று">✎</button>}
+                <button type="button" onClick={() => remove(i)} className="ml-2 text-rose" title={e.eventId ? 'நிரந்தரமாக நீக்கு' : 'பட்டியலிலிருந்து நீக்கு'}>✕</button>
               </li>
             ))}
           </ul>
@@ -136,7 +181,7 @@ function EventCard({ ev, native }: { ev: any; native: any }) {
   return (
     <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
       <h2 className="font-semibold text-ink">{ev.name} — {ev.event.year}-{pad(ev.event.month)}-{pad(ev.event.day)} {pad(ev.event.hour)}:{pad(ev.event.minute)} · {ev.placeName || '—'}</h2>
-      <p className="text-xs text-ink-soft mb-3">{native.name ?? '(பெயர் இல்லை)'} ஜாதகத்துடன் · {ev.event.ayanamsha} அயனாம்சம்</p>
+      <p className="text-xs text-ink-soft mb-3">{native.name ?? '(பெயர் இல்லை)'} ஜாதகத்துடன் · {ev.event.ayanamsha} அயனாம்சம்{ev.event.description ? ` · ${ev.event.description}` : ''}</p>
 
       <div className="grid md:grid-cols-3 gap-4 mb-4">
         <div className="flex justify-center"><VedicChartBox {...fromParashariChart(ev.raw.chart)} title="நிகழ்வு ராசி கட்டம்" size={280} /></div>

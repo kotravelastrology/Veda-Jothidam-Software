@@ -26,7 +26,7 @@ const { assertChartSnapshot } = require('../contracts/chartSnapshot');
  * earlier ones stay readable.
  */
 
-const SCHEMA_VERSION = 7;
+const SCHEMA_VERSION = 8;
 
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS library_meta (
@@ -129,6 +129,29 @@ CREATE TABLE IF NOT EXISTS drafts (
 
 CREATE INDEX IF NOT EXISTS idx_consultations_profile ON consultations(profile_id, occurred_at);
 CREATE INDEX IF NOT EXISTS idx_journal_profile ON journal_events(profile_id, event_date);
+
+-- Events saved against a person (PL9's Events list): a moment and place to set against the birth chart on the event page. The date and time are the
+-- wall-clock values the user entered at the stated offset; nothing derived is stored.
+CREATE TABLE IF NOT EXISTS saved_events (
+  event_id       TEXT PRIMARY KEY,
+  profile_id     TEXT NOT NULL,
+  name           TEXT NOT NULL,
+  year           INTEGER NOT NULL,
+  month          INTEGER NOT NULL,
+  day            INTEGER NOT NULL,
+  hour           INTEGER NOT NULL,
+  minute         INTEGER NOT NULL,
+  second         INTEGER NOT NULL DEFAULT 0,
+  latitude       REAL NOT NULL,
+  longitude      REAL NOT NULL,
+  utc_offset_min INTEGER NOT NULL,
+  place_name     TEXT,
+  description    TEXT,
+  created_at     TEXT NOT NULL,
+  updated_at     TEXT NOT NULL,
+  FOREIGN KEY (profile_id) REFERENCES profiles(profile_id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_saved_events_profile ON saved_events(profile_id, year, month, day);
 
 -- VJ-023: what each import created, so it can be undone exactly rather than
 -- by guessing which profiles looked recent.
@@ -293,7 +316,7 @@ function openLibrary(filePath) {
   db.exec(SCHEMA);
 
   if (foundVersion !== null && foundVersion < 2) migrateToV2(db);
-  // v2 -> v3 through v6 -> v7 add only new tables, which the schema above
+  // v2 -> v3 through v7 -> v8 add only new tables, which the schema above
   // already created with IF NOT EXISTS; there is nothing to move, so no data
   // migration runs for any of them.
 
@@ -685,6 +708,51 @@ function openLibrary(filePath) {
       }));
     },
 
+    /** Events kept against a person for the event page; at most fifty each. */
+    saveEvent({ profileId, name, year, month, day, hour, minute, second = 0, latitude, longitude, utcOffsetMinutes, placeName = null, description = null }) {
+      if (!db.prepare('SELECT 1 FROM profiles WHERE profile_id = ?').get(profileId)) {
+        throw new UnsupportedInputError(`unknown profile: ${profileId}`, 'profileId');
+      }
+      const nums = { year, month, day, hour, minute, second, latitude, longitude, utcOffsetMinutes };
+      for (const [k, v] of Object.entries(nums)) {
+        if (!Number.isFinite(v)) throw new UnsupportedInputError(`${k} must be a number`, k);
+      }
+      if (month < 1 || month > 12 || day < 1 || day > 31 || hour < 0 || hour > 23 || minute < 0 || minute > 59 || second < 0 || second > 59) {
+        throw new UnsupportedInputError('the date or time is out of range', 'date');
+      }
+      if (!name) throw new UnsupportedInputError('name is required', 'name');
+      if (db.prepare('SELECT COUNT(*) AS n FROM saved_events WHERE profile_id = ?').get(profileId).n >= 50) {
+        throw new UnsupportedInputError('at most 50 events can be saved for one person', 'events');
+      }
+      const eventId = crypto.randomUUID();
+      const t = nowIso();
+      db.prepare(`INSERT INTO saved_events (event_id, profile_id, name, year, month, day, hour, minute, second, latitude, longitude,
+        utc_offset_min, place_name, description, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      ).run(eventId, profileId, name, year, month, day, hour, minute, second, latitude, longitude, utcOffsetMinutes, placeName, description, t, t);
+      return { eventId };
+    },
+
+    listSavedEvents(profileId) {
+      return db.prepare('SELECT * FROM saved_events WHERE profile_id = ? ORDER BY year, month, day, hour, minute, second, event_id').all(profileId).map((r) => ({
+        eventId: r.event_id, name: r.name, year: r.year, month: r.month, day: r.day, hour: r.hour, minute: r.minute, second: r.second,
+        latitude: r.latitude, longitude: r.longitude, utcOffsetMinutes: r.utc_offset_min, placeName: r.place_name ?? '', description: r.description ?? '',
+        createdAt: r.created_at, updatedAt: r.updated_at,
+      }));
+    },
+
+    /** Name and description can be edited; the moment and place are fixed (save a new event for another moment). */
+    updateSavedEvent(eventId, { name, description }) {
+      const row = db.prepare('SELECT name, description FROM saved_events WHERE event_id = ?').get(eventId);
+      if (!row) return false;
+      db.prepare('UPDATE saved_events SET name = ?, description = ?, updated_at = ? WHERE event_id = ?')
+        .run(name === undefined ? row.name : (name || row.name), description === undefined ? row.description : description, nowIso(), eventId);
+      return true;
+    },
+
+    deleteSavedEvent(eventId) {
+      return db.prepare('DELETE FROM saved_events WHERE event_id = ?').run(eventId).changes > 0;
+    },
+
     deleteJournalEvent(eventId) {
       return db.prepare('DELETE FROM journal_events WHERE event_id = ?').run(eventId).changes > 0;
     },
@@ -949,7 +1017,7 @@ function openLibrary(filePath) {
      *
      * Records are the practitioner's own work and are never purged: profiles,
      * their revisions, consultations and the evidence cited in them, journal
-     * entries, imports and unsent drafts.
+     * entries, saved events, imports and unsent drafts.
      *
      * Cache is anything this app can recompute: chart snapshots, and the FTS
      * index. The one subtlety is that a snapshot **cited by a consultation is
@@ -1020,6 +1088,7 @@ function openLibrary(filePath) {
           revisions: count('profile_revisions'),
           consultations: count('consultations'),
           journalEvents: count('journal_events'),
+          savedEvents: count('saved_events'),
           drafts: count('drafts'),
           imports: count('imports'),
         },
@@ -1041,6 +1110,7 @@ function openLibrary(filePath) {
         consultations: db.prepare('SELECT * FROM consultations ORDER BY consultation_id').all(),
         consultationEvidence: db.prepare('SELECT * FROM consultation_evidence ORDER BY consultation_id, rule_id').all(),
         journalEvents: db.prepare('SELECT * FROM journal_events ORDER BY event_id').all(),
+        savedEvents: db.prepare('SELECT * FROM saved_events ORDER BY event_id').all(),
         imports: db.prepare('SELECT * FROM imports ORDER BY created_at').all(),
       };
     },
@@ -1071,7 +1141,7 @@ function openLibrary(filePath) {
       try {
         if (overwrite) {
           db.exec(`DELETE FROM consultation_evidence; DELETE FROM consultations;
-                   DELETE FROM journal_events; DELETE FROM imports; DELETE FROM snapshots;
+                   DELETE FROM journal_events; DELETE FROM saved_events; DELETE FROM imports; DELETE FROM snapshots;
                    DELETE FROM profile_revisions; DELETE FROM profiles; DELETE FROM profile_search;`);
         }
         for (const p of payload.profiles) {
@@ -1117,6 +1187,13 @@ function openLibrary(filePath) {
           ).run(j.event_id, j.profile_id, j.event_date, j.category ?? null, j.description, j.created_at);
         }
 
+        for (const e of payload.savedEvents ?? []) {
+          db.prepare(`INSERT INTO saved_events (event_id, profile_id, name, year, month, day, hour, minute, second, latitude, longitude,
+            utc_offset_min, place_name, description, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          ).run(e.event_id, e.profile_id, e.name, e.year, e.month, e.day, e.hour, e.minute, e.second ?? 0, e.latitude, e.longitude,
+            e.utc_offset_min, e.place_name ?? null, e.description ?? null, e.created_at, e.updated_at);
+        }
+
         for (const im of payload.imports ?? []) {
           db.prepare(`INSERT INTO imports
             (import_id, source_path, profile_ids, skipped, rejected, loss_report, rolled_back, created_at)
@@ -1150,6 +1227,7 @@ function openLibrary(filePath) {
         snapshots: (payload.snapshots ?? []).length,
         consultations: (payload.consultations ?? []).length,
         journalEvents: (payload.journalEvents ?? []).length,
+        savedEvents: (payload.savedEvents ?? []).length,
       };
     },
 

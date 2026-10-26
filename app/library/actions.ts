@@ -159,6 +159,24 @@ export async function deleteJournalEvent(eventId: string) {
   return withLibrary((lib) => lib.deleteJournalEvent(eventId));
 }
 
+export interface SavedEventParams {
+  profileId: string; name: string; year: number; month: number; day: number; hour: number; minute: number; second?: number;
+  latitude: number; longitude: number; utcOffsetMinutes: number; placeName?: string; description?: string;
+}
+/** Events kept against a person for the event page. */
+export async function saveEvent(params: SavedEventParams) {
+  return withLibrary((lib) => lib.saveEvent(params));
+}
+export async function listSavedEvents(profileId: string) {
+  return withLibrary((lib) => lib.listSavedEvents(profileId));
+}
+export async function updateSavedEvent(eventId: string, patch: { name?: string; description?: string }) {
+  return withLibrary((lib) => lib.updateSavedEvent(eventId, patch));
+}
+export async function deleteSavedEvent(eventId: string) {
+  return withLibrary((lib) => lib.deleteSavedEvent(eventId));
+}
+
 /** Autosave for an unsent consultation note. */
 export async function saveDraft(draftKey: string, payload: unknown, profileId?: string) {
   return withLibrary((lib) => lib.saveDraft(draftKey, payload, profileId ?? null));
