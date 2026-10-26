@@ -43,6 +43,7 @@
 
 const { describePorutham, poruthamEvidence } = require('./poruthamFactors');
 const T = require('./poruthamTables');
+const { c32Notes } = require('./poruthamC32Notes');
 
 const NAKSHATRA_NAMES = [
   'Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu',
@@ -220,7 +221,10 @@ function calculateTamilPorutham(girl, boy) {
     // remember it. The overall score is only as good as the rules that produce
     // it, which is why the count is here and not just per row.
     evidence: poruthamEvidence(raw),
-    sourceSummary: summariseSources(rows),
+    sourceSummary: summariseSources(rows),
+    // K.S. Krishnamurti, Reader IV, as an optional second source: its comparison with each factor, its exceptions and its extra
+    // factors. Shown beside the verdicts; it changes neither the verdicts nor the count.
+    c32: c32Notes(girl, boy, rows),
     sourceStatus: rows.every((r) => r.sourceStatus !== 'NOT_SOURCED')
       ? 'SOURCED' : 'PARTIALLY_SOURCED',
   };

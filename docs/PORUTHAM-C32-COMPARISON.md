@@ -39,3 +39,21 @@ was changed.
 ## Decisions for the owner
 Which of the three Yoni readings to follow for Uthiram, Dhanishta and Poorattadhi; whether the Bharani Vedha partner is Pushyam or
 Anuradha; and whether to add C32's Dina, Gana and Rajju exceptions as an optional second source, as Sudamani is now.
+
+## Decision (owner, 2026-10-26): follow Kalaprakasika; C32 as an optional second source
+Built in `src/report/poruthamC32Notes.js` and returned as `result.c32` by `calculateTamilPorutham`; the Porutham page shows it folded
+under "இரண்டாம் துணை நூல்". It changes neither the ten verdicts, the passed count, the level nor the source status (checked for every
+27x27 star pair in `test-porutham-c32-notes.js`).
+
+What it shows:
+- **Per factor**: whether C32 matches, diverges or uses a different model, with printed pages (the differences above).
+- **Exceptions that apply to this pair**, only when the factor failed: Gana (bride Rakshasa and the boy's star more than 14th counted
+  back; or same Moon sign, friendly lords, Sama-saptama), Rajju (the same three Moon-sign conditions, with a caution for the stars whose
+  padas are excepted), Rasi (6th place for an Oja-rasi bride or lords Aries/Scorpio, Taurus/Libra; 2nd place for six boy signs; 5th
+  place for an Aries or Cancer bride), plus notes on the eight stars for which dasa porutham "need not be seen", the Vatham (7th star)
+  Kasyapa warnings and the twelve named pairs, and the four stars Moolam, Ashlesha, Jyeshta and Visakam (pada-dependent).
+- **Three extra factors, not counted**: Nadi, star gender, and caste by rasi.
+
+Choices made where C32 is not explicit: "friends" means mutual friends in C32's own printed table (p.35); Mercury's only printed friend is
+Saturn, so Mercury with Venus is not a waiver. Pada exceptions are shown as cautions because the input has no pada. The Kasyapa
+pairs are applied only for the exact star pairs the book names.

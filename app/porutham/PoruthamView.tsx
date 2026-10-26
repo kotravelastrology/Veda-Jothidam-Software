@@ -422,6 +422,8 @@ export default function PoruthamView() {
         </div>
       )}
 
+      {result?.c32 && <C32Section c={result.c32} />}
+
       {result?.extended && (
         <div className="bg-surface border border-line rounded-2xl p-5 mt-4">
           <div className="flex items-baseline justify-between mb-4">
@@ -462,6 +464,88 @@ export default function PoruthamView() {
 
       {result?.ashtakoota && <AshtakootaSection a={result.ashtakoota} />}
     </main>
+  );
+}
+
+/**
+ * K.S. Krishnamurti's Reader IV as an optional second source: where it stands against each factor, the exceptions it gives that
+ * apply to this pair, and three factors Kalaprakasika's pages do not give. It is shown folded and never changes the ten verdicts
+ * or the count above; where it disagrees, both are traditions and the choice is the practitioner's.
+ */
+const C32_NOTE_CLS: Record<string, string> = {
+  WAIVER: 'bg-teal-soft text-teal', CAUTION: 'bg-amber-100 text-amber-800', NOTE: 'bg-surface-2 text-ink-soft',
+};
+const C32_NOTE_LABEL: Record<string, string> = { WAIVER: 'தளர்வு', CAUTION: 'எச்சரிக்கை', NOTE: 'குறிப்பு' };
+const C32_STATUS_TA: Record<string, string> = { MATCHES: 'ஒத்தது', DIVERGES: 'வேறுபடுகிறது', DIFFERENT_MODEL: 'வேறு அமைப்பு' };
+const C32_NAMES: Record<string, string> = {
+  DINA: 'தினம்', GANA: 'கணம்', MAHENDRA: 'மகேந்திரம்', STREE_DEERGHA: 'ஸ்திரீ தீர்க்கம்', YONI: 'யோனி', RASI: 'ராசி',
+  RASI_ADHIPATHI: 'ராசி அதிபதி', VASYA: 'வசியம்', RAJJU: 'ரஜ்ஜு', VEDHA: 'வேதை',
+};
+
+function C32Section({ c }: { c: any }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="bg-surface border border-line rounded-2xl p-5 mt-4">
+      <button type="button" onClick={() => setOpen((v) => !v)} className="text-left w-full">
+        <span className="text-ink-soft mr-1">{open ? '▾' : '▸'}</span>
+        <span className="text-sm font-semibold text-ink">இரண்டாம் துணை நூல்: கிருஷ்ணமூர்த்தி பத்ததி தொகுதி 4 (கே.எஸ். கிருஷ்ணமூர்த்தி)</span>
+        <span className="ml-2 text-xs text-ink-soft">{c.notes.length} குறிப்புகள் · 3 கூடுதல் பொருத்தங்கள்</span>
+      </button>
+      {open && (
+        <div className="mt-3 text-xs space-y-4">
+          <p className="text-ink-soft">
+            மேலுள்ள பத்து முடிவுகளும் எண்ணிக்கையும் கலாப்பிரகாசிகையைப் பின்பற்றுகின்றன; இந்தப் பகுதி அவற்றை மாற்றாது.
+            இந்நூல் தசப்பொருத்தத்தைப் பெரிதாகக் கொள்வதில்லை — தனிப்பட்ட ஜாதகங்களை முதலில் ஆராயச் சொல்கிறது (ப.15-17, 41).
+            {' '}{citeTa(c.source)}
+          </p>
+
+          <div>
+            <p className="font-semibold text-ink mb-1">இந்த ஜோடிக்குப் பொருந்தும் விதிவிலக்குகளும் குறிப்புகளும்</p>
+            {c.notes.length === 0 ? (
+              <p className="text-ink-soft">இந்த ஜோடிக்கு இந்நூலின் விதிவிலக்கு எதுவும் பொருந்தவில்லை (எல்லாப் பொருத்தங்களும் ஏற்கெனவே பொருந்துகின்றன).</p>
+            ) : (
+              <ul className="space-y-1.5">
+                {c.notes.map((n: any, i: number) => (
+                  <li key={i} className="flex gap-2">
+                    <span className={`shrink-0 text-[10px] px-1.5 py-0.5 rounded h-fit ${C32_NOTE_CLS[n.kind]}`}>{C32_NOTE_LABEL[n.kind]}</span>
+                    <span className="text-ink">{C32_NAMES[n.id]}: {n.text} <span className="text-ink-soft">(ப.{n.printedPage})</span></span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div>
+            <p className="font-semibold text-ink mb-1">கூடுதல் பொருத்தங்கள் (எண்ணிக்கையில் சேர்க்கப்படவில்லை)</p>
+            <table className="w-full">
+              <tbody>
+                {c.extraFactors.map((f: any) => (
+                  <tr key={f.id} className="border-b border-line/40 align-top">
+                    <td className="py-1 pr-2 whitespace-nowrap">{f.name} <span className="text-ink-soft">(ப.{f.printedPage})</span></td>
+                    <td className="py-1 pr-2 whitespace-nowrap">
+                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${f.result ? 'bg-teal-soft text-teal' : 'bg-rose-soft text-rose'}`}>{f.result ? '✓' : '✗'}</span>
+                    </td>
+                    <td className="py-1 text-ink-soft">{f.note} — {f.text}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div>
+            <p className="font-semibold text-ink mb-1">ஒவ்வொரு பொருத்தத்துடனும் இந்நூல் எப்படி ஒப்பிடுகிறது</p>
+            <ul className="space-y-1">
+              {Object.entries(c.comparison).map(([id, v]: [string, any]) => (
+                <li key={id} className={v.status === 'MATCHES' ? 'text-teal' : 'text-amber-700'}>
+                  <span className="font-semibold">{C32_NAMES[id]} — {C32_STATUS_TA[v.status]} (ப.{v.printedPages}):</span>{' '}
+                  <span className="text-ink-soft">{v.summary}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
