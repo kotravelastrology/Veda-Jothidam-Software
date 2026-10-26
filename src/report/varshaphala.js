@@ -327,6 +327,7 @@ function calculateVarshaphala(birthInput, age) {
     natal: {
       sunLongitude: Math.round(natalSunLon * 100) / 100,
       lagnaRasi: RASI_NAMES[natalLagnaRasi0],
+      lagnaDegree: Math.round((natal.lagna.longitude % 30) * 1e6) / 1e6,
       moonRasi: RASI_NAMES[natalMoonRasi0],
     },
     varshaChart: varsha, // full Parashari chart — wrap as { chart: varshaChart } for RasiChartRenderer

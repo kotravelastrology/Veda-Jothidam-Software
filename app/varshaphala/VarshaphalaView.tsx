@@ -376,6 +376,9 @@ export default function VarshaphalaView() {
           {/* Arishta, yogas: Tajika Bhushana ch.6-7 and the yoga chapter */}
           {(result as any).yogas && <YogasSection y={(result as any).yogas} />}
 
+          {/* Sahams as Tajika Bhushana gives them, beside the app's table */}
+          {(result as any).bookSahams && <BookSahamsSection b={(result as any).bookSahams} />}
+
           {/* Tripataki Chakra */}
           {(result as any).tripataki && (
             <section className="bg-surface border border-line rounded-lg p-5">
@@ -523,3 +526,36 @@ function YogasSection({ y }: { y: any }) {
     </section>
   );
 }
+
+/** The sahams of Tajika Bhushana (printed 68-71), computed over this annual chart and set beside the app's own table; where they differ, both stay. */
+function BookSahamsSection({ b }: { b: any }) {
+  return (
+    <section className="bg-surface border border-line rounded-lg p-5">
+      <h3 className="font-semibold text-ink mb-1">சஹமங்கள் — தாஜிக பூஷணம் (ப.68-71)</h3>
+      <p className="text-xs text-ink-soft mb-2">
+        நூல் தரும் 19 சூத்திரங்கள் (A − B + C), இந்த வர்ஷ ஜாதகத்தில் கணக்கிடப்பட்டவை ({b.isDay ? 'பகல்' : 'இரவு'} பிறப்பாகக் கொண்டு; நூல் பகல்-இரவை எப்படி முடிவு செய்வதென்று கூறவில்லை, இங்கே 6-18 மணி).
+        பக்கத்தின் மேலே உள்ள சஹம அட்டவணை (தாஜிக நீலகண்டீயம்) தனி; இரண்டும் காட்டப்படுகின்றன. {citeTa(b.source)}
+      </p>
+      <p className="text-xs text-ink-soft mb-3">{b.reading.textTa} ({b.reading.verse}, ப.{b.reading.printedPage})</p>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs" style={{ fontVariantNumeric: 'tabular-nums' }}>
+          <thead><tr className="text-left text-ink-soft border-b border-line"><th className="py-1 pr-2">சஹமம்</th><th className="pr-2">நூல்</th><th className="pr-2">தீர்க்கம்</th><th>பக்கத்தின் அட்டவணையுடன்</th></tr></thead>
+          <tbody>
+            {b.sahams.map((s: any) => (
+              <tr key={s.key} className="border-t border-line/40 align-top">
+                <td className="py-1 pr-2">{s.nameTa}</td>
+                <td className="pr-2 text-ink-soft" title={s.textTa}>{s.verse}, ப.{s.printedPage}{s.when === 'DAY' ? (s.reversed ? ' (இரவு: தலைகீழ்)' : ' (பகல்)') : ' (இரவு-பகல் ஒன்றே)'}</td>
+                <td className="pr-2">{s.longitude == null ? <span className="text-rose">{s.status === 'NIGHT_UNCLEAR' ? 'இரவு விதி தெளிவில்லை' : 'கணக்கிட முடியவில்லை'}</span> : `${SIGN_TA_V[s.signIndex]} ${s.degree.toFixed(2)}°`}</td>
+                <td className="text-ink-soft">
+                  {!s.app ? 'அட்டவணையில் இணை இல்லை' : s.app.same ? `ஒன்றே (${s.app.nameTa})` : s.app.onlyThe30 ? `30° மட்டுமே வேறு (${s.app.nameTa}: +30 திருத்தம்)` : `வேறு: ${s.app.nameTa} ${s.app.signTa} (${s.app.differenceDeg > 0 ? '+' : ''}${s.app.differenceDeg}°)`}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-[11px] text-ink-soft mt-2">கணக்கிடப்படாதவை: {b.notApplied.join(' · ')}. {b.notes}</p>
+    </section>
+  );
+}
+const SIGN_TA_V = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];

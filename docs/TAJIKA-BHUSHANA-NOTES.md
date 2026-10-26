@@ -153,3 +153,21 @@ Jupiter in turn: a kingdom. v.4: benefics in kendras or in the 5th and 9th and m
 Saturn and Venus not combust, in their own house or exalted: great gain from foreigners. v.6: all malefics in the 3rd, 6th and 11th and all benefics in kendras: long-lasting
 wealth. "Iti rajayogah". Raja-bhanga v.1: malefics debilitated and combust destroy a raja-yoga; also if malefics are debilitated and benefics weak.
 Printed 68 then opens the saham chapter ("atha sahamani"); v.1 of it is the punya (fortune) saham: by day Sun minus Moon added to the lagna, by night the reverse.
+
+## The sahams, printed 68-71 (chapter "atha sahamani", 11 verses)
+Read 2026-10-26 on the page images (PDF 72-75, at three times size for the verse and commentary lines). The book gives each saham as "from X take Y and add
+the lagna" ("A ko B mein ghataye"; the commentary's phrase "X ko Y mein ghataye" means subtract X from Y). By day or night: where a formula is "DAY" the
+book says "at night the reverse"; where it is "BOTH" it is the same by night and day.
+v.1 (printed 68): punya = Moon - Sun + lagna (day); rajya = Saturn - Sun + lagna (day). v.2 (69): jiva = Saturn - Jupiter + the janma lagna (day); mrityu = the 8th
+bhava - Moon + Saturn (both). v.3: matri = Moon - Venus + lagna (day); bhratri = Jupiter - Saturn + lagna (both). v.4: pitri = Sun - Saturn + lagna (both); putra =
+Jupiter - Moon + lagna (both). v.5: yasha = punya - Jupiter + lagna (day); bala = Mars - punya + lagna (day). v.6 (69-70): vidya = Sun - Moon + lagna (day); gaurava =
+Jupiter - Moon + Sun (day). v.7 (70): karma = Mars - Mercury + lagna (day); paradesha = the lord of the punya saham minus the punya saham, "sanga" (the verse) = with
+the lagna, which the commentary does not say (both). v.8: dhana = the lord of the 2nd - the 2nd bhava + lagna (both); labha = lagna - the lagna lord + lagna (both).
+v.9: karyasiddhi: by day Sun - Saturn + the lord of the Sun's sign; the night wording ("the Moon taken out and the Sun's sign lord added") does not say from what, so it is
+left unclear. v.10: stri (kalatra) = Venus - the lord of the 7th + the 7th bhava (both); vyapara = Mercury - Mars + lagna (both). v.11 (71): a saham joined or aspected by
+strong benefics or its own lord grows; if its lord makes ithasala with the Varshapati its fruit is certain; a saham that is lost (combust), weak, or with malefics is
+harmed. "Iti sahamadhyaya" at printed 71; the mixed chapter ("mishraka", printed 71-73) follows and is not read.
+The 30-degree correction that the app's `sahams.js` applies is not in these pages. Compared with the app's table on 5 Oct 1990 (age 36): punya, matri and karma agree;
+putra, vidya and gaurava differ by exactly the 30 degrees; the others differ in formula (rajya: the app has Sun - Jupiter; mrityu: the app adds the lagna, the book Saturn;
+bhratri: the app adds the lagna lord, the book the lagna; pitri: the app has Saturn - Sun, the book Sun - Saturn; bala: the app has punya - Mars; dhana: the app has the 2nd bhava minus its
+lord; jiva, labha, paradesha, karyasiddhi, vyapara also differ: 11 in all). Yasha and stri have no counterpart in the app.

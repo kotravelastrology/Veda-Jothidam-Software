@@ -1,8 +1,8 @@
 /**
  * Tajika Bhushana (Ganesha Daivajna; Sanskrit verses with a Hindi commentary, corpus C28), glossed in Tamil: the Muntha and year-lord verses of chapters 2-3
- * (printed pp.10-21), the planet-in-bhava verses of chapter 5 (printed pp.45-63) and the Mudda dasha chapters 8-9 (printed pp.73-90). Printed page =
- * PDF page - 4. Read on the page images (docs/TAJIKA-BHUSHANA-NOTES.md). Embedded rather than read from the fixture at run time;
- * test-varsha-interpretation.js holds this file equal to fixtures/varshaphala/tajika-bhushana.json.
+ * (printed pp.10-21), the planet-in-bhava verses of chapter 5 (printed pp.45-63), the sahams (printed pp.68-71) and the Mudda dasha chapters 8-9
+ * (printed pp.73-90). Printed page = PDF page - 4. Read on the page images (docs/TAJIKA-BHUSHANA-NOTES.md). Embedded rather than read from the fixture
+ * at run time; test-varsha-interpretation.js holds this file equal to fixtures/varshaphala/tajika-bhushana.json.
  */
 module.exports = {
  "source": {
@@ -1271,5 +1271,267 @@ module.exports = {
     "text": "சுக்கிரன்: மகன்-நண்பரால் மகிழ்ச்சி, அரசனிடமிருந்து ஆதாயம், பிராமண பூஜையில் பக்தி வளர்தல்."
    }
   }
+ },
+ "sahams": {
+  "formulas": [
+   {
+    "key": "punya",
+    "nameTa": "புண்ணிய சகம்",
+    "verse": "v.1",
+    "printedPage": "68",
+    "when": "DAY",
+    "operands": [
+     "Moon",
+     "Sun",
+     "L"
+    ],
+    "textTa": "பகலில் சந்திரனிலிருந்து சூரியனைக் கழித்து லக்னம் கூட்டினால் புண்ணிய சகம்; இரவில் தலைகீழ்."
+   },
+   {
+    "key": "rajya",
+    "nameTa": "ராஜ்ய சகம்",
+    "verse": "v.1",
+    "printedPage": "68",
+    "when": "DAY",
+    "operands": [
+     "Saturn",
+     "Sun",
+     "L"
+    ],
+    "textTa": "பகலில் சனியிலிருந்து சூரியனைக் கழித்து லக்னம் கூட்டினால் ராஜ்ய சகம்; இரவில் தலைகீழ்."
+   },
+   {
+    "key": "jiva",
+    "nameTa": "ஜீவித சகம்",
+    "verse": "v.2",
+    "printedPage": "69",
+    "when": "DAY",
+    "operands": [
+     "Saturn",
+     "Jupiter",
+     "JL"
+    ],
+    "textTa": "பகலில் சனியிலிருந்து குருவைக் கழித்து ஜன்ம லக்னம் கூட்டினால் ஜீவித சகம்; இரவில் தலைகீழ்."
+   },
+   {
+    "key": "mrityu",
+    "nameTa": "ம்ருத்யு சகம்",
+    "verse": "v.2",
+    "printedPage": "69",
+    "when": "BOTH",
+    "operands": [
+     "H8",
+     "Moon",
+     "Saturn"
+    ],
+    "textTa": "இரவு பகல் இரண்டிலும் 8-ஆம் பாவத்திலிருந்து சந்திரனைக் கழித்து சனியைக் கூட்டினால் ம்ருத்யு சகம்."
+   },
+   {
+    "key": "matri",
+    "nameTa": "மாத்ரு சகம்",
+    "verse": "v.3",
+    "printedPage": "69",
+    "when": "DAY",
+    "operands": [
+     "Moon",
+     "Venus",
+     "L"
+    ],
+    "textTa": "பகலில் சந்திரனிலிருந்து சுக்கிரனைக் கழித்து லக்னம் கூட்டினால் மாத்ரு சகம்; இரவில் தலைகீழ்."
+   },
+   {
+    "key": "bhratri",
+    "nameTa": "ப்ராத்ரு (சகோதர) சகம்",
+    "verse": "v.3",
+    "printedPage": "69",
+    "when": "BOTH",
+    "operands": [
+     "Jupiter",
+     "Saturn",
+     "L"
+    ],
+    "textTa": "இரவு பகல் இரண்டிலும் குருவிலிருந்து சனியைக் கழித்து லக்னம் கூட்டினால் ப்ராத்ரு சகம்."
+   },
+   {
+    "key": "pitri",
+    "nameTa": "பித்ரு சகம்",
+    "verse": "v.4",
+    "printedPage": "69",
+    "when": "BOTH",
+    "operands": [
+     "Sun",
+     "Saturn",
+     "L"
+    ],
+    "textTa": "இரவு பகல் இரண்டிலும் சூரியனிலிருந்து சனியைக் கழித்து லக்னம் கூட்டினால் பித்ரு சகம்."
+   },
+   {
+    "key": "putra",
+    "nameTa": "புத்ர சகம்",
+    "verse": "v.4",
+    "printedPage": "69",
+    "when": "BOTH",
+    "operands": [
+     "Jupiter",
+     "Moon",
+     "L"
+    ],
+    "textTa": "இரவு பகல் இரண்டிலும் குருவிலிருந்து சந்திரனைக் கழித்து லக்னம் கூட்டினால் புத்ர சகம்."
+   },
+   {
+    "key": "yasha",
+    "nameTa": "யச (புகழ்) சகம்",
+    "verse": "v.5",
+    "printedPage": "69",
+    "when": "DAY",
+    "operands": [
+     "SAHAM:punya",
+     "Jupiter",
+     "L"
+    ],
+    "textTa": "பகலில் புண்ணிய சகத்திலிருந்து குருவைக் கழித்து லக்னம் கூட்டினால் யச சகம்; இரவில் தலைகீழ்."
+   },
+   {
+    "key": "bala",
+    "nameTa": "பல (விக்ரம) சகம்",
+    "verse": "v.5",
+    "printedPage": "69",
+    "when": "DAY",
+    "operands": [
+     "Mars",
+     "SAHAM:punya",
+     "L"
+    ],
+    "textTa": "பகலில் செவ்வாயிலிருந்து புண்ணிய சகத்தைக் கழித்து லக்னம் கூட்டினால் பல சகம்; இரவில் தலைகீழ்."
+   },
+   {
+    "key": "vidya",
+    "nameTa": "வித்யா சகம்",
+    "verse": "v.6",
+    "printedPage": "69-70",
+    "when": "DAY",
+    "operands": [
+     "Sun",
+     "Moon",
+     "L"
+    ],
+    "textTa": "பகலில் சூரியனிலிருந்து சந்திரனைக் கழித்து லக்னம் கூட்டினால் வித்யா சகம்; இரவில் தலைகீழ்."
+   },
+   {
+    "key": "gaurava",
+    "nameTa": "கௌரவ சகம்",
+    "verse": "v.6",
+    "printedPage": "69-70",
+    "when": "DAY",
+    "operands": [
+     "Jupiter",
+     "Moon",
+     "Sun"
+    ],
+    "textTa": "பகலில் குருவிலிருந்து சந்திரனைக் கழித்து சூரியனைக் கூட்டினால் கௌரவ சகம்; இரவில் தலைகீழ்."
+   },
+   {
+    "key": "karma",
+    "nameTa": "கர்ம சகம்",
+    "verse": "v.7",
+    "printedPage": "70",
+    "when": "DAY",
+    "operands": [
+     "Mars",
+     "Mercury",
+     "L"
+    ],
+    "textTa": "பகலில் செவ்வாயிலிருந்து புதனைக் கழித்து லக்னம் கூட்டினால் கர்ம சகம்; இரவில் தலைகீழ்."
+   },
+   {
+    "key": "paradesha",
+    "nameTa": "பரதேச சகம்",
+    "verse": "v.7",
+    "printedPage": "70",
+    "when": "BOTH",
+    "operands": [
+     "LORD:punya",
+     "SAHAM:punya",
+     "L"
+    ],
+    "textTa": "எப்போதும் புண்ணிய சகாதிபதியிலிருந்து புண்ணிய சகத்தைக் கழித்து ('சாங்க' என்பதால் லக்னம் கூட்டுவதாகக் கொள்கிறேன்) பரதேச சகம். உரை லக்னத்தைக் குறிப்பிடவில்லை; பாவில் 'சாங்க' என்ற சொல் மட்டும் உள்ளது."
+   },
+   {
+    "key": "dhana",
+    "nameTa": "தன சகம்",
+    "verse": "v.8",
+    "printedPage": "70",
+    "when": "BOTH",
+    "operands": [
+     "LORD2",
+     "H2",
+     "L"
+    ],
+    "textTa": "எப்போதும் 2-ஆம் அதிபதியிலிருந்து 2-ஆம் பாவத்தைக் கழித்து லக்னம் கூட்டினால் தன சகம்."
+   },
+   {
+    "key": "labha",
+    "nameTa": "லாப சகம்",
+    "verse": "v.8",
+    "printedPage": "70",
+    "when": "BOTH",
+    "operands": [
+     "L",
+     "LL",
+     "L"
+    ],
+    "textTa": "எப்போதும் லக்னத்திலிருந்து லக்னாதிபதியைக் கழித்து லக்னம் கூட்டினால் லாப சகம் (இரவு பகல் இரண்டிலும்)."
+   },
+   {
+    "key": "karyasiddhi",
+    "nameTa": "கார்யசித்தி சகம்",
+    "verse": "v.9",
+    "printedPage": "70",
+    "when": "DAY",
+    "operands": [
+     "Sun",
+     "Saturn",
+     "SUNLORD"
+    ],
+    "textTa": "பகலில் சூரியனிலிருந்து சனியைக் கழித்து சூரியராசி அதிபதியைக் கூட்டினால் கார்யசித்தி சகம். இரவில் 'சந்திரனை நீக்கி' என்று உரை; எதிலிருந்து என்பது உரையில் தெளிவாக இல்லை, எனவே இரவுக் கணக்கு கணக்கிடப்படவில்லை."
+   },
+   {
+    "key": "stri",
+    "nameTa": "ஸ்த்ரீ (கலத்ர) சகம்",
+    "verse": "v.10",
+    "printedPage": "70",
+    "when": "BOTH",
+    "operands": [
+     "Venus",
+     "LORD7",
+     "H7"
+    ],
+    "textTa": "இரவு பகல் இரண்டிலும் சுக்கிரனிலிருந்து 7-ஆம் அதிபதியைக் கழித்து 7-ஆம் பாவத்தைக் கூட்டினால் கலத்ர சகம்."
+   },
+   {
+    "key": "vyapara",
+    "nameTa": "வ்யாபார சகம்",
+    "verse": "v.10",
+    "printedPage": "70",
+    "when": "BOTH",
+    "operands": [
+     "Mercury",
+     "Mars",
+     "L"
+    ],
+    "textTa": "இரவு பகல் இரண்டிலும் புதனிலிருந்து செவ்வாயைக் கழித்து லக்னம் கூட்டினால் வ்யாபார சகம்."
+   }
+  ],
+  "reading": {
+   "verse": "v.11",
+   "printedPage": "71",
+   "textTa": "வர்ஷத்தில் எந்த சகமும் வலிமையான சௌம்ய கிரகங்களாலோ தன் அதிபதியாலோ சேர்க்கை அல்லது பார்வை பெற்றால் அந்த சகம் வளரும்; ஒரு சகத்தின் அதிபதி வர்ஷேசனுடன் இத்தசாலம் செய்தால் அதன் பேறு நிச்சயம்; சகம் மறைந்து, பலமின்றி, க்ரூர கிரகங்களுடன் சேர்ந்தால் அதற்குக் கேடு."
+  },
+  "notRead": [
+   "v.9 night rule (the commentary says the Moon is taken out and the lord of the Sun's sign added, without saying from what)",
+   "v.7 paradesha: whether the lagna is added is not stated in the commentary",
+   "whether the 30-degree correction of other texts applies (the pages read give no such rule)"
+  ],
+  "notes": "Printed 68-71. The bhava operands (H2, H7, H8) are the cusps of the varsha chart. Day is the engine's local 6-18 hour test."
  }
 };
