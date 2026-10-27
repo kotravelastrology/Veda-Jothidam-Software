@@ -9,8 +9,11 @@ const {
   SiderealMode,
   CalculationFlag,
 } = require('@swisseph/node');
+const { toEngineAyanamsa } = require('./ayanamsaNames');
 
 const norm360 = (deg) => ((deg % 360) + 360) % 360;
+// only the engine's own names: `SiderealMode.constructor` is a function, not a mode
+const siderealModeOf = (name) => (Object.prototype.hasOwnProperty.call(SiderealMode, toEngineAyanamsa(name)) ? SiderealMode[toEngineAyanamsa(name)] : undefined);
 
 /**
  * `@swisseph/node`'s `calculateHouses` wraps `swe_houses()`, which has no
@@ -94,7 +97,7 @@ function calculateChart({ year, month, day, hour, minute = 0, second = 0,
   }
   const utcHour = hour + (minute / 60) + (second / 3600) - (utcOffsetMinutes / 60);
   const jd = julianDay(year, month, day, utcHour);
-  const siderealMode = SiderealMode[ayanamsa];
+  const siderealMode = siderealModeOf(ayanamsa);
   if (siderealMode === undefined) throw new RangeError(`Unsupported ayanamsa: ${ayanamsa}`);
   const system = HouseSystem[houseSystem];
   if (system === undefined) throw new RangeError(`Unsupported house system: ${houseSystem}`);
@@ -121,7 +124,7 @@ function calculateChart({ year, month, day, hour, minute = 0, second = 0,
  * full chart. Same tropical→sidereal correction as `siderealizeHouses`.
  */
 function siderealAscendant(jd, latitude, longitude, ayanamsa = 'Lahiri') {
-  const siderealMode = SiderealMode[ayanamsa];
+  const siderealMode = siderealModeOf(ayanamsa);
   if (siderealMode === undefined) throw new RangeError(`Unsupported ayanamsa: ${ayanamsa}`);
   setSiderealMode(siderealMode);
   const houses = calculateHouses(jd, latitude, longitude, HouseSystem.Porphyrius);
