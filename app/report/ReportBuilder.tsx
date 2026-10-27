@@ -75,6 +75,7 @@ const SECTIONS: SectionDef[] = [
   { id: 'kp', label: 'KP ஜோதிடம்' },
   { id: 'kpEvents', label: 'KP முகூர்த்தம் (80 நிகழ்வு)' },
   { id: 'kpMarriage', label: 'KP திருமணம் · பிரிவு · குழந்தை விதிகள்' },
+  { id: 'readerII', label: 'KP விளக்கங்கள் (ராசி · பாவம் · கிரகம்)' },
 ];
 
 function SourceRequiredBadge({ reason }: { reason?: string }) {
@@ -1769,6 +1770,54 @@ function KpMarriageSection({ report }: { report: ReportData }) {
   );
 }
 
+/** K.S. Krishnamurti, Reader II (C65): the Lagna and Moon signs, the twelve houses and the grahas of this chart, as printed with a Tamil rendering. */
+function ReaderIIReportSection({ report }: { report: ReportData }) {
+  const ri = (report as any).readerII;
+  const [showEn, setShowEn] = useState(false);
+  if (!ri?.available) return null;
+  const toggle = (
+    <button type="button" onClick={() => setShowEn(!showEn)} className="underline text-xs">{showEn ? 'ஆங்கில மூலத்தை மறை' : 'ஆங்கில மூலத்தையும் காட்டு'}</button>
+  );
+  const signBlock = (key: string, title: string, s: any) => {
+    if (!s) return null;
+    return (
+      <details key={key} className="text-xs mt-1">
+        <summary className="cursor-pointer font-semibold text-ink">{title}: {s.signTa} (ப.{s.pageFrom}-{s.pageTo})</summary>
+        <div className="mt-1 space-y-1">
+          {s.sections.map((sec: any) => (
+            <p key={sec.id}><span className="font-semibold">{sec.titleTa}</span> (ப.{sec.page}) {sec.ta}{showEn && <span className="block text-ink-soft italic">{sec.en}</span>}</p>
+          ))}
+        </div>
+      </details>
+    );
+  };
+  const textBlock = (key: string, title: string, e: any) => (
+    <details key={key} className="text-xs mt-1">
+      <summary className="cursor-pointer font-semibold text-ink">{title} (ப.{e.pageFrom}{e.pageTo !== e.pageFrom ? `-${e.pageTo}` : ''})</summary>
+      <p className="mt-1">{e.ta}{showEn && <span className="block text-ink-soft italic">{e.en}</span>}</p>
+    </details>
+  );
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-1 text-ink">KP விளக்கங்கள் — கே.எஸ். கிருஷ்ணமூர்த்தி, நூல் II (Reader II)</h2>
+      <p className="text-xs text-ink-soft mb-2">
+        இந்த ஜாதகத்தின் லக்ன ராசி, சந்திர ராசி, பன்னிரண்டு பாவங்கள், கிரகங்கள் ஒவ்வொன்றின் பொது விளக்கம். நூல் கூறுவதை மட்டும் காட்டுகிறது; இது ஒரு முடிவு அல்ல.
+        {' '}{toggle}
+      </p>
+      {signBlock('lagna', 'லக்ன ராசி', ri.lagna)}
+      {signBlock('moon', 'சந்திர ராசி', ri.moon)}
+      <details className="text-xs mt-2">
+        <summary className="cursor-pointer font-semibold text-ink">கிரகங்கள் (ப.345-488)</summary>
+        {ri.planets.map((p: any) => textBlock(p.graha + p.labelTa, `${p.labelTa}${p.signTa ? ` (${p.signTa})` : ''}`, p))}
+      </details>
+      <details className="text-xs mt-1">
+        <summary className="cursor-pointer font-semibold text-ink">12 பாவங்கள் (ப.272-344)</summary>
+        {ri.houses.map((h: any) => textBlock(String(h.house), h.titleTa, h))}
+      </details>
+    </div>
+  );
+}
+
 function KpEventsSection({ report }: { report: ReportData }) {
   const ke = (report as any).kpEvents;
   const [filter, setFilter] = useState<'all' | 'GREEN' | 'RED'>('all');
@@ -2128,6 +2177,7 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   kp: KpSystemSection,
   kpEvents: KpEventsSection,
   kpMarriage: KpMarriageSection,
+  readerII: ReaderIIReportSection,
   altDashas: AltDashaSection,
   kalachakraDasha: KalachakraDashaSection,
 };
