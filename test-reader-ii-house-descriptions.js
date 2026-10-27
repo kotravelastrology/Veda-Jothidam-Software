@@ -55,4 +55,13 @@ assert.ok(fifth.en.endsWith('elder brother\'s partner in business or maraka (dea
 assert.ok(fifth.ta.length > 0 && fifth.titleTa.length > 0);
 assert.ok(!fifth.en.includes('Sixth House'), 'the sixth house is its own entry');
 assert.ok(!fifth.en.includes('Fourth House'), 'the fourth house is its own entry');
+const sixth = H.Sixth;
+assert.strictEqual(sixth.pageFrom, 290);
+assert.strictEqual(sixth.pageTo, 294);
+assert.strictEqual(sixth.page, 290);
+assert.ok(sixth.en.startsWith('Rina (debt); Asthra (Arms)'));
+assert.ok(sixth.en.endsWith('For over-draft facilities the 6th house must receive most favourable aspects.'));
+assert.ok(sixth.ta.length > 0 && sixth.titleTa.length > 0);
+assert.ok(!sixth.en.includes('Seventh House'), 'the seventh house is its own entry');
+assert.ok(!sixth.en.includes('maraka (death).'), 'the fifth house is its own entry');
 console.log('test-reader-ii-house-descriptions ok');
