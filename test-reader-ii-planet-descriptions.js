@@ -29,4 +29,13 @@ assert.ok(mars.en.endsWith('They can be confident that there is no more evil rul
 assert.ok(!mars.en.includes('MERCURY-THE UNCLE'), 'the mercury section is its own entry');
 assert.ok(!mars.en.includes('MARS-THE BROTHER'), 'the heading is not in the text');
 assert.ok(mars.ta.length > 0 && mars.titleTa.length > 0);
+const mercury = P.Mercury;
+assert.strictEqual(mercury.pageFrom, 383);
+assert.strictEqual(mercury.pageTo, 398);
+assert.strictEqual(mercury.page, 383);
+assert.ok(mercury.en.startsWith('Astronomy : Mercury-The dualist.'));
+assert.ok(mercury.en.endsWith('he will be spotted as the dullest student in the class.'));
+assert.ok(!mercury.en.includes('JUPITER-THE CHILDREN'), 'the jupiter section is its own entry');
+assert.ok(!mercury.en.includes('MERCURY-THE UNCLE'), 'the heading is not in the text');
+assert.ok(mercury.ta.length > 0 && mercury.titleTa.length > 0);
 console.log('test-reader-ii-planet-descriptions ok');
