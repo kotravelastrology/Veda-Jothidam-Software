@@ -109,4 +109,13 @@ assert.ok(eleventh.en.endsWith('It also signifies freedom from misery and pain a
 assert.ok(eleventh.ta.length > 0 && eleventh.titleTa.length > 0);
 assert.ok(!eleventh.en.includes('Twelfth House'), 'the twelfth house is its own entry');
 assert.ok(!eleventh.en.includes("one's dear friends and their hospitalisation"), 'the tenth house is its own entry');
+const twelfth = H.Twelfth;
+assert.strictEqual(twelfth.pageFrom, 328);
+assert.strictEqual(twelfth.pageTo, 344);
+assert.strictEqual(twelfth.page, 328);
+assert.ok(twelfth.en.startsWith('The expressions ascribed to the 12th bhava are'));
+assert.ok(twelfth.en.endsWith("Since it is the 10th from the 3rd house, it shows younger brothers or sister's profession, popularity, prosperity etc."));
+assert.ok(twelfth.ta.length > 0 && twelfth.titleTa.length > 0);
+assert.ok(!twelfth.en.includes('All matters are distributed'), 'the chapter opening is its own entry');
+assert.ok(!twelfth.en.includes('Eleventh House'), 'the eleventh house is its own entry');
 console.log('test-reader-ii-house-descriptions ok');
