@@ -274,7 +274,7 @@ const SIGN_DESCRIPTIONS = {
  "Gemini": {
   "sign": "Gemini",
   "pageFrom": 138,
-  "pageTo": 150,
+  "pageTo": 151,
   "sections": [
    {
     "id": "PHYSICAL",
@@ -399,8 +399,148 @@ const SIGN_DESCRIPTIONS = {
     "id": "ANIMATE",
     "page": 150,
     "titleTa": "உயிருள்ள, உயிரற்ற பொருட்கள்",
-    "en": "Railways, trams, buses cars, taxis, aeroplanes, parachutes, newspapers magazines, publications, propagandists, newsprint, rope-way. watch ma k i n g, ca I end a r",
-    "ta": "ரயில்வே, டிராம், பேருந்துகள், கார்கள், டாக்சிகள், விமானங்கள், பாராசூட், செய்தித்தாள், இதழ்கள், வெளியீடுகள், பிரச்சாரகர்கள், செய்தித்தாள் காகிதம், கயிற்றுவழிப் பாதை (ropeway), கடிகாரம் தயாரித்தல், நாட்காட்டி."
+    "en": "Railways, trams, buses cars, taxis, aeroplanes, parachutes, newspapers magazines, publications, propagandists, newsprint, rope-way. watch ma k i n g, ca I end a r • manufacture and distribution, microscopes and telescopes, Astronomical and optical instruments, raw cotton, green gram, and all commodities of green colour.",
+    "ta": "ரயில்வே, டிராம், பேருந்துகள், கார்கள், டாக்சிகள், விமானங்கள், பாராசூட், செய்தித்தாள், இதழ்கள், வெளியீடுகள், பிரச்சாரகர்கள், செய்தித்தாள் காகிதம், கயிற்றுவழிப் பாதை (ropeway), கடிகாரம் தயாரித்தல், நாட்காட்டி; உற்பத்தியும் விநியோகமும், நுண்ணோக்கி, தொலைநோக்கி, வானியல் மற்றும் ஒளியியல் கருவிகள், பருத்தி, பச்சைப்பயறு, பச்சை நிறப் பொருட்கள்."
+   },
+   {
+    "id": "CORRECTION",
+    "page": 151,
+    "titleTa": "திருத்திக்கொள்ள வேண்டியவை",
+    "en": "Lack of concentration give only, a shallow understanding. They are occasionally heartless and behave like a cynic. Don't waver. Don't examine much your own thoughts as you will become self-centred, and discontented. Don't place yourself under any strain as it may lead one to be deceitful and dishonest. Don't try to do many things at the same time. Do one at a time. Do not pay heed to gossips as you will be easily influenced.",
+    "ta": "கவனமின்மை ஆழமற்ற புரிதலையே தரும்; சில சமயம் இதயமற்றவர்களாகவும் கேலி செய்பவர்களாகவும் நடந்துகொள்வர். தயங்காதீர்கள். உங்கள் சொந்த எண்ணங்களை அதிகமாக ஆராய வேண்டாம், அது சுயநலமும் அதிருப்தியும் தரும். மன அழுத்தத்தில் உங்களை வைக்க வேண்டாம், அது வஞ்சகத்திற்கும் நேர்மையின்மைக்கும் இட்டுச் செல்லும். ஒரே நேரத்தில் பல வேலைகளைச் செய்ய முயல வேண்டாம்; ஒன்றொன்றாகச் செய்யுங்கள். வதந்திகளுக்குச் செவி சாய்க்க வேண்டாம்; எளிதில் பாதிக்கப்படுவீர்கள்."
+   }
+  ]
+ },
+ "Cancer": {
+  "sign": "Cancer",
+  "pageFrom": 151,
+  "pageTo": 163,
+  "sections": [
+   {
+    "id": "PHYSICAL",
+    "page": 152,
+    "titleTa": "உடல் தோற்றம்",
+    "en": "Clumsy body, slender limbs and powerful claws are the peculiarities of the crab. People born in Cancer generally have a large upper body. As age advances, they acquire, by over-eating, a prominent abdomen. Face is wide between the ears, and the mouth will be large with nice teeth of chalky colour. The hair will be brown and the complexion pale. As the limbs are extremely slender when compared to the large upper body, the whole body appears top heavy and one will walk with a rolling gait. Generally, dwarfs are born in this sign.",
+    "ta": "நண்டின் இயல்பைப்போல மெல்லிய கால்களும் வலுவான கொடுக்குகள் போன்ற கைகளும்; மேல் உடல் பெரியதாக இருக்கும். வயதாக ஆக அதிகம் உண்பதால் வயிறு முன்னே தள்ளும். முகம் காதுகளுக்கிடையே அகலமாக, வாய் பெரியதாக, பற்கள் அழகாக சுண்ணாம்பு நிறத்தில். முடி பழுப்பு நிறம்; நிறம் வெளுத்தது. மேல் உடல் பெரியதும் கால்கள் மெலிந்ததுமாதலால் உடல் மேல் கனமாகத் தோன்றி தள்ளாடி நடப்பர். பொதுவாக குள்ளமானவர்கள் இந்த ராசியில் பிறப்பர்."
+   },
+   {
+    "id": "CHARACTER",
+    "page": 152,
+    "titleTa": "குணம்",
+    "en": "The ruling planet of Cancer is the Luna or the Moon, Juliet says, \"Oh, swear not by the Moon, the inconstant Moon, the inconstant Moon !\". But Professor Masefield says, \"The Moon, the inconstant, keeps her will\". Cancer-born natives•are remarkable for a changeful life. They have many ups and downs. Moon gives them fertile imagination, delighting in strange scenes and adventures. They can adopt to other's nature and quickly absorb other's ideas. They are often emotional and over-sensitive and also sympathetic. They are somewhat sentimental and talkative. Due to extreme sensitiveness, there will be a high degree of nervous irritability. They ably move the public to gain some position of wealth or honours. Just as one can see the Moon either waxing or waning, either as Full Moon or as New Moon, so also one-can find the Cancer-barns timid on some occasions and very courageous under other circumstances. Generally, they are timid to face physical danger, but are brave in mental or moral attitude. Their temper is also changeable. Anger comes and goes in quick alternation. Cancer, being the fourth sign of the zodiac and the fourth house, is indicates about one's domestic environments. Cancer borns are fond of home, family and its comforts. They have tenacious memory, especially for family or historic events. Fear of ridicule or criticism makes them discreet, diplomatic and conventional. They appreciate approbation and are easily encouraged by kindness. The ladies, born in this sign, are discreet and independent in many things. They are very labourious, though somewhat exacting. Their anger is shortlived and they hold no spite against anybody. As the fourth house shows estates, evil planets herein show that there will be difficulty in acquiring wealth. It is also likely that inheritance is lost through relatives or through children or speculation or by love attachments and pleasurable pursuits. Such experience will be only in the first part of the life of the Cancer-borns. In the latter part of their life, they will have grand success and prosperity. Generally, all Cancer-borns inherit money, property, kingdom, etc., but it comes to them only with great tardiness, or in spite of various hindrances, impediments and obstacles. la advanced years,- their children are often the source of protection. Cancer is said to be the sign of sensitive people and mediums. The higher vibrations of Cancer give the endowment of clairvoyance and a keen feeling for art. So the Cancer-borns have the psychic and mediumistic faculty. Many magicians, mimics and actors are born in Cancer. Most of the Cancer-borns are sensitive, retiring and unassuming. If they are ignored, overlooked or neglected, they become moody and also peevish. Like the elephant, they will never forget. One will be lucky to have a partner born in Cancer who will be romantic and imaginative. The Cancer borns recapture the golden moments of the past and keep the partner cheerful and enthusiastic. Cancer being a watery sign, the native can be easily influenced and will adjust to circumstances as water takes the shapes of the vessel in which it is kept. Water is not compressible. So also Cancer borns, when coerced become very stubborn and determined ; they will not yield. Cancer, being a movable and a watery sign, as water runs in a river, many Cancer-borns lead a wandering and restless life, thrown this way and that way, by emotions and imagination, by which they are completely ruled. They have rarely the necessary showmanship and push to come to the fore. Anyhow, It is from the states and position of the Moon at birth that the opportunities and chances can be reliably assessed. In love affairs, once their love is given or their affections centered they are strong and true. They will never give up unless the partner does something very drastic. Generally, they pour out boundless affection. That is why the relatives and friends enjoy real happiness in being underneath the Cancerian's roof. The Cancer-borns are famous for true hospitality. They tend to miss many an opportunity, being in the habit of pondering over a thing over and over again and put off the requisite action promptly at the proper time. When they are ready to move, they will find that the chance has slipped away. They will be undecided as to whether to purchase a lottery ticket, or not, and pass on any weeks in this way and when, finally ; they decide to buy, they will find that the lottery had already been drawn. One will delay buying an umbrella or a raincoat but when he buys one, the rainy season would have come to an end. this should not be cultivated. Cancer-born natives have the deep feelings of loyalty and responsibility, if they decide upon a plan, they stick to it with dogged determination ; success in their efforts is enjoyed ultimately. They are much more interested in getting small sums of money from a variety of sources than a big and sizable amount from one source. Anyone, getting a considerable lump amount in any single business, is not likely to be born in Cancer. Cancer-born natives realize the fullest significance of money and they are a tittle too personal. He may conquer the trials in his life, yet he does not forget them easily. They are ever brought to memory. A father who, from a humble beginning, rose- up to a high position later, will, even though he is affluent, will constantly keep before his children the poverty in which be once lived. Cancer-born natives are ultimately fortunate. They will appear open and frank at sight, but, in reality they are not so, as they hide much from others. They are impressionable and magnetic: Characteristics to be corrected : He has to be patient. People born in Cancer, with Saturn rising in the Ascendant, alone will be patient. Mars rising in Cancer makes one short-tempered also. Hence patience and endurance are to be cultivated. Don't be very sensitive and extremely selfish. Changeability and indolence are the other weaknesses.",
+    "ta": "கடக ராசியின் அதிபதி சந்திரன். மாறும் வாழ்க்கையுடையவர்கள், ஏற்ற இறக்கங்கள் நிறைந்தவர்கள். சந்திரன் வளமான கற்பனையையும், புதிய காட்சிகளிலும் சாகசங்களிலும் நாட்டத்தையும் தருகிறார். பிறரது இயல்பிற்கு ஏற்ப மாறி, அவர்களின் கருத்துகளை விரைவாக ஏற்பர். உணர்ச்சிவசப்பட்டவர்கள், மிகுந்த உணர்திறன், இரக்கம், சற்று உணர்ச்சிகரமும் பேச்சுத்திறனும் உடையவர்கள். அதிக உணர்திறனால் நரம்புத் தளர்ச்சி வரலாம். பொதுமக்களை கவர்ந்து பதவியும் செல்வமும் பெறுவர். பயத்தால் உடல் ஆபத்தை எதிர்கொள்ள தயங்குவர், ஆனால் மனத்திலும் ஒழுக்கத்திலும் தைரியமானவர்கள். கோபம் விரைவாக வந்து போகும். நான்காம் ராசியும் நான்காம் வீடுமாதலால் குடும்பம், வீடு, வசதி மீது பற்று; குடும்பத்தையும் வரலாற்று நிகழ்வுகளையும் நீண்ட நாள் நினைவில் வைத்திருப்பர். கேலிக்குப் பயந்து அடக்கமும் ராஜதந்திரமும் உடையவர்கள். பாராட்டை விரும்பி, அன்பால் எளிதில் ஊக்கம் பெறுவர். பெண்கள் சுதந்திரமானவர்கள், கடுமையாக உழைப்பவர்கள். நான்காம் வீட்டில் தீய கிரகங்கள் இருந்தால் சொத்து சேர்ப்பதில் சிரமம்; உறவினர், பிள்ளைகள், ஊகம், காதல் தொடர்புகள் மூலம் சொத்து இழப்பு நேரலாம்; ஆனால் வாழ்க்கையின் பிற்பகுதியில் சிறந்த வெற்றியும் வளமும். பொதுவாக பணம், சொத்து, அரசுரிமை எல்லாம் தாமதமாக, தடைகளுக்குப் பின்னரே வரும்; முதுமையில் பிள்ளைகள் பாதுகாப்பாக இருப்பர். உணர்திறனும் ஊடகத் திறனும் கொண்டவர்கள்; தொலைநோக்குப் பார்வை, கலையுணர்வு; மாயாஜாலக்காரர், நடிகர்கள் பலர் இப்பிறப்பினர். புறக்கணிக்கப்பட்டால் மனம் நொந்து எரிச்சல் அடைவர்; யானைபோல் எதையும் மறக்கமாட்டார்கள். காதல் துணையாக அமைவர் ரொமான்டிக், கற்பனைத் திறனுள்ளவர். கடந்த கால இனிய தருணங்களை நினைவுபடுத்தி துணையை மகிழ்விப்பர். நீர் ராசியாதலால் எளிதில் பிறரால் செல்வாக்கு பெறுவர்; கட்டாயப்படுத்தினால் பிடிவாதமாகி, விட்டுக்கொடுக்க மாட்டார்கள். நகரும் நீர் ராசி என்பதால் பலர் அலைந்த, நிலையற்ற வாழ்க்கை வாழ்வர். காதலில் ஒருமுறை அன்பு செலுத்தினால் உறுதியாக இருப்பர்; துணை கடுமையாக நடந்தாலொழிய விட்டுக்கொடுக்க மாட்டார்கள். ஆடம்பரமற்ற, பரந்த அன்பும் விருந்தோம்பலும் உடையவர்கள். வாய்ப்புகளை இழப்பவர்கள், ஒரு விஷயத்தை திரும்பத் திரும்ப யோசித்து, சரியான நேரத்தில் செயல்பட தவறுவர். குறைகள்: பொறுமை வேண்டும், உணர்ச்சிவசப்படுவதையும் சுயநலத்தையும் குறைக்க வேண்டும்; ஒரே நிலையற்ற தன்மையும் சோம்பலும் மாற்ற வேண்டியவை. லக்னத்தில் சனி இருந்தால் மட்டுமே பொறுமை இயல்பாக இருக்கும்; செவ்வாய் லக்னத்தில் இருந்தால் சீக்கிரம் கோபம் வரும்."
+   },
+   {
+    "id": "HEALTH",
+    "page": 157,
+    "titleTa": "ஆரோக்கியம்",
+    "en": "Being the fourth sign of the Zodiac and one ruled by Moon, the health of the Cancer-borns will be fragile in youth, but as age advance, they will pick up health. Cancer rules the chest and stomach. As Moon owns this sign and it indicates one's worry etc., the chief cause of their physical troubles will be only worry. They have to take care of both the pulmonary and digestive systems. If they control their mind, they can control their body with the help of a reasonable diet, proper physical care, etc. They suffer much but they can also endure much. They should not let their love of liquids lead to over-indulgence in the alcoholic kind. They have to guard against asthma, gastric disturbances and weak digestion. They should take care of the throat. Simple living is the best preventive. They should satisfy thirst with water and not with alcohol. A few suffer from rheumatism and sciatica. There are also indications of danger by falls and hurts from animals while traveling or residing in foreign countries.",
+    "ta": "நான்காம் ராசியும் சந்திரனின் ராசியுமாதலால் இளமையில் உடல்நலம் பலவீனமாக இருக்கும்; வயதாக ஆக மீண்டு வலுவடைவர். கடகம் மார்பையும் வயிற்றையும் ஆளும்; கவலை, பதற்றம்தான் உடல் தொல்லைகளுக்கு முக்கிய காரணம். மனதைக் கட்டுப்படுத்தினால் உடலையும் நல்ல உணவு, முறையான பராமரிப்பால் கட்டுப்படுத்தலாம். நுரையீரலையும் செரிமான மண்டலத்தையும் காக்க வேண்டும். மது போன்ற திரவப் பழக்கத்தில் அதிகம் ஈடுபடக்கூடாது; ஆஸ்துமா, வயிற்றுக் கோளாறு, பலவீனமான செரிமானம், தொண்டைத் தொல்லை ஆகியவற்றில் கவனம். எளிமையான வாழ்க்கையே சிறந்த தடுப்பு; தாகத்துக்கு மது அல்ல, நீர். சிலருக்கு மூட்டுவாதம், நரம்பு வலி. பயணத்திலோ வெளிநாட்டிலோ வசிக்கும்போது விழுதல், விலங்கின் காயம் போன்ற ஆபத்துகள்."
+   },
+   {
+    "id": "DISEASE",
+    "page": 157,
+    "titleTa": "நோய்",
+    "en": "Affections of both the lungs, flu, cough, asthma, bronchitis, pleurisy, tuberculosis, affections of the oesophagus, stomach, dyspepsia, flatulence, dropsy, ben-ben, nervous debility, fear complex, hysteria, Jaundice, obstruction of the bile, gall stone, worm and boilS on the chest just below collar bone.",
+    "ta": "நுரையீரல் பாதிப்புகள், சளி, இருமல், ஆஸ்துமா, மூச்சுக்குழாய் அழற்சி, ப்ளூரசி, காசநோய்; உணவுக்குழல், வயிறு, அஜீரணம், வாயு, நீர்க்கட்டு, பென்-பென், நரம்புத் தளர்ச்சி, பயம் தொடர்பான மனக்கோளாறு, வலிப்பு, மஞ்சள் காமாலை, பித்தநீர்த் தடை, பித்தக் கல், புழுக்கள்; மார்புக்கு கீழே, காலர்போன் அருகில் கட்டிகளும் கொப்புளங்களும்."
+   },
+   {
+    "id": "PROFESSION",
+    "page": 157,
+    "titleTa": "தொழில்",
+    "en": "People having the influence of Cancer are best suited to a commercial career, especially to the trade of a caterer. Many manage their own restaurants, coffee tea stalls. Some run general stores, grocer shops, fruit stall, etc. Those who enter into service are employed in hospitals as male and female nurses, matrons, managers and secretaries in business, hire purchase regulators, undertakers, furnishers, etc. As Cancer-barns are historians and are interested in things of the past, they deal in antiquities ; they collect curios. They get employed in the history section or archaeological department at least they will deal in second hand articles. Cancer being a watery sign, Cancer-barns are dealers in things derived from water : couches, pearls, fish etc. They also work as great sailors, sea captains, explorers and in the navy and submarine. Some may serve in the shipping department, and take active interest in imports and exports, transport or travel! and in concerns dealing in milk products. As Jupiter gets exalted in this sign, many born in this sign become successful preachers, inspiring teachers, eloquent orator, platform speakers, State ministers and popular advisers. Mars, getting debilitated here, indicates the krisa ns, ag ricu ltu rists and those working in gardens. Saturn in detriment shows that some will live by digging wells, excavating tanks or diving in the sea. Cancer being the 4th sign of the Zodiac, the natives will be interested in developing Vedic and sacred texts. Cancer-barns are careful where money is concerned. Being themselves very honest, they cannot tolerate dishonestly in others. Their tastes are but modest and hence they do not defray expenses on extravagant display. They value money for what it is worth and are very prudent. They accumulate wealth by dint of their own hard efforts.",
+    "ta": "வணிகம், குறிப்பாக உணவகம், உணவு வழங்கும் தொழில் ஏற்றது. பலர் சொந்த உணவகம், காபி-டீ கடை நடத்துவர்; மளிகைக் கடை, பழக்கடை போன்றவையும். பணியாளராக இருந்தால் மருத்துவமனையில் செவிலியர், பொறுப்பு செவிலியர், வணிகத்தில் மேலாளர் அல்லது செயலர், தவணை முறைக் கண்காணிப்பாளர், இறுதிச் சடங்கு நிறுவனம், அலங்காரப் பொருள் வியாபாரம். வரலாற்று ஆர்வம் உள்ளதால் பழம்பொருள், அரும்பொருள் வியாபாரம், வரலாற்றுத் துறை அல்லது தொல்லியல் துறை; குறைந்தபட்சம் பழைய பொருட்களைக் கையாள்வர். நீர் ராசியாதலால் நீர் சார்ந்த பொருட்கள்: படுக்கைகள், முத்து, மீன். சிறந்த மாலுமிகள், கடற்படை, நீர்மூழ்கிக் கப்பல், ஆய்வாளர்; கப்பல் துறை, இறக்குமதி-ஏற்றுமதி, போக்குவரத்து, பால் பொருட்கள். குரு உச்சம் பெறுவதால் சிறந்த போதகர், ஊக்கமளிக்கும் ஆசிரியர், சொற்பொழிவாளர், மக்கள் ஆலோசகர், அமைச்சர் ஆகலாம். செவ்வாய் நீசமடைவதால் உழவர், தோட்டக்காரர், ஆழ்துளை தோண்டுதல், குளம் வெட்டுதல், கடலில் மூழ்குதல். நான்காம் ராசியாதலால் வேத நூல்களையும் புனித நூல்களையும் ஆராய்வதில் ஆர்வம். பணத்தில் கவனமாக இருப்பர், நேர்மையானவர்கள்; பிறரது நேர்மையின்மையை பொறுக்கமாட்டார்கள். ஆடம்பரச் செலவு செய்யமாட்டார்கள், மிதமான ரசனை; தங்கள் கடும் உழைப்பால் செல்வம் சேர்ப்பர்."
+   },
+   {
+    "id": "DOMESTIC",
+    "page": 159,
+    "titleTa": "குடும்பச் சூழல்",
+    "en": "Cancer-born natives are devoted to their family. They love their home wherever they live. The home and the garden always keep them engaged. They derive pleasure here alone. They collect old things and store them in shelves and kitchen. Though they make constant journeys, they are at home only when they are in the home. They do not mind taking trouble to make their life comfortable. They invite friends and attend on them to their fullest satisfaction. Cancerians will prefer to have their business in their residential quarters or very close to it as they prefer to be always at home surrounded by children and attended by a pleasing wife. Friends and benefactors : As Cancer-born natives are hypersensitive and also unassuming, they have the great desire to acquire friendship but they do not have many long-standing and intimate friends. The Ca ncer-borns become moody and peevish whenever they feel that some friends neglect them or overlook them. But they win never forget the good done to them by friends and ever remain grateful to the core. They wilt recollect the old days and ponder over the benefits bestowed by friend.",
+    "ta": "குடும்பத்தின் மீது பக்தி கொண்டவர்கள்; எங்கு வாழ்ந்தாலும் வீட்டை நேசிப்பர். வீடும் தோட்டமும் அவர்களை எப்போதும் ஈடுபடுத்தும்; அங்கேயே மகிழ்ச்சி காண்பர். பழைய பொருட்களைச் சேகரித்து அலமாரியிலும் சமையலறையிலும் அடுக்கி வைப்பர். அடிக்கடி பயணம் செய்தாலும் வீட்டில் இருக்கும்போதுதான் நிம்மதி. வாழ்க்கையை வசதியாக்க சிரமப்படத் தயங்க மாட்டார்கள். நண்பர்களை அழைத்து நிறைவாக உபசரிப்பர். தொழிலை வீட்டுக்கு அருகிலேயே நடத்த விரும்புவர்; குழந்தைகளும் அழகான மனைவியும் சூழ இருக்க விரும்புவர். நண்பர்கள்: உணர்திறனும் அடக்கமும் காரணமாக நெருங்கிய நீண்ட கால நண்பர்கள் குறைவு. நண்பர்கள் புறக்கணித்தால் மனம் நொந்து எரிச்சல் அடைவர். ஆனால் தமக்கு செய்த உதவியை ஒருபோதும் மறக்காமல் உள்ளத்தில் நன்றியுடன் இருப்பர்; பழைய நாட்களை நினைவுகூர்ந்து நண்பர்கள் செய்த நன்மைகளை எண்ணிப் பார்ப்பர்."
+   },
+   {
+    "id": "ROMANCE",
+    "page": 159,
+    "titleTa": "திருமணமும் இல்வாழ்வும்",
+    "en": "For Cancer-born natives, life will be monotonous without romance. They will sacrifice their comforts, etc., and be very loyal and affectionate. But they cannot impress upon the mind of the partner that they are sincere, honest and very true. The other six is prone to feel that the Cancer-horns are fickle minded and changeable while, in fact, they are remarkably stubborn and determined. Marriage: Cancer-born natives enjoy their family life to the full and the home and the family are of great consequence to them. Marriage, therefore, will offer them an opportunity to have a well-settled life. Husbands, born in Cancer, will be mostly affectionate, adjusting and accommodative even though, at times, they may be exacting and fussy. A Cancer-born native will generally contract marriage with a girl who will pave the way for domestic comfort and further prosperity. They will manage to keep the wife cheerful and buoyant, pleasing her in all ways. They are devoted to their wives, and occasionally, they will interfere in household routine and there-by spoil their good intentions. Their trait is and this requires correction-that they are often dissatisfied and will be indulging in criticism of something or other. Girls born in Cancer are genuine in their love and sincere in their devotion to husbands. Occasionally they tend to be moody. They feel satisfied with anything offered by their husbands. They prove good mothers to their children. They are adaptable and affectionate, dutiful and devoted, patient and pleasing, and sincere and sympathetic. They will spare no pains to attend to the needs of their husbands and offer them spiritua I strength.",
+    "ta": "காதல் இல்லாத வாழ்க்கை இவர்களுக்கு சலிப்பாக இருக்கும். வசதிகளையும் தியாகம் செய்து விசுவாசமாகவும் அன்பாகவும் இருப்பர். ஆனால் தாம் நேர்மையானவர், உண்மையானவர் என்பதை துணைக்கு உணர்த்த முடியாமல் போகலாம்; மற்றவர் இவர்களை மனம் மாறுபவர்கள் என்று நினைக்கக்கூடும், உண்மையில் இவர்கள் மிக பிடிவாதமும் உறுதியும் கொண்டவர்கள். திருமணம்: குடும்ப வாழ்க்கையை முழுமையாக அனுபவிப்பர்; திருமணம் அவர்களுக்கு நிலையான வாழ்க்கையைத் தரும். கடக ஆண்கள் பொதுவாக அன்பானவர்கள், அனுசரிப்பவர்கள்; சில சமயம் கேட்பதில் கண்டிப்பும் சிக்கனமும் உடையவர். குடும்ப வசதிக்கும் பொருளாதார முன்னேற்றத்துக்கும் வழிவகுக்கும் மனைவியை தேர்வு செய்வர்; மனைவியை மகிழ்ச்சியாக வைத்திருக்கவும் முயல்வர். மனைவி வீட்டு நடைமுறையில் தலையிட்டு நல்ல நோக்கங்களையும் கெடுக்கக்கூடும். குறை: அடிக்கடி அதிருப்தியடைந்து எதையாவது விமர்சிப்பர்; இதைத் திருத்த வேண்டும். கடக மணப்பெண்கள் காதலில் உண்மையானவர்கள், கணவரிடம் நேர்மையான பக்தி கொண்டவர்கள்; சில சமயம் மனம் நொந்து இருப்பர். கணவர் தருவதில் திருப்தி கொள்வர்; நல்ல தாயாக இருப்பர். அனுசரணையும் அன்பும் கடமையுணர்வும் பொறுமையும் உடையவர்கள். கணவரின் தேவைகளைக் கவனித்து ஆன்மிக வலிமையும் தருவர்."
+   },
+   {
+    "id": "CHILDREN",
+    "page": 160,
+    "titleTa": "குழந்தைகள்",
+    "en": "Cancer-born natives take efforts to give good education to their children and they are excellent parents in the matter of providing all facilities and comforts to them. They will go to the limit of sacrificing even their own needs, if necessary to avoid denial of their children's desires. They are never disheartened by the large size of their family. Their children also remain grateful, obedient, dutiful and faithful ; they have great energy, courage and independence. They are very frank ; they stand up for their rights and never submit to imposition. They are full of worries brooding over things that may happen, but they will never flinch in the hour of danger. They will perform deeds of heroism with a disregard of self which may amount to foolhardiness. Their mind will be cool, calm, collected and sharp.",
+    "ta": "குழந்தைகளுக்கு நல்ல கல்வியும் வசதிகளும் தர பெரிதும் முயல்வர்; குழந்தைகளின் ஆசையை நிறைவேற்ற தம் தேவைகளையும் தியாகம் செய்வர். பெரிய குடும்பம் அமைந்தாலும் சோர்வடைய மாட்டார்கள். குழந்தைகள் நன்றியுள்ளவர்களாகவும் கீழ்ப்படிபவர்களாகவும் விசுவாசமுள்ளவர்களாகவும் இருப்பர்; அவர்களிடம் ஆற்றலும் தைரியமும் சுதந்திர உணர்வும் இருக்கும். நேரடியானவர்கள், உரிமைக்காகப் போராடுவர். நடக்கக்கூடியவற்றைப் பற்றி கவலைப்பட்டாலும் ஆபத்தின்போது அஞ்சமாட்டார்கள்; தம்மைப் பற்றிக் கவலையின்றி வீரச் செயல் செய்வர். மனம் குளிர்ச்சியாகவும், அமைதியாகவும், ஒருமைப்பாடுடனும், கூர்மையாகவும் இருக்கும்."
+   },
+   {
+    "id": "HANDWRITING",
+    "page": 161,
+    "titleTa": "கையெழுத்து",
+    "en": "Moon, the lord of the sign, being variable in nature, the handwriting also will be variable ; the formation of letters will be in different ways and shapes. Their letters will become large as they go on writing. When they are in a good mood. they draw wavy lines beneath their signatures.",
+    "ta": "சந்திரன் அதிபதி என்பதால் மனநிலைக்கேற்ப கையெழுத்தும் மாறும்; எழுத்துகளின் வடிவம் பலவிதமாக இருக்கும். எழுதும்போது எழுத்துகள் பெரிதாகும். நல்ல மனநிலையில் இருக்கும்போது கையொப்பத்தின் கீழ் அலைபோன்ற கோடுகள் இடுவர்."
+   },
+   {
+    "id": "LUCKY_DAY",
+    "page": 161,
+    "titleTa": "அதிர்ஷ்ட நாள்",
+    "en": "Tuesday will be the day of success. Fridays give pleasure and profit. Wednesday is good for journey, investment and expenses. Thursdays are good for contacting and arranging overdraft accounts. To join a college for higher studies, or to go overseas or to contact foreigners, Thursdays will prove auspicious. Avoid Saturdays as disharmony, difference of opinion, depression, dispute, delay and denial will be the result generally. Mondays will give changeable temperament and success in efforts. Sundays are pleasant to have the company of close relatives and also to gain money. Also one should be lucky on the days when Moon transits in Mrigasirisha. Chitra and Dhanishta (Avittam) star days. Poosam (Pushyam), Aslesha (Ayilyam), Anuradha (Anusham), Jyeshta (Kettai), Uthrabhadrapada (Uttirattathi) and Revati star days are to be avoided.",
+    "ta": "செவ்வாய் வெற்றிக்கான நாள். வெள்ளி இன்பமும் ஆதாயமும் தரும். புதன் பயணம், முதலீடு, செலவுக்கு நல்லது. வியாழன் தொடர்புகொள்ளவும், மிகைப்பற்று கணக்குகளை ஏற்பாடு செய்யவும் நல்லது; உயர்கல்விக்குச் சேரவும், வெளிநாடு செல்லவும், வெளிநாட்டவருடன் தொடர்பு கொள்ளவும் சிறந்தது. சனிக்கிழமைகளைத் தவிர்க்கவும்: கருத்து வேறுபாடு, மனச்சோர்வு, சண்டை, தாமதம், மறுப்பு ஆகியவை வரலாம். திங்கள் மனநிலை மாறும்; முயற்சிகளில் வெற்றி. ஞாயிறு நெருங்கிய உறவினர்களுடன் மகிழ்ச்சியும் பணவரவும். சந்திரன் மிருகசீரிட நட்சத்திரத்தில் செல்லும் நாட்கள் அதிர்ஷ்டமானவை. சித்திரை, அவிட்டம் நட்சத்திர நாட்கள் நல்லவை. பூசம், ஆயில்யம், அனுஷம், கேட்டை, உத்திரட்டாதி, ரேவதி நட்சத்திர நாட்களைத் தவிர்க்கவும்."
+   },
+   {
+    "id": "LUCKY_COLOUR",
+    "page": 162,
+    "titleTa": "அதிர்ஷ்ட நிறம்",
+    "en": "White, cream, red and yellow are lucky colours. Blue and green colours should be avoided.",
+    "ta": "வெள்ளை, கிரீம், சிவப்பு, மஞ்சள் அதிர்ஷ்ட நிறங்கள். நீலம், பச்சை தவிர்க்கவும்."
+   },
+   {
+    "id": "LUCKY_NUMBER",
+    "page": 162,
+    "titleTa": "அதிர்ஷ்ட எண்",
+    "en": "2, 7 and 9 are fortunate. 1, 3, 4 and 6 are good. 5 and 8 are to be avoided.",
+    "ta": "2, 7, 9 அதிர்ஷ்டமானவை. 1, 3, 4, 6 நல்லவை. 5, 8 தவிர்க்க வேண்டியவை."
+   },
+   {
+    "id": "LUCKY_STONE",
+    "page": 162,
+    "titleTa": "அதிர்ஷ்டக் கல்",
+    "en": "Diamond, pearls, .ruby, yellow sapphire. Avoid blue sapphire and emerald. Blue colour shows opposition and emerald will not allow one to save.",
+    "ta": "வைரம், முத்து, மாணிக்கம் (ruby), மஞ்சள் சபையர். நீல சபையரையும் மரகதத்தையும் தவிர்க்கவும். நீலம் எதிர்ப்பைக் காட்டும், மரகதம் சேமிப்பை அனுமதிக்காது."
+   },
+   {
+    "id": "PLACES",
+    "page": 162,
+    "titleTa": "இடங்கள்",
+    "en": "Canals, rivers, lakes, seas, wells, springs, brooks, sinks, streams, ditches, marshes, trenches, wash-houses, cellars, pumps, fisheries, dairy farm, car stand, cart stand, common sewers, wharfs and fields near the sea.",
+    "ta": "கால்வாய், ஆறுகள், ஏரிகள், கடல்கள், கிணறுகள், ஊற்றுகள், ஓடைகள், வடிகால்கள், ஓடைப் பள்ளங்கள், சதுப்புநிலங்கள், அகழிகள், சலவைக் கூடங்கள், பாதாள அறைகள், பம்புகள், மீன்பிடி இடங்கள், பால் பண்ணை, கார் நிற்குமிடம், வண்டி நிற்குமிடம், பொது சாக்கடைகள், கடல் அருகே துறைமுக நிலங்கள்."
+   },
+   {
+    "id": "PRODUCTS",
+    "page": 162,
+    "titleTa": "பொருட்கள்",
+    "en": "Milk and milky products, silver, tea, petrol, shipping, commerce, business, all liquids, fruits, coffee (liquid), rubber, greens, cabbage and mushroom.",
+    "ta": "பால், பால் பொருட்கள், வெள்ளி, தேநீர், பெட்ரோல், கப்பல் போக்குவரத்து, வணிகம், தொழில், எல்லா திரவங்கள், பழங்கள், காபி (திரவம்), ரப்பர், கீரை வகைகள், முட்டைக்கோஸ், காளான்."
+   },
+   {
+    "id": "COUNTRIES",
+    "page": 162,
+    "titleTa": "நாடுகள்",
+    "en": "Holland, Scotland, New Zealand, North and West Africa, Mauritius, Anatolia near Constantinople, Paraguay and Sweden.",
+    "ta": "ஹாலந்து, ஸ்காட்லாந்து, நியூசிலாந்து, வடக்கு மற்றும் மேற்கு ஆப்பிரிக்கா, மொரிஷியஸ், கான்ஸ்டாண்டிநோபிளுக்கு அருகில் உள்ள அனடோலியா, பராகுவே, ஸ்வீடன்."
+   },
+   {
+    "id": "CITIES",
+    "page": 162,
+    "titleTa": "நகரங்கள்",
+    "en": "St. Andrews, Deptford, Manchester, Rochdale. York, New York, Algiers, Amsterdam, Berne, Cadiz, Constantinople, Genoa, Lubeck, Magdeburg, Milan, Tunis and Venice.",
+    "ta": "செயின்ட் ஆண்ட்ரூஸ், டெப்ட்ஃபோர்ட், மான்செஸ்டர், ரொச்டேல், யார்க், நியூயார்க், அல்ஜியர்ஸ், ஆம்ஸ்டர்டாம், பெர்ன், காடிஸ், கான்ஸ்டாண்டிநோபிள், ஜெனோவா, லூபெக், மேக்டபர்க், மிலான், டுனிஸ், வெனிஸ்."
+   },
+   {
+    "id": "ANIMATE",
+    "page": 163,
+    "titleTa": "உயிருள்ள, உயிரற்ற பொருட்கள்",
+    "en": "Paspalum, plantains, Dhurva grass, fruits, bulbs, fragrant leaves, coconuts, barley, wheat, rice, sugarcane, forests, ministers kings, fishermen, honest persons, those who sacrifice their comforts, counterfeits, bulbs; roots, fruits, worms, reptiles, poison, robbers. husk-gram, physicians, etc. Characteristics to be corrected : They have to overcome their timidity by their efforts with practical results. They should avoid inferiority complex. They should try to have something stable upon which they can pin their hopes. They should not be overanxious about the future. They should not be passive and lazy and should not pay attention to sentimentalities and vanity. They should not control emotions and develop the spiritual said. They should not be vindictive. And success will be in store for them.",
+    "ta": "பாஸ்பேலம் புல், வாழை, துர்வா புல், பழங்கள், கிழங்குகள், நறுமண இலைகள், தேங்காய், பார்லி, கோதுமை, அரிசி, கரும்பு, காடுகள், அமைச்சர்கள், அரசர்கள், மீனவர்கள், நேர்மையானவர்கள், தம் வசதியைத் தியாகம் செய்பவர்கள், போலிப் பொருட்கள், வேர்கள், பழங்கள், புழுக்கள், ஊர்வனங்கள், விஷம், கொள்ளையர், உமி நிறைந்த பயறு, மருத்துவர்கள். திருத்திக்கொள்ள வேண்டியவை: பயத்தை முயற்சியால் வென்று நடைமுறை பலன் காண வேண்டும்; தாழ்வு மனப்பான்மையைத் தவிர்க்க வேண்டும்; நம்பிக்கை வைக்க ஒரு நிலையான ஆதாரம் வேண்டும்; எதிர்காலம் குறித்து அதிக கவலை வேண்டாம்; சோம்பலாகவும் செயலற்றும் இருக்கக்கூடாது; உணர்ச்சியையும் வீண் பெருமையையும் பெரிதாக எடுக்கக்கூடாது; உணர்ச்சிகளைக் கட்டுப்படுத்தி ஆன்மிக வளர்ச்சி பெற வேண்டும்; பழிவாங்கும் குணம் கூடாது. அப்போது வெற்றி உறுதி."
    }
   ]
  }
