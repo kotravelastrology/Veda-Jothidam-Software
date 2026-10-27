@@ -82,4 +82,13 @@ assert.ok(uranus.en.startsWith('Neither the Hindus nor the Westerners knew about
 assert.ok(uranus.en.endsWith('fortune in foreign land.'));
 assert.ok(!uranus.en.includes('NEPTUNE'), 'the neptune section is its own entry');
 assert.ok(uranus.ta.length > 0 && uranus.titleTa.length > 0);
+const neptune = P.Neptune;
+assert.strictEqual(neptune.pageFrom, 480);
+assert.strictEqual(neptune.pageTo, 488);
+assert.strictEqual(neptune.page, 480);
+assert.ok(neptune.en.startsWith('Neptune is the another giant planet.'));
+assert.ok(neptune.en.endsWith('secret enemies, cheating.'));
+assert.ok(!neptune.en.includes('Fortuna is otherwise called'), 'the fortuna section is its own entry');
+assert.ok(!neptune.en.includes('Since Uranus is not known'), 'the uranus section is its own entry');
+assert.ok(neptune.ta.length > 0 && neptune.titleTa.length > 0);
 console.log('test-reader-ii-planet-descriptions ok');
