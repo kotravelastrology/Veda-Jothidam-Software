@@ -15,6 +15,7 @@
  */
 
 const { describePartner } = require('./kpPartnerDescription');
+const { describeJudge } = require('./kpJudge');
 
 const SOURCE = {
   title: 'Krishnamurti Padhdhati, Reader IV: Marriage and Married Life',
@@ -236,6 +237,7 @@ function evaluateKpMarriage(kp) {
     source: SOURCE,
     rules,
     partner: describePartner(kp),
+    judge: describeJudge(kp),
     periods: {
       marriage: periodSignificators(kp, [2, 7, 11]),
       children: periodSignificators(kp, [2, 5, 11]),

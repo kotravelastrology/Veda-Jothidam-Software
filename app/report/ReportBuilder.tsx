@@ -1614,6 +1614,34 @@ const KPM_STATUS: Record<string, { label: string; cls: string }> = {
 };
 const KPM_GROUPS: [string, string][] = [['marriage', 'திருமணம்'], ['divorce', 'பிரிவு / விவாகரத்து'], ['children', 'குழந்தைகள்'], ['character', 'இயல்பு'], ['gem', 'ரத்தினம்']];
 
+/** Reader VI printed pp.107-121: the paragraph for the sign of the star lord of each cusp's sub-lord, as printed with a Tamil rendering. */
+function KpJudgeReadings({ judge }: { judge: any }) {
+  const [showEn, setShowEn] = useState(false);
+  return (
+    <div className="mb-4">
+      <h3 className="text-sm font-semibold text-ink mb-1">கஸ்ப் உப அதிபதி வழி விளக்கங்கள் (தோற்றம், குணம், உடல்நலம், பணம், காதல்)</h3>
+      <p className="text-xs text-ink-soft mb-2">
+        {judge.notesTa.join(' ')} {citeTa(judge.source)}
+        {' '}<button type="button" onClick={() => setShowEn(!showEn)} className="underline">{showEn ? 'ஆங்கில மூலத்தை மறை' : 'ஆங்கில மூலத்தையும் காட்டு'}</button>
+      </p>
+      {judge.readings.map((r: any, i: number) => (
+        <div key={i} className="border-b border-line/40 pb-1 mb-1 text-xs">
+          <p className="font-semibold text-ink">{r.titleTa}: {r.cusp}-ஆம் கஸ்ப் உப அதிபதி {r.subLordTa}; நட்சத்திர அதிபதி {r.starLordTa}{r.signTa ? ` (${r.signTa})` : ''}</p>
+          {r.entry ? (<><p className="text-ink"><span className="text-ink-soft">(ப.{r.entry.page})</span> {r.entry.ta}</p>{showEn && <p className="text-ink-soft italic">{r.entry.en}</p>}</>) : <p className="text-ink-soft">{r.noteTa}</p>}
+        </div>
+      ))}
+      <details className="text-xs mt-2">
+        <summary className="cursor-pointer font-semibold text-ink">12 பாவங்கள் எதைக் குறிக்கின்றன (ப.116-121)</summary>
+        {judge.houses.map((h: any) => (<p key={h.house} className="mt-1"><span className="font-semibold">{h.house}-ஆம் பாவம்</span> (ப.{h.page}) {h.ta}{showEn && <span className="block text-ink-soft italic">{h.en}</span>}</p>))}
+      </details>
+      <details className="text-xs mt-1">
+        <summary className="cursor-pointer font-semibold text-ink">ராசிகளின் வகைப்பாடு (ப.107-109)</summary>
+        {judge.classes.map((c: any) => (<p key={c.name} className="mt-1">(ப.{c.page}) {c.ta}{showEn && c.en && <span className="block text-ink-soft italic">{c.name}: {c.members}. {c.en}</span>}</p>))}
+      </details>
+    </div>
+  );
+}
+
 /** The partner's physical features and characteristic from the 7th cusp sub-lord (and the 2nd for a second marriage), Reader IV printed 86-97, as printed with a Tamil rendering. */
 function KpPartnerDescription({ partner }: { partner: any }) {
   const [showEn, setShowEn] = useState(false);
@@ -1686,6 +1714,7 @@ function KpMarriageSection({ report }: { report: ReportData }) {
         );
       })}
       {km.partner?.available && <KpPartnerDescription partner={km.partner} />}
+      {km.judge?.available && <KpJudgeReadings judge={km.judge} />}
       <div className="mb-3">
         <h3 className="text-sm font-semibold text-ink mb-1">நடப்பு தசா-புக்தி-அந்தரம்-சூக்ஷ்மம்: எந்த அதிபதி எந்த நிகழ்வின் பாவங்களைக் குறிக்கிறார்</h3>
         <table className="w-full text-xs">
