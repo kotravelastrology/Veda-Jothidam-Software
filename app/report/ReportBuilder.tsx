@@ -1652,6 +1652,22 @@ function KpJudgeReadings({ judge }: { judge: any }) {
         <summary className="cursor-pointer font-semibold text-ink">ராசிகளின் வகைப்பாடு (ப.107-109)</summary>
         {judge.classes.map((c: any) => (<p key={c.name} className="mt-1">(ப.{c.page}) {c.ta}{showEn && c.en && <span className="block text-ink-soft italic">{c.name}: {c.members}. {c.en}</span>}</p>))}
       </details>
+      {judge.signClasses?.available && (
+        <details className="text-xs mt-1">
+          <summary className="cursor-pointer font-semibold text-ink">ஒவ்வொரு கஸ்ப் ராசியின் வகைகள் (நூல் II, ப.97-116)</summary>
+          <p className="text-ink-soft mt-1">{citeTa(judge.signClasses.source)}</p>
+          {judge.signClasses.cusps.map((c: any) => (
+            <div key={c.house} className="mt-2 border-b border-line/40 pb-1">
+              <p className="font-semibold text-ink">{c.house}-ஆம் கஸ்ப்: {c.signTa} ({c.degree.toFixed(1)}°) — {c.labelsTa.join(' · ')}</p>
+              {c.sections.map((sec: any) => (
+                <p key={sec.id} className="mt-1"><span className="font-semibold">{sec.titleTa}</span> (ப.{sec.pageFrom}{sec.pageTo !== sec.pageFrom ? `-${sec.pageTo}` : ''}) {sec.ta}{showEn && <span className="block text-ink-soft italic">{sec.en}</span>}</p>
+              ))}
+            </div>
+          ))}
+          <p className="mt-2 text-ink">கிரகங்கள் — உறுப்பு: {Object.entries(judge.signClasses.countsTa.element).map(([k, n]) => `${k} ${n}`).join(', ') || '—'}; பாங்கு: {Object.entries(judge.signClasses.countsTa.quality).map(([k, n]) => `${k} ${n}`).join(', ') || '—'}; நேர்/எதிர்: {Object.entries(judge.signClasses.countsTa.polarity).map(([k, n]) => `${k} ${n}`).join(', ') || '—'}</p>
+          <p className="text-ink-soft">{judge.signClasses.majorityRule}</p>
+        </details>
+      )}
     </div>
   );
 }
