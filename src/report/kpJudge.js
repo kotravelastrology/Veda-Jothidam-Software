@@ -4,6 +4,7 @@
  * Descriptions as printed, not predictions. When the star lord is a node the book gives no sign paragraph for it here, so none is chosen and that is reported.
  */
 const T = require('./kpJudgeTables');
+const { describeStrength } = require('./kpStrength');
 
 const SOURCE = {
   title: 'Krishnamurti Padhdhati, Reader VI: Horary Astrology',
@@ -35,6 +36,7 @@ function describeJudge(kp) {
     available: true,
     source: SOURCE,
     notesTa: ['லக்ன (தோற்றம், குணம்), 6 (உடல்நலம்), 2 (பணம்), 5 (காதல்), 7 (துணை) கஸ்ப்களின் உப அதிபதி நிற்கும் நட்சத்திரத்தின் அதிபதி எந்த ராசியில் உள்ளாரோ அந்த ராசிக்கான நூலின் பத்தி இது. விளக்கம் மட்டுமே; முடிவு அல்ல.'],
+    strength: describeStrength(kp),
     houses: T.HOUSES,
     classes: T.CLASSES,
     readings: [

@@ -1630,6 +1630,20 @@ function KpJudgeReadings({ judge }: { judge: any }) {
           {r.entry ? (<><p className="text-ink"><span className="text-ink-soft">(ப.{r.entry.page})</span> {r.entry.ta}</p>{showEn && <p className="text-ink-soft italic">{r.entry.en}</p>}</>) : <p className="text-ink-soft">{r.noteTa}</p>}
         </div>
       ))}
+      {judge.strength?.available && (
+        <details className="text-xs mt-2">
+          <summary className="cursor-pointer font-semibold text-ink">வக்ர நட்சத்திரம், அஸ்தமன கிரகத்தின் நட்சத்திரம் (ப.145-152)</summary>
+          <p className="text-ink-soft mt-1">{judge.strength.notesTa.join(' ')} {citeTa(judge.strength.source)}</p>
+          <p className="mt-1 text-ink">7-ஆம் கஸ்ப் உப அதிபதி {judge.strength.marriage.subLordTa}{judge.strength.marriage.subRetrograde ? ' (வக்ரம்)' : ''}; நட்சத்திர அதிபதி {judge.strength.marriage.starLordTa}{judge.strength.marriage.starRetrograde ? ' (வக்ரம்)' : ''}. {judge.strength.marriage.readingTa ?? 'நட்சத்திர அதிபதி வக்ரம் அல்ல — இந்த நிபந்தனை இல்லை.'} (ப.{judge.strength.marriage.page})</p>
+          {judge.strength.topics.map((t: any) => (
+            <p key={t.id} className="mt-1"><span className="font-semibold">{t.status === 'HELD' ? 'நிபந்தனை உள்ளது' : 'நிபந்தனை இல்லை'}</span> (ப.{t.page}) {t.textTa} வக்ர நட்சத்திரத்தில் நிற்பவை: {t.blocked.length ? t.blocked.join(', ') : '—'}; மற்றவை: {t.free.length ? t.free.join(', ') : '—'}.</p>
+          ))}
+          <p className="mt-2 font-semibold text-ink">அஸ்தமன கிரகத்தின் நட்சத்திரத்தில் நிற்கும் உப அதிபதி — கஸ்ப் வாரியாக (நூலின் சொற்கள்; அஸ்தமனம் நிகழ்ந்தால் மட்டும்)</p>
+          {judge.strength.eclipse.map((e: any) => (
+            <p key={e.cusp} className="mt-1"><span className="font-semibold">{e.cusp}-ஆம் கஸ்ப்: {e.subLordTa} → நட்சத்திர அதிபதி {e.starLordTa}{e.separationFromSun !== null ? `, சூரியனிலிருந்து ${e.separationFromSun.toFixed(1)}°${e.sameSignAsSun ? ' (அதே ராசி)' : ''}` : ''}</span> (ப.{e.page}) {e.ta}{showEn && <span className="block text-ink-soft italic">{e.en}</span>}</p>
+          ))}
+        </details>
+      )}
       <details className="text-xs mt-2">
         <summary className="cursor-pointer font-semibold text-ink">12 பாவங்கள் எதைக் குறிக்கின்றன (ப.116-121)</summary>
         {judge.houses.map((h: any) => (<p key={h.house} className="mt-1"><span className="font-semibold">{h.house}-ஆம் பாவம்</span> (ப.{h.page}) {h.ta}{showEn && <span className="block text-ink-soft italic">{h.en}</span>}</p>))}
