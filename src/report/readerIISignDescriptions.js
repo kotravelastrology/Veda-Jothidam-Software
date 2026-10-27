@@ -1005,6 +1005,118 @@ const SIGN_DESCRIPTIONS = {
     "ta": "வெடிபொருட்கள், குண்டுகள், பட்டாசுகள், கத்திகள், வாள்கள், பிராந்தி, பானங்கள், வேதிப்பொருட்கள், எண்ணெய்கள், அமிலங்கள், பெட்ரோலியம், விஷம், கார்பன் டைசல்பைட், குளோரோஃபார்ம், ஈதர், ஸ்பிரிட், நிலக்கடலை, ஆளி விதை, கடுகு."
    }
   ]
+ },
+ "Sagittarius": {
+  "sign": "Sagittarius",
+  "pageFrom": 218,
+  "pageTo": 229,
+  "sections": [
+   {
+    "id": "PHYSICAL",
+    "page": 220,
+    "titleTa": "உடல் தோற்றம்",
+    "en": "A well-proportioned and a well developed body ; tall, large forehead : high and bushy eyebrows ; long nose ; bright eyes ; charming appearance ; graceful look ; fair complexion and handsome figure.",
+    "ta": "நன்கு விகிதமான, நன்கு வளர்ந்த உடல்; உயரமான, அகன்ற நெற்றி; உயரமான, அடர்ந்த புருவங்கள்; நீண்ட மூக்கு; பிரகாசமான கண்கள்; வசீகரத் தோற்றம்; நேர்த்தியான நடை; வெண்மையான நிறம்; அழகான உருவம்."
+   },
+   {
+    "id": "CHARACTER",
+    "page": 220,
+    "titleTa": "குணம்",
+    "en": "Sagittarius is a fiery sign. Hence you will be hold, courageous and pushful. You will be ambitious, greedy and aspiring. You will look on the bright side of things. You will not be timid. You will not flutter nor fear and tremble even in adverse conditions. You will be dauntless and with self- confidence ; you will work against odds. You are at your best only when there are obstacles. Fiery sign gives you energy, enthusiasm, vigour, vitality, etc. Being a common sign, it indicates that you will weigh the merits and demerits of each case and finally take a dicision. Aries people will be impulsive and rash, whereas Sagittarians are those who act after deep consideration. You may delay to. start a work or undertake any venture, because you would have taken time to contemplate:plan and scheme. Being a masculine sign, you do not hesitate much to think, speak out or act as you desire. You love only truth. You hold on to your principle to the last, even though you are aware that your action may bring unpleasant results. You will speak out what you feel right, without considering how others will relish such statements. An astrologer was in the midst of a dozen new clients. When they were about to consult, a Saggittarian, an old customer, came in and said \"Sir, . better you give up your profession. Your predictions have gone West. Not one came true. Honestly I tell, you, better you learn more before you try to earn. Not only has your prediction miserably failed as regards my promotion in service ; I am shocked to understand that I will be retrenched\". Look at the embarrassed position of the astrologer in the presence of new clients. Another Sagittarian enters a lawyer's chamber and behaves similarly, as he lost his case. Another Sagittarian places a surgeon in a similar bad situation, when the patient died though he was informed that the operation was successful. Hence Sagittarians should be given interviews only when the practitioners are alone. Sagittarius being the 9th sign of the Zodiac, you - will try to have higher education. You are fond of long travel. You have the desire to develop friendship with foreigners. You are highly philosophical, religious minded and God-fearing. Jupiter, being the lord of the sign, gives you broad mind confidence, truth, spiritual uplift, etc. You will be fond of sport ; your outstanding features are justice, sympathy and courage. You will have quick grasp and retentive power as the 9th and 10th houses to Sagittarius are governed by Sun and Mercury, which are mostly found in anyone sign causing Nipuna yoga. So Sagittarians understand quickly and assimilate new ideas. Your intuition will be correct. You are for justice. If you find that someone is done injustice, you will fight out and arrange that the victim gains his or her rightful claims. Venus generally indicates what one will like most. As Venus owns the sixth house, you will have dogs and other pet animals. As lord of 11, you will have many benefactors. You desire to be in the midst of the opposite sex. You make friendship is a moment and you maintain it for a long number of years. As Moon owns the 8th house, you will have unnecessary distrust and you will change your opinion often.",
+    "ta": "தனுசு நெருப்பு ராசி; தைரியமானவர், துணிச்சலானவர், முன்னேறிச் செல்பவர். லட்சியம், ஆசை, உயர்வு நாட்டம் உடையவர்கள்; நல்ல பக்கத்தைப் பார்ப்பர். சூழல் கடினமாக இருந்தாலும் அஞ்சாமல் தன்னம்பிக்கையுடன் போராடுவர்; தடைகள் இருக்கும்போதுதான் சிறப்பாகச் செயல்படுவர். ஆற்றலும் உற்சாகமும் உயிர்ச்சக்தியும் நிறைந்தவர்கள். பொது ராசியாதலால் ஒவ்வொரு விஷயத்தின் சாதக பாதகங்களையும் எடைபோட்டு முடிவெடுப்பர்; மேஷத்தினரைப் போல் அவசரப்படாமல், ஆழ்ந்து யோசித்துச் செயல்படுவர். ஆண் ராசியாதலால் நினைப்பதைப் பேசவும் செய்யவும் தயங்க மாட்டார்கள்; உண்மையை மட்டுமே நேசிப்பர்; விளைவு விரும்பாததாக இருந்தாலும் கொள்கையை இறுதிவரை பற்றிக்கொள்வர். சரியெனத் தோன்றுவதை மற்றவர்கள் எப்படி எடுத்துக்கொள்வார்கள் என்று பாராமல் பேசுவர். நூலில் ஜோதிடரிடம் வந்த முன்னாள் வாடிக்கையாளர், வழக்கறிஞரிடம் தோற்ற பிறகு வந்த தனுசு, அறுவை சிகிச்சையில் நோயாளி இறந்த பிறகு மருத்துவரிடம் வந்தவர் ஆகிய சம்பவங்கள் உள்ளன; ஆதலால் தனுசுக்கு பேட்டி தரும்போது, ஆலோசகர் அல்லது மருத்துவர் தனியாக இருக்கும்போதுதான் தர வேண்டும் என்று நூல் அறிவுறுத்துகிறது. ஒன்பதாம் ராசியாதலால் உயர் கல்வி, நீண்ட பயணம், வெளிநாட்டு நட்பு, தத்துவம், மதப்பற்று, கடவுள் நம்பிக்கை. குரு அதிபதியாதலால் பரந்த மனமும், நம்பிக்கையும், உண்மையும், ஆன்மிக உயர்வும்; விளையாட்டில் ஆர்வம்; நீதி, இரக்கம், துணிச்சல் சிறப்பம்சங்கள். ஒன்பது, பத்தாம் வீடுகளின் அதிபதிகள் சூரியனும் புதனும் என்பதால் விரைந்து புரிந்துகொண்டு கருத்துகளை உள்வாங்கும் நினைவாற்றல். அநீதியைக் கண்டால் பாதிக்கப்பட்டவருக்கு உரிய உரிமை கிடைக்கப் போராடுவர். சுக்கிரன் ஆறாம் அதிபதியாதலால் நாய் போன்ற செல்லப் பிராணிகள் அமையும்; பதினொன்றாம் அதிபதியாதலால் பல நண்பர்கள். எதிர்பாலினருடன் இருக்க விரும்புவர்; நட்பை ஒரு கணத்தில் உருவாக்கி நீண்ட காலம் பேணுவர். சந்திரன் எட்டாம் வீட்டின் அதிபதியாதலால் தேவையற்ற சந்தேகமும் அடிக்கடி கருத்து மாற்றமும் வரும்."
+   },
+   {
+    "id": "CORRECTION",
+    "page": 222,
+    "titleTa": "திருத்திக்கொள்ள வேண்டியவை",
+    "en": "If the ascendant or the planet in the Ascendant is afflicted, even though you are mostly good, yet your behaviour occasionally will be inconsiderate. You may lack tact. None else can praise you better than what you can do. Exaggeration and continuous speech without truth are also shown. You will make promises but you will not keep them up. Do not insult or hurt others by giving your opinion even though you may be correct. Be a moderate. Do not develop hatred towards your parents and brothers.",
+    "ta": "லக்னமோ லக்னத்திலுள்ள கிரகமோ பாதிக்கப்பட்டால், பொதுவாக நல்லவராக இருந்தாலும் சில சமயம் நடத்தையில் கவனக்குறைவு ஏற்படும்; சாதுர்யம் குறையும். தம்மைப் போல் பிறர் புகழ முடியாது என்று நினைப்பது, மிகைப்படுத்திப் பேசுவது, உண்மையில்லாமல் தொடர்ந்து பேசுவது ஆகியவை சுட்டிக்காட்டப்படுகின்றன. வாக்குறுதி கொடுத்துவிட்டு நிறைவேற்றாமல் இருக்கக் கூடாது. சரியாக இருந்தாலும் கருத்தைச் சொல்லி பிறரைக் காயப்படுத்தவோ அவமதிக்கவோ கூடாது; மிதமாக இருக்க வேண்டும். பெற்றோரிடமும் சகோதரர்களிடமும் வெறுப்பு வளர்க்கக் கூடாது."
+   },
+   {
+    "id": "HEALTH",
+    "page": 223,
+    "titleTa": "ஆரோக்கியம்",
+    "en": "Sagittarius governs the hips, the thighs, the loins, Ilium, femur, buttocks, glutinous muscles, sacral arteries etc. Hence one may suffer from sciatica, rheumatic pain, fracture in the hip, lumbago, gout, eusonophilia, lung trouble. Mars and Saturn in Sagittarius cause fracture of the bones as also ulcer in the thigh needing the surgeon's aid.• Jupiter in Dhanus threatens the native with gout and pulmonary apoplexy. Jupiter in Poorvashada star causes diabetes. Saturn alone indicates contusions of the hips, T.B., chronic pulmonary disease, asthma etc. Moon indicates bronchitis, pneumonia, diabetes. Sun causes defective hearing and poor vision. Venus indicates tumour, diabetes etc. Mercury shows hiccough, asthma, etc. To Sagittarius, Mercury is a Rajyogadhipathi, by owning the 10th house. It is also the Bhadhaka Sthana adhipathi by owning the 7th house, as Sagittarius is a common sign. To chara rasi, 11th house ; to fixed rasi 9th house ; to common sign 7th house Mercury is a Kendhrathipathi. (Houses 1, 4, 7 and 10 are called Kendhra Sthanas). As houses 2 and 7 are termed as Maraka Sthanas, Mercury owning the seventh house is the strongest evil also (other than Rajayoga adhipathyam) to cause fatal disease.",
+    "ta": "தனுசு இடுப்பு, தொடை, இடுப்புக் கீழ்ப்பகுதி, பிட்டம், முழங்கால் வரையிலான உறுப்புகளை ஆளும்; இதனால் நரம்புவலி (சயாட்டிகா), மூட்டுவாதம், இடுப்பு எலும்பு முறிவு, முதுகுவலி, வாதம், நுரையீரல் தொல்லை போன்றவை. செவ்வாயும் சனியும் இங்கிருந்தால் எலும்பு முறிவும், தொடையில் புண்ணும் அறுவை சிகிச்சை தேவைப்படும் நிலையும். குரு தனுசில் இருந்தால் வாதமும் நுரையீரல் வாதமும்; பூராடம் நட்சத்திரத்தில் குரு இருந்தால் நீரிழிவு. சனி தனியாக இருந்தால் இடுப்புக் காயம், காசநோய், நாள்பட்ட நுரையீரல் நோய், ஆஸ்துமா. சந்திரன் மூச்சுக்குழாய் அழற்சி, நிமோனியா, நீரிழிவு. சூரியன் கேட்கும் திறன் மற்றும் பார்வைக் குறைபாடு. சுக்கிரன் கட்டி, நீரிழிவு. புதன் விக்கல், ஆஸ்துமா. புதன் பத்தாம் வீட்டின் அதிபதி (ராஜயோக அதிபதி), ஏழாம் வீட்டின் அதிபதியாகவும் (பாதக ஸ்தானம்) இருப்பதால் மரணத்தை ஏற்படுத்தும் கொடிய கிரகமாகவும் ஆகலாம். இரண்டும் ஏழும் மாரக ஸ்தானங்கள் என்பதால் புதன் ஏழாம் வீட்டை ஆள்வது மிகக் கடுமையான தீய தாக்கம்."
+   },
+   {
+    "id": "FINANCE",
+    "page": 223,
+    "titleTa": "பணம்",
+    "en": "Being a fiery sign, you do not like others ordering you ; nor will you prefer to sit tight in one place and work. Your desire is to have frequent changes. You fare well when you are given a free hand. As Jupiter rules this sign, you will be a teacher. public speaker, bank employee, or one attached to any religious institution. Politics will prove to be lucky if Jupiter is not afflicted. Mercury, being lord of 10, indicates that you may edit, publish and have larger income through advertisement. You will be a good auditor. You may master Company-law. You will be a Civil Engineering contractor. You may work in foreign embassy or in foreign affairs. Planets in any manner connected with houses 2, 6 or 10 occupying Sagittarius can offer one service in mines, transport and engineering also. Speculation will not be helpful and profitable to Sagittarians, as lord of 5 is also lord of 12. But those who have the lords of 1, 2, 3, 6 and 11 posited in Poorvashada star will get rich quickly and they will have gains without pains.",
+    "ta": "நெருப்பு ராசியாதலால் பிறர் கட்டளையிடுவதை விரும்பமாட்டார்கள்; ஓரிடத்தில் அமர்ந்து வேலை செய்வதும் பிடிக்காது. அடிக்கடி மாற்றம் விரும்புவர்; சுதந்திரம் கொடுத்தால் சிறப்பாகச் செயல்படுவர். குரு ஆளுவதால் ஆசிரியர், பொதுப் பேச்சாளர், வங்கி ஊழியர், மத நிறுவன ஊழியர் ஆகலாம்; குரு பாதிக்கப்படாவிட்டால் அரசியலும் அதிர்ஷ்டமாக அமையும். புதன் பத்தாம் அதிபதியாதலால் பதிப்பாளர், விளம்பரம் மூலம் அதிக வருமானம், தணிக்கையாளர், நிறுவனச் சட்டம், சிவில் பொறியியல் ஒப்பந்ததாரர், வெளிநாட்டுத் தூதரகம் அல்லது வெளியுறவுத் துறை. இரண்டு, ஆறு, பத்தாம் வீடுகளுடன் தொடர்புள்ள கிரகங்கள் தனுசில் இருந்தால் சுரங்கம், போக்குவரத்து, பொறியியல் சேவை. ஊகம் பலனளிக்காது; ஐந்தாம் அதிபதி பன்னிரண்டாம் அதிபதியும் என்பதால். ஆனால் லக்னம், இரண்டு, மூன்று, ஆறு, பதினொன்றாம் அதிபதிகள் பூராடம் நட்சத்திரத்தில் இருந்தால் விரைவில் செல்வந்தர் ஆவர்; உழைப்பின்றி ஆதாயம்."
+   },
+   {
+    "id": "DOMESTIC",
+    "page": 224,
+    "titleTa": "குடும்பச் சூழல்",
+    "en": "You do not like your close relatives. But you will be generous to the other sex and be friendly with them. You will spend much on your children. Those who have no children will spend on educational Institutions, or renovation of temple, etc. You will be kind to others and not to your kith and kin. At home you are a failure, even though the 4th house is owned by the lord of the ascendant. You are denied the independence which you desire to have in your house. Finance and benefactors : It is not at all difficult for you to make friendship with any one. In your experience you will understand that you may have some silly quarrels with a stranger on an impulse and you will develop permanent friendship with him. It is similar to a passenger who has taken his seat in the II class in the train and fights with a person, who tries to get in. The person will take his seat just opposite to him. The train will steam off. It will run for some minutes. Then gradually they begin to talk and before they reach the destination, they become very friendly and each takes the address of the other. Later they become good friends. Similarly Sagittarians and Gemini- people will make friendship. 11th house shows friends and benefactors. 6th house indicates enmity and open quarrel. To Gemini-horns Mars is lord of 6 and 11. To Sagittarius-barns, Venus is the lord of the 6th and 11th houses Hence such results will be given by them, especially during their sub periods. Invariably you will be liked by your friends. Your sweet smile and quick wit will bring you many friends. People born on Fridays or in Taurus and Libra or in the nakshatras Barani, Poorvapalguni and Poorvashada will be your long-standing friends. Those born in Hastham star will bring ill-repute to you as lord of 8 will be in the constellation of lord of 8 in the tenth house.",
+    "ta": "நெருங்கிய உறவினர்களைப் பிடிக்காது; ஆனால் எதிர்பாலினருக்கு தாராளமாக இருப்பர், நட்பாகப் பழகுவர். பிள்ளைகளுக்கு நிறைய செலவு செய்வர்; பிள்ளைகள் இல்லாதவர்கள் கல்வி நிறுவனங்களுக்கோ கோயில் புதுப்பிப்புக்கோ செலவிடுவர். அந்நியர்களிடம் கனிவாக இருப்பர், ஆனால் சொந்த உறவினரிடம் அப்படி இருக்க மாட்டார்கள். நான்காம் வீட்டு அதிபதி லக்னாதிபதியாக இருந்தாலும் வீட்டில் வெற்றி குறைவு; வீட்டில் அவர்கள் விரும்பும் சுதந்திரம் மறுக்கப்படும். நண்பர்களும் உதவி செய்பவர்களும்: யாருடனும் நட்பு கொள்வது கடினமல்ல; அந்நியருடன் சிறு சண்டை போட்டு பின்னர் நிலையான நட்பு உருவாகும் (நூலின் ரயில் பயணக் கதை). தனுசும் மிதுனமும் நட்பு கொள்வர். பதினொன்றாம் வீடு நண்பர்களையும் உதவியாளர்களையும், ஆறாம் வீடு பகையையும் விவாதத்தையும் குறிக்கும். மிதுனத்துக்கு செவ்வாய் ஆறு, பதினொன்றாம் அதிபதி; தனுசுக்கு சுக்கிரன் ஆறு, பதினொன்றாம் அதிபதி; அதன் பலன்கள் குறிப்பாக அவர்களின் உப தசைகளில். இனிய புன்னகையும் சாதுர்யமான நகைச்சுவையும் பல நண்பர்களைத் தரும். வெள்ளியிலும் ரிஷபம், துலாம் ராசிகளிலும் பிறந்தவர்கள், பரணி, பூரட்டாதி, பூராடம் நட்சத்திரங்களில் பிறந்தவர்கள் நீண்டகால நண்பர்களாக இருப்பர். ஹஸ்த நட்சத்திரத்தில் பிறந்தவர்கள் கெட்ட பெயரைத் தருவர்; எட்டாம் அதிபதி பத்தாம் வீட்டில் எட்டாம் அதிபதியின் நட்சத்திரத்தில் இருப்பதால்."
+   },
+   {
+    "id": "ROMANCE",
+    "page": 225,
+    "titleTa": "திருமணமும் இல்வாழ்வும்",
+    "en": "If you are a male, your wife should be wise and tactful. Because, your temper will generally flare up quickly and she can understand that it lasts only for a short time. So if she understands you properly and conducts herself tactfully, then the married life will be pleasant. Further the male will be interested in games, sports, Society clubs, etc. Hence he will spend his time mostly in other activities and it will appear as though his family life is not important to him. As he is a person of integrity and morals, with maturity coming late in his life, it is his wife who is to be broadminded, adjusting and accommodative. If a person marries a girl born in Sagittarius, the person is lucky. Whatever a man expects of his wife, all those will be round in her. She will never interfere in his affairs. She will not suggest anything to her husband unless she is asked for. But with or without his knowledge, she will try to be helpful to her husband. She will be calm, clever, competent and considerate. Even though she is sure that her husband is wrong, yet she will be modest and polite to bring it to his notice and with all humility offer him advice. One is really lucky to marry a girl born in Sagittarius. Houses 2, 7 and 11 indicate the partner. Second house is ruled by Saturn, seventh by Mercury and eleventh by Venus. Hence these 3 planets who are \"friendly with one another when, well posited and not adversely aspected by Mars, give you the most reliable, faithful, dutiful, pleasant and intelligent wife. But if Mars afflicts lord of 2 and 11, then the partner may have chances to have contact with more than one.",
+    "ta": "ஆண் என்றால் மனைவி அறிவாளியாகவும் சாதுர்யமானவராகவும் இருக்க வேண்டும்; கோபம் விரைவில் வந்து விரைவில் போகும் என்பதை அவர் புரிந்துகொள்ள வேண்டும். விளையாட்டு, சங்கங்கள் போன்ற வெளிச் செயல்பாடுகளில் நேரம் செலவிடுவதால் குடும்பத்தை அலட்சியம் செய்வது போலத் தோன்றும். ஒழுக்கமும் நேர்மையும் உடையவர்; முதிர்ச்சி தாமதமாக வரும்; ஆதலால் மனைவி பரந்த மனமும் அனுசரணையும் உடையவராக இருக்க வேண்டும். தனுசு பெண்ணை மணந்தால் மிகவும் அதிர்ஷ்டம்; கணவன் எதை எதிர்பார்க்கிறாரோ அதை அவர் தருவார். கேட்காமல் கணவரின் காரியங்களில் தலையிடமாட்டார்; ஆனால் அறியாமலும் தெரிந்தும் உதவுவார். தான் சரி என்று உறுதியாக தெரிந்தாலும் பணிவுடனும் அடக்கத்துடனும் கணவரின் கவனத்துக்குக் கொண்டுவருவார். இரண்டு, ஏழு, பதினொன்றாம் வீடுகள் துணையைக் குறிக்கும்; இரண்டுக்கு சனி, ஏழுக்கு புதன், பதினொன்றுக்கு சுக்கிரன். இந்த மூன்று நட்பான கிரகங்களும் நல்ல நிலையில் இருந்து செவ்வாயின் பாதிப்பில்லாமல் இருந்தால் நம்பகமும் கடமையுணர்வும் அறிவும் உடைய மனைவி கிடைப்பார். செவ்வாய் இரண்டு, பதினொன்றாம் அதிபதிகளைப் பாதித்தால் துணை வேறொருவருடன் தொடர்பு கொள்ள வாய்ப்பு."
+   },
+   {
+    "id": "CHILDREN",
+    "page": 226,
+    "titleTa": "குழந்தைகள்",
+    "en": "Houses 2, 5 and 11 indicate the birth of children. So Saturn, Mars and Venus are the lords. Your children will not be fondled by you when they are young. But as age, advances, you will take much interest in them. You should not allow them to feel that you doubt their behaviour, movements etc. If you curb their independence, they become more obstinate and strong-willed. It will not be possible for you to correct them. Therefore, you must be very tactful in dealing with your children.",
+    "ta": "இரண்டு, ஐந்து, பதினொன்றாம் வீடுகள் குழந்தைப்பேற்றைக் குறிக்கும்; இவற்றின் அதிபதிகள் சனி, செவ்வாய், சுக்கிரன். சிறு வயதில் குழந்தைகளைக் கொஞ்சமாட்டார்கள்; வயதாக ஆக ஆர்வம் அதிகரிக்கும். குழந்தைகளின் நடத்தையையும் நடமாட்டத்தையும் சந்தேகிப்பதுபோல் அவர்களுக்கு உணர்த்தக் கூடாது. சுதந்திரத்தைக் கட்டுப்படுத்தினால் பிடிவாதமும் வலுவான விருப்பமும் அதிகரிக்கும்; திருத்துவது கடினமாகும். ஆகவே குழந்தைகளை நடத்துவதில் மிகுந்த சாதுர்யம் வேண்டும்."
+   },
+   {
+    "id": "LUCKY_DAY",
+    "page": 227,
+    "titleTa": "அதிர்ஷ்ட நாள்",
+    "en": "Wednesdays and Fridays are very lucky. Thursdays promise success. Mondays cause anxiety and troubles. Tuesdays shows extravagant expenses and loss Sundays are pleasant and prosperous. Saturdays indicate slow, steady progress and assistance from others. Speculate on Fridays. If there is any election, have the Polling on Fridays. For litigation, Fridays and Saturdays are successful ones. Sign contracts on Wednesdays. Avoid Mondays and Tuesdays. Make long journeys on Sundays. Write examinations on Thursdays or interview officials on Thursdays and Fridays. • Do Shanthi, Prayer, Homa, etc. on Tuesdays, Wednesdays and Fridays.",
+    "ta": "புதன், வெள்ளி மிகவும் அதிர்ஷ்டமானவை; வியாழன் வெற்றி தரும். திங்கள் கவலையும் தொல்லையும்; செவ்வாய் அதிக செலவும் நஷ்டமும்; ஞாயிறு இனிய, செழிப்பான நாள்; சனி மெதுவான, நிலையான முன்னேற்றமும் பிறர் உதவியும். வெள்ளியில் ஊகம் செய்யலாம்; தேர்தல் நடந்தால் வெள்ளியில் வாக்குப்பதிவு; வழக்குக்கு வெள்ளியும் சனியும் வெற்றிகரம். ஒப்பந்தங்களில் புதனில் கையொப்பமிடவும்; திங்கள், செவ்வாயில் தவிர்க்கவும். நீண்ட பயணம் ஞாயிற்றில். வியாழனில் தேர்வு எழுதவும்; வியாழன், வெள்ளியில் அதிகாரிகளைச் சந்திக்கவும். சாந்தி, பிரார்த்தனை, ஹோமம் போன்றவற்றை செவ்வாய், புதன், வெள்ளியில் செய்யவும்."
+   },
+   {
+    "id": "LUCKY_COLOUR",
+    "page": 227,
+    "titleTa": "அதிர்ஷ்ட நிறம்",
+    "en": "White, cream, green, orange and light blue, Avoid red and pearls. Emerald bestows on you name, fame, reputation, larger yield from investment promotion and prosperity. White cream shades show success in litigation, victory over enemies, pleasure and profit. Orange colour is auspicious for assistance from Government, connections with foreigners and for long journeys. Light blue indicates increase in self-acquisition, good understanding with colleagues, support from people in authority and power. If you use ruby and red colour, it makes you more short-tempered, rash and reckless, resulting in great loss.",
+    "ta": "வெள்ளை, கிரீம், பச்சை, ஆரஞ்சு, வெளிர் நீலம். சிவப்பும் முத்தும் தவிர்க்கவும். மரகதம் பெயர், புகழ், நற்பெயர், முதலீட்டில் அதிக வருவாய், வளம் தரும். வெள்ளை, கிரீம் நிறங்கள் வழக்கில் வெற்றியும் எதிரிகள் மீது வெற்றியும் இன்பமும் ஆதாயமும் தரும். ஆரஞ்சு அரசின் உதவியும் வெளிநாட்டுத் தொடர்பும் நீண்ட பயணமும் தரும். வெளிர் நீலம் சுய சம்பாத்தியத்தை அதிகரிக்கும், சக ஊழியர்களுடன் நல்ல புரிதல், அதிகாரம் உடையவர்களின் ஆதரவு. மாணிக்கமும் சிவப்பும் பயன்படுத்தினால் கோபமும் அவசரமும் கவனக்குறைவும் அதிகரித்து பெரிய நஷ்டம் வரும்."
+   },
+   {
+    "id": "LUCKY_NUMBER",
+    "page": 228,
+    "titleTa": "அதிர்ஷ்ட எண்",
+    "en": "6, 5, 3 and 8. Of these 6 and 8 are for finance, family and fortune. Avoid 2, 7 and 9.",
+    "ta": "6, 5, 3, 8. இவற்றில் 6, 8 நிதி, குடும்பம், அதிர்ஷ்டத்துக்கு. 2, 7, 9 தவிர்க்கவும்."
+   },
+   {
+    "id": "ANIMATE",
+    "page": 228,
+    "titleTa": "உயிருள்ள, உயிரற்ற பொருட்கள்",
+    "en": "Moolam constellation governs medicine, physicians, flowers, roots, fruits, seeds, etc. Poorvashada shows fish, aquatic animals, aquatic fruits and flowers. Uthrashada in Sagittarius indicates horses, elephants, warriors, etc. (Brihat Samhita) arrows ; spears ; swords ; needles, poles, sticks, canes, rope, race horses, tooth picks, crowbars, drills, chisels, ,Ayurvedic medicinal herbs, etc.",
+    "ta": "மூலம் நட்சத்திரம் மருத்துவம், மருத்துவர்கள், பூக்கள், வேர்கள், பழங்கள், விதைகள் ஆகியவற்றை ஆளும். பூராடம் மீன், நீர்வாழ் உயிரினங்கள், நீர்ப் பழங்கள், பூக்கள். உத்திராடம் குதிரைகள், யானைகள், வீரர்கள் (பிருஹத் சம்ஹிதை). அம்புகள், ஈட்டிகள், வாள்கள், ஊசிகள், கம்புகள், பிரம்புகள், கயிறு, பந்தய குதிரைகள், பல்குத்தி, இரும்புக் கடப்பாரை, துளைக் கருவிகள், உளிகள், ஆயுர்வேத மூலிகைகள் முதலியன."
+   },
+   {
+    "id": "PLACES",
+    "page": 228,
+    "titleTa": "இடங்கள்",
+    "en": "Hills, in a house the topmost room, places next to the oven, stables of healthy horses, receptacles for cattle, places where ammunition is stored and weapons are .preserved, churches, temples, schools and colleges, courts, woods and bushes.",
+    "ta": "மலைகள், வீட்டின் மேல் அறை, அடுப்புக்கு அருகிலுள்ள இடங்கள், ஆரோக்கியமான குதிரைகளின் லாயங்கள், கால்நடைக் கொட்டில்கள், வெடிமருந்தும் ஆயுதங்களும் பாதுகாக்கப்படும் இடங்கள், தேவாலயங்கள், கோயில்கள், பள்ளிகள், கல்லூரிகள், நீதிமன்றங்கள், காடுகளும் புதர்களும்."
+   },
+   {
+    "id": "COUNTRIES",
+    "page": 228,
+    "titleTa": "நாடுகள்",
+    "en": "Australia, Arabia, Madagascar, Hungary, Sclaronia, Tuscany, Spain, !stria, Dalmatia, Italy, I",
+    "ta": "ஆஸ்திரேலியா, அரேபியா, மடகாஸ்கர், ஹங்கேரி, ஸ்கிளாரோனியா, டஸ்கனி, ஸ்பெயின், இஸ்திரியா, டால்மேஷியா, இத்தாலி."
+   },
+   {
+    "id": "CITIES",
+    "page": 228,
+    "titleTa": "நகரங்கள்",
+    "en": "Naples, Narbonne, Stutland, Avignon, Sheffield, Rottenberg, Cologne, Buda, Bradford, West Bromwich, Torouts, Toledo, Portland, Nottingham.",
+    "ta": "நேப்பிள்ஸ், நார்பான், ஸ்டட்லாண்ட், அவிக்னான், ஷெஃபீல்ட், ரோட்டன்பர்க், கொலோன், புடா, பிராட்ஃபோர்ட், வெஸ்ட் ப்ரோம்விச், டொரூட்ஸ், டோலிடோ, போர்ட்லாண்ட், நாட்டிங்ஹாம்."
+   }
+  ]
  }
 };
 
