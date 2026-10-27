@@ -48,10 +48,10 @@ const wrap = (x) => ((x + 540) % 360) - 180;
 /**
  * Printed p.131 (N.B.): what moves depends on how long the matter takes. Minutes or hours: the ascendant (rulingRisingMoments). Days, within a month: the Moon. More than a month:
  * the Sun ("which month"). Years: Jupiter ("in which year one will build a house"). Here the body's passage through every position ruled by the ruling planets.
- * @param opts { body: 'Moon'|'Sun'|'Jupiter', fromJd, days, ayanamsha = 'Krishnamurti', nodeType = 'mean' }
+ * @param opts { body: 'Moon'|'Sun'|'Jupiter', fromJd, days, ayanamsha = 'Krishnamurti', nodeType = 'mean', requireSign = true (false: only the star and sub lords must be among the planets, as in Reader V's lucky times) }
  * @returns { bySub, bySubSub (Moon only) } each row with `times: [{ enterJd, leaveJd }]` (leaveJd null when the span ends first)
  */
-function rulingTransitMoments(ruling, { body, fromJd, days, ayanamsha = 'Krishnamurti', nodeType = 'mean' }) {
+function rulingTransitMoments(ruling, { body, fromJd, days, ayanamsha = 'Krishnamurti', nodeType = 'mean', requireSign = true }) {
   const step = STEP_DAYS[body];
   if (!step) throw new RangeError('body must be Moon, Sun or Jupiter');
   const lon = (jd) => bodyLongitude(jd, body, ayanamsha, nodeType);
@@ -78,7 +78,8 @@ function rulingTransitMoments(ruling, { body, fromJd, days, ayanamsha = 'Krishna
     return { ...r, times };
   };
   const pick = (rows, keys) => rows.filter((r) => keys.every((k) => set.has(r[k]))).map(shape).filter((r) => r.times.length).sort((a, b) => a.times[0].enterJd - b.times[0].enterJd);
-  return { bySub: pick(TABLE, ['signLord', 'starLord', 'subLord']), bySubSub: body === 'Moon' ? pick(subSubTable(), ['signLord', 'starLord', 'subLord', 'subSubLord']) : [] };
+  const sign = requireSign ? ['signLord'] : [];
+  return { bySub: pick(TABLE, [...sign, 'starLord', 'subLord']), bySubSub: body === 'Moon' ? pick(subSubTable(), [...sign, 'starLord', 'subLord', 'subSubLord']) : [] };
 }
 
 /** Local clock time "H:MM:SS" and the day offset (0 = same civil day as `fromJd`'s local day) of a JD at the given offset from UTC. */
