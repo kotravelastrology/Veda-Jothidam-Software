@@ -28,6 +28,7 @@ function downloadJson(filename: string, data: unknown) {
 }
 import { SettingsPanel, useSettings } from '../ui/SettingsPanel';
 import { BalloonHelp } from '../ui/BalloonHelp';
+import { ensureThisComputerRegistered, deactivateThisComputerNow, type DeactivateResult } from '../sync/thisComputer';
 import { ToolsPanel } from '../ui/ToolsPanel';
 import { HelpPanel } from '../ui/HelpPanel';
 import { OpenChartDialog } from '../ui/OpenChartDialog';
@@ -53,6 +54,10 @@ export function TopMenuBar() {
   const router = useRouter();
   const menuBarRef = useRef<HTMLDivElement>(null);
   const { settings, updateSettings } = useSettings();
+
+  useEffect(() => {
+    ensureThisComputerRegistered().catch((err) => console.warn('This computer was not registered for sync:', err));
+  }, []);
 
   // Click-outside-to-close: the dropdown is driven by `openMenu` state (click-based),
   // not CSS :hover, so it works reliably with mouse, touch, and automated testing.
@@ -526,10 +531,18 @@ export function TopMenuBar() {
       case 'balloon':
         updateSettings({ showHints: !settings.showHints });
         break;
-      case 'deactivate':
-        // Needs a device-licence endpoint that this app does not have yet.
-        alert('Deactivate on this computer is not available in this version yet.');
+      case 'deactivate': {
+        if (!confirm('Deactivate this computer for sync? Its sync device record is revoked. Your saved charts are not deleted.')) break;
+        const messages: Record<DeactivateResult, string> = {
+          revoked: 'This computer has been deactivated.',
+          'already-revoked': 'This computer was already deactivated.',
+          'not-registered': 'This computer is not registered for sync, so there is nothing to deactivate.',
+        };
+        deactivateThisComputerNow()
+          .then((result) => alert(messages[result]))
+          .catch((err) => alert(`Could not deactivate this computer: ${err?.message ?? err}`));
         break;
+      }
       case 'contact':
         // Handle: Contact Support
         alert('Support contact: gvkotravel@gmail.com');

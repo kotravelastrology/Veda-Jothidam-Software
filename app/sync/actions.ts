@@ -49,3 +49,14 @@ export async function addSyncDevice(label: string, scopes: string[]) {
 export async function revokeSyncDevice(deviceId: string) {
   return withLibrary((lib) => JSON.parse(JSON.stringify(lib.revokeDevice(deviceId))));
 }
+
+/** Registers this browser as a sync device with full access. Called once per browser; the browser keeps the id. */
+export async function registerThisComputer() {
+  return addSyncDevice('This computer', [...FULL_ACCESS]);
+}
+
+/** Revokes this browser's device record. The browser keeps its id, so it is not registered again. */
+export async function deactivateThisComputer(deviceId: string) {
+  if (!/^[0-9a-f-]{36}$/i.test(deviceId)) throw new Error('invalid device id');
+  return revokeSyncDevice(deviceId);
+}
