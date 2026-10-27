@@ -22,28 +22,28 @@ const TABS: { key: HelpTab; label: string }[] = [
 
 const TUTORIAL_STEPS: { title: string; text: string }[] = [
   {
-    title: 'Create a chart',
-    text: 'Use File → New Chart. Enter the name, the date and time of birth, and the place. Choose the ayanamsha in the form; it starts from your Settings.',
+    title: 'ஜாதகம் உருவாக்கு',
+    text: 'File → New Chart தேர்ந்தெடுக்கவும். பெயர், பிறந்த தேதி, நேரம், இடம் ஆகியவற்றை உள்ளிடவும். படிவத்தில் அயனாமசாவைத் தேர்ந்தெடுக்கவும்; அது Settings-இல் சேமித்த மதிப்பிலிருந்து தொடங்கும்.',
   },
   {
-    title: 'Read the birth chart',
-    text: 'The Rasi chart and the planet positions appear on the report page. Divisional charts are under the Charts menu.',
+    title: 'ஜாதகத்தைப் படிக்கவும்',
+    text: 'ராசி கட்டமும் கிரக நிலைகளும் அறிக்கைப் பக்கத்தில் தோன்றும். வர்க்க ஜாதகங்கள் Charts மெனுவின் கீழ் உள்ளன.',
   },
   {
-    title: 'Follow the dashas and transits',
-    text: 'The dasha timeline and the transit views are under the Reports and Tools menus.',
+    title: 'தசையும் கோசாரமும் பார்க்கவும்',
+    text: 'தசை காலவரிசையும் கோசார (transit) காட்சிகளும் Reports மற்றும் Tools மெனுக்களின் கீழ் உள்ளன.',
   },
   {
-    title: 'Save and reopen',
-    text: 'File → Save keeps the chart in this browser. File → Open lists saved charts, and the search box finds one by name, place, date or time.',
+    title: 'சேமித்து மீண்டும் திறக்கவும்',
+    text: 'File → Save ஜாதகத்தை இந்த browser-இல் சேமிக்கும். File → Open சேமித்த ஜாதகங்களைப் பட்டியலிடும்; தேடல் பெட்டியில் பெயர், இடம், தேதி அல்லது நேரம் மூலம் தேடலாம்.',
   },
   {
-    title: 'Adjust the settings',
-    text: 'Edit → Preferences (Ctrl+,) holds the ayanamsha, house system and node type. Turn on Balloon Help in the Help menu to see a short hint when you hover over a control.',
+    title: 'அமைப்புகளை மாற்றவும்',
+    text: 'Edit → Preferences (Ctrl+,) இல் அயனாமசா, வீட்டு அமைப்பு (house system), ராகு-கேது முனை வகை ஆகியவை உள்ளன. Help மெனுவில் Balloon Help-ஐ இயக்கினால், கட்டுப்பாட்டின் மேல் சுட்டியை வைக்கும்போது குறுகிய குறிப்பு தோன்றும்.',
   },
   {
-    title: 'Print or export',
-    text: 'File → Print prints the chart. File → Export saves the ephemeris or the birth chart as a file.',
+    title: 'அச்சிடவும் ஏற்றுமதி செய்யவும்',
+    text: 'File → Print ஜாதகத்தை அச்சிடும். File → Export எபிமெரிஸ் அல்லது பிறப்பு ஜாதகத்தைக் கோப்பாகச் சேமிக்கும்.',
   },
 ];
 
@@ -51,7 +51,7 @@ function TutorialContent() {
   return (
     <div className="space-y-4">
       <p className="text-sm text-ink-soft">
-        A short walk through the main steps. Each step names the menu item to use.
+        முக்கிய படிகளின் சுருக்கம். ஒவ்வொரு படியிலும் பயன்படுத்த வேண்டிய மெனு உருப்படி குறிப்பிடப்பட்டுள்ளது.
       </p>
       <ol className="space-y-3 list-decimal list-inside">
         {TUTORIAL_STEPS.map((step) => (
