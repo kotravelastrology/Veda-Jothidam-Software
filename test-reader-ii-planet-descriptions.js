@@ -65,4 +65,13 @@ assert.ok(saturn.en.endsWith('Lucky star day : Pushya, Anuradha and Uthrapathrap
 assert.ok(!saturn.en.includes('THE NODES - RAHU'), 'the rahu and kethu section is its own entry');
 assert.ok(!saturn.en.includes('VENUS - THE PLEASANT PARTNER'), 'the venus section is its own entry');
 assert.ok(saturn.ta.length > 0 && saturn.titleTa.length > 0);
+const rahu = P.Rahu;
+assert.strictEqual(rahu.pageFrom, 443);
+assert.strictEqual(rahu.pageTo, 469);
+assert.strictEqual(rahu.page, 443);
+assert.ok(rahu.en.startsWith('There is in existence a vast amount of: literature'));
+assert.ok(rahu.en.endsWith('But if Kethu is in a good house and its lord is also well posited, the evil will be less'));
+assert.ok(!rahu.en.includes('Neither the Hindus nor the Westerners knew'), 'the uranus section is its own entry');
+assert.ok(!rahu.en.includes('THE NODES - RAHU AND KETHU'), 'the heading is not in the text');
+assert.ok(rahu.ta.length > 0 && rahu.titleTa.length > 0);
 console.log('test-reader-ii-planet-descriptions ok');
