@@ -123,6 +123,153 @@ const SIGN_DESCRIPTIONS = {
     "ta": "நீலம்."
    }
   ]
+ },
+ "Taurus": {
+  "sign": "Taurus",
+  "pageFrom": 124,
+  "pageTo": 138,
+  "sections": [
+   {
+    "id": "PHYSICAL",
+    "page": 125,
+    "titleTa": "உடல் தோற்றம்",
+    "en": "The stature will be middle ; body plumpy ; forehead broad ; neck thick and stout ; eyes bright : hair dark ; complexion, clear: in appearance solidly built and stocky; shoulders big and muscles well developed.",
+    "ta": "நடுத்தர உயரம்; பருமனான உடல்; அகன்ற நெற்றி; தடித்த, பருத்த கழுத்து; ஒளிரும் கண்கள்; கருமையான முடி; தெளிவான நிறம்; திடமான, குட்டையான அமைப்பு; அகன்ற தோள்கள், நன்கு வளர்ந்த தசைகள்."
+   },
+   {
+    "id": "CHARACTER",
+    "page": 126,
+    "titleTa": "குணம்",
+    "en": "Taurus (Rishaba) is the first of the earthy ; triplicity and the first of the fixed signs. Being earthy by nature, Tau rea ns can put up with a lot of provocation. They can endure and be very patient. People compare a patient person who works steadily and waits for the results to come up at one time or the other only to 'Bhoomi', the earth. But, Taureans, when provoked to anger, become very wild with rage and they are dangerous like earthquake. They will be violent and unrelenting. They are slow and steady, plodding and persevering, patient and persistent, enduring and executive. They are conservative. They will never waste their energy. Being a fixed sign, these persons will have strong will. They will be determined and dogmatic. Anything done is deliberate and well-thought-out beforehand. They will not mind to bide their time till they feel that it is advantageous and wise to act. When this house is afflicted, the person will have the vices, e.g., laziness and self-indulgence. These are their faults. They may nurse such disorders producing fatal results. As it is both an earthy and fixed sign, the person both in Taurus will have a sharp eye on his money, worldly possessions and impelling appetite for food (second sign of the Zodiac second house for food) and preferring sweets. He will worship money and those which money can buy. They concentrate their thoughts. They have immense power and will. They become worldly and take pleasure in the good things of life. They are fond of ease, comfort and feast. They live in their feelings rather than in their minds. If they were to energise their minds a little more and live little less in their feelings, they will help themselves to maintain good health. The persons born in this sign will be straightforward and natural. Their nature will be plain. They do not jump to conclusions without considering the pros and cons. One can depend on their opinion as it will be unbiased and honest. As Venus rules this sign, the person will be ambitious and cheerful. As it is the second sign of the Zodiac representing face, expression, etc., and as Venus owns it, he will be ever smiling. He may be highly diplomatic. It's difficult to understand him. Venus shows that he will come upon a legacy at any part of his life because he will command the good will and sincere affection of his relatives. Venus also indicates that he will be fortunate and Goddess Lakshmi will bless him with ornaments, costly jewels, gems, furniture, conveyance and comforts. He will also be blessed with estates, garden etc, and his hobby also will be horticulture. He wit evince keen interest in such and lead a pleasant life. All pleasurable natural scenery will appeal to his mind. He will prefer solitude and rural lire if Saturn lends its assistance by forming beneficial aspect. Taurus being the second sign of the Zodiac, it includes one's speech. People born in Taurus have their knowledge and intuition deeply settled. They are not verbose. They formulate their owo opinions. Generally they do not go wrong. They hold fast to their own opinions. They do not yield to others' suggestions or orders. They will prove to be very stubborn and steadfast. They will argue and convince others; but to change their view, once formed, is out of question. They will be very slow in accomplishment which is correct when certain circumstances need great deliberation; Anyhow they need more some speed to cope with majority of theft work without mulling matters over and over again. They are the best long-term planners. In spite of any opposition or criticism from others, they will carry out their original plan, fight it out and emerge victorious, triumphant and successful. As Venus rules this sign, in love affairs, they will continue to be loyal and true to the one whom the person likes, even though there may be opposition or upsetting conditions. A little of self-control is necessary in early life : especially when Taurus receives aspect from Saturn or if Saturn were to be in the ascendant in Taurus. For they enjoy the 'fleshpots' and the pleasant things of life to such a great extent that they will have unbounded appetite. One is to try to lead a temperate life. Venus gives taste in arts, music, sculpture, cinema, drama, etc. Yet, they are the lucky people who know the value of money ; how to handle it and never give away easily. They will be at ease only when they receive money, put it in the pocket or keep it in safe or deposit in the bank. They do not believe in mere hopes of making money or realising the entangled money on a later date. Though they believe that 'Haste is waste', yet to make money, they do not hesitate.",
+    "ta": "ரிஷபம் நிலம் முக்கோணத்தில் முதலாவது, ஸ்திர ராசிகளிலும் முதலாவது. நிலத் தன்மையால் பல எரிச்சல்களையும் பொறுத்துக்கொள்வர்; நீண்ட பொறுமை; நிலைத்த உழைப்பு; முடிவுக்காகக் காத்திருப்பர். ஆனால் கோபம் வந்தால் நிலநடுக்கம் போலக் கொடூரமாகி, இரக்கமின்றிச் செயல்படலாம். மெதுவாகவும் நிலையாகவும், விடாமுயற்சியும் நிர்வாகத் திறனும்; பழமைவாதம்; ஆற்றலை வீணாக்க மாட்டார்கள். ஸ்திர ராசியாதலால் வலுவான மனம், உறுதி, பிடிவாதம். செயலுக்கு முன் ஆழ்ந்து யோசிப்பர். பாதிக்கப்பட்டால் சோம்பல், சுயபோக வாழ்க்கை. பணத்தின் மீதும், உடனடி பொருட்களின் மீதும், உணவு (இரண்டாம் ராசி, இரண்டாம் வீடு) மற்றும் இனிப்பின் மீதும் நாட்டம் அதிகம்; பணத்தையும் பணத்தால் வாங்கக்கூடியவற்றையும் வணங்குவர். சுகம், வசதி, விருந்து விரும்புவர்; உணர்ச்சியில் வாழ்வர். ஆற்றல் நிறைந்த மனதுடன் நேர்மையானவர், இயல்பானவர்; முடிவுகள் பாரபட்சமற்றவை. சுக்கிரன் ஆளுவதால் லட்சியமும் மகிழ்ச்சியும் உடையவர்; ராஜதந்திரம். சனியின் அனுகூலப் பார்வை இருந்தால் தனிமையும் கிராம வாழ்க்கையும் விரும்புவர். வாழ்நாளில் எதிர்பாராத சொத்து வரலாம்; உறவினர் நல்லெண்ணம். சுக்கிரன் நகைகள், ரத்தினங்கள், மரச்சாமான்கள், வாகனம், வசதிகளைத் தருவார். தோட்டம், தோட்டக்கலை விருப்பம். வாக்கில் அதிகம் பேசமாட்டார்; தம் கருத்துகளைத் தாமே உருவாக்குவர்; பிறர் ஆலோசனைக்கு வளைய மாட்டார்; ஒருமுறை கருத்து உருவானால் மாற்றுவது கடினம். மெதுவான நிறைவேற்றம், ஆனால் நீண்டகாலத் திட்டமிடலில் சிறந்தவர்; எதிர்ப்புக்கிடையிலும் தம் திட்டத்தை நிறைவேற்றுவர். காதலில் விசுவாசம். இளமையில் சுய கட்டுப்பாடு வேண்டும், சனி பார்வை இருந்தால் குறிப்பாக. சுவையான உணவும் இன்பமும் மிகுதியாக விரும்புவதால் மிதமான வாழ்க்கை. கலை, இசை, சிற்பம், சினிமா, நாடகத்தில் ரசனை. பணத்தின் மதிப்பறிவர்; எளிதில் கொடுக்கமாட்டார்கள்; பணம் கைக்குக் கிடைக்கும்போதுதான் நிம்மதி."
+   },
+   {
+    "id": "WEAKNESS",
+    "page": 129,
+    "titleTa": "பலவீனம்",
+    "en": "One should not be so obstinate, nor slow, in action. Also one should not be so selfish nor vindictive by retaining anger for a very long time.",
+    "ta": "பிடிவாதமாகவோ, செயலில் மந்தமாகவோ இருக்கக்கூடாது; சுயநலமும், நீண்ட நாள் கோபத்தைப் பிடித்து வைத்திருப்பதும் கூடாது."
+   },
+   {
+    "id": "HEALTH",
+    "page": 129,
+    "titleTa": "ஆரோக்கியம்",
+    "en": "Normally these persons have robust health. They will appear to have super-human strength. They are best adapted for mechanical and laborious pursuits. They appear to suffer from an over- abundance of life ; rather than a deficiency of it. Unlike others they are less sensitive. to pains. They will never admit physical disability. If they fall ill, they suffer for a long time without revealing it. Their recuperative powers are not satisfactory. Hence their recovery is generally slow.",
+    "ta": "பொதுவாக உறுதியான ஆரோக்கியம்; மனிதர்களுக்கு மேலான வலிமை போலத் தோன்றுவர். இயந்திரம், கடின உழைப்புப் பணிகளுக்கு ஏற்றவர். வாழ்க்கை மிகுதியால் பாதிக்கப்படுபவர்போல் தோன்றுவர்; வலிக்கு உணர்திறன் குறைவு; ஊனத்தை ஒப்புக்கொள்ளமாட்டார். நோயுற்றால் நீண்ட நாள் சொல்லாமல் துன்பப்படுவர்; மீட்சி தாமதமாக இருக்கும்."
+   },
+   {
+    "id": "DISEASE",
+    "page": 129,
+    "titleTa": "நோய்",
+    "en": "Generally, whenever Taurus is afflicted one suffers from tonsils, diphtheria, pyorrhoea or from the affections of the throat, palate and neck. It also shows that one may ail from cold and apoplexy. Constipation, plethora and similar difficulties may be experienced as age advances. As Taurus denoted throat, it is that part of the body which is most susceptible to illness. As it is the second sign of the Zodiac, pimples in the face and eye-sore always give trouble.",
+    "ta": "ரிஷபம் பாதிக்கப்பட்டால் தொண்டை அழற்சி, டான்சில், பல் ஈறு நோய், தொண்டை, அண்ணம், கழுத்து தொல்லைகள்; சளி, பக்கவாதம்; வயது ஏற ஏற மலச்சிக்கல், இரத்த மிகை. தொண்டை என்பதால் அதுவே எளிதில் பாதிக்கப்படும் உறுப்பு; இரண்டாம் ராசியாக முகத்தில் பருக்களும் கண் தொல்லையும் தொல்லை தரும்."
+   },
+   {
+    "id": "FINANCE",
+    "page": 129,
+    "titleTa": "பணம்",
+    "en": "Patience and perseverance pays the Taurus borns. They will be able to accumulate and hoard money. They will be cautious while spending, especially when they are in need. When once fortune is made, they spend to their satisfaction, keeping a portion always in reserve even though they do not risk in money matters. Never will they squander unnecessarily. As Mercury owns both the second and the fifth houses from Taurus, they have the gambling temperament also. Luckily they will often gain especially during Mercury periods. As they have patience and perseverance, they are able to put on a 'poker face' easily, whenever necessary. Generally, Saturn is held the worst malefic. But for people born in Taurus Saturn becomes a benefic by owning the most favourable houses nine and ten. Houses 9 and 10 denote what meritorious deed one has done in the previous birth and what fortune one can expect in this birth. They work for material status. They will invest on estates and grow fruits, flowers, tea, coffee; etc. They will have gardens and groves. Mercury also shows that they will be able to get money for others. Hence they may be brokers, underwriters etc., to collect share capital for an industry or arrange with bankers for overdraft facilities. They are practical and build their fortune on a steady, firm and reinforced foundation. They don't take chances. They do not spend away to the very last paise of their income but always keep something in reserve. They will measure their success only from their savings.",
+    "ta": "பொறுமையும் விடாமுயற்சியும் பலன் தரும்; சேமிக்கவும் குவிக்கவும் முடியும். தேவைப்படும்போது செலவில் கவனம்; செல்வம் சேர்ந்ததும் திருப்தியாகச் செலவிடுவர், ஆனால் எப்போதும் ஒரு பங்கை இருப்பாக வைப்பர்; அநாவசியமாக வீணாக்கமாட்டார்கள். புதன் இரண்டாம், ஐந்தாம் வீடுகளுக்கு அதிபதி என்பதால் சூதாட்ட மனப்பான்மை உண்டு; புதன் தசையில் பெரும்பாலும் ஆதாயம். பொறுமையால் \"போக்கர் முகம்\" எளிதாகக் காட்டுவர். சனி ரிஷபத்துக்கு 9, 10 வீடுகளின் அதிபதியாக நன்மையானவர் (முந்தைய பிறவி புண்ணியமும் இந்தப் பிறவியின் அதிர்ஷ்டமும்). சொத்து, தோட்டம், பழம், பூ, தேயிலை, காபி முதலியவற்றில் முதலீடு; பிறருக்குப் பணம் திரட்டித் தருவதிலும் திறமை: தரகர், காப்பீட்டாளர், தொழிலுக்கு முதல் திரட்டுபவர், வங்கி மிகைப்பற்று ஏற்பாடு. நடைமுறையானவர்; உறுதியான அடித்தளத்தில் செல்வம்; ஆபத்து எடுக்கமாட்டார்கள்; வருமானம் சேமிப்பால்தான் வெற்றியை அளப்பர்."
+   },
+   {
+    "id": "PROFESSION",
+    "page": 130,
+    "titleTa": "தொழில்",
+    "en": "As those born In Taurus desire to _be comfortable and enjoy life to the full, they always go in for the best-paid profession. They have great liking to trade in luxury goods.As Venus rules this sign, they deal in furs, cosmetics, scents, costly jewels and gems. As it is the second sign of the Zodiac and as the second house indicates finance, they may be bankers, or one in the board of company. managements. Stock- brokers, treasurers, cashiers, speculators, gamblers, race-goers are mostly born in Taurus. As Rishaba is said to be the sign of agriculture (Krishi), they may be agriculturists, farmers, gardeners, nursery owners etc. Venus being the chief governor for music, pleasure and social success, they will be excellent musicians. actors, film producers and owners of theatres. Also bill collectors, employees in the revenue or agricultural department, book binders, dress- makers, tailors, chemists, printers, decorators, insurance agents, bus owners, taxi permits, automobile transport owners are governed by Taurus. Those who deal in flowers, mirrors, glasses, mica, plastic, rubber, rice, cows, cattle, milk, dairy farm, ice-cream, parlour, silk, cotton, vegetables, petrol, sugarcane and sugar are also those who are born having that planet which indicates their profession of Taurus. As Venus is feminine planet and the sign Taurus is also, feminine, one may be employed in girl's school and ladies club, Law court, Income-tax department, Sales tax department etc. Dealings in earrings, rings, watches, insulators, hats, shoes, leather, hides and skins, leather pocket books, purse, traveling bags, necklaces, garlands, canes etc. are indicated by venus. When so many modes of earnings are attributed to Taurus. It is left to the ingenuity of the astrologer to judge by considering the other aspects : for instance, one is consider which planet occupies Taurus ; which aspects the sign, or the lord of the Sign, Venus etc. For example, he who supplies boiling milk will have Mars, and the sign Taurus in any manner connected, so that Taurus denotes cow, Moon milk and Mars the fiery planet, to boil it. But he who deals with ice-cream will have Saturn and Moon connected with Taurus or Venus, its lord, so that Venus denotes cow, Moon milk and the cold binding planet cools down and brings out ice-cream. Venus denotes silk; Venus and Sun indicate silk with lace. Venus and Mars show the dealers in Rayon : Venus with Mercury indicates cloth merchants. Saturn shows mineral products : Moon and Saturn denote kerosene as Moon is watery : Venus, Moon and Saturn indicate petrol as Venus shows refinement and is also the chief governor for motor cars etc. Venus is Tejas ; beauty and Skin. Saturn is for the hair-growth. Sun for wool ; Mars for industry. Venus and Saturn show that one will deal in skins and hides as Saturn is the chief governor for longevity and indicates the dead. So Saturn and Venus indicate dead skin. Mars indicates industry. If Venus were to be in the twelfth house, then dealings in shoes is to be predicted as 12th house shows foot. Foot-wear dealers will have Venus, Saturn and. Mars as the planets indicating profession. If Venus is connected with second house it denotes money purse ; 3rd house shows hand-bag. Venus, Saturn and Mercury show that the native will deal in exports and imports of leather goods. If Sun also has any connection with them he will deal in woolen goods, carpets etc. Venus is for scents and for beauty : If Venus is connected with Moon, he will deal in scents and scented oils ; If Venus and Moon receive aspect from Mars, the native may manufacture scented soaps : If Sun is also connected, it indicates medicated soaps; If Venus and Mars alone are connected, they show scented powders. Venus, Sun and Moon denote Anjan for the eye or eyetex. Venus, Mars and Moon in the 3rd and 12th houses indicate the fancy colours in liquid used to polish the nails like cutex. Planets in Taurus indicating vehicle show that he will have four-legged vehicle ; Mars suggests that it will be run by motor ; i.e. there is mechanical contrivance ; Saturn or Lord of 6 connected with the planets indicating profession and Taurus show that he will be a taxi-driver. In this manner one is to analyse and judge, it whatever profession they are, they will prove to be good administrators maintaining discipline and controlling others. They are hard to budge, If they once make a decision ; they will go ahead even though there may be opposition. If they have partners in business, it is advisable that the partners do not confront them with fresh ideas suddenly, off and on. They (the partners of Taurus born) should wait, select a time and plant the seed. Carefully and cautiously they have to impress on the mind of the' Taureans ; allow time for them to accept the idea 'slowly ; then they themselves will come out with a little improvement or modification to the original idea, regard it as their own and finally put the proposal into practice. In service, Taureans are found to be faithful to the end.",
+    "ta": "ஆடம்பரமான வாழ்க்கையை அனுபவிக்க விரும்புவதால் நல்ல ஊதியமுள்ள தொழில்களை நாடுவர்; ஆடம்பரப் பொருட்களின் வணிகம். சுக்கிரன் ஆள்வதால் ரோமம், அழகுசாதனம், வாசனைப் பொருள், நகை, ரத்தினம் வணிகம். இரண்டாம் ராசி, இரண்டாம் வீடு பணத்தைக் குறிப்பதால் வங்கியாளர், நிர்வாகக் குழு, பங்குத் தரகர், பொருளாளர், காசாளர், ஊக வணிகர், சூதாடி, குதிரைப் பந்தயம் ஆகியவை அதிகம். விவசாயம் (கிருஷி), தோட்டம், நர்சரி. இசை, நடிப்பு, திரைப்படத் தயாரிப்பு, திரையரங்கு; கட்டண வசூலிப்பவர், வருவாய்/விவசாயத் துறை ஊழியர், புத்தக பைண்டர், ஆடை தைப்பவர், தையல்காரர், வேதியியலர், அச்சுத் தொழில், அலங்காரம், காப்பீட்டு முகவர், பேருந்து, டாக்சி, வாகன நிறுவனங்கள். மலர், கண்ணாடி, மைக்கா, பிளாஸ்டிக், ரப்பர், அரிசி, பசு, பால், பால்பண்ணை, ஐஸ்கிரீம், பட்டு, பருத்தி, காய்கறி, பெட்ரோல், கரும்பு, சர்க்கரை வணிகம். சுக்கிரன் பெண்பால், ரிஷபமும் பெண் ராசி என்பதால் பெண்கள் பள்ளி, பெண்கள் கழகம், நீதிமன்றம், வருமான வரித் துறை, விற்பனை வரித் துறை. காதணி, மோதிரம், கைக்கடிகாரம், மின்கடத்தாப் பொருட்கள், தொப்பி, காலணி, தோல், தோல் பை, பணப்பை, மாலை, கரும்பு போன்றவை. ஒரே தொழிலுக்குப் பல வழிகள்; ஜோதிடர் அதை பிற அம்சங்களைக் கொண்டு தீர்மானிக்க வேண்டும். உதாரணமாக, கொதிக்கும் பாலை விற்பவருக்குச் செவ்வாய்; ஐஸ்கிரீமுக்குச் சனி, சந்திரன்; பட்டுக்கு சுக்கிரன்; ரேயான் வணிகத்துக்குச் சுக்கிரன்-செவ்வாய்; கனிமப் பொருட்களுக்குச் சனி; மண்ணெண்ணெய்க்குச் சந்திரன்-சனி; பெட்ரோலுக்குச் சுக்கிரன்-சந்திரன்-சனி; தோல், காலணி, பணப்பை போன்றவற்றுக்குச் சுக்கிரன், சனி, செவ்வாய் முதலியவை. நிர்வாகத்தில் ஒழுக்கமும் கட்டுப்பாடும் உள்ள தலைவர்; ஒரு முடிவெடுத்தால் எதிர்ப்பிருந்தும் செல்வார். பங்குதாரர்கள் திடீரென்று புதிய யோசனைகளை முன்வைக்கக்கூடாது; சரியான நேரம் தேர்ந்து மெதுவாக விதைக்க வேண்டும்; அவர் அதைத் தம் யோசனையாக ஏற்று நடைமுறைப்படுத்துவார். பணியில் இறுதிவரை விசுவாசம்."
+   },
+   {
+    "id": "DOMESTIC",
+    "page": 134,
+    "titleTa": "குடும்பச் சூழல்",
+    "en": "Men born in Taurus are good providers and the women are good home- makers. There will be happy and harmonious life. They have comfort, rest and peace at home. They like their own native land. Scenery will attract them. Peace, pleasure, prosperity, property, popularity and position mean much to them. Taureans always supply sumptuous food and give feast to others. If they are not served similarly by the guest, they cannot tolerate. They decorate the house, keep furniture etc., tidy and maintain their home in good condition.",
+    "ta": "ஆண்கள் நல்ல பராமரிப்பாளர்கள், பெண்கள் நல்ல இல்லத்தரசிகள்; மகிழ்ச்சியும் அமைதியும் கொண்ட வாழ்க்கை. வீட்டில் ஆறுதலும் ஓய்வும் சமாதானமும்; தம் சொந்த நாட்டை விரும்புவர்; இயற்கைக் காட்சிகள் கவர்ச்சி. அமைதி, இன்பம், செழிப்பு, சொத்து, புகழ், பதவி முக்கியம். மிகுந்த விருந்து தருவர்; விருந்தினர் அதற்கு ஈடு செய்யாவிட்டால் பொறுக்க மாட்டார்கள். வீட்டை அலங்கரித்து, சுத்தமாக நல்ல நிலையில் வைத்திருப்பர்."
+   },
+   {
+    "id": "ROMANCE",
+    "page": 134,
+    "titleTa": "திருமணமும் இல்வாழ்வும்",
+    "en": "People born in Taurus are not generally impulsive. They take much time to take a decision in the matter of selecting the partner in life. If once they decide that a particular individual is ideal, they will stick on and will never leave a stone unturned till they come out successful. Since the sign is an earthy, one, those born in the other two earthy signs or in the three watery signs will prove to be good partners contributing to peace, maintaining harmony and leading a happy life. There may be romances for Taurus-born If they fall in love with any, they are faithful to them to the last. Their emotions will be deer. They do not like to quarrel and they hate confusion'. The men born In Taurus will have loving wives and the ladies born In this sign will have devoted husbands Love is real to them. They will always be fulfill their social and financial obligations. They will always be affectionate, warm and ever-loving. They respond to kind treatment. They are flattered by luxury. Divorce is rare. They will endure and suffer even untold miseries and never desert the partner. They will have such a feeling that the partner must be sheltered, looked after, attended upon, cared for and protected under any circumstances. Taurus husbands adore their wives. They do not mind taking all pains to supply them whatever they want. They may have their partners born in a higher rank. They may not be already related as the lord of the seventh house is also lord of the twelth house. They are reliable, generous and faithful. They will never neglect their house. They want their wives to dress nicely and look attractive. They wiil never find their domestic life tiresome, nor at any part of their life will they regret marriage and look back to the school days when they were bachelors and were free to do as they pleased. Taurus wives will behave both like a mother and also a wife. They will appear to be reserved and calm. They may doubt their husband's love and affection and they make no secret of their love. They will also be equally anxious to lead a happy harmonious wedded life. They seem to care more for their homes than they do for themselves between husband and wife. They are more satisfactory and dutiful parents than they do as partners in life. The softer side of their nature endows them with a gentleness, a peacefulness and a serenity which makes them the most desirable companions in any relationship of life. Their feelings are not easily hurt. If does not find hasty or ill-timed expression.",
+    "ta": "உடனடியாக உணர்ச்சிவசப்படாதவர்; துணையைத் தேர்ந்தெடுக்க நீண்ட நேரம் எடுப்பர்; ஒருவரை ஏற்றவர் என்று முடிவெடுத்தால் வெற்றி பெறும் வரை முயற்சிப்பர். ரிஷபம் நிலம் ராசி என்பதால் மற்ற இரண்டு நில ராசிகள் அல்லது மூன்று நீர் ராசிகளில் பிறந்தவர்கள் நல்ல துணைவர்களாக அமைதியும் இணக்கமும் தருவர். காதல் வந்தால் இறுதிவரை விசுவாசம்; உணர்ச்சிகள் ஆழமானவை; சண்டையும் குழப்பமும் வெறுப்பர். ரிஷப ஆண்களுக்கு அன்பான மனைவி; ரிஷப பெண்களுக்கு அர்ப்பணமான கணவர். அன்பு உண்மையாக இருக்கும்; சமூகக், பொருளாதாரக் கடமைகளை நிறைவேற்றுவர். எப்போதும் பாசமும் அரவணைப்பும் உடையவர்; அன்பான நடத்தைக்குப் பதில் தருவர்; ஆடம்பரத்தில் மகிழ்வர். விவாகரத்து அரிது; துன்பம் இருந்தும் துணையை விட்டு விலகமாட்டார்கள். ரிஷப ஆண்கள் மனைவியை வணங்குவர், அவளுக்கு வேண்டியதைத் தர எல்லா முயற்சியும் எடுப்பர்; அவள் உயர்ந்த நிலையிலிருந்து வரலாம். ஏழாம் அதிபதி பன்னிரண்டாம் அதிபதியாகவும் இருப்பதால் முன்பே உறவினராக இல்லாமலும் இருக்கலாம். நம்பகமும் தாராளமும் விசுவாசமும்; வீட்டைப் புறக்கணிக்கமாட்டார்கள். மனைவி நன்றாக உடுத்தி அழகாகத் தோன்ற விரும்புவார்கள். ரிஷப பெண்கள் தாயையும் மனைவியையும் போல நடப்பர்; அமைதியும் நிதானமும்; கணவரின் அன்பை சந்தேகிக்கலாம், ஆனால் அன்பை மறைக்கமாட்டார்கள்; வீடு மீது அக்கறை. சிறந்த பெற்றோர். மென்மையும் அமைதியும் அவர்களை விரும்பத்தக்க துணையாக்கும்; உணர்வுகள் எளிதில் புண்படாது."
+   },
+   {
+    "id": "CHILDREN",
+    "page": 136,
+    "titleTa": "குழந்தைகள்",
+    "en": "Parents born in Taurus will appear to be strict with their children. They may even appear to be tyrannical to them. Anyhow their intentions are good and their children will, in the long run, realise it and will be much benefited. Therefore they are capable and conscientious parents who try to lead a noble family life. The children will always treat the parents with respect and bring them great pleasure and satisfaction. They will be well-built and intelligent.",
+    "ta": "ரிஷப பெற்றோர் குழந்தைகளிடம் கண்டிப்பாகத் தோன்றலாம், கொடுங்கோலர்போலவும் தெரியலாம்; ஆனால் நோக்கம் நல்லது; நீண்ட காலத்தில் குழந்தைகள் அதை உணர்ந்து பெரிதும் பயனடைவர். திறமையான, மனசாட்சியுள்ள பெற்றோர். குழந்தைகள் மரியாதை செலுத்தி மகிழ்ச்சி தருவர்; உடல்வாகும் அறிவும் நன்றாக அமையும்."
+   },
+   {
+    "id": "HANDWRITING",
+    "page": 136,
+    "titleTa": "கையெழுத்து",
+    "en": "As Taurus-borns have a great liking to beauty and art, due to Venus, their handwriting will be beautifully curved small and smooth. Being economical, they do not leave much space in between words or in between lines. They do not use offensive words. They are always mild and gentle. Invariably, they put a full-stop after their signature. They underline their signature with artistic hooks at both ends.",
+    "ta": "அழகு, கலை மீதான விருப்பம் (சுக்கிரன்) காரணமாக, கையெழுத்து அழகாக வளைவாக, சிறியதாக, மென்மையாக இருக்கும். சிக்கனமானவர்கள் என்பதால் சொற்களுக்கிடையிலும் வரிகளுக்கிடையிலும் இடைவெளி குறைவு. தீய சொற்களைப் பயன்படுத்தமாட்டார்கள்; எப்போதும் மென்மையும் அமைதியும். கையொப்பத்துக்குப் பின் முற்றுப்புள்ளி வைப்பர்; கையொப்பத்தை இருபுறமும் கலைநயமான கொக்கிகளுடன் அடிக்கோடிடுவர்."
+   },
+   {
+    "id": "LUCKY_DAY",
+    "page": 136,
+    "titleTa": "அதிர்ஷ்ட நாள்",
+    "en": "Generally Friday is their lucky day. Grand success can be expected on Wednesdays; Saturdays delay the results, but do not deny nor disappoint. Ultimately on Saturdays, Taurus horns will be crowned with success. Tuesdays show extravagant expenses. Thursdays denote gain through partner. Monday, indicate short journey and pleasant correspondence. Sundays show rest at home.",
+    "ta": "பொதுவாக வெள்ளி அதிர்ஷ்ட நாள். புதன் கிழமைகளில் பெரும் வெற்றி எதிர்பார்க்கலாம்; சனிக்கிழமைகள் பலனைத் தாமதப்படுத்தும், ஆனால் மறுக்காது; இறுதியில் சனிக்கிழமைகளில் வெற்றி. செவ்வாய் அதிக செலவு. வியாழன் கூட்டாளியின் மூலம் ஆதாயம். திங்கள் குறுகிய பயணமும் இனிய கடிதத் தொடர்பும். ஞாயிறு வீட்டில் ஓய்வு."
+   },
+   {
+    "id": "LUCKY_COLOUR",
+    "page": 136,
+    "titleTa": "அதிர்ஷ்ட நிறம்",
+    "en": "Pink, green and white.",
+    "ta": "இளஞ்சிவப்பு, பச்சை, வெள்ளை."
+   },
+   {
+    "id": "LUCKY_NUMBER",
+    "page": 137,
+    "titleTa": "அதிர்ஷ்ட எண்",
+    "en": "6, 5 and 8.",
+    "ta": "6, 5, 8."
+   },
+   {
+    "id": "LUCKY_STONE",
+    "page": 137,
+    "titleTa": "அதிர்ஷ்டக் கல்",
+    "en": "Sapphire, diamond and emerald.",
+    "ta": "நீலக்கல் (சபையர்), வைரம், மரகதம்."
+   },
+   {
+    "id": "PLACES",
+    "page": 137,
+    "titleTa": "இடங்கள்",
+    "en": "indicated Taurus are stables, cow- houses, Oattle sheds, furniture marts, pasture grounds away from the houses, deforested areas, cleared grounds, trees which are close by, low rooms and cellars.",
+    "ta": "தொழுவம், பசு கொட்டகை, கால்நடைக் கொட்டில், தளவாடக் கடைகள், வீட்டிலிருந்து தொலைவான மேய்ச்சல் நிலங்கள், காடழிக்கப்பட்ட நிலங்கள், சுத்தம் செய்யப்பட்ட நிலங்கள், அருகிலுள்ள மரங்கள், தாழ்வான அறைகள், பாதாள அறைகள்."
+   },
+   {
+    "id": "COUNTRIES",
+    "page": 137,
+    "titleTa": "நாடுகள்",
+    "en": "Persia, Modia, Mozendaram, Azebijan, Caucusus, Georgia, Cyprus, Asia Minor, Poland, the Archipelago. Holland, white Russia and Ireland.",
+    "ta": "பாரசீகம், மோடியா, மோசென்டரம், அசர்பைஜான், காகசஸ், ஜார்ஜியா, சைப்ரஸ், ஆசியா மைனர், போலந்து, ஏஜியன் தீவுக்கூட்டம், ஹாலந்து, வெள்ளை ரஷ்யா, அயர்லாந்து."
+   },
+   {
+    "id": "CITIES",
+    "page": 137,
+    "titleTa": "நகரங்கள்",
+    "en": "Rhodes, Mantua, Dublin, Parma, Leipzig, Franconia, Palermo, Bhadra, Marwar, Ghosha, the Yamuna, Matshya, Mathura, Surasena, Panchala, Ayodhya, Kuru, Parlyatra, Mountain, Kapisthala and Hastinapura.",
+    "ta": "ரோட்ஸ், மான்ட்டுவா, டப்ளின், பார்மா, லைப்சிக், ஃபிராங்கோனியா, பாலெர்மோ, பத்ரா, மார்வார், கோஷா, யமுனை, மத்ஸ்யா, மதுரா, சூரசேனர், பஞ்சாலம், அயோத்தி, குரு, பரியாத்ரா, மலை, கபிஸ்தலம், அஸ்தினாபுரம்."
+   },
+   {
+    "id": "ANIMATE",
+    "page": 137,
+    "titleTa": "உயிருள்ள, உயிரற்ற பொருட்கள்",
+    "en": "White flowers, reciters of sacred hymns, grammarians, miners, potters, priests, astrologers, observers of vows, merchandise, kings, wealthy persons, yogins, cartmen, cows, bulls, aquatic animals. agriculturists, mountains, men in authority, garments, fruits, gems, musicians and lovers.",
+    "ta": "வெள்ளை மலர்கள், வேத மந்திரம் ஓதுபவர்கள், இலக்கணவாதிகள், சுரங்கத் தொழிலாளர், குயவர், பூசாரி, ஜோதிடர், விரதம் கடைப்பிடிப்பவர், வணிகப் பொருட்கள், அரசர்கள், செல்வந்தர்கள், யோகிகள், வண்டிக்காரர், பசு, காளை, நீர்வாழ் உயிரினங்கள், விவசாயிகள், மலைகள், அதிகாரம் உள்ளவர்கள், ஆடைகள், பழங்கள், ரத்தினங்கள், இசைக் கலைஞர்கள், காதலர்கள்."
+   },
+   {
+    "id": "CORRECTION",
+    "page": 137,
+    "titleTa": "திருத்திக்கொள்ள வேண்டியவை",
+    "en": "So for the general indications of Taurus are dealt with in detail. They are applicable only when Taurus sign is not afflicted by any planet. But if the birth-sign Taurus receives adverse aspects, the person will have undesirable effects and results. It is necessary to cultivate some virtues and try to avoid the evil effect. For instance, Mars and Mercury afflicting the ascendant Taurus, or Mars afflicting Mercury in Taurus or Mercury forming evil aspect with Mars in Taurus makes one a criminal, Saturn and Mercury give them the courage to commit forgery and cheat the bank. Saturn alone afflicting the ascendant makes the native lazy and lethargic. They don't realise that life moves ever forward. They generally do not move along with it. So they are soon out of step and out of tune. People born in Taurus, having these adverse aspects have to correct themselves, when alone they can enjoy the real fruits of life in this world. Planets in each sign will modify the results mentioned above.",
+    "ta": "இதுவரை கூறிய ரிஷப பொதுப் பண்புகள் ராசி எந்தக் கிரகத்தாலும் பாதிக்கப்படாதபோதுதான் பொருந்தும். பிறப்பு ராசிக்குப் பாதகமான பார்வைகள் இருந்தால் தீய பலன்கள் வரும்; சில நற்பண்புகளை வளர்த்து தீய விளைவுகளைத் தவிர்க்க வேண்டும். உதாரணமாக, லக்னத்தில் செவ்வாயும் புதனும் பாதிக்கும் ரிஷபம், அல்லது ரிஷபத்தில் செவ்வாய் புதனைப் பாதிப்பது, அல்லது புதன்-செவ்வாய் தீய பார்வை குற்றவாளியாக்கும்; சனியும் புதனும் மோசடிக்கும் வங்கி ஏமாற்றுக்கும் துணிவளிக்கும். லக்னத்தில் சனி மட்டும் பாதித்தால் சோம்பலும் மந்தமும்; காலத்துடன் முன்னேறாமல் பின்தங்கிப் போவர். இத்தகைய பாதகங்களைக் கொண்டவர் தம்மைத் திருத்திக்கொள்ள வேண்டும்; அப்போதுதான் வாழ்வின் உண்மையான பலன்களை அனுபவிப்பர். ஒவ்வொரு ராசியிலும் உள்ள கிரகங்கள் மேற்சொன்ன பலன்களை மாற்றும்."
+   }
+  ]
  }
 };
 
