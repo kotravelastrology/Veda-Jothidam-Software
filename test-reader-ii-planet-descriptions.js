@@ -74,4 +74,12 @@ assert.ok(rahu.en.endsWith('But if Kethu is in a good house and its lord is also
 assert.ok(!rahu.en.includes('Neither the Hindus nor the Westerners knew'), 'the uranus section is its own entry');
 assert.ok(!rahu.en.includes('THE NODES - RAHU AND KETHU'), 'the heading is not in the text');
 assert.ok(rahu.ta.length > 0 && rahu.titleTa.length > 0);
+const uranus = P.Uranus;
+assert.strictEqual(uranus.pageFrom, 469);
+assert.strictEqual(uranus.pageTo, 480);
+assert.strictEqual(uranus.page, 469);
+assert.ok(uranus.en.startsWith('Neither the Hindus nor the Westerners knew about the existence of Uranus'));
+assert.ok(uranus.en.endsWith('fortune in foreign land.'));
+assert.ok(!uranus.en.includes('NEPTUNE'), 'the neptune section is its own entry');
+assert.ok(uranus.ta.length > 0 && uranus.titleTa.length > 0);
 console.log('test-reader-ii-planet-descriptions ok');
