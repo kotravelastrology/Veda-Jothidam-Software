@@ -46,4 +46,13 @@ assert.ok(fourth.en.endsWith('their children etc., are also shown by the 4th hou
 assert.ok(fourth.ta.length > 0 && fourth.titleTa.length > 0);
 assert.ok(!fourth.en.includes('Fifth House'), 'the fifth house is its own entry');
 assert.ok(!fourth.en.includes('who would have caused loss'), 'the third house is its own entry');
+const fifth = H.Fifth;
+assert.strictEqual(fifth.pageFrom, 287);
+assert.strictEqual(fifth.pageTo, 290);
+assert.strictEqual(fifth.page, 287);
+assert.ok(fifth.en.startsWith("Rajanta (Soverign's mark)"));
+assert.ok(fifth.en.endsWith('elder brother\'s partner in business or maraka (death).'));
+assert.ok(fifth.ta.length > 0 && fifth.titleTa.length > 0);
+assert.ok(!fifth.en.includes('Sixth House'), 'the sixth house is its own entry');
+assert.ok(!fifth.en.includes('Fourth House'), 'the fourth house is its own entry');
 console.log('test-reader-ii-house-descriptions ok');
