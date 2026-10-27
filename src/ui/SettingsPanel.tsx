@@ -17,7 +17,7 @@ export interface Settings {
   showHints: boolean;
 }
 
-const DEFAULT_SETTINGS: Settings = {
+export const DEFAULT_SETTINGS: Settings = {
   theme: 'system',
   fontSize: 'medium',
   language: 'en',

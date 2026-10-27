@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useSettings, type Settings as SharedSettings } from '@/src/ui/SettingsPanel';
+import { useSettings, DEFAULT_SETTINGS, type Settings as SharedSettings } from '@/src/ui/SettingsPanel';
 
 // This page's own preferences, saved under their own key by Save Settings. Ayanamsha
 // and house system are not kept here: they live in the shared Settings store, so the
@@ -54,14 +54,31 @@ export default function SettingsView() {
   const [activeTab, setActiveTab] = useState<'general' | 'display' | 'calculation' | 'notifications' | 'profile'>('general');
   const [saved, setSaved] = useState(false);
 
-  const handleSave = () => {
+  const persistPage = (next: typeof PAGE_DEFAULTS) => {
     try {
-      localStorage.setItem(PAGE_KEY, JSON.stringify(settings));
+      localStorage.setItem(PAGE_KEY, JSON.stringify(next));
     } catch (e) {
       console.error('Failed to save settings page:', e);
     }
+  };
+
+  const flashSaved = () => {
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
+  };
+
+  const handleSave = () => {
+    persistPage(settings);
+    flashSaved();
+  };
+
+  // Puts every value on this page back to its default, including the shared
+  // ayanamsha and house system (only those two; other shared settings are left alone).
+  const handleReset = () => {
+    setSettings(PAGE_DEFAULTS);
+    updateSettings({ ayanamsha: DEFAULT_SETTINGS.ayanamsha, houseSystem: DEFAULT_SETTINGS.houseSystem });
+    persistPage(PAGE_DEFAULTS);
+    flashSaved();
   };
 
   return (
@@ -464,7 +481,7 @@ export default function SettingsView() {
         >
           💾 Save Settings
         </button>
-        <button className="px-6 py-2 bg-line/20 text-ink rounded-lg font-semibold hover:bg-line/30 transition">
+        <button onClick={handleReset} className="px-6 py-2 bg-line/20 text-ink rounded-lg font-semibold hover:bg-line/30 transition">
           ↩️ Reset to Defaults
         </button>
       </div>
