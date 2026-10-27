@@ -132,6 +132,14 @@ export function TopMenuBar() {
   };
   const REPORTS_NOT_YET_BUILT = new Set<string>([]);
 
+  // Research-menu keys → their pages (Search for Charts is handled below, it opens the chart dialog; Calculator is the Tools panel)
+  const RESEARCH_KEY_TO_PATH: Record<string, string> = {
+    research_stats: '/research',
+    research_export_ephemeris: '/print?kind=ephemeris-csv',
+    research_export_birth: '/print?kind=birth-export',
+    research_transit_time: '/report?chart=transit',
+  };
+
   // Classical References-menu keys → /references, with an optional category filter
   const REFERENCE_KEY_TO_PATH: Record<string, string> = {
     bphs: '/references',
@@ -298,6 +306,20 @@ export function TopMenuBar() {
       ],
     },
     {
+      label: 'Research',
+      key: 'research',
+      submenu: [
+        { label: 'Search for Charts', key: 'research_search' },
+        { label: 'Statistics on group of charts', key: 'research_stats' },
+        { label: '', key: 'divider-r1' },
+        { label: 'Export Ephemeris (CSV)', key: 'research_export_ephemeris' },
+        { label: 'Export Birth Chart', key: 'research_export_birth' },
+        { label: '', key: 'divider-r2' },
+        { label: 'Time of transits (Transit Finder)', key: 'research_transit_time' },
+        { label: 'Calculator', key: 'calculator' },
+      ],
+    },
+    {
       label: 'Windows',
       key: 'windows',
       submenu: [
@@ -354,12 +376,19 @@ export function TopMenuBar() {
       return;
     }
 
+    // Research menu — statistics, export and transit pages
+    if (RESEARCH_KEY_TO_PATH[submenuKey]) {
+      router.push(RESEARCH_KEY_TO_PATH[submenuKey]);
+      return;
+    }
+
     switch (submenuKey) {
       // File Menu
       case 'new':
         router.push('/report');
         break;
       case 'open':
+      case 'research_search':
         uiActions.openChartDialog('all');
         break;
       case 'recent':
