@@ -1,11 +1,95 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import type { HelpTab } from './useUIManager';
 
 interface HelpPanelProps {
   isOpen: boolean;
   onClose: () => void;
-  tab?: 'help' | 'about' | 'shortcuts';
+  tab?: HelpTab;
+}
+
+const VERSION = '9.0.0';
+const BUILD_DATE = '2026-09-07';
+
+const TABS: { key: HelpTab; label: string }[] = [
+  { key: 'help', label: 'Help' },
+  { key: 'tutorial', label: 'Tutorial' },
+  { key: 'updates', label: 'Updates' },
+  { key: 'about', label: 'About' },
+  { key: 'shortcuts', label: 'Keyboard Shortcuts' },
+];
+
+const TUTORIAL_STEPS: { title: string; text: string }[] = [
+  {
+    title: 'Create a chart',
+    text: 'Use File → New Chart. Enter the name, the date and time of birth, and the place. Choose the ayanamsha in the form; it starts from your Settings.',
+  },
+  {
+    title: 'Read the birth chart',
+    text: 'The Rasi chart and the planet positions appear on the report page. Divisional charts are under the Charts menu.',
+  },
+  {
+    title: 'Follow the dashas and transits',
+    text: 'The dasha timeline and the transit views are under the Reports and Tools menus.',
+  },
+  {
+    title: 'Save and reopen',
+    text: 'File → Save keeps the chart in this browser. File → Open lists saved charts, and the search box finds one by name, place, date or time.',
+  },
+  {
+    title: 'Adjust the settings',
+    text: 'Edit → Preferences (Ctrl+,) holds the ayanamsha, house system and node type. Turn on Balloon Help in the Help menu to see a short hint when you hover over a control.',
+  },
+  {
+    title: 'Print or export',
+    text: 'File → Print prints the chart. File → Export saves the ephemeris or the birth chart as a file.',
+  },
+];
+
+function TutorialContent() {
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-ink-soft">
+        A short walk through the main steps. Each step names the menu item to use.
+      </p>
+      <ol className="space-y-3 list-decimal list-inside">
+        {TUTORIAL_STEPS.map((step) => (
+          <li key={step.title} className="text-sm text-ink-soft">
+            <strong className="text-ink">{step.title}.</strong> {step.text}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+function UpdatesContent() {
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-ink-soft">
+        Kotravel runs in the browser, so every visit loads the version this site is serving. There is
+        no separate install to update.
+      </p>
+      <div className="text-sm text-ink-soft space-y-1">
+        <div>
+          Version you are running: <span className="text-saffron font-medium">{VERSION}</span>
+        </div>
+        <div>
+          Build date: <span className="text-saffron font-medium">{BUILD_DATE}</span>
+        </div>
+      </div>
+      <button
+        onClick={() => window.location.reload()}
+        className="px-4 py-2 text-sm font-medium rounded bg-saffron text-ink hover:bg-saffron/90 transition-colors"
+      >
+        Reload to get the newest version
+      </button>
+      <p className="text-xs text-ink-soft">
+        Reloading discards anything typed into a form that has not been saved.
+      </p>
+    </div>
+  );
 }
 
 function HelpContent() {
@@ -231,42 +315,27 @@ export function HelpPanel({ isOpen, onClose, tab = 'help' }: HelpPanelProps) {
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 p-3 border-b border-line bg-surface">
-          <button
-            onClick={() => setActiveTab('help')}
-            className={`px-4 py-2 text-sm font-medium rounded transition-colors ${
-              activeTab === 'help'
-                ? 'bg-saffron text-ink'
-                : 'bg-ink-soft/10 text-ink hover:bg-ink-soft/20'
-            }`}
-          >
-            Help
-          </button>
-          <button
-            onClick={() => setActiveTab('about')}
-            className={`px-4 py-2 text-sm font-medium rounded transition-colors ${
-              activeTab === 'about'
-                ? 'bg-saffron text-ink'
-                : 'bg-ink-soft/10 text-ink hover:bg-ink-soft/20'
-            }`}
-          >
-            About
-          </button>
-          <button
-            onClick={() => setActiveTab('shortcuts')}
-            className={`px-4 py-2 text-sm font-medium rounded transition-colors ${
-              activeTab === 'shortcuts'
-                ? 'bg-saffron text-ink'
-                : 'bg-ink-soft/10 text-ink hover:bg-ink-soft/20'
-            }`}
-          >
-            Keyboard Shortcuts
-          </button>
+        <div className="flex flex-wrap gap-2 p-3 border-b border-line bg-surface">
+          {TABS.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => setActiveTab(t.key)}
+              className={`px-4 py-2 text-sm font-medium rounded transition-colors ${
+                activeTab === t.key
+                  ? 'bg-saffron text-ink'
+                  : 'bg-ink-soft/10 text-ink hover:bg-ink-soft/20'
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
         </div>
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6">
           {activeTab === 'help' && <HelpContent />}
+          {activeTab === 'tutorial' && <TutorialContent />}
+          {activeTab === 'updates' && <UpdatesContent />}
           {activeTab === 'about' && <AboutContent />}
           {activeTab === 'shortcuts' && <ShortcutsContent />}
         </div>

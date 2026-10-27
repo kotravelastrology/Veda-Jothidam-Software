@@ -352,6 +352,7 @@ export default function ChartForm({
           <select
             id="ayanamsa"
             name="ayanamsa"
+            data-hint="Ayanamsha: the offset between the tropical and sidereal zodiac used for this chart. Lahiri is the usual default."
             value={formData.ayanamsa}
             onChange={handleChange}
             className={`${FORM_CLASSES.INPUT_BASE} ${FORM_CLASSES.INPUT_VALID}`}

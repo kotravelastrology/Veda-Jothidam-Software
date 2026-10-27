@@ -335,9 +335,12 @@ export function TopMenuBar() {
       key: 'help',
       submenu: [
         { label: 'Help Contents', key: 'contents' },
+        { label: 'Vedic Astrology Tutorial', key: 'tutorial' },
         { label: 'Keyboard Shortcuts', key: 'shortcuts' },
         { label: settings.showHints ? 'Balloon Help ✓' : 'Balloon Help', key: 'balloon' },
+        { label: 'Check for Updates', key: 'updates' },
         { label: 'About', key: 'about' },
+        { label: 'Deactivate on this Computer', key: 'deactivate' },
         { label: '', key: 'divider' },
         { label: 'Contact Support', key: 'contact' },
       ],
@@ -514,8 +517,18 @@ export function TopMenuBar() {
       case 'about':
         uiActions.openHelp('about');
         break;
+      case 'tutorial':
+        uiActions.openHelp('tutorial');
+        break;
+      case 'updates':
+        uiActions.openHelp('updates');
+        break;
       case 'balloon':
         updateSettings({ showHints: !settings.showHints });
+        break;
+      case 'deactivate':
+        // Needs a device-licence endpoint that this app does not have yet.
+        alert('Deactivate on this computer is not available in this version yet.');
         break;
       case 'contact':
         // Handle: Contact Support

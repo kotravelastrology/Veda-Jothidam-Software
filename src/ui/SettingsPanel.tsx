@@ -187,6 +187,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                 <label className="text-sm text-ink">Ayanamsha</label>
                 <select
                   value={settings.ayanamsha}
+                  data-hint="Default ayanamsha for new charts. Lahiri is the usual default; Krishnamurti is the K.P. system."
                   onChange={(e) => updateSettings({ ayanamsha: e.target.value as any })}
                   className="px-3 py-1 text-sm bg-ink-soft/10 border border-line rounded"
                 >
@@ -201,6 +202,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                 <label className="text-sm text-ink">House System</label>
                 <select
                   value={settings.houseSystem}
+                  data-hint="How the twelve houses are divided. Porphyry (Sripati) is the default."
                   onChange={(e) => updateSettings({ houseSystem: e.target.value as any })}
                   className="px-3 py-1 text-sm bg-ink-soft/10 border border-line rounded"
                 >
@@ -216,6 +218,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                 <label className="text-sm text-ink">Lunar Node (Rahu/Ketu)</label>
                 <select
                   value={settings.nodeType}
+                  data-hint="Rahu and Ketu: the mean node moves at its average speed; the true node follows its actual motion."
                   onChange={(e) => updateSettings({ nodeType: e.target.value as any })}
                   className="px-3 py-1 text-sm bg-ink-soft/10 border border-line rounded"
                 >
