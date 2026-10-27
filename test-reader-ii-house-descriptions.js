@@ -37,4 +37,13 @@ assert.ok(third.en.endsWith("who would have caused loss to the native's mother."
 assert.ok(third.ta.length > 0 && third.titleTa.length > 0);
 assert.ok(!third.en.includes('Fourth House'), 'the fourth house is its own entry');
 assert.ok(!third.en.includes('Artha (wealth)'), 'the second house is its own entry');
+const fourth = H.Fourth;
+assert.strictEqual(fourth.pageFrom, 284);
+assert.strictEqual(fourth.pageTo, 287);
+assert.strictEqual(fourth.page, 284);
+assert.ok(fourth.en.startsWith('Graha (house); Vesma (home)'));
+assert.ok(fourth.en.endsWith('their children etc., are also shown by the 4th house.'));
+assert.ok(fourth.ta.length > 0 && fourth.titleTa.length > 0);
+assert.ok(!fourth.en.includes('Fifth House'), 'the fifth house is its own entry');
+assert.ok(!fourth.en.includes('who would have caused loss'), 'the third house is its own entry');
 console.log('test-reader-ii-house-descriptions ok');
