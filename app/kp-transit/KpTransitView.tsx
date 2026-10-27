@@ -149,6 +149,20 @@ export default function KpTransitView() {
               </table>
             </div>
           </section>
+          {result.lagnaStars && (
+            <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+              <h2 className="font-semibold text-ink mb-1">இந்த லக்னத்துக்கு ஒவ்வொரு நட்சத்திரமும் என்ன குறிக்கிறது ({SIGN_TA[SIGN_EN.indexOf(result.lagnaStars.sign)]} லக்னம்)</h2>
+              <p className="text-xs text-ink-soft mb-2">நூல்: ஒரு கிரகம் ஒரு நட்சத்திரத்தில் நின்றாலும் கோசாரத்தில் சென்றாலும், அந்த நட்சத்திர அதிபதி லக்னத்திலிருந்து ஆளும் வீடுகளின் பலனைத் தரும்; ஒரே அதிபதியின் மூன்று நட்சத்திரங்களுக்கும் இதுவே. ராகு-கேது எந்த ராசியையும் ஆள்வதில்லை — அவற்றுடன் சேர்ந்த கிரகம், பார்க்கும் கிரகம், பிறகு அவை நிற்கும் ராசி-நட்சத்திர அதிபதியின் பலன். {citeTa(result.lagnaStars.source)}</p>
+              <table className="w-full text-xs" style={num}>
+                <thead><tr className="text-left text-ink-soft border-b border-line"><th className="py-1 pr-2">அதிபதி</th><th className="pr-2">நட்சத்திரங்கள்</th><th>ஆளும் வீடுகள்</th></tr></thead>
+                <tbody>
+                  {result.lagnaStars.table.map((r: any) => (
+                    <tr key={r.lord} className="border-t border-line/40"><td className="py-0.5 pr-2">{pt(r.lord)}</td><td className="pr-2">{r.starsTa.join(', ')}</td><td>{r.agent ? 'ராசி இல்லை — முகவர்' : nums(r.houses)}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          )}
         </>
       )}
     </main>

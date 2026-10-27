@@ -26,3 +26,7 @@ chosen) enter them, and the star ready reckoner of the chart. Rahu and Kethu are
 ## Not built
 The chapters on Western and Hindu transit for individual charts (printed xvii-xxix, by planet), the significance of each star and sub for each lagna (printed 40-110), the lucky-timing sections (cards, horse racing,
 tenders, lottery, printed 195-228), and the ruling-planet working of the ascendant transit. Reader I (C64), Reader II (C65) and KP-Ezine (C69) are not yet read.
+
+## What each star signifies to each lagna (Reader V printed pp.40-110, 2026-10-27)
+
+`src/report/kpLagnaStars.js`, shown on /kp-transit. For the chart's lagna: the nine star groups (three stars per lord), the houses the lord owns from the lagna, and Rahu and Ketu as agents. The houses are derived from ownership and were compared sign by sign with the lists the book prints for all twelve lagnas (`test-kp-lagna-stars.js`). The author's remarks and examples under each lagna are his observations and are not reproduced.
