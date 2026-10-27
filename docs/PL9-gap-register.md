@@ -190,3 +190,4 @@ Not built, with the reason found: Kota Chakra (111) and Sanghatta Chakra (112) -
 - 2026-10-27: Reader II Mars (pp.365-383) added to readerIIPlanetDescriptions.js: the book's prose with its Tamil summary, from the Mars heading to the Mercury heading; pinned by test-reader-ii-planet-descriptions.js.
 - 2026-10-27: Reader II Mercury (pp.383-398) added to readerIIPlanetDescriptions.js: the book's prose with its Tamil summary, from the Mercury heading to the Jupiter heading; pinned by test-reader-ii-planet-descriptions.js.
 - 2026-10-27: Reader II Jupiter (pp.398-410) added to readerIIPlanetDescriptions.js: the book's prose with its Tamil summary, from the Jupiter heading to the Venus heading; pinned by test-reader-ii-planet-descriptions.js.
+- 2026-10-27: Reader II Venus (pp.410-429) added to readerIIPlanetDescriptions.js: the book's prose with its Tamil summary, from the Venus heading to the Saturn heading; pinned by test-reader-ii-planet-descriptions.js.

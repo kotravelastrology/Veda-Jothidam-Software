@@ -47,4 +47,13 @@ assert.ok(jupiter.en.endsWith("Jupiter's direction is north-east. It is in sexti
 assert.ok(!jupiter.en.includes('VENUS - THE'), 'the venus section is its own entry');
 assert.ok(!jupiter.en.includes('MERCURY-THE UNCLE'), 'the mercury section is its own entry');
 assert.ok(jupiter.ta.length > 0 && jupiter.titleTa.length > 0);
+const venus = P.Venus;
+assert.strictEqual(venus.pageFrom, 410);
+assert.strictEqual(venus.pageTo, 429);
+assert.strictEqual(venus.page, 410);
+assert.ok(venus.en.startsWith('Astronomy : Hindus considered Venus as the most brilliant planet'));
+assert.ok(venus.en.endsWith('and enjoy extreme prosperity.'));
+assert.ok(!venus.en.includes('SATURN - SANI'), 'the saturn section is its own entry');
+assert.ok(!venus.en.includes('VENUS - THE PLEASANT PARTNER'), 'the heading is not in the text');
+assert.ok(venus.ta.length > 0 && venus.titleTa.length > 0);
 console.log('test-reader-ii-planet-descriptions ok');
