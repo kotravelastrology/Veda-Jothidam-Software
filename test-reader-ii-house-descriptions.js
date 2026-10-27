@@ -73,4 +73,13 @@ assert.ok(seventh.en.endsWith("The native might enter into partnership With his 
 assert.ok(seventh.ta.length > 0 && seventh.titleTa.length > 0);
 assert.ok(!seventh.en.includes('Eighth House'), 'the eighth house is its own entry');
 assert.ok(!seventh.en.includes('Sixth House'), 'the sixth house is its own entry');
+const eighth = H.Eighth;
+assert.strictEqual(eighth.pageFrom, 298);
+assert.strictEqual(eighth.pageTo, 303);
+assert.strictEqual(eighth.page, 298);
+assert.ok(eighth.en.startsWith('Mangalyasthana ; Ashta (eight)'));
+assert.ok(eighth.en.endsWith('Mother may gain byway of lottery, prize bond or in speculation if benefics are in the eighth house.'));
+assert.ok(eighth.ta.length > 0 && eighth.titleTa.length > 0);
+assert.ok(!eighth.en.includes('Ninth House'), 'the ninth house is its own entry');
+assert.ok(!eighth.en.includes('Seventh House'), 'the seventh house is its own entry');
 console.log('test-reader-ii-house-descriptions ok');
