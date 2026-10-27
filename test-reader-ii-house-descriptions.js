@@ -82,4 +82,13 @@ assert.ok(eighth.en.endsWith('Mother may gain byway of lottery, prize bond or in
 assert.ok(eighth.ta.length > 0 && eighth.titleTa.length > 0);
 assert.ok(!eighth.en.includes('Ninth House'), 'the ninth house is its own entry');
 assert.ok(!eighth.en.includes('Seventh House'), 'the seventh house is its own entry');
+const ninth = H.Ninth;
+assert.strictEqual(ninth.pageFrom, 303);
+assert.strictEqual(ninth.pageTo, 307);
+assert.strictEqual(ninth.page, 303);
+assert.ok(ninth.en.startsWith('Nava (ninth) ; Acharva (guru or preceptor)'));
+assert.ok(ninth.en.endsWith("indicates the elder brother's accomplishments being the 9th to the 10th house."));
+assert.ok(ninth.ta.length > 0 && ninth.titleTa.length > 0);
+assert.ok(!ninth.en.includes('Tenth House'), 'the tenth house is its own entry');
+assert.ok(!ninth.en.includes('Eighth House'), 'the eighth house is its own entry');
 console.log('test-reader-ii-house-descriptions ok');
