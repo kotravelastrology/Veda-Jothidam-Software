@@ -18,4 +18,14 @@ assert.ok(first.en.endsWith('relative and be worried because of the relative.'))
 assert.ok(first.ta.length > 0 && first.titleTa.length > 0);
 assert.ok(!first.en.includes('Second House'), 'the second house is its own entry');
 assert.ok(!first.en.includes('All matters are distributed'), 'the chapter opening is its own entry');
+
+const second = H.Second;
+assert.strictEqual(second.pageFrom, 275);
+assert.strictEqual(second.pageTo, 280);
+assert.strictEqual(second.page, 275);
+assert.ok(second.en.startsWith('Artha (wealth); Bhukthl (food'));
+assert.ok(second.en.endsWith('the malefics occupy the second house of the native.'));
+assert.ok(second.ta.length > 0 && second.titleTa.length > 0);
+assert.ok(!second.en.includes('Thi rd House') && !second.en.includes('Third House'), 'the third house is its own entry');
+assert.ok(!second.en.includes('relative and be worried'), 'the first house is its own entry');
 console.log('test-reader-ii-house-descriptions ok');
