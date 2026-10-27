@@ -64,4 +64,13 @@ assert.ok(sixth.en.endsWith('For over-draft facilities the 6th house must receiv
 assert.ok(sixth.ta.length > 0 && sixth.titleTa.length > 0);
 assert.ok(!sixth.en.includes('Seventh House'), 'the seventh house is its own entry');
 assert.ok(!sixth.en.includes('maraka (death).'), 'the fifth house is its own entry');
+const seventh = H.Seventh;
+assert.strictEqual(seventh.pageFrom, 294);
+assert.strictEqual(seventh.pageTo, 298);
+assert.strictEqual(seventh.page, 294);
+assert.ok(seventh.en.startsWith('Saptama ; Jamittra'));
+assert.ok(seventh.en.endsWith("The native might enter into partnership With his father's friend."));
+assert.ok(seventh.ta.length > 0 && seventh.titleTa.length > 0);
+assert.ok(!seventh.en.includes('Eighth House'), 'the eighth house is its own entry');
+assert.ok(!seventh.en.includes('Sixth House'), 'the sixth house is its own entry');
 console.log('test-reader-ii-house-descriptions ok');
