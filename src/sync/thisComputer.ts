@@ -1,14 +1,14 @@
 import { registerThisComputer, deactivateThisComputer } from '../../app/sync/actions';
 
 /**
- * "This computer" (Help > Deactivate on this Computer): this browser is registered as a
- * sync device with full access the first time the app runs in it. The device id is kept
- * in localStorage, so the browser is registered once; deactivating revokes the record but
- * keeps the id, so the browser is not registered again.
+ * "This computer": a browser can register itself as a sync device with full access, when the
+ * user asks for it (the button on the Sync page). The device id is kept in localStorage.
+ * Deactivate (Help menu) revokes that device record and forgets the id; the button can then
+ * register the browser again.
  */
 const DEVICE_KEY = 'kotravel-device-id';
 
-export type DeactivateResult = 'revoked' | 'already-revoked' | 'not-registered';
+export type DeactivateResult = 'revoked' | 'not-registered';
 
 function storedDeviceId(): string | null {
   try {
@@ -18,11 +18,15 @@ function storedDeviceId(): string | null {
   }
 }
 
-// Shared by every caller, so an effect that runs twice (React strict mode) registers once.
+export function hasThisComputerRegistered(): boolean {
+  return storedDeviceId() !== null;
+}
+
+// Shared by every caller, so a double click registers once.
 let registering: Promise<void> | null = null;
 
-/** Registers this browser once. A failure is left to the caller; the app works without a device record. */
-export function ensureThisComputerRegistered(): Promise<void> {
+/** Registers this browser unless it is already registered. A failure is left to the caller. */
+export function registerThisComputerNow(): Promise<void> {
   if (storedDeviceId()) return Promise.resolve();
   if (!registering) {
     registering = registerThisComputer()
@@ -38,5 +42,6 @@ export async function deactivateThisComputerNow(): Promise<DeactivateResult> {
   const deviceId = storedDeviceId();
   if (!deviceId) return 'not-registered';
   const { revoked } = await deactivateThisComputer(deviceId);
-  return revoked ? 'revoked' : 'already-revoked';
+  localStorage.removeItem(DEVICE_KEY);
+  return revoked ? 'revoked' : 'not-registered';
 }

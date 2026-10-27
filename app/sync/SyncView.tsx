@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { loadSyncState, addSyncDevice, revokeSyncDevice } from './actions';
+import { hasThisComputerRegistered, registerThisComputerNow } from '@/src/sync/thisComputer';
 
 /**
  * VJ-024 — devices, their scopes, and the local outbox.
@@ -52,6 +53,22 @@ export default function SyncView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(refresh, [refresh]);
+
+  // Whether this browser is registered; read from localStorage once the page is on screen.
+  const [thisComputer, setThisComputer] = useState(false);
+  useEffect(() => setThisComputer(hasThisComputerRegistered()), []);
+
+  const registerHere = async () => {
+    setError(null); setStatus(null);
+    try {
+      await registerThisComputerNow();
+      setThisComputer(true);
+      setStatus('இந்தக் கணினி பதிவு செய்யப்பட்டது.');
+      refresh();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    }
+  };
 
   const add = async () => {
     setError(null); setStatus(null);
@@ -151,6 +168,21 @@ export default function SyncView() {
 
       <section className="mb-5">
         <h2 className="text-sm font-semibold text-ink mb-2">சாதனங்கள் ({devices.length})</h2>
+        <div className="flex flex-wrap items-center gap-3 mb-3 text-sm">
+          {thisComputer ? (
+            <span className="text-ink-soft">இந்தக் கணினி பதிவாகியுள்ளது.</span>
+          ) : (
+            <>
+              <span className="text-ink-soft">இந்தக் கணினி பதிவு செய்யப்படவில்லை.</span>
+              <button
+                onClick={registerHere}
+                className="px-3 py-1 rounded border border-line text-ink hover:bg-ink-soft/10"
+              >
+                இந்தக் கணினியில் பதிவு செய்
+              </button>
+            </>
+          )}
+        </div>
         {devices.length === 0 && <p className="text-sm text-ink-soft">சாதனம் எதுவும் இல்லை.</p>}
         <ul className="space-y-2">
           {devices.map((d) => (
