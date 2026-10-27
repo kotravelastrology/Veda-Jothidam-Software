@@ -38,4 +38,13 @@ assert.ok(mercury.en.endsWith('he will be spotted as the dullest student in the 
 assert.ok(!mercury.en.includes('JUPITER-THE CHILDREN'), 'the jupiter section is its own entry');
 assert.ok(!mercury.en.includes('MERCURY-THE UNCLE'), 'the heading is not in the text');
 assert.ok(mercury.ta.length > 0 && mercury.titleTa.length > 0);
+const jupiter = P.Jupiter;
+assert.strictEqual(jupiter.pageFrom, 398);
+assert.strictEqual(jupiter.pageTo, 410);
+assert.strictEqual(jupiter.page, 398);
+assert.ok(jupiter.en.startsWith('Astronomy : Jupiter is far beyond the swarm of asteroids.'));
+assert.ok(jupiter.en.endsWith("Jupiter's direction is north-east. It is in sextile to Vernal Equinox."));
+assert.ok(!jupiter.en.includes('VENUS - THE'), 'the venus section is its own entry');
+assert.ok(!jupiter.en.includes('MERCURY-THE UNCLE'), 'the mercury section is its own entry');
+assert.ok(jupiter.ta.length > 0 && jupiter.titleTa.length > 0);
 console.log('test-reader-ii-planet-descriptions ok');
