@@ -126,6 +126,22 @@ export default function KpHoraryView() {
             {result.ruling.nodesAdded.length > 0 && <p className="text-xs text-ink-soft mt-1">சேர்க்கப்பட்ட முனைகள்: {result.ruling.nodesAdded.map((n: any) => `${pt(n.node)} (${pt(n.forLord)}-இன் முகவர்)`).join(', ')}</p>}
           </section>
 
+          {result.rising && (
+            <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+              <h2 className="font-semibold text-ink mb-1">ஆளும் கிரகங்களால் ஆளப்படும் உதய நிலைகள் — அடுத்த {result.rising.hours} மணி (நூல் ப.126-130)</h2>
+              <p className="text-xs text-ink-soft mb-2">நிமிடங்களிலோ மணிகளிலோ நடக்கும் நிகழ்வுக்கு நூல் தசை எடுக்காது; ஆளும் கிரகங்களே ராசி, நட்சத்திரம், உப அதிபதிகளாக உள்ள இராசிப் புள்ளி கிழக்கே எழும் நேரத்தைப் பார்க்கிறது. கீழே அத்தகைய புள்ளிகள் உள்ளன; நூல் தரும் குறிகாட்டி நிபந்தனைகள் இங்கு பொருத்தப்படவில்லை. நூல் கணக்கு அட்டவணை நேரத்தால் செய்யப்பட்டது; இங்கு துல்லியக் கணக்கு, அதனால் சில நொடிகள்-ஒரு நிமிடம் வேறுபடலாம். {citeTa(result.rising.source)}</p>
+              <table className="w-full text-xs" style={num}>
+                <thead><tr className="text-left text-ink-soft border-b border-line"><th className="py-1 pr-2">ராசி-நட்சத்திரம்-உப-உப உப</th><th className="pr-2">தீர்க்கம்</th><th>எழும் நேரம்</th></tr></thead>
+                <tbody>
+                  {result.rising.bySubSub.slice(0, 60).map((r: any, i: number) => (
+                    <tr key={i} className="border-t border-line/40"><td className="py-0.5 pr-2">{[r.signLord, r.starLord, r.subLord, r.subSubLord].map(pt).join(' · ')}</td><td className="pr-2">{dms(r.from % 30)} {SIGN_TA[Math.floor(r.from / 30)]}</td><td>{r.times.map((t: any) => `${t.start.text}${t.start.dayOffset ? ` (+${t.start.dayOffset} நாள்)` : ''} – ${t.end.text}`).join('; ')}</td></tr>
+                  ))}
+                </tbody>
+              </table>
+              {result.rising.bySubSub.length === 0 && <p className="text-xs text-ink-soft">இந்தக் காலத்தில் அத்தகைய புள்ளி இல்லை.</p>}
+            </section>
+          )}
+
           {a && (
             <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
               <h2 className="font-semibold text-ink mb-1">{a.topic.titleTa} — வீடுகள் {a.topic.houses.join(', ')} (நூல் ப.{a.topic.page})</h2>
