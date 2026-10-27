@@ -29,7 +29,7 @@ const DEFAULT_SETTINGS: Settings = {
   decimalPlaces: 2,
   autoSave: true,
   soundEnabled: true,
-  showHints: true,
+  showHints: false,
 };
 
 const SETTINGS_CHANGED_EVENT = 'kotravel:settings-changed';
@@ -304,7 +304,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   onChange={(e) => updateSettings({ showHints: e.target.checked })}
                   className="w-4 h-4"
                 />
-                <span className="text-sm text-ink">Show helpful hints</span>
+                <span className="text-sm text-ink">Balloon help (hover hints)</span>
               </label>
             </div>
           </section>

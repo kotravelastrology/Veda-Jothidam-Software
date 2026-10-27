@@ -26,7 +26,8 @@ function downloadJson(filename: string, data: unknown) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
-import { SettingsPanel } from '../ui/SettingsPanel';
+import { SettingsPanel, useSettings } from '../ui/SettingsPanel';
+import { BalloonHelp } from '../ui/BalloonHelp';
 import { ToolsPanel } from '../ui/ToolsPanel';
 import { HelpPanel } from '../ui/HelpPanel';
 import { OpenChartDialog } from '../ui/OpenChartDialog';
@@ -51,6 +52,7 @@ export function TopMenuBar() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const router = useRouter();
   const menuBarRef = useRef<HTMLDivElement>(null);
+  const { settings, updateSettings } = useSettings();
 
   // Click-outside-to-close: the dropdown is driven by `openMenu` state (click-based),
   // not CSS :hover, so it works reliably with mouse, touch, and automated testing.
@@ -334,6 +336,7 @@ export function TopMenuBar() {
       submenu: [
         { label: 'Help Contents', key: 'contents' },
         { label: 'Keyboard Shortcuts', key: 'shortcuts' },
+        { label: settings.showHints ? 'Balloon Help ✓' : 'Balloon Help', key: 'balloon' },
         { label: 'About', key: 'about' },
         { label: '', key: 'divider' },
         { label: 'Contact Support', key: 'contact' },
@@ -511,6 +514,9 @@ export function TopMenuBar() {
       case 'about':
         uiActions.openHelp('about');
         break;
+      case 'balloon':
+        updateSettings({ showHints: !settings.showHints });
+        break;
       case 'contact':
         // Handle: Contact Support
         alert('Support contact: gvkotravel@gmail.com');
@@ -578,7 +584,7 @@ export function TopMenuBar() {
       default:
         break;
     }
-  }, [uiActions, setCurrentMenu, router]);
+  }, [uiActions, setCurrentMenu, router, settings.showHints, updateSettings]);
 
   useKeyboardShortcuts({
     onSettings: uiActions.openSettings,
@@ -589,6 +595,8 @@ export function TopMenuBar() {
 
   return (
     <>
+      <BalloonHelp />
+
       {/* Top Menu Bar */}
       <div className="bg-ink text-surface border-b border-ink-soft/20 sticky top-0 z-50">
         <div className="flex items-center h-10 px-4 gap-4">
@@ -597,6 +605,7 @@ export function TopMenuBar() {
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-1 hover:bg-ink-soft/10 rounded text-sm font-semibold"
             title="Toggle Sidebar"
+            data-hint="Show or hide the sidebar"
           >
             ☰
           </button>
@@ -658,6 +667,7 @@ export function TopMenuBar() {
               onClick={uiActions.openTools}
               className="p-1 hover:bg-ink-soft/10 rounded text-sm"
               title="Tools (Ctrl+T)"
+              data-hint="Tools: location, time zone, ayanamsha and date converters (Ctrl+T)"
             >
               🛠️
             </button>
