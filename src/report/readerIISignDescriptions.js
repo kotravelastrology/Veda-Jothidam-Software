@@ -680,7 +680,7 @@ const SIGN_DESCRIPTIONS = {
  "Virgo": {
   "sign": "Virgo",
   "pageFrom": 178,
-  "pageTo": 194,
+  "pageTo": 195,
   "sections": [
    {
     "id": "PHYSICAL",
@@ -772,6 +772,146 @@ const SIGN_DESCRIPTIONS = {
     "titleTa": "அதிர்ஷ்ட எண்",
     "en": "5, 14, 23, 32, 41, etc. 2, 11,20, 38, 47, etc. 7, 16, 25, 34, 43, etc. 6, 15, 24, 33, 42, etc. 3, 12,21, 30, 48, etc.",
     "ta": "5, 14, 23, 32, 41 முதலியன; 2, 11, 20, 38, 47 முதலியன; 7, 16, 25, 34, 43 முதலியன; 6, 15, 24, 33, 42 முதலியன; 3, 12, 21, 30, 48 முதலியன."
+   },
+   {
+    "id": "LUCKY_STONE",
+    "page": 195,
+    "titleTa": "அதிர்ஷ்டக் கல்",
+    "en": "Emerald, pearl, diamond and yellow sapphire. Virgoans are generally fortunate in those years, when Jupiter gets exalted in Cancer. It is certain that Jupiter, transiting in the constellation. Aslesha, will offer the most beneficial results to you, as Aslesha is ruled by Mercury, the lord of 1 and 10 • and it is in the 11th house which promises, pleasure, profit, permanent tie of friendship, and fulfillment of your cherished desires.",
+    "ta": "மரகதம், முத்து, வைரம், மஞ்சள் சபையர். குரு கடகத்தில் உச்சம் பெறும் ஆண்டுகளில் கன்னியினர் பொதுவாக அதிர்ஷ்டசாலிகள். குரு ஆஸ்லேஷா நட்சத்திரத்தில் பெயர்ச்சி பெறும்போது மிகச் சிறந்த பலன்கள்; ஆஸ்லேஷா புதனால் ஆளப்படுகிறது; புதன் 1, 10 ஆம் வீடுகளின் அதிபதி; அது பதினொன்றாம் வீடு என்பதால் இன்பம், ஆதாயம், நிலையான நட்பு, விரும்பியவை நிறைவேறுதல்."
+   },
+   {
+    "id": "ANIMATE",
+    "page": 195,
+    "titleTa": "உயிருள்ள, உயிரற்ற பொருட்கள்",
+    "en": "Gardens, both wet and dry lands corn fields, granaries grain elevators, restaurants, pantries, places where fruits and vegetables are kept, the store room, also book- shelves, first aid box, medical box, libraries, closets, dairies, etc.",
+    "ta": "தோட்டங்கள், ஈரமும் வறட்சியுமான நிலங்கள், சோளவயல், தானியக் களஞ்சியங்கள், தானிய உயர் சேமிப்பு, உணவகங்கள், சரக்கறைகள், பழம் காய்கறிகள் வைக்கும் இடங்கள், சேமிப்பு அறை, புத்தக அலமாரிகள், முதலுதவிப் பெட்டி, மருத்துவப் பெட்டி, நூலகங்கள், அலமாரிகள், பால் பண்ணைகள்."
+   },
+   {
+    "id": "COUNTRIES",
+    "page": 195,
+    "titleTa": "நாடுகள்",
+    "en": "Turkey, Croatia, Mesopotamia!, Babylon, Assyria, the locality between Tibet and the Eurphrates, Greece, Thessaly, Corinth, Monz, Switzerland, Lower Silesia, Brazil, Virginia and West Indies.",
+    "ta": "துருக்கி, குரோஷியா, மெசபடோமியா, பாபிலோன், அசிரியா, திபெத்துக்கும் யூப்ரடீசுக்கும் இடைப்பட்ட பகுதி, கிரீஸ், தெசலி, கொரிந்து, மோன்ஸ், சுவிட்சர்லாந்து, லோயர் சைலீசியா, பிரேசில், விர்ஜீனியாவும் மேற்கிந்தியத் தீவுகளும்."
+   },
+   {
+    "id": "CITIES",
+    "page": 195,
+    "titleTa": "நகரங்கள்",
+    "en": "Jerusalem, Navarre, Paris, Brazil, Padua, Lyons, Tolluous, Reading, Baghdad, Cheltenham, Norwich, Todmorden, Boston, Brindisi, Corinth and Los Angeles.",
+    "ta": "ஜெருசலேம், நவார், பாரிஸ், பிரேசில், பதுவா, லியோன்ஸ், டொலூஸ், ரீடிங், பாக்தாத், செல்டென்ஹாம், நார்விச், டோட்மார்டன், பாஸ்டன், பிரிண்டிசி, கொரிந்து, லாஸ் ஏஞ்சல்ஸ்."
+   }
+  ]
+ },
+ "Libra": {
+  "sign": "Libra",
+  "pageFrom": 195,
+  "pageTo": 207,
+  "sections": [
+   {
+    "id": "PHYSICAL",
+    "page": 197,
+    "titleTa": "உடல் தோற்றம்",
+    "en": "The person born with Libra as ascendant, grows tall with well-proportioned body. His limbs will be slender but-strong. His appearance will be graceful with a sweet smile, and his countenance attractive. The eyebrows add to his beauty. In the adult age, occipital region gets bald. The nose will be a little bent like the parrot.",
+    "ta": "உயரமான, சமமான விகிதமுள்ள உடல்; மெல்லிய ஆனால் வலிமையான கைகால்கள்; இனிய புன்னகையுடன் அழகான தோற்றம்; புருவங்கள் அழகு சேர்க்கும். வயதாக ஆக பின்தலையில் வழுக்கை வரலாம். மூக்கு சற்று வளைந்து கிளி மூக்கு போல் இருக்கும்."
+   },
+   {
+    "id": "CHARACTER",
+    "page": 197,
+    "titleTa": "குணம்",
+    "en": "As Libra is symbolised with Balance the Librans will be level-headed; they can maintain mental equilibrium, weigh the merits and. demerits and pass a dispassionate opinion. They are the best judges. While they debate, they excel other in comparing and contrasting. They are constructive critics. Venus, the ruler of this sign makes the native courteous, modest and gentle. He is always for a happy and harmonious life. He will not rub on the wrong side. He will purchase peace at any cost. He will be upright and sympathetic. Even when he loses his temper, he will soon be quietened. He tries lead a pleasant life enjoying all the fruits of life. He is fond of dress, perfumeries, art and music. Venus shows that Librans will be having hobbies and being a movable sign, they will be changing from one to another. Photography, gardening, drawing, painting, embroidery etc, may be their hobbies. As Libra is the sign opposite to Aries, the Librans will forego their personal comforts but work hard for the benefit of others. Politicians born in Libra will be popular throughout life whereas Aries-horns will be in power during beneficial periods and be nowhere during adverse days. One can study correctly any sign, if he first learns the opposite sign. Libra is an airy sign. So it confers fertile imagination, correct intuition, brilliant intellect, admirable refinement, supreme indemnity, pleasant - nature etc. He will be a proper adviser to plan anything with correct forethought. As Saturn gets exalted here, one can concentrate, meditate, and reach a higher plane in spiritual life also. Sri Narasimha Bharathi, Sri Ramana Maharishi the sages and the successful politicians who universally commanded all the people uniformly through out life, like Mahatma M. K. Gandhi, were born in Libra. Further, these people do not believe in hot discussions ; but they will try to bring about compromise in all controversial matters. This is one of the main reasons why they come to the front, become popular and prosperous. Another good quality in them is that they have an unassuming nature and humanitarian instincts. Even when they commit any mistake, it is such that will be easily forgiven. They generally lean more to the spiritual side than to the pure physical one. As Libra is a masculine sign and the seventh of the Zodiac (seventh house indicates marriage partner), the Librans have such strong conjugal affection that they do not consider anything else more important than this pleasure. This is the difference between Leo- borns and Librans. Librans are very affectionate and gentle. They are easy-going, remarkably shrewd, and never hurt others, feelings. They will not bully and bluster. They are persuasive. Being a masculine sign, one cannot impose upon Librans who will defeat the opponent by adopting a peaceful and strategic plan. They are accomplished diplomats. The Librans enjoy life immensely in the company of the opposite sex. Mars, as lord of 2, offers \"no fears\". Hence they argue with clarity and forethought. They have the capacity to handle any situation tactfully. Neat touch and fine finish are the traits of Librans. They have warmth and charming manners so that they happen to be the peace-makers. Venus, the lord of the sign indicates that Librans will take interest in their dress, furniture, conveyance and other comforts. The number one concern for them is to keep the partner always in good cheer. The partner will attach importance to the spirit of love among the two, whereas Librans care more for the surrounding conditions. Venusians generally, like music, especially, romantic music, if Venus or Libra receives aspects from Mars, Saturn, aspecting or occupying Libra,. shows interest in tragic ones. Jupiter indicates prayers. Moon shows melody and they will keep the audience spell-bound.",
+    "ta": "துலாம் சமநிலையின் சின்னம்; மனச்சமநிலையுடையவர்கள், நன்மை தீமைகளை எடைபோட்டு பாரபட்சமற்ற கருத்து சொல்வர்; சிறந்த நடுவர்கள், ஆக்கபூர்வமான விமர்சகர்கள். சுக்கிரன் ஆள்வதால் பணிவும் மென்மையும் அடக்கமும் உடையவர்கள்; அமைதியான, இனிய வாழ்க்கையை விரும்புவர்; சண்டைக்கு அப்பால் நிற்பர், சமாதானத்துக்காக எதையும் கொடுப்பர். ஆடை, வாசனைத் திரவியம், கலை, இசை ஆகியவற்றில் ரசனை. காற்று ராசியாதலால் கற்பனை வளம், நுண்ணறிவு, நாகரிகம்; சிறந்த ஆலோசகர். சனி உச்சம் பெறுவதால் தியானமும் ஆன்மிக நிலையும் கைகூடும். நரசிம்ம பாரதி, ரமண மகரிஷி, மகாத்மா காந்தி போன்ற மகான்களும் வெற்றிகரமான அரசியல்வாதிகளும் இந்த ராசியில் பிறந்தனர். விவாதங்களில் சூடுபடாமல் சமரசம் காண்பர்; எளிமையானவர்கள், மனிதநேயம் உடையவர்கள்; தவறு செய்தாலும் எளிதில் மன்னிக்கப்படுவர். துலாம் ஆண் ராசியும் ஏழாம் ராசியும் (திருமணம்) என்பதால் துணை மீது வலுவான அன்பு. மென்மையும் கனிவும் கொண்டவர்கள்; யாருடைய உணர்வையும் புண்படுத்தமாட்டார்கள்; இராஜதந்திரிகளும் வசீகரமான பேச்சாளர்களும். எதிர்பாலரின் சகவாசத்தில் மகிழ்வர். செவ்வாய் 2ஆம் அதிபதி என்பதால் அச்சமின்மையுடனும் தெளிவாகவும் வாதிடுவர். தூய்மையும் நேர்த்தியும் உடையவர்கள்; துணைக்கு எப்போதும் மகிழ்ச்சி தர விரும்புவர். சுக்கிரன் ஆள்வதால் ஆடை, அலங்காரம், வாகனம், வசதிகளில் அக்கறை. இசையில், குறிப்பாக காதல் இசையில் ஆர்வம்; சோக இசையையும் விரும்பலாம். குரு பிரார்த்தனையையும், சந்திரன் இனிய இசையையும் குறிக்கும்; கேட்பவரை கட்டிப்போடுவர்."
+   },
+   {
+    "id": "CORRECTION",
+    "page": 199,
+    "titleTa": "திருத்திக்கொள்ள வேண்டியவை",
+    "en": "Generally. Libra-borns gain materially either by fortune or through the goodwill and generosity of any affectionate and influential associate. So one has to keep his emotions in check. He should not allow things to get out of hand. He should not appoint the opposite sex as his private secretary. Much of his time will be wasted. Librans will mix business and pleasure. This need not be elaborated. Further, they should try to take quick decisions as many ideas will flash in the mind and will spring up one after another quickly. They should avoid copying mannerisms from others as also gaudiness. A Librans are unassuming and amiable, others may try to fool them ; they should deal with such associate carefully. Librans are always ready to forgive and forget. They may forgive but it is not wise to forget. Librans will feel that every new occasion ' demands a new dress, and so they will spend much on costumes. They do not realise that God has given them charm and that adornment is not required in their case.",
+    "ta": "பொதுவாக துலாமினர் அதிர்ஷ்டத்தால் அல்லது அன்பான, செல்வாக்குள்ள நண்பர்களின் நல்லெண்ணத்தாலும் தாராளத்தாலும் வசதி பெறுவர்; ஆகையால் உணர்ச்சிகளைக் கட்டுப்படுத்த வேண்டும்; விஷயங்கள் கைமீறிப் போக விடக்கூடாது. எதிர் பாலினரை தனிச் செயலாளராக நியமிக்கக் கூடாது; நேரம் வீணாகும். தொழிலையும் இன்பத்தையும் கலக்கக் கூடாது. விரைவாக முடிவெடுக்கக் கற்க வேண்டும்; பல எண்ணங்கள் ஒன்றன்பின் ஒன்றாக தோன்றும். பிறரின் நடையுடைகளைப் பின்பற்றுவதும் அளவுக்கு மீறிய ஆடம்பரமும் தவிர்க்க வேண்டும். எளிமையானவர்களாக இருப்பதால் பிறர் ஏமாற்றலாம்; அத்தகையவர்களிடம் எச்சரிக்கையுடன் பழக வேண்டும். எளிதில் மன்னிப்பவர்கள், மறப்பவர்களும் கூட; மன்னிக்கலாம், ஆனால் மறப்பது ஞானம் அல்ல. ஒவ்வொரு புதிய சந்தர்ப்பத்துக்கும் புதிய உடை தேவை என்று நினைத்து அதிகம் செலவிடுவர்; ஆனால் அவர்களுக்கு இறைவன் அளித்த அழகே போதுமானது."
+   },
+   {
+    "id": "HEALTH",
+    "page": 200,
+    "titleTa": "ஆரோக்கியம்",
+    "en": "Normally, their physical structure is good. But they do not have normal immunity and resistance against infectious diseases. So they are susceptable for such ones. They have to take prophylactic measures. Kidneys, loins and spines are indicated by Libra. Therefore one can expect defect in the kidneys, pain in the spines, etc. In the case of ladies, uterus may be affected. Whenever the indicating disease occupies Libra, one may suffer from appendichis, lumbago polyuria etc.",
+    "ta": "உடலமைப்பு பொதுவாக நல்லது; ஆனால் தொற்று நோய்களுக்கு இயல்பான எதிர்ப்புச் சக்தி குறைவு; எனவே தடுப்பு நடவடிக்கைகள் அவசியம். சிறுநீரகம், இடுப்பு, முதுகெலும்பு துலாம் ஆளுகையில் உள்ளன; சிறுநீரக பாதிப்பு, முதுகு வலி வரலாம். பெண்களுக்கு கருப்பை பாதிக்கப்படலாம். குறிப்பிட்ட நோய்கள் துலாமில் அமர்ந்தால் குடல்வால் அழற்சி, இடுப்பு வலி, சிறுநீர் நோய்கள் வரலாம்."
+   },
+   {
+    "id": "FINANCE",
+    "page": 201,
+    "titleTa": "பணம்",
+    "en": "Librans are the best suited for business with a partner. Libran may be the adviser and his partner may look to him, consult and take a decision as Libran can suggest just the correct thing at the proper moment. For, Librans excel other people in matters of reasoning, logic, foresight and judgment. Librans are also suited for law. They are admirable critics. 10th house ruled by Moon suggests that their occupation may include liquids. So blending both, it may be said that Librans may be druggists, chemists, painters, engineers in hydro-electric system, transport, navy or those dealing in food or milk or juicy fruits. Libra, being an airy sign ruled by Venus, anyone born in this sign or having Libra as one of the houses 2, 6, 10 counted from one's ascendant. may be a story writer, playback, musician, architect, nursery owner or one in the 'airways' service. As Librans pow ers of persuasion are irresistible, they happen to be good salesmen, liasion officers, receptionists. As salesmen, they will sell more than what the buyer wants, because of their charm, pleasing manners, smile and sweet words. Expenses : Libran's idea of what is needed is different from that of other people. That is why they are sometime extravagant. They spend on luxuries, curios, etc. They are seldom economical. Therefore much money may pass through their hands. They will donate for good causes and will be generous and liberal.",
+    "ta": "கூட்டுத் தொழிலுக்கு மிகப் பொருத்தமானவர்கள்; ஆலோசகராக இருந்து கூட்டாளி சரியான நேரத்தில் முடிவெடுக்க உதவுவர். நியாயம், தர்க்கம், முன்னறிவு, தீர்ப்பில் சிறந்தவர்கள்; சட்டத்துறையும் ஏற்றது. சந்திரன் பத்தாம் வீட்டு அதிபதியாதலால் திரவம் தொடர்பான தொழில்கள்: மருந்தாளர், வேதியியலாளர், ஓவியர், நீர்மின் பொறியாளர், போக்குவரத்து, கப்பல்படை, உணவு, பால், பழரசம். காற்று ராசியாகவும் சுக்கிரன் ஆளுவதால் கதையாசிரியர், பின்னணிப் பாடகர், இசைக் கலைஞர், கட்டடக் கலைஞர், நர்சரி, விமானச் சேவை. வற்புறுத்தும் திறமை வலுவானது; விற்பனையாளர், தொடர்பு அதிகாரி, வரவேற்பாளர் ஆகலாம். வாடிக்கையாளருக்குத் தேவைக்கும் மேல் விற்கும் வசீகரம். செலவு: துலாமினரின் தேவை பற்றிய கருத்து மற்றவர்களிடமிருந்து வேறுபட்டது; ஆடம்பரப் பொருட்கள், பழம்பொருட்களுக்கு செலவு செய்வர்; சிக்கனம் குறைவு. நல்ல காரியங்களுக்குத் தாராளமாக நன்கொடை தருவர்."
+   },
+   {
+    "id": "DOMESTIC",
+    "page": 202,
+    "titleTa": "குடும்பச் சூழல்",
+    "en": "Their family life will be happy because Librans try to maintain peace. Their houses will be well furnished and all luxuries will be made available. Decorations, designs, paintings, will be of high standard. Costly ornaments will be in their possession. They always prefer to lead such pleasant lives and enjoy all fruits of life. They love their home, family and their property. Generally, the parents of natives born in Libra will rush home from their office, mostly to spend their time at home with their little group. They will not normally give interviews to their subordinates or customers at their residence. They will finish everything in their office. Friends and benefactors : The Librans are ever-lasting good friends to all those who come in contact with them. For they are 'honest, just, kind, ' courteous and generous ; they easily make friendship with others. Without friends, they cannot pass on their time. Sun, as lord of 11, shows that they will have much to do with Government servants, officials, etc. They will lead mostly a public life with both social and financial success. As they do not hurt others, even when - their friends misbehave, they quickly forgive. So naturally, they gain ultimately. Socially they are always in great demand. Well-aspected Sun gives them benefit through those born on Sundays or in Leo Ascendant, or Karthikai, Uthra Palguni or Uthrashadha . star days. They will waste money on those born on Punarvasu, Visakha, Poorva. pathrapada stars and Aslesha, Jyeshta and Revathi stars. For people born in these six stars cannot be helpful.",
+    "ta": "அமைதியைப் பேணுவதால் குடும்ப வாழ்க்கை மகிழ்ச்சியாக இருக்கும். வீடு நன்கு அலங்கரிக்கப்பட்டதாகவும், எல்லா வசதிகளும் உடையதாகவும் இருக்கும்; ஓவியம், வடிவமைப்பு உயர்தரமாக இருக்கும். விலையுயர்ந்த ஆபரணங்களும் வைத்திருப்பர். வீடு, குடும்பம், சொத்து மீது அன்பு. பெற்றோர் அலுவலகத்திலிருந்து விரைவாக வீடு திரும்பி குடும்பத்துடன் நேரம் செலவிடுவர்; வீட்டில் கீழ் பணியாளர்களையோ வாடிக்கையாளர்களையோ சந்திக்க மாட்டார்கள். நண்பர்களும் உதவி பெறுபவர்களும்: நேர்மையான, நியாயமான, கனிவான, பணிவான, தாராளமான நண்பர்கள்; எளிதில் நட்பு கொள்வர். நண்பர்கள் தவறு செய்தாலும் விரைவில் மன்னிப்பர்; இறுதியில் நன்மையே அடைவர். சூரியன் பதினொன்றாம் அதிபதியாதலால் அரசு ஊழியர்களுடனும் அதிகாரிகளுடனும் தொடர்பு; பொதுவாழ்க்கையில் சமூக, பொருளாதார வெற்றி. ஞாயிறு பிறந்தவர்களாலும், சிம்ம லக்னத்தவர்களாலும், கார்த்திகை, உத்திரம், உத்திராடம் நட்சத்திரத்தவர்களாலும் நன்மை. புனர்பூசம், விசாகம், பூரட்டாதி, ஆயில்யம், கேட்டை, ரேவதி நட்சத்திரத்தவர்களுக்குப் பணம் வீணாகும்; இவர்கள் உதவ மாட்டார்கள்."
+   },
+   {
+    "id": "ROMANCE",
+    "page": 203,
+    "titleTa": "திருமணமும் இல்வாழ்வும்",
+    "en": "Librans are the most lovable people for sex-life. For, they are experts in all love affairs. By this sincere love, they capture their partners. Besides, their dress, fashion, pleasant perfumery, and sweet smile are very enticing. Librans' passion grows suddenly and dies out quickly being a movable sign. But, at the time the Libran enjoys, he enjoys immensely in the company of the opposite sex. Being pleasant conversationalists, they put their argument. with clear vision as they find pleasure in good discussions. Girls born in Libra are ready to let the male do all the disagreeable ones. They like to do such acts and will never fail to thank with a smile. Librans marry early in their life. They preserve the tradition. They are happy both at home and also in social life. Their standard of living being high, sometimes they cannot have partner who can satisfy them. Libra girls are intelligent, tactful, and wise. They avoid hot discussions and try to maintain peace. Libra ladies lead luxurious lives. They love and adore their partners. Libra men are cheerful, happy, compassionate and adjusting. They will accommodate to a good extent. They will provide the family with all necessaries, comforts, luxuries and conveniences. They are highly passionate and they reach the greatest heights in expressing their love. If, per chance, the response is not to their expectation, they feel very much disappointed. But generally, they do not seek for divorce but try to adjust. As houses, 2, 7, and 11 indicate the partner in life and the house 2 and 7 are ruled by Mars and 11 by Sun, the partner in life will be short-tempered and rash. They may listen to the Librans but do just as they desire. They will be mostly of Martian type. Hence Libra-borns have to tone down the partner's fiery nature and by their diplomacy and tact, maintain peace at home. Those who are born in Gemini and Aquarius will match the Librans very well. Pisces, Capricorn and Cancer will not agree with them. Librans will manage with others.",
+    "ta": "காதல் விவகாரங்களில் நிபுணர்கள்; நேர்மையான அன்பால் துணையை ஈர்ப்பர். உடை, நாகரிகம், வாசனைத் திரவியம், இனிய புன்னகை ஆகியவை கவர்ச்சி தரும். காதல் திடீரென எழுந்து விரைவில் மறையக்கூடும்; ஆனால் எதிர்பாலினருடன் இருக்கும்போது மிகவும் மகிழ்வர். நல்ல உரையாடல்காரர்கள், தெளிவான பார்வையுடன் வாதிடுவர். துலாம் பெண்கள் கடினமான பணிகளை ஆண்களிடம் விட்டு, நன்றியுடன் சிரித்துக்கொள்வர். துலாமினர் சிறு வயதில் திருமணம் செய்வர்; பாரம்பரியத்தைக் காப்பர். வாழ்க்கைத் தரம் உயர்ந்ததால் துணையால் அவர்களைத் திருப்தி செய்ய முடியாமல் போகலாம். துலாம் பெண்கள் புத்திசாலிகள், சாதுர்யமுடையவர்கள், ஞானமுள்ளவர்கள்; சூடான வாதங்களைத் தவிர்த்து அமைதி காப்பர். ஆடம்பர வாழ்க்கை விரும்புவர்; துணையை நேசிப்பர். துலாம் ஆண்கள் மகிழ்ச்சியானவர்கள், இரக்கமுள்ளவர்கள், அனுசரிப்பவர்கள்; குடும்பத்துக்குத் தேவையான அனைத்தையும் தருவர். மிகுந்த ஆர்வம் கொண்டவர்கள்; ஆனால் எதிர்பார்த்த பதில் வராவிட்டால் ஏமாற்றம் அடைவர்; பொதுவாக விவாகரத்து நாடாமல் அனுசரித்துப் போவர். இரண்டு, ஏழு, பதினொன்றாம் வீடுகள் துணையைக் குறிக்கும்; இரண்டும் ஏழும் செவ்வாய் ஆள்வதால் துணை முன்கோபியும் அவசரக்காரரும் ஆகலாம்; துலாமினர் தந்திரத்தாலும் அனுசரிப்பாலும் வீட்டில் அமைதி காக்க வேண்டும். மிதுனம், கும்பம் ராசிகளில் பிறந்தவர்கள் துலாமினருக்கு நன்றாகப் பொருந்துவர்; மீனம், மகரம், கடகம் ஒத்துவராது."
+   },
+   {
+    "id": "CHILDREN",
+    "page": 204,
+    "titleTa": "குழந்தைகள்",
+    "en": "Since the fifth house is ruled by the planet Saturn, normally the Libra-borns will have limited number of children. As Saturn is a dutiful planet, the children of Libra-borns will help them in their old age. Librans, by their charm and pleasing manners, can see that the children carry out their instructions with pleasure. If children are born in the exalted sign of Saturn, i.e. Libra-they will be renowned for their diplomacy. They will never quarrel. They will pay heed to others, understand their views and try to adopt them if they suit them. They are never 'Extremes'. They are moderate. They cannot be partial. They are very polite and modest. They know to say alway. 'Yes' and they avoid saying 'No' to anybody.",
+    "ta": "ஐந்தாம் வீடு சனியின் ஆளுகையில் இருப்பதால் துலாமினருக்கு குழந்தைகள் குறைவாக இருக்கும். சனி கடமையுணர்வு மிக்கவர் என்பதால் குழந்தைகள் முதுமையில் உதவுவர். அவர்களின் இனிய பழக்கவழக்கங்களால் குழந்தைகள் அறிவுரைகளை மகிழ்ச்சியுடன் பின்பற்றுவர். சனி உச்சம் பெறும் துலாம் ராசியில் குழந்தைகள் பிறந்தால் ராஜதந்திரத்தில் புகழ் பெறுவர்; சண்டை போட மாட்டார்கள், பிறர் கருத்தைக் கேட்டு ஏற்றுக்கொள்வர். தீவிரமானவர்கள் அல்ல; நடுநிலையாளர்கள், பணிவும் அடக்கமும் உடையவர்கள்; \"ஆம்\" என்று சொல்வர், யாருக்கும் \"இல்லை\" என்று சொல்வதைத் தவிர்ப்பர்."
+   },
+   {
+    "id": "LUCKY_DAY",
+    "page": 204,
+    "titleTa": "அதிர்ஷ்ட நாள்",
+    "en": "Sundays and Mondays are the successful days, when you will be fortunate. Saturdays show ultimate and grand success as it owns both the Kendhra and Kona houses and it becomes a benefic by lordship. Tuesdays are auspicious for competition, litigation, election and speculation. Sudden and unexpected advantages will occur on those days. Wednesdays show long journeys, contact with foreigners, feasts, social functions and pleasant expenses. Thursdays are evil. There will be misunderstanding with cousins, colleagues and others. But this day is auspicious to apply for overdraft facility etc. (Generally people born in Libra do not have such younger brothers who are as useful, reliable and true to Librans, as Librans are to them. As lord of 3 is also lord of 6, the younger brother and neighbour will be inimical). Fridays offer mixed results.",
+    "ta": "ஞாயிறு, திங்கள் வெற்றிகரமான நாட்கள். சனி கேந்திர, கோண வீடுகளுக்கு அதிபதியாதலால் சனிக்கிழமை பெரிய வெற்றி தரும். செவ்வாய் போட்டி, வழக்கு, தேர்தல், ஊகம் ஆகியவற்றுக்கு சுபம்; திடீர், எதிர்பாராத ஆதாயங்கள். புதன் நீண்ட பயணம், வெளிநாட்டவர் தொடர்பு, விருந்து, சமூக நிகழ்ச்சி, இனிய செலவுகளைத் தரும். வியாழன் பகையானது; உறவினர், சக ஊழியர்களிடம் தவறான புரிதல் வரலாம். ஆனால் மிகைப்பற்று வசதி கேட்க நல்லது. (துலாம் சகோதரர்களுக்கு மூன்றாம், ஆறாம் அதிபதியால் இளைய சகோதரரும் அண்டை வீட்டாரும் பகையாக இருக்கலாம்.) வெள்ளி கலவையான பலன்."
+   },
+   {
+    "id": "LUCKY_COLOUR",
+    "page": 205,
+    "titleTa": "அதிர்ஷ்ட நிறம்",
+    "en": "Orange, white and red. Green and yellow should be avoided. Orange colour gives easy gain without any pain. Pearls and orange are favourable for speculative profit. Do not use blue when you speculate. Blue will assist your opponent as Capricorn and Aquarius are the 10th and .11th houses to the opponent indicated by Aries. Red colour is good for marriage and competition. Yellow threatens misunderstanding and dispute. Green shows only withdrawal of money and deterioration of bank position. -",
+    "ta": "ஆரஞ்சு, வெள்ளை, சிவப்பு. பச்சை, மஞ்சள் தவிர்க்கவும். ஆரஞ்சு வலியில்லாமல் எளிதான ஆதாயம் தரும்; முத்தும் ஆரஞ்சும் ஊக லாபத்துக்கு நல்லது. ஊகம் செய்யும்போது நீலம் வேண்டாம்; நீலம் எதிராளிக்கு உதவும். சிவப்பு திருமணத்துக்கும் போட்டிக்கும் நல்லது. மஞ்சள் தவறான புரிதலையும் சண்டையையும் தரும். பச்சை பணம் வெளியேறுவதையும் வங்கி இருப்பு குறைவதையும் மட்டுமே காட்டும்."
+   },
+   {
+    "id": "LUCKY_NUMBER",
+    "page": 206,
+    "titleTa": "அதிர்ஷ்ட எண்",
+    "en": "1, 10, 19 28, 37 etc 4, 13, 22, 31, 40 etc. 2, 11, 20, 29, 38, 47 etc. 7, 16, 25, 34, 43, etc. Number 5 is for loss ; 6 also threatens success to opponent : 8 indicates investment and profit to one with whom Librans transact, 3 brings enmity. 9 may lead to litigation. But finally it promises success. Some are of opinion that Venus being the lord of the ascendant, Friday Number 6 and diamond are lucky. But it is not correct as Venus rules the 8th house also (although in Jataka Chandrika it is said that Venus does not become a malefic by owning the 8th house). Experience has shown that this rule applies only to longevity and not for any other aspect in one's life. So Venus as lord of 8 will throw obstacles: one may have any danger due to the lordship of the 8th house. As lord of the ascendant, it saves. But Venus does not give smooth life.",
+    "ta": "1, 10, 19, 28, 37 முதலியன; 4, 13, 22, 31, 40 முதலியன; 2, 11, 20, 29, 38, 47 முதலியன; 7, 16, 25, 34, 43 முதலியன. 5 நஷ்டம்; 6 எதிராளிக்கு வெற்றியைக் குறிக்கும்; 8 துலாமினருடன் வணிகம் செய்பவருக்கு முதலீடும் லாபமும்; 3 பகை; 9 வழக்கு, ஆனால் இறுதியில் வெற்றி. சுக்கிரன் லக்னாதிபதியாதலால் வெள்ளிக்கிழமை, எண் 6, வைரம் அதிர்ஷ்டம் என்ற கருத்து உண்டு; ஆனால் சுக்கிரன் எட்டாம் வீட்டு அதிபதியும் என்பதால் அது சரியல்ல. ஆயுளுக்கு மட்டுமே எட்டாமிட அதிபதியின் தீங்கு என்பது அனுபவம்; எட்டாம் அதிபதியாக சுக்கிரன் தடைகளைத் தருவார். லக்னாதிபதியாக சுக்கிரன் காப்பார்; ஆனால் சுக்கிரன் மென்மையான வாழ்க்கையைத் தருவதில்லை."
+   },
+   {
+    "id": "ANIMATE",
+    "page": 206,
+    "titleTa": "உயிருள்ள, உயிரற்ற பொருட்கள்",
+    "en": "Libra indicates the prices of cotton and textiles, silks and fabrics like rayons, linen, nylon ; and also the prices of wheat, jute, canes and grains. Finished goods and foodstuffs are indicated by Virgo.",
+    "ta": "பருத்தி, துணிமணிகள், பட்டு, ரேயான், கைத்தறி, நைலான் போன்ற துணி வகைகளின் விலை; கோதுமை, சணல், கரும்பு, தானியங்களின் விலை. முடிந்த பொருட்களும் உணவுப் பொருட்களும் கன்னியால் குறிக்கப்படும்."
+   },
+   {
+    "id": "PLACES",
+    "page": 206,
+    "titleTa": "இடங்கள்",
+    "en": "Libra denotes sawpits, ground near windmills, outhouses, inner chamber, sides of hills, places having a pure, clear, sharp air, mountain tops, etc ..",
+    "ta": "அறுவை மரத்தூள் இடங்கள், காற்றாலைக்கு அருகிலுள்ள நிலம், வெளிப்புறக் கொட்டகைகள், உள் அறைகள், மலைச் சரிவுகள், தூய்மையான, தெளிவான, கூர்மையான காற்று உள்ள இடங்கள், மலை உச்சிகள்."
+   },
+   {
+    "id": "CITIES",
+    "page": 206,
+    "titleTa": "நகரங்கள்",
+    "en": "Antwerp, Nottingham, Lezds, Frankfart, Lisbon, Vienna, Charles Town, Petrograd, Copenhagen, Spirles, Playenya Fribourg, Suessa, Johannesburg and Gaeta.",
+    "ta": "ஆண்ட்வெர்ப், நாட்டிங்ஹாம், லீட்ஸ், ஃபிராங்ஃபர்ட், லிஸ்பன், வியன்னா, சார்லஸ் டவுன், பெட்ரோகிராட், கோபன்ஹேகன், ஸ்பிர்லெஸ், பிளேனியா ஃபிரிபர்க், சூயெஸ்ஸா, ஜோகனஸ்பர்க், கயேட்டா."
+   },
+   {
+    "id": "COUNTRIES",
+    "page": 207,
+    "titleTa": "நாடுகள்",
+    "en": "Northern Provinces of India, Burma, 1: Mo-China, China, Argentina Republic, parts of Tibet, Upper Egypt, Libya, Uzbek, Savoy, Austria, Bactrianna and Livonia.",
+    "ta": "இந்தியாவின் வட மாகாணங்கள், பர்மா, சீனா (மோ-சீனா உட்பட), அர்ஜென்டினா குடியரசு, திபெத்தின் சில பகுதிகள், மேல் எகிப்து, லிபியா, உஸ்பெக், சவோய், ஆஸ்திரியா, பாக்ட்ரியானா, லிவோனியா."
    }
   ]
  }
