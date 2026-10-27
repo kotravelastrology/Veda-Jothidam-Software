@@ -28,4 +28,13 @@ assert.ok(second.en.endsWith('the malefics occupy the second house of the native
 assert.ok(second.ta.length > 0 && second.titleTa.length > 0);
 assert.ok(!second.en.includes('Thi rd House') && !second.en.includes('Third House'), 'the third house is its own entry');
 assert.ok(!second.en.includes('relative and be worried'), 'the first house is its own entry');
+const third = H.Third;
+assert.strictEqual(third.pageFrom, 280);
+assert.strictEqual(third.pageTo, 284);
+assert.strictEqual(third.page, 280);
+assert.ok(third.en.startsWith('Dhairya (courage, firmness)'));
+assert.ok(third.en.endsWith("who would have caused loss to the native's mother."));
+assert.ok(third.ta.length > 0 && third.titleTa.length > 0);
+assert.ok(!third.en.includes('Fourth House'), 'the fourth house is its own entry');
+assert.ok(!third.en.includes('Artha (wealth)'), 'the second house is its own entry');
 console.log('test-reader-ii-house-descriptions ok');
