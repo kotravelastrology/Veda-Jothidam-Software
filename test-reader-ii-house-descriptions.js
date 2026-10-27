@@ -91,4 +91,13 @@ assert.ok(ninth.en.endsWith("indicates the elder brother's accomplishments being
 assert.ok(ninth.ta.length > 0 && ninth.titleTa.length > 0);
 assert.ok(!ninth.en.includes('Tenth House'), 'the tenth house is its own entry');
 assert.ok(!ninth.en.includes('Eighth House'), 'the eighth house is its own entry');
+const tenth = H.Tenth;
+assert.strictEqual(tenth.pageFrom, 307);
+assert.strictEqual(tenth.pageTo, 317);
+assert.strictEqual(tenth.page, 307);
+assert.ok(tenth.en.startsWith('The applications applied to the 10th bhava are'));
+assert.ok(tenth.en.endsWith("one's dear friends and their hospitalisation."));
+assert.ok(tenth.ta.length > 0 && tenth.titleTa.length > 0);
+assert.ok(!tenth.en.includes('Eleventh House'), 'the eleventh house is its own entry');
+assert.ok(!tenth.en.includes('Ninth House'), 'the ninth house is its own entry');
 console.log('test-reader-ii-house-descriptions ok');
