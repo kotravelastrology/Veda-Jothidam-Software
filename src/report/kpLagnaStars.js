@@ -19,7 +19,7 @@ const STAR_TA = {
   Punarvasu: 'புனர்பூசம்', Vishakha: 'விசாகம்', 'Purva Bhadrapada': 'பூரட்டாதி', Pushya: 'பூசம்', Anuradha: 'அனுஷம்', 'Uttara Bhadrapada': 'உத்திரட்டாதி', Ashlesha: 'ஆயில்யம்', Jyeshtha: 'கேட்டை', Revati: 'ரேவதி',
 };
 const SOURCE = {
-  title: 'Krishnamurti Padhdhati, Reader V: Transit (Gochara Phala Nirnayam)',
+  title: 'Krishnamurti Padhdhati, Reader V: Transit (Gocharapala Nirnayam)',
   author: 'K.S. Krishnamurti',
   tradition: 'Krishnamurti Paddhati (KP)',
   file: 'C33_KP_Reader_V_Transit_KSK.pdf',

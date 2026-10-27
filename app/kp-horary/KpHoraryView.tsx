@@ -81,7 +81,7 @@ export default function KpHoraryView() {
           <label>கேள்வி<br />
             <select className={`${field} w-64`} value={form.topic} onChange={set('topic')}>
               <option value="">— தேர்வு இல்லை —</option>
-              {tables?.topics.slice().sort((x: any, y: any) => x.page - y.page).map((t: any) => <option key={t.id} value={t.id}>ப.{t.page} · {t.titleTa} ({t.houses.join(', ')})</option>)}
+              {tables?.topics.slice().sort((x: any, y: any) => x.page - y.page).map((t: any) => <option key={t.id} value={t.id}>{t.citation ? 'KP-Ezine · ' : ''}ப.{t.page} · {t.titleTa} ({t.houses.join(', ')})</option>)}
             </select>
           </label>
           <button type="button" onClick={run} disabled={loading} className="px-4 py-1.5 rounded bg-saffron text-ink text-sm disabled:opacity-50">{loading ? 'கணக்கிடுகிறது…' : 'கணக்கிடு'}</button>
@@ -144,7 +144,7 @@ export default function KpHoraryView() {
 
           {a && (
             <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
-              <h2 className="font-semibold text-ink mb-1">{a.topic.titleTa} — வீடுகள் {a.topic.houses.join(', ')} (நூல் ப.{a.topic.page})</h2>
+              <h2 className="font-semibold text-ink mb-1">{a.topic.titleTa} — வீடுகள் {a.topic.houses.join(', ')} ({a.topic.citation ?? `நூல் ப.${a.topic.page}`})</h2>
               <p className="text-xs text-ink-soft mb-3">{a.topic.reasonTa}</p>
               <h3 className="text-xs font-semibold text-ink mb-1">அந்த வீடுகளின் கஸ்ப் உப அதிபதிகள்</h3>
               <table className="w-full text-xs mb-3" style={num}>

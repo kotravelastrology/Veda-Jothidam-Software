@@ -10,7 +10,7 @@ const SIGNS = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', '
 const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 const SOURCE = {
-  title: 'Fundamental Principles of Astrology (Hindu - Western & Stellar), Reader No. II',
+  title: 'Krishnamurti Padhdhati, Reader II: Fundamental Principles of Astrology',
   author: 'K.S. Krishnamurti',
   tradition: 'Krishnamurti Paddhati (KP)',
   file: 'C65_KP_Reader_II_Fundamental_Principles_KSK.pdf',

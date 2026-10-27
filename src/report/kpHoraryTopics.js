@@ -5,6 +5,7 @@
  * (the four levels of kpHouseSignificators.js), the sub-lord of each of those cusps and the houses it signifies, and which ruling planets signify them.
  */
 const { MORE, EXTRA_RULES } = require('./kpHoraryMore');
+const { C69_TOPICS } = require('./kpHoraryC69');
 
 const BASE = [
   { id: 'MARRIAGE', titleTa: 'திருமணம்', houses: [2, 7, 11], page: 86, reasonTa: 'லக்னத்திலிருந்து 2, 7, 11-ஆம் வீடுகள்.' },
@@ -29,6 +30,7 @@ const BASE = [
 const TOPICS = [
   ...BASE.map((t) => ({ ...t, rules: EXTRA_RULES[t.id] ?? [] })),
   ...MORE.map(([id, titleTa, houses, page, reasonTa, rules]) => ({ id, titleTa, houses, page, reasonTa, rules })),
+  ...C69_TOPICS,
 ];
 const BY_ID = Object.fromEntries(TOPICS.map((t) => [t.id, t]));
 const BAD = [6, 8, 12];

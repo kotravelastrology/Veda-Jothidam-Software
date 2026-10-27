@@ -111,4 +111,4 @@ const EXTRA_RULES = {
   LOTTERY: [R(11, 'SUB', { any: [2, 6, 11], direct: true }, '11-ஆம் கஸ்ப் உப அதிபதியும் அவர் நட்சத்திர அதிபதியும் வக்ரம் அல்ல, உப அதிபதி 2, 6 அல்லது 11-ஐக் குறிக்கிறார்: நூல் — வெற்றி பெறுவார் (ப.213)')],
 };
 
-module.exports = { MORE, EXTRA_RULES };
+module.exports = { MORE, EXTRA_RULES, R };

@@ -54,7 +54,9 @@ assert.strictEqual(rp.planets.find((p) => p.planet === 'Mercury').inRetrogradeSt
 // the question catalogue: houses stated in the book, with the page
 for (const q of T.TOPICS) {
   assert.ok(q.houses.length >= 1 && q.houses.every((h) => h >= 1 && h <= 12), q.id);
-  assert.ok(q.page >= 86 && q.page <= 322 && q.reasonTa.length > 5, q.id);
+  // the Reader VI pages (86-322); the C69 entries carry their own citation and are checked in test-kp-horary-c69.js
+  if (!q.citation) assert.ok(q.page >= 86 && q.page <= 322, q.id);
+  assert.ok(q.reasonTa.length > 5, q.id);
   for (const r of q.rules) assert.ok(r.cusp >= 1 && r.cusp <= 12 && [...r.all, ...r.any].every((h) => h >= 1 && h <= 12) && ['STAR', 'SUB'].includes(r.via) && r.textTa.length > 10, `${q.id} rule`);
 }
 assert.deepStrictEqual(T.BY_ID.TRUNK_CALL.houses, [3, 9, 11]);
@@ -66,9 +68,9 @@ assert.strictEqual(a.extra.length, 3);
 assert.ok(a.significators.every((s) => s.topicHouses.length > 0));
 assert.strictEqual(T.analyseTopic(c.kp, c.ruling, 'MARRIAGE').extra.length, 0);
 
-// the rest of the questions (kpHoraryMore.js): 74 in all, unique ids, houses as the book states them
-assert.strictEqual(T.TOPICS.length, 74);
-assert.strictEqual(new Set(T.TOPICS.map((q) => q.id)).size, 74);
+// the rest of the questions (kpHoraryMore.js, and the two KP-Ezine entries): 76 in all, unique ids, houses as the book states them
+assert.strictEqual(T.TOPICS.length, 76);
+assert.strictEqual(new Set(T.TOPICS.map((q) => q.id)).size, 76);
 assert.deepStrictEqual(T.BY_ID.JOB.houses, [2, 6, 10]);
 assert.deepStrictEqual(T.BY_ID.TRANSFER.houses, [3, 10, 12]);
 assert.deepStrictEqual(T.BY_ID.PROMOTION.houses, [2, 6, 10, 11]);

@@ -11,7 +11,7 @@ const { signifiersByHouse } = require('./kpHoraryTopics');
 const { rulingRisingMoments, rulingTransitMoments } = require('./kpRulingTime');
 
 const SOURCE = {
-  title: 'Krishnamurti Padhdhati, Reader V: Transit (Gochara Phala Nirnayam)',
+  title: 'Krishnamurti Padhdhati, Reader V: Transit (Gocharapala Nirnayam)',
   author: 'K.S. Krishnamurti',
   tradition: 'Krishnamurti Paddhati (KP)',
   file: 'C33_KP_Reader_V_Transit_KSK.pdf',
