@@ -1,8 +1,8 @@
 /**
- * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st, 2nd
- * and 3rd houses from each lagna (9 planets x 12 lagnas x 3 houses = 324). Each entry is the book's prose as printed (`en`,
- * joined from the page extract; OCR slips are kept), its Tamil summary (`ta`, ours) and the printed page the entry starts
- * on. `planetSign` is the sign the planet stands in (the lagna for house 1, the next sign for house 2, two signs on for 3).
+ * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 4th
+ * houses from each lagna (9 planets x 12 lagnas x 4 houses = 432). Each entry is the book's prose as printed (`en`, joined
+ * from the page extract; OCR slips are kept), its Tamil summary (`ta`, ours) and the printed page the entry starts on.
+ * `planetSign` is the sign the planet stands in (the lagna for house 1, and the sign that many places on for houses 2 to 4).
  * The printed page is the scan's page number plus five, checked against the printed numbers in the scan and the page
  * images for Libra (p.156) and Leo (p.104). Extracted by scratch scripts; the text is the book's.
  */
@@ -1627,6 +1627,546 @@ const PLANET_IN_HOUSE = [
     house: 3, lagna: "Pisces", planetSign: "Taurus", planet: "Ketu", page: 270,
     en: "Is very bold and labours very hard, is restless in the house ofbrother, possesses great physical strength, possesses great courage, faces some severe calamities, works very patiently, does not consider anything impossible",
     ta: "மிகத் தைரியமும் கடின உழைப்பும்; சகோதரர் வீட்டில் அமைதியின்மை; மிகுந்த உடல் வலிமை; மிகுந்த தைரியம்; சில கடுமையான ஆபத்துகளைச் சந்திப்பார்; மிகப் பொறுமையாக வேலை செய்வார்; எதுவும் இயலாததாக நினைக்க மாட்டார்.",
+  },
+  {
+    house: 4, lagna: "Aries", planetSign: "Cancer", planet: "Sun", page: 21,
+    en: "Gets good education, gets the power of children and qualities of a mother, speaks sweetly, gets land and property, uninterested in the house of father, gets slack at times, malicious in respect of government and society, wise",
+    ta: "நல்ல கல்வி; குழந்தைகளின் ஆற்றலும் தாயின் குணங்களும்; இனிமையாகப் பேசுவார்; நிலமும் சொத்தும்; தந்தை வீட்டில் ஆர்வம் குறைவு; சில நேரம் சோம்பல்; அரசு, சமூக வகையில் பொறாமை; அறிவாளி.",
+  },
+  {
+    house: 4, lagna: "Aries", planetSign: "Cancer", planet: "Moon", page: 23,
+    en: "Gets good motherly affection and landed property through her, is caiefiee and mentally happy, considers mother as superior to father, undertakes works relating to government and society and enjoys pleasures and luxuries",
+    ta: "தாயின் நல்ல அன்பும் நிலச் சொத்தும்; அக்கறையுடன் மனத்தில் மகிழ்ச்சி; தந்தையைவிட தாயை உயர்வாக நினைப்பார்; அரசு, சமூக வேலைகளைச் செய்வார்; இன்பமும் வசதியும் அனுபவிப்பார்.",
+  },
+  {
+    house: 4, lagna: "Aries", planetSign: "Cancer", planet: "Mars", page: 25,
+    en: "Short in stature, loses motherly affection, becomes restless, loses lands and buildings, not happy with wife, hard-working",
+    ta: "உயரம் குறைவு; தாயின் அன்பை இழப்பார்; அமைதியின்மை; நிலமும் கட்டிடமும் இழப்பு; மனைவியுடன் மகிழ்ச்சியின்மை; கடின உழைப்பாளி; ஞானமும் அவசரமும்; குழந்தைகளுடன் அதிருப்தி; அதிகம் செலவழிப்பார்; லட்சியமானவர்.",
+  },
+  {
+    house: 4, lagna: "Aries", planetSign: "Cancer", planet: "Mercury", page: 27,
+    en: "Energetic and industrious, faces hindrances from brothers and sisters, happiness from maternal grandfather, dislikes mother, problems in the property, restless, wins over the enemies, gains from occupation, honour from state and society",
+    ta: "சுறுசுறுப்பும் உழைப்பும்; உடன்பிறப்புகளால் தடைகள்; தாய்வழி தாத்தாவால் மகிழ்ச்சி; தாயிடம் விருப்பமின்மை; சொத்தில் சிக்கல்; அமைதியின்மை; எதிரிகளை வெல்வார்; தொழிலில் ஆதாயம்; அரசு, சமூகத்தில் மரியாதை.",
+  },
+  {
+    house: 4, lagna: "Aries", planetSign: "Cancer", planet: "Jupiter", page: 29,
+    en: "Happiness through houses and gains, has good luck, is showy and religious, pleasures from the side of mother, gets no happiness from father and is fortunate",
+    ta: "வீடு, ஆதாயங்களால் மகிழ்ச்சி; நல்ல அதிர்ஷ்டம்; ஆடம்பரமும் தர்ம நாட்டமும்; தாய் வழியில் இன்பம்; தந்தையால் மகிழ்ச்சி இல்லை; அதிர்ஷ்டசாலி.",
+  },
+  {
+    house: 4, lagna: "Aries", planetSign: "Cancer", planet: "Venus", page: 31,
+    en: "Happy and wealthy, gets a good wife, has affection from mother, occupies good position, gets honour in government and society, father helpful, enjoys worldly pleasures and is clever in approach",
+    ta: "மகிழ்ச்சியும் செல்வமும்; நல்ல மனைவி; தாயின் அன்பு; நல்ல நிலை; அரசு, சமூகத்தில் மரியாதை; தந்தையின் உதவி; உலக இன்பங்களை அனுபவிப்பார்; சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 4, lagna: "Aries", planetSign: "Cancer", planet: "Saturn", page: 33,
+    en: "Happiness from father, help from government and society, not much affection from mother, suffers from enemies, a bit careless and has to work very hard",
+    ta: "தந்தையால் மகிழ்ச்சி; அரசு, சமூகத்தின் உதவி; தாயின் அன்பு குறைவு; எதிரிகளால் துன்பம்; சிறிது அசட்டை; மிகக் கடினமாக உழைக்க வேண்டும்.",
+  },
+  {
+    house: 4, lagna: "Aries", planetSign: "Cancer", planet: "Rahu", page: 35,
+    en: "Loses mother, unhappy and loses peace, loses property and lands, bears mental stress, makes others astonish",
+    ta: "தாயை இழப்பார்; மகிழ்ச்சியின்றி அமைதியை இழப்பார்; சொத்தும் நிலமும் இழப்பார்; மன அழுத்தம்; மற்றவர்களை வியக்க வைப்பார்.",
+  },
+  {
+    house: 4, lagna: "Aries", planetSign: "Cancer", planet: "Ketu", page: 37,
+    en: "Lacks motherly affection, gets separated from family, finds losses in immovable properties, lands and buildings, feels restless and unhappy, has to bear grave calamities in his own place and finally succeeds in achieving gains and pleasures",
+    ta: "தாயின் அன்பு குறைவு; குடும்பத்தைப் பிரிவார்; அசையாச் சொத்து, நிலம், கட்டிடங்களில் இழப்பு; அமைதியின்மை, மகிழ்ச்சியின்மை; சொந்த ஊரில் பெரும் ஆபத்துகளைத் தாங்குவார்; இறுதியில் ஆதாயமும் இன்பமும் பெறுவார்.",
+  },
+  {
+    house: 4, lagna: "Taurus", planetSign: "Leo", planet: "Sun", page: 42,
+    en: "Gets land and property, happiness from mother, not much help from father, contacts with government and feels happy in his own house",
+    ta: "நிலமும் சொத்தும்; தாயால் மகிழ்ச்சி; தந்தையிடம் பெரிய உதவி இல்லை; அரசுடன் தொடர்பு; தன் வீட்டில் மகிழ்ச்சி.",
+  },
+  {
+    house: 4, lagna: "Taurus", planetSign: "Leo", planet: "Moon", page: 44,
+    en: "Happiness through brothers and sisters, gets lands and buildings, help from others, not cordial relations with father, enterprise and happiness",
+    ta: "உடன்பிறப்புகளால் மகிழ்ச்சி; நிலமும் கட்டிடமும் பெறுவார்; பிறரின் உதவி; தந்தையுடன் நெருக்கமற்ற உறவு; முயற்சியும் மகிழ்ச்சியும்.",
+  },
+  {
+    house: 4, lagna: "Taurus", planetSign: "Leo", planet: "Mars", page: 46,
+    en: "Loss of mother, gets separated from motherland, happiness in occupation, strong happiness in the side of wife, works hard to earn more wealth, weakness in sexual pleasures, respect from government and society",
+    ta: "தாயை இழப்பார்; தாய்நாட்டைப் பிரிவார்; தொழிலில் மகிழ்ச்சி; மனைவி வகையில் பெரும் மகிழ்ச்சி; செல்வம் பெருக்க கடினமாக உழைப்பார்; பாலியல் இன்பத்தில் பலவீனம்; அரசு, சமூகத்தில் மரியாதை.",
+  },
+  {
+    house: 4, lagna: "Taurus", planetSign: "Leo", planet: "Mercury", page: 48,
+    en: "Acquires good education, gets happiness of children and also gets wealth and also buildings and property, has decent ideas and happiness and comforts, does happy deeds and has good oratorical ability, progress in business",
+    ta: "நல்ல கல்வி; பிள்ளைகளின் மகிழ்ச்சி; செல்வமும் கட்டிடமும் சொத்தும்; நல்ல எண்ணங்களும் மகிழ்ச்சியும் வசதியும்; மகிழ்ச்சியான செயல்கள்; நல்ல பேச்சுத் திறன்; வணிகத்தில் முன்னேற்றம்.",
+  },
+  {
+    house: 4, lagna: "Taurus", planetSign: "Leo", planet: "Jupiter", page: 50,
+    en: "Lives long, lame in life and career, separation in the house of mother, benefit from contact of foreign countries, mixed relations with father, opposition from government and society, has occult powers",
+    ta: "நீண்ட ஆயுள்; தொழிலிலும் வாழ்விலும் நொண்டித்தன்மை; தாய் வீட்டில் பிரிவு; வெளிநாட்டுத் தொடர்பால் ஆதாயம்; தந்தையுடன் கலந்த உறவு; அரசு, சமூகத்தில் எதிர்ப்பு; மறை ஆற்றல்.",
+  },
+  {
+    house: 4, lagna: "Taurus", planetSign: "Leo", planet: "Venus", page: 52,
+    en: "Enmity with mother, gets some loss and disease in the physical happiness, some unhappiness in the house of father, honour through government and society, problem with regard to land and buildings, tries very hard for the progress of business and house, slight restlessness due to enemies",
+    ta: "தாயுடன் பகை; உடல் மகிழ்ச்சியில் சிறு இழப்பும் நோயும்; தந்தை வீட்டில் சிறு அதிருப்தி; அரசு, சமூகத்தில் மரியாதை; நிலம், கட்டிடத்தில் சிக்கல்; தொழிலையும் வீட்டையும் முன்னேற்ற கடினமாக முயல்வார்; எதிரிகளால் சிறு அமைதியின்மை.",
+  },
+  {
+    house: 4, lagna: "Taurus", planetSign: "Leo", planet: "Saturn", page: 54,
+    en: "Dissatisfaction from parents, gets the influence and high power in the house of enemies, gets honour from government and society, feels a little unhappy, undertakes troublesome deeds and is religious",
+    ta: "பெற்றோர் மீது அதிருப்தி; எதிரி வீட்டில் செல்வாக்கும் உயர் அதிகாரமும்; அரசு, சமூகத்தில் மரியாதை; சிறிது மனவருத்தம்; தொல்லை தரும் செயல்களைச் செய்வார்; தர்மத்தில் நாட்டம்.",
+  },
+  {
+    house: 4, lagna: "Taurus", planetSign: "Leo", planet: "Rahu", page: 56,
+    en: "Loss in house of mother, loses land and buildings, unhappy, leaves his birthplace, suffering in life, happiness through secret methods, fatal and deep plans in the place of living and happiness, feels restless",
+    ta: "தாய் வீட்டில் இழப்பு; நிலமும் கட்டிடமும் இழப்பு; மகிழ்ச்சியின்மை; பிறந்த ஊரை விட்டு விலகுவார்; வாழ்வில் துன்பம்; ரகசிய வழிகளால் மகிழ்ச்சி; ஆபத்தான ஆழமான திட்டங்கள்; அமைதியின்மை.",
+  },
+  {
+    house: 4, lagna: "Taurus", planetSign: "Leo", planet: "Ketu", page: 58,
+    en: "Separation from motherland, troubles in buildings and property, many kinds of losses and unhappy, gets happiness after suffering a lot",
+    ta: "தாய்நாட்டைப் பிரிவார்; வீடு, சொத்தில் தொல்லைகள்; பல வகை இழப்புகள்; மகிழ்ச்சியின்மை; மிகுந்த துன்பத்துக்குப் பின் மகிழ்ச்சி.",
+  },
+  {
+    house: 4, lagna: "Gemini", planetSign: "Virgo", planet: "Sun", page: 62,
+    en: "Gets happiness of brothers and sisters, gets the strength of buildings and property, gets progress by labour happily, gets influence in the house of mother, respect to father, gets honour and influence in connection with government and society, gets and influence in the house of business",
+    ta: "உடன்பிறப்புகளால் மகிழ்ச்சி; கட்டிடம், சொத்தின் வலிமை; மகிழ்ச்சியுடன் உழைப்பால் முன்னேற்றம்; தாய் வீட்டில் செல்வாக்கு; தந்தைக்கு மரியாதை; அரசு, சமூகத்தில் மரியாதையும் செல்வாக்கும்; தொழில் வீட்டில் செல்வாக்கு.",
+  },
+  {
+    house: 4, lagna: "Gemini", planetSign: "Virgo", planet: "Moon", page: 64,
+    en: "Accumulates wealth, lands and buildings and bondage with mother, gets success in wealth and business, honour in the house of government and society, has great patience and peace of mind",
+    ta: "செல்வம், நிலம், கட்டிடம் சேர்ப்பார்; தாயுடன் கட்டுப்பாடு; செல்வமும் தொழிலும் வெற்றி; அரசு, சமூகத்தில் மரியாதை; பெரும் பொறுமையும் மன அமைதியும்.",
+  },
+  {
+    house: 4, lagna: "Gemini", planetSign: "Virgo", planet: "Mars", page: 66,
+    en: "Some gains and some loss in the house of mother, help from the side of maternal grandfather's house, gets gains from lands and buildings, mixed feeling with regard to happiness, does not care for enemies but gains from them, mixed relations from the side of wife, some industry in the house of father and the government and society",
+    ta: "தாய் வீட்டில் சில இழப்பும் சில ஆதாயமும்; தாய்வழி தாத்தா வீட்டில் உதவி; நிலம், கட்டிடத்தால் ஆதாயம்; மகிழ்ச்சியில் கலந்த உணர்வுகள்; எதிரிகளைப் பொருட்படுத்தாவிட்டாலும் அவர்களால் ஆதாயம்; மனைவி வகையில் கலந்த உறவு; தந்தை, அரசு, சமூக வகையில் சில முயற்சி.",
+  },
+  {
+    house: 4, lagna: "Gemini", planetSign: "Virgo", planet: "Mercury", page: 68,
+    en: "Lives happily, has a good physique, deficiency in the house of father, does not care for government and society, gets buildings and property, happy with spiritual powers, careless",
+    ta: "மகிழ்ச்சியாக வாழ்வார்; நல்ல உடல்; தந்தை வீட்டில் குறை; அரசு, சமூகத்தைப் பொருட்படுத்தார்; நிலமும் சொத்தும்; ஆன்மிக ஆற்றலில் மகிழ்ச்சி; அசட்டையானவர்.",
+  },
+  {
+    house: 4, lagna: "Gemini", planetSign: "Virgo", planet: "Jupiter", page: 70,
+    en: "Gets happiness of business and occupation, gets honour from the house of mother, also happiness from the house of father, does the daily occupation with dignity and in a lofty manner, gets happiness from government and society, gets the strength of lands and buildings, is industrious and honourable",
+    ta: "தொழிலிலும் வேலையிலும் மகிழ்ச்சி; தாய் வீட்டில் மரியாதை; தந்தை வீட்டிலும் மகிழ்ச்சி; தினசரி வேலையை கௌரவத்துடனும் உயர்வுடனும் செய்வார்; அரசு, சமூகத்தில் மகிழ்ச்சி; நிலம், கட்டிடங்களின் வலிமை; உழைப்பாளி, மரியாதைக்குரியவர்.",
+  },
+  {
+    house: 4, lagna: "Gemini", planetSign: "Virgo", planet: "Venus", page: 72,
+    en: "Loss with mother and separation from motherland and birthplace progress in government and society, weak in education, unhappy with children, feels mental worry due to some domestic unhappiness",
+    ta: "தாய் வகையில் இழப்பும், தாய்நாடு, பிறந்த ஊரைப் பிரிவும்; அரசு, சமூகத்தில் முன்னேற்றம்; கல்வியில் பலவீனம்; குழந்தைகளால் அதிருப்தி; குடும்பத்தில் சில கவலைகள்.",
+  },
+  {
+    house: 4, lagna: "Gemini", planetSign: "Virgo", planet: "Saturn", page: 74,
+    en: "Some loss in the maternal affection, spends the daily routine of life with influence, some worry and some fortune, engaged in acquiring buildings",
+    ta: "தாய்ப் பாசத்தில் சில இழப்பு; வாழ்க்கையை செல்வாக்குடன் கழிப்பார்; சிறு கவலையும் சில அதிர்ஷ்டமும்; கட்டிடங்களைச் சேர்ப்பதில் ஈடுபாடு.",
+  },
+  {
+    house: 4, lagna: "Gemini", planetSign: "Virgo", planet: "Rahu", page: 76,
+    en: "Deficiency in the happiness of mother, gets loss in connection with lands and buildings, unhappy in domestic life, very serious",
+    ta: "தாயின் மகிழ்ச்சியில் குறை; நிலம், கட்டிடத்தில் இழப்பு; குடும்ப வாழ்வில் மகிழ்ச்சியின்மை; மிகவும் கடுமையானவர்.",
+  },
+  {
+    house: 4, lagna: "Gemini", planetSign: "Virgo", planet: "Ketu", page: 78,
+    en: "Loss and deficiency in the house of mother, some hindrances in connection with lands and buildings, stable position in the house of happiness after many disturbances and difficulties",
+    ta: "தாய் வீட்டில் இழப்பும் குறையும்; நிலம், கட்டிடத்தில் சில தடைகள்; பல குழப்பங்களுக்கும் கஷ்டங்களுக்கும் பின் நிலையான மகிழ்ச்சி.",
+  },
+  {
+    house: 4, lagna: "Cancer", planetSign: "Libra", planet: "Sun", page: 82,
+    en: "Feels troublesome on account of wealth, restlessness in the house of happiness, some deficiency in the house of father, some deficiency in the house of mother, honour in business, lacks in cash possessions, experiencing troubles regarding land and property, gets respect in government and society, restlessness in the house of family and wealth",
+    ta: "வருமானத்தில் கவலை; மகிழ்ச்சியில் அமைதியின்மை; தந்தை வீட்டில் சில குறை; தாய் வீட்டில் சில குறை; தொழிலில் மரியாதை; பணம் குறைவு; நிலம், சொத்தில் சிக்கல்; அரசு, சமூகத்தில் மரியாதை; குடும்பத்திலும் செல்வத்திலும் அமைதியின்மை.",
+  },
+  {
+    house: 4, lagna: "Cancer", planetSign: "Libra", planet: "Moon", page: 85,
+    en: "Lives happily at his birthplace, is of handsome physique, gets the happiness of lands and property, does big works, makes others cheerful, respects parents, feels troublesome to go to foreign places, gets name and appreciation from government and society, lives peacefully and gets success",
+    ta: "பிறந்த ஊரில் மகிழ்ச்சியாக வாழ்வார்; அழகான உடல்; நிலம், சொத்தின் மகிழ்ச்சி; பெரிய வேலைகளைச் செய்வார்; பிறரை மகிழ்விப்பார்; பெற்றோரை மதிப்பார்; வெளிநாடு செல்வது கடினம்; அரசு, சமூகத்தில் பெயரும் பாராட்டும்; அமைதியாக வாழ்ந்து வெற்றி பெறுவார்.",
+  },
+  {
+    house: 4, lagna: "Cancer", planetSign: "Libra", planet: "Mars", page: 87,
+    en: "Gains much intelligence, has a huge business and big undertakings, is an expert in conducting the domestic and worldly affairs, gains profit in the daily routine of life, gets much honour and influence in his own house and in the side of his wife, happiness from father, son and mother, gets land and property, wants to get more sexual pleasures, gets fame in government and society and gets special sexual pleasures",
+    ta: "மிகுந்த அறிவு; பெரிய வியாபாரமும் பெரிய முயற்சிகளும்; வீட்டு, உலக விவகாரங்களை நடத்துவதில் நிபுணர்; தினசரி வாழ்வில் ஆதாயம்; தன் வீட்டில், மனைவி வகையில் மரியாதையும் செல்வாக்கும்; தந்தை, மகன், தாய் வகையில் மகிழ்ச்சி; நிலம், சொத்து; மேலும் பாலியல் இன்பம் விரும்புவார்; அரசு, சமூகத்தில் புகழ்.",
+  },
+  {
+    house: 4, lagna: "Cancer", planetSign: "Libra", planet: "Mercury", page: 89,
+    en: "Does his work and manages the expenditure with happiness, deficiency in the house of parents, loss of some land and property, some deficiency in the house of brothers and sisters, meets success and failures in relation to government and society",
+    ta: "தன் வேலையைச் செய்து, மகிழ்ச்சியுடன் செலவை நிர்வகிப்பார்; பெற்றோர் வீட்டில் குறை; நிலம், சொத்தில் சிறு இழப்பு; உடன்பிறப்புகள் வீட்டில் சிறு குறை; அரசு, சமூக விவகாரங்களில் வெற்றியும் தோல்வியும்.",
+  },
+  {
+    house: 4, lagna: "Cancer", planetSign: "Libra", planet: "Jupiter", page: 91,
+    en: "Supposed to be lucky, spends much, mixed troubles in the house of mother",
+    ta: "அதிர்ஷ்டசாலி; அதிகம் செலவழிப்பார்; தாய் வீட்டில் கலந்த துன்பங்கள்.",
+  },
+  {
+    house: 4, lagna: "Cancer", planetSign: "Libra", planet: "Venus", page: 93,
+    en: "Gets the great advantage of the house and land, gets income at ease, gets some decent things of pleasure, fear from the father, gets restless, is respectable and humble, enjoys happiness from government and society, does very decent deeds",
+    ta: "வீட்டிலும் நிலத்திலும் பெரும் ஆதாயம்; எளிதாக வருமானம்; இன்பத்துக்குரிய சில நல்ல பொருட்கள்; தந்தையிடம் பயம்; அமைதியின்மை; மரியாதைக்குரியவர், பணிவானவர்; அரசு, சமூகத்தில் மகிழ்ச்சி; நல்ல செயல்கள்.",
+  },
+  {
+    house: 4, lagna: "Cancer", planetSign: "Libra", planet: "Saturn", page: 95,
+    en: "Great happiness and joyousness, good longevity, deficiency in the house of government and society, enjoys happiness with solemn delusion in the daily occupation, increment in the house of enemies, much happiness in connection with wife, sexual and family pleasures",
+    ta: "பெரும் மகிழ்ச்சியும் ஆனந்தமும்; நல்ல ஆயுள்; அரசு, சமூக வகையில் குறை; தினசரி வேலையில் மாயையான அமைதியுடன் மகிழ்ச்சி; எதிரி வீட்டில் அதிகரிப்பு; மனைவியுடன் மிகுந்த மகிழ்ச்சி; பாலியல், குடும்ப இன்பங்கள்.",
+  },
+  {
+    house: 4, lagna: "Cancer", planetSign: "Libra", planet: "Rahu", page: 97,
+    en: "Hindrance in peace and happiness, no cordial relations with the mother, loss of land, buildings and property, unhappiness in the residence, some happiness at the end, is very clever",
+    ta: "அமைதிக்கும் மகிழ்ச்சிக்கும் தடை; தாயுடன் நல்ல உறவின்மை; நிலம், கட்டிடம், சொத்து இழப்பு; வீட்டில் மகிழ்ச்சியின்மை; முடிவில் சில மகிழ்ச்சி; மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 4, lagna: "Cancer", planetSign: "Libra", planet: "Ketu", page: 99,
+    en: "Loss and deficiency in the house of mother and happiness, loss of land and buildings, labours hard, hardship in the house of residence and hindrance in the happiness, yet in the end gets happiness",
+    ta: "தாய் வீட்டிலும் மகிழ்ச்சியிலும் இழப்பும் குறையும்; நிலம், கட்டிட இழப்பு; கடுமையாக உழைப்பார்; வசிப்பிடத்தில் கஷ்டமும் மகிழ்ச்சிக்குத் தடையும்; இறுதியில் மகிழ்ச்சி கிடைக்கும்.",
+  },
+  {
+    house: 4, lagna: "Leo", planetSign: "Scorpio", planet: "Sun", page: 104,
+    en: "Great power in the house of mother, earns happiness of land and property, lives happily in his own place, some problems in the house of father and business, unhappy in foreign travel, is fearless, wants peace, and is haughty",
+    ta: "தாய் வீட்டில் பெரும் வலிமை; நிலமும் சொத்தும் மகிழ்ச்சி; தன் ஊரில் மகிழ்ச்சியாக வாழ்வார்; தந்தை, தொழில் வகையில் சில பிரச்சினைகள்; வெளிநாட்டுப் பயணத்தில் அதிருப்தி; அஞ்சாதவர்; அமைதி விரும்புவார்; கர்வமானவர்.",
+  },
+  {
+    house: 4, lagna: "Leo", planetSign: "Scorpio", planet: "Moon", page: 106,
+    en: "Gets weakness and deficiency in the house of mother, gets many hindrances in peace and happiness, gets the loss and weakness of his own house and property, bears mental worries",
+    ta: "தாய் வீட்டில் பலவீனமும் குறையும்; அமைதிக்கும் மகிழ்ச்சிக்கும் பல தடைகள்; சொந்த வீடு, சொத்தில் இழப்பும் பலவீனமும்; மன கவலைகள்.",
+  },
+  {
+    house: 4, lagna: "Leo", planetSign: "Scorpio", planet: "Mars", page: 108,
+    en: "Gets the power of land and property and mother, enjoys good luck, peace and happiness, insipidness in the house of business and occupation, assumes some dissatisfaction in the house of government and society, worldly affairs, promotion of honour, some insipidness in the house of wife and father, is happy and joyous",
+    ta: "நிலமும் சொத்தும் தாயும் கிடைக்கும் வலிமை; நல்ல அதிர்ஷ்டம், அமைதி, மகிழ்ச்சி; தொழிலிலும் வேலையிலும் சலிப்பு; அரசு, சமூகத்தில் சில அதிருப்தி; உலக விவகாரங்கள், மரியாதையின் உயர்வு; மனைவி, தந்தை வகையில் சில சலிப்பு; மகிழ்ச்சியும் உற்சாகமும்.",
+  },
+  {
+    house: 4, lagna: "Leo", planetSign: "Scorpio", planet: "Mercury", page: 110,
+    en: "Accumulates wealth, gets the power of building and property, gets his every want satisfied happily sitting at his house, gets good garments and ornaments etc, conducts business through the power of wealth, gets respect in government and society, is a clever worker",
+    ta: "செல்வம் சேர்ப்பார்; வீடு, சொத்தின் வலிமை; வீட்டில் அமர்ந்தே எல்லா விருப்பங்களும் மகிழ்ச்சியாக நிறைவேறும்; நல்ல ஆடை, அணிகலன்; செல்வ வலிமையால் வணிகம்; அரசு, சமூகத்தில் மரியாதை; திறமையான உழைப்பாளி.",
+  },
+  {
+    house: 4, lagna: "Leo", planetSign: "Scorpio", planet: "Jupiter", page: 112,
+    en: "Spends his daily routine of life with great happiness, some deficiency in the house of mother, gets the power of children with some deficiency, some difficulty in local pleasure",
+    ta: "தினசரி வாழ்வை பெரும் மகிழ்ச்சியுடன் கழிப்பார்; தாய் வீட்டில் சில குறை; குழந்தைகளின் ஆற்றல், சில குறையுடன்; உள்ளூர் இன்பத்தில் சில சிரமம்.",
+  },
+  {
+    house: 4, lagna: "Leo", planetSign: "Scorpio", planet: "Venus", page: 114,
+    en: "Embarks on a great business, gets the happiness from brothers, sisters and father, gets power from government and society, great strengths of buildings and property, acquires happiness, a skilled worker",
+    ta: "பெரிய தொழிலைத் தொடங்குவார்; சகோதர சகோதரி, தந்தையிடமிருந்து மகிழ்ச்சி; அரசு, சமூகத்தில் ஆற்றல்; நிலமும் சொத்தும் பெரும் வலிமை; மகிழ்ச்சி; திறமையான உழைப்பாளி.",
+  },
+  {
+    house: 4, lagna: "Leo", planetSign: "Scorpio", planet: "Saturn", page: 116,
+    en: "Loss in the affection of house of mother, some dislike in the house of wife, labours hard, is very steady and obstinate on gaining victory over troubles of life and diseases, etc",
+    ta: "தாய் வீட்டின் பாசத்தில் இழப்பு; மனைவி வகையில் சில வெறுப்பு; கடுமையாக உழைப்பார்; வாழ்வின் கஷ்டங்களையும் நோய்களையும் வெல்வதில் மிக நிலையானவர், பிடிவாதம்.",
+  },
+  {
+    house: 4, lagna: "Leo", planetSign: "Scorpio", planet: "Rahu", page: 118,
+    en: "Gets the loss or separation of mother or in the house of mother, some loss in acquiring happiness, does secret deeds for acquiring happiness, distress in the domestic environment, acquires happiness after much time and many perplexities",
+    ta: "தாய் அல்லது தாய் வீட்டில் இழப்பு அல்லது பிரிவு; மகிழ்ச்சி அடைவதில் சில இழப்பு; மகிழ்ச்சிக்காக ரகசியச் செயல்கள்; வீட்டுச் சூழலில் துன்பம்; நீண்ட காலத்துக்குப் பின் பல குழப்பங்களுக்குப் பின் மகிழ்ச்சி.",
+  },
+  {
+    house: 4, lagna: "Leo", planetSign: "Scorpio", planet: "Ketu", page: 120,
+    en: "Some deficiency in the house of mother, gets the separation from his motherland and birthplace, faces great obstacles getting happiness, deficiency in connection with residential place and buildings",
+    ta: "தாய் வீட்டில் சில குறை; தாய்நாடு, பிறந்த ஊரிலிருந்து பிரிவு; மகிழ்ச்சி அடைவதில் பெரும் தடைகள்; வசிப்பிடம், கட்டிடங்களில் குறை.",
+  },
+  {
+    house: 4, lagna: "Virgo", planetSign: "Sagittarius", planet: "Sun", page: 125,
+    en: "Manages the expenditure with deficient in the means of happiness, separation in the house of mother, some weakness in the house of father and in big business occupation, deficiency in the case of honour and in connection with government and society affairs",
+    ta: "வசதிக் குறையுடன் செலவை நிர்வகிப்பார்; தாயிடமிருந்து பிரிவு; தந்தை வீட்டிலும் பெரிய தொழிலிலும் சில பலவீனம்; மரியாதையில் குறை; அரசு, சமூக விவகாரங்களில் குறை.",
+  },
+  {
+    house: 4, lagna: "Virgo", planetSign: "Sagittarius", planet: "Moon", page: 127,
+    en: "Gets huge income comfortably, gets the gains of lands and buildings, gets the pleasure of parents, gains in business of occupation, gains from government and society, is mentally delighted, gets beautiful things, clothes and ornaments, gets happiness from the house of mother",
+    ta: "வசதியாக பெரும் வருமானம்; நிலம், கட்டிடங்களின் ஆதாயம்; பெற்றோரின் மகிழ்ச்சி; தொழிலில் ஆதாயம்; அரசு, சமூக வகையில் ஆதாயம்; மன மகிழ்ச்சி; அழகான பொருட்கள், ஆடை, அணிகலன்; தாய் வீட்டில் மகிழ்ச்சி.",
+  },
+  {
+    house: 4, lagna: "Virgo", planetSign: "Sagittarius", planet: "Mars", page: 129,
+    en: "Has a long life, enjoys the whole period of life, some loss in the house of mother, gets wealth and gains, injures the house of wife a little, some deficiency in the house of income, deficiency in the house of father",
+    ta: "நீண்ட ஆயுள்; வாழ்நாள் முழுவதும் இன்பம்; தாய் வீட்டில் சில இழப்பு; செல்வமும் ஆதாயமும்; மனைவி வீட்டுக்கு சிறு காயம்; வருமானத்தில் குறை; தந்தை வீட்டில் குறை.",
+  },
+  {
+    house: 4, lagna: "Virgo", planetSign: "Sagittarius", planet: "Mercury", page: 131,
+    en: "Lives happily, possesses his own house, lives in a beautifully decorated house, gets the happiness of parents, does good business with peace and happiness, gets respect and honour, is a very clever worker, gets honour and happiness from government and society, is a jolly fellow",
+    ta: "மகிழ்ச்சியாக வாழ்வார்; சொந்த வீடு; அழகாக அலங்கரிக்கப்பட்ட வீட்டில் வாழ்வார்; பெற்றோரின் மகிழ்ச்சி; அமைதியுடன் நல்ல வணிகம்; மரியாதையும் கௌரவமும்; மிகத் திறமையான உழைப்பாளி; அரசு, சமூகத்தில் மரியாதையும் மகிழ்ச்சியும்; இனிய மனிதர்.",
+  },
+  {
+    house: 4, lagna: "Virgo", planetSign: "Sagittarius", planet: "Jupiter", page: 133,
+    en: "Gets the happiness from the house of mother and wife, gets property, gets the happiness from the occupation, spends much, does the occupation with happiness, happiness from the house of father, enjoys the pleasures of the family",
+    ta: "தாய், மனைவி வீட்டில் மகிழ்ச்சி; சொத்து கிடைக்கும்; தொழிலில் மகிழ்ச்சி; அதிகம் செலவழிப்பார்; மகிழ்ச்சியுடன் தொழில் செய்வார்; தந்தை வீட்டில் மகிழ்ச்சி; குடும்ப இன்பங்களை அனுபவிப்பார்.",
+  },
+  {
+    house: 4, lagna: "Virgo", planetSign: "Sagittarius", planet: "Venus", page: 136,
+    en: "Hoards wealth, is very fortunate and industrious, has land and buildings, gets the gain of parents",
+    ta: "செல்வம் சேர்ப்பார்; அதிர்ஷ்டசாலி, உழைப்பாளி; நிலமும் கட்டிடமும்; பெற்றோரின் ஆதாயம்.",
+  },
+  {
+    house: 4, lagna: "Virgo", planetSign: "Sagittarius", planet: "Saturn", page: 138,
+    en: "Has huge influence due to his buildings, gets honour, spends deficiency and distress in the happiness of parents, gets the help of some other lady also in the house of mother, deficiency in connection with peace and happiness",
+    ta: "கட்டிடங்களால் பெரும் செல்வாக்கு; மரியாதை; பெற்றோரின் மகிழ்ச்சியில் குறையும் துன்பமும்; தாய் வீட்டில் வேறு ஒரு பெண்ணின் உதவியும் கிடைக்கும்; அமைதி, மகிழ்ச்சியில் குறை.",
+  },
+  {
+    house: 4, lagna: "Virgo", planetSign: "Sagittarius", planet: "Rahu", page: 140,
+    en: "Gets great restlessness in the house of happiness, some loss in the house of mother, feels some sufferings of land, building and the residential place, enjoys the occult power",
+    ta: "மகிழ்ச்சி வீட்டில் பெரும் அமைதியின்மை; தாய் வீட்டில் சில இழப்பு; நிலம், கட்டிடம், வசிப்பிடத்தில் சில துன்பம்; மறை ஆற்றலை அனுபவிப்பார்.",
+  },
+  {
+    house: 4, lagna: "Virgo", planetSign: "Sagittarius", planet: "Ketu", page: 142,
+    en: "Has buildings and property, gets some pleasures, gets some weakness in real peace, full of patience",
+    ta: "கட்டிடங்களும் சொத்தும்; சில இன்பங்கள்; உண்மையான அமைதியில் சில பலவீனம்; பொறுமை நிறைந்தவர்.",
+  },
+  {
+    house: 4, lagna: "Libra", planetSign: "Capricorn", planet: "Sun", page: 146,
+    en: "Feels some deficiency and uneasiness in the schemes of gains, gets the advantage of father and also of mother but with some deficiency, happiness of mother and buildings",
+    ta: "ஆதாயத் திட்டங்களில் சில குறையும் கவலையும்; தந்தையின் ஆதாயமும் தாயின் ஆதாயமும் உண்டு, ஆனால் சில குறையுடன்; தாயின் மகிழ்ச்சியும் கட்டிடங்களும்.",
+  },
+  {
+    house: 4, lagna: "Libra", planetSign: "Capricorn", planet: "Moon", page: 148,
+    en: "Has his own buildings, gets honour and respect, happiness from parents, pleasure of a big business, has very noble and mental ideas, respect and honour from government and society",
+    ta: "சொந்த கட்டிடங்கள்; மரியாதையும் மதிப்பும்; பெற்றோரின் மகிழ்ச்சி; பெரிய வணிகத்தின் இன்பம்; உயர்ந்த, மன எண்ணங்கள்; அரசு, சமூகத்தில் மரியாதை.",
+  },
+  {
+    house: 4, lagna: "Libra", planetSign: "Capricorn", planet: "Mars", page: 150,
+    en: "Gets happiness and huge wealth due to daily occupation, gets land and property, gets happiness of wife, increase ofwealth after marriage, gets supremacy of wife in his house, gets the happiness of the mother, some weakness in the house of government, rise in position is somewhat weak, acquires sexual pleasures and is happy in the family",
+    ta: "தினசரி வேலையால் மகிழ்ச்சியும் பெரும் செல்வமும்; நிலமும் சொத்தும்; மனைவியின் மகிழ்ச்சி; திருமணத்துக்குப் பின் செல்வ வளர்ச்சி; வீட்டில் மனைவியின் மேலாதிக்கம்; தாயின் மகிழ்ச்சி; அரசு வீட்டில் சில பலவீனம்; பதவி உயர்வில் சிறு பலவீனம்; பாலியல் இன்பம்; குடும்பத்தில் மகிழ்ச்சி.",
+  },
+  {
+    house: 4, lagna: "Libra", planetSign: "Capricorn", planet: "Mercury", page: 152,
+    en: "Enjoys pleasures, spends comfortably, some deficiency in the house of mother, gets the pleasure of mother and land, rears Dharma practically",
+    ta: "இன்பங்களை அனுபவிப்பார்; வசதியாகச் செலவழிப்பார்; தாய் வீட்டில் சில குறை; தாயின் மகிழ்ச்சியும் நிலமும்; தர்மத்தை நடைமுறையில் கடைப்பிடிப்பார்.",
+  },
+  {
+    house: 4, lagna: "Libra", planetSign: "Capricorn", planet: "Jupiter", page: 154,
+    en: "Gets loss in the house of mother, does not get peace even at home, gets restlessness in the side of brother, spends much, defeats the opposition",
+    ta: "தாய் வீட்டில் இழப்பு; வீட்டில் கூட அமைதி இல்லை; சகோதரர் வகையில் அமைதியின்மை; அதிகம் செலவழிப்பார்; எதிர்ப்பை வெல்வார்.",
+  },
+  {
+    house: 4, lagna: "Libra", planetSign: "Capricorn", planet: "Venus", page: 156,
+    en: "Spends his life comfortably and happily at his own place, gets long life, some deficiency in the house of parents, performs the governmental, social and domestic tasks very cleverly, is solemn",
+    ta: "தன் வீட்டில் வசதியாகவும் மகிழ்ச்சியாகவும் வாழ்வார்; நீண்ட ஆயுள்; பெற்றோர் வீட்டில் சில குறை; அரசு, சமூக, குடும்பப் பணிகளை சாமர்த்தியமாகச் செய்வார்; கம்பீரமானவர்.",
+  },
+  {
+    house: 4, lagna: "Libra", planetSign: "Capricorn", planet: "Saturn", page: 158,
+    en: "Is very happy, pays more attention to get the happiness, keeps full influence in the house of enemies, gets the power of motherland and property, completeness in the side of children, is carefree",
+    ta: "மிகுந்த மகிழ்ச்சி; மகிழ்ச்சியை அடைய அதிக கவனம்; எதிரி வீட்டில் முழு செல்வாக்கு; தாய்நாடு, சொத்தின் வலிமை; குழந்தைகள் வகையில் நிறைவு; கவலையற்றவர்.",
+  },
+  {
+    house: 4, lagna: "Libra", planetSign: "Capricorn", planet: "Rahu", page: 160,
+    en: "Some deficiency in the means of happiness, some weakness in the house of mother, restlessness in the residential place, hindrance in buildings and the house of land",
+    ta: "மகிழ்ச்சிக்கான வசதியில் சில குறை; தாய் வீட்டில் சில பலவீனம்; வசிப்பிடத்தில் அமைதியின்மை; கட்டிடம், நிலம் ஆகியவற்றில் தடை.",
+  },
+  {
+    house: 4, lagna: "Libra", planetSign: "Capricorn", planet: "Ketu", page: 162,
+    en: "Loss in the house of mother and happiness, somewhat restless and is clever",
+    ta: "தாய் வீட்டிலும் மகிழ்ச்சியிலும் இழப்பு; சிறிது அமைதியின்மை; சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 4, lagna: "Scorpio", planetSign: "Aquarius", planet: "Sun", page: 167,
+    en: "Conducts the occupation with some happiness, but bears some hindrances, gets the ordinary gains of lands, bears some hindrances in the happiness and grandeur, is respectable and loyal",
+    ta: "சில மகிழ்ச்சியுடன் தொழில் நடத்துவார்; ஆனால் சில தடைகளைச் சந்திப்பார்; நிலத்தில் சாதாரண ஆதாயம்; மகிழ்ச்சியிலும் பெருமையிலும் சில தடைகள்; மரியாதைக்குரியவர், விசுவாசமானவர்.",
+  },
+  {
+    house: 4, lagna: "Scorpio", planetSign: "Aquarius", planet: "Moon", page: 170,
+    en: "Is very fortunate, enjoys much happiness, rears religious duties, enjoys the happiness of mother and the house of land, does a big business, believes in God and is diligent",
+    ta: "மிக அதிர்ஷ்டசாலி; பெரும் மகிழ்ச்சி; மத கடமைகளைக் கடைப்பிடிப்பார்; தாயின் மகிழ்ச்சியும் நிலமும்; பெரிய வியாபாரம்; இறைநம்பிக்கை; கடின உழைப்பாளி.",
+  },
+  {
+    house: 4, lagna: "Scorpio", planetSign: "Aquarius", planet: "Mars", page: 172,
+    en: "Some loss in the side of mother, some loss in happiness, lives in his own place, does daily occupation, faces some opposition in the house of wife, acquires heavy gains and some honour in government and society and possesses some land",
+    ta: "தாயால் சில இழப்பு; மகிழ்ச்சியில் சில இழப்பு; தன் ஊரில் வாழ்வார்; தினசரி தொழில்; மனைவி வீட்டில் சில எதிர்ப்பு; அரசு, சமூகத்தில் பெரும் ஆதாயமும் சில மரியாதையும்; சில நிலம் உண்டு.",
+  },
+  {
+    house: 4, lagna: "Scorpio", planetSign: "Aquarius", planet: "Mercury", page: 174,
+    en: "Acquires the income happily mixed with some hindrances, has a long life, gets happiness from mysterious devices",
+    ta: "சில தடைகளுடன் மகிழ்ச்சியாக வருமானம் பெறுவார்; நீண்ட ஆயுள்; மர்மமான வழிகளால் மகிழ்ச்சி.",
+  },
+  {
+    house: 4, lagna: "Scorpio", planetSign: "Aquarius", planet: "Jupiter", page: 176,
+    en: "Is rich, intelligent and respectable, gets children, gets a long life, spends much, feels weakness in happiness, gets cooperation from mother, receives advantage from father, spends the daily routine of life in an aristocratic manner, experiences some difficulties in maintaining and accumulating wealth",
+    ta: "பணக்காரர், அறிவாளி, மரியாதைக்குரியவர்; குழந்தைகள்; நீண்ட ஆயுள்; அதிகம் செலவழிப்பார்; மகிழ்ச்சியில் பலவீனம்; தாயின் ஒத்துழைப்பு; தந்தை வழியில் ஆதாயம்; கம்பீரமாக நாள் வாழ்க்கையைக் கழிப்பார்; செல்வத்தைப் பராமரிப்பதிலும் சேர்ப்பதிலும் சில சிரமம்.",
+  },
+  {
+    house: 4, lagna: "Scorpio", planetSign: "Aquarius", planet: "Venus", page: 178,
+    en: "Bears some loss and deficiency in occupation, gets some loss in the house of mother, gets happiness from the house of wife, enjoys expenditure and pleasures, enmity in the house of father, gets some ownership of land, is a jolly fellow",
+    ta: "தொழிலில் சில இழப்பும் குறையும்; தாய் வீட்டில் சில இழப்பு; மனைவி வீட்டில் மகிழ்ச்சி; செலவும் இன்பமும் அனுபவிப்பார்; தந்தை வீட்டில் பகை; நிலத்தில் சில உரிமை; மகிழ்ச்சியான மனிதர்.",
+  },
+  {
+    house: 4, lagna: "Scorpio", planetSign: "Aquarius", planet: "Saturn", page: 180,
+    en: "Possesses large property and gets the happiness of land, property and buildings, happiness and strength from mother, gets happiness from brothers and sisters, feels restlessness in the side of enemies, some deficiency in his body, deficiency in the house of father",
+    ta: "பெரும் சொத்துடையவர்; நிலம், சொத்து, கட்டிடங்களின் மகிழ்ச்சி; தாயால் மகிழ்ச்சியும் வலிமையும்; உடன்பிறப்புகள் வகையில் மகிழ்ச்சி; எதிரிகள் பக்கம் அமைதியின்மை; உடலில் சில குறை; தந்தை வீட்டில் குறை.",
+  },
+  {
+    house: 4, lagna: "Scorpio", planetSign: "Aquarius", planet: "Rahu", page: 182,
+    en: "Gets some weakness in the house of mother, gets some deficiency in the house ofhappiness, gets some hindrance in the land, is somewhat restless on account of quarrelsome family atmosphere",
+    ta: "தாய் வீட்டில் சில பலவீனம்; மகிழ்ச்சியில் சில குறை; நிலத்தில் சில தடை; குடும்பச் சூழலில் சண்டையால் சிறிது அமைதியின்மை.",
+  },
+  {
+    house: 4, lagna: "Scorpio", planetSign: "Aquarius", planet: "Ketu", page: 184,
+    en: "Gets some deficiency in the house of mother, gets deficiency in buildings and property also, deficiency in happiness also, separation from birthplace",
+    ta: "தாய் வீட்டில் குறை; கட்டிடம், சொத்திலும் குறை; மகிழ்ச்சியிலும் குறை; பிறந்த ஊரிலிருந்து பிரிவு.",
+  },
+  {
+    house: 4, lagna: "Sagittarius", planetSign: "Pisces", planet: "Sun", page: 189,
+    en: "Is very fortunate and possesses land and property, gets happiness from other, gets the advantage of father, advantage from the government, gains in the business, does nice deeds",
+    ta: "மிக அதிர்ஷ்டசாலி; நிலமும் சொத்தும்; பிறரால் மகிழ்ச்சி; தந்தையின் ஆதாயம்; அரசு வகையில் ஆதாயம்; வணிகத்தில் ஆதாயம்; நல்ல செயல்கள்.",
+  },
+  {
+    house: 4, lagna: "Sagittarius", planetSign: "Pisces", planet: "Moon", page: 191,
+    en: "Some loss in the house of mother, good longevity, some loss in domestic happiness, troubles in progress, honour, business etc, is free from stomach troubles, spends the time carelessly",
+    ta: "தாய் வீட்டில் சில இழப்பு; நல்ல ஆயுள்; குடும்ப மகிழ்ச்சியில் சில இழப்பு; முன்னேற்றம், மரியாதை, தொழில் ஆகியவற்றில் தொல்லை; வயிற்றுக் கோளாறு இல்லை; அசட்டையாக நேரம் கழிப்பார்.",
+  },
+  {
+    house: 4, lagna: "Sagittarius", planetSign: "Pisces", planet: "Mars", page: 193,
+    en: "Experiences loss of mother, faces the loss of buildings and property, loss in the house of wife, has some deficiency in education, manages the expenditure with care, lives in foreign places",
+    ta: "தாயை இழப்பார்; கட்டிடங்களும் சொத்தும் இழப்பு; மனைவி வீட்டில் இழப்பு; கல்வியில் சில குறை; செலவை கவனமாக நிர்வகிப்பார்; வெளிநாடுகளில் வாழ்வார்.",
+  },
+  {
+    house: 4, lagna: "Sagittarius", planetSign: "Pisces", planet: "Mercury", page: 195,
+    en: "Bears loss and weakness in the house of honour, faces restlessness in family affairs, gets deficiency in the land and property, some deficiency in occupation, acquires some progress in big business, gets weaknesses from the wife's side, and is wise but not apparently",
+    ta: "மரியாதையில் இழப்பும் பலவீனமும்; குடும்ப விவகாரங்களில் அமைதியின்மை; நிலமும் சொத்தும் குறையும்; தொழிலில் சில குறை; பெரிய வணிகத்தில் சில முன்னேற்றம்; மனைவி வீட்டில் பலவீனம்; ஞானமுள்ளவர், ஆனால் வெளிப்படையாகத் தெரியாது.",
+  },
+  {
+    house: 4, lagna: "Sagittarius", planetSign: "Pisces", planet: "Jupiter", page: 197,
+    en: "Gets happiness of mother, possesses lands and buildings, gets dignity and pleasures in the daily routine of life, gets a long life, lives in his own place, and is energetic",
+    ta: "தாயின் மகிழ்ச்சி; நிலமும் கட்டிடங்களும்; தினசரி வாழ்வில் கௌரவமும் இன்பமும்; நீண்ட ஆயுள்; தன் ஊரில் வாழ்வார்; ஆற்றல் மிக்கவர்.",
+  },
+  {
+    house: 4, lagna: "Sagittarius", planetSign: "Pisces", planet: "Venus", page: 199,
+    en: "Heavy income, gets land and buildings, gains advantage from mother, wants delicious food, has deficiency in the house of father",
+    ta: "பெரும் வருமானம்; நிலமும் கட்டிடங்களும்; தாயால் ஆதாயம்; சுவையான உணவை விரும்புவார்; தந்தை வீட்டில் குறை.",
+  },
+  {
+    house: 4, lagna: "Sagittarius", planetSign: "Pisces", planet: "Saturn", page: 201,
+    en: "Achieves both happiness and unhappiness with regard to wealth, conjunction of stepmother, sweet influence in the house of enemies, gets his work done with regard to diseases, is somewhat physically restless",
+    ta: "செல்வத்தில் மகிழ்ச்சியும் துன்பமும் இரண்டும்; மாற்றாந்தாயின் தொடர்பு; எதிரி வீட்டில் இனிய செல்வாக்கு; நோய்களைப் பற்றிய வேலையை முடிப்பார்; உடலில் சிறு அமைதியின்மை.",
+  },
+  {
+    house: 4, lagna: "Sagittarius", planetSign: "Pisces", planet: "Rahu", page: 203,
+    en: "Gets loss in mother's house, faces many obstacles in happiness, has some deficiency in connection with land and buildings, faces separation from mother and motherland",
+    ta: "தாய் வீட்டில் இழப்பு; மகிழ்ச்சியில் பல தடைகள்; நிலம், கட்டிடங்களில் சில குறை; தாயையும் தாய்நாட்டையும் பிரிவார்.",
+  },
+  {
+    house: 4, lagna: "Sagittarius", planetSign: "Pisces", planet: "Ketu", page: 205,
+    en: "Gets troubles in the house of mother and faces separation from her. is restless in connection with happiness, gets deficiency of land and buildings, takes risk in getting happiness and in the end gets some happiness, is obstinate about achieving happiness, and is patient",
+    ta: "தாய் வகையில் தொல்லைகளும் அவரிடமிருந்து பிரிவும்; மகிழ்ச்சி பற்றி அமைதியின்மை; நிலம், கட்டிடங்களில் குறை; மகிழ்ச்சி பெற ஆபத்து எடுப்பார்; இறுதியில் சில மகிழ்ச்சி; மகிழ்ச்சியை அடைவதில் பிடிவாதம்; பொறுமையானவர்.",
+  },
+  {
+    house: 4, lagna: "Capricorn", planetSign: "Aries", planet: "Sun", page: 210,
+    en: "Gets the hidden wealth, bears some loss in the mother's house, gets a long age, faces distress in father's house, gets weakness in government and society, spends the daily life with pleasure, is somewhat inactive, and is hasty",
+    ta: "மறைந்த செல்வம் கிடைக்கும்; தாய் வீட்டில் சில இழப்பு; நீண்ட வயது; தந்தை வீட்டில் கவலை; அரசு, சமூகத்தில் பலவீனம்; தினசரி வாழ்வை மகிழ்ச்சியுடன் கழிப்பார்; சிறிது சோம்பல், அவசரம்.",
+  },
+  {
+    house: 4, lagna: "Capricorn", planetSign: "Aries", planet: "Moon", page: 212,
+    en: "Gets good happiness in family, gets a beautiful wife, gets property, gets sexual pleasures, gets happiness in occupation, gets honour in government and society, is a happy and jolly fellow",
+    ta: "குடும்பத்தில் நல்ல மகிழ்ச்சி; அழகான மனைவி; சொத்து; பாலியல் இன்பம்; தொழிலில் மகிழ்ச்சி; அரசு, சமூகத்தில் மரியாதை; மகிழ்ச்சியான, கலகலப்பானவர்.",
+  },
+  {
+    house: 4, lagna: "Capricorn", planetSign: "Aries", planet: "Mars", page: 214,
+    en: "Gets income from land and property, idleness in connection with occupation, deficiency from wife, gets deficiency in sexual pleasure, gets happiness from government and society",
+    ta: "நிலம், சொத்தில் வருமானம்; தொழிலில் சோம்பல்; மனைவி வகையில் குறை; பாலியல் இன்பத்தில் குறை; அரசு, சமூகத்தில் மகிழ்ச்சி.",
+  },
+  {
+    house: 4, lagna: "Capricorn", planetSign: "Aries", planet: "Mercury", page: 216,
+    en: "Gets the happiness through the power of destiny, gets the happiness of some land and buildings, gets the victory in enemies house",
+    ta: "விதியின் வலிமையால் மகிழ்ச்சி; சில நிலமும் கட்டிடமும் மகிழ்ச்சி; பகைவர் வீட்டில் வெற்றி.",
+  },
+  {
+    house: 4, lagna: "Capricorn", planetSign: "Aries", planet: "Jupiter", page: 218,
+    en: "Spends majestically, manages the expenditure comfortably and bears some loss and weakness in land and property, faces obstacles in acquiring peace and happiness, unable to control the excess of expenditure, is somewhat restless",
+    ta: "கம்பீரமாகச் செலவழிப்பார்; செலவை சௌகரியமாக நிர்வகிப்பார், ஆனால் நிலம், சொத்தில் சில இழப்பும் பலவீனமும்; அமைதியும் மகிழ்ச்சியும் பெறுவதில் தடைகள்; அதிகச் செலவைக் கட்டுப்படுத்த முடியாது; சிறிது அமைதியின்மை.",
+  },
+  {
+    house: 4, lagna: "Capricorn", planetSign: "Aries", planet: "Venus", page: 220,
+    en: "Gets numerous advantages, manages a big business, gains happiness from parents and children, gets education, owns building and property, gets the advantage from the government and society, wants beauty and art, is respectable",
+    ta: "பல ஆதாயங்கள்; பெரிய வியாபாரம்; பெற்றோர், குழந்தைகளால் மகிழ்ச்சி; கல்வி; கட்டிடமும் சொத்தும்; அரசு, சமூகத்தில் ஆதாயம்; அழகையும் கலையையும் விரும்புவார்; மரியாதைக்குரியவர்.",
+  },
+  {
+    house: 4, lagna: "Capricorn", planetSign: "Aries", planet: "Saturn", page: 222,
+    en: "Restlessness and deficiency in the house of happiness, gets influence in the house of enemies, does a big business, deficiency in the land and property",
+    ta: "மகிழ்ச்சியில் அமைதியின்மையும் குறையும்; பகைவர் வீட்டில் செல்வாக்கு; பெரிய வியாபாரம்; நிலம், சொத்தில் குறை.",
+  },
+  {
+    house: 4, lagna: "Capricorn", planetSign: "Aries", planet: "Rahu", page: 224,
+    en: "Causes affliction to mother, has some deficiency in the residential place, lacks pleasures and happiness, gets the support of hidden powers",
+    ta: "தாய்க்குத் துன்பம்; வசிப்பிடத்தில் சில குறை; இன்பமும் மகிழ்ச்சியும் குறைவு; மறைந்த சக்திகளின் ஆதரவு.",
+  },
+  {
+    house: 4, lagna: "Capricorn", planetSign: "Aries", planet: "Ketu", page: 226,
+    en: "Deficiency of happiness from mother, bears separation from motherland and birthplace, feces obstacles in buildings and residential places, gains courage through secret policies",
+    ta: "தாயிடமிருந்து மகிழ்ச்சி குறைவு; தாய்நாடு, பிறந்த ஊரிலிருந்து பிரிவு; வீடுகளிலும் வசிப்பிடங்களிலும் தடைகள்; மறைமுக கொள்கைகளால் தைரியம் பெறுவார்.",
+  },
+  {
+    house: 4, lagna: "Aquarius", planetSign: "Taurus", planet: "Sun", page: 231,
+    en: "Enjoys some happiness from the house of wife, also fram the house of occupation, pays attention to work regularly for progress",
+    ta: "மனைவி வீட்டில் சில மகிழ்ச்சி; தொழில் வீட்டிலிருந்தும் சில மகிழ்ச்சி; முன்னேற்றத்துக்காக வேலையை ஒழுங்காகக் கவனிப்பார்.",
+  },
+  {
+    house: 4, lagna: "Aquarius", planetSign: "Taurus", planet: "Moon", page: 234,
+    en: "Does not care for the enemies side, gets hindrance in peace and happiness, distress in the house of mother, some influence in the house of land, some weakness in business relations with government, is very careless",
+    ta: "எதிரிகளைப் பொருட்படுத்தார்; மகிழ்ச்சியிலும் அமைதியிலும் தடை; தாய் வகையில் துன்பம்; நிலம் வீட்டில் சில செல்வாக்கு; அரசுடன் தொழில் உறவில் சிறு பலவீனம்; மிகவும் அசட்டையானவர்.",
+  },
+  {
+    house: 4, lagna: "Aquarius", planetSign: "Taurus", planet: "Mars", page: 236,
+    en: "Gets supporting power from father, acquires the usual happiness of mother and brother with some deficiency, gets great honour from the government and society, owns building and property, keeps influence in the side of wife, secures a good income through his deeds, and is very influential",
+    ta: "தந்தையின் ஆதரவு; தாயும் சகோதரரும் வழக்கமான மகிழ்ச்சியுடன், சிறு குறையுடன்; அரசு, சமூகத்தில் பெரும் மரியாதை; கட்டிடமும் சொத்தும்; மனைவி பக்கம் செல்வாக்கு; தன் செயல்களால் நல்ல வருமானம்; மிகுந்த செல்வாக்குள்ளவர்.",
+  },
+  {
+    house: 4, lagna: "Aquarius", planetSign: "Taurus", planet: "Mercury", page: 238,
+    en: "Gets increased longevity, spends the period of life intelligently and comfortably, faces uneasiness in the house of mother, has some deficiency in children, gets some loss in the buildings and lands",
+    ta: "நீண்ட ஆயுள்; வாழ்நாளை அறிவாகவும் வசதியாகவும் கழிப்பார்; தாய் வகையில் அமைதியின்மை; பிள்ளைகளில் சில குறை; கட்டிடங்கள், நிலங்களில் சில இழப்பு.",
+  },
+  {
+    house: 4, lagna: "Aquarius", planetSign: "Taurus", planet: "Jupiter", page: 240,
+    en: "Accumulates wealth, enjoys the daily routine of life, tries to curtail expenditure very much, acquires gains and respect from government and society, gets happiness on account of wealth, gains buildings and property",
+    ta: "செல்வம் சேர்ப்பார்; தினசரி வாழ்வை அனுபவிப்பார்; செலவைப் பெரிதும் குறைக்க முயல்வார்; அரசு, சமூகத்தில் ஆதாயமும் மரியாதையும்; செல்வ வகையில் மகிழ்ச்சி; கட்டிடமும் சொத்தும் கிடைக்கும்.",
+  },
+  {
+    house: 4, lagna: "Aquarius", planetSign: "Taurus", planet: "Venus", page: 242,
+    en: "Rears religious formalities, gets land and buildings, gets power from mother, gets happiness through destiny, pursues business, gains advantage from father, gets honour and prestige, gets happiness in government and society",
+    ta: "இறைச் சடங்குகளைப் பின்பற்றுவார்; நிலமும் கட்டிடமும்; தாயின் வலிமை; விதியால் மகிழ்ச்சி; தொழில் நடத்துவார்; தந்தையின் ஆதாயம்; கௌரவமும் மதிப்பும்; அரசு, சமூகத்தில் மகிழ்ச்சி.",
+  },
+  {
+    house: 4, lagna: "Aquarius", planetSign: "Taurus", planet: "Saturn", page: 244,
+    en: "Is very influential, possesses the spiritual knowledge and a handsome physique, enjoys physical luxury, bears loss in mother's side but gets support from other ladies, has weakness in happiness, has deficiency in the land and buildings, maintains great influence over the enemies, safeguards self-pride, worries on account of excessive expenditure",
+    ta: "மிகுந்த செல்வாக்குள்ளவர்; ஆன்மிக அறிவும் அழகான உடலும்; உடல் இன்பம் அனுபவிப்பார்; தாய் வகையில் இழப்பு, ஆனால் பிற பெண்களின் ஆதரவு; மகிழ்ச்சியில் பலவீனம்; நிலமும் கட்டிடங்களும் குறை; எதிரிகள் மீது பெரும் செல்வாக்கு; தன்மானத்தைக் காப்பார்; அதிகச் செலவால் கவலை.",
+  },
+  {
+    house: 4, lagna: "Aquarius", planetSign: "Taurus", planet: "Rahu", page: 246,
+    en: "Bears some loss and separation in mother's house, has deficiency in happiness, uses secret tactics to get permanent happiness, has some weakness in the management of land and buildings",
+    ta: "தாயின் வீட்டில் சில இழப்பும் பிரிவும்; மகிழ்ச்சியில் குறை; நிரந்தர மகிழ்ச்சிக்காக ரகசிய வழிகள்; நிலம், கட்டிட நிர்வாகத்தில் சில பலவீனம்.",
+  },
+  {
+    house: 4, lagna: "Aquarius", planetSign: "Taurus", planet: "Ketu", page: 248,
+    en: "Bears some loss in mother's house, gets weakness in lands and buildings, feels complexity in acquiring happiness, works patiently in the troubles",
+    ta: "தாய் வீட்டில் சில இழப்பு; நிலம், கட்டிடங்களில் பலவீனம்; மகிழ்ச்சியைப் பெறுவதில் சிக்கல்; தொல்லைகளில் பொறுமையாக வேலை செய்வார்.",
+  },
+  {
+    house: 4, lagna: "Pisces", planetSign: "Gemini", planet: "Sun", page: 253,
+    en: "Faces some distress in the house of parents, faces loss in lands, buildings and residential places, faces some deficiency in happiness, gets inspect and honour in society, does violent deeds, and is influential",
+    ta: "தந்தை வீட்டில் சில துன்பம்; நிலம், கட்டிடம், வசிப்பிடங்களில் இழப்பு; மகிழ்ச்சியில் சில குறை; சமூகத்தில் மரியாதையும் கௌரவமும்; வன்முறைச் செயல்கள்; செல்வாக்குள்ளவர்.",
+  },
+  {
+    house: 4, lagna: "Pisces", planetSign: "Gemini", planet: "Moon", page: 255,
+    en: "Gets the happiness of children, gets good education, gets the happiness from mother, gets the pleasure of land, buildings and property, maintains a decent contact with father, experiences a rise of honour in government and society, gets progress in business",
+    ta: "குழந்தைகளின் மகிழ்ச்சி; நல்ல கல்வி; தாயால் மகிழ்ச்சி; நிலம், கட்டிடம், சொத்தின் இன்பம்; தந்தையுடன் நல்ல உறவு; அரசு, சமூகத்தில் மரியாதை உயர்வு; தொழிலில் முன்னேற்றம்.",
+  },
+  {
+    house: 4, lagna: "Pisces", planetSign: "Gemini", planet: "Mars", page: 257,
+    en: "Owns buildings and property, accumulates wealth, gets heavy income, fulfils religious formalities, gets cooperation from mother, gets good luck from wife's house, gets success in business occupation, and is very fortunate",
+    ta: "கட்டிடமும் சொத்தும்; செல்வ சேர்க்கை; அதிக வருமானம்; மத கடமைகளை நிறைவேற்றுவார்; தாயின் ஒத்துழைப்பு; மனைவி வீட்டில் நல்ல அதிர்ஷ்டம்; தொழிலில் வெற்றி; மிக அதிர்ஷ்டசாலி.",
+  },
+  {
+    house: 4, lagna: "Pisces", planetSign: "Gemini", planet: "Mercury", page: 259,
+    en: "Gains strength from lands and buildings, gets unprecedented happiness of the family, achieves great happiness from mother, gains strength in occupation, gets advantage from government and society",
+    ta: "நிலம், கட்டிடங்களின் வலிமை; குடும்பத்தில் அளவற்ற மகிழ்ச்சி; தாயால் பெரும் மகிழ்ச்சி; தொழிலில் வலிமை; அரசு, சமூகத்தில் ஆதாயம்.",
+  },
+  {
+    house: 4, lagna: "Pisces", planetSign: "Gemini", planet: "Jupiter", page: 261,
+    en: "Lives comfortably, possesses the strength of land and buildings, holds great influence in family, gets happiness of parents, pursues the occupation happily through his will-power, lives enjoying authority and sovereignty, gets a long age, gets some enmity in the house of expenditure",
+    ta: "வசதியாக வாழ்வார்; நிலம், கட்டிடங்களின் வலிமை; குடும்பத்தில் பெரும் செல்வாக்கு; பெற்றோரின் மகிழ்ச்சி; தன் மனவலிமையால் தொழிலில் மகிழ்ச்சி; அதிகாரமும் இறையாண்மையும் அனுபவிப்பார்; நீண்ட வயது; செலவு வீட்டில் சில பகை.",
+  },
+  {
+    house: 4, lagna: "Pisces", planetSign: "Gemini", planet: "Venus", page: 264,
+    en: "Bears some loss in the house of mother, gets some happiness from brothers and sisters, gets a long life, gets the pleasure of daily routine oflife, faces difficulties in finding happiness, remains unhappy with father, gets some happiness in foreign countries also, is very clever and honourable",
+    ta: "தாய் வகையில் சில இழப்பு; சகோதர சகோதரியால் சில மகிழ்ச்சி; நல்ல ஆயுள்; தினசரி வாழ்வில் இன்பம்; மகிழ்ச்சி கண்டறிவதில் சிரமம்; தந்தை வகையில் அதிருப்தி; வெளிநாட்டிலும் சில மகிழ்ச்சி; மிகுந்த அறிவும் மரியாதையும்.",
+  },
+  {
+    house: 4, lagna: "Pisces", planetSign: "Gemini", planet: "Saturn", page: 266,
+    en: "Gets both losses and gains, balances the expenditure, has some weakness in residence, holds influence in the enemies' house, bears loss of land, and is courageous",
+    ta: "இழப்பும் ஆதாயமும் இரண்டும்; செலவைச் சமநிலைப்படுத்துவார்; வசிப்பிடத்தில் சில பலவீனம்; பகைவர் வீட்டில் செல்வாக்கு; நிலத்தில் இழப்பு; தைரியசாலி.",
+  },
+  {
+    house: 4, lagna: "Pisces", planetSign: "Gemini", planet: "Rahu", page: 268,
+    en: "Faces calamities to get happiness, owns buildings, experiences vanity in the house of mother, gets hindrance in the real place",
+    ta: "மகிழ்ச்சிக்காக துன்பங்களைச் சந்திப்பார்; கட்டிடங்களுக்கு உரிமையாளர்; தாய் வீட்டில் அகங்காரம்; உண்மையான வீட்டில் தடை.",
+  },
+  {
+    house: 4, lagna: "Pisces", planetSign: "Gemini", planet: "Ketu", page: 270,
+    en: "Bears the loss of mother and separation from her, has severe deficiency in the place of happiness and home, lives in a small house, feels troubled by the neighbours and colleagues, gets the contact of low-class people, bears loss of buildings and property, uses secret powers to get happiness",
+    ta: "தாயை இழந்து பிரிவார்; மகிழ்ச்சியிலும் வீட்டிலும் பெரும் குறை; சிறு வீட்டில் வாழ்வார்; அண்டை வீட்டாராலும் சகாக்களாலும் தொல்லை; கீழ்நிலை மனிதர்களின் தொடர்பு; கட்டிடங்கள், சொத்தின் இழப்பு; மறைந்த சக்திகளால் மகிழ்ச்சி பெற முயல்வார்.",
   },
 ];
 
