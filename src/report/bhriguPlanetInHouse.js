@@ -1,11 +1,11 @@
 /**
- * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 11th
+ * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in each of the twelve
  * houses from each lagna. Each entry is the book's prose as printed (`en`, joined from the page extract; OCR slips are kept),
  * its Tamil summary (`ta`, ours) and the printed page the entry starts on. `planetSign` is the sign the planet stands in
- * (the lagna for house 1, and the sign that many places on for houses 2 to 11).
+ * (the lagna for house 1, and the sign that many places on for houses 2 to 12).
  * The book has no entry for two planets: Sun in Gemini's 5th house (its page goes from the 4th house to the 6th) and Sun in
  * Leo's 10th house (its page goes from the 9th house to the 11th); both checked on the page image, so neither is supplied.
- * 1186 entries in all.
+ * 1294 entries in all.
  * The printed page is the scan's page number plus five, checked against the printed numbers in the scan and the page
  * images for Libra (p.156) and Leo (p.104). Extracted by scratch scripts; the text is the book's.
  */
@@ -5940,6 +5940,546 @@ const PLANET_IN_HOUSE = [
     house: 11, lagna: "Pisces", planetSign: "Capricorn", planet: "Ketu", page: 271,
     en: "Tries very hard for getting wealth, gets more wealth, works courageously for acquiring wealth, gains much through secret strength, faces some troubles in getting income and feels deficiency in that direction",
     ta: "செல்வம் பெற மிகக் கடுமையாக முயல்வார்; மேலும் செல்வம் பெறுவார்; செல்வம் ஈட்ட தைரியமாக வேலை செய்வார்; மறைந்த வலிமையால் பெரும் ஆதாயம்; வருமானம் பெறுவதில் சில தொல்லைகள், அந்தத் திசையில் குறை.",
+  },
+  {
+    house: 12, lagna: "Aries", planetSign: "Pisces", planet: "Sun", page: 22,
+    en: "Lacks good education, has weak eyes, spends much, not happy with children, talks in a rounded about way, mentally worried, suffers from enemies, tries to control house of expenditure, good contact with outsiders",
+    ta: "கல்வியில் குறை; கண் பலவீனம்; அதிகம் செலவழிப்பார்; பிள்ளைகளில் அதிருப்தி; சுற்றி வளைத்துப் பேசுவார்; மனத்தில் கவலை; எதிரிகளால் துன்பம்; செலவு வீட்டைக் கட்டுப்படுத்த முயல்வார்; வெளியார் தொடர்பு நல்லது.",
+  },
+  {
+    house: 12, lagna: "Aries", planetSign: "Pisces", planet: "Moon", page: 24,
+    en: "Spends much for pleasure, expenditure for good causes, loses mother, lacks landed properties, associates with enemies, plans the expenditure with ease, mental restlessness",
+    ta: "இன்பத்துக்காக அதிகம் செலவழிப்பார்; நல்ல காரியங்களுக்காகச் செலவு; தாயை இழப்பார்; நிலச் சொத்து குறை; எதிரிகளுடன் தொடர்பு; செலவைச் சுலபமாகத் திட்டமிடுவார்; மன அமைதியின்மை.",
+  },
+  {
+    house: 12, lagna: "Aries", planetSign: "Pisces", planet: "Mars", page: 26,
+    en: "Feels restless, unhappy with brotherly relations, spends much, unhappy with wife, worries and distress in the daily occupation, overcomes enemies, gets his work done with great difficulty, unhappy in sexual life and domestic work, physically weak",
+    ta: "அமைதியின்மை; சகோதர உறவில் அதிருப்தி; அதிகம் செலவழிப்பார்; மனைவியுடன் அதிருப்தி; தினசரி தொழிலில் கவலையும் சிரமமும்; எதிரிகளை வெல்வார்; வேலையை மிகுந்த சிரமத்துடன் சாதிப்பார்; பாலியல் வாழ்விலும் குடும்ப வேலையிலும் அதிருப்தி; உடல் பலவீனம்.",
+  },
+  {
+    house: 12, lagna: "Aries", planetSign: "Pisces", planet: "Mercury", page: 28,
+    en: "Lacks brotherly and sisterly affection, losses keep the expenditure under control, help through enemies, has occult power, worried about growing expenditure and is miserly",
+    ta: "சகோதர பாசம் குறை; இழப்புகள் செலவைக் கட்டுப்படுத்தும்; எதிரிகள் வழியாக உதவி; மறைந்த சக்தி உண்டு; பெருகும் செலவைப் பற்றிக் கவலை; கஞ்சத்தனம்.",
+  },
+  {
+    house: 12, lagna: "Aries", planetSign: "Pisces", planet: "Jupiter", page: 30,
+    en: "Religious in outlook, but not very fortunate, spends much but at the same time controls the expenditure, some losses, spends for religious works, dignified, careful from enemies",
+    ta: "தர்ம நோக்குடையவர், ஆனால் அதிர்ஷ்டசாலி அல்ல; அதிகம் செலவழித்தாலும் செலவைக் கட்டுப்படுத்துவார்; சில இழப்புகள்; தர்ம காரியங்களுக்குச் செலவு; கம்பீரமானவர்; எதிரிகளிடம் எச்சரிக்கை.",
+  },
+  {
+    house: 12, lagna: "Aries", planetSign: "Pisces", planet: "Venus", page: 32,
+    en: "Spends much and loses wealth, family and kinsmen, unhappy with wife, improves the occupation, spends much for sexual pleasures, fear from enemies, is quarrelsome and unhappy with maternal grandfather",
+    ta: "அதிகம் செலவழித்து செல்வம், குடும்பம், உறவினர்களை இழப்பார்; மனைவியுடன் அதிருப்தி; தொழிலை மேம்படுத்துவார்; பாலியல் இன்பத்துக்கு அதிகம் செலவழிப்பார்; எதிரிகளைப் பற்றிப் பயம்; தாய்வழி தாத்தாவுடன் சண்டையும் அதிருப்தியும்.",
+  },
+  {
+    house: 12, lagna: "Aries", planetSign: "Pisces", planet: "Saturn", page: 34,
+    en: "Loss through father, spends much money in many ways, works hard to increase the wealth, does various kinds of deeds to rear Dharma and keep influence in the house of enemies",
+    ta: "தந்தை வழியில் இழப்பு; பல வழிகளில் அதிகம் பணம் செலவழிப்பார்; செல்வம் பெருக்க கடினமாக உழைப்பார்; தர்மம் காக்க பல செயல்களைச் செய்வார்; எதிரி வீட்டில் செல்வாக்கு.",
+  },
+  {
+    house: 12, lagna: "Aries", planetSign: "Pisces", planet: "Rahu", page: 36,
+    en: "Unhappy in spending, enmity with outsiders, never feels nervous even when he has to face grave difficulties, finally succeeds in controlling expenditure",
+    ta: "செலவில் அதிருப்தி; வெளியாருடன் பகை; பெரும் சிரமங்களை எதிர்கொண்டாலும் பதறமாட்டார்; இறுதியில் செலவைக் கட்டுப்படுத்துவார்.",
+  },
+  {
+    house: 12, lagna: "Aries", planetSign: "Pisces", planet: "Ketu", page: 38,
+    en: "Spends much and is worried over expenditure, works with determination, somehow manages the expenditure and at times finds difficulty",
+    ta: "அதிகம் செலவழித்து செலவைப் பற்றி கவலைப்படுவார்; உறுதியுடன் வேலை செய்வார்; ஒருவாறு செலவை சமாளிப்பார், சில நேரம் கடினம்.",
+  },
+  {
+    house: 12, lagna: "Taurus", planetSign: "Aries", planet: "Sun", page: 43,
+    en: "Spends much, happiness from others, loss due to building and property, fear from enemies, restless due to heavy expenditure",
+    ta: "அதிகம் செலவழிப்பார்; பிறரிடமிருந்து மகிழ்ச்சி; கட்டிடம், சொத்தால் இழப்பு; எதிரிகளைப் பற்றிப் பயம்; பெரும் செலவால் அமைதியின்மை.",
+  },
+  {
+    house: 12, lagna: "Taurus", planetSign: "Aries", planet: "Moon", page: 45,
+    en: "Enmity with brothers and sisters, lot of expenditure, no harm from enemies, mental unrest",
+    ta: "சகோதர சகோதரிகளுடன் பகை; அதிகச் செலவு; எதிரிகளால் தீங்கில்லை; மன அமைதியின்மை.",
+  },
+  {
+    house: 12, lagna: "Taurus", planetSign: "Aries", planet: "Mars", page: 47,
+    en: "Loss through wife, but enjoys sexual pleasures due to extra-marital affairs, feels weak due to extra sexual connections",
+    ta: "மனைவியால் இழப்பு; ஆனால் திருமணத்துக்கு புறம்பான உறவுகளால் பாலியல் இன்பம்; கூடுதல் பாலியல் தொடர்புகளால் உடல் பலவீனம்.",
+  },
+  {
+    house: 12, lagna: "Taurus", planetSign: "Aries", planet: "Mercury", page: 49,
+    en: "Gets loss through children, loss in wealth, poor in education, worries, spends much, help from the house of grandfather, worries from enemies, loss and deficiency in family",
+    ta: "குழந்தைகளால் இழப்பு; செல்வ இழப்பு; கல்வியில் குறை; கவலைகள்; அதிகம் செலவழிப்பார்; தாத்தா வீட்டின் உதவி; எதிரிகளால் கவலை; குடும்பத்தில் இழப்பும் குறையும்.",
+  },
+  {
+    house: 12, lagna: "Taurus", planetSign: "Aries", planet: "Jupiter", page: 51,
+    en: "Spends much and judiciously, works hard to get gains and wealth, happy with mother, enmity with maternal grandfather, deficiency in the house of wealth",
+    ta: "அதிகமும் சாமர்த்தியமாகவும் செலவழிப்பார்; ஆதாயத்துக்காகக் கடுமையாக உழைப்பார்; தாயுடன் மகிழ்ச்சி; தாய்வழி தாத்தாவுடன் பகை; செல்வ வீட்டில் குறை.",
+  },
+  {
+    house: 12, lagna: "Taurus", planetSign: "Aries", planet: "Venus", page: 53,
+    en: "Spends much, worried and suffers from some diseases, gets disrespect in honour, feels lonely",
+    ta: "அதிகம் செலவழிப்பார்; கவலையும் சில நோய்களும்; மரியாதையில் அவமதிப்பு; தனிமையை உணர்வார்.",
+  },
+  {
+    house: 12, lagna: "Taurus", planetSign: "Aries", planet: "Saturn", page: 55,
+    en: "Loss in the house of father, does some mean and low deeds, weakness in the house of expenditure, influence in the house of enemies, unhappy in government and society",
+    ta: "தந்தை வீட்டில் இழப்பு; சில கீழ்த்தரமான செயல்களைச் செய்வார்; செலவு வீட்டில் பலவீனம்; எதிரி வீட்டில் செல்வாக்கு; அரசு, சமூகத்தில் அதிருப்தி.",
+  },
+  {
+    house: 12, lagna: "Taurus", planetSign: "Aries", planet: "Rahu", page: 57,
+    en: "Loss and huge expenditure, worried, unable to manage the expenditure '",
+    ta: "பெரும் இழப்பும் பெரும் செலவும்; கவலை; செலவை நிர்வகிக்க முடியாது.",
+  },
+  {
+    house: 12, lagna: "Taurus", planetSign: "Aries", planet: "Ketu", page: 59,
+    en: "Lot of expenditure, does not believe in Dharma, faces outside relations boldly",
+    ta: "அதிகச் செலவு; தர்மத்தை நம்பார்; வெளியார் உறவுகளை தைரியமாக எதிர்கொள்வார்.",
+  },
+  {
+    house: 12, lagna: "Gemini", planetSign: "Taurus", planet: "Sun", page: 63,
+    en: "Gets loss and weakness in his face and enemy, faces some loss and separation of brothers and sisters, spends much and restless in the house of expenditure, huge influence in the house of enemies, feels lazy, does not care for ill-health",
+    ta: "முகத்திலும் எதிரிகளிலும் இழப்பும் பலவீனமும்; உடன்பிறப்புகளைப் பிரிவும் இழப்பும்; அதிகம் செலவழித்து செலவு வீட்டில் அமைதியின்மை; எதிரி வீட்டில் பெரும் செல்வாக்கு; சோம்பல்; உடல்நலத்தைப் பொருட்படுத்தார்.",
+  },
+  {
+    house: 12, lagna: "Gemini", planetSign: "Taurus", planet: "Moon", page: 65,
+    en: "Gets wealth through union of mind and contact with others, great loss in the house of family, benefit likely through low persons, tries to check the expenditure",
+    ta: "மன இணைப்பாலும் பிறர் தொடர்பாலும் செல்வம்; குடும்ப வீட்டில் பெரும் இழப்பு; தாழ்ந்தவர்கள் மூலம் ஆதாயம் கிடைக்கக்கூடும்; செலவைக் கட்டுப்படுத்த முயல்வார்.",
+  },
+  {
+    house: 12, lagna: "Gemini", planetSign: "Taurus", planet: "Mars", page: 67,
+    en: "Feels worry and weakness in the house of income, gets the work done in the house of enemy, some perplexity in the house of brothers and sisters, restlessness in the house of wife, spends much, gets some sexual disorder",
+    ta: "வருமான வீட்டில் கவலையும் பலவீனமும்; எதிரி வீட்டில் வேலை சாதிப்பார்; சகோதர சகோதரிகள் வீட்டில் சில குழப்பம்; மனைவி வீட்டில் அமைதியின்மை; அதிகம் செலவழிப்பார்; பாலியல் குறைபாடு.",
+  },
+  {
+    house: 12, lagna: "Gemini", planetSign: "Taurus", planet: "Mercury", page: 69,
+    en: "Gets deficiency in physical pleasures, weakness in body, goes to other places, unhappy with mother, unhappy with motherland and buildings, spends much, gets his work done fully with everyone, is a wanderer",
+    ta: "உடல் இன்பங்களில் குறை; உடல் பலவீனம்; வேறு இடங்களுக்குச் செல்வார்; தாயுடன் அதிருப்தி; தாய்நாடு, கட்டிடங்களில் அதிருப்தி; அதிகம் செலவழிப்பார்; எல்லோருடனும் வேலையை முழுமையாகச் சாதிப்பார்; அலைந்து திரிபவர்.",
+  },
+  {
+    house: 12, lagna: "Gemini", planetSign: "Taurus", planet: "Jupiter", page: 71,
+    en: "Weakness in the house of father, great loss in the house of wife, weakness in getting honour from government and society and also in the line of occupation, some strength in the house of land and buildings, feels restlessness in the daily routine of life, weakness in sexual pleasures",
+    ta: "தந்தை வீட்டில் பலவீனம்; மனைவி வீட்டில் பெரும் இழப்பு; அரசு, சமூகத்திலும் தொழிலிலும் மரியாதை பெறுவதில் பலவீனம்; நிலமும் கட்டிடமும் சில வலிமை; தினசரி வாழ்வில் அமைதியின்மை; பாலியல் இன்பத்தில் பலவீனம்.",
+  },
+  {
+    house: 12, lagna: "Gemini", planetSign: "Taurus", planet: "Venus", page: 73,
+    en: "Much weakness in the house of education, has loss in the side of children, spends much, clever in getting the work done in the house of enemy, some suspicious intellect",
+    ta: "கல்வியில் பெரும் பலவீனம்; பிள்ளைகள் வகையில் இழப்பு; அதிகம் செலவழிப்பார்; எதிரி வீட்டில் வேலையை சாமர்த்தியமாகச் சாதிப்பார்; சில சந்தேக அறிவு.",
+  },
+  {
+    house: 12, lagna: "Gemini", planetSign: "Taurus", planet: "Saturn", page: 75,
+    en: "Restless in life, weakness in Dharma, more expenditure, tries to increase the wealth, great influence in the side of enemy, some loss in wealth, deficiency in fame, and somewhat impersonal",
+    ta: "வாழ்வில் அமைதியின்மை; தர்மத்தில் பலவீனம்; அதிகச் செலவு; செல்வத்தைப் பெருக்க முயல்வார்; எதிரி வீட்டில் பெரும் செல்வாக்கு; சில செல்வ இழப்பு; புகழில் குறை; சற்று பற்றற்றவர்.",
+  },
+  {
+    house: 12, lagna: "Gemini", planetSign: "Taurus", planet: "Rahu", page: 77,
+    en: "Sometimes bears troubles on account of high expenditure, careless in connection with other places, works with secret devices and thinks remotely",
+    ta: "அதிக செலவால் சில நேரம் தொல்லைகள்; பிற இடங்களில் அசட்டை; ரகசிய உபாயங்களால் வேலை செய்வார்; தொலைவில் சிந்திப்பார்.",
+  },
+  {
+    house: 12, lagna: "Gemini", planetSign: "Taurus", planet: "Ketu", page: 79,
+    en: "Spends much, labours hard to face expenditure",
+    ta: "அதிகம் செலவழிப்பார்; செலவைச் சமாளிக்கக் கடினமாக உழைப்பார்.",
+  },
+  {
+    house: 12, lagna: "Cancer", planetSign: "Gemini", planet: "Sun", page: 84,
+    en: "Spends too much wealth, unable to accumulate wealth, gets wealth from outside sources, keeps influence on the side of enemies by spending, escape from diseases and troubles, feels unhappy on account of wealth and family",
+    ta: "பெரும் செல்வத்தைச் செலவழிப்பார்; செல்வம் சேர்க்க முடியாது; வெளி மூலங்களிலிருந்து பணம் பெறுவார்; செலவால் எதிரி வீட்டில் செல்வாக்கு வைத்திருப்பார்; நோய்களிலிருந்தும் துன்பங்களிலிருந்தும் தப்புவார்; செல்வம், குடும்பம் பற்றி அதிருப்தி.",
+  },
+  {
+    house: 12, lagna: "Cancer", planetSign: "Gemini", planet: "Moon", page: 86,
+    en: "Gets some deficiency and weakness in physique, lives in foreign places and gets honour there, feels some physical and mental distress, spends much, makes efforts to have influence in the house of enemies, suspicious nature",
+    ta: "உடல் பலவீனமும் குறையும்; வெளிநாடுகளில் வாழ்ந்து அங்கு மரியாதை பெறுவார்; உடல், மனத் துன்பம்; அதிகம் செலவழிப்பார்; எதிரி வீட்டில் செல்வாக்கு பெற முயல்வார்; சந்தேக இயல்பு.",
+  },
+  {
+    house: 12, lagna: "Cancer", planetSign: "Gemini", planet: "Mars", page: 88,
+    en: "Gets some respect, experiences troubles from son, gets weakness in education and intelligence, spends much, gets sexual pleasures, losses in big occupation, is very courageous and energetic",
+    ta: "சில மரியாதை; மகனால் துன்பம்; கல்வியிலும் அறிவிலும் பலவீனம்; அதிகம் செலவழிப்பார்; பாலியல் இன்பம் பெறுவார்; பெரிய தொழிலில் இழப்பு; மிக தைரியமும் சுறுசுறுப்பும்.",
+  },
+  {
+    house: 12, lagna: "Cancer", planetSign: "Gemini", planet: "Mercury", page: 90,
+    en: "Has the power of spending much, keeps distant relations with brothers and sisters, deficiency in strength, some influence in the house of enemy, spends for some disease and hardships, never puts any obstacles in the house of expenditure",
+    ta: "அதிகம் செலவழிக்கும் ஆற்றல்; சகோதர சகோதரிகளுடன் தொலைதூர உறவு; வலிமைக் குறை; எதிரி வீட்டில் சில செல்வாக்கு; சில நோய்கள், கஷ்டங்களுக்காகச் செலவு; செலவு வீட்டில் எப்போதும் தடை வைக்கமாட்டார்.",
+  },
+  {
+    house: 12, lagna: "Cancer", planetSign: "Gemini", planet: "Jupiter", page: 92,
+    en: "Spends much, some weakness in the house of destiny, gets the support of labour and destiny in the power to manage expenditure, some deficiency to acquire fame, some obstacles in the happiness and in daily routine of life",
+    ta: "அதிகம் செலவழிப்பார்; விதி வீட்டில் சில பலவீனம்; செலவை நிர்வகிக்கும் ஆற்றலுக்கு உழைப்பும் விதியும் ஆதரவு; புகழ் பெறுவதில் சிறு குறை; இன்பத்திலும் தினசரி வாழ்விலும் சில தடைகள்.",
+  },
+  {
+    house: 12, lagna: "Cancer", planetSign: "Gemini", planet: "Venus", page: 94,
+    en: "Gets some loss of the house of mother, spends much, feels the pleasure in spending the income, carelessness in the house of enemy and is somewhat restless",
+    ta: "தாயின் வீட்டில் சில இழப்பு; அதிகம் செலவழிப்பார்; வருமானத்தைச் செலவழிப்பதில் மகிழ்ச்சி; எதிரி வீட்டில் அசட்டை; சற்று அமைதியற்றவர்.",
+  },
+  {
+    house: 12, lagna: "Cancer", planetSign: "Gemini", planet: "Saturn", page: 96,
+    en: "Spends much, progress of destiny through troublesome devices and secret tactics, some weakness with the happiness of wife and family, loss of wealth and deficiency in family",
+    ta: "அதிகம் செலவழிப்பார்; விதியின் முன்னேற்றம் தந்திரமான வழிகளாலும் ரகசிய உபாயங்களாலும்; மனைவி, குடும்ப மகிழ்ச்சியில் சில பலவீனம்; செல்வ இழப்பும் குடும்பக் குறையும்.",
+  },
+  {
+    house: 12, lagna: "Cancer", planetSign: "Gemini", planet: "Rahu", page: 98,
+    en: "Spends aristocratically, high class schemes in the house of expenditure, manages the expenditure very easily, possesses great power",
+    ta: "உயர்குடியினர் போல செலவழிப்பார்; செலவு வீட்டில் உயர்தர திட்டங்கள்; எளிதாகச் செலவை நிர்வகிப்பார்; பெரும் வலிமை.",
+  },
+  {
+    house: 12, lagna: "Cancer", planetSign: "Gemini", planet: "Ketu", page: 100,
+    en: "Great restlessness and difficulties in the house of expenditure, some calamities in the house of expenditure, is very impatient",
+    ta: "செலவு வீட்டில் பெரும் அமைதியின்மையும் சிரமங்களும்; செலவு வீட்டில் சில ஆபத்துகள்; மிகவும் பொறுமையற்றவர்.",
+  },
+  {
+    house: 12, lagna: "Leo", planetSign: "Cancer", planet: "Sun", page: 105,
+    en: "Is of emaciated body, lives in foreign place, weakness in his heart, spends much, aspects the house of enemy very sharply, feels loneliness, possesses the power of touring, and feels weak",
+    ta: "மெலிந்த உடல்; வெளிநாட்டில் வாழ்வார்; இதயத்தில் பலவீனம்; அதிகம் செலவழிப்பார்; எதிரி வீட்டை மிகக் கூர்மையாகக் கவனிப்பார்; தனிமை உணர்வார்; பயணம் செய்யும் ஆற்றல்; பலவீனம் உணர்வார்.",
+  },
+  {
+    house: 12, lagna: "Leo", planetSign: "Cancer", planet: "Moon", page: 107,
+    en: "Spends much, unable to control the expenditure, somewhat resdess and of scmpulous mind",
+    ta: "அதிகம் செலவழிப்பார்; செலவைக் கட்டுப்படுத்த முடியாது; சற்று அமைதியற்றவர், சந்தேக மனம்.",
+  },
+  {
+    house: 12, lagna: "Leo", planetSign: "Cancer", planet: "Mars", page: 109,
+    en: "Great weakness in the house of destiny, gets loss in the house of mother, loss of lands and buildings and residential places, restless in the house of expenditure, influence in the house of enemy",
+    ta: "விதி வீட்டில் பெரும் பலவீனம்; தாய் வீட்டில் இழப்பு; நிலம், கட்டிடம், குடியிருப்பு இழப்பு; செலவு வீட்டில் அமைதியின்மை; எதிரி வீட்டில் செல்வாக்கு.",
+  },
+  {
+    house: 12, lagna: "Leo", planetSign: "Cancer", planet: "Mercury", page: 111,
+    en: "Spends a lot of money, not giving importance to accumulate wealth, takes the help of money to drive away enemies, diseases and difficulties, experiences some distress in the store of wealth",
+    ta: "அதிகம் பணம் செலவழிப்பார்; செல்வம் சேர்ப்பதற்கு முக்கியத்துவம் கொடுக்கமாட்டார்; எதிரிகள், நோய்கள், துன்பங்களை விரட்ட பணத்தின் உதவியைப் பெறுவார்; செல்வக் களஞ்சியத்தில் சில கவலை.",
+  },
+  {
+    house: 12, lagna: "Leo", planetSign: "Cancer", planet: "Jupiter", page: 113,
+    en: "Spends much, gets a little education and a few children, gets good age, some loss in the house of happiness",
+    ta: "அதிகம் செலவழிப்பார்; சிறிதளவு கல்வியும் சில பிள்ளைகளும்; நல்ல வயது; மகிழ்ச்சி வீட்டில் சில இழப்பு.",
+  },
+  {
+    house: 12, lagna: "Leo", planetSign: "Cancer", planet: "Venus", page: 115,
+    en: "Spends much, loss in the house of father and brothers, loss in business, gets some weakness in the house of government and society",
+    ta: "அதிகம் செலவழிப்பார்; தந்தை, சகோதரர் வீட்டில் இழப்பு; வணிகத்தில் இழப்பு; அரசு, சமூக வீட்டில் சில பலவீனம்.",
+  },
+  {
+    house: 12, lagna: "Leo", planetSign: "Cancer", planet: "Saturn", page: 117,
+    en: "Spends much, some loss in the house of wife, keeps in the influence of in the house of enemy, has less faith in God and destiny, spends on diseases",
+    ta: "அதிகம் செலவழிப்பார்; மனைவி வீட்டில் சில இழப்பு; எதிரி வீட்டில் செல்வாக்கு; கடவுள், விதி மீது குறைந்த நம்பிக்கை; நோய்களுக்காகச் செலவழிப்பார்.",
+  },
+  {
+    house: 12, lagna: "Leo", planetSign: "Cancer", planet: "Rahu", page: 119,
+    en: "Spends much, gets the power to manage expenditure with great hardships and anxieties, sometimes faces hostile calculations in the house of expenditure",
+    ta: "அதிகம் செலவழிப்பார்; பெரும் சிரமங்களுடனும் கவலைகளுடனும் செலவை நிர்வகிக்கும் ஆற்றல்; சில நேரம் செலவு வீட்டில் பகையான கணக்குகள்.",
+  },
+  {
+    house: 12, lagna: "Leo", planetSign: "Cancer", planet: "Ketu", page: 121,
+    en: "Great restlessness in the house of expenditure, some restlessness in the labour connected with outside places, gets his work done with internal patience bearing great troubles and in the end gets some firmness of expenditure",
+    ta: "செலவு வீட்டில் பெரும் அமைதியின்மை; வெளியூர் வேலையில் சில அமைதியின்மை; பெரும் துன்பங்களைத் தாங்கும் உள் பொறுமையால் வேலை சாதிப்பார்; இறுதியில் செலவில் சில உறுதி.",
+  },
+  {
+    house: 12, lagna: "Virgo", planetSign: "Leo", planet: "Sun", page: 126,
+    en: "Spends much, keeps influence on enemies, spends in matters of dispute and illness, gets the great power of influence in the house of expenditure",
+    ta: "அதிகம் செலவழிப்பார்; எதிரிகள் மீது செல்வாக்கு; சச்சரவு, நோய் விஷயங்களில் செலவு; செலவு வீட்டில் பெரும் செல்வாக்கு.",
+  },
+  {
+    house: 12, lagna: "Virgo", planetSign: "Leo", planet: "Moon", page: 128,
+    en: "Spends much, is of fickle and restless mind, thinks of remote things, spends the whole income on things of securing gains, matters relating to illness or disputes, thinks with a cool mind in the side of enemies to get his work done, some weakness in gaining income, and is insipid",
+    ta: "அதிகம் செலவழிப்பார்; நிலையற்ற, அலைபாயும் மனம்; தொலைதூர விஷயங்களைப் பற்றி சிந்திப்பார்; வருமானம் முழுவதையும் ஆதாயம் பெறும் விஷயங்களுக்குச் செலவழிப்பார்; நோய் அல்லது சச்சரவு விஷயங்கள்; எதிரிகளிடம் வேலை சாதிக்கக் குளிர்ந்த மனத்துடன் சிந்திப்பார்; வருமானம் பெறுவதில் சில பலவீனம்; சுவையற்றவர்.",
+  },
+  {
+    house: 12, lagna: "Virgo", planetSign: "Leo", planet: "Mars", page: 130,
+    en: "Gets some loss in the side of enemies and maternal grandfather, gets some loss of brother and wife, loss on the side of daily occupation",
+    ta: "எதிரிகள், தாத்தா வீட்டின் வகையில் சில இழப்பு; சகோதரர், மனைவி வகையில் சில இழப்பு; தினசரி தொழிலில் இழப்பு.",
+  },
+  {
+    house: 12, lagna: "Virgo", planetSign: "Leo", planet: "Mercury", page: 132,
+    en: "Spends much, lives in foreign countries, some weakness in the house of father, gets some courage on the side of enemies, makes the expenditure through the power of discretion",
+    ta: "அதிகம் செலவழிப்பார்; வெளிநாடுகளில் வாழ்வார்; தந்தை வீட்டில் சில பலவீனம்; எதிரிகள் வகையில் சில தைரியம்; விவேகத்தின் வலிமையால் செலவு செய்வார்.",
+  },
+  {
+    house: 12, lagna: "Virgo", planetSign: "Leo", planet: "Jupiter", page: 135,
+    en: "Spends much, gets the loss of wife, gets worries in the daily occupation, gets some weakness in the house of mother, gets the happiness of a long age, gets some loss of property",
+    ta: "அதிகம் செலவழிப்பார்; மனைவியை இழப்பார்; தினசரி தொழிலில் கவலைகள்; தாய் வீட்டில் சில பலவீனம்; நீண்ட வயதின் மகிழ்ச்சி; சொத்தில் சில இழப்பு.",
+  },
+  {
+    house: 12, lagna: "Virgo", planetSign: "Leo", planet: "Venus", page: 137,
+    en: "Spends much, some weakness, is unable to accumulate money, gets family losses, makes the enemies somewhat friends, some loss of Dharma",
+    ta: "அதிகம் செலவழிப்பார்; சில பலவீனம்; பணம் சேர்க்க முடியாது; குடும்ப இழப்புகள்; எதிரிகளைச் சிறிது நண்பராக்குவார்; தர்மத்தில் சில இழப்பு.",
+  },
+  {
+    house: 12, lagna: "Virgo", planetSign: "Leo", planet: "Saturn", page: 139,
+    en: "Worried due to tasteless expenditure, gets loss and distress in the side of children, deficiency in intellect and education, prepares a grand scheme for the increase of wealth, is always worried, speaks less",
+    ta: "சுவையற்ற செலவைப் பற்றிக் கவலை; பிள்ளைகள் வகையில் இழப்பும் துன்பமும்; அறிவிலும் கல்வியிலும் குறை; செல்வம் பெருக்க பெரிய திட்டம்; எப்போதும் கவலை; குறைவாகப் பேசுவார்.",
+  },
+  {
+    house: 12, lagna: "Virgo", planetSign: "Leo", planet: "Rahu", page: 141,
+    en: "Great distress in connection with expenditure, faces worries, sometimes faces grave difficulties in the house of expenditure, and in the end achieves firmness in connection with expenditure",
+    ta: "செலவில் பெரும் துன்பம்; கவலைகள்; சில நேரம் செலவு வீட்டில் பெரும் சிரமங்கள்; இறுதியில் செலவு விஷயத்தில் உறுதி அடைவார்.",
+  },
+  {
+    house: 12, lagna: "Virgo", planetSign: "Leo", planet: "Ketu", page: 143,
+    en: "Bears great difficulty in the house of expenditure, and in the end overpowers it",
+    ta: "செலவு வீட்டில் பெரும் சிரமத்தைத் தாங்கி இறுதியில் அதை வெல்வார்.",
+  },
+  {
+    house: 12, lagna: "Libra", planetSign: "Virgo", planet: "Sun", page: 147,
+    en: "Spends much, spends the whole profit, has the idea of renunciation, gains from enemies",
+    ta: "அதிகம் செலவழிப்பார்; ஆதாயம் முழுவதையும் செலவழிப்பார்; துறவு எண்ணம்; எதிரிகளிடமிருந்து ஆதாயம்.",
+  },
+  {
+    house: 12, lagna: "Libra", planetSign: "Virgo", planet: "Moon", page: 149,
+    en: "Loss in business occupation, loss in the house of government, rears weakness in the house of honour and respect, creates influence in the house of enemies, deficiency in mind",
+    ta: "வணிகத் தொழிலில் இழப்பு; அரசு வீட்டில் இழப்பு; மரியாதையிலும் கௌரவத்திலும் பலவீனம்; எதிரி வீட்டில் செல்வாக்கு; மனத்தில் குறை.",
+  },
+  {
+    house: 12, lagna: "Libra", planetSign: "Virgo", planet: "Mars", page: 151,
+    en: "Heavy loss of men and wealth, gets restlessness in wife and family, loss in everyday occupation, some influence over opponents, feels loss of wealth and some speciality in occupation",
+    ta: "ஆட்களிலும் செல்வத்திலும் பெரும் இழப்பு; மனைவி, குடும்பத்தில் அமைதியின்மை; தினசரி தொழிலில் இழப்பு; எதிரிகள் மீது சில செல்வாக்கு; செல்வ இழப்பும் தொழிலில் சில சிறப்பும்.",
+  },
+  {
+    house: 12, lagna: "Libra", planetSign: "Virgo", planet: "Mercury", page: 153,
+    en: "Spends much, losses in the house of destiny, spends much in pilgrimages and is religious, uses some policy of wisdom in relation with enemies",
+    ta: "அதிகம் செலவழிப்பார்; விதி வீட்டில் இழப்பு; யாத்திரைகளுக்கு அதிகம் செலவழித்து மதப்பற்று; எதிரிகளுடன் விவேகமான உபாயம்.",
+  },
+  {
+    house: 12, lagna: "Libra", planetSign: "Virgo", planet: "Jupiter", page: 155,
+    en: "Gets weakness in his strength and energy, has enmity with brother, defeats the opponent, careless and gets weakness due to heavy expenditure",
+    ta: "வலிமையிலும் ஆற்றலிலும் பலவீனம்; சகோதரருடன் பகை; எதிரியை வெல்வார்; அசட்டை; அதிக செலவால் பலவீனம்.",
+  },
+  {
+    house: 12, lagna: "Libra", planetSign: "Virgo", planet: "Venus", page: 157,
+    en: "Gets much weakness in his body, gets distress and deficiency in expenditure, feels sufferings in his daily routine of life",
+    ta: "உடலில் பெரும் பலவீனம்; செலவு வீட்டில் துன்பமும் குறையும்; தினசரி வாழ்வில் வேதனை.",
+  },
+  {
+    house: 12, lagna: "Libra", planetSign: "Virgo", planet: "Saturn", page: 159,
+    en: "Spends much to get happiness, feels happiness only by expenditure, gets deficiency in his mother country, some weakness in intellect and education, gets loss in the side of children and gets little happiness, great enmity in connection with family and hoarding of wealth",
+    ta: "இன்பம் பெற அதிகம் செலவழிப்பார்; செலவிலேயே மகிழ்ச்சி காண்பார்; தாய்நாட்டில் குறை; அறிவிலும் கல்வியிலும் சில பலவீனம்; பிள்ளைகள் வகையில் இழப்பு, சிறு மகிழ்ச்சி; குடும்பத்தில் பெரும் பகையும் செல்வம் பதுக்குதலும்.",
+  },
+  {
+    house: 12, lagna: "Libra", planetSign: "Virgo", planet: "Rahu", page: 161,
+    en: "Spends much, some incompleteness in the house of expenditure, bears deficiently in the house of expenditure",
+    ta: "அதிகம் செலவழிப்பார்; செலவு வீட்டில் சில குறை; செலவு வீட்டில் பற்றாக்குறை.",
+  },
+  {
+    house: 12, lagna: "Libra", planetSign: "Virgo", planet: "Ketu", page: 163,
+    en: "Spends in a determined way, works very boldly even in having some weakness in the matters of expenditure",
+    ta: "உறுதியுடன் செலவழிப்பார்; செலவு விஷயத்தில் சில பலவீனம் இருந்தாலும் மிகத் தைரியமாக வேலை செய்வார்.",
+  },
+  {
+    house: 12, lagna: "Scorpio", planetSign: "Libra", planet: "Sun", page: 169,
+    en: "Loss of the house of father, gets loss in business and occupation, gets loss of respect and honour, bears distress in the house of expenditure, some influence in the house of enemies, does not care for diseases, has occult power",
+    ta: "தந்தை வீட்டில் இழப்பு; தொழிலிலும் வேலையிலும் இழப்பு; மரியாதையிலும் கௌரவத்திலும் இழப்பு; செலவு வீட்டில் துன்பம்; எதிரி வீட்டில் சில செல்வாக்கு; நோய்களைப் பொருட்படுத்தார்; மறைந்த சக்தி உண்டு.",
+  },
+  {
+    house: 12, lagna: "Scorpio", planetSign: "Libra", planet: "Moon", page: 171,
+    en: "Faces weakness in destiny, gets the support of destiny in managing the expenditure, gets some conciliation from the house of enemies and in the maternal grandfather's family",
+    ta: "விதியில் பலவீனம்; செலவை நிர்வகிக்க விதியின் ஆதரவு; எதிரி வீட்டிலும் தாய் வழி தாத்தா குடும்பத்திலும் சில சமரசம்.",
+  },
+  {
+    house: 12, lagna: "Scorpio", planetSign: "Libra", planet: "Mars", page: 173,
+    en: "Experiences troubles in physique, has a weak body, worried about problems of expenditure, spends in matters relating to quarrels and diseases, lives in foreign places, loves brothers, maintains the influences and pursues his occupation even in the weak position, unhappiness with wife and family, wants sexual pleasures and puts special efforts in acquiring the same, is fickle-minded and wanders much",
+    ta: "உடல் உபாதைகள்; பலவீனமான உடல்; செலவுப் பிரச்சினைகள் பற்றிக் கவலை; சச்சரவு, நோய் விஷயங்களில் செலவு; வெளிநாட்டில் வாழ்வார்; சகோதரரை நேசிப்பார்; வலிமையைக் காத்து பலவீனமான நிலையிலும் தொழிலைத் தொடர்வார்; மனைவி, குடும்பத்தில் அதிருப்தி; பாலியல் இன்பம் விரும்பி அதற்கு சிறப்பு முயற்சி; நிலையற்ற மனம்; அதிகம் அலைந்து திரிபவர்.",
+  },
+  {
+    house: 12, lagna: "Scorpio", planetSign: "Libra", planet: "Mercury", page: 175,
+    en: "Spends too much, gets the contact of other places, gets the gains through the later period of life, gains from expenditure, gets the weakness in the gains, nervous conjunction in the house of longevity, some struggles and diseases etc",
+    ta: "அதிகம் செலவழிப்பார்; பிற இடங்களுடன் தொடர்பு; வாழ்வின் பிற்பகுதியில் ஆதாயம்; செலவிலிருந்து ஆதாயம்; ஆதாய வீட்டில் பலவீனம்; ஆயுள் வீட்டில் பதற்றமான சேர்க்கை; சில போராட்டங்களும் நோய்களும்.",
+  },
+  {
+    house: 12, lagna: "Scorpio", planetSign: "Libra", planet: "Jupiter", page: 177,
+    en: "Spends much, weakness in wealth, heavy losses in children's side, gets little education, feces many difficulties at the time of getting education, faces a wrong mode of conversation, is unable to make others understand the ideas properly, deficiency in the house of peace, happiness and mother, possesses the friendship on the side of enemies, spends the life aristocratically",
+    ta: "அதிகம் செலவழிப்பார்; செல்வத்தில் பலவீனம்; குழந்தைகள் வீட்டில் பெரும் இழப்பு; சிறிது கல்வி; கல்வி பெறும்போது பல சிரமங்கள்; தவறான பேச்சு முறை; தன் கருத்துகளை மற்றவர்களுக்குச் சரியாகப் புரியவைக்க முடியாது; நிம்மதி, மகிழ்ச்சி, தாய் வீட்டில் குறை; எதிரிகளிடம் நட்பு; உயர்குடி வாழ்வு.",
+  },
+  {
+    house: 12, lagna: "Scorpio", planetSign: "Libra", planet: "Venus", page: 179,
+    en: "Loss of wife and family, gets the pleasures of wife and sex through conjunction of expenditure, gets the work done in the house of enemies",
+    ta: "மனைவி, குடும்ப இழப்பு; செலவு சேர்க்கையால் மனைவியின் இன்பமும் பாலியல் இன்பமும்; எதிரி வீட்டில் வேலை சாதிப்பார்.",
+  },
+  {
+    house: 12, lagna: "Scorpio", planetSign: "Libra", planet: "Saturn", page: 181,
+    en: "Spends through his own power, feels more comfortable due to spending, has fascination for Dharma and God, estimates the side of enemy to be somewhat weak",
+    ta: "தன் சொந்த ஆற்றலால் செலவழிப்பார்; செலவழிப்பதால் அதிக வசதியாக உணர்வார்; தர்மம், இறை மீது ஈடுபாடு; எதிரி வீட்டை சற்று பலவீனமாக மதிப்பிடுவார்.",
+  },
+  {
+    house: 12, lagna: "Scorpio", planetSign: "Libra", planet: "Rahu", page: 183,
+    en: "Spends much, gets the work done with great tactics, never worries in connection with expenditure, does not care for the troubles in acquiring wealth, always manages the expenditure",
+    ta: "அதிகம் செலவழிப்பார்; பெரும் தந்திரத்தால் வேலை சாதிப்பார்; செலவு பற்றிக் கவலைப்படார்; செல்வம் ஈட்டும் சிரமங்களைப் பொருட்படுத்தார்; எப்போதும் செலவை நிர்வகிப்பார்.",
+  },
+  {
+    house: 12, lagna: "Scorpio", planetSign: "Libra", planet: "Ketu", page: 185,
+    en: "Spends much, works patiently and tactfully in connection with expenditure, sometimes finds himself unable to manage expenditure",
+    ta: "அதிகம் செலவழிப்பார்; செலவை பொறுமையாகவும் சாமர்த்தியமாகவும் நிர்வகிப்பார்; சில நேரம் செலவை நிர்வகிக்க முடியாமல் போகும்.",
+  },
+  {
+    house: 12, lagna: "Sagittarius", planetSign: "Scorpio", planet: "Sun", page: 190,
+    en: "Loss in connection with destiny, faces delays in the rise of fortune, spends much, influence in the house of enemies, does not possess fiill faith in God, possesses worldly wisdom",
+    ta: "விதி வீட்டில் இழப்பு; அதிர்ஷ்ட உயர்வில் தாமதம்; அதிகம் செலவழிப்பார்; எதிரி வீட்டில் செல்வாக்கு; கடவுளின் மீது முழு நம்பிக்கை இல்லை; உலக ஞானம் உண்டு.",
+  },
+  {
+    house: 12, lagna: "Sagittarius", planetSign: "Scorpio", planet: "Moon", page: 192,
+    en: "Confronts distress and resdessness in the house of life, weakness in longevity, perplexity in expenditure, gets influence in the side of enemies, wanders much, and is narrow-minded",
+    ta: "வாழ்வு வீட்டில் துன்பமும் அமைதியின்மையும்; ஆயுளில் பலவீனம்; செலவில் குழப்பம்; எதிரி வீட்டில் செல்வாக்கு; அதிகம் அலைந்து திரிவார்; குறுகிய மனம்.",
+  },
+  {
+    house: 12, lagna: "Sagittarius", planetSign: "Scorpio", planet: "Mars", page: 194,
+    en: "Spends much, bears heavy losses in children, gets the loss in wife's side, loss of the brother also, bears loss in occupation, has weakness in wisdom and education, creates some influence over the enemies",
+    ta: "அதிகம் செலவழிப்பார்; பிள்ளைகளால் பெரும் இழப்பு; மனைவி வகையில் இழப்பு; சகோதரர் இழப்பு; தொழிலில் இழப்பு; அறிவிலும் கல்வியிலும் பலவீனம்; எதிரிகள் மீது சில செல்வாக்கு.",
+  },
+  {
+    house: 12, lagna: "Sagittarius", planetSign: "Scorpio", planet: "Mercury", page: 196,
+    en: "Bears loss in business occupation and in father's house, spends much, bears loss in the house of wife, labours for occupation, feces weakness in government and society, finds obstacles in progress, is of lazy nature, feces troubles in family",
+    ta: "வணிகத் தொழிலிலும் தந்தை வீட்டிலும் இழப்பு; அதிகம் செலவழிப்பார்; மனைவி வீட்டில் இழப்பு; தொழிலுக்காக உழைப்பார்; அரசு, சமூகத்தில் பலவீனம்; முன்னேற்றத்தில் தடைகள்; சோம்பல் இயல்பு; குடும்பத்தில் சிக்கல்கள்.",
+  },
+  {
+    house: 12, lagna: "Sagittarius", planetSign: "Scorpio", planet: "Jupiter", page: 198,
+    en: "Deficiency in the handsomeness of the body, spends much, gets splendour in the daily routine if life, uses peace and influence in the house of enemies, travels much",
+    ta: "உடல் அழகில் குறை; அதிகம் செலவழிப்பார்; தினசரி வாழ்வில் நயம்; எதிரி வீட்டில் அமைதியும் செல்வாக்கும்; அதிகம் பயணம் செய்வார்.",
+  },
+  {
+    house: 12, lagna: "Sagittarius", planetSign: "Scorpio", planet: "Venus", page: 200,
+    en: "Spends much, gets the gains through diligence, gets deficiency of gains, spends much due to numerous worries, manages to work with great cleverness and with worries, solves the difficulties of expenditure through intricate tactics and is clever",
+    ta: "அதிகம் செலவழிப்பார்; உழைப்பால் ஆதாயம் பெறுவார்; ஆதாயத்தில் குறை; பல கவலைகளால் அதிகம் செலவழிப்பார்; மிகுந்த சாமர்த்தியத்துடன் வேலை செய்வார்; செலவு சிக்கல்களை நுட்பமான உபாயங்களால் தீர்ப்பார்; சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 12, lagna: "Sagittarius", planetSign: "Scorpio", planet: "Saturn", page: 202,
+    en: "Spends much, gets the power of wealth, maintains the show like a rich person, unable to rear Dharma, maintains influence in the house of enemy through secret tactics",
+    ta: "அதிகம் செலவழிப்பார்; செல்வ ஆற்றல் பெறுவார்; பணக்காரர் போல வாழ்க்கை காட்டுவார்; தர்மத்தைக் காக்க முடியாது; ரகசிய உபாயங்களால் எதிரி வீட்டில் செல்வாக்கு.",
+  },
+  {
+    house: 12, lagna: "Sagittarius", planetSign: "Scorpio", planet: "Rahu", page: 204,
+    en: "Spends much, faces distress and troubles in the expenditure, uses many devices to escape from the worries in connection with expenditure, tries very hard to get firmness in managing the expenditure, is unable to think about truth and falsehood",
+    ta: "அதிகம் செலவழிப்பார்; செலவில் சிரமமும் தொல்லையும்; செலவு பற்றிய கவலைகளிலிருந்து தப்ப பல உபாயங்கள்; செலவு நிர்வாகத்தில் உறுதி பெற மிகக் கடுமையாக முயல்வார்; உண்மை, பொய் பற்றிச் சிந்திக்க முடியாது.",
+  },
+  {
+    house: 12, lagna: "Sagittarius", planetSign: "Scorpio", planet: "Ketu", page: 206,
+    en: "Spends much, tries to work for stable power for expenditure, bears troubles with heavy expenditure, works courageously",
+    ta: "அதிகம் செலவழிப்பார்; செலவு வீட்டில் நிலையான ஆற்றலுக்கு முயல்வார்; அதிகச் செலவால் சிரமங்களைத் தாங்குவார்; தைரியமாக வேலை செய்வார்.",
+  },
+  {
+    house: 12, lagna: "Capricorn", planetSign: "Sagittarius", planet: "Sun", page: 211,
+    en: "Has some deficiency in the influence of life, gets weakness in connection with age, spends much, keeps the influence on enemies, faces some difficulties in the house of expenditure, gets some complaints in the stomach below navel",
+    ta: "வாழ்வின் செல்வாக்கில் சில குறை; வயதில் பலவீனம்; அதிகம் செலவழிப்பார்; எதிரிகள் மீது செல்வாக்கு; செலவு வீட்டில் சில சிரமங்கள்; தொப்புளுக்குக் கீழ் வயிற்றில் சில புகார்கள்.",
+  },
+  {
+    house: 12, lagna: "Capricorn", planetSign: "Sagittarius", planet: "Moon", page: 213,
+    en: "Bears loss in wife's house, deficiency in the side of sexual pleasures, weakness in line of occupation, spends much, bears perplexity about family, works calmly in the house of enemies, gets success in family occupation and expenditure",
+    ta: "மனைவி வீட்டில் இழப்பு; பாலியல் இன்பத்தில் குறை; தொழில் வரிசையில் பலவீனம்; அதிகம் செலவழிப்பார்; குடும்பம் பற்றிய மன வேதனை; எதிரி வீட்டில் அமைதியாக வேலை செய்வார்; குடும்ப வேலையிலும் செலவிலும் வெற்றி.",
+  },
+  {
+    house: 12, lagna: "Capricorn", planetSign: "Sagittarius", planet: "Mars", page: 215,
+    en: "Bears loss of mother and motherland, gets weakness in income, has deficiency in happiness, gets wife's happiness, gets deficiency in brother's house, spends much, keeps influence in the enemies' house, has deficiency in sexual pleasures",
+    ta: "தாயையும் தாய்நாட்டையும் இழப்பார்; வருமானத்தில் பலவீனம்; மகிழ்ச்சியில் குறை; மனைவியின் மகிழ்ச்சி; சகோதரர் வீட்டில் குறை; அதிகம் செலவழிப்பார்; எதிரி வீட்டில் செல்வாக்கு; பாலியல் இன்பத்தில் குறை.",
+  },
+  {
+    house: 12, lagna: "Capricorn", planetSign: "Sagittarius", planet: "Mercury", page: 217,
+    en: "Loss in the house of Dharma, spends much, finds delays and worries in the rise of fete",
+    ta: "தர்ம வீட்டில் இழப்பு; அதிகம் செலவழிப்பார்; முன்னேற்றத்தில் தாமதமும் கவலையும்.",
+  },
+  {
+    house: 12, lagna: "Capricorn", planetSign: "Sagittarius", planet: "Jupiter", page: 219,
+    en: "Spends much, faces some weakness in mother's side, gets deficiency in brothers' house, fails to get grandeur in his daily routine of life, is unable to decrease the expenditure though tries hard for the same, wanders much, and is of restless disposition",
+    ta: "அதிகம் செலவழிப்பார்; தாய் வகையில் சில பலவீனம்; சகோதரர் வீட்டில் குறை; தினசரி வாழ்வில் கம்பீரம் பெற முடியாது; செலவைக் குறைக்க முயன்றாலும் முடியாது; அலைந்து திரிபவர்; அமைதியற்ற இயல்பு.",
+  },
+  {
+    house: 12, lagna: "Capricorn", planetSign: "Sagittarius", planet: "Venus", page: 221,
+    en: "Spends much, bears the loss of father and son, has deficiency in education, bears loss in business, government and society, manages the expenditure cleverly, and is somewhat inactive and idle",
+    ta: "அதிகம் செலவழிப்பார்; தந்தை, மகன் இழப்பு; கல்வியில் குறை; வணிகம், அரசு, சமூகத்தில் இழப்பு; செலவை சாமர்த்தியமாக நிர்வகிப்பார்; சற்று சோம்பலும் செயலின்மையும்.",
+  },
+  {
+    house: 12, lagna: "Capricorn", planetSign: "Sagittarius", planet: "Saturn", page: 223,
+    en: "Spends much and lives in other places, gets emaciated body gets wealth through other houses, difficulties for the increase of wealth due to excessive expenditure, and always unhappy",
+    ta: "அதிகம் செலவழித்து வேறு இடங்களில் வாழ்வார்; உடல் மெலிவு; மற்ற வீடுகளிலிருந்து செல்வம்; அதிகச் செலவால் செல்வம் பெருக்குவதில் சிரமம்; எப்போதும் அதிருப்தி.",
+  },
+  {
+    house: 12, lagna: "Capricorn", planetSign: "Sagittarius", planet: "Rahu", page: 225,
+    en: "Bears some troubles regarding expenditure, manages the expenditure with some shortage, is greedy",
+    ta: "செலவு பற்றிய சில சிரமங்கள்; சில குறைவுடன் செலவை நிர்வகிப்பார்; பேராசை.",
+  },
+  {
+    house: 12, lagna: "Capricorn", planetSign: "Sagittarius", planet: "Ketu", page: 227,
+    en: "Spends much extravagantly, manages the expenditure with great force, unable to control the expenditure, has blind faith on others",
+    ta: "அதிகச் செலவு; பெரும் வீரியத்துடன் செலவை நிர்வகிப்பார்; செலவைக் கட்டுப்படுத்த முடியாது; பிறர் மீது குருட்டு நம்பிக்கை.",
+  },
+  {
+    house: 12, lagna: "Aquarius", planetSign: "Capricorn", planet: "Sun", page: 233,
+    en: "Bears loss in the house of wife, gets loss in occupation, has great deficiency in the side of sexual pleasures, gets loss and disturbance in family, has sourness in the house of expenditure, gets the support of some other place in the side of sexual pleasures, keeps influence in the house of enemy, has perplexities like diseases and deficiency of cleverness in the worldly affairs",
+    ta: "மனைவி வீட்டில் இழப்பு; தொழிலில் இழப்பு; பாலியல் இன்பத்தில் பெரும் குறை; குடும்பத்தில் இழப்பும் குழப்பமும்; செலவு வீட்டில் கசப்பு; பாலியல் விஷயத்தில் வேறு இடத்தின் ஆதரவு; எதிரி வீட்டில் செல்வாக்கு; நோய்கள் போன்ற குழப்பங்களும் உலக விவகாரங்களில் அறிவுக் குறையும்.",
+  },
+  {
+    house: 12, lagna: "Aquarius", planetSign: "Capricorn", planet: "Moon", page: 235,
+    en: "Gets weakness in the house of enemies, gets weakness in influence, uses the secret policies in the enemies' side, faces perplexity due to heavy expenditure, spends over diseases",
+    ta: "எதிரி வீட்டில் பலவீனம்; செல்வாக்கில் பலவீனம்; எதிரிகள் பக்கம் மறைமுக உபாயங்கள்; அதிகச் செலவால் குழப்பம்; நோய்களுக்காகச் செலவழிப்பார்.",
+  },
+  {
+    house: 12, lagna: "Aquarius", planetSign: "Capricorn", planet: "Mars", page: 237,
+    en: "Spends much, bears loss in the father's house, strange contact of brother, acquires loss in business occupation, uses secret power in the house of enemies, possesses influence in the house of wife, gets the strength in daily occupation and is influential",
+    ta: "அதிகம் செலவழிப்பார்; தந்தை வீட்டில் இழப்பு; சகோதரருடன் விசித்திரமான தொடர்பு; தொழிலில் இழப்பு; எதிரி வீட்டில் ரகசிய சக்தி; மனைவி வீட்டில் செல்வாக்கு; தினசரி தொழிலில் வலிமை; செல்வாக்குள்ளவர்.",
+  },
+  {
+    house: 12, lagna: "Aquarius", planetSign: "Capricorn", planet: "Mercury", page: 239,
+    en: "Gets the loss of children, gets weakness of education, has weakness in longevity, spends much, feels restlessness in the daily routine of life, maintains equality in the side of enemies",
+    ta: "பிள்ளைகளின் இழப்பு; கல்வியில் பலவீனம்; ஆயுளில் பலவீனம்; அதிகம் செலவழிப்பார்; தினசரி வாழ்வில் அமைதியின்மை; எதிரிகளிடம் சம நிலை.",
+  },
+  {
+    house: 12, lagna: "Aquarius", planetSign: "Capricorn", planet: "Jupiter", page: 241,
+    en: "Bears loss and deficiency in wealth, manages to curtail expenditure, gets wealth by giving bribe to others, attains influence in enemies' house, faces deficiency and distress in family, gets the gains of buildings and lands, gets the aristocracy in the daily routine of life, does not get good garments or ornaments",
+    ta: "செல்வத்தில் இழப்பும் குறையும்; செலவைக் குறைக்க முயல்வார்; மற்றவர்களுக்கு லஞ்சம் கொடுத்துச் செல்வம் பெறுவார்; எதிரி வீட்டில் செல்வாக்கு; குடும்பத்தில் குறையும் துன்பமும்; கட்டிடங்கள், நிலங்களின் ஆதாயம்; தினசரி வாழ்வில் கம்பீரம்; நல்ல உடைகளும் ஆபரணங்களும் கிடைக்காது.",
+  },
+  {
+    house: 12, lagna: "Aquarius", planetSign: "Capricorn", planet: "Venus", page: 243,
+    en: "Spends much, gets weakness in destiny, bears loss of mother, has weakness in lands, buildings or residential place, has deficiency in happiness, works politely in the side of enemies",
+    ta: "அதிகம் செலவழிப்பார்; விதியில் பலவீனம்; தாயை இழப்பார்; நிலம், கட்டிடம், குடியிருப்பில் பலவீனம்; மகிழ்ச்சியில் குறை; எதிரிகளிடம் பணிவாக வேலை செய்வார்.",
+  },
+  {
+    house: 12, lagna: "Aquarius", planetSign: "Capricorn", planet: "Saturn", page: 245,
+    en: "Spends much, gets an emaciated body, pays attention to and rears Dharma, gets honour in foreign places, gets influence in the house of enemies, bears some loss in wealth",
+    ta: "அதிகம் செலவழிப்பார்; உடல் மெலிவு; தர்மத்தைக் கவனித்துக் காப்பார்; வெளிநாடுகளில் மரியாதை; எதிரி வீட்டில் செல்வாக்கு; செல்வத்தில் சில இழப்பு.",
+  },
+  {
+    house: 12, lagna: "Aquarius", planetSign: "Capricorn", planet: "Rahu", page: 247,
+    en: "Gets the schemes of extravagant expenditure, feces unhappiness on account of expenditure, thinks secretly",
+    ta: "ஆடம்பரச் செலவுத் திட்டங்கள்; செலவால் மகிழ்ச்சியின்மை; ரகசியமாக யோசிப்பார்.",
+  },
+  {
+    house: 12, lagna: "Aquarius", planetSign: "Capricorn", planet: "Ketu", page: 249,
+    en: "Spends too much, experiences some distress and agony due to reasons of excessive expenditure, uses secret powers, is unable to check the expenditure",
+    ta: "அதிகம் செலவழிப்பார்; அதிகச் செலவால் சில துன்பமும் வேதனையும்; ரகசிய சக்திகளைப் பயன்படுத்துவார்; செலவைக் கட்டுப்படுத்த முடியாது.",
+  },
+  {
+    house: 12, lagna: "Pisces", planetSign: "Aquarius", planet: "Sun", page: 254,
+    en: "Feels weakness in the house of influence, gets his work done secretly in the house of enemies, faces some trouble with brothers, finds hindrances in the house of managing expenditure, is haughty and full of anger",
+    ta: "செல்வாக்கு வீட்டில் பலவீனம்; எதிரி வீட்டில் வேலையை ரகசியமாகச் சாதிப்பார்; சகோதரருடன் சில தொல்லை; செலவு நிர்வாகத்தில் தடைகள்; கர்வமும் கோபமும் நிறைந்தவர்.",
+  },
+  {
+    house: 12, lagna: "Pisces", planetSign: "Aquarius", planet: "Moon", page: 256,
+    en: "Bears loss in children's house, gets defects in eyes, faces weakness in the house of education, has a weak memory, is restless, spends much, has some worry in connection with expenditure, acquires influence in enemies' house, fears a little, and is of unstable mind",
+    ta: "பிள்ளைகள் வீட்டில் இழப்பு; கண்களில் குறை; கல்வி வீட்டில் பலவீனம்; நினைவாற்றல் குறைவு; அமைதியின்மை; அதிகம் செலவழிப்பார்; செலவு பற்றி சில கவலை; எதிரி வீட்டில் செல்வாக்கு; சிறிது அச்சம்; நிலையற்ற மனம்.",
+  },
+  {
+    house: 12, lagna: "Pisces", planetSign: "Aquarius", planet: "Mars", page: 258,
+    en: "Loses much wealth, feces weakness in destiny, spends much being helpless, has an ordinary relation with brother, gets progress in diumal occupation, gets good luck in wife's house, gets losses in the family, does not observe economy",
+    ta: "அதிகம் செல்வம் இழப்பார்; விதியில் பலவீனம்; உதவியற்ற நிலையில் அதிகம் செலவழிப்பார்; சகோதரருடன் சாதாரண உறவு; தினசரி தொழிலில் முன்னேற்றம்; மனைவி வீட்டில் நல்ல அதிர்ஷ்டம்; குடும்பத்தில் இழப்புகள்; சிக்கனத்தைக் கடைப்பிடிக்கமாட்டார்.",
+  },
+  {
+    house: 12, lagna: "Pisces", planetSign: "Aquarius", planet: "Mercury", page: 260,
+    en: "Bears some loss in mother's house and in the house of wife, gets some loss in buildings and property, gets some loss in occupation and finds some deficiency in happiness and comforts, has some deficiency in the house of sexual pleasures, spends much pursuing the occupation through foreign contact, gets sexual pleasures through the power of expenditure, gets his work done politely in enemies' house",
+    ta: "தாய் வீட்டிலும் மனைவி வீட்டிலும் சில இழப்பு; கட்டிடங்கள், சொத்தில் சில இழப்பு; தொழிலில் சில இழப்பு; இன்பமும் வசதியும் சில குறை; பாலியல் இன்பத்தில் குறை; வெளிநாட்டுத் தொடர்புடன் தொழிலைத் தொடர்ந்து அதிகம் செலவழிப்பார்; செலவின் ஆற்றலால் பாலியல் இன்பம் பெறுவார்; எதிரி வீட்டில் பணிவாக வேலை சாதிப்பார்.",
+  },
+  {
+    house: 12, lagna: "Pisces", planetSign: "Aquarius", planet: "Jupiter", page: 263,
+    en: "Bears loss in father's house, gets an emaciated body, is restless, manages the government and society after bearing heavy losses, gets weakness in honour and business, has deficiency in the house of expenditure, spends irreverently, holds influence in the house of enemies",
+    ta: "தந்தை வீட்டில் இழப்பு; உடல் மெலிவு; அமைதியின்மை; பெரும் இழப்புகளுக்குப் பின் அரசு, சமூக விவகாரங்களை நிர்வகிப்பார்; மரியாதையிலும் தொழிலிலும் பலவீனம்; செலவு வீட்டில் குறை; கவனக்குறைவாகச் செலவழிப்பார்; எதிரி வீட்டில் செல்வாக்கு.",
+  },
+  {
+    house: 12, lagna: "Pisces", planetSign: "Aquarius", planet: "Venus", page: 265,
+    en: "Faces some restlessness in life, bears some losses in age, suffers some restlessness from brothers and sisters, spends much, gets the strength of livelihood, wins the enemies and calamities",
+    ta: "வாழ்வில் சில அமைதியின்மை; வயதில் சில இழப்பு; சகோதர சகோதரிகளிடமிருந்து சில அமைதியின்மை; அதிகம் செலவழிப்பார்; வாழ்வாதார வலிமை பெறுவார்; எதிரிகளையும் துன்பங்களையும் வெல்வார்.",
+  },
+  {
+    house: 12, lagna: "Pisces", planetSign: "Aquarius", planet: "Saturn", page: 267,
+    en: "Spends much more than he earns, has weakness in connection with wealth, gets restless in family, remains anxious about destiny, maintains influence over the house of enemies, gets victory over difficulties, thinks good for others",
+    ta: "வருமானத்தை விட அதிகம் செலவழிப்பார்; செல்வத்தில் பலவீனம்; குடும்பத்தில் அமைதியின்மை; விதியைப் பற்றிக் கவலை; எதிரி வீட்டில் செல்வாக்கு; துன்பங்களை வெல்வார்; மற்றவர்களுக்கு நல்லது நினைப்பார்.",
+  },
+  {
+    house: 12, lagna: "Pisces", planetSign: "Aquarius", planet: "Rahu", page: 269,
+    en: "Spends too much, finds perplexity in the house of expenditure, gets his work done very cleverly through secret devices with the help of other people in the line of occupation, feels nervousness in the house of expenditure",
+    ta: "அதிகம் செலவழிப்பார்; செலவு வீட்டில் குழப்பம்; தொழில் துறையில் பிறர் உதவியுடன் ரகசிய உபாயங்களால் வேலையை சாமர்த்தியமாகச் சாதிப்பார்; செலவு வீட்டில் நடுக்கம்.",
+  },
+  {
+    house: 12, lagna: "Pisces", planetSign: "Aquarius", planet: "Ketu", page: 271,
+    en: "Faces some trouble in the house of expenditure, manages expenditure after labouring very hard and faces some severe troubles, succeeds due to secret strength",
+    ta: "செலவு வீட்டில் சில சிரமம்; கடினமாக உழைத்து செலவை நிர்வகிப்பார், பெரும் துன்பங்களையும் சந்திப்பார்; ரகசிய வலிமையால் வெற்றி.",
   },
 ];
 
