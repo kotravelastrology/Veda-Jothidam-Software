@@ -47,6 +47,8 @@ const SOURCES = deepFreeze({
 
 // ------------------------------------------------------------------------------ Varna ---
 /** 0 Brahmin 1 Kshatriya 2 Vaishya 3 Shudra — by the Janma Rashi (Table 18.8): Cancer, Scorpio, Pisces Brahmin; Aries, Leo, Sagittarius Kshatriya; Taurus, Virgo, Capricorn Vaishya; Gemini, Libra, Aquarius Shudra. */
+/** Rashi names in Tamil, Mesha first. */
+const RASI_TA = Object.freeze(['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்']);
 const VARNA_OF_RASHI = Object.freeze([1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0]);
 const VARNA_TA = Object.freeze(['பிராமணர்', 'க்ஷத்ரியர்', 'வைசியர்', 'சூத்திரர்']);
 // Table 18.8 prints Taurus, Virgo, Capricorn (2, 6, 10) as Vaishyas and Gemini, Libra, Aquarius (3, 7, 11) as Shudras.
@@ -182,7 +184,7 @@ const OUR_READINGS_TA = Object.freeze([
 ]);
 
 module.exports = {
-  KOOTAS, MAX, KOOTA_TA, AREA_TA, SOURCES, VARNA_OF_RASHI, VARNA_TA, VASHYA_TA, vashyaGroup, VASHYA, TARA_BAD,
+  KOOTAS, MAX, KOOTA_TA, AREA_TA, SOURCES, RASI_TA, VARNA_OF_RASHI, VARNA_TA, VASHYA_TA, vashyaGroup, VASHYA, TARA_BAD,
   YONI_NAMES, YONI_TA, YONI_OF_STAR, YONI, MAITRI_GROUP_OF_RASHI, MAITRI_LORD_TA, GRAHA_MAITRI,
   GANA_TA, GANA_OF_STAR, GANA, BHAKUTA_GOOD_DISTANCES, BHAKUTA_PRINTED, NADI_OF_STAR, NADI_TA, BANDS, NADI_REJECT_TA, OUR_READINGS_TA,
 };
