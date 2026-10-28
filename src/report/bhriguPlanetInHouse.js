@@ -1,8 +1,10 @@
 /**
- * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 4th
- * houses from each lagna (9 planets x 12 lagnas x 4 houses = 432). Each entry is the book's prose as printed (`en`, joined
- * from the page extract; OCR slips are kept), its Tamil summary (`ta`, ours) and the printed page the entry starts on.
- * `planetSign` is the sign the planet stands in (the lagna for house 1, and the sign that many places on for houses 2 to 4).
+ * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 5th
+ * houses from each lagna. Each entry is the book's prose as printed (`en`, joined from the page extract; OCR slips are kept),
+ * its Tamil summary (`ta`, ours) and the printed page the entry starts on. `planetSign` is the sign the planet stands in
+ * (the lagna for house 1, and the sign that many places on for houses 2 to 5).
+ * The book has no 5th-house entry for Sun in Gemini: its printed page goes from the 4th house straight to the 6th (checked
+ * on the page image), so that entry is absent here and nothing is supplied for it. 539 entries in all.
  * The printed page is the scan's page number plus five, checked against the printed numbers in the scan and the page
  * images for Libra (p.156) and Leo (p.104). Extracted by scratch scripts; the text is the book's.
  */
@@ -2167,6 +2169,541 @@ const PLANET_IN_HOUSE = [
     house: 4, lagna: "Pisces", planetSign: "Gemini", planet: "Ketu", page: 270,
     en: "Bears the loss of mother and separation from her, has severe deficiency in the place of happiness and home, lives in a small house, feels troubled by the neighbours and colleagues, gets the contact of low-class people, bears loss of buildings and property, uses secret powers to get happiness",
     ta: "தாயை இழந்து பிரிவார்; மகிழ்ச்சியிலும் வீட்டிலும் பெரும் குறை; சிறு வீட்டில் வாழ்வார்; அண்டை வீட்டாராலும் சகாக்களாலும் தொல்லை; கீழ்நிலை மனிதர்களின் தொடர்பு; கட்டிடங்கள், சொத்தின் இழப்பு; மறைந்த சக்திகளால் மகிழ்ச்சி பெற முயல்வார்.",
+  },
+  {
+    house: 5, lagna: "Aries", planetSign: "Leo", planet: "Sun", page: 21,
+    en: "Acquires good education, good speaker, intellectual, farsighted, influence from the side of children, shortage of income, feels superior with regard to others",
+    ta: "நல்ல கல்வி; நல்ல பேச்சாளர்; அறிவாளி; தூரநோக்குடையவர்; குழந்தைகள் வழியில் செல்வாக்கு; வருமானக் குறை; மற்றவர்களைவிட தன்னை உயர்வாக நினைப்பார்.",
+  },
+  {
+    house: 5, lagna: "Aries", planetSign: "Leo", planet: "Moon", page: 23,
+    en: "Feels he is intelligent, happiness from children, acquires wealth, good speaker and does not hurt others, deep thinking and devoted to mother",
+    ta: "தான் அறிவாளி என்ற உணர்வு; குழந்தைகளால் மகிழ்ச்சி; செல்வம் சேர்ப்பார்; நல்ல பேச்சாளர், பிறரை புண்படுத்தாதவர்; ஆழ்ந்த சிந்தனை; தாய்மீது பக்தி.",
+  },
+  {
+    house: 5, lagna: "Aries", planetSign: "Leo", planet: "Mars", page: 25,
+    en: "Wise and rash in approach, not happy with children, spends heavily, ambitious",
+    ta: "விவேகமும் அவசரமும் உள்ள அணுகுமுறை; குழந்தைகளுடன் மகிழ்ச்சி குறைவு; அதிகம் செலவழிப்பார்; லட்சியமானவர்.",
+  },
+  {
+    house: 5, lagna: "Aries", planetSign: "Leo", planet: "Mercury", page: 27,
+    en: "Very careful and judicious, clever, happy with children, conquers enemies, earns good wealth",
+    ta: "மிகவும் கவனமும் நிதானமும்; சாமர்த்தியம்; குழந்தைகளால் மகிழ்ச்சி; எதிரிகளை வெல்வார்; நல்ல செல்வம் ஈட்டுவார்.",
+  },
+  {
+    house: 5, lagna: "Aries", planetSign: "Leo", planet: "Jupiter", page: 29,
+    en: "Fortunate, intelligent and gets good education, has command over dharmashastra, good orator, happiness through children, gets honour",
+    ta: "அதிர்ஷ்டசாலி, அறிவாளி, நல்ல கல்வி; தர்மசாஸ்திரத்தில் தேர்ச்சி; நல்ல பேச்சாளர்; குழந்தைகளால் மகிழ்ச்சி; மரியாதை.",
+  },
+  {
+    house: 5, lagna: "Aries", planetSign: "Leo", planet: "Venus", page: 31,
+    en: "Has good occupation, earns wealth, not much happiness from family and wife, indulges in sexual thoughts, mentally worried, tired with children, good conversationalist and educated",
+    ta: "நல்ல தொழில்; செல்வம் ஈட்டுவார்; மனைவி, குடும்பத்தால் மகிழ்ச்சி குறைவு; பாலியல் எண்ணங்களில் ஈடுபாடு; மனக் கவலை; குழந்தைகளால் களைப்பு; நல்ல பேச்சாளர், கல்வியறிவு உள்ளவர்.",
+  },
+  {
+    house: 5, lagna: "Aries", planetSign: "Leo", planet: "Saturn", page: 33,
+    en: "Not much happiness from father, gains through education and intellect, works hard to progress in the occupation, works with joy to gain sexual pleasures, gives importance to wife, works hard for social activities, not happy with children",
+    ta: "தந்தையால் மகிழ்ச்சி குறைவு; கல்வியும் அறிவும் மூலம் ஆதாயம்; தொழிலில் முன்னேற்றத்துக்காக கடுமையாக உழைப்பார்; பாலியல் இன்பத்தை மகிழ்ச்சியுடன் நாடுவார்; மனைவிக்கு முக்கியத்துவம்; சமூகப் பணிகளுக்குக் கடுமையாக உழைப்பார்; குழந்தைகளால் அதிருப்தி.",
+  },
+  {
+    house: 5, lagna: "Aries", planetSign: "Leo", planet: "Rahu", page: 35,
+    en: "Does not get good education, unhappy with children, is mentally worried, peevish and with harsh speech, cannot understand others",
+    ta: "நல்ல கல்வி இல்லை; குழந்தைகளால் அதிருப்தி; மனக் கவலை; முரட்டுப் பேச்சும் கோபமும்; மற்றவர்களைப் புரிந்துகொள்ள முடியாது.",
+  },
+  {
+    house: 5, lagna: "Aries", planetSign: "Leo", planet: "Ketu", page: 37,
+    en: "Unhappy with children, deficient in education, unable to make others understand his ideas and words, is secretive",
+    ta: "குழந்தைகளால் அதிருப்தி; கல்வியில் குறை; தன் கருத்துகளையும் சொற்களையும் மற்றவர்களுக்குப் புரியவைக்க முடியாது; ரகசியமானவர்.",
+  },
+  {
+    house: 5, lagna: "Taurus", planetSign: "Virgo", planet: "Sun", page: 42,
+    en: "Gets education and wisdom, happiness through children, is intelligent",
+    ta: "கல்வியும் ஞானமும்; குழந்தைகளால் மகிழ்ச்சி; அறிவாளி.",
+  },
+  {
+    house: 5, lagna: "Taurus", planetSign: "Virgo", planet: "Moon", page: 44,
+    en: "Gets good education, help from brothers and sisters and children, a good conversationalist",
+    ta: "நல்ல கல்வி; உடன்பிறப்புகள், குழந்தைகளின் உதவி; நல்ல பேச்சாளர்.",
+  },
+  {
+    house: 5, lagna: "Taurus", planetSign: "Virgo", planet: "Mars", page: 46,
+    en: "Spends too much, slightly weak in education, loss of children, makes others work hard, anxious about worldly affairs and sexual pleasures",
+    ta: "அதிகம் செலவழிப்பார்; கல்வியில் சிறு பலவீனம்; குழந்தைகள் வகையில் இழப்பு; பிறரைக் கடுமையாக வேலை வாங்குவார்; உலக விவகாரங்களிலும் பாலியல் இன்பத்திலும் கவலை.",
+  },
+  {
+    house: 5, lagna: "Taurus", planetSign: "Virgo", planet: "Mercury", page: 48,
+    en: "Acquires good education and gets good wealth, clever and discriminate, happiness from children",
+    ta: "நல்ல கல்வி, நல்ல செல்வம்; திறமையும் பகுத்தறிவும்; குழந்தைகளால் மகிழ்ச்சி.",
+  },
+  {
+    house: 5, lagna: "Taurus", planetSign: "Virgo", planet: "Jupiter", page: 50,
+    en: "Some deficiency in the house of education, works hard for gains, occult powers during conversation",
+    ta: "கல்வியில் சில குறை; ஆதாயத்துக்காக கடினமாக உழைப்பார்; பேச்சின்போது மறை ஆற்றல்.",
+  },
+  {
+    house: 5, lagna: "Taurus", planetSign: "Virgo", planet: "Venus", page: 52,
+    en: "Troubles on the part of children, weak in education, has worries, feels some worry in the house of enemies, weakness in the body, unable to make his ideas understood to others due to nervous- mindedness",
+    ta: "குழந்தைகள் வகையில் தொல்லை; கல்வியில் பலவீனம்; கவலைகள்; எதிரிகள் வீட்டில் சிறு கவலை; உடலில் பலவீனம்; நரம்புத் தளர்ச்சியால் தன் கருத்துகளை மற்றவர்களுக்குப் புரியவைக்க முடியாது.",
+  },
+  {
+    house: 5, lagna: "Taurus", planetSign: "Virgo", planet: "Saturn", page: 54,
+    en: "Gets gain from the house of father, gets gains and honour by wisdom and education, gets the knowledge of religious duties and education, some progress with regard to children, some dissatisfaction in the house of wife, progress with some labour in the daily occupation, works hard for gains, gets wealth",
+    ta: "தந்தை வீட்டிலிருந்து ஆதாயம்; அறிவாலும் கல்வியாலும் ஆதாயமும் மரியாதையும்; மதக் கடமைகளையும் கல்வியையும் அறிவார்; குழந்தைகள் வகையில் சில முன்னேற்றம்; மனைவி வகையில் சில அதிருப்தி; தினசரி தொழிலில் சில உழைப்புடன் முன்னேற்றம்; செல்வம் ஈட்ட கடினமாக உழைப்பார்; செல்வம் பெறுவார்.",
+  },
+  {
+    house: 5, lagna: "Taurus", planetSign: "Virgo", planet: "Rahu", page: 56,
+    en: "Loss in education and loss of children, secretly clever",
+    ta: "கல்வியில் இழப்பு; குழந்தைகள் இழப்பு; ரகசியமாக சாமர்த்தியம்.",
+  },
+  {
+    house: 5, lagna: "Taurus", planetSign: "Virgo", planet: "Ketu", page: 58,
+    en: "Great difficulty in studies and deficiency in education, feels some weakness in talking to others, loss in children, not bothered about hindrances and falsehood and works secretly",
+    ta: "படிப்பில் பெரும் சிரமமும் கல்வியில் குறையும்; பேசுவதில் சில பலவீனம்; குழந்தைகளில் இழப்பு; தடைகளையும் பொய்யையும் பொருட்படுத்தாமல் ரகசியமாக வேலை செய்வார்.",
+  },
+  {
+    house: 5, lagna: "Gemini", planetSign: "Libra", planet: "Moon", page: 64,
+    en: "Gets education, progress in the side of children, makes efforts to gain wealth and is very clever",
+    ta: "கல்வி பெறுவார்; குழந்தைகள் வழியில் முன்னேற்றம்; செல்வம் ஈட்ட முயல்வார்; மிகுந்த சாமர்த்தியம்.",
+  },
+  {
+    house: 5, lagna: "Gemini", planetSign: "Libra", planet: "Mars", page: 66,
+    en: "Gets income by labour of the intellect and education, defeats the enemy, faces obstacles from sons and daughters, some anxieties",
+    ta: "அறிவாலும் கல்வியாலும் வருமானம்; எதிரியை வெல்வார்; மகன், மகள் வழியில் தடைகள்; சில கவலைகள்.",
+  },
+  {
+    house: 5, lagna: "Gemini", planetSign: "Libra", planet: "Mercury", page: 68,
+    en: "Gets deep educational intellect, gets happiness of children, gets support from the mother, wants peace and is worried in mind, ignores the children",
+    ta: "ஆழ்ந்த கல்வி அறிவு; குழந்தைகளின் மகிழ்ச்சி; தாயின் ஆதரவு; அமைதியை விரும்புவார், மனத்தில் கவலை; குழந்தைகளைக் கவனிக்க மாட்டார்.",
+  },
+  {
+    house: 5, lagna: "Gemini", planetSign: "Libra", planet: "Jupiter", page: 70,
+    en: "Gets much education, has great skill and cleverness, gets the happiness of children, knowledge of business occupation on the house of business and the dignity of wife and sexual pleasures, honour from government and society, gets good luck",
+    ta: "மிகுந்த கல்வி; பெரும் திறமையும் சாமர்த்தியமும்; குழந்தைகளின் மகிழ்ச்சி; வணிகத் தொழிலில் அறிவு; மனைவி, பாலியல் இன்பத்தில் கௌரவம்; அரசு, சமூகத்தில் மரியாதை; நல்ல அதிர்ஷ்டம்.",
+  },
+  {
+    house: 5, lagna: "Gemini", planetSign: "Libra", planet: "Venus", page: 72,
+    en: "Good education, unhappy with children, gains in expenditure",
+    ta: "நல்ல கல்வி; குழந்தைகளால் அதிருப்தி; செலவில் ஆதாயம்.",
+  },
+  {
+    house: 5, lagna: "Gemini", planetSign: "Libra", planet: "Saturn", page: 74,
+    en: "Has great wisdom, gets the strength of children, acquires education, deficiency in the house of income, restless in the house of wife",
+    ta: "மிகுந்த அறிவு; குழந்தைகளின் வலிமை; கல்வி; வருமானத்தில் குறை; மனைவி வீட்டில் அமைதியின்மை.",
+  },
+  {
+    house: 5, lagna: "Gemini", planetSign: "Libra", planet: "Rahu", page: 76,
+    en: "Deficiency in wisdom, deficiency in the house of education, some loss and worries in the side of children",
+    ta: "அறிவில் குறை; கல்வியில் குறை; குழந்தைகள் வகையில் சில இழப்பும் கவலையும்.",
+  },
+  {
+    house: 5, lagna: "Gemini", planetSign: "Libra", planet: "Ketu", page: 78,
+    en: "Difficulties in acquiring education, bears some mental worries, some losses on the part of children, unable to make others understand the ideas, speaks somewhat bitterly, full of selfish intellect and lacks gentleness",
+    ta: "கல்வி பெறுவதில் சிரமம்; மனக் கவலை; குழந்தைகள் வகையில் சில இழப்பு; மற்றவர்களுக்குத் தன் கருத்துகளைப் புரியவைக்க முடியாது; சற்று கடுமையாகப் பேசுவார்; சுயநல அறிவு நிறைந்தவர்; மென்மை இல்லாதவர்.",
+  },
+  {
+    house: 5, lagna: "Cancer", planetSign: "Scorpio", planet: "Sun", page: 83,
+    en: "Is very wise and earns wealth, gains enormously, becomes the father of a big family, is very farsighted, bondage in the side of children, influences in the house of education, uses his brain to perform heavy tasks and is of hot temper",
+    ta: "மிகுந்த அறிவாளி, செல்வம் ஈட்டுவார்; பெரும் ஆதாயம்; பெரிய குடும்பத்தின் தந்தை; மிகுந்த தூரநோக்கு; குழந்தைகள் வகையில் கட்டுப்பாடு; கல்வியில் செல்வாக்கு; கடின வேலைகளுக்கு மூளையைப் பயன்படுத்துவார்; சூடான மனநிலை.",
+  },
+  {
+    house: 5, lagna: "Cancer", planetSign: "Scorpio", planet: "Moon", page: 85,
+    en: "Weak in education and intellect, experiences some hardships in the side of children, gets restless, is of narrow outlook, unable to make himself clear through his expression and speech, gains from telling lies, is of short stature",
+    ta: "கல்வியிலும் அறிவிலும் பலவீனம்; குழந்தைகள் வகையில் சில துன்பம்; அமைதியின்மை; குறுகிய பார்வை; பேச்சில் தன்னைத் தெளிவாக வெளிப்படுத்த முடியாது; பொய் சொல்லி ஆதாயம்; குட்டையான உயரம்.",
+  },
+  {
+    house: 5, lagna: "Cancer", planetSign: "Scorpio", planet: "Mars", page: 87,
+    en: "Has the special knowledge of political science, mentally overjoyed due to son, spends more than securing gains, talks importantly, respectable businessman",
+    ta: "அரசியல் அறிவில் சிறப்பு; மகனால் மனமகிழ்ச்சி; ஆதாயம் பெறுவதைவிட அதிகம் செலவழிப்பார்; முக்கியமாகப் பேசுவார்; மதிப்புக்குரிய வணிகர்.",
+  },
+  {
+    house: 5, lagna: "Cancer", planetSign: "Scorpio", planet: "Mercury", page: 89,
+    en: "Power in the house of education and intelligence, spends for education, some deficiency in the house of children and brothers and sisters, is very clever and wise, tries to win over people to his side",
+    ta: "கல்வியிலும் அறிவிலும் செல்வாக்கு; கல்விக்காகச் செலவழிப்பார்; குழந்தைகள், உடன்பிறப்புகள் வகையில் சில குறை; மிகவும் சாமர்த்தியமும் ஞானமும்; மக்களை தன் பக்கம் வெல்ல முயல்வார்.",
+  },
+  {
+    house: 5, lagna: "Cancer", planetSign: "Scorpio", planet: "Jupiter", page: 91,
+    en: "Is very wise and virtuous, pays much attention to the religious side., has more knowledge of astrology, gets good luck, gets victory over the house of enemies, gives priority to truth, some enmity from the side of children, is a politician",
+    ta: "மிகுந்த ஞானமும் நல்லொழுக்கமும்; மத விஷயங்களில் அதிக கவனம்; ஜோதிட அறிவு மிகுதி; நல்ல அதிர்ஷ்டம்; எதிரிகள் வீட்டில் வெற்றி; உண்மைக்கு முன்னுரிமை; குழந்தைகள் வகையில் சில பகை; அரசியல்வாதி.",
+  },
+  {
+    house: 5, lagna: "Cancer", planetSign: "Scorpio", planet: "Venus", page: 93,
+    en: "Possesses great intelligence, gains much from wisdom, enjoys the happiness of children, has property, respectable and honourable, acquires education, is very clever and peaceful",
+    ta: "பெரும் அறிவு; ஞானத்தால் பெரும் ஆதாயம்; குழந்தைகளின் மகிழ்ச்சி; சொத்து; மரியாதைக்குரியவர், கௌரவமானவர்; கல்வி; மிகுந்த சாமர்த்தியம், அமைதி.",
+  },
+  {
+    house: 5, lagna: "Cancer", planetSign: "Scorpio", planet: "Saturn", page: 95,
+    en: "Mental perplexity on account of occupation, children, wife, acquires happiness in connection with wife and sexual pleasures, always careful, speaks somewhat bitterly and is very industrious",
+    ta: "தொழில், குழந்தைகள், மனைவி பற்றிய மனக் குழப்பம்; மனைவி, பாலியல் இன்பத்தில் மகிழ்ச்சி; எப்போதும் கவனமாக இருப்பார்; சில நேரம் கடுமையாகப் பேசுவார்; மிகவும் கடின உழைப்பாளி.",
+  },
+  {
+    house: 5, lagna: "Cancer", planetSign: "Scorpio", planet: "Rahu", page: 97,
+    en: "Great hardships and losses in the house of children, gets success in the house of education, brave",
+    ta: "குழந்தைகள் வீட்டில் பெரும் துன்பமும் இழப்பும்; கல்வி வீட்டில் வெற்றி; தைரியசாலி.",
+  },
+  {
+    house: 5, lagna: "Cancer", planetSign: "Scorpio", planet: "Ketu", page: 99,
+    en: "Loss and problems with children, great hardship in the house of education, harsh speech and words, mental anxiety",
+    ta: "குழந்தைகளால் இழப்பும் தொல்லையும்; கல்வியில் பெரும் சிரமம்; கடுமையான பேச்சும் சொற்களும்; மனக் கவலை.",
+  },
+  {
+    house: 5, lagna: "Leo", planetSign: "Sagittarius", planet: "Sun", page: 104,
+    en: "Special power in the house of education, gets great respect, is learned and influential, great dignity in the house of children",
+    ta: "கல்வியில் சிறப்பு ஆற்றல்; பெரும் மரியாதை; கற்றவர், செல்வாக்குள்ளவர்; குழந்தைகள் வீட்டில் பெரும் கௌரவம்.",
+  },
+  {
+    house: 5, lagna: "Leo", planetSign: "Sagittarius", planet: "Moon", page: 106,
+    en: "Gets knowledge and wisdom, manages the expenditure, loss and weakness in the side of children and loss of education",
+    ta: "ஞானமும் அறிவும்; செலவை நிர்வகிப்பார்; குழந்தைகள் வகையில் இழப்பும் பலவீனமும்; கல்வியில் இழப்பு.",
+  },
+  {
+    house: 5, lagna: "Leo", planetSign: "Sagittarius", planet: "Mars", page: 108,
+    en: "Acquires education happily, gets happiness of children, some deficiency in the house of expenditure, has knowledge of secret service and science",
+    ta: "மகிழ்ச்சியாகக் கல்வி பெறுவார்; குழந்தைகளின் மகிழ்ச்சி; செலவு வீட்டில் சிறு குறை; ரகசிய சேவை, அறிவியல் அறிவு உண்டு.",
+  },
+  {
+    house: 5, lagna: "Leo", planetSign: "Sagittarius", planet: "Mercury", page: 110,
+    en: "Acquires education and possesses great art in his intellect, earns much money, gets the great advantage of children, draws very valuable plans, gets respect and honour, serves his purpose with politeness, and is very clever",
+    ta: "கல்வியும் அறிவில் பெரும் கலைத்திறனும்; பெரும் செல்வம்; குழந்தைகளால் பெரும் ஆதாயம்; மிகவும் மதிப்புமிக்க திட்டங்களை வரைவார்; மரியாதையும் கௌரவமும்; பணிவுடன் காரியம் சாதிப்பார்; மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 5, lagna: "Leo", planetSign: "Sagittarius", planet: "Jupiter", page: 112,
+    en: "Gets the happiness of children and getting education, supposed to be somewhat fortunate, gets honour for body, spends the life joyfully and always talks intricately in traditional manner",
+    ta: "குழந்தைகளின் மகிழ்ச்சியும் கல்வியும்; ஓரளவு அதிர்ஷ்டசாலி; உடல் வகையில் மரியாதை; மகிழ்ச்சியாக வாழ்வார்; பாரம்பரிய முறையில் நுணுக்கமாகப் பேசுவார்.",
+  },
+  {
+    house: 5, lagna: "Leo", planetSign: "Sagittarius", planet: "Venus", page: 114,
+    en: "Gets grandeur in the house of education, gets the power of children and progress of father, brothers and sisters, gets the advantage and respect from government and society, is very tactful",
+    ta: "கல்வி வீட்டில் கம்பீரம்; குழந்தைகளின் ஆற்றலும் தந்தை, உடன்பிறப்புகளின் முன்னேற்றமும்; அரசு, சமூகத்தில் ஆதாயமும் மரியாதையும்; மிகவும் தந்திரமானவர்.",
+  },
+  {
+    house: 5, lagna: "Leo", planetSign: "Sagittarius", planet: "Saturn", page: 116,
+    en: "Pursues the everyday occupation very diligently through his intelligence, gets power of sexual enjoyments, chalks out great schemes of sexual pleasures in the mind, dullness in the side of children, hidden policies in the house of education and wisdom, mentally worried, very skilful, and influences the enemy",
+    ta: "தன் அறிவால் தினசரி தொழிலை மிகக் கடுமையாகச் செய்வார்; பாலியல் இன்பத்தின் ஆற்றல்; மனத்தில் பாலியல் இன்பத்துக்கான பெரும் திட்டங்கள்; குழந்தைகள் வகையில் மந்தம்; கல்வியிலும் அறிவிலும் மறைமுக வழிகள்; மனக் கவலை; மிகத் திறமையானவர்; எதிரிகளைப் பாதிப்பார்.",
+  },
+  {
+    house: 5, lagna: "Leo", planetSign: "Sagittarius", planet: "Rahu", page: 118,
+    en: "Gets his work done through power of great falsehood, bears great distress in the house of children, gets weakness in the house of acquiring education, is mentally perplexed, finds great hardship to express his views properly and in appropriate words, somewhat restless",
+    ta: "மிகுந்த பொய்யால் காரியம் சாதிப்பார்; குழந்தைகள் வகையில் பெரும் துன்பம்; கல்வி பெறுவதில் பலவீனம்; மனக் குழப்பம்; தன் கருத்துகளை சரியான சொற்களில் வெளிப்படுத்துவது கடினம்; சில அமைதியின்மை.",
+  },
+  {
+    house: 5, lagna: "Leo", planetSign: "Sagittarius", planet: "Ketu", page: 120,
+    en: "Acquires education by hard intellectual labour, some distress on the side of children, feels some difficulty in explaining his real views or real opinion properly",
+    ta: "கடின அறிவுழைப்பால் கல்வி பெறுவார்; குழந்தைகள் வகையில் சில துன்பம்; தன் உண்மையான கருத்தை சரியாக விளக்குவதில் சிரமம்.",
+  },
+  {
+    house: 5, lagna: "Virgo", planetSign: "Capricorn", planet: "Sun", page: 125,
+    en: "Is deficient in the house of education, feels troubles in respect of children, is mentally worried, some weakness in profits, is haughty, is unable to make his ideas properly understandable, and is clever",
+    ta: "கல்வியில் குறை; குழந்தைகள் வகையில் சிரமம்; மனக் கவலை; ஆதாயத்தில் சில பலவீனம்; கர்வமானவர்; தன் கருத்துகளைப் புரியவைக்க முடியாது; சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 5, lagna: "Virgo", planetSign: "Capricorn", planet: "Moon", page: 127,
+    en: "Gains due to his wisdom, gets children, gets education, gets the supremacy of mental ideas in intellect, gains from intellectual power and wisdom and is very sensible",
+    ta: "தன் ஞானத்தால் ஆதாயம்; குழந்தைகள் பெறுவார்; கல்வி பெறுவார்; அறிவில் மனக் கருத்துகளில் மேலாண்மை; அறிவாற்றலாலும் ஞானத்தாலும் ஆதாயம்; மிகுந்த விவேகம்.",
+  },
+  {
+    house: 5, lagna: "Virgo", planetSign: "Capricorn", planet: "Mars", page: 129,
+    en: "Spends his life with grandeur, gets fame, is honourable and influential, uses diplomacy with wisdom, spends much, has an art in speech, experiences some strong mixture of happiness and unhappiness on the side of children, is haughty",
+    ta: "பெருமையுடன் வாழ்வார்; புகழ்; மரியாதைக்குரியவர், செல்வாக்குள்ளவர்; ஞானத்துடன் தந்திரம்; அதிகம் செலவழிப்பார்; பேச்சில் ஒரு கலை; குழந்தைகள் வகையில் கலவையான மகிழ்ச்சியும் துன்பமும்; கர்வமானவர்.",
+  },
+  {
+    house: 5, lagna: "Virgo", planetSign: "Capricorn", planet: "Mercury", page: 131,
+    en: "Is very intelligent and highly educated gets the power of children, has self-pride and knows what is duty, lives in a beautiful and decorated manner, is self-conscious, understands the laws of government and society",
+    ta: "மிக அறிவாளி, உயர் கல்வி; குழந்தைகளின் ஆற்றல்; சுயபெருமையும் கடமை அறிவும்; அழகாக அலங்கரிக்கப்பட்ட வாழ்க்கை; தன்னுணர்வுள்ளவர்; அரசு, சமூகச் சட்டங்களை அறிவார்.",
+  },
+  {
+    house: 5, lagna: "Virgo", planetSign: "Capricorn", planet: "Jupiter", page: 133,
+    en: "Feels unhappy in connection with the pleasures of the family, gets weakness and deficiency on all the side (from mother, wife, children), gets some worries in the daily occupation, gets some weakness in education and wisdom, hesitates a little while speaking, some",
+    ta: "குடும்ப இன்பங்களில் மகிழ்ச்சியின்மை; தாய், மனைவி, குழந்தைகள் ஆகிய அனைத்து வகையிலும் பலவீனமும் குறையும்; தினசரி தொழிலில் சில கவலைகள்; கல்வியிலும் ஞானத்திலும் சில பலவீனம்; பேசும்போது சற்று தயக்கம்.",
+  },
+  {
+    house: 5, lagna: "Virgo", planetSign: "Capricorn", planet: "Venus", page: 136,
+    en: "Is very clever and fortunate, undertakes the Dharma properly and is a good speaker on religious subjects, earns huge wealth, is a very learned artist, skfliul lover of astrology and a politician, gets special power of children, enjoys the family pleasures, is respectable",
+    ta: "மிகவும் அறிவாளியும் அதிர்ஷ்டசாலியும்; தர்மத்தைச் சரியாகக் கடைப்பிடிப்பார்; மத விஷயங்களில் நல்ல பேச்சாளர்; பெரும் செல்வம் ஈட்டுவார்; மிகக் கற்ற கலைஞர், ஜோதிட ஆர்வலர், அரசியல்வாதி; குழந்தைகள் வகையில் சிறப்பு ஆற்றல்; குடும்ப இன்பங்களை அனுபவிப்பார்; மரியாதைக்குரியவர்.",
+  },
+  {
+    house: 5, lagna: "Virgo", planetSign: "Capricorn", planet: "Saturn", page: 138,
+    en: "Is of sharp intelligence, progress in children with some hindrance, uses many policies in connection with wealth and occupation, wins the enemies, is not satisfied with one wife, bears some distress and toil on the side of daily occupation and wife",
+    ta: "கூர்மையான அறிவு; குழந்தைகளின் முன்னேற்றத்தில் சில தடை; செல்வம், தொழில் பற்றி பல வழிகள்; எதிரிகளை வெல்வார்; ஒரு மனைவியில் திருப்தி இல்லாதவர்; தினசரி தொழிலிலும் மனைவி வகையிலும் சில துன்பம்.",
+  },
+  {
+    house: 5, lagna: "Virgo", planetSign: "Capricorn", planet: "Rahu", page: 140,
+    en: "Weakness in education, talks falsehood, uses hemp, tobacco and other stimulants, gets the work done with great anger and intuition, some distress of children",
+    ta: "கல்வியில் பலவீனம்; பொய் பேசுவார்; கஞ்சா, புகையிலை போன்ற போதைப் பொருட்களைப் பயன்படுத்துவார்; பெரும் கோபத்தாலும் உள்ளுணர்வாலும் வேலையை முடிப்பார்; குழந்தைகள் வகையில் சில துன்பம்.",
+  },
+  {
+    house: 5, lagna: "Virgo", planetSign: "Capricorn", planet: "Ketu", page: 142,
+    en: "Gets many troubles during educational life, has harshness in mind, some distress in the house of children, is somewhat proud, is intellectually worried, sometimes does not obey modesty, and is a politician",
+    ta: "கல்வி வாழ்வில் பல தொல்லைகள்; மனத்தில் கடுமை; குழந்தைகள் வீட்டில் சில துன்பம்; சற்று கர்வமானவர்; அறிவு ரீதியாகக் கவலை; சில நேரம் அடக்கத்துக்குக் கீழ்ப்படியாதவர்; அரசியல்வாதி.",
+  },
+  {
+    house: 5, lagna: "Libra", planetSign: "Aquarius", planet: "Sun", page: 146,
+    en: "Gains from education, gets the advantage from the house of children, feels some fatigue and selfishness in his mind due to acquiring wealth, is intelligent, speaks swiftly",
+    ta: "கல்வியால் ஆதாயம்; குழந்தைகள் வீட்டில் ஆதாயம்; செல்வம் சேர்ப்பதால் மனத்தில் சோர்வும் சுயநலமும்; அறிவாளி; விரைவாகப் பேசுவார்.",
+  },
+  {
+    house: 5, lagna: "Libra", planetSign: "Aquarius", planet: "Moon", page: 148,
+    en: "Is educated, thinks of very high schemes in his mind for progress, has children, and progresses through them, has managerial duties",
+    ta: "கற்றவர்; முன்னேற்றத்துக்கு மிக உயர்ந்த திட்டங்களை மனத்தில் வகுப்பார்; குழந்தைகளால் முன்னேறுவார்; நிர்வாகப் பொறுப்புகள் உண்டு.",
+  },
+  {
+    house: 5, lagna: "Libra", planetSign: "Aquarius", planet: "Mars", page: 150,
+    en: "Earns wealth, gets education, some opposition in the side of children, gets an intelligent wife, is selfish",
+    ta: "செல்வம் ஈட்டுவார், கல்வி பெறுவார்; குழந்தைகள் வகையில் சில எதிர்ப்பு; அறிவாளி மனைவி; சுயநலம்.",
+  },
+  {
+    house: 5, lagna: "Libra", planetSign: "Aquarius", planet: "Mercury", page: 152,
+    en: "Has very deep and far reaching knowledge in connection with Dharma, secures rise though intellect and speech, happiness with some deficiency in the house of children, manages the expenditure wisely, is a good politician",
+    ta: "தர்மம் பற்றிய மிக ஆழமான, தொலைநோக்குடைய அறிவு; அறிவாலும் பேச்சாலும் உயர்வு; குழந்தைகள் வீட்டில் சில குறையுடன் மகிழ்ச்சி; செலவை விவேகத்துடன் நிர்வகிப்பார்; நல்ல அரசியல்வாதி.",
+  },
+  {
+    house: 5, lagna: "Libra", planetSign: "Aquarius", planet: "Jupiter", page: 154,
+    en: "Gets strength from the power of intellect and children, feels some difficulties in getting the happiness of children, gets weakness while acquiring education, is of courageous disposition, has courageous children, is very clever, wise and skilful",
+    ta: "அறிவின் வலிமையாலும் குழந்தைகளாலும் வலிமை; குழந்தைகளின் மகிழ்ச்சி பெறுவதில் சில சிரமம்; கல்வி பெறுவதில் பலவீனம்; தைரியமான இயல்பு; தைரியமான குழந்தைகள்; மிகுந்த சாமர்த்தியம், ஞானம், திறமை.",
+  },
+  {
+    house: 5, lagna: "Libra", planetSign: "Aquarius", planet: "Venus", page: 156,
+    en: "Gets the power of self-knowledge and possesses deep knowledge, gets some troublesome happiness in the house of children, has a long life, is very farsighted, is a politician and faces difficult problems",
+    ta: "தன்னறிவும் ஆழ்ந்த அறிவும்; குழந்தைகள் வீட்டில் சில தொல்லையான மகிழ்ச்சி; நீண்ட ஆயுள்; மிகுந்த தூரநோக்கு; அரசியல்வாதி; கடினமான பிரச்சினைகளை எதிர்கொள்வார்.",
+  },
+  {
+    house: 5, lagna: "Libra", planetSign: "Aquarius", planet: "Saturn", page: 158,
+    en: "Gets education and is very intelligent, gets the happiness of children spontaneously, feels deficiency in the house of wife, gives sufferings through his speech, puts efforts to increase wealth, some deficiency in the house of wealth, some deficiency in the house of occupation and gains, happiness of mother",
+    ta: "கல்வியும் மிகுந்த அறிவும்; குழந்தைகளின் மகிழ்ச்சி தானாக வரும்; மனைவி வீட்டில் குறை; பேச்சால் துன்பம்; செல்வம் பெருக்க முயற்சி; செல்வ வீட்டில் சில குறை; தொழில், ஆதாய வீட்டில் சில குறை; தாயின் மகிழ்ச்சி.",
+  },
+  {
+    house: 5, lagna: "Libra", planetSign: "Aquarius", planet: "Rahu", page: 160,
+    en: "Gets difficulties in getting education, some trouble in the side of children",
+    ta: "கல்வி பெறுவதில் சிரமம்; குழந்தைகள் வகையில் சில தொல்லை.",
+  },
+  {
+    house: 5, lagna: "Libra", planetSign: "Aquarius", planet: "Ketu", page: 162,
+    en: "Faces great troubles to get education, gets distress in the side of children, has some anxieties in wisdom",
+    ta: "கல்வி பெறுவதில் பெரும் சிரமம்; குழந்தைகள் வகையில் துன்பம்; அறிவில் சில கவலைகள்.",
+  },
+  {
+    house: 5, lagna: "Scorpio", planetSign: "Pisces", planet: "Sun", page: 168,
+    en: "Is very clever, possesses great knowledge about business, acquires and uses the education in practical and diplomatic ways, gets children, gains much from business, always engaged in his progress, always pays attention to his selfishness",
+    ta: "மிகவும் சாமர்த்தியமானவர்; வணிக அறிவு மிகுதி; கல்வியை நடைமுறையிலும் ராஜதந்திரமாகவும் பயன்படுத்துவார்; குழந்தைகள் பெறுவார்; வணிகத்தில் பெரும் ஆதாயம்; தன் முன்னேற்றத்தில் எப்போதும் ஈடுபட்டிருப்பார்; சுயநலம் சார்ந்த கவனம்.",
+  },
+  {
+    house: 5, lagna: "Scorpio", planetSign: "Pisces", planet: "Moon", page: 170,
+    en: "Is very intelligent, educated, farsighted, is very fortunate from the side of children, speaks very sweetly and is virtuous",
+    ta: "மிகுந்த அறிவு, கல்வி; தூரநோக்கு; குழந்தைகள் வழியில் மிக அதிர்ஷ்டம்; மிக இனிமையாகப் பேசுவார்; நல்லொழுக்கமுள்ளவர்.",
+  },
+  {
+    house: 5, lagna: "Scorpio", planetSign: "Pisces", planet: "Mars", page: 172,
+    en: "Is wise, clever, self-sighted and a diplomat of hot temperament, makes great efforts to get the income, spends much, faces opposition and worries in the side of son, some diseases in the body",
+    ta: "ஞானமும் சாமர்த்தியமும்; தன்னைப் பார்ப்பவர்; சூடான மனநிலை கொண்ட ராஜதந்திரி; வருமானம் ஈட்ட பெரும் முயற்சி; அதிகம் செலவழிப்பார்; மகன் வகையில் எதிர்ப்பும் கவலையும்; உடலில் சில நோய்கள்.",
+  },
+  {
+    house: 5, lagna: "Scorpio", planetSign: "Pisces", planet: "Mercury", page: 174,
+    en: "Gets some weakness in intellect and education, possesses little education, some loss in the side of children, feels some weakness in age, finds some sufferings in his life, speaks bitterly and maintains secrecy",
+    ta: "கல்வியிலும் அறிவிலும் சில பலவீனம்; சிறிதே கல்வி; குழந்தைகள் வகையில் சில இழப்பு; வயதில் சில பலவீனம்; வாழ்வில் சில துன்பம்; கசப்பாகப் பேசுவார்; ரகசியம் காப்பார்.",
+  },
+  {
+    house: 5, lagna: "Scorpio", planetSign: "Pisces", planet: "Jupiter", page: 176,
+    en: "Is very learned and educated, speaks with dignity, possesses authority and knowledge on religious and spiritual, gets children, gets heavy gains, gets rich through wisdom, possesses scientific knowledge, and is very fortunate",
+    ta: "மிகவும் கற்றவர்; கம்பீரமாகப் பேசுவார்; ஆன்மிக, மத விஷயங்களில் அதிகாரமும் அறிவும்; குழந்தைகள் பெறுவார்; பெரும் ஆதாயம்; ஞானத்தால் செல்வம் பெறுவார்; அறிவியல் அறிவு; மிக அதிர்ஷ்டசாலி.",
+  },
+  {
+    house: 5, lagna: "Scorpio", planetSign: "Pisces", planet: "Venus", page: 178,
+    en: "Is very clever, educated, intelligent, spends much, some deficiency in income, has an influential wife, gets children, possesses a high degree of sexual instinct, gets some deficiency in the side of children, experiences some perplexity due to heavy expenditure, strives for occupation",
+    ta: "மிகவும் சாமர்த்தியம், கல்வி, அறிவு; அதிகம் செலவழிப்பார்; வருமானத்தில் சில குறை; செல்வாக்குள்ள மனைவி; குழந்தைகள் பெறுவார்; மிக உயர்ந்த பாலியல் உணர்வு; குழந்தைகள் வகையில் சில குறை; அதிகச் செலவால் சில குழப்பம்; தொழிலுக்காக முயல்வார்.",
+  },
+  {
+    house: 5, lagna: "Scorpio", planetSign: "Pisces", planet: "Saturn", page: 180,
+    en: "Is of very sharp intellect, is highly educated, some insipidness from the side of children, acquires progress in occupation, has a special fascination for sexual pleasures",
+    ta: "மிகக் கூர்மையான அறிவு; உயர்ந்த கல்வி; குழந்தைகள் வகையில் சில சுவையின்மை; தொழிலில் முன்னேற்றம்; பாலியல் இன்பத்தில் சிறப்பான ஈர்ப்பு.",
+  },
+  {
+    house: 5, lagna: "Scorpio", planetSign: "Pisces", planet: "Rahu", page: 182,
+    en: "Is very wise, puts forth his selfish ideas, does not care for truthfulness or falsehood, bears some trouble with children, deficiency in acquiring education, is not sweet in conversation, is careless, considers his views correct",
+    ta: "மிகவும் ஞானமுள்ளவர்; தன் சுயநல எண்ணங்களை முன்வைப்பார்; உண்மை, பொய் பற்றிக் கவலைப்படாதவர்; குழந்தைகள் வகையில் சில தொல்லை; கல்வி பெறுவதில் குறை; இனிமையாகப் பேசாதவர்; அசட்டையானவர்; தன் கருத்தையே சரி என்று நினைப்பார்.",
+  },
+  {
+    house: 5, lagna: "Scorpio", planetSign: "Pisces", planet: "Ketu", page: 184,
+    en: "Is intellectually worried and gets weakness in education and gets many hurdles in studies, but works patiently to get education, distress in children's side, rude speech, is of obstinate nature",
+    ta: "அறிவு ரீதியாகக் கவலைப்படுவார்; கல்வியில் பலவீனம்; படிப்பில் பல தடைகள், ஆனால் கல்வி பெற பொறுமையாக உழைப்பார்; குழந்தைகள் வகையில் துன்பம்; முரட்டுப் பேச்சு; பிடிவாத இயல்பு.",
+  },
+  {
+    house: 5, lagna: "Sagittarius", planetSign: "Aries", planet: "Sun", page: 189,
+    en: "Is very wise and learned, possesses knowledge about Dharma, gets good luck in the house of children, thinks weakness in the house of income, is farsighted, learned, clever and fortunate",
+    ta: "மிகுந்த ஞானமும் கல்வியும்; தர்மம் பற்றிய அறிவு; குழந்தைகள் வீட்டில் நல்ல அதிர்ஷ்டம்; வருமானத்தில் சில பலவீனம்; தூரநோக்கு, கற்றவர், சாமர்த்தியம், அதிர்ஷ்டம்.",
+  },
+  {
+    house: 5, lagna: "Sagittarius", planetSign: "Aries", planet: "Moon", page: 191,
+    en: "Bears loss and distress in the house of children, faces troubles while acquiring education, spends the life with grandeur and dignity",
+    ta: "குழந்தைகள் வகையில் இழப்பும் துன்பமும்; கல்வி பெறுவதில் சிரமம்; கம்பீரமாகவும் மரியாதையுடனும் வாழ்வார்.",
+  },
+  {
+    house: 5, lagna: "Sagittarius", planetSign: "Aries", planet: "Mars", page: 193,
+    en: "Spends much, bears agony of children, implicates others, gets little education, talks conceitedly",
+    ta: "அதிகம் செலவழிப்பார்; குழந்தைகளின் வேதனை; பிறரை சிக்க வைப்பார்; சிறிது கல்வி; செருக்காகப் பேசுவார்.",
+  },
+  {
+    house: 5, lagna: "Sagittarius", planetSign: "Aries", planet: "Mercury", page: 195,
+    en: "Manages a big business, is very wise, gets children power, possesses a good knowledge of government and society, gains advantage from wife's side, desires sexual pleasures",
+    ta: "பெரிய வணிகத்தை நடத்துவார்; மிகுந்த அறிவாளி; குழந்தைகளின் ஆற்றல்; அரசு, சமூக விவகாரங்களில் நல்ல அறிவு; மனைவி வீட்டில் ஆதாயம்; பாலியல் இன்பத்தை விரும்புவார்.",
+  },
+  {
+    house: 5, lagna: "Sagittarius", planetSign: "Aries", planet: "Jupiter", page: 197,
+    en: "Is very wise, self-conceited and dignified, gets a handsome physique, gets illustrious children and wisdom, possesses inner knowledge, is a diplomat, is very fortunate, and possesses property",
+    ta: "மிகுந்த ஞானம், கர்வம், கம்பீரம்; அழகான உடல்; புகழ்பெற்ற குழந்தைகளும் ஞானமும்; உள் அறிவு; ராஜதந்திரி; மிக அதிர்ஷ்டசாலி; சொத்துடையவர்.",
+  },
+  {
+    house: 5, lagna: "Sagittarius", planetSign: "Aries", planet: "Venus", page: 199,
+    en: "Gains much due to intellectual cleverness, permanent means of acquiring wealth and income, cleverness in wisdom and education, some deficiency in children and defeats the enemies",
+    ta: "அறிவுத் திறமையால் பெரும் ஆதாயம்; நிலையான செல்வ, வருமான வழிகள்; ஞானத்திலும் கல்வியிலும் சாமர்த்தியம்; குழந்தைகளில் சில குறை; எதிரிகளை வெல்வார்.",
+  },
+  {
+    house: 5, lagna: "Sagittarius", planetSign: "Aries", planet: "Saturn", page: 201,
+    en: "Gets increased wealth through his hard intellectual labour, anxieties about accumulation of wealth, speaks courtly due to increased wealth, deficiency in children's side, gets deficiency in education, improves the occupation, gets some special power in the wife's house, earns much",
+    ta: "கடின அறிவுழைப்பால் செல்வம் பெருகும்; செல்வம் சேர்ப்பதில் கவலை; செல்வம் பெருகியதால் அரசவை போலப் பேசுவார்; குழந்தைகள் வகையில் குறை; கல்வியில் குறை; தொழிலை மேம்படுத்துவார்; மனைவி வீட்டில் சில சிறப்பு ஆற்றல்; மிகுந்த வருமானம்.",
+  },
+  {
+    house: 5, lagna: "Sagittarius", planetSign: "Aries", planet: "Rahu", page: 203,
+    en: "Gets deficiency in education and in children's side, uses bitterness and secrecy in the house of intellect, shows the truth but does not care for truth",
+    ta: "கல்வியிலும் குழந்தைகள் வகையிலும் குறை; அறிவு வீட்டில் கசப்பும் ரகசியமும்; உண்மையைக் காட்டுவார், ஆனால் உண்மையைப் பொருட்படுத்தார்.",
+  },
+  {
+    house: 5, lagna: "Sagittarius", planetSign: "Aries", planet: "Ketu", page: 205,
+    en: "Bears intellectual worries, bears troubles in children, finds many difficulties in acquiring education, is unable to make others understand him, speaks somewhat bitterly, does not follow truth and modesty, is very selfish and obstinate",
+    ta: "அறிவு ரீதியாகக் கவலை; குழந்தைகள் வகையில் துன்பம்; கல்வி பெறுவதில் பல சிரமங்கள்; பிறருக்குத் தன்னைப் புரியவைக்க முடியாது; சற்று கசப்பாகப் பேசுவார்; உண்மையையும் அடக்கத்தையும் பின்பற்றாதவர்; மிகவும் சுயநலமும் பிடிவாதமும் உள்ளவர்.",
+  },
+  {
+    house: 5, lagna: "Capricorn", planetSign: "Taurus", planet: "Sun", page: 210,
+    en: "Bears loss and distress in children's side, gets weakness in education, talks bitterly, uses numerous tactics to earn more wealth",
+    ta: "குழந்தைகள் வகையில் இழப்பும் துன்பமும்; கல்வியில் பலவீனம்; கசப்பாகப் பேசுவார்; அதிக வருமானத்துக்கு பல தந்திரங்களைப் பயன்படுத்துவார்.",
+  },
+  {
+    house: 5, lagna: "Capricorn", planetSign: "Taurus", planet: "Moon", page: 212,
+    en: "Gets good knowledge in occupation, conducts the occupation in a determined way, gets a beautiful and wise wife, is very passionate, has some deficiency in the house of income, is skilful and passionate",
+    ta: "தொழிலில் நல்ல அறிவு; தொழிலை உறுதியுடன் நடத்துவார்; அழகும் அறிவும் உள்ள மனைவி; மிகுந்த உணர்ச்சி; வருமான வீட்டில் சில குறை; திறமையும் உணர்ச்சியும்.",
+  },
+  {
+    house: 5, lagna: "Capricorn", planetSign: "Taurus", planet: "Mars", page: 214,
+    en: "Advantages through his intellect, gets education and children, always talks of profitable schemes",
+    ta: "அறிவால் ஆதாயம்; கல்வியும் குழந்தைகளும் பெறுவார்; எப்போதும் லாபகரமான திட்டங்களைப் பேசுவார்.",
+  },
+  {
+    house: 5, lagna: "Capricorn", planetSign: "Taurus", planet: "Mercury", page: 216,
+    en: "Works very cleverly and intelligently, possess good knowledge of Dharma, gets very clever progeny, gets worldly education, acquires much wealth, gets influence over enemies",
+    ta: "மிகச் சாமர்த்தியமாகவும் அறிவுடனும் வேலை செய்வார்; தர்ம அறிவு நிறைந்தவர்; மிகச் சாமர்த்தியமான சந்ததி; உலகக் கல்வி; மிகுந்த செல்வம்; எதிரிகள் மீது செல்வாக்கு.",
+  },
+  {
+    house: 5, lagna: "Capricorn", planetSign: "Taurus", planet: "Jupiter", page: 218,
+    en: "Manages the expenditure wisely, has deficiency in education, bears some loss in children's side, has deficiency in handsomeness of the body, feels restlessness, and is clever",
+    ta: "செலவை விவேகத்துடன் நிர்வகிப்பார்; கல்வியில் குறை; குழந்தைகள் வகையில் சில இழப்பு; உடலின் அழகில் குறை; அமைதியின்மை; சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 5, lagna: "Capricorn", planetSign: "Taurus", planet: "Venus", page: 220,
+    en: "Acquires knowledge on various things, gets more political knowledge, gets support from children, gains advantages from government and society, likes decoration, beauty and intoxication, and is witty",
+    ta: "பல விஷயங்களில் அறிவு; அரசியல் அறிவு மிகுதி; குழந்தைகளின் ஆதரவு; அரசு, சமூகத்தில் ஆதாயம்; அலங்காரம், அழகு, போதை ஆகியவற்றை விரும்புவார்; நகைச்சுவை உணர்வு.",
+  },
+  {
+    house: 5, lagna: "Capricorn", planetSign: "Taurus", planet: "Saturn", page: 222,
+    en: "Is very handsome, wise, clever and learned, earns much wealth through his wisdom, faces some enmity in the house of wife, wants many sensual pleasures, pays attention to the progress of occupation and is a good manager",
+    ta: "மிக அழகானவர், ஞானி, சாமர்த்தியமானவர், கற்றவர்; தன் அறிவால் மிகுந்த செல்வம் ஈட்டுவார்; மனைவி வீட்டில் சில பகை; பல பாலியல் இன்பங்களை விரும்புவார்; தொழில் முன்னேற்றத்தில் கவனம்; நல்ல நிர்வாகி.",
+  },
+  {
+    house: 5, lagna: "Capricorn", planetSign: "Taurus", planet: "Rahu", page: 224,
+    en: "Gets distress in children's side, gets deficiency in education, wants some intoxicants, shows clarity in conversation, does not care for truth or falsehood",
+    ta: "குழந்தைகள் வகையில் துன்பம்; கல்வியில் குறை; சில போதைப் பொருட்களை விரும்புவார்; பேச்சில் தெளிவு; உண்மை, பொய் பற்றிக் கவலைப்படாதவர்.",
+  },
+  {
+    house: 5, lagna: "Capricorn", planetSign: "Taurus", planet: "Ketu", page: 226,
+    en: "Works with stable wisdom and inner knowledge, has difficulties in acquiring education, feces distress in the side of children, uses secret devices and does not care for truth and falsehood",
+    ta: "உறுதியான அறிவும் உள் ஞானமும்; கல்வி பெறுவதில் சிரமங்கள்; குழந்தைகள் வகையில் துன்பம்; ரகசிய வழிகளைப் பயன்படுத்துவார்; உண்மை, பொய் பற்றிக் கவலைப்படாதவர்.",
+  },
+  {
+    house: 5, lagna: "Aquarius", planetSign: "Gemini", planet: "Sun", page: 231,
+    en: "Pursues business with power of intellect, gets a wise wife, gets influential and clever progeny, gets technical education, talks very influentially, secures intellectual advice from the wife, always careful in acquiring gains",
+    ta: "அறிவாற்றலால் வணிகம் நடத்துவார்; ஞானமுள்ள மனைவி; செல்வாக்குள்ள, சாமர்த்தியமான குழந்தைகள்; தொழில் கல்வி பெறுவார்; மிகுந்த செல்வாக்குடன் பேசுவார்; மனைவியிடமிருந்து அறிவுரை; ஆதாயத்தில் எப்போதும் கவனம்.",
+  },
+  {
+    house: 5, lagna: "Aquarius", planetSign: "Gemini", planet: "Moon", page: 234,
+    en: "Faces some distress from children's side, has some deficiency in education, thinks of great devices to gain wealth, talks with vicissitudes",
+    ta: "குழந்தைகள் வகையில் சில துன்பம்; கல்வியில் சில குறை; செல்வம் சேர்க்க பெரும் வழிகளை நினைப்பார்; மாறுபாடுகளுடன் பேசுவார்.",
+  },
+  {
+    house: 5, lagna: "Aquarius", planetSign: "Gemini", planet: "Mars", page: 236,
+    en: "Possesses knowledge of royal education, gets support of father and brother, spends much, is hasty, acquires good gains",
+    ta: "அரச கல்வியின் அறிவு; தந்தை, சகோதரர் ஆதரவு; அதிகம் செலவழிப்பார்; அவசரக்காரர்; நல்ல ஆதாயம் பெறுவார்.",
+  },
+  {
+    house: 5, lagna: "Aquarius", planetSign: "Gemini", planet: "Mercury", page: 238,
+    en: "Possesses great wisdom and education, feces some uneasiness in the side of children, gets a long life, gains much wealth, hides things in formal affairs, bears some distress in his mind, and is somewhat perplexed",
+    ta: "மிகுந்த ஞானமும் கல்வியும்; குழந்தைகள் வகையில் சில கவலை; நீண்ட ஆயுள்; அதிக செல்வம் ஈட்டுவார்; முறையான விவகாரங்களில் விஷயங்களை மறைப்பார்; மனத்தில் சில துன்பம்; சற்று குழப்பமானவர்.",
+  },
+  {
+    house: 5, lagna: "Aquarius", planetSign: "Gemini", planet: "Jupiter", page: 240,
+    en: "Is very wise and gets education, gets children, gets power of wealth through education, utters valuable things, gets heavy gains, maintains Dharma, maintains dignity",
+    ta: "மிக அறிவாளி; கல்வி பெறுவார்; குழந்தைகள் உண்டு; கல்வியால் செல்வ வலிமை; மதிப்புமிக்க கருத்துகளைச் சொல்வார்; பெரிய ஆதாயம்; தர்மத்தைக் காப்பார்; கௌரவத்தைக் காப்பார்.",
+  },
+  {
+    house: 5, lagna: "Aquarius", planetSign: "Gemini", planet: "Venus", page: 242,
+    en: "Gets good children, gets good education and wisdom, achieves power from mother, gets happiness of buildings and property, publishes articles about divinity, is farsighted",
+    ta: "நல்ல குழந்தைகள்; நல்ல கல்வியும் ஞானமும்; தாயால் ஆற்றல்; நிலமும் கட்டிடங்களும் மகிழ்ச்சி; தெய்வீகம் பற்றிக் கட்டுரைகள் எழுதுவார்; தூரநோக்குடையவர்.",
+  },
+  {
+    house: 5, lagna: "Aquarius", planetSign: "Gemini", planet: "Saturn", page: 244,
+    en: "Gets authority but some deficiency in education, has self-knowledge, faces some enmity in the side of wife, works indulgently in occupation though has to face some troubles",
+    ta: "அதிகாரம் உண்டு, ஆனால் கல்வியில் சில குறை; தன்னறிவு உண்டு; மனைவி வீட்டில் சில பகை; தொழிலில் சில துன்பங்களைச் சந்தித்தாலும் இணக்கமாக வேலை செய்வார்.",
+  },
+  {
+    house: 5, lagna: "Aquarius", planetSign: "Gemini", planet: "Rahu", page: 246,
+    en: "Possesses cleverness and pungency in his mind, always tries to fool others, gets education, does not care for truth or falsehood, gets trouble from children's side",
+    ta: "மனத்தில் சாமர்த்தியமும் கூர்மையும்; எப்போதும் பிறரை ஏமாற்ற முயல்வார்; கல்வி பெறுவார்; உண்மை, பொய் பற்றிக் கவலைப்படாதவர்; குழந்தைகள் வகையில் தொல்லை.",
+  },
+  {
+    house: 5, lagna: "Aquarius", planetSign: "Gemini", planet: "Ketu", page: 248,
+    en: "Gets his work done through the strength of falsehood, chalks out very secret schemes, gets weakness in education, faces affliction with children, has weak memory",
+    ta: "தந்திரமான வழியில் வேலையைச் சாதிப்பார்; மிக ரகசியமான திட்டங்களை வகுப்பார்; கல்வியில் பலவீனம்; குழந்தைகளால் துன்பம்; நினைவாற்றல் குறைவு.",
+  },
+  {
+    house: 5, lagna: "Pisces", planetSign: "Cancer", planet: "Sun", page: 253,
+    en: "Gets some deficiency in education, experiences some worries and difficulties, works for income, gets victory over enemies' side, is rude",
+    ta: "கல்வியில் சில குறை; சில கவலைகளும் சிரமங்களும்; வருமானத்துக்காக உழைப்பார்; எதிரிகள் பக்கம் வெற்றி; முரட்டுத்தனமானவர்.",
+  },
+  {
+    house: 5, lagna: "Pisces", planetSign: "Cancer", planet: "Moon", page: 255,
+    en: "Is very wise and learned, puts forth convincing ideas, gets the happiness of children, thinks of very balancing principles, has a stabilised mind, is of gentle nature",
+    ta: "மிகுந்த அறிவும் கல்வியும்; நம்பும்படியான கருத்துகளை முன்வைப்பார்; குழந்தைகளின் மகிழ்ச்சி; மிகவும் சமநிலையான கொள்கைகளைச் சிந்திப்பார்; நிலையான மனம்; மென்மையான இயல்பு.",
+  },
+  {
+    house: 5, lagna: "Pisces", planetSign: "Cancer", planet: "Mars", page: 257,
+    en: "Bears distress from children, gets deficiency in education, faces deficiency in accumulating wealth, has weakness in connection with Dharma, spends much, acquires no enjoyment from the house of expenditure",
+    ta: "குழந்தைகளால் துன்பம்; கல்வியில் குறை; செல்வம் சேர்ப்பதில் குறை; தர்மத்தில் பலவீனம்; அதிகம் செலவழிப்பார்; செலவு வீட்டிலிருந்து எந்த இன்பமும் பெறமாட்டார்.",
+  },
+  {
+    house: 5, lagna: "Pisces", planetSign: "Cancer", planet: "Mercury", page: 259,
+    en: "Pursues the occupation comfortably, manages the family affairs well, gains happiness of wife and children, gets excess of sexual pleasures, enjoys the lands and buildings, has some weakness in physique",
+    ta: "தொழிலைச் சௌகரியமாகச் செய்வார்; குடும்ப விவகாரங்களை நன்கு நிர்வகிப்பார்; மனைவி, குழந்தைகளின் மகிழ்ச்சி; பாலியல் இன்பம் மிகுதி; நிலங்கள், கட்டிடங்களை அனுபவிப்பார்; உடலில் சில பலவீனம்.",
+  },
+  {
+    house: 5, lagna: "Pisces", planetSign: "Cancer", planet: "Jupiter", page: 261,
+    en: "Gets great strength in wisdom, is very learned, is an influential orator, gets the strength of father and son, has a handsome physique, rears Dharma very much, is very fortunate, feels the deficiency in income, self-conceited, is famous and farsighted",
+    ta: "ஞானத்தில் பெரும் வலிமை; மிகவும் கற்றவர்; செல்வாக்குள்ள சொற்பொழிவாளர்; தந்தை, மகன் ஆகியோரின் வலிமை; அழகான உடல்; தர்மத்தை மிகவும் காப்பார்; மிக அதிர்ஷ்டசாலி; வருமானத்தில் குறை; கர்வமானவர்; புகழ்பெற்றவர்; தூரநோக்குடையவர்.",
+  },
+  {
+    house: 5, lagna: "Pisces", planetSign: "Cancer", planet: "Venus", page: 264,
+    en: "Faces distress in children's side, gets pleasure in the daily routine of life, gets a long age, loves brothers and sisters with some deficiency",
+    ta: "குழந்தைகள் வகையில் துன்பம்; தினசரி வாழ்வில் மகிழ்ச்சி; நீண்ட வயது; சகோதர சகோதரிகளை நேசிப்பார், ஆனால் சில குறையுடன்.",
+  },
+  {
+    house: 5, lagna: "Pisces", planetSign: "Cancer", planet: "Saturn", page: 266,
+    en: "Loss in the side of children, gets some loss and some gain in the house of education, faces weakness in the house of accumulated wealth, bears separation in the family, gets some loss and gain in occupation, gets some loss and benefit in the house of wife, and talks selfishly",
+    ta: "குழந்தைகள் வகையில் இழப்பு; கல்வி வீட்டில் சில இழப்பும் ஆதாயமும்; சேர்த்த செல்வத்தில் பலவீனம்; குடும்பத்தில் பிரிவு; தொழிலில் சில இழப்பும் ஆதாயமும்; மனைவி வீட்டில் சில இழப்பும் பயனும்; சுயநலமாகப் பேசுவார்.",
+  },
+  {
+    house: 5, lagna: "Pisces", planetSign: "Cancer", planet: "Rahu", page: 268,
+    en: "Faces calamities in the side of children, has deficiency in the house of education, is mentally and intellectually worried, solves very hard problems through his wisdom and will-power",
+    ta: "குழந்தைகள் வகையில் சிக்கல்கள்; கல்வி வீட்டில் குறை; மனத்திலும் அறிவிலும் கவலை; மிகக் கடினமான பிரச்சினைகளை தன் ஞானத்தாலும் மன உறுதியாலும் தீர்ப்பார்.",
+  },
+  {
+    house: 5, lagna: "Pisces", planetSign: "Cancer", planet: "Ketu", page: 270,
+    en: "Bears severe calamity in the side of children, gets deficiency in education, faces mental anxieties from young age and in the end gets some stable power about education after going through great hindrances and obstacles, is unable to make others understand his ideas",
+    ta: "குழந்தைகள் வகையில் கடுமையான துன்பம்; கல்வியில் குறை; இளம் வயதிலிருந்தே மனக் கவலைகள்; இறுதியில் பெரும் தடைகளைத் தாண்டி கல்வி பற்றி சில நிலையான வலிமை பெறுவார்; தன் கருத்துகளை மற்றவர்களுக்குப் புரியவைக்க முடியாது.",
   },
 ];
 
