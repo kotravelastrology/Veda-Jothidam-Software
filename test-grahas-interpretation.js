@@ -32,8 +32,8 @@ assert.deepStrictEqual(byPlanet.Sun.housesOwned, [5]);
 assert.deepStrictEqual(byPlanet.Mercury.housesOwned, [3, 6]);
 assert.deepStrictEqual(byPlanet.Jupiter.housesOwned, [9, 12]);
 
-// dignity from the shared Shadbala helper
-for (const r of rows) assert.equal(r.dignity, 'own', `${r.planet} is in its own sign`);
+// the Saptavargaja relation from the shared Shadbala helper
+for (const r of rows) assert.equal(r.relation, 'own', `${r.planet} is in its own sign`);
 
 // exaltation comes from the exact-sign table: Jupiter in Cancer is exalted; Jupiter in Pisces is neither
 assert.equal(byPlanet.Jupiter.exaltation, null);

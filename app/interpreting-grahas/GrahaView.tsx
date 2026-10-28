@@ -10,7 +10,7 @@ interface GrahaRow {
   degreeInSign: number;
   house: number;
   housesOwned: number[];
-  dignity: string;
+  relation: string;
   exaltation: string | null;
   jagradadi: string;
   baladi: string;
@@ -79,7 +79,7 @@ export default function GrahaView() {
                   <th className="p-2">Degree</th>
                   <th className="p-2">House</th>
                   <th className="p-2">Owns</th>
-                  <th className="p-2">Dignity</th>
+                  <th className="p-2">Relation (Saptavargaja)</th>
                   <th className="p-2">Exaltation</th>
                   <th className="p-2">Jagradadi</th>
                   <th className="p-2">Baladi</th>
@@ -97,7 +97,7 @@ export default function GrahaView() {
                     <td className="p-2 tabular-nums">{r.degreeInSign.toFixed(2)}°</td>
                     <td className="p-2">{r.house}</td>
                     <td className="p-2">{r.housesOwned.join(', ')}</td>
-                    <td className="p-2">{r.dignity}</td>
+                    <td className="p-2">{r.relation}</td>
                     <td className="p-2">{r.exaltation ?? '—'}</td>
                     <td className="p-2">{r.jagradadi}</td>
                     <td className="p-2">{r.baladi}</td>

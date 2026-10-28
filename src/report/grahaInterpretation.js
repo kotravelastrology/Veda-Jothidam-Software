@@ -16,7 +16,6 @@ const { calculateAvasthas } = require('./avasthas');
 const PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 
 const NOT_BUILT = [
-  { column: 'Dignity (Shadbala scale)', reason: 'the Shadbala dignity helper does not test exaltation or debilitation, so the exaltation column is shown beside it' },
   { column: 'Shadbala %', reason: 'the total is refused: Ayana Bala contradicts its own BPHS formula and table; the six parts are shown instead' },
   { column: 'Func. (benefic / malefic from the lagna)', reason: 'the functional nature for this lagna is not built' },
   { column: 'Shastiamsha', reason: 'not built' },
@@ -51,8 +50,10 @@ function buildGrahaRows({ lagnaRasiIndex, longitudes, shadbala }) {
       degreeInSign,
       house: houseOf(rasiIndex),
       housesOwned: OWN_SIGNS[planet].map(houseOf).sort((a, b) => a - b),
-      dignity: d1Dignity(planet, rasiIndex, degreeInSign, rasiPositions),
-      // Exaltation and debilitation from the exact sign of the tables; d1Dignity does not test them.
+      // The Saptavargaja relation (BPHS v.2-4): moolatrikona, own, friend, neutral, enemy. Exaltation is not one of
+      // its categories, so it is given in its own column.
+      relation: d1Dignity(planet, rasiIndex, degreeInSign, rasiPositions),
+      // Exaltation and debilitation from the exact sign of the tables.
       exaltation: rasiIndex === EXALTATION[planet].sign ? 'exalted'
         : rasiIndex === DEBILITATION[planet].sign ? 'debilitated' : null,
       jagradadi: avasthas[planet].jagradadi,
