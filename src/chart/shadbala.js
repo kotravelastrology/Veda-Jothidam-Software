@@ -620,6 +620,7 @@ function calculateShadbala({
 
 module.exports = {
   calculateShadbala,
+  d1Dignity,
   uchchaBala,
   ojhayugmarasyamsaBala,
   kendradiBala,
