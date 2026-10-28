@@ -91,7 +91,7 @@ for (const e of evidence) {
     assert.equal(e.source, null);
     // Still true of the ported table, and it explains why it has no source.
     assert.match(e.reason, /Marriage reference workbook/);
-    assert.equal(typeof e.appliedTo.computedResult, 'boolean');
+    assert.equal(e.appliedTo.computedResult, null, 'shown for information, not a verdict');
     assert.ok(e.appliedTo.measure);
   } else {
     assert.equal(e.status, 'APPLIED');
@@ -221,11 +221,13 @@ assert.equal(factorFor('YONI', 0, 14).result, false, 'horse and buffalo are host
 assert.equal(factorFor('YONI', 0, 23).result, true, 'the same yoni is acceptable (Ashwini and Sathabis are both horse)');
 assert.equal(factorFor('YONI', 0, 3).result, true, 'different, non-hostile yonis are neutral, and accepted');
 
-// RASI_ADHIPATHI — disclosed as a plain inequality, so one shared lord fails.
-// Mesha and Vrischika share Mars. (Unchanged: the book states no rule for it.)
+// RASI_ADHIPATHI — withheld: the book states no rule, so it is shown and not counted.
+// Mesha and Vrischika share Mars; a lord is friends with itself.
 const sharedLord = factorFor('RASI_ADHIPATHI', 0, 0, 0, 7);
 assert.equal(sharedLord.measure.same, true);
-assert.equal(sharedLord.result, false, 'identical lords fail, as disclosed');
+assert.equal(sharedLord.measure.friends, true);
+assert.equal(sharedLord.result, null, 'withheld, not a verdict');
+assert.equal(sharedLord.withheld, true);
 assert.equal(sharedLord.measure.girl, sharedLord.measure.boy);
 
 // VASYA — either direction is enough, because the book says "or vice versa";

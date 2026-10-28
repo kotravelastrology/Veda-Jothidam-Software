@@ -191,9 +191,13 @@ function FactorRow({ r }: { r: any }) {
           )}
         </td>
         <td className="py-1.5 text-center">
-          <span className={`text-xs font-bold px-2 py-0.5 rounded ${r.result ? 'bg-teal-soft text-teal' : 'bg-rose-soft text-rose'}`}>
-            {r.result ? '✓ பொருந்தும்' : '✗ இல்லை'}
-          </span>
+          {r.withheld ? (
+            <span className="text-xs font-bold px-2 py-0.5 rounded bg-line/20 text-ink-soft">தகவல் மட்டும்</span>
+          ) : (
+            <span className={`text-xs font-bold px-2 py-0.5 rounded ${r.result ? 'bg-teal-soft text-teal' : 'bg-rose-soft text-rose'}`}>
+              {r.result ? '✓ பொருந்தும்' : '✗ இல்லை'}
+            </span>
+          )}
         </td>
         <td className="py-1.5 pl-4 text-ink-soft">{r.note}</td>
       </tr>

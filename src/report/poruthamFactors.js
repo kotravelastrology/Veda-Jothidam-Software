@@ -30,7 +30,8 @@
  *
  * Rasi Adhipathi is the exception. Kalaprakasika lists each planet's friends but
  * states no rule for what the two lords must be, so there is nothing to
- * implement it from; it keeps the earlier port and is reported as unsourced.
+ * implement it from. It is shown with whether the two lords are friends, is not
+ * counted in the total, and is reported as unsourced.
  *
  * `test-porutham-source.js` asserts every status against the live comparison,
  * so none can drift from what is true.
@@ -271,10 +272,11 @@ const FACTORS = [
   {
     id: 'RASI_ADHIPATHI',
     governs: 'ராசி அதிபதிப் பொருத்தம் — இரு ராசிநாதர்களுக்கிடையிலான உறவு.',
-    rule: 'இரு ராசிநாதரும் வெவ்வேறு கிரகங்களாக இருப்பின் பொருந்தும்.',
-    why: (m, ok) => `பெண் ராசிநாதன் ${m.girl}, ஆண் ராசிநாதன் ${m.boy} — `
-      + `${m.same ? 'இருவரும் ஒரே கிரகம்' : 'வெவ்வேறு கிரகங்கள்'}, `
-      + `எனவே ${ok ? 'பொருந்துகிறது' : 'பொருந்தவில்லை'}.`,
+    rule: 'தகவலுக்கு மட்டும்: இரு ராசிநாதர்களும் நண்பர்களா என்பதைக் காட்டுகிறது (கலாப்பிரகாசிகை பக். 74-75). '
+      + 'எண்ணிக்கையில் சேர்க்கப்படவில்லை, ஏனெனில் நூல் இரு அதிபதிகள் எப்படி இருக்க வேண்டும் என்ற விதியைச் சொல்லவில்லை.',
+    why: (m) => `பெண் ராசிநாதன் ${m.girl}, ஆண் ராசிநாதன் ${m.boy} — `
+      + `${m.same ? 'இருவரும் ஒரே கிரகம்' : m.friends ? 'நண்பர்கள்' : 'நண்பர்கள் அல்ல'}. `
+      + 'இது தகவல் மட்டுமே; மொத்த மதிப்பெண்ணில் சேர்க்கப்படவில்லை.',
     divergence: 'இந்தக் காரணிக்கு ஆதாரம் இல்லை. கலாப்பிரகாசிகை ஒவ்வொரு கிரகத்தின் நண்பர்களைச் '
       + 'சொல்கிறது, ஆனால் இந்தப் பொருத்தத்துக்கு இரு அதிபதிகள் எப்படி இருக்க வேண்டும் என்ற '
       + 'விதியைச் சொல்லவில்லை. சூடாமணி ராசிவாரியான நட்பு அட்டவணையைத் தருகிறது; அது '

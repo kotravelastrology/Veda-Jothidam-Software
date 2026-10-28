@@ -26,8 +26,9 @@
  *   - **Yoni**, **Vasya** and **Vedha** used tables matching neither text.
  *
  * Mahendra and Rajju were already identical to Kalaprakasika and are unchanged.
- * Rasi Adhipathi is also unchanged, because the book gives each planet's
- * friends but states no rule for what the two lords must be.
+ * Rasi Adhipathi is withheld from the count, because the book gives each
+ * planet's friends but states no rule for what the two lords must be. It is
+ * still shown, with whether the two lords are friends (either direction).
  *
  * ## What is not modelled
  *
@@ -54,9 +55,24 @@ const NAKSHATRA_NAMES = [
 ];
 const GANA_TA = { deva: 'தேவர்', manushya: 'மனிதர்', rakshasa: 'இராட்சதர்' };
 
-// Rasi Adhipathi: unchanged from the earlier port (see the header).
 const RASHI_LORD = [2, 5, 3, 1, 0, 3, 5, 2, 4, 6, 6, 4]; // 0 Sun..6 Saturn
 const LORD_TA = ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி'];
+
+// Kalaprakasika item 7, printed pp.74-75: each lord's friends, by the index above. Saturn's friends are not printed.
+const LORD_FRIENDS = [
+  [4],             // Sun: Jupiter only
+  [3, 4],          // Moon: Mercury, Jupiter
+  [3, 5],          // Mars: Mercury, Venus
+  [1, 2, 4, 5, 6], // Mercury: all save the Sun
+  [0, 1, 3, 5, 6], // Jupiter: all except Mars
+  [2, 3, 4, 6],    // Venus: all except the Sun and the Moon
+  [],              // Saturn: not printed
+];
+
+/** Read in either direction, because the printed lists are not symmetric (Jupiter names Saturn; Saturn names only his enemy). */
+function lordsAreFriends(a, b) {
+  return a === b || LORD_FRIENDS[a].includes(b) || LORD_FRIENDS[b].includes(a);
+}
 
 /** Count from `from` to `to` inclusive, cyclically, as the books count. */
 const starCount = (from, to) => ((to - from + T.STARS) % T.STARS) + 1;
@@ -163,12 +179,15 @@ function calcPorutham(girlNak, boyNak, girlRashi, boyRashi) {
     measure: { gap: rashiDiff, minimum: 7 },
   });
 
+  // Withheld: the book prints the lords' friendships but no rule for them, so the factor is shown for information and not counted.
   const gL = RASHI_LORD[girlRashi];
   const bL = RASHI_LORD[boyRashi];
+  const friends = lordsAreFriends(gL, bL);
   rows.push({
     id: 'RASI_ADHIPATHI', name: 'ராசி அதிபதி',
-    result: gL !== bL, note: `பெண்: ${LORD_TA[gL]}, ஆண்: ${LORD_TA[bL]}`,
-    measure: { girl: LORD_TA[gL], boy: LORD_TA[bL], same: gL === bL },
+    result: null, withheld: true,
+    note: `பெண்: ${LORD_TA[gL]}, ஆண்: ${LORD_TA[bL]} — ${friends ? 'நட்பு' : 'நட்பு இல்லை'} (தகவலுக்கு மட்டும்)`,
+    measure: { girl: LORD_TA[gL], boy: LORD_TA[bL], same: gL === bL, friends },
   });
 
   const girlControlsBoy = (T.VASYA[girlRashi] || []).includes(boyRashi);
@@ -207,24 +226,24 @@ function calculateTamilPorutham(girl, boy) {
   // Every row leaves here explained. A verdict shown without its reasoning is
   // the defect VJ-018 removes, so there is no unexplained path out.
   const rows = describePorutham(raw);
-  const passed = rows.filter((r) => r.result).length;
+  const passed = rows.filter((r) => r.result === true).length;
   const level = passed >= 8 ? 'உத்தமம்' : passed >= 6 ? 'மத்திமம்' : passed >= 4 ? 'சாதாரணம்' : 'குறைவு';
   return {
     girl: { nakshatra: NAKSHATRA_NAMES[girl.nakshatraIndex], rasiIndex: girl.rasiIndex },
     boy: { nakshatra: NAKSHATRA_NAMES[boy.nakshatraIndex], rasiIndex: boy.rasiIndex },
     rows,
     passed,
-    total: rows.length,
+    total: rows.filter((r) => !r.withheld).length,
     level,
     // The verdicts travel with where each rule stands against the two primary
     // texts (see poruthamFactors.js), rather than depending on the UI to
     // remember it. The overall score is only as good as the rules that produce
     // it, which is why the count is here and not just per row.
     evidence: poruthamEvidence(raw),
-    sourceSummary: summariseSources(rows),
-    // K.S. Krishnamurti, Reader IV, as an optional second source: its comparison with each factor, its exceptions and its extra
+    sourceSummary: summariseSources(rows),
+    // K.S. Krishnamurti, Reader IV, as an optional second source: its comparison with each factor, its exceptions and its extra
     // factors. Shown beside the verdicts; it changes neither the verdicts nor the count.
-    c32: c32Notes(girl, boy, rows),
+    c32: c32Notes(girl, boy, rows),
     sourceStatus: rows.every((r) => r.sourceStatus !== 'NOT_SOURCED')
       ? 'SOURCED' : 'PARTIALLY_SOURCED',
   };

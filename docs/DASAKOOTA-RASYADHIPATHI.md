@@ -46,3 +46,16 @@ The index holds no Sudamani Ullamudaiyan text, though the module's test cites on
   than printed. Saturn's missing friends and the Jupiter–Saturn conflict must then be decided first.
 - **C.** Find a text that prints the agreement rule (Sudamani Ullamudaiyan, or a Tamil source), then build from it.
 - The 44-point scheme and the 27.5 total need a source before any of this is built.
+
+## Decision (2026-10-28): option 2
+
+The Rasi-lord factor is shown, not counted.
+
+- Each match shows whether the two Rasi lords are friends, read in either direction from the printed lists.
+  Saturn's friends are not printed, so his pairs are judged by the other lords' lists.
+- The factor is not counted. The total goes from 10 to 9. The level thresholds (8, 6, 4) are unchanged, so
+  a match now reaches each level one factor sooner in proportion to the total.
+- Before this change the factor counted as "the lords differ", which the book does not state. Scores
+  therefore change for matches where that factor was the only difference from the book's view.
+- Option B (counting it as an inferred rule) is still open, and would need the Jupiter–Saturn reading settled
+  in writing.

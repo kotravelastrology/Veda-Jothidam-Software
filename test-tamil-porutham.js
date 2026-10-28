@@ -34,7 +34,20 @@ assert.equal(byName['கணம்'].note, 'பெண்: தேவர், ஆண
 // star itself: Ardra is one of the eight excellent common janma nakshatras.
 const same = Object.fromEntries(calcPorutham(5, 5, 4, 4).map((r) => [r.name, r]));
 assert.equal(same['ரஜ்ஜு'].result, false, 'same nakshatra -> same Rajju group -> fail');
-assert.equal(same['ராசி அதிபதி'].result, false, 'same rasi -> same lord -> fail');
+// the Rasi-lord factor is withheld: shown, not counted, and the same lord is a friend of itself
+assert.equal(same['ராசி அதிபதி'].result, null, 'same rasi -> withheld, not a verdict');
+assert.equal(same['ராசி அதிபதி'].withheld, true);
+assert.equal(same['ராசி அதிபதி'].measure.friends, true, 'a lord is friends with itself');
+
+// Rasi lords' friendship, read in either direction (Kalaprakasika pp.74-75), by rasi index
+const lordsFriends = (girlRasi, boyRasi) =>
+  calcPorutham(5, 5, girlRasi, boyRasi).find((x) => x.name === 'ராசி அதிபதி').measure.friends;
+assert.equal(lordsFriends(4, 8), true, 'Sun (Leo) and Jupiter (Sagittarius): Jupiter is the Sun\'s only friend');
+assert.equal(lordsFriends(0, 1), true, 'Mars (Aries) and Venus (Taurus): Mars names Venus');
+assert.equal(lordsFriends(0, 3), false, 'Mars (Aries) and Moon (Cancer): neither names the other');
+assert.equal(lordsFriends(4, 0), false, 'Sun (Leo) and Mars (Aries)');
+assert.equal(lordsFriends(9, 8), true, 'Saturn (Capricorn) and Jupiter: Jupiter names Saturn; Saturn names only his enemy');
+assert.equal(lordsFriends(9, 2), true, 'Saturn (Capricorn) and Mercury (Gemini): Mercury names all save the Sun');
 assert.equal(same['தினம்'].result, true, 'Ardra as a common janma nakshatra is excellent');
 
 // ── Full result ─────────────────────────────────────────────────────────
@@ -43,8 +56,8 @@ const r = calculateTamilPorutham(
   { nakshatraIndex: 3, rasiIndex: 1 },   // groom: Rohini / Taurus
 );
 assert.equal(r.rows.length, 10);
-assert.equal(r.total, 10);
-assert.ok(r.passed >= 0 && r.passed <= 10);
+assert.equal(r.total, 9, 'the withheld Rasi-lord factor is not counted');
+assert.ok(r.passed >= 0 && r.passed <= 9);
 assert.ok(['உத்தமம்', 'மத்திமம்', 'சாதாரணம்', 'குறைவு'].includes(r.level));
 assert.equal(r.girl.nakshatra, 'Uttara Ashadha');
 assert.equal(r.boy.nakshatra, 'Rohini');
