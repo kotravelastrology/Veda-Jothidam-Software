@@ -3,10 +3,10 @@
  *
  * The lagna lord standing in the lagna is the 1st-house entry of T.M. Rao's Bhrigu Samhita for the lagna's own
  * lord: `Venus in the 1st House (Libra)` is the Libra lagna's lord in the lagna. The entries themselves are in
- * `bhriguFirstHouse.js`; this file picks the lord of each lagna from the own-sign table and adds the citation.
+ * `bhriguPlanetInHouse.js`; this file picks the lord of each lagna from the own-sign table and adds the citation.
  */
 
-const { FIRST_HOUSE } = require('./bhriguFirstHouse');
+const { PLANET_IN_HOUSE } = require('./bhriguPlanetInHouse');
 const { citeTa } = require('../sources/citeTa');
 const { OWN_SIGNS } = require('../chart/shadbala');
 
@@ -33,10 +33,14 @@ function lagnaLordInLagna(lagnaRasiIndex) {
   }
   const sign = RASI_ORDER[lagnaRasiIndex];
   const planet = lordOf(lagnaRasiIndex);
-  const entry = FIRST_HOUSE.find((e) => e.sign === sign && e.planet === planet);
+  const entry = PLANET_IN_HOUSE.find((e) => e.house === 1 && e.lagna === sign && e.planet === planet);
   if (!entry) throw new Error(`no entry for ${planet} in ${sign}`);
   return {
-    ...entry,
+    sign,
+    planet,
+    page: entry.page,
+    en: entry.en,
+    ta: entry.ta,
     citation: citeTa({ title: 'Bhrigu Samhita', author: 'T.M. Rao', pageLocus: `printed p.${entry.page}` }),
   };
 }
