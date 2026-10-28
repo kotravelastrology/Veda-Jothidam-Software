@@ -335,6 +335,23 @@ const SOURCES = [
     },
   },
   {
+    id: 'BHRIGU_SAMHITA_RAO',
+    title: 'Bhrigu Samhita',
+    titleTa: 'பிருகு சம்ஹிதா',
+    author: 'T.M. Rao',
+    file: 'Jyotish_Bhrigu Samhita_T.M.Rao.pdf',
+    tradition: 'Bhrigu',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The book is a twentieth-century English work. Cited by printed page; the entries are summarised in our own words, '
+        + 'and the Tamil summary is ours. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read.',
+    },
+  },
+  {
     id: 'RATH_UPADESA_SUTRAS',
     title: "Jaimini Maharishi's Upadesa Sutras",
     titleTa: 'ஜைமினி மகரிஷியின் உபதேச சூத்திரங்கள்',
