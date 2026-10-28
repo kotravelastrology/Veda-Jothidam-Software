@@ -1,14 +1,16 @@
 const assert = require('assert');
-const { lagnaLordInLagna, LAGNA_LORD_IN_LAGNA, RASI_ORDER } = require('./src/report/lagnaLordNature');
+const { lagnaLordInLagna, RASI_ORDER } = require('./src/report/lagnaLordNature');
 const { OWN_SIGNS } = require('./src/chart/shadbala');
 
 // twelve rasis, in order
 assert.deepStrictEqual(RASI_ORDER, ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces']);
 
-// every entry's planet is the lord of its lagna (the sign index is in the planet's own-sign table)
-LAGNA_LORD_IN_LAGNA.forEach((e, i) => {
-  assert.ok(OWN_SIGNS[e.planet].includes(i), `${e.planet} owns ${e.sign}`);
-});
+// the lagna lord is the planet whose own-sign table holds the lagna, and it is the planet the entry names
+for (let i = 0; i < 12; i += 1) {
+  const e = lagnaLordInLagna(i);
+  assert.ok(OWN_SIGNS[e.planet].includes(i), `${e.planet} owns ${RASI_ORDER[i]}`);
+  assert.equal(e.sign, RASI_ORDER[i]);
+}
 
 // the lagna lord as printed: Libra lagna has Venus in the 1st house (Libra), printed page 156
 const libra = lagnaLordInLagna(6);
@@ -29,7 +31,11 @@ assert.equal(lagnaLordInLagna(4).planet, 'Sun');
 assert.equal(lagnaLordInLagna(0).planet, 'Mars');
 assert.equal(lagnaLordInLagna(0).page, 25);
 
-// every entry has its text, Tamil summary, a page and a citation
+// Virgo: Mercury in the 1st house, printed page 131 (the scan's page 126)
+assert.equal(lagnaLordInLagna(5).planet, 'Mercury');
+assert.equal(lagnaLordInLagna(5).page, 131);
+
+// every lagna has its text, Tamil summary, a page and a citation
 for (let i = 0; i < 12; i += 1) {
   const e = lagnaLordInLagna(i);
   assert.ok(e.en.length > 40, `${e.sign} text`);
