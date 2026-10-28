@@ -1,10 +1,10 @@
 /**
- * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 8th
+ * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 9th
  * houses from each lagna. Each entry is the book's prose as printed (`en`, joined from the page extract; OCR slips are kept),
  * its Tamil summary (`ta`, ours) and the printed page the entry starts on. `planetSign` is the sign the planet stands in
- * (the lagna for house 1, and the sign that many places on for houses 2 to 8).
+ * (the lagna for house 1, and the sign that many places on for houses 2 to 9).
  * The book has no 5th-house entry for Sun in Gemini: its printed page goes from the 4th house straight to the 6th (checked
- * on the page image), so that entry is absent here and nothing is supplied for it. 863 entries in all.
+ * on the page image), so that entry is absent here and nothing is supplied for it. 971 entries in all.
  * The printed page is the scan's page number plus five, checked against the printed numbers in the scan and the page
  * images for Libra (p.156) and Leo (p.104). Extracted by scratch scripts; the text is the book's.
  */
@@ -4324,6 +4324,546 @@ const PLANET_IN_HOUSE = [
     house: 8, lagna: "Pisces", planetSign: "Libra", planet: "Ketu", page: 271,
     en: "Some resdessness in the daily routine of life, gets stomach disorders, experiences blows in connection with age, follows stable principles, and is obstinate",
     ta: "தினசரி வாழ்வில் சில அமைதியின்மை; வயிற்றுக் கோளாறுகள்; வயது தொடர்பாக அடிகள்; நிலையான கொள்கைகளைப் பின்பற்றுவார்; பிடிவாதமானவர்.",
+  },
+  {
+    house: 9, lagna: "Aries", planetSign: "Sagittarius", planet: "Sun", page: 22,
+    en: "Gets good education, improves his destiny by his wisdom, religious, happiness from sons, happiness from brothers and sisters, energetic, gets windfall, speaks justly, influential and learned",
+    ta: "நல்ல கல்வி; ஞானத்தால் விதியை மேம்படுத்துவார்; தர்மத்தில் நாட்டம்; பிள்ளைகளால் மகிழ்ச்சி; உடன்பிறப்புகளால் மகிழ்ச்சி; ஆற்றல் மிக்கவர்; எதிர்பாராத ஆதாயம்; நியாயமாகப் பேசுவார்; செல்வாக்கும் கற்ற அறிவும் உள்ளவர்.",
+  },
+  {
+    house: 9, lagna: "Aries", planetSign: "Sagittarius", planet: "Moon", page: 24,
+    en: "Has good luck from the house of mother, acquires lands and buildings, gets Divine help, happy and satisfied, believes in Dharma, gets support from brothers and sisters, gains in industry",
+    ta: "தாய் வீட்டிலிருந்து நல்ல அதிர்ஷ்டம்; நிலமும் வீடும் பெறுவார்; தெய்வ உதவி; மகிழ்ச்சியும் திருப்தியும்; தர்மத்தில் நம்பிக்கை; உடன்பிறப்புகளின் ஆதரவு; தொழிலில் ஆதாயம்.",
+  },
+  {
+    house: 9, lagna: "Aries", planetSign: "Sagittarius", planet: "Mars", page: 26,
+    en: "Fortunate, faces hindrances in the advancement of luck, gains from others and distant relatives, spends much, unhappy with motherly relations, careless about lands, peace and happiness, not happy with brotherly relations, showy in nature",
+    ta: "அதிர்ஷ்டசாலி; விதியின் முன்னேற்றத்தில் தடைகள்; பிறரிடமிருந்தும் தொலைதூர உறவினர்களிடமிருந்தும் ஆதாயம்; அதிகம் செலவழிப்பார்; தாய் உறவில் அதிருப்தி; நிலத்தில் அக்கறையின்மை; மகிழ்ச்சியும் அமைதியும் குறைவு; உடன்பிறப்பு உறவில் அதிருப்தி; ஆடம்பர இயல்பு.",
+  },
+  {
+    house: 9, lagna: "Aries", planetSign: "Sagittarius", planet: "Mercury", page: 28,
+    en: "Success through industry, gets fame and power, not a strong believer in Dharma, help from brothers and sisters, cannot decide about the right and wrong approach for his betterment",
+    ta: "உழைப்பால் வெற்றி; புகழும் அதிகாரமும்; தர்மத்தில் உறுதியான நம்பிக்கை குறைவு; உடன்பிறப்புகளின் உதவி; தன் முன்னேற்றத்துக்கு சரியான வழியா தவறான வழியா என்று முடிவு செய்ய முடியாது.",
+  },
+  {
+    house: 9, lagna: "Aries", planetSign: "Sagittarius", planet: "Jupiter", page: 30,
+    en: "Fortunate and gets good success in his activities, has Divine help, good intellect and education, happy with children, gets the cooperation of brothers and sisters, religious in outlook",
+    ta: "அதிர்ஷ்டசாலி, செயல்களில் நல்ல வெற்றி; தெய்வ உதவி; நல்ல அறிவும் கல்வியும்; பிள்ளைகளால் மகிழ்ச்சி; உடன்பிறப்புகளின் ஒத்துழைப்பு; மதப் பார்வை.",
+  },
+  {
+    house: 9, lagna: "Aries", planetSign: "Sagittarius", planet: "Venus", page: 32,
+    en: "Very fortunate and clever, gets happiness from wife and family, earns wealth, follows Dharma, is brave and courageous",
+    ta: "மிக அதிர்ஷ்டசாலி, சாமர்த்தியமானவர்; மனைவி, குடும்பத்தால் மகிழ்ச்சி; செல்வம் ஈட்டுவார்; தர்மத்தைக் கடைப்பிடிப்பார்; தைரியமும் வீரமும் உள்ளவர்.",
+  },
+  {
+    house: 9, lagna: "Aries", planetSign: "Sagittarius", planet: "Saturn", page: 34,
+    en: "Gains heavily by the house of destiny, gets the regular fixed income, fortunate, religious, no enemies, wins over the troubles and hindrances",
+    ta: "விதியின் வீட்டிலிருந்து பெரும் ஆதாயம்; நிலையான வருமானம்; அதிர்ஷ்டசாலி; மதப்பற்று; எதிரிகள் இல்லாதவர்; தொல்லைகளையும் தடைகளையும் வெல்வார்.",
+  },
+  {
+    house: 9, lagna: "Aries", planetSign: "Sagittarius", planet: "Rahu", page: 36,
+    en: "Feels unhappy, has to face great anxieties and nervousness in connection with the progress of destiny, uses many improper schemes secretly, meets heavy losses in Dharrna, irreligious, defamed and restless",
+    ta: "மகிழ்ச்சியின்மை; விதியின் முன்னேற்றம் பற்றி மிகுந்த கவலையும் பதற்றமும்; ரகசியமாகப் பல தவறான திட்டங்களைப் பயன்படுத்துவார்; தர்மத்தில் பெரும் இழப்பு; மதப்பற்றின்மை; அவதூறும் அமைதியின்மையும்.",
+  },
+  {
+    house: 9, lagna: "Aries", planetSign: "Sagittarius", planet: "Ketu", page: 38,
+    en: "Works hard for the progress of destiny, progress through experiments of some hidden places, irreligious but does not blame Dharma",
+    ta: "விதியின் முன்னேற்றத்துக்காக கடுமையாக உழைப்பார்; மறைந்த இடங்களின் சோதனைகள் மூலம் முன்னேற்றம்; மதப்பற்று குறைவு, ஆனால் தர்மத்தைக் குறை கூறார்.",
+  },
+  {
+    house: 9, lagna: "Taurus", planetSign: "Capricorn", planet: "Sun", page: 43,
+    en: "Happiness from mother and gain of lands and buildings, becomes dharmic, some happiness from brothers and sisters, and is fortunate",
+    ta: "தாயால் மகிழ்ச்சி; நிலமும் வீடும் பெறுவார்; தர்மவானாவார்; உடன்பிறப்புகளால் சில மகிழ்ச்சி; அதிர்ஷ்டசாலி.",
+  },
+  {
+    house: 9, lagna: "Taurus", planetSign: "Capricorn", planet: "Moon", page: 45,
+    en: "Gets favour through destiny, gets the good union of brothers and sisters, dharmic in nature, believes in God and is happy",
+    ta: "விதியின் வலிமையால் அருள்; உடன்பிறப்புகளின் நல்ல ஒற்றுமை; தர்ம சிந்தனை; இறைநம்பிக்கை; மகிழ்ச்சி.",
+  },
+  {
+    house: 9, lagna: "Taurus", planetSign: "Capricorn", planet: "Mars", page: 47,
+    en: "Huge expenditure through profession, not dharmic, disputes with brothers and sisters, loss through mother and unhappy with regard to children, gets influence of wife, gets exhausted",
+    ta: "தொழிலில் பெரும் செலவு; தர்மத்தில் நாட்டமில்லை; உடன்பிறப்புகளுடன் சச்சரவு; தாய் வகையில் இழப்பு; பிள்ளைகள் பற்றி அதிருப்தி; மனைவியின் செல்வாக்கு; சோர்வு.",
+  },
+  {
+    house: 9, lagna: "Taurus", planetSign: "Capricorn", planet: "Mercury", page: 49,
+    en: "Acquires good education and also gets wealth, fortunate in having children, has belief in God, help from brothers and sisters",
+    ta: "நல்ல கல்வியும் செல்வமும்; பிள்ளைகளால் அதிர்ஷ்டம்; இறைநம்பிக்கை; உடன்பிறப்புகளின் உதவி.",
+  },
+  {
+    house: 9, lagna: "Taurus", planetSign: "Capricorn", planet: "Jupiter", page: 51,
+    en: "Heavy loss in the house of destiny and also Dharma, some health problem, feels restless in daily routine, injures Dharma a little to acquire gains, gets weakness in the house of income and great weakness in the house of God, uses cleverness in the house of children, some cooperation from brothers and sisters",
+    ta: "விதி வீட்டிலும் தர்ம வீட்டிலும் பெரும் இழப்பு; உடல்நலக் குறை; தினசரி வாழ்வில் அமைதியின்மை; ஆதாயத்துக்காக தர்மத்தை சிறிது மீறுவார்; வருமான வீட்டில் பலவீனம்; இறை வீட்டில் பெரும் பலவீனம்; பிள்ளைகள் வீட்டில் சாமர்த்தியம்; உடன்பிறப்புகளின் சில ஒத்துழைப்பு.",
+  },
+  {
+    house: 9, lagna: "Taurus", planetSign: "Capricorn", planet: "Venus", page: 53,
+    en: "Fortunate, unable to progress in Dharma, some help from brothers and sisters, is very clever and gentleman, gets success in the house of enemies",
+    ta: "அதிர்ஷ்டசாலி, ஆனால் தர்மத்தில் முன்னேற முடியாது; உடன்பிறப்புகளின் சிறு உதவி; மிகவும் சாமர்த்தியமும் பண்பும் உள்ளவர்; பகைவர் வீட்டில் வெற்றி.",
+  },
+  {
+    house: 9, lagna: "Taurus", planetSign: "Capricorn", planet: "Saturn", page: 55,
+    en: "Happiness from father, gains from government and society, gets the dignity in the house of enemies, gets insidiousness in the house of brothers and sisters, does energetic work, rears Dharma and gets honour",
+    ta: "தந்தையால் மகிழ்ச்சி; அரசு, சமூகத்தில் ஆதாயம்; எதிரி வீட்டில் கம்பீரம்; உடன்பிறப்புகள் வீட்டில் வஞ்சகம்; உழைப்பால் பணி; தர்மத்தைக் காத்து மரியாதை பெறுவார்.",
+  },
+  {
+    house: 9, lagna: "Taurus", planetSign: "Capricorn", planet: "Rahu", page: 57,
+    en: "Gets loss in the house of destiny, mistakes in the house of Dharma, does not get fame, no belief in God",
+    ta: "விதி வீட்டில் இழப்பு; தர்ம வீட்டில் தவறுகள்; புகழ் கிடைக்காது; இறைநம்பிக்கை இல்லாதவர்.",
+  },
+  {
+    house: 9, lagna: "Taurus", planetSign: "Capricorn", planet: "Ketu", page: 59,
+    en: "Loss and weakness in Dharma, deficiency of fame and deficiency of the house of and belief of God, works very hard for the progress of destiny and in getting the effects",
+    ta: "தர்மத்தில் இழப்பும் பலவீனமும்; புகழ் குறைவு; இறைநம்பிக்கையில் குறை; விதியின் முன்னேற்றத்துக்காகக் கடுமையாக உழைத்து பலன்களைப் பெறுவார்.",
+  },
+  {
+    house: 9, lagna: "Gemini", planetSign: "Aquarius", planet: "Sun", page: 63,
+    en: "Increases the energy of taking support of destiny, feels some deficiency in getting the success of his industry, gets the strength of brothers and sisters, has huge courage, gets some influence due to success of industry, and is obstinate",
+    ta: "விதியின் ஆதரவைப் பெறும் ஆற்றல்; தொழில் வெற்றியில் சில குறை; உடன்பிறப்புகளின் வலிமை; பெரும் தைரியம்; தொழில் வெற்றியால் சில செல்வாக்கு; பிடிவாதமானவர்.",
+  },
+  {
+    house: 9, lagna: "Gemini", planetSign: "Aquarius", planet: "Moon", page: 65,
+    en: "Gets wealth through power of destiny, rears Dharma, respects the brothers and sisters, fortunate, has belief in God, gets honour and family and is respectable",
+    ta: "விதியின் வலிமையால் செல்வம்; தர்மத்தைக் காப்பார்; உடன்பிறப்புகளை மதிப்பார்; அதிர்ஷ்டசாலி; இறைநம்பிக்கை; மரியாதையும் குடும்பமும்; மதிப்புக்குரியவர்.",
+  },
+  {
+    house: 9, lagna: "Gemini", planetSign: "Aquarius", planet: "Mars", page: 67,
+    en: "Gains from destiny, spends somewhat more and gets some worries in the house of expenditure, careless, deficiency in the house of God",
+    ta: "விதியால் ஆதாயம்; அதிகம் செலவழிப்பார்; செலவு வீட்டில் சில கவலைகள்; அசட்டை; இறை வீட்டில் குறை.",
+  },
+  {
+    house: 9, lagna: "Gemini", planetSign: "Aquarius", planet: "Mercury", page: 69,
+    en: "Is very fortunate, has good physique, happiness from mother, gets buildings and property, rears Dhanna, faith in God, rears greatness and satisfaction, happiness from the house of brother and sisters, has foresight",
+    ta: "மிக அதிர்ஷ்டசாலி; நல்ல உடல்; தாயால் மகிழ்ச்சி; நிலமும் கட்டிடமும்; தர்மத்தைக் காப்பார்; இறைநம்பிக்கை; பெருமையும் திருப்தியும்; உடன்பிறப்புகளால் மகிழ்ச்சி; தொலைநோக்கு.",
+  },
+  {
+    house: 9, lagna: "Gemini", planetSign: "Aquarius", planet: "Jupiter", page: 71,
+    en: "Some unhappiness with father and wife, feels some dissatisfaction, gets power in the house of destiny, gets support from children, gets education",
+    ta: "தந்தை, மனைவி வகையில் சில அதிருப்தி; திருப்தியின்மை; விதி வீட்டில் அதிகாரம்; பிள்ளைகளின் ஆதரவு; கல்வி.",
+  },
+  {
+    house: 9, lagna: "Gemini", planetSign: "Aquarius", planet: "Venus", page: 73,
+    en: "Deficiency in the house of education and having good strength to achieve it, decent cleverness in getting splendour of intellect in the house of progress of destiny, gains in the side of children, not much happiness from brothers and sisters",
+    ta: "கல்வி வீட்டில் குறை, ஆனால் அதைப் பெற நல்ல வலிமை; விதியின் முன்னேற்ற வீட்டில் அறிவின் ஒளியைப் பெறும் சாமர்த்தியம்; பிள்ளைகள் வகையில் ஆதாயம்; உடன்பிறப்புகளின் மகிழ்ச்சி குறைவு.",
+  },
+  {
+    house: 9, lagna: "Gemini", planetSign: "Aquarius", planet: "Saturn", page: 75,
+    en: "Long life, fortunate and progress, weakness in the house of Dharma, deficiency in income, great influence in the house of enemy, unhappy with brothers and sisters, contact with foreign countries",
+    ta: "நீண்ட ஆயுள்; அதிர்ஷ்டமும் முன்னேற்றமும்; தர்ம வீட்டில் பலவீனம்; வருமானக் குறை; எதிரி வீட்டில் பெரும் செல்வாக்கு; உடன்பிறப்புகளுடன் அதிருப்தி; வெளிநாட்டுத் தொடர்பு.",
+  },
+  {
+    house: 9, lagna: "Gemini", planetSign: "Aquarius", planet: "Rahu", page: 77,
+    en: "Weakness in the house of father, weakness in rearing Dharma, deficiency in the faith of God, finally gets some firmness of destiny",
+    ta: "தந்தை வீட்டில் பலவீனம்; தர்மத்தைக் காப்பதில் பலவீனம்; இறைநம்பிக்கையில் குறை; இறுதியில் விதியில் சில உறுதி.",
+  },
+  {
+    house: 9, lagna: "Gemini", planetSign: "Aquarius", planet: "Ketu", page: 79,
+    en: "Bears some worries in the house of destiny, labours very hard for making progress, some loss in the house ofDharrna, difficulties in getting fame, unsuccessful and selfish",
+    ta: "விதி வீட்டில் சில கவலைகள்; முன்னேற்றத்துக்காகக் கடுமையாக உழைப்பார்; தர்ம வீட்டில் சில இழப்பு; புகழ் பெறுவதில் சிரமம்; வெற்றி பெறாதவர்; சுயநலம்.",
+  },
+  {
+    house: 9, lagna: "Cancer", planetSign: "Pisces", planet: "Sun", page: 83,
+    en: "Is very lucky, religious, and rich, gets wealth and luck, is very energetic and has brothers, secures advantages",
+    ta: "மிக அதிர்ஷ்டசாலி, தர்மவான், செல்வந்தர்; செல்வமும் அதிர்ஷ்டமும்; மிகுந்த ஆற்றல்; உடன்பிறப்புகள் உண்டு; நன்மைகளைப் பெறுவார்.",
+  },
+  {
+    house: 9, lagna: "Cancer", planetSign: "Pisces", planet: "Moon", page: 86,
+    en: "Is very lucky and religious, believes in God, possesses a handsome body, is always happy, energetic, has brothers and sisters, gets fame and virtue",
+    ta: "மிக அதிர்ஷ்டசாலி, தர்மவான்; இறைநம்பிக்கை; அழகான உடல்; எப்போதும் மகிழ்ச்சி; ஆற்றல்; உடன்பிறப்புகள் உண்டு; புகழும் நற்குணமும்.",
+  },
+  {
+    house: 9, lagna: "Cancer", planetSign: "Pisces", planet: "Mars", page: 88,
+    en: "Is very fortunate and enjoys the pleasures of son and father, has good knowledge of mathematics and accountancy, gets fame and respect from government and society, gets good education, is famous and farsighted",
+    ta: "மிகவும் அதிர்ஷ்டசாலி; மகன், தந்தை இன்பங்களை அனுபவிப்பார்; கணிதம், கணக்கியலில் நல்ல அறிவு; அரசு, சமூகத்தில் புகழும் மரியாதையும்; நல்ல கல்வி; புகழ் பெற்றவர்; தொலைநோக்கு.",
+  },
+  {
+    house: 9, lagna: "Cancer", planetSign: "Pisces", planet: "Mercury", page: 90,
+    en: "Has some devotion to God, some incomplete happiness from brothers and sisters, some weakness in Dharma, deficiency in expenditure, gets the loss of fame and fortune and is of narrow discernment",
+    ta: "இறைபக்தி சிறிது; உடன்பிறப்புகளால் முழுமையற்ற மகிழ்ச்சி; தர்மத்தில் சில பலவீனம்; செலவில் குறை; புகழையும் செல்வத்தையும் இழப்பார்; குறுகிய பகுத்தறிவு.",
+  },
+  {
+    house: 9, lagna: "Cancer", planetSign: "Pisces", planet: "Jupiter", page: 92,
+    en: "Is very fortunate, works with great intelligence, gets the power of children, gets the power of education, rears up good Dharma, gets victory over enemies",
+    ta: "மிக அதிர்ஷ்டசாலி, பெரும் அறிவுடன் வேலை; பிள்ளைகளின் வலிமை; கல்வியின் வலிமை; நல்ல தர்மத்தை வளர்ப்பார்; பகைவரை வெல்வார்.",
+  },
+  {
+    house: 9, lagna: "Cancer", planetSign: "Pisces", planet: "Venus", page: 94,
+    en: "Is very fortunate, secures progress of gains, gets the power of land and property, weakness in energy, not dependent upon brothers, great reliance on God",
+    ta: "மிக அதிர்ஷ்டசாலி; ஆதாய வளர்ச்சி; நிலம், சொத்தின் வலிமை; ஆற்றலில் சில பலவீனம்; சகோதரர்களைச் சார்ந்திருக்காதவர்; இறைவனிடம் பெரும் நம்பிக்கை.",
+  },
+  {
+    house: 9, lagna: "Cancer", planetSign: "Pisces", planet: "Saturn", page: 96,
+    en: "Spends the daily routine in a fortunate way, has a long life, dissatisfaction in the house of fate, careless",
+    ta: "அதிர்ஷ்டமாக தினசரி வாழ்வைக் கழிப்பார்; நீண்ட ஆயுள்; விதி வீட்டில் அதிருப்தி; அசட்டை.",
+  },
+  {
+    house: 9, lagna: "Cancer", planetSign: "Pisces", planet: "Rahu", page: 98,
+    en: "Great loss in the house of destiny, can demonstrate outward show nicely, gets success after great nervousness, tactful",
+    ta: "விதி வீட்டில் பெரும் இழப்பு; வெளித் தோற்றத்தை நேர்த்தியாகக் காட்டுவார்; பெரும் பதற்றத்துக்குப் பின் வெற்றி; சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 9, lagna: "Cancer", planetSign: "Pisces", planet: "Ketu", page: 100,
+    en: "Great distress in the house of destiny, further bears the loss of Dharma for seeing the rise of destiny, uses the secret consultations and is a showy religious man",
+    ta: "விதி வீட்டில் பெரும் துன்பம்; விதியின் உயர்வைக் காண தர்மத்தின் இழப்பையும் ஏற்பார்; ரகசிய ஆலோசனைகளைப் பயன்படுத்துவார்; ஆடம்பரமான மதவாதி.",
+  },
+  {
+    house: 9, lagna: "Leo", planetSign: "Aries", planet: "Sun", page: 105,
+    en: "Is very handsome, possesses a big forehead, does not care for brothers and sisters, possesses a special kind of Dharma, is much respected, earns fame, gets high position at religious places",
+    ta: "மிக அழகானவர், பெரிய நெற்றி; உடன்பிறப்புகளைப் பொருட்படுத்தார்; சிறப்பான ஒரு வகை தர்மம்; பெரும் மரியாதை; புகழ் பெறுவார்; மத இடங்களில் உயர் பதவி.",
+  },
+  {
+    house: 9, lagna: "Leo", planetSign: "Aries", planet: "Moon", page: 107,
+    en: "Manages the expenditure, gets some weakness in the house of Dharma, restless in mind, some deficiency in the house of brothers and sisters, some weakness in the strength and energy",
+    ta: "செலவை நிர்வகிப்பார்; தர்ம வீட்டில் சில பலவீனம்; மனத்தில் அமைதியின்மை; உடன்பிறப்புகள் வீட்டில் சில குறை; ஆற்றல், வலிமையில் சில பலவீனம்.",
+  },
+  {
+    house: 9, lagna: "Leo", planetSign: "Aries", planet: "Mars", page: 109,
+    en: "Very fortunate, gets lands and property, great happiness, deficiency in the house of expenditure, has faith in God, gets great respect",
+    ta: "மிக அதிர்ஷ்டசாலி; நிலமும் சொத்தும்; பெரும் மகிழ்ச்சி; செலவு வீட்டில் குறை; இறைநம்பிக்கை; பெரும் மரியாதை.",
+  },
+  {
+    house: 9, lagna: "Leo", planetSign: "Aries", planet: "Mercury", page: 111,
+    en: "Gains wealth due to power of destiny, has great reliance in God, gets advantage from the brothers and sisters, is very respectable",
+    ta: "விதியின் வலிமையால் செல்வம்; இறையில் பெரும் நம்பிக்கை; உடன்பிறப்புகளால் ஆதாயம்; மிகுந்த மரியாதை.",
+  },
+  {
+    house: 9, lagna: "Leo", planetSign: "Aries", planet: "Jupiter", page: 113,
+    en: "Acquires much education, gets the strength of children, gets respect, puts forward great religious ideas in some intricate manner, some deficiency in acquiring fame, spends the life fortunately and intelligently",
+    ta: "மிகுந்த கல்வி; பிள்ளைகளின் வலிமை; மரியாதை; தர்மக் கருத்துகளை சிக்கலான முறையில் முன்வைப்பார்; புகழ் பெறுவதில் சில குறை; அதிர்ஷ்டமாகவும் அறிவாகவும் வாழ்வார்.",
+  },
+  {
+    house: 9, lagna: "Leo", planetSign: "Aries", planet: "Venus", page: 115,
+    en: "Gets grand success and progress through the progress of destiny, enjoys the house of brothers, sisters and father, performs religious functions, gets honour and success in government and society",
+    ta: "விதியின் முன்னேற்றத்தால் பெரும் வெற்றியும் முன்னேற்றமும்; உடன்பிறப்புகள், தந்தை வீட்டில் மகிழ்ச்சி; மதச் சடங்குகள் செய்வார்; அரசு, சமூகத்தில் மரியாதையும் வெற்றியும்.",
+  },
+  {
+    house: 9, lagna: "Leo", planetSign: "Aries", planet: "Saturn", page: 117,
+    en: "Great weakness in the house of destiny, some weakness in the house of God, gets sufficient wealth",
+    ta: "விதி வீட்டில் பெரும் பலவீனம்; இறை வீட்டில் சில பலவீனம்; போதுமான செல்வம் கிடைக்கும்.",
+  },
+  {
+    house: 9, lagna: "Leo", planetSign: "Aries", planet: "Rahu", page: 119,
+    en: "Loss in the house of fortune, deficiency in the faith and reliance on God, uses very intricate and secret devices for the rise, gets the power of success in the end after facing great hindrances, deficiency in fame",
+    ta: "அதிர்ஷ்ட வீட்டில் இழப்பு; இறைநம்பிக்கையிலும் நம்பிக்கையிலும் குறை; முன்னேற்றத்துக்கு மிகச் சிக்கலான, ரகசிய உபாயங்கள்; பெரும் தடைகளுக்குப் பின் இறுதியில் வெற்றி பெறும் ஆற்றல்; புகழில் குறை.",
+  },
+  {
+    house: 9, lagna: "Leo", planetSign: "Aries", planet: "Ketu", page: 121,
+    en: "Great troubles in the house of destiny, hindrance in the house progress, deficiency in the house of Dharma and God, after some troubles gets firmness of destiny in the end",
+    ta: "விதி வீட்டில் பெரும் தொல்லைகள்; முன்னேற்றத்தில் தடை; தர்ம, இறை வீட்டில் குறை; சில தொல்லைகளுக்குப் பின் இறுதியில் விதியில் உறுதி.",
+  },
+  {
+    house: 9, lagna: "Virgo", planetSign: "Taurus", planet: "Sun", page: 126,
+    en: "Gets weakness in destiny, feels anxious about the fate, gets some deficiency in the devotion to God, gets some loss in the house of brothers",
+    ta: "விதியில் பலவீனம்; விதியைப் பற்றி கவலை; இறைபக்தியில் சில குறை; சகோதரர் வீட்டில் சில இழப்பு.",
+  },
+  {
+    house: 9, lagna: "Virgo", planetSign: "Taurus", planet: "Moon", page: 128,
+    en: "Very fortunate and gains heavily due to power of destiny, has special faith in God and Dharma, gets fame, deficiency in the side of brother, is farsighted and accepts truths, is influential, secures much increment in gains after the age of twenty-four",
+    ta: "மிக அதிர்ஷ்டசாலி; விதியின் வலிமையால் பெரும் ஆதாயம்; இறையிலும் தர்மத்திலும் சிறப்பு நம்பிக்கை; புகழ்; சகோதரர் பக்கம் குறை; தொலைநோக்குள்ளவர், உண்மையை ஏற்பவர், செல்வாக்குள்ளவர்; இருபத்துநான்கு வயதுக்குப் பின் வருமானத்தில் பெரும் உயர்வு.",
+  },
+  {
+    house: 9, lagna: "Virgo", planetSign: "Taurus", planet: "Mars", page: 130,
+    en: "Has a long life, spends much, some loss in the house of mother, some deficiency in the house of happiness and some weakness in the house of D harm a mid destiny, less faith in God",
+    ta: "நீண்ட ஆயுள்; அதிகம் செலவழிப்பார்; தாய் வீட்டில் சில இழப்பு; மகிழ்ச்சியில் சில குறை; தர்ம வீட்டிலும் விதியிலும் சில பலவீனம்; இறைநம்பிக்கை குறைவு.",
+  },
+  {
+    house: 9, lagna: "Virgo", planetSign: "Taurus", planet: "Mercury", page: 132,
+    en: "Is very fortunate, help and honour from the house of father, gets honour in government and society, is of handsome and attractive body, has brothers and sisters, gets success in business, has faith in God, gets divine help",
+    ta: "மிக அதிர்ஷ்டசாலி; தந்தை வீட்டிலிருந்து உதவியும் மரியாதையும்; அரசு, சமூகத்தில் மரியாதை; அழகும் கவர்ச்சியும் உள்ள உடல்; உடன்பிறப்புகள்; தொழிலில் வெற்றி; இறைநம்பிக்கை; தெய்வ உதவி.",
+  },
+  {
+    house: 9, lagna: "Virgo", planetSign: "Taurus", planet: "Jupiter", page: 134,
+    en: "Fortunate, pays some attention to God, gets the pleasures of the family with the power of destiny, gets some buildings and property, has brothers and sisters, some distress of children, gets some weakness in education and intellect, utters some faulty and weak words, is peaceful and farsighted",
+    ta: "அதிர்ஷ்டசாலி; இறையில் சிறிது கவனம்; விதியின் வலிமையால் குடும்ப இன்பங்கள்; சில நிலமும் கட்டிடங்களும்; உடன்பிறப்புகள்; பிள்ளைகள் வகையில் சில துன்பம்; கல்வியிலும் அறிவிலும் சில பலவீனம்; சில தவறான, பலவீனமான சொற்களைப் பேசுவார்; அமைதியானவர், தொலைநோக்குள்ளவர்.",
+  },
+  {
+    house: 9, lagna: "Virgo", planetSign: "Taurus", planet: "Venus", page: 137,
+    en: "Is very fortunate, religious, gets wealth, enjoys family pleasures, gets fame, enjoys the pleasures of brothers and sisters and the family, believes in God",
+    ta: "மிக அதிர்ஷ்டசாலி, தர்மவான், செல்வம் ஈட்டுவார்; குடும்ப இன்பங்களை அனுபவிப்பார்; புகழ்; உடன்பிறப்புகளும் குடும்பமும் தரும் இன்பங்கள்; இறைநம்பிக்கை.",
+  },
+  {
+    house: 9, lagna: "Virgo", planetSign: "Taurus", planet: "Saturn", page: 139,
+    en: "Very intelligent and clever, seems to be very influential and industrious, gets heavy gains, is an expert in quarrelsome affairs and matters of diseases, defeats the enemy by his intellectual power, deep interest in the house of Dharma, some enmity with the side of brothers, courageous and haughty",
+    ta: "மிகவும் அறிவாளி, சாமர்த்தியமானவர்; செல்வாக்குள்ளவர், உழைப்பாளி போலத் தோன்றுவார்; பெரும் ஆதாயம்; சண்டைகளிலும் நோய் விஷயங்களிலும் நிபுணர்; அறிவு வலிமையால் எதிரியை வெல்வார்; தர்ம வீட்டில் ஆழ்ந்த ஈடுபாடு; சகோதரர் பக்கம் சில பகை; தைரியமும் கர்வமும்.",
+  },
+  {
+    house: 9, lagna: "Virgo", planetSign: "Taurus", planet: "Rahu", page: 141,
+    en: "Some weakness in destiny, gets something less in the house of Dharma but in the end gets firmness and is able to evaluate even a false thing to be true",
+    ta: "விதியில் சில பலவீனம்; தர்ம வீட்டில் சற்று குறை, ஆனால் இறுதியில் உறுதி; பொய்யானதையும் உண்மையாக மதிப்பிடும் ஆற்றல்.",
+  },
+  {
+    house: 9, lagna: "Virgo", planetSign: "Taurus", planet: "Ketu", page: 143,
+    en: "Gets some weakness in the house of destiny, beheves in Dharma in his own way, keenly engages in the rise of fortune",
+    ta: "விதி வீட்டில் சில பலவீனம்; தனக்கேற்ற வழியில் தர்மத்தை நம்புவார்; விதியின் உயர்வில் ஆர்வமாக ஈடுபடுவார்.",
+  },
+  {
+    house: 9, lagna: "Libra", planetSign: "Gemini", planet: "Sun", page: 147,
+    en: "Is very fortunate, gets heavy gains due to the power of destiny, is brilliant, influential and carefree",
+    ta: "மிக அதிர்ஷ்டசாலி; விதியின் வலிமையால் பெரும் ஆதாயம்; அறிவொளியும் செல்வாக்கும் உள்ளவர்; கவலையற்றவர்.",
+  },
+  {
+    house: 9, lagna: "Libra", planetSign: "Gemini", planet: "Moon", page: 149,
+    en: "Is very fortunate, rears the religion and duty, progress in the house of government and society, gets the brothers and sisters and is considered very fortunate, gets fame and beheves in God",
+    ta: "மிக அதிர்ஷ்டசாலி; தர்மத்தையும் கடமையையும் காப்பார்; அரசு, சமூக வீட்டில் முன்னேற்றம்; உடன்பிறப்புகள்; மிக அதிர்ஷ்டசாலி என்று கருதப்படுவார்; புகழ்; இறைநம்பிக்கை.",
+  },
+  {
+    house: 9, lagna: "Libra", planetSign: "Gemini", planet: "Mars", page: 151,
+    en: "Gets wealth due to his own and his wife's luck, progress through everyday occupation, spends much and enjoys great happiness of land and property, is fortunate and respectable",
+    ta: "தனது, மனைவியின் அதிர்ஷ்டத்தால் செல்வம்; அன்றாட தொழிலால் முன்னேற்றம்; அதிகம் செலவழிப்பார், ஆனாலும் நிலம், சொத்தில் பெரும் மகிழ்ச்சி; அதிர்ஷ்டசாலி; மரியாதைக்குரியவர்.",
+  },
+  {
+    house: 9, lagna: "Libra", planetSign: "Gemini", planet: "Mercury", page: 153,
+    en: "Is very fortunate, gets fame, gets the progress of destiny, gets the power of expenditure, is courageous, and has brothers and sisters",
+    ta: "மிக அதிர்ஷ்டசாலி; புகழ்; விதியின் முன்னேற்றம்; செலவை நிர்வகிக்கும் ஆற்றல்; தைரியசாலி; உடன்பிறப்புகள் உண்டு.",
+  },
+  {
+    house: 9, lagna: "Libra", planetSign: "Gemini", planet: "Jupiter", page: 155,
+    en: "Gets power horn the house of destiny, cooperation of brother but with some hindrances, does not care at all about quarrels and enemies, acknowledges the power ofjustice, has children",
+    ta: "விதி வீட்டிலிருந்து ஆற்றல்; சகோதரரின் ஒத்துழைப்பு, ஆனால் சில தடைகளுடன்; சண்டைகளையும் எதிரிகளையும் பொருட்படுத்தார்; நீதியின் வலிமையை ஏற்பார்; பிள்ளைகள் உண்டு.",
+  },
+  {
+    house: 9, lagna: "Libra", planetSign: "Gemini", planet: "Venus", page: 157,
+    en: "Spends his life with good luck, no anxieties, is fatalistic and industrious, some deficiency in the affection of brothers and sisters, is very respectable and clever",
+    ta: "நல்ல அதிர்ஷ்டத்துடன் வாழ்வார்; கவலையின்றி, விதியை நம்பி, உழைப்பாளியாக; உடன்பிறப்புகளின் அன்பில் சில குறை; மிகுந்த மரியாதையும் சாமர்த்தியமும்.",
+  },
+  {
+    house: 9, lagna: "Libra", planetSign: "Gemini", planet: "Saturn", page: 159,
+    en: "Is very wise, happiness from destiny, gets firm education, happiness of children, is fortunate, happy and just",
+    ta: "மிக அறிவாளி; விதியால் மகிழ்ச்சி; உறுதியான கல்வி; பிள்ளைகளின் மகிழ்ச்சி; அதிர்ஷ்டசாலி, மகிழ்ச்சியானவர், நீதியுள்ளவர்.",
+  },
+  {
+    house: 9, lagna: "Libra", planetSign: "Gemini", planet: "Rahu", page: 161,
+    en: "Makes efforts to increase fortune, speaks too much about Dharma, gets weakness in the side of destiny",
+    ta: "விதியை உயர்த்த முயல்வார்; தர்மத்தைப் பற்றி அதிகம் பேசுவார்; விதி வீட்டில் பலவீனம்.",
+  },
+  {
+    house: 9, lagna: "Libra", planetSign: "Gemini", planet: "Ketu", page: 163,
+    en: "Happiness in destiny, is defamed, gets weakness of Dhamia, keeps less faith in God",
+    ta: "விதியில் மகிழ்ச்சி; அவதூறுக்கு உள்ளாவார்; தர்மத்தில் பலவீனம்; இறைநம்பிக்கை குறைவு.",
+  },
+  {
+    house: 9, lagna: "Scorpio", planetSign: "Cancer", planet: "Sun", page: 168,
+    en: "Is very fortunate and performs religious duties, gets much pleasure in the wonders of the divine power, pursues big business, is thought to be influential",
+    ta: "மிக அதிர்ஷ்டசாலி; மதக் கடமைகளைச் செய்வார்; தெய்வ சக்தியின் அதிசயங்களில் பெரும் மகிழ்ச்சி; பெரிய வணிகம் நடத்துவார்; செல்வாக்குள்ளவராகக் கருதப்படுவார்.",
+  },
+  {
+    house: 9, lagna: "Scorpio", planetSign: "Cancer", planet: "Moon", page: 171,
+    en: "Is very fortunate and gets fame, rears the Dharma very decently, gets the cooperation of the brother and is a jolly fellow",
+    ta: "மிக அதிர்ஷ்டசாலி; புகழ் பெறுவார்; தர்மத்தை மிக நன்றாகக் காப்பார்; உடன்பிறப்பின் ஒத்துழைப்பு; மகிழ்ச்சியான மனிதர்.",
+  },
+  {
+    house: 9, lagna: "Scorpio", planetSign: "Cancer", planet: "Mars", page: 173,
+    en: "Feels the weakness of destiny, gets weakness in body and Dharma, gets worries due to labour, spends much, weakness in the side of mother, puts in efforts to get possession of land and means of happiness",
+    ta: "விதியின் பலவீனம்; உடலிலும் தர்மத்திலும் பலவீனம்; உழைப்பால் கவலைகள்; அதிகம் செலவழிப்பார்; தாய் பக்கம் பலவீனம்; நிலமும் மகிழ்ச்சிக்கான வசதிகளும் பெற முயற்சி.",
+  },
+  {
+    house: 9, lagna: "Scorpio", planetSign: "Cancer", planet: "Mercury", page: 175,
+    en: "Income through power of destiny, gets hereditary gains, leaves the work incomplete, feels pleasure in the daily routine of life, gets a long life, some deficiency in fame",
+    ta: "விதியின் வலிமையால் வருமானம்; பரம்பரை ஆதாயம்; வேலையை முழுமையாக முடிக்காதவர்; தினசரி வாழ்வில் மகிழ்ச்சி; நீண்ட ஆயுள்; புகழில் சில குறை.",
+  },
+  {
+    house: 9, lagna: "Scorpio", planetSign: "Cancer", planet: "Jupiter", page: 177,
+    en: "Is very fortunate, intelligent, does religious deeds, gets good and fortunate children, gets great honour, possess knowledge of astrology, is farsighted, gets much wealth, rears eternal Dharma, some deficiency from the side of brothers and sisters, possesses spiritual knowledge",
+    ta: "மிக அதிர்ஷ்டசாலி, அறிவாளி, தர்ம காரியங்களைச் செய்வார்; நல்ல, அதிர்ஷ்டமான பிள்ளைகள்; பெரும் மரியாதை; ஜோதிட அறிவு; தொலைநோக்கு; மிகுந்த செல்வம்; நிலையான தர்மத்தைக் காப்பார்; உடன்பிறப்புகள் வகையில் சில குறை; ஆன்மிக அறிவு.",
+  },
+  {
+    house: 9, lagna: "Scorpio", planetSign: "Cancer", planet: "Venus", page: 179,
+    en: "Gets the power of occupation, gets power of expenditure due to destiny, gets some happiness of wife and family mixed with some weakness, gets the conjunction of brothers and sisters with some weakness",
+    ta: "தொழிலின் ஆற்றல்; விதியால் செலவு செய்யும் ஆற்றல்; மனைவி, குடும்ப மகிழ்ச்சியில் சில பலவீனம்; உடன்பிறப்புகளுடன் சில பலவீனத்துடன் சேர்க்கை.",
+  },
+  {
+    house: 9, lagna: "Scorpio", planetSign: "Cancer", planet: "Saturn", page: 181,
+    en: "Is very energetic and does very nice deeds, supposed to be lucky and gets heavy gains, gets the cooperation of brothers, feels happy in devotion to God and in Dhanna, gets land and buildings",
+    ta: "மிகுந்த ஆற்றலும் சிறந்த செயல்களும்; அதிர்ஷ்டசாலி, பெரும் ஆதாயம்; உடன்பிறப்புகளின் ஒத்துழைப்பு; இறைபக்தி, தர்மம் மகிழ்ச்சி; நிலமும் கட்டிடங்களும்.",
+  },
+  {
+    house: 9, lagna: "Scorpio", planetSign: "Cancer", planet: "Rahu", page: 183,
+    en: "Very much anxious about his destiny, feels sorry about his luck, gets real deficiency with regard to God and religion, bears mental agony",
+    ta: "விதியைப் பற்றி மிகுந்த கவலை; தன் அதிர்ஷ்டத்தால் வருத்தம்; இறை, மதம் பற்றிய உண்மையான குறை; மன வேதனை.",
+  },
+  {
+    house: 9, lagna: "Scorpio", planetSign: "Cancer", planet: "Ketu", page: 185,
+    en: "Great restlessness in the destiny, feels weakness in Dharma, pursues a very strong advantageous tactics for the rise of his fate, rears some weak Dharma",
+    ta: "விதியில் பெரும் அமைதியின்மை; தர்மத்தில் பலவீனம்; விதியின் உயர்வுக்காக மிக வலிமையான சாதகமான உபாயங்கள்; சில பலவீனமான தர்மத்தைப் பின்பற்றுவார்.",
+  },
+  {
+    house: 9, lagna: "Sagittarius", planetSign: "Leo", planet: "Sun", page: 190,
+    en: "Is very fortunate and illustrious, rears a very fiery Dharma, has less faith in brothers and sisters",
+    ta: "மிக அதிர்ஷ்டசாலி, புகழ்பெற்றவர்; மிகுந்த வேகமான தர்மத்தைப் பின்பற்றுவார்; உடன்பிறப்புகளிடம் குறைந்த நம்பிக்கை.",
+  },
+  {
+    house: 9, lagna: "Sagittarius", planetSign: "Leo", planet: "Moon", page: 192,
+    en: "Bears loss in the house of Dharma, has a long life, gets a good means of livelihood, laces troubles and obstacles in the house of fortune, and some obstacles from brothers and sisters",
+    ta: "தர்ம வீட்டில் இழப்பு; நீண்ட ஆயுள்; நல்ல வாழ்வாதாரம்; அதிர்ஷ்ட வீட்டில் தொல்லைகளும் தடைகளும்; உடன்பிறப்புகள் வகையில் சில தடைகள்.",
+  },
+  {
+    house: 9, lagna: "Sagittarius", planetSign: "Leo", planet: "Mars", page: 194,
+    en: "Spends much, faces some loss in the house of destiny, and some loss in the house of mother, has deficiency in education and in the house of brothers, experiences the rise in fortune a bit late and from remote sources",
+    ta: "அதிகம் செலவழிப்பார்; விதி வீட்டில் சில இழப்பு; தாய் வீட்டில் சில இழப்பு; கல்வி, சகோதரர் வீட்டில் குறை; அதிர்ஷ்டம் சற்று தாமதமாகவும் தொலைதூர வழிகளிலும் உயரும்.",
+  },
+  {
+    house: 9, lagna: "Sagittarius", planetSign: "Leo", planet: "Mercury", page: 196,
+    en: "Takes good care of Dhanna in business and occupation, gets a dutiful and beautiful wife, gets nice cooperation from brothers and sisters, gets advantage from the government and society",
+    ta: "தொழிலிலும் வணிகத்திலும் தர்மத்தை நன்கு காப்பார்; நல்ல கடமையுள்ள, அழகான மனைவி; உடன்பிறப்புகளின் நல்ல ஒத்துழைப்பு; அரசு, சமூகத்தில் ஆதாயம்.",
+  },
+  {
+    house: 9, lagna: "Sagittarius", planetSign: "Leo", planet: "Jupiter", page: 198,
+    en: "Is very fortunate, possesses scientific knowledge, performs religious formalities, has faith in God, possesses wisdom and authority in education, possesses handsome physique, gets land and property, gets the happiness of children, has some enmity in connection with brothers and sisters",
+    ta: "மிக அதிர்ஷ்டசாலி; அறிவியல் அறிவு; மதச் சடங்குகளைச் செய்வார்; இறைநம்பிக்கை; கல்வியில் ஞானமும் அதிகாரமும்; அழகான உடல்; நிலம், சொத்து; பிள்ளைகளின் மகிழ்ச்சி; உடன்பிறப்புகளுடன் சில பகை.",
+  },
+  {
+    house: 9, lagna: "Sagittarius", planetSign: "Leo", planet: "Venus", page: 200,
+    en: "Gets gains but some uneasiness in connection with gains, some obstacles and troubles and uneasiness in the way of the progress of the destiny, some continuity in the side of brother, is very courageous and clever, gets the advantages in the garb ofDharma",
+    ta: "ஆதாயம் பெறுவார், ஆனால் ஆதாயத்தில் சில அமைதியின்மை; சில தடைகளும் தொல்லைகளும்; விதியின் முன்னேற்றத்தில் சில அமைதியின்மை; சகோதரர் பக்கம் தொடர்ச்சி; மிகுந்த தைரியமும் சாமர்த்தியமும்; தர்மத்தின் போர்வையில் ஆதாயங்கள்.",
+  },
+  {
+    house: 9, lagna: "Sagittarius", planetSign: "Leo", planet: "Saturn", page: 202,
+    en: "Increases wealth, gets heavy income, acquires influence in the house of enemy",
+    ta: "செல்வம் பெருக்கம்; அதிக வருமானம்; எதிரி வீட்டில் செல்வாக்கு.",
+  },
+  {
+    house: 9, lagna: "Sagittarius", planetSign: "Leo", planet: "Rahu", page: 204,
+    en: "Gets anxious about his destiny, gets hindrances, troubles and losses in connection with the rise of fate, weakness in connection with Dharma",
+    ta: "தன் விதி பற்றி கவலை; விதியின் உயர்வில் தடைகள், தொல்லைகள், இழப்புகள்; தர்மத்தில் பலவீனம்.",
+  },
+  {
+    house: 9, lagna: "Sagittarius", planetSign: "Leo", planet: "Ketu", page: 206,
+    en: "Feels worried by his destiny, deficiency in fame, does not keep faith in Dharma",
+    ta: "தன் விதி பற்றி கவலை; புகழில் குறை; தர்மத்தில் நம்பிக்கை இல்லாதவர்.",
+  },
+  {
+    house: 9, lagna: "Capricorn", planetSign: "Virgo", planet: "Sun", page: 211,
+    en: "Gets long age, gets loss in the house of destiny, spends the daily routine of life fortunately, finds problems in the brothers' house, rears selfish Dharma, and lives like a gentlemen",
+    ta: "நீண்ட வயது; விதி வீட்டில் இழப்பு; தினசரி வாழ்வை அதிர்ஷ்டமாகக் கழிப்பார்; சகோதரர் வீட்டில் பிரச்சினைகள்; சுயநலமான தர்மம்; உயர்குடி மனிதராக வாழ்வார்.",
+  },
+  {
+    house: 9, lagna: "Capricorn", planetSign: "Virgo", planet: "Moon", page: 213,
+    en: "Gets a fortunate wife, gets the piety in sexual affairs, gets engaged in rehgious affairs, is thought to be fortunate in business, and gets brothers and sisters",
+    ta: "அதிர்ஷ்டமான மனைவி; பாலியல் விஷயங்களில் தூய்மை; மத விவகாரங்களில் ஈடுபாடு; தொழிலில் அதிர்ஷ்டசாலி என்று கருதப்படுவார்; உடன்பிறப்புகள் உண்டு.",
+  },
+  {
+    house: 9, lagna: "Capricorn", planetSign: "Virgo", planet: "Mars", page: 215,
+    en: "Very fortunate and enjoys the fortune, gets land and property, acquires happiness from mother, is overjoyed, energetic and gets the support of brothers",
+    ta: "மிக அதிர்ஷ்டசாலி, அதிர்ஷ்டத்தை அனுபவிப்பார்; நிலமும் சொத்தும்; தாயால் மகிழ்ச்சி; மகிழ்ச்சியானவர், ஆற்றல் மிக்கவர்; சகோதரர்களின் ஆதரவு.",
+  },
+  {
+    house: 9, lagna: "Capricorn", planetSign: "Virgo", planet: "Mercury", page: 217,
+    en: "Is fortunate and gets great advantage through wisdom, rears Dharma, gets the opposition from brother, and is very clever",
+    ta: "அதிர்ஷ்டசாலி; அறிவால் பெரும் ஆதாயம்; தர்மத்தைக் காப்பார்; சகோதரரின் எதிர்ப்பு; மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 9, lagna: "Capricorn", planetSign: "Virgo", planet: "Jupiter", page: 219,
+    en: "Gets weakness in destiny and Dharma, gets the cooperation from the brother with some weakness, is not handsome, gets some loss in children's house",
+    ta: "விதியிலும் தர்மத்திலும் பலவீனம்; சகோதரர் ஒத்துழைப்பு சில பலவீனத்துடன்; அழகில்லாதவர்; பிள்ளைகள் வீட்டில் சில இழப்பு.",
+  },
+  {
+    house: 9, lagna: "Capricorn", planetSign: "Virgo", planet: "Venus", page: 221,
+    en: "Has some weakness in the house of destiny, some weakness from the side of father, is supposed to be fortunate, gets honour in government and society, gets brothers and sisters, faces some weakness in business and occupation",
+    ta: "விதி வீட்டில் சில பலவீனம்; தந்தை வகையில் சில பலவீனம்; அதிர்ஷ்டசாலி என்று கருதப்படுவார்; அரசு, சமூகத்தில் மரியாதை; சகோதர சகோதரிகள் உண்டு; தொழிலிலும் வணிகத்திலும் சில பலவீனம்.",
+  },
+  {
+    house: 9, lagna: "Capricorn", planetSign: "Virgo", planet: "Saturn", page: 223,
+    en: "Is very fortunate, religious, virtuous and possesses a handsome body, seems to be very lucky, has enmity in the house of income, has nice influence over enemies and opponents, controls the diseases, feces some sourness in the house of brothers and sisters",
+    ta: "மிக அதிர்ஷ்டசாலி, தர்மவான், நல்லொழுக்கமுள்ளவர், அழகான உடல்; மிக அதிர்ஷ்டசாலி போலத் தோன்றுவார்; வருமான வீட்டில் பகை; எதிரிகள், எதிர்ப்பாளர்கள் மீது நல்ல செல்வாக்கு; நோய்களைக் கட்டுப்படுத்துவார்; சகோதர சகோதரிகள் வீட்டில் சில கசப்பு.",
+  },
+  {
+    house: 9, lagna: "Capricorn", planetSign: "Virgo", planet: "Rahu", page: 225,
+    en: "Has anxieties about his life, faces blows over destiny, has deficiency in Dharma, is very clever and cunning",
+    ta: "தன் வாழ்வைப் பற்றி கவலைகள்; விதியில் அடிகள்; தர்மத்தில் பலவீனம்; மிகவும் சாமர்த்தியமும் தந்திரமும் உள்ளவர்.",
+  },
+  {
+    house: 9, lagna: "Capricorn", planetSign: "Virgo", planet: "Ketu", page: 227,
+    en: "Bears worries in the house of destiny, gets some internal weakness, laces delay in rise of fortune, uses secret powers, has deficiency in fame, does not rear Dharma",
+    ta: "விதி வீட்டில் கவலைகள்; உள் பலவீனம்; அதிர்ஷ்டத்தின் உயர்வில் தாமதம்; ரகசிய ஆற்றலைப் பயன்படுத்துவார்; புகழில் குறை; தர்மத்தைக் காப்பதில்லை.",
+  },
+  {
+    house: 9, lagna: "Aquarius", planetSign: "Libra", planet: "Sun", page: 232,
+    en: "Experiences some weakness in luck and also in the side of occupation, weakness in rearing Dharma, gets the power of brothers and sisters, gets deficiency in the side of sexual pleasures",
+    ta: "விதியிலும் தொழில் பகுதியிலும் சில பலவீனம்; தர்மத்தைக் காப்பதில் பலவீனம்; சகோதர சகோதரிகளின் ஆற்றல்; பாலியல் இன்பத்தில் குறை.",
+  },
+  {
+    house: 9, lagna: "Aquarius", planetSign: "Libra", planet: "Moon", page: 235,
+    en: "Some anxieties in the house of destiny, keeps influence on enemy, does laborious and energetic deeds, faces some enmity in the side of brothers and sisters, keeps friendly relations with enemies, is peaceful",
+    ta: "விதி வீட்டில் சில கவலைகள்; எதிரிகள் மீது செல்வாக்கு; உழைப்பும் ஆற்றலும் உள்ள செயல்கள்; சகோதர சகோதரிகளுடன் சில பகை; எதிரிகளுடன் நட்புறவு; அமைதியானவர்.",
+  },
+  {
+    house: 9, lagna: "Aquarius", planetSign: "Libra", planet: "Mars", page: 237,
+    en: "Is very fortunate, secures progress of business or occupation through destiny and energy, performs religious formalities, spends much, gets strength of happiness and buildings, gets honour in the government and society",
+    ta: "மிக அதிர்ஷ்டசாலி; விதியாலும் ஆற்றலாலும் தொழில் அல்லது வேலையில் முன்னேற்றம்; மத சடங்குகளைச் செய்வார்; அதிகம் செலவழிப்பார்; மகிழ்ச்சி, கட்டிடங்களின் வலிமை; அரசு, சமூகத்தில் மரியாதை.",
+  },
+  {
+    house: 9, lagna: "Aquarius", planetSign: "Libra", planet: "Mercury", page: 239,
+    en: "Gains advantage of already accumulated wealth, gets good age, gets good luck in the daily routine of life, has religious knowledge, gets some anxiety in connection with destiny, faces some perplexity in the contact with brothers and sisters, gets children, and is very clever",
+    ta: "சேர்த்த செல்வத்தின் ஆதாயம்; நல்ல வயது; தினசரி வாழ்வில் நல்ல அதிர்ஷ்டம்; மத அறிவு; விதி பற்றிய சில கவலை; சகோதர சகோதரிகளுடன் தொடர்பில் சில குழப்பம்; பிள்ளைகள் உண்டு; மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 9, lagna: "Aquarius", planetSign: "Libra", planet: "Jupiter", page: 241,
+    en: "Gets wealth through power of destiny, gets wisdom, education and cleverness, gets children, and is self-conceited",
+    ta: "விதியின் வலிமையால் செல்வம்; அறிவு, கல்வி, சாமர்த்தியம்; பிள்ளைகள்; சுயபெருமை.",
+  },
+  {
+    house: 9, lagna: "Aquarius", planetSign: "Libra", planet: "Venus", page: 243,
+    en: "Is very fortunate and rears Dharma, gets fame, gains strength from mother, gets the dignity of land, buildings and property, receives grand help of divine power, gets help from brothers and sisters, is farsighted, learned and clever",
+    ta: "மிக அதிர்ஷ்டசாலி, தர்மத்தைக் காப்பார்; புகழ்; தாயிடமிருந்து வலிமை; நிலம், கட்டிடம், சொத்தின் மரியாதை; தெய்வ சக்தியின் பெரும் உதவி; சகோதர சகோதரிகளின் உதவி; தொலைநோக்குள்ளவர், கற்றவர், சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 9, lagna: "Aquarius", planetSign: "Libra", planet: "Saturn", page: 245,
+    en: "Gets a handsome body, is fortunate, works very hard to get wealth, has great influence in the house of enemies, faces deficiency in the house of brother, spends much, is overjoyed and fearless",
+    ta: "அழகான உடல், அதிர்ஷ்டசாலி; செல்வத்துக்காகக் கடுமையாக உழைப்பார்; எதிரி வீட்டில் பெரும் செல்வாக்கு; சகோதரர் வீட்டில் குறை; அதிகம் செலவழிப்பார்; மகிழ்ச்சியானவர், அஞ்சாதவர்.",
+  },
+  {
+    house: 9, lagna: "Aquarius", planetSign: "Libra", planet: "Rahu", page: 247,
+    en: "Faces trouble and hindrances in the side of destiny, feces deficiency in getting fame, is able to rear any kind ofDharma for serving his selfishness, always tries to get rid of the weakness of destiny",
+    ta: "விதியின் பக்கம் தொல்லைகளும் தடைகளும்; புகழில் குறை; தன் சுயநலத்துக்காக எந்த தர்மத்தையும் காக்க முடியும்; விதியின் பலவீனத்தை நீக்க எப்போதும் முயல்வார்.",
+  },
+  {
+    house: 9, lagna: "Aquarius", planetSign: "Libra", planet: "Ketu", page: 249,
+    en: "Faces some deficiency in fame and house of destiny, uses the secret powers very cleverly, does not get rise in income or fortune, does not get the real shape of Dharma",
+    ta: "விதி வீட்டிலும் புகழிலும் சில குறை; மறைந்த சக்திகளை மிகச் சாமர்த்தியமாகப் பயன்படுத்துவார்; வருமானத்திலும் அதிர்ஷ்டத்திலும் உயர்வு இல்லை; தர்மத்தின் உண்மையான வடிவத்தைப் பெறார்.",
+  },
+  {
+    house: 9, lagna: "Pisces", planetSign: "Scorpio", planet: "Sun", page: 254,
+    en: "Maintains influence in enemies' side, faces some hindrances in the house of destiny, has weakness in the house of Dharma, faces some opposition from the brothers and sisters",
+    ta: "எதிரிகளின் பக்கம் செல்வாக்கு; விதி வீட்டில் சில தடைகள்; தர்ம வீட்டில் பலவீனம்; உடன்பிறப்புகளிடமிருந்து சில எதிர்ப்பு.",
+  },
+  {
+    house: 9, lagna: "Pisces", planetSign: "Scorpio", planet: "Moon", page: 256,
+    en: "Faces weakness in education and intellect, gets the loss of destiny and distress in children's side, possesses nice attitude about brothers and sisters, chalks out schemes to acquire progress through some wrong and improper means",
+    ta: "கல்வியிலும் அறிவிலும் பலவீனம்; விதியின் இழப்பும் பிள்ளைகள் பக்கம் துன்பமும்; சகோதர சகோதரிகள் பற்றி நல்ல மனப்பான்மை; தவறான, முறையற்ற வழிகளால் முன்னேற்றத்துக்குத் திட்டமிடுவார்.",
+  },
+  {
+    house: 9, lagna: "Pisces", planetSign: "Scorpio", planet: "Mars", page: 258,
+    en: "Is very fortunate and religious, earns wealth through the power of destiny, gets the pleasures of the family, has some enmity with brother, gets land and buildings, receives help from mother, is influential",
+    ta: "மிக அதிர்ஷ்டசாலி, தர்மவான்; விதியின் வலிமையால் செல்வம்; குடும்ப இன்பங்கள்; சகோதரருடன் சில பகை; நிலமும் கட்டிடங்களும்; தாயின் உதவி; செல்வாக்குள்ளவர்.",
+  },
+  {
+    house: 9, lagna: "Pisces", planetSign: "Scorpio", planet: "Mercury", page: 260,
+    en: "Gets good luck in connection with family, gets the affection of mother, gains increased fortune due to wife, gets success in diumal occupation, gets a religious wife, happiness of brothers and sisters, possesses buildings and property",
+    ta: "குடும்ப வகையில் நல்ல அதிர்ஷ்டம்; தாயின் அன்பு; மனைவியால் அதிகரிக்கும் அதிர்ஷ்டம்; நாள் தொழிலில் வெற்றி; தர்மமுள்ள மனைவி; சகோதர சகோதரிகளின் மகிழ்ச்சி; நிலமும் சொத்தும்.",
+  },
+  {
+    house: 9, lagna: "Pisces", planetSign: "Scorpio", planet: "Jupiter", page: 262,
+    en: "Is very fortunate, religious and likes justice, gets advantage from government, society and father, has a handsome body, gets enhanced will-power and divine power, possesses purity in heart, gains advantage from children, speaks very nicely, pays much importance to self-respect, gives less importance to brother, and is influential and learned",
+    ta: "மிக அதிர்ஷ்டசாலி, தர்மவான், நீதியை விரும்புவார்; அரசு, சமூகம், தந்தை வகையில் ஆதாயம்; அழகான உடல்; மேம்பட்ட ஆற்றலும் தெய்வ சக்தியும்; இதயத்தில் தூய்மை; பிள்ளைகளால் ஆதாயம்; மிக நன்றாகப் பேசுவார்; சுயமரியாதைக்கு அதிக முக்கியத்துவம்; சகோதரருக்கு குறைந்த முக்கியத்துவம்; செல்வாக்குள்ளவர், கற்றவர்.",
+  },
+  {
+    house: 9, lagna: "Pisces", planetSign: "Scorpio", planet: "Venus", page: 265,
+    en: "Attains great joy in the daily routine of life through the destiny, gets some deficiency in fame, works very cleverly",
+    ta: "விதியின் மூலம் தினசரி வாழ்வில் பெரும் மகிழ்ச்சி; புகழில் சில குறை; மிகவும் சாமர்த்தியமாக வேலை செய்வார்.",
+  },
+  {
+    house: 9, lagna: "Pisces", planetSign: "Scorpio", planet: "Saturn", page: 267,
+    en: "Gets heavy income due to destiny, labours hard, holds great influence over enemies, and is selfish",
+    ta: "விதியால் பெரும் வருமானம்; கடுமையாக உழைப்பார்; எதிரிகள் மீது பெரும் செல்வாக்கு; சுயநலமானவர்.",
+  },
+  {
+    house: 9, lagna: "Pisces", planetSign: "Scorpio", planet: "Rahu", page: 269,
+    en: "Bears hindrances in the house of destiny, incurs loss in the house of Dharma, feces sudden blows in the house of fate, has deficiency in feme",
+    ta: "விதி வீட்டில் தடைகள்; தர்ம வீட்டில் இழப்பு; விதி வீட்டில் திடீர் அடிகள்; புகழில் குறை.",
+  },
+  {
+    house: 9, lagna: "Pisces", planetSign: "Scorpio", planet: "Ketu", page: 271,
+    en: "Faces severe anxiety in the house of destiny, bears loss in the house of Dharma, works very hard for the rise of income and fortune, progresses with secret devices, gets deficiency in fame, has deficiency in the reliance on God, and is somewhat restless",
+    ta: "விதி வீட்டில் கடுமையான கவலை; தர்ம வீட்டில் இழப்பு; வருமானத்தையும் அதிர்ஷ்டத்தையும் உயர்த்த கடினமாக உழைப்பார்; மறைமுக வழிகளில் முன்னேறுவார்; புகழில் குறை; இறைநம்பிக்கையில் குறை; சற்று அமைதியற்றவர்.",
   },
 ];
 
