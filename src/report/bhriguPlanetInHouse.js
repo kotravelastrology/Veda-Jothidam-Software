@@ -1,10 +1,10 @@
 /**
- * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 5th
+ * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 6th
  * houses from each lagna. Each entry is the book's prose as printed (`en`, joined from the page extract; OCR slips are kept),
  * its Tamil summary (`ta`, ours) and the printed page the entry starts on. `planetSign` is the sign the planet stands in
- * (the lagna for house 1, and the sign that many places on for houses 2 to 5).
+ * (the lagna for house 1, and the sign that many places on for houses 2 to 6).
  * The book has no 5th-house entry for Sun in Gemini: its printed page goes from the 4th house straight to the 6th (checked
- * on the page image), so that entry is absent here and nothing is supplied for it. 539 entries in all.
+ * on the page image), so that entry is absent here and nothing is supplied for it. 647 entries in all.
  * The printed page is the scan's page number plus five, checked against the printed numbers in the scan and the page
  * images for Libra (p.156) and Leo (p.104). Extracted by scratch scripts; the text is the book's.
  */
@@ -2704,6 +2704,546 @@ const PLANET_IN_HOUSE = [
     house: 5, lagna: "Pisces", planetSign: "Cancer", planet: "Ketu", page: 270,
     en: "Bears severe calamity in the side of children, gets deficiency in education, faces mental anxieties from young age and in the end gets some stable power about education after going through great hindrances and obstacles, is unable to make others understand his ideas",
     ta: "குழந்தைகள் வகையில் கடுமையான துன்பம்; கல்வியில் குறை; இளம் வயதிலிருந்தே மனக் கவலைகள்; இறுதியில் பெரும் தடைகளைத் தாண்டி கல்வி பற்றி சில நிலையான வலிமை பெறுவார்; தன் கருத்துகளை மற்றவர்களுக்குப் புரியவைக்க முடியாது.",
+  },
+  {
+    house: 6, lagna: "Aries", planetSign: "Virgo", planet: "Sun", page: 22,
+    en: "Deficient in education, mentally worried, wins enemies, overcomes difficulties and hindrances, guides others to get over the problem, not happy with children, influence from maternal grandfather, spends much and gains due to intellectual pursuits",
+    ta: "எதிரிகளை வெல்வார்; அதிகம் செலவழிப்பார்; புகழும் நற்பெயரும் பெறுவார்; தொழிலில் நல்ல திறமை; அமைதியாக சோதனைகளைக் கடப்பார்.",
+  },
+  {
+    house: 6, lagna: "Aries", planetSign: "Virgo", planet: "Moon", page: 23,
+    en: "Finds hindrances in happiness, lacks motherly affection, does not get family happiness, does not possess good landed properties, mentally unhappy, fear from enemies, spends much, gets help from maternal grandfather",
+    ta: "மகிழ்ச்சியில் தடைகள்; தாயின் அன்பு குறைவு; குடும்ப மகிழ்ச்சி இல்லை; நல்ல நிலச் சொத்து இல்லை; மனத்தில் அதிருப்தி; எதிரிகளிடம் பயம்; அதிகம் செலவழிப்பார்; தாய்வழி தாத்தாவின் உதவி கிடைக்கும்.",
+  },
+  {
+    house: 6, lagna: "Aries", planetSign: "Virgo", planet: "Mars", page: 25,
+    en: "Influential, gets fame due to industry, wins enemies, gets losses, physically sick and feels troubles in body but gets over them, does not lose confidence, a bit irreligious, spends much, brave, has occult powers and is selfish",
+    ta: "செல்வாக்குள்ளவர்; கடின உழைப்பால் புகழ்; எதிரிகளை வெல்வார்; இழப்புகள்; உடலில் நோய், சிரமம், ஆனால் அவற்றைக் கடப்பார்; தன்னம்பிக்கை இழக்காதவர்; சிறிது தர்மத்தில் நாட்டமின்மை; அதிகம் செலவழிப்பார்; தைரியமானவர்; மறைமுக சக்திகள் உண்டு; சுயநலம்.",
+  },
+  {
+    house: 6, lagna: "Aries", planetSign: "Virgo", planet: "Mercury", page: 27,
+    en: "Influential, enmity with brothers, help from maternal grandfather, wins over enemies, careless about expenditure, dignified due to intelligence, is very industrious, courageous and brave",
+    ta: "செல்வாக்குள்ளவர்; உடன்பிறப்புகளுடன் பகை; தாய்வழி தாத்தாவின் உதவி; எதிரிகளை வெல்வார்; செலவில் கவனக்குறைவு; அறிவால் மதிப்பு; மிகுந்த உழைப்பாளி, தைரியசாலி.",
+  },
+  {
+    house: 6, lagna: "Aries", planetSign: "Virgo", planet: "Jupiter", page: 29,
+    en: "Not very fortunate, irreligious, loss of fame, manages expenditure, bears great disputes and wins, not a dutiful son, enmity with government and society, clever in controlling enemies, works with wisdom and is clever",
+    ta: "அதிர்ஷ்டம் குறைவு; தர்மத்தில் நாட்டமின்மை; புகழ் இழப்பு; செலவை நிர்வகிப்பார்; பெரும் வாக்குவாதங்களைத் தாங்கி வெல்வார்; தந்தைக்கு கீழ்ப்படியாதவர்; அரசு, சமூகத்துடன் பகை; எதிரிகளைக் கட்டுப்படுத்துவதில் சாமர்த்தியம்; ஞானத்துடன் வேலை செய்வார்.",
+  },
+  {
+    house: 6, lagna: "Aries", planetSign: "Virgo", planet: "Venus", page: 31,
+    en: "Anxiety on the part of wealth, gets loss of family, unhappy with wife, sexually unhappy, has to work hard, not happy on the side of grandfather, spends much, does his own work politely, secretive in his policies and suffers from ill-health, does the business of borrowing and spending",
+    ta: "செல்வ வகையில் கவலை; குடும்ப இழப்பு; மனைவியுடன் அதிருப்தி; பாலியல் வகையில் மகிழ்ச்சியின்மை; கடின உழைப்பு; தாத்தா வகையில் மகிழ்ச்சியின்மை; அதிகம் செலவழிப்பார்; தன் வேலையைப் பணிவுடன் செய்வார்; ரகசிய திட்டங்கள்; உடல்நலக் குறைவு; கடன் வாங்கி செலவழிப்பார்.",
+  },
+  {
+    house: 6, lagna: "Aries", planetSign: "Virgo", planet: "Saturn", page: 33,
+    en: "Not happy with father, worried about the daily routine of life, no problem with enemies, feels insecure in earnings, heavy expenditure due to reasons beyond control, some help from brothers and sisters",
+    ta: "தந்தையால் மகிழ்ச்சியின்மை; தினசரி வாழ்வில் கவலை; எதிரிகளால் பிரச்சினை இல்லை; வருமானத்தில் பாதுகாப்பின்மை; கட்டுப்படுத்த முடியாத காரணங்களால் அதிக செலவு; உடன்பிறப்புகளிடமிருந்து சில உதவி.",
+  },
+  {
+    house: 6, lagna: "Aries", planetSign: "Virgo", planet: "Rahu", page: 35,
+    en: "Overcomes the earnings, has upper hand over all types of difficulties and troubles, selfish, faces hindrances from the side of maternal grandfather",
+    ta: "வருமானத்தை வெல்வார்; எல்லா வகை சிரமங்களையும் துன்பங்களையும் மேற்கொள்வார்; சுயநலம்; தாய்வழி தாத்தாவிடமிருந்து தடைகள்.",
+  },
+  {
+    house: 6, lagna: "Aries", planetSign: "Virgo", planet: "Ketu", page: 37,
+    en: "Conquers enemies, is brave, gets less affection from the maternal grandfather, has to face sudden enemies and finally succeeds over them, commits sins",
+    ta: "எதிரிகளை வெல்வார்; தைரியசாலி; தாய்வழி தாத்தாவின் அன்பு குறைவு; திடீர் எதிரிகளைச் சந்திப்பார், இறுதியில் அவர்களை வெல்வார்; பாவம் செய்யக்கூடியவர்.",
+  },
+  {
+    house: 6, lagna: "Taurus", planetSign: "Libra", planet: "Sun", page: 42,
+    en: "Faces opposition and also separation from mother, loses lands and property, worry from enemies, feels restless and loses courage",
+    ta: "எதிர்ப்பும் தாயிடமிருந்து பிரிவும்; நிலமும் சொத்தும் இழப்பு; எதிரிகள் மூலம் கவலை; அமைதியின்மை; தைரியமிழப்பு.",
+  },
+  {
+    house: 6, lagna: "Taurus", planetSign: "Libra", planet: "Moon", page: 44,
+    en: "Differences with brothers and sisters, feels exhausted, gets strength in the house of enemies",
+    ta: "உடன்பிறப்புகளுடன் வேறுபாடுகள்; களைப்பு; எதிரிகளின் வீட்டில் வலிமை.",
+  },
+  {
+    house: 6, lagna: "Taurus", planetSign: "Libra", planet: "Mars", page: 46,
+    en: "Worries in the occupation, mixed expenditure, worries about wife, likely to suffer from diabetes, enmity with maternal grandfather and his household",
+    ta: "தொழிலில் கவலை; செலவில் கலவை; மனைவி பற்றிய கவலை; நீரிழிவு நோய் வாய்ப்பு; தாய்வழி தாத்தாவுடனும் அவர் குடும்பத்துடனும் பகை.",
+  },
+  {
+    house: 6, lagna: "Taurus", planetSign: "Libra", planet: "Mercury", page: 48,
+    en: "Deficiency in education and also in family, clever in getting along with enemies, worries as to how to get wealth",
+    ta: "கல்வி, குடும்பம் இரண்டிலும் குறை; எதிரிகளுடன் சாமர்த்தியமாகப் பழகுவார்; செல்வம் ஈட்டுவது பற்றிய கவலை.",
+  },
+  {
+    house: 6, lagna: "Taurus", planetSign: "Libra", planet: "Jupiter", page: 50,
+    en: "Gains with difficulty, suffers in health, enmity with father, dislike in government and society, deficiency in income, spends much",
+    ta: "சிரமத்துடன் ஆதாயம்; உடல்நலக் குறை; தந்தையுடன் பகை; அரசு, சமூகத்தில் வெறுப்பு; வருமானக் குறை; அதிகம் செலவழிப்பார்.",
+  },
+  {
+    house: 6, lagna: "Taurus", planetSign: "Libra", planet: "Venus", page: 52,
+    en: "Does independent influential deeds, gets some disease in the body, help from maternal grandfather's house, spends much, keeps great influence in the house of enemies, does hard work and wins over people in spite of opposition",
+    ta: "சுயமான செல்வாக்குள்ள செயல்கள்; உடலில் சில நோய்; தாய்வழி தாத்தாவின் வீட்டிலிருந்து உதவி; அதிகம் செலவழிப்பார்; எதிரிகள் வீட்டில் பெரும் செல்வாக்கு; கடின உழைப்பு; எதிர்ப்பையும் மீறி மக்களை வெல்வார்.",
+  },
+  {
+    house: 6, lagna: "Taurus", planetSign: "Libra", planet: "Saturn", page: 54,
+    en: "Gets great strength from father, does business through influential deeds, gets respect and honour, keeps the influence in the house of",
+    ta: "தந்தையிடமிருந்து பெரும் வலிமை; செல்வாக்குள்ள செயல்களால் தொழில்; மரியாதையும் கௌரவமும்; எதிரி வீட்டில் செல்வாக்கு.",
+  },
+  {
+    house: 6, lagna: "Taurus", planetSign: "Libra", planet: "Rahu", page: 56,
+    en: "Great influence in the house of enemies, loss through maternal grandfather, selfish and cautious",
+    ta: "எதிரி வீட்டில் பெரும் செல்வாக்கு; தாய்வழி தாத்தா வகையில் இழப்பு; சுயநலம்; எச்சரிக்கை.",
+  },
+  {
+    house: 6, lagna: "Taurus", planetSign: "Libra", planet: "Ketu", page: 58,
+    en: "Faces enemies bravely, gets illness and troubles, enmity with maternal grandfather, a bit rash in approach",
+    ta: "எதிரிகளைத் தைரியமாக எதிர்கொள்வார்; நோயும் தொல்லைகளும்; தாய்வழி தாத்தாவுடன் பகை; சற்று அவசரமானவர்.",
+  },
+  {
+    house: 6, lagna: "Gemini", planetSign: "Scorpio", planet: "Sun", page: 62,
+    en: "Labours through his strength and energy, gets huge influence and dignity in the house of enemies, huge influence in the side of maternal grandfather, uneasiness in the house of expenditure",
+    ta: "தன் ஆற்றலாலும் வலிமையாலும் கடுமையாக உழைப்பார்; எதிரி வீட்டில் பெரும் செல்வாக்கும் கம்பீரமும்; தாய்வழி தாத்தா வகையில் பெரும் செல்வாக்கு; செலவு வீட்டில் அமைதியின்மை.",
+  },
+  {
+    house: 6, lagna: "Gemini", planetSign: "Scorpio", planet: "Moon", page: 64,
+    en: "Feels restless, loss in family (usually mother), feels worried from the side of enemy, loss ofwealth, quarrels and gets some diseases, spends too much, gains through secret policies",
+    ta: "அமைதியின்மை; குடும்ப இழப்பு (பொதுவாகத் தாய் வகையில்); எதிரி வகையில் கவலை; செல்வ இழப்பு; சண்டைகளும் சில நோய்களும்; அதிகம் செலவழிப்பார்; ரகசிய உபாயங்களால் ஆதாயம்.",
+  },
+  {
+    house: 6, lagna: "Gemini", planetSign: "Scorpio", planet: "Mars", page: 66,
+    en: "Strength in the mother's side and grandfather's house, some obstacles in the Dharma, suffers from diseases, keeps great strength in the house of gains, unhappy with expenditure and deficient income and is very courageous",
+    ta: "தாய் வீட்டிலும் தாத்தா வீட்டிலும் வலிமை; தர்மத்தில் சில தடைகள்; நோய்களால் துன்பம்; ஆதாய வீட்டில் பெரும் வலிமை; செலவில் அதிருப்தி; வருமானக் குறை; மிகுந்த தைரியம்.",
+  },
+  {
+    house: 6, lagna: "Gemini", planetSign: "Scorpio", planet: "Mercury", page: 68,
+    en: "Unhappy, worried and dependent, loss of buildings and lands and residential affairs, spends much, gives happiness to others, and is wise",
+    ta: "மகிழ்ச்சியின்மை, கவலை, சார்ந்திருத்தல்; கட்டிடங்கள், நிலம், வசிப்பிட விவகாரங்களில் இழப்பு; அதிகம் செலவழிப்பார்; மற்றவர்களுக்கு மகிழ்ச்சி தருவார்; அறிவாளி.",
+  },
+  {
+    house: 6, lagna: "Gemini", planetSign: "Scorpio", planet: "Jupiter", page: 70,
+    en: "Does dependent occupation, gets much influence and honour in the house of enmity, harsh from the house of wife, progress in the house of wealth, deficiency in the sexual pleasures",
+    ta: "சார்ந்திருக்கும் தொழில்; எதிரி வீட்டில் பெரும் செல்வாக்கும் மரியாதையும்; மனைவி வகையில் கடுமை; செல்வ வீட்டில் முன்னேற்றம்; பாலியல் இன்பத்தில் குறை.",
+  },
+  {
+    house: 6, lagna: "Gemini", planetSign: "Scorpio", planet: "Venus", page: 72,
+    en: "Weak in education, faces suffering from children, expenditure, some suffering in the side of enemies, spends much, secretive",
+    ta: "கல்வியில் பலவீனம்; குழந்தைகளால் துன்பம்; செலவு; எதிரிகள் வகையில் சில துன்பம்; அதிகம் செலவழிப்பார்; ரகசியமானவர்.",
+  },
+  {
+    house: 6, lagna: "Gemini", planetSign: "Scorpio", planet: "Saturn", page: 74,
+    en: "Gets work done with grand, intricate, laborious, religious devices to develop the life, not caring for religion, enmity with brothers and sisters, influence in the house of enemy, spends much, no faith in God and is somewhat famous",
+    ta: "வாழ்க்கையை வளர்க்க பெரிய, சிக்கலான, கடின, மத வழிகளில் வேலை சாதிப்பார்; மதத்தைப் பொருட்படுத்தார்; உடன்பிறப்புகளுடன் பகை; எதிரி வீட்டில் செல்வாக்கு; அதிகம் செலவழிப்பார்; இறைநம்பிக்கை இல்லாதவர்; சிறிது புகழ் பெற்றவர்.",
+  },
+  {
+    house: 6, lagna: "Gemini", planetSign: "Scorpio", planet: "Rahu", page: 76,
+    en: "Keeps high influence in the house of enemies, loss in maternal grandfather house, does not care for worries like disease etc, does not care for Dharma, commits sins and crimes, selfish and brave",
+    ta: "எதிரி வீட்டில் உயர் செல்வாக்கு; தாய்வழி தாத்தாவின் வீட்டில் இழப்பு; நோய் போன்ற கவலைகளைப் பொருட்படுத்தார்; தர்மத்தைக் கருதார்; பாவமும் குற்றமும் செய்வார்; சுயநலம், தைரியம்.",
+  },
+  {
+    house: 6, lagna: "Gemini", planetSign: "Scorpio", planet: "Ketu", page: 78,
+    en: "Keeps huge influence in the house of enemies, loss on the side of maternal grandfather, uses inner firmness and rash power to win difficulties and worries, selfish and fearless",
+    ta: "எதிரி வீட்டில் பெரும் செல்வாக்கு; தாய்வழி தாத்தா வகையில் இழப்பு; சிரமங்களையும் கவலைகளையும் வெல்ல உள் உறுதியையும் அவசர ஆற்றலையும் பயன்படுத்துவார்; சுயநலம்; அஞ்சாதவர்.",
+  },
+  {
+    house: 6, lagna: "Cancer", planetSign: "Sagittarius", planet: "Sun", page: 83,
+    en: "Is very influential and earns wealth through his diligence and does not care for enemies and difficulties, gains from enemies and difficulties of wealth, spends much, feels deficiency in the house of wealth, some influence in the house of maternal grandfather, empowers illness, some deficiency in the house of family pleasures, respected",
+    ta: "மிகுந்த செல்வாக்குள்ளவர்; தன் உழைப்பால் செல்வம் ஈட்டுவார்; எதிரிகளையும் சிரமங்களையும் பொருட்படுத்தார்; எதிரிகளாலும் சிரமங்களாலும் ஆதாயம்; அதிகம் செலவழிப்பார்; செல்வ வீட்டில் குறை; தாய்வழி தாத்தா வீட்டில் சில செல்வாக்கு; நோய் வாய்ப்பு; குடும்ப இன்பங்களில் சில குறை; மரியாதைக்குரியவர்.",
+  },
+  {
+    house: 6, lagna: "Cancer", planetSign: "Sagittarius", planet: "Moon", page: 85,
+    en: "Weakness and disease in the body, dependent on others, feels restless, likes to live with grandfather, spends much, aftaid of enemies, is calm and courageous",
+    ta: "உடலில் பலவீனமும் நோயும்; பிறரைச் சார்ந்திருப்பவர்; அமைதியின்மை; தாத்தாவுடன் வாழ விரும்புவார்; அதிகம் செலவழிப்பார்; எதிரிகளுக்கு அஞ்சுவார்; அமைதியானவர், தைரியசாலி.",
+  },
+  {
+    house: 6, lagna: "Cancer", planetSign: "Sagittarius", planet: "Mars", page: 87,
+    en: "Is brave and influential, maintains his dignity and glory, gets victory over enemies and diseases, some trouble in his body, spends much, some deficiency in education and children",
+    ta: "தைரியமும் செல்வாக்கும் உள்ளவர்; தன் கௌரவத்தையும் பெருமையையும் காப்பார்; எதிரிகளையும் நோய்களையும் வெல்வார்; உடலில் சில தொல்லை; அதிகம் செலவழிப்பார்; கல்வி, பிள்ளைகள் வகையில் சில குறை.",
+  },
+  {
+    house: 6, lagna: "Cancer", planetSign: "Sagittarius", planet: "Mercury", page: 89,
+    en: "Some hindrance in expenditure, does some dependent work, spends much, faces troubles, tries to curtail expenditure, somewhat restless",
+    ta: "செலவில் சில தடை; சார்ந்த வேலைகள் செய்வார்; அதிகம் செலவழிப்பார்; சிக்கல்கள்; செலவைக் குறைக்க முயல்வார்; சற்று அமைதியற்றவர்.",
+  },
+  {
+    house: 6, lagna: "Cancer", planetSign: "Sagittarius", planet: "Jupiter", page: 91,
+    en: "Unable to rear up Dharma properly, defeats the enemy, victory over enemies, gets influence in government and society, spends much, is very influential and tries hard to acquire progress",
+    ta: "தர்மத்தை சரியாகக் காக்க முடியாது; எதிரியை வெல்வார்; அரசு, சமூகத்தில் செல்வாக்கு; அதிகம் செலவழிப்பார்; மிகுந்த செல்வாக்குள்ளவர்; முன்னேற்றத்துக்காகக் கடுமையாக முயல்வார்.",
+  },
+  {
+    house: 6, lagna: "Cancer", planetSign: "Sagittarius", planet: "Venus", page: 93,
+    en: "Spends much, deficiency in the house of mother, hindrance in peace and happiness of property, some diseases and straggle from enemies, secretly very clever",
+    ta: "அதிகம் செலவழிப்பார்; தாய் வகையில் குறை; சொத்தின் அமைதியிலும் மகிழ்ச்சியிலும் தடை; சில நோய்கள், எதிரிகளுடன் போராட்டம்; ரகசியமாக மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 6, lagna: "Cancer", planetSign: "Sagittarius", planet: "Saturn", page: 95,
+    en: "Good longevity, pursues the daily occupation diligently, experiences some distress in the house of wife, deficiency in the side of sexual pleasures and is very wrathful",
+    ta: "நல்ல ஆயுள்; தினசரி தொழிலை கவனமாகச் செய்வார்; மனைவி வீட்டில் சில துன்பம்; பாலியல் இன்பத்தில் குறை; மிகவும் கோபக்காரர்.",
+  },
+  {
+    house: 6, lagna: "Cancer", planetSign: "Sagittarius", planet: "Rahu", page: 97,
+    en: "Uses secret devices, does not care for justice and injustice in the way of serving his selfishness, secret policy with enemies, loss in maternal grandfather's house, selfish and cautious",
+    ta: "மறைமுக உபாயங்களைப் பயன்படுத்துவார்; தன் சுயநலத்துக்காக நீதி அநீதியைக் கருதார்; எதிரிகளுடன் ரகசிய திட்டம்; தாய்வழி தாத்தா வீட்டில் இழப்பு; சுயநலம், எச்சரிக்கை.",
+  },
+  {
+    house: 6, lagna: "Cancer", planetSign: "Sagittarius", planet: "Ketu", page: 99,
+    en: "Is very brave, splendid influence in the house of enemies, uses very extravagantly the secret devices for his advancement, violates modesty, does not care for all the virtues or sin before his selfishness, is very dangerous, fearless, dissatisfied and victorious",
+    ta: "மிகுந்த தைரியம்; எதிரி வீட்டில் அற்புதமான செல்வாக்கு; தன் முன்னேற்றத்துக்காக ரகசிய உபாயங்களை மிகையாகப் பயன்படுத்துவார்; மரியாதையை மீறுவார்; சுயநலத்துக்கு முன் நல்லொழுக்கம், பாவம் எதையும் கருதார்; மிகவும் ஆபத்தானவர், அஞ்சாதவர், அதிருப்தியும் வெற்றியும் உள்ளவர்.",
+  },
+  {
+    house: 6, lagna: "Leo", planetSign: "Capricorn", planet: "Sun", page: 105,
+    en: "Victory over enemies, spends much, does not care for the hindrances and troubles",
+    ta: "எதிரிகளை வெல்வார்; அதிகம் செலவழிப்பார்; தடைகளையும் சிரமங்களையும் பொருட்படுத்தார்.",
+  },
+  {
+    house: 6, lagna: "Leo", planetSign: "Capricorn", planet: "Moon", page: 106,
+    en: "Some dependence in the house of expenditure, gets mentally fatigued, gets his work done politely, careless in the house of enemy, spends on diseases",
+    ta: "செலவு வீட்டில் சில சார்பு; மனச் சோர்வு; வேலையைப் பணிவுடன் முடிப்பார்; எதிரி வீட்டில் கவனக்குறைவு; நோய்களுக்குச் செலவழிப்பார்.",
+  },
+  {
+    house: 6, lagna: "Leo", planetSign: "Capricorn", planet: "Mars", page: 108,
+    en: "Defends the enemy, some weakness in the house of mother, gets hindrance in peace and happiness, possesses the power of buildings, deficiency in the house of expenditure",
+    ta: "எதிரியைப் பாதுகாப்பார்; தாய் வீட்டில் சில பலவீனம்; மகிழ்ச்சிக்குத் தடை; கட்டிடங்களின் வலிமை; செலவு வீட்டில் குறை.",
+  },
+  {
+    house: 6, lagna: "Leo", planetSign: "Capricorn", planet: "Mercury", page: 110,
+    en: "Weakness in accumulating wealth, takes some advantage due to wealth in connection with enemies and diseases, spends much, is very clever",
+    ta: "செல்வம் சேர்ப்பதில் பலவீனம்; எதிரிகள், நோய்கள் தொடர்பாக செல்வத்தால் சில ஆதாயம்; அதிகம் செலவழிப்பார்; மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 6, lagna: "Leo", planetSign: "Capricorn", planet: "Jupiter", page: 112,
+    en: "Experiences restlessness in the daily routine of life, spends much, uses great diplomacy in the house of enemy, puts great efforts in increasing the wealth",
+    ta: "தினசரி வாழ்வில் அமைதியின்மை; அதிகம் செலவழிப்பார்; எதிரி வீட்டில் பெரும் ராஜதந்திரம்; செல்வத்தை அதிகரிக்க பெரும் முயற்சி.",
+  },
+  {
+    house: 6, lagna: "Leo", planetSign: "Capricorn", planet: "Venus", page: 114,
+    en: "Some enmity in the house of father, hindrances in the house of honour, some ordinary strength in government and society, spends much, faces difficulties in conducting the occupation, influence in the house of enemy, feels very hard to acquire progress",
+    ta: "தந்தை வீட்டில் சில பகை; மரியாதை வகையில் தடைகள்; அரசு, சமூகத்தில் சாதாரண வலிமை; அதிகம் செலவழிப்பார்; தொழிலை நடத்துவதில் சிரமம்; எதிரி வீட்டில் செல்வாக்கு; முன்னேற்றம் பெறுவது மிகக் கடினம்.",
+  },
+  {
+    house: 6, lagna: "Leo", planetSign: "Capricorn", planet: "Saturn", page: 116,
+    en: "Perplexity from the side of wife, some deficiency in the advantages of sexual pleasures, gets influence in the house of enemy, gets influence in the daily occupation after going through great troubles",
+    ta: "மனைவி வகையில் குழப்பம்; பாலியல் இன்பத்தின் வசதிகளில் சில குறை; எதிரி வீட்டில் செல்வாக்கு; பெரும் சிரமங்களுக்குப் பின் தினசரி தொழிலில் செல்வாக்கு பெறுவார்.",
+  },
+  {
+    house: 6, lagna: "Leo", planetSign: "Capricorn", planet: "Rahu", page: 118,
+    en: "Possesses the great power of influence in the house of enemy, violates politeness, gentility and satisfaction, influential and brave",
+    ta: "எதிரி வீட்டில் பெரும் செல்வாக்கு; பணிவு, நாகரிகம், திருப்தி ஆகியவற்றை மீறுவார்; செல்வாக்குள்ளவர், தைரியசாலி.",
+  },
+  {
+    house: 6, lagna: "Leo", planetSign: "Capricorn", planet: "Ketu", page: 120,
+    en: "Great influence in the house of enemy, destroys the diseases and difficulties, violates modesty, gets the selfishness accomplished, is very brave and courageous",
+    ta: "எதிரி வீட்டில் பெரும் செல்வாக்கு; நோய்களையும் சிரமங்களையும் அழிப்பார்; அடக்கத்தை மீறுவார்; சுயநலத்தை நிறைவேற்றுவார்; மிகவும் தைரியமும் வீரமும் உள்ளவர்.",
+  },
+  {
+    house: 6, lagna: "Virgo", planetSign: "Aquarius", planet: "Sun", page: 126,
+    en: "Manages his expenditure properly through some dependent actions, unable to check his expenditure even when he wishes to do so, has to spend in the matter of illness",
+    ta: "சார்ந்த செயல்கள் மூலம் செலவை நிர்வகிப்பார்; விரும்பினாலும் செலவைக் கட்டுப்படுத்த முடியாது; நோய்க்காகச் செலவு செய்ய வேண்டிவரும்.",
+  },
+  {
+    house: 6, lagna: "Virgo", planetSign: "Aquarius", planet: "Moon", page: 127,
+    en: "Some weakness in connection with gains, gets mental anxieties, spends much, gets some sort of dependence for income or gains, gets a little from maternal grandfather, finds his mind somewhat occupied, and is of amiable disposition",
+    ta: "ஆதாயத்தில் சில பலவீனம்; மனக் கவலைகள்; அதிகம் செலவழிப்பார்; வருமானத்துக்கு ஒரு வகை சார்பு; தாய்வழி தாத்தாவிடமிருந்து சிறிது ஆதாயம்; மனம் சற்று ஆக்கிரமிக்கப்பட்டிருக்கும்; இனிய குணமுள்ளவர்.",
+  },
+  {
+    house: 6, lagna: "Virgo", planetSign: "Aquarius", planet: "Mars", page: 129,
+    en: "Some losses on the side of his maternal grandfather, gets some enmity or separation on the side of brother, makes the enemies and opponents uneasy, lives in a sort of bondage",
+    ta: "தாய்வழி தாத்தா வகையில் சில இழப்பு; சகோதரர் வகையில் சில பகையும் பிரிவும்; எதிரிகளையும் எதிர்ப்பாளர்களையும் கலங்க வைப்பார்; ஒரு வகை அடிமைத்தனத்தில் வாழ்வார்.",
+  },
+  {
+    house: 6, lagna: "Virgo", planetSign: "Aquarius", planet: "Mercury", page: 131,
+    en: "Lives dependently, some enmity in the house of father and gets some hindrances in his progress being overtaken by the perplexities of illness etc, power of discomfort from the side of enemies, spends much, has to suffer from some sins and is gende",
+    ta: "சார்ந்து வாழ்வார்; தந்தை வீட்டில் சில பகை; நோய் போன்ற குழப்பங்களால் முன்னேற்றத்தில் தடை; எதிரிகளால் சில தொல்லை; அதிகம் செலவழிப்பார்; சில பாவங்களால் துன்பம்; மென்மையானவர்.",
+  },
+  {
+    house: 6, lagna: "Virgo", planetSign: "Aquarius", planet: "Jupiter", page: 134,
+    en: "Gets hindrance in the pleasure of the family, bears some distress on the side of mother and wife, gets deficiency in peace and happiness, hindrance in daily occupation, has family, spends much, gets work done with some politeness on the side of enemies, gets some hindrance in sexual affairs, some deficiency in residential places, and gets some help from the big business concerns",
+    ta: "குடும்ப இன்பத்தில் தடை; தாய், மனைவி வகையில் சில துன்பம்; அமைதியும் மகிழ்ச்சியும் குறைவு; தினசரி தொழிலில் தடை; குடும்பம் உண்டு; அதிகம் செலவழிப்பார்; எதிரிகளிடம் சில பணிவுடன் வேலை சாதிப்பார்; பாலியல் விவகாரங்களில் சில தடை; வசிப்பிடங்களில் சில குறை; பெரிய வணிக நிறுவனங்களிலிருந்து சில உதவி.",
+  },
+  {
+    house: 6, lagna: "Virgo", planetSign: "Aquarius", planet: "Venus", page: 136,
+    en: "Is a successful politician, earns wealth, injures Dharma, wins the enemies with the power of Dharma, some worries in connection with destiny",
+    ta: "வெற்றிகரமான அரசியல்வாதி; செல்வம் ஈட்டுவார்; தர்மத்தைக் காயப்படுத்துவார்; தர்ம ஆற்றலால் எதிரிகளை வெல்வார்; விதி பற்றிய சில கவலைகள்.",
+  },
+  {
+    house: 6, lagna: "Virgo", planetSign: "Aquarius", planet: "Saturn", page: 138,
+    en: "Defeats the side of enemies, does not care for quarrels and diseases, keeps bitter opposition with brothers, gets restlessness, some distress with expenditure, gets very much distresses on the side of children, some deficiency in educational ways, talks in a crooked way",
+    ta: "எதிரிகளை வெல்வார்; சண்டைகளையும் நோய்களையும் பொருட்படுத்தார்; சகோதரருடன் கடும் எதிர்ப்பு; அமைதியின்மை; செலவில் சில சிரமம்; பிள்ளைகள் வகையில் பெரும் துன்பம்; கல்வி வழிகளில் சில குறை; வளைந்த முறையில் பேசுவார்.",
+  },
+  {
+    house: 6, lagna: "Virgo", planetSign: "Aquarius", planet: "Rahu", page: 140,
+    en: "Defeats the enemy, overcomes the diseases, gains through improper means, feels some internal weakness, selfish and clever",
+    ta: "எதிரியை வெல்வார்; நோய்களை வெல்வார்; தவறான வழிகளில் ஆதாயம்; உள் பலவீனம்; சுயநலம், சாமர்த்தியம்.",
+  },
+  {
+    house: 6, lagna: "Virgo", planetSign: "Aquarius", planet: "Ketu", page: 142,
+    en: "Has great power and energy, thinks himself to be fearless, defeats the enemies, works with pride, overcomes the diseases, does not care for justice or injustice, selfish and influential",
+    ta: "பெரும் வலிமையும் ஆற்றலும்; தன்னை அஞ்சாதவர் என நினைப்பார்; எதிரிகளை வெல்வார்; பெருமையுடன் வேலை செய்வார்; நோய்களை வெல்வார்; நியாயம் அநியாயம் பற்றிக் கவலைப்படார்; சுயநலம், செல்வாக்கு.",
+  },
+  {
+    house: 6, lagna: "Libra", planetSign: "Pisces", planet: "Sun", page: 147,
+    en: "Gets victory in the house of enemies, spends much, influential, of good manners, brilliant and fearless",
+    ta: "எதிரி வீட்டில் வெற்றி; அதிகம் செலவழிப்பார்; செல்வாக்குள்ளவர்; நல்ல பழக்கவழக்கம்; அறிவும் துணிச்சலும் உள்ளவர், அஞ்சாதவர்.",
+  },
+  {
+    house: 6, lagna: "Libra", planetSign: "Pisces", planet: "Moon", page: 148,
+    en: "Some deficiency in the house of father, does splendid business, more expenditure than income, dignity in the house of worries and enemies, keeps contact with outside places",
+    ta: "தந்தை வீட்டில் சில குறை; சிறந்த வணிகம் செய்வார்; செலவு வருமானத்தை விட அதிகம்; கவலைகளும் எதிரிகளும் உள்ள வீட்டில் கௌரவம்; வெளியூர் தொடர்புகள் உண்டு.",
+  },
+  {
+    house: 6, lagna: "Libra", planetSign: "Pisces", planet: "Mars", page: 150,
+    en: "Weakness in connection with wealth and occupation, some distress from his wife and family, spends much, keeps influence in the side of enemies, deficiency in the sexual pleasures",
+    ta: "செல்வமும் தொழிலும் தொடர்பான பலவீனம்; மனைவி, குடும்பத்தால் சில துன்பம்; அதிகம் செலவழிப்பார்; எதிரி வீட்டில் செல்வாக்கு; பாலியல் இன்பத்தில் குறை.",
+  },
+  {
+    house: 6, lagna: "Libra", planetSign: "Pisces", planet: "Mercury", page: 152,
+    en: "Great weakness and dishonour in his destiny, gets loss in his fortune, restlessness in the house of enemies, gets worries in expenditure, and follows secret tactics",
+    ta: "விதியில் பெரும் பலவீனமும் அவமானமும்; அதிர்ஷ்டத்தில் இழப்பு; எதிரி வீட்டில் அமைதியின்மை; செலவில் கவலை; இரகசிய உபாயங்களைப் பின்பற்றுவார்.",
+  },
+  {
+    house: 6, lagna: "Libra", planetSign: "Pisces", planet: "Jupiter", page: 154,
+    en: "Is of brave nature, gets dignity by his hard labour, defeats the opponents, spends much, gets bondage in his work and is careless",
+    ta: "தைரியமான இயல்பு; கடின உழைப்பால் கௌரவம்; எதிரிகளை வெல்வார்; அதிகம் செலவழிப்பார்; தன் வேலையில் கட்டுப்பாடு; கவனக்குறைவானவர்.",
+  },
+  {
+    house: 6, lagna: "Libra", planetSign: "Pisces", planet: "Venus", page: 156,
+    en: "Solves the most difficult problems of his life, is careless, some deficiency in the house of expenditure",
+    ta: "வாழ்வின் மிகக் கடினமான பிரச்சினைகளைத் தீர்ப்பார்; கவனக்குறைவானவர்; செலவு வீட்டில் சில குறை.",
+  },
+  {
+    house: 6, lagna: "Libra", planetSign: "Pisces", planet: "Saturn", page: 158,
+    en: "Unhappiness from the house of mother and children, gets deficiency in getting happiness and education, feels happiness in age and daily routine, speaks somewhat bitterly, some enmity with brother",
+    ta: "தாய், பிள்ளைகள் வீட்டில் மகிழ்ச்சியின்மை; மகிழ்ச்சி, கல்வி பெறுவதில் குறை; வயதிலும் தினசரி வாழ்விலும் மகிழ்ச்சி; சிறிது கடுமையாகப் பேசுவார்; சகோதரருடன் சில பகை.",
+  },
+  {
+    house: 6, lagna: "Libra", planetSign: "Pisces", planet: "Rahu", page: 160,
+    en: "Gets victory over the difficulties like diseases etc, defeats the enemies, is careful, alert and selfish",
+    ta: "நோய் போன்ற சிரமங்களை வெல்வார்; எதிரிகளைத் தோற்கடிப்பார்; எச்சரிக்கையானவர், விழிப்புடன் இருப்பவர், சுயநலம்.",
+  },
+  {
+    house: 6, lagna: "Libra", planetSign: "Pisces", planet: "Ketu", page: 162,
+    en: "Keeps huge influence on enemies, gets less in the house of grandfather, has patience and courage, makes efforts to free from diseases and is of fearless nature",
+    ta: "எதிரிகள் மீது பெரும் செல்வாக்கு; தாத்தா வீட்டில் குறைவான ஆதாயம்; பொறுமை, தைரியம்; நோயிலிருந்து விடுபட முயல்வார்; அஞ்சாத இயல்பு.",
+  },
+  {
+    house: 6, lagna: "Scorpio", planetSign: "Aries", planet: "Sun", page: 168,
+    en: "Gets victory over the enemies, gets some weakness in the side of expenditure, gets the contact with other places, does not get perplexed due to worries and difficulties, earns his fame and reputation through great tactics",
+    ta: "எதிரிகளை வெல்வார்; செலவில் சில பலவீனம்; பிற இடங்களுடன் தொடர்பு; கவலைகளாலும் சிரமங்களாலும் குழம்ப மாட்டார்; பெரும் உபாயங்களால் புகழும் நற்பெயரும் பெறுவார்.",
+  },
+  {
+    house: 6, lagna: "Scorpio", planetSign: "Aries", planet: "Moon", page: 170,
+    en: "Has less faith in Dharma and God, gets some weakness in the side of destiny, gets more means of expenditure, gets opposition in the side of enemies",
+    ta: "தர்மத்திலும் இறையிலும் குறைந்த நம்பிக்கை; விதியில் சில பலவீனம்; செலவுக்கான வழிகள் அதிகம்; எதிரிகளிடமிருந்து எதிர்ப்பு.",
+  },
+  {
+    house: 6, lagna: "Scorpio", planetSign: "Aries", planet: "Mars", page: 172,
+    en: "Is very brave, has a stout body, does not care about the enemies, gets honour through will-power, some weakness in the house of Dharma, gets his work done through intricate means, feels fatigue in the body, and is caustic",
+    ta: "மிகுந்த தைரியம்; வலிமையான உடல்; எதிரிகளைப் பொருட்படுத்தார்; மன உறுதியால் கௌரவம்; தர்மத்தில் சில பலவீனம்; சிக்கலான வழிகளால் வேலை சாதிப்பார்; உடலில் களைப்பு; கடுமையாகப் பேசுவார்.",
+  },
+  {
+    house: 6, lagna: "Scorpio", planetSign: "Aries", planet: "Mercury", page: 174,
+    en: "Gets worries and dependence in life for acquiring income, earns a little through some troublesome deeds, unable to make good use of the daily routine or his life, faces anxieties, uses secret schemes",
+    ta: "வருமானம் ஈட்ட வாழ்வில் கவலையும் சார்பும்; சில தொல்லையான செயல்களால் சிறிது ஆதாயம்; தினசரி வாழ்வையும் வாழ்க்கையையும் நல்ல முறையில் பயன்படுத்த முடியாது; கவலைகள்; ரகசியத் திட்டங்கள்.",
+  },
+  {
+    house: 6, lagna: "Scorpio", planetSign: "Aries", planet: "Jupiter", page: 176,
+    en: "Earns wealth regularly with some dependence and difficulty, gets his work done cleverly in the house of enemies, puts in more and more efforts to accumulate wealth, gets weakness of children and education, spends much and is unable to put forward his views properly",
+    ta: "ஒழுங்காக சார்புடனும் சிரமத்துடனும் வருமானம் ஈட்டுவார்; எதிரி வீட்டில் சாமர்த்தியமாக வேலை சாதிப்பார்; செல்வம் சேர்க்க மேலும் மேலும் முயற்சி; குழந்தைகள், கல்வியில் குறை; அதிகம் செலவழிப்பார்; தன் கருத்துகளை சரியாக முன்வைக்க முடியாது.",
+  },
+  {
+    house: 6, lagna: "Scorpio", planetSign: "Aries", planet: "Venus", page: 178,
+    en: "Gets the opposition from his wife, gets weaknesses in occupation spends much being entangled in worries, bears some domestic obstacles in the domestic happiness, gets deficiency in sexual",
+    ta: "மனைவியிடமிருந்து எதிர்ப்பு; தொழிலில் பலவீனம்; அதிகம் செலவழிப்பார்; கவலைகளில் சிக்கியிருப்பார்; குடும்ப மகிழ்ச்சியில் சில தடைகள்; பாலியல் இன்பத்தில் குறை.",
+  },
+  {
+    house: 6, lagna: "Scorpio", planetSign: "Aries", planet: "Saturn", page: 180,
+    en: "Loss in the happiness of mother, enmity from brothers, lack of power in some diseases, feels distressed in the house of enemies, adopts wrong schemes",
+    ta: "தாயின் மகிழ்ச்சியில் இழப்பு; சகோதரர் வகையில் பகை; சில நோய்களில் சக்தி குறைவு; எதிரி வீட்டில் துன்பம்; தவறான திட்டங்களைக் கையாள்வார்.",
+  },
+  {
+    house: 6, lagna: "Scorpio", planetSign: "Aries", planet: "Rahu", page: 182,
+    en: "Is very influential and gets victory over the enemies, is unable to rear gentleness and satisfaction, gets his work done very patiently not caring for troubles or diseases, is a diplomat",
+    ta: "எதிரிகள் மீது பெரும் செல்வாக்கும் வெற்றியும்; மென்மையையும் திருப்தியையும் காக்க முடியாது; சிரமங்களையும் நோய்களையும் பொருட்படுத்தாமல் பொறுமையாக வேலை செய்வார்; ராஜதந்திரி.",
+  },
+  {
+    house: 6, lagna: "Scorpio", planetSign: "Aries", planet: "Ketu", page: 184,
+    en: "Is very brave and has a heroic nature, gets victory over enemies, does not care about the troubles that he may have to face, gets rid of diseases and difficulties very carefully and alertly, pays attention towards serving his selfishness",
+    ta: "மிகவும் தைரியமானவர், வீர இயல்புடையவர்; எதிரிகளை வெல்வார்; தன் முன் உள்ள சிரமங்களைப் பொருட்படுத்தார்; நோய்களையும் சிரமங்களையும் மிகக் கவனமாகவும் விழிப்புடனும் நீக்குவார்; தன் சுயநலத்தைக் கவனிப்பார்.",
+  },
+  {
+    house: 6, lagna: "Sagittarius", planetSign: "Taurus", planet: "Sun", page: 190,
+    en: "Gets conjunction of difficulties, distress about destiny, unable to rear Dharma, gets the influence in the house of opponents and enemies, suppresses the calamities, gets control over the diseases, spends much, is influential",
+    ta: "சிரமங்களின் கூட்டு; விதியைப் பற்றிய கவலை; தர்மத்தைக் காக்க முடியாது; எதிரிகள், பகைவர் வீட்டில் செல்வாக்கு; இடர்களை அடக்குவார்; நோய்களை கட்டுப்படுத்துவார்; அதிகம் செலவழிப்பார்; செல்வாக்குள்ளவர்.",
+  },
+  {
+    house: 6, lagna: "Sagittarius", planetSign: "Taurus", planet: "Moon", page: 191,
+    en: "Weakness in connection with expenditure, possesses influence in the house of enemies, gets his work done fearlessly and is not modest",
+    ta: "செலவில் பலவீனம்; எதிரி வீட்டில் செல்வாக்கு; அஞ்சாமல் வேலை செய்வார்; அடக்கம் இல்லாதவர்.",
+  },
+  {
+    house: 6, lagna: "Sagittarius", planetSign: "Taurus", planet: "Mars", page: 193,
+    en: "Bears the agony of children, feces deficiency in education, experiences uneasiness in the house of expenditure, suppresses the enemies, is of hot temperament, does not follow modesty",
+    ta: "குழந்தைகளின் வேதனையைத் தாங்குவார்; கல்வியில் குறை; செலவு வீட்டில் அமைதியின்மை; எதிரிகளை அடக்குவார்; சூடான மனநிலை; அடக்கத்தைப் பின்பற்றார்.",
+  },
+  {
+    house: 6, lagna: "Sagittarius", planetSign: "Taurus", planet: "Mercury", page: 195,
+    en: "Enmity and opposition from the father's house, bears great troubles in business occupation, has some politeness in the house of enemies, feces deficiency in sexual pleasures",
+    ta: "தந்தை வீட்டில் பகையும் எதிர்ப்பும்; வணிகத் தொழிலில் பெரும் சிரமம்; எதிரி வீட்டில் சில பணிவு; பாலியல் இன்பத்தில் குறை.",
+  },
+  {
+    house: 6, lagna: "Sagittarius", planetSign: "Taurus", planet: "Jupiter", page: 197,
+    en: "Faces obstacles in peace and happiness, gets some cooperation, bears domestic distress, has weakness in wealth, is a clever enemy",
+    ta: "அமைதியும் மகிழ்ச்சியும் பெறுவதில் தடைகள்; சில ஒத்துழைப்பு; குடும்பத்தில் துன்பம்; செல்வத்தில் பலவீனம்; சாமர்த்தியமான எதிரி.",
+  },
+  {
+    house: 6, lagna: "Sagittarius", planetSign: "Taurus", planet: "Venus", page: 199,
+    en: "Has to face some difficulties in getting income, spends much, is very clever and uses very intricate tactics, is very haughty and clever",
+    ta: "வருமானம் பெறுவதில் சில சிரமம்; அதிகம் செலவழிப்பார்; மிகுந்த சாமர்த்தியம், மிக நுட்பமான உபாயங்கள்; மிகுந்த பெருமையும் சாமர்த்தியமும்.",
+  },
+  {
+    house: 6, lagna: "Sagittarius", planetSign: "Taurus", planet: "Saturn", page: 201,
+    en: "Weakness in the side of wealth, opposes the brothers and also gets the support of brothers, suppresses the enemies, suppresses diseases and difficulties, some perplexity in the daily routine of hfe, is very brave, self-conceited and restless",
+    ta: "செல்வ வகையில் பலவீனம்; சகோதரர்களை எதிர்ப்பார், அதே நேரத்தில் அவர்களின் ஆதரவும் பெறுவார்; எதிரிகளை அடக்குவார்; நோய்களையும் சிரமங்களையும் அடக்குவார்; தினசரி வாழ்வில் சில குழப்பம்; மிகுந்த தைரியம், தன்னைப் பெரிதாக நினைப்பவர், அமைதியின்மை.",
+  },
+  {
+    house: 6, lagna: "Sagittarius", planetSign: "Taurus", planet: "Rahu", page: 203,
+    en: "Is very influential and suppresses the enemies, does not care for hindrances and troubles, serves his selfishness",
+    ta: "மிகுந்த செல்வாக்குள்ளவர்; எதிரிகளை அடக்குவார்; தடைகளையும் சிரமங்களையும் பொருட்படுத்தார்; சுயநலத்துக்காகச் செயல்படுவார்.",
+  },
+  {
+    house: 6, lagna: "Sagittarius", planetSign: "Taurus", planet: "Ketu", page: 205,
+    en: "Is of brave nature, suppresses the enemies, is very self-conceited, labours hard to get victory over opponents, gets control over the opponent and diseases, chalks out secret schemes, does selfish deeds",
+    ta: "தைரியமான இயல்பு; எதிரிகளை அடக்குவார்; மிகவும் தன்னம்பிக்கை உள்ளவர்; எதிரிகளை வெல்ல கடுமையாக உழைப்பார்; எதிரிகள், நோய்கள் மீது கட்டுப்பாடு; ரகசியத் திட்டங்கள் தீட்டுவார்; சுயநலச் செயல்கள்.",
+  },
+  {
+    house: 6, lagna: "Capricorn", planetSign: "Gemini", planet: "Sun", page: 211,
+    en: "Is very influential and haughty, is dignified in daily life, gets long age, defeats enemies, courageous and is patient",
+    ta: "மிகுந்த செல்வாக்குள்ளவர், கர்வமானவர்; தினசரி வாழ்வில் கம்பீரம்; நீண்ட வயது; எதிரிகளை வெல்வார்; தைரியமும் பொறுமையும் உள்ளவர்.",
+  },
+  {
+    house: 6, lagna: "Capricorn", planetSign: "Gemini", planet: "Moon", page: 212,
+    en: "Gets hindrances in occupation, faces mental perplexity, bears worries in wife's house, has deficiency in sexual pleasures, spends much to escape the diseases and enemies",
+    ta: "தொழிலில் தடைகள்; மனக் குழப்பம்; மனைவி வீட்டில் கவலைகள்; பாலியல் இன்பத்தில் குறை; நோய்களையும் எதிரிகளையும் தவிர்க்க அதிகம் செலவழிப்பார்.",
+  },
+  {
+    house: 6, lagna: "Capricorn", planetSign: "Gemini", planet: "Mars", page: 214,
+    en: "Gets the advantage and income through some influential deeds of dependence, unhappiness in mother's house, sets aside the diseases and difficulties, some faith in Dharma, gets the advantage in the side of enemies, spends much",
+    ta: "சார்ந்த செல்வாக்கான செயல்களால் ஆதாயமும் வருமானமும்; தாய் வீட்டில் மகிழ்ச்சியின்மை; நோய்களையும் சிரமங்களையும் ஒதுக்குவார்; தர்மத்தில் சில நம்பிக்கை; எதிரிகள் பக்கம் ஆதாயம்; அதிகம் செலவழிப்பார்.",
+  },
+  {
+    house: 6, lagna: "Capricorn", planetSign: "Gemini", planet: "Mercury", page: 216,
+    en: "Gets weakness in destiny, always gets some worries and difficulties in the way of the progress of his destiny, gets control over diseases, enemies and troubles, spends much",
+    ta: "விதியில் பலவீனம்; விதியின் முன்னேற்றத்தில் எப்போதும் சில கவலைகளும் சிரமங்களும்; நோய்கள், எதிரிகள், தொல்லைகள் மீது கட்டுப்பாடு; அதிகம் செலவழிப்பார்.",
+  },
+  {
+    house: 6, lagna: "Capricorn", planetSign: "Gemini", planet: "Jupiter", page: 218,
+    en: "Has worries and dependence in connection with expenditure, faces opposition from brothers, has deficiency in accumulating wealth, faces obstacles in his independence, causes enmity cleverly, works with hidden policies, is of idle nature",
+    ta: "செலவு பற்றிய கவலைகளும் சார்பும்; சகோதரர் எதிர்ப்பு; செல்வம் சேர்ப்பதில் குறை; தன் சுதந்திரத்தில் தடைகள்; சாமர்த்தியமாகப் பகை உண்டாக்குவார்; ரகசிய கொள்கைகளுடன் வேலை செய்வார்; சோம்பல் இயல்பு.",
+  },
+  {
+    house: 6, lagna: "Capricorn", planetSign: "Gemini", planet: "Venus", page: 220,
+    en: "Enmity from father's house, faces some trouble from children, gets the influence of education, gets some dependence, spends much, defeats the enemies with secret tactics of wisdom, gets control over",
+    ta: "தந்தை வீட்டில் பகை; குழந்தைகளால் சில தொல்லை; கல்வியின் செல்வாக்கு; சில சார்பு; அதிகம் செலவழிப்பார்; ரகசிய சாமர்த்தியத்தால் எதிரிகளை வெல்வார்; கட்டுப்படுத்தும் ஆற்றல்.",
+  },
+  {
+    house: 6, lagna: "Capricorn", planetSign: "Gemini", planet: "Saturn", page: 222,
+    en: "Is very influential and gets victory over enemies, has some worry and uneasiness in the daily routine of life, experiences hindrances in expenditure, gets enmity in the house of brother, has deficiency in accumulating wealth, has deficiency in the handsomeness, is clever and cautious",
+    ta: "மிகுந்த செல்வாக்குள்ளவர், எதிரிகளை வெல்வார்; தினசரி வாழ்வில் சில கவலையும் அமைதியின்மையும்; செலவில் தடைகள்; சகோதரர் வீட்டில் பகை; செல்வம் சேர்ப்பதில் குறை; அழகில் குறை; சாமர்த்தியமும் எச்சரிக்கையும்.",
+  },
+  {
+    house: 6, lagna: "Capricorn", planetSign: "Gemini", planet: "Rahu", page: 224,
+    en: "Is very influential, defeats the enemy, gets great victory, progresses through diplomacy, wisdom and cleverness, gets the work done very carelessly and with pride, gets control over diseases, is selfish, fearless and haughty",
+    ta: "மிகுந்த செல்வாக்குள்ளவர்; எதிரியை வெல்வார்; பெரும் வெற்றி; ராஜதந்திரம், அறிவு, சாமர்த்தியம் மூலம் முன்னேறுவார்; வேலையை மிகக் கவனக்குறைவாகவும் கர்வத்துடனும் செய்வார்; நோய்களின் மீது கட்டுப்பாடு; சுயநலம், தைரியம், கர்வம்.",
+  },
+  {
+    house: 6, lagna: "Capricorn", planetSign: "Gemini", planet: "Ketu", page: 226,
+    en: "Causes injury to enemies, gets rid of the diseases and difficulties, is fearless",
+    ta: "எதிரிக்குக் காயம் விளைவிப்பார்; நோய்களையும் சிரமங்களையும் நீக்குவார்; அஞ்சாதவர்.",
+  },
+  {
+    house: 6, lagna: "Aquarius", planetSign: "Cancer", planet: "Sun", page: 232,
+    en: "Gets influence from the house of wife and maintains it, feces some struggle with wife, bears some hardships in occupation, gains some influence from the line of occupation, manages a business, gets victory over the enemies, has some bitterness in spending",
+    ta: "மனைவி வீட்டில் செல்வாக்கைப் பெற்று பராமரிப்பார்; மனைவியுடன் சில போராட்டம்; தொழிலில் சில கஷ்டம்; தொழில் வழியில் சில செல்வாக்கு; வணிகம் நடத்துவார்; எதிரிகளை வெல்வார்; செலவில் சில கசப்பு.",
+  },
+  {
+    house: 6, lagna: "Aquarius", planetSign: "Cancer", planet: "Moon", page: 234,
+    en: "Is very careful and cautious in the enemies' side and gets victory, does not care about calamities, spends much, remains happy and carefree, uses influence in expenditure, and is a fatal enemy",
+    ta: "எதிரிகளின் பக்கம் மிகவும் கவனமும் எச்சரிக்கையும்; வெற்றி பெறுவார்; இடர்களைப் பொருட்படுத்தார்; அதிகம் செலவழிப்பார்; மகிழ்ச்சியாகவும் கவலையின்றியும் இருப்பார்; செலவில் செல்வாக்கு; ஆபத்தான எதிரி.",
+  },
+  {
+    house: 6, lagna: "Aquarius", planetSign: "Cancer", planet: "Mars", page: 236,
+    en: "Is restless and faces opposition with father and brother, possesses some hidden power, kills the enemy deceitfully, spends much, faces hindrances in position, gets respect in foreign places",
+    ta: "தந்தை, சகோதரருடன் எதிர்ப்பும் அமைதியின்மையும்; மறைந்த சக்தி உண்டு; எதிரியை ஏமாற்றி அழிப்பார்; அதிகம் செலவழிப்பார்; பதவியில் தடைகள்; அயல்நாடுகளில் மரியாதை பெறுவார்.",
+  },
+  {
+    house: 6, lagna: "Aquarius", planetSign: "Cancer", planet: "Mercury", page: 238,
+    en: "Bears loss, feces affliction and distress in the side of children, has deficiency in education, is intellectually worried, uses modesty in",
+    ta: "இழப்பு, குழந்தைகள் வகையில் துன்பமும் வேதனையும்; கல்வியில் குறை; அறிவு ரீதியாகக் கவலை; அடக்கத்துடன் பேசுவார்.",
+  },
+  {
+    house: 6, lagna: "Aquarius", planetSign: "Cancer", planet: "Jupiter", page: 240,
+    en: "Gets huge power of wealth, misuses the wealth, gets gratis-like wealth suddenly, spends in a narrow and wrong manner",
+    ta: "மிகுந்த செல்வ வலிமை; செல்வத்தைத் தவறாகப் பயன்படுத்துவார்; திடீரென இலவசம் போன்ற செல்வம் பெறுவார்; குறுகிய, தவறான முறையில் செலவழிப்பார்.",
+  },
+  {
+    house: 6, lagna: "Aquarius", planetSign: "Cancer", planet: "Venus", page: 242,
+    en: "Has weakness in destiny, faces opposition from others, finds obstacles in peace and happiness, spends much, suppresses the enemy, gives free medicines of some diseases, and helps to remove the worries of others",
+    ta: "விதியில் பலவீனம்; பிறரின் எதிர்ப்பு; மகிழ்ச்சிக்கும் அமைதிக்கும் தடைகள்; அதிகம் செலவழிப்பார்; எதிரியை அடக்குவார்; சில நோய்களுக்கு இலவச மருந்து கொடுப்பார்; பிறரின் கவலைகளை நீக்க உதவுவார்.",
+  },
+  {
+    house: 6, lagna: "Aquarius", planetSign: "Cancer", planet: "Saturn", page: 244,
+    en: "Does very influential deeds, gets dignity with some dependence, works very courageously and patiently, faces weakness in brother's house, does not care for the enemies, maintains dignity in the daily routine of life, spends much through tries to control the expenditure, is selfish and not kind",
+    ta: "மிகுந்த செல்வாக்குள்ள செயல்கள்; சார்புடன் கூடிய கௌரவம்; மிகுந்த தைரியமும் பொறுமையும்; சகோதரர் வீட்டில் பலவீனம்; எதிரிகளைப் பொருட்படுத்தார்; தினசரி வாழ்வில் கௌரவம்; அதிகம் செலவழிப்பார், ஆனால் செலவைக் கட்டுப்படுத்த முயல்வார்; சுயநலம், இரக்கமின்மை.",
+  },
+  {
+    house: 6, lagna: "Aquarius", planetSign: "Cancer", planet: "Rahu", page: 246,
+    en: "Gets influence in the house of enemies, defeats the enemies also, faces some anxiety from enemies' side, is very cautious and clever",
+    ta: "எதிரி வீட்டில் செல்வாக்கு; எதிரிகளையும் வெல்வார்; எதிரிகள் பக்கம் சில கவலை; மிகவும் எச்சரிக்கையும் சாமர்த்தியமும்.",
+  },
+  {
+    house: 6, lagna: "Aquarius", planetSign: "Cancer", planet: "Ketu", page: 248,
+    en: "Gets victory in the house of enemies, is worried about some troubles, does not care for the enemies, uses secret schemes in suppressing the enemies",
+    ta: "எதிரி வீட்டில் வெற்றி; சில தொல்லைகள் பற்றிக் கவலை; எதிரிகளைப் பொருட்படுத்தார்; எதிரிகளை அடக்க ரகசியத் திட்டங்களைப் பயன்படுத்துவார்.",
+  },
+  {
+    house: 6, lagna: "Pisces", planetSign: "Leo", planet: "Sun", page: 254,
+    en: "Defeats the enemies, gains great influence, gets grand power of removing troubles and calamities, always maintains pressure on enemies",
+    ta: "எதிரிகளை வெல்வார்; பெரும் செல்வாக்கு; இடர்களையும் சிக்கல்களையும் நீக்கும் பெரும் ஆற்றல்; எதிரிகள் மீது எப்போதும் அழுத்தம்.",
+  },
+  {
+    house: 6, lagna: "Pisces", planetSign: "Leo", planet: "Moon", page: 255,
+    en: "Faces difficulties and deficiency in education, experiences distress in children's education, gets the work done by thinking very intricately, faces restlessness in enemies' house, spends much",
+    ta: "கல்வியில் சிரமமும் குறையும்; குழந்தைகளின் கல்வியில் துன்பம்; மிகவும் சிக்கலாகச் சிந்தித்து வேலை சாதிப்பார்; எதிரி வீட்டில் அமைதியின்மை; அதிகம் செலவழிப்பார்.",
+  },
+  {
+    house: 6, lagna: "Pisces", planetSign: "Leo", planet: "Mars", page: 257,
+    en: "Gets good luck through some difficult means, gets success due to intricate tactics, gets victory in the house of enemies, has some enmity in the house of expenditure, being opposed by the family",
+    ta: "சிக்கலான வழிகளால் நல்ல அதிர்ஷ்டம்; நுட்பமான உபாயங்களால் வெற்றி; எதிரி வீட்டில் வெற்றி; செலவு வீட்டில் சில பகை; குடும்பத்தால் எதிர்க்கப்படுவார்.",
+  },
+  {
+    house: 6, lagna: "Pisces", planetSign: "Leo", planet: "Mercury", page: 259,
+    en: "Faces separation in mother's house, gets some enmity in wife's side, gets some weakness in land and buildings, faces some troubles from the side of occupation, manages the enemy's house peacefully, spends much",
+    ta: "தாய் வீட்டில் பிரிவு; மனைவி வீட்டில் சில பகை; நிலம், கட்டிடங்களில் சில பலவீனம்; தொழிலில் சில துன்பம்; எதிரி வீட்டை அமைதியாக நிர்வகிப்பார்; அதிகம் செலவழிப்பார்.",
+  },
+  {
+    house: 6, lagna: "Pisces", planetSign: "Leo", planet: "Jupiter", page: 262,
+    en: "Does somewhat dependent but influential deeds, faces some opposition from father's house, gets increased wealth, gets the advantage from government and society, gets the mixture of dependence and independence in a strange manner, tries to remove the wounds of others even when he is engulfed in perplexities himself",
+    ta: "சார்புடனும் ஆனால் செல்வாக்குடனும் செயல்படுவார்; தந்தை வீட்டில் சில எதிர்ப்பு; செல்வம் அதிகரிக்கும்; அரசு, சமூகத்தில் ஆதாயம்; சார்பும் சுதந்திரமும் கலந்த நிலை; தானே குழப்பத்தில் இருந்தாலும் பிறரின் காயங்களை ஆற்ற முயல்வார்.",
+  },
+  {
+    house: 6, lagna: "Pisces", planetSign: "Leo", planet: "Venus", page: 264,
+    en: "Feels restlessness in his life, gets opposition from brothers, is somewhat dependent in life, gets stomach diseases",
+    ta: "வாழ்வில் அமைதியின்மை; சகோதரர் எதிர்ப்பு; வாழ்வில் சிறிது சார்பு; வயிற்று நோய்கள்.",
+  },
+  {
+    house: 6, lagna: "Pisces", planetSign: "Leo", planet: "Saturn", page: 266,
+    en: "Gets the strength of expenses and gains, manages the affairs courageously, maintains influence in diurnal occupation and routine of life, creates influence on enemies, has a weak connection with brother",
+    ta: "செலவிலும் ஆதாயத்திலும் வலிமை; தைரியமாகக் காரியங்களை நிர்வகிப்பார்; தினசரி தொழிலிலும் வாழ்விலும் செல்வாக்கு; எதிரிகள் மீது செல்வாக்கு; சகோதரருடன் பலவீனமான உறவு.",
+  },
+  {
+    house: 6, lagna: "Pisces", planetSign: "Leo", planet: "Rahu", page: 268,
+    en: "Gets perplexity from the house of enemies and ruins his foes, gets victory by working very hard, cleverly and patiently in the difficulties and calamities, does not care about diseases, is very selfish and courageous",
+    ta: "எதிரி வீட்டில் குழப்பம்; எதிரிகளை அழிப்பார்; இடர்களிலும் சிரமங்களிலும் மிகக் கடினமாகவும் சாமர்த்தியமாகவும் பொறுமையாகவும் உழைத்து வெற்றி பெறுவார்; நோய்களைப் பொருட்படுத்தார்; மிகவும் சுயநலமும் தைரியமும் உள்ளவர்.",
+  },
+  {
+    house: 6, lagna: "Pisces", planetSign: "Leo", planet: "Ketu", page: 270,
+    en: "Ruins the house of enemies, labours very hard, works very patiendy and courageously though is often disturbed by the enemies and",
+    ta: "எதிரி வீட்டை அழிப்பார்; மிகக் கடினமாக உழைப்பார்; பொறுமையாகவும் தைரியமாகவும் வேலை செய்வார்; ஆனால் அடிக்கடி எதிரிகளால் தொந்தரவு.",
   },
 ];
 

@@ -4,11 +4,11 @@ const { PLANET_IN_HOUSE } = require('./src/report/bhriguPlanetInHouse');
 const SIGNS = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
 const PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 
-// nine planets, in each of the twelve lagnas, in houses 1 to 5: each once, except Sun in Gemini's 5th house, which the book does not print
-assert.equal(PLANET_IN_HOUSE.length, 539);
+// nine planets, in each of the twelve lagnas, in houses 1 to 6: each once, except Sun in Gemini's 5th house, which the book does not print
+assert.equal(PLANET_IN_HOUSE.length, 647);
 const keys = new Set(PLANET_IN_HOUSE.map((e) => `${e.house}|${e.lagna}|${e.planet}`));
-assert.equal(keys.size, 539);
-for (const h of [1, 2, 3, 4, 5]) for (const s of SIGNS) for (const p of PLANETS) {
+assert.equal(keys.size, 647);
+for (const h of [1, 2, 3, 4, 5, 6]) for (const s of SIGNS) for (const p of PLANETS) {
   if (h === 5 && s === 'Gemini' && p === 'Sun') continue;
   assert.ok(keys.has(`${h}|${s}|${p}`), `${p} in house ${h} of ${s}`);
 }
@@ -21,7 +21,7 @@ for (const e of PLANET_IN_HOUSE) {
   assert.ok(Number.isInteger(e.page) && e.page >= 21 && e.page <= 270, `${e.planet} ${e.lagna} page ${e.page}`);
 }
 
-// the sign the planet stands in is the lagna for house 1, and the sign that many places on for houses 2 to 5
+// the sign the planet stands in is the lagna for house 1, and the sign that many places on for houses 2 to 6
 for (const e of PLANET_IN_HOUSE) {
   const i = SIGNS.indexOf(e.lagna);
   const want = SIGNS[(i + e.house - 1) % 12];
@@ -52,5 +52,8 @@ assert.equal(at(5, 'Aries', 'Mars').page, 25);
 assert.equal(at(5, 'Aries', 'Mars').planetSign, 'Leo');
 assert.equal(at(5, 'Aquarius', 'Ketu').planetSign, 'Gemini');
 assert.equal(at(5, 'Gemini', 'Jupiter').planetSign, 'Libra');
+assert.equal(at(6, 'Aries', 'Sun').planetSign, 'Virgo');
+assert.equal(at(6, 'Gemini', 'Sun').planetSign, 'Scorpio');
+assert.equal(at(6, 'Gemini', 'Sun').page, 62);
 
 console.log('test-bhrigu-planet-in-house ok');
