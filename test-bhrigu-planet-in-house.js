@@ -4,11 +4,11 @@ const { PLANET_IN_HOUSE } = require('./src/report/bhriguPlanetInHouse');
 const SIGNS = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
 const PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 
-// nine planets, in each of the twelve lagnas, in houses 1 to 7: each once, except Sun in Gemini's 5th house, which the book does not print
-assert.equal(PLANET_IN_HOUSE.length, 755);
+// nine planets, in each of the twelve lagnas, in houses 1 to 8: each once, except Sun in Gemini's 5th house, which the book does not print
+assert.equal(PLANET_IN_HOUSE.length, 863);
 const keys = new Set(PLANET_IN_HOUSE.map((e) => `${e.house}|${e.lagna}|${e.planet}`));
-assert.equal(keys.size, 755);
-for (const h of [1, 2, 3, 4, 5, 6, 7]) for (const s of SIGNS) for (const p of PLANETS) {
+assert.equal(keys.size, 863);
+for (const h of [1, 2, 3, 4, 5, 6, 7, 8]) for (const s of SIGNS) for (const p of PLANETS) {
   if (h === 5 && s === 'Gemini' && p === 'Sun') continue;
   assert.ok(keys.has(`${h}|${s}|${p}`), `${p} in house ${h} of ${s}`);
 }
@@ -21,7 +21,7 @@ for (const e of PLANET_IN_HOUSE) {
   assert.ok(Number.isInteger(e.page) && e.page >= 21 && e.page <= 280, `${e.planet} ${e.lagna} page ${e.page}`);
 }
 
-// the sign the planet stands in is the lagna for house 1, and the sign that many places on for houses 2 to 7
+// the sign the planet stands in is the lagna for house 1, and the sign that many places on for houses 2 to 8
 for (const e of PLANET_IN_HOUSE) {
   const i = SIGNS.indexOf(e.lagna);
   const want = SIGNS[(i + e.house - 1) % 12];
@@ -57,5 +57,7 @@ assert.equal(at(6, 'Gemini', 'Sun').planetSign, 'Scorpio');
 assert.equal(at(6, 'Gemini', 'Sun').page, 62);
 assert.equal(at(7, 'Aries', 'Sun').planetSign, 'Libra');
 assert.equal(at(7, 'Pisces', 'Ketu').page, 271);
+assert.equal(at(8, 'Taurus', 'Jupiter').planetSign, 'Sagittarius');
+assert.equal(at(8, 'Aries', 'Sun').planetSign, 'Scorpio');
 
 console.log('test-bhrigu-planet-in-house ok');

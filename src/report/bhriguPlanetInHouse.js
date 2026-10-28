@@ -1,10 +1,10 @@
 /**
- * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 7th
+ * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 8th
  * houses from each lagna. Each entry is the book's prose as printed (`en`, joined from the page extract; OCR slips are kept),
  * its Tamil summary (`ta`, ours) and the printed page the entry starts on. `planetSign` is the sign the planet stands in
- * (the lagna for house 1, and the sign that many places on for houses 2 to 7).
+ * (the lagna for house 1, and the sign that many places on for houses 2 to 8).
  * The book has no 5th-house entry for Sun in Gemini: its printed page goes from the 4th house straight to the 6th (checked
- * on the page image), so that entry is absent here and nothing is supplied for it. 755 entries in all.
+ * on the page image), so that entry is absent here and nothing is supplied for it. 863 entries in all.
  * The printed page is the scan's page number plus five, checked against the printed numbers in the scan and the page
  * images for Libra (p.156) and Leo (p.104). Extracted by scratch scripts; the text is the book's.
  */
@@ -3784,6 +3784,546 @@ const PLANET_IN_HOUSE = [
     house: 7, lagna: "Pisces", planetSign: "Virgo", planet: "Ketu", page: 271,
     en: "Some restlessness in the house of wife, gets special sexual pleasures, labours very hard in diurnal occupation, gets an internal stability in the occupation",
     ta: "மனைவி வீட்டில் அமைதியின்மை; பாலியல் இன்பத்தில் சிறப்பு; தினசரி தொழிலில் மிகக் கடினமாக உழைப்பார்; தொழிலில் உள் நிலைத்தன்மை.",
+  },
+  {
+    house: 8, lagna: "Aries", planetSign: "Scorpio", planet: "Sun", page: 22,
+    en: "Miseries on account of children, education suffers, mentally worried, secretive, routine life, gains wealth from others, crooked in nature, harsh speech and rash",
+    ta: "குழந்தைகளால் துன்பம்; கல்வி பாதிப்பு; மனக் கவலை; ரகசியமானவர்; வழக்கமான வாழ்க்கை; மற்றவர்களிடமிருந்து செல்வம் பெறுவார்; வளைந்த இயல்பு; கடுமையான பேச்சும் அவசரமும்.",
+  },
+  {
+    house: 8, lagna: "Aries", planetSign: "Scorpio", planet: "Moon", page: 24,
+    en: "Loses mother and unhappy with maternal relatives, disturbed and narrow-minded, suffers from stomach troubles, accident prone, does not accumulate wealth, feces penury and troubles",
+    ta: "தாயை இழப்பார்; தாய்வழி உறவினர்களுடன் மகிழ்ச்சியின்மை; குழப்பமும் குறுகிய மனப்பான்மையும்; வயிற்றுக் கோளாறு; விபத்துக்கு ஆளாவார்; செல்வம் சேராது; வறுமையும் சிக்கலும்.",
+  },
+  {
+    house: 8, lagna: "Aries", planetSign: "Scorpio", planet: "Mars", page: 26,
+    en: "Lean body and deficient in size, feels restless, gains heavily by giving the power of life to others with pride, or even putting an end to self-identity, becomes prematurely aged, brotherly relations suffer, but becomes famous",
+    ta: "மெலிந்த உடல், குறைந்த உயரம்; அமைதியின்மை; பெருமையுடன் பிறருக்கு வாழ்வளித்து பெரும் ஆதாயம், அல்லது தன் அடையாளத்தையே அழிப்பார்; முன்கூட்டியே முதுமை; சகோதர உறவுகள் பாதிப்பு; ஆனால் புகழ் பெறுவார்.",
+  },
+  {
+    house: 8, lagna: "Aries", planetSign: "Scorpio", planet: "Mercury", page: 28,
+    en: "Weakness in finances, energies from maternal grandfather, not very happy with brothers and sisters, clever in getting his work done, has faith in occult power, works hard for getting wealth, suffers from stomach problems, worried in daily routine, faces the enemy with courage",
+    ta: "நிதியில் பலவீனம்; தாய்வழி தாத்தாவிடமிருந்து ஆற்றல்; உடன்பிறப்புகளுடன் மகிழ்ச்சியின்மை; சாமர்த்தியமாக வேலை சாதிப்பார்; மறைந்த சக்தியில் நம்பிக்கை; செல்வம் ஈட்ட கடினமாக உழைப்பார்; வயிற்றுத் தொல்லை; தைரியமாக எதிரியை எதிர்கொள்வார்.",
+  },
+  {
+    house: 8, lagna: "Aries", planetSign: "Scorpio", planet: "Jupiter", page: 30,
+    en: "Unlucky and irreligious, has a long life, unpleasantness from destiny",
+    ta: "அதிர்ஷ்டமற்றவர், தர்மத்தில் நாட்டமில்லாதவர்; நீண்ட ஆயுள்; விதியால் சில தொல்லை.",
+  },
+  {
+    house: 8, lagna: "Aries", planetSign: "Scorpio", planet: "Venus", page: 32,
+    en: "Weak in health and loses wealth, gets success through foreign collaboration, unhappy with wife and also with family, deficient in sexual pleasures, secretly passionate",
+    ta: "உடல்நலக் குறை, செல்வ இழப்பு; வெளிநாட்டு கூட்டுறவால் வெற்றி; மனைவி, குடும்பத்துடன் அதிருப்தி; பாலியல் இன்பத்தில் குறை; ரகசியமான ஆசை.",
+  },
+  {
+    house: 8, lagna: "Aries", planetSign: "Scorpio", planet: "Saturn", page: 34,
+    en: "Worried about father, lives alone, works hard to get gain from foreign collaboration, works with great obstinacy and ability, intellectually worried, no happiness from children and education, arrogant",
+    ta: "தந்தையைப் பற்றிக் கவலை; தனியாக வாழ்வார்; வெளிநாட்டு கூட்டுறவால் ஆதாயம் பெற கடினமாக உழைப்பார்; பிடிவாதமும் திறமையும்; அறிவு ரீதியாகக் கவலை; குழந்தைகள், கல்வியில் மகிழ்ச்சியின்மை; கர்வம்.",
+  },
+  {
+    house: 8, lagna: "Aries", planetSign: "Scorpio", planet: "Rahu", page: 35,
+    en: "Gets worries in daily life, loss in livelihood, gets internal diseases in the abdomen, a man of bitter policies",
+    ta: "தினசரி வாழ்வில் கவலைகள்; வாழ்வாதார இழப்பு; வயிற்றில் உள் நோய்கள்; கசப்பான உபாயங்களைக் கொண்டவர்.",
+  },
+  {
+    house: 8, lagna: "Aries", planetSign: "Scorpio", planet: "Ketu", page: 38,
+    en: "Feels weakness in the back and lower part of stomach, careless in daily routine, some problem due to age, has great pride and creates cooperation in the house of livelihood, has to work hard, at the end gets some fame and influence",
+    ta: "முதுகு, அடிவயிற்றின் கீழ்ப்பகுதியில் பலவீனம்; தினசரி வாழ்வில் அசட்டை; வயது காரணமாக சில பிரச்சினை; பெரும் பெருமை; வாழ்வாதார வீட்டில் உதவி உருவாக்குவார்; கடின உழைப்பு; இறுதியில் சில புகழும் செல்வாக்கும்.",
+  },
+  {
+    house: 8, lagna: "Taurus", planetSign: "Sagittarius", planet: "Sun", page: 43,
+    en: "Restlessness and distress with mother, leaves the country, gets influential friends and also lands at foreign places, works for the increase of wealth",
+    ta: "தாயுடன் அமைதியின்மையும் துன்பமும்; நாட்டை விட்டுச் செல்வார்; வெளிநாடுகளில் செல்வாக்குள்ள நண்பர்களும் நிலமும் கிடைக்கும்; செல்வம் பெருக்க முயல்வார்.",
+  },
+  {
+    house: 8, lagna: "Taurus", planetSign: "Sagittarius", planet: "Moon", page: 44,
+    en: "Separation from brothers and sisters, feels strong in daily routine of life, makes efforts to get wealth, contacts with foreign countries, shows interest in occult studies",
+    ta: "உடன்பிறப்புகளைப் பிரிவார்; தினசரி வாழ்வில் வலிமை; செல்வம் ஈட்ட முயற்சி; வெளிநாட்டுத் தொடர்புகள்; மறை கல்வியில் ஆர்வம்.",
+  },
+  {
+    house: 8, lagna: "Taurus", planetSign: "Sagittarius", planet: "Mars", page: 47,
+    en: "Works hard, bears many troubles and disputes in occupation, loss through wife, bears many disputes in family, somewhat loss due to expenditure, not happy with brothers and sisters, gets diseases below navel, loss of accumulated wealth and property, gets some organic disorders and is short of life",
+    ta: "கடின உழைப்பு; தொழிலில் பல தொல்லைகளும் சச்சரவுகளும்; மனைவி வகையில் இழப்பு; குடும்பத்தில் பல சச்சரவுகள்; செலவால் சில இழப்பு; உடன்பிறப்புகளுடன் மகிழ்ச்சியின்மை; தொப்புளுக்குக் கீழ் நோய்கள்; சேர்த்த செல்வமும் சொத்தும் இழப்பு; சில உறுப்புக் கோளாறுகள்; ஆயுள் குறைவு.",
+  },
+  {
+    house: 8, lagna: "Taurus", planetSign: "Sagittarius", planet: "Mercury", page: 48,
+    en: "Loss of children and not much of education, loses wealth, mentally worried, engages in foreign collaboration",
+    ta: "குழந்தைகள் இழப்பும் கல்வி குறைவும்; செல்வ இழப்பு; மனக் கவலை; வெளிநாட்டு கூட்டுறவில் ஈடுபடுவார்.",
+  },
+  {
+    house: 8, lagna: "Taurus", planetSign: "Sagittarius", planet: "Jupiter", page: 51,
+    en: "Help from foreign countries, spends much, mixed relations with mother, makes efforts to accumulate wealth, dignity in the daily routine, mixed relations in the house of family",
+    ta: "வெளிநாடுகளிலிருந்து உதவி; அதிகம் செலவழிப்பார்; தாயுடன் கலந்த உறவு; செல்வம் சேர்க்க முயற்சி; தினசரி வாழ்வில் மரியாதை; குடும்ப வீட்டில் கலந்த உறவுகள்.",
+  },
+  {
+    house: 8, lagna: "Taurus", planetSign: "Sagittarius", planet: "Venus", page: 53,
+    en: "Some troubles in the body, loss in the side of maternal grandfather's house, feels restless, does very troublesome deeds, works hard to improve the wealth, restlessness in the side of enemies",
+    ta: "உடலில் சில தொல்லைகள்; தாய்வழி தாத்தா வீட்டில் இழப்பு; அமைதியின்மை; மிகத் தொல்லையான செயல்களைச் செய்வார்; செல்வத்தை உயர்த்த கடினமாக உழைப்பார்; எதிரிகள் பக்கம் அமைதியின்மை.",
+  },
+  {
+    house: 8, lagna: "Taurus", planetSign: "Sagittarius", planet: "Saturn", page: 55,
+    en: "Distress in the house of father, deficiency in fame, gets the union of progress through diligence with the cooperation of foreign countries, has Divine power and gains in education",
+    ta: "தந்தை வீட்டில் துன்பம்; புகழில் குறை; வெளிநாட்டு உதவியுடன் உழைப்பால் முன்னேற்றம்; தெய்வீக ஆற்றலும் கல்வியில் ஆதாயமும்.",
+  },
+  {
+    house: 8, lagna: "Taurus", planetSign: "Sagittarius", planet: "Rahu", page: 57,
+    en: "Disturbance in the house of age, gets some abdominal troubles in stomach, feels quite restlessness, sometimes thinks of ending life and is a sufferer",
+    ta: "வயது வீட்டில் குழப்பம்; வயிற்றில் சில நோய்; பெரும் அமைதியின்மை; சில நேரம் வாழ்வை முடிக்க நினைப்பார்; துன்பப்படுபவர்.",
+  },
+  {
+    house: 8, lagna: "Taurus", planetSign: "Sagittarius", planet: "Ketu", page: 58,
+    en: "Does many shady deeds, works hard for foreign collaboration, anxieties in life, some deficiency in lifespan",
+    ta: "பல நிழலான செயல்களைச் செய்வார்; வெளிநாட்டு கூட்டுறவுக்காக கடினமாக உழைப்பார்; வாழ்வில் கவலைகள்; ஆயுளில் சில குறை.",
+  },
+  {
+    house: 8, lagna: "Gemini", planetSign: "Capricorn", planet: "Sun", page: 63,
+    en: "Feels some weakness in the part of energy and strength, some loss through brothers and sisters, uses the great effort and secret power of improving the loss of wealth, some worries in the daily routine",
+    ta: "ஆற்றலிலும் வலிமையிலும் சில பலவீனம்; உடன்பிறப்புகள் வகையில் சில இழப்பு; செல்வ இழப்பை ஈடுசெய்ய பெரும் முயற்சியும் ரகசிய வலிமையும்; தினசரி வேலையில் சில கவலைகள்.",
+  },
+  {
+    house: 8, lagna: "Gemini", planetSign: "Capricorn", planet: "Moon", page: 65,
+    en: "Loss of wealth and weakness in the body, loss in family, gains by secret policies, progress in the house of age",
+    ta: "செல்வ இழப்பும் உடல் பலவீனமும்; குடும்பத்தில் இழப்பு; ரகசிய உபாயங்களால் ஆதாயம்; ஆயுள் வீட்டில் முன்னேற்றம்.",
+  },
+  {
+    house: 8, lagna: "Gemini", planetSign: "Capricorn", planet: "Mars", page: 67,
+    en: "Progress in longevity, permanent gains by hard work in foreign countries, deficiency in the house of wealth, tries to maintain the income, mixed relations with brother",
+    ta: "ஆயுளில் முன்னேற்றம்; வெளிநாடுகளில் கடின உழைப்பால் நிலையான ஆதாயம்; செல்வ வீட்டில் குறை; வருமானத்தைத் தக்கவைக்க முயல்வார்; சகோதரருடன் கலந்த உறவு.",
+  },
+  {
+    house: 8, lagna: "Gemini", planetSign: "Capricorn", planet: "Mercury", page: 69,
+    en: "Deficiency in physical powers, gets some progress in the house of wife, happiness in the daily routine of life, progress and success for accumulating wealth, deficiency of lands and buildings, feels happiness in foreign countries, disordered atmosphere, and has force",
+    ta: "உடல் ஆற்றலில் குறை; மனைவி வீட்டில் சில முன்னேற்றம்; தினசரி வாழ்வில் மகிழ்ச்சி; செல்வம் சேர்ப்பதில் முன்னேற்றமும் வெற்றியும்; நிலம், கட்டிடங்களில் குறை; வெளிநாடுகளில் மகிழ்ச்சி; குழப்பமான சூழல்.",
+  },
+  {
+    house: 8, lagna: "Gemini", planetSign: "Capricorn", planet: "Jupiter", page: 71,
+    en: "Loss in the house of wife and father, does troublesome deeds for business occupation, difficulties from foreign countries, weakness in the house of government and society, feels restless, gets some maternal happiness",
+    ta: "மனைவி, தந்தை வீட்டில் இழப்பு; தொழிலுக்காக சிக்கலான வேலைகள்; வெளிநாடுகளில் சிரமங்கள்; அரசு, சமூகத்தில் பலவீனம்; அமைதியின்மை; தாய் வகையில் சில மகிழ்ச்சி.",
+  },
+  {
+    house: 8, lagna: "Gemini", planetSign: "Capricorn", planet: "Venus", page: 72,
+    en: "Weakness in education, loss in the side of children, makes efforts in increasing the wealth, some deficiency of expenditure",
+    ta: "கல்வியில் பலவீனம்; குழந்தைகள் வகையில் இழப்பு; செல்வம் பெருக்க முயல்வார்; செலவில் சில குறை.",
+  },
+  {
+    house: 8, lagna: "Gemini", planetSign: "Capricorn", planet: "Saturn", page: 74,
+    en: "Good longevity, hindrances in the house of progress and destiny through foreign countries, fame in the line of occupation, progress in the happiness of marriage, progress in occupation, special force in",
+    ta: "நல்ல ஆயுள்; வெளிநாடுகளால் முன்னேற்றம், விதியில் தடைகள்; தொழில் துறையில் புகழ்; திருமண மகிழ்ச்சியில் முன்னேற்றம்; தொழிலில் முன்னேற்றம்; சிறப்பு வலிமை.",
+  },
+  {
+    house: 8, lagna: "Gemini", planetSign: "Capricorn", planet: "Rahu", page: 77,
+    en: "Worries a lot, sometimes has to face fatal and nervous troubles, thinks very secret, feels deficiency in the daily routine of life, gets stomach troubles",
+    ta: "பெரும் கவலைகள்; சில நேரம் உயிருக்கு ஆபத்தான, நரம்பு சம்பந்தமான தொல்லைகள்; மிக ரகசியமாக சிந்திப்பார்; தினசரி வாழ்வில் குறை; வயிற்றுக் கோளாறுகள்.",
+  },
+  {
+    house: 8, lagna: "Gemini", planetSign: "Capricorn", planet: "Ketu", page: 79,
+    en: "Bears some restlessness and worries in the daily routine of life, labours hard and faces difficulties helping the professional life, gets some stomach complaints",
+    ta: "தினசரி வாழ்வில் அமைதியின்மையும் கவலைகளும்; கடின உழைப்பு; தொழில் வாழ்வுக்கு உதவுவதில் சிரமங்கள்; சில வயிற்றுக் குறைகள்.",
+  },
+  {
+    house: 8, lagna: "Cancer", planetSign: "Aquarius", planet: "Sun", page: 83,
+    en: "Earns wealth through painful means, feels deficiency of wealth, gets ancestral wealth or the wealth of a diseased person, sudden loss of wealth",
+    ta: "வேதனையான வழிகளில் செல்வம் ஈட்டுவார்; செல்வக் குறை; முன்னோர் சொத்து அல்லது நோயாளியின் செல்வம் பெறுவார்; திடீர் செல்வ இழப்பு.",
+  },
+  {
+    house: 8, lagna: "Cancer", planetSign: "Aquarius", planet: "Moon", page: 86,
+    en: "Deficiency in beauty, faces hindrances in occupation, earns and progresses through hard physical labour",
+    ta: "அழகில் குறை; தொழிலில் தடைகள்; கடின உடல் உழைப்பால் வருமானமும் முன்னேற்றமும்.",
+  },
+  {
+    house: 8, lagna: "Cancer", planetSign: "Aquarius", planet: "Mars", page: 88,
+    en: "Bears the losses of son and father, does big and difficult tasks, gets little education, tells lies, talks bitterly, follows unrighteous methods to get rise and wealth, feels dissatisfied with government and society, is a bit lazy",
+    ta: "மகன், தந்தை ஆகியோரின் இழப்புகளைத் தாங்குவார்; பெரிய கடின செயல்களைச் செய்வார்; குறைந்த கல்வி; பொய் சொல்வார்; கடுமையாகப் பேசுவார்; உயர்வுக்கும் செல்வத்துக்கும் நேர்மையற்ற வழிகள்; அரசு, சமூகத்தில் அதிருப்தி; சற்று சோம்பல்.",
+  },
+  {
+    house: 8, lagna: "Cancer", planetSign: "Aquarius", planet: "Mercury", page: 90,
+    en: "Weakness in his energy and strength, devoid of foes, hidden power, manages the expenditure, does even the worst and difficult work to acquire money, experiences the separation of brothers and sisters, shows carelessness and gentleness",
+    ta: "ஆற்றலிலும் வலிமையிலும் பலவீனம்; எதிரிகள் இல்லாதவர்; மறைந்த சக்தி; செலவை நிர்வகிப்பார்; பணம் ஈட்ட மிகக் கடினமான வேலைகளையும் செய்வார்; உடன்பிறப்புகளைப் பிரிவார்; அசட்டையும் மென்மையும் காட்டுவார்.",
+  },
+  {
+    house: 8, lagna: "Cancer", planetSign: "Aquarius", planet: "Jupiter", page: 92,
+    en: "Unable to rear Dharma, spends much, gentility in the house of enemies, deficiency of fame, follows obscure Dharma",
+    ta: "தர்மத்தைக் காக்க முடியாது; அதிகம் செலவழிப்பார்; எதிரி வீட்டில் மென்மை; புகழில் குறை; தெளிவற்ற தர்மத்தைப் பின்பற்றுவார்.",
+  },
+  {
+    house: 8, lagna: "Cancer", planetSign: "Aquarius", planet: "Venus", page: 94,
+    en: "Gets advantage through tactics, dissatisfaction from the house of mother, good longevity, very clever",
+    ta: "உபாயங்களால் ஆதாயம்; தாயின் வீட்டில் அதிருப்தி; நல்ல ஆயுள்; மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 8, lagna: "Cancer", planetSign: "Aquarius", planet: "Saturn", page: 96,
+    en: "Anxiety in life from the side of wife, father and sons, gets some deficiency in honour, weakness and perplexity in connection with his business and daily occupation, help from foreign countries, speaks somewhat bitterly, secretly very industrious",
+    ta: "மனைவி, தந்தை, மகன்கள் வகையில் வாழ்வில் கவலை; மரியாதையில் சில குறை; தொழிலிலும் தினசரி வேலையிலும் பலவீனமும் குழப்பமும்; வெளிநாட்டு உதவி; சற்று கடுமையாகப் பேசுவார்; ரகசியமாக மிகவும் கடின உழைப்பாளி.",
+  },
+  {
+    house: 8, lagna: "Cancer", planetSign: "Aquarius", planet: "Rahu", page: 97,
+    en: "Gets power in the daily routine, works promptly, some problem in the stomach, anxiety in the daily routine",
+    ta: "தினசரி வாழ்வில் ஆற்றல் பெறுவார்; விரைந்து வேலை செய்வார்; வயிற்றில் சில பிரச்சினை; தினசரி வாழ்வில் கவலை.",
+  },
+  {
+    house: 8, lagna: "Cancer", planetSign: "Aquarius", planet: "Ketu", page: 100,
+    en: "Some integral complaint in his stomach, spends life without anxiety, works hard",
+    ta: "வயிற்றில் சில நிலையான குறைகள்; கவலையின்றி வாழ்வார்; கடினமாக உழைப்பார்.",
+  },
+  {
+    house: 8, lagna: "Leo", planetSign: "Pisces", planet: "Sun", page: 105,
+    en: "Lives in some other place, is very careful in earning wealth, some fatigue in the body, experiences some seclusion",
+    ta: "வேறு ஊரில் வாழ்வார்; செல்வம் ஈட்டுவதில் மிகக் கவனம்; உடலில் சில சோர்வு; சில தனிமை.",
+  },
+  {
+    house: 8, lagna: "Leo", planetSign: "Pisces", planet: "Moon", page: 107,
+    en: "Manages expenditure, feels some deficiency in the house of the daily routine of life, weakness in the storage of wealth, some anxiety in the age",
+    ta: "செலவை நிர்வகிப்பார்; தினசரி வாழ்வில் சில குறை; செல்வம் சேமிப்பதில் பலவீனம்; வயது பற்றி சில கவலை.",
+  },
+  {
+    house: 8, lagna: "Leo", planetSign: "Pisces", planet: "Mars", page: 109,
+    en: "Gets many hindrances in happiness and peace, troubles in the house of mother, weakness of residential building, deficiency in acquiring fame, knowledge of secret methods",
+    ta: "மகிழ்ச்சிக்கும் அமைதிக்கும் பல தடைகள்; தாய் வீட்டில் தொல்லைகள்; குடியிருப்புக் கட்டிடத்தில் பலவீனம்; புகழ் பெறுவதில் குறை; ரகசிய வழிகள் தெரிந்தவர்.",
+  },
+  {
+    house: 8, lagna: "Leo", planetSign: "Pisces", planet: "Mercury", page: 111,
+    en: "Great loss in the house of wealth, accumulates wealth through very difficult deeds, restlessness in the house oflongevity and in the daily routine of life, anxiety in life",
+    ta: "செல்வ வீட்டில் பெரும் இழப்பு; மிகக் கடினமான செயல்களால் செல்வம் சேர்ப்பார்; ஆயுள் வீட்டிலும் தினசரி வாழ்விலும் அமைதியின்மை; வாழ்வில் கவலை.",
+  },
+  {
+    house: 8, lagna: "Leo", planetSign: "Pisces", planet: "Jupiter", page: 113,
+    en: "Increased longevity, bears troubles from children, some deficiency in the house of education, some loss in the house of mother, deficiency in the house of happiness",
+    ta: "ஆயுள் அதிகரிக்கும்; குழந்தைகள் வகையில் துன்பம்; கல்வி வீட்டில் சில குறை; தாய் வீட்டில் சில இழப்பு; மகிழ்ச்சி வீட்டில் குறை.",
+  },
+  {
+    house: 8, lagna: "Leo", planetSign: "Pisces", planet: "Venus", page: 115,
+    en: "Conducts business in far-off foreign countries, gets a curious sort of happiness in connection with his brothers, sisters and father, deficiency in the house of wealth",
+    ta: "தொலைதூர வெளிநாடுகளில் வணிகம் நடத்துவார்; சகோதர சகோதரிகள், தந்தை வகையில் ஒருவித விசித்திர மகிழ்ச்சி; செல்வ வீட்டில் குறை.",
+  },
+  {
+    house: 8, lagna: "Leo", planetSign: "Pisces", planet: "Saturn", page: 117,
+    en: "Sexual loss in the house ofwife, faces hardships in the house of daily occupation, collaboration with foreign countries, distress in the side of children, some loss in the house of occupation, some despair in the house of longevity, puts in great efforts for use in government and society",
+    ta: "மனைவி வீட்டில் பாலியல் இழப்பு; தொழில் வீட்டில் கடின சிரமங்கள்; வெளிநாட்டு கூட்டுறவு; குழந்தைகள் வகையில் துன்பம்; தொழில் வீட்டில் சில இழப்பு; ஆயுள் வீட்டில் சில நம்பிக்கையின்மை; அரசு, சமூகத்தில் பயன்படுத்த பெரும் முயற்சி.",
+  },
+  {
+    house: 8, lagna: "Leo", planetSign: "Pisces", planet: "Rahu", page: 119,
+    en: "Many perplexities in the house of daily routine of life, some inner trouble in the stomach, fatal losses in the house of longevity after bearing many hardships",
+    ta: "தினசரி வாழ்வில் பல குழப்பங்கள்; வயிற்றில் சில உள் தொல்லை; ஆயுள் வீட்டில் பல சிரமங்களுக்குப் பின் ஆபத்தான இழப்புகள்.",
+  },
+  {
+    house: 8, lagna: "Leo", planetSign: "Pisces", planet: "Ketu", page: 121,
+    en: "Great perplexities in the house of daily routine of his life, some internal trouble in his stomach, fatal loss in the house of age",
+    ta: "தினசரி வாழ்வில் பெரும் குழப்பம்; வயிற்றில் சில உள் தொல்லை; வயது வீட்டில் ஆபத்தான இழப்பு.",
+  },
+  {
+    house: 8, lagna: "Virgo", planetSign: "Aries", planet: "Sun", page: 126,
+    en: "Spends much, gets some weakness in the pursuits of accumulated wealth, gets some weakness in the house of family, gets the conjunction of foreign countries, etc",
+    ta: "அதிகம் செலவழிப்பார்; சேர்த்த செல்வத்தை பின்தொடர்வதில் சில பலவீனம்; குடும்ப வீட்டில் சில பலவீனம்; வெளிநாட்டுத் தொடர்பு.",
+  },
+  {
+    house: 8, lagna: "Virgo", planetSign: "Aries", planet: "Moon", page: 128,
+    en: "Is worried of gains due to relation with tough centres, efforts to get wealth, bears mental distress, always likes the increase in wealth, family and destiny",
+    ta: "கடின மையங்களுடனான தொடர்பால் ஆதாயம் பற்றிக் கவலை; செல்வம் ஈட்ட முயற்சி; மன வேதனை; செல்வம், குடும்பம், விதி ஆகியவற்றின் உயர்வை எப்போதும் விரும்புவார்.",
+  },
+  {
+    house: 8, lagna: "Virgo", planetSign: "Aries", planet: "Mars", page: 130,
+    en: "Has a long life, some deficiency in the side of gains, some loss in the side of brother, gets some deficiency in handling wealth and hard labour",
+    ta: "நீண்ட ஆயுள்; ஆதாயத்தில் சில குறை; சகோதரர் வகையில் சில இழப்பு; செல்வத்தைக் கையாள்வதில் சில குறை; கடின உழைப்பு.",
+  },
+  {
+    house: 8, lagna: "Virgo", planetSign: "Aries", planet: "Mercury", page: 132,
+    en: "Some loss or distress in the happiness in his body and father, feels unhappy and weak in his heart in connection with progress, lives in foreign countries, engaged in the schemes of increasing wealth, bears troubles in business",
+    ta: "உடலிலும் தந்தை வகையிலும் சில இழப்பு அல்லது துன்பம்; முன்னேற்றத்தில் மனச்சோர்வும் இதய பலவீனமும்; வெளிநாடுகளில் வாழ்வார்; செல்வம் பெருக்கும் திட்டங்களில் ஈடுபடுவார்; தொழிலில் தொல்லைகள்.",
+  },
+  {
+    house: 8, lagna: "Virgo", planetSign: "Aries", planet: "Jupiter", page: 134,
+    en: "Much suffering in the family life, some deficiency in the house of mother, bears distress and separation on the side of wife, gets success on the side of daily occupation bearing great hindrances, spends much, makes efforts to hoard wealth",
+    ta: "குடும்ப வாழ்வில் பெரும் துன்பம்; தாய் வீட்டில் சில குறை; மனைவி வகையில் பிரிவும் துன்பமும்; பெரும் தடைகளுக்கிடையே தினசரி தொழிலில் வெற்றி; அதிகம் செலவழிப்பார்; செல்வம் சேமிக்க முயல்வார்.",
+  },
+  {
+    house: 8, lagna: "Virgo", planetSign: "Aries", planet: "Venus", page: 137,
+    en: "Gets weakness in family and destiny, some weakness in religion, gets success in foreign countries",
+    ta: "குடும்பத்திலும் விதியிலும் பலவீனம்; தர்மத்தில் சில பலவீனம்; வெளிநாடுகளில் வெற்றி.",
+  },
+  {
+    house: 8, lagna: "Virgo", planetSign: "Aries", planet: "Saturn", page: 139,
+    en: "Great distress in the side of children, gets little education, is very skilful in business occupation, is talkative, takes tobacco etc, gets stomach troubles and the disease of anus",
+    ta: "குழந்தைகள் வகையில் பெரும் துன்பம்; குறைந்த கல்வி; தொழிலில் மிகவும் திறமையானவர்; பேச்சாளர்; புகையிலை போன்றவற்றைப் பயன்படுத்துவார்; வயிற்றுத் தொல்லையும் ஆசனவாய் நோயும்.",
+  },
+  {
+    house: 8, lagna: "Virgo", planetSign: "Aries", planet: "Rahu", page: 141,
+    en: "Bears great troubles and feels unhappy during his life, great trouble in the house of age, gets diseases in the stomach and in the anus",
+    ta: "வாழ்நாளில் பெரும் தொல்லைகளும் மகிழ்ச்சியின்மையும்; ஆயுள் வீட்டில் பெரும் சிரமம்; வயிறு, ஆசனவாயில் நோய்கள்.",
+  },
+  {
+    house: 8, lagna: "Virgo", planetSign: "Aries", planet: "Ketu", page: 143,
+    en: "Highly restless in his life, passes his days with great difficulties, gets some disease in the lower parts of stomach (below naval or in anus), meets with some major accident every time in life, full of anxieties, does some hard labour",
+    ta: "வாழ்வில் பெரும் அமைதியின்மை; கடினங்களுடன் நாட்களைக் கடத்துவார்; அடிவயிற்றின் கீழ்ப்பகுதியிலும் ஆசனவாயிலும் சில நோய்; ஒவ்வொரு முறையும் பெரிய விபத்தைச் சந்திப்பார்; முழு கவலைகள்; சில கடின உழைப்பு.",
+  },
+  {
+    house: 8, lagna: "Libra", planetSign: "Taurus", planet: "Sun", page: 147,
+    en: "Bears worries about income, gains in foreign countries, is careful about accumulating wealth, gets the hereditary gains, spends a laborious life and develops the family",
+    ta: "வருமானம் பற்றிய கவலை; வெளிநாட்டில் ஆதாயம்; செல்வம் சேர்ப்பதில் கவனம்; பரம்பரை ஆதாயம்; கடின வாழ்வு, குடும்பத்தை வளர்ப்பார்.",
+  },
+  {
+    house: 8, lagna: "Libra", planetSign: "Taurus", planet: "Moon", page: 149,
+    en: "Weakness in the house of father, weakness in the house of wealth, gets honour from foreign countries, dies a painful death, praised ate death",
+    ta: "தந்தை வீட்டில் பலவீனம்; செல்வ வீட்டில் பலவீனம்; வெளிநாடுகளில் மரியாதை; வேதனையான மரணம், ஆனால் மரணத்துக்குப் பின் புகழப்படுவார்.",
+  },
+  {
+    house: 8, lagna: "Libra", planetSign: "Taurus", planet: "Mars", page: 151,
+    en: "Loss of the present wealth, perplexity in occupation, gets distress in wife and family, some bondage in the house of brothers and sisters",
+    ta: "தற்போதைய செல்வ இழப்பு; தொழிலில் குழப்பம்; மனைவி, குடும்பத்தில் துன்பம்; சகோதர சகோதரிகள் வீட்டில் சில கட்டுப்பாடு.",
+  },
+  {
+    house: 8, lagna: "Libra", planetSign: "Taurus", planet: "Mercury", page: 153,
+    en: "Feels distress in destiny, weakness and restlessness in connection with expenditure, some firmness in age, dies a peaceful death",
+    ta: "விதியில் துன்பம்; செலவில் பலவீனமும் அமைதியின்மையும்; வயதில் சில உறுதி; அமைதியான மரணம்.",
+  },
+  {
+    house: 8, lagna: "Libra", planetSign: "Taurus", planet: "Jupiter", page: 155,
+    en: "Experiences great weakness, works with great secret policies, spends much, feels weakness in the house of mother, land and happiness",
+    ta: "பெரும் பலவீனம்; பெரும் ரகசிய உபாயங்களால் வேலை செய்வார்; அதிகம் செலவழிப்பார்; தாய், நிலம், மகிழ்ச்சி வீட்டில் பலவீனம்.",
+  },
+  {
+    house: 8, lagna: "Libra", planetSign: "Taurus", planet: "Venus", page: 157,
+    en: "Has a long life, some deficiency in the body, makes whole-hearted attempt to get wealth, wants family",
+    ta: "நீண்ட ஆயுள்; உடலில் சில குறை; செல்வம் ஈட்ட முழு முயற்சி; குடும்பத்தை விரும்புவார்.",
+  },
+  {
+    house: 8, lagna: "Libra", planetSign: "Taurus", planet: "Saturn", page: 159,
+    en: "Is a diplomat, thinks about remote things, deficiency in the side of education and children, separation in the house of mother, deficiency in the house of wealth, possesses some mysterious knowledge",
+    ta: "இராஜதந்திரி; தொலைதூர விஷயங்களைப் பற்றி சிந்திப்பார்; கல்வி, குழந்தைகள் வகையில் குறை; தாய் வீட்டில் பிரிவு; செல்வ வீட்டில் குறை; சில மர்ம அறிவு.",
+  },
+  {
+    house: 8, lagna: "Libra", planetSign: "Taurus", planet: "Rahu", page: 160,
+    en: "Some distress in life, spends the daily routine in an improper way, gets some disorders of stomach or constipation or disorder in anus or in the lower part of stomach, loss in hereditary wealth, fatal blows in the house of longevity",
+    ta: "வாழ்வில் சில துன்பம்; தினசரி வாழ்வை முறையற்ற விதத்தில் நடத்துவார்; வயிற்றுக் கோளாறு, மலச்சிக்கல், அல்லது ஆசனவாய் அல்லது வயிற்றின் கீழ்ப்பகுதியில் கோளாறு; பரம்பரைச் செல்வத்தில் இழப்பு; ஆயுள் வீட்டில் ஆபத்தான அடிகள்.",
+  },
+  {
+    house: 8, lagna: "Libra", planetSign: "Taurus", planet: "Ketu", page: 163,
+    en: "Gets some resdessness in his life, some weakness and incompleteness in his daily routine, weakness in hereditary wealth, has some stomach disorder",
+    ta: "வாழ்வில் சில அமைதியின்மை; தினசரி வாழ்வில் சில பலவீனமும் குறையும்; பரம்பரைச் செல்வத்தில் பலவீனம்; வயிற்றில் சில கோளாறு.",
+  },
+  {
+    house: 8, lagna: "Scorpio", planetSign: "Gemini", planet: "Sun", page: 168,
+    en: "Gets loss in the house of father, feels deficiency in respect and honour, tries hard in many foreign countries, bears troubles to achieve progress, puts in many efforts in getting wealth, gets progress in longevity and in the daily routine of life",
+    ta: "தந்தை வீட்டில் இழப்பு; மரியாதையில் குறை; பல வெளிநாடுகளில் கடுமையாக முயல்வார்; முன்னேற்றத்துக்கு சிரமங்களைத் தாங்குவார்; செல்வம் ஈட்ட பல முயற்சிகள்; ஆயுளிலும் தினசரி வாழ்விலும் முன்னேற்றம்.",
+  },
+  {
+    house: 8, lagna: "Scorpio", planetSign: "Gemini", planet: "Moon", page: 171,
+    en: "Bears mental distress, feces many troubles, has many mental anxieties for the increase of wealth, injures Dharma, gets good age, does not care for justice or injustice for getting wealth",
+    ta: "மன வேதனை; பல தொல்லைகளைச் சந்திப்பார்; செல்வம் பெருக்க பல மன கவலைகள்; தர்மத்தைக் காயப்படுத்துவார்; நல்ல வயது; செல்வம் பெற நீதி அநீதியைக் கருதார்.",
+  },
+  {
+    house: 8, lagna: "Scorpio", planetSign: "Gemini", planet: "Mars", page: 173,
+    en: "Gets diseases, gets inflammation of heart, lives in a foreign place, engulfed in troubles, gains wealth after putting in efforts, loves his brother very much, does not care about insult",
+    ta: "நோய்கள்; இதய வீக்கம்; அயல் நாட்டில் வாழ்வார்; தொல்லைகளில் சிக்குவார்; முயற்சிக்குப் பின் செல்வம் பெறுவார்; சகோதரர் மீது மிகுந்த அன்பு; அவமானத்தைப் பொருட்படுத்தார்.",
+  },
+  {
+    house: 8, lagna: "Scorpio", planetSign: "Gemini", planet: "Mercury", page: 175,
+    en: "Gets a long life, gets glory and grandeur in the daily routine of life, is very careless and uses both strictness and tenderness in the daily routine of life",
+    ta: "நீண்ட ஆயுள்; தினசரி வாழ்வில் பெருமையும் சிறப்பும்; மிகவும் அசட்டையானவர்; தினசரி வாழ்வில் கண்டிப்பும் மென்மையும் இரண்டையும் கையாள்வார்.",
+  },
+  {
+    house: 8, lagna: "Scorpio", planetSign: "Gemini", planet: "Jupiter", page: 177,
+    en: "Gets little education and little wealth, has distress in the side of children, restless in heart, spends much in order to earn more wealth, gets the work done through hard labour, contact with foreign countries and also for wealth, some insipidness in the means of happiness, about buildings and mother, gets a long life, fives like a rich man",
+    ta: "குறைந்த கல்வியும் குறைந்த செல்வமும்; குழந்தைகள் வகையில் துன்பம்; மனத்தில் அமைதியின்மை; மேலும் செல்வம் பெற அதிகம் செலவழிப்பார்; கடின உழைப்பால் வேலை சாதிப்பார்; வெளிநாட்டுத் தொடர்பு; வாழ்வின் இன்ப வழிகளில் சில சுவையின்மை; கட்டிடங்கள், தாய் பற்றி; நீண்ட ஆயுள்; செல்வந்தர் போல வாழ்வார்.",
+  },
+  {
+    house: 8, lagna: "Scorpio", planetSign: "Gemini", planet: "Venus", page: 179,
+    en: "Some loss in the house of wife, manages the occupation through some difficulties, faces hindrances in the occupation and is able to manage the same very much for the increase of wealth, experiences heavy deficiency in the sexual pleasures, pursues secret policies",
+    ta: "மனைவி வீட்டில் சில இழப்பு; சில சிரமங்களுடன் தொழிலை நடத்துவார்; தொழிலில் தடைகள், ஆனால் செல்வம் பெருக்குவதில் நன்கு நிர்வகிப்பார்; பாலியல் இன்பத்தில் பெரும் குறை; ரகசிய உபாயங்கள்.",
+  },
+  {
+    house: 8, lagna: "Scorpio", planetSign: "Gemini", planet: "Saturn", page: 181,
+    en: "Loss of happiness from others' side, restlessness from brothers and sisters, gets a long life, restlessness in the house of father, goes to foreign countries",
+    ta: "பிறரிடமிருந்து இன்பம் இழப்பு; சகோதர சகோதரிகள் வகையில் அமைதியின்மை; நீண்ட ஆயுள்; தந்தை வீட்டில் அமைதியின்மை; வெளிநாடுகளுக்குச் செல்வார்.",
+  },
+  {
+    house: 8, lagna: "Scorpio", planetSign: "Gemini", planet: "Rahu", page: 183,
+    en: "Thinks of a great grandeur in his life, shows force and coquetry, thinks very deeply on the obscure and mysterious matters, gets a long life",
+    ta: "வாழ்வில் பெரும் பெருமையை நினைப்பார்; வலிமையும் கவர்ச்சியும் காட்டுவார்; தெளிவற்ற, மர்மமான விஷயங்களை ஆழமாக சிந்திப்பார்; நீண்ட ஆயுள்.",
+  },
+  {
+    house: 8, lagna: "Scorpio", planetSign: "Gemini", planet: "Ketu", page: 185,
+    en: "Experiences great unhappiness, remains disturbed, some weakness in longevity, has a clumsy daily routine, gets some disease in anus or stomach",
+    ta: "பெரும் துன்பம்; மனத்தில் கலக்கம்; ஆயுளில் சில பலவீனம்; தினசரி வாழ்வு ஒழுங்கற்றது; ஆசனவாயிலோ வயிற்றிலோ சில நோய்.",
+  },
+  {
+    house: 8, lagna: "Sagittarius", planetSign: "Cancer", planet: "Sun", page: 190,
+    en: "Loss in connection with destiny, gets rise of fortune from foreign countries a bit late with great difficulty, spends the life in a very decent and influential manner, gets the increase of age",
+    ta: "விதி வகையில் இழப்பு; அயல்நாடுகளால் அதிர்ஷ்ட உயர்வு, ஆனால் சற்று தாமதமாகவும் பெரும் சிரமத்துடனும்; வாழ்வில் மிகவும் கண்ணியமாகவும் செல்வாக்குடனும் வாழ்வார்; வயது கூடும்.",
+  },
+  {
+    house: 8, lagna: "Sagittarius", planetSign: "Cancer", planet: "Moon", page: 192,
+    en: "Has a long life, possesses deep knowledge of the power of concentration, gets hereditary advantage, faces some loss in the house of wealth",
+    ta: "நீண்ட ஆயுள்; ஒருமுக சிந்தனையின் ஆழ்ந்த அறிவு; பரம்பரை ஆதாயம்; செல்வ வீட்டில் சில இழப்பு.",
+  },
+  {
+    house: 8, lagna: "Sagittarius", planetSign: "Cancer", planet: "Mars", page: 194,
+    en: "Faces some special trouble in the children's side, gets deficiency in education, feels greatly troubled in matters of expenditure, has a short life, uses secrecies, bears loss in the house ofbrother, tries very hard for income and gains, gets some disease in anus",
+    ta: "குழந்தைகள் வகையில் சிறப்புத் துன்பம்; கல்வியில் குறை; செலவு விஷயங்களில் பெரும் சிரமம்; குறுகிய ஆயுள்; ரகசியங்களைப் பயன்படுத்துவார்; சகோதரர் வீட்டில் இழப்பு; வருமானத்துக்கும் ஆதாயத்துக்கும் பெரும் முயற்சி; ஆசனவாயில் சில நோய்.",
+  },
+  {
+    house: 8, lagna: "Sagittarius", planetSign: "Cancer", planet: "Mercury", page: 196,
+    en: "Bears loss and perplexity in the business occupation, frees loss in the house of wife, gets the conjunction of work in foreign countries, tries hard for the increase of wealth, has some deficiency in exual pleasures",
+    ta: "தொழில் வணிகத்தில் இழப்பும் குழப்பமும்; மனைவி வீட்டில் இழப்பு; வெளிநாடுகளில் வேலை சேர்க்கை; செல்வம் பெருக்க பெரும் முயற்சி; பாலியல் இன்பத்தில் சில குறை.",
+  },
+  {
+    house: 8, lagna: "Sagittarius", planetSign: "Cancer", planet: "Jupiter", page: 198,
+    en: "Enjoys unique powers, elegance and splendour in his daily routine and in his life, faces some weakness in the side of wealth, spends much, lives in a majestic style but feels some weakness in his position gets land and property, gets the power of mother",
+    ta: "தனித்துவமான ஆற்றல்கள், தினசரி வாழ்விலும் வாழ்விலும் நயமும் ஒளியும்; செல்வ வகையில் சில பலவீனம்; அதிகம் செலவழிப்பார்; கம்பீர வாழ்வு, ஆனால் நிலையில் சில பலவீனம்; நிலமும் சொத்தும் பெறுவார்; தாய் வழியில் ஆற்றல்.",
+  },
+  {
+    house: 8, lagna: "Sagittarius", planetSign: "Cancer", planet: "Venus", page: 200,
+    en: "Bears numerous worries for getting gains and income, some elegance in daily routine of life, deficiency in gains, suppresses the enemies",
+    ta: "ஆதாயமும் வருமானமும் பெற பல கவலைகள்; தினசரி வாழ்வில் சில நயம்; ஆதாயத்தில் குறை; எதிரிகளை அடக்குவார்.",
+  },
+  {
+    house: 8, lagna: "Sagittarius", planetSign: "Cancer", planet: "Saturn", page: 202,
+    en: "Gets deficiency of wealth and manpower, is unhappy, gets loss in wealth, has a deficiency in education and intellect, has a long life, possesses secret wisdom",
+    ta: "செல்வமும் ஆளும் பலமும் குறைவு; மகிழ்ச்சியற்றவர்; செல்வ இழப்பு; கல்வி, அறிவில் குறை; நீண்ட ஆயுள்; ரகசிய ஞானம் உண்டு.",
+  },
+  {
+    house: 8, lagna: "Sagittarius", planetSign: "Cancer", planet: "Rahu", page: 204,
+    en: "Bears perplexities in his life, complaints about stomach and anus, gets difficulty in the daily routine of life, faces the secret anxieties, and finds happiness in travelling in foreign countries",
+    ta: "வாழ்வில் குழப்பங்கள்; வயிறு, ஆசனவாய் பற்றிய புகார்கள்; தினசரி வாழ்வில் சிரமம்; மறைமுக கவலைகள்; வெளிநாட்டுப் பயணத்தில் மகிழ்ச்சி.",
+  },
+  {
+    house: 8, lagna: "Sagittarius", planetSign: "Cancer", planet: "Ketu", page: 206,
+    en: "Great troubles in his life, gets complaints in stomach, lower part of the body or anus, bears many worries in the daily routine, is rude and works patiently",
+    ta: "வாழ்வில் பெரும் தொல்லைகள்; வயிறு, அடிப்பகுதி அல்லது ஆசனவாயில் புகார்கள்; தினசரி வாழ்வில் பல கவலைகள்; முரட்டுத்தனமானவர்; பொறுமையாக வேலை செய்வார்.",
+  },
+  {
+    house: 8, lagna: "Capricorn", planetSign: "Leo", planet: "Sun", page: 211,
+    en: "Lives long, spends influential life, loss of money, gets family affliction, has a power of secrecy, feels dignified in his living, does not care at all about bis future, is haughty, and is of grumbling nature",
+    ta: "நீண்ட ஆயுள்; செல்வாக்கான வாழ்வு; பண இழப்பு; குடும்பத்தில் துன்பம்; ரகசியத் திறன்; வாழ்வில் கம்பீரம்; தன் எதிர்காலத்தைப் பற்றி சிறிதும் கவலைப்படார்; கர்வமும் முணுமுணுப்பும்.",
+  },
+  {
+    house: 8, lagna: "Capricorn", planetSign: "Leo", planet: "Moon", page: 213,
+    en: "Bears loss in wife's house, bears mental affliction on account of family affairs, gets deficiency in the side of sexual pleasures, bears difficulties in occupation, gets secret knowledge",
+    ta: "மனைவி வீட்டில் இழப்பு; குடும்ப விவகாரங்களில் மன வேதனை; பாலியல் இன்பத்தில் குறை; தொழிலில் சிரமங்கள்; ரகசிய அறிவு.",
+  },
+  {
+    house: 8, lagna: "Capricorn", planetSign: "Leo", planet: "Mars", page: 215,
+    en: "Gains much, separation from mother, gets happiness in longevity, happiness in the daily routine of life, unhappiness in domestic pleasures, works courageously and diligently",
+    ta: "பெரும் ஆதாயம்; தாயைப் பிரிவார்; நீண்ட ஆயுளில் மகிழ்ச்சி; தினசரி வாழ்வில் மகிழ்ச்சி; குடும்ப இன்பங்களில் அமைதியின்மை; தைரியமாகவும் கடினமாகவும் வேலை செய்வார்.",
+  },
+  {
+    house: 8, lagna: "Capricorn", planetSign: "Leo", planet: "Mercury", page: 217,
+    en: "Gets weak destiny, weakness in the side of Dharrna, uses the tactics for the increased of wealth, gets a long age and is selfish",
+    ta: "பலவீனமான விதி; தர்ம வகையில் பலவீனம்; செல்வம் பெருக்கத் தந்திரங்கள்; நீண்ட வயது; சுயநலம்.",
+  },
+  {
+    house: 8, lagna: "Capricorn", planetSign: "Leo", planet: "Jupiter", page: 219,
+    en: "Has weakness in his strength and energy, faces hindrances in connection with expenditure and spends much, gets gains from foreign countries, gets weakness in connection with brothers and sisters, has deficiency in the house of accumulating wealth, spends the daily routine of life influentially and with dignity",
+    ta: "ஆற்றலிலும் வலிமையிலும் பலவீனம்; செலவில் தடைகள், அதிகம் செலவழிப்பார்; வெளிநாடுகளில் ஆதாயம்; சகோதர சகோதரிகள் வகையில் பலவீனம்; செல்வம் சேமிக்கும் வீட்டில் குறை; தினசரி வாழ்வை செல்வாக்குடனும் கம்பீரத்துடனும் நடத்துவார்.",
+  },
+  {
+    house: 8, lagna: "Capricorn", planetSign: "Leo", planet: "Venus", page: 221,
+    en: "Bears loss of father, has deficiency in education, talks by concealing things, tries to get honour in the government and society, has some deficiency in the progress of business, but pays attention to increase the wealth",
+    ta: "தந்தை இழப்பு; கல்வியில் குறை; மறைத்துப் பேசுவார்; அரசு, சமூகத்தில் மரியாதை பெற முயல்வார்; வணிகத்தில் சில முன்னேற்றக் குறை; ஆனால் செல்வம் பெருக்குவதில் கவனம்.",
+  },
+  {
+    house: 8, lagna: "Capricorn", planetSign: "Leo", planet: "Saturn", page: 223,
+    en: "Lives in foreign countries and bears troubles in the body, bears the loss of wealth, gets education and children, gets a long age, faces hindrances in accumulating wealth, is very industrious",
+    ta: "வெளிநாடுகளில் வாழ்வார், உடலில் சில துன்பம்; செல்வ இழப்பு; கல்வியும் குழந்தைகளும் பெறுவார்; நீண்ட வயது; செல்வம் சேர்ப்பதில் தடைகள்; மிகவும் உழைப்பாளி.",
+  },
+  {
+    house: 8, lagna: "Capricorn", planetSign: "Leo", planet: "Rahu", page: 225,
+    en: "Is worried, gets diseases in the stomach below navel, bears agony in daily routine of life, bears blows over longevity, injures the legacy, faces distress in travelling to foreign countries, wants to increase wealth",
+    ta: "கவலையுடன் இருப்பார்; தொப்புளுக்குக் கீழ் நோய்கள்; தினசரி வாழ்வில் வேதனை; ஆயுளுக்கு அடிகள்; பரம்பரைச் சொத்துக்கு கேடு; வெளிநாட்டுப் பயணத்தில் துன்பம்; செல்வம் பெருக்க விருப்பம்.",
+  },
+  {
+    house: 8, lagna: "Capricorn", planetSign: "Leo", planet: "Ketu", page: 227,
+    en: "Bears troubles and disorder in the stomach below navel, bears worries in daily routine of life, gets blows on the age, gets distress in connection with travelling",
+    ta: "தொப்புளுக்குக் கீழ் வயிற்றில் தொல்லையும் கோளாறும்; தினசரி வாழ்வில் கவலைகள்; வயதில் அடிகள்; பயணத்தில் துன்பம்.",
+  },
+  {
+    house: 8, lagna: "Aquarius", planetSign: "Virgo", planet: "Sun", page: 232,
+    en: "Faces restlessness and distress in the house of wife, has deficiency in the side of sexual pleasures, bears hardship in the line of occupation, gets the association from foreign countries in occupation, faces some troubles and separation in the house of family, has some defect in organs",
+    ta: "மனைவி வீட்டில் அமைதியின்மையும் துன்பமும்; பாலியல் இன்பத்தில் குறை; தொழிலில் சிரமம்; வெளிநாடுகளிலிருந்து தொழில் தொடர்பு; குடும்பத்தில் சில தொல்லையும் பிரிவும்; உறுப்புகளில் சில குறை.",
+  },
+  {
+    house: 8, lagna: "Aquarius", planetSign: "Virgo", planet: "Moon", page: 235,
+    en: "Bears perplexities in the side of enemies, gets some stomach troubles, tries hard for the increase of wealth, and is of disturbed mind",
+    ta: "எதிரிகள் வகையில் குழப்பம்; வயிற்றில் சில தொல்லை; செல்வம் பெருக்க கடினமாக முயல்வார்; மனம் அமைதியற்றது.",
+  },
+  {
+    house: 8, lagna: "Aquarius", planetSign: "Virgo", planet: "Mars", page: 237,
+    en: "Bears loss in the house of father, has debilitated powers from brothers and sisters, acquires the income by very hard labour, has deficiency in honour and respect, has deficiency in dress",
+    ta: "தந்தை வீட்டில் இழப்பு; சகோதர சகோதரிகளிடமிருந்து பலவீனமான ஆற்றல்; மிகக் கடின உழைப்பால் வருமானம்; மரியாதையிலும் கௌரவத்திலும் குறை; உடையில் குறை.",
+  },
+  {
+    house: 8, lagna: "Aquarius", planetSign: "Virgo", planet: "Mercury", page: 239,
+    en: "Has some weakness in education, gets long age, some distress in the children side, neglects accumulated wealth, talks very cleverly",
+    ta: "கல்வியில் சில பலவீனம்; நீண்ட வயது; குழந்தைகள் வகையில் சில துன்பம்; சேர்த்த செல்வத்தை அலட்சியம் செய்வார்; சாமர்த்தியமாகப் பேசுவார்.",
+  },
+  {
+    house: 8, lagna: "Aquarius", planetSign: "Virgo", planet: "Jupiter", page: 241,
+    en: "Bears loss of men and wealth, labours hard and travels to foreign countries for income, even then does not get sufficient income, secures wealth occasionally",
+    ta: "ஆள், செல்வ இழப்பு; கடின உழைப்பு; வருமானத்துக்காக வெளிநாடு செல்வார், ஆனாலும் போதுமான வருமானம் கிடைக்காது; சில நேரம் செல்வம் கிடைக்கும்.",
+  },
+  {
+    house: 8, lagna: "Aquarius", planetSign: "Virgo", planet: "Venus", page: 243,
+    en: "Great weakness in connection with Dharma, bears loss in mother's house, has deficiency in happiness, has weakness in land and buildings and property, has weakness in destiny, gets success late, faces great restlessness in foreign countries, tries to get more money",
+    ta: "தர்மத்தில் பெரும் பலவீனம்; தாய் வீட்டில் இழப்பு; மகிழ்ச்சியில் குறை; நிலம், கட்டிடம், சொத்தில் பலவீனம்; விதியில் பலவீனம்; தாமதமாக வெற்றி; வெளிநாடுகளில் பெரும் அமைதியின்மை; மேலும் பணம் தேடுவார்.",
+  },
+  {
+    house: 8, lagna: "Aquarius", planetSign: "Virgo", planet: "Saturn", page: 245,
+    en: "Gets hidden strength, does dangerous deeds, gets a long life, gets some physical worries, faces enmity in father's house, gains some strength in children's side, gets education",
+    ta: "மறைந்த வலிமை; ஆபத்தான செயல்கள்; நீண்ட ஆயுள்; சில உடல் கவலைகள்; தந்தை வீட்டில் பகை; குழந்தைகள் வகையில் சில வலிமை; கல்வி பெறுவார்.",
+  },
+  {
+    house: 8, lagna: "Aquarius", planetSign: "Virgo", planet: "Rahu", page: 247,
+    en: "Gets some dignity along with troubles in his life, faces some uneasiness in the house of hereditary property, gets some complaint in stomach and in the lower part of the body",
+    ta: "வாழ்வில் துன்பங்களுடன் சில மரியாதை; பரம்பரைச் சொத்தின் வீட்டில் சில அமைதியின்மை; வயிற்றிலும் உடலின் கீழ்ப்பகுதியிலும் சில புகார்.",
+  },
+  {
+    house: 8, lagna: "Aquarius", planetSign: "Virgo", planet: "Ketu", page: 249,
+    en: "Feels worried in the daily routine of life, pays attention to the most obscure affairs, faces blows in the house of longevity, works fearlessly even in the fearful circumstances, is influential",
+    ta: "தினசரி வாழ்வில் கவலை; மிக ரகசிய விவகாரங்களில் கவனம்; ஆயுள் வீட்டில் அடிகள்; அச்சமூட்டும் சூழ்நிலையிலும் அஞ்சாமல் வேலை செய்வார்; செல்வாக்குள்ளவர்.",
+  },
+  {
+    house: 8, lagna: "Pisces", planetSign: "Libra", planet: "Sun", page: 254,
+    en: "Bears great restlessness and hindrances, gets some complaints about the disorder in stomach below navel, gets the work done in the enemies' house through diplomatic tactics, faces very severe calamities sometimes",
+    ta: "பெரும் அமைதியின்மையும் தடைகளும்; தொப்புளுக்குக் கீழ் வயிற்றுக் கோளாறு பற்றிய புகார்; எதிரி வீட்டில் வேலையை ராஜதந்திரத்தால் சாதிப்பார்; சில நேரம் மிகக் கடுமையான ஆபத்துகளைச் சந்திப்பார்.",
+  },
+  {
+    house: 8, lagna: "Pisces", planetSign: "Libra", planet: "Moon", page: 256,
+    en: "Gets the deficiency in education, bears disease and deficiency in children's side, gets wealth after great labour, has elegance in the daily routine of life, acquires the progress in family",
+    ta: "கல்வியில் குறை; நோயும் குழந்தைகள் வகையில் குறையும்; மிகுந்த உழைப்பால் செல்வம்; வாழ்வில் நயம்; குடும்ப முன்னேற்றம்.",
+  },
+  {
+    house: 8, lagna: "Pisces", planetSign: "Libra", planet: "Mars", page: 258,
+    en: "Has some weakness in the house of destiny, feces some loss in wealth, faces many obstacles in accumulating wealth, gains heavy income from foreign countries, gets good fortune in the daily routine of life, develops some enmity with brother",
+    ta: "விதி வீட்டில் சில பலவீனம்; செல்வத்தில் சில இழப்பு; செல்வம் சேர்ப்பதில் பல தடைகள்; வெளிநாடுகளிலிருந்து பெரும் வருமானம்; தினசரி வாழ்வில் நல்ல அதிர்ஷ்டம்; சகோதரருடன் சில பகை.",
+  },
+  {
+    house: 8, lagna: "Pisces", planetSign: "Libra", planet: "Mercury", page: 260,
+    en: "Bears loss in mother's and wife's house, has some deficiency in lands and buildings, feces deficiency in happiness, manages the affairs through occupation, gets support from foreign countries, gets happiness of a long age, finds happiness in the daily routine of life",
+    ta: "தாய், மனைவி வீட்டில் இழப்பு; நிலம், கட்டிடங்களில் சில குறை; மகிழ்ச்சியில் குறை; தொழிலால் விவகாரங்களை நிர்வகிப்பார்; வெளிநாடுகளிலிருந்து ஆதரவு; நீண்ட வயதின் மகிழ்ச்சி; தினசரி வாழ்வில் மகிழ்ச்சி.",
+  },
+  {
+    house: 8, lagna: "Pisces", planetSign: "Libra", planet: "Jupiter", page: 262,
+    en: "Gets respect by working majestically, finds distress from father's house, gets an emaciated body, faces obstacles in the progress, finds some dissatisfaction from government and society, remains worried in the house of expenditure, maintains some dignity in the daily routine of life",
+    ta: "கம்பீரமாக வேலை செய்து மரியாதை பெறுவார்; தந்தை வீட்டில் துன்பம்; மெலிந்த உடல்; முன்னேற்றத்தில் தடைகள்; அரசு, சமூகத்தில் சில அதிருப்தி; செலவு வீட்டில் கவலை; தினசரி வாழ்வில் சில கௌரவம்.",
+  },
+  {
+    house: 8, lagna: "Pisces", planetSign: "Libra", planet: "Venus", page: 265,
+    en: "Gets increased age, gets great happiness in daily routine of life, bears some loss of energy, bears loss of brothers and sisters, tries hard to acquire wealth, is somewhat farsighted",
+    ta: "வயது அதிகரிக்கும்; தினசரி வாழ்வில் பெரும் மகிழ்ச்சி; சில ஆற்றல் இழப்பு; சகோதர சகோதரிகள் இழப்பு; செல்வம் ஈட்ட கடினமாக முயல்வார்; சற்று தூரநோக்குடையவர்.",
+  },
+  {
+    house: 8, lagna: "Pisces", planetSign: "Libra", planet: "Saturn", page: 267,
+    en: "Spends life happily, spends income in a dignified way, gets a long life, has some weakness in accumulating wealth, faces some enmity with father, bears some losses and gains from the side of children",
+    ta: "மகிழ்ச்சியுடன் வாழ்வார்; வருமானத்தை கௌரவமாகச் செலவழிப்பார்; நீண்ட ஆயுள்; செல்வம் சேர்ப்பதில் சில பலவீனம்; தந்தையுடன் சில பகை; குழந்தைகள் வகையில் சில இழப்பும் ஆதாயமும்.",
+  },
+  {
+    house: 8, lagna: "Pisces", planetSign: "Libra", planet: "Rahu", page: 269,
+    en: "Worried in the daily routine of life, gets some diseases below the stomach, gains firmness in daily routine of life after bearing numerous difficulties, gets fatal blows in the house of longevity, finds hindrance in going to foreign countries",
+    ta: "தினசரி வாழ்வில் கவலை; வயிற்றுக்குக் கீழே சில நோய்கள்; பல சிரமங்களுக்குப் பின் தினசரி வாழ்வில் உறுதி; ஆயுள் வீட்டில் ஆபத்தான அடிகள்; வெளிநாடு செல்வதில் தடை.",
+  },
+  {
+    house: 8, lagna: "Pisces", planetSign: "Libra", planet: "Ketu", page: 271,
+    en: "Some resdessness in the daily routine of life, gets stomach disorders, experiences blows in connection with age, follows stable principles, and is obstinate",
+    ta: "தினசரி வாழ்வில் சில அமைதியின்மை; வயிற்றுக் கோளாறுகள்; வயது தொடர்பாக அடிகள்; நிலையான கொள்கைகளைப் பின்பற்றுவார்; பிடிவாதமானவர்.",
   },
 ];
 
