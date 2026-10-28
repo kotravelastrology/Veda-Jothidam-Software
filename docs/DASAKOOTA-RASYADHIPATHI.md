@@ -53,8 +53,8 @@ The Rasi-lord factor is shown, not counted.
 
 - Each match shows whether the two Rasi lords are friends, read in either direction from the printed lists.
   Saturn's friends are not printed, so his pairs are judged by the other lords' lists.
-- The factor is not counted. The total goes from 10 to 9. The level thresholds (8, 6, 4) are unchanged, so
-  a match now reaches each level one factor sooner in proportion to the total.
+- The factor is not counted. The total goes from 10 to 9. The level thresholds (8, 6, 4) are unchanged but now
+  apply to 9 counted factors, so each level is slightly easier to reach.
 - Before this change the factor counted as "the lords differ", which the book does not state. Scores
   therefore change for matches where that factor was the only difference from the book's view.
 - Option B (counting it as an inferred rule) is still open, and would need the Jupiter–Saturn reading settled
