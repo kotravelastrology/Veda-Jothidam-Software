@@ -1,10 +1,11 @@
 /**
- * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 9th
+ * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 10th
  * houses from each lagna. Each entry is the book's prose as printed (`en`, joined from the page extract; OCR slips are kept),
  * its Tamil summary (`ta`, ours) and the printed page the entry starts on. `planetSign` is the sign the planet stands in
- * (the lagna for house 1, and the sign that many places on for houses 2 to 9).
- * The book has no 5th-house entry for Sun in Gemini: its printed page goes from the 4th house straight to the 6th (checked
- * on the page image), so that entry is absent here and nothing is supplied for it. 971 entries in all.
+ * (the lagna for house 1, and the sign that many places on for houses 2 to 10).
+ * The book has no entry for two planets: Sun in Gemini's 5th house (its page goes from the 4th house to the 6th) and Sun in
+ * Leo's 10th house (its page goes from the 9th house to the 11th); both checked on the page image, so neither is supplied.
+ * 1078 entries in all.
  * The printed page is the scan's page number plus five, checked against the printed numbers in the scan and the page
  * images for Libra (p.156) and Leo (p.104). Extracted by scratch scripts; the text is the book's.
  */
@@ -4864,6 +4865,541 @@ const PLANET_IN_HOUSE = [
     house: 9, lagna: "Pisces", planetSign: "Scorpio", planet: "Ketu", page: 271,
     en: "Faces severe anxiety in the house of destiny, bears loss in the house of Dharma, works very hard for the rise of income and fortune, progresses with secret devices, gets deficiency in fame, has deficiency in the reliance on God, and is somewhat restless",
     ta: "விதி வீட்டில் கடுமையான கவலை; தர்ம வீட்டில் இழப்பு; வருமானத்தையும் அதிர்ஷ்டத்தையும் உயர்த்த கடினமாக உழைப்பார்; மறைமுக வழிகளில் முன்னேறுவார்; புகழில் குறை; இறைநம்பிக்கையில் குறை; சற்று அமைதியற்றவர்.",
+  },
+  {
+    house: 10, lagna: "Aries", planetSign: "Capricorn", planet: "Sun", page: 22,
+    en: "Childish in behaviour, develops enmity with father, faces hindrances in the advancement of occupation side i.e. profession, gets opposition in society and government, his work lacks decency, respects mother, happiness in the matters concerning houses and landed property",
+    ta: "குழந்தைத்தனமான நடத்தை; தந்தையுடன் பகை; தொழில் முன்னேற்றத்தில் தடைகள்; சமூகத்திலும் அரசிலும் எதிர்ப்பு; வேலையில் நேர்த்தி இல்லை; தாயை மதிப்பார்; வீடு, நிலம் சம்பந்தமான விஷயங்களில் மகிழ்ச்சி.",
+  },
+  {
+    house: 10, lagna: "Aries", planetSign: "Capricorn", planet: "Moon", page: 24,
+    en: "Gets affection from father, acquires landed property, help from government and society, gets favours, success in business, does good deeds, wears good dress, appreciates beauty and decoration, thinks high",
+    ta: "தந்தையின் அன்பு; நிலச் சொத்து; அரசு, சமூகத்தின் உதவி; சலுகைகள்; தொழிலில் வெற்றி; நல்ல செயல்கள்; நல்ல உடை; அழகையும் அலங்காரத்தையும் ரசிப்பார்; உயர்ந்த எண்ணங்கள்.",
+  },
+  {
+    house: 10, lagna: "Aries", planetSign: "Capricorn", planet: "Mars", page: 26,
+    en: "Great physical strength, gets the dignity and supremacy in the daily routine of life, has self-respect and pride, becomes famous and is respected by the government and society, does grand deeds, has a good personality, gets his work done, is independent and orders, but careless about pleasures, good in education and intellect, not a dutiful son, naughty",
+    ta: "பெரும் உடல் வலிமை; தினசரி வாழ்வில் மேன்மையும் ஆதிக்கமும்; தன்மானமும் பெருமையும்; புகழ் பெற்று அரசு, சமூகத்தால் மதிக்கப்படுவார்; பெரிய செயல்கள்; நல்ல ஆளுமை; தன் வேலையை முடிப்பார்; சுதந்திரமானவர், ஆணையிடுபவர்; இன்பங்களில் கவனக்குறைவு; கல்வியிலும் அறிவிலும் நல்லவர்; கீழ்ப்படியாத மகன்; குறும்பானவர்.",
+  },
+  {
+    house: 10, lagna: "Aries", planetSign: "Capricorn", planet: "Mercury", page: 28,
+    en: "Discriminative, help from brothers and sisters, help from father, gets honour and power in government and society due to his hard labour, improvement in industry",
+    ta: "பகுத்தறிவுள்ளவர்; சகோதர சகோதரிகளின் உதவி; தந்தையின் உதவி; கடின உழைப்பால் அரசு, சமூகத்தில் மரியாதையும் அதிகாரமும்; தொழில் முன்னேற்றம்.",
+  },
+  {
+    house: 10, lagna: "Aries", planetSign: "Capricorn", planet: "Jupiter", page: 30,
+    en: "Successful in business but does not get special importance in society and government, honourable spending, gets peace and happiness. Divine help",
+    ta: "தொழிலில் வெற்றி, ஆனால் அரசு, சமூகத்தில் சிறப்பு மதிப்பு இல்லை; மரியாதையான செலவு; அமைதியும் மகிழ்ச்சியும்; தெய்வ உதவி.",
+  },
+  {
+    house: 10, lagna: "Aries", planetSign: "Capricorn", planet: "Venus", page: 32,
+    en: "Gets advantage from father, happiness in the house of mother and landed property, is very rich, famous and wise",
+    ta: "தந்தையின் ஆதாயம்; தாய் வீட்டிலும் நிலச் சொத்திலும் மகிழ்ச்சி; மிகுந்த செல்வந்தர்; புகழும் ஞானமும்.",
+  },
+  {
+    house: 10, lagna: "Aries", planetSign: "Capricorn", planet: "Saturn", page: 34,
+    en: "Conducts big business, good income, help from government and society spends lavishly, enjoys sexual pleasures, does industrious actions to progress and has self-pride",
+    ta: "பெரிய வணிகம் நடத்துவார்; நல்ல வருமானம்; அரசு, சமூகத்தின் உதவி; ஆடம்பரமாகச் செலவழிப்பார்; இன்பங்களை அனுபவிப்பார்; முன்னேற்றத்துக்கு கடுமையாக உழைப்பார்; சுயபெருமை.",
+  },
+  {
+    house: 10, lagna: "Aries", planetSign: "Capricorn", planet: "Rahu", page: 36,
+    en: "Not happy with father, faces hindrances in the way of progress, business and occupation, has latent power to get his work done, gets success after great efforts",
+    ta: "தந்தையுடன் மகிழ்ச்சியின்மை; தொழில், வாழ்வாதாரத்தில் முன்னேற்றத்துக்குத் தடைகள்; செயலை நிறைவேற்ற மறைந்த ஆற்றல்; பெரும் முயற்சிக்குப் பின் வெற்றி.",
+  },
+  {
+    house: 10, lagna: "Aries", planetSign: "Capricorn", planet: "Ketu", page: 38,
+    en: "Gets some distress, loss and deficiency from paternal sources, not happy in occupation, success after great hard work, loss of honour and respect, works bravely",
+    ta: "தந்தை வழியில் சில துன்பம், இழப்பு, குறை; தொழிலில் மகிழ்ச்சியின்மை; பெரும் கடின உழைப்பால் வெற்றி; மரியாதையும் கௌரவமும் இழப்பு; தைரியமாக வேலை செய்வார்.",
+  },
+  {
+    house: 10, lagna: "Taurus", planetSign: "Aquarius", planet: "Sun", page: 43,
+    en: "Happiness from mother and enmity with father, gets the happiness of lands and buildings, some recognition from society and government, happiness in occupation, loss due to some laziness",
+    ta: "தாயால் மகிழ்ச்சி; தந்தையுடன் பகை; நிலமும் வீடும் மகிழ்ச்சி; சில அரசு, சமூக அங்கீகாரம்; தொழிலில் மகிழ்ச்சி; சோம்பலால் சில இழப்பு.",
+  },
+  {
+    house: 10, lagna: "Taurus", planetSign: "Aquarius", planet: "Moon", page: 45,
+    en: "Help from brothers and sisters, progress of work in government and society, happiness from mother and has pleasing memories",
+    ta: "சகோதர சகோதரிகளின் உதவி; அரசு, சமூகத்தில் வேலை முன்னேற்றம்; தாயால் மகிழ்ச்சி; இனிய நினைவுகள்.",
+  },
+  {
+    house: 10, lagna: "Taurus", planetSign: "Aquarius", planet: "Mars", page: 47,
+    en: "Does good work in professional area, disorder in the body, loss through children and weak in education, loss through father, mixed feelings in sexual pleasures",
+    ta: "தொழில் துறையில் நல்ல பணி; உடலில் கோளாறு; பிள்ளைகளால் இழப்பு; கல்வியில் பலவீனம்; தந்தையால் இழப்பு; பாலியல் இன்பத்தில் கலவையான உணர்வுகள்.",
+  },
+  {
+    house: 10, lagna: "Taurus", planetSign: "Aquarius", planet: "Mercury", page: 49,
+    en: "Gets high education, gets government job, gains from father and also children, earns huge wealth and distinction in business, enjoys gain from government and society, respected, gains from buildings and lands and is clever",
+    ta: "உயர் கல்வி; அரசு வேலை; தந்தை, பிள்ளைகள் வகையில் ஆதாயம்; வணிகத்தில் பெரும் செல்வமும் புகழும்; அரசு, சமூகத்தில் ஆதாயம்; மரியாதைக்குரியவர்; நிலம், கட்டிடங்களால் ஆதாயம்; சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 10, lagna: "Taurus", planetSign: "Aquarius", planet: "Jupiter", page: 51,
+    en: "Gets connection with foreign countries and also some enmity loss with father, gains through much hard work, some weakness in the house of government and society, honourable spending, uses all devices to improve wealth and influence, little deficiency in the house of mother and tries to remove it",
+    ta: "வெளிநாடுகளுடன் தொடர்பு; தந்தையுடன் சில பகையும் இழப்பும்; கடின உழைப்பால் ஆதாயம்; அரசு, சமூகத்தில் சில பலவீனம்; கம்பீரமான செலவு; செல்வத்தையும் செல்வாக்கையும் மேம்படுத்த எல்லா உபாயங்களையும் பயன்படுத்துவார்; தாய் வீட்டில் சிறு குறை, அதை நீக்க முயல்வார்.",
+  },
+  {
+    house: 10, lagna: "Taurus", planetSign: "Aquarius", planet: "Venus", page: 53,
+    en: "Gets progress in government and society, some problem with father, keeps his influence in the house of enemies, unhappy with mother, gets honour and progress in business, feels a little unhappy",
+    ta: "அரசு, சமூகத்தில் முன்னேற்றம்; தந்தையுடன் சில பிரச்சினை; எதிரி வீட்டில் செல்வாக்கு; தாயுடன் அதிருப்தி; வணிகத்தில் மரியாதையும் முன்னேற்றமும்; சிறிது அதிருப்தி.",
+  },
+  {
+    house: 10, lagna: "Taurus", planetSign: "Aquarius", planet: "Saturn", page: 55,
+    en: "Gets great honour in government and society, carelessness and mistakes in the house of expenditure, unhappy with mother, enmity with wife, does a grand business and feels a bit unhappy",
+    ta: "அரசு, சமூகத்தில் பெரும் மரியாதை; செலவு வீட்டில் கவனக்குறைவும் தவறுகளும்; தாயுடன் அதிருப்தி; மனைவியுடன் பகை; பெரிய வணிகம் நடத்துவார், ஆனாலும் சிறிது அதிருப்தி.",
+  },
+  {
+    house: 10, lagna: "Taurus", planetSign: "Aquarius", planet: "Rahu", page: 57,
+    en: "Dissatisfaction with father, does hard labour and puts in efforts for the progress of his position, works with anxiety in matters of government and society, works with anxiety in connection with business and occupation",
+    ta: "தந்தையிடம் அதிருப்தி; கடின உழைப்பும் முயற்சியும்; அரசு, சமூக விவகாரங்களில் கவலை; வணிகம், தொழிலில் கவலை.",
+  },
+  {
+    house: 10, lagna: "Taurus", planetSign: "Aquarius", planet: "Ketu", page: 59,
+    en: "Unhappy with father and finds problems in government and society affairs, works hard in the business",
+    ta: "தந்தையுடன் அதிருப்தி; அரசு, சமூக விவகாரங்களில் சிக்கல்; வணிகத்தில் கடினமாக உழைப்பார்.",
+  },
+  {
+    house: 10, lagna: "Gemini", planetSign: "Pisces", planet: "Sun", page: 63,
+    en: "Makes huge progress by energy and strength, gets the influence of father, gets cooperation fbom brothers, progress and influence in the house of government and society, gets success of labour, does some good and is very courageous",
+    ta: "பெரும் முன்னேற்றம் ஆற்றலாலும் வலிமையாலும்; தந்தையின் செல்வாக்கு; சகோதரர்களின் ஒத்துழைப்பு; அரசு, சமூகத்தில் முன்னேற்றமும் செல்வாக்கும்; உழைப்பில் வெற்றி; சில நன்மைகள்; மிகுந்த தைரியம்.",
+  },
+  {
+    house: 10, lagna: "Gemini", planetSign: "Pisces", planet: "Moon", page: 65,
+    en: "Property through father, huge wealth through business, gets respect in government and society, desire to progress, some bondage in the house of wealth",
+    ta: "தந்தை வழியில் சொத்து; வணிகத்தால் பெரும் செல்வம்; அரசு, சமூகத்தில் மரியாதை; முன்னேற்ற ஆசை; செல்வ வீட்டில் சில கட்டுப்பாடு.",
+  },
+  {
+    house: 10, lagna: "Gemini", planetSign: "Pisces", planet: "Mars", page: 67,
+    en: "Does influential and laborious deeds, gains from government and society, victory and gains from the house of enemy, difficulties with house of father, success with hard labour in the house of education, some gains with difficulty in the side of children, deficiency in the maternal happiness",
+    ta: "செல்வாக்கான, கடின உழைப்பு; அரசு, சமூகத்தில் ஆதாயம்; எதிரி வீட்டில் வெற்றியும் ஆதாயமும்; தந்தை வீட்டில் சிரமங்கள்; கல்வி வீட்டில் கடின உழைப்பால் வெற்றி; பிள்ளைகள் வகையில் சில சிரமத்துடன் ஆதாயம்; தாய் வகையில் மகிழ்ச்சிக் குறை.",
+  },
+  {
+    house: 10, lagna: "Gemini", planetSign: "Pisces", planet: "Mercury", page: 69,
+    en: "Gets weakness in the house of father, gets honour, weakness in the body, gets some weakness in the social and government atmosphere, thought to be lazy, gets obstmctions in the house of progress",
+    ta: "தந்தை வீட்டில் பலவீனம்; மரியாதை; உடலில் பலவீனம்; அரசு, சமூக சூழலில் சில பலவீனம்; சோம்பேறி என்று கருதப்படுவார்; முன்னேற்றத்துக்குத் தடைகள்.",
+  },
+  {
+    house: 10, lagna: "Gemini", planetSign: "Pisces", planet: "Jupiter", page: 71,
+    en: "Feels great respect and dignity in business, progress in the house of occupation, help from father, gets honour in government and society, help from wife, great authority in worldly affairs",
+    ta: "வணிகத்தில் பெரும் மரியாதையும் கௌரவமும்; தொழில் வீட்டில் முன்னேற்றம்; தந்தையின் உதவி; அரசு, சமூகத்தில் மரியாதை; மனைவியின் உதவி; உலக விவகாரங்களில் பெரும் அதிகாரம்.",
+  },
+  {
+    house: 10, lagna: "Gemini", planetSign: "Pisces", planet: "Venus", page: 73,
+    en: "Gets education and strength of children, satisfaction from the house and strength of business, but gets weakness in every matter, spends much, enmity with mother, does not care for pleasures, is very clever and influential",
+    ta: "கல்வியும் பிள்ளைகளின் வலிமையும்; வீட்டிலும் வணிகத்தின் வலிமையிலும் திருப்தி; ஆனால் ஒவ்வொரு விஷயத்திலும் சிறு பலவீனம்; அதிகம் செலவழிப்பார்; தாயுடன் பகை; இன்பங்களில் அக்கறையில்லாதவர்; மிகவும் சாமர்த்தியமும் செல்வாக்கும்.",
+  },
+  {
+    house: 10, lagna: "Gemini", planetSign: "Pisces", planet: "Saturn", page: 75,
+    en: "Loss in the house of father, rise in line of progress, does grand deeds to get respect in government and society, gets worries, spends much, progress in the daily occupation, some enmity with wife and family, influential",
+    ta: "தந்தை வீட்டில் இழப்பு; முன்னேற்றப் பாதையில் உயர்வு; அரசு, சமூகத்தில் மரியாதை பெற பெரிய செயல்கள்; கவலைகள்; அதிகம் செலவழிப்பார்; தினசரி தொழிலில் முன்னேற்றம்; மனைவி, குடும்பத்துடன் சில பகை; செல்வாக்குள்ளவர்.",
+  },
+  {
+    house: 10, lagna: "Gemini", planetSign: "Pisces", planet: "Rahu", page: 77,
+    en: "Worry in the house of father, works through some troublesome devices for his progress, weakness and trouble in the house of government and society, controls the situation with great care and at last gets progress",
+    ta: "தந்தை வீட்டில் கவலை; முன்னேற்றத்துக்காக சில தொல்லையான உபாயங்கள்; அரசு, சமூக வீட்டில் பலவீனமும் தொல்லையும்; மிகுந்த கவனத்துடன் நிலைமையைக் கட்டுப்படுத்துவார்; இறுதியில் முன்னேற்றம்.",
+  },
+  {
+    house: 10, lagna: "Gemini", planetSign: "Pisces", planet: "Ketu", page: 79,
+    en: "Some loss and some worry in the way of position, does hard work to get honour in the works of government and society, at the end gets some strong power",
+    ta: "நிலையில் சில இழப்பும் கவலையும்; அரசு, சமூக வேலைகளில் மரியாதை பெற கடினமாக உழைப்பார்; இறுதியில் சில வலிமையான ஆற்றல்.",
+  },
+  {
+    house: 10, lagna: "Cancer", planetSign: "Aries", planet: "Sun", page: 83,
+    en: "Owner of the powerful influence, is a bit careless about land and property, gets wealth, respect in the house of father, earns wealth through trade or some other respectable job, some hindrance in the house of mother, gets obstacles in peace, respect from government and society, possesses high family, is dignified and influential",
+    ta: "பெரும் செல்வாக்குள்ளவர்; நிலம், சொத்தில் சற்று அக்கறையின்மை; செல்வம்; தந்தை வீட்டில் மரியாதை; வணிகம் அல்லது வேறு மரியாதைக்குரிய வேலை மூலம் செல்வம்; தாய் வீட்டில் சில தடை; அமைதியில் தடைகள்; அரசு, சமூகத்தில் மரியாதை; உயர் குடும்பம்; கம்பீரமும் செல்வாக்கும்.",
+  },
+  {
+    house: 10, lagna: "Cancer", planetSign: "Aries", planet: "Moon", page: 86,
+    en: "Majestic, gains from parents, conducts big occupation, lives with great pomp and show, feels happy, wants land and property, does good deeds, gets the respect of government and society",
+    ta: "கம்பீரமானவர்; பெற்றோரால் ஆதாயம்; பெரிய தொழில் நடத்துவார்; பெரும் ஆடம்பரமாக வாழ்வார்; மகிழ்ச்சி; நிலமும் சொத்தும் விரும்புவார்; நல்ல செயல்கள்; அரசு, சமூகத்தின் மரியாதை.",
+  },
+  {
+    house: 10, lagna: "Cancer", planetSign: "Aries", planet: "Mars", page: 88,
+    en: "Is of great managerial ability, works for government and society, is very wise, speaks intellectually, gets honour and respect, is very beautiful, weakness in the body, is very dignified and influential",
+    ta: "மிகுந்த நிர்வாகத் திறன்; அரசு, சமூகத்துக்காக வேலை; மிகுந்த அறிவு; அறிவார்ந்த பேச்சு; மரியாதையும் கௌரவமும்; மிக அழகானவர்; உடலில் பலவீனம்; கம்பீரமும் செல்வாக்கும்.",
+  },
+  {
+    house: 10, lagna: "Cancer", planetSign: "Aries", planet: "Mercury", page: 90,
+    en: "Works in a big way through the power of discrimination, possesses some greatness and some weakness in the house of brother and father, spends much for happiness, some weakness in the house of mother, some deficiency of success in connection with the house of government and society",
+    ta: "பகுத்தறிவின் வலிமையால் பெரிய அளவில் வேலை; சில பெருமையும் சகோதரர், தந்தை வீட்டில் சில பலவீனமும்; மகிழ்ச்சிக்காக அதிகம் செலவழிப்பார்; தாய் வீட்டில் சில பலவீனம்; அரசு, சமூக வீட்டில் வெற்றி குறைவு.",
+  },
+  {
+    house: 10, lagna: "Cancer", planetSign: "Aries", planet: "Jupiter", page: 92,
+    en: "Is very influential and fortunate and has great managerial ability and solves very knotty business problems, gets influence in the house of government and society and father, works very hard to rise in position, becomes head in his circle, is very clever",
+    ta: "மிகுந்த செல்வாக்கும் அதிர்ஷ்டமும்; சிறந்த நிர்வாகத் திறன்; மிகச் சிக்கலான வணிகப் பிரச்சினைகளைத் தீர்ப்பார்; அரசு, சமூகம், தந்தை வீட்டில் செல்வாக்கு; பதவியில் உயர கடுமையாக உழைப்பார்; தன் வட்டத்தில் தலைவராவார்; மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 10, lagna: "Cancer", planetSign: "Aries", planet: "Venus", page: 94,
+    en: "Gain from parents and advantage and power from the government and society, does decent deeds, gains land and property, owns vehicles, skilful and clever",
+    ta: "பெற்றோரால் ஆதாயம்; அரசு, சமூகத்தில் ஆதாயமும் ஆற்றலும்; நல்ல செயல்கள்; நிலமும் சொத்தும்; வாகனங்கள் உண்டு; திறமையானவர், சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 10, lagna: "Cancer", planetSign: "Aries", planet: "Saturn", page: 96,
+    en: "Great trouble in the house of father, undertakes laborious and intricate deeds from the daily development of business and occupation, strange struggle in connection with the wife and family, gets happiness and some buildings and property, artificial happiness in the house of mother, spends much, enjoys the gains of daily business occupation through some secret devices in the house of government and society, some deficiency on having special desire of sexual pleasures, somewhat lazy",
+    ta: "தந்தை வீட்டில் பெரும் துன்பம்; வணிகம், தொழிலின் தினசரி வளர்ச்சியில் கடின, சிக்கலான செயல்கள்; மனைவி, குடும்பத்துடன் விசித்திரமான போராட்டம்; மகிழ்ச்சியும் சில கட்டிடங்களும் சொத்தும்; தாய் வீட்டில் செயற்கையான மகிழ்ச்சி; அதிகம் செலவழிப்பார்; அரசு, சமூக வீட்டில் ரகசிய வழிகளால் தினசரி வணிக ஆதாயம்; பாலியல் இன்பத்தில் சிறப்பு ஆசை இல்லாமை; சற்று சோம்பல்.",
+  },
+  {
+    house: 10, lagna: "Cancer", planetSign: "Aries", planet: "Rahu", page: 98,
+    en: "Trouble in the house of father, bears great hardship in trade, gets respect from government and society after bearing great troubles, possesses great artistic schemes in his mind and is very industrious",
+    ta: "தந்தை வீட்டில் தொல்லை; வணிகத்தில் பெரும் சிரமம்; பெரும் துன்பங்களுக்குப் பின் அரசு, சமூகத்தில் மரியாதை; மனத்தில் சிறந்த கலைத்திறன் திட்டங்கள்; மிகுந்த உழைப்பாளி.",
+  },
+  {
+    house: 10, lagna: "Cancer", planetSign: "Aries", planet: "Ketu", page: 100,
+    en: "Loss in the house of father, bears hardships and penalties in the house of trade, labours hard for the rise of trade, bears hardships and perplexity in the house of government and society, is very industrious",
+    ta: "தந்தை வீட்டில் இழப்பு; வணிக வீட்டில் சிரமங்களும் தண்டனைகளும்; வணிக முன்னேற்றத்துக்குக் கடுமையாக உழைப்பார்; அரசு, சமூக வீட்டில் சிரமமும் குழப்பமும்; மிகுந்த உழைப்பாளி.",
+  },
+  {
+    house: 10, lagna: "Leo", planetSign: "Taurus", planet: "Moon", page: 107,
+    en: "Gets losses in local business, some weakness in the house of father or local position, some weakness in building and property, some weakness in the house of happiness and also spends too much in a royal manner, power of expenditure in the house of government and society and houses",
+    ta: "உள்ளூர் வணிகத்தில் இழப்பு; தந்தை வீட்டில் அல்லது உள்ளூர் நிலையில் சில பலவீனம்; கட்டிடம், சொத்தில் சில பலவீனம்; மகிழ்ச்சி வீட்டில் சில பலவீனம்; அரச பாணியில் அதிகம் செலவழிப்பார்; அரசு, சமூக வீட்டிலும் வீடுகளிலும் செலவு செய்யும் ஆற்றல்.",
+  },
+  {
+    house: 10, lagna: "Leo", planetSign: "Taurus", planet: "Mars", page: 109,
+    en: "Gets progress and happiness through business, has good property and land, observes religious formalities, gets great respect in government and society, gets success in the line of education, peace and happiness from children, good health, is very influential",
+    ta: "வணிகத்தில் முன்னேற்றமும் மகிழ்ச்சியும்; நல்ல சொத்தும் நிலமும்; மதச் சடங்குகளைக் கடைப்பிடிப்பார்; அரசு, சமூகத்தில் பெரும் மரியாதை; கல்வியில் வெற்றி; பிள்ளைகளால் அமைதியும் மகிழ்ச்சியும்; நல்ல உடல்நலம்; மிகுந்த செல்வாக்கு.",
+  },
+  {
+    house: 10, lagna: "Leo", planetSign: "Taurus", planet: "Mercury", page: 111,
+    en: "Secures progress in trade and business, gets power of wealth, gets great respect in government and society, increase of wealth and in the profession of father's house, acquires gains from the side of mother, gets strength of lands and buildings",
+    ta: "வணிகத்திலும் தொழிலிலும் முன்னேற்றம்; செல்வ வலிமை; அரசு, சமூகத்தில் பெரும் மரியாதை; செல்வ வளர்ச்சியும் தந்தை வீட்டின் தொழிலும்; தாய் வீட்டில் ஆதாயம்; நிலம், கட்டிடங்களின் வலிமை.",
+  },
+  {
+    house: 10, lagna: "Leo", planetSign: "Taurus", planet: "Jupiter", page: 113,
+    en: "Deficiency in the house of father, gets the power of children, secret policy in the house of enemy, hard labour to acquire honour in government and society, is self-conceited and skilful",
+    ta: "தந்தை வீட்டில் குறை; பிள்ளைகளின் ஆற்றல்; எதிரி வீட்டில் ரகசிய உபாயம்; அரசு, சமூகத்தில் மரியாதை பெற கடின உழைப்பு; தன்னைப் பெரிதாக நினைப்பவர், திறமையானவர்.",
+  },
+  {
+    house: 10, lagna: "Leo", planetSign: "Taurus", planet: "Venus", page: 115,
+    en: "Advantage from brothers, sisters and father, gets fame and appreciation for success and honour and success in government and society, great success in business, rise in prestige, power of buildings and property, gets success in business, ambitious, majestic, industrious and self-conceited",
+    ta: "சகோதரர், சகோதரி, தந்தை வகையில் ஆதாயம்; வெற்றிக்கும் மரியாதைக்கும் புகழும் பாராட்டும்; அரசு, சமூகத்தில் மரியாதையும் வெற்றியும்; வணிகத்தில் பெரும் வெற்றி; கௌரவம் உயர்வு; கட்டிடங்கள், சொத்தின் வலிமை; வணிகத்தில் வெற்றி; லட்சியமானவர், கம்பீரமானவர், சுறுசுறுப்பானவர், தன்னைப் பெரிதாக நினைப்பவர்.",
+  },
+  {
+    house: 10, lagna: "Leo", planetSign: "Taurus", planet: "Saturn", page: 117,
+    en: "Gets the power of daily occupation, gets great respect through his ability of daily occupation, progress of honour in government and society, gets power ofwife and sexual pleasures, spends much, faces some hindrance in achieving peace and happiness, skilful and industrious",
+    ta: "தினசரி தொழில் வலிமை; தினசரி தொழிலின் திறமையால் பெரும் மரியாதை; அரசு, சமூகத்தில் மரியாதை உயர்வு; மனைவி, பாலியல் இன்பத்தின் வலிமை; அதிகம் செலவழிப்பார்; அமைதியையும் மகிழ்ச்சியையும் அடைவதில் சில தடை; திறமையும் உழைப்பும்.",
+  },
+  {
+    house: 10, lagna: "Leo", planetSign: "Taurus", planet: "Rahu", page: 119,
+    en: "Great difficulties in the house of father, some troubles in connection with government and society, working through secret devices for securing progress, gets hindrances in the respect and fortunes, gets the way to progress through great diplomatic tactics after facing many hardships",
+    ta: "தந்தை வீட்டில் பெரும் சிரமங்கள்; அரசு, சமூக விவகாரங்களில் சில தொல்லைகள்; முன்னேற்றத்துக்காக மறைந்த உபாயங்கள்; மரியாதையிலும் அதிர்ஷ்டத்திலும் தடைகள்; பல சிரமங்களுக்குப் பின் பெரும் ராஜதந்திர உபாயங்களால் முன்னேற்றப் பாதை.",
+  },
+  {
+    house: 10, lagna: "Leo", planetSign: "Taurus", planet: "Ketu", page: 121,
+    en: "Some loss in the house of father, puts in hard labour and bears hardships in the house of business and occupation, bears great trouble to rise in government and society, is very industrious and possesses secret energy",
+    ta: "தந்தை வீட்டில் சில இழப்பு; வணிக, தொழில் வீட்டில் கடின உழைப்பும் சிரமங்களும்; அரசு, சமூகத்தில் உயர கடுமையான துன்பம்; மிகுந்த உழைப்பாளி; மறைந்த சக்தி உண்டு.",
+  },
+  {
+    house: 10, lagna: "Virgo", planetSign: "Gemini", planet: "Sun", page: 126,
+    en: "Some losses in the house of father, spends from the house of income and business magnificently, some loss in the house of mother, some deficiency in the rise of respect, honour in the house of business",
+    ta: "தந்தை வீட்டில் சில இழப்பு; வருமான வீட்டிலிருந்தும் வணிகத்திலிருந்தும் பெரும் செலவு; தாய் வீட்டில் சில இழப்பு; மரியாதை உயர்வில் சில குறை; வணிக வீட்டில் மரியாதை.",
+  },
+  {
+    house: 10, lagna: "Virgo", planetSign: "Gemini", planet: "Moon", page: 128,
+    en: "Gains majestically from the business, gains heavily from the house of father, government and society, lives with great pomp and show, gets costly things, enjoys the pleasures, gains from the house of mother, land and buildings, gets family enjoyments",
+    ta: "வணிகத்தில் கம்பீரமாக ஆதாயம்; தந்தை, அரசு, சமூக வீடுகளிலிருந்து பெரும் ஆதாயம்; பெரும் ஆடம்பர வாழ்வு; விலையுயர்ந்த பொருட்கள்; இன்பங்கள்; தாய், நிலம், கட்டிடங்களின் ஆதாயம்; குடும்ப இன்பங்கள்.",
+  },
+  {
+    house: 10, lagna: "Virgo", planetSign: "Gemini", planet: "Mars", page: 130,
+    en: "Troubles in the house of father, some pleasures and sufferings in his social and professional progress, some special power on the side of children, speaks roughly, some deficiency in the house of mother and happiness",
+    ta: "தந்தை வீட்டில் துன்பம்; சமூக, தொழில் முன்னேற்றத்தில் சில இன்பமும் துன்பமும்; பிள்ளைகளின் மீது சிறப்பு ஆற்றல்; கடுமையாகப் பேசுவார்; தாய் வீட்டிலும் மகிழ்ச்சியிலும் சில குறை.",
+  },
+  {
+    house: 10, lagna: "Virgo", planetSign: "Gemini", planet: "Mercury", page: 132,
+    en: "Handsome body, does his business, gets pleasure and progress from the government and house of father, enjoys the happiness of mother, buildings and property, is a good manager",
+    ta: "அழகான உடல்; வணிகம் நடத்துவார்; தந்தை வீட்டில் அரசு வகையில் மகிழ்ச்சியும் முன்னேற்றமும்; தாயின் மகிழ்ச்சி; கட்டிடங்கள், சொத்து; நல்ல நிர்வாகி.",
+  },
+  {
+    house: 10, lagna: "Virgo", planetSign: "Gemini", planet: "Jupiter", page: 134,
+    en: "Is dignified, industrious and gets the royal sexual pleasures, does a big business, earns huge wealth, has landed property, gets the pleasure of parents, gets respect in government and society, happiness in the house of wife, gets respect from occupation",
+    ta: "கம்பீரமும் கடின உழைப்பும்; அரசு, சமூகத்தில் ராஜ இன்பங்கள்; பெரிய வணிகம், பெரும் செல்வம்; நிலச் சொத்து; பெற்றோரின் மகிழ்ச்சி; அரசு, சமூகத்தில் மரியாதை; மனைவி வீட்டில் மகிழ்ச்சி; தொழிலில் மரியாதை.",
+  },
+  {
+    house: 10, lagna: "Virgo", planetSign: "Gemini", planet: "Venus", page: 137,
+    en: "Gets great respect, thought to be very fortunate, success from the house of father, cams wealth through cleverness from big business",
+    ta: "மிகுந்த மரியாதை; மிக அதிர்ஷ்டசாலி என்று கருதப்படுவார்; தந்தை வீட்டில் வெற்றி; பெரிய வணிகத்தில் சாமர்த்தியத்தால் செல்வம்.",
+  },
+  {
+    house: 10, lagna: "Virgo", planetSign: "Gemini", planet: "Saturn", page: 139,
+    en: "Increases his influence by his ability, gets honour through the intellectual power, gets respect on the side of children with some difficulties, has great skill in political affairs, secures progress from the house of father with some difficulties, gets success in business, some bitterness with expenditure, is very skilful",
+    ta: "அறிவால் தன் செல்வாக்கை உயர்த்துவார்; அறிவாற்றலால் மரியாதை; பிள்ளைகள் வகையில் சில சிரமங்களுடன் மரியாதை; அரசியல் விவகாரங்களில் பெரும் திறமை; தந்தை வீட்டில் சில சிரமங்களுடன் முன்னேற்றம்; வணிகத்தில் வெற்றி; செலவில் சில கசப்பு; மிகவும் திறமையானவர்.",
+  },
+  {
+    house: 10, lagna: "Virgo", planetSign: "Gemini", planet: "Rahu", page: 141,
+    en: "Gets dignity in business, worries and gets influence in the matters of government and society through deep tactics",
+    ta: "வணிகத்தில் கௌரவம்; கவலைகள்; ஆழமான தந்திரங்களால் அரசு, சமூக விவகாரங்களில் செல்வாக்கு.",
+  },
+  {
+    house: 10, lagna: "Virgo", planetSign: "Gemini", planet: "Ketu", page: 143,
+    en: "Gets loss and distress in the house of father, gets some worries in the house of government, hindrance in progress of business",
+    ta: "தந்தை வீட்டில் இழப்பும் துன்பமும்; அரசு வீட்டில் சில கவலைகள்; வணிக முன்னேற்றத்தில் தடை.",
+  },
+  {
+    house: 10, lagna: "Libra", planetSign: "Cancer", planet: "Sun", page: 147,
+    en: "Gets the income with respect, conducts a big business, gets heavy gains in the house of father, is respectable and gains from the house of government, insipid about gains in connection with land and buildings, uses farsightedness in connection with business and occupation",
+    ta: "மரியாதையுடன் வருமானம்; பெரிய வணிகம்; தந்தை வீட்டில் பெரும் ஆதாயம்; மதிப்புக்குரியவர், அரசு வீட்டிலிருந்து ஆதாயம்; நிலம், கட்டிடங்களில் ஆர்வமின்மை; வணிகம், தொழிலில் தொலைநோக்கு.",
+  },
+  {
+    house: 10, lagna: "Libra", planetSign: "Cancer", planet: "Moon", page: 149,
+    en: "Is respected in government, gets help from father, does big business, gets much pleasure because of his respect and honour, is Ml of self- pride, gets happiness in the house of mother, has property, is very industrious",
+    ta: "அரசு வகையில் மதிக்கப்படுவார்; தந்தையிடமிருந்து உதவி; பெரிய வணிகம்; மிகுந்த மகிழ்ச்சி, மரியாதையாலும் கௌரவத்தாலும்; சுயபெருமை நிறைந்தவர்; தாய் வீட்டில் மகிழ்ச்சி; சொத்து; மிகவும் உழைப்பாளி.",
+  },
+  {
+    house: 10, lagna: "Libra", planetSign: "Cancer", planet: "Mars", page: 151,
+    en: "Gets the weakness of wealth and occupation, gets deficiency in government and society, bears the insulting agony in the house of wife and father on account of deficiency of wealth, bears deficiency and trouble in father, wife with a low standard of occupation, deficiency in sexual pleasures, is respected in government, help from father, does big business, gets much pleasure because of his respect and honour, is full of self-pride, gets happiness in the house of mother, very industrious",
+    ta: "செல்வமும் தொழிலும் பலவீனம்; அரசு, சமூகத்தில் குறை; செல்வக் குறையால் மனைவி, தந்தை வீட்டில் அவமானமும் வேதனையும்; தந்தை, மனைவி வகையில் குறையும் தொல்லையும்; குறைந்த தரமுள்ள தொழில்; பாலியல் இன்பத்தில் குறை; அரசில் மதிக்கப்படுவார், தந்தையின் உதவி; பெரிய வணிகம்; மிகுந்த மகிழ்ச்சியும் மரியாதையும்; சுயபெருமை நிறைந்தவர்; தாய் வீட்டில் மகிழ்ச்சி; மிகுந்த உழைப்பாளி. (இந்த உரையில் சந்திரனின் வாக்கியமும் கலந்துள்ளது; அசல் அச்சில் அப்படியே உள்ளது.)",
+  },
+  {
+    house: 10, lagna: "Libra", planetSign: "Cancer", planet: "Mercury", page: 153,
+    en: "Full of valour and grandeur, conducts a very splendid business, gets honour by his good deeds, spends majestically, is respectable and a man of prestige",
+    ta: "வீரமும் பெருமையும்; மிகச் சிறந்த வணிகம்; நல்ல செயல்களால் மரியாதை; செலவில் கம்பீரம்; மரியாதைக்குரியவர், கௌரவமானவர்.",
+  },
+  {
+    house: 10, lagna: "Libra", planetSign: "Cancer", planet: "Jupiter", page: 155,
+    en: "Is very influential, experiences separation in the house of mother and progresses in the house of father, does very little business, is very brave and powerful, has brothers and sisters, expert in intricate policy",
+    ta: "மிகுந்த செல்வாக்குள்ளவர்; தாய் வீட்டில் பிரிவு, தந்தை வீட்டில் முன்னேற்றம்; மிகச் சிறிய வணிகம்; மிகுந்த தைரியமும் வலிமையும்; சகோதர சகோதரிகள் உண்டு; சிக்கலான அரசியலில் வல்லவர்.",
+  },
+  {
+    house: 10, lagna: "Libra", planetSign: "Cancer", planet: "Venus", page: 157,
+    en: "Spends life royally, gets authority, likes comforts and pleasures very much, difficulties in the progress of honour, gets progress in the business with some difficulty, is obstinate",
+    ta: "அரசவாழ்வு; அதிகாரம்; வசதிகளையும் இன்பங்களையும் மிகவும் விரும்புவார்; மரியாதையின் முன்னேற்றத்தில் சிரமங்கள்; வணிகத்தில் சிரமத்துடன் முன்னேற்றம்; பிடிவாதமானவர்.",
+  },
+  {
+    house: 10, lagna: "Libra", planetSign: "Cancer", planet: "Saturn", page: 159,
+    en: "Enmity in the house of father, gets happiness from mother, gets power in the side of children, feels deficiency and mistakes in the house of wife, hurts wife by speech, some weakness in occupation, possesses buildings and is happy",
+    ta: "தந்தை வீட்டில் பகை; தாயால் மகிழ்ச்சி; பிள்ளைகள் வகையில் ஆற்றல்; மனைவி வீட்டில் குறையும் தவறுகளும்; பேச்சால் மனைவியை காயப்படுத்துவார்; தொழிலில் சில பலவீனம்; கட்டிடங்கள் உண்டு, மகிழ்ச்சியானவர்.",
+  },
+  {
+    house: 10, lagna: "Libra", planetSign: "Cancer", planet: "Rahu", page: 161,
+    en: "Some loss in the house of father, some distress in government and society and the house of business",
+    ta: "தந்தை வீட்டில் சில இழப்பு; அரசு, சமூகத்திலும் வணிக வீட்டிலும் சில துன்பம்.",
+  },
+  {
+    house: 10, lagna: "Libra", planetSign: "Cancer", planet: "Ketu", page: 163,
+    en: "Loss in the house of father, bears losses in the business and occupation, bears mental anxieties, and opposes the government",
+    ta: "தந்தை வீட்டில் இழப்பு; வணிகத்திலும் தொழிலிலும் இழப்பு; மனத்தில் கவலைகள்; அரசை எதிர்ப்பார்.",
+  },
+  {
+    house: 10, lagna: "Scorpio", planetSign: "Leo", planet: "Sun", page: 168,
+    en: "Gets the splendour of government and society, has great authority, does not care for father, some opposition in the house of mother, and is restless",
+    ta: "அரசு, சமூகத்தின் கம்பீரம்; பெரும் அதிகாரம்; தந்தையை மதிக்கமாட்டார்; தாய் வீட்டில் சில எதிர்ப்பு; அமைதியற்றவர்.",
+  },
+  {
+    house: 10, lagna: "Scorpio", planetSign: "Leo", planet: "Moon", page: 171,
+    en: "Is very fortunate, gets the happiness from government, does many good deeds and business, gets the help of mother",
+    ta: "மிக அதிர்ஷ்டசாலி; அரசு வகையில் மகிழ்ச்சி; பல நல்ல செயல்களும் வணிகமும் செய்வார்; தாயின் உதவி.",
+  },
+  {
+    house: 10, lagna: "Scorpio", planetSign: "Leo", planet: "Mars", page: 173,
+    en: "Is very powerful, enjoys the pleasure of physique, is lustful, clever, diligent, secures the progress of the house of father, gets honour in the government and society, opposition in mother, gets the power of children is very wise and learned, speaks firmly, gets commanding power and fame",
+    ta: "மிகுந்த ஆற்றல்; உடல் இன்பம்; காமமுள்ளவர், புத்திசாலி, கடின உழைப்பாளி; தந்தை வீட்டில் முன்னேற்றம்; அரசு, சமூகத்தில் மரியாதை; தாய் வகையில் எதிர்ப்பு; பிள்ளைகளின் ஆற்றல்; மிகுந்த ஞானமும் கல்வியும்; உறுதியாகப் பேசுவார்; கட்டளையிடும் ஆற்றலும் புகழும்.",
+  },
+  {
+    house: 10, lagna: "Scorpio", planetSign: "Leo", planet: "Mercury", page: 175,
+    en: "Gains respect and honour, gets the hereditary gains, distress in the house of father, gets a long life, spends the life doing very influential deeds, hindrances in connection with respect and honour for the rise of position",
+    ta: "மரியாதையும் கௌரவமும் பெறுவார்; பரம்பரை ஆதாயம்; தந்தை வீட்டில் துன்பம்; நீண்ட ஆயுள்; மிகுந்த செல்வாக்குள்ள செயல்களால் வாழ்வு; பதவி உயர்வுக்கு மரியாதையிலும் கௌரவத்திலும் தடைகள்.",
+  },
+  {
+    house: 10, lagna: "Scorpio", planetSign: "Leo", planet: "Jupiter", page: 177,
+    en: "Is very respectable, earns much wealth, gets the power of wealth from government and society through intellect, gets the strength of wealth through business and from the house of father, pursues a big occupation, and is zealous",
+    ta: "மிகவும் மரியாதைக்குரியவர்; மிகுந்த செல்வம்; அறிவால் அரசு, சமூகத்திலிருந்து செல்வ வலிமை; வணிகத்திலிருந்தும் தந்தை வீட்டிலிருந்தும் செல்வ வலிமை; பெரிய தொழில்; ஆர்வமானவர்.",
+  },
+  {
+    house: 10, lagna: "Scorpio", planetSign: "Leo", planet: "Venus", page: 179,
+    en: "Some perplexities in occupation, some weakness in wife's side, satisfactory happiness in the side of mother, gets buildings, deficiency in happiness, good sexual pleasures, some restlessness in the house of father",
+    ta: "தொழிலில் சில குழப்பங்கள்; மனைவி வீட்டில் சில பலவீனம்; தாய் வகையில் திருப்திகரமான மகிழ்ச்சி; கட்டிடங்கள்; மகிழ்ச்சிக் குறை; நல்ல பாலியல் இன்பம்; தந்தை வீட்டில் சில அமைதியின்மை.",
+  },
+  {
+    house: 10, lagna: "Scorpio", planetSign: "Leo", planet: "Saturn", page: 181,
+    en: "Respects brother and father after some difficulty, spends much, conducts the occupation with determination, possesses his own building and properties, acquires sensual pleasures from the house of wife",
+    ta: "தந்தையையும் சகோதரரையும் சில கஷ்டங்களுக்குப் பின் மதிப்பார்; அதிகம் செலவழிப்பார்; உறுதியுடன் தொழில் நடத்துவார்; சொந்த கட்டிடங்களும் சொத்துகளும்; மனைவி வீட்டிலிருந்து புலனின்பங்கள்.",
+  },
+  {
+    house: 10, lagna: "Scorpio", planetSign: "Leo", planet: "Rahu", page: 183,
+    en: "Bears loss and distress in the house of father, faces obstacles in government and society, is not honoured, faces great botheration in business and occupation, faces obstacles in the progress",
+    ta: "தந்தை வீட்டில் இழப்பும் துன்பமும்; அரசு, சமூகத்தில் தடைகள்; மரியாதை கிடைக்காது; தொழிலிலும் வேலையிலும் பெரும் தொல்லை; முன்னேற்றத்தில் தடைகள்.",
+  },
+  {
+    house: 10, lagna: "Scorpio", planetSign: "Leo", planet: "Ketu", page: 185,
+    en: "Some weakness and loss in the house of father and faces hindrances in government and society, faces obstacles in the rise of position or prestige, faces many complexities in business progress, gets success late, is courageous and works patiently",
+    ta: "தந்தை வீட்டில் சில பலவீனமும் இழப்பும்; அரசு, சமூகத்தில் தடைகள்; பதவி அல்லது கௌரவ உயர்வில் தடைகள்; வணிக முன்னேற்றத்தில் பல சிக்கல்கள்; தாமதமாக வெற்றி; தைரியமானவர், பொறுமையுடன் வேலை செய்வார்.",
+  },
+  {
+    house: 10, lagna: "Sagittarius", planetSign: "Virgo", planet: "Sun", page: 190,
+    en: "Is very fortunate, gets great honour and respect due to the power of the destiny, gets fame and success in business, gains from the father, gets progress and advantage from the government and society, follows the religious formalities very much, gets success in the house of mother, is very influential, wants justice and is an officer",
+    ta: "மிக அதிர்ஷ்டசாலி; விதியின் வலிமையால் பெரும் மரியாதையும் கௌரவமும்; வணிகத்தில் புகழும் வெற்றியும்; தந்தையால் ஆதாயம்; அரசு, சமூகத்தில் முன்னேற்றமும் ஆதாயமும்; மதச் சடங்குகளை மிகுந்த அளவில் கடைப்பிடிப்பார்; தாய் வீட்டில் வெற்றி; மிகுந்த செல்வாக்குள்ளவர்; நீதியை விரும்புவார்; அதிகாரியாவார்.",
+  },
+  {
+    house: 10, lagna: "Sagittarius", planetSign: "Virgo", planet: "Moon", page: 192,
+    en: "Faces obstacles in the house of father, has a long age, faces obstacles in the rise of position, bears numerous troubles in the house of government, society and occupation, follows very obscure tactics",
+    ta: "தந்தை வீட்டில் தடைகள்; நீண்ட வயது; பதவி உயர்வில் தடைகள்; அரசு, சமூகம், தொழில் வீட்டில் பல துன்பங்கள்; மிகவும் தெளிவற்ற தந்திரங்களைப் பின்பற்றுவார்.",
+  },
+  {
+    house: 10, lagna: "Sagittarius", planetSign: "Virgo", planet: "Mars", page: 194,
+    en: "Is literate, wise and has a good knowledge about government, injures father, spends much majestically, has some weakness in the body",
+    ta: "படித்தவர், அறிவாளி, அரசு பற்றிய நல்ல அறிவு; தந்தைக்குக் காயம் செய்வார்; கம்பீரமாகச் செலவழிப்பார்; உடலில் சில பலவீனம்.",
+  },
+  {
+    house: 10, lagna: "Sagittarius", planetSign: "Virgo", planet: "Mercury", page: 196,
+    en: "Conducts a big business, gets much respect from government and society, gets a beautiful and influential wife, feces weakness from mother's side, has deficiency in the house of laud and property, gets sexual pleasures",
+    ta: "பெரிய வணிகம் நடத்துவார்; அரசு, சமூகத்தில் பெரும் மரியாதை; அழகான, செல்வாக்குள்ள மனைவி; தாய் வீட்டில் பலவீனம்; நிலமும் சொத்தும் குறை; பாலியல் இன்பம் உண்டு.",
+  },
+  {
+    house: 10, lagna: "Sagittarius", planetSign: "Virgo", planet: "Jupiter", page: 198,
+    en: "Pursues a big business comfortably, gets progress in occupation, gets land and property, gets honour in government and society, has some deficiency in wealth, is industrious and arrogant",
+    ta: "பெரிய வணிகத்தை வசதியாக நடத்துவார்; தொழில் முன்னேற்றம்; நிலமும் சொத்தும்; அரசு, சமூகத்தில் மரியாதை; செல்வத்தில் சில குறை; கடின உழைப்பாளி, ஆணவம் உள்ளவர்.",
+  },
+  {
+    house: 10, lagna: "Sagittarius", planetSign: "Virgo", planet: "Venus", page: 200,
+    en: "Distress in the father's house, gets the weakness in the side of business progress and income, advantage in the house of property",
+    ta: "தந்தை வீட்டில் துன்பம்; வணிக முன்னேற்றத்திலும் வருமானத்திலும் பலவீனம்; சொத்து வீட்டில் ஆதாயம்.",
+  },
+  {
+    house: 10, lagna: "Sagittarius", planetSign: "Virgo", planet: "Saturn", page: 202,
+    en: "Gets dignity in government administration, progresses much, earns wealth, has an influential occupation, faces some bondage in the wife's house, uses his full strength for the progress of occupation, and is obstinate",
+    ta: "அரசு நிர்வாகத்தில் கௌரவம்; பெரும் முன்னேற்றம்; செல்வம் ஈட்டுவார்; செல்வாக்கான தொழில்; மனைவி வீட்டில் சில கட்டுப்பாடு; தொழில் முன்னேற்றத்துக்கு முழு வலிமையையும் பயன்படுத்துவார்; பிடிவாதமானவர்.",
+  },
+  {
+    house: 10, lagna: "Sagittarius", planetSign: "Virgo", planet: "Rahu", page: 204,
+    en: "Uses great tactics for his progress, unhappiness with father, works very secretly in business occupation, gets the advantage in government affairs, gets worry in social affairs",
+    ta: "தன் முன்னேற்றத்துக்கு மிகுந்த தந்திரங்களைப் பயன்படுத்துவார்; தந்தை வகையில் அதிருப்தி; வணிகத் தொழிலில் மிக ரகசியமாக வேலை செய்வார்; அரசு வேலைகளில் ஆதாயம்; சமூக விவகாரங்களில் கவலை.",
+  },
+  {
+    house: 10, lagna: "Sagittarius", planetSign: "Virgo", planet: "Ketu", page: 206,
+    en: "Has some deficiency in father's house, bears some worry in business, works patiently for progress of business and occupation",
+    ta: "தந்தை வீட்டில் சில குறை; வணிகத்தில் சில கவலை; வணிக, தொழில் முன்னேற்றத்துக்குப் பொறுமையாக வேலை செய்வார்.",
+  },
+  {
+    house: 10, lagna: "Capricorn", planetSign: "Libra", planet: "Sun", page: 211,
+    en: "Bears loss in father's house, has some weakness in connection with longevity, labours hard and faces worries in business, has some restlessness in the government, gains some parental advantages of land and buildings",
+    ta: "தந்தை வீட்டில் இழப்பு; ஆயுளில் சில பலவீனம்; வணிகத்தில் கடின உழைப்பும் கவலைகளும்; அரசில் சில அமைதியின்மை; தந்தை வழியில் நிலமும் கட்டிடங்களும் ஆதாயம்.",
+  },
+  {
+    house: 10, lagna: "Capricorn", planetSign: "Libra", planet: "Moon", page: 213,
+    en: "Pursues a very good occupation, gets honour in dealing with business, gets respect in government, society and family, gets the help from parents, gets dignity from wife's side, acquires happiness from wife",
+    ta: "மிக நல்ல தொழில்; வணிகத்தில் மரியாதை; அரசு, சமூகம், குடும்பத்தில் மரியாதை; பெற்றோரின் உதவி; மனைவி வீட்டில் கௌரவம்; மனைவியால் மகிழ்ச்சி.",
+  },
+  {
+    house: 10, lagna: "Capricorn", planetSign: "Libra", planet: "Mars", page: 215,
+    en: "Gets income through business and occupation, gets the advantage from government, gets advantage from father, gets the advantage from education, does influential deeds",
+    ta: "வணிகத்தாலும் தொழிலாலும் வருமானம்; அரசிலிருந்து ஆதாயம்; தந்தையிடமிருந்து ஆதாயம்; கல்வியில் ஆதாயம்; செல்வாக்குள்ள செயல்கள்.",
+  },
+  {
+    house: 10, lagna: "Capricorn", planetSign: "Libra", planet: "Mercury", page: 217,
+    en: "Gets influence, rears the Dharma selfishly, acquires the progress in business, gains some strength and some weakness in the father's house, gets the advantage from the government, is honourable and fortunate",
+    ta: "செல்வாக்கு பெறுவார்; தன் நலனுக்காக தர்மத்தைக் காப்பார்; வணிக முன்னேற்றம்; தந்தை வீட்டில் சில வலிமையும் சில பலவீனமும்; அரசிலிருந்து ஆதாயம்; மரியாதைக்குரியவர், அதிர்ஷ்டசாலி.",
+  },
+  {
+    house: 10, lagna: "Capricorn", planetSign: "Libra", planet: "Jupiter", page: 219,
+    en: "Loss in father's house, bears some deficiency and loss in occupation, honour and prestige, does not get success in spite of putting special efforts, spends much, faces some monetary deficiency and some monetary loss",
+    ta: "தந்தை வீட்டில் இழப்பு; தொழிலிலும் மரியாதையிலும் சில குறையும் இழப்பும்; சிறப்பான முயற்சிகள் செய்தாலும் வெற்றி கிடைக்காது; அதிகம் செலவழிப்பார்; சில பண குறையும் பண இழப்பும்.",
+  },
+  {
+    house: 10, lagna: "Capricorn", planetSign: "Libra", planet: "Venus", page: 221,
+    en: "Gets government and administrative power, is a judge, gets a very high standard education, gets power from father and happiness from mother, possesses property, follows a big occupation, likes beauty and art, talks with dignity and influence, is very self-conceited, respectable, learned and industrious",
+    ta: "அரசு, நிர்வாக அதிகாரம்; நீதிபதியாவார்; மிக உயர் தரக் கல்வி; தந்தையிடமிருந்து ஆற்றல், தாயிடமிருந்து மகிழ்ச்சி; சொத்து; பெரிய தொழில்; அழகையும் கலையையும் விரும்புவார்; கம்பீரமாகவும் செல்வாக்குடனும் பேசுவார்; மிகுந்த சுயபெருமை; மரியாதைக்குரியவர், கற்றவர், சுறுசுறுப்பானவர்.",
+  },
+  {
+    house: 10, lagna: "Capricorn", planetSign: "Libra", planet: "Saturn", page: 223,
+    en: "Does a big business with the help of money, gets a splendid body, is very influential, gets honour in the house of government and progress in the house of father, has deficiency in mother's house, gets enmity in wife's side, gets worries in the line of occupation, gets the splendour of sexual pleasure",
+    ta: "பணத்தின் உதவியால் பெரிய வணிகம் நடத்துவார்; அழகான உடல்; மிகுந்த செல்வாக்குள்ளவர்; அரசு வீட்டில் மரியாதை, தந்தை வீட்டில் முன்னேற்றம்; தாய் வீட்டில் குறை; மனைவி வீட்டில் பகை; தொழில் வகையில் கவலைகள்; பாலியல் இன்பத்தின் சிறப்பு.",
+  },
+  {
+    house: 10, lagna: "Capricorn", planetSign: "Libra", planet: "Rahu", page: 225,
+    en: "Has some unhappiness in father's house, gets some obstacles in business and progress, gets the work done connected with government after facing some worries",
+    ta: "தந்தை வீட்டில் சில மகிழ்ச்சியின்மை; வணிகத்திலும் முன்னேற்றத்திலும் சில தடைகள்; அரசு தொடர்பான வேலையை சில கவலைகளுக்குப் பின் முடிப்பார்.",
+  },
+  {
+    house: 10, lagna: "Capricorn", planetSign: "Libra", planet: "Ketu", page: 227,
+    en: "Faces some obstacles in the father's house, bears worries in business, puts hard work for the progress of business, some perplexity in the government, is selfish and industrious",
+    ta: "தந்தை வீட்டில் சில தடைகள்; வணிகத்தில் கவலை; வணிக முன்னேற்றத்துக்குக் கடுமையாக உழைப்பார்; அரசில் சில குழப்பம்; சுயநலமானவர், உழைப்பாளி.",
+  },
+  {
+    house: 10, lagna: "Aquarius", planetSign: "Scorpio", planet: "Sun", page: 232,
+    en: "Pursues the daily occupation with great influence and honour in the line of occupation, gets power through wife, gets influential wife and sexual pleasures, gets honour in government, is a good manager, has some deficiency in the house of mother",
+    ta: "தொழில் வீட்டில் பெரும் செல்வாக்கும் மரியாதையும்; மனைவி மூலம் ஆற்றல்; செல்வாக்கான மனைவி, பாலியல் இன்பம்; அரசில் மரியாதை; நல்ல நிர்வாகி; தாய் வீட்டில் சில குறை.",
+  },
+  {
+    house: 10, lagna: "Aquarius", planetSign: "Scorpio", planet: "Moon", page: 235,
+    en: "Experiences restlessness in the house of father, faces some hardships, bears loss in the way of progress, feces some blows and shocks in the house of honour and respect from government, is somewhat restless in the house of enemy and repents over the already accumulated sins",
+    ta: "தந்தை வீட்டில் அமைதியின்மை; சில கஷ்டங்கள்; முன்னேற்றத்தில் இழப்பு; அரசு வீட்டிலிருந்து மரியாதையிலும் அதிர்ச்சியிலும் சில அடி; எதிரி வீட்டில் சிறு அமைதியின்மை; சேர்த்த பாவங்களுக்காக வருந்துவார்.",
+  },
+  {
+    house: 10, lagna: "Aquarius", planetSign: "Scorpio", planet: "Mars", page: 237,
+    en: "Is very powerful and pursues independent occupation, gets great respect in government and society, gets land and buildings, does not care for brothers and sisters, wears rich dresses, acquires administrative education, and is a legal expert",
+    ta: "மிக வலிமையானவர்; தனியாகத் தொழில் நடத்துவார்; அரசு, சமூகத்தில் பெரும் மரியாதை; நிலமும் கட்டிடங்களும்; சகோதர சகோதரிகளைப் பொருட்படுத்தார்; விலையுயர்ந்த ஆடை அணிவார்; நிர்வாகக் கல்வி பெறுவார்; சட்ட நிபுணர்.",
+  },
+  {
+    house: 10, lagna: "Aquarius", planetSign: "Scorpio", planet: "Mercury", page: 239,
+    en: "Gets worldly knowledge, gets children, gets good age, spends the daily routine or life with great influence, feces loss in father's house, bears some trouble in business and occupation, feces some worry in the house of government, has little perplexity in mother's house",
+    ta: "உலக அறிவு; பிள்ளைகள்; நல்ல வயது; பெரும் செல்வாக்குடன் நாள் வாழ்க்கை; தந்தை வீட்டில் இழப்பு; தொழிலிலும் வேலையிலும் சில துன்பம்; அரசு வீட்டில் சில கவலை; தாய் வீட்டில் சிறு குழப்பம்.",
+  },
+  {
+    house: 10, lagna: "Aquarius", planetSign: "Scorpio", planet: "Jupiter", page: 241,
+    en: "Pursues a big business or occupation, earns wealth, gets much respect and honour from government and society, gets power from father and support from mother, has great influence in the house of enemy",
+    ta: "பெரிய வணிகம் அல்லது தொழில் நடத்துவார்; செல்வம் ஈட்டுவார்; அரசு, சமூகத்தில் மிகுந்த மரியாதையும் கௌரவமும்; தந்தையிடமிருந்து ஆற்றல், தாயிடமிருந்து ஆதரவு; எதிரி வீட்டில் பெரும் செல்வாக்கு.",
+  },
+  {
+    house: 10, lagna: "Aquarius", planetSign: "Scorpio", planet: "Venus", page: 243,
+    en: "Gets very high position on account of destiny, gets the authority and advantage from government and society, gets help from parents, gets the strength of land and property, enjoys royal pleasures, works with ability in his business affairs, wants peace and justice",
+    ta: "விதியின் வலிமையால் மிக உயர்ந்த பதவி; அரசு, சமூகத்தில் அதிகாரமும் ஆதாயமும்; பெற்றோரின் உதவி; நிலமும் சொத்தின் வலிமையும்; அரச இன்பங்கள்; தன் வணிக விவகாரங்களை திறமையுடன் நடத்துவார்; அமைதியையும் நீதியையும் விரும்புவார்.",
+  },
+  {
+    house: 10, lagna: "Aquarius", planetSign: "Scorpio", planet: "Saturn", page: 245,
+    en: "Does influential deeds, gets respect after many difficulties, spends much, loss in the house of father, some enmity in the house of wife some weakness in mother's house, and is very industrious",
+    ta: "செல்வாக்கான செயல்கள்; பல கஷ்டங்களுக்குப் பின் மரியாதை; அதிகம் செலவழிப்பார்; தந்தை வீட்டில் இழப்பு; மனைவி வீட்டில் சில பகை; தாய் வீட்டில் சில பலவீனம்; மிகுந்த உழைப்பாளி.",
+  },
+  {
+    house: 10, lagna: "Aquarius", planetSign: "Scorpio", planet: "Rahu", page: 247,
+    en: "Bears affliction in father's house, bears many worries in business and occupation, faces many obstacles in the deeds connected with government and society, faces problems in rise of position, uses secret devices for acquiring all-round progress",
+    ta: "தந்தை வீட்டில் துன்பம்; தொழிலிலும் வேலையிலும் பல கவலைகள்; அரசு, சமூக வேலைகளில் பல தடைகள்; பதவி உயர்வில் சிக்கல்; முழுமையான முன்னேற்றத்துக்கு ரகசிய உபாயங்கள்.",
+  },
+  {
+    house: 10, lagna: "Aquarius", planetSign: "Scorpio", planet: "Ketu", page: 249,
+    en: "Faces some calamities in father's house, bears troubles and distress in business, feels worried in government and society, works very patiently through the support of some secret power, is of hidden courage and is industrious",
+    ta: "தந்தை வீட்டில் சில ஆபத்துகள்; வணிகத்தில் சிரமமும் வேதனையும்; அரசு, சமூகத்தில் கவலை; சில மறைந்த சக்தியின் ஆதரவுடன் பொறுமையாக வேலை செய்வார்; மறைந்த தைரியம்; உழைப்பாளி.",
+  },
+  {
+    house: 10, lagna: "Pisces", planetSign: "Sagittarius", planet: "Sun", page: 254,
+    en: "Gets the advantage from the government and the society through influence and diligence, does grand deeds in government and society, faces opposition in father's house, faces some distress from mother's side also, finds some obstacles in peace and happiness, finds some hindrances in connection with lands and buildings, wants sovereignty, and is diligent",
+    ta: "அரசு, சமூகத்திலிருந்து செல்வாக்கு, உழைப்பால் ஆதாயம்; அரசு, சமூகத்தில் பெரும் செயல்கள்; தந்தை வீட்டில் எதிர்ப்பு; தாய் வழியில் சில சிரமமும்; அமைதியிலும் மகிழ்ச்சியிலும் சில தடைகள்; நிலம், கட்டிடங்களில் சில தடைகள்; அதிகாரத்தை விரும்புவார்; உழைப்பாளி.",
+  },
+  {
+    house: 10, lagna: "Pisces", planetSign: "Sagittarius", planet: "Moon", page: 256,
+    en: "Has a great ability in education, acquires progress from father's house, has great respect and honour in the deeds of government and society, gets the happiness from mother, gains some strength of lands and buildings, talks like an officer",
+    ta: "கல்வியில் மிகுந்த ஆற்றல்; தந்தை வீட்டிலிருந்து முன்னேற்றம்; அரசு, சமூக வேலைகளில் பெரும் மரியாதையும் கௌரவமும்; தாயால் மகிழ்ச்சி; நிலம், கட்டிடங்களின் சிறு வலிமை; அதிகாரி போலப் பேசுவார்.",
+  },
+  {
+    house: 10, lagna: "Pisces", planetSign: "Sagittarius", planet: "Mars", page: 258,
+    en: "Is very influential, gets great honour and respect, enjoys the advantage from the government and society, pursues the occupation on a large scale, speaks somewhat bitterly, feces some deficiency in children's side, has some weakness in education, gets land and buildings, observes religious formalities",
+    ta: "மிகுந்த செல்வாக்குள்ளவர்; பெரும் மரியாதையும் கௌரவமும்; அரசு, சமூகத்தில் ஆதாயம்; பெரிய அளவில் தொழில்; சற்று கடுமையாகப் பேசுவார்; பிள்ளைகள் வகையில் சில குறை; கல்வியில் சில பலவீனம்; நிலமும் கட்டிடங்களும்; மதச் சடங்குகளைக் கடைப்பிடிப்பார்.",
+  },
+  {
+    house: 10, lagna: "Pisces", planetSign: "Sagittarius", planet: "Mercury", page: 260,
+    en: "Gets royal pleasures and happiness, gets the grandeur of wife, gets domestic happiness, gets the power of buildings and property, pursues a big occupation, enjoys advantages from government and society, lives in a decorated house, and does gentle deeds",
+    ta: "அரசவாழ்வும் மகிழ்ச்சியும்; மனைவியின் பெருமை; குடும்ப மகிழ்ச்சி; வீடும் சொத்தும் பெறுவார்; பெரிய தொழில்; அரசு, சமூகத்தில் ஆதாயம்; அலங்கரிக்கப்பட்ட வீட்டில் வாழ்வார்; மென்மையான செயல்கள்.",
+  },
+  {
+    house: 10, lagna: "Pisces", planetSign: "Sagittarius", planet: "Jupiter", page: 262,
+    en: "Pursues a big business, maintains the business equally with father, gets great honour and respect from government and society, gets increased wealth, gains happiness from mother and land, possesses influence in the house of enemies",
+    ta: "பெரிய வணிகம் நடத்துவார்; தந்தையுடன் சமமாக வணிகத்தை நடத்துவார்; அரசு, சமூகத்தில் பெரும் மரியாதையும் கௌரவமும்; செல்வம் அதிகரிக்கும்; தாய், நிலத்தால் மகிழ்ச்சி; எதிரி வீட்டில் செல்வாக்கு.",
+  },
+  {
+    house: 10, lagna: "Pisces", planetSign: "Sagittarius", planet: "Venus", page: 265,
+    en: "Bears loss in the house of father, gets some strength of brother, gets elegance in age, spends daily routine of life influentially, tries hard for acquiring the progress of happiness and land, gets honour in government and society by doing very difficult tasks cleverly, is very courageous",
+    ta: "தந்தை வீட்டில் இழப்பு; சகோதரரின் வலிமை சிறிது; வயதில் அழகு; தினசரி வாழ்வைச் செல்வாக்குடன் நடத்துவார்; மகிழ்ச்சியும் நிலமும் பெற கடுமையாக முயல்வார்; மிகக் கடின செயல்களைச் சாமர்த்தியமாகச் செய்து அரசு, சமூகத்தில் மரியாதை; மிகுந்த தைரியம்.",
+  },
+  {
+    house: 10, lagna: "Pisces", planetSign: "Sagittarius", planet: "Saturn", page: 267,
+    en: "Gets losses in the house of father, spends much, has to deal with excessive expenditure, gets weakness in connection with government and society, bears loss in business occupation, gets some losses and gains in the house of happiness, mother and wife, gets ordinary success in diurnal occupation",
+    ta: "தந்தை வீட்டில் இழப்பு; அதிகம் செலவழிப்பார்; அதிகப்படியான செலவைச் சமாளிக்க வேண்டும்; அரசு, சமூக வகையில் பலவீனம்; தொழில் துறையில் இழப்பு; மகிழ்ச்சி, தாய், மனைவி வீடுகளில் சில இழப்பும் ஆதாயமும்; தினசரி தொழிலில் சாதாரண வெற்றி.",
+  },
+  {
+    house: 10, lagna: "Pisces", planetSign: "Sagittarius", planet: "Rahu", page: 269,
+    en: "Bears loss in the house of father, bears loss and restlessness in the affairs of society and government, follows the path of deterioration, faces blows in the house of honour and prestige",
+    ta: "தந்தை வீட்டில் இழப்பு; சமூக, அரசு விவகாரங்களில் இழப்பும் அமைதியின்மையும்; சீரழிவின் பாதையில் செல்வார்; மரியாதை, கௌரவ வீட்டில் அடிகள்.",
+  },
+  {
+    house: 10, lagna: "Pisces", planetSign: "Sagittarius", planet: "Ketu", page: 271,
+    en: "Gets the progress in the affairs of government and society after labouring very hard, is not good in the father's house, works fearlessly and without reserve, does grand deeds through secret powers, labours vety hard to acquire the progress in honour, prestige and occupation, opposes the father",
+    ta: "அரசு, சமூக விவகாரங்களில் பெரும் உழைப்புக்குப் பின் முன்னேற்றம்; தந்தை வீட்டில் நல்லதல்ல; அஞ்சாமல், தயக்கமின்றி வேலை செய்வார்; மறைந்த சக்திகளால் பெரும் செயல்கள்; மரியாதை, கௌரவம், தொழில் முன்னேற்றத்துக்குப் பெரும் உழைப்பு; தந்தையை எதிர்ப்பார்.",
   },
 ];
 
