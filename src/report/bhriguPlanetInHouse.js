@@ -63,7 +63,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 1, lagna: "Taurus", planetSign: "Taurus", planet: "Moon", page: 44,
-    en: "Help from brothers and sisters, courageous and ambitious, little unhappy with wife and also with profession and also in sexual pleasures, feels restless in domestic alfairs",
+    en: "Help from brothers and sisters, courageous and ambitious, little unhappy with wife and also with profession and also in sexual pleasures, feels restless in domestic affairs",
     ta: "சகோதர சகோதரிகளின் உதவி; தைரியமும் லட்சியமும்; மனைவி, தொழில், பாலியல் இன்பத்தில் சிறு அதிருப்தி; குடும்ப விவகாரங்களில் அமைதியின்மை.",
   },
   {
@@ -538,7 +538,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 1, lagna: "Pisces", planetSign: "Pisces", planet: "Saturn", page: 266,
-    en: "Is physically weak internally hut appears to be good from the outside, faces opposition from father, has some friendly and some weak relation with the brother, bears losses in the house of wife, labours hard in occupation, finds some hindrance in the government and society",
+    en: "Is physically weak internally but appears to be good from the outside, faces opposition from father, has some friendly and some weak relation with the brother, bears losses in the house of wife, labours hard in occupation, finds some hindrance in the government and society",
     ta: "உள்ளே உடல் பலவீனம், வெளியே நன்றாகத் தெரிவார்; தந்தைக்கு எதிர்ப்பு; சகோதரருடன் சில நட்பும் சில பலவீனமும்; மனைவி வீட்டில் இழப்புகள்; தொழிலில் கடின உழைப்பு; அரசு, சமூகத்தில் சில தடைகள்.",
   },
   {
@@ -548,7 +548,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 1, lagna: "Pisces", planetSign: "Pisces", planet: "Ketu", page: 270,
-    en: "Bears fatal blows on his body and passes through some clangers, also faces some deficiency in the handsomeness of physique, experiences bondage and dependence, uses his strength secretly",
+    en: "Bears fatal blows on his body and passes through some dangers, also faces some deficiency in the handsomeness of physique, experiences bondage and dependence, uses his strength secretly",
     ta: "உடலில் ஆபத்தான அடிகள்; சில ஆபத்துகளில் சிக்குவார்; உடல் அழகில் குறை; பந்தமும் சார்புநிலையும்; தன் பலத்தை மறைவாகப் பயன்படுத்துவார்.",
   },
   {
@@ -583,7 +583,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 2, lagna: "Aries", planetSign: "Taurus", planet: "Saturn", page: 33,
-    en: "Earns well, gains from government and society, does not get affection fiom mother, is restless in daily life, works hard to increase wealth",
+    en: "Earns well, gains from government and society, does not get affection from mother, is restless in daily life, works hard to increase wealth",
     ta: "நல்ல வருமானம்; அரசு, சமூகத்தில் ஆதாயம்; தாயின் அன்பு குறைவு; தினசரி வாழ்வில் அமைதியின்மை; செல்வம் பெருக்க கடின உழைப்பு.",
   },
   {
@@ -713,7 +713,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 2, lagna: "Cancer", planetSign: "Leo", planet: "Venus", page: 93,
-    en: "Straggles to gain wealth, some loss in the house of motherland and in the happiness of mother, aristocracy in the daily routine and is respectable",
+    en: "Struggles to gain wealth, some loss in the house of motherland and in the happiness of mother, aristocracy in the daily routine and is respectable",
     ta: "செல்வம் பெற போராடுவார்; தாய்நாடு, தாய் வகையில் சில இழப்பு; தினசரி வாழ்வில் கம்பீரம்; மரியாதைக்குரியவர்.",
   },
   {
@@ -818,7 +818,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 2, lagna: "Virgo", planetSign: "Libra", planet: "Ketu", page: 142,
-    en: "Unable to hoard wealth, gets family distress also, feels internal weakness in comparison to outward firmness of wealth, manages to increase wealth with great efibrts",
+    en: "Unable to hoard wealth, gets family distress also, feels internal weakness in comparison to outward firmness of wealth, manages to increase wealth with great efforts",
     ta: "செல்வத்தைச் சேர்க்க முடியாது; குடும்பத்தில் துன்பம்; வெளித்தோற்றத்தின் உறுதிக்கு மாறாக உள்ளே பலவீனம்; பெரும் முயற்சியால் செல்வத்தை பெருக்குவார்.",
   },
   {
@@ -943,7 +943,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 2, lagna: "Sagittarius", planetSign: "Capricorn", planet: "Saturn", page: 201,
-    en: "Is very rich and gets the means to increase land and buildings, some loss in the house of mother, gets heavy income, some resdessness in the daily routine of life",
+    en: "Is very rich and gets the means to increase land and buildings, some loss in the house of mother, gets heavy income, some restlessness in the daily routine of life",
     ta: "மிகுந்த செல்வந்தர்; நிலமும் கட்டிடமும் பெருக்கும் வசதி; தாய் வகையில் சில இழப்பு; அதிக வருமானம்; தினசரி வாழ்வில் சில அமைதியின்மை.",
   },
   {
@@ -1013,7 +1013,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 2, lagna: "Aquarius", planetSign: "Pisces", planet: "Mars", page: 236,
-    en: "Acquires respect, gets the support of the father, faces some bondage ofbrother, puts good efforts for acquiring wealth, pays some attention to religious deeds, gets the power of education, gains some power of children, tries hard for the progress of the destiny",
+    en: "Acquires respect, gets the support of the father, faces some bondage of brother, puts good efforts for acquiring wealth, pays some attention to religious deeds, gets the power of education, gains some power of children, tries hard for the progress of the destiny",
     ta: "மரியாதை பெறுவார்; தந்தையின் ஆதரவு; சகோதரர் வகையில் சில கட்டுப்பாடு; செல்வம் சேர்க்க நல்ல முயற்சி; சிறிது தர்ம நாட்டம்; கல்வித் திறன்; பிள்ளைகளின் வலிமை; விதியின் முன்னேற்றத்துக்கு கடுமையான முயற்சி.",
   },
   {
@@ -1098,7 +1098,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 3, lagna: "Aries", planetSign: "Gemini", planet: "Moon", page: 23,
-    en: "Happiness through brothers and sisters, gains from mother, gets fame, has faith in God, loves Dharrna, enjoys landed property, help through brothers",
+    en: "Happiness through brothers and sisters, gains from mother, gets fame, has faith in God, loves Dharma, enjoys landed property, help through brothers",
     ta: "உடன்பிறப்புகளால் மகிழ்ச்சி; தாயால் ஆதாயம்; புகழ்; இறைநம்பிக்கை; தர்மத்தில் பற்று; நிலச் சொத்து; உடன்பிறப்புகளின் உதவி.",
   },
   {
@@ -1243,7 +1243,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 3, lagna: "Cancer", planetSign: "Virgo", planet: "Mercury", page: 89,
-    en: "Is very energetic, gets the advantage ofbrothers and sisters, has little faith in Dharma, is of good height, possesses the power of expenditure, has great courage, ambition and modesty",
+    en: "Is very energetic, gets the advantage of brothers and sisters, has little faith in Dharma, is of good height, possesses the power of expenditure, has great courage, ambition and modesty",
     ta: "மிகுந்த சுறுசுறுப்பு; உடன்பிறப்புகளால் நன்மை; தர்மத்தில் சிறு நம்பிக்கை; நல்ல உயரம்; செலவு செய்யும் வலிமை; பெரும் தைரியம், லட்சியம், அடக்கம்.",
   },
   {
@@ -1373,7 +1373,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 3, lagna: "Libra", planetSign: "Sagittarius", planet: "Mars", page: 150,
-    en: "Does influential labour, influence and progress in connection with occupation, gets influential and beautiful wife, but gets some bondage in the side ofwife and brother, some dissatisfaction in the house of father, some weakness on account of sexual pleasures, occupation, wealth and power, some deficiency in the house of government and society, perplexities in the house of enemies",
+    en: "Does influential labour, influence and progress in connection with occupation, gets influential and beautiful wife, but gets some bondage in the side of wife and brother, some dissatisfaction in the house of father, some weakness on account of sexual pleasures, occupation, wealth and power, some deficiency in the house of government and society, perplexities in the house of enemies",
     ta: "தொழிலில் செல்வாக்கான உழைப்பும் முன்னேற்றமும்; செல்வாக்கும் அழகும் உள்ள மனைவி; ஆனால் மனைவி, சகோதரருடன் சில பிணைப்பு; தந்தையிடம் சில அதிருப்தி; பாலியல், தொழில், செல்வம், ஆற்றலில் சில பலவீனம்; அரசு, சமூகத்தில் சில குறை; எதிரிகள் வீட்டில் சிக்கல்கள்.",
   },
   {
@@ -1388,7 +1388,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 3, lagna: "Libra", planetSign: "Sagittarius", planet: "Venus", page: 156,
-    en: "Is very energetic, toils hard, some deficiency in the house ofbrother, and is very clever",
+    en: "Is very energetic, toils hard, some deficiency in the house of brother, and is very clever",
     ta: "மிகுந்த ஆற்றல், கடின உழைப்பு; சகோதரர் வீட்டில் சில குறை; மிகவும் சாமர்த்தியமானவர்.",
   },
   {
@@ -1428,7 +1428,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 3, lagna: "Scorpio", planetSign: "Capricorn", planet: "Jupiter", page: 176,
-    en: "Causes injury to his brothers, weakness in the house of kith and kin, gets weakness in education, is religious, has great faith in God, enjoys heavy gains from the house of occupation, gets cooperation from the wife, enjoys sexual pleasures, ahd is of weak heart",
+    en: "Causes injury to his brothers, weakness in the house of kith and kin, gets weakness in education, is religious, has great faith in God, enjoys heavy gains from the house of occupation, gets cooperation from the wife, enjoys sexual pleasures, and is of weak heart",
     ta: "சகோதரர்களுக்குக் காயம்; உறவினர் வீட்டில் பலவீனம்; கல்வியில் சிறு குறை; மதப்பற்று; இறையில் மிகுந்த நம்பிக்கை; தொழில் வீட்டிலிருந்து பெரும் ஆதாயம்; மனைவியின் ஒத்துழைப்பு; பாலியல் இன்பம்; ஆனால் இதயம் பலவீனம்.",
   },
   {
@@ -1458,7 +1458,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 3, lagna: "Sagittarius", planetSign: "Aquarius", planet: "Moon", page: 191,
-    en: "Gets loss in the house of brothers and sisters, faces some loss in Dharma, is a man having numerous tactics, and is oveijoyed",
+    en: "Gets loss in the house of brothers and sisters, faces some loss in Dharma, is a man having numerous tactics, and is overjoyed",
     ta: "உடன்பிறப்புகள் வீட்டில் இழப்பு; தர்மத்தில் சில இழப்பு; பல தந்திரங்கள் உடையவர்; மிகவும் மகிழ்ச்சியானவர்.",
   },
   {
@@ -1498,7 +1498,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 3, lagna: "Capricorn", planetSign: "Pisces", planet: "Sun", page: 210,
-    en: "Spends his life with influence, gets a long age, injures the house of fortune and Dharnia, feces distress in the house of brother",
+    en: "Spends his life with influence, gets a long age, injures the house of fortune and Dharma, feces distress in the house of brother",
     ta: "செல்வாக்குடன் வாழ்வார்; நீண்ட வயது; தர்மம், அதிர்ஷ்டத்தின் வீட்டில் சேதம்; சகோதரர் வீட்டில் கஷ்டம்.",
   },
   {
@@ -1543,7 +1543,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 3, lagna: "Aquarius", planetSign: "Aries", planet: "Sun", page: 231,
-    en: "Pursues a great business, accomphshes the daily task very influentially, gets very influential wife, gets the dignity of the power of brother and family, gets excess of sexual pleasures, labours very hard, weakness in destiny, deficiency in Dharma",
+    en: "Pursues a great business, accomplishes the daily task very influentially, gets very influential wife, gets the dignity of the power of brother and family, gets excess of sexual pleasures, labours very hard, weakness in destiny, deficiency in Dharma",
     ta: "பெரும் தொழில் நடத்துவார்; தினசரி வேலையை மிக செல்வாக்குடன் செய்வார்; செல்வாக்கான மனைவி; சகோதரர், குடும்பத்தின் வலிமை; பாலியல் இன்பம் மிகுதி; கடுமையாக உழைப்பார்; விதியில் பலவீனம்; தர்மத்தில் குறை.",
   },
   {
@@ -1628,7 +1628,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 3, lagna: "Pisces", planetSign: "Taurus", planet: "Ketu", page: 270,
-    en: "Is very bold and labours very hard, is restless in the house ofbrother, possesses great physical strength, possesses great courage, faces some severe calamities, works very patiently, does not consider anything impossible",
+    en: "Is very bold and labours very hard, is restless in the house of brother, possesses great physical strength, possesses great courage, faces some severe calamities, works very patiently, does not consider anything impossible",
     ta: "மிகத் தைரியமும் கடின உழைப்பும்; சகோதரர் வீட்டில் அமைதியின்மை; மிகுந்த உடல் வலிமை; மிகுந்த தைரியம்; சில கடுமையான ஆபத்துகளைச் சந்திப்பார்; மிகப் பொறுமையாக வேலை செய்வார்; எதுவும் இயலாததாக நினைக்க மாட்டார்.",
   },
   {
@@ -1638,7 +1638,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 4, lagna: "Aries", planetSign: "Cancer", planet: "Moon", page: 23,
-    en: "Gets good motherly affection and landed property through her, is caiefiee and mentally happy, considers mother as superior to father, undertakes works relating to government and society and enjoys pleasures and luxuries",
+    en: "Gets good motherly affection and landed property through her, is carefree and mentally happy, considers mother as superior to father, undertakes works relating to government and society and enjoys pleasures and luxuries",
     ta: "தாயின் நல்ல அன்பும் நிலச் சொத்தும்; அக்கறையுடன் மனத்தில் மகிழ்ச்சி; தந்தையைவிட தாயை உயர்வாக நினைப்பார்; அரசு, சமூக வேலைகளைச் செய்வார்; இன்பமும் வசதியும் அனுபவிப்பார்.",
   },
   {
@@ -1913,7 +1913,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 4, lagna: "Libra", planetSign: "Capricorn", planet: "Mars", page: 150,
-    en: "Gets happiness and huge wealth due to daily occupation, gets land and property, gets happiness of wife, increase ofwealth after marriage, gets supremacy of wife in his house, gets the happiness of the mother, some weakness in the house of government, rise in position is somewhat weak, acquires sexual pleasures and is happy in the family",
+    en: "Gets happiness and huge wealth due to daily occupation, gets land and property, gets happiness of wife, increase of wealth after marriage, gets supremacy of wife in his house, gets the happiness of the mother, some weakness in the house of government, rise in position is somewhat weak, acquires sexual pleasures and is happy in the family",
     ta: "தினசரி வேலையால் மகிழ்ச்சியும் பெரும் செல்வமும்; நிலமும் சொத்தும்; மனைவியின் மகிழ்ச்சி; திருமணத்துக்குப் பின் செல்வ வளர்ச்சி; வீட்டில் மனைவியின் மேலாதிக்கம்; தாயின் மகிழ்ச்சி; அரசு வீட்டில் சில பலவீனம்; பதவி உயர்வில் சிறு பலவீனம்; பாலியல் இன்பம்; குடும்பத்தில் மகிழ்ச்சி.",
   },
   {
@@ -1983,7 +1983,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 4, lagna: "Scorpio", planetSign: "Aquarius", planet: "Rahu", page: 182,
-    en: "Gets some weakness in the house of mother, gets some deficiency in the house ofhappiness, gets some hindrance in the land, is somewhat restless on account of quarrelsome family atmosphere",
+    en: "Gets some weakness in the house of mother, gets some deficiency in the house of happiness, gets some hindrance in the land, is somewhat restless on account of quarrelsome family atmosphere",
     ta: "தாய் வீட்டில் சில பலவீனம்; மகிழ்ச்சியில் சில குறை; நிலத்தில் சில தடை; குடும்பச் சூழலில் சண்டையால் சிறிது அமைதியின்மை.",
   },
   {
@@ -2083,7 +2083,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 4, lagna: "Aquarius", planetSign: "Taurus", planet: "Sun", page: 231,
-    en: "Enjoys some happiness from the house of wife, also fram the house of occupation, pays attention to work regularly for progress",
+    en: "Enjoys some happiness from the house of wife, also from the house of occupation, pays attention to work regularly for progress",
     ta: "மனைவி வீட்டில் சில மகிழ்ச்சி; தொழில் வீட்டிலிருந்தும் சில மகிழ்ச்சி; முன்னேற்றத்துக்காக வேலையை ஒழுங்காகக் கவனிப்பார்.",
   },
   {
@@ -2153,7 +2153,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 4, lagna: "Pisces", planetSign: "Gemini", planet: "Venus", page: 264,
-    en: "Bears some loss in the house of mother, gets some happiness from brothers and sisters, gets a long life, gets the pleasure of daily routine oflife, faces difficulties in finding happiness, remains unhappy with father, gets some happiness in foreign countries also, is very clever and honourable",
+    en: "Bears some loss in the house of mother, gets some happiness from brothers and sisters, gets a long life, gets the pleasure of daily routine of life, faces difficulties in finding happiness, remains unhappy with father, gets some happiness in foreign countries also, is very clever and honourable",
     ta: "தாய் வகையில் சில இழப்பு; சகோதர சகோதரியால் சில மகிழ்ச்சி; நல்ல ஆயுள்; தினசரி வாழ்வில் இன்பம்; மகிழ்ச்சி கண்டறிவதில் சிரமம்; தந்தை வகையில் அதிருப்தி; வெளிநாட்டிலும் சில மகிழ்ச்சி; மிகுந்த அறிவும் மரியாதையும்.",
   },
   {
@@ -2418,7 +2418,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 5, lagna: "Virgo", planetSign: "Capricorn", planet: "Venus", page: 136,
-    en: "Is very clever and fortunate, undertakes the Dharma properly and is a good speaker on religious subjects, earns huge wealth, is a very learned artist, skfliul lover of astrology and a politician, gets special power of children, enjoys the family pleasures, is respectable",
+    en: "Is very clever and fortunate, undertakes the Dharma properly and is a good speaker on religious subjects, earns huge wealth, is a very learned artist, skilful lover of astrology and a politician, gets special power of children, enjoys the family pleasures, is respectable",
     ta: "மிகவும் அறிவாளியும் அதிர்ஷ்டசாலியும்; தர்மத்தைச் சரியாகக் கடைப்பிடிப்பார்; மத விஷயங்களில் நல்ல பேச்சாளர்; பெரும் செல்வம் ஈட்டுவார்; மிகக் கற்ற கலைஞர், ஜோதிட ஆர்வலர், அரசியல்வாதி; குழந்தைகள் வகையில் சிறப்பு ஆற்றல்; குடும்ப இன்பங்களை அனுபவிப்பார்; மரியாதைக்குரியவர்.",
   },
   {
@@ -2803,7 +2803,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 6, lagna: "Gemini", planetSign: "Scorpio", planet: "Moon", page: 64,
-    en: "Feels restless, loss in family (usually mother), feels worried from the side of enemy, loss ofwealth, quarrels and gets some diseases, spends too much, gains through secret policies",
+    en: "Feels restless, loss in family (usually mother), feels worried from the side of enemy, loss of wealth, quarrels and gets some diseases, spends too much, gains through secret policies",
     ta: "அமைதியின்மை; குடும்ப இழப்பு (பொதுவாகத் தாய் வகையில்); எதிரி வகையில் கவலை; செல்வ இழப்பு; சண்டைகளும் சில நோய்களும்; அதிகம் செலவழிப்பார்; ரகசிய உபாயங்களால் ஆதாயம்.",
   },
   {
@@ -2848,7 +2848,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 6, lagna: "Cancer", planetSign: "Sagittarius", planet: "Moon", page: 85,
-    en: "Weakness and disease in the body, dependent on others, feels restless, likes to live with grandfather, spends much, aftaid of enemies, is calm and courageous",
+    en: "Weakness and disease in the body, dependent on others, feels restless, likes to live with grandfather, spends much, afraid of enemies, is calm and courageous",
     ta: "உடலில் பலவீனமும் நோயும்; பிறரைச் சார்ந்திருப்பவர்; அமைதியின்மை; தாத்தாவுடன் வாழ விரும்புவார்; அதிகம் செலவழிப்பார்; எதிரிகளுக்கு அஞ்சுவார்; அமைதியானவர், தைரியசாலி.",
   },
   {
@@ -3243,7 +3243,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 6, lagna: "Pisces", planetSign: "Leo", planet: "Ketu", page: 270,
-    en: "Ruins the house of enemies, labours very hard, works very patiendy and courageously though is often disturbed by the enemies and opponents, gets victory over troubles and difficulties, possesses secret strength, is selfish and obstinate",
+    en: "Ruins the house of enemies, labours very hard, works very patiently and courageously though is often disturbed by the enemies and opponents, gets victory over troubles and difficulties, possesses secret strength, is selfish and obstinate",
     ta: "எதிரி வீட்டை அழிப்பார்; மிகக் கடினமாக உழைப்பார்; பொறுமையாகவும் தைரியமாகவும் வேலை செய்வார்; ஆனால் அடிக்கடி எதிரிகளால் தொந்தரவு.",
   },
   {
@@ -3258,7 +3258,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 7, lagna: "Aries", planetSign: "Libra", planet: "Mars", page: 25,
-    en: "Carries duties with great difficulty, troubles with wife and constant clashes in married life, works for the betterment ofbusiness, honoured by government and society, gets reputation, cannot improve his wealth in spite of best efforts, deficient in enjoying the sexual life",
+    en: "Carries duties with great difficulty, troubles with wife and constant clashes in married life, works for the betterment of business, honoured by government and society, gets reputation, cannot improve his wealth in spite of best efforts, deficient in enjoying the sexual life",
     ta: "மிகுந்த சிரமத்துடன் கடமைகளைச் செய்வார்; மனைவியுடன் சிக்கல்களும் தொடர் மோதல்களும்; தொழிலை மேம்படுத்த முயல்வார்; அரசு, சமூகத்தில் மரியாதையும் புகழும்; சிறந்த முயற்சிகளுக்குப் பின்னும் செல்வத்தை உயர்த்த முடியாது; பாலியல் இன்பத்தில் குறை.",
   },
   {
@@ -3268,7 +3268,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 7, lagna: "Aries", planetSign: "Libra", planet: "Jupiter", page: 29,
-    en: "SuccessM in daily life, happiness in domestic life, gets a dignified wife, spends humbly, has faith in God and is successful, works energetically, dharmic in outlook",
+    en: "Successful in daily life, happiness in domestic life, gets a dignified wife, spends humbly, has faith in God and is successful, works energetically, dharmic in outlook",
     ta: "அன்றாட வாழ்வில் வெற்றி; குடும்ப வாழ்வில் மகிழ்ச்சி; கௌரவமான மனைவி; அடக்கமாகச் செலவழிப்பார்; இறைநம்பிக்கை உள்ளவர், வெற்றி பெறுவார்; சுறுசுறுப்பாக வேலை செய்வார்; தர்ம நோக்கு.",
   },
   {
@@ -3403,7 +3403,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 7, lagna: "Cancer", planetSign: "Capricorn", planet: "Jupiter", page: 92,
-    en: "Perplexity and hardship in connection with the rise of destiny and marriage, conducts the daily occupation caieMly, has brothers and sisters, commits mistakes in rearing up Dharma, some restlessness and deficiency in the side of wife and sexual pleasures",
+    en: "Perplexity and hardship in connection with the rise of destiny and marriage, conducts the daily occupation calmly, has brothers and sisters, commits mistakes in rearing up Dharma, some restlessness and deficiency in the side of wife and sexual pleasures",
     ta: "திருமணம், விதியின் உயர்வு தொடர்பான குழப்பமும் சிரமமும்; தினசரி தொழிலை அமைதியாக நடத்துவார்; சகோதர சகோதரிகள் உண்டு; தர்மத்தை வளர்ப்பதில் தவறுகள்; மனைவி, பாலியல் இன்பத்தில் சில அமைதியின்மையும் குறையும்.",
   },
   {
@@ -3423,7 +3423,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 7, lagna: "Cancer", planetSign: "Capricorn", planet: "Ketu", page: 99,
-    en: "Distress in the house ofwife, difficulties in progress for his occupation, does not feel nervousness even on getting shocks, derives helplessness in his occupation but in the end gets permanent firmness, secret powers in the house of sexual pleasures, not satisfied with one wife",
+    en: "Distress in the house of wife, difficulties in progress for his occupation, does not feel nervousness even on getting shocks, derives helplessness in his occupation but in the end gets permanent firmness, secret powers in the house of sexual pleasures, not satisfied with one wife",
     ta: "மனைவி வீட்டில் துன்பம்; தொழில் முன்னேற்றத்தில் சிரமங்கள்; அதிர்ச்சிகளிலும் பதற்றம் அடையார்; தொழிலில் சோர்வு, ஆனால் இறுதியில் நிலையான உறுதி; பாலியல் இன்பத்தில் மறை ஆற்றல்; ஒரு மனைவியில் திருப்தியில்லாதவர்.",
   },
   {
@@ -3603,7 +3603,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 7, lagna: "Scorpio", planetSign: "Taurus", planet: "Ketu", page: 185,
-    en: "Bears agony in the house ofwife, bears some worries in the occupation but works patiently and diligently, does not get nervous and inactive though has to face grave troubles in the occupation, sometimes faces troubles in connection with family and manages the affairs tactfully, acquires sexual pleasures very much",
+    en: "Bears agony in the house of wife, bears some worries in the occupation but works patiently and diligently, does not get nervous and inactive though has to face grave troubles in the occupation, sometimes faces troubles in connection with family and manages the affairs tactfully, acquires sexual pleasures very much",
     ta: "மனைவி வீட்டில் வேதனை; தொழிலில் சில கவலைகள், ஆனாலும் பொறுமையாகவும் கடின உழைப்புடனும் வேலை செய்வார்; கடுமையான தொழில் சிரமங்களிலும் பதறாமலும் செயலற்றுப் போகாமலும் இருப்பார்; சில நேரம் குடும்ப தொல்லைகளையும் சாமர்த்தியமாக நிர்வகிப்பார்; பாலியல் இன்பம் மிகுதி.",
   },
   {
@@ -3718,7 +3718,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 7, lagna: "Aquarius", planetSign: "Leo", planet: "Jupiter", page: 241,
-    en: "Pursues big occupation by the power of wealth, earns much wealth by occupation, acquires wealth alter marriage, gets many kinds of advantages, gets the strength fiom brothers and sisters, gets sufficient fixed income, is clever in earning wealth",
+    en: "Pursues big occupation by the power of wealth, earns much wealth by occupation, acquires wealth alter marriage, gets many kinds of advantages, gets the strength from brothers and sisters, gets sufficient fixed income, is clever in earning wealth",
     ta: "செல்வ வலிமையால் பெரும் தொழில் நடத்துவார்; தொழிலால் பெரும் செல்வம்; திருமணத்துக்குப் பின் செல்வம் பெறுவார்; பல ஆதாயங்கள்; சகோதர சகோதரிகளின் வலிமை; போதுமான நிலையான வருமானம்; செல்வம் ஈட்டுவதில் சாமர்த்தியம்.",
   },
   {
@@ -3773,7 +3773,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 7, lagna: "Pisces", planetSign: "Virgo", planet: "Saturn", page: 267,
-    en: "Bears some losses and gains in the house of expenditure, faces anxiety in the house ofDharma, has some deficiency in happiness on account of income and expenditure",
+    en: "Bears some losses and gains in the house of expenditure, faces anxiety in the house of Dharma, has some deficiency in happiness on account of income and expenditure",
     ta: "செலவில் சில இழப்பும் ஆதாயமும்; தர்மத்தின் வீட்டில் கவலை; வருமானம், செலவால் மகிழ்ச்சியில் குறை.",
   },
   {
@@ -3983,7 +3983,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 8, lagna: "Leo", planetSign: "Pisces", planet: "Mercury", page: 111,
-    en: "Great loss in the house of wealth, accumulates wealth through very difficult deeds, restlessness in the house oflongevity and in the daily routine of life, anxiety in life",
+    en: "Great loss in the house of wealth, accumulates wealth through very difficult deeds, restlessness in the house of longevity and in the daily routine of life, anxiety in life",
     ta: "செல்வ வீட்டில் பெரும் இழப்பு; மிகக் கடினமான செயல்களால் செல்வம் சேர்ப்பார்; ஆயுள் வீட்டிலும் தினசரி வாழ்விலும் அமைதியின்மை; வாழ்வில் கவலை.",
   },
   {
@@ -3998,7 +3998,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 8, lagna: "Leo", planetSign: "Pisces", planet: "Saturn", page: 117,
-    en: "Sexual loss in the house ofwife, faces hardships in the house of daily occupation, collaboration with foreign countries, distress in the side of children, some loss in the house of occupation, some despair in the house of longevity, puts in great efforts for use in government and society",
+    en: "Sexual loss in the house of wife, faces hardships in the house of daily occupation, collaboration with foreign countries, distress in the side of children, some loss in the house of occupation, some despair in the house of longevity, puts in great efforts for use in government and society",
     ta: "மனைவி வீட்டில் பாலியல் இழப்பு; தொழில் வீட்டில் கடின சிரமங்கள்; வெளிநாட்டு கூட்டுறவு; குழந்தைகள் வகையில் துன்பம்; தொழில் வீட்டில் சில இழப்பு; ஆயுள் வீட்டில் சில நம்பிக்கையின்மை; அரசு, சமூகத்தில் பயன்படுத்த பெரும் முயற்சி.",
   },
   {
@@ -4098,7 +4098,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 8, lagna: "Libra", planetSign: "Taurus", planet: "Ketu", page: 163,
-    en: "Gets some resdessness in his life, some weakness and incompleteness in his daily routine, weakness in hereditary wealth, has some stomach disorder",
+    en: "Gets some restlessness in his life, some weakness and incompleteness in his daily routine, weakness in hereditary wealth, has some stomach disorder",
     ta: "வாழ்வில் சில அமைதியின்மை; தினசரி வாழ்வில் சில பலவீனமும் குறையும்; பரம்பரைச் செல்வத்தில் பலவீனம்; வயிற்றில் சில கோளாறு.",
   },
   {
@@ -4158,12 +4158,12 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 8, lagna: "Sagittarius", planetSign: "Cancer", planet: "Mars", page: 194,
-    en: "Faces some special trouble in the children's side, gets deficiency in education, feels greatly troubled in matters of expenditure, has a short life, uses secrecies, bears loss in the house ofbrother, tries very hard for income and gains, gets some disease in anus",
+    en: "Faces some special trouble in the children's side, gets deficiency in education, feels greatly troubled in matters of expenditure, has a short life, uses secrecies, bears loss in the house of brother, tries very hard for income and gains, gets some disease in anus",
     ta: "குழந்தைகள் வகையில் சிறப்புத் துன்பம்; கல்வியில் குறை; செலவு விஷயங்களில் பெரும் சிரமம்; குறுகிய ஆயுள்; ரகசியங்களைப் பயன்படுத்துவார்; சகோதரர் வீட்டில் இழப்பு; வருமானத்துக்கும் ஆதாயத்துக்கும் பெரும் முயற்சி; ஆசனவாயில் சில நோய்.",
   },
   {
     house: 8, lagna: "Sagittarius", planetSign: "Cancer", planet: "Mercury", page: 196,
-    en: "Bears loss and perplexity in the business occupation, frees loss in the house of wife, gets the conjunction of work in foreign countries, tries hard for the increase of wealth, has some deficiency in exual pleasures",
+    en: "Bears loss and perplexity in the business occupation, frees loss in the house of wife, gets the conjunction of work in foreign countries, tries hard for the increase of wealth, has some deficiency in sexual pleasures",
     ta: "தொழில் வணிகத்தில் இழப்பும் குழப்பமும்; மனைவி வீட்டில் இழப்பு; வெளிநாடுகளில் வேலை சேர்க்கை; செல்வம் பெருக்க பெரும் முயற்சி; பாலியல் இன்பத்தில் சில குறை.",
   },
   {
@@ -4193,7 +4193,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 8, lagna: "Capricorn", planetSign: "Leo", planet: "Sun", page: 211,
-    en: "Lives long, spends influential life, loss of money, gets family affliction, has a power of secrecy, feels dignified in his living, does not care at all about bis future, is haughty, and is of grumbling nature",
+    en: "Lives long, spends influential life, loss of money, gets family affliction, has a power of secrecy, feels dignified in his living, does not care at all about his future, is haughty, and is of grumbling nature",
     ta: "நீண்ட ஆயுள்; செல்வாக்கான வாழ்வு; பண இழப்பு; குடும்பத்தில் துன்பம்; ரகசியத் திறன்; வாழ்வில் கம்பீரம்; தன் எதிர்காலத்தைப் பற்றி சிறிதும் கவலைப்படார்; கர்வமும் முணுமுணுப்பும்.",
   },
   {
@@ -4208,7 +4208,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 8, lagna: "Capricorn", planetSign: "Leo", planet: "Mercury", page: 217,
-    en: "Gets weak destiny, weakness in the side of Dharrna, uses the tactics for the increased of wealth, gets a long age and is selfish",
+    en: "Gets weak destiny, weakness in the side of Dharma, uses the tactics for the increased of wealth, gets a long age and is selfish",
     ta: "பலவீனமான விதி; தர்ம வகையில் பலவீனம்; செல்வம் பெருக்கத் தந்திரங்கள்; நீண்ட வயது; சுயநலம்.",
   },
   {
@@ -4323,7 +4323,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 8, lagna: "Pisces", planetSign: "Libra", planet: "Ketu", page: 271,
-    en: "Some resdessness in the daily routine of life, gets stomach disorders, experiences blows in connection with age, follows stable principles, and is obstinate",
+    en: "Some restlessness in the daily routine of life, gets stomach disorders, experiences blows in connection with age, follows stable principles, and is obstinate",
     ta: "தினசரி வாழ்வில் சில அமைதியின்மை; வயிற்றுக் கோளாறுகள்; வயது தொடர்பாக அடிகள்; நிலையான கொள்கைகளைப் பின்பற்றுவார்; பிடிவாதமானவர்.",
   },
   {
@@ -4363,7 +4363,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 9, lagna: "Aries", planetSign: "Sagittarius", planet: "Rahu", page: 36,
-    en: "Feels unhappy, has to face great anxieties and nervousness in connection with the progress of destiny, uses many improper schemes secretly, meets heavy losses in Dharrna, irreligious, defamed and restless",
+    en: "Feels unhappy, has to face great anxieties and nervousness in connection with the progress of destiny, uses many improper schemes secretly, meets heavy losses in Dharma, irreligious, defamed and restless",
     ta: "மகிழ்ச்சியின்மை; விதியின் முன்னேற்றம் பற்றி மிகுந்த கவலையும் பதற்றமும்; ரகசியமாகப் பல தவறான திட்டங்களைப் பயன்படுத்துவார்; தர்மத்தில் பெரும் இழப்பு; மதப்பற்றின்மை; அவதூறும் அமைதியின்மையும்.",
   },
   {
@@ -4458,7 +4458,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 9, lagna: "Gemini", planetSign: "Aquarius", planet: "Ketu", page: 79,
-    en: "Bears some worries in the house of destiny, labours very hard for making progress, some loss in the house ofDharrna, difficulties in getting fame, unsuccessful and selfish",
+    en: "Bears some worries in the house of destiny, labours very hard for making progress, some loss in the house of Dharma, difficulties in getting fame, unsuccessful and selfish",
     ta: "விதி வீட்டில் சில கவலைகள்; முன்னேற்றத்துக்காகக் கடுமையாக உழைப்பார்; தர்ம வீட்டில் சில இழப்பு; புகழ் பெறுவதில் சிரமம்; வெற்றி பெறாதவர்; சுயநலம்.",
   },
   {
@@ -4563,7 +4563,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 9, lagna: "Virgo", planetSign: "Taurus", planet: "Mars", page: 130,
-    en: "Has a long life, spends much, some loss in the house of mother, some deficiency in the house of happiness and some weakness in the house of D harm a mid destiny, less faith in God",
+    en: "Has a long life, spends much, some loss in the house of mother, some deficiency in the house of happiness and some weakness in the house of Dharma and destiny, less faith in God",
     ta: "நீண்ட ஆயுள்; அதிகம் செலவழிப்பார்; தாய் வீட்டில் சில இழப்பு; மகிழ்ச்சியில் சில குறை; தர்ம வீட்டிலும் விதியிலும் சில பலவீனம்; இறைநம்பிக்கை குறைவு.",
   },
   {
@@ -4593,7 +4593,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 9, lagna: "Virgo", planetSign: "Taurus", planet: "Ketu", page: 143,
-    en: "Gets some weakness in the house of destiny, beheves in Dharma in his own way, keenly engages in the rise of fortune",
+    en: "Gets some weakness in the house of destiny, believes in Dharma in his own way, keenly engages in the rise of fortune",
     ta: "விதி வீட்டில் சில பலவீனம்; தனக்கேற்ற வழியில் தர்மத்தை நம்புவார்; விதியின் உயர்வில் ஆர்வமாக ஈடுபடுவார்.",
   },
   {
@@ -4603,7 +4603,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 9, lagna: "Libra", planetSign: "Gemini", planet: "Moon", page: 149,
-    en: "Is very fortunate, rears the religion and duty, progress in the house of government and society, gets the brothers and sisters and is considered very fortunate, gets fame and beheves in God",
+    en: "Is very fortunate, rears the religion and duty, progress in the house of government and society, gets the brothers and sisters and is considered very fortunate, gets fame and believes in God",
     ta: "மிக அதிர்ஷ்டசாலி; தர்மத்தையும் கடமையையும் காப்பார்; அரசு, சமூக வீட்டில் முன்னேற்றம்; உடன்பிறப்புகள்; மிக அதிர்ஷ்டசாலி என்று கருதப்படுவார்; புகழ்; இறைநம்பிக்கை.",
   },
   {
@@ -4618,7 +4618,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 9, lagna: "Libra", planetSign: "Gemini", planet: "Jupiter", page: 155,
-    en: "Gets power horn the house of destiny, cooperation of brother but with some hindrances, does not care at all about quarrels and enemies, acknowledges the power ofjustice, has children",
+    en: "Gets power horn the house of destiny, cooperation of brother but with some hindrances, does not care at all about quarrels and enemies, acknowledges the power of justice, has children",
     ta: "விதி வீட்டிலிருந்து ஆற்றல்; சகோதரரின் ஒத்துழைப்பு, ஆனால் சில தடைகளுடன்; சண்டைகளையும் எதிரிகளையும் பொருட்படுத்தார்; நீதியின் வலிமையை ஏற்பார்; பிள்ளைகள் உண்டு.",
   },
   {
@@ -4638,7 +4638,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 9, lagna: "Libra", planetSign: "Gemini", planet: "Ketu", page: 163,
-    en: "Happiness in destiny, is defamed, gets weakness of Dhamia, keeps less faith in God",
+    en: "Happiness in destiny, is defamed, gets weakness of Dharma, keeps less faith in God",
     ta: "விதியில் மகிழ்ச்சி; அவதூறுக்கு உள்ளாவார்; தர்மத்தில் பலவீனம்; இறைநம்பிக்கை குறைவு.",
   },
   {
@@ -4713,7 +4713,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 9, lagna: "Sagittarius", planetSign: "Leo", planet: "Venus", page: 200,
-    en: "Gets gains but some uneasiness in connection with gains, some obstacles and troubles and uneasiness in the way of the progress of the destiny, some continuity in the side of brother, is very courageous and clever, gets the advantages in the garb ofDharma",
+    en: "Gets gains but some uneasiness in connection with gains, some obstacles and troubles and uneasiness in the way of the progress of the destiny, some continuity in the side of brother, is very courageous and clever, gets the advantages in the garb of Dharma",
     ta: "ஆதாயம் பெறுவார், ஆனால் ஆதாயத்தில் சில அமைதியின்மை; சில தடைகளும் தொல்லைகளும்; விதியின் முன்னேற்றத்தில் சில அமைதியின்மை; சகோதரர் பக்கம் தொடர்ச்சி; மிகுந்த தைரியமும் சாமர்த்தியமும்; தர்மத்தின் போர்வையில் ஆதாயங்கள்.",
   },
   {
@@ -4813,7 +4813,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 9, lagna: "Aquarius", planetSign: "Libra", planet: "Rahu", page: 247,
-    en: "Faces trouble and hindrances in the side of destiny, feces deficiency in getting fame, is able to rear any kind ofDharma for serving his selfishness, always tries to get rid of the weakness of destiny",
+    en: "Faces trouble and hindrances in the side of destiny, feces deficiency in getting fame, is able to rear any kind of Dharma for serving his selfishness, always tries to get rid of the weakness of destiny",
     ta: "விதியின் பக்கம் தொல்லைகளும் தடைகளும்; புகழில் குறை; தன் சுயநலத்துக்காக எந்த தர்மத்தையும் காக்க முடியும்; விதியின் பலவீனத்தை நீக்க எப்போதும் முயல்வார்.",
   },
   {
@@ -4858,7 +4858,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 9, lagna: "Pisces", planetSign: "Scorpio", planet: "Rahu", page: 269,
-    en: "Bears hindrances in the house of destiny, incurs loss in the house of Dharma, feces sudden blows in the house of fate, has deficiency in feme",
+    en: "Bears hindrances in the house of destiny, incurs loss in the house of Dharma, feces sudden blows in the house of fate, has deficiency in fame",
     ta: "விதி வீட்டில் தடைகள்; தர்ம வீட்டில் இழப்பு; விதி வீட்டில் திடீர் அடிகள்; புகழில் குறை.",
   },
   {
@@ -4958,7 +4958,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 10, lagna: "Gemini", planetSign: "Pisces", planet: "Sun", page: 63,
-    en: "Makes huge progress by energy and strength, gets the influence of father, gets cooperation fbom brothers, progress and influence in the house of government and society, gets success of labour, does some good and is very courageous",
+    en: "Makes huge progress by energy and strength, gets the influence of father, gets cooperation from brothers, progress and influence in the house of government and society, gets success of labour, does some good and is very courageous",
     ta: "பெரும் முன்னேற்றம் ஆற்றலாலும் வலிமையாலும்; தந்தையின் செல்வாக்கு; சகோதரர்களின் ஒத்துழைப்பு; அரசு, சமூகத்தில் முன்னேற்றமும் செல்வாக்கும்; உழைப்பில் வெற்றி; சில நன்மைகள்; மிகுந்த தைரியம்.",
   },
   {
@@ -5073,7 +5073,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 10, lagna: "Leo", planetSign: "Taurus", planet: "Saturn", page: 117,
-    en: "Gets the power of daily occupation, gets great respect through his ability of daily occupation, progress of honour in government and society, gets power ofwife and sexual pleasures, spends much, faces some hindrance in achieving peace and happiness, skilful and industrious",
+    en: "Gets the power of daily occupation, gets great respect through his ability of daily occupation, progress of honour in government and society, gets power of wife and sexual pleasures, spends much, faces some hindrance in achieving peace and happiness, skilful and industrious",
     ta: "தினசரி தொழில் வலிமை; தினசரி தொழிலின் திறமையால் பெரும் மரியாதை; அரசு, சமூகத்தில் மரியாதை உயர்வு; மனைவி, பாலியல் இன்பத்தின் வலிமை; அதிகம் செலவழிப்பார்; அமைதியையும் மகிழ்ச்சியையும் அடைவதில் சில தடை; திறமையும் உழைப்பும்.",
   },
   {
@@ -5238,7 +5238,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 10, lagna: "Sagittarius", planetSign: "Virgo", planet: "Mercury", page: 196,
-    en: "Conducts a big business, gets much respect from government and society, gets a beautiful and influential wife, feces weakness from mother's side, has deficiency in the house of laud and property, gets sexual pleasures",
+    en: "Conducts a big business, gets much respect from government and society, gets a beautiful and influential wife, feces weakness from mother's side, has deficiency in the house of land and property, gets sexual pleasures",
     ta: "பெரிய வணிகம் நடத்துவார்; அரசு, சமூகத்தில் பெரும் மரியாதை; அழகான, செல்வாக்குள்ள மனைவி; தாய் வீட்டில் பலவீனம்; நிலமும் சொத்தும் குறை; பாலியல் இன்பம் உண்டு.",
   },
   {
@@ -5398,7 +5398,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 10, lagna: "Pisces", planetSign: "Sagittarius", planet: "Ketu", page: 271,
-    en: "Gets the progress in the affairs of government and society after labouring very hard, is not good in the father's house, works fearlessly and without reserve, does grand deeds through secret powers, labours vety hard to acquire the progress in honour, prestige and occupation, opposes the father",
+    en: "Gets the progress in the affairs of government and society after labouring very hard, is not good in the father's house, works fearlessly and without reserve, does grand deeds through secret powers, labours very hard to acquire the progress in honour, prestige and occupation, opposes the father",
     ta: "அரசு, சமூக விவகாரங்களில் பெரும் உழைப்புக்குப் பின் முன்னேற்றம்; தந்தை வீட்டில் நல்லதல்ல; அஞ்சாமல், தயக்கமின்றி வேலை செய்வார்; மறைந்த சக்திகளால் பெரும் செயல்கள்; மரியாதை, கௌரவம், தொழில் முன்னேற்றத்துக்குப் பெரும் உழைப்பு; தந்தையை எதிர்ப்பார்.",
   },
   {
@@ -5498,7 +5498,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 11, lagna: "Gemini", planetSign: "Aries", planet: "Moon", page: 65,
-    en: "Rams huge wealth, progress regarding education, family gains and gains through children, gets happy progress",
+    en: "Earns huge wealth, progress regarding education, family gains and gains through children, gets happy progress",
     ta: "பெரும் செல்வம்; கல்வியில் முன்னேற்றம்; குடும்ப ஆதாயமும் பிள்ளைகள் வழியில் ஆதாயமும்; மகிழ்ச்சியான முன்னேற்றம்.",
   },
   {
@@ -5558,7 +5558,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 11, lagna: "Cancer", planetSign: "Taurus", planet: "Jupiter", page: 92,
-    en: "Is very energetic, somewhat careless, deficiency in the side of wife and sexual pleasures, gets education and children, help from brothers and sisters, some humiliation and obstacles in the daily occupation, is very clever and intelhgent",
+    en: "Is very energetic, somewhat careless, deficiency in the side of wife and sexual pleasures, gets education and children, help from brothers and sisters, some humiliation and obstacles in the daily occupation, is very clever and intelligent",
     ta: "மிகுந்த சுறுசுறுப்பு, சற்று அசட்டை; மனைவி, பாலியல் இன்பத்தில் குறை; கல்வியும் பிள்ளைகளும் பெறுவார்; உடன்பிறப்புகளின் உதவி; தினசரி தொழிலில் சில அவமானமும் தடைகளும்; மிகவும் சாமர்த்தியமும் அறிவும்.",
   },
   {
@@ -5678,7 +5678,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 11, lagna: "Libra", planetSign: "Leo", planet: "Moon", page: 149,
-    en: "Gets very decent and influential gains, gains fiom father, has wisdom and education, pleasure of children, is a good worker, respect in government, conducts a big business, gains from society",
+    en: "Gets very decent and influential gains, gains from father, has wisdom and education, pleasure of children, is a good worker, respect in government, conducts a big business, gains from society",
     ta: "மிகவும் கண்ணியமான, செல்வாக்குள்ள ஆதாயம்; தந்தையிடமிருந்து ஆதாயம்; அறிவும் கல்வியும்; பிள்ளைகளின் இன்பம்; நல்ல உழைப்பாளி; அரசில் மரியாதை; பெரிய தொழில் நடத்துவார்; சமூகத்திலிருந்து ஆதாயம்.",
   },
   {
@@ -5723,7 +5723,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 11, lagna: "Scorpio", planetSign: "Virgo", planet: "Moon", page: 171,
-    en: "Gets splendid gains due to the power of destiny, gets carcfrccncss from the side of income, uses the house of education properly, gets the happiness of children, is very fortunate and kind",
+    en: "Gets splendid gains due to the power of destiny, gets carefulness from the side of income, uses the house of education properly, gets the happiness of children, is very fortunate and kind",
     ta: "விதியின் வலிமையால் அற்புதமான ஆதாயம்; வருமான வீட்டில் கவனம்; கல்வி வீட்டை சரியாகப் பயன்படுத்துவார்; பிள்ளைகளின் மகிழ்ச்சி; மிக அதிர்ஷ்டசாலியும் கருணையுள்ளவரும்.",
   },
   {
@@ -6128,7 +6128,7 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 12, lagna: "Leo", planetSign: "Cancer", planet: "Moon", page: 107,
-    en: "Spends much, unable to control the expenditure, somewhat resdess and of scmpulous mind",
+    en: "Spends much, unable to control the expenditure, somewhat restless and of scrupulous mind",
     ta: "அதிகம் செலவழிப்பார்; செலவைக் கட்டுப்படுத்த முடியாது; சற்று அமைதியற்றவர், சந்தேக மனம்.",
   },
   {
@@ -6303,12 +6303,12 @@ const PLANET_IN_HOUSE = [
   },
   {
     house: 12, lagna: "Sagittarius", planetSign: "Scorpio", planet: "Sun", page: 190,
-    en: "Loss in connection with destiny, faces delays in the rise of fortune, spends much, influence in the house of enemies, does not possess fiill faith in God, possesses worldly wisdom",
+    en: "Loss in connection with destiny, faces delays in the rise of fortune, spends much, influence in the house of enemies, does not possess full faith in God, possesses worldly wisdom",
     ta: "விதி வீட்டில் இழப்பு; அதிர்ஷ்ட உயர்வில் தாமதம்; அதிகம் செலவழிப்பார்; எதிரி வீட்டில் செல்வாக்கு; கடவுளின் மீது முழு நம்பிக்கை இல்லை; உலக ஞானம் உண்டு.",
   },
   {
     house: 12, lagna: "Sagittarius", planetSign: "Scorpio", planet: "Moon", page: 192,
-    en: "Confronts distress and resdessness in the house of life, weakness in longevity, perplexity in expenditure, gets influence in the side of enemies, wanders much, and is narrow-minded",
+    en: "Confronts distress and restlessness in the house of life, weakness in longevity, perplexity in expenditure, gets influence in the side of enemies, wanders much, and is narrow-minded",
     ta: "வாழ்வு வீட்டில் துன்பமும் அமைதியின்மையும்; ஆயுளில் பலவீனம்; செலவில் குழப்பம்; எதிரி வீட்டில் செல்வாக்கு; அதிகம் அலைந்து திரிவார்; குறுகிய மனம்.",
   },
   {
