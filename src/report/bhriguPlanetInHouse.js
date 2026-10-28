@@ -1,10 +1,10 @@
 /**
- * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 6th
+ * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 7th
  * houses from each lagna. Each entry is the book's prose as printed (`en`, joined from the page extract; OCR slips are kept),
  * its Tamil summary (`ta`, ours) and the printed page the entry starts on. `planetSign` is the sign the planet stands in
- * (the lagna for house 1, and the sign that many places on for houses 2 to 6).
+ * (the lagna for house 1, and the sign that many places on for houses 2 to 7).
  * The book has no 5th-house entry for Sun in Gemini: its printed page goes from the 4th house straight to the 6th (checked
- * on the page image), so that entry is absent here and nothing is supplied for it. 647 entries in all.
+ * on the page image), so that entry is absent here and nothing is supplied for it. 755 entries in all.
  * The printed page is the scan's page number plus five, checked against the printed numbers in the scan and the page
  * images for Libra (p.156) and Leo (p.104). Extracted by scratch scripts; the text is the book's.
  */
@@ -3244,6 +3244,546 @@ const PLANET_IN_HOUSE = [
     house: 6, lagna: "Pisces", planetSign: "Leo", planet: "Ketu", page: 270,
     en: "Ruins the house of enemies, labours very hard, works very patiendy and courageously though is often disturbed by the enemies and",
     ta: "எதிரி வீட்டை அழிப்பார்; மிகக் கடினமாக உழைப்பார்; பொறுமையாகவும் தைரியமாகவும் வேலை செய்வார்; ஆனால் அடிக்கடி எதிரிகளால் தொந்தரவு.",
+  },
+  {
+    house: 7, lagna: "Aries", planetSign: "Libra", planet: "Sun", page: 22,
+    en: "Not happy with wife and children, suffers in education, unwise, troubled family life, works to earn more and more, indulges in both right and wrong methods, not happy with sexual life, a man of secrets",
+    ta: "மனைவி, குழந்தைகளுடன் மகிழ்ச்சியின்மை; கல்வியில் சிரமம்; அறிவற்றவர்; குடும்ப வாழ்வில் குழப்பம்; மேலும் மேலும் சம்பாதிக்க உழைப்பார்; நேர்மையான, நேர்மையற்ற இரு வழிகளிலும் ஈடுபடுவார்; பாலியல் வாழ்வில் மகிழ்ச்சியின்மை; ரகசியமானவர்.",
+  },
+  {
+    house: 7, lagna: "Aries", planetSign: "Libra", planet: "Moon", page: 23,
+    en: "Enjoys family pleasures, gets a good-looking wife, happy with mother, enjoys lands and houses, physically healthy and handsome, enjoys",
+    ta: "குடும்ப இன்பங்களை அனுபவிப்பார்; அழகான மனைவி; தாயால் மகிழ்ச்சி; நிலமும் வீடும் அனுபவிப்பார்; உடல் ஆரோக்கியமும் அழகும் உள்ளவர்; இன்பம் அனுபவிப்பார்.",
+  },
+  {
+    house: 7, lagna: "Aries", planetSign: "Libra", planet: "Mars", page: 25,
+    en: "Carries duties with great difficulty, troubles with wife and constant clashes in married life, works for the betterment ofbusiness, honoured by government and society, gets reputation, cannot improve his wealth in spite of best efforts, deficient in enjoying the sexual life",
+    ta: "மிகுந்த சிரமத்துடன் கடமைகளைச் செய்வார்; மனைவியுடன் சிக்கல்களும் தொடர் மோதல்களும்; தொழிலை மேம்படுத்த முயல்வார்; அரசு, சமூகத்தில் மரியாதையும் புகழும்; சிறந்த முயற்சிகளுக்குப் பின்னும் செல்வத்தை உயர்த்த முடியாது; பாலியல் இன்பத்தில் குறை.",
+  },
+  {
+    house: 7, lagna: "Aries", planetSign: "Libra", planet: "Mercury", page: 27,
+    en: "Has to work hard, problems in occupation, yet he progresses, not very happy with wife, enjoys sexual pleasures, advances in domestic and worldly affairs, receives help from maternal grandfather",
+    ta: "கடினமாக உழைக்க வேண்டும்; தொழிலில் சிக்கல்கள், ஆனாலும் முன்னேறுவார்; மனைவியுடன் அதிக மகிழ்ச்சியில்லை; பாலியல் இன்பம் அனுபவிப்பார்; குடும்ப, உலக விவகாரங்களில் முன்னேறுவார்; தாய்வழி தாத்தாவின் உதவி.",
+  },
+  {
+    house: 7, lagna: "Aries", planetSign: "Libra", planet: "Jupiter", page: 29,
+    en: "SuccessM in daily life, happiness in domestic life, gets a dignified wife, spends humbly, has faith in God and is successful, works energetically, dharmic in outlook",
+    ta: "அன்றாட வாழ்வில் வெற்றி; குடும்ப வாழ்வில் மகிழ்ச்சி; கௌரவமான மனைவி; அடக்கமாகச் செலவழிப்பார்; இறைநம்பிக்கை உள்ளவர், வெற்றி பெறுவார்; சுறுசுறுப்பாக வேலை செய்வார்; தர்ம நோக்கு.",
+  },
+  {
+    house: 7, lagna: "Aries", planetSign: "Libra", planet: "Venus", page: 32,
+    en: "Earns much wealth and occupies good position, gets a beautiful wife and a rich father-in-law, has good family bondage, enjoys sexual pleasures to the most, clever in earning, much respected and honoured, handsome in appearance",
+    ta: "அதிக செல்வம் ஈட்டுவார், நல்ல நிலை; அழகான மனைவியும் செல்வந்தரான மாமனாரும்; குடும்ப உறவுகள் நல்லவை; பாலியல் இன்பத்தை மிகவும் அனுபவிப்பார்; சம்பாதிப்பதில் சாமர்த்தியம்; மிகுந்த மரியாதையும் கௌரவமும்; அழகான தோற்றம்.",
+  },
+  {
+    house: 7, lagna: "Aries", planetSign: "Libra", planet: "Saturn", page: 33,
+    en: "Does good business, has to work hard for earnings, feels restless, enjoys sexual pleasures, is proud",
+    ta: "நல்ல தொழில்; வருமானத்துக்காக கடினமாக உழைக்க வேண்டும்; அமைதியின்மை; பாலியல் இன்பம் அனுபவிப்பார்; பெருமை.",
+  },
+  {
+    house: 7, lagna: "Aries", planetSign: "Libra", planet: "Rahu", page: 35,
+    en: "Problem with wife, manages the house with great difficulty, success in the occupation after undergoing difficulties and problems, sexual dissatisfaction, unauthorised gains from worldly affairs",
+    ta: "மனைவியுடன் சிக்கல்; வீட்டை மிகுந்த சிரமத்துடன் நடத்துவார்; சிரமங்களுக்குப் பின் தொழிலில் வெற்றி; பாலியல் அதிருப்தி; உலக விவகாரங்களில் அனுமதியற்ற ஆதாயம்.",
+  },
+  {
+    house: 7, lagna: "Aries", planetSign: "Libra", planet: "Ketu", page: 37,
+    en: "Loses wife or is sensually and sexually unhappy with her, finds problems in occupation, however faces everything with care and finally gets success",
+    ta: "மனைவியை இழப்பார் அல்லது அவருடன் பாலியல், உணர்வு ரீதியாக மகிழ்ச்சியின்மை; தொழிலில் சிக்கல்; ஆனாலும் கவனத்துடன் அனைத்தையும் சந்தித்து இறுதியில் வெற்றி பெறுவார்.",
+  },
+  {
+    house: 7, lagna: "Taurus", planetSign: "Scorpio", planet: "Sun", page: 43,
+    en: "Happiness from mother and from family and also wife, gets some bodily unhappiness",
+    ta: "தாயாலும் குடும்பத்தாலும் மனைவியாலும் மகிழ்ச்சி; சில உடல் அசௌகரியம்.",
+  },
+  {
+    house: 7, lagna: "Taurus", planetSign: "Scorpio", planet: "Moon", page: 44,
+    en: "Not very happy with wife, not much help from brothers and sisters, not happy in occupation and also in sexual pleasure",
+    ta: "மனைவியுடன் அதிக மகிழ்ச்சியில்லை; சகோதர சகோதரிகளின் உதவி குறைவு; தொழிலிலும் பாலியல் இன்பத்திலும் மகிழ்ச்சியில்லை.",
+  },
+  {
+    house: 7, lagna: "Taurus", planetSign: "Scorpio", planet: "Mars", page: 46,
+    en: "Dignified expenditure, weakness in the dignity of family, mixed relations with wife, weakness in sexual pleasures, loss in wealth, hard-working",
+    ta: "கௌரவமான செலவு; குடும்ப மதிப்பில் குறை; மனைவியுடன் கலந்த உறவு; பாலியல் இன்பத்தில் குறை; பண இழப்பு; கடின உழைப்பாளி.",
+  },
+  {
+    house: 7, lagna: "Taurus", planetSign: "Scorpio", planet: "Mercury", page: 48,
+    en: "Clever in earning money, support from children, slight unhappiness with wife, more sexual pleasures, interested in getting more wealth",
+    ta: "பணம் சம்பாதிப்பதில் சாமர்த்தியம்; பிள்ளைகளின் ஆதரவு; மனைவியுடன் சிறு அதிருப்தி; அதிக பாலியல் இன்பம்; மேலும் செல்வம் பெற ஆர்வம்.",
+  },
+  {
+    house: 7, lagna: "Taurus", planetSign: "Scorpio", planet: "Jupiter", page: 50,
+    en: "Keeps pride and nobleness, mixed relations with regard to wife, gets gains on the daily occupation, help from foreign countries, does energetic deeds, has support from brothers and sisters, uses better devices on the worldly deeds of getting gains",
+    ta: "பெருமையும் உயர்குணமும் காப்பார்; மனைவி வகையில் கலந்த உறவு; தினசரி தொழிலில் ஆதாயம்; வெளிநாடுகளிலிருந்து உதவி; ஆற்றல் மிக்க செயல்கள்; உடன்பிறப்புகளின் ஆதரவு; ஆதாயத்துக்கான சிறந்த உபாயங்கள்.",
+  },
+  {
+    house: 7, lagna: "Taurus", planetSign: "Scorpio", planet: "Venus", page: 53,
+    en: "Has a handsome body, unauthorised gains in the house of wife, indulges in sexual pleasures, some problem with wife, works diligently in the house of occupation",
+    ta: "அழகான உடல்; மனைவி வீட்டில் அனுமதியற்ற ஆதாயம்; பாலியல் இன்பத்தில் ஈடுபாடு; மனைவியுடன் சில சிக்கல்; தொழிலில் கடினமாக உழைப்பார்.",
+  },
+  {
+    house: 7, lagna: "Taurus", planetSign: "Scorpio", planet: "Saturn", page: 55,
+    en: "Fortunate, uneasiness in family in spite of being fortunate, not very religious, unhappy with mother, feels unhappy, gains from government and society",
+    ta: "அதிர்ஷ்டசாலி, ஆனாலும் குடும்பத்தில் அமைதியின்மை; அதிகம் மத நாட்டமில்லை; தாயுடன் அதிருப்தி; மனத்தில் துன்பம்; அரசு, சமூகத்தில் ஆதாயம்.",
+  },
+  {
+    house: 7, lagna: "Taurus", planetSign: "Scorpio", planet: "Rahu", page: 56,
+    en: "Distress in the house of wife, distress and deficiency in the side of sexual pleasures, loss in father-in-law house, works with troubles in the place of occupation, many troubles in daily routine and in the family, has special advice to get some sexual pleasures, and is selfish",
+    ta: "மனைவி வீட்டில் துன்பம்; பாலியல் இன்பத்தில் துன்பமும் குறையும்; மாமனார் வீட்டில் இழப்பு; தொழில் இடத்தில் சிரமத்துடன் வேலை; தினசரி வாழ்விலும் குடும்பத்திலும் பல தொல்லைகள்; பாலியல் இன்பத்துக்காக சிறப்பு ஆலோசனை; சுயநலம்.",
+  },
+  {
+    house: 7, lagna: "Taurus", planetSign: "Scorpio", planet: "Ketu", page: 58,
+    en: "Loss from wife and deficiency and troubles in the area of sexual pleasures, secret associations, final success in occupation after undergoing a lot of troubles and problems",
+    ta: "மனைவியால் இழப்பு; பாலியல் இன்பத்தில் குறையும் தொல்லையும்; ரகசியத் தொடர்புகள்; பல சிரமங்களுக்குப் பின் தொழிலில் இறுதி வெற்றி.",
+  },
+  {
+    house: 7, lagna: "Gemini", planetSign: "Sagittarius", planet: "Sun", page: 63,
+    en: "Huge influence in the side of wife, gets progress after marriage, great power of sexual pleasures, gets the support of brothers and sisters",
+    ta: "மனைவி வகையில் பெரும் செல்வாக்கு; திருமணத்துக்குப் பின் முன்னேற்றம்; பாலியல் இன்பத்தில் பெரும் ஆற்றல்; உடன்பிறப்புகளின் ஆதரவு.",
+  },
+  {
+    house: 7, lagna: "Gemini", planetSign: "Sagittarius", planet: "Moon", page: 64,
+    en: "Earns wealth from daily occupation, rich mind in the occupation, gets great honour and dignity, union in the house of wife, highly sexual, a happy fellow",
+    ta: "தினசரி தொழிலில் செல்வம் ஈட்டுவார்; தொழிலில் வளமான மனம்; பெரும் மரியாதையும் கௌரவமும்; மனைவி வீட்டில் இணைப்பு; பாலியல் ஆர்வம் மிகுதி; மகிழ்ச்சியான மனிதர்.",
+  },
+  {
+    house: 7, lagna: "Gemini", planetSign: "Sagittarius", planet: "Mars", page: 67,
+    en: "Gain in wealth through very hard labour in daily occupation, gets some gains from the government and society, some enmity, gains the influence from the house of father, some deficiency in the family, gets some disease in connection with sexual pleasures",
+    ta: "தினசரி தொழிலில் மிகுந்த உழைப்பால் வருமானம்; அரசு, சமூகத்தில் சில ஆதாயம்; சில பகை; தந்தை வீட்டில் செல்வாக்கு; குடும்பத்தில் சில குறை; பாலியல் இன்பம் தொடர்பாக சில நோய்.",
+  },
+  {
+    house: 7, lagna: "Gemini", planetSign: "Sagittarius", planet: "Mercury", page: 68,
+    en: "Happy with occupation, happy with wife, has great desires for spiritual progress, gets greatest happiness in sexual life and pleasures and has self-pride",
+    ta: "தொழிலில் மகிழ்ச்சி; மனைவியுடன் மகிழ்ச்சி; ஆன்மிக முன்னேற்றத்தில் பெரும் விருப்பம்; பாலியல் வாழ்விலும் இன்பங்களிலும் மிகுந்த மகிழ்ச்சி; தன்மானமுள்ளவர்.",
+  },
+  {
+    house: 7, lagna: "Gemini", planetSign: "Sagittarius", planet: "Jupiter", page: 71,
+    en: "Daily occupation of the deeds relating to the general public, gets much respect and progress in the house of business occupation, gains from government and society, help from father and wife, also from brothers and sisters, is passionate, enthusiastic and very fortunate",
+    ta: "பொது மக்களுடன் தொடர்புடைய தினசரி தொழில்; தொழில் வீட்டில் மிகுந்த மரியாதையும் முன்னேற்றமும்; அரசு, சமூகத்தில் ஆதாயம்; தந்தை, மனைவி, உடன்பிறப்புகளின் உதவி; ஆர்வமும் உற்சாகமும்; மிக அதிர்ஷ்டசாலி.",
+  },
+  {
+    house: 7, lagna: "Gemini", planetSign: "Sagittarius", planet: "Venus", page: 72,
+    en: "Gets good strength in daily occupation, some weakness in the side of children, some worries from wife side, gets sexual pleasures, spends heavily on family and wife",
+    ta: "தினசரி தொழிலில் நல்ல வலிமை; குழந்தைகள் வகையில் சிறு குறை; மனைவி வகையில் சில கவலைகள்; பாலியல் இன்பம்; குடும்பத்துக்கும் மனைவிக்கும் அதிகம் செலவழிப்பார்.",
+  },
+  {
+    house: 7, lagna: "Gemini", planetSign: "Sagittarius", planet: "Saturn", page: 74,
+    en: "Progress in the daily life of occupation, gets fame in the progress of occupation, acquires more happiness and sexual pleasures, good longevity, and fortunate",
+    ta: "தொழிலில் முன்னேற்றம்; தொழில் வளர்ச்சியில் புகழ்; அதிக மகிழ்ச்சியும் பாலியல் இன்பமும்; நல்ல ஆயுள்; அதிர்ஷ்டசாலி.",
+  },
+  {
+    house: 7, lagna: "Gemini", planetSign: "Sagittarius", planet: "Rahu", page: 76,
+    en: "Loss and difficulties in the house of wife, deep worries in daily occupation, deficiency and sorrows in the house of sexual pleasures though in a somewhat secret and improper way, lazy",
+    ta: "மனைவி வீட்டில் இழப்பும் சிரமமும்; தினசரி தொழிலில் ஆழ்ந்த கவலைகள்; பாலியல் இன்பத்தில் குறையும் துயரமும், ஆனால் ரகசியமாகவும் தவறான வழியிலும்; சோம்பல்.",
+  },
+  {
+    house: 7, lagna: "Gemini", planetSign: "Sagittarius", planet: "Ketu", page: 78,
+    en: "Union of some special strength in wife, gets excess sexual pleasures, does great deeds in the house of daily occupation, gets some deficiency of peace in the management of domestic affairs",
+    ta: "மனைவியில் சில சிறப்பு வலிமை; மிகுந்த பாலியல் இன்பம்; தினசரி தொழிலில் பெரும் செயல்கள்; குடும்ப நிர்வாகத்தில் சில அமைதிக் குறை.",
+  },
+  {
+    house: 7, lagna: "Cancer", planetSign: "Capricorn", planet: "Sun", page: 83,
+    en: "Pursues daily occupation with some difficulties of wealth, gets wealth with difficulty, experiences some hardships in the house of wife, is supposed to be rich, gets respectable job, gets some dullness and bondage in the sexual pleasures",
+    ta: "மனைவி வகையில் சில சிரமங்கள்; தொழிலில் பொருள் சிரமத்துடன் தினசரி வேலை; பணம் கடினமாகக் கிடைக்கும்; செல்வந்தர் எனக் கருதப்படுவார்; மரியாதைக்குரிய வேலை கிடைக்கும்; பாலியல் இன்பத்தில் மந்தமும் கட்டுப்பாடும்.",
+  },
+  {
+    house: 7, lagna: "Cancer", planetSign: "Capricorn", planet: "Moon", page: 86,
+    en: "Gets some admiration, conducts the day-to-day affairs very interestedly, is passionate, wants and enjoys sexual pleasures, gets beautiful wife, gives more importance to wife, gets the work done under pressure, enjoys the pleasures of his occupation due to strong will-power, suffers great troubles, goes to the foreign countries, suffers in health of the body, always careful to get wealth",
+    ta: "சிலரின் பாராட்டு; தினசரி வேலைகளை ஆர்வத்துடன் நடத்துவார்; ஆசைமிக்கவர்; பாலியல் இன்பத்தை விரும்பி அனுபவிப்பார்; அழகான மனைவி; மனைவிக்கு அதிக முக்கியத்துவம்; அழுத்தத்தின்கீழ் வேலையை முடிப்பார்; மன உறுதியால் தொழில் இன்பம்; பெரும் துன்பங்கள்; வெளிநாடு செல்வார்; உடல் நலக் குறை; செல்வம் சேர்ப்பதில் எப்போதும் கவனம்.",
+  },
+  {
+    house: 7, lagna: "Cancer", planetSign: "Capricorn", planet: "Mars", page: 88,
+    en: "Does splendid occupation, gets raise through his wisdom and gets good luck of wife, gets influential and majestic wife, gets respect of government and society, some weakness in his body, gets sexual pleasures, gets the help of father and son, respected and influential",
+    ta: "சிறந்த தொழில்; தன் அறிவால் உயர்வு; மனைவியின் நல்ல அதிர்ஷ்டம்; செல்வாக்கும் கம்பீரமும் உள்ள மனைவி; அரசு, சமூகத்தில் மரியாதை; உடலில் சில பலவீனம்; பாலியல் இன்பம்; தந்தை, மகன் உதவி; மரியாதைக்குரியவர், செல்வாக்குள்ளவர்.",
+  },
+  {
+    house: 7, lagna: "Cancer", planetSign: "Capricorn", planet: "Mercury", page: 89,
+    en: "Gets power of expenditure due to his labour, gets the happiness of sister more than that of a brother, power and courage also in the house of wife, mixture of power and weakness in the occupation and gets success in the worldly affairs",
+    ta: "உழைப்பால் செலவை நிர்வகிக்கும் ஆற்றல்; சகோதரியின் மகிழ்ச்சி சகோதரரைவிட அதிகம்; மனைவி வீட்டில் வலிமையும் தைரியமும்; தொழிலில் வலிமையும் பலவீனமும் கலந்து; உலக விவகாரங்களில் வெற்றி.",
+  },
+  {
+    house: 7, lagna: "Cancer", planetSign: "Capricorn", planet: "Jupiter", page: 92,
+    en: "Perplexity and hardship in connection with the rise of destiny and marriage, conducts the daily occupation caieMly, has brothers and sisters, commits mistakes in rearing up Dharma, some restlessness and deficiency in the side of wife and sexual pleasures",
+    ta: "திருமணம், விதியின் உயர்வு தொடர்பான குழப்பமும் சிரமமும்; தினசரி தொழிலை அமைதியாக நடத்துவார்; சகோதர சகோதரிகள் உண்டு; தர்மத்தை வளர்ப்பதில் தவறுகள்; மனைவி, பாலியல் இன்பத்தில் சில அமைதியின்மையும் குறையும்.",
+  },
+  {
+    house: 7, lagna: "Cancer", planetSign: "Capricorn", planet: "Venus", page: 93,
+    en: "Pursues daily occupation happily, happiness with wife, gets the grand advantage of sexual pleasures, gets success peacefully, and is very clever",
+    ta: "தினசரி தொழிலை மகிழ்ச்சியுடன் நடத்துவார்; மனைவியுடன் மகிழ்ச்சி; பாலியல் இன்பத்தில் பெரும் வாய்ப்பு; அமைதியாக வெற்றி பெறுவார்; மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 7, lagna: "Cancer", planetSign: "Capricorn", planet: "Saturn", page: 96,
+    en: "Follows the very laborious occupation daily, gets the influence in the house of wife and occupation, good longevity, some changes in the side of sexual pleasures, gets some trouble in his physique, selfish, increases the land and property and happiness, injures Dharma and is passionate",
+    ta: "தினசரி மிகக் கடினமான தொழில்; மனைவி, தொழில் வீட்டில் செல்வாக்கு; நல்ல ஆயுள்; பாலியல் இன்பத்தில் சில மாற்றங்கள்; உடலில் சில தொல்லை; சுயநலம்; நிலமும் சொத்தும் மகிழ்ச்சியும் அதிகரிக்கும்; தர்மத்துக்குக் கேடு; ஆர்வமிக்கவர்.",
+  },
+  {
+    house: 7, lagna: "Cancer", planetSign: "Capricorn", planet: "Rahu", page: 97,
+    en: "Some trouble in the house of wife, becomes nervous, fatal losses in the house of occupation, gets success through hard work, deficiency in the side of sexual pleasures and daily affairs, is selfish",
+    ta: "மனைவி வீட்டில் சில தொல்லை; நரம்புத் தளர்ச்சி; தொழில் வீட்டில் பெரும் இழப்பு; கடின உழைப்பால் வெற்றி; பாலியல் இன்பத்திலும் தினசரி விவகாரங்களிலும் குறை; சுயநலம்.",
+  },
+  {
+    house: 7, lagna: "Cancer", planetSign: "Capricorn", planet: "Ketu", page: 99,
+    en: "Distress in the house ofwife, difficulties in progress for his occupation, does not feel nervousness even on getting shocks, derives helplessness in his occupation but in the end gets permanent firmness, secret powers in the house of sexual pleasures, not satisfied with one wife",
+    ta: "மனைவி வீட்டில் துன்பம்; தொழில் முன்னேற்றத்தில் சிரமங்கள்; அதிர்ச்சிகளிலும் பதற்றம் அடையார்; தொழிலில் சோர்வு, ஆனால் இறுதியில் நிலையான உறுதி; பாலியல் இன்பத்தில் மறை ஆற்றல்; ஒரு மனைவியில் திருப்தியில்லாதவர்.",
+  },
+  {
+    house: 7, lagna: "Leo", planetSign: "Aquarius", planet: "Sun", page: 105,
+    en: "A bit unhappy with wife, undertakes influential business, is dissatisfied in the side of sexual pleasures, and is restless",
+    ta: "மனைவியுடன் சற்று அதிருப்தி; செல்வாக்கான தொழில் நடத்துவார்; பாலியல் இன்பத்தில் அதிருப்தி; அமைதியின்மை.",
+  },
+  {
+    house: 7, lagna: "Leo", planetSign: "Aquarius", planet: "Moon", page: 106,
+    en: "Loss and weakness in the house of wife and family, gets loss in the local occupation, gets weakness in the sexual and other pleasures, is somewhat anxious and commits sins, weakness in everyday tasks",
+    ta: "மனைவி, குடும்ப வீட்டில் இழப்பும் பலவீனமும்; உள்ளூர் தொழிலில் இழப்பு; பாலியல் மற்றும் பிற இன்பங்களில் பலவீனம்; சிறிது கவலையும் பாவச் செயலும்; தினசரி பணிகளில் பலவீனம்.",
+  },
+  {
+    house: 7, lagna: "Leo", planetSign: "Aquarius", planet: "Mars", page: 109,
+    en: "Dullness in the side of mother and wife, some dissatisfaction in the house of domestic happiness, success in the house of daily occupation",
+    ta: "தாய், மனைவி வகையில் மந்தம்; உள்நாட்டு மகிழ்ச்சியில் சில அதிருப்தி; தினசரி தொழிலில் வெற்றி.",
+  },
+  {
+    house: 7, lagna: "Leo", planetSign: "Aquarius", planet: "Mercury", page: 110,
+    en: "Great success and rise in daily occupation, earns much wealth and gains from the father-in-law's family, great pleasure in the house of wife and family, gets great advantage of sexual pleasures, pursues beautifully the decent occupation",
+    ta: "தொழிலில் பெரும் வெற்றியும் உயர்வும்; பெரும் செல்வம் ஈட்டுவார்; மாமனார் குடும்பத்தால் ஆதாயம்; மனைவியுடன் பெரும் மகிழ்ச்சி; குடும்பத்தில் பெரும் மகிழ்ச்சி; பாலியல் இன்பத்தில் பெரும் ஆதாயம்; கண்ணியமான தொழிலை அழகாகச் செய்வார்.",
+  },
+  {
+    house: 7, lagna: "Leo", planetSign: "Aquarius", planet: "Jupiter", page: 112,
+    en: "Perplexity in the house of wife, bears great hardships and hindrances in acquiring power of managing business, some trouble in the house of education and children, some insipidness with regard to brothers and sisters, somewhat respectable",
+    ta: "மனைவி வீட்டில் குழப்பம்; தொழில் நிர்வாக ஆற்றலைப் பெறுவதில் பெரும் சிரமமும் தடைகளும்; கல்வி, குழந்தைகள் வகையில் சில தொல்லை; உடன்பிறப்புகள் வகையில் சுவையின்மை; ஓரளவு மதிப்புக்குரியவர்.",
+  },
+  {
+    house: 7, lagna: "Leo", planetSign: "Aquarius", planet: "Venus", page: 114,
+    en: "Gets a great power of daily and permanent trade and occupation, gets the power of brothers and sisters and in the house of father, great respect and influence in connection with government and",
+    ta: "தினசரி, நிரந்தர வர்த்தகத்தில் பெரும் ஆற்றல்; சகோதர சகோதரிகள், தந்தை வீட்டில் ஆற்றல்; அரசு, சமூகத்தில் பெரும் மரியாதையும் செல்வாக்கும்.",
+  },
+  {
+    house: 7, lagna: "Leo", planetSign: "Aquarius", planet: "Saturn", page: 117,
+    en: "Gets the stable power of daily occupation through hard labour and tactics, gets the grand power of sexual passions, some enmity in the house of wife, injures Dharma, gets some diseases in the body, great hindrance in the house of mother and happiness",
+    ta: "கடின உழைப்பாலும் தந்திரத்தாலும் நிலையான தொழில் வலிமை; பாலியல் ஆர்வத்தின் பெரும் வலிமை; மனைவி வகையில் சில பகை; தர்மத்துக்குக் கேடு; உடலில் சில நோய்; தாய், மகிழ்ச்சி வீட்டில் பெரும் தடை.",
+  },
+  {
+    house: 7, lagna: "Leo", planetSign: "Aquarius", planet: "Rahu", page: 118,
+    en: "Restless in the house of mother, bears great perplexity in the daily occupation, some defect relating to sexual organs, desires to satisfy",
+    ta: "தாய் வீட்டில் அமைதியின்மை; தினசரி தொழிலில் பெரும் குழப்பம்; பாலியல் உறுப்புகளில் சில குறை; விரும்பியதை நிறைவேற்ற ஆசை.",
+  },
+  {
+    house: 7, lagna: "Leo", planetSign: "Aquarius", planet: "Ketu", page: 120,
+    en: "Loss in the house of wife, gets the special powers, enjoys sexual pleasures, puts in hard labour in the house of everyday occupation",
+    ta: "மனைவி வீட்டில் இழப்பு; சிறப்பு ஆற்றல்கள்; பாலியல் இன்பம் அனுபவிப்பார்; தினசரி தொழிலில் கடின உழைப்பு.",
+  },
+  {
+    house: 7, lagna: "Virgo", planetSign: "Pisces", planet: "Sun", page: 126,
+    en: "Manages his expenditure from the daily occupation, gets some weakness in the house of occupation, gets some delay and restlessness in the family, happiness, restlessness due to expenditure, is of emaciated figure",
+    ta: "தினசரி தொழிலிலிருந்து செலவை நிர்வகிப்பார்; தொழில் வீட்டில் சில பலவீனம்; குடும்பத்தில் சில தாமதமும் அமைதியின்மையும்; செலவால் அமைதியின்மை; உடல் மெலிந்தவர்.",
+  },
+  {
+    house: 7, lagna: "Virgo", planetSign: "Pisces", planet: "Moon", page: 128,
+    en: "Gains heavily in the daily occupation, gets a beautiful wife, enjoys sexual pleasures splendidly, is mutually engaged only in the presence of the relation of the family, is handsome, gains from father-in-law's house, gets success in every worldly affairs, and is clever",
+    ta: "தினசரி தொழிலில் பெரும் ஆதாயம்; அழகான மனைவி; பாலியல் இன்பத்தை சிறப்பாக அனுபவிப்பார்; குடும்ப உறவினர்களின் முன்னிலையில் மட்டுமே இணக்கம்; அழகானவர்; மாமனார் வீட்டில் ஆதாயம்; எல்லா உலக விவகாரங்களிலும் வெற்றி; சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 7, lagna: "Virgo", planetSign: "Pisces", planet: "Mars", page: 129,
+    en: "Bears distress in the house of wife, gets success in industry, worries on the side of occupation, plans secret policies for increase in the",
+    ta: "மனைவி வீட்டில் துன்பம்; தொழிலில் வெற்றி; தொழில் வகையில் கவலைகள்; வருமானத்தை உயர்த்த மறைமுகக் கொள்கைகள் திட்டமிடுவார்.",
+  },
+  {
+    house: 7, lagna: "Virgo", planetSign: "Pisces", planet: "Mercury", page: 132,
+    en: "Gets some worries in the family, some deficiency in the house of father and wife, gets some weakness in the body, is able to safeguard the honour, some deficiency in his influence in matters relating to sexual pleasures, is very industrious on the side of occupation, is engulfed in worries",
+    ta: "குடும்பத்தில் சில கவலைகள்; தந்தை, மனைவி வீட்டில் சில குறை; உடலில் சில பலவீனம்; மானத்தைக் காப்பார்; பாலியல் இன்பத்தில் செல்வாக்கில் சில குறை; தொழில் வகையில் மிகுந்த உழைப்பாளி; கவலைகளில் மூழ்கியிருப்பார்.",
+  },
+  {
+    house: 7, lagna: "Virgo", planetSign: "Pisces", planet: "Jupiter", page: 134,
+    en: "Gets great pleasures, does very dignified occupation, gets honour and happiness by the daily occupation deeds, pleasures increase after marriage, experiences peace in married life, has brothers and sisters, success due to good strength",
+    ta: "பெரும் மகிழ்ச்சி; மிக கௌரவமான தொழில்; தினசரி தொழில் செயல்களால் மரியாதையும் மகிழ்ச்சியும்; திருமணத்துக்குப் பின் இன்பம் அதிகரிக்கும்; திருமண வாழ்வில் அமைதி; உடன்பிறப்புகள் உண்டு; நல்ல வலிமையால் வெற்றி.",
+  },
+  {
+    house: 7, lagna: "Virgo", planetSign: "Pisces", planet: "Venus", page: 136,
+    en: "Is quite fortunate, gets the power of enjoying sexual pleasure of very high standard, earns huge wealth, conducts a big daily occupation, has a beautiful wife, gets a rich father-in-law",
+    ta: "மிக அதிர்ஷ்டசாலி; மிக உயர்தரமான பாலியல் இன்பம் அனுபவிப்பார்; பெரும் செல்வம் ஈட்டுவார்; பெரிய தினசரி தொழில்; அழகான மனைவி; செல்வந்தரான மாமனார்.",
+  },
+  {
+    house: 7, lagna: "Virgo", planetSign: "Pisces", planet: "Saturn", page: 139,
+    en: "Enjoys the sexual pleasures in many ways and distress on the side of wife and children, gets the mother like help from some other lady in connection with happiness, progress in occupation, gathers much education he needs and criticises Dharma",
+    ta: "மனைவி, குழந்தைகள் வகையில் துன்பத்துடன் பல வழிகளில் பாலியல் இன்பம்; மனைவியைப் போன்ற வேறு பெண்ணின் உதவி மகிழ்ச்சி வகையில்; தொழிலில் முன்னேற்றம்; தேவையான கல்வியைப் பெறுவார்; தர்மத்தை விமர்சிப்பார்.",
+  },
+  {
+    house: 7, lagna: "Virgo", planetSign: "Pisces", planet: "Rahu", page: 140,
+    en: "Some distress on the side of wife, is worried in connection with family, bears great troubles and worries in occupation, uses intricate cleverness in managing the occupation, sometimes great troubles in occupation, uses hidden power in occupation",
+    ta: "மனைவி வகையில் சில துன்பம்; குடும்பம் பற்றிய கவலை; தொழிலில் பெரும் துன்பமும் கவலையும்; தொழிலை நிர்வகிக்க நுட்பமான சாமர்த்தியம்; சில நேரம் தொழிலில் பெரும் சிரமங்கள்; தொழிலில் மறைந்த ஆற்றல்.",
+  },
+  {
+    house: 7, lagna: "Virgo", planetSign: "Pisces", planet: "Ketu", page: 142,
+    en: "Finds distress in the side of wife, gets difficulties in running the family, works with great difficulty and through hard labour in the side of occupation, gets some keenness in connection with sexual pleasures, but experiences some incomplete pleasures",
+    ta: "மனைவி வகையில் துன்பம்; குடும்பம் நடத்துவதில் சிரமங்கள்; தொழில் வகையில் பெரும் சிரமத்துடனும் கடின உழைப்புடனும் வேலை; பாலியல் இன்பத்தில் சில ஆர்வம், ஆனால் சில முழுமையற்ற இன்பங்கள்.",
+  },
+  {
+    house: 7, lagna: "Libra", planetSign: "Aries", planet: "Sun", page: 147,
+    en: "Pursues influential occupation, gets the gains from the wife, gets a beautiful wife, gets special sexual pleasures on the side of wife, gets huge influence in the house of wife, feels physically fatigued due to excess of work or due to peculiarity of income, feels some weakness due to excess sexual pleasures, is industrious",
+    ta: "செல்வாக்கான தொழில்; மனைவியால் ஆதாயம்; அழகான மனைவி; மனைவி வகையில் சிறப்பு பாலியல் இன்பம்; மனைவி வீட்டில் பெரும் செல்வாக்கு; அதிக வேலை அல்லது வருமானத்தின் தனித்தன்மையால் உடல் சோர்வு; அதிக பாலியல் இன்பத்தால் சில பலவீனம்; உழைப்பாளி.",
+  },
+  {
+    house: 7, lagna: "Libra", planetSign: "Aries", planet: "Moon", page: 148,
+    en: "Gets a pretty wife and enjoys the sexual pleasures, gets the progress of honour alter the marriage, is clever and a skilful worker, gets the success in occupation, mentally busy in sexual affairs, does good business",
+    ta: "அழகான மனைவியும் பாலியல் இன்பமும்; திருமணத்துக்குப் பின் மரியாதை முன்னேற்றம்; சாமர்த்தியமும் திறமையும் உள்ள வேலையாள்; தொழிலில் வெற்றி; பாலியல் விவகாரங்களில் மனம் ஈடுபட்டிருக்கும்; நல்ல வணிகம்.",
+  },
+  {
+    house: 7, lagna: "Libra", planetSign: "Aries", planet: "Mars", page: 151,
+    en: "Earns much wealth, supposed to be respectable, gets iron-minded wife, some deficiency in the house of father and government, weakness in occupation",
+    ta: "மிகுந்த செல்வம் ஈட்டுவார்; மதிப்புக்குரியவர்; இரும்பு மனம் கொண்ட மனைவி; தந்தை, அரசு வகையில் சில குறை; தொழிலில் பலவீனம்.",
+  },
+  {
+    house: 7, lagna: "Libra", planetSign: "Aries", planet: "Mercury", page: 152,
+    en: "Is very fortunate and enjoys the pleasures of family, gets progress from occupation after marriage, gets control over the expenditure, gets good and decent pleasures with some deficiency in the house",
+    ta: "மிக அதிர்ஷ்டசாலி; குடும்ப இன்பங்களை அனுபவிப்பார்; திருமணத்துக்குப் பின் தொழிலில் முன்னேற்றம்; செலவைக் கட்டுப்படுத்துவார்; வீட்டில் சில குறையுடன் நல்ல, அழகான இன்பங்கள்.",
+  },
+  {
+    house: 7, lagna: "Libra", planetSign: "Aries", planet: "Jupiter", page: 154,
+    en: "Gets the daily occupation, is a successful industrial man, great power through wife, gets the best cooperation of the brothers, defeats the enemies, gets victory due to will-power",
+    ta: "தினசரி தொழில்; தொழிலில் வெற்றிகரமான மனிதர்; மனைவி மூலம் பெரும் ஆற்றல்; சகோதரர்களின் சிறந்த ஒத்துழைப்பு; எதிரிகளை வெல்வார்; மன உறுதியால் வெற்றி.",
+  },
+  {
+    house: 7, lagna: "Libra", planetSign: "Aries", planet: "Venus", page: 156,
+    en: "Manages his daily occupation through great special powers, is of good age and handsome, self-sighted, diplomatic, very clever in getting his work completed, some distress in the family connected with wife, self-centred, seeks sexual favours",
+    ta: "தினசரி தொழிலை சிறப்பு ஆற்றல்களால் நடத்துவார்; நல்ல வயதும் அழகும்; தன்னைப் பார்ப்பவர், இராஜதந்திரி; தன் வேலையை மிகச் சாமர்த்தியமாக முடிப்பார்; மனைவி வகையில் குடும்பத்தில் சில துன்பம்; தன்னையே மையமாகக் கொண்டவர்; பாலியல் ஆதரவைத் தேடுவார்.",
+  },
+  {
+    house: 7, lagna: "Libra", planetSign: "Aries", planet: "Saturn", page: 159,
+    en: "Feels distress in the house of wife, loss in the house of father, loss in domestic peace, happiness from education after experiencing some troubles in acquiring it, distress in daily occupation",
+    ta: "மனைவி வீட்டில் துன்பம்; தந்தை வீட்டில் இழப்பு; குடும்ப அமைதியில் இழப்பு; கல்வி பெறுவதில் சில துன்பங்களுக்குப் பின் மகிழ்ச்சி; தினசரி தொழிலில் துன்பம்.",
+  },
+  {
+    house: 7, lagna: "Libra", planetSign: "Aries", planet: "Rahu", page: 160,
+    en: "Some distress in the side of wife, bears worries in the side of daily occupation, gets some disorder in organs",
+    ta: "மனைவி வகையில் சில துன்பம்; தினசரி தொழில் பற்றிய கவலைகள்; உறுப்புகளில் சில கோளாறு.",
+  },
+  {
+    house: 7, lagna: "Libra", planetSign: "Aries", planet: "Ketu", page: 162,
+    en: "Loss and distress in the house of wife, gets anxieties in family, gets loss and worries in daily occupation, feces hindrances and happiness in connection with occupation",
+    ta: "மனைவி வீட்டில் இழப்பும் துன்பமும்; குடும்பத்தில் கவலைகள்; தினசரி தொழிலில் இழப்பும் கவலைகளும்; தொழிலில் தடைகளும் மகிழ்ச்சியும்.",
+  },
+  {
+    house: 7, lagna: "Scorpio", planetSign: "Taurus", planet: "Sun", page: 168,
+    en: "Does the occupation in a majestic way, gets some dignity in occupation even on having some difficulties, gets the honour with some enmity in the house of wife, gets a temperamental wife, some deficiency in the side of wife and sexual pleasures, is clever",
+    ta: "தொழிலை கம்பீரமாக நடத்துவார்; சிரமங்களுக்கு நடுவிலும் தொழிலில் சில கௌரவம்; மனைவி வீட்டில் சில பகையுடன் மரியாதை; மனோபாவம் நிறைந்த மனைவி; மனைவி, பாலியல் இன்பத்தில் சில குறை; சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 7, lagna: "Scorpio", planetSign: "Taurus", planet: "Moon", page: 170,
+    en: "Gets happiness and advantages of the house of wife, gets heavy gains in occupation",
+    ta: "மனைவி வீட்டில் மகிழ்ச்சியும் நன்மைகளும்; தொழிலில் பெரும் ஆதாயம்.",
+  },
+  {
+    house: 7, lagna: "Scorpio", planetSign: "Taurus", planet: "Mars", page: 173,
+    en: "Some enmity, power, struggle and benefits in the house of wife, works diligently in the house of profession, passionate and gets sexual pleasures, is self-conceited, gets some troubles and diseases in the body and in the organs, takes particular care of wealth and honour, some power and influence in the side of government and society, and is respectable",
+    ta: "மனைவி வீட்டில் சில பகை, வலிமை, போராட்டம், ஆதாயம்; தொழில் வீட்டில் கடுமையாக உழைப்பார்; ஆர்வமும் பாலியல் இன்பமும் உள்ளவர்; தன்னைப் பெரிதாக நினைப்பார்; உடலிலும் உறுப்புகளிலும் சில தொல்லை, நோய்; செல்வத்தையும் மானத்தையும் கவனமாகக் காப்பார்; அரசு, சமூகத்தில் சில வலிமை; மரியாதைக்குரியவர்.",
+  },
+  {
+    house: 7, lagna: "Scorpio", planetSign: "Taurus", planet: "Mercury", page: 174,
+    en: "Bears hidden distress in addition to happiness in the house of wife, happiness after marriage, gets more of indirect advantages than the existing ones in connection with sexual pleasures, gets gains in occupation, works hard",
+    ta: "மனைவி வீட்டில் மகிழ்ச்சியுடன் மறைந்த துன்பமும் உண்டு; திருமணத்துக்குப் பின் மகிழ்ச்சி; பாலியல் இன்பத்தில் நேரடியற்ற ஆதாயங்கள்; தொழிலில் ஆதாயம்; கடினமாக உழைப்பார்.",
+  },
+  {
+    house: 7, lagna: "Scorpio", planetSign: "Taurus", planet: "Jupiter", page: 177,
+    en: "Earns wealth through daily occupation, does some respectable occupation, has some weakness in the house of brother, increased wealth firm wife after marriage, gets children and influence in wife and is cautious",
+    ta: "தினசரி தொழிலில் வருமானம்; மரியாதைக்குரிய சில தொழில்; சகோதரர் வீட்டில் சில குறை; திருமணத்துக்குப் பின் செல்வம் அதிகரிக்கும், உறுதியான மனைவி; குழந்தைகளும் மனைவி மீது செல்வாக்கும்; எச்சரிக்கையானவர்.",
+  },
+  {
+    house: 7, lagna: "Scorpio", planetSign: "Taurus", planet: "Venus", page: 179,
+    en: "Pursues many occupations, labours hard, spends much on firmness of occupation, gets pleasure of wife and family, gets sexual pleasures very much, pays attention to beauty, charm and art in occupation and manages the occupation well, yet some weakness in the occupation, has a special relation with wife",
+    ta: "பல தொழில்கள் செய்வார்; கடினமாக உழைப்பார்; தொழிலின் உறுதிக்காக அதிகம் செலவழிப்பார்; மனைவி, குடும்ப மகிழ்ச்சி; பாலியல் இன்பம் மிகுதி; தொழிலில் அழகு, வசீகரம், கலை பற்றிய கவனம்; தொழிலை நன்கு நிர்வகிப்பார்; ஆனாலும் தொழிலில் சில பலவீனம்; மனைவியுடன் சிறப்பு உறவு.",
+  },
+  {
+    house: 7, lagna: "Scorpio", planetSign: "Taurus", planet: "Saturn", page: 181,
+    en: "Gets happiness in domestic life, possesses his own buildings, some happiness from the house of wife and occupation, has a fascination for sexual pleasures, gets some physical tiredness, tries hard for the progress of occupation",
+    ta: "குடும்ப வாழ்வில் மகிழ்ச்சி; சொந்த வீடுகள்; மனைவி, தொழில் வகையில் சில மகிழ்ச்சி; பாலியல் இன்பத்தில் ஈர்ப்பு; சில உடல் சோர்வு; தொழில் முன்னேற்றத்துக்காக கடுமையாக முயல்வார்.",
+  },
+  {
+    house: 7, lagna: "Scorpio", planetSign: "Taurus", planet: "Rahu", page: 183,
+    en: "Gets his work done very carefully and cleverly in connection with occupation, conducts the occupation through diligence and mysterious devices, bears affliction in the house of wife, does not want his weakness to be disclosed, somewhat worried",
+    ta: "தொழில் சம்பந்தமான வேலைகளை மிகக் கவனமாகவும் சாமர்த்தியமாகவும் செய்வார்; கடின உழைப்பும் மறைமுக வழிகளும் கொண்டு தொழில் நடத்துவார்; மனைவி வீட்டில் துன்பம்; தன் பலவீனம் வெளியாவதை விரும்பார்; சற்று கவலையுள்ளவர்.",
+  },
+  {
+    house: 7, lagna: "Scorpio", planetSign: "Taurus", planet: "Ketu", page: 185,
+    en: "Bears agony in the house ofwife, bears some worries in the occupation but works patiently and diligently, does not get nervous and inactive though has to face grave troubles in the occupation, sometimes faces troubles in connection with family and manages the affairs tactfully, acquires sexual pleasures very much",
+    ta: "மனைவி வீட்டில் வேதனை; தொழிலில் சில கவலைகள், ஆனாலும் பொறுமையாகவும் கடின உழைப்புடனும் வேலை செய்வார்; கடுமையான தொழில் சிரமங்களிலும் பதறாமலும் செயலற்றுப் போகாமலும் இருப்பார்; சில நேரம் குடும்ப தொல்லைகளையும் சாமர்த்தியமாக நிர்வகிப்பார்; பாலியல் இன்பம் மிகுதி.",
+  },
+  {
+    house: 7, lagna: "Sagittarius", planetSign: "Gemini", planet: "Sun", page: 190,
+    en: "Gets a beautiful and influential wife, experiences progress in occupation, gains respect and fame from occupation, is honest in the sphere of profession, enjoys good luck, is very industrious",
+    ta: "அழகும் செல்வாக்கும் உள்ள மனைவி; தொழிலில் முன்னேற்றம்; தொழிலால் மரியாதையும் புகழும்; தொழில் வகையில் நேர்மை; நல்ல அதிர்ஷ்டம்; மிகுந்த உழைப்பாளி.",
+  },
+  {
+    house: 7, lagna: "Sagittarius", planetSign: "Gemini", planet: "Moon", page: 191,
+    en: "Bears troubles with domestic life, gets a long age with some hidden trouble in the house of wife, some perplexities about occupation, somewhat mentally strict in the side of occupation and wife",
+    ta: "குடும்ப வாழ்வில் தொல்லைகள்; மனைவி வீட்டில் மறைந்த சிரமத்துடன் நீண்ட வயது; தொழில் பற்றிய சில குழப்பங்கள்; தொழில், மனைவி வகையில் சற்று மன உறுதியுடன் கண்டிப்பு.",
+  },
+  {
+    house: 7, lagna: "Sagittarius", planetSign: "Gemini", planet: "Mars", page: 194,
+    en: "Experiences loss in wife's house, faces some loss in the house of occupation, creates special means for increasing wealth, gets loss in the house of government, has some deficiency in education and weakness in physique",
+    ta: "மனைவி வீட்டில் இழப்பு; தொழில் வீட்டில் சில இழப்பு; செல்வம் பெருக்க சிறப்பு வழிகளை உருவாக்குவார்; அரசு வகையில் இழப்பு; கல்வியில் சில குறை; உடலில் பலவீனம்.",
+  },
+  {
+    house: 7, lagna: "Sagittarius", planetSign: "Gemini", planet: "Mercury", page: 196,
+    en: "Does a very dignified occupation, gets happy pleasures of family, gets beautiful, influential and clever wife, wears a nice dress, conducts business successfully, enjoys the sexual pleasures very much, gets a very good father-in-law",
+    ta: "மிகவும் கௌரவமான தொழில்; குடும்ப மகிழ்ச்சி; அழகான, செல்வாக்குள்ள, சாமர்த்தியமான மனைவி; நல்ல உடை; வணிகத்தில் வெற்றி; பாலியல் இன்பத்தை மிகவும் அனுபவிப்பார்; மிக நல்ல மாமனார்.",
+  },
+  {
+    house: 7, lagna: "Sagittarius", planetSign: "Gemini", planet: "Jupiter", page: 198,
+    en: "Pursues the occupation comfortably, gets a beautiful and influential wife, enmity in the brothers, and sisters, house, gets some landed property, is self-conceited",
+    ta: "தொழிலை வசதியாக நடத்துவார்; அழகான, செல்வாக்குள்ள மனைவி; சகோதர சகோதரி வீட்டில் பகை; சில நிலச் சொத்து; தன்னைப் பெரிதாக நினைப்பார்.",
+  },
+  {
+    house: 7, lagna: "Sagittarius", planetSign: "Gemini", planet: "Venus", page: 199,
+    en: "Gains in the occupation, gets good cooperation in wife's house, some enmity through wife side, wants much sexual pleasures, likes beauty, gets some diseases in wife, great advantage in occupation and domestic life, gets honour, very clever",
+    ta: "தொழிலில் ஆதாயம்; மனைவி வீட்டில் நல்ல ஒத்துழைப்பு; மனைவி வழியில் சில பகை; பாலியல் இன்பத்தை அதிகம் விரும்புவார்; அழகை விரும்புவார்; மனைவியால் சில நோய்; தொழிலிலும் குடும்ப வாழ்விலும் பெரும் ஆதாயம்; மரியாதை; மிகுந்த சாமர்த்தியம்.",
+  },
+  {
+    house: 7, lagna: "Sagittarius", planetSign: "Gemini", planet: "Saturn", page: 202,
+    en: "Progress in occupation, earns wealth diligently, some weakness in his body, gets the power in wife's house, does not support Dharma, is passionate",
+    ta: "தொழிலில் முன்னேற்றம்; உழைப்பால் செல்வம்; உடலில் சில பலவீனம்; மனைவி வீட்டில் வலிமை; தர்மத்தை ஆதரிக்கமாட்டார்; பாலியல் ஆர்வம் மிகுதி.",
+  },
+  {
+    house: 7, lagna: "Sagittarius", planetSign: "Gemini", planet: "Rahu", page: 203,
+    en: "Works very tactfully in the occupation, works very hard and chalks out complex plans for acquiring progress of occupation, gets an extraordinarily charming wife, gets more sexual pleasures, is clever and cunning",
+    ta: "தொழிலில் மிகுந்த சாமர்த்தியம்; தொழில் முன்னேற்றத்துக்காக கடுமையாக உழைத்து சிக்கலான திட்டங்களை வகுப்பார்; அசாதாரண கவர்ச்சியுள்ள மனைவி; பாலியல் இன்பம் மிகுதி; அறிவாளியும் சூழ்ச்சியாளரும்.",
+  },
+  {
+    house: 7, lagna: "Sagittarius", planetSign: "Gemini", planet: "Ketu", page: 205,
+    en: "Bears great trouble in wife's house, is troubled by dependence in occupation, feels fatigued, earns livelihood with great difficulty and tactics, deficiency in the sexual pleasures",
+    ta: "மனைவி வீட்டில் பெரும் துன்பம்; தொழிலில் சார்பு நிலையால் தொல்லை; சோர்வு; பெரும் சிரமத்தோடும் தந்திரங்களோடும் வாழ்வாதாரம் ஈட்டுவார்; பாலியல் இன்பத்தில் குறை.",
+  },
+  {
+    house: 7, lagna: "Capricorn", planetSign: "Cancer", planet: "Sun", page: 211,
+    en: "Gets some affliction in wife's side, feels worried over domestic life, worries in connection with occupation, some distress in sexual life, gets the contact of foreign countries in connection with occupation and does some strange and dreadful deeds",
+    ta: "மனைவி வீட்டில் சில துன்பம்; குடும்ப வாழ்வில் கவலை; தொழில் வகையில் கவலைகள்; பாலியல் வாழ்வில் சில துன்பம்; தொழில் வகையில் வெளிநாட்டுத் தொடர்பு; சில வினோதமும் பயங்கரமுமான செயல்களைச் செய்வார்.",
+  },
+  {
+    house: 7, lagna: "Capricorn", planetSign: "Cancer", planet: "Moon", page: 212,
+    en: "Gets a very beautiful wife, gets sexual pleasures very much, pursues a firm and nice occupation",
+    ta: "மிக அழகான மனைவி; பாலியல் இன்பம் மிகுதி; உறுதியான, நல்ல தொழில் நடத்துவார்.",
+  },
+  {
+    house: 7, lagna: "Capricorn", planetSign: "Cancer", planet: "Mars", page: 214,
+    en: "Gets loss in wife's house, deficiency in mother's house, weakness in connection with occupation, restless in the house of income and in domestic happiness, deficiency in sexual pleasures",
+    ta: "மனைவி வீட்டில் இழப்பு; தாய் வீட்டில் குறை; தொழிலில் பலவீனம்; வருமானத்திலும் குடும்ப மகிழ்ச்சியிலும் அமைதியின்மை; பாலியல் இன்பத்தில் குறை.",
+  },
+  {
+    house: 7, lagna: "Capricorn", planetSign: "Cancer", planet: "Mercury", page: 216,
+    en: "Gets the progress in occupation through his powerful destiny, gets good fortune in the daily management of occupation, some ordinary affliction in the wife's side, does some religious duties on account of wife",
+    ta: "தன் வலிமையான விதியால் தொழில் முன்னேற்றம்; தினசரி தொழில் நிர்வாகத்தில் நல்ல அதிர்ஷ்டம்; மனைவி வகையில் சாதாரண துன்பம்; மனைவியின் பொருட்டு சில மத கடமைகள்.",
+  },
+  {
+    house: 7, lagna: "Capricorn", planetSign: "Cancer", planet: "Jupiter", page: 219,
+    en: "Works energetically in the line of occupation, spends much, gets special sexual powers and happiness, has weakness in body, maintains contact with brothers and sisters",
+    ta: "தொழில் துறையில் சுறுசுறுப்பாக வேலை; அதிகம் செலவழிப்பார்; சிறப்பு பாலியல் ஆற்றலும் மகிழ்ச்சியும்; உடலில் பலவீனம்; சகோதர சகோதரிகளுடன் தொடர்பு.",
+  },
+  {
+    house: 7, lagna: "Capricorn", planetSign: "Cancer", planet: "Venus", page: 221,
+    en: "Pursues a powerful occupation, gets the strength from children, gains happiness of the family, does honourable deeds for the government and society, has some deficiency in business, pays attention to increase the wealth, rears very diplomatic policies, and is mentally worried",
+    ta: "வலிமையான தொழில்; பிள்ளைகளிடமிருந்து வலிமை; குடும்ப மகிழ்ச்சி; அரசு, சமூகத்துக்காக மரியாதைக்குரிய செயல்கள்; வணிகத்தில் சில குறை; செல்வம் பெருக்க கவனம்; மிகவும் இராஜதந்திரமான கொள்கைகள்; மன கவலை.",
+  },
+  {
+    house: 7, lagna: "Capricorn", planetSign: "Cancer", planet: "Saturn", page: 223,
+    en: "Labours hard in the line of occupation, has a great fascination for wife, develops some enmity in the family, gets uneasiness in occupation, tries very hard for the rise of destiny, deficiency of land and buildings",
+    ta: "தொழில் துறையில் கடின உழைப்பு; மனைவியின் மீது பெரும் ஈர்ப்பு; குடும்பத்தில் சில பகை; தொழிலில் அமைதியின்மை; விதியை உயர்த்த கடுமையாக முயல்வார்; நிலமும் கட்டிடங்களும் குறை.",
+  },
+  {
+    house: 7, lagna: "Capricorn", planetSign: "Cancer", planet: "Rahu", page: 225,
+    en: "Bears great loss in wife's house, deficiency in sexual pleasures, finds obstacles in occupation, faces the mental worries in connection with family affairs, tries to reap the unauthorised advantages being indiscriminate in the side of sexual pleasures, and is of unstable mind",
+    ta: "மனைவி வீட்டில் பெரும் இழப்பு; பாலியல் இன்பத்தில் குறை; தொழிலில் தடைகள்; குடும்ப விவகாரங்களில் மன கவலைகள்; பாலியல் இன்பத்தில் தகுதியற்ற ஆதாயம் தேடுவார்; மனம் நிலையற்றவர்.",
+  },
+  {
+    house: 7, lagna: "Capricorn", planetSign: "Cancer", planet: "Ketu", page: 226,
+    en: "Loss and obstacles in wife's house, experiences great worries in family life, faces many failures and loss in the occupation, longs for sexual pleasures",
+    ta: "மனைவி வீட்டில் இழப்பும் தடைகளும்; குடும்ப வாழ்வில் பெரும் கவலை; தொழிலில் பல தோல்விகளும் இழப்பும்; பாலியல் இன்பத்துக்கான ஏக்கம்.",
+  },
+  {
+    house: 7, lagna: "Aquarius", planetSign: "Leo", planet: "Sun", page: 232,
+    en: "Gains influential power from occupation, experiences some distress in the body, maintains great influence on family, faces some disturbance due to sexual pleasures",
+    ta: "தொழிலால் செல்வாக்கான வலிமை; உடலில் சில துன்பம்; குடும்பத்தில் பெரும் செல்வாக்கு; பாலியல் இன்பத்தால் சில குழப்பம்.",
+  },
+  {
+    house: 7, lagna: "Aquarius", planetSign: "Leo", planet: "Moon", page: 234,
+    en: "Pursues the occupation diligently and with perplexities of concentration, faces enmity in the house of wife and sexual pleasures, has some distress and bondage in body, gets the complaint of smallpox in the wife's side, uses diplomacy in occupation",
+    ta: "மன ஒருமுகப்பாட்டில் சில குழப்பத்துடன் தொழிலை சுறுசுறுப்பாகச் செய்வார்; மனைவி வீட்டிலும் பாலியல் இன்பத்திலும் பகை; உடலில் சில துன்பமும் கட்டுப்பாடும்; மனைவி வீட்டில் அம்மை நோய் பற்றிய புகார்; தொழிலில் இராஜதந்திரம்.",
+  },
+  {
+    house: 7, lagna: "Aquarius", planetSign: "Leo", planet: "Mars", page: 237,
+    en: "Pursues the occupation with great respect and honour, gets brothers and sisters, manages the affairs nicely in the government and society, keeps influence in the house of wife, is a good administrator",
+    ta: "மிகுந்த மரியாதையுடனும் கௌரவத்துடனும் தொழில்; சகோதர சகோதரிகள்; அரசு, சமூகத்தில் விவகாரங்களை நன்கு நிர்வகிப்பார்; மனைவி வீட்டில் செல்வாக்கு; நல்ல நிர்வாகி.",
+  },
+  {
+    house: 7, lagna: "Aquarius", planetSign: "Leo", planet: "Mercury", page: 239,
+    en: "Gets education and children, works with wisdom in the line of occupation, has some fascination and perplexity in the house of wife, gets good age, spends the daily routine of life in worldly and domestic affairs, gets honour, experiences some deficiency in the sexual pleasures",
+    ta: "கல்வியும் குழந்தைகளும் பெறுவார்; தொழில் துறையில் அறிவுடன் வேலை; மனைவி வீட்டில் சில ஈர்ப்பும் குழப்பமும்; நல்ல வயது; உலக, குடும்ப விவகாரங்களில் தினசரி வாழ்க்கை; மரியாதை; பாலியல் இன்பத்தில் சில குறை.",
+  },
+  {
+    house: 7, lagna: "Aquarius", planetSign: "Leo", planet: "Jupiter", page: 241,
+    en: "Pursues big occupation by the power of wealth, earns much wealth by occupation, acquires wealth alter marriage, gets many kinds of advantages, gets the strength fiom brothers and sisters, gets sufficient fixed income, is clever in earning wealth",
+    ta: "செல்வ வலிமையால் பெரும் தொழில் நடத்துவார்; தொழிலால் பெரும் செல்வம்; திருமணத்துக்குப் பின் செல்வம் பெறுவார்; பல ஆதாயங்கள்; சகோதர சகோதரிகளின் வலிமை; போதுமான நிலையான வருமானம்; செல்வம் ஈட்டுவதில் சாமர்த்தியம்.",
+  },
+  {
+    house: 7, lagna: "Aquarius", planetSign: "Leo", planet: "Venus", page: 243,
+    en: "Gets happiness and auspiciousness in family but some deficiency in mutual love in the family, gets unhappiness from others, gets the strength of lands and buildings, has a good physique, works satisfactorily and truthfully in the occupation",
+    ta: "குடும்பத்தில் மகிழ்ச்சியும் நன்மையும், ஆனால் குடும்பத்தில் பரஸ்பர அன்பில் குறை; பிறரிடமிருந்து மனவருத்தம்; நிலமும் கட்டிடங்களும் வலிமை; நல்ல உடல்; தொழிலில் திருப்திகரமாகவும் உண்மையாகவும் வேலை செய்வார்.",
+  },
+  {
+    house: 7, lagna: "Aquarius", planetSign: "Leo", planet: "Saturn", page: 245,
+    en: "Faces perplexity in domestic life, has deficiency and enmity in the house of wife, gets worries and loss in occupation, pays proper attention to Dharma, is of short stature",
+    ta: "வீட்டு வாழ்வில் சிக்கல்; மனைவி வீட்டில் குறையும் பகையும்; தொழிலில் கவலையும் இழப்பும்; தர்மத்தின்மீது நல்ல கவனம்; உயரம் குறைந்தவர்.",
+  },
+  {
+    house: 7, lagna: "Aquarius", planetSign: "Leo", planet: "Rahu", page: 246,
+    en: "Bears loss in wife's house, bears affliction from wife, has weakness in sexual pleasures, bears calamities in the line of profession, does laborious deeds, enjoys some unjustified advantage in family and occupation",
+    ta: "மனைவி வீட்டில் இழப்பு; மனைவியால் துன்பம்; பாலியல் இன்பத்தில் பலவீனம்; தொழில் துறையில் துன்பங்கள்; உழைப்பை வேண்டும் செயல்கள்; குடும்பத்திலும் தொழிலிலும் நியாயமற்ற ஆதாயம்.",
+  },
+  {
+    house: 7, lagna: "Aquarius", planetSign: "Leo", planet: "Ketu", page: 248,
+    en: "Bears distress in wife's house, works with worries in the field of occupation and also faces a fatal loss in occupation, has uneasiness in connection with sexual pleasures, has strong power for sexual affairs",
+    ta: "மனைவி வீட்டில் துன்பம்; தொழில் துறையில் கவலைகளுடன் வேலை, மேலும் தொழிலில் ஆபத்தான இழப்பு; பாலியல் வகையில் அமைதியின்மை; பாலியல் விவகாரங்களில் வலுவான ஆற்றல்.",
+  },
+  {
+    house: 7, lagna: "Pisces", planetSign: "Virgo", planet: "Sun", page: 254,
+    en: "Faces opposition in wife's house, bears some distress in family, gets hindrances and worries in the line of occupation, faces some deficiency in the side of sexual pleasures",
+    ta: "மனைவி வீட்டில் எதிர்ப்பு; குடும்பத்தில் சில துன்பம்; தொழில் துறையில் தடைகளும் கவலைகளும்; பாலியல் இன்பத்தில் சில குறை.",
+  },
+  {
+    house: 7, lagna: "Pisces", planetSign: "Virgo", planet: "Moon", page: 256,
+    en: "Achieves success in occupation through his will-power, gets an educated and gentle wife, has a great fascination for sexual pleasures, is very clever and is of happy disposition",
+    ta: "தன் மன உறுதியால் தொழிலில் வெற்றி; கல்வியறிவுள்ள, மென்மையான மனைவி; பாலியல் இன்பத்தில் பெரும் ஈர்ப்பு; மிகுந்த சாமர்த்தியம்; மகிழ்ச்சியான இயல்பு.",
+  },
+  {
+    house: 7, lagna: "Pisces", planetSign: "Virgo", planet: "Mars", page: 258,
+    en: "Experiences progress in occupation through his fortune, earns wealth, gains wealth due to the good luck of wife but causes unrest to wife, conducts a large scale business, gets advantage from government and society, gets some cooperation from father, enjoys the sexual pleasures, gives much importance to wealth and labours very hard for wealth",
+    ta: "தன் அதிர்ஷ்டத்தால் தொழிலில் முன்னேற்றம்; செல்வம் ஈட்டுவார்; மனைவியின் நல்ல அதிர்ஷ்டத்தால் செல்வம், ஆனால் மனைவிக்கு மன அமைதியின்மை; பெரிய அளவில் வணிகம்; அரசு, சமூகத்தில் ஆதாயம்; தந்தையிடமிருந்து சில ஒத்துழைப்பு; பாலியல் இன்பம்; செல்வத்துக்கு பெரும் முக்கியத்துவம்; செல்வத்துக்காக கடுமையாக உழைப்பார்.",
+  },
+  {
+    house: 7, lagna: "Pisces", planetSign: "Virgo", planet: "Mercury", page: 260,
+    en: "Gets a very beautiful wife, pursues influential occupation and gets happiness and success, gets dignity in mother's house, gets excessive happiness and sexual pleasures, enjoys lands and buildings",
+    ta: "மிக அழகான மனைவி; செல்வாக்குள்ள தொழில்; மகிழ்ச்சியும் வெற்றியும்; தாய் வீட்டில் கௌரவம்; அதிக மகிழ்ச்சியும் பாலியல் இன்பமும்; நிலமும் கட்டிடங்களும் அனுபவிப்பார்.",
+  },
+  {
+    house: 7, lagna: "Pisces", planetSign: "Virgo", planet: "Jupiter", page: 262,
+    en: "Gets a handsome physique, gets progress in the occupation through physical labour and the power of heart, gets respect in the line of occupation, gets happiness in wife's house, enjoys sexual pleasures, feels some deficiency in the house of income, some enmity with brothers",
+    ta: "அழகான உடல்; தொழிலில் உடல் உழைப்பாலும் மனவலிமையாலும் முன்னேற்றம்; தொழில் துறையில் மரியாதை; மனைவி வீட்டில் மகிழ்ச்சி; பாலியல் இன்பம் அனுபவிப்பார்; வருமானக் குறை; சகோதரர்களுடன் சில பகை.",
+  },
+  {
+    house: 7, lagna: "Pisces", planetSign: "Virgo", planet: "Venus", page: 264,
+    en: "Gets worries in the daily routine of life on account of family and wife, bears some loss in wife's side, faces great calamities and worries in the house of occupation, bears the loss of brothers and sisters.",
+    ta: "குடும்பம், மனைவி காரணமாக தினசரி வாழ்வில் கவலைகள்; மனைவி வீட்டில் சில இழப்பு; தொழில் துறையில் பெரும் துன்பமும் கவலையும்; சகோதர சகோதரிகளின் இழப்பு.",
+  },
+  {
+    house: 7, lagna: "Pisces", planetSign: "Virgo", planet: "Saturn", page: 267,
+    en: "Bears some losses and gains in the house of expenditure, faces anxiety in the house ofDharma, has some deficiency in happiness on account of income and expenditure",
+    ta: "செலவில் சில இழப்பும் ஆதாயமும்; தர்மத்தின் வீட்டில் கவலை; வருமானம், செலவால் மகிழ்ச்சியில் குறை.",
+  },
+  {
+    house: 7, lagna: "Pisces", planetSign: "Virgo", planet: "Rahu", page: 268,
+    en: "Labours very hard for the progress of occupation, faces some troubles in wife's house, gets stability in happiness after bearing some worries",
+    ta: "தொழில் முன்னேற்றத்துக்காக மிகக் கடினமாக உழைப்பார்; மனைவி வீட்டில் சில தொல்லைகள்; தொழிலில் கடுமையான சிரமங்கள்; சில கவலைகளைத் தாங்கிய பின் மகிழ்ச்சியில் நிலைத்தன்மை.",
+  },
+  {
+    house: 7, lagna: "Pisces", planetSign: "Virgo", planet: "Ketu", page: 271,
+    en: "Some restlessness in the house of wife, gets special sexual pleasures, labours very hard in diurnal occupation, gets an internal stability in the occupation",
+    ta: "மனைவி வீட்டில் அமைதியின்மை; பாலியல் இன்பத்தில் சிறப்பு; தினசரி தொழிலில் மிகக் கடினமாக உழைப்பார்; தொழிலில் உள் நிலைத்தன்மை.",
   },
 ];
 
