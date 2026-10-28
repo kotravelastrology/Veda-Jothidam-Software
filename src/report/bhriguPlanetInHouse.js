@@ -1,11 +1,11 @@
 /**
- * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 10th
+ * T.M. Rao's Bhrigu Samhita, "Predictions of <planet> in <lagna> Ascendant": the entries for the planets in the 1st to 11th
  * houses from each lagna. Each entry is the book's prose as printed (`en`, joined from the page extract; OCR slips are kept),
  * its Tamil summary (`ta`, ours) and the printed page the entry starts on. `planetSign` is the sign the planet stands in
- * (the lagna for house 1, and the sign that many places on for houses 2 to 10).
+ * (the lagna for house 1, and the sign that many places on for houses 2 to 11).
  * The book has no entry for two planets: Sun in Gemini's 5th house (its page goes from the 4th house to the 6th) and Sun in
  * Leo's 10th house (its page goes from the 9th house to the 11th); both checked on the page image, so neither is supplied.
- * 1078 entries in all.
+ * 1186 entries in all.
  * The printed page is the scan's page number plus five, checked against the printed numbers in the scan and the page
  * images for Libra (p.156) and Leo (p.104). Extracted by scratch scripts; the text is the book's.
  */
@@ -5400,6 +5400,546 @@ const PLANET_IN_HOUSE = [
     house: 10, lagna: "Pisces", planetSign: "Sagittarius", planet: "Ketu", page: 271,
     en: "Gets the progress in the affairs of government and society after labouring very hard, is not good in the father's house, works fearlessly and without reserve, does grand deeds through secret powers, labours vety hard to acquire the progress in honour, prestige and occupation, opposes the father",
     ta: "அரசு, சமூக விவகாரங்களில் பெரும் உழைப்புக்குப் பின் முன்னேற்றம்; தந்தை வீட்டில் நல்லதல்ல; அஞ்சாமல், தயக்கமின்றி வேலை செய்வார்; மறைந்த சக்திகளால் பெரும் செயல்கள்; மரியாதை, கௌரவம், தொழில் முன்னேற்றத்துக்குப் பெரும் உழைப்பு; தந்தையை எதிர்ப்பார்.",
+  },
+  {
+    house: 11, lagna: "Aries", planetSign: "Aquarius", planet: "Sun", page: 22,
+    en: "Feels indifference in acquiring education, dissatisfied with children, goes for intellectual pursuits, selfish, harsh speech, ambitious",
+    ta: "கல்வியில் ஆர்வமின்மை; பிள்ளைகளில் அதிருப்தி; அறிவுசார் நாட்டம்; சுயநலம்; கடுமையான பேச்சு; லட்சியமானவர்.",
+  },
+  {
+    house: 11, lagna: "Aries", planetSign: "Aquarius", planet: "Moon", page: 24,
+    en: "Gets good income, gains happiness with some difficulties, gains from lands and houses, gets good education, happiness through children, speaks sweetly, gets pleasures",
+    ta: "நல்ல வருமானம்; சில கஷ்டங்களுடன் மகிழ்ச்சி; நிலம், வீடுகளால் ஆதாயம்; நல்ல கல்வி; பிள்ளைகளால் மகிழ்ச்சி; இனிமையாகப் பேசுவார்; இன்பங்களை அனுபவிப்பார்.",
+  },
+  {
+    house: 11, lagna: "Aries", planetSign: "Aquarius", planet: "Mars", page: 26,
+    en: "Hard-working and gains by hard work, bitter policies related to gains, loses wealth, worried over loss with regard to family, overcomes enemies, a bit careless, uses mysterious powers in knowledge and intelligence",
+    ta: "கடின உழைப்பாளி, உழைப்பால் ஆதாயம்; ஆதாயம் தொடர்பான கடுமையான கொள்கைகள்; செல்வ இழப்பு; குடும்ப இழப்பு பற்றிக் கவலை; எதிரிகளை வெல்வார்; சற்று அசட்டை; அறிவிலும் ஞானத்திலும் மறைந்த சக்திகளைப் பயன்படுத்துவார்.",
+  },
+  {
+    house: 11, lagna: "Aries", planetSign: "Aquarius", planet: "Mercury", page: 28,
+    en: "Gains from brothers and sisters, earns wealth, works hard for more income, gains in education, good speaker and clever",
+    ta: "உடன்பிறப்புகளால் ஆதாயம்; செல்வம் ஈட்டுவார்; மேலும் வருமானத்துக்காக கடினமாக உழைப்பார்; கல்வியில் ஆதாயம்; நல்ல பேச்சாளர், சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 11, lagna: "Aries", planetSign: "Aquarius", planet: "Jupiter", page: 30,
+    en: "Gets gains with the help of destiny, gets help in his activities, cooperation from brothers and sisters, successful in occupation, enjoys sexual pleasures, success in education and speeches",
+    ta: "விதியின் உதவியால் ஆதாயம்; தன் செயல்களில் உதவி; உடன்பிறப்புகளின் ஒத்துழைப்பு; தொழிலில் வெற்றி; பாலியல் இன்பம்; கல்வியிலும் பேச்சிலும் வெற்றி.",
+  },
+  {
+    house: 11, lagna: "Aries", planetSign: "Aquarius", planet: "Venus", page: 32,
+    en: "Earns much wealth and occupies a good position professionally, gains from wife, enjoys good sexual affairs, a little unhappy with regard to children and also in education",
+    ta: "பெரும் செல்வம் ஈட்டுவார்; தொழிலில் நல்ல நிலை; மனைவியால் ஆதாயம்; நல்ல பாலியல் இன்பம்; பிள்ளைகள், கல்வி பற்றி சிறு அதிருப்தி.",
+  },
+  {
+    house: 11, lagna: "Aries", planetSign: "Aquarius", planet: "Saturn", page: 34,
+    en: "Gets firm income, does honourable deeds, gets help from government and society, works very hard even not caring for his comforts, intellectually worried in the daily routine of life",
+    ta: "நிலையான வருமானம்; மரியாதைக்குரிய செயல்கள்; அரசு, சமூகத்தின் உதவி; தன் வசதிகளைப் பொருட்படுத்தாமல் கடுமையாக உழைப்பார்; தினசரி வாழ்வில் அறிவு ரீதியாகக் கவலை.",
+  },
+  {
+    house: 11, lagna: "Aries", planetSign: "Aquarius", planet: "Rahu", page: 36,
+    en: "Gains heavily, gets income and wealth, has secret (sometimes unauthorised) methods to achieve his ends",
+    ta: "பெரும் ஆதாயம்; வருமானமும் செல்வமும்; தன் நோக்கங்களை அடைய ரகசியமான, சில நேரம் அனுமதியற்ற வழிகள்.",
+  },
+  {
+    house: 11, lagna: "Aries", planetSign: "Aquarius", planet: "Ketu", page: 38,
+    en: "Gains heavily and makes more efforts to gain more, always engaged in trying to get gains, a bit rash in earnings, selfish",
+    ta: "பெரும் ஆதாயம்; அதிக ஆதாயம் பெற மேலும் முயற்சி; எப்போதும் ஆதாயம் பெறும் முயற்சியில்; வருமானத்தில் சற்று அவசரம்; சுயநலம்.",
+  },
+  {
+    house: 11, lagna: "Taurus", planetSign: "Pisces", planet: "Sun", page: 43,
+    en: "Gains from mother, gets lands and buildings, gets some income also, help from education and children, is very clever and has patience",
+    ta: "தாயால் ஆதாயம்; நிலமும் வீடும்; சில வருமானம்; கல்வி, பிள்ளைகளால் உதவி; மிகவும் சாமர்த்தியமும் பொறுமையும்.",
+  },
+  {
+    house: 11, lagna: "Taurus", planetSign: "Pisces", planet: "Moon", page: 45,
+    en: "Gains wealth by his hard work, gains through brothers and sisters, progress in education and also happiness through children, is clever and intelligent",
+    ta: "கடின உழைப்பால் செல்வம்; உடன்பிறப்புகளால் ஆதாயம்; கல்வியில் முன்னேற்றம்; பிள்ளைகளால் மகிழ்ச்சி; சாமர்த்தியமும் அறிவும்.",
+  },
+  {
+    house: 11, lagna: "Taurus", planetSign: "Pisces", planet: "Mars", page: 47,
+    en: "Earns wealth through profession, some loss in children side and also in education, keeps enemies under control, unhappy with wife and deficiency in sexual pleasures, controls the expenditure but still spends",
+    ta: "தொழிலால் செல்வம்; பிள்ளைகள், கல்வி வகையில் சில இழப்பு; எதிரிகளைக் கட்டுப்படுத்துவார்; மனைவியுடன் அதிருப்தி; பாலியல் இன்பத்தில் குறை; செலவைக் கட்டுப்படுத்தினாலும் செலவழிப்பார்.",
+  },
+  {
+    house: 11, lagna: "Taurus", planetSign: "Pisces", planet: "Mercury", page: 49,
+    en: "Problems in getting wealth, some problems in education unhappy with children, discrimination in the house of income and is clever",
+    ta: "வருமானம் பெறுவதில் சிக்கல்; கல்வியில் சில பிரச்சினை; பிள்ளைகளுடன் அதிருப்தி; வருமான வீட்டில் பாகுபாடு; சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 11, lagna: "Taurus", planetSign: "Pisces", planet: "Jupiter", page: 51,
+    en: "Lives long, gets wealth by successful methods, some bitterness with brothers and sisters, tries to get some unauthorised gains in the house of wife and sexual pleasures, has occult strength",
+    ta: "நீண்ட ஆயுள்; வெற்றிகரமான வழிகளால் செல்வம்; உடன்பிறப்புகளுடன் சில கசப்பு; மனைவி வீட்டிலும் பாலியல் இன்பத்திலும் அங்கீகரிக்கப்படாத ஆதாயம் தேடுவார்; மறைந்த ஆற்றல்.",
+  },
+  {
+    house: 11, lagna: "Taurus", planetSign: "Pisces", planet: "Venus", page: 53,
+    en: "Gets huge gains, somewhat weak in education, unhappy with children, looks handsome, works hard to increase wealth and is very clever",
+    ta: "பெரும் ஆதாயம்; கல்வியில் சற்று பலவீனம்; பிள்ளைகளால் அதிருப்தி; அழகானவர்; செல்வம் பெருக்க கடினமாக உழைப்பார்; மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 11, lagna: "Taurus", planetSign: "Pisces", planet: "Saturn", page: 55,
+    en: "Gets huge income and gains, does religious duties, works very hard, some success in the house of children",
+    ta: "பெரும் வருமானமும் ஆதாயமும்; மதக் கடமைகளைச் செய்வார்; மிகக் கடினமாக உழைப்பார்; பிள்ளைகள் வீட்டில் சில வெற்றி.",
+  },
+  {
+    house: 11, lagna: "Taurus", planetSign: "Pisces", planet: "Rahu", page: 57,
+    en: "Success in getting gains, makes more efforts to get gains more than required, selfish",
+    ta: "ஆதாயம் பெறுவதில் வெற்றி; தேவைக்கு மேல் ஆதாயம் தேட அதிக முயற்சி; சுயநலம்.",
+  },
+  {
+    house: 11, lagna: "Taurus", planetSign: "Pisces", planet: "Ketu", page: 59,
+    en: "Earns huge wealth, works hard for the progress of getting wealth, follows unauthorised methods, some loss in the gains",
+    ta: "பெரும் செல்வம் ஈட்டுவார்; செல்வம் சேர்க்க கடினமாக உழைப்பார்; அங்கீகரிக்கப்படாத வழிகளைப் பின்பற்றுவார்; ஆதாயத்தில் சில இழப்பு.",
+  },
+  {
+    house: 11, lagna: "Gemini", planetSign: "Aries", planet: "Sun", page: 63,
+    en: "Huge gains from brothers and sisters, some weakness in the house of education, some deficiency in the side of children, uses some improper and bitter words, is very careless and overjoyed",
+    ta: "உடன்பிறப்புகளிடமிருந்து பெரும் ஆதாயம்; கல்வி வீட்டில் சில பலவீனம்; பிள்ளைகள் வகையில் சில குறை; முறையற்ற, கசப்பான வார்த்தைகள்; மிகவும் அசட்டையும் மகிழ்ச்சியும்.",
+  },
+  {
+    house: 11, lagna: "Gemini", planetSign: "Aries", planet: "Moon", page: 65,
+    en: "Rams huge wealth, progress regarding education, family gains and gains through children, gets happy progress",
+    ta: "பெரும் செல்வம்; கல்வியில் முன்னேற்றம்; குடும்ப ஆதாயமும் பிள்ளைகள் வழியில் ஆதாயமும்; மகிழ்ச்சியான முன்னேற்றம்.",
+  },
+  {
+    house: 11, lagna: "Gemini", planetSign: "Aries", planet: "Mars", page: 67,
+    en: "Gets huge gains and income, gains from maternal grandfather's side, also get heavy gains and strength of influence from the house of enemy, gains through industry, weakness in the accumulated house of wealth, gets gains with great influence and authority, some worry in the side of children",
+    ta: "பெரும் ஆதாயமும் வருமானமும்; தாய் வழி தாத்தாவிடமிருந்து ஆதாயம்; எதிரி வீட்டிலிருந்தும் பெரும் ஆதாயமும் செல்வாக்கும்; தொழில் முயற்சியால் ஆதாயம்; சேர்த்த செல்வத்தில் பலவீனம்; பெரும் செல்வாக்கும் அதிகாரமும் கொண்ட ஆதாயம்; பிள்ளைகள் பற்றி சில கவலை.",
+  },
+  {
+    house: 11, lagna: "Gemini", planetSign: "Aries", planet: "Mercury", page: 69,
+    en: "Gets huge gains by physical forces, gets much strength of happiness, gets many happy things, gets buildings and property, happiness from children, happiness in the house of education, is very clever",
+    ta: "உடல் வலிமையால் பெரும் ஆதாயம்; மகிழ்ச்சியின் வலிமை; பல மகிழ்ச்சியான விஷயங்கள்; கட்டிடங்களும் சொத்தும்; பிள்ளைகளால் மகிழ்ச்சி; கல்வியில் மகிழ்ச்சி; மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 11, lagna: "Gemini", planetSign: "Aries", planet: "Jupiter", page: 71,
+    en: "Huge gains, dignity and healthy father, loss of wife, respect in the daily occupation, gains from father, gains in the government and society, help from brothers and sisters, very good means of sexual pleasures, ambitious, gets the happiness of wealth, children and education and is very clever",
+    ta: "பெரும் ஆதாயம், கௌரவம், ஆரோக்கியமான தந்தை; மனைவியை இழக்கும் குறை; தினசரி தொழிலில் மரியாதை; தந்தையால் ஆதாயம்; அரசு, சமூகத்தில் ஆதாயம்; உடன்பிறப்புகளின் உதவி; பாலியல் இன்பத்துக்கான நல்ல வசதிகள்; லட்சியமானவர்; செல்வம், பிள்ளைகள், கல்வியின் மகிழ்ச்சி; மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 11, lagna: "Gemini", planetSign: "Aries", planet: "Venus", page: 73,
+    en: "Gains of acquiring much education, some deficiency in children, clever in acquiring gains, and intelligent",
+    ta: "அதிகக் கல்வி பெறும் ஆதாயம்; பிள்ளைகள் வகையில் சில குறை; ஆதாயம் ஈட்டுவதில் சாமர்த்தியம்; அறிவாளி.",
+  },
+  {
+    house: 11, lagna: "Gemini", planetSign: "Aries", planet: "Saturn", page: 75,
+    en: "Some weakness in the house of income, gets some worry, special strength in the house of education and intellect, support from children, ambitious",
+    ta: "வருமான வீட்டில் சில பலவீனம்; சில கவலைகள்; கல்வியிலும் அறிவிலும் சிறப்பு வலிமை; பிள்ளைகளின் ஆதரவு; லட்சியமானவர்.",
+  },
+  {
+    house: 11, lagna: "Gemini", planetSign: "Aries", planet: "Rahu", page: 77,
+    en: "Earns huge income and gets gains, selfishness in the house",
+    ta: "பெரும் வருமானமும் ஆதாயமும்; வீட்டில் சுயநலம்.",
+  },
+  {
+    house: 11, lagna: "Gemini", planetSign: "Aries", planet: "Ketu", page: 79,
+    en: "Strength in the house of income, progress in the house of gains, gets some unauthorised gains, gets some success with some hidden strength",
+    ta: "வருமான வீட்டில் வலிமை; ஆதாய வீட்டில் முன்னேற்றம்; அங்கீகரிக்கப்படாத சில ஆதாயம்; மறைந்த வலிமையால் சில வெற்றி.",
+  },
+  {
+    house: 11, lagna: "Cancer", planetSign: "Taurus", planet: "Sun", page: 84,
+    en: "Gets power of wealth and gains, makes money through money, gets jewels and ornaments, is very brilliant, gets advantages in the house of education and children, influential orator",
+    ta: "செல்வத்தின் வலிமையும் ஆதாயமும்; பணத்தால் பணம் ஈட்டுவார்; நகைகளும் ஆபரணங்களும் பெறுவார்; மிகவும் பிரகாசமானவர்; கல்வி, பிள்ளைகள் வீட்டில் ஆதாயம்; செல்வாக்குள்ள சொற்பொழிவாளர்.",
+  },
+  {
+    house: 11, lagna: "Cancer", planetSign: "Taurus", planet: "Moon", page: 86,
+    en: "Has a fat physique, influential, earns wealth, gets huge gains, has sharp intelligence, lives with pomp and show, has children, deficiency in the house of education",
+    ta: "கொழுத்த உடல்; செல்வாக்குள்ளவர்; செல்வம் ஈட்டுவார்; பெரும் ஆதாயம்; கூர்மையான அறிவு; ஆடம்பரமாக வாழ்வார்; பிள்ளைகள் உண்டு; கல்வி வீட்டில் சில குறை.",
+  },
+  {
+    house: 11, lagna: "Cancer", planetSign: "Taurus", planet: "Mars", page: 88,
+    en: "Gets huge gains due to wisdom and occupation, gets the advantage of son and father, great efforts to gain wealth through business, good education and good children, is very influential and selfish",
+    ta: "அறிவாலும் தொழிலாலும் பெரும் ஆதாயம்; மகன், தந்தை வகையில் ஆதாயம்; வணிகத்தால் செல்வம் ஈட்ட பெரும் முயற்சி; நல்ல கல்வியும் நல்ல பிள்ளைகளும்; மிகவும் செல்வாக்குள்ளவர், சுயநலமானவர்.",
+  },
+  {
+    house: 11, lagna: "Cancer", planetSign: "Taurus", planet: "Mercury", page: 90,
+    en: "Gains much due to his physical strength, gets some advantage from the power of expenditure, feels some weakness in the house of gains, some loss and some gain in the side of children, has good discriminating powerful arguments, speaks majestically",
+    ta: "உடல் வலிமையால் பெரும் ஆதாயம்; செலவை நிர்வகிக்கும் ஆற்றலால் சில ஆதாயம்; ஆதாய வீட்டில் சில பலவீனம்; பிள்ளைகள் வகையில் சில இழப்பும் ஆதாயமும்; நல்ல பகுத்தறிவும் வலிமையான வாதங்களும்; கம்பீரமாகப் பேசுவார்.",
+  },
+  {
+    house: 11, lagna: "Cancer", planetSign: "Taurus", planet: "Jupiter", page: 92,
+    en: "Is very energetic, somewhat careless, deficiency in the side of wife and sexual pleasures, gets education and children, help from brothers and sisters, some humiliation and obstacles in the daily occupation, is very clever and intelhgent",
+    ta: "மிகுந்த சுறுசுறுப்பு, சற்று அசட்டை; மனைவி, பாலியல் இன்பத்தில் குறை; கல்வியும் பிள்ளைகளும் பெறுவார்; உடன்பிறப்புகளின் உதவி; தினசரி தொழிலில் சில அவமானமும் தடைகளும்; மிகவும் சாமர்த்தியமும் அறிவும்.",
+  },
+  {
+    house: 11, lagna: "Cancer", planetSign: "Taurus", planet: "Venus", page: 94,
+    en: "Gets the income happily without anxiety, gets land and property, acquires education, enjoys the pleasure of children, gives the importance to fixed income",
+    ta: "கவலையின்றி எளிதாக வருமானம்; நிலமும் சொத்தும்; கல்வி பெறுவார்; பிள்ளைகளின் இன்பம் அனுபவிப்பார்; நிலையான வருமானத்துக்கு முக்கியத்துவம் கொடுப்பார்.",
+  },
+  {
+    house: 11, lagna: "Cancer", planetSign: "Taurus", planet: "Saturn", page: 96,
+    en: "Great rise in the house of longevity, gets heavy gains in daily occupation, earns much wealth, some deficiency in some part of his body, gets sexual pleasures, takes undue profits, some bitterness in speech and children, gains from foreign countries",
+    ta: "ஆயுளில் பெரும் உயர்வு; தினசரி தொழிலில் பெரும் ஆதாயம்; மிகுந்த செல்வம்; உடலின் ஒரு பகுதியில் சில குறை; பாலியல் இன்பம்; நியாயமற்ற லாபம்; பேச்சிலும் பிள்ளைகள் வகையிலும் சில கசப்பு; வெளிநாட்டிலிருந்து ஆதாயம்.",
+  },
+  {
+    house: 11, lagna: "Cancer", planetSign: "Taurus", planet: "Rahu", page: 98,
+    en: "Gains much money in the house of occupation, intelligent and cautious, takes more than authorised profits, is highly dignified",
+    ta: "தொழில் வீட்டில் பெரும் பணம்; அறிவாளியும் எச்சரிக்கையும்; அனுமதிக்கப்பட்டதைவிட அதிக ஆதாயம் எடுப்பார்; மிகுந்த கௌரவம்.",
+  },
+  {
+    house: 11, lagna: "Cancer", planetSign: "Taurus", planet: "Ketu", page: 100,
+    en: "Acquires heavy income with profits, selfish, is very enterprising and energetic",
+    ta: "லாபத்துடன் பெரும் வருமானம்; சுயநலம்; மிகுந்த முயற்சியும் சுறுசுறுப்பும்.",
+  },
+  {
+    house: 11, lagna: "Leo", planetSign: "Gemini", planet: "Sun", page: 105,
+    en: "Gets heavy gains and earns much, has a good body, rears the maximum profit, gets children and power, gets education, is very satisfied and is farsighted",
+    ta: "பெரும் ஆதாயமும் அதிகச் சம்பாத்தியமும்; நல்ல உடல்; அதிகபட்ச லாபத்தை அடைவார்; பிள்ளைகளும் அதிகாரமும்; கல்வி; மிகுந்த திருப்தி, தொலைநோக்கு.",
+  },
+  {
+    house: 11, lagna: "Leo", planetSign: "Gemini", planet: "Moon", page: 107,
+    en: "Gains success through the concentration of mind, earns by the power of expenditure also, gets the strength of heavy expenditure, some weakness in the side of children, some weakness in acquiring education",
+    ta: "மனத்தின் ஒருமுகப்பாட்டால் வெற்றி; செலவின் ஆற்றலாலும் சம்பாதிப்பார்; பெரும் செலவின் வலிமை; பிள்ளைகள் வகையில் சில பலவீனம்; கல்வி பெறுவதில் சில பலவீனம்.",
+  },
+  {
+    house: 11, lagna: "Leo", planetSign: "Gemini", planet: "Mars", page: 109,
+    en: "Accumulates wealth, advantage of mother, gets the gains of buildings and land, great influence in the house of enemy, can see the happiness of family, works very intelligently in the house of education, some adventures of children, is pious and selfish",
+    ta: "செல்வம் சேர்ப்பார்; தாயின் உதவி; நிலமும் கட்டிடங்களும் ஆதாயம்; எதிரி வீட்டில் பெரும் செல்வாக்கு; குடும்ப மகிழ்ச்சியைக் காண்பார்; கல்வி வீட்டில் மிக சாமர்த்தியமாக வேலை செய்வார்; பிள்ளைகளின் சில சாகசங்கள்; தர்மமுள்ளவர், சுயநலமானவர்.",
+  },
+  {
+    house: 11, lagna: "Leo", planetSign: "Gemini", planet: "Mercury", page: 111,
+    en: "Gets huge gains aid earns much money, confined dignity in the house of income, advantage from the side of children, art and earns wealth in the house of education, gets the opportunity and appreciation of his cleverness",
+    ta: "பெரும் ஆதாயமும் மிகுந்த செல்வமும்; வருமான வீட்டில் வரையறுக்கப்பட்ட கம்பீரம்; பிள்ளைகளால் ஆதாயம்; கல்வி வீட்டில் கலையும் செல்வமும்; தன் சாமர்த்தியத்துக்கு வாய்ப்பும் பாராட்டும்.",
+  },
+  {
+    house: 11, lagna: "Leo", planetSign: "Gemini", planet: "Jupiter", page: 113,
+    en: "Gets good longevity, acquires education, gets the strength of children, spends life in cheerful disposition, great inconvenience in the daily life, wife and family, some deficiency in the house of vigour and brothers and sisters also",
+    ta: "நல்ல நீண்ட ஆயுள்; கல்வி; பிள்ளைகளின் வலிமை; மகிழ்ச்சியான மனப்பான்மையில் வாழ்வார்; தினசரி வாழ்விலும் மனைவி, குடும்பத்திலும் பெரும் சிரமம்; வலிமை வீட்டிலும் உடன்பிறப்புகள் வீட்டிலும் சில குறை.",
+  },
+  {
+    house: 11, lagna: "Leo", planetSign: "Gemini", planet: "Venus", page: 115,
+    en: "Earns much wealth, enjoys the advantage from government and society, success in the house of education, gets power from father and in the house of children, is a very zealous worker",
+    ta: "பெரும் செல்வம் ஈட்டுவார்; அரசு, சமூகத்தின் ஆதாயம்; கல்வி வீட்டில் வெற்றி; தந்தை வழியிலும் பிள்ளைகள் வழியிலும் ஆற்றல்; மிகுந்த ஆர்வமுள்ள உழைப்பாளி.",
+  },
+  {
+    house: 11, lagna: "Leo", planetSign: "Gemini", planet: "Saturn", page: 117,
+    en: "Earns great wealth in daily affairs and in the house of occupation, catches some diseases, enjoys many advantages through hard labour, enjoys the great advantage of wife and sexual enjoyment, has great influence in the house of enemy",
+    ta: "தினசரி வேலையிலும் தொழில் வீட்டிலும் பெரும் செல்வம்; சில நோய்கள்; கடின உழைப்பால் பல ஆதாயங்கள்; மனைவியின் பெரும் ஆதாயமும் பாலியல் இன்பமும்; எதிரி வீட்டில் பெரும் செல்வாக்கு.",
+  },
+  {
+    house: 11, lagna: "Leo", planetSign: "Gemini", planet: "Rahu", page: 119,
+    en: "Acquires large income, great courage, finds way to enjoy the maximum profits, is greedy, and is never satisfied in the house of acquiring wealth",
+    ta: "பெரும் வருமானம்; பெரும் தைரியம்; அதிகபட்ச லாபத்தைப் பெற வழி காண்பார்; பேராசையுள்ளவர்; செல்வம் சேர்க்கும் வீட்டில் ஒருபோதும் திருப்தியடையார்.",
+  },
+  {
+    house: 11, lagna: "Leo", planetSign: "Gemini", planet: "Ketu", page: 121,
+    en: "Great strength of somewhat less labour in the house of income, some definite gains also, does not care about the profit or loss of others for raising the income of wealth, is secretly patient",
+    ta: "வருமான வீட்டில் கடின உழைப்பின் சற்று குறைந்த வலிமை; சில நிச்சய ஆதாயங்களும்; செல்வத்தை உயர்த்த பிறரின் லாப நஷ்டம் பற்றிக் கவலைப்படார்; ரகசியமாகப் பொறுமையானவர்.",
+  },
+  {
+    house: 11, lagna: "Virgo", planetSign: "Cancer", planet: "Sun", page: 126,
+    en: "Spends due to his income, gets gains from the other houses, some losses on the side of children, some deficiency in education, some bitterness and roughness in speech",
+    ta: "வருமானத்துக்கேற்ப செலவழிப்பார்; மற்ற வீடுகளிலிருந்து ஆதாயம்; பிள்ளைகள் வகையில் சில இழப்பு; கல்வியில் சில குறை; பேச்சில் சில கசப்பும் கடுமையும்.",
+  },
+  {
+    house: 11, lagna: "Virgo", planetSign: "Cancer", planet: "Moon", page: 128,
+    en: "Gets decent gains spontaneously and without making efforts, gets some happiness regarding children, gets the power of education and wisdom",
+    ta: "நல்ல ஆதாயம் தன்னிச்சையாக, முயற்சி இல்லாமல் கிடைக்கும்; பிள்ளைகள் வகையில் சில மகிழ்ச்சி; கல்வி, அறிவின் வலிமை.",
+  },
+  {
+    house: 11, lagna: "Virgo", planetSign: "Cancer", planet: "Mars", page: 130,
+    en: "Some deficiency in the house of income and gains, feels some deficiency in the house of brother, progress in the side of education intelligence and children, some loss in the accumulation of wealth",
+    ta: "வருமானம், ஆதாய வீட்டில் சில குறை; சகோதரர் வீட்டில் சில குறை; கல்வி, அறிவு, பிள்ளைகள் பக்கம் முன்னேற்றம்; செல்வம் சேர்ப்பதில் சில இழப்பு.",
+  },
+  {
+    house: 11, lagna: "Virgo", planetSign: "Cancer", planet: "Mercury", page: 132,
+    en: "Earns much wealth, gets huge gains from the house of father, gains much from business, gains connected with government, wears beautiful clothes and ornaments, does skilful deeds cleverly, acquires much education, gets the pleasures of children",
+    ta: "பெரும் செல்வம் ஈட்டுவார்; தந்தை வீட்டிலிருந்து பெரும் ஆதாயம்; வணிகத்தில் பெரும் ஆதாயம்; அரசு தொடர்பான ஆதாயம்; அழகான உடைகளும் ஆபரணங்களும் அணிவார்; சாமர்த்தியமான செயல்களைச் செய்வார்; நிறைய கல்வி பெறுவார்; பிள்ளைகளின் இன்பங்கள்.",
+  },
+  {
+    house: 11, lagna: "Virgo", planetSign: "Cancer", planet: "Jupiter", page: 135,
+    en: "Gets heavy gains from daily occupation, gets the pleasure of having an extraordinarily beautiful wife, gets very decent sexual pleasure, gets heavy gains of mother, land and buildings, enjoys the happiness of brothers and sisters, feels some deficiency in the side of children, some weakness in the side of intellect and education",
+    ta: "தினசரி தொழிலிலிருந்து பெரும் ஆதாயம்; மிக அழகான மனைவியின் மகிழ்ச்சி; மிக நல்ல பாலியல் இன்பம்; தாய், நிலம், கட்டிடங்களிலிருந்து பெரும் ஆதாயம்; உடன்பிறப்புகளின் மகிழ்ச்சி; பிள்ளைகள் வகையில் சில குறை; அறிவிலும் கல்வியிலும் சில பலவீனம்.",
+  },
+  {
+    house: 11, lagna: "Virgo", planetSign: "Cancer", planet: "Venus", page: 137,
+    en: "Earns huge wealth, is clever and intelligent, rears Dharma, enjoys the pleasure of children, gets the family gains, clothes, ornaments and other beautiful things, gets success from windfalls also",
+    ta: "பெரும் செல்வம் ஈட்டுவார்; சாமர்த்தியமும் அறிவும்; தர்மத்தைக் காப்பார்; பிள்ளைகளின் இன்பம்; குடும்ப ஆதாயம், உடைகள், ஆபரணங்கள், மற்ற அழகான பொருட்கள்; திடீர் ஆதாயங்களாலும் வெற்றி.",
+  },
+  {
+    house: 11, lagna: "Virgo", planetSign: "Cancer", planet: "Saturn", page: 139,
+    en: "Gains much through intellectual tactics, always feels restless, intellectual and clever, knows the art of earning wealth, keeps influence on enemies",
+    ta: "அறிவுசார் தந்திரங்களால் பெரும் ஆதாயம்; எப்போதும் அமைதியின்மை; அறிவாளியும் சாமர்த்தியமானவரும்; செல்வம் ஈட்டும் கலை அறிந்தவர்; எதிரிகள் மீது செல்வாக்கு.",
+  },
+  {
+    house: 11, lagna: "Virgo", planetSign: "Cancer", planet: "Rahu", page: 141,
+    en: "Gets gains, some worries in the house of gains, gets some deficiency of clothes and ornaments, feels some deficiency in his body",
+    ta: "ஆதாயம்; ஆதாய வீட்டில் சில கவலைகள்; ஆடை, ஆபரணங்களில் சில குறை; உடலில் சில பலவீனம்.",
+  },
+  {
+    house: 11, lagna: "Virgo", planetSign: "Cancer", planet: "Ketu", page: 143,
+    en: "Makes heavy gains through some worries in the house of income, creates some firmness in the house of gains",
+    ta: "வருமான வீட்டில் சில கவலைகளுடன் பெரும் ஆதாயம்; ஆதாய வீட்டில் சில உறுதி.",
+  },
+  {
+    house: 11, lagna: "Libra", planetSign: "Leo", planet: "Sun", page: 147,
+    en: "Gains much, gets the concrete income regularly, some deficiency in the house of children, gets education, acquires enmity, uses harshness and irritation in conversation",
+    ta: "பெரும் ஆதாயம்; தொடர்ந்து உறுதியான வருமானம்; பிள்ளைகள் வீட்டில் சில குறை; கல்வி பெறுவார்; பகை உண்டாக்குவார்; பேச்சில் கடுமையும் எரிச்சலும்.",
+  },
+  {
+    house: 11, lagna: "Libra", planetSign: "Leo", planet: "Moon", page: 149,
+    en: "Gets very decent and influential gains, gains fiom father, has wisdom and education, pleasure of children, is a good worker, respect in government, conducts a big business, gains from society",
+    ta: "மிகவும் கண்ணியமான, செல்வாக்குள்ள ஆதாயம்; தந்தையிடமிருந்து ஆதாயம்; அறிவும் கல்வியும்; பிள்ளைகளின் இன்பம்; நல்ல உழைப்பாளி; அரசில் மரியாதை; பெரிய தொழில் நடத்துவார்; சமூகத்திலிருந்து ஆதாயம்.",
+  },
+  {
+    house: 11, lagna: "Libra", planetSign: "Leo", planet: "Mars", page: 151,
+    en: "Gets very decent influential gains, gains from father, acquires wisdom and education, pleasure of children, is a good worker, respect in government, has a big business, gains from society, acquires heavy income due to occupation, gets the happiness of wife, is very courageous",
+    ta: "கண்ணியமான செல்வாக்குள்ள ஆதாயம்; தந்தையிடமிருந்து ஆதாயம்; அறிவும் கல்வியும்; பிள்ளைகளின் இன்பம்; நல்ல உழைப்பாளி; அரசில் மரியாதை; பெரிய தொழில்; சமூகத்திலிருந்து ஆதாயம்; தொழிலால் பெரும் வருமானம்; மனைவியின் மகிழ்ச்சி; மிகுந்த தைரியம்.",
+  },
+  {
+    house: 11, lagna: "Libra", planetSign: "Leo", planet: "Mercury", page: 153,
+    en: "Gets heavy success through the power of destiny, increases the income by his wisdom, acquires education and wisdom, is very wise and farsighted, gets success with some weakness in the house of children, is fortunate and clever",
+    ta: "விதியின் வலிமையால் பெரும் வெற்றி; தன் அறிவால் வருமானம் உயர்த்துவார்; கல்வியும் ஞானமும் பெறுவார்; மிகுந்த அறிவாளியும் தொலைநோக்குள்ளவரும்; பிள்ளைகள் வீட்டில் சில குறையுடன் வெற்றி; அதிர்ஷ்டசாலியும் சாமர்த்தியமானவரும்.",
+  },
+  {
+    house: 11, lagna: "Libra", planetSign: "Leo", planet: "Jupiter", page: 155,
+    en: "Is very energetic and earns large wealth, gets success in occupation, is a successful and industrious worker, is influential, gets the power of the brothers, enjoys the great power of the house of wife, deficiency in the side of children",
+    ta: "மிகுந்த சுறுசுறுப்பு, பெரும் செல்வம் ஈட்டுவார்; தொழிலில் வெற்றி; வெற்றிகரமான, உழைப்பாளியான தொழிலாளி; செல்வாக்குள்ளவர்; சகோதரர்களின் வலிமை; மனைவி வீட்டில் பெரும் வலிமை; பிள்ளைகள் வகையில் குறை.",
+  },
+  {
+    house: 11, lagna: "Libra", planetSign: "Leo", planet: "Venus", page: 157,
+    en: "Gets many kinds of gains in his life, but feels some laziness in the house of personal gains, is very clever, gets children and good education",
+    ta: "வாழ்நாளில் பல வகை ஆதாயங்கள்; தனது சொந்த ஆதாய வீட்டில் சில சோம்பல்; மிகவும் சாமர்த்தியமானவர்; பிள்ளைகளும் நல்ல கல்வியும் பெறுவார்.",
+  },
+  {
+    house: 11, lagna: "Libra", planetSign: "Leo", planet: "Saturn", page: 159,
+    en: "Gets heavy gains and happiness, some happiness from children, worried in the house of income",
+    ta: "பெரும் ஆதாயமும் மகிழ்ச்சியும்; பிள்ளைகளால் சில மகிழ்ச்சி; வருமான வீட்டில் கவலை.",
+  },
+  {
+    house: 11, lagna: "Libra", planetSign: "Leo", planet: "Rahu", page: 161,
+    en: "Gains much, also some weakness in the gains",
+    ta: "பெரும் ஆதாயம்; ஆனால் ஆதாயத்தில் சில பலவீனம்.",
+  },
+  {
+    house: 11, lagna: "Libra", planetSign: "Leo", planet: "Ketu", page: 163,
+    en: "Tries for the great strength of his income, gets huge gains, some hindrance in the house of income",
+    ta: "வருமானத்தின் பெரும் வலிமைக்கு முயல்வார்; பெரும் ஆதாயம்; வருமான வீட்டில் சில தடை.",
+  },
+  {
+    house: 11, lagna: "Scorpio", planetSign: "Virgo", planet: "Sun", page: 169,
+    en: "Gets heavy gains, earns much wealth from business, gains from the house of father, gets decency in education, gets grandeur of children, can talk well in connection with politics, does good deeds and gets gains by working swiftly",
+    ta: "வணிகத்தால் பெரும் ஆதாயம்; தந்தை வீட்டிலிருந்து ஆதாயம்; கல்வியில் ஒழுங்கு; பிள்ளைகளின் பெருமை; அரசியல் பற்றி நன்கு பேசுவார்; நல்ல செயல்களைச் செய்வார்; விரைவாக வேலை செய்து ஆதாயம் பெறுவார்.",
+  },
+  {
+    house: 11, lagna: "Scorpio", planetSign: "Virgo", planet: "Moon", page: 171,
+    en: "Gets splendid gains due to the power of destiny, gets carcfrccncss from the side of income, uses the house of education properly, gets the happiness of children, is very fortunate and kind",
+    ta: "விதியின் வலிமையால் அற்புதமான ஆதாயம்; வருமான வீட்டில் கவனம்; கல்வி வீட்டை சரியாகப் பயன்படுத்துவார்; பிள்ளைகளின் மகிழ்ச்சி; மிக அதிர்ஷ்டசாலியும் கருணையுள்ளவரும்.",
+  },
+  {
+    house: 11, lagna: "Scorpio", planetSign: "Virgo", planet: "Mars", page: 173,
+    en: "Acquires a heavy income through physical labour and is influential, undertakes very decent deeds, some trouble in the house of children, victors over enemies, gets some weakness in body, is furious and cautious",
+    ta: "உடல் உழைப்பால் பெரும் வருமானம்; செல்வாக்குள்ளவர்; மிக ஒழுக்கமான செயல்களைச் செய்வார்; பிள்ளைகள் வீட்டில் சில தொல்லை; எதிரிகளை வெல்வார்; உடலில் சில பலவீனம்; கோபமும் எச்சரிக்கையும்.",
+  },
+  {
+    house: 11, lagna: "Scorpio", planetSign: "Virgo", planet: "Mercury", page: 175,
+    en: "Has a long life, gets some weakness in intellect and in education, some distress in the side of children, weakness while speaking, rude conversation",
+    ta: "நீண்ட ஆயுள்; அறிவிலும் கல்வியிலும் சில பலவீனம்; பிள்ளைகள் வகையில் சில துன்பம்; பேசுவதில் பலவீனம்; கடுமையான பேச்சு.",
+  },
+  {
+    house: 11, lagna: "Scorpio", planetSign: "Virgo", planet: "Jupiter", page: 177,
+    en: "Earns wealth through wisdom and education, gets the happiness of children, weakness in the house of brother, gains much by pursuing the occupation with some uneasiness, possesses the influence of sex and wife, gets domestic gains, is wealthy and respectable",
+    ta: "அறிவாலும் கல்வியாலும் செல்வம் ஈட்டுவார்; பிள்ளைகளின் மகிழ்ச்சி; சகோதரர் வீட்டில் பலவீனம்; சில கவலையுடன் தொழிலில் ஈடுபட்டு பெரும் ஆதாயம்; மனைவி வழி செல்வாக்கும் பாலியல் வலிமையும்; வீட்டு ஆதாயம்; செல்வந்தரும் மரியாதைக்குரியவரும்.",
+  },
+  {
+    house: 11, lagna: "Scorpio", planetSign: "Virgo", planet: "Venus", page: 179,
+    en: "Weak occupation, bears much weakness in income, weak advantage of wife and family, some deficiency in the sexual pleasures, some advantage in the house of expenditure, gets children",
+    ta: "பலவீனமான தொழில்; வருமானத்தில் மிகுந்த பலவீனம்; மனைவி, குடும்பம் வகையில் சிறு ஆதாயம்; பாலியல் இன்பத்தில் சில குறை; செலவு வீட்டில் சில ஆதாயம்; பிள்ளைகள் பெறுவார்.",
+  },
+  {
+    house: 11, lagna: "Scorpio", planetSign: "Virgo", planet: "Saturn", page: 181,
+    en: "Bears heavy income comfortably, gets the advantage of brothers and sisters, gets increased longevity, gets the advantage of land and buildings, tries hard for increased income and gets happiness",
+    ta: "பெரும் வருமானத்தை வசதியாகப் பெறுவார்; சகோதர சகோதரிகளின் ஆதாயம்; ஆயுள் கூடும்; நில, கட்டிட ஆதாயம்; அதிக வருமானத்துக்கு கடுமையாக முயன்று மகிழ்ச்சி பெறுவார்.",
+  },
+  {
+    house: 11, lagna: "Scorpio", planetSign: "Virgo", planet: "Rahu", page: 183,
+    en: "Earns a lot of wealth and gets a heavy income, does not care for justice of truthfulness or falsehood in connection acquiring wealth and is very cautious",
+    ta: "பெரும் செல்வம் ஈட்டுவார்; பெரும் வருமானம்; செல்வம் பெறுவதில் நீதி, உண்மை, பொய்யைப் பற்றிக் கவலைப்படார்; மிகவும் எச்சரிக்கையானவர்.",
+  },
+  {
+    house: 11, lagna: "Scorpio", planetSign: "Virgo", planet: "Ketu", page: 185,
+    en: "Gets a heavy income, pays attention to serve his selfishness not caring about good or bad, sometimes bears some blow on income, but always gets the advantage due to courage",
+    ta: "பெரும் வருமானம்; தன் சுயநலத்தை நிறைவேற்ற நல்லது கெட்டது பற்றி கவலைப்படாமல் கவனம்; சில நேரம் வருமானத்தில் அடி; ஆனால் தைரியத்தால் எப்போதும் ஆதாயம்.",
+  },
+  {
+    house: 11, lagna: "Sagittarius", planetSign: "Libra", planet: "Sun", page: 190,
+    en: "Experiences some deficiency in the house of gains, gets weakness in rearing Dharma, gets the power of children, faces some bondage and perplexity regard income",
+    ta: "ஆதாய வீட்டில் சில குறை; தர்மத்தைக் காப்பதில் பலவீனம்; பிள்ளைகளின் வலிமை; வருமானத்தில் சில கட்டுப்பாடும் குழப்பமும்.",
+  },
+  {
+    house: 11, lagna: "Sagittarius", planetSign: "Libra", planet: "Moon", page: 192,
+    en: "Has a long life, feces some hindrances in the house of income and gains some distress in children's side, obstacles in the house of education",
+    ta: "நீண்ட ஆயுள்; வருமான, ஆதாய வீட்டில் சில தடைகள்; பிள்ளைகள் வகையில் சில துன்பம்; கல்வி வீட்டில் தடைகள்.",
+  },
+  {
+    house: 11, lagna: "Sagittarius", planetSign: "Libra", planet: "Mars", page: 194,
+    en: "Tries hard for the increase of wealth, has deficiency in education, and some deficiency in the house of children, injures the enemies",
+    ta: "செல்வம் பெருக்க கடினமாக முயல்வார்; கல்வியில் குறை; பிள்ளைகள் வீட்டில் சில குறை; எதிரிகளைத் தாக்குவார்.",
+  },
+  {
+    house: 11, lagna: "Sagittarius", planetSign: "Libra", planet: "Mercury", page: 196,
+    en: "Gets heavy gains from business occupation, gets a beautiful wife, achieves high education, gets sexual pleasures very much, gains advantage from the government and society",
+    ta: "வணிகத் தொழிலில் பெரும் ஆதாயம்; அழகான மனைவி; உயர் கல்வி; பாலியல் இன்பம் மிகுதி; அரசு, சமூகத்தில் ஆதாயம்.",
+  },
+  {
+    house: 11, lagna: "Sagittarius", planetSign: "Libra", planet: "Jupiter", page: 198,
+    en: "Gets happiness but gets some enmity in the house of brothers and sisters, gets command in education, gets the happiness of the children, happiness with wife, income from occupation",
+    ta: "மகிழ்ச்சி; ஆனால் சகோதர சகோதரி வீட்டில் சில பகை; கல்வியில் ஆதிக்கம்; பிள்ளைகளின் மகிழ்ச்சி; மனைவியுடன் மகிழ்ச்சி; தொழிலிலிருந்து வருமானம்.",
+  },
+  {
+    house: 11, lagna: "Sagittarius", planetSign: "Libra", planet: "Venus", page: 200,
+    en: "Gets a very heavy income, gains in intellect and education through great tactics, some advantage in the children side, gets the advantage from the enemies also",
+    ta: "மிகுந்த வருமானம்; ஆனால் அதில் சில அமைதியின்மை; மிகுந்த தந்திரத்தால் அறிவிலும் கல்வியிலும் வெற்றி; பிள்ளைகள் வகையில் சில ஆதாயம்; எதிரிகளிடமிருந்தும் ஆதாயம்.",
+  },
+  {
+    house: 11, lagna: "Sagittarius", planetSign: "Libra", planet: "Saturn", page: 202,
+    en: "Earns much, gets the power of wealth, advantage in the house of family, deficiency in handsomeness",
+    ta: "மிகுந்த வருமானம்; செல்வ வலிமை; குடும்ப வீட்டில் ஆதாயம்; அழகில் குறை.",
+  },
+  {
+    house: 11, lagna: "Sagittarius", planetSign: "Libra", planet: "Rahu", page: 204,
+    en: "Gets numerous advantages, works with determination in connection with income, uses secret and intricate policies to get advantage, does not care for truth or falsehood",
+    ta: "பல ஆதாயங்கள்; வருமானத்தில் உறுதியுடன் வேலை செய்வார்; ஆதாயம் பெற ரகசிய, சிக்கலான உபாயங்கள்; உண்மை, பொய் பற்றிக் கவலைப்படார்.",
+  },
+  {
+    house: 11, lagna: "Sagittarius", planetSign: "Libra", planet: "Ketu", page: 206,
+    en: "Gets heavy gains, works very obstinately to get money, tries for huge advantages",
+    ta: "பெரும் ஆதாயம்; பணம் பெற மிகப் பிடிவாதமாக உழைப்பார்; பெரும் ஆதாயங்களுக்கு முயல்வார்.",
+  },
+  {
+    house: 11, lagna: "Capricorn", planetSign: "Scorpio", planet: "Sun", page: 211,
+    en: "Good longevity, spends daily routine with influence and advantage, bears loss and calamity in children's side, has some worry in the house of education, uses some secrecy and bitterness in conversation",
+    ta: "நீண்ட ஆயுள்; செல்வாக்குடனும் ஆதாயத்துடனும் நாள் வாழ்க்கை; பிள்ளைகள் வகையில் இழப்பும் ஆபத்தும்; கல்வியில் சில கவலை; பேச்சில் ரகசியமும் கசப்பும்.",
+  },
+  {
+    house: 11, lagna: "Capricorn", planetSign: "Scorpio", planet: "Moon", page: 213,
+    en: "Mental restlessness from wife's house, experiences happiness in family, gets ordinary sexual pleasures, has deficiency in income, gets pungency in education and intellect, shows anger in conversation, is happy with the progress of occupation",
+    ta: "மனைவி வீட்டில் மன அமைதியின்மை; குடும்ப மகிழ்ச்சி; சாதாரண பாலியல் இன்பம்; வருமானக் குறை; கல்வியிலும் அறிவிலும் கூர்மை; பேச்சில் கோபம்; தொழில் முன்னேற்றத்தில் மகிழ்ச்சி.",
+  },
+  {
+    house: 11, lagna: "Capricorn", planetSign: "Scorpio", planet: "Mars", page: 215,
+    en: "Gets the increased income, gets advantage from mother's house, gets enmity in family, gets some education, gets children, creates influence over enemies, gets victory over diseases and calamities",
+    ta: "வருமானம் அதிகரிக்கும்; தாய் வீட்டில் ஆதாயம்; குடும்பத்தில் பகை; சில கல்வி; பிள்ளைகள் பெறுவார்; எதிரிகள் மீது செல்வாக்கு; நோய்களிலும் ஆபத்துகளிலும் வெற்றி.",
+  },
+  {
+    house: 11, lagna: "Capricorn", planetSign: "Scorpio", planet: "Mercury", page: 217,
+    en: "Gets good fortune on account of cleverness, does not face difficulties in the house of income, gets good education and intelligence, gains advantage from enemies' house, and is influential",
+    ta: "சாமர்த்தியத்தால் அதிர்ஷ்டம்; வருமான வீட்டில் சிரமம் இல்லை; நல்ல கல்வியும் அறிவும்; எதிரி வீட்டில் ஆதாயம்; செல்வாக்குள்ளவர்.",
+  },
+  {
+    house: 11, lagna: "Capricorn", planetSign: "Scorpio", planet: "Jupiter", page: 219,
+    en: "Gets numerous advantages, gets the advantage of the brothers and sisters with some deficiency, gets a beautiful wife, acquires progress in occupation",
+    ta: "பல ஆதாயங்கள்; உடன்பிறப்புகளின் ஆதாயம், சில குறையுடன்; அழகான மனைவி; தொழிலில் முன்னேற்றம்.",
+  },
+  {
+    house: 11, lagna: "Capricorn", planetSign: "Scorpio", planet: "Venus", page: 221,
+    en: "Gets great advantages from business, gets advantage from father and son, conversation, government and society, gets the easy means of sexual pleasures and grandeur, is clever and industrious",
+    ta: "தொழிலிலிருந்து பெரும் ஆதாயங்கள்; தந்தை, மகன் வகையில் ஆதாயம்; பேச்சு, அரசு, சமூக வீட்டில் ஆதாயம்; பாலியல் இன்பத்தின் எளிய வசதிகளும் பெருமையும்; சாமர்த்தியமானவர், சுறுசுறுப்பானவர்.",
+  },
+  {
+    house: 11, lagna: "Capricorn", planetSign: "Scorpio", planet: "Saturn", page: 223,
+    en: "Earns much wealth, gets fame, is always busy in increasing money, gets progress in education and wisdom, gets the power from children, puts forward weighty ideas",
+    ta: "மிகுந்த செல்வம் ஈட்டுவார்; புகழ்; பணம் பெருக்குவதில் எப்போதும் ஈடுபட்டிருப்பார்; கல்வியிலும் அறிவிலும் முன்னேற்றம்; பிள்ளைகளின் வலிமை; வலிமையான கருத்துகளை முன்வைப்பார்.",
+  },
+  {
+    house: 11, lagna: "Capricorn", planetSign: "Scorpio", planet: "Rahu", page: 225,
+    en: "Gains very much, tries hard to get more and more, wants gratuitous wealth and gets it likewise, worries in the house of income, selfish",
+    ta: "பெரும் ஆதாயம்; தன் திறனுக்கு மேல் முயன்று மேலும் மேலும் செல்வம் பெறுவார்; இலவசச் செல்வம் விரும்பி அதைப் பெறுவார்; வருமான வீட்டில் கவலை; சுயநலம்.",
+  },
+  {
+    house: 11, lagna: "Capricorn", planetSign: "Scorpio", planet: "Ketu", page: 227,
+    en: "Gets many advantages, does difficult deeds for getting wealth, uses secret devices for getting more wealth, gets stability in income, and is selfish",
+    ta: "பல ஆதாயங்கள்; செல்வம் பெற கடின செயல்களைச் செய்வார்; செல்வம் பெருக்க ரகசிய உபாயங்களைப் பயன்படுத்துவார்; வருமானத்தில் நிலைத்தன்மை; சுயநலம்.",
+  },
+  {
+    house: 11, lagna: "Aquarius", planetSign: "Sagittarius", planet: "Sun", page: 232,
+    en: "Earns much wealth through the daily occupation, gains influence in occupation, gets great honour from the wife and gains much wealth through her, gets the advantage of children and education, is highly intelligent",
+    ta: "தினசரி தொழிலால் பெரும் செல்வம்; தொழிலில் செல்வாக்கு; மனைவியிடமிருந்து பெரும் மரியாதையும் அவள் மூலம் பெரும் செல்வமும்; பிள்ளைகள், கல்வியின் ஆதாயம்; மிகவும் அறிவாளி.",
+  },
+  {
+    house: 11, lagna: "Aquarius", planetSign: "Sagittarius", planet: "Moon", page: 235,
+    en: "Gains by suppressing the enemy, experiences some mental distress and perplexities in the house of receipts and gains, wants gratis-like wealth, faces some trouble in the progeny, has deficiency in the house of education, does not care for diseases and afflictions",
+    ta: "எதிரிகளை அடக்கி ஆதாயம்; வருமானம், ஆதாய வீட்டில் சில மன வேதனையும் குழப்பமும்; இலவசம் போன்ற செல்வம் விரும்புவார்; சந்ததியில் சில தொல்லை; கல்வி வீட்டில் குறை; நோய்களையும் துன்பங்களையும் பொருட்படுத்தார்.",
+  },
+  {
+    house: 11, lagna: "Aquarius", planetSign: "Sagittarius", planet: "Mars", page: 237,
+    en: "Acquires huge income through business occupation, gains much from father, enjoys the gains from government and society, gets the strength of brother, uses full power to accumulate wealth, possesses keen wisdom, gets children, gets success in enemies' house, wears good clothes and ornaments, and is influential",
+    ta: "வணிகத் தொழிலால் பெரும் வருமானம்; தந்தையால் பெரும் ஆதாயம்; அரசு, சமூகத்தின் ஆதாயம்; சகோதரரின் வலிமை; செல்வம் சேர்க்க முழு ஆற்றலையும் பயன்படுத்துவார்; கூர்மையான அறிவு; பிள்ளைகள் பெறுவார்; எதிரி வீட்டில் வெற்றி; நல்ல ஆடை, ஆபரணங்கள்; செல்வாக்குள்ளவர்.",
+  },
+  {
+    house: 11, lagna: "Aquarius", planetSign: "Sagittarius", planet: "Mercury", page: 239,
+    en: "Gets education, gets advantage of children and already accumulated wealth, gains the advantage of longevity, gets advantage in the daily routine of life, and is honourable",
+    ta: "கல்வி பெறுவார்; பிள்ளைகளின் ஆதாயம் மற்றும் ஏற்கெனவே சேர்த்த செல்வத்தின் ஆதாயம்; நீண்ட ஆயுள் பெறும் ஆதாயம்; தினசரி வாழ்வில் ஆதாயம்; மரியாதைக்குரியவர்.",
+  },
+  {
+    house: 11, lagna: "Aquarius", planetSign: "Sagittarius", planet: "Jupiter", page: 241,
+    en: "Gets heavy income, achieves success due to grand determination, gets the advantage of children, gets brothers and sisters, gets assisting power from wife and father-in-law, is respectable and jolly",
+    ta: "பெரும் வருமானம்; பெரும் உறுதியால் வெற்றி; பிள்ளைகளின் ஆதாயம்; சகோதர சகோதரிகள் உண்டு; மனைவி, மாமனாரிடமிருந்து உதவி; மரியாதைக்குரியவர், மகிழ்ச்சியானவர்.",
+  },
+  {
+    house: 11, lagna: "Aquarius", planetSign: "Sagittarius", planet: "Venus", page: 243,
+    en: "Gains much through the power of destiny, gets help from mother's house, gets the advantage of land, performs some religious deeds, acquires food, clothes and ornaments, gets education, talks modestly and is farsighted, selfish and virtuous",
+    ta: "விதியின் வலிமையால் பெரும் ஆதாயம்; தாய் வீட்டிலிருந்து உதவி; நிலச் சொத்தின் ஆதாயம்; சில மதச் செயல்கள்; உணவு, உடை, ஆபரணங்கள் பெறுவார்; கல்வி; அடக்கமாகப் பேசுவார், தொலைநோக்குள்ளவர்; சுயநலமும் நல்லொழுக்கமும் உள்ளவர்.",
+  },
+  {
+    house: 11, lagna: "Aquarius", planetSign: "Sagittarius", planet: "Saturn", page: 245,
+    en: "Earns much wealth, gets fame, spends much but tries to check the expenditure, deficiency in age and children, and some deficiency in physique",
+    ta: "பெரும் செல்வம் ஈட்டுவார்; புகழ்; அதிகம் செலவழிப்பார், ஆனால் செலவைக் கட்டுப்படுத்த முயல்வார்; ஆயுளிலும் பிள்ளைகளிலும் குறை; உடலமைப்பில் சில குறை.",
+  },
+  {
+    house: 11, lagna: "Aquarius", planetSign: "Sagittarius", planet: "Rahu", page: 247,
+    en: "Gets little money through secret policies and plans, faces deficiency in the apparent income, does deeds to get rid of worry for income",
+    ta: "மறைந்த உபாயங்கள், திட்டங்கள் மூலம் சிறிது பணம்; வெளித்தோற்ற வருமானத்தில் குறை; வருமானக் கவலையை நீக்கும் செயல்களைச் செய்வார்.",
+  },
+  {
+    house: 11, lagna: "Aquarius", planetSign: "Sagittarius", planet: "Ketu", page: 249,
+    en: "Gets heavy monetary advantages through his grand and secret powers, does not care for the right or wrong in the place of getting special benefits, gets heavy gratuitous gains, tries to get too many advantages",
+    ta: "தன் பெரிய, ரகசிய ஆற்றலால் பெரும் பண ஆதாயம்; சிறப்பு நன்மைகளைப் பெறும் இடத்தில் நல்லது கெட்டது பற்றிக் கவலைப்படார்; இலவசமாகப் பெறும் பெரும் ஆதாயம்; அதிகமான ஆதாயங்களுக்கு முயல்வார்.",
+  },
+  {
+    house: 11, lagna: "Pisces", planetSign: "Capricorn", planet: "Sun", page: 254,
+    en: "Experiences some uneasiness in the house of gains, faces some worry and problem from children's side, has deficiency in acquiring education, gains advantage from enemies' side, and is very clever",
+    ta: "வருமான வீட்டில் சில அமைதியின்மை; பிள்ளைகள் பக்கம் சில கவலையும் சிக்கலும்; கல்வியில் குறை; எதிரி பக்கம் ஆதாயம்; மிகவும் சாமர்த்தியமானவர்.",
+  },
+  {
+    house: 11, lagna: "Pisces", planetSign: "Capricorn", planet: "Moon", page: 256,
+    en: "Gets good education, earns wealth, faces some hindrances in the house of income, gets children, always talks about gains",
+    ta: "நல்ல கல்வி; செல்வம் ஈட்டுவார்; வருமான வீட்டில் சில தடைகள்; பிள்ளைகள் பெறுவார்; எப்போதும் ஆதாயத்தைப் பற்றியே பேசுவார்.",
+  },
+  {
+    house: 11, lagna: "Pisces", planetSign: "Capricorn", planet: "Mars", page: 258,
+    en: "Gets many monetary advantages, accumulates wealth accidentally, gets gracious and grand advantages, gets some deficiency in education, feels deficiency in children's side, gains influence in the house of enemies, escapes automatically from troubles, gets family happiness, pays attention to the increase of wealth",
+    ta: "பல பண ஆதாயங்கள்; தற்செயலாக செல்வம் சேர்ப்பார்; அருள் நிறைந்த, பெரிய ஆதாயங்கள்; கல்வியில் சில குறை; பிள்ளைகள் பக்கம் குறை; எதிரி வீட்டில் செல்வாக்கு; தொல்லைகளிலிருந்து தானாக விடுபடுவார்; குடும்ப மகிழ்ச்சி; செல்வம் பெருக்குவதில் கவனம்.",
+  },
+  {
+    house: 11, lagna: "Pisces", planetSign: "Capricorn", planet: "Mercury", page: 260,
+    en: "Gets heavy gains and income comfortably through the occupation, gets the advantage of buildings and property, gets advantage from wife, enjoys sexual pleasures, gains advantage from mother, gets happiness from children, gets success in education, speaks sweetly",
+    ta: "தொழிலால் பெரும் ஆதாயமும் வருமானமும் வசதியாகக் கிடைக்கும்; கட்டிடங்கள், சொத்தின் ஆதாயம்; மனைவியால் ஆதாயம்; பாலியல் இன்பம்; தாயால் ஆதாயம்; பிள்ளைகளால் மகிழ்ச்சி; கல்வியில் வெற்றி; இனிமையாகப் பேசுவார்.",
+  },
+  {
+    house: 11, lagna: "Pisces", planetSign: "Capricorn", planet: "Jupiter", page: 262,
+    en: "Is lazy and gets some deficiency and distress in the house of income, faces some weakness in the gains connected with father, acquires",
+    ta: "சோம்பலானவர்; வருமான வீட்டில் சில குறையும் துன்பமும்; தந்தை வகையிலான ஆதாயத்தில் சில பலவீனம்; பெறுவார் (இந்த உரை அச்சில் முழுமையற்றதாகத் தொடங்கும்).",
+  },
+  {
+    house: 11, lagna: "Pisces", planetSign: "Capricorn", planet: "Venus", page: 265,
+    en: "Gets a long life, gets the advantage from brothers and sisters, gets pleasure of daily routine of life, bears some agony in the children's side, has some deficiency in education, bears some uneasiness in the line of income",
+    ta: "நீண்ட ஆயுள்; உடன்பிறப்புகளின் ஆதாயம்; தினசரி வாழ்வின் இன்பம்; பிள்ளைகள் வகையில் சில வேதனை; கல்வியில் சில குறை; வருமானத்தில் சில தொல்லை.",
+  },
+  {
+    house: 11, lagna: "Pisces", planetSign: "Capricorn", planet: "Saturn", page: 267,
+    en: "Gets huge monetary gains, experiences great happiness in the house of daily routine of life, has some perplexity in income and expenditure, gets worries in the house of children, has some weakness in education, is selfish",
+    ta: "பெரும் பண ஆதாயம்; தினசரி வாழ்வின் பெரும் மகிழ்ச்சி; வருமானத்திலும் செலவிலும் சில குழப்பம்; பிள்ளைகள் வீட்டில் கவலைகள்; கல்வியில் சில பலவீனம்; சுயநலம்.",
+  },
+  {
+    house: 11, lagna: "Pisces", planetSign: "Capricorn", planet: "Rahu", page: 269,
+    en: "Tries to get profits more than his capacity, always gets more wealth, wants to get gratuitous wealth, has some worry in the house of gains, does not care for the benefits",
+    ta: "தன் திறனுக்கு மேல் லாபம் பெற முயல்வார்; எப்போதும் அதிக செல்வம் பெறுவார்; இலவச செல்வம் விரும்புவார்; ஆதாய வீட்டில் சில கவலை; நன்மைகளைக் கருதார்.",
+  },
+  {
+    house: 11, lagna: "Pisces", planetSign: "Capricorn", planet: "Ketu", page: 271,
+    en: "Tries very hard for getting wealth, gets more wealth, works courageously for acquiring wealth, gains much through secret strength, faces some troubles in getting income and feels deficiency in that direction",
+    ta: "செல்வம் பெற மிகக் கடுமையாக முயல்வார்; மேலும் செல்வம் பெறுவார்; செல்வம் ஈட்ட தைரியமாக வேலை செய்வார்; மறைந்த வலிமையால் பெரும் ஆதாயம்; வருமானம் பெறுவதில் சில தொல்லைகள், அந்தத் திசையில் குறை.",
   },
 ];
 
