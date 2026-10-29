@@ -19,7 +19,8 @@ const birthJd = swe.julianDay(1918, 10, 16, (14 * 60 + 6 + 16 / 60) / 60 - utcOf
 // Guru 157.580, Sukra 178.200, Sani 177.300.
 const RAMAN_STHANA = { Sun: 198.0, Moon: 126.5, Mars: 172.06, Mercury: 279.5, Jupiter: 157.58, Venus: 178.2, Saturn: 177.3 };
 
-withEphemeris({ ayanamsha: 'Lahiri' }, () => {
+async function main() {
+await withEphemeris({ ayanamsha: 'Lahiri' }, () => {
   const r = calculateShadbala({
     longitudes, lagnaRasiIndex: Math.floor(ascendant / 30), ascendant, mc, birthJd, latitude: 13, longitude: dms(77, 35, 0),
     year: 1918, month: 10, day: 16, utcOffsetMinutes, drikMethod: 'raman', sthanaMethod: 'raman',
@@ -33,3 +34,9 @@ withEphemeris({ ayanamsha: 'Lahiri' }, () => {
 
 assert.throws(() => calculateShadbala({ longitudes, lagnaRasiIndex: 0, ascendant, mc, birthJd, latitude: 13, longitude: 77, year: 1918, month: 10, day: 16, utcOffsetMinutes, sthanaMethod: 'no-such' }), /unknown sthana method/);
 console.log('test-shadbala-sthana-raman: all assertions passed');
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

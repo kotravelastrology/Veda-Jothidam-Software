@@ -15,7 +15,8 @@ const mc = dms(216, 30, 0);
 const utcOffsetMinutes = 5 * 60 + 10 + 20 / 60;
 const birthJd = swe.julianDay(1918, 10, 16, (14 * 60 + 6 + 16 / 60) / 60 - utcOffsetMinutes / 60);
 
-withEphemeris({ ayanamsha: 'Lahiri' }, () => {
+async function main() {
+await withEphemeris({ ayanamsha: 'Lahiri' }, () => {
   const r = calculateShadbala({
     longitudes, lagnaRasiIndex: Math.floor(ascendant / 30), ascendant, mc, birthJd, latitude: 13, longitude: dms(77, 35, 0),
     year: 1918, month: 10, day: 16, utcOffsetMinutes, drikMethod: 'raman', sthanaMethod: 'raman',
@@ -25,3 +26,9 @@ withEphemeris({ ayanamsha: 'Lahiri' }, () => {
 });
 
 console.log('test-shadbala-tribhaga-raman: all assertions passed');
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

@@ -518,6 +518,53 @@ function chestaBalaFivePlanets(planet, trueLongitude, birthJd) {
 }
 
 /**
+ * Raman's Chesta Bala (Graha and Bhava Balas Art.79-107, pp.64-79): the same Chesta kendra and one-third rule, but the
+ * mean longitudes and the Seeghrochchas come from his own epoch and motion constants (Art.88-104): the interval runs
+ * from 1 January 1900, midnight at Ujjain (76d E), to the birth. Raman's Standard Horoscope (Examples 39-51) gives the
+ * mean longitudes Kuja 266.34, Guru 66.91, Sani 111.23, Budha and Sukra 181.23; the Seeghrochchas Kuja, Guru, Sani
+ * 181.23, Budha 174.49, Sukra 158.35; and the Chesta Bala Kuja 22.23, Budha 2.30, Guru 35.26, Sukra 5.95, Sani 21.14.
+ * The Sun and the Moon have no Chesta Bala (Art.79).
+ */
+function ramanChestaInterval(birthJd) {
+  return birthJd - julianDay(1900, 1, 1, -76 / 15);
+}
+
+/** Raman's mean longitude (Art.94-98) of the planet, from the Sun's: Budha and Sukra share the Sun's (Art.95). */
+function ramanMeanLongitude(planet, interval, birthYear) {
+  const t = birthYear - 1900;
+  switch (planet) {
+    case 'Mars': return normalizeDegrees(270.22 + 0.52402 * interval);
+    case 'Jupiter': return normalizeDegrees(220.04 + 0.0830967 * interval - (3.33 + 0.0067 * t));
+    case 'Saturn': return normalizeDegrees(236.74 + 0.03344 * interval + (5 + 0.001 * t));
+    default: return normalizeDegrees(257.4568 + 0.9856039 * interval); // Sun, Budha, Sukra
+  }
+}
+
+/** Raman's Seeghrochcha (Art.100-104): the Sun's mean longitude for Kuja, Guru and Sani; Budha and Sukra have their own. */
+function ramanSeeghrochcha(planet, interval, birthYear) {
+  const t = birthYear - 1900;
+  if (planet === 'Mercury') return normalizeDegrees(164 + 4.092324 * interval + (6.67 - 0.00133 * t));
+  // 1.602147 a day is the motion his Table IX rows imply (6,000 days 252.88, 800 days 201.72, 60 days 96.13).
+  if (planet === 'Venus') return normalizeDegrees(328.51 + 1.602147 * interval - (5 + 0.001 * t));
+  return ramanMeanLongitude('Sun', interval, birthYear);
+}
+
+/**
+ * Raman's Chesta kendra and Chesta Bala for one of the five planets (Art.105-107): the Seeghrochcha less the mean of the
+ * mean and true longitudes, reduced to at most 180 degrees, then a third of it in Virupas.
+ */
+function ramanChesta(planet, trueLongitude, birthJd, birthYear) {
+  const interval = ramanChestaInterval(birthJd);
+  const mean = ramanMeanLongitude(planet, interval, birthYear);
+  const seeghra = ramanSeeghrochcha(planet, interval, birthYear);
+  let kendra = normalizeDegrees(seeghra - (mean + trueLongitude) / 2);
+  if (kendra > 180) kendra = 360 - kendra;
+  return {
+    mean, seeghra, kendra, bala: kendra / 3,
+  };
+}
+
+/**
  * Which day/night third (0,1,2) a birth Julian Day falls into, and whether
  * that third is in daytime or nighttime -- using the same sunrise/sunset
  * primitives already trusted from S3/S5.
@@ -687,8 +734,9 @@ const SHADBALA_COMPONENT_MINIMUMS = {
 function calculateShadbala({
   longitudes, lagnaRasiIndex, ascendant, mc,
   birthJd, latitude, longitude, year, month, day, utcOffsetMinutes, drikMethod = 'bphs', sthanaMethod = 'bphs',
-  kalaMethod = 'bphs', ayanamsaDegrees,
+  kalaMethod = 'bphs', ayanamsaDegrees, chestaMethod = 'bphs',
 }) {
+  if (chestaMethod !== 'bphs' && chestaMethod !== 'raman') throw new Error(`unknown chesta method ${chestaMethod}`);
   const drikOf = DRIK_METHODS[drikMethod];
   if (!drikOf) throw new Error(`unknown drik method ${drikMethod}`);
   if (sthanaMethod !== 'bphs' && sthanaMethod !== 'raman') throw new Error(`unknown sthana method ${sthanaMethod}`);
@@ -736,11 +784,16 @@ function calculateShadbala({
     const kaalaBala = kaala.pakshaBala + kaala.tribhagaBala + kaala.nathonnataBala
       + kaala.varshaMasaDinaHoraBala + kaala.ayanaBala;
 
-    const cheshtaBala = planet === 'Moon'
-      ? kaala.pakshaBala
-      : planet === 'Sun'
-        ? bphsAyanaBala
-        : chestaBalaFivePlanets(planet, planetLongitude, birthJd);
+    let cheshtaBala;
+    if (chestaMethod === 'raman') {
+      cheshtaBala = planet === 'Sun' || planet === 'Moon' ? 0 : ramanChesta(planet, planetLongitude, birthJd, year).bala;
+    } else if (planet === 'Moon') {
+      cheshtaBala = kaala.pakshaBala;
+    } else if (planet === 'Sun') {
+      cheshtaBala = bphsAyanaBala;
+    } else {
+      cheshtaBala = chestaBalaFivePlanets(planet, planetLongitude, birthJd);
+    }
 
     perPlanet[planet] = {
       sthana,
@@ -802,6 +855,8 @@ module.exports = {
   ramanKranti,
   ayanaBalaRaman,
   equationOfTimeDays,
+  ramanChestaInterval,
+  ramanChesta,
   uchchaBala,
   ojhayugmarasyamsaBala,
   kendradiBala,

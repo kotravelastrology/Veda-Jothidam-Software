@@ -20,7 +20,8 @@ const RAMAN_KALA_TOTAL = {
   Sun: 102.98, Moon: 202.04, Mars: 30.06, Mercury: 192.79, Jupiter: 211.18, Venus: 115.53, Saturn: 116.97,
 };
 
-withEphemeris({ ayanamsha: 'Lahiri' }, () => {
+async function main() {
+await withEphemeris({ ayanamsha: 'Lahiri' }, () => {
   // Equation of time on 16 October 1918: Raman's Example 17 converts 2-6 p.m. LMT to 2-20 p.m. LAT (14 minutes).
   const eotMinutes = equationOfTimeDays(birthJd) * 1440;
   assert.ok(Math.abs(eotMinutes - 14) < 1, `equation of time ${eotMinutes.toFixed(2)} min is about Raman's 14`);
@@ -86,3 +87,9 @@ assert.ok(Math.abs(ayanaBalaRaman('Mercury', 0) - 30) < 1e-9, 'Budha at the equa
 assert.ok(Math.abs(ayanaBalaRaman('Sun', 0) - 60) < 1e-9, 'Ravi at the equator: doubled');
 
 console.log('test-shadbala-kala-raman: all assertions passed');
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
