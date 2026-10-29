@@ -135,6 +135,60 @@ function drikBala(planet, longitudes, isWaxingMoon) {
   return net;
 }
 
+/**
+ * Raman's drishti value in shashtiamsas for an aspect angle (drusya minus drishta, degrees): Graha and Bhava Balas
+ * ch.8 vv.110-114 (1996 ed., printed pp.83-86 = PDF pp.88-90): 0 to 30°, nil; 30-60° (dk-30)/2; 60-90° dk-45; 90-120°
+ * (120-dk)/2+30; 120-150° 150-dk; 150-180° (dk-150)x2; 180-300° (300-dk)/2; 300° onwards nil.
+ */
+function ramanDrishtiValue(dk) {
+  if (dk < 30) return 0;
+  if (dk < 60) return (dk - 30) / 2;
+  if (dk < 90) return dk - 45;
+  if (dk < 120) return (120 - dk) / 2 + 30;
+  if (dk < 150) return 150 - dk;
+  if (dk < 180) return (dk - 150) * 2;
+  if (dk <= 300) return (300 - dk) / 2;
+  return 0;
+}
+
+/** Raman's visesha drishti (ch.8 v.115): Kuja on the 4th and 8th (+15), Guru on the 5th and 9th (+30), Sani on the 3rd and 10th (+45). */
+const RAMAN_VISESHA = { Mars: [[90, 120], [210, 240], 15], Jupiter: [[120, 150], [240, 270], 30], Saturn: [[60, 90], [270, 300], 45] };
+
+/**
+ * Raman's classification (ch.8 vv.117-118): Ravi, Kuja, Sani and the waning Moon are papa (malefic); Guru, Sukra and the
+ * waxing Moon are subha (benefic); Budha is malefic when badly associated (here: within 12° of Sun, Mars or Saturn; the
+ * orb is an assumption, checked against the Standard Horoscope where Budha is 0.6° from Ravi).
+ */
+function ramanIsMalefic(planet, longitudes, isWaxingMoon) {
+  if (planet === 'Sun' || planet === 'Mars' || planet === 'Saturn') return true;
+  if (planet === 'Moon') return !isWaxingMoon;
+  if (planet === 'Mercury') {
+    return ['Sun', 'Mars', 'Saturn'].some((other) => angularDiff180(longitudes[other], longitudes.Mercury) < 12);
+  }
+  return false;
+}
+
+/**
+ * Drik Bala by Raman (Graha and Bhava Balas ch.8, vv.119-121): the subha drishti pinda (received from benefics) less the
+ * papa drishti pinda (received from malefics) is the nett, and Drik Bala is the nett divided by four. Verified against
+ * Raman's Standard Horoscope (Example 56): Ravi +15.86, Chandra -21.73, Kuja +0.95, Budha +15.64, Guru -16.03, Sukra +18.47.
+ */
+function drikBalaRaman(planet, longitudes, isWaxingMoon) {
+  let nett = 0;
+  for (const other of PLANETS) {
+    if (other === planet) continue;
+    const dk = normalizeDegrees(longitudes[planet] - longitudes[other]);
+    let value = ramanDrishtiValue(dk);
+    const visesha = RAMAN_VISESHA[other];
+    if (visesha && ((dk >= visesha[0][0] && dk < visesha[0][1]) || (dk >= visesha[1][0] && dk < visesha[1][1]))) value += visesha[2];
+    nett += ramanIsMalefic(other, longitudes, isWaxingMoon) ? -value : value;
+  }
+  return nett / 4;
+}
+
+/** The Drik Bala readings: 'bphs' is the Chapter 26 quarter rule (the default); 'raman' is Raman's ch.8 rule. */
+const DRIK_METHODS = Object.freeze({ bphs: drikBala, raman: drikBalaRaman });
+
 function normalizeDegrees(deg) {
   return ((deg % 360) + 360) % 360;
 }
@@ -526,8 +580,10 @@ const SHADBALA_COMPONENT_MINIMUMS = {
  */
 function calculateShadbala({
   longitudes, lagnaRasiIndex, ascendant, mc,
-  birthJd, latitude, longitude, year, month, day, utcOffsetMinutes,
+  birthJd, latitude, longitude, year, month, day, utcOffsetMinutes, drikMethod = 'bphs',
 }) {
+  const drikOf = DRIK_METHODS[drikMethod];
+  if (!drikOf) throw new Error(`unknown drik method ${drikMethod}`);
   const jdLocalMidnight = julianDay(year, month, day, -utcOffsetMinutes / 60);
   const { isDaytime, thirdIndex } = findDayNightThird({
     birthJd, latitude, longitude, jdLocalMidnight,
@@ -578,7 +634,7 @@ function calculateShadbala({
       kaalaBala,
       naisargikaBala: naisargikaBala(planet),
       cheshtaBala,
-      drikBala: drikBala(planet, longitudes, isWaxingMoon),
+      drikBala: drikOf(planet, longitudes, isWaxingMoon),
       shadbalaTotal: sourceRequired(
         'Cannot be honestly totalled while Ayana Bala remains a source-internal contradiction '
         + '(BPHS v.15-17 formula and table do not reconcile; Sthana, Dig, Kaala-except-Ayana, Naisargika, Cheshta and Drik Bala are all now fully resolved, Yuddha uses partial totals)',
@@ -622,6 +678,8 @@ module.exports = {
   calculateShadbala,
   d1Dignity,
   dignityOfSign,
+  DRIK_METHODS,
+  drikBalaRaman,
   uchchaBala,
   ojhayugmarasyamsaBala,
   kendradiBala,
