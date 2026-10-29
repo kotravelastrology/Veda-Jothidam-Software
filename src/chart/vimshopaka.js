@@ -66,8 +66,27 @@ function translatorGrade(total) {
  * Vimshopaka of one planet in one scheme. `rasiPositions` maps the seven planets to their natal sign index; `rasiIndex` and
  * `degreeInSign` place the planet itself.
  */
-function vimshopaka(planet, rasiIndex, degreeInSign, rasiPositions, scheme = 'shadvarga') {
-  const def = SCHEMES[scheme];
+/**
+ * Vimshopaka of one planet in one scheme. `rasiPositions` maps the seven planets to their natal sign index; `rasiIndex` and
+ * `degreeInSign` place the planet itself. `method` picks the BPHS reading of the weights:
+ *   'bphs-verse'   the weights in the verse order (v.19, Saptavarga 5, 2, 3, 2½, 4½, 2, 1) — the default;
+ *   'bphs-printed' the translator's printed table (p.97), which orders Saptavarga as Saptamsa 1, Navamsa 2½,
+ *                  Dvadasamsa 4½, Trimsamsa 2.
+ * Each varga scores the Varga Viswa of the planet's relation to that varga's lord (vv.26-27).
+ */
+const METHODS = Object.freeze({
+  'bphs-verse': { title: 'BPHS: verse order (default)', schemes: SCHEMES },
+  'bphs-printed': {
+    title: 'BPHS: translator\'s printed table (p.97)',
+    schemes: { ...SCHEMES, saptavarga: { ...SCHEMES.saptavarga, weights: { D1: 5, D2: 2, D3: 3, D7: 1, D9: 2.5, D12: 4.5, D30: 2 } } },
+  },
+});
+const DEFAULT_METHOD = 'bphs-verse';
+
+function vimshopaka(planet, rasiIndex, degreeInSign, rasiPositions, scheme = 'shadvarga', method = DEFAULT_METHOD) {
+  const methodDef = METHODS[method];
+  if (!methodDef) throw new Error(`unknown method ${method}`);
+  const def = methodDef.schemes[scheme];
   if (!def) throw new Error(`unknown scheme ${scheme}`);
   const vargas = calculateVargas(rasiIndex, degreeInSign);
   const rows = Object.entries(def.weights).map(([key, swaviswa]) => {
@@ -79,7 +98,7 @@ function vimshopaka(planet, rasiIndex, degreeInSign, rasiPositions, scheme = 'sh
     return { varga: key, sign, lord, relation, swaviswa, viswa, points: (swaviswa * viswa) / 20 };
   });
   const total = rows.reduce((s, r) => s + r.points, 0);
-  return { planet, scheme, rows, total, reading: reading(total), translatorGrade: translatorGrade(total), source: SOURCE };
+  return { planet, scheme, method, rows, total, reading: reading(total), translatorGrade: translatorGrade(total), source: SOURCE };
 }
 
 /** All seven planets in a scheme, from the chart's sign indexes and degrees within the sign. */
@@ -88,4 +107,6 @@ function allVimshopaka({ signs, degrees }, scheme = 'shadvarga') {
   return PLANETS.map((p) => vimshopaka(p, signs[p], degrees[p], rasiPositions, scheme));
 }
 
-module.exports = { SOURCE, SCHEMES, VARGA_VISWA, PLANETS, TABLE_DISCREPANCY, reading, translatorGrade, vimshopaka, allVimshopaka };
+module.exports = {
+  SOURCE, SCHEMES, METHODS, DEFAULT_METHOD, VARGA_VISWA, PLANETS, TABLE_DISCREPANCY, reading, translatorGrade, vimshopaka, allVimshopaka,
+};
