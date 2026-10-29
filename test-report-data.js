@@ -45,7 +45,7 @@ assert.equal(sarvaTotal, 337);
 
 // Shadbala: partial data present for all 7 planets, with explicit gaps.
 assert.equal(Object.keys(report.shadbala.perPlanet).length, 7);
-assert.equal(report.shadbala.perPlanet.Sun.shadbalaTotal.status, 'SOURCE_REQUIRED');
+assert.ok(Number.isFinite(report.shadbala.perPlanet.Sun.shadbalaTotal), 'Sun Shadbala total is a number');
 assert.ok(Number.isFinite(report.shadbala.perPlanet.Sun.kaala.nathonnataBala));
 
 // Bhava Bala: all 12 houses present, each with a house/lord/karaka bindu reading.

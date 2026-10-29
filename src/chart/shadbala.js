@@ -718,18 +718,12 @@ const SHADBALA_COMPONENT_MINIMUMS = {
 
 /**
  * S10 — Shadbala (WORKFLOW-REGISTER-001 S10; PLAN-001 item 10), BPHS Ch.27.
- * **Sthana, Dig, Kaala, Naisargika, Drik and Yuddha Bala are all now fully
- * resolved** -- only Cheshta Bala remains (given only for the Moon, who
- * needs nothing beyond her own Paksha Bala; the other 6 planets need the
- * classical Seeghrocha/mean-motion apogee model, a Siddhantic sub-system
- * this project has not implemented). Ayana Bala (within Kaala Bala) and
- * Drik Bala and Yuddha Bala's sourcing are recorded in the S10-B/S10-D/
- * S10-F stage records; Ayana Bala's own resolution (S10-G) turned out to be
- * the translator's own printed table mis-transcribed into its own formula
- * prose (see `ayanaBala`'s comment below) -- not a genuine content gap.
- * Every remaining incomplete category is returned as `sourceRequired(...)`,
- * never a partial number presented as final — see the S10 through S10-G
- * stage records for the exact reasons.
+ * Every part is now sourced and computed: Sthana, Dig, Kaala (with Ayana),
+ * Chesta (the Seeghrochcha model for five planets, S10H), Naisargika, Drik
+ * and Yuddha. The total is the six parts with the Yuddha adjustment, which
+ * is computed from each planet's complete total before the war (v.20).
+ * Ayana Bala's earlier "contradiction" was the translator's printed formula
+ * folding a table header into its arithmetic (S10-G), not a content gap.
  *
  * `longitudes` is a `{ Sun, Moon, Mars, Mercury, Jupiter, Venus, Saturn }`
  * map of sidereal longitudes (as produced by `calculateParashariChart`),
@@ -808,22 +802,14 @@ function calculateShadbala({
       naisargikaBala: naisargikaBala(planet),
       cheshtaBala,
       drikBala: drikOf(planet, longitudes, isWaxingMoon),
-      shadbalaTotal: sourceRequired(
-        'Cannot be honestly totalled while Ayana Bala remains a source-internal contradiction '
-        + '(BPHS v.15-17 formula and table do not reconcile; Sthana, Dig, Kaala-except-Ayana, Naisargika, Cheshta and Drik Bala are all now fully resolved, Yuddha uses partial totals)',
-      ),
     };
   }
 
   // Yuddha Bala (v.20, file p.233-234): a post-hoc delta between two warring
   // planets' Shadbala totals (winner: v.20 itself, plus the war-detection
-  // and winner-determination rule from planetaryWar.js's v.9). The
-  // *mechanism* (detect war, find the winner, transfer the difference) is
-  // now fully sourced and implemented; its magnitude is honestly computed
-  // from each planet's own *partial* total so far (Ayana and most Cheshta
-  // Bala are still missing from that total), so this value will shift once
-  // those remaining gaps are closed -- not presented as final in
-  // `shadbalaTotal`, which still refuses to sum everything together.
+  // and winner-determination rule from planetaryWar.js's v.9). Every other
+  // component is now resolved, so each planet's total before the war
+  // adjustment is complete; the adjustment is then added to it.
   const partialTotalSoFar = Object.fromEntries(PLANETS.map((planet) => {
     const p = perPlanet[planet];
     return [planet, p.sthanaBala + p.digBala + p.kaalaBala + p.naisargikaBala + p.drikBala
@@ -839,6 +825,7 @@ function calculateShadbala({
       delta += winner === planet ? diff : -diff;
     }
     perPlanet[planet].yuddhaBala = delta;
+    perPlanet[planet].shadbalaTotal = partialTotalSoFar[planet] + delta;
   }
 
   return attachSource({ perPlanet }, {

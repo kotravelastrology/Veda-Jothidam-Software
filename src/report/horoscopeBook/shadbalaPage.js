@@ -2,19 +2,18 @@
  * Horoscope book, page 11 (PL9 sample aniruddha_HC4): the Shad Bala table and the Bhava Bala table.
  *
  * Shad Bala: the six sources of strength, each planet's parts (Sthana, Dig, Kaala and their sub-parts, Chesta,
- * Naisargika, Drik), the minimum Pinda, and the component "% of required" rows, all from the BPHS reading (ch.27). Not built:
- * the total and rupas (the engine refuses to total Shad Bala under BPHS), the rank, Ishta and Kashta Phala, the Drik minimum
- * (BPHS gives none).
+ * Naisargika, Drik, Yuddha), the total and rupas, the minimum Pinda, the "% of required" rows and the rank, all from the BPHS
+ * reading (ch.27). Not built: Ishta and Kashta Phala, and the Drik minimum (BPHS gives none).
  *
- * Bhava Bala: the house lord's Shadbala Pinda, the Digbala and the Drigbala (Raman, Art.131-133, the lords' Pinda from the
- * Raman reading since the BPHS total is refused), and the BPHS planets-in and day-night rules (ch.27 vv.30-31). The
- * Drishti and Digbala are Raman's, the same as PL9 prints them; see bhavaBalaRaman.js.
+ * Bhava Bala: the house lord's BPHS Shadbala total (ch.27 v.29, "the strength acquired by the lord"), the Digbala and the
+ * Drigbala (Raman, Art.131-132: BPHS has no form of these), and the BPHS planets-in and day-night rules (ch.27 vv.30-31).
+ * See bhavaBalaRaman.js.
  *
  * Returns a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { julianDay } = require('@swisseph/node');
 const {
-  calculateShadbala, computeVarshaMasaDinaHoraLords, findDayNightThird, ramanShadbalaPinda,
+  calculateShadbala, computeVarshaMasaDinaHoraLords, findDayNightThird,
   SHADBALA_MINIMUM_VIRUPAS, SHADBALA_COMPONENT_MINIMUMS, VARSHA_MASA_DINA_HORA_VIRUPAS,
 } = require('../../chart/shadbala');
 const { ramanBhavaBala } = require('../../chart/bhavaBalaRaman');
@@ -84,15 +83,17 @@ function buildPage11({ name = '', birth }) {
       utcOffsetMinutes: birth.utcOffsetMinutes,
     };
     const shadbala = calculateShadbala(common);
-    const ramanShadbala = calculateShadbala({
-      ...common, drikMethod: 'raman', sthanaMethod: 'raman', kalaMethod: 'raman', chestaMethod: 'raman',
-    });
     const jdLocalMidnight = julianDay(birth.year, birth.month, birth.day, -birth.utcOffsetMinutes / 60);
     const lords = computeVarshaMasaDinaHoraLords(chart.julianDay, birth.latitude, birth.longitude, jdLocalMidnight);
     const rows = Object.fromEntries(PLANETS.map((p) => [p, planetRows(shadbala.perPlanet[p], p, lords)]));
 
     const line = (label, key) => [label, ...PLANETS.map((p) => fixed(rows[p][key]))];
     const refused = (label) => [label, ...PLANETS.map(() => NOT_BUILT)];
+    // The total over the minimum, and the rank by it (largest first, as PL9 prints it: the strongest is 1).
+    const totalOfRequired = Object.fromEntries(PLANETS.map((p) => [p, shadbala.perPlanet[p].shadbalaTotal / rows[p].minimum]));
+    const rankOf = Object.fromEntries([...PLANETS]
+      .sort((a, b) => totalOfRequired[b] - totalOfRequired[a])
+      .map((p, i) => [p, i + 1]));
     const shadbalaRows = [
       line('Ochcha Bala', 'ochcha'),
       line('Sapta-vargaja Bala', 'sapta'),
@@ -114,15 +115,16 @@ function buildPage11({ name = '', birth }) {
       line('4. Chesta Bala', 'chesta'),
       line('5. Naisargika Bala', 'naisargika'),
       line('6. Drik Bala', 'drik'),
-      refused('Total Shadbala'),
-      refused('Shadbala in Rupas'),
+      ['Total Shadbala', ...PLANETS.map((p) => fixed(shadbala.perPlanet[p].shadbalaTotal))],
+      ['Shadbala in Rupas', ...PLANETS.map((p) => fixed(shadbala.perPlanet[p].shadbalaTotal / 60))],
       ['Minimum requirements', ...PLANETS.map((p) => String(rows[p].minimum))],
+      ['Shadbala % of required', ...PLANETS.map((p) => fixed(totalOfRequired[p]))],
       line('Sthana Bala % of required', 'sthanaOfRequired'),
       line('Dig Bala % of required', 'digOfRequired'),
       line('Kaala Bala % of required', 'kaalaOfRequired'),
       line('Chesta Bala % of required', 'cheshtaOfRequired'),
       refused('Drik Bala % of required'),
-      refused('Relative Rank'),
+      ['Relative Rank', ...PLANETS.map((p) => String(rankOf[p]))],
       refused('Ishta Phala'),
       refused('Kashta Phala'),
     ];
@@ -130,7 +132,7 @@ function buildPage11({ name = '', birth }) {
     const { isDaytime } = findDayNightThird({
       birthJd: chart.julianDay, latitude: birth.latitude, longitude: birth.longitude, jdLocalMidnight,
     });
-    const lordPinda = Object.fromEntries(PLANETS.map((p) => [p, ramanShadbalaPinda(ramanShadbala.perPlanet[p])]));
+    const lordPinda = Object.fromEntries(PLANETS.map((p) => [p, shadbala.perPlanet[p].shadbalaTotal]));
     const { middles } = sripatiHouses(chart);
     const bhava = ramanBhavaBala({
       middles,
@@ -162,14 +164,16 @@ function buildPage11({ name = '', birth }) {
           rows: shadbalaRows,
           note: 'BPHS ch.27 throughout. Minimum requirements: v.32-33 (Santhanam, p.287). Component minimums by group: v.34-36 '
             + '(p.287-288), Kaala 50 and Chesta 112 for Sun, Mercury and Jupiter; PL9 prints them the other way round. Ayana, '
-            + 'Chesta and Drik differ from PL9\'s own readings, so those rows will not match its page.',
+            + 'Chesta, Saptavargaja and Drik differ from PL9\'s own readings, so the totals differ from its page too (Sun 214 '
+            + 'against 275, Jupiter 467 against 536, Mercury 428 against 391). Rank: Mars, Jupiter, Mercury and Sun agree with '
+            + 'PL9; Moon, Saturn and Venus are placed differently.',
         },
         {
           kind: 'table',
           heading: 'Bhava Bala',
           columns: ['', ...ROMAN],
           rows: bhavaRows,
-          note: 'The house lord\'s Shadbala Pinda (From Lord) is Raman\'s reading, because the BPHS total is refused. Dig and '
+          note: 'From Lord is the house lord\'s BPHS Shadbala total (v.29). Dig and '
             + 'Drishti are Raman\'s (Art.131-132); Planets in is BPHS v.30 (Jupiter and Mercury +60, Saturn, Mars and the Sun '
             + '-60); Day-Night is BPHS v.31 (+15 in the Seershodaya signs by day, Prishtodaya by night; Ubhayodaya needs a sourced '
             + 'twilight, which is not built, so Gemini and Pisces get 0). Raman\'s Example 59 reproduces for houses I-IV. Against '

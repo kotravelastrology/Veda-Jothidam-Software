@@ -18,11 +18,10 @@
  * its sign, its weight and its source, and the standing states how the
  * testimonies stood rather than pronouncing an outcome.
  *
- * PROMISE-strength note: Kotravel does not total Shadbala (its `shadbalaTotal`
- * is SOURCE_REQUIRED while Ayana Bala's BPHS v.15-17 formula/table conflict is
- * unresolved), so promise here is judged from what IS classically settled —
- * graha dignity (BPHS 3), Sarvāṣṭakavarga bindus in the bhāva (BPHS 66) and
- * benefic/malefic occupancy and dṛṣṭi (BPHS 3, 26) — not from a rūpa total.
+ * PROMISE-strength note: promise here is judged from what is classically
+ * settled — graha dignity (BPHS 3), Sarvāṣṭakavarga bindus in the bhāva
+ * (BPHS 66) and benefic/malefic occupancy and dṛṣṭi (BPHS 3, 26) — not from
+ * a rūpa total (the Shadbala total is computed, but this rule predates it).
  *
  * Bhāva / kāraka mappings below are classical doctrine (BPHS 11, 32;
  * Phaladīpikā 2). No modern compilation is transcribed. Where a signification

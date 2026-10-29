@@ -164,8 +164,7 @@ for (let rasi = 0; rasi < 12; rasi += 1) {
 for (const planet of CLASSICAL) {
   const b = v.shadbala[planet];
   assert.ok(typeof b.sthanaBala === 'number', `${planet}: sthanaBala missing`);
-  assert.equal(b.shadbalaTotal.status, 'SOURCE_REQUIRED',
-    `${planet}: Shadbala total must stay withheld, not be fabricated`);
+  assert.ok(Number.isFinite(b.shadbalaTotal), `${planet}: Shadbala total is a computed number`);
 }
 
 // ---------------------------------------------------------- evidence --

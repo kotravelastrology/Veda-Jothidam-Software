@@ -47,8 +47,23 @@ async function main() {
   sum(sthanaParts).forEach((v, i) => assert.ok(Math.abs(v - row('1. Sthana Bala')[i]) < 0.01, `${PLANETS[i]} Sthana parts sum`));
   sum(kaalaParts).forEach((v, i) => assert.ok(Math.abs(v - row('3. Kaala Bala')[i]) < 0.01, `${PLANETS[i]} Kaala parts sum`));
 
-  // Not built: the total, the rupas, the Drik minimum, the rank and the Phala rows.
-  for (const label of ['Total Shadbala', 'Shadbala in Rupas', 'Drik Bala % of required', 'Relative Rank', 'Ishta Phala', 'Kashta Phala']) {
+  // The total is the sum of the six parts (Yuddha included), the rupas are that over 60, and the total over the minimum
+  // gives the rank: the strongest is 1. PL9 ranks the Moon, Saturn and Venus differently (3, 4, 5 against our 5, 3, 4).
+  const shadbalaTotal = row('Total Shadbala');
+  PLANETS.forEach((_, i) => {
+    const parts = ['1. Sthana Bala', '2. Dig Bala', '3. Kaala Bala', '4. Chesta Bala', '5. Naisargika Bala', '6. Drik Bala']
+      .reduce((s, l) => s + row(l)[i], 0) + row('Yuddha Bala')[i];
+    assert.ok(Math.abs(shadbalaTotal[i] - parts) < 0.02, `${PLANETS[i]} total is the sum of its parts (to 2dp rounding)`);
+  });
+  const rupas = row('Shadbala in Rupas');
+  shadbalaTotal.forEach((t, i) => assert.ok(Math.abs(rupas[i] - t / 60) < 0.01, `${PLANETS[i]} rupas`));
+  const ofRequired = row('Shadbala % of required');
+  shadbalaTotal.forEach((t, i) => assert.ok(Math.abs(ofRequired[i] - t / [390, 360, 300, 420, 390, 330, 300][i]) < 0.01,
+    `${PLANETS[i]} total % of required`));
+  assert.deepStrictEqual(row('Relative Rank'), [7, 5, 1, 6, 2, 4, 3], 'rank by total over minimum, strongest first');
+
+  // Not built: the Drik minimum and the Phala rows.
+  for (const label of ['Drik Bala % of required', 'Ishta Phala', 'Kashta Phala']) {
     const r = table.rows.find((x) => x[0] === label);
     assert.ok(r && r.slice(1).every((v) => v === NOT_BUILT), `${label} is not built`);
   }
