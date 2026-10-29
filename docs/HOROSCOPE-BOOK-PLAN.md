@@ -11,9 +11,9 @@ HTML -> PDF, see VJ-019), so the book prints from the app.
 |---|---|---|
 | 1 | Birth Particulars, Hindu Calendar, Family Particulars, Avakhada Chakra, Tamil Calendar | Built as data (src/report/horoscopeBook/page1.js, test-horoscope-book-page1.js). Not built: Kartikadi year, Bhayat, Bhabhog, Varga, Yunja, Hansak, Naamakshar, Paya (no source identified). Differs from sample: sunrise (05:58 vs 06:01:42), dasha balance (7y 8m 20d vs 7y 7m 11d), Lahiri (13″), season (solar month, sample uses lunar month) |
 | 2 | Birth Chart (chart diagram, planet table: sign, degree, speed, nakshatra, pada, RL, NL, SL, SS, status, shadbala) | Built as data (src/report/horoscopeBook/page2.js, test-horoscope-book-page2.js): three sign grids (Birth Chart, Moon, Navamsha) and the planet table; the table matches the sample on sign, nakshatra, pada, the four lords and status. Not built: shadbala total (engine refuses it). Differs from sample: Gulika (engine Cancer 8:11, sample Leo 3:02, which moves Gk in both grids), and seconds on Moon speed, Rahu and Ketu (13–19 s). Print: signGrid block in app/print/PrintView.tsx, not yet wired to a print kind |
-| 3 | Chandra, Navamsha and Bhava charts | Renderers exist; Chandra chart to check |
+| 3 | Chandra, Navamsha and Bhava charts | Built as data (src/report/horoscopeBook/charts.js, test-horoscope-book-charts.js): Moon and Navamsha grids, Sripati Bhava grid, Bhava Spashta table. Matches the sample to within 13 seconds (lagna), except Gulika (engine Cancer 8:11, sample Leo 3:02) |
 | 4 | Sudarshan Chakra | Renderer exists (SudarshanaChakraRenderer) |
-| 5-6 | Divisional Charts #1, #2 | Varga charts exist; layout to build |
+| 5-6 | Divisional Charts #1, #2 | Built as data (charts.js): all sixteen grids, in the sample's order. Match the sample except Gulika; Hora (D2) placed by lord (Sun to Leo, Moon to Cancer) |
 | 7 | Sub-Planets (Upagrahas, Gulikaadi group) | To check |
 | 8 | Birth Charts (birth chart per division / summary) | To check |
 | 9 | Planetary Friendship (Naisargik Maitri Chakra, Tatkalika) | Built in shadbala / planetary relationship; table to build |
