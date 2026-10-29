@@ -621,6 +621,7 @@ function calculateShadbala({
 module.exports = {
   calculateShadbala,
   d1Dignity,
+  dignityOfSign,
   uchchaBala,
   ojhayugmarasyamsaBala,
   kendradiBala,

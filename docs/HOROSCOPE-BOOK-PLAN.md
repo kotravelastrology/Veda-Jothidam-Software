@@ -16,8 +16,9 @@ HTML -> PDF, see VJ-019), so the book prints from the app.
 | 5-6 | Divisional Charts #1, #2 | Built as data (charts.js): all sixteen grids, in the sample's order. Match the sample except Gulika; Hora (D2) placed by lord (Sun to Leo, Moon to Cancer) |
 | 7 | Sub-Planets (Upagrahas, Gulikaadi group) | To check |
 | 8 | Birth Charts (birth chart per division / summary) | To check |
-| 9 | Planetary Friendship (Naisargik Maitri Chakra, Tatkalika) | Built in shadbala / planetary relationship; table to build |
-| 10 | Shodashvarga Summary | Partly (vargas exist) |
+| 9 | Planetary Friendship (Naisargik Maitri Chakra, Tatkalika) | Built as data (src/report/horoscopeBook/planetPages.js, test-horoscope-book-planets.js): natural, temporal and Panchadha lists of the seven classical planets. Rahu and Ketu not built (no sourced relation) |
+| 10 | Shodashvarga Summary | Built as data (planetPages.js): signs of the Ascendant and planets in the sixteen vargas, dignities, Vimshopaka. Matches the sample on Lagna, Sun and Moon signs and the Janma, Dreshkana, Chaturthamsha and Saptamsha dignities. Not built: nodes' dignity and Vimshopaka; the Dispositors table is not built yet. Saptavarga differs from the sample for Moon, Mars and Saturn |
+| 11, 12, 13 | Shad Bala, Aspects, Avasthas | Not built. Shad Bala total refused by the engine; the aspect page's strength fractions and brackets are not identified; the avasthas engine names differ from PL9 (Shayanadi and Deeptadi states, Lajjitadi a disclosed synthesis) |
 | 11 | Shad Bala and Bhava Bala | Shadbala six parts exist; total refused (see register) |
 | 12 | Aspects on Planets and Bhavas | Aspect matrix exists |
 | 13 | Planetary Avasthas | Exists (avasthas engine) |
