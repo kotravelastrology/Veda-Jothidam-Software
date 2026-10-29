@@ -852,9 +852,24 @@ function ramanShadbalaPinda(entry) {
   return entry.sthanaBala + entry.digBala + entry.kaalaBala + entry.cheshtaBala + entry.naisargikaBala + entry.drikBala;
 }
 
+/** Raman's minimum Shadbala Pinda, in rupas, for a planet to be powerful (Art.122, pp.90-91): Ravi 5, Chandra 6, Kuja 5, Budha 7, Guru 6.5, Sukra 5.5, Sani 5. */
+const RAMAN_MINIMUM_RUPAS = Object.freeze({
+  Sun: 5, Moon: 6, Mars: 5, Mercury: 7, Jupiter: 6.5, Venus: 5.5, Saturn: 5,
+});
+
+/**
+ * Raman's strength against the minimum (Example 57): the Shadbala Pinda in rupas divided by the planet's minimum. A
+ * strength of 1 or more is powerful; the planets rank by it, largest first.
+ */
+function ramanStrengthVsMinimum(planet, pindaShashtiamsas) {
+  return (pindaShashtiamsas / 60) / RAMAN_MINIMUM_RUPAS[planet];
+}
+
 module.exports = {
   calculateShadbala,
   ramanShadbalaPinda,
+  RAMAN_MINIMUM_RUPAS,
+  ramanStrengthVsMinimum,
   d1Dignity,
   dignityOfSign,
   DRIK_METHODS,
