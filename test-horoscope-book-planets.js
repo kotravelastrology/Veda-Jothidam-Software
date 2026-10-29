@@ -25,6 +25,7 @@ async function main() {
   const p10 = await buildPage10({ name: 'aniruddha', birth });
   assert.deepStrictEqual(p10.blocks.map((b) => b.heading), [
     'Signs occupied by planets in Shodashvargas', 'Dignities of planets in Shodashvargas', 'Vimshopaka Bala',
+    'Dispositors in 6 divisions (Shad Varga)',
   ]);
   assert.ok(!/undefined|NaN|null/.test(JSON.stringify(p10)), 'no undefined or NaN in page 10');
   const signs = p10.blocks[0];
@@ -62,7 +63,19 @@ async function main() {
   assert.equal(vimCell('Saptavarga', 3), '10');
   assert.equal(vimCell('Saptavarga', 7), '10');
 
-  console.log('test-horoscope-book-planets: all assertions passed');
+  // Dispositors over the six Shadvarga divisions (sample page 10): Sun, Mercury, Ketu and Rahu match the sample's counts.
+const disp = p10.blocks[3];
+const dispOf = (abbr) => disp.rows.find((r) => r[0] === abbr)[1];
+assert.equal(dispOf('Su'), 'Me(2), Su(1), Ma(1), Ju(1), Sa(1)');
+assert.equal(dispOf('Me'), 'Me(2), Ve(2), Mo(1), Sa(1)');
+assert.equal(dispOf('Ke'), 'Mo(2), Ma(2), Me(1), Ve(1)');
+assert.equal(dispOf('Ra'), 'Ve(2), Mo(1), Ma(1), Me(1), Sa(1)');
+for (const r of disp.rows) {
+  const total = r[1].split(', ').reduce((s, e) => s + Number(e.match(/\((\d+)\)/)[1]), 0);
+  assert.equal(total, 6, `${r[0]} dispositors count to six divisions`);
+}
+
+console.log('test-horoscope-book-planets: all assertions passed');
 }
 
 main().catch((e) => {

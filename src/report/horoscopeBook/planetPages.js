@@ -10,6 +10,7 @@ const { dignityOfSign } = require('../../chart/shadbala');
 const { vimshopaka } = require('../../chart/vimshopaka');
 const { dignityOf } = require('../phaladeepikaGocharaTables');
 const { vargaSign, withBirth } = require('./charts');
+const { RASI_LORD } = require('../../chart/karaka');
 
 const NOT_BUILT = 'கட்டப்படவில்லை';
 const CLASSICAL = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -134,9 +135,36 @@ function buildPage10({ name = '', birth }) {
           rows: vimshopakaRows,
           note: 'Rahu and Ketu are not built: the Vimshopaka engine covers the seven classical planets.',
         },
+        {
+          kind: 'table',
+          heading: 'Dispositors in 6 divisions (Shad Varga)',
+          columns: ['Planet', 'Dispositors (count over the six divisions)'],
+          rows: PLANETS.map((p) => [ABBREV[p], dispositorsText(chart, p)]),
+          note: 'Shad Varga: Rasi, Hora, Drekkana, Navamsha, Dvadasamsha and Trimsamsha (BPHS ch.7 v.17). For each division, the planet\'s sign is found and its lord counted.',
+        },
       ],
     };
   });
+}
+
+const SHAD_VARGA_KEYS = ['D1', 'D2', 'D3', 'D9', 'D12', 'D30'];
+const ABBREV = { Sun: 'Su', Moon: 'Mo', Mars: 'Ma', Mercury: 'Me', Jupiter: 'Ju', Venus: 'Ve', Saturn: 'Sa', Rahu: 'Ra', Ketu: 'Ke' };
+
+/**
+ * The dispositors of a planet over the six Shadvarga divisions: in each division the planet occupies a sign, and that
+ * sign's lord is counted. Listed by count (most first), then in the planet order of the table.
+ */
+function dispositorsText(chart, planet) {
+  const lon = chart.grahas[planet].longitude;
+  const counts = new Map();
+  for (const key of SHAD_VARGA_KEYS) {
+    const lord = RASI_LORD[vargaSign(lon, key)];
+    counts.set(lord, (counts.get(lord) || 0) + 1);
+  }
+  return [...counts.entries()]
+    .sort(([a, na], [b, nb]) => nb - na || PLANETS.indexOf(a) - PLANETS.indexOf(b))
+    .map(([lord, n]) => `${ABBREV[lord]}(${n})`)
+    .join(', ');
 }
 
 module.exports = { buildPage9, buildPage10 };
