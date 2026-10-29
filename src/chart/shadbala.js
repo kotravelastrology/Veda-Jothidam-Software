@@ -1,5 +1,5 @@
 const {
-  julianDay, calculatePosition, Planet, CalculationFlag,
+  julianDay, calculatePosition, Planet, CalculationFlag, getAyanamsa,
 } = require('@swisseph/node');
 const { sunriseJulianDay, sunsetJulianDay } = require('../ephemeris/siderealPositions');
 const { attachSource, sourceRequired } = require('../contracts/chartContext');
@@ -327,6 +327,20 @@ function pakshaBala(planet, sunLongitude, moonLongitude) {
   return PAKSHA_BENEFICS.has(planet) ? beneficPB : maleficPB;
 }
 
+/**
+ * Paksha Bala by Raman (Graha and Bhava Balas Art.52-55, pp.37-39): the same one-third share of the Moon-Sun
+ * elongation, but the classification is Raman's own. Ravi, Kuja, Sani and the waning Moon are papa; Guru and Sukra are
+ * subha; Budha is papa when afflicted (the ramanIsMalefic orb). Papa planets get 60 less the subha share, and Chandra's
+ * value is doubled. Verified against the Standard Horoscope (Example 18): Ravi, Kuja, Budha, Sani 16.54; Chandra 86.92;
+ * Guru, Sukra 43.46.
+ */
+function pakshaBalaRaman(planet, longitudes, isWaxingMoon) {
+  const rawDiff = normalizeDegrees(longitudes.Moon - longitudes.Sun);
+  const subha = (rawDiff <= 180 ? rawDiff : 360 - rawDiff) / 3;
+  const value = ramanIsMalefic(planet, longitudes, isWaxingMoon) ? 60 - subha : subha;
+  return planet === 'Moon' ? 2 * value : value;
+}
+
 /** Tribhaga Bala (v.12, file p.222-223): 60 Virupas to the lord of the day/night third the birth falls in, plus Jupiter always gets 60. */
 const TRIBHAGA_DAY_LORDS = ['Mercury', 'Sun', 'Saturn'];
 const TRIBHAGA_NIGHT_LORDS = ['Moon', 'Venus', 'Mars'];
@@ -347,6 +361,21 @@ function tribhagaBala(planet, isDaytime, thirdIndex) {
 function kranti(planet, jd) {
   const flags = CalculationFlag.SwissEphemeris | CalculationFlag.Equatorial;
   return calculatePosition(jd, Planet[planet], flags).latitude;
+}
+
+/**
+ * Equation of time in days (apparent solar time minus mean solar time; positive when the sundial is ahead): the Sun's
+ * mean longitude less its right ascension, both from Swiss Ephemeris (the RA is the `longitude` of an equatorial
+ * position). Raman's Standard Horoscope needs 14 minutes here (Example 17: 2-6 p.m. LMT becomes 2-20 p.m. LAT).
+ */
+function equationOfTimeDays(jd) {
+  const flags = CalculationFlag.SwissEphemeris | CalculationFlag.Equatorial;
+  const centuries = (jd - 2451545.0) / 36525;
+  const meanLongitude = 280.46646 + 36000.76983 * centuries + 0.0003032 * centuries * centuries;
+  const rightAscension = calculatePosition(jd, Planet.Sun, flags).longitude;
+  let minutesOfDegree = meanLongitude - 0.0057183 - rightAscension;
+  minutesOfDegree = ((minutesOfDegree % 360) + 540) % 360 - 180; // wrapped to -180..180 degrees
+  return (4 * minutesOfDegree) / 1440;
 }
 
 /** v.15-17 Notes: Moon/Saturn take Southern Kranti as positive (contrary of Sun/Mars/Jupiter/Venus); Mercury is always positive regardless of hemisphere. */
@@ -381,6 +410,39 @@ function ayanaBala(planet, planetKranti) {
   return planet === 'Sun' ? bala * 2 : bala;
 }
 
+/** Raman's Kranti table (Art.73-74, pp.53-57): cumulative arc-minutes at the end of each 15-degree division from the equinox. */
+const RAMAN_KRANTI_ARCMIN = [0, 362, 703, 1002, 1238, 1388, 1440];
+/**
+ * Raman's declination from a sayana (tropical) longitude: the bhuja is the distance from the nearest equinox, and the
+ * declination is read off his six-division table, linearly within the division. North is positive. This is Raman's own
+ * approximation; it reproduces his printed Standard Horoscope krantis (Ravi 8d45' S, Kuja 22d26' S, Guru 23d30' N).
+ */
+function ramanKranti(sayanaLongitude) {
+  const sayana = normalizeDegrees(sayanaLongitude);
+  const halfTurn = sayana % 180;
+  const bhuja = Math.min(halfTurn, 180 - halfTurn);
+  const division = Math.min(5, Math.floor(bhuja / 15));
+  const step = RAMAN_KRANTI_ARCMIN[division + 1] - RAMAN_KRANTI_ARCMIN[division];
+  const arcMinutes = RAMAN_KRANTI_ARCMIN[division] + (step * (bhuja - 15 * division)) / 15;
+  return (sayana < 180 ? 1 : -1) * arcMinutes / 60;
+}
+
+/**
+ * Ayana Bala by Raman (Art.75, pp.59-60, after Kesava Daivagna): (24 degrees + Kranti) / 48 x 60, where Ravi, Kuja, Guru
+ * and Sukra count a northern declination as additive and a southern one as subtractive; Chandra and Sani the reverse;
+ * Budha is always additive; the Sun's result is doubled. The sayana longitude is the sidereal one plus the ayanamsha.
+ */
+const RAMAN_AYANA_SOUTH_ADDITIVE = new Set(['Moon', 'Saturn']);
+function ayanaBalaRaman(planet, sayanaLongitude) {
+  const kranti = ramanKranti(sayanaLongitude);
+  let term;
+  if (planet === 'Mercury') term = 24 + Math.abs(kranti);
+  else if (RAMAN_AYANA_SOUTH_ADDITIVE.has(planet)) term = 24 - kranti;
+  else term = 24 + kranti;
+  const bala = (term / 48) * 60;
+  return planet === 'Sun' ? 2 * bala : bala;
+}
+
 /**
  * Nathonnata Bala (v.8-9, file p.221, plus the "simple method" note in the
  * same passage): the two methods (Ghati-based; direct degrees-from-midnight)
@@ -390,11 +452,14 @@ function ayanaBala(planet, planetKranti) {
  * 30 ghatis, i.e. 0 to 12 hours either side); Nata = 30 ghatis - Unnata.
  * Moon/Mars/Saturn get 2 x Nata; Sun/Jupiter/Venus get 60 - that (= 2 x
  * Unnata); Mercury always gets the full 60 regardless of birth time.
+ * `eotDays` moves the midnight from the local mean to the apparent one (Raman, Art.48: midnight is the Sun's lower
+ * meridian passage, so the equation of time applies). 0 keeps the mean midnight, which is the BPHS reading.
  */
-function nathonnataBala(planet, birthJd, jdLocalMidnight) {
+function nathonnataBala(planet, birthJd, jdLocalMidnight, eotDays = 0) {
   if (planet === 'Mercury') return 60;
-  const elapsedFromBefore = birthJd - jdLocalMidnight;
-  const elapsedFromAfter = (jdLocalMidnight + 1) - birthJd;
+  const midnight = jdLocalMidnight - eotDays;
+  const elapsedFromBefore = birthJd - midnight;
+  const elapsedFromAfter = (midnight + 1) - birthJd;
   const unnataGhatis = Math.min(elapsedFromBefore, elapsedFromAfter) * 60;
   const nataGhatis = 30 - unnataGhatis;
   const nathaBala = 2 * nataGhatis;
@@ -622,10 +687,16 @@ const SHADBALA_COMPONENT_MINIMUMS = {
 function calculateShadbala({
   longitudes, lagnaRasiIndex, ascendant, mc,
   birthJd, latitude, longitude, year, month, day, utcOffsetMinutes, drikMethod = 'bphs', sthanaMethod = 'bphs',
+  kalaMethod = 'bphs', ayanamsaDegrees,
 }) {
   const drikOf = DRIK_METHODS[drikMethod];
   if (!drikOf) throw new Error(`unknown drik method ${drikMethod}`);
   if (sthanaMethod !== 'bphs' && sthanaMethod !== 'raman') throw new Error(`unknown sthana method ${sthanaMethod}`);
+  if (kalaMethod !== 'bphs' && kalaMethod !== 'raman') throw new Error(`unknown kala method ${kalaMethod}`);
+  const isRamanKala = kalaMethod === 'raman';
+  // Raman's Ayana uses sayana longitudes (Art.72: add the ayanamsha of the birth year). Default: the chart's own ayanamsha.
+  const ayanamsa = isRamanKala ? (ayanamsaDegrees ?? getAyanamsa(birthJd)) : 0;
+  const eotDays = isRamanKala ? equationOfTimeDays(birthJd) : 0;
   const jdLocalMidnight = julianDay(year, month, day, -utcOffsetMinutes / 60);
   const { isDaytime, thirdIndex } = findDayNightThird({
     birthJd, latitude, longitude, jdLocalMidnight,
@@ -654,11 +725,12 @@ function calculateShadbala({
     const sthanaBala = sthana.uchchaBala + sthana.ojhayugmarasyamsaBala
       + sthana.kendradiBala + sthana.drekkanaBala + sthana.saptavargajaBala;
 
+    const bphsAyanaBala = ayanaBala(planet, kranti(planet, birthJd));
     const kaala = {
-      pakshaBala: pakshaBala(planet, longitudes.Sun, longitudes.Moon),
+      pakshaBala: isRamanKala ? pakshaBalaRaman(planet, longitudes, isWaxingMoon) : pakshaBala(planet, longitudes.Sun, longitudes.Moon),
       tribhagaBala: tribhagaBala(planet, isDaytime, thirdIndex),
-      nathonnataBala: nathonnataBala(planet, birthJd, jdLocalMidnight),
-      ayanaBala: ayanaBala(planet, kranti(planet, birthJd)),
+      nathonnataBala: nathonnataBala(planet, birthJd, jdLocalMidnight, eotDays),
+      ayanaBala: isRamanKala ? ayanaBalaRaman(planet, planetLongitude + ayanamsa) : bphsAyanaBala,
       varshaMasaDinaHoraBala: varshaMasaDinaHoraBala(planet, varshaMasaDinaHoraLords),
     };
     const kaalaBala = kaala.pakshaBala + kaala.tribhagaBala + kaala.nathonnataBala
@@ -667,7 +739,7 @@ function calculateShadbala({
     const cheshtaBala = planet === 'Moon'
       ? kaala.pakshaBala
       : planet === 'Sun'
-        ? kaala.ayanaBala
+        ? bphsAyanaBala
         : chestaBalaFivePlanets(planet, planetLongitude, birthJd);
 
     perPlanet[planet] = {
@@ -726,6 +798,10 @@ module.exports = {
   drikBalaRaman,
   saptavargajaBalaRaman,
   drekkanaBalaRaman,
+  pakshaBalaRaman,
+  ramanKranti,
+  ayanaBalaRaman,
+  equationOfTimeDays,
   uchchaBala,
   ojhayugmarasyamsaBala,
   kendradiBala,
