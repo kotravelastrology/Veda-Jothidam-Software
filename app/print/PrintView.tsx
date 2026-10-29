@@ -25,6 +25,28 @@ const KINDS: { key: PrintKind; label: string; note: string; text?: boolean }[] =
 const field = 'px-2 py-1.5 text-sm bg-surface border border-line rounded text-ink';
 const today = new Date();
 
+const SIGN_ABBR = ['Ari', 'Tau', 'Gem', 'Can', 'Leo', 'Vir', 'Lib', 'Sco', 'Sag', 'Cap', 'Aqu', 'Pis'];
+// South-Indian grid: the sign in each cell; -1 is the centre, which spans four cells.
+const GRID_SIGNS = [[11, 0, 1, 2], [10, -1, -1, 3], [9, -1, -1, 4], [8, 7, 6, 5]];
+
+function SignGrid({ cells }: { cells: string[][] }) {
+  return (
+    <div className="grid grid-cols-4 gap-px bg-line border border-line max-w-md print:bg-black print:border-black">
+      {GRID_SIGNS.flatMap((row, r) => row.map((sign, c) => {
+        if (sign < 0) {
+          return r === 1 && c === 1 ? <div key={`${r}${c}`} className="col-span-2 row-span-2 bg-surface print:bg-white" /> : null;
+        }
+        return (
+          <div key={`${r}${c}`} className="bg-surface p-1 min-h-14 text-[11px] leading-tight print:bg-white print:text-black">
+            <div className="text-[9px] text-ink-soft print:text-black">{SIGN_ABBR[sign]}</div>
+            {cells[sign].map((label, i) => <div key={i}>{label}</div>)}
+          </div>
+        );
+      }))}
+    </div>
+  );
+}
+
 export default function PrintView() {
   const [party, setParty] = useState<Party | null>(null);
   const asked = useSearchParams().get('kind');
@@ -68,7 +90,7 @@ export default function PrintView() {
     const lines = [doc.title, doc.subtitle, ''];
     for (const b of doc.blocks) {
       lines.push(b.heading);
-      if (b.kind === 'table') { lines.push(b.columns.join('\t')); for (const r of b.rows) lines.push(r.join('\t')); } else lines.push(b.text);
+      if (b.kind === 'table') { lines.push(b.columns.join('\t')); for (const r of b.rows) lines.push(r.join('\t')); } else if (b.kind === 'signGrid') { b.cells.forEach((c: string[], i: number) => lines.push(`${SIGN_ABBR[i]}\t${c.join(' ')}`)); } else lines.push(b.text);
       lines.push('');
     }
     try { await navigator.clipboard.writeText(lines.join('\n')); setNote('உரை நகலெடுக்கப்பட்டது (படமாக அல்ல).'); } catch { setNote('நகலெடுக்க முடியவில்லை.'); }
@@ -147,6 +169,8 @@ export default function PrintView() {
                     </tbody>
                   </table>
                 </div>
+              ) : b.kind === 'signGrid' ? (
+                <SignGrid cells={b.cells} />
               ) : <p className="text-xs">{b.text}</p>}
               {b.note && <p className="text-[11px] text-ink-soft mt-1 print:text-black">{b.note}</p>}
             </section>
