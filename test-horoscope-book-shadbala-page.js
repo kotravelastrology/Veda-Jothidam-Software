@@ -62,11 +62,14 @@ async function main() {
     `${PLANETS[i]} total % of required`));
   assert.deepStrictEqual(row('Relative Rank'), [7, 5, 1, 6, 2, 4, 3], 'rank by total over minimum, strongest first');
 
-  // Not built: the Drik minimum and the Phala rows.
-  for (const label of ['Drik Bala % of required', 'Ishta Phala', 'Kashta Phala']) {
-    const r = table.rows.find((x) => x[0] === label);
-    assert.ok(r && r.slice(1).every((v) => v === NOT_BUILT), `${label} is not built`);
+  // Ishta and Kashta Phala (Raman Art.138-139): each is a real number between 0 and 60 (both factors are). The Drik minimum
+  // is not built (BPHS gives none).
+  for (const label of ['Ishta Phala', 'Kashta Phala']) {
+    const values = row(label);
+    assert.ok(values.every((v) => Number.isFinite(v) && v >= 0 && v <= 60), `${label} is a value in 0-60`);
   }
+  const drik = table.rows.find((x) => x[0] === 'Drik Bala % of required');
+  assert.ok(drik && drik.slice(1).every((v) => v === NOT_BUILT), 'Drik Bala % of required is not built');
 
   // Bhava Bala (PL9 sample, page 11): Planets in (BPHS v.30) and Day-Night (BPHS v.31) match PL9 exactly on this night birth.
   // Digbala (Raman Art.131) is within one unit of PL9 for every house but XII (ours 20, PL9 10), whose Cancer base gives 20 by

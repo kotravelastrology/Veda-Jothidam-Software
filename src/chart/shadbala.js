@@ -869,6 +869,44 @@ const RAMAN_MINIMUM_RUPAS = Object.freeze({
 });
 
 /**
+ * Raman's Chesta Bala for the Sun (Art.136, Example 60): Sun's sayana longitude plus 90 degrees is the Chesta kendra, reduced to
+ * at most 180, and a third of it is the Chesta Bala. The Sun has no Chesta in the Pinda; this is the value Ishta and Kashta
+ * Phala need.
+ */
+function ramanSunChesta(sayanaLongitude) {
+  let kendra = normalizeDegrees(sayanaLongitude + 90);
+  if (kendra > 180) kendra = 360 - kendra;
+  return kendra / 3;
+}
+
+/**
+ * Raman's Chesta Bala for any planet, as Ishta and Kashta Phala need it: the Sun by Art.136, the Moon by Art.137 (her
+ * elongation from the Sun, reduced to at most 180, a third of it), and the five others by Art.105-107.
+ */
+function ramanChestaFor(planet, longitudes, birthJd, birthYear, ayanamsaDegrees) {
+  if (planet === 'Sun') return ramanSunChesta(longitudes.Sun + ayanamsaDegrees);
+  if (planet === 'Moon') {
+    const elongation = normalizeDegrees(longitudes.Moon - longitudes.Sun);
+    return (elongation <= 180 ? elongation : 360 - elongation) / 3;
+  }
+  return ramanChesta(planet, longitudes[planet], birthJd, birthYear).bala;
+}
+
+/**
+ * Ishta Phala (Art.138): the square root of Ochcha Bala times Chesta Bala, in Shashtiamsas. Kashta Phala (Art.139): the
+ * square root of (60 - Ochcha) times (60 - Chesta). Null where the product has no real root (a negative Chesta, which the
+ * BPHS reading can give the Sun, or an Ochcha above 60), so the caller can say so rather than print NaN.
+ */
+function ishtaPhala(ochchaBala, chestaBala) {
+  const product = ochchaBala * chestaBala;
+  return product < 0 ? null : Math.sqrt(product);
+}
+function kashtaPhala(ochchaBala, chestaBala) {
+  const product = (60 - ochchaBala) * (60 - chestaBala);
+  return product < 0 ? null : Math.sqrt(product);
+}
+
+/**
  * Raman's strength against the minimum (Example 57): the Shadbala Pinda in rupas divided by the planet's minimum. A
  * strength of 1 or more is powerful; the planets rank by it, largest first.
  */
@@ -880,6 +918,10 @@ module.exports = {
   calculateShadbala,
   ramanShadbalaPinda,
   ramanBhavaDrishti,
+  ramanSunChesta,
+  ramanChestaFor,
+  ishtaPhala,
+  kashtaPhala,
   RAMAN_MINIMUM_RUPAS,
   ramanStrengthVsMinimum,
   d1Dignity,

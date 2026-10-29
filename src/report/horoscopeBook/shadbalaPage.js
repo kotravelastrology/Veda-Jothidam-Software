@@ -3,7 +3,7 @@
  *
  * Shad Bala: the six sources of strength, each planet's parts (Sthana, Dig, Kaala and their sub-parts, Chesta,
  * Naisargika, Drik, Yuddha), the total and rupas, the minimum Pinda, the "% of required" rows and the rank, all from the BPHS
- * reading (ch.27). Not built: Ishta and Kashta Phala, and the Drik minimum (BPHS gives none).
+ * reading (ch.27). Ishta and Kashta Phala are Raman's (Art.138-139), on Raman's Chesta. Not built: the Drik minimum (BPHS gives none).
  *
  * Bhava Bala: the house lord's BPHS Shadbala total (ch.27 v.29, "the strength acquired by the lord"), the Digbala and the
  * Drigbala (Raman, Art.131-132: BPHS has no form of these), and the BPHS planets-in and day-night rules (ch.27 vv.30-31).
@@ -11,9 +11,9 @@
  *
  * Returns a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
-const { julianDay } = require('@swisseph/node');
+const { julianDay, getAyanamsa } = require('@swisseph/node');
 const {
-  calculateShadbala, computeVarshaMasaDinaHoraLords, findDayNightThird,
+  calculateShadbala, computeVarshaMasaDinaHoraLords, findDayNightThird, ramanChestaFor, ishtaPhala, kashtaPhala,
   SHADBALA_MINIMUM_VIRUPAS, SHADBALA_COMPONENT_MINIMUMS, VARSHA_MASA_DINA_HORA_VIRUPAS,
 } = require('../../chart/shadbala');
 const { ramanBhavaBala } = require('../../chart/bhavaBalaRaman');
@@ -87,6 +87,14 @@ function buildPage11({ name = '', birth }) {
     const lords = computeVarshaMasaDinaHoraLords(chart.julianDay, birth.latitude, birth.longitude, jdLocalMidnight);
     const rows = Object.fromEntries(PLANETS.map((p) => [p, planetRows(shadbala.perPlanet[p], p, lords)]));
 
+    // Ishta and Kashta Phala (Raman Art.138-139) take Raman's Chesta: the Sun's by Art.136 and the Moon's by Art.137, since
+    // the BPHS Chesta gives the Sun a negative value with no square root. Ochcha is the same in both readings.
+    const ayanamsaDegrees = getAyanamsa(chart.julianDay);
+    const phalaCell = (phala, planet) => {
+      const value = phala(shadbala.perPlanet[planet].sthana.uchchaBala,
+        ramanChestaFor(planet, longitudes, chart.julianDay, birth.year, ayanamsaDegrees));
+      return value === null ? NOT_BUILT : fixed(value);
+    };
     const line = (label, key) => [label, ...PLANETS.map((p) => fixed(rows[p][key]))];
     const refused = (label) => [label, ...PLANETS.map(() => NOT_BUILT)];
     // The total over the minimum, and the rank by it (largest first, as PL9 prints it: the strongest is 1).
@@ -125,8 +133,8 @@ function buildPage11({ name = '', birth }) {
       line('Chesta Bala % of required', 'cheshtaOfRequired'),
       refused('Drik Bala % of required'),
       ['Relative Rank', ...PLANETS.map((p) => String(rankOf[p]))],
-      refused('Ishta Phala'),
-      refused('Kashta Phala'),
+      ['Ishta Phala', ...PLANETS.map((p) => phalaCell(ishtaPhala, p))],
+      ['Kashta Phala', ...PLANETS.map((p) => phalaCell(kashtaPhala, p))],
     ];
 
     const { isDaytime } = findDayNightThird({
@@ -165,8 +173,9 @@ function buildPage11({ name = '', birth }) {
           note: 'BPHS ch.27 throughout. Minimum requirements: v.32-33 (Santhanam, p.287). Component minimums by group: v.34-36 '
             + '(p.287-288), Kaala 50 and Chesta 112 for Sun, Mercury and Jupiter; PL9 prints them the other way round. Ayana, '
             + 'Chesta, Saptavargaja and Drik differ from PL9\'s own readings, so the totals differ from its page too (Sun 214 '
-            + 'against 275, Jupiter 467 against 536, Mercury 428 against 391). Rank: Mars, Jupiter, Mercury and Sun agree with '
-            + 'PL9; Moon, Saturn and Venus are placed differently.',
+            + 'against 275, Jupiter 467 against 536, Mercury 428 against 391). Ishta and Kashta use Raman\'s Chesta for every planet, '
+            + 'because the BPHS Sun\'s Chesta (his Ayana) can be negative. Rank: Mars, Jupiter, Mercury and Sun agree with PL9; Moon, Saturn '
+            + 'and Venus are placed differently.',
         },
         {
           kind: 'table',
