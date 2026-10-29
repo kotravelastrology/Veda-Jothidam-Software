@@ -47,12 +47,36 @@ async function main() {
   sum(sthanaParts).forEach((v, i) => assert.ok(Math.abs(v - row('1. Sthana Bala')[i]) < 0.01, `${PLANETS[i]} Sthana parts sum`));
   sum(kaalaParts).forEach((v, i) => assert.ok(Math.abs(v - row('3. Kaala Bala')[i]) < 0.01, `${PLANETS[i]} Kaala parts sum`));
 
-  // Not built: the total, the rupas, the Drik minimum, the rank and the Phala rows; and the Bhava Bala table.
+  // Not built: the total, the rupas, the Drik minimum, the rank and the Phala rows.
   for (const label of ['Total Shadbala', 'Shadbala in Rupas', 'Drik Bala % of required', 'Relative Rank', 'Ishta Phala', 'Kashta Phala']) {
     const r = table.rows.find((x) => x[0] === label);
     assert.ok(r && r.slice(1).every((v) => v === NOT_BUILT), `${label} is not built`);
   }
-  assert.deepStrictEqual(page.blocks[1].rows, [[NOT_BUILT]]);
+
+  // Bhava Bala (PL9 sample, page 11): Planets in (BPHS v.30) and Day-Night (BPHS v.31) match PL9 exactly on this night birth.
+  // Digbala (Raman Art.131) is within one unit of PL9 for every house but XII (ours 20, PL9 10), whose Cancer base gives 20 by
+  // Raman's rule. Drishti and From Lord are Raman's readings and are not asserted against PL9's own.
+  const bhava = page.blocks[1];
+  const bhavaRow = (label) => {
+    const r = bhava.rows.find((x) => x[0] === label);
+    assert.ok(r, `${label} bhava row exists`);
+    return r.slice(1).map(Number);
+  };
+  assert.deepStrictEqual(bhavaRow('Planets in'), [0, 0, 0, 0, -60, 0, 0, 0, 0, -60, 0, 60]);
+  assert.deepStrictEqual(bhavaRow('Day-Night'), [0, 0, 0, 0, 15, 15, 0, 0, 15, 15, 0, 15]);
+  const pl9Dig = [30, 49, 39, 30, 9, 40, 0, 20, 49, 59, 40, 10];
+  bhavaRow('Dig Bala').forEach((v, i) => {
+    if (i === 11) return;
+    assert.ok(Math.abs(v - pl9Dig[i]) <= 1, `house ${i + 1} Digbala ${v} vs PL9 ${pl9Dig[i]}`);
+  });
+  assert.deepStrictEqual(bhavaRow('Rashi').length, 12);
+  for (const label of ['From Lord', 'Drishti', 'Bhava Bala Total']) {
+    assert.ok(bhavaRow(label).every((v) => Number.isFinite(v)), `${label} is finite`);
+  }
+  const total = bhavaRow('Bhava Bala Total');
+  const parts = ['From Lord', 'Dig Bala', 'Drishti', 'Planets in', 'Day-Night'].map(bhavaRow);
+  total.forEach((t, i) => assert.ok(Math.abs(t - (parts[0][i] + parts[1][i] + parts[2][i] + parts[3][i] + parts[4][i])) <= 1,
+    `house ${i + 1} total is the sum of its parts`));
 
   // Component "% of required" uses BPHS v.34-36's group minimums: Sun's Sthana 134.92 would read 0.82 against 165 in PL9;
   // our Sun Sthana (140.42, with our Saptavargaja) reads 0.85. Assert the arithmetic, not PL9's figure.

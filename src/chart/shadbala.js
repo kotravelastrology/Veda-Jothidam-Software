@@ -848,6 +848,26 @@ function calculateShadbala({
 }
 
 /**
+ * Bhava Drishti Bala by Raman (Graha and Bhava Balas Art.132, Example 59, pp.97-98): the bhava madhya is taken as the
+ * aspected body, and each planet's Raman drishti on it counts in full for Guru and Budha (Budha is always a benefic here,
+ * the book's note on p.99) and as a quarter for the others, with the Kuja, Guru and Sani visesha added first. Benefic
+ * aspects are positive, malefic negative. Verified against Example 59's nett aspect row (Art.132 Drig Bala of houses I-IV).
+ */
+function ramanBhavaDrishti(madhyaLongitude, longitudes, isWaxingMoon) {
+  let nett = 0;
+  for (const other of PLANETS) {
+    const dk = normalizeDegrees(madhyaLongitude - longitudes[other]);
+    let value = ramanDrishtiValue(dk);
+    const visesha = RAMAN_VISESHA[other];
+    if (visesha && ((dk >= visesha[0][0] && dk < visesha[0][1]) || (dk >= visesha[1][0] && dk < visesha[1][1]))) value += visesha[2];
+    const weight = other === 'Jupiter' || other === 'Mercury' ? 1 : 0.25;
+    const papa = other !== 'Mercury' && ramanIsMalefic(other, longitudes, isWaxingMoon);
+    nett += (papa ? -value : value) * weight;
+  }
+  return nett;
+}
+
+/**
  * Shadbala Pinda by Raman (Graha and Bhava Balas Art.121, Example 56): Sthana, Dik, Kala, Chesta and Naisargika Bala,
  * with Drik Bala added or subtracted as it is positive or negative. In Shashtiamsas; divide by 60 for rupas. Takes one
  * planet's entry from `calculateShadbala(...).perPlanet`. The BPHS reading does not total Shadbala (see shadbalaTotal).
@@ -872,6 +892,7 @@ function ramanStrengthVsMinimum(planet, pindaShashtiamsas) {
 module.exports = {
   calculateShadbala,
   ramanShadbalaPinda,
+  ramanBhavaDrishti,
   RAMAN_MINIMUM_RUPAS,
   ramanStrengthVsMinimum,
   d1Dignity,
