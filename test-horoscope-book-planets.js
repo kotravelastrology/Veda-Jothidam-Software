@@ -14,9 +14,12 @@ async function main() {
   assert.deepStrictEqual(p9.blocks.map((b) => b.kind), ['table', 'table', 'table']);
   assert.ok(!/undefined|NaN|null/.test(JSON.stringify(p9)), 'no undefined or NaN in page 9');
   const natural = p9.blocks[0];
-  assert.deepStrictEqual(natural.rows[0], ['Sun', 'Moon, Mars, Jupiter', 'Mercury', 'Venus, Saturn']);
-  assert.deepStrictEqual(natural.rows[1], ['Moon', 'Sun, Mercury', 'Mars, Jupiter, Venus, Saturn', '—']);
-  assert.ok(p9.blocks.every((b) => b.note && b.note.startsWith('Rahu and Ketu are not built')), 'the nodes are noted as not built');
+  assert.deepStrictEqual(natural.rows[0], ['Sun', 'Moon, Mars, Jupiter', 'Mercury', 'Venus, Saturn, Rahu, Ketu']);
+  assert.deepStrictEqual(natural.rows[1], ['Moon', 'Sun, Mercury', 'Mars, Jupiter, Venus, Saturn', 'Rahu, Ketu']);
+  // The nodes (BPHS ch.3 v.55): Rahu friends Jupiter, Venus, Saturn; enemies Sun, Moon, Mars; Ketu friends Mars, Venus, Saturn; enemies Sun, Moon.
+  assert.deepStrictEqual(natural.rows[7], ['Rahu', 'Jupiter, Venus, Saturn', 'Mercury, Ketu', 'Sun, Moon, Mars']);
+  assert.deepStrictEqual(natural.rows[8], ['Ketu', 'Mars, Venus, Saturn', 'Mercury, Jupiter, Rahu', 'Sun, Moon']);
+  assert.ok(p9.blocks.every((b) => b.note && b.note.startsWith('The nodes follow BPHS')), 'the note records the PL9 differences');
 
   // Page 10 signs: the Lagna, Sun and Moon columns of the sample (Janma to Shashtiamsha, top to bottom).
   const p10 = await buildPage10({ name: 'aniruddha', birth });

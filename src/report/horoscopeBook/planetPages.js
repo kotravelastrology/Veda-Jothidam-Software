@@ -29,9 +29,9 @@ const VIMSHOPAKA_SCHEMES = [
 
 /** Panchadha lists per planet for one relation rule; Rahu and Ketu are left out (not built). */
 function relationRows(relationOf) {
-  return CLASSICAL.map((planet) => {
+  return PLANETS.map((planet) => {
     const buckets = {};
-    for (const other of CLASSICAL) {
+    for (const other of PLANETS) {
       if (other === planet) continue;
       const key = relationOf(planet, other);
       (buckets[key] ??= []).push(other);
@@ -54,12 +54,12 @@ function dignityLabel(planet, sign, positions) {
  */
 function buildPage9({ name = '', birth }) {
   return withBirth(birth, ({ chart }) => {
-    const positions = Object.fromEntries(CLASSICAL.map((p) => [p, chart.grahas[p].rasiIndex]));
+    const positions = Object.fromEntries(PLANETS.map((p) => [p, chart.grahas[p].rasiIndex]));
     const natural = relationRows((p, q) => naturalRelation(p, q));
     const temporal = relationRows((p, q) => temporaryRelation(positions[p], positions[q]));
     const compound = relationRows((p, q) => compoundRelationship(p, q, positions));
     const list = (names) => (names && names.length ? names.join(', ') : '—');
-    const note = 'Rahu and Ketu are not built: the engine has no sourced natural or temporal relation for the nodes.';
+    const note = 'The nodes follow BPHS ch.3 v.55 (Santhanam, PDF p.41). PL9 differs in two pairs: it makes Saturn an enemy of Ketu (BPHS: friend) and Rahu and Ketu enemies (BPHS: silent, neutral here).';
     return {
       title: `ஜாதகம் — ${name}`.trim(),
       subtitle: `${birth.placeName} · ${birth.day}/${birth.month}/${birth.year}`,
