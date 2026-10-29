@@ -843,8 +843,18 @@ function calculateShadbala({
   });
 }
 
+/**
+ * Shadbala Pinda by Raman (Graha and Bhava Balas Art.121, Example 56): Sthana, Dik, Kala, Chesta and Naisargika Bala,
+ * with Drik Bala added or subtracted as it is positive or negative. In Shashtiamsas; divide by 60 for rupas. Takes one
+ * planet's entry from `calculateShadbala(...).perPlanet`. The BPHS reading does not total Shadbala (see shadbalaTotal).
+ */
+function ramanShadbalaPinda(entry) {
+  return entry.sthanaBala + entry.digBala + entry.kaalaBala + entry.cheshtaBala + entry.naisargikaBala + entry.drikBala;
+}
+
 module.exports = {
   calculateShadbala,
+  ramanShadbalaPinda,
   d1Dignity,
   dignityOfSign,
   DRIK_METHODS,
