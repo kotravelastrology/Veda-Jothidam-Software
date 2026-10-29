@@ -45,15 +45,18 @@ function sunDerivedUpagrahas(sunLongitude) {
 }
 
 // ── B. Gulika / Māndi ─────────────────────────────────────────────────────
-// Daytime Gulika rising nāzhikā (out of 30) after sunrise, weekday 0 = Sun.
-const GULIKA_DAY_NAZHIKA = [26, 22, 18, 14, 10, 6, 2];
-// Night table: 10 − 4·weekday, out of 30 of the night arc (Phaladīpika Ch.25 "rātrau").
-const GULIKA_NIGHT_NAZHIKA = [10, 6, 2, 26, 22, 18, 14];
+// BPHS ch.3 vv.66-69 (Girish Chand, Vol.1, printed pp.44-47 = PDF pp.55-58): the day, and then the night, are each
+// divided into eight equal portions, and the portion whose lord is Saturn is Gulika. The Dhruvanka is that portion's
+// number (1-8), taken from the weekday by the table on p.57; Gulika's ascendant is the one rising at the end of that
+// portion, counted from sunrise (day) or sunset (night). Mandi is Gulika (BPHS, notes to v.61: "Gulika is called Mandi
+// also"). Weekday 0 = Sunday .. 6 = Saturday.
+const DHRUVANKA_DAY = [7, 6, 5, 4, 3, 2, 1];
+const DHRUVANKA_NIGHT = [3, 2, 1, 7, 6, 5, 4];
 
 /**
  * @param birthJd     Julian Day (UT) of the birth instant.
- * @param jdLocalMidnightUt  JD (UT) of 00:00 on the birth's *local* date.
- * @param weekday     0 = Sunday .. 6 = Saturday, of the local birth date.
+ * @param jdLocalMidnightUt  JD (UT) of 00:00 on the Hindu day that holds the birth (see calculateUpagrahas).
+ * @param weekday     0 = Sunday .. 6 = Saturday, of that Hindu day.
  */
 function gulikaMandi(birthJd, jdLocalMidnightUt, weekday, latitude, longitude, ayanamsha = 'Lahiri') {
   const wd = ((weekday % 7) + 7) % 7;
@@ -61,25 +64,19 @@ function gulikaMandi(birthJd, jdLocalMidnightUt, weekday, latitude, longitude, a
   const sunset = sunsetJulianDay(sunrise, latitude, longitude);
   const isDay = birthJd >= sunrise && birthJd < sunset;
 
-  let gulikaStartJd;
-  let mandiJd;
+  let gulikaJd;
   if (isDay) {
-    const dayLen = sunset - sunrise;
-    const startFrac = GULIKA_DAY_NAZHIKA[wd] / 30;
-    gulikaStartJd = sunrise + startFrac * dayLen;
-    mandiJd = sunrise + (startFrac + 1 / 16) * dayLen; // + half of a 1/8 kāla
+    gulikaJd = sunrise + (DHRUVANKA_DAY[wd] * (sunset - sunrise)) / 8;
   } else {
     // Night arc = this sunset → next sunrise.
-    const nextSunrise = sunriseJulianDay(sunset, latitude, longitude);
-    const nightLen = nextSunrise - sunset;
-    const startFrac = GULIKA_NIGHT_NAZHIKA[wd] / 30;
-    gulikaStartJd = sunset + startFrac * nightLen;
-    mandiJd = sunset + (startFrac + 1 / 16) * nightLen;
+    const nightLen = sunriseJulianDay(sunset, latitude, longitude) - sunset;
+    gulikaJd = sunset + (DHRUVANKA_NIGHT[wd] * nightLen) / 8;
   }
+  const longitudeOfGulika = siderealAscendant(gulikaJd, latitude, longitude, ayanamsha);
 
   return {
-    Gulika: { longitude: siderealAscendant(gulikaStartJd, latitude, longitude, ayanamsha), parent: 'Saturn' },
-    Mandi: { longitude: siderealAscendant(mandiJd, latitude, longitude, ayanamsha), parent: 'Saturn' },
+    Gulika: { longitude: longitudeOfGulika, parent: 'Saturn' },
+    Mandi: { longitude: longitudeOfGulika, parent: 'Saturn' },
     birthPeriod: isDay ? 'day' : 'night',
   };
 }
@@ -106,8 +103,11 @@ function calculateUpagrahas(opts) {
     sunLongitude, birthJd, year, month, day, utcOffsetMinutes = 0,
     latitude, longitude, ayanamsha = 'Lahiri',
   } = opts;
-  const jdLocalMidnightUt = julianDay(year, month, day, -utcOffsetMinutes / 60);
-  const weekday = new Date(Date.UTC(year, month - 1, day)).getUTCDay(); // 0 = Sunday, local date
+  // A birth before the civil day's sunrise belongs to the previous Hindu day, so its weekday and night are that day's.
+  const civilSunrise = sunriseJulianDay(julianDay(year, month, day, -utcOffsetMinutes / 60), latitude, longitude);
+  const hinduDay = new Date(Date.UTC(year, month - 1, birthJd < civilSunrise ? day - 1 : day));
+  const jdLocalMidnightUt = julianDay(hinduDay.getUTCFullYear(), hinduDay.getUTCMonth() + 1, hinduDay.getUTCDate(), -utcOffsetMinutes / 60);
+  const weekday = hinduDay.getUTCDay(); // 0 = Sunday, of the Hindu day
   const a = sunDerivedUpagrahas(sunLongitude);
   const b = gulikaMandi(birthJd, jdLocalMidnightUt, weekday, latitude, longitude, ayanamsha);
   const out = {};

@@ -22,15 +22,14 @@ async function main() {
   assert.deepStrictEqual(moon.cells[PIS], ['Mo']);
   assert.deepStrictEqual(moon.cells[TAU], ['Ma']);
   assert.ok(moon.cells[CAN].includes('Ju') && moon.cells[CAN].includes('Ke'), 'Ju and Ke in Cancer');
-  assert.deepStrictEqual(moon.cells[LEO], ['As']);
   assert.deepStrictEqual(moon.cells[VIR], ['Su', 'Me', 'Ve']);
   assert.deepStrictEqual(moon.cells[CAP], ['Ra']);
   assert.deepStrictEqual(moon.cells[SAG], ['Sa']);
-  // Gulika: the engine gives Cancer 8:11 (the Moon chart's Gk), the sample Leo 3:02. Pinned as built.
-  assert.ok(moon.cells[CAN].includes('Gk'));
+  // Gulika (BPHS): Leo, as the sample prints.
+  assert.deepStrictEqual(moon.cells[LEO], ['As', 'Gk']);
 
   // Navamsha: the same placements as page 2 (the sample's navamsha grid matches, except Gulika).
-  assert.deepStrictEqual(nav.cells[ARI], ['Ve', 'Ra']);
+  assert.deepStrictEqual(nav.cells[ARI], ['Ve', 'Ra', 'Gk']);
   assert.deepStrictEqual(nav.cells[GEM], ['Su', 'Ma']);
   assert.deepStrictEqual(nav.cells[AQU], ['Mo', 'Me']);
   assert.deepStrictEqual(nav.cells[SCO], ['Ju', 'Sa', 'As']);
@@ -42,7 +41,7 @@ async function main() {
   assert.deepStrictEqual(bhava.cells[PIS], ['Mo']);
   assert.deepStrictEqual(bhava.cells[TAU], ['Ma']);
   assert.ok(bhava.cells[GEM].includes('Ke'), 'Ke in Gemini');
-  assert.deepStrictEqual(bhava.cells[CAN], ['Ju']);
+  assert.deepStrictEqual(bhava.cells[CAN], ['Ju', 'Gk']);
   assert.deepStrictEqual(bhava.cells[LEO].sort(), ['As', 'Me']);
   assert.deepStrictEqual(bhava.cells[VIR], ['Su', 'Ve']);
   assert.deepStrictEqual(bhava.cells[SAG], ['Sa', 'Ra']);
@@ -61,7 +60,7 @@ async function main() {
     'Hora (wealth) — D2', 'Chaturthamsha (destiny) — D4', 'Navamsha (spouse) — D9', 'Dwadashamsha (parents) — D12',
   ]);
   const [lagnaD1, dreshkana, , , hora, , navD9, dwadashamsha] = p5.blocks;
-  assert.deepStrictEqual(lagnaD1.cells[LEO], ['As']);
+  assert.deepStrictEqual(lagnaD1.cells[LEO], ['As', 'Gk']);
   // Dreshkana: the sample has As in Aries and Ra in Taurus.
   assert.deepStrictEqual(dreshkana.cells[ARI], ['As']);
   assert.deepStrictEqual(dreshkana.cells[TAU], ['Ra']);
@@ -79,7 +78,7 @@ async function main() {
   ]);
   // Shodashamsha: the sample has As Ra Ke Su in Virgo, Ve in Taurus, Ma in Gemini.
   const shodashamsha = p6.blocks[0];
-  assert.deepStrictEqual(shodashamsha.cells[VIR].sort(), ['As', 'Ke', 'Ra', 'Su']);
+  assert.deepStrictEqual(shodashamsha.cells[VIR].sort(), ['As', 'Gk', 'Ke', 'Ra', 'Su']);
   assert.deepStrictEqual(shodashamsha.cells[TAU], ['Ve']);
   assert.deepStrictEqual(shodashamsha.cells[GEM], ['Ma']);
 

@@ -42,10 +42,8 @@ assert.equal(u.upagrahas.Dhuma.parent, 'Mars');
 // Dhuma sits exactly Sun + 133°20′ regardless of path.
 assert.ok(Math.abs(u.upagrahas.Dhuma.longitude - norm360(chart.grahas.Sun.longitude + 133 + 20 / 60)) < 1e-6);
 
-// Māndi lags Gulika (its instant is Gulika-start + 1/16 of the day) so its
-// longitude is further along the zodiac than Gulika's (same day arc).
-const gap = norm360(u.upagrahas.Mandi.longitude - u.upagrahas.Gulika.longitude);
-assert.ok(gap > 0 && gap < 40, `Mandi just after Gulika (gap ${gap.toFixed(2)}°)`);
+// BPHS ch.3 (Girish Chand Vol.1 p.60 notes): "Gulika is called Mandi also", so Mandi is Gulika.
+assert.equal(u.upagrahas.Mandi.longitude, u.upagrahas.Gulika.longitude);
 
 console.log(JSON.stringify({
   pass: true, birthPeriod: u.birthPeriod,

@@ -49,7 +49,7 @@ async function main() {
 
   // Birth Chart grid (sign-fixed, index 0 = Aries). Ascendant in Leo; planets in their Rasi signs.
   const [rasi, moon, nav] = doc.blocks;
-  assert.deepStrictEqual(rasi.cells[4], ['As 25:03']);
+  assert.deepStrictEqual(rasi.cells[4], ['As 25:03', 'Gk 02:36']);
   assert.deepStrictEqual(rasi.cells[5], ['Su 17:43', 'Me 04:55', 'Ve 10:34']);
   assert.deepStrictEqual(rasi.cells[1], ['Ma 19:05']);
   assert.deepStrictEqual(rasi.cells[11], ['Mo 23:56']);
@@ -57,19 +57,19 @@ async function main() {
   assert.deepStrictEqual(rasi.cells[9], ['Ra 10:03']);
   // Sample: Ju 15:11 and Ke 10:03 share the Cancer cell.
   assert.ok(rasi.cells[3].includes('Ju 15:11') && rasi.cells[3].includes('Ke 10:03'));
-  // Gulika: the engine gives Cancer 8:11 (night birth); the sample prints Gk 03:02 in Leo. Pinned as built.
-  assert.ok(rasi.cells[3].includes('Gk 08:11'));
+  // Gulika (BPHS ch.3, Thursday night, 6/8 of the night): Leo 2°36′. The sample prints Gk 03:02 in Leo, about two minutes apart.
+  assert.ok(rasi.cells[4].includes('Gk 02:36'));
   // The Moon chart in a sign-fixed grid is the same placement, as in the sample.
   assert.deepStrictEqual(moon.cells, rasi.cells);
 
   // Navamsha: planets by D9 sign. Sample: Ve, Ra in Aries; Su, Ma in Gemini; Mo, Me in Aquarius; As, Sa, Ju in Scorpio; Ke in Libra.
-  assert.deepStrictEqual(nav.cells[0], ['Ve', 'Ra']);
+  assert.deepStrictEqual(nav.cells[0], ['Ve', 'Ra', 'Gk']);
   assert.deepStrictEqual(nav.cells[2], ['Su', 'Ma']);
   assert.deepStrictEqual(nav.cells[10], ['Mo', 'Me']);
   assert.deepStrictEqual(nav.cells[7], ['Ju', 'Sa', 'As']);
   assert.deepStrictEqual(nav.cells[6], ['Ke']);
-  // Gulika's navamsha sign differs from the sample (Aries); ours is Virgo, following the engine's Gulika.
-  assert.ok(nav.cells[5].includes('Gk'));
+  // Gulika's navamsha sign is Aries, as the sample prints.
+  assert.ok(nav.cells[0].includes('Gk'));
 
   console.log('test-horoscope-book-page2: all assertions passed');
 }
