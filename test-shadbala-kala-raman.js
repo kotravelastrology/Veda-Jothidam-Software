@@ -1,5 +1,7 @@
 const assert = require('assert');
-const { calculateShadbala, ramanKranti, ayanaBalaRaman, equationOfTimeDays } = require('./src/chart/shadbala');
+const {
+  calculateShadbala, ramanKranti, ayanaBalaRaman, ramanAyanaFromKranti, equationOfTimeDays, kranti,
+} = require('./src/chart/shadbala');
 const { withEphemeris } = require('./src/ephemeris/isolation');
 const swe = require('./node_modules/@swisseph/node');
 
@@ -74,6 +76,25 @@ await withEphemeris({ ayanamsha: 'Lahiri' }, () => {
   assert.ok(Math.abs(r.perPlanet.Sun.kaalaBala - 102.98) < 0.1, 'Ravi total 102.98');
   assert.ok(Math.abs(r.perPlanet.Mercury.kaalaBala - 192.79) < 0.1, 'Budha total 192.79');
   assert.ok(Math.abs(r.perPlanet.Moon.kaalaBala - 202.04) < 0.1, 'Chandra total 202.04');
+
+  // The residual is in Raman's Kranti, not in the Ayana formula: with the Kranti he prints (Example 33, decimal), the
+  // formula gives his printed Ayana for every planet to 0.1 Virupa. Kuja is the 0.10: 22.45 gives 1.94, he prints 1.84.
+  const printedKranti = {
+    Sun: -8.75, Moon: -10.75, Mars: -22.45, Mercury: -9.0, Jupiter: 23.5, Venus: -4.96, Saturn: 13.03,
+  };
+  const printedAyana = {
+    Sun: 38.12, Moon: 43.44, Mars: 1.84, Mercury: 41.25, Jupiter: 59.4, Venus: 23.75, Saturn: 13.75,
+  };
+  for (const [planet, deg] of Object.entries(printedKranti)) {
+    const got = ramanAyanaFromKranti(planet, deg);
+    assert.ok(Math.abs(got - printedAyana[planet]) < 0.1, `${planet} Ayana from printed Kranti ${got.toFixed(3)} vs ${printedAyana[planet]}`);
+  }
+
+  // Raman's Kranti (Art.73) is set by the ecliptic longitude alone, so it ignores the planet's latitude. For the Moon that
+  // is wide of the true declination (about 5 degrees at this birth): the documented model difference, not a bug.
+  const sayanaMoon = longitudes.Moon + 21 + 16 / 60;
+  const trueMoon = kranti('Moon', birthJd);
+  assert.ok(Math.abs(ramanKranti(sayanaMoon) - trueMoon) > 4, 'Raman\'s Moon Kranti departs from the true declination');
 });
 
 // The method guard: an unknown Kala reading is refused, not silently treated as BPHS.

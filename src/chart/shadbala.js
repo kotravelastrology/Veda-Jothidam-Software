@@ -434,7 +434,11 @@ function ramanKranti(sayanaLongitude) {
  */
 const RAMAN_AYANA_SOUTH_ADDITIVE = new Set(['Moon', 'Saturn']);
 function ayanaBalaRaman(planet, sayanaLongitude) {
-  const kranti = ramanKranti(sayanaLongitude);
+  return ramanAyanaFromKranti(planet, ramanKranti(sayanaLongitude));
+}
+
+/** Raman's Ayana Bala from a Kranti in degrees (north positive): the formula of Art.75 without the table. */
+function ramanAyanaFromKranti(planet, kranti) {
   let term;
   if (planet === 'Mercury') term = 24 + Math.abs(kranti);
   else if (RAMAN_AYANA_SOUTH_ADDITIVE.has(planet)) term = 24 - kranti;
@@ -879,6 +883,7 @@ module.exports = {
   pakshaBalaRaman,
   ramanKranti,
   ayanaBalaRaman,
+  ramanAyanaFromKranti,
   equationOfTimeDays,
   ramanChestaInterval,
   ramanChesta,
