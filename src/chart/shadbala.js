@@ -103,6 +103,37 @@ function saptavargajaBala(planet, rasiIndex, degreeInSign, rasiPositions) {
   return total;
 }
 
+/** Raman's Saptavargaja points (Graha and Bhava Balas ch.3 v.30, PDF p.22-23): moolatrikona 45 (Rasi only), own 30, adhi-mitra 22.5, mitra 15, sama 7.5, satru 3.75, adhi-satru 1.875. */
+const RAMAN_SAPTAVARGAJA_POINTS = Object.freeze({ own: 30, greatFriend: 22.5, friend: 15, neutral: 7.5, enemy: 3.75, greatEnemy: 1.875 });
+
+/**
+ * Saptavargaja Bala by Raman (Graha and Bhava Balas, ch.3 vv.30, Example 9): the seven vargas (Rasi, Hora, Drekkana,
+ * Saptamsa, Navamsa, Dvadasamsa, Trimsamsa), each scored by the planet's relation to the varga's lord. Moolatrikona
+ * counts 45 in the Rasi only; in another varga the moolatrikona sign counts as own.
+ */
+function saptavargajaBalaRaman(planet, rasiIndex, degreeInSign, rasiPositions) {
+  const mt = MOOLATRIKONA[planet];
+  const score = (sign, lord, isRasi) => {
+    if (mt && sign === mt.sign) return isRasi ? 45 : RAMAN_SAPTAVARGAJA_POINTS.own;
+    if (lord === planet || OWN_SIGNS[planet].includes(sign)) return RAMAN_SAPTAVARGAJA_POINTS.own;
+    return RAMAN_SAPTAVARGAJA_POINTS[compoundRelationship(planet, lord, rasiPositions)];
+  };
+  let total = score(rasiIndex, RASI_LORD[rasiIndex], true);
+  const horaLord = calculateHora(rasiIndex, degreeInSign);
+  total += lord(horaLord, planet);
+  const sign = (key) => equalDivisionVarga(EQUAL_DIVISION_VARGAS[key], rasiIndex, degreeInSign);
+  for (const key of ['D3', 'D7', 'D9', 'D12']) {
+    const s = sign(key);
+    total += score(s, RASI_LORD[s], false);
+  }
+  const trimsamsa = calculateTrimsamsa(rasiIndex, degreeInSign);
+  total += score(trimsamsa, RASI_LORD[trimsamsa], false);
+  return total;
+  function lord(horaPlanet, self) {
+    return horaPlanet === self ? RAMAN_SAPTAVARGAJA_POINTS.own : RAMAN_SAPTAVARGAJA_POINTS[compoundRelationship(self, horaPlanet, rasiPositions)];
+  }
+}
+
 /** Natural malefics for Drig Bala's benefic/malefic classification (v.19). Mercury/Jupiter are handled separately (see below), and the Moon's nature is Paksha-dependent, not fixed. */
 const NATURAL_MALEFICS = new Set(['Sun', 'Mars', 'Saturn']);
 /** v.19: "Super add the entire aspect of Mercury and Jupiter" -- their aspects count in full, not reduced to a quarter like other benefics. */
@@ -250,6 +281,16 @@ function drekkanaBala(planet, degreeInSign) {
   const decanateIndex = Math.min(2, Math.floor(degreeInSign / 10));
   const requiredDecanate = MALE_PLANETS.has(planet) ? 0 : FEMALE_PLANETS.has(planet) ? 1 : 2;
   return decanateIndex === requiredDecanate ? 15 : 0;
+}
+
+/**
+ * Drekkana Bala by Raman (Graha and Bhava Balas Example 12, PDF p.33; the table gives each planet's sex and the decanate
+ * that scores): male planets in the 1st decanate, neuter (Budha, Sani) in the 2nd, female (Chandra, Sukra) in the 3rd.
+ * Rule derived from that table, which is the only place Raman states it.
+ */
+const RAMAN_DREKKANA_INDEX = Object.freeze({ Sun: 0, Mars: 0, Jupiter: 0, Mercury: 1, Saturn: 1, Moon: 2, Venus: 2 });
+function drekkanaBalaRaman(planet, degreeInSign) {
+  return Math.min(2, Math.floor(degreeInSign / 10)) === RAMAN_DREKKANA_INDEX[planet] ? 15 : 0;
 }
 
 const DIG_BALA_ZERO_POINT = {
@@ -580,10 +621,11 @@ const SHADBALA_COMPONENT_MINIMUMS = {
  */
 function calculateShadbala({
   longitudes, lagnaRasiIndex, ascendant, mc,
-  birthJd, latitude, longitude, year, month, day, utcOffsetMinutes, drikMethod = 'bphs',
+  birthJd, latitude, longitude, year, month, day, utcOffsetMinutes, drikMethod = 'bphs', sthanaMethod = 'bphs',
 }) {
   const drikOf = DRIK_METHODS[drikMethod];
   if (!drikOf) throw new Error(`unknown drik method ${drikMethod}`);
+  if (sthanaMethod !== 'bphs' && sthanaMethod !== 'raman') throw new Error(`unknown sthana method ${sthanaMethod}`);
   const jdLocalMidnight = julianDay(year, month, day, -utcOffsetMinutes / 60);
   const { isDaytime, thirdIndex } = findDayNightThird({
     birthJd, latitude, longitude, jdLocalMidnight,
@@ -604,8 +646,10 @@ function calculateShadbala({
       uchchaBala: uchchaBala(planet, planetLongitude),
       ojhayugmarasyamsaBala: ojhayugmarasyamsaBala(planet, rasiIndex, navamsaIndex),
       kendradiBala: kendradiBala(rasiIndex, lagnaRasiIndex),
-      drekkanaBala: drekkanaBala(planet, degreeInSign),
-      saptavargajaBala: saptavargajaBala(planet, rasiIndex, degreeInSign, rasiPositions),
+      drekkanaBala: sthanaMethod === 'raman' ? drekkanaBalaRaman(planet, degreeInSign) : drekkanaBala(planet, degreeInSign),
+      saptavargajaBala: sthanaMethod === 'raman'
+        ? saptavargajaBalaRaman(planet, rasiIndex, degreeInSign, rasiPositions)
+        : saptavargajaBala(planet, rasiIndex, degreeInSign, rasiPositions),
     };
     const sthanaBala = sthana.uchchaBala + sthana.ojhayugmarasyamsaBala
       + sthana.kendradiBala + sthana.drekkanaBala + sthana.saptavargajaBala;
@@ -680,6 +724,8 @@ module.exports = {
   dignityOfSign,
   DRIK_METHODS,
   drikBalaRaman,
+  saptavargajaBalaRaman,
+  drekkanaBalaRaman,
   uchchaBala,
   ojhayugmarasyamsaBala,
   kendradiBala,
