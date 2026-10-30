@@ -12,9 +12,11 @@ const GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 
 async function main() {
   const page = await buildPage12({ name: 'aniruddha', birth });
   assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), 'no undefined, NaN or null on page 12');
-  assert.deepStrictEqual(page.blocks.map((b) => b.heading), ['Aspects on Planets', 'Aspects on Bhavas']);
+  assert.deepStrictEqual(page.blocks.map((b) => b.heading), [
+    'Aspects on Planets', 'Aspects on Bhavas (equal houses)', 'Aspects on Bhavas (Sripati)',
+  ]);
 
-  const [planets, bhavas] = page.blocks;
+  const [planets, bhavas, sripati] = page.blocks;
   assert.deepStrictEqual(planets.columns, ['', 'Degree', ...GRAHAS]);
   assert.strictEqual(planets.rows.length, 9);
   assert.strictEqual(bhavas.rows.length, 12);
@@ -63,6 +65,15 @@ async function main() {
   assert.strictEqual(cell(bhavas, 'XII', 'Mars'), '23');
   // Pinned: the seventh bhava point lies within 0.1 degree of Saturn's 60-degree boundary; PL9 gives 59, ours 14.
   assert.strictEqual(cell(bhavas, 'VII', 'Saturn'), '14', 'PL9 prints 59 here (boundary case)');
+
+  // Aspects on bhavas, Sripati bhava madhyas (page 3's convention). Not in PL9; these are regression pins of the same rules.
+  assert.strictEqual(sripati.rows.length, 12);
+  assert.deepStrictEqual(sripati.rows[0].slice(1), bhavas.rows[0].slice(1), 'house I is the Ascendant in both readings');
+  assert.strictEqual(cell(sripati, 'II', 'Mars'), '23');
+  assert.strictEqual(cell(sripati, 'IV', 'Mars'), '60');
+  assert.strictEqual(cell(sripati, 'V', 'Saturn'), '-');
+  assert.strictEqual(cell(sripati, 'VII', 'Saturn'), '14');
+  assert.notStrictEqual(sripati.rows[1][1], bhavas.rows[1][1], 'house II differs: Sripati is not thirty degrees on');
 
   console.log('test-horoscope-book-aspect-page: all assertions passed');
 }
