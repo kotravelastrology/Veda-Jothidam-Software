@@ -1,0 +1,454 @@
+{
+  "purpose": "Transcription record for gem selection. Read from rendered page images on 2026-10-02. This is a second, independent entry of the data in src/report/gemstoneTables.js; test-gemstones.js asserts the two agree.",
+  "format": "Tilak Raj entries are 'VERDICT|houses the book says the planet rules|flags'. Flags: dasha = tied to the planet's major period; own / exalted = if in its own sign / exalted; at=1,2,4 = if the planet stands in those houses; with=Mars+Moon = worn together with those planets' gems; eye = if eye trouble; extreme = only in extreme need; duhsthana = book says 'lord of Duhsthana' without a number; slip = printed with the wrong gem's name.",
+  "planetGems": {
+    "source": "Kapoor printed p.12 (PDF 9): the Jataka Parijata verse with an English rendering naming all nine gems; repeated on p.76 (PDF 72), where the English rendering omits Saturn",
+    "Sun": "Ruby",
+    "Moon": "Pearl",
+    "Mars": "Red coral",
+    "Mercury": "Emerald",
+    "Jupiter": "Yellow sapphire (Tilak Raj: Topaz)",
+    "Venus": "Diamond",
+    "Saturn": "Blue sapphire (Tilak Raj: Sapphire)",
+    "Rahu": "Hessonite (gomed)",
+    "Ketu": "Cat's eye"
+  },
+  "tamilNames": {
+    "source": "Jathaka Alangaram (Saraswati Mahal 2007) commentary, OCR text only, page not verified",
+    "order": [
+      "மாணிக்கம்",
+      "முத்து",
+      "பவழம்",
+      "மரகதம்",
+      "புஷ்பராகம்",
+      "வைரம்",
+      "நீலம்",
+      "கோமேதகம்",
+      "வைடூரியம்"
+    ]
+  },
+  "kapoorRulingStone": {
+    "page": "printed p.77 (PDF 73)",
+    "rows": [
+      "Aries|Mars|Red coral",
+      "Taurus|Venus|Diamond",
+      "Gemini|Mercury|Emerald",
+      "Cancer|Moon|White pearl",
+      "Leo|Sun|Ruby",
+      "Virgo|Mercury|Emerald",
+      "Libra|Venus|Diamond",
+      "Scorpio|Mars|Red coral",
+      "Sagittarius|Jupiter|Yellow sapphire",
+      "Capricorn|Saturn|Blue sapphire",
+      "Aquarius|Saturn|Blue sapphire",
+      "Pisces|Jupiter|Yellow sapphire"
+    ]
+  },
+  "kapoorRule": "Never strengthen the lords of the 6th, 8th and 12th; their gems only in exceptional circumstances (printed p.78). The Ascendant lord's gem may be worn in the period of any planet (printed p.77).",
+  "rajKumar": {
+    "page": "PDF pages 123-124",
+    "rows": [
+      "Aries|Ruby, Red coral, Pearl, Yellow sapphire|Emerald, Diamond",
+      "Taurus|Blue sapphire, Diamond, Emerald, Ruby|Pearl, Coral, Yellow sapphire",
+      "Gemini|Diamond, Emerald|Coral, Yellow sapphire",
+      "Cancer|Ruby, Red coral, Pearl|",
+      "Leo|Ruby, Coral|Diamond, Blue sapphire",
+      "Virgo|Emerald, Diamond|Ruby, Coral, Yellow sapphire",
+      "Libra|Diamond, Blue sapphire, Emerald|Ruby, Coral, Yellow sapphire",
+      "Scorpio|Ruby, Coral, Pearl|Diamond, Emerald",
+      "Sagittarius|Ruby, Coral, Yellow sapphire|Diamond, Pearl, Blue sapphire",
+      "Capricorn|Blue sapphire, Diamond, Emerald|Ruby, Yellow sapphire",
+      "Aquarius|Blue sapphire, Diamond|Ruby, Pearl, Coral",
+      "Pisces|Pearl, Yellow sapphire, Coral|Emerald, Diamond, Blue sapphire"
+    ],
+    "tableNotes": [
+      "Cancer's malefic column is blank in print",
+      "Libra's malefic column reads 'Do' (ditto), read as the row above (Virgo)",
+      "Sagittarius is split across two pages"
+    ],
+    "rules": [
+      "PDF 122: wear a planet's gem in its dasha/antardasha only (the Indian astrologers' view)",
+      "PDF 123: later practice - lords of 1, 5, 9 or exalted/yogakaraka planets from Ascendant or Moon sign (whichever is stronger); not 6, 7, 8, 12 lords or debilitated/combust planets",
+      "PDF 124 section 4.8: favourable are lords of 1, 4, 5, 9, 10; never the gem of a functional malefic"
+    ]
+  },
+  "tilakRaj": {
+    "page": "printed pp.25-32 (PDF 29-36); pp.25-32 all viewed as images",
+    "Aries": {
+      "Sun": "FAV|5|dasha",
+      "Moon": "FAV|4|with=Mars",
+      "Mars": "JEEVANA|1",
+      "Mercury": "CONSIDER|3,6",
+      "Jupiter": "FAV|9,12|with=Mars|dasha",
+      "Venus": "AVOID|2,7|dasha|own|exalted",
+      "Saturn": "AVOID|10,11|dasha|at=1,2,4,5,9,10,11"
+    },
+    "Taurus": {
+      "Sun": "AVOID|4|dasha",
+      "Moon": "NOT_WORN|3",
+      "Mars": "NOT_WORN|7,12",
+      "Mercury": "MUST|2,5|dasha|with=Venus",
+      "Jupiter": "AVOID|8,11|dasha|at=1,2,4,5,9",
+      "Venus": "JEEVANA|1",
+      "Saturn": "FAV|9,10|with=Venus"
+    },
+    "Gemini": {
+      "Sun": "NOT_WORN|3",
+      "Moon": "AVOID|2|dasha|at=9,10,11|own",
+      "Mars": "NEVER|6,11",
+      "Mercury": "JEEVANA|1,4",
+      "Jupiter": "NEVER|7,10",
+      "Venus": "FAV|5,12|dasha",
+      "Saturn": "FAV|8,9|dasha|with=Mercury"
+    },
+    "Cancer": {
+      "Sun": "AVOID|2|eye",
+      "Moon": "JEEVANA|1",
+      "Mars": "MUST|5,10|dasha|with=Moon",
+      "Mercury": "NOT_WORN|3,12",
+      "Jupiter": "FAV|6,9|with=Moon",
+      "Venus": "UNFAV|4,11",
+      "Saturn": "NEVER|7,8"
+    },
+    "Leo": {
+      "Sun": "JEEVANA|1",
+      "Moon": "AVOID|12|dasha|own",
+      "Mars": "FAV|4,9|with=Sun",
+      "Mercury": "UNFAV|2,11|dasha",
+      "Jupiter": "FAV|5,8|with=Sun|dasha",
+      "Venus": "AVOID|3,10|dasha",
+      "Saturn": "NOT_WORN|6,7"
+    },
+    "Virgo": {
+      "Sun": "NEVER|12",
+      "Moon": "AVOID|11|dasha",
+      "Mars": "AVOID|3,8",
+      "Mercury": "JEEVANA|1,10|dasha",
+      "Jupiter": "AVOID|4,7|dasha",
+      "Venus": "FAV|2,9|with=Mercury",
+      "Saturn": "FAV|5,6|dasha"
+    },
+    "Libra": {
+      "Sun": "AVOID|11|dasha",
+      "Moon": "MIXED|10|dasha",
+      "Mars": "NEVER|2,7",
+      "Mercury": "FAV|9,12|with=Venus",
+      "Jupiter": "NOT_WORN|3,6",
+      "Venus": "JEEVANA|1,8",
+      "Saturn": "FAV|4,5|with=Venus+Mercury"
+    },
+    "Scorpio": {
+      "Sun": "FAV|10|dasha",
+      "Moon": "FAV|9|with=Mars",
+      "Mars": "JEEVANA|1,6",
+      "Mercury": "AVOID|8,11|dasha|at=1,2,4,5,9,11",
+      "Jupiter": "FAV|2,5",
+      "Venus": "NOT_WORN|12,7",
+      "Saturn": "AVOID|3,4|dasha|at=5,9,10,11"
+    },
+    "Sagittarius": {
+      "Sun": "FAV|9|dasha",
+      "Moon": "NOT_WORN||duhsthana",
+      "Mars": "FAV|5,12",
+      "Mercury": "AVOID|7,10|dasha|at=1,2,5,9,10,11",
+      "Jupiter": "JEEVANA|1,4|with=Sun|dasha|slip",
+      "Venus": "AVOID|6,11|dasha|at=1,2,4,5,9,11|extreme",
+      "Saturn": "NOT_WORN|2,3"
+    },
+    "Capricorn": {
+      "Sun": "NOT_WORN|8",
+      "Moon": "NEVER|7",
+      "Mars": "AVOID|4,11|dasha|extreme",
+      "Mercury": "FAV|6,9|with=Saturn|dasha",
+      "Jupiter": "UNFAV|3,12",
+      "Venus": "FAV|5,10|with=Saturn|dasha",
+      "Saturn": "FAV|1,2"
+    },
+    "Aquarius": {
+      "Sun": "NOT_WORN|7",
+      "Moon": "NOT_WORN|6",
+      "Mars": "AVOID|3,10|at=10|own",
+      "Mercury": "FAV|5,8|with=Venus+Saturn",
+      "Jupiter": "NOT_WORN|2,11",
+      "Venus": "FAV|4,9|with=Saturn",
+      "Saturn": "JEEVANA|1"
+    },
+    "Pisces": {
+      "Sun": "AVOID|6|dasha|at=6|own",
+      "Moon": "FAV|5|dasha|with=Jupiter",
+      "Mars": "FAV|2,9|with=Jupiter+Moon",
+      "Mercury": "AVOID|4,7",
+      "Jupiter": "JEEVANA|1,10|with=Moon+Mars",
+      "Venus": "NOT_WORN|3,7",
+      "Saturn": "AVOID|11,12|dasha|at=1,2,4,5,9,11"
+    }
+  },
+  "knownBookErrors": [
+    "Pisces, Venus: the book says lord of the 3rd and 7th; Venus rules the 3rd and 8th from Pisces (printed p.32).",
+    "Sagittarius, Topaz: the entry says 'Emerald is a Jeevana Ratna'; Jupiter's gem is the topaz/yellow sapphire (printed p.30)."
+  ],
+  "tilakRajOmitsLordship": [
+    "Aries, Mars: the 8th",
+    "Taurus, Venus: the 6th",
+    "Sagittarius, Moon: calls it 'lord of Duhsthana' without a number",
+    "Aquarius, Saturn: the 12th (mentions it as not harming)"
+  ],
+  "nodes": {
+    "gomed": {
+      "favourableLagnas": [
+        "Gemini",
+        "Virgo",
+        "Taurus",
+        "Libra",
+        "Capricorn",
+        "Aquarius"
+      ],
+      "notLagnas": [
+        "Aries",
+        "Scorpio",
+        "Cancer",
+        "Leo"
+      ],
+      "notUnlessEssential": [
+        "Sagittarius",
+        "Pisces"
+      ],
+      "page": "printed p.32"
+    },
+    "catsEye": {
+      "favourableKetuHouses": [
+        2,
+        3,
+        4,
+        5,
+        9,
+        10
+      ],
+      "onlyIf": "Ketu malefic, weak or combust",
+      "page": "printed p.33"
+    }
+  },
+  "tilakRajMainPoints": "printed p.33: a gem that does not suit the sign should not be worn; a friendly gem of the Ascendant lord may be; consider rise and combustion; gems of combust planets enhance their power; analyse major and sub periods, aspects, exaltation and debilitation; only on the finger concerned; a man's gem on the left-hand finger benefits his wife, a woman's on the right-hand finger benefits her husband; only the best piece.",
+  "bookRank": {
+    "instruction": "Owner 2026-10-03: show the book with the most explanation first, then the others in order.",
+    "measure": "words of two or more letters in the PDF text layer of each book's gem-selection section",
+    "counts": {
+      "kapoor": 8410,
+      "tilakRaj": 4713,
+      "rajKumar": 3496
+    },
+    "ranges": {
+      "kapoor": "PDF 72-95",
+      "tilakRaj": "PDF 24-37",
+      "rajKumar": "PDF 123-143"
+    },
+    "wholeChapter": {
+      "kapoor": 11807,
+      "rajKumar": 11189,
+      "tilakRaj": 4713
+    }
+  },
+  "kapoor": {
+    "page": "printed pp.78-99 (PDF 74-95); every page viewed as an image on 2026-10-03",
+    "format": "'VERDICT|houses the book says the planet rules|printed page|flags'. Flags: dasha = good 'more pronounced' in the major period; charm = 'protective charm'; must=DASHA|AFFLICTED; with=A+B = wear together with those planets' gems; also=A = another pairing he allows; case=HOUSES:QUAL:V = a placement that changes the verdict, HOUSES '-' for any house, QUAL one of own / exalted / with-PLANET / withany-A+B or empty; slip=CODE = printed error.",
+    "byGem": {
+      "Sun": [
+        "LIFELONG|5|79|dasha",
+        "DASHA|4|79",
+        "NOT_ADVISED|3|79|case=3:own:PERMIT",
+        "IF_NEED|2|79|dasha|with=Moon",
+        "LIFELONG|1|79|charm|must=AFFLICTED",
+        "NEVER|12|80|case=12:own:PERMIT",
+        "DASHA|11|80",
+        "FAV|10|80|dasha",
+        "FAV|9|80|dasha|with=Jupiter|slip=SAG_LORD_MARS",
+        "NOT_ADVISED|8|80|case=8:own:PERMIT",
+        "NOT_ADVISED|7|80",
+        "ONLY_THESE|6|81|case=6:own:PERMIT"
+      ],
+      "Moon": [
+        "FAV|4|81|dasha|with=Mars",
+        "NOT_ADVISED|3|81|case=3:own:PERMIT",
+        "AVOID|2|81|case=12:exalted:PERMIT|case=11,9::PERMIT",
+        "LIFELONG|1|82|charm",
+        "NOT_ADVISED|12|82|case=12:own:PERMIT",
+        "DASHA|11|82",
+        "FAV|10|82|dasha",
+        "FAV|9|82|dasha|with=Mars",
+        "NOT_ADVISED|8|82|case=8:own:PERMIT|with=Jupiter",
+        "NOT_ADVISED|7|83",
+        "ONLY_THESE|6|83|case=6:own:PERMIT",
+        "FAV|5|83|dasha"
+      ],
+      "Mars": [
+        "LIFELONG|1,8|83",
+        "AVOID|7,12|84",
+        "AVOID|6,11|84|case=6,11:own:PERMIT",
+        "LIFELONG|5,10|84|dasha|with=Moon",
+        "FAV|4,9|84|dasha|with=Sun",
+        "AVOID|3,8|84",
+        "AVOID|2,7|84|case=2,7:own:PERMIT",
+        "LIFELONG|1,6|85",
+        "FAV|5,12|85|dasha|with=Jupiter",
+        "DASHA|4,11|85",
+        "NOT_ADVISED|3,10|85|case=10:own:DASHA|case=3:own:PERMIT",
+        "FAV|2,9|85|dasha|with=Jupiter"
+      ],
+      "Mercury": [
+        "NOT_ADVISED|3,6|86|case=3,6:own:PERMIT",
+        "FAV|2,5|87|dasha|with=Venus",
+        "LIFELONG|1,4|87|charm|dasha",
+        "NOT_ADVISED|3,12|87|case=3,12:own:PERMIT",
+        "DASHA|2,11|87",
+        "LIFELONG|1,10|87|dasha",
+        "FAV|9,12|88|dasha|with=Venus",
+        "ONLY_THESE|8,11|88|case=11:own:DASHA|case=1,2,4,5,9::DASHA",
+        "ONLY_THESE|7,10|88|case=10:own:DASHA|case=1,2,4,5,9,11::DASHA|case=6,8,12::NEUTRALISES",
+        "FAV|6,9|88|dasha|with=Venus|also=Saturn",
+        "DASHA|5,8|88|with=Venus|also=Saturn",
+        "ONLY_THESE|4,7|89|case=4:own:PERMIT|case=1,2,5,9,10,11::PERMIT"
+      ],
+      "Jupiter": [
+        "FAV|9,12|89|dasha|with=Mars",
+        "ONLY_THESE|8,11|90|case=1,2,4,5,9,11::DASHA",
+        "ONLY_THESE|7,10|90|case=1,2,4,5,9,10,11::DASHA",
+        "FAV|6,9|90|dasha|with=Mars+Moon",
+        "FAV|5,8|90|dasha|with=Mars+Sun",
+        "ONLY_THESE|4,7|91|case=1,2,4,5,7,9,10,11::DASHA",
+        "NOT_ADVISED|3,6|91|case=3,6:own:PERMIT",
+        "FAV|2,5|91|dasha",
+        "LIFELONG|1,4|92|charm|with=Sun",
+        "ONLY_THESE|3,12|92|case=3,12:own:PERMIT",
+        "DASHA|2,12|92|slip=AQU_JUP_12",
+        "FAV|1,10|92|with=Mars"
+      ],
+      "Venus": [
+        "ONLY_THESE|2,7|93|case=-:own:FAV|case=-:exalted:FAV",
+        "LIFELONG|1,6|93|charm|dasha|with=Mercury",
+        "DASHA|5,12|93|with=Mercury",
+        "DASHA|4,11|94",
+        "ONLY_THESE|3,10|94|case=1,2,4,5,7,9,10,11::DASHA",
+        "FAV|2,9|94|with=Mercury",
+        "LIFELONG|1,8|94|charm|must=DASHA",
+        "NOT_ADVISED|7,12|94",
+        "ONLY_THESE|6,11|95|case=1,2,4,5,6,7,9,11::DASHA",
+        "FAV|5,10|95|must=DASHA|with=Saturn",
+        "FAV|4,9|95|must=DASHA|with=Saturn",
+        "NOT_ADVISED|3,8|95"
+      ],
+      "Saturn": [
+        "ONLY_THESE|10,11|96|case=1,2,4,5,7,9,10::DASHA",
+        "DASHA|9|96|with=Mercury|slip=TAU_SAT_EMERALD",
+        "NOT_ADVISED|8,9|96|case=6,8,12::NOT|case=9,5::PERMIT|case=10:with-Jupiter:PERMIT|case=-:withany-Venus+Mercury:JUDGE",
+        "NEVER|7,8|96",
+        "NEVER|6,7|97",
+        "FAV|5,6|97|with=Mercury",
+        "FAV|4,5|97|with=Venus|also=Mercury",
+        "ONLY_THESE|3,4|97|case=3,4:own:DASHA",
+        "NOT_ADVISED|2,3|97|case=1::DASHA",
+        "LIFELONG|1,2|98|charm|with=Venus",
+        "LIFELONG|1,12|98|charm|with=Venus",
+        "ONLY_THESE|11,12|98|case=1,11::DASHA|case=2,4,5,9::NARROWED"
+      ]
+    },
+    "nodes": {
+      "houses": [
+        3,
+        6,
+        11
+      ],
+      "page": "printed p.99",
+      "conjoined": "lord of an auspicious house (particularly lords of trines) or yogakaraka planets"
+    },
+    "knownBookErrors": [
+      "Ruby, Sagittarius (printed p.80): \"a friend of the lord of the Ascendant (Mars)\" - the lord of Sagittarius is Jupiter.",
+      "Yellow sapphire, Aquarius (printed p.92): \"lord of the 2nd and 12th houses, both wealth giving houses\" - Jupiter rules the 2nd and 11th from Aquarius.",
+      "Blue sapphire, Taurus (printed p.96): \"emerald, the gemstone of the lord of the Ascendant\" - the lord of Taurus is Venus, whose gem is diamond."
+    ],
+    "omits": [
+      "Blue sapphire, Taurus: calls Saturn lord of the 9th, says nothing of the 10th"
+    ]
+  },
+  "tilakRajTables": {
+    "page": "printed p.21 (PDF 25), viewed as an image",
+    "ratna": [
+      "Aries|Coral|Ruby|Topaz",
+      "Taurus|Diamond|Emerald|Sapphire",
+      "Gemini|Emerald|Diamond|Sapphire",
+      "Cancer|Pearl|Coral|Topaz",
+      "Leo|Ruby|Topaz|Coral",
+      "Virgo|Emerald|Sapphire|Diamond",
+      "Libra|Diamond|Sapphire|Emerald",
+      "Scorpio|Coral|Topaz|Pearl",
+      "Sagittarius|Topaz|Coral|Ruby",
+      "Capricorn|Sapphire|Diamond|Emerald",
+      "Aquarius|Sapphire|Emerald|Diamond",
+      "Pisces|Topaz|Pearl|Coral"
+    ],
+    "planetClass": [
+      "Aries|Mars, Sun, Jupiter, Moon|Venus, Mercury, Saturn",
+      "Taurus|Venus, Mercury, Sun, Saturn|Moon, Jupiter, Mars",
+      "Gemini|Mercury, Venus, Saturn|Mars, Jupiter, Sun, Moon",
+      "Cancer|Moon, Mars, Jupiter|Mercury, Venus, Sun, Saturn",
+      "Leo|Sun, Mars, Jupiter|Mercury, Venus, Moon, Saturn",
+      "Virgo|Mercury, Saturn, Venus|Mars, Moon, Sun, Jupiter",
+      "Libra|Venus, Saturn, Mercury|Sun, Moon, Jupiter, Mars",
+      "Scorpio|Mars, Sun, Moon, Jupiter|Venus, Mercury, Saturn",
+      "Sagittarius|Jupiter, Sun, Mars|Mercury, Venus, Saturn, Moon",
+      "Capricorn|Saturn, Mercury, Venus|Moon, Jupiter, Sun, Mars",
+      "Aquarius|Saturn, Venus, Mercury|Sun, Moon, Jupiter, Mars",
+      "Pisces|Jupiter, Mars, Moon|Sun, Mercury, Venus, Saturn"
+    ]
+  },
+  "rajKumarWho": {
+    "page": "PDF 124-143 (digitally typeset; the text layer is the page; viewed PDF 124-127, 129, 139-140)",
+    "Sun": "good=Aries,Leo,Scorpio,Sagittarius|ownOrExalted=Cancer,Pisces|avoidIfLordOf=6,8,12",
+    "Moon": "good=Aries,Cancer,Scorpio,Pisces|limited=Taurus,Gemini,Virgo,Libra|not=Leo,Sagittarius,Capricorn,Aquarius|avoidIfLordOf=3,6,8",
+    "Mars": "good=Aries,Cancer,Leo",
+    "Mercury": "good=Taurus,Gemini,Virgo,Libra,Capricorn|limited=Leo,Aquarius|not=Aries,Scorpio",
+    "Jupiter": "limited=Leo,Scorpio|not=Taurus,Libra,Capricorn,Aquarius",
+    "Venus": "good=Taurus,Gemini,Virgo,Libra,Capricorn,Aquarius|avoidIfHouse=6,7,8",
+    "Saturn": "good=Taurus,Libra,Capricorn,Aquarius|limited=Aries,Gemini,Virgo,Scorpio|not=Aries,Cancer,Leo,Sagittarius,Pisces|avoidIfLordOf=2,6,7,8,12",
+    "counter": "Sun>Yellow sapphire|Moon>Ruby|Mars>Diamond|Mercury>Blue sapphire|Jupiter>Pearl|Venus>Yellow sapphire|Saturn>Red coral|Rahu>Emerald|Ketu>Emerald|general>Ruby"
+  },
+  "wearing": {
+    "format": "'minimum weight unit|planets whose gems must not be worn with it'",
+    "kapoor": {
+      "Sun": "2.5 ct|Venus,Saturn,Rahu,Ketu",
+      "Moon": "2 ct|Mercury,Venus,Saturn,Rahu,Ketu",
+      "Mars": "6 ct|Mercury,Venus,Saturn,Rahu,Ketu",
+      "Mercury": "3 ct|Moon,Mars",
+      "Jupiter": "3 ct|Mercury,Venus,Saturn,Rahu,Ketu",
+      "Venus": "0.5 ct|Sun,Moon,Mars",
+      "Saturn": "4 ct|Sun,Moon,Mars,Jupiter",
+      "Rahu": "6 ct|Sun,Moon,Mars,Jupiter",
+      "Ketu": "5 ct|Sun,Moon,Mars,Jupiter"
+    },
+    "tilakRaj": {
+      "Sun": "3.25 ratti|Venus,Saturn,Rahu",
+      "Moon": "3.25 ratti|Rahu,Ketu",
+      "Mars": "6.25 ratti|Venus,Saturn,Rahu",
+      "Mercury": "4.25 ratti|Moon",
+      "Jupiter": "4.25 ratti|Venus,Saturn",
+      "Venus": "0.25 ratti|Sun,Mars,Jupiter",
+      "Saturn": "4.25 ratti|Sun,Mars,Jupiter",
+      "Rahu": "5.25 ratti|Sun,Moon,Mars",
+      "Ketu": "6.25 ratti|Moon"
+    },
+    "rajKumar": {
+      "Sun": "3 ct|Venus,Saturn,Rahu,Ketu",
+      "Moon": "4 ct|Venus,Saturn",
+      "Mars": "6 ct|Mercury,Venus,Saturn",
+      "Mercury": "3 ct|Moon,Mars",
+      "Jupiter": "3 ct|Venus,Saturn,Rahu,Ketu",
+      "Venus": "1 ct|Sun,Moon,Mars,Jupiter",
+      "Saturn": "3 ct|Sun,Moon,Mars",
+      "Rahu": "3 ct|Sun,Moon,Mars,Jupiter",
+      "Ketu": "3 ct|Sun,Moon,Mars,Jupiter"
+    },
+    "notes": [
+      "Tilak Raj prints the ruby's weight as \"314 Rattis\"; read as 3 1/4.",
+      "Raj Kumar's pearl and coral lists are cut by a line lost at the PDF 128-129 and 130-131 page breaks."
+    ]
+  }
+}

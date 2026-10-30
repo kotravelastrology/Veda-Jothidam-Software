@@ -1,88 +1,12 @@
 'use client';
 
 /**
- * Planetary Strength Display Page - Demo
- * Shows Shadbala calculation and visualization
+ * Planetary Strength Page
+ * The open chart's grahas (GrahaView) at the top; the teaching sections below are static text.
  */
 
 import React from 'react';
-import PlanetaryStrengthGraph from '@/app/components/PlanetaryStrengthGraph';
-
-// Sample planetary strength data
-const SAMPLE_PLANETARY_STRENGTH = [
-  {
-    name: 'Sun',
-    strength: 82,
-    dignity: 'own' as const,
-    aspectValue: 7,
-    burnStatus: 'normal' as const,
-    retrograde: false,
-  },
-  {
-    name: 'Moon',
-    strength: 75,
-    dignity: 'friendly' as const,
-    aspectValue: 6,
-    burnStatus: 'normal' as const,
-    retrograde: false,
-  },
-  {
-    name: 'Mars',
-    strength: 68,
-    dignity: 'exalted' as const,
-    aspectValue: 6,
-    burnStatus: 'normal' as const,
-    retrograde: false,
-  },
-  {
-    name: 'Mercury',
-    strength: 55,
-    dignity: 'neutral' as const,
-    aspectValue: 4,
-    burnStatus: 'combust' as const,
-    retrograde: true,
-  },
-  {
-    name: 'Jupiter',
-    strength: 85,
-    dignity: 'own' as const,
-    aspectValue: 8,
-    burnStatus: 'normal' as const,
-    retrograde: false,
-  },
-  {
-    name: 'Venus',
-    strength: 72,
-    dignity: 'exalted' as const,
-    aspectValue: 7,
-    burnStatus: 'normal' as const,
-    retrograde: false,
-  },
-  {
-    name: 'Saturn',
-    strength: 45,
-    dignity: 'debilitated' as const,
-    aspectValue: 3,
-    burnStatus: 'normal' as const,
-    retrograde: true,
-  },
-  {
-    name: 'Rahu',
-    strength: 58,
-    dignity: 'neutral' as const,
-    aspectValue: 5,
-    burnStatus: 'normal' as const,
-    retrograde: false,
-  },
-  {
-    name: 'Ketu',
-    strength: 52,
-    dignity: 'neutral' as const,
-    aspectValue: 4,
-    burnStatus: 'normal' as const,
-    retrograde: false,
-  },
-];
+import GrahaView from '@/app/interpreting-grahas/GrahaView';
 
 export default function PlanetaryStrengthPage() {
   return (
@@ -96,16 +20,9 @@ export default function PlanetaryStrengthPage() {
           Shadbala (6-fold Strength) Calculation and Visualization
         </p>
 
-        {/* Main Component */}
+        {/* The open chart's grahas: real values from the engines, see /interpreting-grahas */}
         <div className="mb-12">
-          <PlanetaryStrengthGraph
-            planets={SAMPLE_PLANETARY_STRENGTH}
-            title="Planetary Strength - Shadbala Analysis"
-            titleTamil="கிரह शक्ति विश्लेषण"
-            chartType="bar"
-            showDetails={true}
-            interactive={true}
-          />
+          <GrahaView />
         </div>
 
         {/* Information Section */}

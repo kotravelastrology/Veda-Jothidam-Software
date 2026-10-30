@@ -1,6 +1,8 @@
 // Muhurta Enhancements - Auspicious timing, remedies, and event predictions
 // Based on transit strength and classical muhurta principles
 
+const { sourceRequired } = require('../contracts/chartContext');
+
 const TIMING_QUALITY = {
   Excellent: {
     minScore: 80,
@@ -208,13 +210,13 @@ function calculateMuhurtaEnhancements(transitData) {
     );
   }
 
-  // Predictions
-  const eventSuccess = Math.max(20, Math.min(95, muhurtaScore + 10));
-  const karmaStrength = Math.max(30, Math.min(95, muhurtaScore));
-
+  // "Event success" and "karma strength" were muhurtaScore restated as
+  // percentages — a success probability no source supports — so only the
+  // qualitative timing statement, which follows from muhurtaScore itself,
+  // is reported.
   const predictions = {
-    eventSuccess,
-    karmaStrength,
+    eventSuccess: sourceRequired('No verified source for an event-success probability'),
+    karmaStrength: sourceRequired('No verified source for a karma-strength percentage'),
     timing: muhurtaScore >= 70
       ? 'Excellent timing for important events'
       : muhurtaScore >= 50

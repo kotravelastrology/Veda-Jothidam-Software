@@ -62,10 +62,11 @@ const EXPECTED_GRAND_TOTAL = 337;
 /**
  * Bhinnashtakavarga of `targetPlanet`: a 12-entry bindu-count array (index 0
  * = Mesha .. 11 = Meena), built by placing each of the 8 contributors'
- * benefic offsets relative to that contributor's own rasi.
+ * benefic offsets relative to that contributor's own rasi. `places` is the
+ * book's table; another book's (Phaladeepika's) can be passed.
  */
-function calculateBhinnashtakavarga(targetPlanet, rasiPositions) {
-  const table = BINDU_TABLE[targetPlanet];
+function calculateBhinnashtakavarga(targetPlanet, rasiPositions, places = BINDU_TABLE) {
+  const table = places[targetPlanet];
   if (!table) throw new RangeError(`Unsupported Ashtakavarga target: ${targetPlanet}`);
   const bindus = new Array(12).fill(0);
   for (const contributor of CONTRIBUTORS) {

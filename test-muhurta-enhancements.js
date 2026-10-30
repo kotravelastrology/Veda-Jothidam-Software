@@ -71,8 +71,8 @@ for (const r of enhancements.remedies) {
 }
 
 // Verify predictions
-assert.ok(enhancements.predictions.eventSuccess, 'Has event success prediction');
-assert.ok(enhancements.predictions.karmaStrength, 'Has karma strength');
+assert.strictEqual(enhancements.predictions.eventSuccess.status, 'SOURCE_REQUIRED', 'Event-success probability is withheld, not invented');
+assert.strictEqual(enhancements.predictions.karmaStrength.status, 'SOURCE_REQUIRED', 'Karma-strength percentage is withheld, not invented');
 assert.ok(enhancements.predictions.timing, 'Has timing prediction');
 
 // Verify do's and don'ts
@@ -93,8 +93,8 @@ console.log(JSON.stringify({
   timingQuality: enhancements.timingQuality,
   auspiciousTimes: enhancements.auspiciousTimes.length,
   recommendedRemedies: enhancements.remedies.length,
-  eventSuccessProbability: enhancements.predictions.eventSuccess + '%',
-  karmaStrength: enhancements.predictions.karmaStrength + '%',
+  eventSuccessProbability: enhancements.predictions.eventSuccess.status,
+  karmaStrength: enhancements.predictions.karmaStrength.status,
   dos: enhancements.dos.length,
   donts: enhancements.donts.length
 }, null, 2));

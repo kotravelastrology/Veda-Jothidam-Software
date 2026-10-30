@@ -1,0 +1,637 @@
+{
+ "_note": "Chapter 9 of Kalyanraman, Muhoortha Sangraha vol. 1 (2026-10-21). classes, mukha, kula and the start pages are as the book prints them (read from the page images and the intro of each star); anchors are the first and last deed of each list, kept to catch a regression in the extraction.",
+ "classes": {
+  "STHIRA": [
+   "Rohini",
+   "Uttara Phalguni",
+   "Uttara Ashadha",
+   "Uttara Bhadrapada"
+  ],
+  "CHARA": [
+   "Punarvasu",
+   "Swati",
+   "Shravana",
+   "Dhanishta",
+   "Shatabhisha"
+  ],
+  "MISRA": [
+   "Krittika",
+   "Vishakha"
+  ],
+  "UGRA": [
+   "Bharani",
+   "Magha",
+   "Purva Phalguni",
+   "Purva Ashadha",
+   "Purva Bhadrapada"
+  ],
+  "KSHIPRA": [
+   "Ashwini",
+   "Pushya",
+   "Hasta",
+   "Abhijit"
+  ],
+  "MRIDU": [
+   "Mrigashira",
+   "Chitra",
+   "Anuradha",
+   "Revati"
+  ],
+  "TEEKSHNA": [
+   "Ardra",
+   "Ashlesha",
+   "Jyeshtha",
+   "Moola"
+  ]
+ },
+ "weekdays": {
+  "STHIRA": "ஞாயிறு",
+  "CHARA": "திங்கள்",
+  "MISRA": "புதன்",
+  "UGRA": "செவ்வாய்",
+  "KSHIPRA": "வியாழன்",
+  "MRIDU": "வெள்ளி",
+  "TEEKSHNA": "சனி"
+ },
+ "mukha": {
+  "URDHVA": [
+   "Rohini",
+   "Ardra",
+   "Pushya",
+   "Uttara Phalguni",
+   "Uttara Ashadha",
+   "Shravana",
+   "Dhanishta",
+   "Shatabhisha",
+   "Uttara Bhadrapada"
+  ],
+  "ADHO": [
+   "Bharani",
+   "Krittika",
+   "Ashlesha",
+   "Magha",
+   "Purva Phalguni",
+   "Vishakha",
+   "Moola",
+   "Purva Ashadha",
+   "Purva Bhadrapada"
+  ],
+  "TIRYANG": [
+   "Ashwini",
+   "Mrigashira",
+   "Punarvasu",
+   "Hasta",
+   "Chitra",
+   "Swati",
+   "Anuradha",
+   "Jyeshtha",
+   "Revati"
+  ]
+ },
+ "kula": {
+  "KULA": [
+   "Ashwini",
+   "Krittika",
+   "Mrigashira",
+   "Pushya",
+   "Magha",
+   "Purva Phalguni",
+   "Chitra",
+   "Vishakha",
+   "Jyeshtha",
+   "Purva Ashadha",
+   "Shravana",
+   "Purva Bhadrapada"
+  ],
+  "KULAKULA": [
+   "Ardra",
+   "Moola",
+   "Shatabhisha"
+  ]
+ },
+ "startPages": {
+  "Ashwini": 144,
+  "Bharani": 147,
+  "Krittika": 149,
+  "Rohini": 151,
+  "Mrigashira": 154,
+  "Chitra": 177,
+  "Abhijit": 197,
+  "Shravana": 198,
+  "Revati": 212
+ },
+ "borrows": {
+  "STHIRA": "Mridu",
+  "CHARA": "Laghu",
+  "MISRA": "Ugra",
+  "UGRA": "Teekshna",
+  "KSHIPRA": "Chara",
+  "MRIDU": "Dhruva"
+ },
+ "anchors": {
+  "Ashwini": {
+   "good": [
+    "Learning combatant activities",
+    "foreign travels"
+   ],
+   "also": [
+    "adopting a child",
+    "writing accounts"
+   ],
+   "pages": [
+    144,
+    147
+   ],
+   "counts": [
+    66,
+    32
+   ]
+  },
+  "Bharani": {
+   "good": [
+    "Causing deceit",
+    "meat shops"
+   ],
+   "also": [
+    "administering poison to someone",
+    "vanquishing enemies or stalling their actions"
+   ],
+   "pages": [
+    147,
+    149
+   ],
+   "counts": [
+    43,
+    25
+   ]
+  },
+  "Krittika": {
+   "good": [
+    "Doing activities that require downward looking",
+    "sorcery"
+   ],
+   "also": [
+    "ambushing or killing enemies",
+    "yoking or commissioning tractors to plough"
+   ],
+   "pages": [
+    149,
+    151
+   ],
+   "counts": [
+    39,
+    33
+   ]
+  },
+  "Rohini": {
+   "good": [
+    "Constructing temples",
+    "thrashers or other mechanical devises to separate grains"
+   ],
+   "also": [
+    "appointing a subordinate staff",
+    "writing accounts"
+   ],
+   "pages": [
+    151,
+    154
+   ],
+   "counts": [
+    105,
+    34
+   ]
+  },
+  "Mrigashira": {
+   "good": [
+    "Attending interviews",
+    "weapons"
+   ],
+   "also": [
+    "applying forjobs; party tickets",
+    "trading in silver or gold or artificial jewellery, undertaking journeys by water, air and land, writing accounts"
+   ],
+   "pages": [
+    154,
+    157
+   ],
+   "counts": [
+    114,
+    27
+   ]
+  },
+  "Ardra": {
+   "good": [
+    "Causing bondage",
+    "leather industry"
+   ],
+   "also": [
+    "administering poison",
+    "yoking or commissioning tractors to plough"
+   ],
+   "pages": [
+    157,
+    159
+   ],
+   "counts": [
+    68,
+    34
+   ]
+  },
+  "Punarvasu": {
+   "good": [
+    "Doing any action that may require movements",
+    "loans"
+   ],
+   "also": [
+    "acquiring vehicles",
+    "writing and publishing"
+   ],
+   "pages": [
+    159,
+    162
+   ],
+   "counts": [
+    61,
+    35
+   ]
+  },
+  "Pushya": {
+   "good": [
+    "Getting trained in using weapons",
+    "medicines by patients"
+   ],
+   "also": [
+    "adopting a child",
+    "wearing new clothes and ornaments"
+   ],
+   "pages": [
+    162,
+    165
+   ],
+   "counts": [
+    87,
+    43
+   ]
+  },
+  "Ashlesha": {
+   "good": [
+    "Doing mining",
+    "business"
+   ],
+   "also": [
+    "attacking or filing a court case",
+    "waging war"
+   ],
+   "pages": [
+    165,
+    167
+   ],
+   "counts": [
+    41,
+    25
+   ]
+  },
+  "Magha": {
+   "good": [
+    "Causing deceit",
+    "mechanical devises to separate grains"
+   ],
+   "also": [
+    "administering poison",
+    "yoking or commissioning tractors to plough"
+   ],
+   "pages": [
+    167,
+    169
+   ],
+   "counts": [
+    60,
+    28
+   ]
+  },
+  "Purva Phalguni": {
+   "good": [
+    "Causing differences among friends",
+    "mining"
+   ],
+   "also": [
+    "administering poison",
+    "yoking or commissioning tractors to plough"
+   ],
+   "pages": [
+    169,
+    171
+   ],
+   "counts": [
+    63,
+    29
+   ]
+  },
+  "Uttara Phalguni": {
+   "good": [
+    "Performing auspicious functions",
+    "Vedas"
+   ],
+   "also": [
+    "appointing staff",
+    "wearing new clothes"
+   ],
+   "pages": [
+    171,
+    174
+   ],
+   "counts": [
+    50,
+    36
+   ]
+  },
+  "Hasta": {
+   "good": [
+    "Doing business connected with vehicles",
+    "medicines by patients"
+   ],
+   "also": [
+    "adopting a child",
+    "writing and publishing"
+   ],
+   "pages": [
+    174,
+    177
+   ],
+   "counts": [
+    91,
+    26
+   ]
+  },
+  "Chitra": {
+   "good": [
+    "Doing spinning",
+    "elephants"
+   ],
+   "also": [
+    "adopting a child",
+    "writing and publishing"
+   ],
+   "pages": [
+    177,
+    179
+   ],
+   "counts": [
+    77,
+    34
+   ]
+  },
+  "Swati": {
+   "good": [
+    "Doing all moveable activities like journeys; business with camels, horses, donkeys, cows and birds, ephemeral things",
+    "medicines by patients"
+   ],
+   "also": [
+    "acquiring vehicles",
+    "writing and publishing"
+   ],
+   "pages": [
+    179,
+    182
+   ],
+   "counts": [
+    69,
+    38
+   ]
+  },
+  "Vishakha": {
+   "good": [
+    "Doing activities when actions may require downward looking",
+    "insurance policy"
+   ],
+   "also": [
+    "acquiring lands or properties",
+    "wearing new garments and ornaments by married and unmarried women"
+   ],
+   "pages": [
+    182,
+    184
+   ],
+   "counts": [
+    43,
+    34
+   ]
+  },
+  "Anuradha": {
+   "good": [
+    "Getting clothes and jewels prepared and wearing them",
+    "oath"
+   ],
+   "also": [
+    "adopting a child",
+    "wearing clothes and ornaments by unmarried and married woman"
+   ],
+   "pages": [
+    184,
+    187
+   ],
+   "counts": [
+    73,
+    43
+   ]
+  },
+  "Jyeshtha": {
+   "good": [
+    "Causing deceit",
+    "poultry farming"
+   ],
+   "also": [
+    "buying cows",
+    "yoking or commissioning tractors to plough"
+   ],
+   "pages": [
+    187,
+    190
+   ],
+   "counts": [
+    74,
+    29
+   ]
+  },
+  "Moola": {
+   "good": [
+    "Doing business with buffaloes, sheep, goats, cows, oxen, dogs, horses",
+    "out anything hidden under the earth"
+   ],
+   "also": [
+    "borrowing",
+    "yoking or commissioning tractors to plough"
+   ],
+   "pages": [
+    190,
+    192
+   ],
+   "counts": [
+    67,
+    31
+   ]
+  },
+  "Purva Ashadha": {
+   "good": [
+    "Causing deceit",
+    "starting breweries, fish farming, house-painting work, leather industry, meat shops"
+   ],
+   "also": [
+    "administering poison",
+    "yoking or commissioning tractors to plough"
+   ],
+   "pages": [
+    192,
+    194
+   ],
+   "counts": [
+    48,
+    42
+   ]
+  },
+  "Uttara Ashadha": {
+   "good": [
+    "Doing all activities that require facing upwards, of fixed or permanent nature like laying foundation, charities, business with cows",
+    "stone or granite slabs"
+   ],
+   "also": [
+    "applying for jobs, party tickets, admission to bodies",
+    "yoking or commissioning tractors to plough"
+   ],
+   "pages": [
+    195,
+    197
+   ],
+   "counts": [
+    60,
+    40
+   ]
+  },
+  "Abhijit": {
+   "good": [
+    "Getting jewels made and wearing them; trained in fine arts",
+    "Learning and displaying arts; the 64 kalaas or branches of knowledge; the Sastras"
+   ],
+   "also": [
+    "making and wearing ornaments",
+    "wearing ornaments"
+   ],
+   "pages": [
+    197,
+    198
+   ],
+   "counts": [
+    4,
+    5
+   ]
+  },
+  "Shravana": {
+   "good": [
+    "Getting involved in leisurely activities",
+    "criminals"
+   ],
+   "also": [
+    "acquiring vehicles",
+    "writing and publishing"
+   ],
+   "pages": [
+    198,
+    201
+   ],
+   "counts": [
+    80,
+    36
+   ]
+  },
+  "Dhanishta": {
+   "good": [
+    "Doing business connected with vehicles",
+    "loans"
+   ],
+   "also": [
+    "acquiring vehicles",
+    "writing and publishing"
+   ],
+   "pages": [
+    201,
+    203
+   ],
+   "counts": [
+    73,
+    36
+   ]
+  },
+  "Shatabhisha": {
+   "good": [
+    "Doing business connected with vehicles",
+    "camels"
+   ],
+   "also": [
+    "acquiring vehicles",
+    "yoking or commissioning tractors to plough"
+   ],
+   "pages": [
+    203,
+    206
+   ],
+   "counts": [
+    92,
+    33
+   ]
+  },
+  "Purva Bhadrapada": {
+   "good": [
+    "Causing deceit",
+    "meat shops"
+   ],
+   "also": [
+    "administering poison",
+    "yoking or commissioning tractors to plough"
+   ],
+   "pages": [
+    206,
+    209
+   ],
+   "counts": [
+    54,
+    24
+   ]
+  },
+  "Uttara Bhadrapada": {
+   "good": [
+    "Doing activities that require facing upwards",
+    "instruments"
+   ],
+   "also": [
+    "applying for jobs, party tickets, admission to bodies",
+    "yoking or commissioning tractors to plough"
+   ],
+   "pages": [
+    209,
+    212
+   ],
+   "counts": [
+    57,
+    33
+   ]
+  },
+  "Revati": {
+   "good": [
+    "Doing auspicious deeds",
+    "oath"
+   ],
+   "also": [
+    "applying for jobs, party tickets, admission to bodies",
+    "yoking or commissioning tractors to plough"
+   ],
+   "pages": [
+    212,
+    215
+   ],
+   "counts": [
+    99,
+    36
+   ]
+  }
+ }
+}

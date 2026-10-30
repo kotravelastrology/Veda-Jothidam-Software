@@ -1,0 +1,33 @@
+{
+  "_about": "Latta as seven books print it, transcribed from page images on 2026-10-08 independently of src/report/lattaTables.js. Counts are 'planet|count|direction'; examples use the books' star names.",
+  "counts": {
+    "SASTRI": { "page": "Phaladeepika XXVI.42-44, printed pp.303-304", "rows": ["Sun|12|forward", "Mars|3|forward", "Jupiter|6|forward", "Saturn|8|forward", "Venus|5|backward", "Mercury|7|backward", "Rahu|9|backward", "Moon|22|backward"] },
+    "KAPOOR": { "page": "Phala Deepika ch.26 sl.42-44, e-text p.255", "rows": ["Sun|12|forward", "Mars|3|forward", "Jupiter|6|forward", "Saturn|8|forward", "Venus|5|backward", "Mercury|7|backward", "Rahu|8|backward", "Moon|22|backward"] },
+    "RAO": { "page": "printed p.314", "rows": ["Sun|12|forward", "Mars|3|forward", "Jupiter|6|forward", "Saturn|8|forward", "Moon|22|backward", "Mercury|7|backward", "Venus|5|backward", "Rahu|9|backward"] },
+    "BHAT": { "page": "printed pp.255-256", "rows": ["Sun|12|forward", "Mars|3|forward", "Jupiter|6|forward", "Saturn|8|forward", "Moon|22|backward", "Mercury|7|backward", "Venus|5|backward", "Rahu|9|backward"] },
+    "RAJ_KUMAR": { "page": "Charisma of Planets PDF pp.264-265", "rows": ["Sun|12|forward", "Mars|3|forward", "Jupiter|6|forward", "Saturn|8|forward", "Moon|22|backward", "Mercury|7|backward", "Venus|5|backward", "Rahu|9|backward", "Ketu|9|backward"] },
+    "GOUR": { "page": "printed pp.95-96", "rows": ["Sun|12|forward", "Mars|3|forward", "Jupiter|6|forward", "Saturn|8|forward", "Moon|22|backward", "Mercury|7|backward", "Venus|5|backward", "Rahu|9|backward", "Ketu|9|backward"] },
+    "PULIPPANI": { "page": "printed pp.75-76", "rows": ["Sun|12|forward", "Mars|3|forward", "Jupiter|6|forward", "Saturn|8|forward", "Venus|5|backward", "Mercury|7|backward", "Rahu|9|backward", "Ketu|9|backward", "Moon|22|backward"] }
+  },
+  "sanskritRahu": "राहोस्तु नवमं चैव द्वाविंशं हिमद्युतेः",
+  "workedCounts": [
+    "KAPOOR|Sun|Moola|Krittika", "KAPOOR|Venus|Sravana|Jyeshtha",
+    "BHAT|Sun|Uttara Phalguni|Dhanishta", "BHAT|Mars|Mrigasira|Punarvasu", "BHAT|Jupiter|Moola|Satabhisha", "BHAT|Saturn|Purvashadha|Revati",
+    "BHAT|Moon|Rohini|Magha", "BHAT|Mercury|Hasta|Punarvasu", "BHAT|Venus|Chitra|Magha", "BHAT|Rahu|Purva Phalguni|Krittika",
+    "RAO|Sun|Mrigasira|Visakha", "RAO|Mars|Mrigasira|Punarvasu", "RAO|Jupiter|Krittika|Pushya", "RAO|Saturn|Krittika|Magha",
+    "RAO|Moon|Anuradha|Dhanishta", "RAO|Mercury|Punarvasu|Aswini", "RAO|Venus|Mrigasira|Aswini", "RAO|Rahu|Punarvasu|Uttarabhadrapada",
+    "RAJ_KUMAR|Sun|Hasta|Satabhisha", "RAJ_KUMAR|Saturn|Chitra|Uttarashadha", "RAJ_KUMAR|Venus|Chitra|Magha", "RAJ_KUMAR|Rahu|Jyeshtha|Magha",
+    "GOUR|Mars|Chitra|Visakha", "GOUR|Rahu|Uttara Phalguni|Rohini",
+    "PULIPPANI|Sun|Chitra|Purva Bhadrapada", "PULIPPANI|Mercury|Jyeshtha|Uttara Phalguni"
+  ],
+  "raoTable70": {
+    "page": "printed p.315 (PDF 321); evening of 5 December 1996; janma Poorvabhadrapada, lagna Hasta (Virgo)",
+    "rows": ["Sun|Jyeshtha|Bharani", "Moon|Hasta|Moola", "Mars|Poorva Phalguni|Hasta", "Mercury|Moola|Hasta", "Jupiter|Poorvaashaadha|Poorvabhadrapada", "Venus|Visaakha|Uttaraphalguni", "Saturn|Uttarabhadrapada|Aardra", "Rahu|Hasta|Mrigasira"],
+    "onJanma": ["Jupiter"], "onLagna": ["Mars", "Mercury"],
+    "lords": { "Jupiter": [4, 7], "Mars": [3, 8], "Mercury": [1, 10] }
+  },
+  "raoExercise45": { "page": "printed p.322 (PDF 328)", "date": "2000-06-08", "rows": ["Rahu|Punarvasu|Uttarabhadrapada", "Mars|Mrigasira|Punarvasu"] },
+  "rajKumar2011": { "page": "PDF pp.264-265", "date": "2011-10-01", "rows": ["Sun|Hasta|Satabhisha", "Saturn|Chitra|Uttarashadha", "Venus|Chitra|Magha", "Rahu|Jyeshtha|Magha"] },
+  "gourMars2006": { "page": "printed p.95", "date": "2006-10-10", "rows": ["Mars|Chitra|Visakha"] },
+  "wordCounts": { "RAO": 804, "BHAT": 485, "RAJ_KUMAR": 374, "GOUR": 339, "KAPOOR": 311, "PULIPPANI": 297, "SASTRI": 224 }
+}

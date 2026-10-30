@@ -26,7 +26,9 @@ function downloadJson(filename: string, data: unknown) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
-import { SettingsPanel } from '../ui/SettingsPanel';
+import { SettingsPanel, useSettings } from '../ui/SettingsPanel';
+import { BalloonHelp } from '../ui/BalloonHelp';
+import { deactivateThisComputerNow, type DeactivateResult } from '../sync/thisComputer';
 import { ToolsPanel } from '../ui/ToolsPanel';
 import { HelpPanel } from '../ui/HelpPanel';
 import { OpenChartDialog } from '../ui/OpenChartDialog';
@@ -51,6 +53,7 @@ export function TopMenuBar() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const router = useRouter();
   const menuBarRef = useRef<HTMLDivElement>(null);
+  const { settings, updateSettings } = useSettings();
 
   // Click-outside-to-close: the dropdown is driven by `openMenu` state (click-based),
   // not CSS :hover, so it works reliably with mouse, touch, and automated testing.
@@ -87,18 +90,64 @@ export function TopMenuBar() {
     calculations: '/report?section=lagnaGraha',
     interpretations: '/report?section=nabhasaYoga',
     dashas: '/report?section=dasha',
+    bphsDashas: '/bphs-dashas',
+    bphsRashiDashas: '/bphs-rashi-dashas',
+    vimshopaka: '/vimshopaka',
+    declination: '/declination',
+    specialLagnas: '/special-lagnas',
+    printCenter: '/print',
+    printEphemeris: '/print?kind=ephemeris',
+    printPanchang: '/print?kind=panchang',
+    printKp: '/print?kind=kp',
+    printDashas: '/print?kind=dashas',
+    printCompact: '/print?kind=compact',
+    printTransit: '/print?kind=transit',
+    exportBirth: '/print?kind=birth-export',
+    exportEphemeris: '/print?kind=ephemeris-csv',
+    healthBphs: '/health',
+    kpHorary: '/kp-horary',
+    kpTransit: '/kp-transit',
+    kpRuling: '/kp-ruling',
+    kpLuckyTime: '/kp-lucky-time',
+    sripatiBhava: '/sripati-bhava',
+    graphicalEphemeris: '/graphical-ephemeris',
+    yearlyTransit: '/yearly-transit',
+    eventCharts: '/events',
+    animatedTransits: '/animated-transits',
+    kotaChakra: '/kota-chakra',
+    navamshaYears: '/navamsha-years',
     transits: '/report?section=transit',
     varshaphala: '/varshaphala',
+    saturn: '/saturn-transit',
+    kakshyaTransit: '/kakshya-transit',
+    vedha: '/gochara-vedha',
+    nakshatraGochara: '/nakshatra-gochara',
+    moorthi: '/moorthi-nirnaya',
+    latta: '/latta',
+    pada88: '/pada-88',
+    rogaArambha: '/roga-arambha',
+    bandYears: '/band-of-years',
+    mangala: '/mangala-dosha',
+    gems: '/gemstones',
     compatibility: '/porutham',
     kelvi: '/kelvi',
     astronomy: '/report?section=grahaBala',
   };
   const REPORTS_NOT_YET_BUILT = new Set<string>([]);
 
+  // Research-menu keys → their pages (Search for Charts is handled below, it opens the chart dialog; Calculator is the Tools panel)
+  const RESEARCH_KEY_TO_PATH: Record<string, string> = {
+    research_stats: '/research',
+    research_export_ephemeris: '/print?kind=ephemeris-csv',
+    research_export_birth: '/print?kind=birth-export',
+    research_transit_time: '/report?chart=transit',
+  };
+
   // Classical References-menu keys → /references, with an optional category filter
   const REFERENCE_KEY_TO_PATH: Record<string, string> = {
     bphs: '/references',
     saravali: '/references',
+    planetHouse: '/planet-house',
     horasara: '/references',
     gargahora: '/references',
     karakas: '/references?category=planet',
@@ -153,6 +202,23 @@ export function TopMenuBar() {
       ],
     },
     {
+      label: 'Print',
+      key: 'printMenu',
+      submenu: [
+        { label: 'Print Center (அச்சு மையம்)', key: 'printCenter' },
+        { label: '', key: 'divider-p1' },
+        { label: 'Ephemeris (எபிமெரிஸ்)', key: 'printEphemeris' },
+        { label: 'Panchang (பஞ்சாங்கம்)', key: 'printPanchang' },
+        { label: 'Krishnamurti (KP)', key: 'printKp' },
+        { label: 'Dashas 1-5 levels (தசைகள்)', key: 'printDashas' },
+        { label: 'Compact lifetime — 3 levels', key: 'printCompact' },
+        { label: 'Transit / dasha report', key: 'printTransit' },
+        { label: '', key: 'divider-p2' },
+        { label: 'Export birth data', key: 'exportBirth' },
+        { label: 'Export ephemeris (CSV)', key: 'exportEphemeris' },
+      ],
+    },
+    {
       label: 'Reports',
       key: 'reports',
       submenu: [
@@ -160,8 +226,36 @@ export function TopMenuBar() {
         { label: 'Calculations', key: 'calculations' },
         { label: 'Interpretations', key: 'interpretations' },
         { label: 'Dashas', key: 'dashas' },
+        { label: 'BPHS Dashas (தசைகள் — பராசரர்)', key: 'bphsDashas' },
+        { label: 'BPHS Rashi Dashas (ராசி தசைகள்)', key: 'bphsRashiDashas' },
+        { label: 'Vimshopaka Bala (விம்சோபக பலம்)', key: 'vimshopaka' },
+        { label: 'Declination (கிராந்தி)', key: 'declination' },
+        { label: 'Special Lagnas (சிறப்பு லக்னங்கள்)', key: 'specialLagnas' },
+        { label: 'Health (ஆரோக்கியம் — BPHS)', key: 'healthBphs' },
+        { label: 'KP Horary (KP பிரச்னம் 1-249)', key: 'kpHorary' },
+        { label: 'KP Transit (KP கோசாரம்)', key: 'kpTransit' },
+        { label: 'KP Ruling Planets (ஆளும் கிரகங்கள் — நேரம்)', key: 'kpRuling' },
+        { label: 'KP Lucky Timings (KP நல்ல நேரம்)', key: 'kpLuckyTime' },
+        { label: 'Sripati Bhava (ஸ்ரீபதி பாவம்)', key: 'sripatiBhava' },
+        { label: 'Graphical Ephemeris (வரைபட எபிமெரிஸ்)', key: 'graphicalEphemeris' },
+        { label: 'Yearly Transit (ஆண்டு கோசாரம்)', key: 'yearlyTransit' },
+        { label: 'Event Charts (நிகழ்வு ஜாதகங்கள்)', key: 'eventCharts' },
+        { label: 'Animated Transits (அனிமேஷன் கோசாரம்)', key: 'animatedTransits' },
+        { label: 'Kota & Sanghatta Chakra (கோட்டா, சங்கட்ட சக்கரம்)', key: 'kotaChakra' },
+        { label: 'Navamsha Counts (நவாம்ச எண்ணிக்கை)', key: 'navamshaYears' },
         { label: 'Transits', key: 'transits' },
         { label: 'Varshaphala', key: 'varshaphala' },
+        { label: 'Saturn Transit (ஏழரைச் சனி)', key: 'saturn' },
+        { label: 'Kakshya Transit (கோசாரக் காக்ஷ்யா)', key: 'kakshyaTransit' },
+        { label: 'Gochara Vedha (கோசார வேதை)', key: 'vedha' },
+        { label: 'Nakshatra Gochara (நட்சத்திரக் கோசாரம்)', key: 'nakshatraGochara' },
+        { label: 'Moorthi Nirnaya (மூர்த்தி நிர்ணயம்)', key: 'moorthi' },
+        { label: 'Latta (லத்தை)', key: 'latta' },
+        { label: '88th Pada (88-வது பாதம்)', key: 'pada88' },
+        { label: 'Onset of Illness (நோய்த் தொடக்கம்)', key: 'rogaArambha' },
+        { label: 'Band of Years (ஆண்டுப் பட்டை)', key: 'bandYears' },
+        { label: 'Mangala Dosha (மங்கள தோஷம்)', key: 'mangala' },
+        { label: 'Gemstones (ரத்தினங்கள்)', key: 'gems' },
         { label: 'Compatibility', key: 'compatibility' },
         { label: 'Prashna (கேள்வி–விடை)', key: 'kelvi' },
         { label: 'Astronomy', key: 'astronomy' },
@@ -173,6 +267,7 @@ export function TopMenuBar() {
       submenu: [
         { label: 'BPHS (Brihat Parashara Hora Shastra)', key: 'bphs' },
         { label: 'Saravali', key: 'saravali' },
+        { label: 'Planets in Houses (கிரகம் பாவத்தில்)', key: 'planetHouse' },
         { label: 'Hora Sara', key: 'horasara' },
         { label: 'Garga Hora', key: 'gargahora' },
         { label: 'Planetary Significations', key: 'karakas' },
@@ -201,6 +296,8 @@ export function TopMenuBar() {
         { label: 'Date Converter', key: 'dateconverter' },
         { label: '', key: 'divider1' },
         { label: 'Muhurta Finder', key: 'muhurta' },
+        { label: 'Muhurta Star (லத்தை / வைநாசிகம் / 88-108 பாதம்)', key: 'muhurtastars' },
+        { label: 'Nakshatras and Deeds (நட்சத்திரமும் காரியமும்)', key: 'nakshatraDeeds' },
         { label: 'Transit Finder', key: 'transit_finder' },
         { label: 'Rectification Tool', key: 'rectification_tool' },
         { label: 'Jamakkol Prasnam', key: 'jamakkol' },
@@ -209,6 +306,20 @@ export function TopMenuBar() {
         { label: 'Baby Names (Nakshatra)', key: 'babynames' },
         { label: 'Classical Muhurta (Pancha-Pakshi / Yatra / Eclipse)', key: 'classicalmuhurta' },
         { label: 'KP Muhurta Time Scan', key: 'kptimescan' },
+      ],
+    },
+    {
+      label: 'Research',
+      key: 'research',
+      submenu: [
+        { label: 'Search for Charts', key: 'research_search' },
+        { label: 'Statistics on group of charts', key: 'research_stats' },
+        { label: '', key: 'divider-r1' },
+        { label: 'Export Ephemeris (CSV)', key: 'research_export_ephemeris' },
+        { label: 'Export Birth Chart', key: 'research_export_birth' },
+        { label: '', key: 'divider-r2' },
+        { label: 'Time of transits (Transit Finder)', key: 'research_transit_time' },
+        { label: 'Calculator', key: 'calculator' },
       ],
     },
     {
@@ -225,8 +336,12 @@ export function TopMenuBar() {
       key: 'help',
       submenu: [
         { label: 'Help Contents', key: 'contents' },
+        { label: 'Vedic Astrology Tutorial', key: 'tutorial' },
         { label: 'Keyboard Shortcuts', key: 'shortcuts' },
+        { label: settings.showHints ? 'Balloon Help ✓' : 'Balloon Help', key: 'balloon' },
+        { label: 'Check for Updates', key: 'updates' },
         { label: 'About', key: 'about' },
+        { label: 'Deactivate on this Computer', key: 'deactivate' },
         { label: '', key: 'divider' },
         { label: 'Contact Support', key: 'contact' },
       ],
@@ -268,12 +383,19 @@ export function TopMenuBar() {
       return;
     }
 
+    // Research menu — statistics, export and transit pages
+    if (RESEARCH_KEY_TO_PATH[submenuKey]) {
+      router.push(RESEARCH_KEY_TO_PATH[submenuKey]);
+      return;
+    }
+
     switch (submenuKey) {
       // File Menu
       case 'new':
         router.push('/report');
         break;
       case 'open':
+      case 'research_search':
         uiActions.openChartDialog('all');
         break;
       case 'recent':
@@ -396,6 +518,26 @@ export function TopMenuBar() {
       case 'about':
         uiActions.openHelp('about');
         break;
+      case 'tutorial':
+        uiActions.openHelp('tutorial');
+        break;
+      case 'updates':
+        uiActions.openHelp('updates');
+        break;
+      case 'balloon':
+        updateSettings({ showHints: !settings.showHints });
+        break;
+      case 'deactivate': {
+        if (!confirm('Deactivate this computer for sync? Its sync device record is revoked. Your saved charts are not deleted.')) break;
+        const messages: Record<DeactivateResult, string> = {
+          revoked: 'This computer has been deactivated.',
+          'not-registered': 'This computer is not registered for sync, so there is nothing to deactivate.',
+        };
+        deactivateThisComputerNow()
+          .then((result) => alert(messages[result]))
+          .catch((err) => alert(`Could not deactivate this computer: ${err?.message ?? err}`));
+        break;
+      }
       case 'contact':
         // Handle: Contact Support
         alert('Support contact: gvkotravel@gmail.com');
@@ -410,6 +552,12 @@ export function TopMenuBar() {
         break;
       case 'muhurta':
         router.push('/muhurta');
+        break;
+      case 'muhurtastars':
+        router.push('/muhurta-stars');
+        break;
+      case 'nakshatraDeeds':
+        router.push('/nakshatra-deeds');
         break;
       case 'transit_finder':
         router.push('/report?chart=transit');
@@ -457,7 +605,7 @@ export function TopMenuBar() {
       default:
         break;
     }
-  }, [uiActions, setCurrentMenu, router]);
+  }, [uiActions, setCurrentMenu, router, settings.showHints, updateSettings]);
 
   useKeyboardShortcuts({
     onSettings: uiActions.openSettings,
@@ -468,6 +616,8 @@ export function TopMenuBar() {
 
   return (
     <>
+      <BalloonHelp />
+
       {/* Top Menu Bar */}
       <div className="bg-ink text-surface border-b border-ink-soft/20 sticky top-0 z-50">
         <div className="flex items-center h-10 px-4 gap-4">
@@ -476,6 +626,7 @@ export function TopMenuBar() {
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-1 hover:bg-ink-soft/10 rounded text-sm font-semibold"
             title="Toggle Sidebar"
+            data-hint="Show or hide the sidebar"
           >
             ☰
           </button>
@@ -537,6 +688,7 @@ export function TopMenuBar() {
               onClick={uiActions.openTools}
               className="p-1 hover:bg-ink-soft/10 rounded text-sm"
               title="Tools (Ctrl+T)"
+              data-hint="Tools: location, time zone, ayanamsha and date converters (Ctrl+T)"
             >
               🛠️
             </button>

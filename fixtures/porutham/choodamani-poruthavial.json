@@ -1,0 +1,158 @@
+{
+  "id": "choodamani-poruthavial",
+  "purpose": "The ten poruthams exactly as the Sudamani Ullamudaiyan edition prints them (பொருத்தவியல், verses 183-199), transcribed so tamilPorutham.js can be compared against a primary text instead of against itself. This is a TRANSCRIPTION of one source. It is not a claim that this source is the only tradition, nor that its rules are the ones practitioners should follow.",
+  "source": {
+    "title": "சூடாமணி உள்ளமுடையான் : உரையுடன் (சோதிட நூல்)",
+    "author": "ஓலைச்சுவடி மூலம்; தஞ்சாவூர் சரசுவதி மகால் நூலகப் பதிப்பு",
+    "file": "D:\\AstrologicLab\\sources\\owner-curated-reference-library\\choodamani-ullamudaiyan\\raw-scans\\full-scan.pdf",
+    "tradition": "Tamil classical",
+    "edition": "Saraswati Mahal Library, 2007 (TVA_BOK_0008543)",
+    "pageOffset": "scan page = printed page + 25"
+  },
+  "verification": {
+    "VISUAL": "Read from the rendered page image, digit by digit and name by name.",
+    "INFERRED_FROM_VERSE": "Not in the printed commentary; supplied by the verse itself. Flagged individually below.",
+    "OCR_ONLY": "Taken from the OCR text and not looked at. None remain in this file."
+  },
+  "nakshatraIndex": [
+    "0 அசுபதி Ashwini", "1 பரணி Bharani", "2 கார்த்திகை Krittika", "3 உரோகணி Rohini",
+    "4 மிருகசீரிடம் Mrigashira", "5 திருவாதிரை Ardra", "6 புனர்பூசம் Punarvasu", "7 பூசம் Pushya",
+    "8 ஆயிலியம் Ashlesha", "9 மகம் Magha", "10 பூரம் P.Phalguni", "11 உத்திரம் U.Phalguni",
+    "12 அத்தம் Hasta", "13 சித்திரை Chitra", "14 சோதி Swati", "15 விசாகம் Vishakha",
+    "16 அனுசம் Anuradha", "17 கேட்டை Jyeshtha", "18 மூலம் Mula", "19 பூராடம் P.Ashadha",
+    "20 உத்திராடம் U.Ashadha", "21 திருவோணம் Shravana", "22 அவிட்டம் Dhanishta", "23 சதயம் Shatabhisha",
+    "24 பூரட்டாதி P.Bhadra", "25 உத்திரட்டாதி U.Bhadra", "26 இரேவதி Revati"
+  ],
+  "rasiIndex": [
+    "0 மேடம் Mesha", "1 இடபம் Rishaba", "2 மிதுனம் Mithuna", "3 கற்கடகம் Kataka",
+    "4 சிங்கம் Simha", "5 கன்னி Kanni", "6 துலாம் Tula", "7 விருச்சிகம் Vrischika",
+    "8 தனுசு Dhanus", "9 மகரம் Makara", "10 கும்பம் Kumbha", "11 மீனம் Meena"
+  ],
+
+  "DINA": {
+    "verses": "183-184 (commentary, printed page 78)",
+    "printedPage": 78, "scanPage": 103, "verified": "VISUAL",
+    "rule": "Favourable counts, counted from the woman's star to the man's. The commentary prints the list; how the count continues past the first ten ('இவை பத்தும் சென்றால் அவை தொட்டு எண்ணுவது') is not explained, and 29 exceeds the 27 stars.",
+    "acceptedCounts": [2, 4, 6, 8, 9, 12, 14, 16, 19, 22, 23, 25, 29],
+    "sameStar": {
+      "note": "When the woman and man share a star (count 1) the book grades by the star instead.",
+      "uttama": [3, 5, 25, 26, 9, 7, 21, 12],
+      "madhyama": [4, 6, 2, 0, 23, 20, 13, 11, 16],
+      "madhyamaNote": "Anuradha (16) is inferred from the verse: the printed commentary names only eight of the nine.",
+      "notAccepted": [18, 8, 15, 17, 10, 19, 24, 1, 22, 14]
+    }
+  },
+
+  "GANA": {
+    "verses": "186-187 (printed pages 78-79)",
+    "printedPage": 78, "scanPage": 103, "verified": "VISUAL",
+    "rule": "Same gana: uttama. Manushya with Deva: madhyama. Rakshasa with Deva: quarrel (சிலுகு). Rakshasa with Manushya: death (மரணம்).",
+    "manushya": [3, 1, 11, 20, 25, 5, 10, 19, 24],
+    "deva": [4, 6, 16, 14, 21, 26, 0, 12, 7],
+    "devaNote": "Pushya (7) is inferred from the verse ('தலைபூ சங்கள்'); the printed commentary lists only eight Deva stars while saying nine.",
+    "rakshasa": [15, 17, 13, 18, 2, 8, 22, 23, 9],
+    "rakshasaNote": "Magha (9) is inferred from the verse ('மகம்கணம் அரக்கர்க்'); the printed commentary lists only eight Rakshasa stars while saying nine."
+  },
+
+  "MAHENDRA": {
+    "verses": "188 (printed page 79)",
+    "printedPage": 79, "scanPage": 104, "verified": "VISUAL",
+    "rule": "Favourable counts from the woman's star to the man's.",
+    "acceptedCounts": [1, 4, 7, 10, 13, 16, 19, 20, 22, 25],
+    "note": "The commentary prints 20. The verse's own arithmetic ('ஒன்றொழித் திருபான்' = 19, then 'ஐந்தும் இருபத்தோ டிரண்டும்' = 25 and 22) does not obviously give it. Recorded as printed."
+  },
+
+  "STREE_DEERGHA": {
+    "verses": "188 (printed page 79)",
+    "printedPage": 79, "scanPage": 104, "verified": "VISUAL",
+    "rule": "Count from the woman's star to the man's; thirteen or more is good.",
+    "minimumCount": 13
+  },
+
+  "YONI": {
+    "verses": "189-192 (printed pages 79-81)",
+    "printedPage": 80, "scanPage": 105, "verified": "VISUAL",
+    "rule": "A different model from a numeric grouping. Each star has an animal and a sex. Verse 191 names enemy animals; verse 192 grades by the sexes: both male is enmity (பகை), both female is uttama, and the two mixed cases are both good.",
+    "enemies": [
+      "யானை (elephant) — மனிதர் (human)",
+      "குதிரை (horse) — பசு (cow)",
+      "எருமை (buffalo) and புல்வாய் (deer) — புலி (tiger)",
+      "பாம்பு (snake) — ஆடு (goat)",
+      "குரங்கு (monkey) — நாய் (dog)",
+      "எலி (rat) — பூனை (cat)"
+    ],
+    "starAnimals": {
+      "0": "ஆண் குதிரை", "1": "ஆண் யானை", "2": "பெண் ஆடு", "3": "நாகப்பாம்பு",
+      "4": "சாரைப்பாம்பு", "5": "பெண் நாய்", "6": "பெண் பூனை", "7": "ஆண் ஆடு",
+      "8": "கடுவன் பூனை", "9": "ஆண் எலி", "10": "பெண் எலி", "11": "எருது",
+      "12": "பெண் எருமை", "13": "ஆண் புலி", "14": "ஆண் எருமை", "15": "பெண் புலி",
+      "16": "(not stated in the printed commentary)", "17": "ஆண் மான்", "18": "ஆண் நாய்",
+      "19": "ஆண் குரங்கு", "20": "மலட்டுப் பசு", "21": "பெண் குரங்கு", "22": "பெண் (மனையில் பெண்டீர்)",
+      "23": "பெண் குதிரை", "24": "புருஷன்", "25": "பாற்பசு", "26": "பெண் யானை"
+    },
+    "gaps": "Anuradha's animal is missing from the printed commentary, and the sex of the two snakes is not stated, so a faithful implementation cannot be completed from this edition alone."
+  },
+
+  "RASI": {
+    "verses": "192 (printed page 81)",
+    "printedPage": 81, "scanPage": 106, "verified": "VISUAL",
+    "rule": "Count from the woman's rasi to the man's. The seventh or beyond is uttama; fewer than seven is not acceptable.",
+    "minimumCount": 7
+  },
+
+  "RASI_ADHIPATHI": {
+    "verses": "193-194 (printed page 81)",
+    "printedPage": 81, "scanPage": 106, "verified": "VISUAL",
+    "rule": "A friendship table keyed on the woman's rasi ('இவை ஸ்திரீ இராசிகளுக்குப் பொருத்தம்'): the man's rasi must be one of the listed friends.",
+    "friendsOfWomansRasi": {
+      "0": [9, 1, 11, 6, 5],
+      "7": [9, 1, 11, 6, 5],
+      "1": [2, 7, 8, 9, 10, 11, 0],
+      "6": [2, 7, 8, 9, 10, 11, 0],
+      "2": [0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11],
+      "5": [0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11],
+      "3": [1, 2, 8, 11, 5],
+      "4": [11, 0, 8],
+      "8": [10, 1, 2, 5, 3, 4, 6],
+      "11": [10, 1, 2, 5, 3, 4, 6],
+      "9": [5, 2, 1, 11, 8, 6],
+      "10": [5, 2, 1, 11, 8, 6]
+    },
+    "note": "Mithuna and Kanni: 'சிங்கம் ஒழிய எல்லாம் உறவு' — every rasi except Simha (4)."
+  },
+
+  "VASYA": {
+    "verses": "195-196 (printed page 82)",
+    "printedPage": 82, "scanPage": 107, "verified": "VISUAL",
+    "rule": "A table of which rasis are drawn to which. Not symmetric in the book (Mithuna lists Kanni; Kanni lists Rishaba and Meena).",
+    "vasya": {
+      "0": [4, 7], "1": [3, 6], "2": [5], "3": [7, 8], "4": [9], "5": [1, 11],
+      "6": [9], "7": [3, 5], "8": [11], "9": [10], "10": [11], "11": [9]
+    }
+  },
+
+  "RAJJU": {
+    "verses": "197-198 (printed pages 82-83)",
+    "printedPage": 83, "scanPage": 108, "verified": "VISUAL",
+    "rule": "Both in the same rajju band is not acceptable. Consequences differ by band: foot loses wealth, thigh means a barren wife, belly means the children die, neck means the husband dies, head means the wife dies.",
+    "bands": {
+      "adi_foot":     { "ta": "அடிக்கயிறு", "consequence": "பொருள் நாசம்", "stars": [0, 8, 9, 17, 18, 26] },
+      "kurangu_thigh": { "ta": "குறங்குக்கயிறு / இறங்குக்கயிறு", "consequence": "மலடி", "stars": [1, 7, 10, 16, 19, 25] },
+      "vayiru_belly": { "ta": "வயிற்றுக்கயிறு", "consequence": "புத்திரர் நாசம்", "stars": [2, 6, 11, 15, 20, 24] },
+      "kazhuthu_neck": { "ta": "கழுத்துக்கயிறு", "consequence": "கொழுநன் மரணம்", "stars": [3, 5, 12, 14, 21, 23] },
+      "sirasu_head":  { "ta": "சிரசு ரச்சு", "consequence": "பெண் சாவு", "stars": [4, 13, 22] }
+    }
+  },
+
+  "VEDHA": {
+    "verses": "199 (printed page 84)",
+    "printedPage": 84, "scanPage": 109, "verified": "VISUAL",
+    "rule": "Pairs that are mutually incompatible, plus one triple. All other stars are compatible.",
+    "pairs": [
+      [1, 17], [2, 16], [3, 15], [4, 14], [5, 22], [6, 21],
+      [7, 20], [8, 19], [10, 26], [11, 25], [12, 24], [13, 23]
+    ],
+    "triple": [0, 9, 18],
+    "tripleNote": "அசுபதி, மகம், மூலம் இவை தம்மில் பொருந்தாது — none of the three is compatible with either of the others."
+  }
+}

@@ -9,8 +9,11 @@ const {
   SiderealMode,
   CalculationFlag,
 } = require('@swisseph/node');
+const { toEngineAyanamsa } = require('./ayanamsaNames');
 
 const norm360 = (deg) => ((deg % 360) + 360) % 360;
+// only the engine's own names: `SiderealMode.constructor` is a function, not a mode
+const siderealModeOf = (name) => (Object.prototype.hasOwnProperty.call(SiderealMode, toEngineAyanamsa(name)) ? SiderealMode[toEngineAyanamsa(name)] : undefined);
 
 /**
  * `@swisseph/node`'s `calculateHouses` wraps `swe_houses()`, which has no
@@ -41,15 +44,37 @@ function siderealizeHouses(houses, jd) {
 // relative to this file's own __dirname instead, which bundlers preserve.
 // Never worth crashing chart calculation over a version string, so this
 // falls back to 'unknown' rather than throwing.
+//
+// Next.js bundles this module, and inside the bundle `__dirname` is a
+// placeholder rather than the source tree — so the lone `__dirname` path this
+// used to take resolved to nothing, and every chart computed through a page
+// reported its engine version as "unknown". That is the third place this trap
+// has been found, after `chartSnapshot.engineVersion` and `citationScan`, so
+// the candidates are ordered the same way: the server process runs from the
+// project root, which is where node_modules is, and `__dirname` is kept last
+// for plain Node, where it is correct.
 function readSwissephVersion() {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const candidates = [];
   try {
-    const fs = require('node:fs');
-    const path = require('node:path');
-    const pkgPath = path.join(__dirname, '..', '..', 'node_modules', '@swisseph', 'node', 'package.json');
-    return JSON.parse(fs.readFileSync(pkgPath, 'utf8')).version;
-  } catch {
-    return 'unknown';
+    const entry = require.resolve('@swisseph/node');
+    let dir = path.dirname(entry);
+    for (let i = 0; i < 4; i += 1) {
+      candidates.push(path.join(dir, 'package.json'));
+      dir = path.dirname(dir);
+    }
+  } catch { /* fall through to the path guesses */ }
+  candidates.push(path.join(process.cwd(), 'node_modules', '@swisseph', 'node', 'package.json'));
+  candidates.push(path.join(__dirname, '..', '..', 'node_modules', '@swisseph', 'node', 'package.json'));
+
+  for (const candidate of candidates) {
+    try {
+      const pkg = JSON.parse(fs.readFileSync(candidate, 'utf8'));
+      if (pkg.name === '@swisseph/node' && pkg.version) return pkg.version;
+    } catch { /* try the next candidate */ }
   }
+  return 'unknown';
 }
 const packageMetadata = { version: readSwissephVersion() };
 
@@ -72,7 +97,7 @@ function calculateChart({ year, month, day, hour, minute = 0, second = 0,
   }
   const utcHour = hour + (minute / 60) + (second / 3600) - (utcOffsetMinutes / 60);
   const jd = julianDay(year, month, day, utcHour);
-  const siderealMode = SiderealMode[ayanamsa];
+  const siderealMode = siderealModeOf(ayanamsa);
   if (siderealMode === undefined) throw new RangeError(`Unsupported ayanamsa: ${ayanamsa}`);
   const system = HouseSystem[houseSystem];
   if (system === undefined) throw new RangeError(`Unsupported house system: ${houseSystem}`);
@@ -99,7 +124,7 @@ function calculateChart({ year, month, day, hour, minute = 0, second = 0,
  * full chart. Same tropical→sidereal correction as `siderealizeHouses`.
  */
 function siderealAscendant(jd, latitude, longitude, ayanamsa = 'Lahiri') {
-  const siderealMode = SiderealMode[ayanamsa];
+  const siderealMode = siderealModeOf(ayanamsa);
   if (siderealMode === undefined) throw new RangeError(`Unsupported ayanamsa: ${ayanamsa}`);
   setSiderealMode(siderealMode);
   const houses = calculateHouses(jd, latitude, longitude, HouseSystem.Porphyrius);

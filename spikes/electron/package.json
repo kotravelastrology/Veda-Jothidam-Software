@@ -1,0 +1,7 @@
+{
+  "name": "vj008-electron-spike",
+  "private": true,
+  "version": "1.0.0",
+  "description": "VJ-008 proof: Swiss Ephemeris N-API addon and node:sqlite under Electron",
+  "main": "main.js"
+}

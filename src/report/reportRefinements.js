@@ -110,14 +110,15 @@ function generateReportSummary(reportData) {
     totalItems += 3 + (reportData.muhurtaEnhancements.remedies?.length || 0);
   }
 
-  if (reportData.predictions) {
+  if (reportData.predictions && reportData.predictions.status !== 'SOURCE_REQUIRED') {
+    const predictionCount = reportData.predictions.events?.length || 0;
     sections.push({
       name: REPORT_SECTIONS.Predictions.title,
       key: REPORT_SECTIONS.Predictions.key,
-      itemCount: reportData.predictions.events?.length || 6,
+      itemCount: predictionCount,
       position: REPORT_SECTIONS.Predictions.position
     });
-    totalItems += reportData.predictions.events?.length || 6;
+    totalItems += predictionCount;
   }
 
   if (reportData.rajaYogas || reportData.doshas) {

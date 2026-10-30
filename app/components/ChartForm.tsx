@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AYANAMSA_OPTIONS,
   TIMEZONE_OPTIONS,
@@ -8,6 +8,8 @@ import {
   VALIDATION_MESSAGES,
   CITY_COORDINATES,
 } from '@/app/lib/constants';
+import { useSettings } from '@/src/ui/SettingsPanel';
+import { chartFormAyanamsa } from '@/src/ui/chartFormAyanamsa';
 
 /**
  * ChartForm - Birth Chart Creation Form Component
@@ -59,6 +61,13 @@ export default function ChartForm({
 
   const [errors, setErrors] = useState<ChartFormErrors>({});
   const [loading, setLoading] = useState(false);
+
+  // The ayanamsa saved in Settings is the default; a caller's initialData still wins.
+  const { settings, loaded } = useSettings();
+  useEffect(() => {
+    if (!loaded || initialData?.ayanamsa) return;
+    setFormData((prev) => ({ ...prev, ayanamsa: chartFormAyanamsa(settings.ayanamsha) }));
+  }, [loaded, settings.ayanamsha, initialData?.ayanamsa]);
 
   // Validate form data
   const validateForm = (): boolean => {
@@ -343,6 +352,7 @@ export default function ChartForm({
           <select
             id="ayanamsa"
             name="ayanamsa"
+            data-hint="Ayanamsha: the offset between the tropical and sidereal zodiac used for this chart. Lahiri is the usual default."
             value={formData.ayanamsa}
             onChange={handleChange}
             className={`${FORM_CLASSES.INPUT_BASE} ${FORM_CLASSES.INPUT_VALID}`}

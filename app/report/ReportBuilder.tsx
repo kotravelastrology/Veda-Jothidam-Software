@@ -10,17 +10,10 @@ import { ChartDisplay } from '@/src/charts/ChartDisplay';
 import { getChartById, type ChartCategory } from '@/src/charts/chartTypes';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
+import { citeTa } from '@/src/sources/citeTa';
 import { getChartLibrary } from '@/src/portal/ChartLibraryManager';
-import { useSettings } from '@/src/ui/SettingsPanel';
-
-// Settings values (lowercase UI keys) → the governed chart-context names
-// (@swisseph/node SiderealMode / HouseSystem keys) the engine expects.
-const AYANAMSHA_MAP: Record<string, string> = {
-  lahiri: 'Lahiri', raman: 'Raman', krishnamurti: 'Krishnamurti', truecitra: 'TrueCitra',
-};
-const HOUSE_SYSTEM_MAP: Record<string, string> = {
-  porphyrius: 'Porphyrius', placidus: 'Placidus', whole: 'WholeSign', equal: 'Equal', koch: 'Koch',
-};
+import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
+import { NATURE_TA, Cites, PhaladeepikaNowCell, BinduTablePicker } from '../gochara-vedha/PhaladeepikaNow';
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
 const CHART_POINTS = ['Lagna', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -81,6 +74,8 @@ const SECTIONS: SectionDef[] = [
   { id: 'bhriguProgressions', label: 'பிருகு சக்கர / சரள பத்ததி' },
   { id: 'kp', label: 'KP ஜோதிடம்' },
   { id: 'kpEvents', label: 'KP முகூர்த்தம் (80 நிகழ்வு)' },
+  { id: 'kpMarriage', label: 'KP திருமணம் · பிரிவு · குழந்தை விதிகள்' },
+  { id: 'readerII', label: 'KP விளக்கங்கள் (ராசி · பாவம் · கிரகம்)' },
 ];
 
 function SourceRequiredBadge({ reason }: { reason?: string }) {
@@ -380,8 +375,8 @@ function AyurdayaSection({ report }: { report: ReportData }) {
 function GocharaPhalaSection({ report }: { report: ReportData }) {
   const g = (report as any).gocharaPhala;
   if (!g?.available) return null;
-  const style: Record<string, string> = { benefic: 'text-teal', vedha: 'text-rose', neutral: 'text-ink-soft' };
-  const label: Record<string, string> = { benefic: 'சுபம்', vedha: 'வேதை (தடை)', neutral: 'நடுநிலை' };
+  const style: Record<string, string> = { benefic: 'text-teal', vedha: 'text-rose', neutral: 'text-ink-soft', notCovered: 'text-ink-soft' };
+  const label: Record<string, string> = { benefic: 'சுபம்', vedha: 'வேதை (தடை)', neutral: 'சுப இடம் அல்ல', notCovered: 'நூலில் இல்லை' };
   return (
     <div className="mb-8">
       <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">சந்திர கோசார பலன் + வேதை</h2>
@@ -398,17 +393,65 @@ function GocharaPhalaSection({ report }: { report: ReportData }) {
               <td className="py-1 text-center">{r.houseFromMoon}</td>
               <td className={`py-1 ${style[r.verdict]}`}>{label[r.verdict]}</td>
               <td className="py-1 text-ink-soft text-xs">
-                {r.isBenefic ? `${r.vedhaHouse}வது` : '—'}
+                {r.isBenefic ? (r.vedhaHouse ? `${r.vedhaHouse}வது` : 'வேதை இடம் இல்லை') : '—'}
                 {r.obstructedBy.length > 0 && ` · ${r.obstructedBy.map((x: string) => POINT_LABEL[x] ?? x).join(', ')}`}
+                {!r.isBenefic && r.vipareetaHouse > 0 && (
+                  <span className={r.relievedBy?.length ? 'text-teal' : ''}>
+                    விபரீத வேதை இடம் {(r.vipareetaHouses?.length ? r.vipareetaHouses : [r.vipareetaHouse]).join(' / ')}வது{r.relievedBy?.length ? ` · ${r.relievedBy.map((x: string) => POINT_LABEL[x] ?? x).join(', ')} — தீமை நீங்கும்` : ''}
+                  </span>
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
       <p className="text-[11px] text-ink-soft mt-2">
-        பலதீபிகா ச.26 v.3-8 — சந்திரனிலிருந்து சுப கோசார பாவங்கள் + இணை வேதை பாவம் (சூரியன்↔சனி, சந்திரன்↔புதன் விதிவிலக்கு).
-        முந்தைய AstrologicLab gocharaPhala engine-லிருந்து port.
+        மந்த்ரேஸ்வரர், பலதீபிகை அத். 26, ஸ்லோ. 2-8 (சாஸ்திரி 1950, அச்சுப் பக்கம் 286-288) — சந்திரனிலிருந்து சுப கோசார பாவங்கள், இணை வேதை பாவம்;
+        சூரியன்↔சனி, சந்திரன்↔புதன் விலக்கு. ராகு, கேது "சூரியனைப் போல" 3, 6, 10, 11 — வேதை இடம் சொல்லப்படவில்லை. இந்த அத்தியாயத்தில் விபரீத வேதை இல்லை;
+        புலிப்பாணியின் விபரீத வேதையும் சுக்கிரன்-சூரியன் விலக்கும் மற்ற நூல்களும் ஒப்பீட்டில்: <a href="/gochara-vedha" className="underline">/gochara-vedha</a> (எல்லாக் கிரகங்களின் காலங்களுடன்).
       </p>
+      {g.phaladeepika && <PhaladeepikaNowReport pd={g.phaladeepika} />}
+    </div>
+  );
+}
+
+/** Phaladeepika XXVI.9-34 for today: one row per planet, then verse 34 and the pages. */
+function PhaladeepikaNowReport({ pd }: { pd: any }) {
+  const v34 = pd.verse34Now;
+  const [table, setTable] = useState<string>(pd.bindu?.defaultTable ?? 'PHALADEEPIKA');
+  return (
+    <div className="mt-4">
+      <h3 className="text-sm font-semibold text-ink mb-1">பலதீபிகை அத். 26 — இன்றைய பலன் (ஸ்லோ. 9-25, 30-33, 41)</h3>
+      {pd.bindu && <p className="mb-1"><BinduTablePicker meta={pd.bindu} value={table} onChange={setTable} /></p>}
+      <p className="text-[11px] text-ink-soft mb-2">
+        ஒவ்வொரு கிரகமும் சந்திரனிலிருந்து நிற்கும் இடத்துக்கு நூல் சொல்லும் பலன், அது பலன் தரும் பகுதியில் உள்ளதா (ஸ்லோ. 25), உச்சம் / நீசம் / பகை வீடு / அஸ்தங்கம் (31-32),
+        அதன் மேல் விழும் முழுப் பார்வைகள் (30), 12-8-1 எச்சரிக்கை (33), அஷ்டகவர்க்கப் பரல் (41 — சர்வாஷ்டகம் 28-க்கு மேல் இயல்பு; சொந்த அஷ்டகவர்க்கத்தில் 5 அல்லது மேல் இரண்டாம் வாசிப்பு).
+        இவை நூலின் கூற்றுகள் — இந்த மென்பொருளின் முன்கணிப்பு அல்ல. விவரமும் நூல்களும்: <a href="/gochara-vedha" className="underline">/gochara-vedha</a>.
+        சந்திரன் இப்போது {NATURE_TA[pd.moonNow.nature]} (சூரியனிலிருந்து {pd.moonNow.elongation}°), புதன் {NATURE_TA[pd.mercuryNow.nature]}.
+      </p>
+      <table className="w-full text-sm max-w-3xl">
+        <thead><tr className="text-ink-soft border-b border-line">
+          <th className="text-left py-1 pr-2">கிரகம்</th><th className="text-center py-1 pr-2">இடம்</th><th className="text-left py-1">பலன்</th>
+        </tr></thead>
+        <tbody className="align-top">
+          {Object.values(pd.planets).map((n: any) => (
+            <tr key={n.planet} className="border-b border-line/40">
+              <td className="py-1 pr-2">{n.planetTa}</td>
+              <td className="py-1 pr-2 text-center">{n.house}</td>
+              <td className="py-1 text-xs"><PhaladeepikaNowCell pd={pd} n={n} table={table} /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className={`text-[11px] mt-2 ${v34.all ? 'text-rose' : 'text-ink-soft'}`}>
+        ஸ்லோ. 34 ({pd.verse34Ta}) — இப்போது எட்டில் {v34.met} பொருந்துகின்றன{v34.all ? ' — எல்லாம்' : ''}:{' '}
+        {v34.positions.map((x: any) => `${x.planetTa} ${x.nowHouse}${x.nowHouse === x.house ? '✓' : `/${x.house}`}`).join(', ')}.
+      </p>
+      <p className="text-[11px] text-ink-soft mt-1">{pd.ketuNoteTa}</p>
+      <details className="mt-1 text-[11px] text-ink-soft">
+        <summary className="cursor-pointer">மூலங்கள் ({pd.sources.length})</summary>
+        <Cites list={pd.sources} />
+      </details>
     </div>
   );
 }
@@ -902,10 +945,20 @@ function MuhurtaEnhancementsSection({ report }: { report: ReportData }) {
 }
 
 function PredictionEngineSection({ report }: { report: ReportData }) {
-  // Dynamically import the renderer to avoid circular dependencies
-  const PredictionEngineRenderer = require('@/src/charts/chart-renderers/PredictionEngineRenderer').PredictionEngineRenderer;
   const pred = (report as any).predictions;
   if (!pred) return null;
+  if (pred.status === 'SOURCE_REQUIRED') {
+    return (
+      <div className="mb-8">
+        <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink flex items-center gap-2">
+          வாழ்க்கை நிகழ்வு முன்னறிவிப்பு <SourceRequiredBadge reason={pred.reason} />
+        </h2>
+        <p className="text-sm text-ink-soft">{pred.reason}</p>
+      </div>
+    );
+  }
+  // Dynamically import the renderer to avoid circular dependencies
+  const PredictionEngineRenderer = require('@/src/charts/chart-renderers/PredictionEngineRenderer').PredictionEngineRenderer;
   return <PredictionEngineRenderer data={pred} />;
 }
 
@@ -1422,7 +1475,8 @@ function KpSystemSection({ report }: { report: ReportData }) {
 
       <p className="text-[11px] text-ink-soft mt-2">
         கிருஷ்ணமூர்த்தி அயனாம்சம் + Placidus பாவ சந்திகள் (report அமைப்பைப் பொருட்படுத்தாமல்) · விம்சோத்தரி விகிதத்தில் நட்சத்திர உட்பிரிவு.
-        முந்தைய kp-muhurat engine-லிருந்து port.
+        நூல்: கிருஷ்ணமூர்த்தி பத்ததி தொகுதி 3 (கே.எஸ். கிருஷ்ணமூர்த்தி), ப.11-13 (249 உட்பிரிவுகள், உட்பிரிவு அகலங்கள்), ப.393 (206-வது உட்பிரிவு, அயனாம்சம் 23°20′ — 1969), ப.481 (1922: 22°40′); பாவ சந்திகள் அந்நூல் குறிப்பிடும் ராஃபேல் வீட்டு அட்டவணை (Placidus) முறை.
+        கணக்கு முந்தைய kp-muhurat engine-லிருந்து port; test-kp-source.js நூலுடன் ஒப்பிடுகிறது.
       </p>
     </div>
   );
@@ -1553,6 +1607,216 @@ const KP_GRADE_STYLE: Record<string, string> = {
   DARK_GREEN: 'bg-teal text-white', GREEN: 'bg-teal-soft text-teal',
   RED: 'bg-rose-soft text-rose', REVIEW: 'bg-surface-soft text-ink-soft',
 };
+
+const KPM_STATUS: Record<string, { label: string; cls: string }> = {
+  HELD: { label: 'நிபந்தனை உள்ளது', cls: 'bg-teal-soft text-teal' },
+  NOT_HELD: { label: 'நிபந்தனை இல்லை', cls: 'bg-surface-2 text-ink-soft' },
+  INFO: { label: 'தகவல்', cls: 'bg-amber-100 text-amber-800' },
+};
+const KPM_GROUPS: [string, string][] = [['marriage', 'திருமணம்'], ['divorce', 'பிரிவு / விவாகரத்து'], ['children', 'குழந்தைகள்'], ['character', 'இயல்பு'], ['gem', 'ரத்தினம்']];
+
+/** Reader VI printed pp.107-121: the paragraph for the sign of the star lord of each cusp's sub-lord, as printed with a Tamil rendering. */
+function KpJudgeReadings({ judge }: { judge: any }) {
+  const [showEn, setShowEn] = useState(false);
+  return (
+    <div className="mb-4">
+      <h3 className="text-sm font-semibold text-ink mb-1">கஸ்ப் உப அதிபதி வழி விளக்கங்கள் (தோற்றம், குணம், உடல்நலம், பணம், காதல்)</h3>
+      <p className="text-xs text-ink-soft mb-2">
+        {judge.notesTa.join(' ')} {citeTa(judge.source)}
+        {' '}<button type="button" onClick={() => setShowEn(!showEn)} className="underline">{showEn ? 'ஆங்கில மூலத்தை மறை' : 'ஆங்கில மூலத்தையும் காட்டு'}</button>
+      </p>
+      {judge.readings.map((r: any, i: number) => (
+        <div key={i} className="border-b border-line/40 pb-1 mb-1 text-xs">
+          <p className="font-semibold text-ink">{r.titleTa}: {r.cusp}-ஆம் கஸ்ப் உப அதிபதி {r.subLordTa}; நட்சத்திர அதிபதி {r.starLordTa}{r.signTa ? ` (${r.signTa})` : ''}</p>
+          {r.entry ? (<><p className="text-ink"><span className="text-ink-soft">(ப.{r.entry.page})</span> {r.entry.ta}</p>{showEn && <p className="text-ink-soft italic">{r.entry.en}</p>}</>) : <p className="text-ink-soft">{r.noteTa}</p>}
+        </div>
+      ))}
+      {judge.strength?.available && (
+        <details className="text-xs mt-2">
+          <summary className="cursor-pointer font-semibold text-ink">வக்ர நட்சத்திரம், அஸ்தமன கிரகத்தின் நட்சத்திரம் (ப.145-152)</summary>
+          <p className="text-ink-soft mt-1">{judge.strength.notesTa.join(' ')} {citeTa(judge.strength.source)}</p>
+          <p className="mt-1 text-ink">7-ஆம் கஸ்ப் உப அதிபதி {judge.strength.marriage.subLordTa}{judge.strength.marriage.subRetrograde ? ' (வக்ரம்)' : ''}; நட்சத்திர அதிபதி {judge.strength.marriage.starLordTa}{judge.strength.marriage.starRetrograde ? ' (வக்ரம்)' : ''}. {judge.strength.marriage.readingTa ?? 'நட்சத்திர அதிபதி வக்ரம் அல்ல — இந்த நிபந்தனை இல்லை.'} (ப.{judge.strength.marriage.page})</p>
+          {judge.strength.topics.map((t: any) => (
+            <p key={t.id} className="mt-1"><span className="font-semibold">{t.status === 'HELD' ? 'நிபந்தனை உள்ளது' : 'நிபந்தனை இல்லை'}</span> (ப.{t.page}) {t.textTa} வக்ர நட்சத்திரத்தில் நிற்பவை: {t.blocked.length ? t.blocked.join(', ') : '—'}; மற்றவை: {t.free.length ? t.free.join(', ') : '—'}.</p>
+          ))}
+          <p className="mt-2 font-semibold text-ink">அஸ்தமன கிரகத்தின் நட்சத்திரத்தில் நிற்கும் உப அதிபதி — கஸ்ப் வாரியாக (நூலின் சொற்கள்; அஸ்தமனம் நிகழ்ந்தால் மட்டும்)</p>
+          {judge.strength.eclipse.map((e: any) => (
+            <p key={e.cusp} className="mt-1"><span className="font-semibold">{e.cusp}-ஆம் கஸ்ப்: {e.subLordTa} → நட்சத்திர அதிபதி {e.starLordTa}{e.separationFromSun !== null ? `, சூரியனிலிருந்து ${e.separationFromSun.toFixed(1)}°${e.sameSignAsSun ? ' (அதே ராசி)' : ''}` : ''}</span> (ப.{e.page}) {e.ta}{showEn && <span className="block text-ink-soft italic">{e.en}</span>}</p>
+          ))}
+        </details>
+      )}
+      <details className="text-xs mt-2">
+        <summary className="cursor-pointer font-semibold text-ink">12 பாவங்கள் எதைக் குறிக்கின்றன (ப.116-121)</summary>
+        {judge.houses.map((h: any) => (<p key={h.house} className="mt-1"><span className="font-semibold">{h.house}-ஆம் பாவம்</span> (ப.{h.page}) {h.ta}{showEn && <span className="block text-ink-soft italic">{h.en}</span>}</p>))}
+      </details>
+      <details className="text-xs mt-1">
+        <summary className="cursor-pointer font-semibold text-ink">ராசிகளின் வகைப்பாடு (ப.107-109)</summary>
+        {judge.classes.map((c: any) => (<p key={c.name} className="mt-1">(ப.{c.page}) {c.ta}{showEn && c.en && <span className="block text-ink-soft italic">{c.name}: {c.members}. {c.en}</span>}</p>))}
+      </details>
+      {judge.signClasses?.available && (
+        <details className="text-xs mt-1">
+          <summary className="cursor-pointer font-semibold text-ink">ஒவ்வொரு கஸ்ப் ராசியின் வகைகள் (நூல் II, ப.97-116)</summary>
+          <p className="text-ink-soft mt-1">{citeTa(judge.signClasses.source)}</p>
+          {judge.signClasses.cusps.map((c: any) => (
+            <div key={c.house} className="mt-2 border-b border-line/40 pb-1">
+              <p className="font-semibold text-ink">{c.house}-ஆம் கஸ்ப்: {c.signTa} ({c.degree.toFixed(1)}°) — {c.labelsTa.join(' · ')}</p>
+              {c.sections.map((sec: any) => (
+                <p key={sec.id} className="mt-1"><span className="font-semibold">{sec.titleTa}</span> (ப.{sec.pageFrom}{sec.pageTo !== sec.pageFrom ? `-${sec.pageTo}` : ''}) {sec.ta}{showEn && <span className="block text-ink-soft italic">{sec.en}</span>}</p>
+              ))}
+            </div>
+          ))}
+          <p className="mt-2 text-ink">கிரகங்கள் — உறுப்பு: {Object.entries(judge.signClasses.countsTa.element).map(([k, n]) => `${k} ${n}`).join(', ') || '—'}; பாங்கு: {Object.entries(judge.signClasses.countsTa.quality).map(([k, n]) => `${k} ${n}`).join(', ') || '—'}; நேர்/எதிர்: {Object.entries(judge.signClasses.countsTa.polarity).map(([k, n]) => `${k} ${n}`).join(', ') || '—'}</p>
+          <p className="text-ink-soft">{judge.signClasses.majorityRule}</p>
+        </details>
+      )}
+    </div>
+  );
+}
+
+/** The partner's physical features and characteristic from the 7th cusp sub-lord (and the 2nd for a second marriage), Reader IV printed 86-97, as printed with a Tamil rendering. */
+function KpPartnerDescription({ partner }: { partner: any }) {
+  const [showEn, setShowEn] = useState(false);
+  const block = (title: string, p: any) => (
+    <div className="mb-3">
+      <h4 className="text-xs font-semibold text-ink mb-1">{title}: உப அதிபதி {p.subLordTa} ({p.subLordSignTa}); நட்சத்திர அதிபதி {p.starLordTa}</h4>
+      {p.readings.map((r: any, i: number) => (
+        <div key={i} className="border-b border-line/40 pb-1 mb-1 text-xs">
+          <p className="text-ink-soft">{r.basisTa}{r.node ? ` — ${r.nodeTa} முனை: ${r.noteTa}` : ''}</p>
+          {r.entries.map((e: any) => (
+            <div key={e.planet + e.sign} className="mt-0.5">
+              <p className="text-ink"><span className="font-semibold">{e.planetTa} · {e.signTa}</span> <span className="text-ink-soft">(ப.{e.page})</span> {e.ta}</p>
+              {showEn && <p className="text-ink-soft italic">{e.en}</p>}
+            </div>
+          ))}
+          {r.entries.length === 0 && <p className="text-ink-soft">படிக்க கிரகம் இல்லை.</p>}
+        </div>
+      ))}
+    </div>
+  );
+  return (
+    <div className="mb-4">
+      <h3 className="text-sm font-semibold text-ink mb-1">வருங்கால துணையின் தோற்றமும் குணமும் (7-ஆம் கஸ்ப் உப அதிபதி)</h3>
+      <p className="text-xs text-ink-soft mb-2">
+        {partner.notesTa.join(' ')} {citeTa(partner.source)}
+        {' '}<button type="button" onClick={() => setShowEn(!showEn)} className="underline">{showEn ? 'ஆங்கில மூலத்தை மறை' : 'ஆங்கில மூலத்தையும் காட்டு'}</button>
+      </p>
+      {block('முதல் துணை (7-ஆம் கஸ்ப்)', partner.first)}
+      {block('இரண்டாம் துணை (2-ஆம் கஸ்ப்)', partner.second)}
+    </div>
+  );
+}
+
+/** K.S. Krishnamurti, Reader IV, as conditions over this chart. No verdicts: where the book says "will", this says the condition holds. */
+function KpMarriageSection({ report }: { report: ReportData }) {
+  const km = (report as any).kpMarriage;
+  const [open, setOpen] = useState<string | null>(null);
+  if (!km?.available) return null;
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-1 text-ink">KP திருமணம் · பிரிவு · குழந்தை (கே.எஸ். கிருஷ்ணமூர்த்தி, தொகுதி 4)</h2>
+      <p className="text-xs text-ink-soft mb-3">
+        நூல் கூறும் நிபந்தனைகள் இந்த ஜாதகத்தில் உள்ளனவா என்று மட்டும் காட்டுகிறது; "நடக்கும்" என்ற முடிவு எதுவும் தரப்படவில்லை.
+        {' '}{citeTa(km.source)}
+      </p>
+      {KPM_GROUPS.map(([g, title]) => {
+        const rows = km.rules.filter((r: any) => r.group === g);
+        if (!rows.length) return null;
+        return (
+          <div key={g} className="mb-4">
+            <h3 className="text-sm font-semibold text-ink mb-1">{title}</h3>
+            <ul className="space-y-1 text-xs">
+              {rows.map((r: any) => {
+                const st = KPM_STATUS[r.status];
+                return (
+                  <li key={r.id} className="border-b border-line/40 pb-1">
+                    <button type="button" onClick={() => setOpen(open === r.id ? null : r.id)} className="text-left w-full">
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded mr-2 ${st.cls}`}>{st.label}</span>
+                      <span className="text-ink">{r.titleTa}</span>
+                      <span className="text-ink-soft"> (ப.{r.printedPages})</span>
+                      {r.printedContradiction && <span className="ml-1 text-[10px] text-rose">நூலில் முரண்</span>}
+                      {r.derivedShorthand && <span className="ml-1 text-[10px] text-amber-700">சுருக்கம் மாற்றப்பட்டது</span>}
+                    </button>
+                    {open === r.id && <p className="mt-1 text-ink-soft leading-relaxed">{r.detailTa}</p>}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        );
+      })}
+      {km.partner?.available && <KpPartnerDescription partner={km.partner} />}
+      {km.judge?.available && <KpJudgeReadings judge={km.judge} />}
+      <div className="mb-3">
+        <h3 className="text-sm font-semibold text-ink mb-1">நடப்பு தசா-புக்தி-அந்தரம்-சூக்ஷ்மம்: எந்த அதிபதி எந்த நிகழ்வின் பாவங்களைக் குறிக்கிறார்</h3>
+        <table className="w-full text-xs">
+          <thead><tr className="text-ink-soft border-b border-line">
+            <th className="text-left py-1">நிலை</th><th className="text-left py-1">அதிபதி</th><th className="text-left py-1">திருமணம் 2,7,11</th><th className="text-left py-1">குழந்தை 2,5,11</th><th className="text-left py-1">பிரிவு 1,6,10,12</th>
+          </tr></thead>
+          <tbody>
+            {km.periods.marriage.map((m: any, i: number) => (
+              <tr key={m.level} className="border-b border-line/40">
+                <td className="py-1">{m.level}</td><td className="py-1">{POINT_LABEL[m.lord] ?? m.lord}</td>
+                <td className="py-1">{m.signifies.join(', ') || '—'}</td>
+                <td className="py-1">{km.periods.children[i].signifies.join(', ') || '—'}</td>
+                <td className="py-1">{km.periods.separation[i].signifies.join(', ') || '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="text-[11px] text-ink-soft mt-1">நூல்: நிகழ்வு, அதன் காரகர்களின் இணைந்த தசா-புக்தி-அந்தரங்களில் வரும் (ப.107, 195). இது தொடர்பை மட்டும் காட்டுகிறது; தேதி கணிக்கப்படவில்லை.</p>
+      </div>
+      <p className="text-[11px] text-ink-soft">கணக்கிடப்படாதவை: {km.notApplied.join(' · ')}.</p>
+    </div>
+  );
+}
+
+/** K.S. Krishnamurti, Reader II (C65): the Lagna and Moon signs, the twelve houses and the grahas of this chart, as printed with a Tamil rendering. */
+function ReaderIIReportSection({ report }: { report: ReportData }) {
+  const ri = (report as any).readerII;
+  const [showEn, setShowEn] = useState(false);
+  if (!ri?.available) return null;
+  const toggle = (
+    <button type="button" onClick={() => setShowEn(!showEn)} className="underline text-xs">{showEn ? 'ஆங்கில மூலத்தை மறை' : 'ஆங்கில மூலத்தையும் காட்டு'}</button>
+  );
+  const signBlock = (key: string, title: string, s: any) => {
+    if (!s) return null;
+    return (
+      <details key={key} className="text-xs mt-1">
+        <summary className="cursor-pointer font-semibold text-ink">{title}: {s.signTa} (ப.{s.pageFrom}-{s.pageTo})</summary>
+        <div className="mt-1 space-y-1">
+          {s.sections.map((sec: any) => (
+            <p key={sec.id}><span className="font-semibold">{sec.titleTa}</span> (ப.{sec.page}) {sec.ta}{showEn && <span className="block text-ink-soft italic">{sec.en}</span>}</p>
+          ))}
+        </div>
+      </details>
+    );
+  };
+  const textBlock = (key: string, title: string, e: any) => (
+    <details key={key} className="text-xs mt-1">
+      <summary className="cursor-pointer font-semibold text-ink">{title} (ப.{e.pageFrom}{e.pageTo !== e.pageFrom ? `-${e.pageTo}` : ''})</summary>
+      <p className="mt-1">{e.ta}{showEn && <span className="block text-ink-soft italic">{e.en}</span>}</p>
+    </details>
+  );
+  return (
+    <div className="mb-8">
+      <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-1 text-ink">KP விளக்கங்கள் — கே.எஸ். கிருஷ்ணமூர்த்தி, நூல் II (Reader II)</h2>
+      <p className="text-xs text-ink-soft mb-2">
+        இந்த ஜாதகத்தின் லக்ன ராசி, சந்திர ராசி, பன்னிரண்டு பாவங்கள், கிரகங்கள் ஒவ்வொன்றின் பொது விளக்கம். நூல் கூறுவதை மட்டும் காட்டுகிறது; இது ஒரு முடிவு அல்ல.
+        {' '}{toggle}
+      </p>
+      {signBlock('lagna', 'லக்ன ராசி', ri.lagna)}
+      {signBlock('moon', 'சந்திர ராசி', ri.moon)}
+      <details className="text-xs mt-2">
+        <summary className="cursor-pointer font-semibold text-ink">கிரகங்கள் (ப.345-488)</summary>
+        {ri.planets.map((p: any) => textBlock(p.graha + p.labelTa, `${p.labelTa}${p.signTa ? ` (${p.signTa})` : ''}`, p))}
+      </details>
+      <details className="text-xs mt-1">
+        <summary className="cursor-pointer font-semibold text-ink">12 பாவங்கள் (ப.272-344)</summary>
+        {ri.houses.map((h: any) => textBlock(String(h.house), h.titleTa, h))}
+      </details>
+    </div>
+  );
+}
 
 function KpEventsSection({ report }: { report: ReportData }) {
   const ke = (report as any).kpEvents;
@@ -1912,6 +2176,8 @@ const SECTION_RENDERERS: Record<string, React.ComponentType<{ report: ReportData
   bhriguProgressions: BhriguProgressionSection,
   kp: KpSystemSection,
   kpEvents: KpEventsSection,
+  kpMarriage: KpMarriageSection,
+  readerII: ReaderIIReportSection,
   altDashas: AltDashaSection,
   kalachakraDasha: KalachakraDashaSection,
 };
@@ -2032,9 +2298,7 @@ export default function ReportBuilder() {
         longitude: birthData.longitude,
         utcOffsetMinutes: birthData.utcOffset,
         ianaTimeZone: 'Asia/Kolkata',
-        ayanamsha: AYANAMSHA_MAP[settings.ayanamsha] ?? 'Lahiri',
-        houseSystem: HOUSE_SYSTEM_MAP[settings.houseSystem] ?? 'Porphyrius',
-        nodeType: settings.nodeType === 'true' ? 'true' : 'mean',
+        ...toEngineOptions(settings),
       };
       const result = await computeReport(formInput);
       setReport(result);

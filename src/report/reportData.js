@@ -23,7 +23,7 @@ const { calculateBhavaChakra } = require('../chart/bhavaChakra');
 const { calculateElementalChakra } = require('../chart/elementalChakra');
 const { calculateTransitChakra } = require('../chart/transitChakra');
 const { calculateMuhurtaEnhancements } = require('../chart/muhurtaEnhancements');
-const { calculatePredictions } = require('../chart/predictionEngine');
+const { sourceRequired } = require('../contracts/chartContext');
 const { generateReportSummary } = require('./reportRefinements');
 const { calculateLunarSolarYogas } = require('../chart/lunarSolarYogas');
 const { calculateWealthYogas } = require('../chart/wealthYogas');
@@ -35,11 +35,15 @@ const { calculateBhriguProgressions } = require('./bhriguProgressions');
 const { calculateKpSystem } = require('./kpSystem');
 const { buildYoginiDasha, buildAshtottariDasha } = require('../dasha/altDashas');
 const { calculateKpEvents } = require('./kpEvents');
+const { evaluateKpMarriage } = require('./kpMarriage');
+const { buildReaderIIReport } = require('./readerIIReport');
 const { calculateJaimini } = require('./jaimini');
 const { calculateAvasthas } = require('./avasthas');
 const { calculateNakshatraExtras } = require('./nakshatraExtras');
 const { calculateAshtakavargaShodhana } = require('./ashtakavargaShodhana');
 const { computeGocharaPhala } = require('./gocharaPhala');
+const { DEFAULT_VEDHA_METHOD } = require('./gocharaVedhaTables');
+const { phaladeepikaReportBlock } = require('./phaladeepikaGochara');
 const { calculateAyurdaya } = require('./ayurdaya');
 const { computeTransitPositions } = require('./transitPositions');
 const { calculateBnnLiterature, fromReportData: fromBnnReportData } = require('./bnnLiterature');
@@ -208,6 +212,8 @@ function buildReportData(birthInput) {
 
   const kp = calculateKpSystem(profile.chartContext.input, { nodeType: profile.chartContext.nodeType });
   const kpEvents = calculateKpEvents(kp);
+  const kpMarriage = evaluateKpMarriage(kp);
+  const readerII = buildReaderIIReport(chart);
 
   const _jdMidnightUt = sweJulianDay(bi.year, bi.month, bi.day, -(bi.utcOffsetMinutes || 0) / 60);
   const _sunriseJd = sunriseJulianDay(_jdMidnightUt, bi.latitude, bi.longitude);
@@ -247,6 +253,14 @@ function buildReportData(birthInput) {
     available: true,
     moonRasi: chart.grahas.Moon.rasi,
     rows: computeGocharaPhala(chart.grahas.Moon.rasiIndex, _transitRasiByGraha),
+    methodId: DEFAULT_VEDHA_METHOD,
+    // Phaladeepika XXVI.9-34 for the same moment — the block /gochara-vedha shows.
+    phaladeepika: phaladeepikaReportBlock({
+      moonRasiIndex: chart.grahas.Moon.rasiIndex,
+      natalRasi: rasiPositions,
+      lon: Object.fromEntries(_tp.planets.map((p) => [p.planet, p.longitude])),
+      retrograde: Object.fromEntries(_tp.planets.map((p) => [p.planet, p.isRetrograde])),
+    }),
   };
 
   const bnnLiterature = calculateBnnLiterature(fromBnnReportData(
@@ -379,16 +393,12 @@ function buildReportData(birthInput) {
     bhuktis: transitChakra.bhuktis
   });
 
-  // Phase 12: Prediction Engine (life event forecasting)
-  const predictions = calculatePredictions(
-    {
-      lagna: chart.lagna,
-      grahas: Object.fromEntries(
-        ALL_GRAHAS.map((planet) => [planet, { rasi: chart.grahas[planet].rasi, rasiIndex: chart.grahas[planet].rasiIndex }])
-      )
-    },
-    dasha,
-    muhurtaEnhancements
+  // Life-event predictions are withheld: the former predictionEngine picked
+  // which events to forecast with Math.random() and invented "accuracy"
+  // percentages, so its output was neither reproducible nor sourced.
+  const predictions = sourceRequired(
+    'Life-event forecasting has no verified classical source yet; the previous '
+    + 'implementation selected events and confidence scores at random',
   );
 
   // Phase 13: Report Refinements (export & formatting)
@@ -447,6 +457,8 @@ function buildReportData(birthInput) {
     bhriguProgressions,
     kp,
     kpEvents,
+    kpMarriage,
+    readerII,
     jaimini,
     avasthas,
     nakshatraExtras,
@@ -472,4 +484,4 @@ function buildReportData(birthInput) {
   };
 }
 
-module.exports = { buildReportData, CLASSICAL_GRAHAS };
+module.exports = { buildReportData, buildYogasDoshasChart, CLASSICAL_GRAHAS };

@@ -79,18 +79,14 @@ function buildYoginiDasha(moonLongitudeSidereal, birthMs) {
   return { system: 'Yogini', cycleYears: 36, startYogini: YOGINI_NAMES[si], periods };
 }
 
-// ── Ashtottari ───────────────────────────────────────────────────────────
-const ASHTOTTARI_LORDS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Saturn', 'Jupiter', 'Rahu', 'Venus'];
-const ASHTOTTARI_YEARS = [6, 15, 8, 17, 10, 19, 12, 21]; // sum 108
-const ASHTOTTARI_GROUP_SIZES = [4, 3, 4, 3, 4, 3, 4, 2];
-const ASHTOTTARI_NAK_LORD = (() => {
-  const arr = new Array(27).fill(0);
-  let cursor = 5; // Ardra
-  ASHTOTTARI_GROUP_SIZES.forEach((size, lordIdx) => {
-    for (let i = 0; i < size; i += 1) { arr[cursor % 27] = lordIdx; cursor += 1; }
-  });
-  return arr;
-})();
+// ── Ashtottari ─────────────────────────────────────────────────
+// Read against BPHS Ch.46 vv.17-23 (printed pp.409-410) on 2026-10-21: 28 divisions (Abhijit between Uttarashada and
+// Sravana), the lords' blocks of 3 or 4 divisions and the Abhijit-aware balance are `bphsDashas.js`. The earlier port
+// here spread 27 stars as 4,3,4,3,4,3,4,2 and so misplaced Dhanishta to Krittika.
+const { ASHTOTTARI_BLOCKS, ashtottariBalance, ASHTOTTARI_WHEN_TA } = require('./bphsDashas');
+
+const ASHTOTTARI_LORDS = ASHTOTTARI_BLOCKS.map((b) => b.lord);
+const ASHTOTTARI_YEARS = ASHTOTTARI_BLOCKS.map((b) => b.years); // sum 108
 
 function ashtottariEntry(idx, startMs, years) {
   return {
@@ -105,18 +101,8 @@ function ashtottariEntry(idx, startMs, years) {
 }
 
 function buildAshtottariDasha(moonLongitudeSidereal, birthMs) {
-  const lon = norm360(moonLongitudeSidereal);
-  const nakIndex = Math.floor(lon / NAK_SPAN) % 27;
-  const startLordIdx = ASHTOTTARI_NAK_LORD[nakIndex];
-
-  let groupStartNak = nakIndex;
-  while (ASHTOTTARI_NAK_LORD[(groupStartNak - 1 + 27) % 27] === startLordIdx) {
-    groupStartNak = (groupStartNak - 1 + 27) % 27;
-  }
-  const groupSize = ASHTOTTARI_GROUP_SIZES[startLordIdx];
-  const groupStartLon = groupStartNak * NAK_SPAN;
-  const distFromGroupStart = norm360(lon - groupStartLon);
-  const fractionElapsed = distFromGroupStart / (groupSize * NAK_SPAN);
+  const bal = ashtottariBalance(norm360(moonLongitudeSidereal));
+  const startLordIdx = ASHTOTTARI_LORDS.indexOf(bal.lord);
 
   const withSubs = (p) => {
     const subs = [];
@@ -132,7 +118,7 @@ function buildAshtottariDasha(moonLongitudeSidereal, birthMs) {
 
   const periods = [];
   let cursor = birthMs;
-  const firstYears = ASHTOTTARI_YEARS[startLordIdx] * (1 - fractionElapsed);
+  const firstYears = bal.balanceYears;
   periods.push(withSubs(ashtottariEntry(startLordIdx, cursor, firstYears)));
   cursor += firstYears * MS_PER_YEAR;
   for (let i = 1; i < 8; i += 1) {
@@ -142,7 +128,7 @@ function buildAshtottariDasha(moonLongitudeSidereal, birthMs) {
   }
   return {
     system: 'Ashtottari', cycleYears: 108, startLord: ASHTOTTARI_LORDS[startLordIdx], periods,
-    note: 'BPHS: பாரம்பரியமாக ராகு லக்னாதிபதியிலிருந்து கேந்திர/திரிகோணத்தில் இருக்கும்போது மட்டும் பயன்படுத்தப்படும்.',
+    note: `BPHS அத்.46 ஸ்லோ.17-23: ${ASHTOTTARI_WHEN_TA}. இங்கே இந்த நிபந்தனை சரிபார்க்கப்படுவதில்லை; குறிப்பாக மட்டும்.`,
   };
 }
 
@@ -150,4 +136,4 @@ function currentPeriod(periods, nowMs = Date.now()) {
   return periods.find((p) => p.startMs <= nowMs && nowMs < p.endMs) || null;
 }
 
-module.exports = { buildYoginiDasha, buildAshtottariDasha, yoginiStartIndex, currentPeriod };
+module.exports = { buildYoginiDasha, buildAshtottariDasha, yoginiStartIndex, currentPeriod, YOGINI_LORDS, YOGINI_YEARS, ASHTOTTARI_LORDS, ASHTOTTARI_YEARS };

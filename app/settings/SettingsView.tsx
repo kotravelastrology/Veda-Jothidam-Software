@@ -1,47 +1,84 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSettings, DEFAULT_SETTINGS, type Settings as SharedSettings } from '@/src/ui/SettingsPanel';
+
+// This page's own preferences, saved under their own key by Save Settings. Ayanamsha
+// and house system are not kept here: they live in the shared Settings store, so the
+// chart form and the calculations see the same value as this page.
+const PAGE_KEY = 'kotravel-settings-view';
+
+const PAGE_DEFAULTS = {
+  language: 'tamil',
+  theme: 'light',
+  timezone: 'Asia/Kolkata',
+  dateFormat: 'dd-mm-yyyy',
+  timeFormat: '24h',
+  notifications: {
+    followUpReminders: true,
+    dashaChanges: true,
+    transits: true,
+    email: true,
+  },
+  display: {
+    colorCodedStrength: true,
+    showTamilNames: true,
+    compactView: false,
+    autoCalculate: true,
+  },
+  calculation: {
+    retrogradeDisplay: true,
+    aspectOrb: '8',
+  },
+  profile: {
+    name: 'Astrologer Name',
+    email: 'astrologer@example.com',
+    phone: '+1-555-0000',
+    licenseNumber: 'LIC-001-2024',
+  },
+};
 
 export default function SettingsView() {
-  const [settings, setSettings] = useState({
-    language: 'tamil',
-    theme: 'light',
-    ayanamsa: 'lahiri',
-    timezone: 'Asia/Kolkata',
-    dateFormat: 'dd-mm-yyyy',
-    timeFormat: '24h',
-    notifications: {
-      followUpReminders: true,
-      dashaChanges: true,
-      transits: true,
-      email: true,
-    },
-    display: {
-      colorCodedStrength: true,
-      showTamilNames: true,
-      compactView: false,
-      autoCalculate: true,
-    },
-    calculation: {
-      houseSystem: 'placidus',
-      retrogradeDisplay: true,
-      aspectOrb: '8',
-    },
-    profile: {
-      name: 'Astrologer Name',
-      email: 'astrologer@example.com',
-      phone: '+1-555-0000',
-      licenseNumber: 'LIC-001-2024',
-    },
-  });
+  const { settings: shared, updateSettings } = useSettings();
+  const [settings, setSettings] = useState(PAGE_DEFAULTS);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(PAGE_KEY);
+      if (raw) setSettings({ ...PAGE_DEFAULTS, ...JSON.parse(raw) });
+    } catch (e) {
+      console.error('Failed to load settings page:', e);
+    }
+  }, []);
 
   const [activeTab, setActiveTab] = useState<'general' | 'display' | 'calculation' | 'notifications' | 'profile'>('general');
   const [saved, setSaved] = useState(false);
 
-  const handleSave = () => {
-    // Save settings (would send to backend)
+  const persistPage = (next: typeof PAGE_DEFAULTS) => {
+    try {
+      localStorage.setItem(PAGE_KEY, JSON.stringify(next));
+    } catch (e) {
+      console.error('Failed to save settings page:', e);
+    }
+  };
+
+  const flashSaved = () => {
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
+  };
+
+  const handleSave = () => {
+    persistPage(settings);
+    flashSaved();
+  };
+
+  // Puts every value on this page back to its default, including the shared
+  // ayanamsha and house system (only those two; other shared settings are left alone).
+  const handleReset = () => {
+    setSettings(PAGE_DEFAULTS);
+    updateSettings({ ayanamsha: DEFAULT_SETTINGS.ayanamsha, houseSystem: DEFAULT_SETTINGS.houseSystem });
+    persistPage(PAGE_DEFAULTS);
+    flashSaved();
   };
 
   return (
@@ -121,14 +158,14 @@ export default function SettingsView() {
               <div>
                 <label className="block text-sm font-medium text-ink mb-2">Ayanamsa</label>
                 <select
-                  value={settings.ayanamsa}
-                  onChange={(e) => setSettings({ ...settings, ayanamsa: e.target.value })}
+                  value={shared.ayanamsha}
+                  onChange={(e) => updateSettings({ ayanamsha: e.target.value as SharedSettings['ayanamsha'] })}
                   className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded"
                 >
                   <option value="lahiri">Lahiri</option>
-                  <option value="fagan">Fagan</option>
-                  <option value="krishnamurti">Krishnamurti</option>
                   <option value="raman">Raman</option>
+                  <option value="krishnamurti">Krishnamurti (KP)</option>
+                  <option value="truecitra">True Chitrapaksha</option>
                 </select>
               </div>
 
@@ -235,19 +272,15 @@ export default function SettingsView() {
               <div>
                 <label className="block text-sm font-medium text-ink mb-2">House System</label>
                 <select
-                  value={settings.calculation.houseSystem}
-                  onChange={(e) =>
-                    setSettings({
-                      ...settings,
-                      calculation: { ...settings.calculation, houseSystem: e.target.value },
-                    })
-                  }
+                  value={shared.houseSystem}
+                  onChange={(e) => updateSettings({ houseSystem: e.target.value as SharedSettings['houseSystem'] })}
                   className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded"
                 >
+                  <option value="porphyrius">Porphyry / Sripati</option>
                   <option value="placidus">Placidus</option>
-                  <option value="koch">Koch</option>
-                  <option value="equal">Equal House</option>
                   <option value="whole">Whole Sign</option>
+                  <option value="equal">Equal House</option>
+                  <option value="koch">Koch</option>
                 </select>
               </div>
 
@@ -448,7 +481,7 @@ export default function SettingsView() {
         >
           💾 Save Settings
         </button>
-        <button className="px-6 py-2 bg-line/20 text-ink rounded-lg font-semibold hover:bg-line/30 transition">
+        <button onClick={handleReset} className="px-6 py-2 bg-line/20 text-ink rounded-lg font-semibold hover:bg-line/30 transition">
           ↩️ Reset to Defaults
         </button>
       </div>

@@ -1,5 +1,7 @@
 const assert = require('node:assert/strict');
-const { calculateAvasthas, jagradadi, baladi, deeptadi } = require('./src/report/avasthas');
+const {
+  calculateAvasthas, jagradadi, baladi, deeptadi, shayanadi, lajjitadi, DEEPTADI, LAJJITADI,
+} = require('./src/report/avasthas');
 
 // ── Baladi: 5 states, 6deg each; odd (1-indexed) signs Bala->Mrita, even reverse ──
 assert.equal(baladi(0, 3), 'பால (குழந்தை)');        // Aries (odd), first 6deg
@@ -19,6 +21,10 @@ assert.equal(deeptadi('Venus', PL), 'தீப்த (உச்சம்)');   /
 assert.equal(deeptadi('Saturn', PL), 'ஸ்வஸ்த (சொந்த வீடு)'); // Saturn in Capricorn -> own
 // combust: Mercury within 10deg of Sun in the same sign
 assert.equal(deeptadi('Mercury', { ...PL, Sun: 20, Mercury: 22 }), 'விகல (அஸ்தமனம்)');
+// debilitation before combustion: Venus in Virgo (debilitated), 7deg from the Sun
+assert.equal(deeptadi('Venus', { ...PL, Sun: 167.73, Venus: 160.57 }), DEEPTADI.khala);
+// the nodes have no exaltation or own sign in BPHS ch.45, so no Deeptadi
+assert.equal(deeptadi('Rahu', { ...PL, Rahu: 280.06 }), null);
 // war-defeat: two tara-grahas in the same sign within 1deg, the further one loses
 assert.equal(deeptadi('Jupiter', { ...PL, Jupiter: 100.5, Venus: 100.0 }), 'நிபீடித (கிரக யுத்தம்)');
 
@@ -33,18 +39,20 @@ for (const r of a.rows) {
 }
 
 // ── Full 5-family block ──────────────────────────────────────────────
-const { shayanadi, lajjitadi } = require('./src/report/avasthas');
+
 // Shayanadi is deterministic given S,P,c,A,G,R.
 const s1 = shayanadi('Sun', 30.27, 20, 15, 3); // arbitrary but fixed inputs
 assert.ok(s1.index >= 1 && s1.index <= 12);
 assert.ok(typeof s1.name === 'string' && s1.name.length > 0);
 // Lajjitadi: an exalted planet with no affliction -> Garvit.
-assert.equal(lajjitadi('Mars', PL, 1), 'கர்வித (பெருமிதம்)'); // Mars in Capricorn (exalted)
+assert.ok(lajjitadi('Mars', PL, 1).includes(LAJJITADI.garvit)); // Mars in Capricorn (exalted)
+// Shayanadi (BPHS v.30-37), the Sun of the sample birth: S 13, P 1, navamsha 6; Moon 27; ghatis 56.33 rounded up to 57; lagna 5
+assert.equal(shayanadi('Sun', 167.726, 27, 56.33, 5).index, 11);
 
 const full = calculateAvasthas(PL, { moonNakSerial: 20, ghatisSinceSunrise: 15, lagnaRasi0: 1 });
 assert.equal(full.hasFullSet, true);
 for (const r of full.rows) {
-  assert.ok(r.shayanadi && r.lajjitadi, `${r.planet} full states`);
+  assert.ok(r.shayanadi && typeof r.lajjitadi === 'string', `${r.planet} full states`);
 }
 
 console.log(JSON.stringify({

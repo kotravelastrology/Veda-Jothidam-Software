@@ -8,15 +8,26 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
-from database import db, init_db, get_db_path
+from database import db, init_db, get_db_path, resolve_database_url
 from models import User, Chart, Consultation, PhaseData
 from config import get_config
 from security_headers import add_security_headers, token_blacklist_loader
 from jwt_handler import JWTHandler
 
 def create_app(config_name=None):
-    """Factory function to create Flask app with security hardening."""
+    """
+    Factory function to create Flask app with security hardening.
+
+    `config_name` is an environment name ('development', 'testing', ...). It
+    may instead be a dict of config overrides, which the test suites pass as
+    create_app({'TESTING': True}); overrides win over the named config.
+    """
     app = Flask(__name__)
+
+    overrides = None
+    if isinstance(config_name, dict):
+        overrides = config_name
+        config_name = 'testing' if overrides.get('TESTING') else None
 
     # Load configuration
     if config_name is None:
@@ -24,6 +35,8 @@ def create_app(config_name=None):
 
     config = get_config(config_name)
     app.config.from_object(config)
+    if overrides:
+        app.config.update(overrides)
 
     # Validate configuration
     try:
@@ -33,10 +46,11 @@ def create_app(config_name=None):
         raise
 
     # Set database URI
-    database_url = os.getenv('DATABASE_URL')
-    if not database_url:
-        database_url = get_db_path()
-    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+    # TestingConfig pins an in-memory SQLite database; don't let the ambient
+    # DATABASE_URL drag the test suite onto the real development database.
+    if not app.config.get('TESTING'):
+        database_url = os.getenv('DATABASE_URL') or get_db_path()
+        app.config['SQLALCHEMY_DATABASE_URI'] = resolve_database_url(database_url)
 
     # Initialize extensions
     db.init_app(app)
