@@ -60,6 +60,20 @@ const EXPECTED_TOTAL = { Sun: 48, Mars: 39, Jupiter: 56, Saturn: 39, Moon: 49, M
 const EXPECTED_GRAND_TOTAL = 337;
 
 /**
+ * The Lagna's own Ashtakavarga: the benefic places from each contributor (house-offsets from its own rasi), from C.S. Patel,
+ * Jyotish Ashtakavarga (1957 ed.), "The Lagna's Ashtakavarga Table", printed p.34 (file page 68). Patel's note: the Lagna
+ * Ashtakavarga (49 bindus) is used only for Ayurdaya and is not part of the 337 Samudayashtakavarga. Kept apart from
+ * BINDU_TABLE, which is the seven planets' Table-1 of Practical Ashtakavarga.
+ */
+const LAGNA_PLACES = {
+  Lagna: {
+    Sun: [3, 4, 6, 10, 11, 12], Moon: [3, 6, 10, 11, 12], Mars: [1, 3, 6, 10, 11], Mercury: [1, 2, 4, 6, 8, 10, 11],
+    Jupiter: [1, 2, 4, 5, 6, 7, 9, 10, 11], Venus: [1, 2, 3, 4, 5, 8, 9], Saturn: [1, 3, 4, 6, 10, 11], Lagna: [3, 6, 10, 11],
+  },
+};
+const LAGNA_EXPECTED_TOTAL = 49;
+
+/**
  * The benefic marks behind a Bhinnashtakavarga: for each of the 8 contributors, a 12-entry 0/1 array (index 0 = Mesha ..
  * 11 = Meena) of the signs that contributor marks for `targetPlanet`, placed from that contributor's own rasi. `places` is
  * the book's table; another book's (Phaladeepika's) can be passed.
@@ -125,6 +139,8 @@ module.exports = {
   calculateBhinnashtakavarga,
   contributionMatrix,
   BINDU_TABLE,
+  LAGNA_PLACES,
+  LAGNA_EXPECTED_TOTAL,
   EXPECTED_TOTAL,
   EXPECTED_GRAND_TOTAL,
   CONTRIBUTORS,
