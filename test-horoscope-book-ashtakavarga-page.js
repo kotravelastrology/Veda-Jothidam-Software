@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { buildPage14, buildPage15 } = require('./src/report/horoscopeBook/ashtakavargaPage');
+const { buildPage14, buildPage15, buildPage16 } = require('./src/report/horoscopeBook/ashtakavargaPage');
 const { EXPECTED_TOTAL, LAGNA_EXPECTED_TOTAL } = require('./src/chart/ashtakavarga');
 
 // Sample birth, PL9 aniruddha_HC4 pages 14 and 15: 5 October 1990, 04:30 IST, Chennai (13N05' 80E17').
@@ -78,6 +78,22 @@ const PL9 = {
 };
 const ROW_ORDER = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Lagna'];
 
+// PL9 page 16 (Sarvashtakavarga), sign order 1-12, from the text layer; the 4x4 chart reads the same Sarva values by sign.
+const PL9_16 = {
+  Lagna: [3, 6, 3, 4, 3, 3, 6, 3, 6, 4, 5, 3],
+  Sun: [1, 6, 5, 4, 5, 2, 3, 4, 5, 5, 3, 5],
+  Moon: [4, 5, 6, 5, 1, 3, 4, 3, 3, 6, 4, 5],
+  Mars: [2, 4, 5, 4, 5, 1, 2, 3, 3, 4, 4, 2],
+  Mercury: [2, 6, 6, 4, 6, 4, 3, 4, 5, 7, 4, 3],
+  Jupiter: [5, 7, 5, 5, 3, 5, 4, 5, 4, 5, 6, 2],
+  Venus: [7, 4, 3, 6, 3, 4, 5, 5, 2, 4, 4, 5],
+  Saturn: [4, 5, 4, 4, 4, 2, 4, 2, 2, 2, 4, 2],
+  Sarva: [25, 37, 34, 32, 27, 21, 25, 26, 24, 33, 29, 24],
+  chart: [25, 37, 34, 32, 27, 21, 25, 26, 24, 33, 29, 24],
+};
+const SEVEN_PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+const sumOf = (values) => values.reduce((a, b) => a + b, 0);
+
 /** Each planet's table and chart on a page, checked cell for cell against PL9. */
 function assertPlanets(page, planets) {
   assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), 'no undefined, NaN or null on the page');
@@ -129,6 +145,33 @@ async function main() {
   assert.strictEqual(PL9.Venus.grand, EXPECTED_TOTAL.Venus, 'Venus grand total matches the engine\'s expected total');
   assert.strictEqual(PL9.Saturn.grand, EXPECTED_TOTAL.Saturn, 'Saturn grand total matches the engine\'s expected total');
   assert.strictEqual(PL9.Lagna.grand, LAGNA_EXPECTED_TOTAL, 'Lagna grand total matches Patel\'s 49');
+
+  // Page 16: the Sarvashtakavarga table, the 4x4 Sarva chart and the Sarva Chancha Chakra as a table.
+  const page16 = await buildPage16({ name: 'aniruddha', birth });
+  assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page16)), 'no undefined, NaN or null on page 16');
+  assert.deepStrictEqual(page16.blocks.map((b) => b.kind), ['table', 'signGrid', 'table']);
+  const [sarvaTable, sarvaGrid, chakra] = page16.blocks;
+
+  assert.deepStrictEqual(sarvaTable.columns, ['Sign', ...Array.from({ length: 12 }, (_, i) => String(i + 1)), 'Total']);
+  assert.deepStrictEqual(sarvaTable.rows.map((r) => r[0]), ['Lagna', ...SEVEN_PLANETS, 'Sarva']);
+  for (const row of sarvaTable.rows) {
+    const label = row[0];
+    assert.deepStrictEqual(row.slice(1, 13).map(Number), PL9_16[label], `page 16 ${label} row`);
+    assert.strictEqual(row[13], String(sumOf(PL9_16[label])), `page 16 ${label} total`);
+  }
+  assert.strictEqual(sumOf(PL9_16.Sarva), 337, 'Sarva total is 337');
+
+  assert.deepStrictEqual(sarvaGrid.cells.map((c) => Number(c[0])), PL9_16.chart, '4x4 Sarva chart by sign');
+
+  // Chancha chakra: each planet's eight kaksha marks per sign; the count of 1s is that planet's bindu count for the sign.
+  assert.deepStrictEqual(chakra.rows.map((r) => r[0]), [...SEVEN_PLANETS, 'Sarva']);
+  SEVEN_PLANETS.forEach((planet, i) => {
+    const kakshas = chakra.rows[i].slice(1, 13);
+    assert.ok(kakshas.every((k) => /^[01]{8}$/.test(k)), `${planet}: eight kaksha marks per sign`);
+    assert.deepStrictEqual(kakshas.map((k) => [...k].filter((m) => m === '1').length), PL9_16[planet],
+      `${planet}: count of kaksha marks by sign`);
+  });
+  assert.deepStrictEqual(chakra.rows[7].slice(1, 13).map(Number), PL9_16.Sarva, 'Sarva row of the chakra');
 
   console.log('test-horoscope-book-ashtakavarga-page: all assertions passed');
 }

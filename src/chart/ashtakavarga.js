@@ -134,10 +134,25 @@ function calculateAshtakavarga(rasiPositions) {
   });
 }
 
+/** The eight kakshas of a sign, in the order PL9 prints them on the edge of its Sarva Chancha Chakra (Sa Ju Ma Su Ve Me Mo As). */
+const KAKSHA_LORDS = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Lagna'];
+
+/**
+ * The Sarva Chancha Chakra of one planet: for each sign, a string of eight marks (one per kaksha, in KAKSHA_LORDS order). A
+ * kaksha is marked 1 when its lord marks that sign in the planet's Bhinnashtakavarga, so the count of 1s is the bindu count.
+ * PL 6.1 manual, Sarva Chancha Chakra (pp.81-82): eight kakshas to a sign, one ring per planet.
+ */
+function kakshaMarks(targetPlanet, rasiPositions, places = BINDU_TABLE) {
+  const matrix = contributionMatrix(targetPlanet, rasiPositions, places);
+  return Array.from({ length: 12 }, (_, sign) => KAKSHA_LORDS.map((c) => matrix[c][sign]).join(''));
+}
+
 module.exports = {
   calculateAshtakavarga,
   calculateBhinnashtakavarga,
   contributionMatrix,
+  kakshaMarks,
+  KAKSHA_LORDS,
   BINDU_TABLE,
   LAGNA_PLACES,
   LAGNA_EXPECTED_TOTAL,

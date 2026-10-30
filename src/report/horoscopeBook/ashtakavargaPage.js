@@ -1,7 +1,9 @@
 /**
- * Horoscope book, pages 14 and 15 (PL9 sample aniruddha_HC4, "Ashtakavarga - Bhinnashtakavarga #1" and "#2").
+ * Horoscope book, pages 14 to 16 (PL9 sample aniruddha_HC4, "Ashtakavarga - Bhinnashtakavarga #1", "#2" and "Sarvashtaka &
+ * Chancha Chakra").
  *
  * Page 14 has the Bhinnashtakavarga of the Sun, Moon, Mars and Mercury; page 15 of Jupiter, Venus, Saturn and the Lagna.
+ * Page 16 has the Sarvashtakavarga (the seven planets' bindus by sign, 337 in all) and the Sarva Chancha Chakra.
  * Each planet has its contributor table: the benefic mark (1) of each of the eight contributors in each sign, with the row
  * and sign totals, and its bindu count per sign in the chart layout. The signs run from the planet's own sign, as PL9 prints
  * them.
@@ -13,11 +15,13 @@
  */
 const { withBirth } = require('./charts');
 const {
-  contributionMatrix, calculateBhinnashtakavarga, LAGNA_PLACES, CONTRIBUTORS,
+  contributionMatrix, calculateBhinnashtakavarga, calculateAshtakavarga, kakshaMarks, LAGNA_PLACES, CONTRIBUTORS,
 } = require('../../chart/ashtakavarga');
 
 // The row order PL9 prints the contributors in.
 const ROW_ORDER = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Lagna'];
+// The seven planets in the order PL9 prints them on page 16.
+const SEVEN_PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 const sum = (values) => values.reduce((a, b) => a + b, 0);
@@ -88,4 +92,54 @@ const buildPage14 = bhinnaPage(['Sun', 'Moon', 'Mars', 'Mercury']);
 /** Page 15: Bhinnashtakavarga of Jupiter, Venus, Saturn and the Lagna. */
 const buildPage15 = bhinnaPage(['Jupiter', 'Venus', 'Saturn', 'Lagna']);
 
-module.exports = { buildPage14, buildPage15 };
+/**
+ * Page 16: the Sarvashtakavarga (the seven planets' bindus by sign, summed by sign, with the Lagna's row above them as PL9
+ * prints it) and the Sarva Chancha Chakra as a table of kaksha marks.
+ */
+function buildPage16({ name = '', birth }) {
+  return withBirth(birth, ({ chart }) => {
+    const rasi = rasiPositions(chart);
+    const { bhinna, sarva } = calculateAshtakavarga(rasi);
+    const lagna = calculateBhinnashtakavarga('Lagna', rasi, LAGNA_PLACES);
+    const signColumns = Array.from({ length: 12 }, (_, i) => String(i + 1));
+    const rowOf = (label, values) => [label, ...values.map(String), String(sum(values))];
+
+    const sarvashtaka = {
+      kind: 'table',
+      heading: 'Sarvashtakavarga',
+      columns: ['Sign', ...signColumns, 'Total'],
+      rows: [
+        rowOf('Lagna', lagna),
+        ...SEVEN_PLANETS.map((p) => rowOf(p, bhinna[p])),
+        rowOf('Sarva', sarva),
+      ],
+      note: 'The seven planets\' bindus summed by sign (Sarva, 337 in all). The Lagna row is C.S. Patel\'s Lagna Ashtakavarga, '
+        + 'printed as PL9 prints it; it is not part of the Sarva total.',
+    };
+    const chart4x4 = {
+      kind: 'signGrid',
+      heading: 'Sarvashtakavarga',
+      cells: sarva.map((n) => [String(n)]),
+    };
+    const chakra = {
+      kind: 'table',
+      heading: 'Sarva Chancha Chakra',
+      columns: ['Planet', ...signColumns],
+      rows: [
+        ...SEVEN_PLANETS.map((p) => [p, ...kakshaMarks(p, rasi)]),
+        ['Sarva', ...sarva.map(String)],
+      ],
+      note: 'The wheel as a table: for each planet and sign, its eight kakshas in the order Sa Ju Ma Su Ve Me Mo As (the edge of '
+        + 'PL9\'s wheel). A 1 is a kaksha whose lord marks that sign in the planet\'s Bhinnashtakavarga, so the count of 1s is the '
+        + 'bindu count PL9 prints in the wheel. The dot positions on the wheel itself are not drawn.',
+    };
+
+    return {
+      title: `ஜாதகம் — ${name}`.trim(),
+      subtitle: `${birth.placeName} · ${birth.day} ${MONTH_EN[birth.month - 1]} ${birth.year}`,
+      blocks: [sarvashtaka, chart4x4, chakra],
+    };
+  });
+}
+
+module.exports = { buildPage14, buildPage15, buildPage16 };
