@@ -1,9 +1,10 @@
 /**
- * Horoscope book, pages 14 to 16 (PL9 sample aniruddha_HC4, "Ashtakavarga - Bhinnashtakavarga #1", "#2" and "Sarvashtaka &
- * Chancha Chakra").
+ * Horoscope book, pages 14 to 17 (PL9 sample aniruddha_HC4, "Ashtakavarga - Bhinnashtakavarga #1", "#2", "Sarvashtaka &
+ * Chancha Chakra" and "Ashtakavarga - Reductions").
  *
  * Page 14 has the Bhinnashtakavarga of the Sun, Moon, Mars and Mercury; page 15 of Jupiter, Venus, Saturn and the Lagna.
  * Page 16 has the Sarvashtakavarga (the seven planets' bindus by sign, 337 in all) and the Sarva Chancha Chakra.
+ * Page 17 has each body's bindus before and after the Trikona and Ekadhipatya reductions, with its pindas.
  * Each planet has its contributor table: the benefic mark (1) of each of the eight contributors in each sign, with the row
  * and sign totals, and its bindu count per sign in the chart layout. The signs run from the planet's own sign, as PL9 prints
  * them.
@@ -17,6 +18,9 @@ const { withBirth } = require('./charts');
 const {
   contributionMatrix, calculateBhinnashtakavarga, calculateAshtakavarga, kakshaMarks, LAGNA_PLACES, CONTRIBUTORS,
 } = require('../../chart/ashtakavarga');
+const {
+  trikonaReduction, ekadhipatyaReduction, rashiPinda, grahaPinda, shodhyaPinda,
+} = require('../../chart/ashtakavargaReductions');
 
 // The row order PL9 prints the contributors in.
 const ROW_ORDER = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon', 'Lagna'];
@@ -142,4 +146,48 @@ function buildPage16({ name = '', birth }) {
   });
 }
 
-module.exports = { buildPage14, buildPage15, buildPage16 };
+/**
+ * Page 17: for each body, its bindus before reduction, after Trikona Shodhan and after Ekadhipatya Shodhan, with its Rashi,
+ * Graha and Shodhya Pindas (BPHS-era method, Vishnu Bhaskar, see src/chart/ashtakavargaReductions.js).
+ */
+function reductionBlocks(body, rasi) {
+  const places = body === 'Lagna' ? LAGNA_PLACES : undefined;
+  const before = calculateBhinnashtakavarga(body, rasi, places);
+  const trikona = trikonaReduction(before);
+  const grahaSigns = new Set(SEVEN_PLANETS.map((p) => rasi[p]));
+  const ekadhipatya = ekadhipatyaReduction(trikona, grahaSigns);
+  const grid = (values) => values.map((n) => [String(n)]);
+  const pindas = [
+    ['Rashi Pinda', rashiPinda(ekadhipatya)],
+    ['Graha Pinda', grahaPinda(ekadhipatya, rasi)],
+    ['Sodhya Pinda', shodhyaPinda(ekadhipatya, rasi)],
+  ];
+
+  return [
+    { kind: 'signGrid', heading: `${body} — before reduction`, cells: grid(before) },
+    { kind: 'signGrid', heading: `${body} — Trikona reduction`, cells: grid(trikona) },
+    { kind: 'signGrid', heading: `${body} — Ekadhipatya reduction`, cells: grid(ekadhipatya) },
+    {
+      kind: 'table',
+      heading: `${body} pindas`,
+      columns: ['Pinda', 'Value'],
+      rows: pindas.map(([label, value]) => [label, String(value)]),
+      ...(body === 'Lagna' ? { note: 'Graha Pinda uses the seven grahas\' signs, as for the planets.' } : {}),
+    },
+  ];
+}
+
+/** Page 17: the Ashtakavarga reductions and pindas of the seven planets and the Lagna. */
+function buildPage17({ name = '', birth }) {
+  return withBirth(birth, ({ chart }) => {
+    const rasi = rasiPositions(chart);
+    const blocks = [...SEVEN_PLANETS, 'Lagna'].flatMap((body) => reductionBlocks(body, rasi));
+    return {
+      title: `ஜாதகம் — ${name}`.trim(),
+      subtitle: `${birth.placeName} · ${birth.day} ${MONTH_EN[birth.month - 1]} ${birth.year}`,
+      blocks,
+    };
+  });
+}
+
+module.exports = { buildPage14, buildPage15, buildPage16, buildPage17 };
