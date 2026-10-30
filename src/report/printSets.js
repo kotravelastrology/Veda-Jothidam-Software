@@ -23,6 +23,19 @@ const DASHA_KEYS = ['Dasha', 'Bhukti', 'Antara', 'Sookshma', 'Prana'];
 const norm = (x) => ((x % 360) + 360) % 360;
 const pad = (n, w = 2) => String(n).padStart(w, '0');
 
+/**
+ * The Vimshottari tree for a print, with the Dasha Options (`dashaOptions`: { yearDays, balance }, the settings' Dasha Year and
+ * Dasha Balance Method). Without options the engine's own defaults (365.25-day year, balance by degree) are used.
+ */
+function dashaTree(chart, ctx, depth, dashaOptions = {}) {
+  return buildVimshottariDasha(chart.julianDay, chart.grahas.Moon.longitude, ctx.input.utcOffsetMinutes, {
+    depth,
+    yearDays: dashaOptions.yearDays ?? 365.25,
+    balance: dashaOptions.balance ?? 'degree',
+    moonLongitudeAt: (jd) => planetLongitude(jd, 'Moon', ctx.ayanamsha),
+  });
+}
+
 /** "மேஷம் 12°34′56″" for a longitude. */
 function dms(lon, withSign = true) {
   const x = norm(lon);
@@ -140,11 +153,11 @@ function walkTree(periods, depth, want, out = [], prefix = []) {
 }
 
 /** Dasha print: Vimshottari to `levels` (1-5); levels 4 and 5 are limited to a window of years from `fromYear` so the page stays readable. */
-function dashaDocument({ birth, name, levels = 3, fromYear = null, toYear = null }) {
+function dashaDocument({ birth, name, levels = 3, fromYear = null, toYear = null, dashaOptions = {} }) {
   const L = Math.min(Math.max(levels, 1), 5);
   const ctx = createChartContext({ ...birth, calendarMode: 'tirukanita' });
   const chart = calculateParashariChart(ctx);
-  const tree = buildVimshottariDasha(chart.julianDay, chart.grahas.Moon.longitude, ctx.input.utcOffsetMinutes, { depth: L });
+  const tree = dashaTree(chart, ctx, L, dashaOptions);
   const all = walkTree(tree.dashas ?? tree.mahadashas ?? tree.periods ?? [], L);
   const yr = (p) => Number(String(p.startLocal).slice(0, 4));
   const from = fromYear ?? birth.year;
@@ -164,10 +177,10 @@ function dashaDocument({ birth, name, levels = 3, fromYear = null, toYear = null
 }
 
 /** The compact lifetime: every bhukti of the whole life in a row per dasha, the antara lords in the cells (3 levels). */
-function compactLifetimeDocument({ birth, name }) {
+function compactLifetimeDocument({ birth, name, dashaOptions = {} }) {
   const ctx = createChartContext({ ...birth, calendarMode: 'tirukanita' });
   const chart = calculateParashariChart(ctx);
-  const tree = buildVimshottariDasha(chart.julianDay, chart.grahas.Moon.longitude, ctx.input.utcOffsetMinutes, { depth: 3 });
+  const tree = dashaTree(chart, ctx, 3, dashaOptions);
   const dashas = tree.dashas ?? tree.mahadashas ?? tree.periods ?? [];
   const d10 = (p) => String(p.startLocal).slice(0, 10);
   const blocks = dashas.map((d) => ({
@@ -178,13 +191,13 @@ function compactLifetimeDocument({ birth, name }) {
 }
 
 /** Transit/dasha report: the dasha chain running on a date and the grahas' transit positions with the houses counted from the birth lagna and the birth Moon. */
-function transitDocument({ birth, name, on, ayanamsha = 'Lahiri', nodeType = 'mean' }) {
+function transitDocument({ birth, name, on, ayanamsha = 'Lahiri', nodeType = 'mean', dashaOptions = {} }) {
   const ctx = createChartContext({ ...birth, calendarMode: 'tirukanita' });
   const chart = calculateParashariChart(ctx);
   const jd = julianDay(on.year, on.month, on.day, (on.hour ?? 12) - (ctx.input.utcOffsetMinutes || 0) / 60);
   const lagnaSign = chart.lagna.rasiIndex;
   const moonSign = chart.grahas.Moon.rasiIndex;
-  const tree = buildVimshottariDasha(chart.julianDay, chart.grahas.Moon.longitude, ctx.input.utcOffsetMinutes, { depth: 5 });
+  const tree = dashaTree(chart, ctx, 5, dashaOptions);
   const jdNow = jd;
   const inside = (p) => p.startJulianDay !== undefined ? p.startJulianDay <= jdNow && jdNow < p.endJulianDay : true;
   const chain = [];

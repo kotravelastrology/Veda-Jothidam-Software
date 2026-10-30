@@ -42,6 +42,12 @@ const DASHA_LEVEL_NAMES = ['Dasha', 'Bhukti', 'Antara', 'Sookshma', 'Prana'];
 /** A civil/Julian year, used only to turn a Dasha-years figure into a calendar date. Not a BPHS convention (BPHS's own worked method, Ch.46 v.16, uses Ghatika/Panchanga units); this is the ordinary modern-software approximation. */
 const DAYS_PER_YEAR = 365.25;
 
+/** The dasha years the Parashara's Light 9 Options offer (Dasha Year): a year of 360, 365.25 or 327.85 days. */
+const DASHA_YEAR_OPTIONS = [360, 365.25, 327.85];
+
+/** The balance methods the Options offer (Dasha Balance Method): by degree (the Moon's degrees through its nakshatra), or by time. */
+const BALANCE_METHODS = ['degree', 'time'];
+
 function normalizeDegrees(deg) {
   return ((deg % 360) + 360) % 360;
 }
@@ -69,13 +75,13 @@ function orderFrom(fromLord) {
  * of the Moon" BPHS's own notes attribute to "modern researchers", in place
  * of the original Ghatika/Panchanga-based worked method in the same verse).
  */
-function birthNakshatraAndBalance(moonLongitude) {
+function birthNakshatraAndBalance(moonLongitude, timeFraction = null) {
   const nakshatraSpan = 360 / 27;
   const normalized = normalizeDegrees(moonLongitude);
   const nakshatraIndex = Math.floor(normalized / nakshatraSpan);
   const lord = NAKSHATRA_LORDS[nakshatraIndex];
   const degreeIntoNakshatra = normalized - nakshatraIndex * nakshatraSpan;
-  const elapsedFraction = degreeIntoNakshatra / nakshatraSpan;
+  const elapsedFraction = timeFraction ?? degreeIntoNakshatra / nakshatraSpan;
   const totalYears = VIMSHOTTARI_YEARS[lord];
   return {
     nakshatraIndex,
@@ -84,6 +90,33 @@ function birthNakshatraAndBalance(moonLongitude) {
     totalYears,
     balanceYears: totalYears * (1 - elapsedFraction),
   };
+}
+
+/**
+ * The share of the birth nakshatra already passed, by time (the Options' "by time" balance): the Moon's crossings of the
+ * nakshatra's start and end are found by bisection around the birth, and the share is the time since the start over the
+ * whole crossing. `moonLongitudeAt(jd)` gives the sidereal Moon longitude at a Julian day.
+ */
+function timeElapsedFraction(birthJulianDay, moonLongitudeAt, nakshatraIndex) {
+  const span = 360 / 27;
+  const start = nakshatraIndex * span;
+  const end = start + span;
+  const signed = (t, target) => {
+    const d = normalizeDegrees(moonLongitudeAt(t) - target + 180) - 180;
+    return d;
+  };
+  const crossing = (target, a, b) => {
+    let fa = signed(a, target);
+    for (let i = 0; i < 60; i += 1) {
+      const m = (a + b) / 2;
+      const fm = signed(m, target);
+      if ((fm < 0) === (fa < 0)) { a = m; fa = fm; } else { b = m; }
+    }
+    return (a + b) / 2;
+  };
+  const tStart = crossing(start, birthJulianDay - 2, birthJulianDay);
+  const tEnd = crossing(end, birthJulianDay, birthJulianDay + 2);
+  return (birthJulianDay - tStart) / (tEnd - tStart);
 }
 
 /**
@@ -102,9 +135,9 @@ function subPeriods(parentLord, parentDurationYears, parentStartYears) {
   });
 }
 
-function withCalendarDates(period, birthJulianDay, utcOffsetMinutes) {
-  const startJulianDay = birthJulianDay + period.startYears * DAYS_PER_YEAR;
-  const endJulianDay = birthJulianDay + period.endYears * DAYS_PER_YEAR;
+function withCalendarDates(period, birthJulianDay, utcOffsetMinutes, yearDays = DAYS_PER_YEAR) {
+  const startJulianDay = birthJulianDay + period.startYears * yearDays;
+  const endJulianDay = birthJulianDay + period.endYears * yearDays;
   return {
     ...period,
     startJulianDay,
@@ -123,11 +156,21 @@ function withCalendarDates(period, birthJulianDay, utcOffsetMinutes) {
  * tree has 9^5 leaf periods; callers needing deeper detail pass `depth`
  * explicitly.
  */
-function buildVimshottariDasha(birthJulianDay, moonLongitude, utcOffsetMinutes, { depth = 2 } = {}) {
+function buildVimshottariDasha(birthJulianDay, moonLongitude, utcOffsetMinutes, {
+  depth = 2, yearDays = DAYS_PER_YEAR, balance = 'degree', moonLongitudeAt = null,
+} = {}) {
   if (!Number.isInteger(depth) || depth < 1 || depth > 5) {
     throw new RangeError('depth must be an integer between 1 and 5');
   }
-  const birth = birthNakshatraAndBalance(moonLongitude);
+  if (!Number.isFinite(yearDays) || yearDays <= 0) throw new RangeError('yearDays must be a positive number');
+  if (!BALANCE_METHODS.includes(balance)) throw new RangeError(`balance must be one of ${BALANCE_METHODS.join(', ')}`);
+  let timeFraction = null;
+  if (balance === 'time') {
+    if (typeof moonLongitudeAt !== 'function') throw new TypeError('the "time" balance needs moonLongitudeAt(jd)');
+    const nakshatraIndex = Math.floor(normalizeDegrees(moonLongitude) / (360 / 27));
+    timeFraction = timeElapsedFraction(birthJulianDay, moonLongitudeAt, nakshatraIndex);
+  }
+  const birth = birthNakshatraAndBalance(moonLongitude, timeFraction);
 
   const mahadashas = [];
   let cursor = 0;
@@ -140,7 +183,7 @@ function buildVimshottariDasha(birthJulianDay, moonLongitude, utcOffsetMinutes, 
   }
 
   function withChildren(period, level) {
-    const dated = withCalendarDates(period, birthJulianDay, utcOffsetMinutes);
+    const dated = withCalendarDates(period, birthJulianDay, utcOffsetMinutes, yearDays);
     if (level >= depth) return dated;
     const children = subPeriods(period.lord, period.durationYears, period.startYears)
       .map((child) => withChildren(child, level + 1));
@@ -153,6 +196,8 @@ function buildVimshottariDasha(birthJulianDay, moonLongitude, utcOffsetMinutes, 
     birthNakshatraIndex: birth.nakshatraIndex,
     startingLord: birth.lord,
     balanceYearsAtBirth: birth.balanceYears,
+    dashaYearDays: yearDays,
+    balanceMethod: balance,
     depth,
     levelNames: DASHA_LEVEL_NAMES.slice(0, depth),
     dashas,
@@ -166,6 +211,9 @@ function buildVimshottariDasha(birthJulianDay, moonLongitude, utcOffsetMinutes, 
 module.exports = {
   buildVimshottariDasha,
   birthNakshatraAndBalance,
+  timeElapsedFraction,
+  DASHA_YEAR_OPTIONS,
+  BALANCE_METHODS,
   subPeriods,
   orderFrom,
   NAKSHATRA_LORDS,

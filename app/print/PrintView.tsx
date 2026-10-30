@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
-import { buildPrintDocument, type PrintKind } from './actions';
+import { useSettings, toDashaOptions } from '@/src/ui/SettingsPanel';
+import { buildPrintDocument, bookSectionList, type PrintKind } from './actions';
 
 /**
  * PL9's Print menu and the two text exports of its Research menu, from this software's own engines: the ephemeris and the panchang of a month, the KP chart,
@@ -20,6 +21,7 @@ const KINDS: { key: PrintKind; label: string; note: string; text?: boolean }[] =
   { key: 'transit', label: 'கோசாரம்-தசை அறிக்கை', note: 'ஒரு தேதியில் ஓடும் தசை, கோசார கிரகங்கள்' },
   { key: 'birth-export', label: 'பிறப்புத் தரவு கோப்பு (உரை)', note: 'பெயர், இடம், நேரம், தீர்க்கங்கள் — தாவல் பிரித்த ஒரு வரி', text: true },
   { key: 'ephemeris-csv', label: 'எபிமெரிஸ் கோப்பு (CSV)', note: 'அதே மாத எபிமெரிஸ், பாகைகளில்', text: true },
+  { key: 'book', label: 'ஜாதக புத்தகம் (பக்கங்கள்)', note: 'பக்கங்களைத் தேர்ந்து ஒரே புத்தகமாக அச்சிடலாம்' },
 ];
 
 const field = 'px-2 py-1.5 text-sm bg-surface border border-line rounded text-ink';
@@ -48,6 +50,7 @@ function SignGrid({ cells }: { cells: string[][] }) {
 }
 
 export default function PrintView() {
+  const { settings } = useSettings();
   const [party, setParty] = useState<Party | null>(null);
   const asked = useSearchParams().get('kind');
   const [kind, setKind] = useState<PrintKind>(KINDS.some((k) => k.key === asked) ? (asked as PrintKind) : 'ephemeris');
@@ -63,6 +66,13 @@ export default function PrintView() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [note, setNote] = useState<string | null>(null);
+  const [sectionList, setSectionList] = useState<{ id: string; title: string }[]>([]);
+  const [selected, setSelected] = useState<string[]>([]);
+
+  useEffect(() => {
+    bookSectionList().then((list: { id: string; title: string }[]) => { setSectionList(list); setSelected(list.map((s) => s.id)); }).catch(() => setSectionList([]));
+  }, []);
+  const toggleSection = (id: string) => setSelected((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
 
   const needsMonth = kind === 'ephemeris' || kind === 'panchang' || kind === 'ephemeris-csv';
   const run = async () => {
@@ -73,6 +83,8 @@ export default function PrintView() {
       const r: any = await buildPrintDocument({
         ...(party.kind === 'profile' ? { profile: { profileId: party.profileId, revision: party.revision } } : { form: party.input }),
         kind, local, year: parseInt(year, 10), month: parseInt(month, 10), levels: parseInt(levels, 10), fromYear: parseInt(fromYear, 10), toYear: parseInt(toYear, 10), on: { year: y, month: m, day: d },
+        sections: selected,
+        dashaOptions: toDashaOptions(settings),
       });
       if (r.kind === 'document') setDoc(r.doc); else setText(r);
     } catch (e) { setError(e instanceof Error ? e.message : String(e)); } finally { setLoading(false); }
@@ -90,7 +102,7 @@ export default function PrintView() {
     const lines = [doc.title, doc.subtitle, ''];
     for (const b of doc.blocks) {
       lines.push(b.heading);
-      if (b.kind === 'table') { lines.push(b.columns.join('\t')); for (const r of b.rows) lines.push(r.join('\t')); } else if (b.kind === 'signGrid') { b.cells.forEach((c: string[], i: number) => lines.push(`${SIGN_ABBR[i]}\t${c.join(' ')}`)); } else lines.push(b.text);
+      if (b.kind === 'table') { lines.push(b.columns.join('\t')); for (const r of b.rows) lines.push(r.join('\t')); } else if (b.kind === 'signGrid') { b.cells.forEach((c: string[], i: number) => lines.push(`${SIGN_ABBR[i]}\t${c.join(' ')}`)); } else if (b.kind !== 'section') lines.push(b.text);
       lines.push('');
     }
     try { await navigator.clipboard.writeText(lines.join('\n')); setNote('உரை நகலெடுக்கப்பட்டது (படமாக அல்ல).'); } catch { setNote('நகலெடுக்க முடியவில்லை.'); }
@@ -138,6 +150,22 @@ export default function PrintView() {
             {doc && <button type="button" onClick={copyDoc} className="px-4 py-1.5 rounded border border-line text-ink text-sm">உரையாக நகலெடு</button>}
             {text && <button type="button" onClick={download} className="px-4 py-1.5 rounded border border-line text-ink text-sm">பதிவிறக்கு ({text.filename})</button>}
           </div>
+          {kind === 'book' && (
+            <div className="mt-3 text-xs">
+              <div className="flex gap-2 mb-2">
+                <button type="button" onClick={() => setSelected(sectionList.map((s) => s.id))} className="px-2 py-1 rounded border border-line text-ink">அனைத்தும்</button>
+                <button type="button" onClick={() => setSelected([])} className="px-2 py-1 rounded border border-line text-ink">எதுவுமில்லை</button>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-1">
+                {sectionList.map((s) => (
+                  <label key={s.id} className="flex items-center gap-2 text-ink cursor-pointer">
+                    <input type="checkbox" checked={selected.includes(s.id)} onChange={() => toggleSection(s.id)} />
+                    {s.title}
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
           {!party && <p className="text-[11px] text-ink-soft mt-2">முதலில் மேலே யாருடைய ஜாதகம் என்பதைத் தேர்வு செய்யுங்கள்.</p>}
           {error && <p className="text-rose text-sm mt-2">⚠️ {error}</p>}
           {note && <p className="text-xs text-ink mt-2">{note}</p>}
@@ -155,7 +183,9 @@ export default function PrintView() {
         <article className="print-area bg-surface border border-line rounded-2xl p-6 print:border-0 print:p-0 print:bg-white print:text-black">
           <h2 className="font-[family-name:var(--font-tamil-serif)] text-2xl font-bold text-ink print:text-black">{doc.title}</h2>
           <p className="text-xs text-ink-soft mb-4 print:text-black">{doc.subtitle}</p>
-          {doc.blocks.map((b: any, i: number) => (
+          {doc.blocks.map((b: any, i: number) => b.kind === 'section' ? (
+            <h2 key={i} className="break-before-page pt-2 text-base font-bold text-ink mb-2 print:text-black">{b.heading}</h2>
+          ) : (
             <section key={i} className="mb-5">
               <h3 className="text-sm font-semibold text-ink mb-1 print:text-black">{b.heading}</h3>
               {b.kind === 'table' ? (

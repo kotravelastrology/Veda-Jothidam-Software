@@ -9,6 +9,10 @@ export interface Settings {
   ayanamsha: 'lahiri' | 'raman' | 'krishnamurti' | 'truecitra';
   houseSystem: 'porphyrius' | 'placidus' | 'whole' | 'equal' | 'koch';
   nodeType: 'mean' | 'true';
+  /** Dasha Year (PL9 Options, Dasha Options): the length of a dasha year in days. */
+  dashaYearDays: 360 | 365.25 | 327.85;
+  /** Dasha Balance Method (PL9 Options, Dasha Options): the balance at birth by degree or by time. */
+  dashaBalance: 'degree' | 'time';
   dashaSystem: 'vimshottari' | 'ashtottari' | 'yogini' | 'kalachakra';
   reportFormat: 'detailed' | 'summary' | 'minimal';
   decimalPlaces: 2 | 3 | 4 | 5;
@@ -24,6 +28,8 @@ export const DEFAULT_SETTINGS: Settings = {
   ayanamsha: 'lahiri',
   houseSystem: 'porphyrius',
   nodeType: 'mean',
+  dashaYearDays: 365.25,
+  dashaBalance: 'degree',
   dashaSystem: 'vimshottari',
   reportFormat: 'detailed',
   decimalPlaces: 2,
@@ -55,6 +61,11 @@ export function toEngineOptions(settings: Settings): {
     houseSystem: HOUSE_SYSTEM_MAP[settings.houseSystem] ?? 'Porphyrius',
     nodeType: settings.nodeType === 'true' ? 'true' : 'mean',
   };
+}
+
+/** The dasha options the Vimshottari engine takes from the settings (the Dasha Options of PL9). */
+export function toDashaOptions(settings: Settings): { yearDays: number; balance: 'degree' | 'time' } {
+  return { yearDays: settings.dashaYearDays, balance: settings.dashaBalance };
 }
 
 function readStoredSettings(): Settings {
@@ -224,6 +235,31 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                 >
                   <option value="mean">Mean node (default)</option>
                   <option value="true">True node</option>
+                </select>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-ink">Dasha Year (நாட்கள்)</label>
+                <select
+                  value={settings.dashaYearDays}
+                  onChange={(e) => updateSettings({ dashaYearDays: parseFloat(e.target.value) as any })}
+                  className="px-3 py-1 text-sm bg-ink-soft/10 border border-line rounded"
+                >
+                  <option value="360">360 days</option>
+                  <option value="365.25">365.25 days</option>
+                  <option value="327.85">327.85 days</option>
+                </select>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <label className="text-sm text-ink">Dasha Balance Method</label>
+                <select
+                  value={settings.dashaBalance}
+                  onChange={(e) => updateSettings({ dashaBalance: e.target.value as any })}
+                  className="px-3 py-1 text-sm bg-ink-soft/10 border border-line rounded"
+                >
+                  <option value="degree">By degree</option>
+                  <option value="time">By time</option>
                 </select>
               </div>
 
