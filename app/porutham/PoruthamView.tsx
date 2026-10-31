@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
+import { OpenChartChip } from '@/src/ui/OpenChartChip';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { useWorkspace } from '@/src/workspace/workspaceContext';
@@ -81,6 +82,7 @@ function PartyPicker({
         </>
       ) : (
         <>
+          <OpenChartChip onPick={onPick} />
           <ul className="max-h-56 overflow-y-auto divide-y divide-line/40 mb-2">
             {rows.length === 0 && <li className="text-xs text-ink-soft py-2">சேமித்த சுயவிவரம் இல்லை.</li>}
             {rows.map((r) => {

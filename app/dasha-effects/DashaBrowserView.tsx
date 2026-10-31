@@ -53,7 +53,9 @@ export default function DashaBrowserView() {
     return () => { cancelled = true; };
   }, [party, settings.ayanamsha, settings.houseSystem, settings.nodeType, settings.dashaYearDays, settings.dashaBalance]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => { if (data) writeStash(data.birth); }, [data]);
+  useEffect(() => {
+    if (data) writeStash(data.birth, party?.kind === 'profile' ? { profileId: party.profileId, revision: party.revision, name: data.birth.name, birthDate: party.birthDate ?? null, placeName: party.placeName ?? null } : null);
+  }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // The first view is the period running now, as deep as the levels asked for
   const mahadashas: Period[] = data?.mahadashas ?? [];
@@ -113,7 +115,7 @@ export default function DashaBrowserView() {
             தசை, புக்தி, அந்தரம்… ஒவ்வொரு நிலையாகத் தேர்ந்தெடுத்தால் அந்தக் காலம் தொடங்கும் நாளின் கோசாரம் ஜாதகத்துடன் ஒரே கட்டத்தில் தெரியும்; அந்தக் காலத்தின் அதிபதிகளைப் பற்றி BPHS என்ன சொல்கிறது என்பதும்.
           </p>
         </header>
-        <PartyChooser party={party} setParty={setParty} loading={loading} startManual={isNew} />
+        <PartyChooser party={party} setParty={setParty} loading={loading} startManual={isNew} auto={false} remember={false} />
         {error && <p className="text-rose text-sm bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}
       </main>
     );

@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
+import { useEffect, useState } from 'react';
+import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
+import { usePartyInput } from '@/src/ui/chartParty';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeRectification } from './actions';
-import type { BirthFormInput } from '../report/actions';
 
 type R = any;
 
@@ -18,31 +18,24 @@ function Verdict({ ok }: { ok: boolean }) {
 }
 
 export default function RectificationView() {
+  const [party, setParty] = useState<Party | null>(null);
+  const { input, loading: inputLoading } = usePartyInput(party);
   const [result, setResult] = useState<R | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = async (bd: BirthData) => {
+  // The person chosen (or the open chart, chosen by itself) is computed at once
+  useEffect(() => {
+    if (!input) { setResult(null); return; }
+    let cancelled = false;
     setLoading(true);
     setError(null);
-    try {
-      const input: BirthFormInput = {
-        name: bd.name, gender: bd.gender,
-        year: parseInt(bd.dateOfBirth.split('-')[0]),
-        month: parseInt(bd.dateOfBirth.split('-')[1]),
-        day: parseInt(bd.dateOfBirth.split('-')[2]),
-        hour: parseInt(bd.timeOfBirth.split(':')[0]),
-        minute: parseInt(bd.timeOfBirth.split(':')[1]),
-        placeName: bd.place, latitude: bd.latitude, longitude: bd.longitude,
-        utcOffsetMinutes: bd.utcOffset, ianaTimeZone: 'Asia/Kolkata',
-      };
-      setResult(await computeRectification(input));
-    } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
-    } finally {
-      setLoading(false);
-    }
-  };
+    computeRectification(input)
+      .then((r) => { if (!cancelled) setResult(r); })
+      .catch((e) => { if (!cancelled) { setError(e instanceof Error ? e.message : String(e)); setResult(null); } })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [input]);
 
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
@@ -55,9 +48,7 @@ export default function RectificationView() {
         </p>
       </header>
 
-      <div className="bg-surface border border-line rounded-2xl p-5 mb-6">
-        <BirthDataForm onSubmit={onSubmit} isLoading={loading} />
-      </div>
+      <PartyChooser party={party} setParty={(x) => { setParty(x); if (!x) setResult(null); }} loading={loading || inputLoading} />
       {error && <p className="text-rose text-sm mb-4">⚠️ {error}</p>}
 
       {result && (

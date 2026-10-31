@@ -1,11 +1,11 @@
 'use client';
 
-import { Fragment, useState } from 'react';
-import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
+import { Fragment, useEffect, useState } from 'react';
+import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
+import { usePartyInput } from '@/src/ui/chartParty';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeVarshaphala } from './actions';
-import type { BirthFormInput } from '../report/actions';
 import { citeTa } from '@/src/sources/citeTa';
 
 interface VarshaResult {
@@ -34,36 +34,26 @@ const NATURE_STYLE: Record<string, string> = {
 
 export default function VarshaphalaView() {
   const [age, setAge] = useState(30);
+  const [party, setParty] = useState<Party | null>(null);
+  const { input, loading: inputLoading } = usePartyInput(party);
   const [result, setResult] = useState<VarshaResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = async (bd: BirthData) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const input: BirthFormInput = {
-        name: bd.name,
-        gender: bd.gender,
-        year: parseInt(bd.dateOfBirth.split('-')[0]),
-        month: parseInt(bd.dateOfBirth.split('-')[1]),
-        day: parseInt(bd.dateOfBirth.split('-')[2]),
-        hour: parseInt(bd.timeOfBirth.split(':')[0]),
-        minute: parseInt(bd.timeOfBirth.split(':')[1]),
-        placeName: bd.place,
-        latitude: bd.latitude,
-        longitude: bd.longitude,
-        utcOffsetMinutes: bd.utcOffset,
-        ianaTimeZone: 'Asia/Kolkata',
-      };
-      const r = await computeVarshaphala(input, age);
-      setResult(r);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
-    } finally {
-      setLoading(false);
-    }
-  };
+  // The person chosen (or the open chart, chosen by itself) is computed at once, and again when the year changes
+  useEffect(() => {
+    if (!input) { setResult(null); return; }
+    let cancelled = false;
+    const timer = setTimeout(() => {
+      setLoading(true);
+      setError(null);
+      computeVarshaphala(input, age)
+        .then((r) => { if (!cancelled) setResult(r); })
+        .catch((e) => { if (!cancelled) { setError(e instanceof Error ? e.message : String(e)); setResult(null); } })
+        .finally(() => { if (!cancelled) setLoading(false); });
+    }, 350); // the year is typed a digit at a time
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [input, age]);
 
   return (
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
@@ -89,8 +79,9 @@ export default function VarshaphalaView() {
             className="ml-3 w-24 px-2 py-1 bg-surface-soft border border-line rounded text-ink"
           />
         </label>
-        <BirthDataForm onSubmit={onSubmit} isLoading={loading} />
       </div>
+
+      <PartyChooser party={party} setParty={(x) => { setParty(x); if (!x) setResult(null); }} loading={loading || inputLoading} />
 
       {error && <p className="text-rose text-sm mb-4">⚠️ {error}</p>}
 

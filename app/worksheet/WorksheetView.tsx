@@ -80,7 +80,7 @@ export default function WorksheetView() {
 
   // The menus (Save, Print, Notes, Events) act on the chart in the stash, so the worksheet's person goes there
   useEffect(() => {
-    if (data) writeStash(data.birth);
+    if (data) writeStash(data.birth, party?.kind === 'profile' ? { profileId: party.profileId, revision: party.revision, name: data.birth.name, birthDate: party.birthDate ?? null, placeName: party.placeName ?? null } : null);
   }, [data]);
 
   const asOfLabel = useMemo(() => {
@@ -118,7 +118,7 @@ export default function WorksheetView() {
             </div>
           </section>
         )}
-        <PartyChooser party={party} setParty={setParty} loading={loading} startManual={isNew} />
+        <PartyChooser party={party} setParty={setParty} loading={loading} startManual={isNew} auto={false} remember={false} />
         {error && <p className="text-rose text-sm bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}
       </main>
     );

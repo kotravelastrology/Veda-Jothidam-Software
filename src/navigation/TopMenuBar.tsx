@@ -59,7 +59,7 @@ export function TopMenuBar() {
   const { setSidebarOpen, sidebarOpen, uiState, uiActions } =
     useNavigation();
   const router = useRouter();
-  const { setCommandPaletteOpen } = useWorkspace();
+  const { setCommandPaletteOpen, setActiveProfile } = useWorkspace();
   const { settings, updateSettings } = useSettings();
 
   // Reports-menu keys → report builder deep links (section anchors or a chart type)
@@ -335,8 +335,9 @@ export function TopMenuBar() {
         uiActions.openChartDialog('all');
         break;
       case 'close':
-        // Closes the working chart: forget it, then show an empty report page
+        // Closes the open chart: forget it everywhere (the pages stop opening on it), then show an empty report page
         try { localStorage.removeItem('kotravel_current_chart'); } catch { /* storage unavailable */ }
+        setActiveProfile(null);
         router.push('/report');
         break;
       case 'printer-setup':
@@ -549,7 +550,7 @@ export function TopMenuBar() {
       default:
         break;
     }
-  }, [uiActions, router, setSidebarOpen, settings.showHints, updateSettings]);
+  }, [uiActions, router, setSidebarOpen, setActiveProfile, settings.showHints, updateSettings]);
 
   useKeyboardShortcuts({
     onSettings: uiActions.openSettings,

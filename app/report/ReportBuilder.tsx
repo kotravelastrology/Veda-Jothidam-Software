@@ -13,6 +13,9 @@ import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { citeTa } from '@/src/sources/citeTa';
 import { getChartLibrary } from '@/src/portal/ChartLibraryManager';
 import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
+import { useWorkspace } from '@/src/workspace/workspaceContext';
+import { resolveOpenParty, writeStash } from '@/src/ui/chartParty';
+import { openChart } from '../library/actions';
 import { NATURE_TA, Cites, PhaladeepikaNowCell, BinduTablePicker } from '../gochara-vedha/PhaladeepikaNow';
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
@@ -2200,6 +2203,8 @@ export default function ReportBuilder() {
   const [selectedChartId, setSelectedChartId] = useState<string>('D1-rasi');
   const [initialChartCategory, setInitialChartCategory] = useState<ChartCategory | undefined>(undefined);
   const [loadedBirthData, setLoadedBirthData] = useState<Partial<BirthData> | null>(null);
+  const { activeProfile, restored, setActiveProfile } = useWorkspace();
+  const autoOpened = useRef(false);
   const [reportLayout, setReportLayout] = useState<'single' | 'two' | 'three'>('single');
   const searchParams = useSearchParams();
   const chartParam = searchParams.get('chart');
@@ -2311,6 +2316,7 @@ export default function ReportBuilder() {
           && prior.birthData.dateOfBirth === birthData.dateOfBirth
           && prior.birthData.timeOfBirth === birthData.timeOfBirth
           && (prior.birthData.name || '') === (birthData.name || '');
+        const keepProfile = samePerson && prior?.profile ? prior.profile : undefined;
         localStorage.setItem('kotravel_current_chart', JSON.stringify({
           birthData,
           selectedChartId,
@@ -2318,7 +2324,10 @@ export default function ReportBuilder() {
           notes: samePerson ? prior.notes : undefined,
           events: samePerson ? prior.events : undefined,
           libraryId: samePerson ? prior.libraryId : undefined,
+          profile: keepProfile,
         }));
+        // The chart on screen is the open chart; a saved profile stays open only while it is this same person
+        if (!keepProfile) setActiveProfile(null);
       } catch { /* storage unavailable — non-fatal */ }
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
@@ -2367,6 +2376,39 @@ export default function ReportBuilder() {
     } catch { /* non-fatal */ }
     handleFormSubmit(bd);
   }, []);
+
+  // No chart asked for in the address: the chart that is open (File > New, File > Open, a chart chosen on another page) is
+  // calculated here, so the birth details are not typed again. A saved profile is read from the library first.
+  useEffect(() => {
+    if (!restored || autoOpened.current) return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('load') || params.get('print') === '1' || params.get('new') === '1') return;
+    autoOpened.current = true;
+    const open = resolveOpenParty(activeProfile);
+    if (!open) return;
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const toBirthData = (i: BirthFormInput): BirthData => ({
+      name: i.name || '', fatherName: '', motherName: '', gender: (i.gender as BirthData['gender']) || 'male',
+      dateOfBirth: `${i.year}-${pad(i.month)}-${pad(i.day)}`, timeOfBirth: `${pad(i.hour)}:${pad(i.minute)}`,
+      place: i.placeName, latitude: i.latitude, longitude: i.longitude, utcOffset: i.utcOffsetMinutes,
+    });
+    if (open.kind === 'form') {
+      const bd = toBirthData(open.input);
+      setLoadedBirthData(bd);
+      handleFormSubmit(bd);
+      return;
+    }
+    openChart(open.profileId, open.revision)
+      .then((p: any) => {
+        if (!p?.input) return;
+        const bd = toBirthData(p.input);
+        // the stash names the profile before the calculation, so recalculating the same person keeps it open
+        writeStash(p.input, { profileId: open.profileId, revision: open.revision, name: open.name ?? open.label, birthDate: open.birthDate ?? null, placeName: open.placeName ?? null });
+        setLoadedBirthData(bd);
+        handleFormSubmit(bd);
+      })
+      .catch(() => { /* the form below still works */ });
+  }, [restored]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <main className="min-h-screen">

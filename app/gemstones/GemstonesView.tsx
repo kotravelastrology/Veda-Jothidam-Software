@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
-import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
-import { listCharts, searchCharts } from '../library/actions';
+import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeGems } from './actions';
 import type { BirthFormInput } from '../report/actions';
 
@@ -15,12 +14,6 @@ import type { BirthFormInput } from '../report/actions';
  * in that order with the measure, and every section below follows it.
  */
 
-interface LibraryRow {
-  profileId: string; revision: number; name: string; birthDate: string; placeName: string | null;
-}
-type Party =
-  | { kind: 'profile'; profileId: string; revision: number; label: string }
-  | { kind: 'form'; input: BirthFormInput; label: string };
 
 const AGREEMENT: Record<string, { label: string; cls: string }> = {
   AGREE_FAVOURABLE: { label: 'நூல்கள் ஒத்தன — சாதகம்', cls: 'bg-teal-soft text-teal' },
@@ -37,19 +30,6 @@ const NODE_STATUS_TA: Record<string, string> = {
   NOT_MET: 'நிபந்தனை பொருந்தவில்லை',
   NEEDS_CHART: 'ஜாதகம் தேவை',
 };
-
-function toInput(bd: BirthData): BirthFormInput {
-  return {
-    name: bd.name, gender: bd.gender,
-    year: parseInt(bd.dateOfBirth.split('-')[0]),
-    month: parseInt(bd.dateOfBirth.split('-')[1]),
-    day: parseInt(bd.dateOfBirth.split('-')[2]),
-    hour: parseInt(bd.timeOfBirth.split(':')[0]),
-    minute: parseInt(bd.timeOfBirth.split(':')[1]),
-    placeName: bd.place, latitude: bd.latitude, longitude: bd.longitude,
-    utcOffsetMinutes: bd.utcOffset, ianaTimeZone: 'Asia/Kolkata',
-  };
-}
 
 const lords = (l: number[]) => (l.length ? l.join(', ') : '—');
 const Stance = ({ s, children }: { s: string | null; children: ReactNode }) => (
@@ -100,18 +80,10 @@ function KapoorCard({ row }: { row: any }) {
 }
 
 export default function GemstonesView() {
-  const [rows, setRows] = useState<LibraryRow[]>([]);
-  const [query, setQuery] = useState('');
   const [party, setParty] = useState<Party | null>(null);
-  const [manual, setManual] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    (query.trim() ? searchCharts(query.trim(), 25) : listCharts(50))
-      .then((r: any) => setRows(r)).catch(() => setRows([]));
-  }, [query]);
 
   useEffect(() => {
     if (!party) { setResult(null); return; }
@@ -251,36 +223,7 @@ export default function GemstonesView() {
         </p>
       </header>
 
-      <section className="bg-surface border border-line rounded-2xl p-4 mb-4">
-        <div className="flex items-baseline justify-between mb-2">
-          <h2 className="text-sm font-semibold text-ink">யாருக்கு?</h2>
-          {party && <button type="button" onClick={() => { setParty(null); setResult(null); }} className="text-xs text-ink-soft hover:text-rose">மாற்று</button>}
-        </div>
-        {party ? <p className="text-sm text-teal">✓ {party.label}</p> : manual ? (
-          <>
-            <BirthDataForm isLoading={loading}
-              onSubmit={(bd) => setParty({ kind: 'form', input: toInput(bd), label: bd.name || 'படிவ விவரம்' })} />
-            <button type="button" onClick={() => setManual(false)} className="text-xs text-ink-soft mt-2 underline">சேமித்த சுயவிவரங்களிலிருந்து தேர்ந்தெடு</button>
-          </>
-        ) : (
-          <>
-            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="சேமித்த சுயவிவரங்களில் தேடு (பெயர் / இடம்)"
-              className="w-full mb-2 px-3 py-2 text-sm bg-surface-2 border border-line rounded-xl text-ink" />
-            <ul className="max-h-44 overflow-y-auto divide-y divide-line/40 mb-2">
-              {rows.length === 0 && <li className="text-xs text-ink-soft py-2">சேமித்த சுயவிவரம் இல்லை.</li>}
-              {rows.map((r) => (
-                <li key={r.profileId}>
-                  <button type="button" className="w-full text-left py-1.5 text-sm text-ink hover:text-saffron"
-                    onClick={() => setParty({ kind: 'profile', profileId: r.profileId, revision: r.revision, label: `${r.name} · ${r.birthDate}${r.placeName ? ` · ${r.placeName}` : ''}` })}>
-                    {r.name}<span className="text-xs text-ink-soft block">{r.birthDate}{r.placeName ? ` · ${r.placeName}` : ''}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <button type="button" onClick={() => setManual(true)} className="text-xs text-ink-soft underline">அல்லது பிறப்பு விவரத்தை நேரடியாக உள்ளிடு</button>
-          </>
-        )}
-      </section>
+      <PartyChooser party={party} setParty={(x) => { setParty(x); if (!x) setResult(null); }} loading={loading} />
 
       {loading && <p className="text-sm text-ink-soft mb-4">கணக்கிடப்படுகிறது…</p>}
       {error && <p className="text-rose text-sm mb-4 bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}

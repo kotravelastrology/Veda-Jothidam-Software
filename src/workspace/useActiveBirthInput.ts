@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useWorkspace } from './workspaceContext';
 import { openChart } from '../../app/library/actions';
+import { readStash, inputFromSaved } from '../ui/chartParty';
+import { useSettings, toEngineOptions } from '../ui/SettingsPanel';
 
 export interface BirthFormFields {
   date: string;
@@ -28,15 +30,26 @@ export interface BirthFormFields {
  * every page that reads it.
  */
 export function useActiveBirthInput() {
-  const { activeProfile } = useWorkspace();
+  const { activeProfile, restored } = useWorkspace();
+  const { settings } = useSettings();
   const [input, setInput] = useState<any>(null);
   const [fields, setFields] = useState<BirthFormFields | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!activeProfile) {
-      setInput(null);
-      setFields(null);
+      // No saved profile is open: a chart entered by hand or opened from the browser's library is the open chart (chartParty.ts),
+      // read with the calculation settings of the app. It has no profile, so the pages that need one (evidence) still ask.
+      const stash = restored ? readStash() : null;
+      if (stash?.birthData && !stash.profile) {
+        const i = inputFromSaved(stash.birthData);
+        const pad = (n: number) => String(n).padStart(2, '0');
+        setInput({ ...i, ...toEngineOptions(settings) });
+        setFields({ date: `${i.year}-${pad(i.month)}-${pad(i.day)}`, time: `${pad(i.hour)}:${pad(i.minute ?? 0)}:00`, latitude: String(i.latitude), longitude: String(i.longitude) });
+      } else {
+        setInput(null);
+        setFields(null);
+      }
       return;
     }
     let cancelled = false;
@@ -58,7 +71,7 @@ export function useActiveBirthInput() {
       .finally(() => { if (!cancelled) setLoading(false); });
 
     return () => { cancelled = true; };
-  }, [activeProfile]);
+  }, [activeProfile, restored, settings.ayanamsha, settings.houseSystem, settings.nodeType]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return { profile: activeProfile, input, fields, loading };
 }

@@ -1,24 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
+import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
+import { usePartyInput } from '@/src/ui/chartParty';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeAnswer } from './actions';
 import type { BirthFormInput } from '../report/actions';
-
-function toInput(bd: BirthData): BirthFormInput {
-  return {
-    name: bd.name, gender: bd.gender,
-    year: parseInt(bd.dateOfBirth.split('-')[0]),
-    month: parseInt(bd.dateOfBirth.split('-')[1]),
-    day: parseInt(bd.dateOfBirth.split('-')[2]),
-    hour: parseInt(bd.timeOfBirth.split(':')[0]),
-    minute: parseInt(bd.timeOfBirth.split(':')[1]),
-    placeName: bd.place, latitude: bd.latitude, longitude: bd.longitude,
-    utcOffsetMinutes: bd.utcOffset, ianaTimeZone: 'Asia/Kolkata',
-  };
-}
 
 const SUGGESTIONS = [
   'இந்த வருடம் வேலை கிடைக்குமா?',
@@ -46,7 +34,8 @@ const STANDING_COLOR: Record<string, string> = {
 };
 
 export default function KelviView() {
-  const [input, setInput] = useState<BirthFormInput | null>(null);
+  const [party, setParty] = useState<Party | null>(null);
+  const { input } = usePartyInput(party);
   const [question, setQuestion] = useState('');
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -82,11 +71,7 @@ export default function KelviView() {
 
       <section className="mb-6">
         <h2 className="font-semibold text-ink mb-2">பிறப்பு விவரம்</h2>
-        <BirthDataForm
-          onSubmit={(bd) => { setInput(toInput(bd)); setError(null); }}
-          isLoading={loading}
-        />
-        {input && <p className="text-xs text-emerald-700 mt-1">✓ {input.name || 'ஜாதகர்'} — {input.placeName}</p>}
+        <PartyChooser party={party} setParty={(x) => { setParty(x); setError(null); }} loading={loading} />
       </section>
 
       <section className="mb-6">

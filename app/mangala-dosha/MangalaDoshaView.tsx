@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
+import { OpenChartChip } from '@/src/ui/OpenChartChip';
 import { listCharts, searchCharts } from '../library/actions';
 import { computeMangala, type MangalaSide } from './actions';
 import type { BirthFormInput } from '../report/actions';
@@ -75,6 +76,7 @@ function SidePicker({ title, party, rows, loading, onPick, onClear }: {
         </>
       ) : (
         <>
+          <OpenChartChip onPick={onPick} />
           <ul className="max-h-44 overflow-y-auto divide-y divide-line/40 mb-2">
             {rows.length === 0 && <li className="text-xs text-ink-soft py-2">சேமித்த சுயவிவரம் இல்லை.</li>}
             {rows.map((r) => (

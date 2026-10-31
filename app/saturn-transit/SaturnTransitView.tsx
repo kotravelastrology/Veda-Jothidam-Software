@@ -1,9 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { BirthDataForm, type BirthData } from '@/src/ui/BirthDataForm';
-import { useWorkspace } from '@/src/workspace/workspaceContext';
-import { listCharts, searchCharts, openChart } from '../library/actions';
+import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeSaturn } from './actions';
 import AshtakavargaSection from './AshtakavargaSection';
 import type { BirthFormInput } from '../report/actions';
@@ -22,12 +20,6 @@ import { citeTa } from '@/src/sources/citeTa';
  * computed for them and no effect is claimed.
  */
 
-interface LibraryRow {
-  profileId: string; revision: number; name: string; birthDate: string; placeName: string | null;
-}
-type Party =
-  | { kind: 'profile'; profileId: string; revision: number; label: string }
-  | { kind: 'form'; input: BirthFormInput; label: string };
 
 const YEAR_MS = 365.25 * 86400000;
 const PHASE_COLOR: Record<string, string> = {
@@ -37,19 +29,6 @@ const PHASE_TA: Record<string, string> = { RISING: 'முதல் கட்ட
 const COND_TA: Record<string, string> = {
   SADE_SATI: 'ஏழரைச் சனி', ARDHASHTAMA: 'அர்த்தாஷ்டமச் சனி', ASHTAMA: 'அஷ்டமச் சனி', KANTAKA: 'கண்டகச் சனி',
 };
-
-function toInput(bd: BirthData): BirthFormInput {
-  return {
-    name: bd.name, gender: bd.gender,
-    year: parseInt(bd.dateOfBirth.split('-')[0]),
-    month: parseInt(bd.dateOfBirth.split('-')[1]),
-    day: parseInt(bd.dateOfBirth.split('-')[2]),
-    hour: parseInt(bd.timeOfBirth.split(':')[0]),
-    minute: parseInt(bd.timeOfBirth.split(':')[1]),
-    placeName: bd.place, latitude: bd.latitude, longitude: bd.longitude,
-    utcOffsetMinutes: bd.utcOffset, ianaTimeZone: 'Asia/Kolkata',
-  };
-}
 
 const day = (iso: string) => iso.slice(0, 10);
 const yrs = (n: number) => n.toFixed(1);
@@ -553,11 +532,7 @@ function CyclesTable({ r }: { r: any }) {
 }
 
 export default function SaturnTransitView() {
-  const { activeProfile } = useWorkspace();
-  const [rows, setRows] = useState<LibraryRow[]>([]);
-  const [query, setQuery] = useState('');
   const [party, setParty] = useState<Party | null>(null);
-  const [manual, setManual] = useState(false);
   // The engine's default (the most-explained source, Pulippani); the result
   // reports it as conventions.kantakaDefault.
   const [kantaka, setKantaka] = useState('PULIPPANI');
@@ -565,29 +540,6 @@ export default function SaturnTransitView() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    (query.trim() ? searchCharts(query.trim(), 25) : listCharts(50))
-      .then((r: any) => setRows(r)).catch(() => setRows([]));
-  }, [query]);
-
-  // The workspace's active profile seeds the person, confirmed against the
-  // library first: it is remembered in browser storage and can outlive the
-  // record it names.
-  useEffect(() => {
-    if (!activeProfile || party) return;
-    let cancelled = false;
-    openChart(activeProfile.profileId, activeProfile.revision)
-      .then((p: any) => {
-        if (cancelled || !p) return;
-        setParty({
-          kind: 'profile', profileId: p.profileId, revision: p.revision,
-          label: `${p.name} · ${p.birthDate}${p.placeName ? ` · ${p.placeName}` : ''}`,
-        });
-      })
-      .catch(() => { /* the picker below still works */ });
-    return () => { cancelled = true; };
-  }, [activeProfile, party]);
 
   const run = async (p: Party | null = party, conv: string = kantaka) => {
     if (!p) return;
@@ -631,48 +583,7 @@ export default function SaturnTransitView() {
         </p>
       </header>
 
-      <section className="bg-surface border border-line rounded-2xl p-4 mb-4">
-        <div className="flex items-baseline justify-between mb-2">
-          <h2 className="text-sm font-semibold text-ink">யாருக்கு?</h2>
-          {party && (
-            <button type="button" onClick={() => { setParty(null); setResult(null); }}
-              className="text-xs text-ink-soft hover:text-rose">மாற்று</button>
-          )}
-        </div>
-        {party ? <p className="text-sm text-teal">✓ {party.label}</p> : manual ? (
-          <>
-            <BirthDataForm isLoading={loading}
-              onSubmit={(bd) => pick({ kind: 'form', input: toInput(bd), label: bd.name || 'படிவ விவரம்' })} />
-            <button type="button" onClick={() => setManual(false)} className="text-xs text-ink-soft mt-2 underline">
-              சேமித்த சுயவிவரங்களிலிருந்து தேர்ந்தெடு
-            </button>
-          </>
-        ) : (
-          <>
-            <input value={query} onChange={(e) => setQuery(e.target.value)}
-              placeholder="சேமித்த சுயவிவரங்களில் தேடு (பெயர் / இடம்)"
-              className="w-full mb-2 px-3 py-2 text-sm bg-surface-2 border border-line rounded-xl text-ink" />
-            <ul className="max-h-48 overflow-y-auto divide-y divide-line/40 mb-2">
-              {rows.length === 0 && <li className="text-xs text-ink-soft py-2">சேமித்த சுயவிவரம் இல்லை.</li>}
-              {rows.map((r) => (
-                <li key={r.profileId}>
-                  <button type="button" className="w-full text-left py-1.5 text-sm text-ink hover:text-saffron"
-                    onClick={() => pick({
-                      kind: 'profile', profileId: r.profileId, revision: r.revision,
-                      label: `${r.name} · ${r.birthDate}${r.placeName ? ` · ${r.placeName}` : ''}`,
-                    })}>
-                    {r.name}
-                    <span className="text-xs text-ink-soft block">{r.birthDate}{r.placeName ? ` · ${r.placeName}` : ''}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <button type="button" onClick={() => setManual(true)} className="text-xs text-ink-soft underline">
-              அல்லது பிறப்பு விவரத்தை நேரடியாக உள்ளிடு
-            </button>
-          </>
-        )}
-      </section>
+      <PartyChooser party={party} setParty={(x) => { if (x) pick(x); else { setParty(null); setResult(null); } }} loading={loading} />
 
       {loading && <p className="text-sm text-ink-soft mb-4">கணக்கிடப்படுகிறது…</p>}
       {error && <p className="text-rose text-sm mb-4 bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}

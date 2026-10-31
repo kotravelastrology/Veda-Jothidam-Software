@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
-import { useChartParty, inputFromSaved } from '@/src/ui/chartParty';
+import { useRecentCharts, inputFromSaved } from '@/src/ui/chartParty';
 import { houseFrom } from '@/src/report/transitHouse';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { computeTransitMoment, stepTransitMoment, type PartyRef } from './actions';
@@ -143,7 +143,8 @@ function PartyPanel({ data, title, compact = false, partner = false }: { data: a
 
 export default function AnimatedTransitsView() {
   const partnerMode = useSearchParams().get('partner') === '1';
-  const { party, setParty, recent } = useChartParty();
+  const [party, setParty] = useState<Party | null>(null);
+  const recent = useRecentCharts();
   const [partner, setPartner] = useState<Party | null>(null);
   const [usePartner, setUsePartner] = useState(partnerMode);
   // the menu goes from the plain page to the partner worksheet without leaving the route
@@ -228,7 +229,7 @@ export default function AnimatedTransitsView() {
               <button type="button" onClick={() => { const first = party; setParty(partner); setPartner(first); }} className="ml-auto rounded-full bg-surface/70 px-2 py-0.5 text-ink hover:bg-surface">⇄ இருவரையும் மாற்று</button>
             )}
           </div>
-          <PartyChooser party={partner} setParty={setPartner} loading={busy} />
+          <PartyChooser party={partner} setParty={setPartner} loading={busy} auto={false} remember={false} />
         </>
       )}
 

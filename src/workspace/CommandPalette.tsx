@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useWorkspace } from './workspaceContext';
 import { searchCharts, listCharts, backupLibrary } from '../../app/library/actions';
+import { writeStashProfile } from '../ui/chartParty';
 
 interface Command {
   id: string;
@@ -88,10 +89,12 @@ export function CommandPalette() {
       hint: [c.birthDate, c.placeName].filter(Boolean).join(' · ') || undefined,
       group: 'ஜாதகங்கள்',
       run: () => {
-        setActiveProfile({
+        const profile = {
           profileId: c.profileId, revision: c.revision, name: c.name,
           birthDate: c.birthDate ?? null, placeName: c.placeName ?? null,
-        });
+        };
+        setActiveProfile(profile);
+        writeStashProfile(profile); // the open chart on every page, not only the ones that read the workspace
         close();
       },
     })),

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { getChartLibrary, SavedChart } from '../portal/ChartLibraryManager';
 import { filterSavedCharts } from '../portal/chartSearch';
+import { useRememberParty, inputFromSaved } from './chartParty';
 
 interface OpenChartDialogProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ interface OpenChartDialogProps {
 
 export function OpenChartDialog({ isOpen, mode, onClose }: OpenChartDialogProps) {
   const router = useRouter();
+  const rememberParty = useRememberParty();
   const [charts, setCharts] = useState<SavedChart[]>([]);
   const [query, setQuery] = useState('');
 
@@ -29,7 +31,10 @@ export function OpenChartDialog({ isOpen, mode, onClose }: OpenChartDialogProps)
 
   const openChart = (id: string) => {
     onClose();
-    router.push(`/worksheet?load=${encodeURIComponent(id)}`);
+    // The chart becomes the open chart on every page, then the worksheet shows it
+    const saved = getChartLibrary().getChart(id);
+    if (saved) rememberParty({ kind: 'form', input: inputFromSaved(saved.birthData), label: saved.name });
+    router.push('/worksheet');
   };
 
   const removeChart = (id: string) => {

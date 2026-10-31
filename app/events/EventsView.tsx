@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
-import { useChartParty } from '@/src/ui/chartParty';
 import { slotRange, eventListRow } from '@/src/report/eventList';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
@@ -36,7 +35,6 @@ const nowParts = () => { const d = new Date(); return { date: `${d.getFullYear()
 
 export default function EventsView() {
   const range = useSearchParams().get('range');
-  const { party: openParty } = useChartParty();
   const [party, setParty] = useState<Party | null>(null);
   const [form, setForm] = useState({ name: 'நிகழ்வு', ...nowParts(), place: 'சென்னை', latitude: '13.0827', longitude: '80.2707', offset: '330', description: '' });
   const [events, setEvents] = useState<Ev[]>([]);
@@ -67,8 +65,6 @@ export default function EventsView() {
     const next = events.filter((e) => !e.eventId);
     setEvents(next); run(next, x);
   };
-  // The chart last worked on opens by itself, as on the worksheet
-  useEffect(() => { if (openParty && !party) choose(openParty); }, [openParty]); // eslint-disable-line react-hooks/exhaustive-deps
   const save = async (i: number) => {
     if (!party || party.kind !== 'profile') return;
     const { eventId: _id, ...e } = events[i];
