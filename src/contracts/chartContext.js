@@ -23,7 +23,8 @@ const SUPPORTED_HOUSE_SYSTEMS = ['Porphyrius', 'Placidus', 'WholeSign', 'Equal',
 const SUPPORTED_NODE_TYPES = ['mean', 'true'];
 const SUPPORTED_CALENDAR_MODES = ['tirukanita', 'vakya'];
 const SUPPORTED_DAY_BOUNDARIES = ['sunrise'];
-/** Which sunrise the day-based points (Gulika) count from; see SUNRISE_MODES in src/ephemeris/siderealPositions.js. */
+/** Which sunrise the day-based points (Gulika) count from; see SUNRISE_MODES in src/ephemeris/siderealPositions.js. The default is
+ *  the Hindu sunrise, PL9's (owner's decision, 2026-10-31). */
 const SUPPORTED_SUNRISES = ['upper-limb', 'disc-centre'];
 
 class UnsupportedInputError extends Error {
@@ -45,7 +46,7 @@ function createChartContext({
   ianaTimeZone, utcOffsetMinutes,
   latitude, longitude, placeName,
   ayanamsha = 'Lahiri', houseSystem = 'Porphyrius', nodeType = 'mean',
-  calendarMode, dayBoundary = 'sunrise', sunrise = 'upper-limb',
+  calendarMode, dayBoundary = 'sunrise', sunrise = 'disc-centre',
 }) {
   const required = { year, month, day, hour, latitude, longitude, utcOffsetMinutes, ianaTimeZone, calendarMode };
   for (const [field, value] of Object.entries(required)) {

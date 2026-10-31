@@ -43,15 +43,15 @@ for (const p of planets) {
   assert.ok(gap <= limit, `${p.abbr}: ${p.degreeText} against PL9's ${degrees}`);
 }
 
-// --- Gulika, drawn in the charts (PL9: "Gk 03:02 Mag"). From the visible sunrise (the default) it is 02:36 in the same nakshatra;
-// from the Hindu sunrise (Settings > Sunrise: disc centre; G.K. Ojha pp.35-36) it is PL9's 03:02.
+// --- Gulika, drawn in the charts (PL9: "Gk 03:02 Mag"). From the Hindu sunrise (the default; Settings > Sunrise:
+// disc centre; G.K. Ojha pp.35-36) it is PL9's 03:02; from the visible sunrise (upper limb) it is 02:36 in the same nakshatra.
 const gulika = W.gulikaRow(report.upagraha);
 assert.strictEqual(gulika.abbr, 'Gk');
 assert.strictEqual(gulika.rasiIndex, 4, 'Leo, as in PL9');
 assert.strictEqual(gulika.nakshatraAbbr, 'Mag');
-assert.strictEqual(gulika.degreeText.slice(0, 2), '02');
+assert.strictEqual(gulika.degreeText.slice(0, 5), '03:02', "PL9's Gulika");
 assert.strictEqual(W.gulikaRow({}), null);
-assert.strictEqual(W.gulikaRow(buildReportData({ ...input, sunrise: 'disc-centre' }).upagraha).degreeText.slice(0, 5), '03:02', "the Hindu sunrise gives PL9's Gulika");
+assert.strictEqual(W.gulikaRow(buildReportData({ ...input, sunrise: 'upper-limb' }).upagraha).degreeText.slice(0, 5), '02:36', 'from the visible sunrise');
 
 // --- the Navamsha PL9 draws: Ra with Ve and Gk in Aries, Su with Ma in Gemini, Mo with Me in Aquarius, Ke in Libra, and As with Sa
 // and Ju in Scorpio. The report's varga data has the seven planets; the page adds the nodes and Gulika the same way.

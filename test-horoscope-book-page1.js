@@ -30,7 +30,7 @@ async function main() {
   assert.equal(field(doc, 0, 'LMT Corr.'), '-00:08:52 hrs');
   assert.equal(field(doc, 0, 'Local Mean Time'), '04:21:08 hrs');
   assert.equal(field(doc, 0, 'Sunsign (Western)'), 'துலாம்');
-  // Sample: Sidereal Time 05:14:37; sample Lagna Leo 25:03:02 (ours 25:03:15, 13 seconds apart).
+  // Sample: Sidereal Time 05:14:37; sample Lagna Leo 25:03:02, as ours (with the true ayanamsha).
   assert.equal(field(doc, 0, 'Sidereal Time'), '05:14:36 hrs');
   assert.ok(field(doc, 0, 'Lagna').startsWith('சிம்மம் 25:03:'), 'lagna is Leo 25 degrees');
   // Sample: -23:43:54 Lahiri; ours is 13 seconds different.

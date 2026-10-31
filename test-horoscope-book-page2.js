@@ -24,10 +24,10 @@ async function main() {
     return r;
   };
 
-  // Lagna: Leo 25:03:02 in the sample (ours 25:03:15, 13 seconds apart); lords match.
+  // Lagna: Leo 25:03:02 in the sample, and ours (with the true ayanamsha); lords match.
   const lagna = row('Lagna');
   assert.equal(lagna[2], 'Leo');
-  assert.ok(lagna[3].startsWith('25:03:'), 'lagna degree near 25:03');
+  assert.ok(lagna[3].startsWith('25:03:02'), "the sample's lagna");
   assert.deepStrictEqual(lagna.slice(5, 11), ['Purva Phalguni', '4', 'Sun', 'Venus', 'Mercury', 'Mars']);
 
   // Sample rows, exact on sign, nakshatra, pada, the four lords and status.
@@ -49,7 +49,7 @@ async function main() {
 
   // Birth Chart grid (sign-fixed, index 0 = Aries). Ascendant in Leo; planets in their Rasi signs.
   const [rasi, moon, nav] = doc.blocks;
-  assert.deepStrictEqual(rasi.cells[4], ['As 25:03', 'Gk 02:36']);
+  assert.deepStrictEqual(rasi.cells[4], ['As 25:03', 'Gk 03:02']);
   assert.deepStrictEqual(rasi.cells[5], ['Su 17:43', 'Me 04:55', 'Ve 10:34']);
   assert.deepStrictEqual(rasi.cells[1], ['Ma 19:05']);
   assert.deepStrictEqual(rasi.cells[11], ['Mo 23:56']);
@@ -57,8 +57,9 @@ async function main() {
   assert.deepStrictEqual(rasi.cells[9], ['Ra 10:03']);
   // Sample: Ju 15:11 and Ke 10:03 share the Cancer cell.
   assert.ok(rasi.cells[3].includes('Ju 15:11') && rasi.cells[3].includes('Ke 10:03'));
-  // Gulika (BPHS ch.3, Thursday night, 6/8 of the night): Leo 2°36′. The sample prints Gk 03:02 in Leo, about two minutes apart.
-  assert.ok(rasi.cells[4].includes('Gk 02:36'));
+  // Gulika (BPHS ch.3, Thursday night, 6/8 of the night) from the Hindu sunrise: Leo 3°02′, as the sample prints (2°36′ from the
+  // visible sunrise).
+  assert.ok(rasi.cells[4].includes('Gk 03:02'));
   // The Moon chart in a sign-fixed grid is the same placement, as in the sample.
   assert.deepStrictEqual(moon.cells, rasi.cells);
 

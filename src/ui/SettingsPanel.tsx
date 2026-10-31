@@ -37,7 +37,7 @@ export const DEFAULT_SETTINGS: Settings = {
   dashaYearDays: 365.25,
   dashaBalance: 'degree',
   showHints: false,
-  sunrise: 'upper-limb',
+  sunrise: 'disc-centre',
   astrologerPlace: { name: 'Chennai', latitude: 13.0827, longitude: 80.2707, timeZone: 'Asia/Kolkata' },
 };
 
@@ -69,7 +69,7 @@ export function toEngineOptions(settings: Settings): {
     ayanamsha: AYANAMSHA_MAP[settings.ayanamsha] ?? 'Lahiri',
     houseSystem: HOUSE_SYSTEM_MAP[settings.houseSystem] ?? 'Porphyrius',
     nodeType: settings.nodeType === 'true' ? 'true' : 'mean',
-    sunrise: settings.sunrise === 'disc-centre' ? 'disc-centre' : 'upper-limb',
+    sunrise: settings.sunrise === 'upper-limb' ? 'upper-limb' : 'disc-centre',
   };
 }
 
@@ -265,8 +265,8 @@ export function SettingsForm() {
             onChange={(e) => updateSettings({ sunrise: e.target.value as Settings['sunrise'] })}
             className={selectClass}
           >
-            <option value="upper-limb">மேல் விளிம்பு · Upper limb (default)</option>
-            <option value="disc-centre">வட்ட மையம் · Disc centre (Hindu, PL9)</option>
+            <option value="disc-centre">வட்ட மையம் · Disc centre (Hindu, PL9; default)</option>
+            <option value="upper-limb">மேல் விளிம்பு · Upper limb (visible)</option>
           </select>
         </Row>
       </Group>

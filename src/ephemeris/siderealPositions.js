@@ -74,10 +74,11 @@ function meanNodeLongitude(julianDay, ayanamsha = 'Lahiri') {
  * Which moment counts as sunrise and sunset (SUNRISE_MODES):
  *  - 'upper-limb': the Sun's upper edge touches the horizon, with refraction (the visible sunrise; K.S. Charak, Elements of
  *    Vedic Astrology, "Ancient Indian Method of Calculating the Cusp of the Lagna": "the visibility of the upper limb of the disc
- *    of the Sun"). The default.
+ *    of the Sun"). The default of these two functions, so the panchangam's times are the visible ones.
  *  - 'disc-centre': the centre of the disc on the horizon, without refraction (G.K. Ojha, Predictive Astrology of the Hindus,
  *    printed pp.35-36: "in Hindu astrology it is the rising or setting of the centre of the Sun's disc"; about 3 min 25 s after
- *    the visible sunrise). Parashara's Light 9 reckons Gulika from this sunrise (its sample chart's Gulika, 03:02 Leo, needs it).
+ *    the visible sunrise). Parashara's Light 9 reckons Gulika from this sunrise (its sample chart's Gulika, 03:02 Leo, needs it);
+ *    Gulika's default (src/report/upagraha.js, the chart context).
  */
 const SUNRISE_MODES = ['upper-limb', 'disc-centre'];
 const SE_BIT_DISC_CENTER = 256;

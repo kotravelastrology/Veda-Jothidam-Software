@@ -54,8 +54,9 @@ const pl9 = (sunrise) => calculateUpagrahas({
   latitude: 13.0833, longitude: 80.2833, ayanamsha: 'Lahiri', sunrise,
 }).upagrahas.Gulika;
 const dm = (g) => `${g.rasi} ${Math.floor(g.degreeInSign)}:${String(Math.floor((g.degreeInSign % 1) * 60)).padStart(2, '0')}`;
-assert.equal(dm(pl9()), 'Simha 2:36', 'the default: the visible sunrise');
-assert.equal(dm(pl9('disc-centre')), 'Simha 3:02', "the Hindu sunrise gives PL9's Gulika");
+assert.equal(dm(pl9()), 'Simha 3:02', "the default, the Hindu sunrise, gives PL9's Gulika");
+assert.equal(dm(pl9('disc-centre')), 'Simha 3:02');
+assert.equal(dm(pl9('upper-limb')), 'Simha 2:36', 'from the visible sunrise');
 assert.throws(() => require('./src/contracts/chartContext').createChartContext({
   year: 1990, month: 1, day: 1, hour: 0, latitude: 0, longitude: 0, utcOffsetMinutes: 0, ianaTimeZone: 'UTC', calendarMode: 'tirukanita', sunrise: 'noon',
 }), /Unsupported sunrise/);
