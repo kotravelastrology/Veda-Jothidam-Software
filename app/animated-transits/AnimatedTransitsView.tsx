@@ -1,7 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
+import { useChartParty, inputFromSaved } from '@/src/ui/chartParty';
+import { houseFrom } from '@/src/report/transitHouse';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { computeTransitMoment, stepTransitMoment, type PartyRef } from './actions';
 
@@ -9,6 +12,10 @@ import { computeTransitMoment, stepTransitMoment, type PartyRef } from './action
  * PL9's "Animated transits" (093 partner, 098, 099): the sky of a moment against the birth chart. The wheel has the birth chart inside and the
  * transits outside, the houses numbered from the birth lagna; the moment moves by PL9's units, forward or back, or runs by itself (Realtime,
  * or Animate stepping the chosen unit). Pure astronomy plus the pages' own rules: nothing is a verdict.
+ *
+ * Partner mode (/animated-transits?partner=1, PL9's "Animated Transit - Partner" worksheet, user guide ch.13): the native on the
+ * left and the partner on the right under a yellow band, both read against the same sky, each from their own lagna. One moment,
+ * one set of controls: the change time tool animates the transit over both.
  */
 
 const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
@@ -73,13 +80,13 @@ function Wheel({ natal, transit, label }: { natal: any; transit: any; label: str
   );
 }
 
-function PartyPanel({ data, title }: { data: any; title: string }) {
+function PartyPanel({ data, title, compact = false, partner = false }: { data: any; title: string; compact?: boolean; partner?: boolean }) {
   const g = data.gochara;
   return (
     <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
-      <h2 className="font-semibold text-ink">{title}: {data.native.name ?? '(பெயர் இல்லை)'}</h2>
+      <h2 className={`font-semibold text-ink ${partner ? 'bg-saffron/35 -mx-4 -mt-4 mb-2 px-4 py-2 rounded-t-2xl' : ''}`}>{title}: {data.native.name ?? '(பெயர் இல்லை)'}</h2>
       <p className="text-xs text-ink-soft mb-3">உள்வட்டம்: ஜன்ம ஜாதகம் · வெளிவட்டம்: கோசாரம் · வீடுகள் ஜன்ம லக்னத்திலிருந்து</p>
-      <div className="grid lg:grid-cols-2 gap-4">
+      <div className={`grid ${compact ? '' : 'lg:grid-cols-2'} gap-4`}>
         <div className="flex flex-col items-center gap-3">
           <Wheel natal={data.natal} transit={data.transit} label={title} />
           <VedicChartBox
@@ -93,13 +100,13 @@ function PartyPanel({ data, title }: { data: any; title: string }) {
           <div>
             <h3 className="text-xs font-semibold text-ink mb-1">கோசார கிரகங்கள்</h3>
             <table className="w-full text-xs" style={num}>
-              <thead><tr className="text-left text-ink-soft"><th>கிரகம்</th><th>தீர்க்கம்</th><th>ராசி</th><th>நட்சத்திரம்</th><th>பாதம்</th><th>அதிபதி</th></tr></thead>
+              <thead><tr className="text-left text-ink-soft"><th>கிரகம்</th><th>தீர்க்கம்</th><th>ராசி</th><th title="இந்த ஜாதகரின் லக்னத்திலிருந்து">பாவம்</th><th>நட்சத்திரம்</th><th>பாதம்</th><th>அதிபதி</th></tr></thead>
               <tbody>
-                <tr className="border-t border-line/40"><td className="py-0.5">லக்னம்</td><td>{dmsOf(data.transit.lagnaLongitude % 30)}</td><td>{SIGN_TA[data.transit.lagnaSign]}</td><td colSpan={3} /></tr>
+                <tr className="border-t border-line/40"><td className="py-0.5">லக்னம்</td><td>{dmsOf(data.transit.lagnaLongitude % 30)}</td><td>{SIGN_TA[data.transit.lagnaSign]}</td><td>{houseFrom(data.natal.lagnaSign, data.transit.lagnaSign)}</td><td colSpan={3} /></tr>
                 {data.transit.planets.map((p: any) => (
                   <tr key={p.planet} className="border-t border-line/40">
                     <td className="py-0.5" style={{ color: P_COLOR[p.planet] }}>{P_TA[p.planet]}{p.retrograde && p.planet !== 'Rahu' && p.planet !== 'Ketu' ? ' (வ)' : ''}</td>
-                    <td>{dmsOf(p.degree)}</td><td>{SIGN_TA[p.sign]}</td><td>{NAK_TA[p.nakshatraIndex]}</td><td>{p.pada}</td><td>{P_TA[p.nakshatraLord]}</td>
+                    <td>{dmsOf(p.degree)}</td><td>{SIGN_TA[p.sign]}</td><td>{houseFrom(data.natal.lagnaSign, p.sign)}</td><td>{NAK_TA[p.nakshatraIndex]}</td><td>{p.pada}</td><td>{P_TA[p.nakshatraLord]}</td>
                   </tr>
                 ))}
               </tbody>
@@ -135,9 +142,12 @@ function PartyPanel({ data, title }: { data: any; title: string }) {
 }
 
 export default function AnimatedTransitsView() {
-  const [party, setParty] = useState<Party | null>(null);
+  const partnerMode = useSearchParams().get('partner') === '1';
+  const { party, setParty, recent } = useChartParty();
   const [partner, setPartner] = useState<Party | null>(null);
-  const [usePartner, setUsePartner] = useState(false);
+  const [usePartner, setUsePartner] = useState(partnerMode);
+  // the menu goes from the plain page to the partner worksheet without leaving the route
+  useEffect(() => { if (partnerMode) setUsePartner(true); }, [partnerMode]);
   const [atMs, setAtMs] = useState<number>(() => Date.now());
   const [place, setPlace] = useState({ latitude: '13.0827', longitude: '80.2707', offset: '330', name: 'சென்னை' });
   const [mode, setMode] = useState<'STOP' | 'REALTIME' | 'ANIMATE'>('STOP');
@@ -190,10 +200,10 @@ export default function AnimatedTransitsView() {
   const field = 'px-2 py-1.5 text-sm bg-surface border border-line rounded text-ink';
 
   return (
-    <main className="min-h-screen p-6 max-w-6xl mx-auto">
+    <main className={`min-h-screen p-6 mx-auto ${usePartner ? 'max-w-[88rem]' : 'max-w-6xl'}`}>
       <header className="mb-5">
         <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Animated transits · 093, 098, 099</p>
-        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">அனிமேஷன் கோசாரம்</h1>
+        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">{partnerMode ? 'அனிமேஷன் கோசாரம் — துணை (Partner)' : 'அனிமேஷன் கோசாரம்'}</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒரு தேதி-நேரத்தின் வானம் ஜன்ம ஜாதகத்துடன்: உள்வட்டத்தில் ஜன்ம கிரகங்கள், வெளிவட்டத்தில் கோசாரம். ஆண்டு, மாதம், நாள், மணி, லக்னம், நவாம்சம் என்ற அலகுகளில்
           முன்-பின் நகர்த்தலாம்; "நிகழ்நேரம்" தானாக இப்போதைக்கு வரும்; "அனிமேட்" தேர்ந்த அலகை ஒவ்வொரு அடியாகத் தானாக நகர்த்தும்.
@@ -202,7 +212,25 @@ export default function AnimatedTransitsView() {
 
       <PartyChooser party={party} setParty={setParty} loading={busy} />
       <label className="flex items-center gap-2 text-xs mb-2"><input type="checkbox" checked={usePartner} onChange={(e) => setUsePartner(e.target.checked)} /> துணையின் ஜாதகத்தையும் (093) அதே நேரத்தில் காட்டு</label>
-      {usePartner && <PartyChooser party={partner} setParty={setPartner} loading={busy} />}
+      {usePartner && (
+        <>
+          <div className="bg-saffron/35 rounded-t-2xl px-4 py-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+            <span className="font-semibold text-ink">துணை (Partner)</span>
+            {!partner && recent.map((c) => (
+              <button
+                key={c.id}
+                type="button"
+                onClick={() => setPartner({ kind: 'form', input: inputFromSaved(c.birthData), label: c.name })}
+                className="rounded-full bg-surface/70 px-2 py-0.5 text-ink hover:bg-surface"
+              >{c.name}</button>
+            ))}
+            {party && partner && (
+              <button type="button" onClick={() => { const first = party; setParty(partner); setPartner(first); }} className="ml-auto rounded-full bg-surface/70 px-2 py-0.5 text-ink hover:bg-surface">⇄ இருவரையும் மாற்று</button>
+            )}
+          </div>
+          <PartyChooser party={partner} setParty={setPartner} loading={busy} />
+        </>
+      )}
 
       <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
         <div className="flex flex-wrap gap-4 items-end mb-3">
@@ -239,7 +267,13 @@ export default function AnimatedTransitsView() {
         {!party && <p className="text-[11px] text-ink-soft mt-2">முதலில் யாருடைய ஜாதகம் என்பதைத் தேர்வு செய்யுங்கள்.</p>}
       </section>
 
-      {data && data.parties.map((d: any, i: number) => <PartyPanel key={i} data={d} title={i === 0 ? 'ஜாதகர்' : 'துணை'} />)}
+      {data && (
+        <div className={data.parties.length > 1 ? 'grid gap-4 xl:grid-cols-2 items-start' : ''}>
+          {data.parties.map((d: any, i: number) => (
+            <PartyPanel key={i} data={d} title={i === 0 ? 'ஜாதகர்' : 'துணை'} compact={data.parties.length > 1} partner={i === 1} />
+          ))}
+        </div>
+      )}
     </main>
   );
 }

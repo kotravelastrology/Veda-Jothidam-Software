@@ -60,3 +60,33 @@ assert.strictEqual(ev.chart.lagnaSign, 6);
 console.log('test-animated-transit positions ok');
 
 console.log('test-animated-transit ok');
+
+// --- "Animated Transit - Partner": two natal charts read against ONE sky (user guide ch.13). The sky, the transit ascendant and the
+// panchang parts of the moment are the same for both; what is read from each chart's own lagna and Moon differs.
+const { houseFrom } = require('./src/report/transitHouse');
+assert.strictEqual(houseFrom(4, 4), 1, 'the lagna sign is the 1st house');
+assert.strictEqual(houseFrom(4, 5), 2);
+assert.strictEqual(houseFrom(4, 3), 12);
+assert.strictEqual(houseFrom(11, 0), 2, 'counted round the zodiac');
+const ctxB = createChartContext({ year: 2009, month: 6, day: 21, hour: 16, minute: 30, ianaTimeZone: 'Asia/Kolkata', utcOffsetMinutes: 330, latitude: 11.341, longitude: 77.7172, calendarMode: 'tirukanita' });
+const natalB = calculateParashariChart(ctxB);
+const evB = eventChart({ natal: { ctx: ctxB, chart: natalB }, event: { year: 2026, month: 9, day: 18, hour: 9, minute: 8, second: 16, latitude: 12.9833, longitude: 77.5833, utcOffsetMinutes: 330 } });
+assert.notStrictEqual(natal.lagna.rasiIndex, natalB.lagna.rasiIndex, 'two different lagnas, or this tests nothing');
+assert.notStrictEqual(natal.grahas.Moon.rasiIndex, natalB.grahas.Moon.rasiIndex);
+ev.chart.planets.forEach((p, i) => assert.strictEqual(p.longitude, evB.chart.planets[i].longitude, `${p.planet}: one sky`));
+assert.strictEqual(ev.eventChart.lagna.longitude, evB.eventChart.lagna.longitude, 'one transit ascendant');
+assert.strictEqual(ev.chart.lagnaSign, evB.chart.lagnaSign);
+assert.deepStrictEqual(ev.gochara.tithi, evB.gochara.tithi);
+assert.deepStrictEqual(ev.gochara.yoga, evB.gochara.yoga);
+assert.notDeepStrictEqual(ev.gochara.tara, evB.gochara.tara, 'the tara is counted from each own birth star');
+// the houses of the moment, counted from each person's lagna and Moon, are what the engine reports
+const transitMoonSign = ev.chart.planets.find((p) => p.planet === 'Moon').sign;
+for (const [e, n] of [[ev, natal], [evB, natalB]]) {
+  assert.strictEqual(e.gochara.chandraFromBirthMoon, houseFrom(n.grahas.Moon.rasiIndex, transitMoonSign), 'Moon from the birth Moon');
+  assert.strictEqual(e.gochara.chandraFromBirthLagna, houseFrom(n.lagna.rasiIndex, transitMoonSign), 'Moon from the birth lagna');
+}
+// the same planet falls in a different house of each chart, and the Ashtakavarga points are each chart's own
+const saturn = ev.chart.planets.find((p) => p.planet === 'Saturn').sign;
+assert.notStrictEqual(houseFrom(natal.lagna.rasiIndex, saturn), houseFrom(natalB.lagna.rasiIndex, saturn));
+assert.notDeepStrictEqual(ev.kakshas.map((k) => k.sarva), evB.kakshas.map((k) => k.sarva));
+console.log('test-animated-transit partner ok');

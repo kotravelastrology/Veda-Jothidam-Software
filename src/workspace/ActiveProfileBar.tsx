@@ -18,7 +18,7 @@ export function ActiveProfileBar() {
   // These pages name the person they show in their own header, so the strip would only repeat it (or contradict it, for a
   // chart that came from a form and was never saved to the library).
   const pathname = usePathname() ?? '';
-  const onWorksheet = ['/worksheet', '/dasha-effects'].some((p) => pathname.startsWith(p));
+  const onWorksheet = ['/worksheet', '/dasha-effects', '/animated-transits'].some((p) => pathname.startsWith(p));
 
   // Render nothing until the persisted profile has been read, so the bar does
   // not flash "nobody selected" over a session that has one.

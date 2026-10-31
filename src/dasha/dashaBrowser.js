@@ -2,6 +2,7 @@ const { EXALTATION, DEBILITATION, OWN_SIGNS } = require('../chart/shadbala');
 const { RASI_LORD } = require('../chart/karaka');
 const { dignityKey } = require('../worksheet/worksheetData');
 const { ABBR } = require('../worksheet/dashaList');
+const { houseFrom } = require('../report/transitHouse');
 
 /**
  * The facts the dasha browser sets beside a selected period (PL9's Dasha Effects Browser, user guide ch.8 "Dasha browser" and
@@ -19,9 +20,7 @@ const SEVEN = GRAHAS.slice(0, 7);
 const STAR = 360 / 27;
 
 /** The house count from one sign to another, both ends included: the same sign is 1, the next 2, the 7th from it 7. */
-function signDistance(fromSign, toSign) {
-  return ((toSign - fromSign + 12) % 12) + 1;
-}
+const signDistance = houseFrom;
 
 /** The nakshatra count from one star (0-26) to another, both included: the same star is 1. */
 function nakshatraDistance(fromStar, toStar) {

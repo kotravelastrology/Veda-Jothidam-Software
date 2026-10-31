@@ -97,10 +97,7 @@ const CHARTS_MENU = [
   { key: 'chart-calendar', label: 'Calendar', status: 'have', target: { route: '/dasha-calendar' } },
   { key: 'chart-navamsha-ages', label: 'Navamsha ages', status: 'have', target: { route: '/navamsha-years' } },
   { key: 'chart-animated-transits', label: 'Animated transits I', status: 'have', target: { route: '/animated-transits' } },
-  {
-    key: 'chart-animated-partner', label: 'Animated Transits - Partner', status: 'pending',
-    target: { pending: "Not built: needs the partner's chart beside the transit chart (user guide ch.13: native's Lagna with the transits, and the partner's Lagna with the transits)." },
-  },
+  { key: 'chart-animated-partner', label: 'Animated Transits - Partner', status: 'have', target: { route: '/animated-transits?partner=1' } },
   { key: 'chart-graphical-ephemeris', label: 'Graphical Ephemeris', status: 'have', target: { route: '/graphical-ephemeris' } },
   { key: 'chart-ashtakavarga', label: 'Ashtakavarga - Samudaya', status: 'have', target: { route: '/report?chart=ashtakavarga' } },
   { key: 'chart-events-1', label: 'Events 1-10', status: 'partial', target: { route: '/events' } },

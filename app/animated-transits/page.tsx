@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import AnimatedTransitsView from './AnimatedTransitsView';
 
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function AnimatedTransitsPage() {
-  return <AnimatedTransitsView />;
+  return (
+    <Suspense fallback={null}>
+      <AnimatedTransitsView />
+    </Suspense>
+  );
 }
