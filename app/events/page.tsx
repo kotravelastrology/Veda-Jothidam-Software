@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import EventsView from './EventsView';
 
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function EventsPage() {
-  return <EventsView />;
+  return (
+    <Suspense fallback={null}>
+      <EventsView />
+    </Suspense>
+  );
 }

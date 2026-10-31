@@ -56,7 +56,7 @@ for (const file of NAV_FILES) {
   // href: '/x', href="/x", route: '/x' and the path maps' key: '/x' lines — internal links only; external and anchors are
   // not this test's business.
   const links = [
-    ...text.matchAll(/(?:href|route)[:=]\s*["'](\/[^"'#?]*)["']/g),
+    ...text.matchAll(/(?:href|route)[:=]\s*["'](\/[^"'#?]*)(?:\?[^"']*)?["']/g),
     ...text.matchAll(/^\s*\w+:\s*'(\/[a-z0-9\-/]*)(?:\?[^']*)?',?\s*$/gm),
   ];
   for (const m of links) {

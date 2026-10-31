@@ -1,7 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
+import { useChartParty } from '@/src/ui/chartParty';
+import { slotRange, eventListRow } from '@/src/report/eventList';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeEvents, indianToCivil, type EventInput } from './actions';
@@ -11,7 +15,9 @@ import { saveEvent, listSavedEvents, updateSavedEvent, deleteSavedEvent } from '
 type Ev = EventInput & { eventId?: string; description?: string };
 
 /**
- * PL9's event worksheets: any moment set against the birth chart. Every event shows its own chart, the Kakshas of its planets over the
+ * PL9's event worksheets (Events 1-10 and Events 11-20 in the Charts menu: ?range=1-10 and ?range=11-20): a list of the events, one row
+ * each, with the dashas of every system running at that moment to five levels, then a card for each of those events. Any moment set
+ * against the birth chart. Every event shows its own chart, the Kakshas of its planets over the
  * birth Ashtakavarga (by sign), gochara facts (Tara, Chandra, tithi, yoga, karana), the dashas running at that moment from the birth
  * chart, and the Vimshopaka of the event chart. Nothing is a verdict; PL9's one-line glosses are not used because no source is held for them.
  */
@@ -29,6 +35,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
 const nowParts = () => { const d = new Date(); return { date: `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`, time: `${pad(d.getHours())}:${pad(d.getMinutes())}` }; };
 
 export default function EventsView() {
+  const range = useSearchParams().get('range');
+  const { party: openParty } = useChartParty();
   const [party, setParty] = useState<Party | null>(null);
   const [form, setForm] = useState({ name: 'நிகழ்வு', ...nowParts(), place: 'சென்னை', latitude: '13.0827', longitude: '80.2707', offset: '330', description: '' });
   const [events, setEvents] = useState<Ev[]>([]);
@@ -59,6 +67,8 @@ export default function EventsView() {
     const next = events.filter((e) => !e.eventId);
     setEvents(next); run(next, x);
   };
+  // The chart last worked on opens by itself, as on the worksheet
+  useEffect(() => { if (openParty && !party) choose(openParty); }, [openParty]); // eslint-disable-line react-hooks/exhaustive-deps
   const save = async (i: number) => {
     if (!party || party.kind !== 'profile') return;
     const { eventId: _id, ...e } = events[i];
@@ -115,7 +125,7 @@ export default function EventsView() {
     <main className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-5">
         <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Events · worksheets 116-123</p>
-        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நிகழ்வு ஜாதகங்கள்</h1>
+        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நிகழ்வு ஜாதகங்கள்{range === '1-10' ? ' — நிகழ்வுகள் 1–10' : range === '11-20' ? ' — நிகழ்வுகள் 11–20' : ''}</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒரு தேதி-நேரம்-இடத்தை (நிகழ்வு) ஜன்ம ஜாதகத்துடன் வைத்துப் பார்க்கிறது: நிகழ்வு ஜாதகம், ஜன்ம அஷ்டகவர்க்கத்தில் நிகழ்வு கிரகங்களின் காக்ஷ்யா,
           கோசார விவரங்கள், அந்த நேரத்தில் ஜன்ம ஜாதகத்தின் தசைகள், நிகழ்வு ஜாதகத்தின் விம்சோபகம். இதில் தீர்ப்பு எதுவும் இல்லை.
@@ -123,6 +133,17 @@ export default function EventsView() {
       </header>
 
       <PartyChooser party={party} setParty={choose} loading={loading} />
+
+      <nav className="flex flex-wrap gap-1.5 mb-4" aria-label="நிகழ்வுப் பட்டியலின் பகுதி">
+        {([[null, 'அனைத்தும்'], ['1-10', 'நிகழ்வுகள் 1–10'], ['11-20', 'நிகழ்வுகள் 11–20']] as const).map(([r, label]) => (
+          <Link
+            key={label}
+            href={r ? `/events?range=${r}` : '/events'}
+            aria-current={range === r ? 'page' : undefined}
+            className={`px-3 py-1 rounded-full border text-xs ${range === r ? 'bg-saffron text-ink border-saffron font-semibold' : 'border-line bg-surface text-ink hover:border-saffron'}`}
+          >{label}</Link>
+        ))}
+      </nav>
 
       <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
         <h2 className="font-semibold text-ink mb-2">புதிய நிகழ்வு</h2>
@@ -158,7 +179,7 @@ export default function EventsView() {
           <ul className="mt-3 text-xs flex flex-wrap gap-2">
             {events.map((e, i) => (
               <li key={i} className="border border-line rounded px-2 py-1 bg-surface-2">
-                {e.eventId && <span title="சேமிக்கப்பட்டது">💾 </span>}{e.name} · {e.year}-{pad(e.month)}-{pad(e.day)} {pad(e.hour)}:{pad(e.minute)}
+                <span className="text-ink-soft tabular-nums">{i + 1}. </span>{e.eventId && <span title="சேமிக்கப்பட்டது">💾 </span>}{e.name} · {e.year}-{pad(e.month)}-{pad(e.day)} {pad(e.hour)}:{pad(e.minute)}
                 {e.description && <span className="text-ink-soft"> — {e.description}</span>}
                 {party?.kind === 'profile' && !e.eventId && <button type="button" onClick={() => save(i)} className="ml-2 text-teal">சேமி</button>}
                 {e.eventId && <button type="button" onClick={() => describe(i)} className="ml-2 text-ink-soft" title="விளக்கம் மாற்று">✎</button>}
@@ -171,8 +192,69 @@ export default function EventsView() {
       </section>
 
       {loading && <p className="text-sm text-ink-soft mb-4">கணக்கிடப்படுகிறது…</p>}
-      {result && result.events.map((ev: any, i: number) => <EventCard key={i} ev={ev} native={result.native} />)}
+      {result && (() => {
+        const { from, to } = slotRange(range, result.events.length);
+        const shown = result.events.slice(from, to);
+        if (shown.length === 0) {
+          return <p className="text-sm text-ink-soft mb-4">இந்த வரம்பில் நிகழ்வு இல்லை{range === '11-20' ? ' — 11-ஆவது நிகழ்வு பத்தை நிரப்பிய பின் இங்கே வரும்.' : '.'}</p>;
+        }
+        return (
+          <>
+            <EventList events={shown} first={from} />
+            {shown.map((ev: any, i: number) => <EventCard key={from + i} ev={ev} native={result.native} slot={from + i + 1} />)}
+          </>
+        );
+      })()}
     </main>
+  );
+}
+
+const SYSTEMS: [string, string][] = [
+  ['vimshottari', 'விம்சோத்தரி'], ['yogini', 'யோகினி'], ['chara', 'சர'], ['ashtottari', 'அஷ்டோத்தரி'],
+  ['sthira', 'ஸ்திர'], ['shatabdika', 'சதாப்திகா'], ['kalachakra', 'காலச்சக்கரம்'],
+];
+
+/** PL9's event list: a row per event, the dashas of every system running at that moment (five levels, main period first). */
+function EventList({ events, first }: { events: any[]; first: number }) {
+  return (
+    <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm overflow-x-auto">
+      <h2 className="font-semibold text-ink mb-2">நிகழ்வுப் பட்டியல் — அந்த நேரத்தில் ஓடும் தசைகள்</h2>
+      <table className="w-full text-xs" style={num}>
+        <thead>
+          <tr className="text-left text-ink-soft border-b border-line">
+            <th className="py-1 pr-2">#</th><th className="py-1 pr-3">நிகழ்வு</th>
+            {SYSTEMS.map(([, ta]) => <th key={ta} className="py-1 pr-3 whitespace-nowrap">{ta}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {events.map((ev, i) => {
+            const row = eventListRow(ev);
+            return (
+              <tr key={first + i} className="border-b border-line/40 align-top">
+                <td className="py-1.5 pr-2 text-ink-soft">{first + i + 1}</td>
+                <td className="py-1.5 pr-3 whitespace-nowrap">
+                  <a href={`#event-${first + i + 1}`} className="font-semibold text-ink hover:text-saffron">{ev.name}</a>
+                  <span className="block text-ink-soft">{ev.event.year}-{pad(ev.event.month)}-{pad(ev.event.day)} {pad(ev.event.hour)}:{pad(ev.event.minute)}</span>
+                </td>
+                {SYSTEMS.map(([key, ta]) => {
+                  const parts: string[] = (row as any)[key];
+                  return (
+                    <td key={key} className="py-1.5 pr-3 font-mono whitespace-nowrap" title={ta}>
+                      {parts.length > 0 ? parts.join('-') : <span className="text-ink-soft">—</span>}
+                      {key === 'shatabdika' && parts.length > 0 && !row.shatabdikaApplies && <span className="text-ink-soft" title="லக்னம் வர்கோத்தமம் அல்ல — நூலின் நிபந்தனை இல்லை"> *</span>}
+                    </td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <p className="text-[11px] text-ink-soft mt-2">
+        கிரகங்கள் இரண்டு எழுத்துப் பெயரில் (Su, Mo, Ma, Me, Ju, Ve, Sa, Ra, Ke); சர, ஸ்திர, காலச்சக்கரம் ராசிகள் தமிழில். ஐந்து நிலைகள்: தசை-புக்தி-அந்தரம்-சூக்ஷ்மம்-பிராணம் (காலச்சக்கரம் நூலில் புக்தி வரை மட்டும்; சர, ஸ்திர தசைக்கு ஒரு நிலை).
+        * = லக்னம் வர்கோத்தமம் அல்ல, சதாப்திகாவுக்கு நூல் வைக்கும் நிபந்தனை இல்லை. ஒவ்வொரு நிகழ்வின் முழு விவரம் கீழே.
+      </p>
+    </section>
   );
 }
 
@@ -215,11 +297,11 @@ function VarshaPair({ v }: { v: any }) {
   );
 }
 
-function EventCard({ ev, native }: { ev: any; native: any }) {
+function EventCard({ ev, native, slot }: { ev: any; native: any; slot: number }) {
   const g = ev.gochara;
   return (
-    <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
-      <h2 className="font-semibold text-ink">{ev.name} — {ev.event.year}-{pad(ev.event.month)}-{pad(ev.event.day)} {pad(ev.event.hour)}:{pad(ev.event.minute)} · {ev.placeName || '—'}</h2>
+    <section id={`event-${slot}`} className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm scroll-mt-4">
+      <h2 className="font-semibold text-ink"><span className="text-ink-soft tabular-nums">{slot}. </span>{ev.name} — {ev.event.year}-{pad(ev.event.month)}-{pad(ev.event.day)} {pad(ev.event.hour)}:{pad(ev.event.minute)} · {ev.placeName || '—'}</h2>
       <p className="text-xs text-ink-soft mb-3">{native.name ?? '(பெயர் இல்லை)'} ஜாதகத்துடன் · {ev.event.ayanamsha} அயனாம்சம்{ev.event.description ? ` · ${ev.event.description}` : ''}</p>
 
       <div className="grid md:grid-cols-3 gap-4 mb-4">

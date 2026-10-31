@@ -57,8 +57,8 @@ Built 2026-10-31: the menus are in a drawer the ☰ button opens (the row of dro
 | 12 | Animated Transits - Partner | /animated-transits?partner=1 (native left, partner right under a yellow band, one sky read from each lagna; planetary table, Kakshya and dashas of both; the same time controls) | have |
 | 13 | Graphical Ephemeris | /graphical-ephemeris | have |
 | 14 | Ashtakavarga - Samudaya | /report?chart=ashtakavarga | have |
-| 15 | Events 1-10 | /events (all 20 slots on one page, not split) | partial |
-| 16 | Events 11-20 | /events (same page) | partial |
+| 15 | Events 1-10 | /events?range=1-10 (the event list: a row per event with the dashas of seven systems to five levels, then a card for each; no "Today" and "Muhurta" events as PL9 keeps first) | partial |
+| 16 | Events 11-20 | /events?range=11-20 (the second ten of the same list) | partial |
 | 17 | Muhurta | /muhurta | have |
 | 18 | Varshaphala I | /varshaphala | have |
 | 19 | Compatibility - Composite | /report?chart=compatibility | have |
@@ -193,7 +193,7 @@ Have: 53. Partial: 30. Missing: 31. Extra: 5. Not applicable: 1. (Before the Fil
 2. File and Edit gaps still missing: Save To (needs groups in the library), Copy Screen to Clipboard, Anka Value, Native's and
    Astrologer's locations, Astrologer Specific Settings, Cover page text. All are in the menu now and say why they are not built.
 3. Charts menu: 29 of 29 entries are in the menu; 3 are not built (Planetary deities, Sun in house, Tithi Pravesh) and 6 are partial.
-   Next: the Events 1-10 / 11-20 split and the 3-month ephemeris view. Planetary deities, Sun in house and Tithi Pravesh need the PL9
+   Next: the 3-month ephemeris view. Planetary deities, Sun in house and Tithi Pravesh need the PL9
    screen or a cited definition first.
 4. Reports: Remedies group, Astrology Lessons, Reports Overview.
 5. Charts: the Chart & Table selection (tables, contexts, special charts, vargas) and the worksheet favourites (the worksheet system
