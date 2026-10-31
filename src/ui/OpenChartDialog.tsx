@@ -29,7 +29,7 @@ export function OpenChartDialog({ isOpen, mode, onClose }: OpenChartDialogProps)
 
   const openChart = (id: string) => {
     onClose();
-    router.push(`/report?load=${encodeURIComponent(id)}`);
+    router.push(`/worksheet?load=${encodeURIComponent(id)}`);
   };
 
   const removeChart = (id: string) => {

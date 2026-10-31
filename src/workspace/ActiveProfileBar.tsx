@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useWorkspace } from './workspaceContext';
 
 /**
@@ -14,6 +15,9 @@ export function ActiveProfileBar() {
     activeProfile, setActiveProfile, setCommandPaletteOpen, restored,
     storageFailure, dismissStorageFailure,
   } = useWorkspace();
+  // The worksheet names the person it shows in its own header, so the strip would only repeat it (or contradict it, for a
+  // chart that came from a form and was never saved to the library).
+  const onWorksheet = usePathname()?.startsWith('/worksheet') ?? false;
 
   // Render nothing until the persisted profile has been read, so the bar does
   // not flash "nobody selected" over a session that has one.
@@ -29,6 +33,8 @@ export function ActiveProfileBar() {
       </button>
     </div>
   ) : null;
+
+  if (onWorksheet) return failureBanner;
 
   if (!activeProfile) {
     return (

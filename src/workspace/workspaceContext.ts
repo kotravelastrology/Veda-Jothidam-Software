@@ -41,5 +41,5 @@ export function useWorkspace() {
   return context;
 }
 
-export const DEFAULT_LAYOUT: WorkspaceLayout = { sidebarOpen: true, density: 'comfortable' };
+export const DEFAULT_LAYOUT: WorkspaceLayout = { sidebarOpen: false, density: 'comfortable' };
 export const WORKSPACE_STORAGE_KEY = 'kotravel-workspace';

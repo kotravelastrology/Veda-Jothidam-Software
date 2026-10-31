@@ -15,7 +15,7 @@
 const divider = (n) => ({ key: `divider-${n}`, divider: true });
 
 const FILE_MENU = [
-  { key: 'file-new', label: 'New', status: 'have', target: { route: '/report' } },
+  { key: 'file-new', label: 'New', status: 'have', target: { route: '/worksheet?new=1' } },
   { key: 'open', label: 'Open...', status: 'have', target: { action: 'open' } },
   { key: 'file-manager', label: 'File Manager...', status: 'partial', target: { action: 'file-manager' } },
   { key: 'save', label: 'Save', status: 'have', target: { action: 'save' } },
@@ -83,7 +83,7 @@ const INTERPRETATIONS = [
 ];
 
 const CHARTS_MENU = [
-  { key: 'chart-birth', label: 'Birth chart I', status: 'have', target: { route: '/report?chart=D1-rasi' } },
+  { key: 'chart-birth', label: 'Birth chart I', status: 'have', target: { route: '/worksheet' } },
   { key: 'chart-vargas', label: 'Vargas I', status: 'have', target: { route: '/divisional-charts' } },
   { key: 'chart-sudarshan', label: 'Sudarshan Chakra', status: 'have', target: { route: '/report?chart=sudarshan-chakra' } },
   { key: 'chart-lordships', label: 'Lordships', status: 'have', target: { route: '/lordships' } },

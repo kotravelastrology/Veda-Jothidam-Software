@@ -915,6 +915,8 @@ function ramanStrengthVsMinimum(planet, pindaShashtiamsas) {
 }
 
 module.exports = {
+  EXALTATION,
+  DEBILITATION,
   calculateShadbala,
   ramanShadbalaPinda,
   ramanBhavaDrishti,

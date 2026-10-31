@@ -1,8 +1,11 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useCallback } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useNavigation } from './navigationContext';
+import { useWorkspace } from '../workspace/workspaceContext';
+import { MenuDrawer } from './MenuDrawer';
 import { getChartLibrary } from '../portal/ChartLibraryManager';
 
 /** The last chart calculated on /report, stashed by ReportBuilder for the menu bar. */
@@ -53,26 +56,11 @@ interface SubMenuItem {
 }
 
 export function TopMenuBar() {
-  const { currentMenu, setCurrentMenu, setBreadcrumb, setSidebarOpen, sidebarOpen, uiState, uiActions } =
+  const { setSidebarOpen, sidebarOpen, uiState, uiActions } =
     useNavigation();
-  const [openMenu, setOpenMenu] = useState<string | null>(null);
-  const [openSub, setOpenSub] = useState<string | null>(null);
   const router = useRouter();
-  const menuBarRef = useRef<HTMLDivElement>(null);
+  const { setCommandPaletteOpen } = useWorkspace();
   const { settings, updateSettings } = useSettings();
-
-  // Click-outside-to-close: the dropdown is driven by `openMenu` state (click-based),
-  // not CSS :hover, so it works reliably with mouse, touch, and automated testing.
-  useEffect(() => {
-    if (!openMenu) return;
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuBarRef.current && !menuBarRef.current.contains(event.target as Node)) {
-        setOpenMenu(null);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [openMenu]);
 
   // Reports-menu keys → report builder deep links (section anchors or a chart type)
   const REPORT_KEY_TO_PATH: Record<string, string> = {
@@ -299,15 +287,8 @@ export function TopMenuBar() {
     },
   ];
 
-  const handleMenuClick = (menuKey: string) => {
-    setCurrentMenu(menuKey as any);
-    setBreadcrumb(['Home', menuKey.charAt(0).toUpperCase() + menuKey.slice(1)]);
-    setOpenMenu(openMenu === menuKey ? null : menuKey);
-  };
-
   const handleSubmenuClick = useCallback((submenuKey: string) => {
-    setOpenMenu(null);
-    setOpenSub(null);
+    setSidebarOpen(false);
 
     // File, Edit and Charts entries (pl9Menus.js): a page, a handler below, or a "not built yet" notice with its reason
     const pl9 = ITEM_BY_KEY[submenuKey] as SubMenuItem | undefined;
@@ -440,7 +421,6 @@ export function TopMenuBar() {
       case 'exit': {
         if (!confirm('Exit Kotravel? Your saved charts and notes stay in this browser.')) break;
         uiActions.closeAllPanels();
-        setOpenMenu(null);
         try { window.close(); } catch { /* not a script-opened window */ }
         // window.close() is a no-op for the main tab — return to the home screen instead
         router.push('/');
@@ -569,7 +549,7 @@ export function TopMenuBar() {
       default:
         break;
     }
-  }, [uiActions, setCurrentMenu, router, settings.showHints, updateSettings]);
+  }, [uiActions, router, setSidebarOpen, settings.showHints, updateSettings]);
 
   useKeyboardShortcuts({
     onSettings: uiActions.openSettings,
@@ -582,114 +562,84 @@ export function TopMenuBar() {
     <>
       <BalloonHelp />
 
-      {/* Top Menu Bar */}
-      <div className="bg-ink text-surface border-b border-ink-soft/20 sticky top-0 z-50">
-        <div className="flex items-center h-10 px-4 gap-4">
-          {/* Toggle Sidebar Button */}
+      {/* Top bar: the ☰ button opens the menu drawer, which holds every menu; the usual actions are one click away here */}
+      <div className="bg-ink text-surface border-b border-ink-soft/20 sticky top-0 z-50 print:hidden">
+        <div className="flex items-center h-12 px-3 sm:px-4 gap-2 sm:gap-3">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-1 hover:bg-ink-soft/10 rounded text-sm font-semibold"
-            title="Toggle Sidebar"
-            data-hint="Show or hide the sidebar"
+            className="grid place-items-center size-9 rounded-lg hover:bg-surface/10 text-lg"
+            aria-label="மெனுவைத் திற"
+            aria-expanded={sidebarOpen}
+            title="மெனு"
+            data-hint="Open the menu: every menu, top to bottom, with search"
           >
             ☰
           </button>
 
-          {/* Logo/Brand */}
-          <span className="font-[family-name:var(--font-tamil-serif)] font-bold text-sm text-saffron">
+          <Link href="/" className="font-[family-name:var(--font-tamil-serif)] font-bold text-base text-saffron shrink-0">
             Kotravel
-          </span>
+          </Link>
 
-          {/* Menu Items */}
-          <div ref={menuBarRef} className="flex gap-1 ml-4 flex-1">
-            {menus.map((menu) => (
-              <div key={menu.key} className="relative group">
-                <button
-                  onClick={() => handleMenuClick(menu.key)}
-                  aria-expanded={openMenu === menu.key}
-                  className={`px-3 py-2 text-sm font-medium rounded hover:bg-ink-soft/10 transition-colors ${
-                    currentMenu === menu.key ? 'bg-saffron text-ink' : ''
-                  }`}
-                >
-                  {menu.label}
-                </button>
+          <Link
+            href="/worksheet"
+            className="hidden sm:inline-flex items-center gap-1 rounded-full bg-saffron text-ink px-3 py-1 text-xs font-semibold hover:brightness-105 shrink-0"
+            data-hint="The worksheet: the birth chart, strengths and dasha of one chart on one screen"
+          >
+            🪔 ஜாதக மேசை
+          </Link>
 
-                {/* Dropdown Submenu — visibility driven by click state (openMenu),
-                    with :hover as a bonus for mouse users who hover across the bar */}
-                {menu.submenu && (
-                  <div
-                    className={`absolute left-0 mt-0 min-w-56 w-max max-w-sm max-h-[calc(100vh-3rem)] overflow-y-auto bg-surface border border-line shadow-lg rounded-md transition-all duration-150 py-1 z-50 group-hover:opacity-100 group-hover:visible ${
-                      openMenu === menu.key ? 'opacity-100 visible' : 'opacity-0 invisible'
-                    }`}
-                  >
-                    {menu.submenu.map((submenu) =>
-                      submenu.key.startsWith('divider') ? (
-                        <div key={submenu.key} className="h-px bg-line my-1" />
-                      ) : submenu.target?.items ? (
-                        // A submenu (Charts > Interpretations): opens inline, so the scrolling dropdown never clips it
-                        <div key={submenu.key}>
-                          <button
-                            onClick={() => setOpenSub(openSub === submenu.key ? null : submenu.key)}
-                            aria-expanded={openSub === submenu.key}
-                            className="w-full flex items-center justify-between gap-4 px-4 py-2 text-sm text-ink text-left hover:bg-saffron/10"
-                          >
-                            <span>{submenu.label}</span>
-                            <span className="text-ink-soft">{openSub === submenu.key ? '▾' : '▸'}</span>
-                          </button>
-                          {openSub === submenu.key && submenu.target.items.map((item) => (
-                            <button
-                              key={item.key}
-                              onClick={() => handleSubmenuClick(item.key)}
-                              className="w-full text-left pl-8 pr-4 py-2 text-sm hover:bg-saffron/10 text-ink transition-colors"
-                            >
-                              {item.label}
-                            </button>
-                          ))}
-                        </div>
-                      ) : (
-                        <button
-                          key={submenu.key}
-                          onClick={() => handleSubmenuClick(submenu.key)}
-                          title={submenu.target?.pending}
-                          className={`w-full text-left px-4 py-2 text-sm hover:bg-saffron/10 transition-colors ${
-                            submenu.target?.pending ? 'text-ink-soft italic' : 'text-ink'
-                          }`}
-                        >
-                          <span>{submenu.label}</span>
-                        </button>
-                      )
-                    )}
-                  </div>
-                )}
-              </div>
+          {/* Search: ஜாதகங்கள், பக்கங்கள் (Ctrl+K) */}
+          <button
+            onClick={() => setCommandPaletteOpen(true)}
+            className="hidden md:flex flex-1 max-w-md mx-auto items-center gap-2 rounded-full bg-surface/10 hover:bg-surface/15 px-4 py-1.5 text-xs text-surface/70 text-left"
+            aria-label="ஜாதகம் அல்லது பக்கத்தைத் தேடு"
+          >
+            <span aria-hidden>🔎</span>
+            <span className="flex-1">ஜாதகம், பக்கம், செயலைத் தேடு</span>
+            <kbd className="font-mono text-[10px] rounded border border-surface/20 px-1">Ctrl K</kbd>
+          </button>
+
+          <div className="flex items-center gap-0.5 ml-auto">
+            {([
+              ['file-new', '➕', 'புதிய ஜாதகம்', 'New chart'],
+              ['open', '📂', 'ஜாதகத்தைத் திற', 'Open a chart'],
+              ['save', '💾', 'சேமி', 'Save the chart'],
+              ['print', '🖨️', 'அச்சிடு', 'Print'],
+            ] as const).map(([key, icon, label, hint]) => (
+              <button
+                key={key}
+                onClick={() => handleSubmenuClick(key)}
+                className="hidden md:grid place-items-center size-9 rounded-lg hover:bg-surface/10 text-base"
+                aria-label={label}
+                title={label}
+                data-hint={hint}
+              >
+                {icon}
+              </button>
             ))}
-          </div>
-
-          {/* Right Side: Quick Actions */}
-          <div className="flex gap-2 ml-auto">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="px-3 py-1 text-xs rounded bg-ink-soft/10 border border-ink-soft/20 text-surface placeholder-ink-soft/50 focus:outline-none focus:border-saffron/50 w-40"
-            />
+            <span className="hidden md:block w-px h-5 bg-surface/20 mx-1" aria-hidden />
             <button
               onClick={uiActions.openTools}
-              className="p-1 hover:bg-ink-soft/10 rounded text-sm"
-              title="Tools (Ctrl+T)"
+              className="grid place-items-center size-9 rounded-lg hover:bg-surface/10 text-base"
+              aria-label="கருவிகள்"
+              title="கருவிகள் (Ctrl+T)"
               data-hint="Tools: location, time zone, ayanamsha and date converters (Ctrl+T)"
             >
               🛠️
             </button>
             <button
               onClick={uiActions.openSettings}
-              className="p-1 hover:bg-ink-soft/10 rounded text-sm"
-              title="Settings (Ctrl+,)"
+              className="grid place-items-center size-9 rounded-lg hover:bg-surface/10 text-base"
+              aria-label="அமைப்புகள்"
+              title="அமைப்புகள் (Ctrl+,)"
             >
               ⚙️
             </button>
           </div>
         </div>
       </div>
+
+      <MenuDrawer menus={menus} open={sidebarOpen} onClose={() => setSidebarOpen(false)} onSelect={handleSubmenuClick} />
 
       {/* Panels */}
       <SettingsPanel

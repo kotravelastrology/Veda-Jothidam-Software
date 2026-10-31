@@ -39,11 +39,11 @@ Built 2026-10-31: all eight PL9 entries are in the menu. Those not built are lis
 | (ours only) Preferences | Preferences opens Settings | extra |
 
 ## Charts (the 29 entries of the PL9 Charts menu)
-Built 2026-10-31: all 29 entries are in our Charts menu, in PL9's order, from the PL9 menu screenshot. Two new pages
+Built 2026-10-31: the menus are in a drawer the ☰ button opens (the row of drop-down menus is gone); all 29 entries are in our Charts menu, in PL9's order, from the PL9 menu screenshot. Two new pages
 (Lordships, Calendar); the rest go to the nearest existing page or report section. Pending ones are listed in italics.
 | # | PL9 item | Ours | Status |
 |---|---|---|---|
-| 1 | Birth chart I | /report?chart=D1-rasi | have |
+| 1 | Birth chart I | /worksheet (the worksheet: Rasi with house strengths, Navamsha, dasha list, planet and strength tables, Shad Bala graph) | have |
 | 2 | Vargas I | /divisional-charts | have |
 | 3 | Sudarshan Chakra | /report?chart=sudarshan-chakra | have |
 | 4 | Lordships | /lordships (new: D1, D9, D10 with exchange marks) | have |

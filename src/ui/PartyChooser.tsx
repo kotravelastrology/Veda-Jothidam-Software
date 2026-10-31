@@ -31,10 +31,10 @@ export function toBirthInput(bd: BirthData): BirthFormInput {
   };
 }
 
-export function PartyChooser({ party, setParty, loading }: { party: Party | null; setParty: (p: Party | null) => void; loading: boolean }) {
+export function PartyChooser({ party, setParty, loading, startManual = false }: { party: Party | null; setParty: (p: Party | null) => void; loading: boolean; startManual?: boolean }) {
   const [rows, setRows] = useState<LibraryRow[]>([]);
   const [query, setQuery] = useState('');
-  const [manual, setManual] = useState(false);
+  const [manual, setManual] = useState(startManual);
 
   useEffect(() => {
     (query.trim() ? searchCharts(query.trim(), 25) : listCharts(50))

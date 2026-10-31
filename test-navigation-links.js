@@ -43,7 +43,9 @@ function resolves(href) {
   });
 }
 
-const NAV_FILES = ['src/navigation/Sidebar.tsx', 'src/navigation/TopMenuBar.tsx', 'src/navigation/MainLayout.tsx'];
+// The drawer and the top bar render the menus; the File, Edit and Charts menus are data in pl9Menus.js, and the report and
+// reference menus are path maps in TopMenuBar.tsx.
+const NAV_FILES = ['src/navigation/MenuDrawer.tsx', 'src/navigation/TopMenuBar.tsx', 'src/navigation/MainLayout.tsx', 'src/navigation/pl9Menus.js'];
 
 const broken = [];
 let checked = 0;
@@ -51,9 +53,13 @@ for (const file of NAV_FILES) {
   const full = path.join(__dirname, file);
   if (!fs.existsSync(full)) continue;
   const text = fs.readFileSync(full, 'utf8');
-  // href: '/x' and href="/x" — internal links only; external and anchors are
+  // href: '/x', href="/x", route: '/x' and the path maps' key: '/x' lines — internal links only; external and anchors are
   // not this test's business.
-  for (const m of text.matchAll(/href[:=]\s*["'](\/[^"'#?]*)["']/g)) {
+  const links = [
+    ...text.matchAll(/(?:href|route)[:=]\s*["'](\/[^"'#?]*)["']/g),
+    ...text.matchAll(/^\s*\w+:\s*'(\/[a-z0-9\-/]*)(?:\?[^']*)?',?\s*$/gm),
+  ];
+  for (const m of links) {
     const href = m[1].replace(/\/$/, '') || '/';
     if (href.startsWith('/api')) continue;
     checked += 1;
@@ -63,7 +69,7 @@ for (const file of NAV_FILES) {
   }
 }
 
-assert.ok(checked > 5, `expected navigation links to check; found ${checked}`);
+assert.ok(checked > 40, `expected navigation links to check; found ${checked}`);
 assert.deepEqual(broken, [],
   `navigation links point at routes that do not exist:\n  ${broken.join('\n  ')}`);
 
