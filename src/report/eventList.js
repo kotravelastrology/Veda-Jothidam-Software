@@ -1,4 +1,5 @@
 const { ABBR } = require('../worksheet/dashaList');
+const { RASI_TA_SHORT: SIGN_SHORT } = require('../sources/tamilNames');
 
 /**
  * The event list of PL9's "Events 1-10" and "Events 11-20" worksheets (user guide ch.8, "Displaying Dashas for Specific Events"):
@@ -9,7 +10,6 @@ const { ABBR } = require('../worksheet/dashaList');
  * The events are the person's list in the order it is kept (sortable by date, as in PL9): slots 1-10 are the first ten, 11-20 the next.
  */
 
-const SIGN_SHORT = ['மேஷ', 'ரிஷப', 'மிது', 'கட', 'சிம்', 'கன்னி', 'துலா', 'விரு', 'தனு', 'மக', 'கும்ப', 'மீன'];
 const MAX_EVENTS = 20;
 
 /**

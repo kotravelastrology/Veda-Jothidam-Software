@@ -6,6 +6,7 @@ import type { ChartGraha } from '@/src/charts/kattam/rasiNames';
 import { useActiveBirthInput } from '@/src/workspace/useActiveBirthInput';
 import { computeEvidenceSnapshot, citeEvidenceInConsultation } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 type Panel = 'natal' | 'varga' | 'bala';
 
@@ -90,7 +91,7 @@ export default function EvidenceView() {
   return (
     <main className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-4">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Evidence</p>
+        <PageEyebrow fallback="Evidence" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           ஆதாரப் பலகைகள்
         </h1>

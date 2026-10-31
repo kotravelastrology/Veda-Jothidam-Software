@@ -1,9 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
-import { useActiveBirthInput } from '@/src/workspace/useActiveBirthInput';
+import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
+import { usePartyInput } from '@/src/ui/chartParty';
 import { analyzeHouses } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 const HOUSE_NAMES = [
   'Tanu (self, body)', 'Dhana (wealth, speech)', 'Sahaja (siblings, courage)',
@@ -31,14 +33,16 @@ interface House {
 }
 
 export default function HouseAnalysisView() {
-  const [birthData, setBirthData] = useState({
-    date: '1990-05-15',
-    time: '10:30:00',
-    latitude: '13.0827',
-    longitude: '80.2707',
-  });
   const { settings } = useSettings();
-  const { profile, input: profileInput, fields: profileFields } = useActiveBirthInput();
+  // The chart: the open chart by itself, or one chosen here (src/ui/PartyChooser.tsx); a hand-entered chart takes the settings'
+  // ayanamsha, house system and nodes, a saved profile the ones it was saved with.
+  const [party, setParty] = useState<Party | null>(null);
+  const { input: partyInput, loading: partyLoading } = usePartyInput(party);
+  const birthInput = useMemo(
+    () => (partyInput && party?.kind === 'form' ? { ...partyInput, ...toEngineOptions(settings) } : partyInput),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [partyInput, party?.kind, settings.ayanamsha, settings.houseSystem, settings.nodeType],
+  );
   const [houses, setHouses] = useState<House[]>([]);
   const [total, setTotal] = useState(0);
   const [lagnaRasi, setLagnaRasi] = useState('');
@@ -46,38 +50,18 @@ export default function HouseAnalysisView() {
   const [error, setError] = useState<string | null>(null);
   const [selectedHouse, setSelectedHouse] = useState<number | null>(null);
 
-  // When the workspace has a profile open, fill this page's form from it
-  // and compute straight away, so the details are not re-entered. The
-  // stored input is passed through rather than re-derived from the form,
-  // which would drop the ayanamsha the profile was saved with.
+  // Calculated as soon as the chart is known
   useEffect(() => {
-    if (!profileFields || !profileInput) return;
-    setBirthData(profileFields);
-    analyze(profileInput);
+    if (!birthInput) return;
+    analyze(birthInput);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileFields, profileInput]);
+  }, [birthInput]);
 
-  const analyze = async (override?: any) => {
+  const analyze = async (override: any) => {
     setLoading(true);
     setError(null);
     try {
-      const [year, month, day] = birthData.date.split('-').map(Number);
-      const timeParts = birthData.time.split(':').map(Number);
-
-
-      const result = await analyzeHouses(override ?? {
-        name: '',
-        gender: 'male',
-        year, month, day,
-        hour: timeParts[0],
-        minute: timeParts[1] || 0,
-        ianaTimeZone: 'Asia/Kolkata',
-        utcOffsetMinutes: 330,
-        latitude: parseFloat(birthData.latitude),
-        longitude: parseFloat(birthData.longitude),
-        placeName: '',
-        ...toEngineOptions(settings),
-      });
+      const result = await analyzeHouses(override);
 
       setHouses(result.houses);
       setTotal(result.ashtakavarga.total);
@@ -112,9 +96,7 @@ export default function HouseAnalysisView() {
   return (
     <main className="min-h-screen p-6 max-w-7xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">
-          House Analysis
-        </p>
+        <PageEyebrow fallback="House Analysis" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           பாவ பலம் (Sarvashtakavarga)
         </h1>
@@ -124,44 +106,8 @@ export default function HouseAnalysisView() {
         </p>
       </header>
 
-      {profile && (
-        <div className="bg-saffron/10 border border-saffron/40 rounded-lg px-4 py-2 mb-4 text-xs text-ink-soft">
-          <strong className="text-ink">{profile.name}</strong> (v{profile.revision}) இன் விவரங்கள்
-          தானாக நிரப்பப்பட்டுள்ளன. கீழே மாற்றினால் அந்த ஒரு கணக்கீட்டுக்கு மட்டும் பொருந்தும்.
-        </div>
-      )}
-
-      <div className="bg-surface border border-line rounded-2xl p-5 mb-6">
-        <div className="grid sm:grid-cols-2 gap-4 mb-4">
-          <label>
-            <span className="block text-sm font-medium text-ink-soft mb-2">பிறந்த தேதி</span>
-            <input type="date" value={birthData.date}
-              onChange={(e) => setBirthData({ ...birthData, date: e.target.value })}
-              className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded" />
-          </label>
-          <label>
-            <span className="block text-sm font-medium text-ink-soft mb-2">பிறந்த நேரம்</span>
-            <input type="time" step="1" value={birthData.time}
-              onChange={(e) => setBirthData({ ...birthData, time: e.target.value })}
-              className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded" />
-          </label>
-          <label>
-            <span className="block text-sm font-medium text-ink-soft mb-2">அட்சரேகை</span>
-            <input type="number" step="0.0001" value={birthData.latitude}
-              onChange={(e) => setBirthData({ ...birthData, latitude: e.target.value })}
-              className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded" />
-          </label>
-          <label>
-            <span className="block text-sm font-medium text-ink-soft mb-2">தீர்க்கரேகை</span>
-            <input type="number" step="0.0001" value={birthData.longitude}
-              onChange={(e) => setBirthData({ ...birthData, longitude: e.target.value })}
-              className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded" />
-          </label>
-        </div>
-        <button onClick={() => analyze()} disabled={loading}
-          className="w-full px-4 py-2 bg-saffron text-ink rounded font-medium disabled:opacity-50 hover:bg-saffron/90">
-          {loading ? 'Swiss Ephemeris பகுப்பாய்வு…' : 'பாவ பலம் பகுப்பாய்வு'}
-        </button>
+      <div className="mb-6">
+        <PartyChooser party={party} setParty={setParty} loading={loading || partyLoading} />
       </div>
 
       {error && (

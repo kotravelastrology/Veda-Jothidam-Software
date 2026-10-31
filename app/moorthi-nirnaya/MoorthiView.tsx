@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeMoorthi } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Moorthi Nirnaya: the form a planet takes when it enters a sign, from the
@@ -75,7 +76,7 @@ export default function MoorthiView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Moorthi Nirnaya</p>
+        <PageEyebrow fallback="Moorthi Nirnaya" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">மூர்த்தி நிர்ணயம் — பொன், வெள்ளி, செம்பு, இரும்பு</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒரு கிரகம் புதிய ராசியில் நுழையும் நேரத்தில் கோசாரச் சந்திரன் ஜன்ம ராசியிலிருந்து எத்தனையாவது இடத்தில் இருக்கிறது என்பதைக் கொண்டு, அந்த ராசியில் அதன் பயணம் முழுவதற்குமான

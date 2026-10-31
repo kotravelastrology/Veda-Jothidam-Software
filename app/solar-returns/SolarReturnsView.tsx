@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { computeReturns, type ReturnQuery } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Solar returns — annual, monthly and daily, at the birthplace and at where
@@ -64,7 +65,7 @@ export default function SolarReturnsView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Solar returns</p>
+        <PageEyebrow fallback="Solar returns" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           வருஷ · மாத · தின பிரவேசம்
         </h1>

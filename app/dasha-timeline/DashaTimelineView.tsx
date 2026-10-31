@@ -1,9 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
-import { useActiveBirthInput } from '@/src/workspace/useActiveBirthInput';
+import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
+import { usePartyInput } from '@/src/ui/chartParty';
 import { computeDashaTimeline } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 interface Bhukti {
   planet: string;
@@ -44,14 +46,16 @@ const tamilOf = (p: string) => PLANETS_DATA[p]?.tamil ?? p;
 const colorOf = (p: string) => PLANETS_DATA[p]?.color ?? '#999999';
 
 export default function DashaTimelineView() {
-  const [birthData, setBirthData] = useState({
-    date: '1990-05-15',
-    time: '10:30:00',
-    latitude: '13.0827',
-    longitude: '80.2707',
-  });
   const { settings } = useSettings();
-  const { profile, input: profileInput, fields: profileFields } = useActiveBirthInput();
+  // The chart: the open chart by itself, or one chosen here (src/ui/PartyChooser.tsx); a hand-entered chart takes the settings'
+  // ayanamsha, house system and nodes, a saved profile the ones it was saved with.
+  const [party, setParty] = useState<Party | null>(null);
+  const { input: partyInput, loading: partyLoading } = usePartyInput(party);
+  const birthInput = useMemo(
+    () => (partyInput && party?.kind === 'form' ? { ...partyInput, ...toEngineOptions(settings) } : partyInput),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [partyInput, party?.kind, settings.ayanamsha, settings.houseSystem, settings.nodeType],
+  );
   const [dashas, setDashas] = useState<DashaPeriod[]>([]);
   const [meta, setMeta] = useState<{
     moonNakshatra: string | null;
@@ -64,39 +68,20 @@ export default function DashaTimelineView() {
   const [error, setError] = useState<string | null>(null);
   const [expandedPlanet, setExpandedPlanet] = useState<string | null>(null);
 
-  // When the workspace has a profile open, fill this page's form from it
-  // and compute straight away, so the details are not re-entered. The
-  // stored input is passed through rather than re-derived from the form,
-  // which would drop the ayanamsha the profile was saved with.
+  // Calculated as soon as the chart is known, and again for the replay date
   useEffect(() => {
-    if (!profileFields || !profileInput) return;
-    setBirthData(profileFields);
-    calculate(profileInput);
+    if (!birthInput) { setDashas([]); setMeta(null); setActiveChain([]); return; }
+    calculate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [profileFields, profileInput]);
+  }, [birthInput]);
 
-  const calculate = async (override?: any) => {
+  const calculate = async () => {
+    if (!birthInput) return;
     setLoading(true);
     setError(null);
     try {
-      const [year, month, day] = birthData.date.split('-').map(Number);
-      const timeParts = birthData.time.split(':').map(Number);
-
-
       const asOfMs = Date.parse(`${asOf}T12:00:00.000Z`);
-      const result = await computeDashaTimeline(override ?? {
-        name: '',
-        gender: 'male',
-        year, month, day,
-        hour: timeParts[0],
-        minute: timeParts[1] || 0,
-        ianaTimeZone: 'Asia/Kolkata',
-        utcOffsetMinutes: 330,
-        latitude: parseFloat(birthData.latitude),
-        longitude: parseFloat(birthData.longitude),
-        placeName: '',
-        ...toEngineOptions(settings),
-      }, Number.isFinite(asOfMs) ? asOfMs : undefined);
+      const result = await computeDashaTimeline(birthInput, Number.isFinite(asOfMs) ? asOfMs : undefined);
 
       setDashas(result.dashas);
       setActiveChain(result.activeChain || []);
@@ -121,9 +106,7 @@ export default function DashaTimelineView() {
   return (
     <main className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">
-          Dasha Timeline
-        </p>
+        <PageEyebrow fallback="Dasha Timeline" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           விம்சோத்தரி தசை (Vimshottari Dasha)
         </h1>
@@ -132,44 +115,8 @@ export default function DashaTimelineView() {
         </p>
       </header>
 
-      {profile && (
-        <div className="bg-saffron/10 border border-saffron/40 rounded-lg px-4 py-2 mb-4 text-xs text-ink-soft">
-          <strong className="text-ink">{profile.name}</strong> (v{profile.revision}) இன் விவரங்கள்
-          தானாக நிரப்பப்பட்டுள்ளன. கீழே மாற்றினால் அந்த ஒரு கணக்கீட்டுக்கு மட்டும் பொருந்தும்.
-        </div>
-      )}
-
-      <div className="bg-surface border border-line rounded-2xl p-5 mb-6">
-        <div className="grid sm:grid-cols-2 gap-4 mb-4">
-          <label>
-            <span className="block text-sm font-medium text-ink-soft mb-2">பிறந்த தேதி</span>
-            <input type="date" value={birthData.date}
-              onChange={(e) => setBirthData({ ...birthData, date: e.target.value })}
-              className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded" />
-          </label>
-          <label>
-            <span className="block text-sm font-medium text-ink-soft mb-2">பிறந்த நேரம்</span>
-            <input type="time" step="1" value={birthData.time}
-              onChange={(e) => setBirthData({ ...birthData, time: e.target.value })}
-              className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded" />
-          </label>
-          <label>
-            <span className="block text-sm font-medium text-ink-soft mb-2">அட்சரேகை</span>
-            <input type="number" step="0.0001" value={birthData.latitude}
-              onChange={(e) => setBirthData({ ...birthData, latitude: e.target.value })}
-              className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded" />
-          </label>
-          <label>
-            <span className="block text-sm font-medium text-ink-soft mb-2">தீர்க்கரேகை</span>
-            <input type="number" step="0.0001" value={birthData.longitude}
-              onChange={(e) => setBirthData({ ...birthData, longitude: e.target.value })}
-              className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded" />
-          </label>
-        </div>
-        <button onClick={() => calculate()} disabled={loading}
-          className="w-full px-4 py-2 bg-saffron text-ink rounded font-medium disabled:opacity-50 hover:bg-saffron/90">
-          {loading ? 'Swiss Ephemeris கணக்கிடுகிறது…' : 'தசை கால கணக்கிடு'}
-        </button>
+      <div className="mb-6">
+        <PartyChooser party={party} setParty={setParty} loading={loading || partyLoading} />
       </div>
 
       {error && (

@@ -13,8 +13,8 @@ const { planetLongitude, nodeLongitude, sunMoonLongitudes } = require('../epheme
 const { calculateTirukanitaPanchangam } = require('../panchangam/tirukanitaPanchangam');
 const { calculateKpSystem } = require('./kpSystem');
 const { buildVimshottariDasha } = require('../dasha/vimshottariDasha');
+const { RASI_TA: SIGN_TA } = require('../sources/tamilNames');
 
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const PLANET_TA = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' };
 const PLANET_SHORT = { Sun: 'சூ', Moon: 'சந்', Mars: 'செ', Mercury: 'புத', Jupiter: 'குரு', Venus: 'சுக்', Saturn: 'சனி', Rahu: 'ரா', Ketu: 'கே' };
 const BODIES = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];

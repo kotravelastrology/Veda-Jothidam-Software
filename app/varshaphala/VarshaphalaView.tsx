@@ -7,6 +7,8 @@ import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeVarshaphala } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { RASI_TA as SIGN_TA_V } from '@/src/sources/tamilNames';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 interface VarshaResult {
   yearsElapsed: number;
@@ -58,7 +60,7 @@ export default function VarshaphalaView() {
   return (
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Tajika · Annual Chart</p>
+        <PageEyebrow fallback="Tajika · Annual Chart" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           வருஷபலன் (Varshaphala)
         </h1>
@@ -555,7 +557,6 @@ function BookSahamsSection({ b }: { b: any }) {
     </section>
   );
 }
-const SIGN_TA_V = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 /** The monthly entries of the year (Tajika Bhushana printed 90-96): the instant the Sun is at the birth Sun plus k signs, the month's lagna, the month lord and its results. */
 function MasaSection({ m }: { m: any }) {

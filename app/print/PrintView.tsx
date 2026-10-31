@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { useSettings, toDashaOptions } from '@/src/ui/SettingsPanel';
 import { buildPrintDocument, bookSectionList, type PrintKind } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * PL9's Print menu and the two text exports of its Research menu, from this software's own engines: the ephemeris and the panchang of a month, the KP chart,
@@ -112,7 +113,7 @@ export default function PrintView() {
     <main className="min-h-screen p-6 max-w-6xl mx-auto">
       <div className="print:hidden">
         <header className="mb-5">
-          <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Print · Research exports</p>
+          <PageEyebrow fallback="Print · Research exports" />
           <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">அச்சு மையம்</h1>
           <p className="text-sm text-ink-soft mt-1 max-w-3xl">
             PL9-இன் Print பட்டியல்: எபிமெரிஸ், பஞ்சாங்கம், KP, 1–5 நிலை தசைகள், வாழ்நாள் தசைகள், கோசாரம்-தசை அறிக்கை; மேலும் பிறப்புத் தரவு, எபிமெரிஸ் கோப்புகள். காட்டப்படும் ஆவணமே அச்சாகிறது.

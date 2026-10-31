@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeSpecialLagnas } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * BPHS chapter 5: Bhava Lagna (one sign per 5 ghatis from sunrise), Hora Lagna (per 2½ ghatis), Ghatika Lagna (per ghati) added to
@@ -48,7 +49,7 @@ export default function SpecialLagnasView() {
   return (
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Special lagnas · BPHS chapter 5</p>
+        <PageEyebrow fallback="Special lagnas · BPHS chapter 5" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">சிறப்பு லக்னங்கள் — பராசரர் (BPHS அத்.5)</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           சூரிய உதயத்திலிருந்து பிறப்பு வரை: பாவ லக்னம் 5 கடிகைக்கு ஒரு ராசி, ஹோரா லக்னம் 2½ கடிகைக்கு ஒரு ராசி, கடிகா லக்னம் ஒரு கடிகைக்கு ஒரு ராசி (ஒரு விகடிகை = அரை டிகிரி); ஒவ்வொன்றும் உதயத்தில் சூரியனின் தீர்க்கத்துடன் கூட்டப்படுகிறது.

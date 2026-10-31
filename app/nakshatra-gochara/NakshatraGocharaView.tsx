@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeNakshatraGochara } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Nakshatra gochara: each planet's star counted from the natal star. The
@@ -59,7 +60,7 @@ export default function NakshatraGocharaView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Nakshatra Gochara</p>
+        <PageEyebrow fallback="Nakshatra Gochara" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நட்சத்திரக் கோசாரம் — தாரை, அங்க பலன்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒவ்வொரு கிரகமும் இருக்கும் நட்சத்திரம், ஜன்ம நட்சத்திரத்திலிருந்து எண்ணி: தாரை, புலிப்பாணியின் நல்ல/தீய நட்சத்திரம், உடலின் எந்த உறுப்பில் என்பது (நான்கு நூல்கள்),

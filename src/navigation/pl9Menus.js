@@ -57,8 +57,9 @@ const EDIT_MENU = [
   },
   divider(1),
   {
-    key: 'edit-astrologer-location', label: "Astrologer's location", status: 'pending',
-    target: { pending: 'Not built: no stored astrologer location for the Prashna yet.' },
+    // Settings > Astrologer's location: today's panchangam on the home page and the place a new chart starts at (the Prashna pages still ask)
+    key: 'edit-astrologer-location', label: "Astrologer's location", status: 'partial',
+    target: { action: 'astrologer-location' },
   },
   {
     key: 'edit-astrologer-settings', label: 'Astrologer specific settings', status: 'pending',

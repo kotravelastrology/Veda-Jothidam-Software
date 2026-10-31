@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeKotaSanghatta } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * The Kota Chakra (fort) and the Nakshatra Sanghatta Chakra of Narapati's Svarodaya, with the planets of a chosen moment
@@ -48,7 +49,7 @@ export default function KotaChakraView() {
   return (
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Kota Chakra · Sanghatta Chakra</p>
+        <PageEyebrow fallback="Kota Chakra · Sanghatta Chakra" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கோட்டா சக்கரம், சங்கட்ட சக்கரம் — நரபதி ஜயாசார்யர்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           நரபதியின் ஸ்வரோதயம் இவற்றைப் போர், முற்றுகை, அன்றைய வானிலை ஆகியவற்றுக்காகச் சொல்கிறது. அதனால் இயல்பான பயன்பாடு ஒரு குறிப்பிட்ட நேரத்தின் கிரக நிலை. பிறப்பு ஜாதகத்தில் வைத்துப் பார்ப்பது நவீன பயன்பாடு — இந்த நூலில் இல்லை; தேர்ந்தெடுத்தால் அப்படியே குறிக்கப்படும்.

@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeMuhurtaStars } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { RASI_TA } from '@/src/sources/tamilNames';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * The star of a muhurta over a period, for one person: Latta (a planet kicks
@@ -23,7 +25,6 @@ const PERSONAL_TA: Record<string, string> = { JANMA: 'ஜன்ம நட்ச�
 const PLANET_NAME_TA: Record<string, string> = {
   Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது',
 };
-const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const DIGNITY_TA: Record<string, string> = { OWN: 'சொந்த ராசி', EXALTED: 'உச்சம்', FRIEND: 'நட்பு ராசி' };
 const planetsTa = (list: string[]) => list.map((p) => PLANET_NAME_TA[p] ?? p).join(', ');
 const LAGNA_LORD_TA = 'லக்னாதிபதி';
@@ -405,7 +406,7 @@ export default function MuhurtaStarsView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Muhurta star</p>
+        <PageEyebrow fallback="Muhurta star" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">முகூர்த்த நட்சத்திரம் — லத்தை, திருமணத்தின் பத்து தோஷங்கள், தாரா பலம், சந்திர பலம், வைநாசிகம், 88/108-வது பாதம்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           முகூர்த்த நட்சத்திரம் என்பது அந்த நேரத்தில் சந்திரன் நிற்கும் நட்சத்திரம். ஒரு கிரகம் அதை "உதைத்தால்" (லத்தை) யாருக்கும் விலக்கு;

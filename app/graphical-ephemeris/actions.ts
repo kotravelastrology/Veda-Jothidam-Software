@@ -1,4 +1,5 @@
 'use server';
+import { RASI_TA as SIGN_TA } from '@/src/sources/tamilNames';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { julianDay } = require('@swisseph/node');
@@ -6,7 +7,6 @@ const { julianDay } = require('@swisseph/node');
 const G = require('../../src/chart/graphicalEphemeris');
 
 const PLANET_TA: Record<string, string> = { Sun: 'சூரியன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' };
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 export interface EphemerisRequest {
   year: number;

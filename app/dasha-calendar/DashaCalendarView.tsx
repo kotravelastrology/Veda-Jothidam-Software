@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { useSettings, toDashaOptions } from '@/src/ui/SettingsPanel';
 import { computeDashaCalendar } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * PL9's Calendar worksheet: a month laid out as a calendar, with the dasha combination (Mahadasha-Antardasha) written on
@@ -54,7 +55,7 @@ export default function DashaCalendarView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Calendar</p>
+        <PageEyebrow fallback="Calendar" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">தசா நாட்காட்டி (Calendar)</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-2xl">
           ஒவ்வொரு நாளிலும் புதிய மகாதசை–அந்தரதசை தொடங்கினால் அந்த நாளில் அது குறிக்கப்படும் (PL9 "Calendar" வடிவம்: "Su-Ra" = சூரிய மகாதசை, ராகு அந்தரதசை).

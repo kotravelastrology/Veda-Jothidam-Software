@@ -34,3 +34,8 @@ __pycache__/
 
 # VJ-008 spike: copied at package time by spikes/electron/standalone/prepare.js
 spikes/electron/standalone/node_modules/
+
+# Written into this folder by another astrology program run from here (its own options and log, Sep 2026); not part of this project
+/Options/
+/temp/
+/LogFile.txt

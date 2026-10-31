@@ -35,20 +35,23 @@ for (const p of planets) {
   const [degrees, nak, lords] = PL9_PLANETS[p.abbr];
   assert.strictEqual(p.nakshatraAbbr, nak, `${p.abbr} nakshatra`);
   assert.strictEqual(p.lordsText, lords, `${p.abbr} pada and lords`);
-  // Degrees: the same to the second for the planets; the ascendant and the nodes are 12-13 seconds off PL9's.
+  // Degrees: the same to the second for the planets and the ascendant (the ascendant takes off the true ayanamsha, as
+  // swe_houses_ex does; with the mean one it was 13" larger). The mean nodes are 13" larger than PL9's: ours is Swiss Ephemeris's
+  // sidereal node (the node of date less the true ayanamsha), PL9's is the node of the mean equinox less the true ayanamsha.
   const gap = Math.abs(seconds(p.degreeText) - seconds(degrees));
-  const limit = ['As', 'Ra', 'Ke'].includes(p.abbr) ? 15 : 1;
+  const limit = ['Ra', 'Ke'].includes(p.abbr) ? 14 : 1;
   assert.ok(gap <= limit, `${p.abbr}: ${p.degreeText} against PL9's ${degrees}`);
 }
 
-// --- Gulika, drawn in the charts (PL9: "Gk 03:02 Mag"). Ours is at 02:36 in the same nakshatra; the 26 minutes of arc are the
-// Gulika method (the book's gap register lists it).
+// --- Gulika, drawn in the charts (PL9: "Gk 03:02 Mag"). From the visible sunrise (the default) it is 02:36 in the same nakshatra;
+// from the Hindu sunrise (Settings > Sunrise: disc centre; G.K. Ojha pp.35-36) it is PL9's 03:02.
 const gulika = W.gulikaRow(report.upagraha);
 assert.strictEqual(gulika.abbr, 'Gk');
 assert.strictEqual(gulika.rasiIndex, 4, 'Leo, as in PL9');
 assert.strictEqual(gulika.nakshatraAbbr, 'Mag');
 assert.strictEqual(gulika.degreeText.slice(0, 2), '02');
 assert.strictEqual(W.gulikaRow({}), null);
+assert.strictEqual(W.gulikaRow(buildReportData({ ...input, sunrise: 'disc-centre' }).upagraha).degreeText.slice(0, 5), '03:02', "the Hindu sunrise gives PL9's Gulika");
 
 // --- the Navamsha PL9 draws: Ra with Ve and Gk in Aries, Su with Ma in Gemini, Mo with Me in Aquarius, Ke in Libra, and As with Sa
 // and Ju in Scorpio. The report's varga data has the seven planets; the page adds the nodes and Gulika the same way.

@@ -5,6 +5,8 @@ import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeYearlyTransit } from './actions';
+import { RASI_TA as SIGN_TA } from '@/src/sources/tamilNames';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * PL9's "Yearly transit overview (South Indian)": the birth chart in the middle, and around it, beside the sign it belongs to, the stays
@@ -15,7 +17,6 @@ import { computeYearlyTransit } from './actions';
 
 /** [row, col] of each sign (0 Aries .. 11 Pisces) in the South Indian layout. */
 const POS: [number, number][] = [[0, 1], [0, 2], [0, 3], [1, 3], [2, 3], [3, 3], [3, 2], [3, 1], [3, 0], [2, 0], [1, 0], [0, 0]];
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 export default function YearlyTransitView() {
   const [party, setParty] = useState<Party | null>(null);
@@ -44,7 +45,7 @@ export default function YearlyTransitView() {
   return (
     <main className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Yearly transit overview · South Indian</p>
+        <PageEyebrow fallback="Yearly transit overview · South Indian" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஆண்டு கோசாரம் — தென்னிந்திய கட்டம்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           நடுவில் ஜன்ம ராசிக் கட்டம்; சுற்றிலும் ஒவ்வொரு ராசிக்கும் அருகில், அந்த ஆண்டில் கிரகங்கள் அந்த ராசியில் இருக்கும் காலங்கள்.

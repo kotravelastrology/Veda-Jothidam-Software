@@ -4,6 +4,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeBphsDasha, loadBphsDashaSystems } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * The nakshatra dashas of BPHS chapter 46 beside Vimshottari: Ashtottari, Shodashottari, Dwadashottari, Panchottari,
@@ -45,7 +46,7 @@ export default function BphsDashasView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">BPHS chapter 46 dashas</p>
+        <PageEyebrow fallback="BPHS chapter 46 dashas" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">தசைகள் — பராசரர் (BPHS அத்.46)</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           விம்சோத்தரி தவிர்த்து, பராசரர் நட்சத்திரத்தின்படி சொல்லும் எட்டு தசைகள். ஒவ்வொன்றும் யாருக்குப் பொருந்தும் என்று ஸ்லோகம் சொல்லும் நிபந்தனையை உங்கள் ஜாதகத்துடன் சரிபார்க்கிறது.

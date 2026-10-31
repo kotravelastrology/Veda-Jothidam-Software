@@ -5,6 +5,7 @@ import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeVedha } from './actions';
 import type { BirthFormInput } from '../report/actions';
 import { PLANET_TA, NATURE_TA, REASON_TA, cite, Cites, verdictTa, aspectTa, dignityTa, PhaladeepikaNowCell, Verse41Lines, BinduTablePicker } from './PhaladeepikaNow';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Gochara vedha for all nine planets.
@@ -523,7 +524,7 @@ export default function GocharaVedhaView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Gochara Vedha</p>
+        <PageEyebrow fallback="Gochara Vedha" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கோசார வேதை — ஒன்பது கிரகங்களும்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஜன்ம சந்திரனிலிருந்து ஒரு கிரகம் நல்ல இடத்தில் இருக்கும்போது வேறொரு கிரகம் அதன் இணை இடத்தில் இருந்தால் நல்ல பலன் தடைபடும் (வேதை);

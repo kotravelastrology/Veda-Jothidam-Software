@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeHealth } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Health in BPHS (R. Santhanam's translation): the seven dhatus (ch.3 v.31), the limbs of Kalapurusha by the sthoola scheme (ch.4 v.4-4.5) and the sookshma scheme
@@ -71,7 +72,7 @@ export default function HealthView() {
   return (
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Health · BPHS</p>
+        <PageEyebrow fallback="Health · BPHS" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஆரோக்கியம் — பராசரர் (BPHS)</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           தாதுக்கள், உடல் உறுப்புகள் (ஸ்தூலம், சூக்ஷ்மம்), ஆறாம் பாவ அத்தியாயத்தின் நோய்கள், நோய் வரும் காலம், துரதிர்ஷ்ட ஆண்டுகள். நூல் கூறும் நிபந்தனைகள் இந்த ஜாதகத்தில் உள்ளனவா என்று மட்டும் காட்டுகிறது;

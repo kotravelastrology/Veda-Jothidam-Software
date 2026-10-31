@@ -50,7 +50,7 @@ export async function computeHealth(req: HealthRequest) {
   try {
     const up = calculateUpagrahas({
       sunLongitude: chart.grahas.Sun.longitude, birthJd: chart.julianDay, year: ctx.input.year, month: ctx.input.month, day: ctx.input.day,
-      utcOffsetMinutes: ctx.input.utcOffsetMinutes, latitude: ctx.input.latitude, longitude: ctx.input.longitude, ayanamsha: ctx.ayanamsha,
+      utcOffsetMinutes: ctx.input.utcOffsetMinutes, latitude: ctx.input.latitude, longitude: ctx.input.longitude, ayanamsha: ctx.ayanamsha, sunrise: ctx.sunrise,
     });
     mandiLongitude = up.upagrahas?.Mandi?.longitude ?? null;
   } catch { /* Mandi stays unknown and the rule that needs it says so */ }

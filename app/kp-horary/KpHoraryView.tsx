@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { computeKpHorary, loadKpHoraryTables } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { RASI_TA as SIGN_TA } from '@/src/sources/tamilNames';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * KP horary (K.S. Krishnamurti, Reader VI): the number 1-249 fixes the ascendant (the start of its sub); the other cusps are those of the moment that ascendant rises at the
@@ -11,7 +13,6 @@ import { citeTa } from '@/src/sources/citeTa';
  */
 
 const num = { fontVariantNumeric: 'tabular-nums' as const };
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const SIGN_EN = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
 const PLANET_TA: Record<string, string> = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' };
 const FACTOR_TA: Record<string, string> = { 'Day Lord': 'நாள் அதிபதி', 'Moon Sign Lord': 'சந்திர ராசி அதிபதி', 'Moon Star Lord': 'சந்திர நட்சத்திர அதிபதி', 'Asc Sign Lord': 'லக்ன ராசி அதிபதி', 'Asc Star Lord': 'லக்ன நட்சத்திர அதிபதி' };
@@ -61,7 +62,7 @@ export default function KpHoraryView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">KP horary · Reader VI</p>
+        <PageEyebrow fallback="KP horary · Reader VI" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">KP பிரச்னம் — எண் 1 முதல் 249</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           கேட்பவர் சொல்லும் எண் 1-249 ஒவ்வொன்றும் ஒரு ராசி-நட்சத்திரம்-உப அதிபதி; அந்த உபத்தின் தொடக்கமே லக்னம் (நூல் ப.88). மற்ற கஸ்ப்கள் அந்த லக்னம் அந்த ஊரில் உதிக்கும் நேரத்தினுடையவை;

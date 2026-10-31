@@ -53,10 +53,18 @@ export function useOpenChart() {
     () => { try { return localStorage.getItem('kotravel_current_chart') ?? ''; } catch { return ''; } },
     () => '',
   );
+  const hydrated = useHydrated();
   return useMemo(() => {
     void stashRaw; // the stash is read again whenever its text changes
-    return describeOpenChart(activeProfile);
-  }, [stashRaw, activeProfile]);
+    // The server cannot see the browser's storage: until the page has hydrated, render as the server did (nothing open)
+    return hydrated ? describeOpenChart(activeProfile) : null;
+  }, [stashRaw, activeProfile, hydrated]);
+}
+
+const noSubscribe = () => () => {};
+/** False while the page is being hydrated (and on the server), true after: for what only the browser can know. */
+export function useHydrated() {
+  return useSyncExternalStore(noSubscribe, () => true, () => false);
 }
 
 /** The open chart's birth place for the steps that need one (ascendant, navamsha): the stash's, else Chennai's. */

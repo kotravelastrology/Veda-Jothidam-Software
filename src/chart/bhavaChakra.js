@@ -8,7 +8,7 @@ const BHAVA_HOUSES = [
   { number: 4, name: 'Sukha (Mother)', domainEn: 'Mother, home, property, peace', domainTa: 'தாய், வீடு, சொத்து, அமைதி' },
   { number: 5, name: 'Putra (Children)', domainEn: 'Children, creativity, speculation', domainTa: 'குழந்தைகள், படைப்பு, சூது' },
   { number: 6, name: 'Ari (Enemies)', domainEn: 'Enemies, health, debts, service', domainTa: 'எதிரிகள், உடல்நலம், கடன், சேவை' },
-  { number: 7, name: 'Yati (Partner)', domainEn: 'Spouse, business partner, public image', domainTa: 'மணைவி, ব্যবসায় பার্টনার, பொது' },
+  { number: 7, name: 'Yati (Partner)', domainEn: 'Spouse, business partner, public image', domainTa: 'வாழ்க்கைத் துணை, வணிகக் கூட்டாளி, பொது மதிப்பு' },
   { number: 8, name: 'Randhra (Death)', domainEn: 'Longevity, transformation, occult', domainTa: 'ஆயுள், மாற்றம், மர்மமான' },
   { number: 9, name: 'Dharma (Fortune)', domainEn: 'Luck, religion, father, travel', domainTa: 'அதிர்ஷ்ட, மதம், தந்தை, பயணம்' },
   { number: 10, name: 'Karma (Profession)', domainEn: 'Career, status, authority', domainTa: 'கரணம், நிலை, ஆணை' },

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { loadDashaMethods } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * VJ-027 — what this software knows about each dasha method, and how far that
@@ -110,7 +111,7 @@ export default function DashaMethodsView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Dasha methods</p>
+        <PageEyebrow fallback="Dasha methods" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           தசை முறைகள் — சரிபார்ப்பு நிலை
         </h1>

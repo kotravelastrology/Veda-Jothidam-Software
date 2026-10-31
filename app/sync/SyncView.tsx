@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { loadSyncState, addSyncDevice, revokeSyncDevice } from './actions';
 import { hasThisComputerRegistered, registerThisComputerNow } from '@/src/sync/thisComputer';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * VJ-024 — devices, their scopes, and the local outbox.
@@ -96,7 +97,7 @@ export default function SyncView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Sync</p>
+        <PageEyebrow fallback="Sync" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           சாதனங்களும் அனுப்பு வரிசையும்
         </h1>

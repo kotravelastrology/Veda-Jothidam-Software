@@ -74,8 +74,9 @@ assert.ok((w[0].leaveJd - w[0].enterJd) * 24 < 3.5, 'the Moon crosses 46 minutes
 // the ascendant reaches the start of the point once a day: its longitude at that instant is the point's start
 const ae = K.ascendantEntries({ points: mk.byLords, latitude: 13.0827, longitude: 80.2707, fromJd: jd0, hours: 24 });
 assert.ok(ae.length >= 1);
-const { calculateHouses, getAyanamsa, setSiderealMode, SiderealMode, HouseSystem } = require('@swisseph/node');
+const { calculateHouses, setSiderealMode, SiderealMode, HouseSystem } = require('@swisseph/node');
+const { trueAyanamsa } = require('./src/ephemeris/swissEphemeris');
 setSiderealMode(SiderealMode.Krishnamurti);
-const asc = ((calculateHouses(ae[0].jd, 13.0827, 80.2707, HouseSystem.Placidus).ascendant - getAyanamsa(ae[0].jd)) % 360 + 360) % 360;
+const asc = ((calculateHouses(ae[0].jd, 13.0827, 80.2707, HouseSystem.Placidus).ascendant - trueAyanamsa(ae[0].jd)) % 360 + 360) % 360;
 assert.ok(Math.abs(asc - mk.byLords[0].from) < 1e-4 || Math.abs(asc - 360) < 1e-4);
 console.log('test-kp-transit ok');

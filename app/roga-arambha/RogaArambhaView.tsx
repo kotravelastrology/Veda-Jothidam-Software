@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeRogaArambha, computeRogaArambhaTable } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * The onset of an illness: eight books' statements for all 27 stars side by side, and, for the moment an
@@ -69,7 +70,7 @@ export default function RogaArambhaView() {
   return (
     <main className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Onset of Illness</p>
+        <PageEyebrow fallback="Onset of Illness" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நோய்த் தொடக்கம்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           நோய் தொடங்கிய நேரம் அதன் முடிவைக் காட்டும் என்பது நூல்களின் கூற்று: அப்போது சந்திரன் இருக்கும் நட்சத்திரம், கிழமை, திதி, கரணம், நோயாளியின் ஜன்ம நட்சத்திரம்.

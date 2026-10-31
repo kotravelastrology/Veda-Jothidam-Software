@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { computeBabyNames, babyNameTables } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 export default function BabyNamesView() {
   const [tables, setTables] = useState<{ nakshatras: string[]; syllables: string[][] } | null>(null);
@@ -19,7 +20,7 @@ export default function BabyNamesView() {
   return (
     <main className="min-h-screen p-6 max-w-2xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Baby names</p>
+        <PageEyebrow fallback="Baby names" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">குழந்தை பெயர்</h1>
         <p className="text-sm text-ink-soft mt-1">
           108-பாத நாமகரண சக்கரப்படி ஜன்ம நட்சத்திரப் பாதத்தின் எழுத்தில் தொடங்கும் பெயர்கள்.

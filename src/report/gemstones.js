@@ -27,8 +27,8 @@ const { UnsupportedInputError } = require('../contracts/chartContext');
 const T = require('./gemstoneTables');
 const KB = require('./gemstoneKapoor');
 const { WEARING, UNIT_TA } = require('./gemstoneWearing');
+const { RASI_TA } = require('../sources/tamilNames');
 
-const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const GEM_PLANET = {
   Ruby: 'Sun', Pearl: 'Moon', 'White pearl': 'Moon', 'Red coral': 'Mars', Coral: 'Mars', Emerald: 'Mercury',
   'Yellow sapphire': 'Jupiter', Diamond: 'Venus', 'Blue sapphire': 'Saturn',

@@ -39,6 +39,7 @@ const { VEDIC_ASPECTS } = require('../chart/aspectMatrix');
 const { UnsupportedInputError } = require('../contracts/chartContext');
 const { GANA_OF } = require('./poruthamTables');
 const T = require('./mangalaDoshaTables');
+const { RASI_TA } = require('../sources/tamilNames');
 
 const GRAHAS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 const MALEFICS = ['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'];
@@ -52,7 +53,6 @@ const KETU_STARS = [0, 9, 18]; // Ashwini, Magha, Mula
 const JYESHTHA = 17;
 const MOOLA = 18;
 const MOVABLE = [0, 3, 6, 9];
-const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 const MET = (detail) => ({ status: 'MET', detail });
 const NOT_MET = (detail) => ({ status: 'NOT_MET', detail });

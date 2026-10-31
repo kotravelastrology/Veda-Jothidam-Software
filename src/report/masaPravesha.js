@@ -15,9 +15,9 @@ const { calculateParashariChart } = require('../chart/parashariChart');
 const { panchaVargeeyaBala, d9Rashi } = require('./panchaVargeeyaBala');
 const { panchaVargeeyaBook } = require('./panchaVargeeyaBook');
 const T = require('./varshaInterpretationTables');
+const { RASI_TA: SIGN_TA } = require('../sources/tamilNames');
 
 const RASI_LORDS = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter'];
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const PLANET_TA = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' };
 const MS_DAY = 86400000;
 const norm = (x) => ((x % 360) + 360) % 360;

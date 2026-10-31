@@ -16,10 +16,15 @@
   --rose-soft: #f6ddd8;
   --teal: #1f7a5c;
   --teal-soft: #dcf0e7;
+
+  /* the top bar and the status bar: dark in both themes */
+  --bar: #2b1b12;
+  --bar-ink: #fff8ed;
 }
 
+/* Dark colours: from the system's setting, unless Settings > Theme says Light; always when it says Dark. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #17111c;
     --surface: #241b2e;
     --surface-2: #2c2138;
@@ -35,8 +40,36 @@
     --rose-soft: #3a221e;
     --teal: #5fcba0;
     --teal-soft: #16302a;
+
+    --bar: #0d0911;
+    --bar-ink: #f3e9da;
   }
 }
+
+:root[data-theme="dark"] {
+  --bg: #17111c;
+  --surface: #241b2e;
+  --surface-2: #2c2138;
+  --ink: #f3e9da;
+  --ink-soft: #c9b8ce;
+  --line: #3a2d47;
+
+  --saffron: #f4a94a;
+  --saffron-soft: #3d2a13;
+  --indigo: #a395d6;
+  --indigo-soft: #2a2340;
+  --rose: #e8776a;
+  --rose-soft: #3a221e;
+  --teal: #5fcba0;
+  --teal-soft: #16302a;
+
+  --bar: #0d0911;
+  --bar-ink: #f3e9da;
+}
+
+/* Settings > Font size: every size in the program is in rem, so the root size scales the whole screen. */
+:root[data-font="small"] { font-size: 14px; }
+:root[data-font="large"] { font-size: 18px; }
 
 body {
   background: var(--bg);
@@ -58,6 +91,8 @@ body {
   --color-rose-soft: var(--rose-soft);
   --color-teal: var(--teal);
   --color-teal-soft: var(--teal-soft);
+  --color-bar: var(--bar);
+  --color-bar-ink: var(--bar-ink);
   --font-tamil-serif: var(--font-noto-serif-tamil);
   --font-tamil-sans: var(--font-noto-sans-tamil);
 }

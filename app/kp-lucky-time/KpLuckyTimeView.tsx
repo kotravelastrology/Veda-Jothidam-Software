@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeKpLuckyTime, loadKpLuckyTopics } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { RASI_TA as SIGN_TA } from '@/src/sources/tamilNames';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * KP lucky timings (Reader V, K.S. Krishnamurti, printed pp.219-234): for a matter the book names the houses to take (and sometimes to avoid); the planets that signify them
@@ -12,7 +14,6 @@ import { citeTa } from '@/src/sources/citeTa';
  */
 
 const num = { fontVariantNumeric: 'tabular-nums' as const };
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const PLANET_TA: Record<string, string> = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' };
 const pt = (x: string) => PLANET_TA[x] ?? x;
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -62,7 +63,7 @@ export default function KpLuckyTimeView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">KP · Reader V · lucky timings</p>
+        <PageEyebrow fallback="KP · Reader V · lucky timings" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">KP நல்ல நேரம் — தொடங்க வேண்டிய தருணம்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒரு செயலுக்கு நூல் சொல்லும் வீடுகளைக் குறிக்கும் கிரகங்களே (நூல் தவிர்க்கச் சொல்லும் வீடுகளைக் குறிக்காதவை) காலத்தைத் தருகின்றன: தசை-புக்தி-அந்தரம் அவர்களாக இருக்கும் காலம்; சந்திரன் அவர்களின் நட்சத்திரம்-உபத்தில் செல்லும் நாளும் மணிகளும்;

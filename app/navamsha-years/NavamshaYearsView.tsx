@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeNavamshaYears } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Navamsha counts ("Navamsha Ages"): the 108 navamshas of 3d20' round the zodiac from Aries; the count from the
@@ -33,7 +34,7 @@ export default function NavamshaYearsView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Navamsha counts</p>
+        <PageEyebrow fallback="Navamsha counts" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நவாம்ச எண்ணிக்கை (நவாம்ச வயது)</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-2xl">
           ராசி மண்டலத்தின் 108 நவாம்சங்களை (ஒவ்வொன்றும் 3°20′) மேஷத்திலிருந்து எண்ணி, லக்ன நவாம்சத்திலிருந்து ஒவ்வொரு கிரகத்தின் நவாம்சம் வரை இரு முனையும் சேர்த்து எண்ணுவது (லக்னம் = 1 — PL9 காட்டும் எண்); அதேபோல் கிரகத்திலிருந்து லக்னம் வரை.

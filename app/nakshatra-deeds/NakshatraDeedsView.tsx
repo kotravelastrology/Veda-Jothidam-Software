@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { computeNakshatraDeedsTable, searchNakshatraDeeds } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * The deeds each nakshatra suits (Kalyanraman, Muhoortha Sangraha vol. 1 ch. 9): pick a star to read its two
@@ -35,7 +36,7 @@ export default function NakshatraDeedsView() {
   return (
     <main className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Nakshatras and Suitable Deeds</p>
+        <PageEyebrow fallback="Nakshatras and Suitable Deeds" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நட்சத்திரமும் காரியமும்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           கல்யாணராமன் (முகூர்த்த சங்கிரகம், தொகுதி 1, அத்தியாயம் 9): ஒவ்வொரு நட்சத்திரமும் எந்தக் காரியங்களுக்கு ஏற்றது. மற்ற நூல்கள் காரியத்துக்கு நட்சத்திரம் தருகின்றன; இது நட்சத்திரத்துக்குக் காரியம் தருகிறது — அதே பொருள் தலைகீழாக.

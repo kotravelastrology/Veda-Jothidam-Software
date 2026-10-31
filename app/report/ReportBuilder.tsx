@@ -17,6 +17,7 @@ import { useWorkspace } from '@/src/workspace/workspaceContext';
 import { resolveOpenParty, writeStash } from '@/src/ui/chartParty';
 import { openChart } from '../library/actions';
 import { NATURE_TA, Cites, PhaladeepikaNowCell, BinduTablePicker } from '../gochara-vedha/PhaladeepikaNow';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 const VARGA_KEYS = ['D1', 'D2', 'D3', 'D4', 'D7', 'D9', 'D10', 'D12', 'D16', 'D20', 'D24', 'D27', 'D30', 'D40', 'D45', 'D60'];
 const CHART_POINTS = ['Lagna', 'Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -58,12 +59,12 @@ const SECTIONS: SectionDef[] = [
   { id: 'dashaChakra', label: 'தாசா சக்கரம்' },
   { id: 'rashiChakra', label: 'ராசி சக்கரம்' },
   { id: 'yantraChakra', label: 'யந்திர சக்கரம்' },
-  { id: 'divisionalCharts', label: 'வர்ग சக்கரங்கள் (D-Charts)' },
+  { id: 'divisionalCharts', label: 'வர்க்கச் சக்கரங்கள் (D-Charts)' },
   { id: 'bhavaChakra', label: 'பாவ சக்கரம் (பனிரண்டு பாவங்கள்)' },
   { id: 'elementalChakra', label: 'பஞ்ச பூத சக்கரம் (அ, ம, வ, ந)' },
   { id: 'transitChakra', label: 'கோசார சக்கரம் (நிகழ் கிரக நிலைகள்)' },
   { id: 'muhurtaEnhancements', label: 'முகூர்த்த (குறிப்பிட்ட நேர சிபாரிசு)' },
-  { id: 'predictions', label: 'ভবিষ्यद्বाणी (जीवन घटना पूर्वानुमान)' },
+  { id: 'predictions', label: 'வாழ்க்கை நிகழ்வுக் கணிப்பு (Predictions)' },
   { id: 'karaka', label: 'காரகங்கள்' },
   { id: 'reportRefinements', label: 'Report & Export (PDF, Image, HTML)' },
   { id: 'ayurdaya', label: 'ஆயுர்தாயம்' },
@@ -523,9 +524,9 @@ function DetailedAshtakavargaSection({ report }: { report: ReportData }) {
   }));
 
   const chakraGroups = [
-    { name: 'Kendra (H1, H4, H7, H10)', indices: [0, 3, 6, 9], label: 'கோண' },
-    { name: 'Panapara (H2, H5, H8, H11)', indices: [1, 4, 7, 10], label: 'পনপர' },
-    { name: 'Apoklima (H3, H6, H9, H12)', indices: [2, 5, 8, 11], label: 'অপোক्लिम' },
+    { name: 'Kendra (H1, H4, H7, H10)', indices: [0, 3, 6, 9], label: 'கேந்திரம்' },
+    { name: 'Panapara (H2, H5, H8, H11)', indices: [1, 4, 7, 10], label: 'பணபரம்' },
+    { name: 'Apoklima (H3, H6, H9, H12)', indices: [2, 5, 8, 11], label: 'ஆபோக்லிமம்' },
   ];
 
   const chakraData = chakraGroups.map(group => ({
@@ -2414,7 +2415,7 @@ export default function ReportBuilder() {
     <main className="min-h-screen">
       <header className="bg-gradient-to-br from-indigo-soft via-bg to-saffron-soft px-6 py-8 border-b border-line print:hidden">
         <div className="max-w-3xl mx-auto">
-          <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-2">S12 · Report Builder</p>
+          <PageEyebrow fallback="Report Builder" />
           <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஜாதக அறிக்கை உருவாக்கி</h1>
         </div>
       </header>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { computeSky, type SkyQuery } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * The astronomy behind a chart.
@@ -50,7 +51,7 @@ export default function AstronomyView() {
   return (
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Astronomy</p>
+        <PageEyebrow fallback="Astronomy" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           வானியல் விவரம்
         </h1>

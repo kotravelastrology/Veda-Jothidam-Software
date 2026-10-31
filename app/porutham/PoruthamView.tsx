@@ -10,6 +10,7 @@ import { listCharts, searchCharts, openChart } from '../library/actions';
 import { computePorutham, computePoruthamForProfiles } from './actions';
 import type { BirthFormInput } from '../report/actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 const SIGN_TA = ['மேஷ', 'ரிஷப', 'மிது', 'கடக', 'சிம்', 'கன்னி', 'துலா', 'விரு', 'தனு', 'மகர', 'கும்ப', 'மீன'];
 
@@ -35,7 +36,7 @@ function toInput(bd: BirthData): BirthFormInput {
     hour: parseInt(bd.timeOfBirth.split(':')[0]),
     minute: parseInt(bd.timeOfBirth.split(':')[1]),
     placeName: bd.place, latitude: bd.latitude, longitude: bd.longitude,
-    utcOffsetMinutes: bd.utcOffset, ianaTimeZone: 'Asia/Kolkata',
+    utcOffsetMinutes: bd.utcOffset, ianaTimeZone: bd.timeZone ?? 'Asia/Kolkata',
   };
 }
 
@@ -313,7 +314,7 @@ export default function PoruthamView() {
   return (
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Marriage Matching</p>
+        <PageEyebrow fallback="Marriage Matching" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">திருமணப் பொருத்தம்</h1>
         <p className="text-sm text-ink-soft mt-1">
           10 தச கூட பொருத்தங்கள் — சந்திர நட்சத்திரம் / ராசி அடிப்படையில். இடதுபுறம் மணமகள், வலதுபுறம் மணமகன்.

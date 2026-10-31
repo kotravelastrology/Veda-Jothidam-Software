@@ -87,7 +87,7 @@ export default function WorksheetView() {
       .catch((e) => { if (!cancelled) { setError(e instanceof Error ? e.message : String(e)); setData(null); } })
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
-  }, [party, settings.ayanamsha, settings.houseSystem, settings.nodeType, settings.dashaYearDays, settings.dashaBalance]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [party, settings.ayanamsha, settings.houseSystem, settings.nodeType, settings.dashaYearDays, settings.dashaBalance, settings.sunrise]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // The menus (Save, Print, Notes, Events) act on the chart in the stash, so the worksheet's person goes there
   useEffect(() => {

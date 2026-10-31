@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useWorkspace } from './workspaceContext';
 import { searchCharts, listCharts, backupLibrary } from '../../app/library/actions';
 import { writeStashProfile } from '../ui/chartParty';
+import { allHomeLinks } from '../navigation/homeSections';
 
 interface Command {
   id: string;
@@ -14,20 +15,8 @@ interface Command {
   run: () => void | Promise<void>;
 }
 
-const PAGES: Array<[string, string]> = [
-  ['/evidence', 'ஆதாரப் பலகைகள்'],
-  ['/report', 'ஜாதக அறிக்கை'],
-  ['/divisional-charts', 'வர்க கட்டங்கள்'],
-  ['/yoga-detection', 'யோக பகுப்பாய்வு'],
-  ['/house-analysis', 'பாவ பலம்'],
-  ['/dasha-timeline', 'விம்சோத்தரி தசை'],
-  ['/client-management', 'வாடிக்கையாளர் நிர்வாகம்'],
-  ['/consultation-tools', 'ஆலோசனைக் குறிப்புகள்'],
-  ['/muhurta', 'முகூர்த்தம்'],
-  ['/porutham', 'பொருத்தம்'],
-  ['/panchangam', 'பஞ்சாங்கம்'],
-  ['/settings', 'அமைப்புகள்'],
-];
+/** Every page, from the home page's map (src/navigation/homeSections.js), so the search and the home page list the same pages. */
+const PAGES = allHomeLinks();
 
 /**
  * VJ-015 — command search.
@@ -98,15 +87,15 @@ export function CommandPalette() {
         close();
       },
     })),
-    ...PAGES.filter(([href, label]) => {
+    ...PAGES.filter((p) => {
       const q = query.trim().toLowerCase();
-      return !q || label.toLowerCase().includes(q) || href.includes(q);
-    }).map(([href, label]) => ({
-      id: `page:${href}`,
-      label,
-      hint: href,
+      return !q || p.ta.toLowerCase().includes(q) || p.en.toLowerCase().includes(q) || p.route.includes(q);
+    }).map((p) => ({
+      id: `page:${p.route}`,
+      label: `${p.icon} ${p.ta}`,
+      hint: p.en,
       group: 'பக்கங்கள்',
-      run: () => { router.push(href); close(); },
+      run: () => { router.push(p.route); close(); },
     })),
     {
       id: 'action:backup',

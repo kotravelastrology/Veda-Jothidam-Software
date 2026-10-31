@@ -48,7 +48,7 @@ export function MuhurtaEnhancementsRenderer({ data }: { data: MuhurtaEnhancement
     return <div className={styles.empty}>Muhurta Enhancements data unavailable</div>;
   }
 
-  const qualityColor = {
+  const qualityColor: Record<string, string> = {
     Excellent: '#28a745',
     Good: '#ffc107',
     Average: '#fd7e14',

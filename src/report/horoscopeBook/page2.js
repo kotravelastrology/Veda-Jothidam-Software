@@ -73,7 +73,7 @@ function buildPage2({ name = '', birth }) {
   const ctx = createChartContext({
     year: birth.year, month: birth.month, day: birth.day, hour: birth.hour, minute: birth.minute,
     ianaTimeZone: birth.ianaTimeZone ?? 'Asia/Kolkata', utcOffsetMinutes: off,
-    latitude: lat, longitude: lon, placeName: birth.placeName, calendarMode: 'tirukanita',
+    latitude: lat, longitude: lon, placeName: birth.placeName, calendarMode: 'tirukanita', sunrise: birth.sunrise,
   });
   const ayan = ctx.ayanamsha;
 
@@ -121,7 +121,7 @@ function buildPage2({ name = '', birth }) {
     const lagnaKp = kpChain(lagna.longitude);
     const upagraha = calculateUpagrahas({
       sunLongitude, birthJd: jd, year: birth.year, month: birth.month, day: birth.day,
-      utcOffsetMinutes: off, latitude: lat, longitude: lon, ayanamsha: ayan,
+      utcOffsetMinutes: off, latitude: lat, longitude: lon, ayanamsha: ayan, sunrise: ctx.sunrise,
     }).upagrahas.Gulika;
 
     const speedText = (v) => `${v < 0 ? '-' : ''}${sexagesimal(v)}`;

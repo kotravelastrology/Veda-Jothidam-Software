@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { buildPrintableReport, type ReportRequest } from './actions';
 import { useActiveBirthInput } from '@/src/workspace/useActiveBirthInput';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * The report, built here and printed from here.
@@ -82,7 +83,7 @@ export default function PdfReportsView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Report</p>
+        <PageEyebrow fallback="Report" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           அறிக்கை
         </h1>

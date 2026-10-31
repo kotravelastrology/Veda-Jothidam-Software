@@ -7,6 +7,7 @@ import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeAnswer } from './actions';
 import type { BirthFormInput } from '../report/actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 const SUGGESTIONS = [
   'இந்த வருடம் வேலை கிடைக்குமா?',
@@ -59,7 +60,7 @@ export default function KelviView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Prashna reading</p>
+        <PageEyebrow fallback="Prashna reading" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கேள்வி–விடை</h1>
         <p className="text-sm text-ink-soft mt-1">
           ஒரு கேள்வியை பாரம்பரிய நியாய முறையில் ஆராய்கிறது: ஜாதகம் என்ன <strong>வாக்குறுதி</strong> தருகிறது,

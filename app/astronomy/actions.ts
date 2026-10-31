@@ -1,21 +1,11 @@
 'use server';
+import { NAKSHATRA_TA as NAK_TA, RASI_TA } from '@/src/sources/tamilNames';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { calculateChart } = require('../../src/ephemeris/swissEphemeris');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { sunriseJulianDay, sunsetJulianDay } = require('../../src/ephemeris/siderealPositions');
 
-const NAK_TA = [
-  'அசுவினி', 'பரணி', 'கார்த்திகை', 'ரோகிணி', 'மிருகசீரிடம்', 'திருவாதிரை',
-  'புனர்பூசம்', 'பூசம்', 'ஆயில்யம்', 'மகம்', 'பூரம்', 'உத்திரம்',
-  'அஸ்தம்', 'சித்திரை', 'சுவாதி', 'விசாகம்', 'அனுஷம்', 'கேட்டை',
-  'மூலம்', 'பூராடம்', 'உத்திராடம்', 'திருவோணம்', 'அவிட்டம்', 'சதயம்',
-  'பூரட்டாதி', 'உத்திரட்டாதி', 'ரேவதி',
-];
-const RASI_TA = [
-  'மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி',
-  'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்',
-];
 const GRAHA_TA: Record<string, string> = {
   Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்',
   Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி',

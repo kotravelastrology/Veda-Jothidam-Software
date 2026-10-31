@@ -20,6 +20,7 @@ const { julianDay, findNextSolarEclipse, findNextLunarEclipse } = require('@swis
 const { sunMoonLongitudes, sunriseJulianDay, sunsetJulianDay } = require('../ephemeris/siderealPositions');
 const { siderealAscendant } = require('../ephemeris/swissEphemeris');
 const { computeTransitPositions } = require('./transitPositions');
+const { NAKSHATRA_TA, RASI_TA } = require('../sources/tamilNames');
 
 const norm360 = (d) => ((d % 360) + 360) % 360;
 const NAK_SPAN = 360 / 27;
@@ -27,13 +28,6 @@ const DAY_MS = 86400000;
 const jdToMs = (jd) => (jd - 2440587.5) * DAY_MS;
 const msToJd = (ms) => ms / DAY_MS + 2440587.5;
 
-const NAKSHATRA_TA = [
-  'அசுவினி', 'பரணி', 'கிருத்திகை', 'ரோகிணி', 'மிருகசீரிடம்', 'திருவாதிரை', 'புனர்பூசம்',
-  'பூசம்', 'ஆயில்யம்', 'மகம்', 'பூரம்', 'உத்திரம்', 'ஹஸ்தம்', 'சித்திரை', 'சுவாதி',
-  'விசாகம்', 'அனுஷம்', 'கேட்டை', 'மூலம்', 'பூராடம்', 'உத்திராடம்', 'திருவோணம்',
-  'அவிட்டம்', 'சதயம்', 'பூரட்டாதி', 'உத்திரட்டாதி', 'ரேவதி',
-];
-const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 // ═══ 1. PAÑCA-PAKṢI ══════════════════════════════════════════════════════════
 const BIRD_ORDER = ['vulture', 'owl', 'crow', 'cock', 'peacock'];

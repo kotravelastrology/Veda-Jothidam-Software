@@ -6,6 +6,7 @@ import { computeSaturn } from './actions';
 import AshtakavargaSection from './AshtakavargaSection';
 import type { BirthFormInput } from '../report/actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Sade Sati, Ardhashtama, Ashtama and Kantaka Saturn.
@@ -571,7 +572,7 @@ export default function SaturnTransitView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Saturn transit · Sade Sati</p>
+        <PageEyebrow fallback="Saturn transit · Sade Sati" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           ஏழரைச் சனி · அஷ்டமச் சனி · கண்டகச் சனி
         </h1>

@@ -5,6 +5,7 @@ import {
   saveChart, updateChart, listCharts, searchCharts, deleteChart, listChartRevisions,
 } from '../library/actions';
 import type { BirthFormInput } from '../report/actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 interface Client {
   profileId: string;
@@ -165,9 +166,7 @@ export default function ClientManagementView() {
   return (
     <main className="min-h-screen p-6 max-w-7xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">
-          Client Management
-        </p>
+        <PageEyebrow fallback="Client Management" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           வாடிக்கையாளர் நிர்வாகம்
         </h1>

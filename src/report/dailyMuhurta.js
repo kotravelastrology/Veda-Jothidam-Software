@@ -12,6 +12,7 @@ const { julianDay } = require('@swisseph/node');
 const { sunriseJulianDay, sunsetJulianDay, sunMoonLongitudes } = require('../ephemeris/siderealPositions');
 const { siderealAscendant } = require('../ephemeris/swissEphemeris');
 const { formatOffset, formatLatitude, formatLongitude } = require('./matchParties');
+const { WEEKDAY_TA } = require('../sources/tamilNames');
 
 // ── Choghaḍiyā ──────────────────────────────────────────────────────────
 const CHOGHADIYA_CYCLE = ['Udveg', 'Chal', 'Labh', 'Amrit', 'Kaal', 'Shubh', 'Rog'];
@@ -31,7 +32,6 @@ const GOWRI_NIGHT_START = [1, 5, 3, 0, 7, 2, 4];
 // ── Hōrai ───────────────────────────────────────────────────────────────
 const CHALDEAN = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'];
 const WEEKDAY_LORD = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
-const WEEKDAY_TA = ['ஞாயிறு', 'திங்கள்', 'செவ்வாய்', 'புதன்', 'வியாழன்', 'வெள்ளி', 'சனி'];
 
 /**
  * The ayanamsha this day-level reckoning uses for the Moon, the tithi and the

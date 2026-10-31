@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from 'react';
 import { citeWith } from '@/src/sources/citeTa';
+import { RASI_TA } from '@/src/sources/tamilNames';
 
 /**
  * Saturn's transit refined by Ashtakavarga and Kakshya.
@@ -12,7 +13,6 @@ import { citeWith } from '@/src/sources/citeTa';
  * watch while Saturn moves. Dates are astronomy; readings are the books'.
  */
 
-const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const BOOK_TA: Record<string, string> = {
   'Ashtakavarga (with translation in English and explanatory notes)': 'படேல், அஷ்டகவர்க்கம்',
   'Practical Ashtakavarga': 'வினய் ஆதித்யா, Practical Ashtakavarga',

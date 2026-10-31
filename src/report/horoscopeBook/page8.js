@@ -51,7 +51,7 @@ function buildPage8({ name = '', birth }) {
   const ctx = createChartContext({
     year: birth.year, month: birth.month, day: birth.day, hour: birth.hour, minute: birth.minute,
     ianaTimeZone: birth.ianaTimeZone ?? 'Asia/Kolkata', utcOffsetMinutes: birth.utcOffsetMinutes,
-    latitude: birth.latitude, longitude: birth.longitude, placeName: birth.placeName, calendarMode: 'tirukanita',
+    latitude: birth.latitude, longitude: birth.longitude, placeName: birth.placeName, calendarMode: 'tirukanita', sunrise: birth.sunrise,
   });
   return withEphemeris({ ayanamsha: ctx.ayanamsha }, () => {
     const chart = calculateParashariChart(ctx);
@@ -64,7 +64,7 @@ function buildPage8({ name = '', birth }) {
     const gulika = calculateUpagrahas({
       sunLongitude: chart.grahas.Sun.longitude, birthJd: jdBirth,
       year: birth.year, month: birth.month, day: birth.day, utcOffsetMinutes: birth.utcOffsetMinutes,
-      latitude: birth.latitude, longitude: birth.longitude, ayanamsha: ctx.ayanamsha,
+      latitude: birth.latitude, longitude: birth.longitude, ayanamsha: ctx.ayanamsha, sunrise: ctx.sunrise,
     }).upagrahas.Gulika;
     const bodies = [
       ...Object.keys(chart.grahas).map((p) => ({ abbr: ABBR[p], lon: chart.grahas[p].longitude })),

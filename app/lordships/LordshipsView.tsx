@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeLordships } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * PL9's Lordships worksheet: for each of the twelve houses, the sign it holds, that sign's lord and the house the lord
@@ -38,7 +39,7 @@ export default function LordshipsView() {
   return (
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Lordships</p>
+        <PageEyebrow fallback="Lordships" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">பாவாதிபதிகள் (Lordships)</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-2xl">
           ஒவ்வொரு பாவமும் எந்த ராசியைக் கொண்டுள்ளது, அந்த ராசியின் அதிபதி எந்தப் பாவத்தில் இருக்கிறார் என்பது.

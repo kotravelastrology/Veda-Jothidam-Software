@@ -19,6 +19,7 @@
  */
 const { julianDay } = require('@swisseph/node');
 const { sunMoonLongitudes, sunriseJulianDay, sunsetJulianDay } = require('../ephemeris/siderealPositions');
+const { NAKSHATRA_TA, WEEKDAY_TA: VAARA_TA } = require('../sources/tamilNames');
 
 const norm360 = (d) => ((d % 360) + 360) % 360;
 const NAK_SPAN = 360 / 27;
@@ -63,13 +64,6 @@ const TITHI_TA = [
   'பிரதமை', 'துவிதியை', 'திருதியை', 'சதுர்த்தி', 'பஞ்சமி', 'சஷ்டி', 'சப்தமி', 'அஷ்டமி',
   'நவமி', 'தசமி', 'ஏகாதசி', 'துவாதசி', 'திரயோதசி', 'சதுர்த்தசி', 'பௌர்ணமி',
 ];
-const NAKSHATRA_TA = [
-  'அசுவினி', 'பரணி', 'கிருத்திகை', 'ரோகிணி', 'மிருகசீரிடம்', 'திருவாதிரை', 'புனர்பூசம்',
-  'பூசம்', 'ஆயில்யம்', 'மகம்', 'பூரம்', 'உத்திரம்', 'ஹஸ்தம்', 'சித்திரை', 'சுவாதி',
-  'விசாகம்', 'அனுஷம்', 'கேட்டை', 'மூலம்', 'பூராடம்', 'உத்திராடம்', 'திருவோணம்',
-  'அவிட்டம்', 'சதயம்', 'பூரட்டாதி', 'உத்திரட்டாதி', 'ரேவதி',
-];
-const VAARA_TA = ['ஞாயிறு', 'திங்கள்', 'செவ்வாய்', 'புதன்', 'வியாழன்', 'வெள்ளி', 'சனி'];
 
 // ── kāla reference instants of a solar day (KL-005; midpoints) ────────────
 function kalaReferenceJd(kala, sunriseJd, sunsetJd, nextSunriseJd) {

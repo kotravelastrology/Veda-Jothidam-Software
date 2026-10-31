@@ -11,14 +11,8 @@
  * few or no entries yet. This is a suggestion aid, not a prescription.
  */
 const BABY_NAMES = require('./data/baby-names.json');
+const { NAKSHATRA_TA } = require('../sources/tamilNames');
 
-const NAKSHATRA_TA = [
-  'அஸ்வினி', 'பரணி', 'கார்த்திகை', 'ரோகிணி', 'மிருகசீரிடம்', 'திருவாதிரை',
-  'புனர்பூசம்', 'பூசம்', 'ஆயில்யம்', 'மகம்', 'பூரம்', 'உத்திரம்',
-  'அஸ்தம்', 'சித்திரை', 'சுவாதி', 'விசாகம்', 'அனுஷம்', 'கேட்டை',
-  'மூலம்', 'பூராடம்', 'உத்திராடம்', 'திருவோணம்', 'அவிட்டம்', 'சதயம்',
-  'பூரட்டாதி', 'உத்திரட்டாதி', 'ரேவதி',
-];
 
 // 108-pāda chakra: 27 nakshatras × 4 pādas → starting syllable (Tamil script).
 const PADA_SYLLABLES_TA = [

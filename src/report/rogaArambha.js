@@ -11,6 +11,7 @@ const { UnsupportedInputError } = require('../contracts/chartContext');
 const { karanaName } = require('../panchangam/tirukanitaPanchangam');
 const { NAKSHATRA_TA } = require('./babyNames');
 const T = require('./rogaArambhaTables');
+const { WEEKDAY_TA: VARA_TA } = require('../sources/tamilNames');
 
 const DAY_MS = 86400000;
 const JD_UNIX_EPOCH = 2440587.5;
@@ -19,7 +20,6 @@ const norm360 = (d) => ((d % 360) + 360) % 360;
 const iso = (ms) => new Date(ms).toISOString();
 const jdOf = (ms) => ms / DAY_MS + JD_UNIX_EPOCH;
 
-const VARA_TA = ['ஞாயிறு', 'திங்கள்', 'செவ்வாய்', 'புதன்', 'வியாழன்', 'வெள்ளி', 'சனி'];
 const TITHI_TA = ['பிரதமை', 'துவிதியை', 'திருதியை', 'சதுர்த்தி', 'பஞ்சமி', 'சஷ்டி', 'சப்தமி', 'அஷ்டமி', 'நவமி', 'தசமி', 'ஏகாதசி', 'துவாதசி', 'திரயோதசி', 'சதுர்த்தசி'];
 const KARANA_TA = {
   Bava: 'பவம்', Balava: 'பாலவம்', Kaulava: 'கௌலவம்', Taitila: 'தைதுலம்', Garaja: 'கரசை', Vanija: 'வணிசை', Vishti: 'விஷ்டி (பத்திரை)',

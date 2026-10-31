@@ -10,10 +10,10 @@
  * plain A - B + C. Day is the engine's local 6-18 hour test (the book does not say how the day is decided).
  */
 const T = require('./varshaInterpretationTables');
+const { RASI_TA: SIGN_TA } = require('../sources/tamilNames');
 
 const RASI_LORDS = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter'];
 const norm = (x) => ((x % 360) + 360) % 360;
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 const SOURCE = {
   title: 'Tajika Bhushana',

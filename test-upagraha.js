@@ -45,6 +45,21 @@ assert.ok(Math.abs(u.upagrahas.Dhuma.longitude - norm360(chart.grahas.Sun.longit
 // BPHS ch.3 (Girish Chand Vol.1 p.60 notes): "Gulika is called Mandi also", so Mandi is Gulika.
 assert.equal(u.upagrahas.Mandi.longitude, u.upagrahas.Gulika.longitude);
 
+// Which sunrise: the PL9 sample (5 Oct 1990 04:30 IST, Chennai 13N05 80E17; a Thursday night birth, Dhruvanka 6). PL9 prints
+// Gulika 03:02 Leo. From the visible sunrise (upper limb, refraction) it is 02:36 Leo; from the Hindu sunrise (centre of the disc,
+// no refraction: G.K. Ojha, Predictive Astrology of the Hindus, printed pp.35-36) it is 03:02, PL9's figure.
+const { julianDay: jdOf } = require('@swisseph/node');
+const pl9 = (sunrise) => calculateUpagrahas({
+  sunLongitude: 0, birthJd: jdOf(1990, 10, 5, 4.5 - 5.5), year: 1990, month: 10, day: 5, utcOffsetMinutes: 330,
+  latitude: 13.0833, longitude: 80.2833, ayanamsha: 'Lahiri', sunrise,
+}).upagrahas.Gulika;
+const dm = (g) => `${g.rasi} ${Math.floor(g.degreeInSign)}:${String(Math.floor((g.degreeInSign % 1) * 60)).padStart(2, '0')}`;
+assert.equal(dm(pl9()), 'Simha 2:36', 'the default: the visible sunrise');
+assert.equal(dm(pl9('disc-centre')), 'Simha 3:02', "the Hindu sunrise gives PL9's Gulika");
+assert.throws(() => require('./src/contracts/chartContext').createChartContext({
+  year: 1990, month: 1, day: 1, hour: 0, latitude: 0, longitude: 0, utcOffsetMinutes: 0, ianaTimeZone: 'UTC', calendarMode: 'tirukanita', sunrise: 'noon',
+}), /Unsupported sunrise/);
+
 console.log(JSON.stringify({
   pass: true, birthPeriod: u.birthPeriod,
   gulika: `${u.upagrahas.Gulika.rasi} ${u.upagrahas.Gulika.degreeInSign.toFixed(2)}`,

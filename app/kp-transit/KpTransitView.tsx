@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeKpTransit } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { RASI_TA as SIGN_TA } from '@/src/sources/tamilNames';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * KP transit (Reader V, K.S. Krishnamurti): the stars with the houses their lords signify in this chart; the reading of the transiting planets (the star lord's houses are the matter,
@@ -12,7 +14,6 @@ import { citeTa } from '@/src/sources/citeTa';
  */
 
 const num = { fontVariantNumeric: 'tabular-nums' as const };
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const SIGN_EN = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
 const PLANET_TA: Record<string, string> = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' };
 const pt = (x: string) => PLANET_TA[x] ?? x;
@@ -63,7 +64,7 @@ export default function KpTransitView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">KP transit · Reader V</p>
+        <PageEyebrow fallback="KP transit · Reader V" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">KP கோசாரம் — கோசாரபல நிர்ணயம்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           நட்சத்திர அதிபதி ஜாதகத்தில் குறிக்கும் வீடுகளே கோசாரத்தில் அந்த நட்சத்திரத்தில் செல்லும் கிரகம் தரும் விஷயம்; செல்லும் கிரகத்தின் சொந்த வீடுகள் அது வரும் வழி; உப அதிபதியின் வீடுகள் அது நிறைவேறுமா என்பதைக் காட்டும் (நூல் ப.157-161).

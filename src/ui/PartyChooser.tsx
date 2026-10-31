@@ -29,7 +29,7 @@ export function toBirthInput(bd: BirthData): BirthFormInput {
     hour: parseInt(bd.timeOfBirth.split(':')[0]),
     minute: parseInt(bd.timeOfBirth.split(':')[1]),
     placeName: bd.place, latitude: bd.latitude, longitude: bd.longitude,
-    utcOffsetMinutes: bd.utcOffset, ianaTimeZone: 'Asia/Kolkata',
+    utcOffsetMinutes: bd.utcOffset, ianaTimeZone: bd.timeZone ?? 'Asia/Kolkata',
   };
 }
 

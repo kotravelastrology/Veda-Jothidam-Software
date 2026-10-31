@@ -71,28 +71,42 @@ function meanNodeLongitude(julianDay, ayanamsha = 'Lahiri') {
 }
 
 /**
+ * Which moment counts as sunrise and sunset (SUNRISE_MODES):
+ *  - 'upper-limb': the Sun's upper edge touches the horizon, with refraction (the visible sunrise; K.S. Charak, Elements of
+ *    Vedic Astrology, "Ancient Indian Method of Calculating the Cusp of the Lagna": "the visibility of the upper limb of the disc
+ *    of the Sun"). The default.
+ *  - 'disc-centre': the centre of the disc on the horizon, without refraction (G.K. Ojha, Predictive Astrology of the Hindus,
+ *    printed pp.35-36: "in Hindu astrology it is the rising or setting of the centre of the Sun's disc"; about 3 min 25 s after
+ *    the visible sunrise). Parashara's Light 9 reckons Gulika from this sunrise (its sample chart's Gulika, 03:02 Leo, needs it).
+ */
+const SUNRISE_MODES = ['upper-limb', 'disc-centre'];
+const SE_BIT_DISC_CENTER = 256;
+const SE_BIT_NO_REFRACTION = 512;
+const riseBits = (mode) => (mode === 'disc-centre' ? SE_BIT_DISC_CENTER | SE_BIT_NO_REFRACTION : 0);
+
+/**
  * Sunrise for the given UTC-midnight Julian Day at a location, per the
  * sunrise-day-boundary rule verified in S1-B (Panchangam Calculations,
  * Karanam Ramakumar, file page 1). Longitude is east-positive, matching the
  * convention already used by calculateHouses in swissEphemeris.js.
  */
-function sunriseJulianDay(julianDayUTCMidnight, latitude, longitude, altitude = 0) {
+function sunriseJulianDay(julianDayUTCMidnight, latitude, longitude, altitude = 0, mode = 'upper-limb') {
   const result = calculateRiseTransitSet(
-    julianDayUTCMidnight, Planet.Sun, RiseTransitFlag.Rise,
+    julianDayUTCMidnight, Planet.Sun, RiseTransitFlag.Rise | riseBits(mode),
     longitude, latitude, altitude, CalculationFlag.SwissEphemeris,
   );
   return result.time;
 }
 
 /** Sunset following a given sunrise, for day-duration-based kalam calculations. */
-function sunsetJulianDay(julianDayAtOrAfterSunrise, latitude, longitude, altitude = 0) {
+function sunsetJulianDay(julianDayAtOrAfterSunrise, latitude, longitude, altitude = 0, mode = 'upper-limb') {
   const result = calculateRiseTransitSet(
-    julianDayAtOrAfterSunrise, Planet.Sun, RiseTransitFlag.Set,
+    julianDayAtOrAfterSunrise, Planet.Sun, RiseTransitFlag.Set | riseBits(mode),
     longitude, latitude, altitude, CalculationFlag.SwissEphemeris,
   );
   return result.time;
 }
 
 module.exports = {
-  sunMoonLongitudes, planetLongitude, nodeLongitude, meanNodeLongitude, sunriseJulianDay, sunsetJulianDay,
+  sunMoonLongitudes, planetLongitude, nodeLongitude, meanNodeLongitude, sunriseJulianDay, sunsetJulianDay, SUNRISE_MODES,
 };

@@ -23,6 +23,8 @@ const SUPPORTED_HOUSE_SYSTEMS = ['Porphyrius', 'Placidus', 'WholeSign', 'Equal',
 const SUPPORTED_NODE_TYPES = ['mean', 'true'];
 const SUPPORTED_CALENDAR_MODES = ['tirukanita', 'vakya'];
 const SUPPORTED_DAY_BOUNDARIES = ['sunrise'];
+/** Which sunrise the day-based points (Gulika) count from; see SUNRISE_MODES in src/ephemeris/siderealPositions.js. */
+const SUPPORTED_SUNRISES = ['upper-limb', 'disc-centre'];
 
 class UnsupportedInputError extends Error {
   constructor(message, field) {
@@ -43,7 +45,7 @@ function createChartContext({
   ianaTimeZone, utcOffsetMinutes,
   latitude, longitude, placeName,
   ayanamsha = 'Lahiri', houseSystem = 'Porphyrius', nodeType = 'mean',
-  calendarMode, dayBoundary = 'sunrise',
+  calendarMode, dayBoundary = 'sunrise', sunrise = 'upper-limb',
 }) {
   const required = { year, month, day, hour, latitude, longitude, utcOffsetMinutes, ianaTimeZone, calendarMode };
   for (const [field, value] of Object.entries(required)) {
@@ -72,6 +74,9 @@ function createChartContext({
   if (!SUPPORTED_DAY_BOUNDARIES.includes(dayBoundary)) {
     throw new UnsupportedInputError(`Unsupported day boundary: ${dayBoundary}`, 'dayBoundary');
   }
+  if (!SUPPORTED_SUNRISES.includes(sunrise)) {
+    throw new UnsupportedInputError(`Unsupported sunrise: ${sunrise}`, 'sunrise');
+  }
 
   return Object.freeze({
     input: Object.freeze({
@@ -84,6 +89,7 @@ function createChartContext({
     nodeType,
     calendarMode,
     dayBoundary,
+    sunrise,
     contextVersion: 'S2-001',
   });
 }
@@ -124,6 +130,7 @@ module.exports = {
   SUPPORTED_AYANAMSHAS,
   SUPPORTED_HOUSE_SYSTEMS,
   SUPPORTED_NODE_TYPES,
+  SUPPORTED_SUNRISES,
   SUPPORTED_CALENDAR_MODES,
   SUPPORTED_DAY_BOUNDARIES,
 };

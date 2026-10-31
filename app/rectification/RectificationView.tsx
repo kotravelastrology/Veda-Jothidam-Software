@@ -6,6 +6,7 @@ import { usePartyInput } from '@/src/ui/chartParty';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeRectification } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 type R = any;
 
@@ -40,7 +41,7 @@ export default function RectificationView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Birth-Time Rectification</p>
+        <PageEyebrow fallback="Birth-Time Rectification" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஜனன கால திருத்தம்</h1>
         <p className="text-sm text-ink-soft mt-1">
           Three classical cross-checks on a recorded birth time — Prāṇa/Deha daśā, Kunda Siddhānta (×81),

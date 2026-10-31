@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useActiveBirthInput } from '@/src/workspace/useActiveBirthInput';
 import { interpretGrahas } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 interface GrahaRow {
   planet: string;
@@ -54,7 +55,7 @@ export default function GrahaView() {
   return (
     <main className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Worksheet 020</p>
+        <PageEyebrow fallback="Worksheet 020" />
         <h1 className="text-3xl font-bold text-ink">கிரகங்களின் விளக்கம் (Interpreting Grahas)</h1>
         <p className="text-sm text-ink-soft mt-1">
           Each graha&apos;s place, dignity, avasthas and the parts of Shadbala for the open chart.

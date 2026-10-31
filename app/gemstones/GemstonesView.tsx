@@ -4,6 +4,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeGems } from './actions';
 import type { BirthFormInput } from '../report/actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Gemstones — what three books say, side by side, the most-explained book first.
@@ -215,7 +216,7 @@ export default function GemstonesView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Gemstones</p>
+        <PageEyebrow fallback="Gemstones" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ரத்தினங்கள்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           எந்த ரத்தினத்தை அணிவது என்பதற்கு நம்மிடம் உள்ள மூன்று நூல்கள் மூன்று வெவ்வேறு முறைகளைத் தருகின்றன, சில ரத்தினங்களில் முரண்படுகின்றன.

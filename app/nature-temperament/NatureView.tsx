@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useActiveBirthInput } from '@/src/workspace/useActiveBirthInput';
 import { natureFromLagnaLord } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 interface NatureData {
   lagnaRasi: string;
@@ -28,7 +29,7 @@ export default function NatureView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Worksheet 039</p>
+        <PageEyebrow fallback="Worksheet 039" />
         <h1 className="text-3xl font-bold text-ink">இயல்பும் குணமும் (Nature &amp; Temperament)</h1>
         <p className="text-sm text-ink-soft mt-1">
           The lagna lord placed in the lagna, as Bhrigu Samhita describes it for this rasi.

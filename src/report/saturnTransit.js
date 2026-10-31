@@ -43,13 +43,13 @@ const { createRuleEvidence, withheldEvidence } = require('../contracts/ruleEvide
 const T = require('./saturnTransitTables');
 const TM = require('./saturnTransitTamil');
 const HR = require('./saturnHouseResults');
+const { RASI_TA } = require('../sources/tamilNames');
 
 const DAY_MS = 86400000;
 const YEAR_MS = 365.25 * DAY_MS;
 const JD_UNIX_EPOCH = 2440587.5;
 const SPAN_GAP_MS = 2 * YEAR_MS;
 
-const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const PHASE_ORDER = ['RISING', 'PEAK', 'SETTING'];
 
 const norm360 = (d) => ((d % 360) + 360) % 360;

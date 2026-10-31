@@ -183,6 +183,7 @@ function buildReportData(birthInput) {
     latitude: profile.chartContext.input.latitude,
     longitude: profile.chartContext.input.longitude,
     ayanamsha: profile.chartContext.ayanamsha,
+    sunrise: profile.chartContext.sunrise,
   });
 
   const numerology = calculateNumerology({

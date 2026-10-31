@@ -15,7 +15,7 @@ assert.deepEqual(T.STARS.map((s) => s.index), Array.from({ length: 28 }, (_, i) 
 assert.equal(T.STARS[27].nameEn, 'Abhijit');
 assert.equal(T.NAMES_TA.length, 28);
 T.STARS.forEach((s) => assert.ok(s.nameTa && /[஀-௿]/.test(s.nameTa), s.nameEn));
-assert.equal(T.STARS[0].nameTa, 'அஸ்வினி');
+assert.equal(T.STARS[0].nameTa, 'அசுவினி');
 assert.equal(T.STARS[22].nameTa, 'அவிட்டம்');
 
 // ------------------------------------------------------------ the seven kinds, as the book prints them ---

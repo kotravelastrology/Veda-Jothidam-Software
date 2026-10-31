@@ -22,6 +22,7 @@
  */
 const { naturalRelation } = require('../chart/planetaryRelationship');
 const { OWN_SIGNS, EXALTATION } = require('../chart/shadbala');
+const { RASI_TA: SIGN_TA } = require('../sources/tamilNames');
 
 const SOURCE = {
   title: 'Brihat Parashara Hora Shastra (BPHS)',
@@ -33,7 +34,6 @@ const SOURCE = {
 
 const PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 const PLANET_TA = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது', Mandi: 'மாந்தி' };
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const LORD = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter'];
 const MALEFIC = ['Sun', 'Mars', 'Saturn', 'Rahu', 'Ketu'];
 const ta = (l) => l.map((p) => PLANET_TA[p] ?? p).join(', ') || '—';

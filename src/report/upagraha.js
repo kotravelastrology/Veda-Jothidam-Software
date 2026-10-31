@@ -58,10 +58,10 @@ const DHRUVANKA_NIGHT = [3, 2, 1, 7, 6, 5, 4];
  * @param jdLocalMidnightUt  JD (UT) of 00:00 on the Hindu day that holds the birth (see calculateUpagrahas).
  * @param weekday     0 = Sunday .. 6 = Saturday, of that Hindu day.
  */
-function gulikaMandi(birthJd, jdLocalMidnightUt, weekday, latitude, longitude, ayanamsha = 'Lahiri') {
+function gulikaMandi(birthJd, jdLocalMidnightUt, weekday, latitude, longitude, ayanamsha = 'Lahiri', sunriseMode = 'upper-limb') {
   const wd = ((weekday % 7) + 7) % 7;
-  const sunrise = sunriseJulianDay(jdLocalMidnightUt, latitude, longitude);
-  const sunset = sunsetJulianDay(sunrise, latitude, longitude);
+  const sunrise = sunriseJulianDay(jdLocalMidnightUt, latitude, longitude, 0, sunriseMode);
+  const sunset = sunsetJulianDay(sunrise, latitude, longitude, 0, sunriseMode);
   const isDay = birthJd >= sunrise && birthJd < sunset;
 
   let gulikaJd;
@@ -69,7 +69,7 @@ function gulikaMandi(birthJd, jdLocalMidnightUt, weekday, latitude, longitude, a
     gulikaJd = sunrise + (DHRUVANKA_DAY[wd] * (sunset - sunrise)) / 8;
   } else {
     // Night arc = this sunset → next sunrise.
-    const nightLen = sunriseJulianDay(sunset, latitude, longitude) - sunset;
+    const nightLen = sunriseJulianDay(sunset, latitude, longitude, 0, sunriseMode) - sunset;
     gulikaJd = sunset + (DHRUVANKA_NIGHT[wd] * nightLen) / 8;
   }
   const longitudeOfGulika = siderealAscendant(gulikaJd, latitude, longitude, ayanamsha);
@@ -97,19 +97,20 @@ function placed(longitude) {
  * @param opts.year/month/day  the LOCAL birth date
  * @param opts.utcOffsetMinutes  local offset from UTC (e.g. 330 for IST)
  * @param opts.latitude/longitude/ayanamsha
+ * @param opts.sunrise       'upper-limb' (default) or 'disc-centre': which sunrise Gulika counts from
  */
 function calculateUpagrahas(opts) {
   const {
     sunLongitude, birthJd, year, month, day, utcOffsetMinutes = 0,
-    latitude, longitude, ayanamsha = 'Lahiri',
+    latitude, longitude, ayanamsha = 'Lahiri', sunrise = 'upper-limb',
   } = opts;
   // A birth before the civil day's sunrise belongs to the previous Hindu day, so its weekday and night are that day's.
-  const civilSunrise = sunriseJulianDay(julianDay(year, month, day, -utcOffsetMinutes / 60), latitude, longitude);
+  const civilSunrise = sunriseJulianDay(julianDay(year, month, day, -utcOffsetMinutes / 60), latitude, longitude, 0, sunrise);
   const hinduDay = new Date(Date.UTC(year, month - 1, birthJd < civilSunrise ? day - 1 : day));
   const jdLocalMidnightUt = julianDay(hinduDay.getUTCFullYear(), hinduDay.getUTCMonth() + 1, hinduDay.getUTCDate(), -utcOffsetMinutes / 60);
   const weekday = hinduDay.getUTCDay(); // 0 = Sunday, of the Hindu day
   const a = sunDerivedUpagrahas(sunLongitude);
-  const b = gulikaMandi(birthJd, jdLocalMidnightUt, weekday, latitude, longitude, ayanamsha);
+  const b = gulikaMandi(birthJd, jdLocalMidnightUt, weekday, latitude, longitude, ayanamsha, sunrise);
   const out = {};
   for (const [name, v] of Object.entries(a)) out[name] = { ...placed(v.longitude), parent: v.parent };
   out.Gulika = { ...placed(b.Gulika.longitude), parent: b.Gulika.parent };

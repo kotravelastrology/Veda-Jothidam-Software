@@ -14,13 +14,13 @@
 const T = require('./bandOfYearsTables');
 const { planetLongitude, nodeLongitude } = require('../ephemeris/siderealPositions');
 const { NAKSHATRA_TA } = require('./babyNames');
+const { RASI_TA } = require('../sources/tamilNames');
 
 const DAY_MS = 86400000;
 const YEAR_MS = T.YEAR_DAYS * DAY_MS;
 const PLANETS = Object.freeze(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu']);
 const RASI_LORDS = Object.freeze(['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter']);
 const PLANET_TA = Object.freeze({ Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' });
-const RASI_TA = Object.freeze(['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்']);
 const STAR = 360 / 27;
 const norm360 = (d) => ((d % 360) + 360) % 360;
 const iso = (ms) => new Date(ms).toISOString();

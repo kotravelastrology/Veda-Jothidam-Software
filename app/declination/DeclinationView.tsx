@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeDeclination } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Declination (kranti) of the seven planets: the angular distance north or south of the celestial equator at birth.
@@ -32,7 +33,7 @@ export default function DeclinationView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Declination</p>
+        <PageEyebrow fallback="Declination" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கிராந்தி — கிரகங்களின் சாய்வு</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-2xl">
           பிறந்த நேரத்தில் ஒவ்வொரு கிரகமும் வான நடுக்கோட்டுக்கு வடக்கே (+) அல்லது தெற்கே (−) எத்தனை டிகிரி என்பது. இது வானியல் அளவு — அயனாம்சத்தைச் சார்ந்ததல்ல; ஈஃபெமெரிஸிலிருந்து எடுக்கப்படுகிறது.

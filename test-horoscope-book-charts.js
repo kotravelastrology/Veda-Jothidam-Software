@@ -46,12 +46,13 @@ async function main() {
   assert.deepStrictEqual(bhava.cells[VIR], ['Su', 'Ve']);
   assert.deepStrictEqual(bhava.cells[SAG], ['Sa', 'Ra']);
 
-  // Bhava Spashta table (sample rows; ours are 13 seconds later than the sample, as the lagna is).
+  // Bhava Spashta table (sample rows). The madhya of the first bhava is the lagna, PL9's 25:03:02; with the mean ayanamsha taken
+  // off the cusps (before 2026-10-31) every row was 13 seconds later than the sample.
   assert.equal(spashta.rows.length, 12);
-  assert.deepStrictEqual(spashta.rows[0], ['1. First', 'Leo 10:11:07', 'Leo 25:03:15', 'Vir 10:11:07']);
-  assert.deepStrictEqual(spashta.rows[3], ['4. Fourth', 'Sco 10:42:34', 'Sco 25:50:26', 'Sag 10:42:34']);
-  assert.deepStrictEqual(spashta.rows[9], ['10. Tenth', 'Tau 10:42:34', 'Tau 25:50:26', 'Gem 10:42:34']);
-  assert.deepStrictEqual(spashta.rows[11], ['12. Twelfth', 'Can 10:26:51', 'Can 25:18:59', 'Leo 10:11:07']);
+  assert.deepStrictEqual(spashta.rows[0], ['1. First', 'Leo 10:10:53', 'Leo 25:03:02', 'Vir 10:10:53']);
+  assert.deepStrictEqual(spashta.rows[3], ['4. Fourth', 'Sco 10:42:21', 'Sco 25:50:13', 'Sag 10:42:21']);
+  assert.deepStrictEqual(spashta.rows[9], ['10. Tenth', 'Tau 10:42:21', 'Tau 25:50:13', 'Gem 10:42:21']);
+  assert.deepStrictEqual(spashta.rows[11], ['12. Twelfth', 'Can 10:26:37', 'Can 25:18:45', 'Leo 10:10:53']);
 
   // Pages 5 and 6: divisional charts, eight to a page.
   const p5 = await buildPage5({ name: 'aniruddha', birth });

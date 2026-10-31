@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computePada88 } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * The 88th nakshatra pada: 87 quarters on from the natal Moon's. Raj Kumar and
@@ -51,7 +52,7 @@ export default function Pada88View() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">88th Nakshatra Pada</p>
+        <PageEyebrow fallback="88th Nakshatra Pada" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">88-வது நட்சத்திர பாதம்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           பிறப்பில் சந்திரன் இருந்த பாதத்திலிருந்து (அதுவே 1) 88-வது பாதம் — ஒரு கிரகம் அதைக் கடக்கும் காலம், சந்திரன் அதில் இருக்கும் நேரம்.

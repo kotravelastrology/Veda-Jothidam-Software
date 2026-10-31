@@ -1,3 +1,4 @@
+const { NAKSHATRA_TA: STAR_TA } = require('../sources/tamilNames');
 /**
  * K.S. Krishnamurti's Reader IV (corpus C32) as an optional second source for the ten poruthams: what it says against each of our
  * Kalaprakasika-based factors, and the exceptions and extra rules it adds. Nothing here changes a verdict, the passed count or the
@@ -41,7 +42,6 @@ const RASI_LORD = [2, 5, 3, 1, 0, 3, 5, 2, 4, 6, 6, 4];
 const FRIENDS = [[1, 2, 4], [0, 3], [0, 1, 4], [6], [0, 1, 2], [3, 6], [3, 5]];
 const friendly = (a, b) => a === b || (FRIENDS[a].includes(b) && FRIENDS[b].includes(a));
 
-const STAR_TA = ['அசுவினி', 'பரணி', 'கார்த்திகை', 'ரோகிணி', 'மிருகசீரிடம்', 'திருவாதிரை', 'புனர்பூசம்', 'பூசம்', 'ஆயில்யம்', 'மகம்', 'பூரம்', 'உத்திரம்', 'அஸ்தம்', 'சித்திரை', 'சுவாதி', 'விசாகம்', 'அனுசம்', 'கேட்டை', 'மூலம்', 'பூராடம்', 'உத்திராடம்', 'திருவோணம்', 'அவிட்டம்', 'சதயம்', 'பூரட்டாதி', 'உத்திரட்டாதி', 'ரேவதி'];
 const RASI_TA = ['மேடம்', 'இடபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 const starCount = (from, to) => ((to - from + 27) % 27) + 1;

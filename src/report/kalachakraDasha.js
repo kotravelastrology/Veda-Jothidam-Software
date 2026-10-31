@@ -1,3 +1,4 @@
+const { RASI_TA, NAKSHATRA_TA } = require('../sources/tamilNames');
 /**
  * காலச்சக்கர தசை (Kalachakra Dasha) — the rāśi-based (not graha-based) dasha
  * keyed to nakṣatra pādas, ported from the actual classical source text:
@@ -61,7 +62,6 @@
 const norm360 = (d) => ((d % 360) + 360) % 360;
 const MS_PER_YEAR = 365.25 * 86400000;
 
-const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const RASI_EN = ['Mesha', 'Vrishabha', 'Mithuna', 'Kataka', 'Simha', 'Kanni', 'Thula', 'Vrischika', 'Dhanusu', 'Makara', 'Kumbha', 'Meena'];
 const RASI_LORD = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter'];
 const RASI_LORD_TA = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி' };
@@ -71,12 +71,6 @@ const RASI_YEARS = [7, 16, 9, 21, 5, 9, 16, 7, 10, 4, 4, 10];
 const PARAMAYUSH_BY_TRINE = [100, 85, 83, 86];
 
 // ── 27-nakshatra Savya/Apasavya + Muthal/Idai/Kadai classification (p.2-3) ──
-const NAKSHATRA_TA = [
-  'அசுவினி', 'பரணி', 'கிருத்திகை', 'ரோகிணி', 'மிருகசீரிடம்', 'திருவாதிரை', 'புனர்பூசம்',
-  'பூசம்', 'ஆயில்யம்', 'மகம்', 'பூரம்', 'உத்திரம்', 'ஹஸ்தம்', 'சித்திரை', 'சுவாதி',
-  'விசாகம்', 'அனுஷம்', 'கேட்டை', 'மூலம்', 'பூராடம்', 'உத்திராடம்', 'திருவோணம்',
-  'அவிட்டம்', 'சதயம்', 'பூரட்டாதி', 'உத்திரட்டாதி', 'ரேவதி',
-];
 const ROLE_TA = { muthal: 'முதல்', idai: 'இடை', kadai: 'கடை' };
 function nakshatraRole(nak0) {
   const group = Math.floor(nak0 / 3);       // 0-8, nine groups of 3

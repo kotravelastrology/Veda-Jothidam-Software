@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { computeKpRuling, type KpRulingMode } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { RASI_TA as SIGN_TA } from '@/src/sources/tamilNames';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * KP ruling planets (K.S. Krishnamurti, Reader VI printed pp.123-142): the ruling planets of the moment of judgment, the zodiac positions whose sign, star, sub (and sub-sub) lords
@@ -11,7 +13,6 @@ import { citeTa } from '@/src/sources/citeTa';
  */
 
 const num = { fontVariantNumeric: 'tabular-nums' as const };
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const PLANET_TA: Record<string, string> = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' };
 const FACTOR_TA: Record<string, string> = { 'Day Lord': 'நாள் அதிபதி', 'Moon Sign Lord': 'சந்திர ராசி அதிபதி', 'Moon Star Lord': 'சந்திர நட்சத்திர அதிபதி', 'Asc Sign Lord': 'லக்ன ராசி அதிபதி', 'Asc Star Lord': 'லக்ன நட்சத்திர அதிபதி' };
 const MODES: [KpRulingMode, string, string][] = [
@@ -90,7 +91,7 @@ export default function KpRulingView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">KP · Reader VI · ruling planets</p>
+        <PageEyebrow fallback="KP · Reader VI · ruling planets" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஆளும் கிரகங்கள் — நேரம் காணுதல்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           தீர்ப்பு நேரத்தின் ஆளும் கிரகங்களையே ராசி, நட்சத்திரம், உப அதிபதிகளாகக் கொண்ட இராசிப் புள்ளியை, நிகழ்வின் கால அளவுக்கேற்ப லக்னம் / சந்திரன் / சூரியன் / குரு எப்போது அடைகிறது என்று நூல் (ப.123-142) பார்க்கிறது.

@@ -54,7 +54,7 @@ export function WorksheetToolbar() {
   const pathname = usePathname();
   const search = useSearchParams();
   const { uiActions } = useNavigation();
-  const { setActiveProfile } = useWorkspace();
+  const { setActiveProfile, setCommandPaletteOpen } = useWorkspace();
   const { prefs, setPrefs } = useScreenPrefs();
   const chart = useOpenChart();
 
@@ -169,13 +169,22 @@ export function WorksheetToolbar() {
         >▴</button>
       </div>
 
-      {chart && prefs.nameAndBirthdata && (
+      {/* The one line that says which chart is open (the old profile bar under it no longer repeats it) */}
+      {prefs.nameAndBirthdata && (chart ? (
         <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 border-t border-line/60 bg-bg px-3 py-1 text-xs" data-testid="open-chart-line">
           <span className="rounded-t-md bg-saffron/25 px-2 py-0.5 font-semibold text-ink">{chart.name}</span>
           <span className="text-ink-soft">{chart.line}</span>
+          <button type="button" onClick={() => setCommandPaletteOpen(true)} className="text-ink-soft hover:text-saffron" title="வேறு ஜாதகம் (Ctrl+K)">மாற்று</button>
           {worksheetTitle && <span className="ml-auto text-ink-soft">{worksheetTitle}</span>}
         </div>
-      )}
+      ) : (
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 border-t border-line/60 bg-bg px-3 py-1 text-xs" data-testid="no-chart-line">
+          <span className="text-ink-soft">ஜாதகம் எதுவும் திறக்கப்படவில்லை</span>
+          <button type="button" onClick={() => uiActions.openChartDialog('all')} className="text-saffron hover:underline">📂 திற</button>
+          <button type="button" onClick={() => router.push('/worksheet?new=1')} className="text-saffron hover:underline">➕ புதியது</button>
+          <button type="button" onClick={() => setCommandPaletteOpen(true)} className="text-ink-soft hover:text-ink">தேடு <kbd className="font-mono text-[10px]">Ctrl+K</kbd></button>
+        </div>
+      ))}
 
       {shown && (
         <div className="absolute left-0 right-0 top-full z-40 max-h-[70vh] overflow-y-auto border-b border-line bg-surface shadow-lg" role="dialog" aria-label={shownPanel?.label ?? 'Menu'}>

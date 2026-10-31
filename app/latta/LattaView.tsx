@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeLatta } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Latta: the star each transiting planet kicks, and when one kicks the natal
@@ -102,7 +103,7 @@ export default function LattaView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Latta</p>
+        <PageEyebrow fallback="Latta" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">லத்தை — கிரகங்களின் "உதை"</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           கோசாரத்தில் ஒவ்வொரு கிரகமும் தான் இருக்கும் நட்சத்திரத்திலிருந்து குறிப்பிட்ட எண்ணிக்கையில் உள்ள நட்சத்திரத்தை "உதைக்கிறது". அது ஜன்ம நட்சத்திரமானால் தீய பலன் என்கின்றன நூல்கள் (பலதீபிகை 26.42-47).

@@ -5,6 +5,7 @@ import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computePlanetHouse } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
 import { DashaEffectCard } from '@/app/components/DashaEffectCard';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Each planet in its house from the lagna, as the classical books describe it. One block per book, never merged;
@@ -32,7 +33,7 @@ export default function PlanetHouseView() {
   return (
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Planets in houses</p>
+        <PageEyebrow fallback="Planets in houses" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">லக்ன ராசி, சந்திர ராசி, பிறந்த நட்சத்திரம், கிரகம் பாவத்தில், தசாநாதன், பாவாதிபதி — நூல்கள் சொல்வது</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒவ்வொரு கிரகமும் லக்னத்திலிருந்து எந்த வீட்டில் உள்ளது, அதைப் பற்றி நூல் என்ன சொல்கிறது — நூல் வாரியாக, அச்சுப் பக்கத்துடன். நூலின் சொற்கள் சுருக்கப்பட்டுள்ளன (மேற்கோள் அல்ல).

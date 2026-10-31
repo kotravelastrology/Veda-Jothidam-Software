@@ -5,11 +5,8 @@
  * ("Karkataka" in parashariChart.js vs "Kataka" in jamakkol.js/newer report
  * modules) and this sidesteps that entirely.
  */
-export const RASI_TA_SHORT = ['மேஷ', 'ரிஷப', 'மிது', 'கட', 'சிம்', 'கன்னி', 'துலா', 'விரு', 'தனு', 'மக', 'கும்ப', 'மீன'];
-export const RASI_TA_FULL = [
-  'மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி',
-  'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்',
-];
+import { RASI_TA_SHORT, RASI_TA as RASI_TA_FULL } from '@/src/sources/tamilNames';
+export { RASI_TA_SHORT, RASI_TA_FULL };
 
 export const GRAHA_TA_SHORT: Record<string, string> = {
   Lagna: 'லக்', Sun: 'சூ', Moon: 'சந்', Mars: 'செவ்', Mercury: 'பு',

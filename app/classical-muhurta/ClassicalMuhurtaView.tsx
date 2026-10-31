@@ -2,14 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { computePanchaPakshi, computeYatra, computeEclipses } from './actions';
+import { NAKSHATRA_TA as NAKSHATRAS, RASI_TA as RASIS } from '@/src/sources/tamilNames';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
-const NAKSHATRAS = [
-  'அசுவினி', 'பரணி', 'கிருத்திகை', 'ரோகிணி', 'மிருகசீரிடம்', 'திருவாதிரை', 'புனர்பூசம்',
-  'பூசம்', 'ஆயில்யம்', 'மகம்', 'பூரம்', 'உத்திரம்', 'ஹஸ்தம்', 'சித்திரை', 'சுவாதி',
-  'விசாகம்', 'அனுஷம்', 'கேட்டை', 'மூலம்', 'பூராடம்', 'உத்திராடம்', 'திருவோணம்',
-  'அவிட்டம்', 'சதயம்', 'பூரட்டாதி', 'உத்திரட்டாதி', 'ரேவதி',
-];
-const RASIS = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const DIRS: Array<{ k: 'east' | 'south' | 'west' | 'north'; ta: string }> = [
   { k: 'east', ta: 'கிழக்கு' }, { k: 'south', ta: 'தெற்கு' }, { k: 'west', ta: 'மேற்கு' }, { k: 'north', ta: 'வடக்கு' },
 ];
@@ -64,7 +59,7 @@ export default function ClassicalMuhurtaView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Classical muhurta</p>
+        <PageEyebrow fallback="Classical muhurta" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">பாரம்பரிய முகூர்த்தம்</h1>
         <p className="text-sm text-ink-soft mt-1">பஞ்சபட்சி · யாத்ரா முகூர்த்தம் · கிரகணம் (சென்னை)</p>
       </header>

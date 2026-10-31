@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeBphsRashiDasha, loadBphsRashiDeclared, loadBphsRashiSystems } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * The sign dashas of BPHS chapter 46 with a complete printed rule: Chara, Sthira (Brahma Graha), Yogardha and
@@ -45,7 +46,7 @@ export default function BphsRashiDashasView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">BPHS chapter 46 sign dashas</p>
+        <PageEyebrow fallback="BPHS chapter 46 sign dashas" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ராசி தசைகள் — பராசரர் (BPHS அத்.46)</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           சர, ஸ்திர, யோகார்த்த, மண்டூக, தீர்க்க, லக்னாதி தசைகள் — நூலில் அச்சிட்ட விதிப்படி. லக்னாதி தவிர மற்றவை பிறப்பிலிருந்தே தொடங்கும் (இருப்பு இல்லை); லக்னாதியில் முதல் தசையின் இருப்பு உண்டு. நூலின் எடுத்துக்காட்டு அட்டவணையுடன் ஒத்துப்போகாத கட்டங்கள் (சர: விருச்சிகம், மகரம்; யோகார்த்த: சிம்மம்) சோதனைக் கோப்பில் பதிவு செய்யப்பட்டுள்ளன.

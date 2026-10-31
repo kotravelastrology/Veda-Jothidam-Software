@@ -103,7 +103,7 @@ services:
       retries: 3
       start_period: 40s
 
-  # Frontend Web Server
+  # The web app (Next.js, Dockerfile.frontend); the saved charts are kept in the veda_library volume
   frontend:
     build:
       context: .
@@ -116,7 +116,7 @@ services:
       - "3000:3000"
 
     volumes:
-      - ./frontend:/app
+      - veda_library:/data
 
     networks:
       - veda-network
@@ -136,6 +136,8 @@ volumes:
   redis_data:
     driver: local
   backend_logs:
+    driver: local
+  veda_library:
     driver: local
 
 networks:

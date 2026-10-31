@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { loadGlossary } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * VJ-026 — the source-aware glossary.
@@ -153,7 +154,7 @@ export default function LearningResourcesView() {
   return (
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Glossary</p>
+        <PageEyebrow fallback="Glossary" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           சொல் · விதி · ஆதாரம்
         </h1>

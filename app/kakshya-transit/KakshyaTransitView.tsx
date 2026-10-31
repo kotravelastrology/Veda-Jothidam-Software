@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeKakshyaTransit } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * The seven planets' transit by Kakshya (C.S. Patel and Subramania Aiyar, Ashtakavarga ch. V): for each planet the bhava
@@ -52,7 +53,7 @@ export default function KakshyaTransitView() {
   return (
     <main className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Kakshya Transit</p>
+        <PageEyebrow fallback="Kakshya Transit" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கோசாரக் காக்ஷ்யா</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒவ்வொரு கிரகமும் ஒரு பாவத்தின் எட்டு காக்ஷ்யைகளில் ஒன்றைக் கடக்கிறது. அந்தக் காக்ஷ்யையின் அதிபதி கிரகத்தின் சொந்த அஷ்டகவர்க்கத்தில் அந்தப் பாவத்தில் பிந்து தந்திருந்தால் நன்மை; இல்லாவிட்டால் பயன் இல்லை (படேல் அத்.V).

@@ -1,6 +1,7 @@
 'use server';
 
 import type { BirthFormInput } from '../report/actions';
+import { RASI_TA as SIGN_TA } from '@/src/sources/tamilNames';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { createChartContext } = require('../../src/contracts/chartContext');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -15,7 +16,6 @@ const { openLibrary } = require('../../src/library/chartRepository');
 const { resolveLibraryPath } = require('../../src/library/libraryPath');
 
 const PLANET_TA: Record<string, string> = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி' };
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const RELATION_TA: Record<string, string> = { own: 'சொந்தம்', greatFriend: 'அதிமித்ரன்', friend: 'மித்ரன்', neutral: 'சமன்', enemy: 'சத்ரு', greatEnemy: 'அதிசத்ரு' };
 
 export interface VimshopakaRequest {

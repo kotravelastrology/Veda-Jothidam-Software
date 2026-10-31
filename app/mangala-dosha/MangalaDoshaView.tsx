@@ -7,6 +7,7 @@ import { listCharts, searchCharts } from '../library/actions';
 import { computeMangala, type MangalaSide } from './actions';
 import type { BirthFormInput } from '../report/actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Mangala (Kuja) dosha for a bride, a groom, or both.
@@ -49,7 +50,7 @@ function toInput(bd: BirthData): BirthFormInput {
     hour: parseInt(bd.timeOfBirth.split(':')[0]),
     minute: parseInt(bd.timeOfBirth.split(':')[1]),
     placeName: bd.place, latitude: bd.latitude, longitude: bd.longitude,
-    utcOffsetMinutes: bd.utcOffset, ianaTimeZone: 'Asia/Kolkata',
+    utcOffsetMinutes: bd.utcOffset, ianaTimeZone: bd.timeZone ?? 'Asia/Kolkata',
   };
 }
 const toSide = (p: Party | null): MangalaSide | null => (!p ? null
@@ -300,7 +301,7 @@ export default function MangalaDoshaView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Mangala (Kuja) dosha</p>
+        <PageEyebrow fallback="Mangala (Kuja) dosha" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">மங்கள (செவ்வாய்) தோஷம்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           மணமகள், மணமகன் அல்லது இருவரின் ஜாதகத்தில் செவ்வாய் தோஷம். நூல்கள் இடங்களிலும் நீக்கும் நிபந்தனைகளிலும்

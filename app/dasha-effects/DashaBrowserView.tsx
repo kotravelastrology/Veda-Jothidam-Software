@@ -11,6 +11,7 @@ import { chainAt, columns, localText, MAX_LEVELS } from '@/src/dasha/dashaDrill'
 import { WorksheetChart, type ChartEntry, type HouseBadge } from '../worksheet/WorksheetChart';
 import { DIGNITY_TA, PLANET_COLOR, TONE_CLASS } from '../worksheet/worksheetStyle';
 import { computeDashaBrowser, computeDashaMoment } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * PL9's Dasha Effects Browser (user guide ch.8, "Dasha browser"): pick a dasha period, level by level, and see the sky when
@@ -138,7 +139,7 @@ export default function DashaBrowserView() {
       <header className="mb-3 rounded-2xl border border-line bg-surface p-3 sm:p-4 shadow-sm">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <div className="min-w-0">
-            <p className="font-mono text-[10px] uppercase tracking-widest text-ink-soft">Dasha Effects Browser</p>
+            <PageEyebrow fallback="Dasha Effects Browser" />
             <h1 className="font-[family-name:var(--font-tamil-serif)] text-xl font-bold text-ink">தசா பலன் உலாவி — {data?.native.name ?? party.label}</h1>
             <p className="text-xs text-ink-soft tabular-nums">{data ? `${data.native.date} · ${data.native.time} · ${data.native.placeName ?? '—'} · தசை ஆண்டு ${data.dashaYearDays} நாள்` : 'கணக்கிடப்படுகிறது…'}</p>
           </div>

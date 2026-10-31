@@ -4,6 +4,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeVimshopaka } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Vimshopaka Bala: each planet's twenty points over a group of divisional charts. Every row shows the varga, the sign
@@ -40,7 +41,7 @@ export default function VimshopakaView() {
   return (
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Vimshopaka Bala</p>
+        <PageEyebrow fallback="Vimshopaka Bala" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">விம்சோபக பலம் — 20 புள்ளி வர்க்க பலம்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒரு கிரகம் வர்க்கச் சக்கரங்களில் எந்த நிலையில் உள்ளது என்பதை 20 புள்ளிகளில் அளக்கும் பராசரர் முறை (BPHS அத்.7). ஒவ்வொரு வர்க்கத்துக்கும் நூல் தரும் பங்கு (ஸ்வவிஸ்வ) × அந்த வர்க்க அதிபதியுடன் கிரகத்தின் உறவுக்கான புள்ளி (வர்க்க விஸ்வ: சொந்தம் 20, அதிமித்ரன் 18, மித்ரன் 15, சமன் 10, சத்ரு 7, அதிசத்ரு 5) ÷ 20.

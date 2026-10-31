@@ -3,7 +3,7 @@ const {
   calculatePosition,
   calculateHouses,
   setSiderealMode,
-  getAyanamsa,
+  getAyanamsaExUt,
   Planet,
   HouseSystem,
   SiderealMode,
@@ -16,16 +16,28 @@ const norm360 = (deg) => ((deg % 360) + 360) % 360;
 const siderealModeOf = (name) => (Object.prototype.hasOwnProperty.call(SiderealMode, toEngineAyanamsa(name)) ? SiderealMode[toEngineAyanamsa(name)] : undefined);
 
 /**
+ * The ayanamsha of the sidereal mode now set, with nutation (Swiss Ephemeris's "true" ayanamsha, swe_get_ayanamsa_ex_ut).
+ * `swe_houses()` gives the angles from the true equinox of date (apparent sidereal time, true obliquity), so the ayanamsha taken
+ * off them must be the true one too; `getAyanamsa` (swe_get_ayanamsa_ut) is the mean one, and using it left every ascendant and
+ * cusp too large by the nutation in longitude (up to about 17 seconds of arc; 13" for the PL9 sample of 5 Oct 1990, whose
+ * ascendant PL9 prints as 25:03:02). This is what swe_houses_ex(SEFLG_SIDEREAL) does; the planets' SEFLG_SIDEREAL positions are
+ * already reckoned this way.
+ */
+function trueAyanamsa(jd) {
+  return getAyanamsaExUt(jd, CalculationFlag.SwissEphemeris);
+}
+
+/**
  * `@swisseph/node`'s `calculateHouses` wraps `swe_houses()`, which has no
  * flags parameter and therefore always returns TROPICAL cusps/angles —
  * it does not honour the ambient `swe_set_sid_mode`. Swiss Ephemeris's
  * documented manual equivalent of `swe_houses_ex(..., SEFLG_SIDEREAL)` is
- * to subtract the ayanamsha (from `swe_get_ayanamsa_ut`, which does honour
+ * to subtract the ayanamsha (from `swe_get_ayanamsa_ex_ut`, which does honour
  * the sidereal mode) from every angle and cusp. Without this the Lagna and
  * all Bhava placements come out ~24 degrees adrift of the sidereal grahas.
  */
 function siderealizeHouses(houses, jd) {
-  const ayanamsa = getAyanamsa(jd);
+  const ayanamsa = trueAyanamsa(jd);
   const shift = (deg) => norm360(deg - ayanamsa);
   const cusps = houses.cusps.map((c, i) => (i === 0 ? c : shift(c))); // cusps is 1-indexed; [0] is unused
   return {
@@ -128,7 +140,7 @@ function siderealAscendant(jd, latitude, longitude, ayanamsa = 'Lahiri') {
   if (siderealMode === undefined) throw new RangeError(`Unsupported ayanamsa: ${ayanamsa}`);
   setSiderealMode(siderealMode);
   const houses = calculateHouses(jd, latitude, longitude, HouseSystem.Porphyrius);
-  return norm360(houses.ascendant - getAyanamsa(jd));
+  return norm360(houses.ascendant - trueAyanamsa(jd));
 }
 
-module.exports = { calculateChart, siderealAscendant };
+module.exports = { calculateChart, siderealAscendant, trueAyanamsa };

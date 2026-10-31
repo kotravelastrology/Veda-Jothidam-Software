@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { computeDailyMuhurta, type DayQuery } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 const POINT_TA: Record<string, string> = {
   Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்',
@@ -64,7 +65,7 @@ export default function NallaNeramView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Nalla Neram</p>
+        <PageEyebrow fallback="Nalla Neram" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நல்ல நேரம்</h1>
         <p className="text-sm text-ink-soft mt-1">
           கௌரி பஞ்சாங்கம் · சோகதியா · ஹோரை — சூரிய உதயம்/அஸ்தமனம் அடிப்படையில் 8+8 (ஹோரை 12+12) பகுதிகள்.

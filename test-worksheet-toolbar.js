@@ -56,7 +56,7 @@ assert.ok(T.PANELS.filter((p) => !p.ours).every((p) => !p.ours));
 assert.deepStrictEqual(T.TOOL_TILES.map((t) => t.label), [
   'Worksheet', 'Screen', 'Language', 'Locale', 'Fonts', 'Chart style', 'Colors', 'Calculations', 'Dashas', 'Time Tool', 'Place Tool',
 ]);
-const OPENS = /^(worksheet|screen|chartstyle|colors|time|place|settings:(display|calculations))$/;
+const OPENS = /^(worksheet|screen|chartstyle|colors|time|place|settings:(display|calculations|dashas))$/;
 assert.ok(T.TOOL_TILES.every((t) => OPENS.test(t.opens)), 'every tile opens something we know');
 
 // --- every entry goes one way, with a known status; pending ones say why

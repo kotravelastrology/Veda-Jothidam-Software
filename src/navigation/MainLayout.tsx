@@ -6,8 +6,12 @@ import { WorksheetToolbar } from './WorksheetToolbar';
 import { StatusBar } from './StatusBar';
 import { ActiveProfileBar } from '../workspace/ActiveProfileBar';
 import { CommandPalette } from '../workspace/CommandPalette';
+import { useApplyAppearance } from '../ui/SettingsPanel';
 
 export function MainLayout({ children }: { children: ReactNode }) {
+  // Settings > Theme and Font size, on every page
+  useApplyAppearance();
+
   return (
     <div className="flex flex-col h-screen bg-bg">
       {/* Top Menu Bar */}

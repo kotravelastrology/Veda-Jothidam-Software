@@ -7,6 +7,8 @@ import { useRecentCharts, inputFromSaved } from '@/src/ui/chartParty';
 import { houseFrom } from '@/src/report/transitHouse';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { computeTransitMoment, stepTransitMoment, type PartyRef } from './actions';
+import { RASI_TA as SIGN_TA, NAKSHATRA_TA as NAK_TA } from '@/src/sources/tamilNames';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * PL9's "Animated transits" (093 partner, 098, 099): the sky of a moment against the birth chart. The wheel has the birth chart inside and the
@@ -18,8 +20,6 @@ import { computeTransitMoment, stepTransitMoment, type PartyRef } from './action
  * one set of controls: the change time tool animates the transit over both.
  */
 
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
-const NAK_TA = ['அசுவினி', 'பரணி', 'கார்த்திகை', 'ரோகிணி', 'மிருகசீரிடம்', 'திருவாதிரை', 'புனர்பூசம்', 'பூசம்', 'ஆயில்யம்', 'மகம்', 'பூரம்', 'உத்திரம்', 'அஸ்தம்', 'சித்திரை', 'சுவாதி', 'விசாகம்', 'அனுசம்', 'கேட்டை', 'மூலம்', 'பூராடம்', 'உத்திராடம்', 'திருவோணம்', 'அவிட்டம்', 'சதயம்', 'பூரட்டாதி', 'உத்திரட்டாதி', 'ரேவதி'];
 const P_TA: Record<string, string> = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது', Lagna: 'லக்னம்' };
 const P_SHORT: Record<string, string> = { Sun: 'சூ', Moon: 'சந்', Mars: 'செ', Mercury: 'பு', Jupiter: 'கு', Venus: 'சு', Saturn: 'சனி', Rahu: 'ரா', Ketu: 'கே', Lagna: 'லக்' };
 const P_COLOR: Record<string, string> = { Sun: '#d97706', Moon: '#64748b', Mars: '#dc2626', Mercury: '#16a34a', Jupiter: '#ca8a04', Venus: '#db2777', Saturn: '#2563eb', Rahu: '#7c3aed', Ketu: '#0891b2', Lagna: '#111827' };
@@ -203,7 +203,7 @@ export default function AnimatedTransitsView() {
   return (
     <main className={`min-h-screen p-6 mx-auto ${usePartner ? 'max-w-[88rem]' : 'max-w-6xl'}`}>
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Animated transits · 093, 098, 099</p>
+        <PageEyebrow fallback="Animated transits" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">{partnerMode ? 'அனிமேஷன் கோசாரம் — துணை (Partner)' : 'அனிமேஷன் கோசாரம்'}</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒரு தேதி-நேரத்தின் வானம் ஜன்ம ஜாதகத்துடன்: உள்வட்டத்தில் ஜன்ம கிரகங்கள், வெளிவட்டத்தில் கோசாரம். ஆண்டு, மாதம், நாள், மணி, லக்னம், நவாம்சம் என்ற அலகுகளில்

@@ -9,6 +9,8 @@ import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeEvents, indianToCivil, type EventInput } from './actions';
 import { saveEvent, listSavedEvents, updateSavedEvent, deleteSavedEvent } from '../library/actions';
+import { RASI_TA as SIGN_TA } from '@/src/sources/tamilNames';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /** An event on this page; `eventId` is present once it is saved against a profile. */
 type Ev = EventInput & { eventId?: string; description?: string };
@@ -21,7 +23,6 @@ type Ev = EventInput & { eventId?: string; description?: string };
  * chart, and the Vimshopaka of the event chart. Nothing is a verdict; PL9's one-line glosses are not used because no source is held for them.
  */
 
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const PLANET_TA: Record<string, string> = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது', Lagna: 'லக்னம்' };
 const LEVEL_TA: Record<string, string> = { Dasha: 'தசை', Bhukti: 'புக்தி', Antara: 'அந்தரம்', Sookshma: 'சூக்ஷ்மம்', Prana: 'பிராணன்' };
 const TITHI_TA: Record<string, string> = { SHUKLA: 'சுக்ல', KRISHNA: 'கிருஷ்ண' };
@@ -120,7 +121,7 @@ export default function EventsView() {
   return (
     <main className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Events · worksheets 116-123</p>
+        <PageEyebrow fallback="Events · worksheets 116-123" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நிகழ்வு ஜாதகங்கள்{range === '1-10' ? ' — நிகழ்வுகள் 1–10' : range === '11-20' ? ' — நிகழ்வுகள் 11–20' : ''}</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           ஒரு தேதி-நேரம்-இடத்தை (நிகழ்வு) ஜன்ம ஜாதகத்துடன் வைத்துப் பார்க்கிறது: நிகழ்வு ஜாதகம், ஜன்ம அஷ்டகவர்க்கத்தில் நிகழ்வு கிரகங்களின் காக்ஷ்யா,

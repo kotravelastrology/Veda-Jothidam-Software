@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { computeTamilCalendar } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 const PLACES: Record<string, { lat: number; lon: number }> = {
   'சென்னை (Chennai)': { lat: 13.0827, lon: 80.2707 },
@@ -41,7 +42,7 @@ export default function TamilCalendarView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Tamil calendar</p>
+        <PageEyebrow fallback="Tamil calendar" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">தமிழ் நாட்காட்டி</h1>
         <p className="text-sm text-ink-soft mt-1">
           தமிழ் சௌரமான மாதம் · 60 வருட சம்வத்சரம் · அயனம் / ருது · இன்றைய பஞ்சாங்கம், மற்றும்

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { loadConflicts, applyConflictResolution } from './conflictActions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * VJ-025 — the review screen.
@@ -158,7 +159,7 @@ export default function ConflictsView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Conflicts</p>
+        <PageEyebrow fallback="Conflicts" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           முரண்பாடுகள்
         </h1>

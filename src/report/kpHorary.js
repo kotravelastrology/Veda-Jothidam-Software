@@ -14,7 +14,8 @@
  *    planet should be rejected".
  * No answer is given: the page shows the chart, the ruling planets, the significators and, for a question the book names houses for, whether those houses are signified.
  */
-const { julianDay, calculateHouses, getAyanamsa, setSiderealMode, SiderealMode, HouseSystem } = require('@swisseph/node');
+const { julianDay, calculateHouses, setSiderealMode, SiderealMode, HouseSystem } = require('@swisseph/node');
+const { trueAyanamsa } = require('../ephemeris/swissEphemeris');
 const { calculateKpSystem, kpChain, houseForLongitude, planetSignificators } = require('./kpSystem');
 const { kpLords } = require('./nadiCombinations');
 
@@ -67,7 +68,7 @@ function ascendantOfNumber(number) {
 /** A Julian day (UT) near `jdNear` at which the sidereal (Krishnamurti) ascendant at the place is `ascendant`, by sampling and bisection. */
 function instantOfAscendant(ascendant, latitude, longitude, jdNear) {
   setSiderealMode(SiderealMode.Krishnamurti);
-  const asc = (jd) => norm(calculateHouses(jd, latitude, longitude, HouseSystem.Placidus).ascendant - getAyanamsa(jd));
+  const asc = (jd) => norm(calculateHouses(jd, latitude, longitude, HouseSystem.Placidus).ascendant - trueAyanamsa(jd));
   const f = (jd) => wrap(asc(jd) - ascendant);
   let prev = jdNear - 0.5;
   let fPrev = f(prev);
@@ -93,7 +94,7 @@ function horaryCusps(ascendant, latitude, longitude, jdNear) {
   const jd = instantOfAscendant(ascendant, latitude, longitude, jdNear);
   setSiderealMode(SiderealMode.Krishnamurti);
   const h = calculateHouses(jd, latitude, longitude, HouseSystem.Placidus);
-  const ay = getAyanamsa(jd);
+  const ay = trueAyanamsa(jd);
   const cusps = h.cusps.map((c, i) => (i === 0 ? c : norm(c - ay)));
   cusps[1] = ascendant; // exactly the number's own, whatever the rounding of the search
   return cusps;

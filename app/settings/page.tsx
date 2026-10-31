@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import SettingsView from './SettingsView';
+import SettingsPageView from './SettingsPageView';
 
 export const metadata: Metadata = {
-  title: 'விருப்பங்கள் (Settings) — Kotravel Vedic Astrology',
-  description: 'Settings and preferences - customize language, display, calculations, and notifications.',
+  title: 'அமைப்புகள் (Settings) — Kotravel Vedic Astrology',
+  description: 'The settings of the program: display, calculations and dasha options. The same form as the ⚙️ panel.',
 };
 
 export default function SettingsPage() {
-  return <SettingsView />;
+  return <SettingsPageView />;
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeBandOfYears } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * The band of years: Lal Kitab's 35-year cycle of planets, each ruling a band
@@ -60,7 +61,7 @@ export default function BandOfYearsView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Band of Years</p>
+        <PageEyebrow fallback="Band of Years" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஆண்டுப் பட்டை — 35 ஆண்டுச் சுற்று</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           லால் கிதாப்: ஒவ்வொரு கிரகமும் வாழ்க்கையின் சில ஆண்டுகளை ஆள்கிறது; ஒன்பது கிரகங்களும் சேர்ந்து 35 ஆண்டு, வாழ்நாளில் மூன்று சுற்று.

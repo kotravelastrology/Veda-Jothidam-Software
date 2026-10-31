@@ -5,9 +5,9 @@
  * Nothing here is a verdict: the book says the classes "modify" the results; it does not give a conclusion for a chart.
  */
 const SECTIONS = require('./readerIISignTables');
+const { RASI_TA: SIGN_TA } = require('../sources/tamilNames');
 
 const SIGNS = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 const SOURCE = {
   title: 'Krishnamurti Padhdhati, Reader II: Fundamental Principles of Astrology',

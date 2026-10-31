@@ -19,7 +19,7 @@ function notify() {
 }
 
 /**
- * @typedef {{name: string, gender?: string, dateOfBirth: string, timeOfBirth: string, place: string, latitude: number, longitude: number, utcOffset: number}} StashBirth
+ * @typedef {{name: string, gender?: string, dateOfBirth: string, timeOfBirth: string, place: string, latitude: number, longitude: number, utcOffset: number, timeZone?: string}} StashBirth
  * @typedef {{name: string, gender: string, year: number, month: number, day: number, hour: number, minute: number, placeName: string, latitude: number, longitude: number, utcOffsetMinutes: number, ianaTimeZone: string}} BirthInput
  * @typedef {{profileId: string, revision: number, name: string, birthDate: string | null, placeName: string | null}} OpenProfile
  * @typedef {{kind: 'profile', profileId: string, revision: number, label: string, name: string, birthDate: string | null, placeName: string | null}} ProfileParty
@@ -37,7 +37,7 @@ function inputFromSaved(bd, gender) {
   const [hour, minute] = bd.timeOfBirth.split(':').map(Number);
   return {
     name: bd.name, gender: gender ?? bd.gender ?? 'male', year, month, day, hour, minute: minute ?? 0, placeName: bd.place,
-    latitude: Number(bd.latitude), longitude: Number(bd.longitude), utcOffsetMinutes: Number(bd.utcOffset), ianaTimeZone: 'Asia/Kolkata',
+    latitude: Number(bd.latitude), longitude: Number(bd.longitude), utcOffsetMinutes: Number(bd.utcOffset), ianaTimeZone: bd.timeZone || 'Asia/Kolkata',
   };
 }
 
@@ -56,6 +56,8 @@ function birthDataOf(b) {
   return {
     name: b.name, gender: b.gender, dateOfBirth: `${b.year}-${pad(b.month)}-${pad(b.day)}`, timeOfBirth: `${pad(b.hour)}:${pad(b.minute)}`,
     place: b.placeName, latitude: b.latitude, longitude: b.longitude, utcOffset: b.utcOffsetMinutes,
+    // the zone is kept only when it is not India's, which inputFromSaved assumes when none is stored
+    ...(b.ianaTimeZone && b.ianaTimeZone !== 'Asia/Kolkata' ? { timeZone: b.ianaTimeZone } : {}),
   };
 }
 

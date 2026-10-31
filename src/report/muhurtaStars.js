@@ -35,6 +35,7 @@ const { lagnaShuddhiOf, navamsaOf, vargaIndices, shadvargaOf, drekkanaOf, vishan
 const { combustionOrb } = require('./phaladeepikaGocharaTables');
 const EV = require('./eventMuhurtaTables');
 const { piecesCodesOf, stretchCodesOf, isVishti, isSthiraKarana } = require('./eventMuhurta');
+const { RASI_TA } = require('../sources/tamilNames');
 
 const DAY_MS = 86400000;
 const JD_UNIX_EPOCH = 2440587.5;
@@ -46,7 +47,6 @@ const PLANET_TA = {
   Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு',
   Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு',
 };
-const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const RASI_LORDS = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter'];
 const iso = (ms) => new Date(ms).toISOString();
 const norm360 = (d) => ((d % 360) + 360) % 360;

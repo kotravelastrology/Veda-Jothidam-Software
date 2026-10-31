@@ -6,6 +6,7 @@
 const T = require('./kpJudgeTables');
 const { describeStrength } = require('./kpStrength');
 const { classifyChart } = require('./readerIISigns');
+const { RASI_TA: SIGN_TA } = require('../sources/tamilNames');
 
 const SOURCE = {
   title: 'Krishnamurti Padhdhati, Reader VI: Horary Astrology',
@@ -15,7 +16,6 @@ const SOURCE = {
   pageLocus: 'Signs and how to judge, printed pp.107-115; what the twelve houses signify, printed pp.116-121 (PDF page = printed + 19)',
 };
 const PLANET_TA = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' };
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 function readCategory(id, cusp, kp, positions) {
   const cat = T.CATEGORIES[id];

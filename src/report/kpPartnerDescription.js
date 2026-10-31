@@ -14,6 +14,7 @@
  * Nothing here is a verdict: the paragraphs are the book's own descriptions of a partner and are given as printed with a Tamil rendering.
  */
 const T = require('./kpPartnerTables');
+const { RASI_TA: SIGN_TA } = require('../sources/tamilNames');
 
 const SOURCE = {
   title: 'Krishnamurti Padhdhati, Reader IV: Marriage and Married Life',
@@ -23,7 +24,6 @@ const SOURCE = {
   pageLocus: 'Partner description tables, printed pp.86-97 (PDF page = printed + 3)',
 };
 const PLANET_TA = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' };
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 function entry(planet, sign) {
   const i = T.SIGNS.indexOf(sign);

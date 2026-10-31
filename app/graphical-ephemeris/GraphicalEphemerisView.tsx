@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import { computeGraphicalEphemeris } from './actions';
+import { RASI_TA as SIGN_TA } from '@/src/sources/tamilNames';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Sidereal longitude against time for the slow and middle planets. Pure astronomy (Swiss Ephemeris), so no book is cited; the
@@ -11,7 +13,6 @@ import { computeGraphicalEphemeris } from './actions';
 
 const PLANETS = ['Sun', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 const PLANET_TA: Record<string, string> = { Sun: 'சூரியன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது' };
-const SIGN_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 /** Eight hues told apart in both themes by hue and by the dash pattern. */
 const STYLE: Record<string, { color: string; dash?: string }> = {
   Sun: { color: '#d97706' }, Mars: { color: '#dc2626' }, Mercury: { color: '#16a34a' }, Jupiter: { color: '#ca8a04', dash: '6 3' },
@@ -42,7 +43,7 @@ export default function GraphicalEphemerisView() {
   return (
     <main className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Graphical ephemeris</p>
+        <PageEyebrow fallback="Graphical ephemeris" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">வரைபட எபிமெரிஸ்</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           கிரகங்களின் நிரயன நீள்கோடு காலத்தோடு எப்படி நகர்கிறது என்பதை வரைபடமாகக் காட்டுகிறது; ராசி மாற்றங்களும் வக்ரம், வக்ர நிவர்த்தி நாட்களும் கீழே பட்டியலாக.

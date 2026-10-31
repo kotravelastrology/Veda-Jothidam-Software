@@ -113,9 +113,7 @@ export default function ConsultationToolsView() {
   return (
     <main className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">
-          Consultation Tools
-        </p>
+        <PageEyebrow fallback="Consultation Tools" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
           ஆலோசனைக் குறிப்புகள்
         </h1>
@@ -305,3 +303,5 @@ export default function ConsultationToolsView() {
     </main>
   );
 }
+
+import { PageEyebrow } from '@/src/ui/PageEyebrow';

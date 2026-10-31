@@ -45,7 +45,12 @@ function resolves(href) {
 
 // The drawer and the top bar render the menus; the File, Edit and Charts menus are data in pl9Menus.js, and the report and
 // reference menus are path maps in TopMenuBar.tsx.
-const NAV_FILES = ['src/navigation/MenuDrawer.tsx', 'src/navigation/TopMenuBar.tsx', 'src/navigation/MainLayout.tsx', 'src/navigation/pl9Menus.js'];
+const NAV_FILES = [
+  'src/navigation/MenuDrawer.tsx', 'src/navigation/TopMenuBar.tsx', 'src/navigation/MainLayout.tsx', 'src/navigation/pl9Menus.js',
+  // the toolbar, the home page and Ctrl+K (which reads the home page's list)
+  'src/navigation/WorksheetToolbar.tsx', 'src/navigation/toolbarPanels.js', 'src/navigation/homeSections.js', 'app/HomeView.tsx',
+  'src/workspace/CommandPalette.tsx', 'src/workspace/ActiveProfileBar.tsx',
+];
 
 const broken = [];
 let checked = 0;

@@ -264,7 +264,7 @@ const TOOL_TILES = [
   { key: 'chartstyle', icon: '▦', label: 'Chart style', ta: 'கட்ட வடிவம்', opens: 'chartstyle' },
   { key: 'colors', icon: '🎨', label: 'Colors', ta: 'நிறங்கள்', opens: 'colors' },
   { key: 'calculations', icon: '🧮', label: 'Calculations', ta: 'கணக்கீடுகள்', opens: 'settings:calculations' },
-  { key: 'dashas', icon: '⏳', label: 'Dashas', ta: 'தசைகள்', opens: 'settings:calculations' },
+  { key: 'dashas', icon: '⏳', label: 'Dashas', ta: 'தசைகள்', opens: 'settings:dashas' },
   { key: 'time', icon: '🕰️', label: 'Time Tool', ta: 'நேரக் கருவி', opens: 'time' },
   { key: 'place', icon: '🌐', label: 'Place Tool', ta: 'இடக் கருவி', opens: 'place' },
 ];

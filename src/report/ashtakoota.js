@@ -7,10 +7,10 @@
 const { UnsupportedInputError } = require('../contracts/chartContext');
 const { NAKSHATRA_TA } = require('./babyNames');
 const T = require('./ashtakootaTables');
+const { RASI_TA } = require('../sources/tamilNames');
 
 const norm360 = (d) => ((d % 360) + 360) % 360;
 const STAR_DEG = 360 / 27;
-const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 /** A person's Moon: star, pada, sign, degrees in the sign. */
 function moonOf(longitude) {

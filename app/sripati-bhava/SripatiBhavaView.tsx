@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { computeSripatiBhava } from './actions';
 import { citeTa } from '@/src/sources/citeTa';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
  * Sripatipaddhati I.6-11: the trisected points are the bhavas themselves (their middles), half the sum of two contiguous bhavas is
@@ -35,7 +36,7 @@ export default function SripatiBhavaView() {
   return (
     <main className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Sripati bhava · Sripatipaddhati I.6-11</p>
+        <PageEyebrow fallback="Sripati bhava · Sripatipaddhati I.6-11" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஸ்ரீபதி பாவம் — பாவ மையங்கள், சந்திகள், கிரக பலன் அளவு</h1>
         <p className="text-sm text-ink-soft mt-1 max-w-3xl">
           லக்னம், 4, 7, 10 ஆகியவற்றின் இடையே மூன்றில் ஒரு பங்கு, மூன்றில் இரண்டு பங்கு சேர்த்துப் பெறும் பன்னிரண்டு புள்ளிகளே பாவங்கள் (அவற்றின் நடுவு); இரண்டு அடுத்த பாவங்களின் கூட்டுத்தொகையின் பாதி சந்தி.

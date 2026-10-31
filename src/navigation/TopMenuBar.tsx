@@ -442,6 +442,11 @@ export function TopMenuBar() {
 
       // Options / Settings — Preferences, Chart Style, Colors & Fonts and Language
       // are all controlled from the Settings panel's Display section
+      case 'astrologer-location':
+        uiActions.openSettings();
+        setTimeout(() => document.getElementById('settings-location')?.scrollIntoView({ block: 'start' }), 120);
+        break;
+
       case 'settings':
       case 'preferences':
       case 'chartstyle':
@@ -565,11 +570,11 @@ export function TopMenuBar() {
       <BalloonHelp />
 
       {/* Top bar: the ☰ button opens the menu drawer, which holds every menu; the usual actions are one click away here */}
-      <div className="bg-ink text-surface border-b border-ink-soft/20 sticky top-0 z-50 print:hidden">
+      <div className="bg-bar text-bar-ink border-b border-bar-ink/10 sticky top-0 z-50 print:hidden">
         <div className="flex items-center h-12 px-3 sm:px-4 gap-2 sm:gap-3">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="grid place-items-center size-9 rounded-lg hover:bg-surface/10 text-lg"
+            className="grid place-items-center size-9 rounded-lg hover:bg-bar-ink/10 text-lg"
             aria-label="மெனுவைத் திற"
             aria-expanded={sidebarOpen}
             title="மெனு"
@@ -593,12 +598,12 @@ export function TopMenuBar() {
           {/* Search: ஜாதகங்கள், பக்கங்கள் (Ctrl+K) */}
           <button
             onClick={() => setCommandPaletteOpen(true)}
-            className="hidden md:flex flex-1 max-w-md mx-auto items-center gap-2 rounded-full bg-surface/10 hover:bg-surface/15 px-4 py-1.5 text-xs text-surface/70 text-left"
+            className="hidden md:flex flex-1 max-w-md mx-auto items-center gap-2 rounded-full bg-bar-ink/10 hover:bg-bar-ink/15 px-4 py-1.5 text-xs text-bar-ink/70 text-left"
             aria-label="ஜாதகம் அல்லது பக்கத்தைத் தேடு"
           >
             <span aria-hidden>🔎</span>
             <span className="flex-1">ஜாதகம், பக்கம், செயலைத் தேடு</span>
-            <kbd className="font-mono text-[10px] rounded border border-surface/20 px-1">Ctrl K</kbd>
+            <kbd className="font-mono text-[10px] rounded border border-bar-ink/20 px-1">Ctrl K</kbd>
           </button>
 
           <div className="flex items-center gap-0.5 ml-auto">
@@ -611,7 +616,7 @@ export function TopMenuBar() {
               <button
                 key={key}
                 onClick={() => handleSubmenuClick(key)}
-                className="hidden md:grid place-items-center size-9 rounded-lg hover:bg-surface/10 text-base"
+                className="hidden md:grid place-items-center size-9 rounded-lg hover:bg-bar-ink/10 text-base"
                 aria-label={label}
                 title={label}
                 data-hint={hint}
@@ -619,10 +624,10 @@ export function TopMenuBar() {
                 {icon}
               </button>
             ))}
-            <span className="hidden md:block w-px h-5 bg-surface/20 mx-1" aria-hidden />
+            <span className="hidden md:block w-px h-5 bg-bar-ink/20 mx-1" aria-hidden />
             <button
               onClick={uiActions.openTools}
-              className="grid place-items-center size-9 rounded-lg hover:bg-surface/10 text-base"
+              className="grid place-items-center size-9 rounded-lg hover:bg-bar-ink/10 text-base"
               aria-label="கருவிகள்"
               title="கருவிகள் (Ctrl+T)"
               data-hint="Tools: location, time zone, ayanamsha and date converters (Ctrl+T)"
@@ -631,7 +636,7 @@ export function TopMenuBar() {
             </button>
             <button
               onClick={uiActions.openSettings}
-              className="grid place-items-center size-9 rounded-lg hover:bg-surface/10 text-base"
+              className="grid place-items-center size-9 rounded-lg hover:bg-bar-ink/10 text-base"
               aria-label="அமைப்புகள்"
               title="அமைப்புகள் (Ctrl+,)"
             >
