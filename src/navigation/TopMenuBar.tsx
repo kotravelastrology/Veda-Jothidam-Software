@@ -34,6 +34,7 @@ import { HelpPanel } from '../ui/HelpPanel';
 import { OpenChartDialog } from '../ui/OpenChartDialog';
 import { ChartAnnotationsDialog } from '../ui/ChartAnnotationsDialog';
 import { useKeyboardShortcuts } from '../ui/useKeyboardShortcuts';
+import { FILE_MENU, EDIT_MENU, CHARTS_MENU, ITEM_BY_KEY } from './pl9Menus';
 
 interface MenuItem {
   label: string;
@@ -41,16 +42,21 @@ interface MenuItem {
   submenu?: SubMenuItem[];
 }
 
+/** An entry of a dropdown. File, Edit and Charts come from pl9Menus.js, where `target` and `status` are described. */
 interface SubMenuItem {
-  label: string;
+  label?: string;
   key: string;
   action?: () => void;
+  status?: string;
+  divider?: boolean;
+  target?: { route?: string; action?: string; pending?: string; items?: SubMenuItem[] };
 }
 
 export function TopMenuBar() {
   const { currentMenu, setCurrentMenu, setBreadcrumb, setSidebarOpen, sidebarOpen, uiState, uiActions } =
     useNavigation();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [openSub, setOpenSub] = useState<string | null>(null);
   const router = useRouter();
   const menuBarRef = useRef<HTMLDivElement>(null);
   const { settings, updateSettings } = useSettings();
@@ -67,22 +73,6 @@ export function TopMenuBar() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [openMenu]);
-
-  // Maps Charts-menu keys to real chart ids from src/charts/chartTypes.ts
-  const CHART_KEY_TO_ID: Record<string, string> = {
-    rasi: 'D1-rasi',
-    navamsha: 'D9-navamsha',
-    divisional: 'D9-navamsha',
-    varga: 'varga-chakra',
-    sudarshan: 'sudarshan-chakra',
-    dasha: 'dasha-vimsottari',
-    transit: 'transit',
-    ashtakavarga: 'ashtakavarga',
-    ephemeris: 'ephemeris',
-    rectification: 'rectification',
-    composite: 'compatibility', // Synastry chart doubles as the composite/relationship view
-  };
-  const CHARTS_NOT_YET_BUILT = new Set<string>([]);
 
   // Reports-menu keys → report builder deep links (section anchors or a chart type)
   const REPORT_KEY_TO_PATH: Record<string, string> = {
@@ -157,51 +147,10 @@ export function TopMenuBar() {
   };
 
   const menus: MenuItem[] = [
-    {
-      label: 'File',
-      key: 'file',
-      submenu: [
-        { label: 'New Chart', key: 'new' },
-        { label: 'Open...', key: 'open' },
-        { label: 'Recent Charts', key: 'recent' },
-        { label: '', key: 'divider1' },
-        { label: 'Save', key: 'save' },
-        { label: 'Save As...', key: 'saveas' },
-        { label: '', key: 'divider2' },
-        { label: 'Export', key: 'export_submenu' },
-        { label: 'Print', key: 'print' },
-        { label: '', key: 'divider3' },
-        { label: 'Exit', key: 'exit' },
-      ],
-    },
-    {
-      label: 'Edit',
-      key: 'edit',
-      submenu: [
-        { label: 'Birth Data', key: 'birthdata' },
-        { label: 'Chart Notes', key: 'notes' },
-        { label: 'Events', key: 'events' },
-        { label: '', key: 'divider' },
-        { label: 'Preferences', key: 'preferences' },
-      ],
-    },
-    {
-      label: 'Charts',
-      key: 'charts',
-      submenu: [
-        { label: 'Birth Chart (Rasi)', key: 'rasi' },
-        { label: 'Navamsha (D9)', key: 'navamsha' },
-        { label: 'Divisional Charts', key: 'divisional' },
-        { label: 'Varga Chakra', key: 'varga' },
-        { label: 'Sudarshan Chakra', key: 'sudarshan' },
-        { label: 'Dasha Charts', key: 'dasha' },
-        { label: 'Transit Charts', key: 'transit' },
-        { label: 'Ashtakavarga Charts', key: 'ashtakavarga' },
-        { label: 'Ephemeris', key: 'ephemeris' },
-        { label: 'Rectification', key: 'rectification' },
-        { label: 'Composite/Synastry', key: 'composite' },
-      ],
-    },
+    // File, Edit and Charts follow Parashara's Light 9, entry for entry (pl9Menus.js)
+    { label: 'File', key: 'file', submenu: FILE_MENU },
+    { label: 'Edit', key: 'edit', submenu: EDIT_MENU },
+    { label: 'Charts', key: 'charts', submenu: CHARTS_MENU },
     {
       label: 'Print',
       key: 'printMenu',
@@ -358,16 +307,19 @@ export function TopMenuBar() {
 
   const handleSubmenuClick = useCallback((submenuKey: string) => {
     setOpenMenu(null);
+    setOpenSub(null);
 
-    // Charts menu — navigate straight to the report builder with the chart pre-selected
-    if (CHART_KEY_TO_ID[submenuKey]) {
-      router.push(`/report?chart=${CHART_KEY_TO_ID[submenuKey]}`);
+    // File, Edit and Charts entries (pl9Menus.js): a page, a handler below, or a "not built yet" notice with its reason
+    const pl9 = ITEM_BY_KEY[submenuKey] as SubMenuItem | undefined;
+    if (pl9?.target?.route) {
+      router.push(pl9.target.route);
       return;
     }
-    if (CHARTS_NOT_YET_BUILT.has(submenuKey)) {
-      alert('This chart type is not implemented yet — coming in a future phase.');
+    if (pl9?.target?.pending) {
+      alert(`${pl9.label}\n\n${pl9.target.pending}`);
       return;
     }
+    const actionKey = pl9?.target?.action ?? submenuKey;
 
     // Reports menu — deep-link into the report builder
     if (REPORT_KEY_TO_PATH[submenuKey]) {
@@ -391,14 +343,24 @@ export function TopMenuBar() {
       return;
     }
 
-    switch (submenuKey) {
+    switch (actionKey) {
       // File Menu
       case 'new':
         router.push('/report');
         break;
       case 'open':
+      case 'file-manager':
       case 'research_search':
         uiActions.openChartDialog('all');
+        break;
+      case 'close':
+        // Closes the working chart: forget it, then show an empty report page
+        try { localStorage.removeItem('kotravel_current_chart'); } catch { /* storage unavailable */ }
+        router.push('/report');
+        break;
+      case 'printer-setup':
+        // A web page cannot open the system's printer setup; the printer is chosen in the browser's print dialog
+        alert('The printer is chosen in the browser\'s print dialog, which opens with File → Print screen.');
         break;
       case 'recent':
         uiActions.openChartDialog('recent');
@@ -656,18 +618,42 @@ export function TopMenuBar() {
                     with :hover as a bonus for mouse users who hover across the bar */}
                 {menu.submenu && (
                   <div
-                    className={`absolute left-0 mt-0 w-56 bg-surface border border-line shadow-lg rounded-md transition-all duration-150 py-1 z-50 group-hover:opacity-100 group-hover:visible ${
+                    className={`absolute left-0 mt-0 min-w-56 w-max max-w-sm max-h-[calc(100vh-3rem)] overflow-y-auto bg-surface border border-line shadow-lg rounded-md transition-all duration-150 py-1 z-50 group-hover:opacity-100 group-hover:visible ${
                       openMenu === menu.key ? 'opacity-100 visible' : 'opacity-0 invisible'
                     }`}
                   >
                     {menu.submenu.map((submenu) =>
                       submenu.key.startsWith('divider') ? (
                         <div key={submenu.key} className="h-px bg-line my-1" />
+                      ) : submenu.target?.items ? (
+                        // A submenu (Charts > Interpretations): opens inline, so the scrolling dropdown never clips it
+                        <div key={submenu.key}>
+                          <button
+                            onClick={() => setOpenSub(openSub === submenu.key ? null : submenu.key)}
+                            aria-expanded={openSub === submenu.key}
+                            className="w-full flex items-center justify-between gap-4 px-4 py-2 text-sm text-ink text-left hover:bg-saffron/10"
+                          >
+                            <span>{submenu.label}</span>
+                            <span className="text-ink-soft">{openSub === submenu.key ? '▾' : '▸'}</span>
+                          </button>
+                          {openSub === submenu.key && submenu.target.items.map((item) => (
+                            <button
+                              key={item.key}
+                              onClick={() => handleSubmenuClick(item.key)}
+                              className="w-full text-left pl-8 pr-4 py-2 text-sm hover:bg-saffron/10 text-ink transition-colors"
+                            >
+                              {item.label}
+                            </button>
+                          ))}
+                        </div>
                       ) : (
                         <button
                           key={submenu.key}
                           onClick={() => handleSubmenuClick(submenu.key)}
-                          className="w-full text-left px-4 py-2 text-sm hover:bg-saffron/10 text-ink transition-colors"
+                          title={submenu.target?.pending}
+                          className={`w-full text-left px-4 py-2 text-sm hover:bg-saffron/10 transition-colors ${
+                            submenu.target?.pending ? 'text-ink-soft italic' : 'text-ink'
+                          }`}
                         >
                           <span>{submenu.label}</span>
                         </button>

@@ -7,52 +7,78 @@ Status: **have** = present with the same meaning; **partial** = present under an
 **missing** = not in this software.
 
 ## File
+Built 2026-10-31 from `src/navigation/pl9Menus.js`: every PL9 entry is in our menu, in PL9's order (test-pl9-menus.js).
 | PL9 item | Ours | Status |
 |---|---|---|
-| New | New Chart | have |
+| New | New | have |
 | Open | Open... | have |
-| File Manager (groups, search, import old charts, refresh) | — | missing |
+| File Manager (groups, search, import old charts, refresh) | File Manager... opens the chart dialog; no groups, import or refresh | partial |
 | Save / Save As | Save / Save As... | have |
-| Save To (save into a group) | — | missing |
-| Close | — | missing |
-| Model Printing | — | missing |
-| Print Screen | Print (File) | partial |
-| Printer Setup | — | missing |
-| Copy Screen to Clipboard | — | missing |
-| Language | Options > Language | partial (moved) |
+| Save To (save into a group) | Save To (listed; the library has no groups, so it says so) | missing |
+| Close | Close (forgets the working chart, empty report page) | have |
+| Model Printing | Model Printing opens the Print Center | partial |
+| Print Screen | Print screen... | partial |
+| Printer Setup | Printer Setup says the printer is chosen in the browser's print dialog | partial |
+| Copy Screen to Clipboard | Copy screen to Clipboard (listed; not built) | missing |
+| Language | Language opens Settings | partial |
 | Exit | Exit | have |
 | (ours only) Recent Charts, Export submenu | Recent Charts, Export | extra |
 
 ## Edit
+Built 2026-10-31: all eight PL9 entries are in the menu. Those not built are listed, in italics, and say why when clicked.
 | PL9 item | Ours | Status |
 |---|---|---|
-| Birth Data | Birth Data | have |
-| Anka Value | — | missing |
+| Birth Data | Birth data | have |
+| Anka Value | listed; needs a cited Anka sound table | missing |
 | Chart Notes | Chart Notes | have |
 | Events | Events | have |
-| Native's Current Location (varshaphala and today's events) | — | missing |
-| Astrologer's Location (prashna) | — | missing |
-| Astrologer Specific Settings (50 entries) | — | missing |
-| Cover page text | — | missing |
+| Native's Current Location (varshaphala and today's events) | listed; not built | missing |
+| Astrologer's Location (prashna) | listed; not built | missing |
+| Astrologer Specific Settings (50 entries) | listed; not built | missing |
+| Cover page text | listed; not built | missing |
+| (ours only) Preferences | Preferences opens Settings | extra |
 
-## Charts (worksheets and the Chart & Table selection)
+## Charts (the 29 entries of the PL9 Charts menu)
+Built 2026-10-31: all 29 entries are in our Charts menu, in PL9's order, from the PL9 menu screenshot. Two new pages
+(Lordships, Calendar); the rest go to the nearest existing page or report section. Pending ones are listed in italics.
+| # | PL9 item | Ours | Status |
+|---|---|---|---|
+| 1 | Birth chart I | /report?chart=D1-rasi | have |
+| 2 | Vargas I | /divisional-charts | have |
+| 3 | Sudarshan Chakra | /report?chart=sudarshan-chakra | have |
+| 4 | Lordships | /lordships (new: D1, D9, D10 with exchange marks) | have |
+| 5 | Interpreting Grahas | /interpreting-grahas | have |
+| 6 | Planetary deities | listed; the guide does not describe it and no cited source yet | missing |
+| 7 | Aspects on planets | /report?chart=aspect-matrix | have |
+| 8 | Dashas - Nakshatra based | /report?chart=dasha-vimsottari | have |
+| 9 | Calendar | /dasha-calendar (new: 8 of 10 dasha starts in the PL9 sample on PL9's day, two a day later; see the gap register) | have |
+| 10 | Navamsha ages | /navamsha-years | have |
+| 11 | Animated transits I | /animated-transits | have |
+| 12 | Animated Transits - Partner | listed; needs the partner's chart beside the transit chart (guide ch.13) | missing |
+| 13 | Graphical Ephemeris | /graphical-ephemeris | have |
+| 14 | Ashtakavarga - Samudaya | /report?chart=ashtakavarga | have |
+| 15 | Events 1-10 | /events (all 20 slots on one page, not split) | partial |
+| 16 | Events 11-20 | /events (same page) | partial |
+| 17 | Muhurta | /muhurta | have |
+| 18 | Varshaphala I | /varshaphala | have |
+| 19 | Compatibility - Composite | /report?chart=compatibility | have |
+| 20 | Dasha Effects Browser | listed; the rules exist (src/report/dashaEffects.js), no page | missing |
+| 21 | Dasha and Transit timelines | /dasha-timeline | have |
+| 22 | Sun in house | listed; the guide does not describe it | missing |
+| 23 | Rectification | /rectification | have |
+| 24 | Chart tutor | /learning-resources (the guide says Interpretation hints replaced the tutor; those are not built) | partial |
+| 25 | Tithi Pravesh | listed; the guide names it but does not define it | missing |
+| 26 | Graphical ephemeris - 3 month overview | /graphical-ephemeris (month and years only, no 3-month view) | partial |
+| 27 | Yearly transit overview (South Indian) | /yearly-transit | have |
+| 28 | Sarvatobhadra Chakra | /report?section=sarvatobhadra | have |
+| 29 | Interpretations (flyout: Lagna, Rashi, Nakshatra, Planets in houses, Transits) | report sections and /planet-house | partial |
+
+The worksheet system behind the menu (not the 29 entries):
 | PL9 item | Ours | Status |
 |---|---|---|
-| Worksheet and its Favorites (the Charts menu lists the favourites; a worksheet's fields are chosen per field) | fixed list | partial |
+| Worksheet and its Favorites (the Charts menu lists the favourites; a worksheet's fields are chosen per field) | fixed list of 29 entries, each its own page | partial |
 | Chart & Table selection: Tables column (Chart, Planetary info, Declination, House cusps, Lordships, Elements/strengths, Mrityu Bhaga, Varga deities, Shashtiamsha deities, Nadiamshas, Dashas, Yogas, …) | — | missing |
 | Context column (17 chart contexts: birth, transit, Varshaphala, KP, Muhurta, Prashna, …) | — | missing |
-| Special charts (Composite, Sudarshan, Rashi with Navamsha, Bhava, Hora, Karkamsha, …) | Sudarshan Chakra, Composite/Synastry | partial |
-| Vargas (all 16 and the rest) | Divisional Charts, Varga Chakra, Navamsha (D9) | partial |
-| Ashtakavarga Samudaya | Ashtakavarga Charts | have |
-| Sudarshana Chakra | Sudarshan Chakra | have |
-| Transits | Transit Charts | have |
-| Event List | Events | partial |
-| Calendar (dashas in calendar format) | — | missing |
-| Graphical Ephemeris | Graphical Ephemeris (Reports) | have (moved) |
-| Muhurta | Muhurta Finder (Tools) | partial (moved) |
-| Compatibility - Composite | Composite/Synastry | have |
-| Rectification | Rectification | have |
-| Dasha Effects | — | missing |
 
 ## Reports (10 groups)
 | PL9 item | Ours | Status |
@@ -156,14 +182,21 @@ Status: **have** = present with the same meaning; **partial** = present under an
 | Vedic Astrology Tutorial | Vedic Astrology Tutorial | have |
 | (ours only) Keyboard Shortcuts, Check for Updates, Deactivate, Contact Support | those | extra |
 
-## Count (missing or partial items above, not counting extras)
-Missing: 35. Partial: 24. Have: 38. Extra or not applicable: 5 (counted from the tables above by script).
+## Count (rows of the tables above by status, counted by script, 2026-10-31)
+Have: 52. Partial: 29. Missing: 33. Extra: 5. Not applicable: 1. (Before the File, Edit and Charts menus were rebuilt on
+2026-10-31: have 38, partial 24, missing 35.)
 
-## Work order (proposal, not started)
+## Work order (proposal)
 1. Options (13 groups): each group is a real setting that the calculations read. Missing settings change results, so they come first.
    Dasha Options (balance method, dasha year) and Miscellaneous Calculations (Ayanamsha and the rest) affect page 20 and the
-   Ashtakavarga and Shadbala pages.
-2. File and Edit gaps (File Manager, Save To, Anka Value, locations, astrologer settings, cover page).
-3. Reports: Remedies group, Astrology Lessons, Reports Overview.
-4. Charts: the Chart & Table selection (tables, contexts, special charts, vargas) and the worksheet favourites.
-5. Tools, Print (User defined printouts, Print Default Set), Research, Windows, Help.
+   Ashtakavarga and Shadbala pages. Dasha Options: 2 of 13 done.
+2. File and Edit gaps still missing: Save To (needs groups in the library), Copy Screen to Clipboard, Anka Value, Native's and
+   Astrologer's locations, Astrologer Specific Settings, Cover page text. All are in the menu now and say why they are not built.
+3. Charts menu: 29 of 29 entries are in the menu; 5 are not built (Planetary deities, Animated Transits - Partner, Dasha Effects
+   Browser, Sun in house, Tithi Pravesh) and 5 are partial. Next: Dasha Effects Browser (rules exist), Animated Transits - Partner
+   (needs the second chart), the Events 1-10 / 11-20 split, the 3-month ephemeris view. Planetary deities, Sun in house and Tithi
+   Pravesh need the PL9 screen or a cited definition first.
+4. Reports: Remedies group, Astrology Lessons, Reports Overview.
+5. Charts: the Chart & Table selection (tables, contexts, special charts, vargas) and the worksheet favourites (the worksheet system
+   behind these 29 entries).
+6. Tools, Print (User defined printouts, Print Default Set), Research, Windows, Help.
