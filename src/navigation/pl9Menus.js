@@ -108,10 +108,7 @@ const CHARTS_MENU = [
   { key: 'chart-muhurta', label: 'Muhurta', status: 'have', target: { route: '/muhurta' } },
   { key: 'chart-varshaphala', label: 'Varshaphala I', status: 'have', target: { route: '/varshaphala' } },
   { key: 'chart-composite', label: 'Compatibility - Composite', status: 'have', target: { route: '/report?chart=compatibility' } },
-  {
-    key: 'chart-dasha-effects', label: 'Dasha Effects Browser', status: 'pending',
-    target: { pending: 'Not built: the dasha-effects rules exist (src/report/dashaEffects.js) but have no page yet.' },
-  },
+  { key: 'chart-dasha-effects', label: 'Dasha Effects Browser', status: 'partial', target: { route: '/dasha-effects' } },
   { key: 'chart-dasha-transit-timelines', label: 'Dasha and Transit timelines', status: 'have', target: { route: '/dasha-timeline' } },
   {
     key: 'chart-sun-in-house', label: 'Sun in house', status: 'pending',

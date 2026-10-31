@@ -2,12 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
+import { PartyChooser } from '@/src/ui/PartyChooser';
 import { useSettings, toEngineOptions, toDashaOptions } from '@/src/ui/SettingsPanel';
-import { useWorkspace } from '@/src/workspace/workspaceContext';
-import { getChartLibrary, type SavedChart } from '@/src/portal/ChartLibraryManager';
-import type { BirthFormInput } from '../report/actions';
+import { useChartParty, writeStash, inputFromSaved } from '@/src/ui/chartParty';
 import { computeWorksheet } from './actions';
 import {
   CellFrame, ChartCell, DashaCell, GraphCell, PlanetsCell, StrengthCell,
@@ -22,7 +19,6 @@ import {
  */
 
 const CHOICES_KEY = 'kotravel-worksheet-cells';
-const STASH_KEY = 'kotravel_current_chart';
 
 const MONTHS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -41,37 +37,14 @@ function addMonths(date: string, delta: number): string {
   return `${target.getUTCFullYear()}-${pad(target.getUTCMonth() + 1)}-${pad(Math.min(d, last))}`;
 }
 
-/** A chart saved in the browser (File > Save, Open) as the form input the calculation takes. */
-function inputFromSaved(bd: SavedChart['birthData'], gender = 'male'): BirthFormInput {
-  const [year, month, day] = bd.dateOfBirth.split('-').map(Number);
-  const [hour, minute] = bd.timeOfBirth.split(':').map(Number);
-  return {
-    name: bd.name, gender, year, month, day, hour, minute: minute ?? 0, placeName: bd.place,
-    latitude: Number(bd.latitude), longitude: Number(bd.longitude), utcOffsetMinutes: Number(bd.utcOffset), ianaTimeZone: 'Asia/Kolkata',
-  };
-}
-
-function readStash(): { birthData?: SavedChart['birthData'] } & Record<string, unknown> | null {
-  try {
-    const raw = localStorage.getItem(STASH_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
 export default function WorksheetView() {
-  const params = useSearchParams();
   const { settings } = useSettings();
-  const { activeProfile, restored } = useWorkspace();
-  const [party, setParty] = useState<Party | null>(null);
-  const [resolved, setResolved] = useState(false);
+  const { party, setParty, recent, isNew } = useChartParty();
   const [data, setData] = useState<WorksheetData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [asOf, setAsOf] = useState('');
   const [choices, setChoices] = useState<CellChoices>(DEFAULT_CHOICES);
-  const [recent, setRecent] = useState<SavedChart[]>([]);
 
   // Remembered cell choices, and today's date (read on the client so it never differs from the server's render)
   useEffect(() => {
@@ -80,7 +53,6 @@ export default function WorksheetView() {
       const saved = JSON.parse(localStorage.getItem(CHOICES_KEY) || 'null');
       if (saved) setChoices({ ...DEFAULT_CHOICES, ...saved });
     } catch { /* storage unavailable or damaged: the defaults stand */ }
-    try { setRecent(getChartLibrary().getAllCharts().slice(0, 6)); } catch { /* no saved charts */ }
   }, []);
 
   const choose = useCallback((cell: CellId, value: string) => {
@@ -90,25 +62,6 @@ export default function WorksheetView() {
       return next;
     });
   }, []);
-
-  // Whose chart: a chart opened from the menu (?load=), the workspace's active profile, or the last chart worked on.
-  const loadId = params.get('load');
-  const isNew = params.get('new') === '1';
-  useEffect(() => {
-    if (resolved || !restored) return;
-    setResolved(true);
-    if (isNew) return; // File > New: a blank birth-details form, not the last chart
-    if (loadId) {
-      const saved = getChartLibrary().getChart(loadId);
-      if (saved) { setParty({ kind: 'form', input: inputFromSaved(saved.birthData), label: saved.name }); return; }
-    }
-    if (activeProfile) {
-      setParty({ kind: 'profile', profileId: activeProfile.profileId, revision: activeProfile.revision, label: activeProfile.name });
-      return;
-    }
-    const stash = readStash();
-    if (stash?.birthData) setParty({ kind: 'form', input: inputFromSaved(stash.birthData), label: stash.birthData.name });
-  }, [resolved, restored, loadId, isNew, activeProfile]);
 
   // One calculation for the whole worksheet
   useEffect(() => {
@@ -127,19 +80,7 @@ export default function WorksheetView() {
 
   // The menus (Save, Print, Notes, Events) act on the chart in the stash, so the worksheet's person goes there
   useEffect(() => {
-    if (!data) return;
-    const b = data.birth;
-    const pad = (n: number) => String(n).padStart(2, '0');
-    const birthData = {
-      name: b.name, gender: b.gender, dateOfBirth: `${b.year}-${pad(b.month)}-${pad(b.day)}`, timeOfBirth: `${pad(b.hour)}:${pad(b.minute)}`,
-      place: b.placeName, latitude: b.latitude, longitude: b.longitude, utcOffset: b.utcOffsetMinutes,
-    };
-    try {
-      const prior = readStash();
-      const same = prior?.birthData && prior.birthData.name === birthData.name && prior.birthData.dateOfBirth === birthData.dateOfBirth
-        && prior.birthData.timeOfBirth === birthData.timeOfBirth;
-      localStorage.setItem(STASH_KEY, JSON.stringify({ ...(same ? prior : {}), birthData, selectedChartId: 'D1-rasi' }));
-    } catch { /* the menus then ask for a chart, as before */ }
+    if (data) writeStash(data.birth);
   }, [data]);
 
   const asOfLabel = useMemo(() => {

@@ -15,9 +15,10 @@ export function ActiveProfileBar() {
     activeProfile, setActiveProfile, setCommandPaletteOpen, restored,
     storageFailure, dismissStorageFailure,
   } = useWorkspace();
-  // The worksheet names the person it shows in its own header, so the strip would only repeat it (or contradict it, for a
+  // These pages name the person they show in their own header, so the strip would only repeat it (or contradict it, for a
   // chart that came from a form and was never saved to the library).
-  const onWorksheet = usePathname()?.startsWith('/worksheet') ?? false;
+  const pathname = usePathname() ?? '';
+  const onWorksheet = ['/worksheet', '/dasha-effects'].some((p) => pathname.startsWith(p));
 
   // Render nothing until the persisted profile has been read, so the bar does
   // not flash "nobody selected" over a session that has one.

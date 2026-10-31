@@ -15,6 +15,8 @@ export interface ChartEntry {
   abbr: string;
   /** Degrees and nakshatra, shown after the abbreviation when there is room. */
   detail?: string;
+  /** A transiting planet, drawn in red and italic beside the birth chart's own (the dasha browser). */
+  transit?: boolean;
 }
 
 export interface HouseBadge {
@@ -69,7 +71,7 @@ export function WorksheetChart({ lagnaRasiIndex, entriesByRasi, badges, center, 
             {isLagna && <span className={`absolute right-1 bottom-0.5 ${dense ? 'text-[8px]' : 'text-[11px]'} font-bold text-saffron`}>லக்</span>}
             <div className={`mt-0.5 flex ${dense ? 'flex-row flex-wrap gap-x-1.5' : 'flex-col'} gap-y-px`}>
               {entriesByRasi[rasiIndex].map((e, i) => (
-                <span key={`${e.abbr}-${i}`} className={`${dense ? 'text-[11px]' : 'text-[13px] sm:text-[16px]'} font-semibold leading-tight whitespace-nowrap`} style={{ color: PLANET_COLOR[e.abbr] }}>
+                <span key={`${e.abbr}-${i}`} className={`${dense ? 'text-[11px]' : 'text-[13px] sm:text-[16px]'} font-semibold leading-tight whitespace-nowrap ${e.transit ? 'italic' : ''}`} style={{ color: e.transit ? '#e11d48' : PLANET_COLOR[e.abbr] }}>
                   {e.abbr}
                   {e.detail && <span className="ml-1 font-normal text-[10px] sm:text-[11px] text-ink-soft tabular-nums">{e.detail}</span>}
                 </span>

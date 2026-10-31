@@ -62,7 +62,7 @@ Built 2026-10-31: the menus are in a drawer the ☰ button opens (the row of dro
 | 17 | Muhurta | /muhurta | have |
 | 18 | Varshaphala I | /varshaphala | have |
 | 19 | Compatibility - Composite | /report?chart=compatibility | have |
-| 20 | Dasha Effects Browser | listed; the rules exist (src/report/dashaEffects.js), no page | missing |
+| 20 | Dasha Effects Browser | /dasha-effects (new: periods level by level to five, the sky at the period's start beside the birth chart, BPHS ch.47-48 for the lords; PL9's text is compiled from several classics, ours is BPHS only) | partial |
 | 21 | Dasha and Transit timelines | /dasha-timeline | have |
 | 22 | Sun in house | listed; the guide does not describe it | missing |
 | 23 | Rectification | /rectification | have |
@@ -183,7 +183,7 @@ The worksheet system behind the menu (not the 29 entries):
 | (ours only) Keyboard Shortcuts, Check for Updates, Deactivate, Contact Support | those | extra |
 
 ## Count (rows of the tables above by status, counted by script, 2026-10-31)
-Have: 52. Partial: 29. Missing: 33. Extra: 5. Not applicable: 1. (Before the File, Edit and Charts menus were rebuilt on
+Have: 52. Partial: 30. Missing: 32. Extra: 5. Not applicable: 1. (Before the File, Edit and Charts menus were rebuilt on
 2026-10-31: have 38, partial 24, missing 35.)
 
 ## Work order (proposal)
@@ -192,8 +192,8 @@ Have: 52. Partial: 29. Missing: 33. Extra: 5. Not applicable: 1. (Before the Fil
    Ashtakavarga and Shadbala pages. Dasha Options: 2 of 13 done.
 2. File and Edit gaps still missing: Save To (needs groups in the library), Copy Screen to Clipboard, Anka Value, Native's and
    Astrologer's locations, Astrologer Specific Settings, Cover page text. All are in the menu now and say why they are not built.
-3. Charts menu: 29 of 29 entries are in the menu; 5 are not built (Planetary deities, Animated Transits - Partner, Dasha Effects
-   Browser, Sun in house, Tithi Pravesh) and 5 are partial. Next: Dasha Effects Browser (rules exist), Animated Transits - Partner
+3. Charts menu: 29 of 29 entries are in the menu; 4 are not built (Planetary deities, Animated Transits - Partner,
+   Sun in house, Tithi Pravesh) and 6 are partial. Next: Animated Transits - Partner
    (needs the second chart), the Events 1-10 / 11-20 split, the 3-month ephemeris view. Planetary deities, Sun in house and Tithi
    Pravesh need the PL9 screen or a cited definition first.
 4. Reports: Remedies group, Astrology Lessons, Reports Overview.
