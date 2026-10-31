@@ -98,4 +98,26 @@ O.writeStashProfile(profile);
 O.clearStash();
 assert.strictEqual(O.resolveOpenParty(profile).kind, 'profile', 'with nothing readable, the active profile still opens');
 
+// --- the line under the toolbar, as PL9 writes it
+reset();
+assert.strictEqual(O.describeOpenChart(null), null, 'nothing open');
+O.writeStash(aniruddha);
+assert.deepStrictEqual(O.describeOpenChart(null), { name: 'Aniruddha', line: '5 Oct 1990 04:30:00 Chennai' });
+O.writeStashProfile(profile);
+assert.deepStrictEqual(O.describeOpenChart(null), { name: 'Meena', line: '2 Jan 1985 Madurai' }, 'a profile before its time is known');
+O.clearStash();
+assert.deepStrictEqual(O.describeOpenChart(profile), { name: 'Meena', line: '2 Jan 1985 Madurai' }, 'the active profile when there is no stash');
+
+// --- a part of the screen that shows the open chart is told when it changes
+const seen = [];
+globalThis.dispatchEvent = (e) => { seen.push(e.type); };
+globalThis.CustomEvent = class { constructor(type) { this.type = type; } };
+O.writeStash(aniruddha);
+O.writeStashProfile(profile);
+O.clearStash();
+assert.deepStrictEqual(seen, [O.CHANGE_EVENT, O.CHANGE_EVENT, O.CHANGE_EVENT]);
+assert.strictEqual(O.CHANGE_EVENT, 'kotravel:open-chart');
+delete globalThis.dispatchEvent;
+delete globalThis.CustomEvent;
+
 console.log('test-open-chart: all assertions passed');

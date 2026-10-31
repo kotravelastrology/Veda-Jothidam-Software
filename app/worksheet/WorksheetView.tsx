@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { PartyChooser } from '@/src/ui/PartyChooser';
 import { useSettings, toEngineOptions, toDashaOptions } from '@/src/ui/SettingsPanel';
 import { useChartParty, writeStash, inputFromSaved } from '@/src/ui/chartParty';
+import { useScreenPrefs, useTimeTool } from '@/src/ui/useScreenPrefs';
+import { localDateText, dateTextToMs } from '@/src/ui/timeToolStore';
 import { computeWorksheet } from './actions';
 import {
   CellFrame, ChartCell, DashaCell, GraphCell, PlanetsCell, StrengthCell,
@@ -37,18 +39,27 @@ function addMonths(date: string, delta: number): string {
   return `${target.getUTCFullYear()}-${pad(target.getUTCMonth() + 1)}-${pad(Math.min(d, last))}`;
 }
 
+/** Column spans of the cells (twelve columns from the large breakpoint), by the Worksheet properties' layout. */
+const SPANS = {
+  standard: { main: 'lg:col-span-7', right: 'lg:col-span-5', planets: 'lg:col-span-4', strength: 'lg:col-span-5', graph: 'lg:col-span-3' },
+  single: { main: 'lg:col-span-12', right: 'lg:col-span-12', planets: 'lg:col-span-12', strength: 'lg:col-span-12', graph: 'lg:col-span-12' },
+  compact: { main: 'lg:col-span-5', right: 'lg:col-span-7', planets: 'lg:col-span-4', strength: 'lg:col-span-5', graph: 'lg:col-span-3' },
+} as const;
+
 export default function WorksheetView() {
   const { settings } = useSettings();
   const { party, setParty, recent, isNew } = useChartParty();
   const [data, setData] = useState<WorksheetData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [asOf, setAsOf] = useState('');
+  const [today, setToday] = useState('');
+  const { atMs, setAt } = useTimeTool();
+  const { prefs } = useScreenPrefs();
   const [choices, setChoices] = useState<CellChoices>(DEFAULT_CHOICES);
 
   // Remembered cell choices, and today's date (read on the client so it never differs from the server's render)
   useEffect(() => {
-    setAsOf(todayText());
+    setToday(todayText());
     try {
       const saved = JSON.parse(localStorage.getItem(CHOICES_KEY) || 'null');
       if (saved) setChoices({ ...DEFAULT_CHOICES, ...saved });
@@ -82,6 +93,14 @@ export default function WorksheetView() {
   useEffect(() => {
     if (data) writeStash(data.birth, party?.kind === 'profile' ? { profileId: party.profileId, revision: party.revision, name: data.birth.name, birthDate: party.birthDate ?? null, placeName: party.placeName ?? null } : null);
   }, [data]);
+
+  // The date the dasha list is read at: the time tool's moment when it has been moved (in the birth place's zone), else today
+  const offset = data?.birth.utcOffsetMinutes ?? 330;
+  const asOf = atMs != null ? localDateText(atMs, offset) : today;
+  const setAsOf = useCallback((date: string) => {
+    const ms = dateTextToMs(date, offset);
+    if (ms != null) setAt(ms);
+  }, [offset, setAt]);
 
   const asOfLabel = useMemo(() => {
     if (!asOf) return '';
@@ -125,6 +144,8 @@ export default function WorksheetView() {
   }
 
   // -------------------------------------------------------------------- the worksheet
+  const layout = prefs.worksheetLayout as 'standard' | 'single' | 'compact';
+  const span = SPANS[layout] ?? SPANS.standard;
   const pill = 'px-3 py-1 rounded-full border border-line bg-surface text-xs text-ink hover:border-saffron hover:bg-saffron/10 transition';
   return (
     <main className="min-h-screen p-3 sm:p-5 max-w-[88rem] mx-auto">
@@ -164,7 +185,7 @@ export default function WorksheetView() {
                 />
               </label>
               <button type="button" className="px-1.5 text-ink-soft hover:text-ink" onClick={() => asOf && setAsOf(addMonths(asOf, 1))} aria-label="ஒரு மாதம் பின்">▶</button>
-              <button type="button" className="px-1.5 text-xs text-saffron hover:underline" onClick={() => setAsOf(todayText())}>இன்று</button>
+              <button type="button" className="px-1.5 text-xs text-saffron hover:underline" onClick={() => setAt(null)}>இன்று</button>
             </div>
             <button type="button" className={pill} onClick={() => setParty(null)}>↻ மாற்று</button>
           </div>
@@ -184,12 +205,12 @@ export default function WorksheetView() {
       {error && <p className="text-rose text-sm mb-3 bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}
 
       {data && (
-        <div className="grid gap-3 lg:grid-cols-12">
-          <CellFrame id="main" choice={choices.main} onChoice={(v) => choose('main', v)} className="lg:col-span-7">
+        <div className={`grid lg:grid-cols-12 ${layout === 'compact' ? 'gap-2' : 'gap-3'}`} data-layout={layout}>
+          <CellFrame id="main" choice={choices.main} onChoice={(v) => choose('main', v)} className={span.main}>
             <ChartCell data={data} which={choices.main} variant="main" />
           </CellFrame>
 
-          <div className="lg:col-span-5 grid gap-3 content-start">
+          <div className={`${span.right} grid gap-3 content-start ${layout === 'compact' ? 'sm:grid-cols-2' : ''}`}>
             <CellFrame id="side" choice={choices.side} onChoice={(v) => choose('side', v)}>
               <ChartCell data={data} which={choices.side} variant="side" />
             </CellFrame>
@@ -198,13 +219,13 @@ export default function WorksheetView() {
             </CellFrame>
           </div>
 
-          <CellFrame id="planets" choice={choices.planets} onChoice={(v) => choose('planets', v)} className="lg:col-span-4">
+          <CellFrame id="planets" choice={choices.planets} onChoice={(v) => choose('planets', v)} className={span.planets}>
             <PlanetsCell data={data} />
           </CellFrame>
-          <CellFrame id="strength" choice={choices.strength} onChoice={(v) => choose('strength', v)} className="lg:col-span-5">
+          <CellFrame id="strength" choice={choices.strength} onChoice={(v) => choose('strength', v)} className={span.strength}>
             <StrengthCell data={data} />
           </CellFrame>
-          <CellFrame id="graph" choice={choices.graph} onChoice={(v) => choose('graph', v)} className="lg:col-span-3">
+          <CellFrame id="graph" choice={choices.graph} onChoice={(v) => choose('graph', v)} className={span.graph}>
             <GraphCell data={data} which={choices.graph} />
           </CellFrame>
         </div>

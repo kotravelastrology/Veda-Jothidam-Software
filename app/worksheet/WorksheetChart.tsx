@@ -2,7 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { RASI_TA_SHORT } from '@/src/charts/kattam/rasiNames';
-import { PLANET_COLOR } from './worksheetStyle';
+import { useWorksheetColor } from './useWorksheetColor';
 
 /**
  * A South Indian chart for the worksheet: the signs stay where they are and the ascendant's house is marked. Each planet is
@@ -43,6 +43,7 @@ export function WorksheetChart({ lagnaRasiIndex, entriesByRasi, badges, center, 
   /** Smaller text, for the side chart. */
   dense?: boolean;
 }) {
+  const colorOf = useWorksheetColor();
   return (
     <div
       className="grid w-full aspect-square rounded-xl overflow-hidden border-2 border-ink/60 bg-surface"
@@ -71,7 +72,7 @@ export function WorksheetChart({ lagnaRasiIndex, entriesByRasi, badges, center, 
             {isLagna && <span className={`absolute right-1 bottom-0.5 ${dense ? 'text-[8px]' : 'text-[11px]'} font-bold text-saffron`}>லக்</span>}
             <div className={`mt-0.5 flex ${dense ? 'flex-row flex-wrap gap-x-1.5' : 'flex-col'} gap-y-px`}>
               {entriesByRasi[rasiIndex].map((e, i) => (
-                <span key={`${e.abbr}-${i}`} className={`${dense ? 'text-[11px]' : 'text-[13px] sm:text-[16px]'} font-semibold leading-tight whitespace-nowrap ${e.transit ? 'italic' : ''}`} style={{ color: e.transit ? '#e11d48' : PLANET_COLOR[e.abbr] }}>
+                <span key={`${e.abbr}-${i}`} className={`${dense ? 'text-[11px]' : 'text-[13px] sm:text-[16px]'} font-semibold leading-tight whitespace-nowrap ${e.transit ? 'italic' : ''}`} style={{ color: e.transit ? '#e11d48' : colorOf(e.abbr) }}>
                   {e.abbr}
                   {e.detail && <span className="ml-1 font-normal text-[10px] sm:text-[11px] text-ink-soft tabular-nums">{e.detail}</span>}
                 </span>

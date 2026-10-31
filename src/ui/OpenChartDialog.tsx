@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { getChartLibrary, SavedChart } from '../portal/ChartLibraryManager';
+import { readPrefs } from './screenPrefsStore';
 import { filterSavedCharts } from '../portal/chartSearch';
 import { useRememberParty, inputFromSaved } from './chartParty';
 
@@ -34,7 +35,7 @@ export function OpenChartDialog({ isOpen, mode, onClose }: OpenChartDialogProps)
     // The chart becomes the open chart on every page, then the worksheet shows it
     const saved = getChartLibrary().getChart(id);
     if (saved) rememberParty({ kind: 'form', input: inputFromSaved(saved.birthData), label: saved.name });
-    router.push('/worksheet');
+    router.push(readPrefs().homeRoute);
   };
 
   const removeChart = (id: string) => {

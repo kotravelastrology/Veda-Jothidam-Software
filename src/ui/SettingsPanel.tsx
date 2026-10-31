@@ -147,7 +147,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
         {/* Content */}
         <div className="p-6 space-y-6">
           {/* Display Settings */}
-          <section>
+          <section id="settings-display">
             <h3 className="text-base font-semibold text-ink mb-3">Display</h3>
             <div className="space-y-3 pl-4 border-l border-line-soft">
               <div className="flex items-center justify-between">
@@ -191,7 +191,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           </section>
 
           {/* Calculation Settings */}
-          <section>
+          <section id="settings-calculations">
             <h3 className="text-base font-semibold text-ink mb-3">Calculations</h3>
             <div className="space-y-3 pl-4 border-l border-line-soft">
               <div className="flex items-center justify-between">

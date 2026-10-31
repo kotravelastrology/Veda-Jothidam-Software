@@ -9,6 +9,14 @@
  */
 
 const STASH_KEY = 'kotravel_current_chart';
+/** The browser event sent whenever the open chart changes, so a part of the screen showing it (the toolbar) can follow. */
+const CHANGE_EVENT = 'kotravel:open-chart';
+
+function notify() {
+  try {
+    if (typeof globalThis.dispatchEvent === 'function' && typeof globalThis.CustomEvent === 'function') globalThis.dispatchEvent(new globalThis.CustomEvent(CHANGE_EVENT));
+  } catch { /* nothing is listening */ }
+}
 
 /**
  * @typedef {{name: string, gender?: string, dateOfBirth: string, timeOfBirth: string, place: string, latitude: number, longitude: number, utcOffset: number}} StashBirth
@@ -65,6 +73,7 @@ function writeStash(b, profile = null) {
       && prior.birthData.timeOfBirth === birthData.timeOfBirth;
     const { profile: _old, ...kept } = same ? prior : {};
     globalThis.localStorage.setItem(STASH_KEY, JSON.stringify({ ...kept, birthData, ...(profile ? { profile } : {}), selectedChartId: 'D1-rasi' }));
+    notify();
   } catch { /* the menus then ask for a chart, as before */ }
 }
 
@@ -78,6 +87,7 @@ function writeStashProfile(profile) {
     const prior = readStash();
     const same = prior?.profile?.profileId === profile.profileId;
     globalThis.localStorage.setItem(STASH_KEY, JSON.stringify({ ...(same ? prior : {}), profile, selectedChartId: 'D1-rasi' }));
+    notify();
   } catch { /* nothing to remember */ }
 }
 
@@ -106,6 +116,33 @@ function resolveOpenParty(activeProfile) {
 /** Forgets the open chart (File > Close). */
 function clearStash() {
   try { globalThis.localStorage.removeItem(STASH_KEY); } catch { /* storage unavailable */ }
+  notify();
 }
 
-module.exports = { STASH_KEY, inputFromSaved, readStash, writeStash, writeStashProfile, profileParty, resolveOpenParty, clearStash };
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/**
+ * The open chart in the words of the line under the toolbar, as PL9 writes it ("Aniruddha 5 Oct 1990 04:30:00 Chennai"): the name
+ * and the birth date, time and place as far as they are known. Null when nothing is open.
+ * @param {OpenProfile | null} activeProfile
+ * @returns {{name: string, line: string} | null}
+ */
+function describeOpenChart(activeProfile) {
+  const stash = readStash();
+  const bd = stash?.birthData;
+  const prof = stash?.profile ?? (bd ? null : activeProfile);
+  if (!bd && !prof) return null;
+  const name = bd?.name ?? prof.name;
+  let line = '';
+  if (bd) {
+    const [y, m, d] = bd.dateOfBirth.split('-').map(Number);
+    const time = bd.timeOfBirth.length === 5 ? `${bd.timeOfBirth}:00` : bd.timeOfBirth;
+    line = `${d} ${MONTHS[m - 1]} ${y} ${time}${bd.place ? ` ${bd.place}` : ''}`;
+  } else if (prof.birthDate) {
+    const [y, m, d] = prof.birthDate.split('-').map(Number);
+    line = `${d} ${MONTHS[m - 1]} ${y}${prof.placeName ? ` ${prof.placeName}` : ''}`;
+  }
+  return { name, line };
+}
+
+module.exports = { STASH_KEY, CHANGE_EVENT, inputFromSaved, readStash, writeStash, writeStashProfile, profileParty, resolveOpenParty, clearStash, describeOpenChart };

@@ -35,6 +35,7 @@ import { deactivateThisComputerNow, type DeactivateResult } from '../sync/thisCo
 import { ToolsPanel } from '../ui/ToolsPanel';
 import { HelpPanel } from '../ui/HelpPanel';
 import { OpenChartDialog } from '../ui/OpenChartDialog';
+import { clearStash } from '../ui/openChartStore';
 import { ChartAnnotationsDialog } from '../ui/ChartAnnotationsDialog';
 import { useKeyboardShortcuts } from '../ui/useKeyboardShortcuts';
 import { FILE_MENU, EDIT_MENU, CHARTS_MENU, ITEM_BY_KEY } from './pl9Menus';
@@ -336,9 +337,9 @@ export function TopMenuBar() {
         break;
       case 'close':
         // Closes the open chart: forget it everywhere (the pages stop opening on it), then show an empty report page
-        try { localStorage.removeItem('kotravel_current_chart'); } catch { /* storage unavailable */ }
+        clearStash();
         setActiveProfile(null);
-        router.push('/report');
+        router.push('/worksheet');
         break;
       case 'printer-setup':
         // A web page cannot open the system's printer setup; the printer is chosen in the browser's print dialog

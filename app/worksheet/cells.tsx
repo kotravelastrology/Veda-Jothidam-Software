@@ -4,7 +4,10 @@ import { useMemo, useState, type ReactNode } from 'react';
 import { fromVargas } from '@/src/charts/kattam/rasiNames';
 import { ABBR, currentPeriodIndex, dashaWindow } from '@/src/worksheet/dashaList';
 import { WorksheetChart, type ChartEntry, type HouseBadge } from './WorksheetChart';
-import { DIGNITY_TA, PLANET_COLOR, PLANET_TA, TONE_CLASS, VARGA_OPTIONS } from './worksheetStyle';
+import { DIGNITY_TA, PLANET_TA, TONE_CLASS, VARGA_OPTIONS } from './worksheetStyle';
+import { useWorksheetColor } from './useWorksheetColor';
+import { NorthIndianChart } from '@/src/charts/kattam/NorthIndianChart';
+import { useChartStyle, useScreenPrefs } from '@/src/ui/useScreenPrefs';
 
 /**
  * The cells of the worksheet. Each is a card with a title and, where the cell can show more than one thing, a drop-down to
@@ -88,14 +91,17 @@ const emptyRasi = (): ChartEntry[][] => Array.from({ length: 12 }, () => []);
 
 /** A chart cell: the Rasi with its house strengths and degrees, or any divisional chart. */
 export function ChartCell({ data, which, variant }: { data: WorksheetData; which: string; variant: 'main' | 'side' }) {
+  const { prefs } = useScreenPrefs();
+  const style = useChartStyle();
+  const degrees = variant === 'main' && prefs.chartDegrees;
   const view = useMemo(() => {
     const entries = emptyRasi();
     if (which === 'D1') {
       for (const p of data.planets) {
-        entries[p.rasiIndex].push({ abbr: p.abbr, detail: variant === 'main' ? `${p.degreeText.slice(0, 5)} ${p.nakshatraAbbr}` : undefined });
+        entries[p.rasiIndex].push({ abbr: p.abbr, detail: degrees ? `${p.degreeText.slice(0, 5)} ${p.nakshatraAbbr}` : undefined });
       }
       if (data.gulika) {
-        entries[data.gulika.rasiIndex].push({ abbr: data.gulika.abbr, detail: variant === 'main' ? `${data.gulika.degreeText.slice(0, 5)} ${data.gulika.nakshatraAbbr}` : undefined });
+        entries[data.gulika.rasiIndex].push({ abbr: data.gulika.abbr, detail: degrees ? `${data.gulika.degreeText.slice(0, 5)} ${data.gulika.nakshatraAbbr}` : undefined });
       }
       const badges: HouseBadge[] = Array.from({ length: 12 }, () => ({ house: 0 }));
       for (const h of data.houses) badges[h.rasiIndex] = { house: h.house, sav: variant === 'main' ? h.sav : undefined };
@@ -107,12 +113,22 @@ export function ChartCell({ data, which, variant }: { data: WorksheetData; which
     for (const g of v.grahas) entries[g.rasiIndex].push({ abbr: ABBR[g.id] ?? g.id.slice(0, 2) });
     const badges: HouseBadge[] = Array.from({ length: 12 }, (_, rasi) => ({ house: ((rasi - v.lagnaRasiIndex + 12) % 12) + 1 }));
     return { lagna: v.lagnaRasiIndex, entries, badges };
-  }, [data, which, variant]);
+  }, [data, which, variant, degrees]);
 
   if (!view) return <p className="text-sm text-ink-soft">இந்த வர்க்கத்துக்குக் கட்டம் இல்லை.</p>;
   const title = VARGA_OPTIONS.find((o) => o.value === which)?.label ?? which;
   return (
-    <div className={variant === 'main' ? 'max-w-[40rem] mx-auto' : 'max-w-[22rem] mx-auto'}>
+    <div className={`${variant === 'main' ? (prefs.worksheetLayout === 'compact' ? 'max-w-[30rem]' : 'max-w-[40rem]') : 'max-w-[22rem]'} mx-auto`}>
+      {style === 'north' ? (
+        <div className="[&_svg]:h-auto [&_svg]:w-full [&_svg]:max-w-full">
+          <NorthIndianChart
+            lagnaRasiIndex={view.lagna}
+            grahas={view.entries.flatMap((list, rasiIndex) => list.map((e, i) => ({ id: `${e.abbr}-${rasiIndex}-${i}`, label: e.abbr, rasiIndex })))}
+            title={`${data.native.name ?? ''} · ${title}`}
+            size={variant === 'main' ? 560 : 320}
+          />
+        </div>
+      ) : (
       <WorksheetChart
         lagnaRasiIndex={view.lagna}
         entriesByRasi={view.entries}
@@ -126,7 +142,8 @@ export function ChartCell({ data, which, variant }: { data: WorksheetData; which
           </div>
         }
       />
-      {which === 'D1' && variant === 'main' && (
+      )}
+      {which === 'D1' && variant === 'main' && style !== 'north' && prefs.chartDegrees && (
         <p className="text-[10px] text-ink-soft mt-1.5 text-center">
           மூலையில்: பாவ எண், சர்வாஷ்டகவர்க்க பிந்துக்கள் (மொத்தம் 337) · கீழே ஒவ்வொரு கிரகத்தின் பாகை, நட்சத்திரம்
         </p>
@@ -140,6 +157,7 @@ const td = 'py-1 pr-2 whitespace-nowrap tabular-nums';
 
 /** Planets, with degrees, nakshatra, pada and the star, sub and sub-sub lords. */
 export function PlanetsCell({ data }: { data: WorksheetData }) {
+  const colorOf = useWorksheetColor();
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-xs">
@@ -149,7 +167,7 @@ export function PlanetsCell({ data }: { data: WorksheetData }) {
         <tbody>
           {data.planets.map((p) => (
             <tr key={p.id} className="border-b border-line/40">
-              <td className="py-1 pr-2 font-semibold" style={{ color: PLANET_COLOR[p.abbr] }} title={PLANET_TA[p.id]}>{p.abbr}</td>
+              <td className="py-1 pr-2 font-semibold" style={{ color: colorOf(p.abbr) }} title={PLANET_TA[p.id]}>{p.abbr}</td>
               <td className={td}>{p.degreeText}</td>
               <td className={td}>{p.nakshatra}</td>
               <td className={`${td} font-mono`}>{p.lordsText}</td>
@@ -163,6 +181,7 @@ export function PlanetsCell({ data }: { data: WorksheetData }) {
 
 /** The seven planets' dignity, Shad Bala share, Vimshopaka, own-sign Ashtakavarga and avasthas. */
 export function StrengthCell({ data }: { data: WorksheetData }) {
+  const colorOf = useWorksheetColor();
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-xs">
@@ -180,7 +199,7 @@ export function StrengthCell({ data }: { data: WorksheetData }) {
             const d = DIGNITY_TA[s.dignity] ?? { label: s.dignity, tone: 'ok' as const };
             return (
               <tr key={s.id} className="border-b border-line/40">
-                <td className="py-1 pr-2 font-semibold" style={{ color: PLANET_COLOR[s.abbr] }} title={PLANET_TA[s.id]}>{s.abbr}</td>
+                <td className="py-1 pr-2 font-semibold" style={{ color: colorOf(s.abbr) }} title={PLANET_TA[s.id]}>{s.abbr}</td>
                 <td className={`${td} ${TONE_CLASS[d.tone]}`}>{d.label}</td>
                 <td className={`${td} ${s.shadbalaRatio >= 1 ? 'text-teal' : 'text-rose'}`}>{s.shadbalaRatio.toFixed(2)}</td>
                 <td className={td}>{s.vimshopaka != null ? Math.round(s.vimshopaka) : '—'}</td>
@@ -201,6 +220,7 @@ export function StrengthCell({ data }: { data: WorksheetData }) {
 
 /** The Vimshottari list: the running period first, a click on a row moves the date to it. */
 export function DashaCell({ data, asOf, onPick }: { data: WorksheetData; asOf: string; onPick: (date: string) => void }) {
+  const colorOf = useWorksheetColor();
   const [shift, setShift] = useState(0);
   const current = useMemo(() => currentPeriodIndex(data.periods, asOf), [data.periods, asOf]);
   const win = useMemo(
@@ -230,9 +250,9 @@ export function DashaCell({ data, asOf, onPick }: { data: WorksheetData; asOf: s
               title="இந்தத் தேதிக்கு மாற்று"
             >
               <span className="font-mono">
-                <span style={{ color: PLANET_COLOR[r.mdAbbr] }}>{r.mdAbbr}</span>
+                <span style={{ color: colorOf(r.mdAbbr) }}>{r.mdAbbr}</span>
                 <span className="text-ink-soft">-</span>
-                <span style={{ color: PLANET_COLOR[r.adAbbr] }}>{r.adAbbr}</span>
+                <span style={{ color: colorOf(r.adAbbr) }}>{r.adAbbr}</span>
               </span>
               <span className="text-ink-soft">{r.weekday}</span>
               <span className="tabular-nums">{r.date}</span>
@@ -273,6 +293,7 @@ function Bars({ items, max, threshold, format }: {
 
 /** The Shad Bala graph (each planet's strength against its BPHS minimum) or the Sarvashtakavarga points of each house. */
 export function GraphCell({ data, which }: { data: WorksheetData; which: string }) {
+  const colorOf = useWorksheetColor();
   if (which === 'sav') {
     const items = data.houses.map((h) => ({ key: String(h.house), label: String(h.house), value: h.sav }));
     return (
@@ -282,7 +303,7 @@ export function GraphCell({ data, which }: { data: WorksheetData; which: string 
       </>
     );
   }
-  const items = data.strength.map((s) => ({ key: s.id, label: s.abbr, value: s.shadbalaRatio, color: PLANET_COLOR[s.abbr] }));
+  const items = data.strength.map((s) => ({ key: s.id, label: s.abbr, value: s.shadbalaRatio, color: colorOf(s.abbr) }));
   return (
     <>
       <Bars items={items} max={2} threshold={1} format={(v) => v.toFixed(2)} />
