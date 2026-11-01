@@ -332,7 +332,7 @@ export function ToolDialogs({ view, setView, openSettingsAt }: { view: ToolView;
           {TOOL_TILES.map((t) => (
             <button key={t.key} type="button" onClick={() => open(t.opens)} data-tile={t.key}
               className="flex flex-col items-center gap-1 rounded-xl border border-line bg-bg px-2 py-3 text-center hover:border-saffron hover:bg-saffron/10">
-              <span className="text-2xl" aria-hidden>{t.icon}</span>
+              <span className="icon-chip icon-chip-saffron size-12 text-2xl" aria-hidden><span>{t.icon}</span></span>
               <span className="text-sm font-semibold text-ink">{t.label}</span>
               <span className="text-xs text-ink-soft">{t.ta}</span>
               {t.opens === 'place' && <span className="text-[10px] text-rose">விரைவில்</span>}

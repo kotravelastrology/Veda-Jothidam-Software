@@ -215,7 +215,7 @@ function AshtakavargaSection({ report }: { report: ReportData }) {
       <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">அஷ்டகவர்க்கம்</h2>
 
       {/* Tabs */}
-      <div className="flex gap-2 mb-4 border-b border-line">
+      <div className="flex gap-2 mb-4 border-b border-line overflow-x-auto">
         <button
           onClick={(e) => {
             const tabs = (e.currentTarget.parentElement?.parentElement?.querySelectorAll('[data-tab-btn]') || []) as HTMLButtonElement[];
@@ -267,8 +267,8 @@ function AshtakavargaSection({ report }: { report: ReportData }) {
       <div data-tab-content="sarva" className="mb-6">
         <div className="flex items-end gap-1 h-32 mb-4">
           {sarva.map((v, i) => (
-            <div key={i} className="flex-1 flex flex-col items-center justify-end">
-              <span className="text-xs font-mono">{v}</span>
+            <div key={i} className="min-w-0 flex-1 flex flex-col items-center justify-end">
+              <span className="text-[10px] sm:text-xs font-mono">{v}</span>
               <div className="w-full bg-saffron rounded-t" style={{ height: `${(v / Math.max(...sarva)) * 100}%` }} />
               <span className="text-[10px] text-ink-soft mt-1">{RASI_SHORT[Object.keys(RASI_SHORT)[i]]}</span>
             </div>
@@ -542,7 +542,7 @@ function DetailedAshtakavargaSection({ report }: { report: ReportData }) {
       <p className="text-sm text-ink-soft mb-4">பிந்து வலிமை (Heatmap), பாவ குழுக்கள் (Chancha Chakra), மற்றும் விரிவான பகுப்பாய்வு</p>
 
       {/* Tab Navigation */}
-      <div className="flex gap-2 mb-4 border-b border-line">
+      <div className="flex gap-2 mb-4 border-b border-line overflow-x-auto">
         <button
           onClick={() => setExpandedTab('summary')}
           className={`px-3 py-2 text-sm font-semibold border-b-2 transition-colors ${
@@ -1410,7 +1410,7 @@ function KpSystemSection({ report }: { report: ReportData }) {
         </div>
       </div>
 
-      <div className="flex gap-1 mb-2 text-xs print:hidden">
+      <div className="flex flex-wrap gap-1 mb-2 text-xs print:hidden">
         {([['planets', 'கிரகங்கள்'], ['cusps', 'பாவ சந்திகள்'], ['sig', 'சூசகர்கள்']] as const).map(([k, l]) => (
           <button key={k} onClick={() => setTab(k)}
             className={`px-2 py-1 rounded ${tab === k ? 'bg-saffron text-ink' : 'bg-surface border border-line text-ink-soft'}`}>{l}</button>
@@ -1496,7 +1496,7 @@ function AltDashaSection({ report }: { report: ReportData }) {
   return (
     <div className="mb-8">
       <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">மாற்று தசைகள்</h2>
-      <div className="flex gap-1 mb-3 text-xs print:hidden">
+      <div className="flex flex-wrap gap-1 mb-3 text-xs print:hidden">
         {([['yogini', 'யோகினி (36)'], ['ashtottari', 'அஷ்டோத்தரி (108)']] as const).map(([k, l]) => (
           <button key={k} onClick={() => setSys(k)}
             className={`px-2 py-1 rounded ${sys === k ? 'bg-saffron text-ink' : 'bg-surface border border-line text-ink-soft'}`}>{l}</button>
@@ -1832,7 +1832,7 @@ function KpEventsSection({ report }: { report: ReportData }) {
   return (
     <div className="mb-8">
       <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">KP முகூர்த்தம் — நிகழ்வுப் பொருத்தம்</h2>
-      <div className="flex gap-1 mb-3 text-xs print:hidden">
+      <div className="flex flex-wrap gap-1 mb-3 text-xs print:hidden">
         {([['all', `அனைத்து (${ke.count})`], ['GREEN', 'ஏற்றவை'], ['RED', 'தவிர்க்க']] as const).map(([k, l]) => (
           <button key={k} onClick={() => setFilter(k)}
             className={`px-2 py-1 rounded ${filter === k ? 'bg-saffron text-ink' : 'bg-surface border border-line text-ink-soft'}`}>{l}</button>
@@ -2005,7 +2005,7 @@ function JaiminiSection({ report }: { report: ReportData }) {
   return (
     <div className="mb-8">
       <h2 className="font-[family-name:var(--font-tamil-serif)] text-xl font-semibold mb-3 text-ink">ஜைமினி ஜோதிடம்</h2>
-      <div className="flex gap-1 mb-3 text-xs print:hidden">
+      <div className="flex flex-wrap gap-1 mb-3 text-xs print:hidden">
         {([['karakas', 'சர காரகர்'], ['arudha', 'ஆருடம் A1-A12'], ['lagnas', '18 விசேஷ லக்னம்'], ['chara', 'சர (நாராயண) தசை'], ['rasi', 'மற்ற ராசி தசைகள்'], ['drishti', 'ராசி திருஷ்டி']] as const).map(([k, l]) => (
           <button key={k} onClick={() => setTab(k)}
             className={`px-2 py-1 rounded ${tab === k ? 'bg-saffron text-ink' : 'bg-surface border border-line text-ink-soft'}`}>{l}</button>

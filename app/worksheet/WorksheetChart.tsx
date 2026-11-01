@@ -1,19 +1,23 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { RASI_TA_SHORT } from '@/src/charts/kattam/rasiNames';
 import { useWorksheetColor } from './useWorksheetColor';
 
 /**
- * A South Indian chart for the worksheet: the signs stay where they are and the ascendant's house is marked. Each planet is
- * one line (its abbreviation and, in the Rasi, its degrees and nakshatra, as PL9 writes it "Mo 23:56 Rev"). In the Rasi
+ * A South Indian chart for the worksheet: the signs stay where they are (so no sign name is written in them) and the ascendant's
+ * house is shaded. Each planet is one line, its Tamil short name in bold and, in the Rasi only, its degree beside it. In the Rasi
  * the house number and the Sarvashtakavarga points of the house are written in the corner of its cell, as PL9 writes them on
  * the chart's edge. The centre is free for a name.
  */
 
+/** The planets' Tamil short names, by the worksheet's two-letter keys (the tables keep the two letters, as PL9 prints them). */
+export const NAME_TA: Record<string, string> = {
+  As: 'லக்', Su: 'சூரி', Mo: 'சந்', Ma: 'செவ்', Me: 'புத', Ju: 'குரு', Ve: 'சுக்', Sa: 'சனி', Ra: 'ராகு', Ke: 'கேது', Gk: 'குளி',
+};
+
 export interface ChartEntry {
   abbr: string;
-  /** Degrees and nakshatra, shown after the abbreviation when there is room. */
+  /** The degree in the sign (12°34′), shown after the name; the Rasi only. */
   detail?: string;
   /** A transiting planet, drawn in red and italic beside the birth chart's own (the dasha browser). */
   transit?: boolean;
@@ -58,8 +62,7 @@ export function WorksheetChart({ lagnaRasiIndex, entriesByRasi, badges, center, 
             className={`relative border border-ink/25 p-1 overflow-hidden flex flex-col ${isLagna ? 'bg-saffron/15' : ''}`}
             style={{ gridColumn: col, gridRow: row }}
           >
-            <div className="flex items-start justify-between leading-none">
-              <span className={`${dense ? 'text-[8px]' : 'text-[10px]'} text-ink-soft/80`}>{RASI_TA_SHORT[rasiIndex]}</span>
+            <div className="flex items-start justify-end leading-none min-h-[1em]">
               {badge && (
                 <span className={`flex items-center gap-0.5 ${dense ? 'text-[9px]' : 'text-[11px]'} text-ink-soft tabular-nums`}>
                   <span>{badge.house}</span>
@@ -69,12 +72,11 @@ export function WorksheetChart({ lagnaRasiIndex, entriesByRasi, badges, center, 
                 </span>
               )}
             </div>
-            {isLagna && <span className={`absolute right-1 bottom-0.5 ${dense ? 'text-[8px]' : 'text-[11px]'} font-bold text-saffron`}>லக்</span>}
-            <div className={`mt-0.5 flex ${dense ? 'flex-row flex-wrap gap-x-1.5' : 'flex-col'} gap-y-px`}>
+            <div className={`mt-0.5 flex ${dense ? 'flex-row flex-wrap gap-x-2' : 'flex-col'} gap-y-0.5`}>
               {entriesByRasi[rasiIndex].map((e, i) => (
-                <span key={`${e.abbr}-${i}`} className={`${dense ? 'text-[11px]' : 'text-[13px] sm:text-[16px]'} font-semibold leading-tight whitespace-nowrap ${e.transit ? 'italic' : ''}`} style={{ color: e.transit ? '#e11d48' : colorOf(e.abbr) }}>
-                  {e.abbr}
-                  {e.detail && <span className="ml-1 font-normal text-[10px] sm:text-[11px] text-ink-soft tabular-nums">{e.detail}</span>}
+                <span key={`${e.abbr}-${i}`} className={`${dense ? 'text-[12px]' : 'text-[14px] sm:text-[17px]'} font-bold leading-tight whitespace-nowrap ${e.transit ? 'italic' : ''}`} style={{ color: e.transit ? '#e11d48' : colorOf(e.abbr) }} title={e.abbr}>
+                  {NAME_TA[e.abbr] ?? e.abbr}
+                  {e.detail && <span className="ml-1.5 font-semibold text-[11px] sm:text-[13px] text-ink-soft tabular-nums">{e.detail}</span>}
                 </span>
               ))}
             </div>

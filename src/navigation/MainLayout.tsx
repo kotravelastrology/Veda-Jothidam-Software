@@ -13,7 +13,9 @@ export function MainLayout({ children }: { children: ReactNode }) {
   useApplyAppearance();
 
   return (
-    <div className="flex flex-col h-screen bg-bg">
+    <div className="relative isolate flex flex-col h-screen">
+      {/* A faint zodiac wheel and South Indian chart behind every page (globals.css) */}
+      <div aria-hidden className="kotravel-watermark" />
       {/* Top Menu Bar */}
       <TopMenuBar />
 

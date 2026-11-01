@@ -54,7 +54,7 @@ function MethodRow({ m }: { m: Method }) {
           <span className="font-[family-name:var(--font-tamil-serif)] text-lg text-ink">
             {m.nameTa} <span className="text-sm text-ink-soft">{m.name}</span>
           </span>
-          <span className={`text-[11px] px-2 py-0.5 rounded shrink-0 ${LEVEL_CLASS[m.level]}`}>
+          <span className={`text-[11px] px-2 py-0.5 rounded max-w-full ${LEVEL_CLASS[m.level]}`}>
             {m.levelTa}
           </span>
         </div>

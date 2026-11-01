@@ -40,8 +40,7 @@ function SignGrid({ cells }: { cells: string[][] }) {
           return r === 1 && c === 1 ? <div key={`${r}${c}`} className="col-span-2 row-span-2 bg-surface print:bg-white" /> : null;
         }
         return (
-          <div key={`${r}${c}`} className="bg-surface p-1 min-h-14 text-[11px] leading-tight print:bg-white print:text-black">
-            <div className="text-[9px] text-ink-soft print:text-black">{SIGN_ABBR[sign]}</div>
+          <div key={`${r}${c}`} className="bg-surface p-1 min-h-14 text-[12px] font-bold leading-tight print:bg-white print:text-black">
             {cells[sign].map((label, i) => <div key={i}>{label}</div>)}
           </div>
         );

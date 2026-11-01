@@ -26,6 +26,12 @@ interface Column { title: string; ta: string; items: Entry[] }
 interface Panel { key: string; icon: string; label: string; ta: string; ours?: boolean; columns: Column[] }
 
 const panels = PANELS as unknown as Panel[];
+
+/** Each icon's tile colour: charts saffron, time and transits teal, matching rose, tools and lists indigo. */
+const TONES: Record<string, 'saffron' | 'indigo' | 'teal' | 'rose'> = {
+  tools: 'indigo', birth: 'saffron', varsha: 'saffron', compat: 'rose', transits: 'teal', kp: 'teal', reports: 'indigo',
+  favorites: 'saffron', recent: 'indigo', time: 'teal', close: 'rose',
+};
 const RECENT_KEY = 'kotravel-recent-routes';
 const RECENT_MAX = 10;
 const KNOWN_ROUTES = new Set((allEntries() as unknown as Entry[]).map((e) => e.target.route).filter(Boolean) as string[]);
@@ -37,9 +43,9 @@ const FAVORITES: Column[] = [{
 }];
 
 const SIZE = {
-  small: { button: 'min-w-9 h-9 text-base', label: 'text-[10px]' },
-  medium: { button: 'min-w-11 h-11 text-xl', label: 'text-[11px]' },
-  large: { button: 'min-w-14 h-14 text-3xl', label: 'text-xs' },
+  small: { button: 'min-w-10 py-1', chip: 'size-7 text-[15px]', label: 'text-[10px]' },
+  medium: { button: 'min-w-12 py-1', chip: 'size-8 text-lg', label: 'text-[11px]' },
+  large: { button: 'min-w-16 py-1.5', chip: 'size-11 text-2xl', label: 'text-xs' },
 } as const;
 
 function readRecent(): string[] {
@@ -127,6 +133,7 @@ export function WorksheetToolbar() {
   }
 
   const iconButton = (key: string, icon: string, ta: string, label: string, onClick: () => void, opts: { active?: boolean; needsChart?: boolean } = {}) => {
+    const tone = TONES[key] ?? 'saffron';
     const off = opts.needsChart && !chart;
     return (
       <button
@@ -137,9 +144,9 @@ export function WorksheetToolbar() {
         aria-label={`${ta} (${label})`}
         aria-expanded={opts.active}
         data-toolbar={key}
-        className={`${size.button} shrink-0 px-1.5 rounded-lg flex flex-col items-center justify-center leading-none transition-colors ${opts.active ? 'bg-saffron/25 ring-1 ring-saffron' : 'hover:bg-saffron/15'} ${off ? 'opacity-45' : ''}`}
+        className={`${size.button} shrink-0 px-1.5 rounded-xl flex flex-col items-center justify-center gap-0.5 leading-none transition-colors ${opts.active ? 'bg-saffron/20 ring-1 ring-saffron' : 'hover:bg-saffron/10'} ${off ? 'opacity-45' : ''}`}
       >
-        <span aria-hidden>{icon}</span>
+        <span aria-hidden className={`icon-chip icon-chip-${tone} ${size.chip}`}><span>{icon}</span></span>
         {!prefs.compactNavigation && <span className={`${size.label} mt-0.5 text-ink-soft whitespace-nowrap`}>{ta}</span>}
       </button>
     );

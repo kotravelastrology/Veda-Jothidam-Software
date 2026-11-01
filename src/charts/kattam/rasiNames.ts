@@ -9,20 +9,20 @@ import { RASI_TA_SHORT, RASI_TA as RASI_TA_FULL } from '@/src/sources/tamilNames
 export { RASI_TA_SHORT, RASI_TA_FULL };
 
 export const GRAHA_TA_SHORT: Record<string, string> = {
-  Lagna: 'லக்', Sun: 'சூ', Moon: 'சந்', Mars: 'செவ்', Mercury: 'பு',
-  Jupiter: 'குரு', Venus: 'சுக்', Saturn: 'சனி', Rahu: 'ரா', Ketu: 'கே',
+  Lagna: 'லக்', Sun: 'சூரி', Moon: 'சந்', Mars: 'செவ்', Mercury: 'புத',
+  Jupiter: 'குரு', Venus: 'சுக்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது', Gulika: 'குளி', Mandi: 'மாந்தி',
 };
 export const GRAHA_TA_FULL: Record<string, string> = {
   Lagna: 'லக்னம்', Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்',
   Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது',
 };
 
-/** '12.34' style degree-in-sign, degree.arcminute (NOT decimal). */
+/** 12°34′ — degree and arcminute within the sign (NOT decimal). */
 export function fmtDegMin(deg: number): string {
   const within = ((deg % 30) + 30) % 30;
   const whole = Math.floor(within);
   const min = Math.floor((within - whole) * 60);
-  return `${whole}°${String(min).padStart(2, '0')}'`;
+  return `${whole}°${String(min).padStart(2, '0')}′`;
 }
 
 export interface ChartGraha {

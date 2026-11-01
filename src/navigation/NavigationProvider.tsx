@@ -3,18 +3,15 @@
 import { ReactNode, useState } from 'react';
 import { NavigationContext, MenuSection, ChartType, ReportType } from './navigationContext';
 import { useUIManager } from '../ui/useUIManager';
-import { useWorkspace } from '../workspace/workspaceContext';
 
 export function NavigationProvider({ children }: { children: ReactNode }) {
   const [currentMenu, setCurrentMenu] = useState<MenuSection>('home');
   const [currentChart, setCurrentChart] = useState<ChartType | null>(null);
   const [currentReport, setCurrentReport] = useState<ReportType | null>(null);
   const [breadcrumb, setBreadcrumb] = useState<string[]>(['Home']);
-  // Sidebar visibility is a saved layout choice (VJ-015), so it is owned by
-  // the workspace and persisted rather than reset on every reload.
-  const { layout, updateLayout } = useWorkspace();
-  const sidebarOpen = layout.sidebarOpen;
-  const setSidebarOpen = (open: boolean) => updateLayout({ sidebarOpen: open });
+  // The ☰ menu drawer covers the page (the whole screen on a phone), so it always starts closed; it used to be the sidebar's
+  // saved layout choice (VJ-015) and reopened after a reload.
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [uiState, uiActions] = useUIManager();
 
   return (

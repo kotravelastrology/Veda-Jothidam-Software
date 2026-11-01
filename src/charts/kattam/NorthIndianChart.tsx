@@ -1,13 +1,14 @@
 'use client';
 
-import { GRAHA_TA_SHORT, RASI_TA_SHORT, fmtDegMin, type ChartGraha } from './rasiNames';
+import { GRAHA_TA_SHORT, fmtDegMin, type ChartGraha } from './rasiNames';
 import type { VedicChartProps } from './SouthIndianChart';
 
 // Standard North Indian construction: a square + both diagonals + a diamond
 // connecting the 4 edge-midpoints, giving 12 house regions. House 1 is
 // ALWAYS the top-centre triangle; houses 2-12 follow clockwise. The rāśi
 // shown in each house = (lagnaRasiIndex + houseNumber - 1) mod 12 — this is
-// the part that rotates with Lagna (opposite of the South Indian chart).
+// the part that rotates with Lagna (opposite of the South Indian chart), so each house carries its sign's NUMBER (1 = Mesha),
+// as North Indian charts are drawn; no sign name.
 const BOX = 400;
 const HOUSE_LABEL_POS: [number, number][] = [
   [200, 100], [100, 50], [50, 100], [100, 200], [50, 300], [100, 350],
@@ -25,9 +26,9 @@ export function NorthIndianChart({ lagnaRasiIndex, grahas, transitGrahas, title,
   const rasiOfHouse = (house: number) => (lagnaRasiIndex + house - 1) % 12;
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex w-full flex-col items-center">
       {title && <p className="text-center text-sm font-semibold text-ink mb-2">{title}</p>}
-      <svg viewBox={`0 0 ${BOX} ${BOX}`} width={size} height={size} className="border-2 border-ink/70 bg-surface">
+      <svg viewBox={`0 0 ${BOX} ${BOX}`} style={{ width: '100%', maxWidth: size, height: 'auto' }} className="border-2 border-ink/70 bg-surface">
         <rect x={0} y={0} width={BOX} height={BOX} fill="none" />
         <path d={`M0 0 L${BOX} ${BOX} M${BOX} 0 L0 ${BOX} M${BOX / 2} 0 L${BOX} ${BOX / 2} L${BOX / 2} ${BOX} L0 ${BOX / 2} Z`}
           fill="none" stroke="currentColor" className="text-ink/50" strokeWidth={1.5} />
@@ -39,17 +40,17 @@ export function NorthIndianChart({ lagnaRasiIndex, grahas, transitGrahas, title,
           const titems = transitInHouse(house);
           return (
             <g key={house}>
-              <text x={cx} y={cy - 22} textAnchor="middle" fontSize={9} className="fill-ink-soft/60">{RASI_TA_SHORT[rasiIndex]}</text>
-              {isLagna && <text x={cx} y={cy - 32} textAnchor="middle" fontSize={9} fontWeight="bold" className="fill-saffron">லக்</text>}
+              <text x={cx} y={cy - 22} textAnchor="middle" fontSize={11} fontWeight={600} className="fill-ink-soft">{rasiIndex + 1}</text>
+              {isLagna && <text x={cx} y={cy - 34} textAnchor="middle" fontSize={11} fontWeight="bold" className="fill-saffron">லக்</text>}
               {items.map((g, i) => (
-                <text key={`${g.id}-${i}`} x={cx} y={cy - 8 + i * 12} textAnchor="middle" fontSize={10} fontWeight={600}
+                <text key={`${g.id}-${i}`} x={cx} y={cy - 6 + i * 14} textAnchor="middle" fontSize={13} fontWeight={700}
                   className={g.colorClass ?? 'fill-ink'}>
                   {labelOf(g)}{g.retrograde ? '(வ)' : ''}
-                  {typeof g.degreeInSign === 'number' ? ` ${fmtDegMin(g.degreeInSign)}` : ''}
+                  {typeof g.degreeInSign === 'number' && <tspan fontSize={10} fontWeight={600} className="fill-ink-soft">{` ${fmtDegMin(g.degreeInSign)}`}</tspan>}
                 </text>
               ))}
               {titems.map((g, i) => (
-                <text key={`t-${g.id}-${i}`} x={cx} y={cy - 8 + (items.length + i) * 12} textAnchor="middle" fontSize={9}
+                <text key={`t-${g.id}-${i}`} x={cx} y={cy - 6 + (items.length + i) * 14} textAnchor="middle" fontSize={11} fontWeight={700}
                   className="fill-rose">
                   {labelOf(g)}{g.retrograde ? '(வ)' : ''}
                 </text>

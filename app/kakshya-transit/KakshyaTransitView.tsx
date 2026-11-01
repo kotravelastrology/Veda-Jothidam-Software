@@ -159,7 +159,7 @@ export default function KakshyaTransitView() {
               return (
                 <details key={planet} className="mb-2" open={planet === 'Sun'}>
                   <summary className="cursor-pointer text-xs text-ink"><strong>{p.planetTa}</strong> — சராசரி {w.meanDays != null ? (w.meanDays < 1 ? `${Math.round(w.meanDays * 240) / 10} மணி` : `${Math.round(w.meanDays * 10) / 10} நாள்`) : '—'} (நூல்: {dc.average.ta[planet]})</summary>
-                  <table className="w-full text-[11px] mt-1" style={{ minWidth: 560 }}>
+                  <div className="overflow-x-auto"><table className="w-full text-[11px] mt-1" style={{ minWidth: 560 }}>
                     <thead><tr className="text-ink-soft border-b border-line text-left"><th className="py-0.5 pr-2">தொடக்கம்</th><th className="py-0.5 pr-2">முடிவு</th><th className="py-0.5 pr-2">{result.method.division === 'BHAVA' ? 'பாவம்' : 'ராசி'}</th><th className="py-0.5 pr-2">காக்ஷ்யா · அதிபதி</th><th className="py-0.5">நிலை</th></tr></thead>
                     <tbody>
                       {w.list.map((x: any, i: number) => (
@@ -172,7 +172,7 @@ export default function KakshyaTransitView() {
                         </tr>
                       ))}
                     </tbody>
-                  </table>
+                  </table></div>
                 </details>
               );
             })}

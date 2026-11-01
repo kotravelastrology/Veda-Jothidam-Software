@@ -56,7 +56,7 @@ export default function BabyNamesView() {
           </button>
         ))}
         <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="பெயர் தேடு…"
-          className="flex-1 px-3 py-1.5 rounded border border-line bg-surface text-ink text-sm" />
+          className="min-w-0 flex-1 px-3 py-1.5 rounded border border-line bg-surface text-ink text-sm" />
       </div>
 
       {result && (

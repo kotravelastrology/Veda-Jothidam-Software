@@ -64,7 +64,7 @@ function TodayCard() {
     </div>
   );
   return (
-    <div className="rounded-2xl border border-line bg-surface/90 p-4 shadow-sm backdrop-blur" data-testid="today-card">
+    <div className="rounded-2xl border border-line bg-surface p-4 shadow-md" data-testid="today-card">
       <div className="mb-2 flex items-center justify-between">
         <h2 className="font-[family-name:var(--font-tamil-serif)] text-lg font-bold text-ink">🗓️ இன்றைய பஞ்சாங்கம்</h2>
         <button type="button" onClick={() => uiActions.openSettings()} className="text-[11px] text-ink-soft hover:text-saffron" title="ஜோதிடர் இருப்பிடம் — அமைப்புகள்">📍 {place.name}</button>
@@ -111,7 +111,7 @@ function ChartCard() {
 
   if (chart) {
     return (
-      <div className="rounded-2xl border border-saffron/40 bg-surface/90 p-4 shadow-sm backdrop-blur" data-testid="open-chart-card">
+      <div className="rounded-2xl border border-saffron/40 bg-surface p-4 shadow-md" data-testid="open-chart-card">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-saffron">திறந்துள்ள ஜாதகம்</p>
         <div className="mt-1 flex items-center gap-3">
           <span className="grid size-12 shrink-0 place-items-center rounded-full bg-saffron/25 font-[family-name:var(--font-tamil-serif)] text-xl font-bold text-ink">
@@ -138,7 +138,7 @@ function ChartCard() {
   }
 
   return (
-    <div className="rounded-2xl border border-line bg-surface/90 p-4 shadow-sm backdrop-blur" data-testid="start-card">
+    <div className="rounded-2xl border border-line bg-surface p-4 shadow-md" data-testid="start-card">
       <p className="text-sm text-ink">ஒரு ஜாதகத்தைத் திறந்தால் பிறப்புக் கட்டம், பலங்கள், தசை, நவாம்சம் அனைத்தும் ஒரே திரையில்.</p>
       <div className="mt-3 flex flex-wrap gap-2">
         <Link href="/worksheet?new=1" className="rounded-xl bg-saffron px-4 py-2 text-sm font-semibold text-ink shadow-sm hover:brightness-105">➕ புதிய ஜாதகம்</Link>
@@ -217,7 +217,7 @@ export default function HomeView() {
             {hits.length === 0 && <p className="text-sm text-ink-soft">“{query}” — பக்கம் இல்லை.</p>}
             {hits.map((l) => (
               <Link key={l.route} href={l.route} className="flex items-center gap-3 rounded-xl border border-line bg-surface px-3 py-2.5 hover:border-saffron">
-                <span className="text-xl" aria-hidden>{l.icon}</span>
+                <span className="icon-chip size-9 text-lg" aria-hidden><span>{l.icon}</span></span>
                 <span className="min-w-0"><span className="block truncate text-sm font-semibold text-ink">{l.ta}</span><span className="block truncate text-[11px] text-ink-soft">{l.en}</span></span>
               </Link>
             ))}
@@ -230,7 +230,7 @@ export default function HomeView() {
                 <div key={s.key} id={s.key} className="break-inside-avoid scroll-mt-28 overflow-hidden rounded-2xl border border-line bg-surface shadow-sm" data-section={s.key}>
                   <div className={`h-1 bg-gradient-to-r ${tone.bar} to-transparent`} />
                   <div className="flex items-center gap-3 px-4 pb-2 pt-3">
-                    <span className={`grid size-10 place-items-center rounded-xl text-lg font-bold ${tone.chip}`} aria-hidden>{s.icon}</span>
+                    <span className={`icon-chip icon-chip-${s.tone} size-11 text-xl font-bold ${tone.chip.split(' ')[1]}`} aria-hidden><span>{s.icon}</span></span>
                     <div>
                       <h3 className="font-[family-name:var(--font-tamil-serif)] text-lg font-bold text-ink">{s.ta}</h3>
                       <p className="text-[11px] text-ink-soft">{s.en} · {s.links.length}</p>
@@ -240,7 +240,7 @@ export default function HomeView() {
                     {s.links.map((l) => (
                       <li key={l.route}>
                         <Link href={l.route} className={`flex items-center gap-2 rounded-lg border border-transparent px-2 py-1.5 transition hover:bg-bg ${tone.ring}`}>
-                          <span className="w-6 shrink-0 text-center text-base" aria-hidden>{l.icon}</span>
+                          <span className={`icon-chip icon-chip-${s.tone} size-8 shrink-0 text-[15px]`} aria-hidden><span>{l.icon}</span></span>
                           <span className="min-w-0">
                             <span className="block truncate text-sm text-ink">{l.ta}</span>
                             <span className="block truncate text-[10px] text-ink-soft">{l.en}</span>

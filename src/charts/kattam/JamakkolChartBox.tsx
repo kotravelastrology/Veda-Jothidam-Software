@@ -93,7 +93,7 @@ function SouthJamakkol({ points, jamas, transitPlanets, lagnaRasiIndex, title }:
           </div>
           {CELLS.map(({ rasiIndex, row, col }) => (
             <div key={rasiIndex} className="border border-ink/30 relative p-0.5 flex flex-col bg-surface" style={{ gridColumn: col, gridRow: row }}>
-              <span className="text-[8px] text-ink-soft/70">{RASI_TA_SHORT[rasiIndex]}</span>
+              <span className="h-2" aria-hidden />
               {rasiIndex === lagnaRasiIndex && <span className="absolute top-0.5 right-1 text-[8px] font-bold text-saffron">லக்</span>}
               <InnerLabels points={points} transits={transitPlanets} rasiIndex={rasiIndex} />
             </div>
@@ -144,7 +144,7 @@ function NorthJamakkol({ points, jamas, transitPlanets, lagnaRasiIndex, title }:
           const transitHere = transitPlanets.filter((t) => t.rasiIndex === rasiIndex);
           return (
             <g key={house}>
-              <text x={cx} y={cy - 26} textAnchor="middle" fontSize={9} className="fill-ink-soft/60">{RASI_TA_SHORT[rasiIndex]}</text>
+              <text x={cx} y={cy - 26} textAnchor="middle" fontSize={10} fontWeight={600} className="fill-ink-soft">{rasiIndex + 1}</text>
               {house === 1 && <text x={cx} y={cy - 36} textAnchor="middle" fontSize={9} fontWeight="bold" className="fill-saffron">லக்</text>}
               {here.map((p, i) => (
                 <text key={`p-${i}`} x={cx} y={cy - 12 + i * 11} textAnchor="middle" fontSize={9} fontWeight={700} className="fill-indigo">

@@ -38,6 +38,12 @@ const MENU_META: Record<string, { icon: string; ta: string }> = {
   help: { icon: '❓', ta: 'உதவி' },
 };
 
+/** Each menu's tile colour (globals.css .icon-chip-*). */
+const DRAWER_TONE: Record<string, 'saffron' | 'indigo' | 'teal' | 'rose'> = {
+  file: 'indigo', edit: 'indigo', charts: 'saffron', printMenu: 'teal', reports: 'saffron', references: 'indigo',
+  options: 'teal', tools: 'teal', research: 'rose', windows: 'indigo', help: 'rose',
+};
+
 const entries = (items: DrawerItem[] = []) => items.filter((i) => !i.divider);
 
 /** Every entry of a menu, the entries inside a submenu included. */
@@ -152,7 +158,7 @@ export function MenuDrawer({ menus, open, onClose, onSelect }: {
                       aria-expanded={isOpen}
                       className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-saffron/10 text-left"
                     >
-                      <span className="text-lg w-6 text-center" aria-hidden>{meta?.icon ?? '•'}</span>
+                      <span className={`icon-chip icon-chip-${DRAWER_TONE[m.key] ?? 'saffron'} size-9 text-lg shrink-0`} aria-hidden><span>{meta?.icon ?? '•'}</span></span>
                       <span className="flex-1">
                         <span className="block text-sm font-semibold text-ink leading-tight">{m.label}</span>
                         {meta && <span className="block text-[11px] text-ink-soft leading-tight">{meta.ta}</span>}

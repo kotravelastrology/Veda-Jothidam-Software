@@ -65,9 +65,9 @@ function TermCard({ t }: { t: Term }) {
         type="button" onClick={() => setOpen((v) => !v)}
         className="w-full text-left px-4 py-3 hover:bg-ink-soft/5"
       >
-        <div className="flex items-baseline justify-between gap-3">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-3">
           <span className="font-[family-name:var(--font-tamil-serif)] text-lg text-ink">{t.ta}</span>
-          <span className="text-xs text-ink-soft shrink-0">{t.translit} · {t.en}</span>
+          <span className="text-xs text-ink-soft">{t.translit} · {t.en}</span>
         </div>
         <p className="text-sm text-ink-soft mt-1">{t.meaning}</p>
         <div className="flex flex-wrap gap-1.5 mt-2">

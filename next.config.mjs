@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   serverExternalPackages: ['@swisseph/node'],
-  allowedDevOrigins: ['10.27.31.219'],
+  // a phone on the same Wi-Fi opens the dev server by this computer's address, which changes with the network
+  allowedDevOrigins: ['192.168.*.*', '10.*.*.*'],
 
   // Pages removed on 2026-10-31 (they showed sample numbers, not the chart's): an old link lands on the page that does the job now
   async redirects() {

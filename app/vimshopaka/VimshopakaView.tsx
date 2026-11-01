@@ -69,7 +69,7 @@ export default function VimshopakaView() {
 
           {current && (
             <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
-              <table className="w-full text-xs" style={{ minWidth: 420 }}>
+              <div className="overflow-x-auto"><table className="w-full text-xs" style={{ minWidth: 420 }}>
                 <thead><tr className="text-ink-soft border-b border-line text-left"><th className="py-1 pr-2">கிரகம்</th><th className="py-1 pr-2">புள்ளி / 20</th><th className="py-1 pr-2">நூலின் கூற்று (பாடல் 26-27)</th><th className="py-1">உரையாசிரியர் தரம்</th></tr></thead>
                 <tbody>
                   {current.planets.map((p: any) => (
@@ -97,7 +97,7 @@ export default function VimshopakaView() {
                     </Fragment>
                   ))}
                 </tbody>
-              </table>
+              </table></div>
               <p className="text-[11px] text-ink-soft mt-2">கிரகத்தை அழுத்தினால் வர்க்கம் வாரியான கணக்கு. 5-க்குக் கீழ்: நல்ல பலன் தர இயலாது; 5-10: சில நன்மை; 10-15: நடுத்தரம்; 15-க்கு மேல்: முழுவதும் நல்லது (நூல்). உரையாசிரியர் தரும் எட்டு தரங்கள் அவரது எண் ஒதுக்கீடு, முனிவரின் கூற்று அல்ல.</p>
               <p className="text-[11px] text-ink-soft mt-1">அச்சிட்ட குறிப்பு: உரையாசிரியர் ப.97-ன் சப்த வர்க்க அட்டவணையின் வரிசை பாடலின் வரிசையுடன் ஒத்துப்போகவில்லை (அட்டவணையில் நவாம்சம் 2½, துவாதசாம்சம் 4½, திரிம்சாம்சம் 2, சப்தாம்சம் 1; பாடலில் சப்தாம்சம் 2½, நவாம்சம் 4½, துவாதசாம்சம் 2, திரிம்சாம்சம் 1). பாடலின் வரிசை (வழக்கமானது) பயன்படுத்தப்பட்டுள்ளது.</p>
             </section>

@@ -5,7 +5,6 @@ import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { VedicChartBox } from '@/src/charts/kattam/VedicChartBox';
 import { fromParashariChart } from '@/src/charts/kattam/rasiNames';
 import { computeYearlyTransit } from './actions';
-import { RASI_TA as SIGN_TA } from '@/src/sources/tamilNames';
 import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 /**
@@ -77,7 +76,6 @@ export default function YearlyTransitView() {
           <div className="grid grid-cols-4 gap-2 text-[11px] leading-snug" style={{ gridTemplateRows: 'repeat(4, auto)' }}>
             {result.cells.map((stays: any[], sign: number) => (
               <div key={sign} style={{ gridRow: POS[sign][0] + 1, gridColumn: POS[sign][1] + 1 }} className="min-w-0 p-1.5 rounded border border-line/60 bg-surface-2/40">
-                <div className="text-ink-soft font-semibold mb-0.5">{SIGN_TA[sign]}</div>
                 {stays.map((s, i) => (
                   <div key={i} title={s.stations.join(' · ')} className={s.retrograde ? 'text-rose' : 'text-ink'} style={{ fontVariantNumeric: 'tabular-nums' }}>
                     {s.text.replace('(D)', '(நே)').replace(/^(\S+?)R/, '$1 வ')}

@@ -3,7 +3,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { fromVargas } from '@/src/charts/kattam/rasiNames';
 import { ABBR, currentPeriodIndex, dashaWindow } from '@/src/worksheet/dashaList';
-import { WorksheetChart, type ChartEntry, type HouseBadge } from './WorksheetChart';
+import { WorksheetChart, NAME_TA, type ChartEntry, type HouseBadge } from './WorksheetChart';
 import { DIGNITY_TA, PLANET_TA, TONE_CLASS, VARGA_OPTIONS } from './worksheetStyle';
 import { useWorksheetColor } from './useWorksheetColor';
 import { NorthIndianChart } from '@/src/charts/kattam/NorthIndianChart';
@@ -89,6 +89,9 @@ export function CellFrame({ id, choice, onChoice, children, className = '', extr
 
 const emptyRasi = (): ChartEntry[][] => Array.from({ length: 12 }, () => []);
 
+/** '23:56:35' → '23°56′', the degree as the chart writes it. */
+const degMin = (dms: string) => `${Number(dms.slice(0, 2))}°${dms.slice(3, 5)}′`;
+
 /** A chart cell: the Rasi with its house strengths and degrees, or any divisional chart. */
 export function ChartCell({ data, which, variant }: { data: WorksheetData; which: string; variant: 'main' | 'side' }) {
   const { prefs } = useScreenPrefs();
@@ -98,10 +101,10 @@ export function ChartCell({ data, which, variant }: { data: WorksheetData; which
     const entries = emptyRasi();
     if (which === 'D1') {
       for (const p of data.planets) {
-        entries[p.rasiIndex].push({ abbr: p.abbr, detail: degrees ? `${p.degreeText.slice(0, 5)} ${p.nakshatraAbbr}` : undefined });
+        entries[p.rasiIndex].push({ abbr: p.abbr, detail: degrees ? degMin(p.degreeText) : undefined });
       }
       if (data.gulika) {
-        entries[data.gulika.rasiIndex].push({ abbr: data.gulika.abbr, detail: degrees ? `${data.gulika.degreeText.slice(0, 5)} ${data.gulika.nakshatraAbbr}` : undefined });
+        entries[data.gulika.rasiIndex].push({ abbr: data.gulika.abbr, detail: degrees ? degMin(data.gulika.degreeText) : undefined });
       }
       const badges: HouseBadge[] = Array.from({ length: 12 }, () => ({ house: 0 }));
       for (const h of data.houses) badges[h.rasiIndex] = { house: h.house, sav: variant === 'main' ? h.sav : undefined };
@@ -123,7 +126,7 @@ export function ChartCell({ data, which, variant }: { data: WorksheetData; which
         <div className="[&_svg]:h-auto [&_svg]:w-full [&_svg]:max-w-full">
           <NorthIndianChart
             lagnaRasiIndex={view.lagna}
-            grahas={view.entries.flatMap((list, rasiIndex) => list.map((e, i) => ({ id: `${e.abbr}-${rasiIndex}-${i}`, label: e.abbr, rasiIndex })))}
+            grahas={view.entries.flatMap((list, rasiIndex) => list.map((e, i) => ({ id: `${e.abbr}-${rasiIndex}-${i}`, label: `${NAME_TA[e.abbr] ?? e.abbr}${e.detail ? ` ${e.detail}` : ''}`, rasiIndex })))}
             title={`${data.native.name ?? ''} · ${title}`}
             size={variant === 'main' ? 560 : 320}
           />
@@ -145,7 +148,7 @@ export function ChartCell({ data, which, variant }: { data: WorksheetData; which
       )}
       {which === 'D1' && variant === 'main' && style !== 'north' && prefs.chartDegrees && (
         <p className="text-[10px] text-ink-soft mt-1.5 text-center">
-          மூலையில்: பாவ எண், சர்வாஷ்டகவர்க்க பிந்துக்கள் (மொத்தம் 337) · கீழே ஒவ்வொரு கிரகத்தின் பாகை, நட்சத்திரம்
+          மூலையில்: பாவ எண், சர்வாஷ்டகவர்க்க பிந்துக்கள் (மொத்தம் 337) · ஒவ்வொரு கிரகத்தின் அருகே அது நிற்கும் பாகை
         </p>
       )}
     </div>
