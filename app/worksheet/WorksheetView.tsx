@@ -198,7 +198,7 @@ export default function WorksheetView() {
           <Link href="/dasha-calendar" className={pill}>📅 தசா நாட்காட்டி</Link>
           <Link href="/animated-transits" className={pill}>🪐 கோசாரம்</Link>
           <Link href="/varshaphala" className={pill}>🎂 வர்ஷபலன்</Link>
-          <Link href="/print?kind=book" className={pill}>🖨 புத்தகம் அச்சிடு</Link>
+          <Link href="/book" className={pill}>📖 ஜாதக நூல்</Link>
         </nav>
       </header>
 

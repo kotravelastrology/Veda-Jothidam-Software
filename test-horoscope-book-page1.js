@@ -85,7 +85,7 @@ async function main() {
   assert.equal(field(doc, 4, 'Tamil Weekday'), 'வெள்ளி');
   assert.equal(field(doc, 4, 'Tamil Date'), '19');
   assert.ok(field(doc, 4, 'Tamil Month').startsWith('புரட்டாசி'), 'Tamil month is Puratasi');
-  assert.ok(field(doc, 4, 'Tamil Year').includes('Pramo'), 'Tamil year is Pramodhoota');
+  assert.equal(field(doc, 4, 'Tamil Year'), 'பிரமோதூத', 'Tamil year is Pramodhoota (the sample prints PRAMODHOODHA)');
 
   // Hindu-day rule: a birth after sunrise (07:00) belongs to the same civil day, Friday.
   const after = await buildPage1({ name: '', sex: '', country: 'India', birth: { ...sampleBirth, hour: 7, minute: 0 } });

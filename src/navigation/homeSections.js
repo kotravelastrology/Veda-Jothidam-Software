@@ -123,6 +123,7 @@ const HOME_SECTIONS = [
       link('/client-management', '👥', 'வாடிக்கையாளர்கள்', 'Clients'),
       link('/consultation-tools', '🗒️', 'ஆலோசனைக் கருவிகள்', 'Consultation tools'),
       link('/consultation', '✉️', 'ஆலோசனைக் கோரிக்கை', 'Consultation request'),
+      link('/book', '📖', 'ஜாதக நூல்', 'Horoscope book'),
       link('/pdf-reports', '📄', 'அறிக்கை உருவாக்கம்', 'PDF reports'),
       link('/print', '🖨️', 'அச்சு மையம்', 'Print center'),
       link('/sync', '🔄', 'சாதனங்கள் · ஒத்திசைவு', 'Sync'),

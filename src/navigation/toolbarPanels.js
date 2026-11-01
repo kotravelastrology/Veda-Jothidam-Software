@@ -226,7 +226,7 @@ const REPORTS = {
       title: 'Reports', ta: 'அறிக்கைகள்',
       items: [
         have('r-horoscope', 'Horoscope report', '/report'),
-        have('r-book', 'Horoscope book', '/print?kind=book'),
+        have('r-book', 'Horoscope book', '/book'),
         have('r-print', 'Print Center', '/print'),
         have('r-dashas', 'Dasha reports', '/bphs-dashas'),
         have('r-health', 'Health (BPHS)', '/health'),
