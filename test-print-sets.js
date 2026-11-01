@@ -35,16 +35,18 @@ const kp = P.kpDocument({ birth, name: 'A' });
 assert.deepStrictEqual(kp.blocks.map((b) => b.rows.length), [12, 9, 12]);
 assert.strictEqual(kp.blocks[0].rows[6][5], 'புதன்');
 
-// dashas: three levels is nine by nine by nine for a whole life; the first row is Mercury-Mercury-Mercury from birth; level 5 is limited to the window
+// dashas: three levels is nine by nine by nine for a whole life, less what ran before birth: Mercury's dasha is only the balance, so
+// its bhuktis are the four still to run, the first (Mars) cut at birth, and its antaras likewise (729 - 51 = 678); the first row is Mercury-Mars-Venus
+// from birth to 4 Nov 1990 (Mars's last antaras are Ketu, Venus, Sun and Moon, ending 22 Dec 1990 as Mars's bhukti does); level 5 is limited to the window
 const d3 = P.dashaDocument({ birth, name: 'A', levels: 3 });
-assert.strictEqual(d3.blocks[0].rows.length, 729);
-assert.deepStrictEqual(d3.blocks[0].rows[0].slice(0, 4), ['புதன்', 'புதன்', 'புதன்', '1990-10-05']);
+assert.strictEqual(d3.blocks[0].rows.length, 678);
+assert.deepStrictEqual(d3.blocks[0].rows[0].slice(0, 5), ['புதன்', 'செவ்வாய்', 'சுக்கிரன்', '1990-10-05', '1990-11-04']);
 const d5 = P.dashaDocument({ birth, name: 'A', levels: 5, fromYear: 2026, toYear: 2026 });
 assert.ok(d5.blocks[0].rows.length > 100 && d5.blocks[0].rows.length <= 800);
 assert.ok(d5.blocks[0].rows.every((r) => r.length === 7 && r[5] >= '2026'), 'five levels, then the start and the end');
-// the compact lifetime: nine dashas, each with nine bhuktis
+// the compact lifetime: nine dashas, each with nine bhuktis, but the birth dasha's four still to run
 const cl = P.compactLifetimeDocument({ birth, name: 'A' });
-assert.deepStrictEqual(cl.blocks.map((b) => b.rows.length), Array(9).fill(9));
+assert.deepStrictEqual(cl.blocks.map((b) => b.rows.length), [4, ...Array(8).fill(9)]);
 // the transit/dasha report on 18 Sep 2026: Sun dasha, Rahu bhukti, Rahu antara (as the event board), nine transit rows
 const tr = P.transitDocument({ birth, name: 'A', on: { year: 2026, month: 9, day: 18 } });
 assert.deepStrictEqual(tr.blocks[0].rows.slice(0, 3).map((r) => r[1]), ['சூரியன்', 'ராகு', 'ராகு']);

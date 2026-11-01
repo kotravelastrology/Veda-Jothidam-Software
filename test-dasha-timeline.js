@@ -84,12 +84,20 @@ for (let i = 1; i < allDasha.length; i += 1) {
     `gap or overlap between ${allDasha[i - 1].lord} and ${allDasha[i].lord}`);
 }
 
-// Drilling a level down inside one mahadasha: nine bhuktis, tiling it exactly.
+// The birth dasha is only the balance: its bhuktis are the ones still to run (the first of them cut at birth), not nine.
 const firstDasha = dasha.dashas[0];
-const bhuktis = boundariesBetween(dasha, firstDasha.startJulianDay, firstDasha.endJulianDay - 1e-9,
+const birthBhuktis = firstDasha.Bhukti;
+assert.ok(birthBhuktis.length < 9, 'the antardashas that ended before birth are left out');
+assert.equal(birthBhuktis[0].startJulianDay, firstDasha.startJulianDay, 'the first one runs from birth');
+assert.ok(birthBhuktis[0].durationYears < birthBhuktis[0].fullDurationYears, 'and is cut at birth');
+assert.ok(Math.abs(birthBhuktis.reduce((s, b) => s + b.durationYears, 0) - firstDasha.durationYears) < 1e-9, 'they fill the balance');
+
+// Drilling a level down inside one mahadasha: nine bhuktis, tiling it exactly.
+const secondDasha = dasha.dashas[1];
+const bhuktis = boundariesBetween(dasha, secondDasha.startJulianDay, secondDasha.endJulianDay - 1e-9,
   { level: 'Bhukti' });
-assert.equal(bhuktis.length, 9, 'each mahadasha divides into nine bhuktis');
-assert.equal(bhuktis[0].chain[0], firstDasha.lord, 'the chain names the parent');
+assert.equal(bhuktis.length, 9, 'each full mahadasha divides into nine bhuktis');
+assert.equal(bhuktis[0].chain[0], secondDasha.lord, 'the chain names the parent');
 assert.equal(bhuktis[0].chain.length, 2, 'a bhukti boundary carries a two-level chain');
 
 // A narrow window returns only what falls inside it.

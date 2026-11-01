@@ -70,7 +70,7 @@ export async function computeDashaBrowser(req: DashaBrowserRequest) {
       balance: options.balance,
       moonLongitudeAt: (jd: number) => planetLongitude(jd, 'Moon', ctx.ayanamsha),
     });
-    return { chart: c, mahadashas: tree.dashas.map((d: any) => ({ lord: d.lord, startJd: d.startJulianDay, endJd: d.endJulianDay })) };
+    return { chart: c, mahadashas: tree.dashas.map((d: any) => ({ lord: d.lord, startJd: d.startJulianDay, endJd: d.endJulianDay, ...(d.fullStartJulianDay !== undefined ? { fullStartJd: d.fullStartJulianDay } : {}) })) };
   });
 
   const signs = Object.fromEntries(B.GRAHAS.map((p: string) => [p, chart.grahas[p].rasiIndex]));

@@ -8,6 +8,7 @@ import { DIGNITY_TA, PLANET_TA, TONE_CLASS, VARGA_OPTIONS } from './worksheetSty
 import { useWorksheetColor } from './useWorksheetColor';
 import { NorthIndianChart } from '@/src/charts/kattam/NorthIndianChart';
 import { useChartStyle, useScreenPrefs } from '@/src/ui/useScreenPrefs';
+import type { BirthParticulars } from './BirthDetails';
 
 /**
  * The cells of the worksheet. Each is a card with a title and, where the cell can show more than one thing, a drop-down to
@@ -32,6 +33,8 @@ export interface WorksheetData {
   houses: { house: number; rasiIndex: number; sav: number }[];
   vargas: Record<string, Record<string, { signIndex?: number }>>;
   sarva: number[];
+  /** src/report/birthParticulars.js, shown by BirthDetails.tsx */
+  particulars: BirthParticulars;
   periods: { md: string; ad: string; startLocal: string }[];
   dashaYearDays: number;
   balance: 'degree' | 'time';

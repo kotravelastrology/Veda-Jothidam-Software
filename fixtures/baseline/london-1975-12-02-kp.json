@@ -1,7 +1,7 @@
 {
   "fixtureId": "london-1975-12-02-kp",
   "fixtureVersion": 1,
-  "recordedAt": "2026-10-31",
+  "recordedAt": "2026-11-01",
   "engine": "1.3.1",
   "settings": {
     "ayanamsha": "Krishnamurti",
@@ -9,7 +9,7 @@
     "nodeType": "true",
     "calendarMode": "tirukanita"
   },
-  "hash": "87aee438ae8609a3fe6abcb32e80e9584ac49a02de7cdfa94206e148429b8590",
+  "hash": "7a67472305831dad66d7389c392d348eed20bcff69094957a3e21800b086809d",
   "result": {
     "lagna": {
       "longitude": 140.592033,
@@ -370,48 +370,8 @@
           "endLocal": "1976-08-23 16:56",
           "bhuktis": [
             {
-              "lord": "Saturn",
-              "startLocal": "1975-12-02 23:45",
-              "endLocal": "1976-01-13 21:40"
-            },
-            {
-              "lord": "Mercury",
-              "startLocal": "1976-01-13 21:40",
-              "endLocal": "1976-02-20 09:42"
-            },
-            {
-              "lord": "Ketu",
-              "startLocal": "1976-02-20 09:42",
-              "endLocal": "1976-03-06 20:18"
-            },
-            {
-              "lord": "Venus",
-              "startLocal": "1976-03-06 20:18",
-              "endLocal": "1976-04-19 23:10"
-            },
-            {
-              "lord": "Sun",
-              "startLocal": "1976-04-19 23:10",
-              "endLocal": "1976-05-03 04:50"
-            },
-            {
-              "lord": "Moon",
-              "startLocal": "1976-05-03 04:50",
-              "endLocal": "1976-05-25 06:16"
-            },
-            {
-              "lord": "Mars",
-              "startLocal": "1976-05-25 06:16",
-              "endLocal": "1976-06-09 16:52"
-            },
-            {
-              "lord": "Rahu",
-              "startLocal": "1976-06-09 16:52",
-              "endLocal": "1976-07-19 09:50"
-            },
-            {
               "lord": "Jupiter",
-              "startLocal": "1976-07-19 09:50",
+              "startLocal": "1975-12-02 23:45",
               "endLocal": "1976-08-23 16:56"
             }
           ]

@@ -24,14 +24,28 @@
     "Sun's full mahadasha = 6 years, so the balance at birth = 6 x (1 - 0.2381678620) = 4.570992828",
     "mahadasha order runs from Sun: Sun, Moon, Mars, Rahu, Jupiter, Saturn, Mercury, Ketu, Venus",
     "each later mahadasha takes its full BPHS span; only the first is shortened",
-    "cumulative end in years = 4.570992828 + (120 - 6) = 118.570992828"
+    "cumulative end in years = 4.570992828 + (120 - 6) = 118.570992828",
+    "the first mahadasha is only the balance, so its sub-periods are the tail of the FULL 6-year Sun dasha (the Parashara's Light sample lists the birth dasha's antardashas this way): each sublord takes 6 x its years / 120 = its years / 20 of a year",
+    "full antardashas in order from Sun: Sun 0.30, Moon 0.50, Mars 0.35, Rahu 0.90, Jupiter 0.80, Saturn 0.95, Mercury 0.85, Ketu 0.35, Venus 1.00 (sum 6.00)",
+    "elapsed in the dasha = 6 - 4.570992828 = 1.429007172 years; the running totals are Sun 0.30, Moon 0.80, Mars 1.15, Rahu 2.05, so birth falls in Rahu with 2.05 - 1.429007172 = 0.620992828 years of it left",
+    "the sub-periods still to run: Rahu 0.620992828, Jupiter 0.80, Saturn 0.95, Mercury 0.85, Ketu 0.35, Venus 1.00; they sum to 4.570992828, the balance"
   ],
   "expected": {
     "nakshatraIndex": 20,
     "startLord": "Sun",
-    "elapsedFraction": 0.2381678620,
+    "elapsedFraction": 0.238167862,
     "balanceYears": 4.570992828,
-    "mahadashaOrder": ["Sun", "Moon", "Mars", "Rahu", "Jupiter", "Saturn", "Mercury", "Ketu", "Venus"],
+    "mahadashaOrder": [
+      "Sun",
+      "Moon",
+      "Mars",
+      "Rahu",
+      "Jupiter",
+      "Saturn",
+      "Mercury",
+      "Ketu",
+      "Venus"
+    ],
     "endYears": [
       4.570992828,
       14.570992828,
@@ -44,24 +58,28 @@
       118.570992828
     ],
     "firstBhuktiOfSun": {
-      "note": "Sub-periods are pro-rated against the shortened parent, not the full 6 years: each sublord's share = parentDuration x sublordYears / 120.",
+      "note": "The sub-periods of the birth dasha are the tail of the full 6-year dasha: the antardashas that ended before birth are left out and the one running at birth is cut at birth (Rahu 0.620992828 of its 0.90).",
       "parentDurationYears": 4.570992828,
-      "order": ["Sun", "Moon", "Mars", "Rahu", "Jupiter", "Saturn", "Mercury", "Ketu", "Venus"],
+      "order": [
+        "Rahu",
+        "Jupiter",
+        "Saturn",
+        "Mercury",
+        "Ketu",
+        "Venus"
+      ],
       "durationsYears": [
-        0.228549641,
-        0.380916069,
-        0.266641248,
-        0.685648924,
-        0.609465710,
-        0.723740531,
-        0.647557317,
-        0.266641248,
-        0.761832138
+        0.620992828,
+        0.8,
+        0.95,
+        0.85,
+        0.35,
+        1.0
       ]
     }
   },
   "tolerance": {
-    "years": 1e-6,
+    "years": 1e-06,
     "note": "The derivation above is written to nine decimals; the engine works in full double precision, so agreement to 1e-6 years (about 30 seconds) is the bar."
   }
 }

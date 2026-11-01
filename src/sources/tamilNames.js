@@ -35,6 +35,14 @@ const KARANA_TA = Object.freeze({
   Kimstughna: 'கிம்ஸ்துக்னம்', Shakuni: 'சகுனி', Chatushpada: 'சதுஷ்பாதம்', Naga: 'நாகவம்',
 });
 
+/** The nine grahas by their English ids. */
+const PLANET_TA = Object.freeze({
+  Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது',
+});
+
+/** The five levels of a dasha, from the main period down: தசை, புக்தி (அந்தர்தசை), அந்தரம், சூட்சமம், பிராணன். */
+const DASHA_LEVEL_TA = Object.freeze(['தசை', 'புக்தி', 'அந்தரம்', 'சூட்சமம்', 'பிராணன்']);
+
 /**
  * A tithi by its index in the month (0-29, 0 = Shukla Prathama) as the panchangam writes it: the paksha and the name.
  * @param {number} index
@@ -45,4 +53,4 @@ function tithiTa(index) {
   return { paksha: i < 15 ? 'வளர்பிறை' : 'தேய்பிறை', name: TITHI_TA[i % 15] };
 }
 
-module.exports = { RASI_TA, RASI_TA_SHORT, NAKSHATRA_TA, WEEKDAY_TA, TITHI_TA, YOGA_TA, KARANA_TA, tithiTa };
+module.exports = { RASI_TA, RASI_TA_SHORT, NAKSHATRA_TA, WEEKDAY_TA, TITHI_TA, YOGA_TA, KARANA_TA, PLANET_TA, DASHA_LEVEL_TA, tithiTa };

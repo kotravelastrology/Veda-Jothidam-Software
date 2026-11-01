@@ -81,9 +81,11 @@ row (Saturn and Mercury), which a recorded fixture would have enshrined.
 
 The engine reproduces every figure to within 1e-6 years (about thirty
 seconds): birth nakshatra 20, starting lord Sun, balance at birth
-**4.570992828** years, all nine mahadasha boundaries, and the nine
-sub-periods of the shortened first mahadasha — which are pro-rated against
-the balance, not the lord's full six years.
+**4.570992828** years, all nine mahadasha boundaries, and the six
+sub-periods still to run of the first mahadasha — the tail of the lord's full six years
+(corrected 2026-11-01: the antardashas that ended before birth are left out and the
+one running at birth is cut at birth, as the Parashara's Light sample lists them; the
+first version of this note and of the engine pro-rated all nine into the balance).
 
 ## What was added: Tribhagi
 

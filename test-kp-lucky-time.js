@@ -38,8 +38,11 @@ const names = new Set(court.map((x) => x.name));
 assert.strictEqual(r.periods, null, 'the book asks for the Moon and the ascendant only');
 const ag = L.luckyTime(kp, vim, { topicId: 'AGREEMENT', fromJd: julianDay(1990, 10, 5, 0), days: 365 * 20, ascHours: 24, latitude: 13.0827, longitude: 80.2707 });
 const agNames = new Set(ag.eligible.map((x) => x.name));
-assert.strictEqual(ag.periods[0].lords.join('-'), 'Mercury-Mercury-Mercury');
-assert.ok(ag.periods.length >= 17);
+// Born in the balance of Mercury's dasha: its sub-periods still to run are Mars (the part left), Rahu, Jupiter and Saturn, so the
+// first period whose three lords all suit is Saturn's, in Mercury's
+assert.strictEqual(ag.periods[0].lords.join('-'), 'Mercury-Saturn-Saturn');
+// (the first twenty years lose the periods of Mercury's sub-periods that ran before birth: Mercury-Mercury, Mercury-Ketu, Mercury-Venus ...)
+assert.ok(ag.periods.length >= 12);
 for (const p of ag.periods) { assert.ok(p.lords.every((l) => agNames.has(l))); assert.ok(p.startJd >= julianDay(1990, 10, 5, 0) && p.endJd <= julianDay(1990, 10, 5, 0) + 365 * 20 && p.endJd > p.startJd); }
 for (const m of r.moon) assert.ok(names.has(m.starLord) && names.has(m.subLord));
 for (const a of r.ascendant) { assert.ok(names.has(a.signLord) && names.has(a.starLord) && names.has(a.subLord)); assert.ok(a.endJd > a.startJd && a.startJd >= from && a.startJd <= from + 1); }

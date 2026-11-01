@@ -1,7 +1,7 @@
 {
   "fixtureId": "chennai-1990-05-15",
   "fixtureVersion": 1,
-  "recordedAt": "2026-10-31",
+  "recordedAt": "2026-11-01",
   "engine": "1.3.1",
   "settings": {
     "ayanamsha": "Lahiri",
@@ -9,7 +9,7 @@
     "nodeType": "mean",
     "calendarMode": "tirukanita"
   },
-  "hash": "33a416c9095799fb2f0ed28a9a38f0103e044551f6610e15082aea3e91b437d5",
+  "hash": "dd73017f9a6554a6d7010f74b0fb2a16cdc7e607571c68437dda28f6dda828a8",
   "result": {
     "lagna": {
       "longitude": 96.866904,
@@ -370,48 +370,33 @@
           "endLocal": "1994-12-09 23:03",
           "bhuktis": [
             {
-              "lord": "Sun",
-              "startLocal": "1990-05-15 10:30",
-              "endLocal": "1990-08-06 21:56"
-            },
-            {
-              "lord": "Moon",
-              "startLocal": "1990-08-06 21:56",
-              "endLocal": "1990-12-24 00:58"
-            },
-            {
-              "lord": "Mars",
-              "startLocal": "1990-12-24 00:58",
-              "endLocal": "1991-03-31 10:18"
-            },
-            {
               "lord": "Rahu",
-              "startLocal": "1991-03-31 10:18",
-              "endLocal": "1991-12-06 20:35"
+              "startLocal": "1990-05-15 10:30",
+              "endLocal": "1990-12-28 05:21"
             },
             {
               "lord": "Jupiter",
-              "startLocal": "1991-12-06 20:35",
-              "endLocal": "1992-07-16 11:03"
+              "startLocal": "1990-12-28 05:21",
+              "endLocal": "1991-10-16 10:09"
             },
             {
               "lord": "Saturn",
-              "startLocal": "1992-07-16 11:03",
-              "endLocal": "1993-04-06 19:15"
+              "startLocal": "1991-10-16 10:09",
+              "endLocal": "1992-09-27 09:51"
             },
             {
               "lord": "Mercury",
-              "startLocal": "1993-04-06 19:15",
-              "endLocal": "1993-11-29 07:37"
+              "startLocal": "1992-09-27 09:51",
+              "endLocal": "1993-08-03 20:57"
             },
             {
               "lord": "Ketu",
-              "startLocal": "1993-11-29 07:37",
-              "endLocal": "1994-03-06 16:57"
+              "startLocal": "1993-08-03 20:57",
+              "endLocal": "1993-12-09 17:03"
             },
             {
               "lord": "Venus",
-              "startLocal": "1994-03-06 16:57",
+              "startLocal": "1993-12-09 17:03",
               "endLocal": "1994-12-09 23:03"
             }
           ]

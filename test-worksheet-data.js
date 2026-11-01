@@ -88,7 +88,7 @@ assert.deepStrictEqual(W.houseRows(report).map((h) => h.rasiIndex).slice(0, 3), 
 
 // --- the dasha list: from the running period on 31 October 2026, as the PL9 panel starts
 const periods = W.flattenDasha(report.dasha);
-assert.strictEqual(periods.length, 81, 'nine mahadashas of nine antardashas');
+assert.strictEqual(periods.length, 76, 'eight mahadashas of nine antardashas and the four still to run of the birth dasha (as the PL9 sample lists them)');
 const current = W.dashaWindow(periods, '2026-10-31', 0, 0).current;
 const win = W.dashaWindow(periods, '2026-10-31', current, 10);
 assert.strictEqual(win.rows[0].isCurrent, true);

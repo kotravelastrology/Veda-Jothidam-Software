@@ -112,8 +112,8 @@ near(1 - built.balanceYearsAtBirth / 6, e.elapsedFraction, 'elapsed fraction');
 assert.deepEqual(built.dashas.map((p) => p.lord), e.mahadashaOrder);
 built.dashas.forEach((p, i) => near(p.endYears, e.endYears[i], `mahadasha ${p.lord} end`));
 
-// Sub-periods are pro-rated against the *shortened* first mahadasha, not the
-// lord's full span — otherwise the bhuktis would overrun their own parent.
+// The birth dasha is only the balance, and its sub-periods are the tail of the lord's FULL span (the antardashas that ended
+// before birth are left out, the one running at birth is cut at birth), so they still sum to the balance.
 const firstBhuktis = built.dashas[0][built.levelNames[1]];
 assert.ok(firstBhuktis, 'depth 2 must produce sub-periods');
 assert.deepEqual(firstBhuktis.map((p) => p.lord), e.firstBhuktiOfSun.order);

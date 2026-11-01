@@ -9,33 +9,25 @@ const { withEphemeris } = require('../../src/ephemeris/isolation');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { calculateParashariChart } = require('../../src/chart/parashariChart');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { buildVimshottariDasha, NAKSHATRA_LORDS } = require('../../src/dasha/vimshottariDasha');
+const { buildVimshottariDasha } = require('../../src/dasha/vimshottariDasha');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { NAKSHATRA_NAMES } = require('../../src/panchangam/tirukanitaPanchangam');
+const { planetLongitude } = require('../../src/ephemeris/siderealPositions');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { julianDayFromMs, statusAt, chainAtJulianDay } = require('../../src/dasha/timeline');
-
-type Status = 'past' | 'current' | 'future';
-
-/** [Y, M] from a "YYYY-MM-DD HH:mm" local string as vimshottariDasha emits it. */
-function yearMonth(local: string): { year: number; month: number } {
-  const [datePart] = local.split(' ');
-  const [year, month] = datePart.split('-').map(Number);
-  return { year, month };
-}
+const { ymd } = require('../../src/report/birthParticulars');
 
 /**
- * `asOfMs` is the instant the timeline is reported against. It is a parameter,
- * not a clock read: VJ-017 requires the same request to produce the same
- * result, and this function used to call Date.now() mid-computation so its
- * output changed every day.
+ * The nine mahadashas of a chart, as Julian days: the page divides them down to five levels itself (src/dasha/dashaDrill.js),
+ * so the same dates serve any depth and any "as of" date without another call. The first mahadasha is the balance at birth;
+ * `fullStartJd` says where the whole of it began (before birth), which the division of its sub-periods needs.
+ * `dashaOptions` are the settings' Dasha Year and Dasha Balance Method.
  */
-export async function computeDashaTimeline(input: BirthFormInput, asOfMs?: number) {
+export async function computeDashaTimeline(input: BirthFormInput, dashaOptions?: { yearDays: number; balance: 'degree' | 'time' }) {
   const request = createCalculationRequest({
     input,
     settings: { ayanamsha: input.ayanamsha, houseSystem: input.houseSystem, nodeType: input.nodeType },
     outputs: ['parashariChart', 'vimshottari'],
   });
+  const options = dashaOptions ?? { yearDays: 365.25, balance: 'degree' };
   // VJ-014: the ayanamsha lives in Swiss Ephemeris's global state, so the
   // whole computation runs inside one isolated session.
   return withEphemeris({ ayanamsha: request.settings.ayanamsha }, async () => {
@@ -45,48 +37,28 @@ export async function computeDashaTimeline(input: BirthFormInput, asOfMs?: numbe
       chart.julianDay,
       chart.grahas.Moon.longitude,
       input.utcOffsetMinutes,
-      { depth: 2 },
+      {
+        depth: 1,
+        yearDays: options.yearDays,
+        balance: options.balance,
+        moonLongitudeAt: (jd: number) => planetLongitude(jd, 'Moon', request.settings.ayanamsha),
+      },
     );
 
-    const referenceMs = asOfMs ?? Date.now();
-    const nowJd = julianDayFromMs(referenceMs);
-
-    const dashas = dasha.dashas.map((d: any) => {
-      const start = yearMonth(d.startLocal);
-      const end = yearMonth(d.endLocal);
-      return {
-        planet: d.lord,
-        startYear: start.year,
-        startMonth: start.month,
-        endYear: end.year,
-        endMonth: end.month,
-        duration: Number(d.durationYears.toFixed(2)),
-        status: statusAt(nowJd, d.startJulianDay, d.endJulianDay),
-        bhuktis: (d.Bhukti || []).map((b: any) => {
-          const bStart = yearMonth(b.startLocal);
-          const bEnd = yearMonth(b.endLocal);
-          return {
-            planet: b.lord,
-            startYear: bStart.year,
-            startMonth: bStart.month,
-            endYear: bEnd.year,
-            endMonth: bEnd.month,
-            duration: Number(b.durationYears.toFixed(2)),
-            status: statusAt(nowJd, b.startJulianDay, b.endJulianDay),
-          };
-        }),
-      };
-    });
-
     return JSON.parse(JSON.stringify({
-      dashas,
-      moonNakshatra: NAKSHATRA_NAMES?.[dasha.birthNakshatraIndex] ?? null,
+      mahadashas: dasha.dashas.map((d: any) => ({
+        lord: d.lord,
+        startJd: d.startJulianDay,
+        endJd: d.endJulianDay,
+        ...(d.fullStartJulianDay !== undefined ? { fullStartJd: d.fullStartJulianDay } : {}),
+      })),
+      utcOffsetMinutes: input.utcOffsetMinutes,
+      birthJd: chart.julianDay,
       moonNakshatraIndex: dasha.birthNakshatraIndex,
-      moonNakshatraLord: NAKSHATRA_LORDS[dasha.birthNakshatraIndex],
       startingLord: dasha.startingLord,
-      asOfMs: referenceMs,
-      activeChain: chainAtJulianDay(dasha, nowJd),
-      balanceYearsAtBirth: Number(dasha.balanceYearsAtBirth.toFixed(3)),
+      balance: ymd(dasha.balanceYearsAtBirth),
+      dashaYearDays: options.yearDays,
+      balanceMethod: options.balance,
       source: dasha.source,
     }));
   });

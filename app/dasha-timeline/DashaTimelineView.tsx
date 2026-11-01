@@ -1,49 +1,33 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useSettings, toEngineOptions } from '@/src/ui/SettingsPanel';
+import { useSettings, toEngineOptions, toDashaOptions } from '@/src/ui/SettingsPanel';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { usePartyInput } from '@/src/ui/chartParty';
-import { computeDashaTimeline } from './actions';
 import { PageEyebrow } from '@/src/ui/PageEyebrow';
+import { citeTa } from '@/src/sources/citeTa';
+import { chainAt, localText, MAX_LEVELS } from '@/src/dasha/dashaDrill';
+import { DASHA_LEVEL_TA, NAKSHATRA_TA } from '@/src/sources/tamilNames';
+import { ABBR } from '@/src/worksheet/dashaList';
+import { PLANET_COLOR, PLANET_TA } from '../worksheet/worksheetStyle';
+import { computeDashaTimeline } from './actions';
+import { DashaTree, dmyHm, spanText, type TreePeriod } from './DashaTree';
 
-interface Bhukti {
-  planet: string;
-  startYear: number;
-  startMonth: number;
-  endYear: number;
-  endMonth: number;
-  duration: number;
-  status: 'past' | 'current' | 'future';
+type Timeline = Awaited<ReturnType<typeof computeDashaTimeline>>;
+
+const JD_UNIX_EPOCH = 2440587.5;
+
+/** 'YYYY-MM-DDTHH:mm' (the browser's date-time field) as a Julian day, the time being the birth place's. */
+function fieldToJd(value: string, offsetMinutes: number): number | null {
+  const [date, time] = value.split('T');
+  const [y, m, d] = (date ?? '').split('-').map(Number);
+  const [h, mi] = (time ?? '00:00').split(':').map(Number);
+  if (![y, m, d, h, mi].every(Number.isFinite)) return null;
+  return (Date.UTC(y, m - 1, d, h, mi) - offsetMinutes * 60000) / 86400000 + JD_UNIX_EPOCH;
 }
 
-interface DashaPeriod {
-  planet: string;
-  startYear: number;
-  startMonth: number;
-  endYear: number;
-  endMonth: number;
-  duration: number;
-  status: 'past' | 'current' | 'future';
-  bhuktis: Bhukti[];
-}
-
-const PLANETS_DATA: Record<string, { tamil: string; color: string }> = {
-  Sun: { tamil: 'சூரியன்', color: '#FF6B35' },
-  Moon: { tamil: 'சந்திரன்', color: '#F7B801' },
-  Mars: { tamil: 'செவ்வாய்', color: '#E63946' },
-  Mercury: { tamil: 'புதன்', color: '#457B9D' },
-  Jupiter: { tamil: 'குரு', color: '#F4A261' },
-  Venus: { tamil: 'சுக்ரன்', color: '#2A9D8F' },
-  Saturn: { tamil: 'சனி', color: '#8B7355' },
-  Rahu: { tamil: 'ராகு', color: '#6A4C93' },
-  Ketu: { tamil: 'கேது', color: '#9B5DE5' },
-};
-
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const monthName = (m: number) => MONTHS[m - 1] ?? '';
-const tamilOf = (p: string) => PLANETS_DATA[p]?.tamil ?? p;
-const colorOf = (p: string) => PLANETS_DATA[p]?.color ?? '#999999';
+/** A Julian day as the date-time field's text, in the birth place's time. */
+const jdToField = (jd: number, offsetMinutes: number) => localText(jd, offsetMinutes).replace(' ', 'T');
 
 export default function DashaTimelineView() {
   const { settings } = useSettings();
@@ -56,275 +40,135 @@ export default function DashaTimelineView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [partyInput, party?.kind, settings.ayanamsha, settings.houseSystem, settings.nodeType],
   );
-  const [dashas, setDashas] = useState<DashaPeriod[]>([]);
-  const [meta, setMeta] = useState<{
-    moonNakshatra: string | null;
-    moonNakshatraLord: string;
-    balanceYearsAtBirth: number;
-  } | null>(null);
-  const [activeChain, setActiveChain] = useState<any[]>([]);
-  const [asOf, setAsOf] = useState<string>(() => new Date().toISOString().slice(0, 10));
+  const [data, setData] = useState<Timeline | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [expandedPlanet, setExpandedPlanet] = useState<string | null>(null);
+  // The moment the running periods are read at: now, until a date is picked
+  const [asOf, setAsOf] = useState<string>('');
+  const [nowJd, setNowJd] = useState<number | null>(null);
 
-  // Calculated as soon as the chart is known, and again for the replay date
+  useEffect(() => { setNowJd(Date.now() / 86400000 + JD_UNIX_EPOCH); }, []);
+
+  // Calculated as soon as the chart is known, and again when the settings' dasha year or balance method change
   useEffect(() => {
-    if (!birthInput) { setDashas([]); setMeta(null); setActiveChain([]); return; }
-    calculate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [birthInput]);
+    if (!birthInput) { setData(null); return undefined; }
+    let cancelled = false;
+    setLoading(true); setError(null);
+    computeDashaTimeline(birthInput, toDashaOptions(settings))
+      .then((r) => { if (!cancelled) setData(r); })
+      .catch((e) => { if (!cancelled) { setError(e instanceof Error ? e.message : String(e)); setData(null); } })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [birthInput, settings.dashaYearDays, settings.dashaBalance]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const calculate = async () => {
-    if (!birthInput) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const asOfMs = Date.parse(`${asOf}T12:00:00.000Z`);
-      const result = await computeDashaTimeline(birthInput, Number.isFinite(asOfMs) ? asOfMs : undefined);
-
-      setDashas(result.dashas);
-      setActiveChain(result.activeChain || []);
-      setMeta({
-        moonNakshatra: result.moonNakshatra,
-        moonNakshatraLord: result.moonNakshatraLord,
-        balanceYearsAtBirth: result.balanceYearsAtBirth,
-      });
-      const current = result.dashas.find((d: DashaPeriod) => d.status === 'current');
-      setExpandedPlanet(current ? current.planet : null);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const currentDasha = dashas.find(d => d.status === 'current');
-  const currentBhukti = currentDasha?.bhuktis.find(b => b.status === 'current');
-  const totalDuration = dashas.reduce((sum, d) => sum + d.duration, 0) || 1;
+  const offset = data?.utcOffsetMinutes ?? 330;
+  const asOfJd = (asOf ? fieldToJd(asOf, offset) : null) ?? nowJd;
+  const mahadashas: TreePeriod[] = data?.mahadashas ?? [];
+  const chain = useMemo(
+    () => (data && asOfJd != null ? chainAt(mahadashas, asOfJd, MAX_LEVELS) : []),
+    [data, asOfJd], // eslint-disable-line react-hooks/exhaustive-deps
+  );
+  const totalDays = mahadashas.reduce((sum, m) => sum + (m.endJd - m.startJd), 0) || 1;
 
   return (
-    <main className="min-h-screen p-6 max-w-6xl mx-auto">
-      <header className="mb-6">
+    <main className="min-h-screen p-3 sm:p-6 max-w-5xl mx-auto">
+      <header className="mb-4">
         <PageEyebrow fallback="Dasha Timeline" />
-        <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
-          விம்சோத்தரி தசை (Vimshottari Dasha)
+        <h1 className="font-[family-name:var(--font-tamil-serif)] text-2xl sm:text-3xl font-bold text-ink">
+          தசா புக்தி — ஐந்து நிலைகள்
         </h1>
         <p className="text-sm text-ink-soft mt-1">
-          Swiss Ephemeris சந்திர நிலை அடிப்படையில் BPHS Ch.46/Ch.51 தசை–புக்தி கணக்கு.
+          விம்சோத்தரி: தசை › புக்தி (அந்தர்தசை) › அந்தரம் › சூட்சமம் › பிராணன். ஒன்றைத் தொட்டால் அதற்குள் உள்ள அடுத்த நிலை திறக்கும்; ஒவ்வொன்றும் எந்தத் தேதி, நேரம் முதல் எந்தத் தேதி, நேரம் வரை என்று காட்டும்.
         </p>
       </header>
 
-      <div className="mb-6">
+      <div className="mb-4">
         <PartyChooser party={party} setParty={setParty} loading={loading || partyLoading} />
       </div>
 
-      {error && (
-        <div className="bg-rose/10 border border-rose rounded-lg p-4 mb-6 text-sm text-rose">{error}</div>
-      )}
+      {error && <div className="bg-rose/10 border border-rose rounded-lg p-4 mb-4 text-sm text-rose">{error}</div>}
 
-      {dashas.length > 0 && (
+      {data && asOfJd != null && (
         <>
-          {meta && (
-            <div className="bg-surface border border-line rounded-lg p-4 mb-6 grid sm:grid-cols-3 gap-4 text-sm">
-              <div>
-                <p className="text-xs font-semibold text-ink-soft uppercase mb-1">ஜன்ம நட்சத்திரம்</p>
-                <p className="text-ink font-medium">{meta.moonNakshatra ?? '—'}</p>
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-ink-soft uppercase mb-1">நட்சத்திர அதிபதி</p>
-                <p className="text-ink font-medium">{meta.moonNakshatraLord} ({tamilOf(meta.moonNakshatraLord)})</p>
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-ink-soft uppercase mb-1">பிறப்பில் தசா சேஷம்</p>
-                <p className="text-ink font-medium tabular-nums">{meta.balanceYearsAtBirth} ஆண்டு</p>
-              </div>
+          <div className="mb-4 grid gap-2 sm:grid-cols-3">
+            <div className="rounded-xl border border-line bg-surface px-3 py-2">
+              <p className="text-[11px] font-semibold text-ink-soft">ஜன்ம நட்சத்திரம்</p>
+              <p className="text-[15px] font-bold text-ink">{NAKSHATRA_TA[data.moonNakshatraIndex]}</p>
             </div>
-          )}
-
-          <div className="bg-surface border border-line rounded-2xl p-5 mb-6">
-            <div className="flex flex-col sm:flex-row sm:items-end gap-3 mb-3">
-              <label className="flex-1">
-                <span className="block text-xs font-medium text-ink-soft mb-1">
-                  எந்த தேதியில் என்ன நடந்தது (replay)
-                </span>
-                <input type="date" value={asOf}
-                  onChange={(e) => setAsOf(e.target.value)}
-                  className="w-full px-3 py-2 bg-ink-soft/10 border border-line rounded text-sm" />
-              </label>
-              <button onClick={() => calculate()} disabled={loading}
-                className="px-4 py-2 bg-info/10 text-info rounded font-medium text-sm disabled:opacity-50">
-                அந்த தேதிக்கு மீண்டும் காட்டு
-              </button>
+            <div className="rounded-xl border border-line bg-surface px-3 py-2">
+              <p className="text-[11px] font-semibold text-ink-soft">பிறந்த தசை</p>
+              <p className="text-[15px] font-bold" style={{ color: PLANET_COLOR[ABBR[data.startingLord]] }}>{PLANET_TA[data.startingLord]}</p>
             </div>
-            {activeChain.length > 0 && (
-              <div className="flex flex-wrap items-center gap-2">
-                {activeChain.map((c: any, i: number) => (
-                  <span key={c.level} className="flex items-center gap-2">
-                    {i > 0 && <span className="text-ink-soft">›</span>}
-                    <span className="px-2 py-1 rounded bg-ink-soft/10 text-xs">
-                      <span className="text-ink-soft">{c.level}</span>{' '}
-                      <strong className="text-ink">{c.planet ?? c.lord}</strong>
-                      <span className="block text-[10px] text-ink-soft tabular-nums">
-                        {String(c.startLocal).slice(0, 10)} → {String(c.endLocal).slice(0, 10)}
-                      </span>
-                    </span>
-                  </span>
-                ))}
-              </div>
-            )}
-            <p className="text-[11px] text-ink-soft mt-2">
-              ஒரே தேதி எப்போதும் ஒரே முடிவைத் தரும் — கணக்கீடு கடிகாரத்தைப் படிப்பதில்லை.
-            </p>
+            <div className="rounded-xl border border-line bg-surface px-3 py-2">
+              <p className="text-[11px] font-semibold text-ink-soft">பிறப்பில் தசா இருப்பு</p>
+              <p className="text-[15px] font-bold text-ink tabular-nums">{data.balance.years} ஆண்டு {data.balance.months} மாதம் {data.balance.days} நாள்</p>
+            </div>
           </div>
 
-          {currentDasha && (
-            <div className="bg-info/10 border-2 border-info rounded-lg p-5 mb-6">
-              <p className="text-xs font-semibold text-info uppercase mb-2">நடப்பு தசை / Current Period</p>
-              <div className="flex items-center justify-between flex-wrap gap-4">
-                <div>
-                  <h2 className="text-2xl font-bold text-ink">
-                    {currentDasha.planet} Dasha
-                    {currentBhukti && <span className="text-lg font-semibold text-ink-soft"> → {currentBhukti.planet} Bhukti</span>}
-                  </h2>
-                  <p className="text-sm text-ink-soft mt-1">
-                    {monthName(currentDasha.startMonth)} {currentDasha.startYear} – {monthName(currentDasha.endMonth)} {currentDasha.endYear}
-                  </p>
-                  {currentBhukti && (
-                    <p className="text-xs text-ink-soft/70 mt-1">
-                      Bhukti: {monthName(currentBhukti.startMonth)} {currentBhukti.startYear} – {monthName(currentBhukti.endMonth)} {currentBhukti.endYear}
-                    </p>
-                  )}
-                </div>
-                <div className="text-right">
-                  <p className="text-3xl font-bold text-info tabular-nums">{currentDasha.duration}</p>
-                  <p className="text-xs text-info/60 mt-1">years</p>
-                </div>
-              </div>
+          <section className="mb-4 rounded-2xl border border-line bg-surface p-3 sm:p-4 shadow-sm" aria-label="நடப்புக் காலங்கள்">
+            <div className="mb-2 flex flex-wrap items-end gap-x-4 gap-y-2">
+              <h2 className="font-[family-name:var(--font-tamil-serif)] text-base font-bold text-ink">
+                {asOf ? 'அந்த நேரத்தில் நடக்கும் காலங்கள்' : 'இப்போது நடக்கும் காலங்கள்'}
+              </h2>
+              <label className="ml-auto flex items-center gap-2 text-xs text-ink-soft">
+                <span>வேறு நேரம்</span>
+                <input
+                  type="datetime-local"
+                  value={asOf || (nowJd != null ? jdToField(nowJd, offset) : '')}
+                  onChange={(e) => setAsOf(e.target.value)}
+                  className="rounded border border-line bg-surface px-2 py-1 text-xs text-ink tabular-nums"
+                  aria-label="தசா காலங்களைப் பார்க்கும் தேதி, நேரம்"
+                />
+              </label>
+              {asOf && <button type="button" className="text-xs text-saffron hover:underline" onClick={() => setAsOf('')}>இப்போது</button>}
             </div>
-          )}
+            <ol className="grid gap-1.5 sm:grid-cols-2 lg:grid-cols-5">
+              {chain.map((p, i) => (
+                <li key={i} className="min-w-0 rounded-xl border border-line bg-surface-2/40 px-2.5 py-1.5">
+                  <p className="text-[10px] font-semibold text-ink-soft">{DASHA_LEVEL_TA[i]}</p>
+                  <p className="text-sm font-bold" style={{ color: PLANET_COLOR[ABBR[p.lord]] }}>{PLANET_TA[p.lord]}</p>
+                  <p className="text-[11px] leading-snug tabular-nums text-ink">{dmyHm(localText(p.startJd, offset))}</p>
+                  <p className="text-[11px] leading-snug tabular-nums text-ink">→ {dmyHm(localText(p.endJd, offset))}</p>
+                  <p className="text-[10px] text-ink-soft">{spanText(p.endJd - p.startJd)}</p>
+                </li>
+              ))}
+            </ol>
+          </section>
 
-          <div className="bg-surface border border-line rounded-2xl p-6 mb-6">
-            <h2 className="text-lg font-semibold text-ink mb-4">120-Year Life Timeline</h2>
-            <div className="relative h-12 bg-line/20 rounded-lg overflow-hidden mb-4">
-              {dashas.map((dasha, index) => {
-                const widthPct = (dasha.duration / totalDuration) * 100;
-                const leftPct = (dashas.slice(0, index).reduce((s, d) => s + d.duration, 0) / totalDuration) * 100;
+          <div className="mb-4 rounded-2xl border border-line bg-surface p-3 sm:p-4">
+            <h2 className="mb-2 text-sm font-bold text-ink">வாழ்க்கை வரிசை — 120 ஆண்டு</h2>
+            <div className="flex h-9 overflow-hidden rounded-lg bg-line/20">
+              {mahadashas.map((m) => {
+                const days = m.endJd - m.startJd;
+                const widthPct = (days / totalDays) * 100;
+                const here = m.startJd <= asOfJd && asOfJd < m.endJd;
                 return (
-                  <div key={index} className="absolute h-full transition-all hover:opacity-90"
-                    style={{
-                      backgroundColor: colorOf(dasha.planet),
-                      left: `${leftPct}%`,
-                      width: `${widthPct}%`,
-                      opacity: dasha.status === 'current' ? 1 : 0.65,
-                    }}
-                    title={`${dasha.planet} — ${dasha.duration} years (${dasha.startYear}–${dasha.endYear})`}>
-                    {widthPct > 8 && (
-                      <div className="h-full flex items-center justify-center">
-                        <span className="text-xs font-bold text-white">{Math.round(dasha.duration)}y</span>
-                      </div>
-                    )}
+                  <div
+                    key={`${m.lord}-${m.startJd}`}
+                    className="flex items-center justify-center text-[11px] font-bold text-white"
+                    style={{ width: `${widthPct}%`, backgroundColor: PLANET_COLOR[ABBR[m.lord]], opacity: here ? 1 : 0.6 }}
+                    title={`${PLANET_TA[m.lord]} — ${dmyHm(localText(m.startJd, offset))} → ${dmyHm(localText(m.endJd, offset))}`}
+                  >
+                    {widthPct > 7 ? ABBR[m.lord] : ''}
                   </div>
                 );
               })}
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-              {dashas.map((dasha, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: colorOf(dasha.planet) }} />
-                  <span className="text-ink-soft">{dasha.planet} ({dasha.duration}y)</span>
-                </div>
-              ))}
-            </div>
           </div>
 
-          <div className="space-y-3">
-            {dashas.map((dasha, index) => (
-              <div key={index}
-                className={`rounded-lg border-2 transition ${
-                  dasha.status === 'current' ? 'bg-info/10 border-info'
-                    : dasha.status === 'past' ? 'bg-ink-soft/5 border-line/40'
-                    : 'bg-surface border-line'
-                }`}>
-                <button
-                  onClick={() => setExpandedPlanet(expandedPlanet === dasha.planet ? null : dasha.planet)}
-                  className="w-full p-4 text-left">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-4 h-4 rounded-full flex-shrink-0 mt-1" style={{ backgroundColor: colorOf(dasha.planet) }} />
-                      <div>
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <h3 className="font-semibold text-ink">{dasha.planet} Dasha</h3>
-                          <span className="text-xs font-medium text-ink-soft">({tamilOf(dasha.planet)})</span>
-                          {dasha.status === 'current' && (
-                            <span className="px-2 py-0.5 bg-info text-white rounded text-xs font-semibold">CURRENT</span>
-                          )}
-                        </div>
-                        <p className="text-sm text-ink-soft mt-1">
-                          {monthName(dasha.startMonth)} {dasha.startYear} – {monthName(dasha.endMonth)} {dasha.endYear}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-lg font-bold text-ink tabular-nums">{dasha.duration}</div>
-                      <div className="text-xs text-ink-soft">years</div>
-                    </div>
-                  </div>
-                </button>
-
-                {expandedPlanet === dasha.planet && dasha.bhuktis.length > 0 && (
-                  <div className="px-4 pb-4">
-                    <p className="text-xs font-semibold text-ink-soft uppercase mb-2 pt-3 border-t border-line/20">
-                      புக்தி / Antardasha ({dasha.bhuktis.length})
-                    </p>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="text-xs text-ink-soft uppercase">
-                            <th className="text-left py-1 pr-3 font-semibold">Bhukti</th>
-                            <th className="text-left py-1 pr-3 font-semibold">From</th>
-                            <th className="text-left py-1 pr-3 font-semibold">To</th>
-                            <th className="text-right py-1 font-semibold">Years</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {dasha.bhuktis.map((b, bi) => (
-                            <tr key={bi} className={`border-t border-line/20 ${
-                              b.status === 'current' ? 'bg-info/10 font-semibold' : b.status === 'past' ? 'text-ink-soft/60' : ''
-                            }`}>
-                              <td className="py-1.5 pr-3">
-                                <span className="inline-flex items-center gap-2">
-                                  <span className="w-2 h-2 rounded-full" style={{ backgroundColor: colorOf(b.planet) }} />
-                                  {b.planet}
-                                  <span className="text-xs text-ink-soft">({tamilOf(b.planet)})</span>
-                                </span>
-                              </td>
-                              <td className="py-1.5 pr-3 tabular-nums">{monthName(b.startMonth)} {b.startYear}</td>
-                              <td className="py-1.5 pr-3 tabular-nums">{monthName(b.endMonth)} {b.endYear}</td>
-                              <td className="py-1.5 text-right tabular-nums">{b.duration}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+          <DashaTree mahadashas={mahadashas} nowJd={asOfJd} offset={offset} />
         </>
       )}
 
-      {dashas.length === 0 && !loading && (
-        <div className="text-center py-12 text-ink-soft">
-          <p className="text-sm">தசை கால கணக்கிடு பொத்தான் கிளிக் செய்து உங்கள் தசா வரிசையைப் பாருங்கள்.</p>
-        </div>
+      {!data && !loading && !error && (
+        <div className="py-10 text-center text-sm text-ink-soft">ஒரு ஜாதகத்தைத் தேர்ந்தெடுத்தால் தசா புக்தி காலங்கள் தெரியும்.</div>
       )}
 
-      <footer className="mt-12 pt-6 border-t border-line text-xs text-ink-soft text-center">
-        <p>
-          BPHS Ch.46 vv.12-16 (order, durations, balance-at-birth) மற்றும் Ch.51 vv.1-2 (புக்தி சூத்திரம்) —
-          Swiss Ephemeris சந்திர நிலை அடிப்படையிலான தீர்மானமான கணக்கு.
+      <footer className="mt-10 pt-4 border-t border-line text-[11px] text-ink-soft">
+        {data && <p>{citeTa(data.source)}. தசை ஆண்டு {data.dashaYearDays} நாள்; இருப்பு {data.balanceMethod === 'time' ? 'நேரப்படி' : 'பாகைப்படி'} (அமைப்புகளில் மாற்றலாம்).</p>}
+        <p className="mt-1">
+          ஒவ்வொரு காலமும் அடுத்த நிலைக்குள் ஒன்பது கிரகங்களுக்கும் பிரிக்கப்படுகிறது: தன் அதிபதியிலிருந்து தொடங்கி, ஒவ்வொருவரும் தம் ஆண்டுகளை 120-ல் பங்காக எடுப்பர் (BPHS அத். 51). பிறப்பில் நடக்கும் தசையின் புக்தி முதலியவை முழுத் தசையின் வரிசையில் இன்னும் நடக்காத பகுதி மட்டுமே; பிறப்புக்கு முன் முடிந்தவை இல்லை.
+          நேரங்கள் பிறந்த ஊர் நேரத்தில், நிமிடம் வரை.
         </p>
       </footer>
     </main>

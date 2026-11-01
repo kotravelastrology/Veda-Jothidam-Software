@@ -1,3 +1,5 @@
+import { PLANET_TA as BASE_PLANET_TA } from '@/src/sources/tamilNames';
+
 /** Colours and labels shared by the worksheet's cells. */
 
 /** Planet colours, close to PL9's (Mars red, Mercury green, Jupiter orange, Venus magenta, Saturn blue). */
@@ -6,10 +8,8 @@ export const PLANET_COLOR: Record<string, string> = {
   Ra: '#6b7280', Ke: '#6b7280', As: '#7c2d12', Gk: '#78716c',
 };
 
-export const PLANET_TA: Record<string, string> = {
-  Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்',
-  Saturn: 'சனி', Rahu: 'ராகு', Ketu: 'கேது', Lagna: 'லக்னம்',
-};
+/** The nine grahas by their English ids (the shared names, src/sources/tamilNames.js) and the Lagna. */
+export const PLANET_TA: Record<string, string> = { ...BASE_PLANET_TA, Lagna: 'லக்னம்' };
 
 /** Dignity, in Tamil, best to worst, with a tone for its colour. */
 export const DIGNITY_TA: Record<string, { label: string; tone: 'good' | 'ok' | 'bad' }> = {

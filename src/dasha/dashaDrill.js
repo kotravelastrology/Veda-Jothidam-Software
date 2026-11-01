@@ -2,7 +2,7 @@
  * Drilling down the Vimshottari periods one level at a time, for the dasha browser (PL9: "you can select 5 levels of dasha
  * which you want to study"). The nine mahadashas come from the engine (buildVimshottariDasha at depth 1); every deeper level
  * is the same arithmetic the engine uses: a period is divided among the nine lords in the cycle, starting from its own lord,
- * each taking its years over 120 of the period (BPHS ch.51 v.2). So the browser can go to any depth without a server call.
+ * each taking its years over 120 of the period (BPHS ch.51 v.2), over the period's full length when it began before birth. So the browser can go to any depth without a server call.
  * No calculation beyond that is in here and nothing in it needs the ephemeris, so the browser can use it.
  */
 
@@ -18,18 +18,29 @@ function orderFrom(lord) {
   return [...CYCLE.slice(i), ...CYCLE.slice(0, i)];
 }
 
+const CLIP_DAYS = 1e-6;
+
 /**
- * The nine sub-periods of a period, in order.
- * @param {{lord: string, startJd: number, endJd: number}} period
+ * The sub-periods of a period, in order. The nine parts are laid out over the period's FULL length: a period that began
+ * before birth (the balance of the birth dasha, and the sub-period of each deeper level that holds the moment of birth) says
+ * where it really began in `fullStartJd`, and only the parts still to run are returned, the first of them from the period's
+ * own start. The same rule as vimshottariDasha.js's childPeriods, which the tests hold this to.
+ * @param {{lord: string, startJd: number, endJd: number, fullStartJd?: number}} period
  */
 function childrenOf(period) {
-  const length = period.endJd - period.startJd;
-  let cursor = period.startJd;
-  return orderFrom(period.lord).map((lord) => {
+  const fullStart = period.fullStartJd ?? period.startJd;
+  const length = period.endJd - fullStart;
+  let cursor = fullStart;
+  const children = [];
+  for (const lord of orderFrom(period.lord)) {
     const start = cursor;
     cursor += (length * YEARS[lord]) / TOTAL_YEARS;
-    return { lord, startJd: start, endJd: cursor };
-  });
+    if (cursor <= period.startJd + CLIP_DAYS) continue;
+    children.push(start < period.startJd - CLIP_DAYS
+      ? { lord, startJd: period.startJd, endJd: cursor, fullStartJd: start }
+      : { lord, startJd: start, endJd: cursor });
+  }
+  return children;
 }
 
 /** 'YYYY-MM-DD HH:mm' in the birth place's time, to the minute, from a Julian day and the UTC offset in minutes. */

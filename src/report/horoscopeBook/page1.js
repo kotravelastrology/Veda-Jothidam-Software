@@ -7,7 +7,10 @@
 const swe = require('@swisseph/node');
 const { createChartContext } = require('../../contracts/chartContext');
 const { calculateParashariChart } = require('../../chart/parashariChart');
-const { calculateTirukanitaPanchangam, NAKSHATRA_NAMES } = require('../../panchangam/tirukanitaPanchangam');
+const {
+  calculateTirukanitaPanchangam, NAKSHATRA_NAMES, TITHI_NAMES, YOGA_NAMES, karanaName,
+  findLimbWindow, tithiIndexAt, nakshatraIndexAt, yogaIndexAt, karanaSerialAt,
+} = require('../../panchangam/tirukanitaPanchangam');
 const { withEphemeris } = require('../../ephemeris/isolation');
 const { sunriseJulianDay, sunsetJulianDay, planetLongitude } = require('../../ephemeris/siderealPositions');
 const { indianFromJd, LUNAR_MONTHS_TA } = require('../../panchangam/indianCalendar');
@@ -128,7 +131,19 @@ function buildPage1({ name = '', sex = '', country = '', family = {}, birth }) {
 
     // Ghatis: 60 per day, counted from the Hindu day's sunrise.
     const ghatisFromSunrise = (jd) => (jd - hRise) * 60;
-    const at = (key) => windowAt(jdBirth, hinduPan[key], nextPan[key]);
+    // The window of a limb that holds the birth: one of the two sunrise windows, or, for a birth between them (a karana lasts about
+    // eleven hours, so half the day's births are), the window found around the birth itself
+    const LIMBS = {
+      tithi: [tithiIndexAt, (i) => TITHI_NAMES[i]],
+      nakshatra: [nakshatraIndexAt, (i) => NAKSHATRA_NAMES[i]],
+      yoga: [yogaIndexAt, (i) => YOGA_NAMES[i]],
+      karana: [karanaSerialAt, karanaName],
+    };
+    const at = (key) => windowAt(jdBirth, hinduPan[key], nextPan[key]) ?? (() => {
+      const [indexAt, nameOf] = LIMBS[key];
+      const w = findLimbWindow(indexAt, jdBirth, ayan);
+      return { name: nameOf(w.index), index: w.index, startJulianDay: w.startJulianDay, endJulianDay: w.endJulianDay };
+    })();
 
     const nak = birthNakshatraAndBalance(moon.longitude);
     const star = nak.nakshatraIndex;
@@ -264,4 +279,8 @@ function buildPage1({ name = '', sex = '', country = '', family = {}, birth }) {
   });
 }
 
-module.exports = { buildPage1 };
+module.exports = {
+  buildPage1,
+  // the helpers the birth-particulars summary (src/report/birthParticulars.js) shares with this page
+  utcMidnightJd, addDays, weekdayOf, windowAt, tamilDayOfMonth, sexagesimal, clock, geo, signedOffset,
+};

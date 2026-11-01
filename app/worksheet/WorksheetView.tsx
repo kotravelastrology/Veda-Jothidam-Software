@@ -8,6 +8,7 @@ import { useChartParty, writeStash, inputFromSaved } from '@/src/ui/chartParty';
 import { useScreenPrefs, useTimeTool } from '@/src/ui/useScreenPrefs';
 import { localDateText, dateTextToMs } from '@/src/ui/timeToolStore';
 import { computeWorksheet } from './actions';
+import { BirthDetails } from './BirthDetails';
 import {
   CellFrame, ChartCell, DashaCell, GraphCell, PlanetsCell, StrengthCell,
   DEFAULT_CHOICES, type CellChoices, type CellId, type WorksheetData,
@@ -193,7 +194,7 @@ export default function WorksheetView() {
         <nav className="mt-3 flex flex-wrap gap-1.5" aria-label="இந்த ஜாதகத்துக்கான பக்கங்கள்">
           <Link href="/report" className={pill}>📖 முழு அறிக்கை</Link>
           <Link href="/divisional-charts" className={pill}>🔷 வர்க்கங்கள்</Link>
-          <Link href="/dasha-timeline" className={pill}>⏱ தசை வரிசை</Link>
+          <Link href="/dasha-timeline" className={pill}>⏱ தசா புக்தி (5 நிலை)</Link>
           <Link href="/dasha-calendar" className={pill}>📅 தசா நாட்காட்டி</Link>
           <Link href="/animated-transits" className={pill}>🪐 கோசாரம்</Link>
           <Link href="/varshaphala" className={pill}>🎂 வர்ஷபலன்</Link>
@@ -203,6 +204,8 @@ export default function WorksheetView() {
 
       {loading && !data && <p className="text-sm text-ink-soft p-4">கணக்கிடப்படுகிறது…</p>}
       {error && <p className="text-rose text-sm mb-3 bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}
+
+      {data && <BirthDetails p={data.particulars} />}
 
       {data && (
         <div className={`grid lg:grid-cols-12 ${layout === 'compact' ? 'gap-2' : 'gap-3'}`} data-layout={layout}>

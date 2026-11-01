@@ -135,16 +135,42 @@ function subPeriods(parentLord, parentDurationYears, parentStartYears) {
   });
 }
 
+/**
+ * The sub-periods of a period, as the dasha is reckoned in practice (and as the Parashara's Light sample lists them): a
+ * period's nine parts are laid out over its FULL length, and a period that begins before birth (the balance of the birth
+ * dasha, and the one sub-period of each deeper level that holds the moment of birth) keeps only the parts still to run, the
+ * first of them from birth. `fullStartYears` / `fullDurationYears` say where a clipped period really began and how long it
+ * is in full; a period that is not clipped has neither and is its own full span.
+ */
+const CLIP_EPSILON = 1e-9;
+function childPeriods(period) {
+  const fullStart = period.fullStartYears ?? period.startYears;
+  const fullDuration = period.fullDurationYears ?? period.durationYears;
+  return subPeriods(period.lord, fullDuration, fullStart)
+    .filter((child) => child.endYears > period.startYears + CLIP_EPSILON)
+    .map((child) => (child.startYears < period.startYears - CLIP_EPSILON
+      ? {
+        ...child,
+        fullStartYears: child.startYears,
+        fullDurationYears: child.durationYears,
+        startYears: period.startYears,
+        durationYears: child.endYears - period.startYears,
+      }
+      : child));
+}
+
 function withCalendarDates(period, birthJulianDay, utcOffsetMinutes, yearDays = DAYS_PER_YEAR) {
   const startJulianDay = birthJulianDay + period.startYears * yearDays;
   const endJulianDay = birthJulianDay + period.endYears * yearDays;
-  return {
+  const dated = {
     ...period,
     startJulianDay,
     endJulianDay,
     startLocal: formatLocalDateTime(startJulianDay, utcOffsetMinutes),
     endLocal: formatLocalDateTime(endJulianDay, utcOffsetMinutes),
   };
+  if (period.fullStartYears !== undefined) dated.fullStartJulianDay = birthJulianDay + period.fullStartYears * yearDays;
+  return dated;
 }
 
 /**
@@ -177,7 +203,13 @@ function buildVimshottariDasha(birthJulianDay, moonLongitude, utcOffsetMinutes, 
   let lord = birth.lord;
   for (let i = 0; i < 9; i += 1) {
     const durationYears = i === 0 ? birth.balanceYears : VIMSHOTTARI_YEARS[lord];
-    mahadashas.push({ lord, durationYears, startYears: cursor, endYears: cursor + durationYears });
+    const mahadasha = { lord, durationYears, startYears: cursor, endYears: cursor + durationYears };
+    // The birth dasha is only the balance: it began before birth, by the part already run
+    if (i === 0) {
+      mahadasha.fullStartYears = birth.balanceYears - VIMSHOTTARI_YEARS[lord];
+      mahadasha.fullDurationYears = VIMSHOTTARI_YEARS[lord];
+    }
+    mahadashas.push(mahadasha);
     cursor += durationYears;
     lord = orderFrom(lord)[1];
   }
@@ -185,8 +217,7 @@ function buildVimshottariDasha(birthJulianDay, moonLongitude, utcOffsetMinutes, 
   function withChildren(period, level) {
     const dated = withCalendarDates(period, birthJulianDay, utcOffsetMinutes, yearDays);
     if (level >= depth) return dated;
-    const children = subPeriods(period.lord, period.durationYears, period.startYears)
-      .map((child) => withChildren(child, level + 1));
+    const children = childPeriods(period).map((child) => withChildren(child, level + 1));
     return { ...dated, [DASHA_LEVEL_NAMES[level]]: children };
   }
 
@@ -215,6 +246,7 @@ module.exports = {
   DASHA_YEAR_OPTIONS,
   BALANCE_METHODS,
   subPeriods,
+  childPeriods,
   orderFrom,
   NAKSHATRA_LORDS,
   VIMSHOTTARI_CYCLE,

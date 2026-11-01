@@ -28,7 +28,7 @@ async function main() {
     latitude: 13 + 5 / 60, longitude: 80 + 17 / 60, placeName: 'Chennai',
   };
   const tree = await withBirth(birth, ({ chart }) => buildVimshottariDasha(chart.julianDay, chart.grahas.Moon.longitude, 330, { depth: 3 }));
-  const mahadashas = tree.dashas.map((m) => ({ lord: m.lord, startJd: m.startJulianDay, endJd: m.endJulianDay }));
+  const mahadashas = tree.dashas.map((m) => ({ lord: m.lord, startJd: m.startJulianDay, endJd: m.endJulianDay, ...(m.fullStartJulianDay !== undefined ? { fullStartJd: m.fullStartJulianDay } : {}) }));
   assert.strictEqual(mahadashas.length, 9);
   let compared = 0;
   tree.dashas.forEach((maha, i) => {
@@ -45,7 +45,13 @@ async function main() {
       });
     });
   });
-  assert.strictEqual(compared, 729, 'every period of the third level');
+  // 729 = 9 x 9 x 9, less the periods of the birth dasha that ended before birth (the browser leaves them out as the engine does)
+  const expectedThird = tree.dashas.reduce((n, m) => n + m.Bhukti.reduce((k, b) => k + b.Antara.length, 0), 0);
+  assert.ok(expectedThird < 729 && expectedThird > 600, 'the birth dasha loses some of its third-level periods');
+  assert.strictEqual(compared, expectedThird, 'every period of the third level');
+  assert.strictEqual(D.childrenOf(mahadashas[0]).length, tree.dashas[0].Bhukti.length, 'the birth dasha has only the bhuktis still to run');
+  assert.ok(D.childrenOf(mahadashas[0]).length < 9);
+  assert.strictEqual(D.childrenOf(mahadashas[0])[0].startJd, mahadashas[0].startJd, 'the first of them runs from birth');
 
   // --- chains: along a path, and at a date (31 October 2026 is in Sun-Rahu, as PL9 lists)
   const jd = 2461345.0; // 2026-10-31 12:00 UT
@@ -56,6 +62,17 @@ async function main() {
   assert.deepStrictEqual(D.chainFromPath(mahadashas, ['Sun', 'Rahu']).map((p) => p.startJd), now.slice(0, 2).map((p) => p.startJd));
   assert.deepStrictEqual(D.chainFromPath(mahadashas, ['Sun', 'Pluto']).map((p) => p.lord), ['Sun'], 'an unknown lord ends the chain');
   assert.strictEqual(D.chainAt(mahadashas, jd, 9).length, 5, 'never more than five levels');
+  // the moment after birth: five levels, each nested in the one above, each still to run (all begin at birth, none before it)
+  const atBirth = D.chainAt(mahadashas, mahadashas[0].startJd + 1e-6, 5);
+  assert.strictEqual(atBirth.length, 5);
+  atBirth.forEach((p, i) => {
+    assert.ok(Math.abs(p.startJd - mahadashas[0].startJd) < 1e-9, `level ${i + 1} begins at birth`);
+    assert.ok(p.endJd > p.startJd);
+    if (i > 0) assert.ok(p.endJd <= atBirth[i - 1].endJd + 1e-9, `level ${i + 1} ends inside its parent`);
+  });
+  // the five levels of a period that is not clipped tile their parent exactly
+  const inLater = D.chainAt(mahadashas, jd, 5);
+  for (let i = 1; i < 5; i += 1) assert.ok(inLater[i].startJd >= inLater[i - 1].startJd && inLater[i].endJd <= inLater[i - 1].endJd + 1e-9);
   // before the birth and after the last period, the nearest mahadasha is used
   assert.strictEqual(D.chainAt(mahadashas, mahadashas[0].startJd - 100, 1)[0].lord, mahadashas[0].lord);
   assert.strictEqual(D.chainAt(mahadashas, mahadashas[8].endJd + 100, 1)[0].lord, mahadashas[8].lord);

@@ -12,6 +12,8 @@ import { WorksheetChart, type ChartEntry, type HouseBadge } from '../worksheet/W
 import { DIGNITY_TA, PLANET_COLOR, TONE_CLASS } from '../worksheet/worksheetStyle';
 import { computeDashaBrowser, computeDashaMoment } from './actions';
 import { PageEyebrow } from '@/src/ui/PageEyebrow';
+import { DASHA_LEVEL_TA as LEVEL_TA } from '@/src/sources/tamilNames';
+import { dmyHm } from '../dasha-timeline/DashaTree';
 
 /**
  * PL9's Dasha Effects Browser (user guide ch.8, "Dasha browser"): pick a dasha period, level by level, and see the sky when
@@ -20,11 +22,7 @@ import { PageEyebrow } from '@/src/ui/PageEyebrow';
  * black and the planets at the period's start in red. The effects are BPHS chapters 47 and 48 for each lord of the period.
  */
 
-const LEVEL_TA = ['தசை', 'புக்தி', 'அந்தரம்', 'சூக்ஷ்மம்', 'பிராணம்'];
-
 interface Period { lord: string; startJd: number; endJd: number; selected?: boolean; current?: boolean }
-
-const dmy = (text: string) => { const [y, m, d] = text.slice(0, 10).split('-'); return `${d}-${m}-${y}`; };
 
 export default function DashaBrowserView() {
   const { settings } = useSettings();
@@ -169,7 +167,7 @@ export default function DashaBrowserView() {
                 <span className="text-[10px] text-ink-soft"> ({LEVEL_TA[i]})</span>
               </span>
             ))}
-            {deepest && <span className="text-xs text-ink-soft tabular-nums"> · {dmy(localText(deepest.startJd, offset))} → {dmy(localText(deepest.endJd, offset))}</span>}
+            {deepest && <span className="text-xs text-ink-soft tabular-nums"> · {dmyHm(localText(deepest.startJd, offset))} → {dmyHm(localText(deepest.endJd, offset))}</span>}
           </p>
         )}
       </header>
@@ -186,7 +184,7 @@ export default function DashaBrowserView() {
             </header>
             <div className="p-3 flex gap-2 overflow-x-auto">
               {cols.map((c, i) => (
-                <div key={c.level} className="min-w-[8.5rem] flex-1">
+                <div key={c.level} className="min-w-[9.5rem] flex-1">
                   <p className="text-[10px] font-semibold uppercase tracking-wide text-ink-soft mb-1">{c.level}. {LEVEL_TA[i]}</p>
                   <ul className="space-y-1">
                     {c.periods.map((p: Period) => (
@@ -201,7 +199,8 @@ export default function DashaBrowserView() {
                             <span className="text-sm font-semibold" style={{ color: PLANET_COLOR[ABBR[p.lord]] }}>{data.planetTa[p.lord]}</span>
                             {p.current && <span className="text-[9px] rounded-full bg-rose/15 text-rose px-1.5">நடப்பு</span>}
                           </span>
-                          <span className="block text-[10px] text-ink-soft tabular-nums">{dmy(localText(p.startJd, offset))}</span>
+                          <span className="block text-[10px] leading-snug text-ink-soft tabular-nums">{dmyHm(localText(p.startJd, offset))}</span>
+                          <span className="block text-[10px] leading-snug text-ink-soft tabular-nums">→ {dmyHm(localText(p.endJd, offset))}</span>
                         </button>
                       </li>
                     ))}
@@ -226,7 +225,7 @@ export default function DashaBrowserView() {
                   center={
                     <div className="leading-snug">
                       <p className="text-[11px] font-semibold text-ink">{deepest ? `${chain.map((p) => ABBR[p.lord]).join('-')}` : '—'}</p>
-                      {deepest && <p className="text-[10px] text-ink-soft tabular-nums">{dmy(localText(deepest.startJd, offset))}</p>}
+                      {deepest && <p className="text-[10px] text-ink-soft tabular-nums">{dmyHm(localText(deepest.startJd, offset))}</p>}
                       <p className="text-[10px] text-ink-soft mt-1"><span className="text-ink">கருப்பு</span> ஜாதகம் · <span className="text-rose italic">சிவப்பு</span> கோசாரம்</p>
                     </div>
                   }

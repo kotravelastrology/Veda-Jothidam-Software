@@ -16,6 +16,8 @@ const W = require('../../src/worksheet/worksheetData');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { calculateVargas } = require('../../src/chart/vargaChart');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const { buildBirthParticulars } = require('../../src/report/birthParticulars');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { describeMatchParty } = require('../../src/report/matchParties');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { openLibrary } = require('../../src/library/chartRepository');
@@ -68,6 +70,15 @@ export async function computeWorksheet(req: WorksheetRequest) {
     return W.flattenDasha(tree);
   });
 
+  // What the top of the worksheet says of the birth: the weekday, sunrise, the limbs of the panchangam, the dasha balance...
+  const particulars = await buildBirthParticulars({
+    birth: input,
+    engine: { ayanamsha: input.ayanamsha, houseSystem: input.houseSystem, nodeType: input.nodeType },
+    dashaOptions: options,
+    gender: input.gender,
+    name: profile?.name ?? input.name,
+  });
+
   // The report's divisional charts cover the seven planets; PL9 draws Rahu, Ketu and Gulika in them too
   const gulika = W.gulikaRow(report.upagraha);
   const vargas = { ...report.vargas };
@@ -91,6 +102,7 @@ export async function computeWorksheet(req: WorksheetRequest) {
     vargas,
     gulika,
     sarva: report.ashtakavarga.sarva,
+    particulars,
     periods,
     dashaYearDays: options.yearDays,
     balance: options.balance,
