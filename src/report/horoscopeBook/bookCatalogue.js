@@ -77,6 +77,11 @@ const FAMILIES = [
     [null, 91, 91, 'ரத்தினங்கள்', 'Gemstones'],
     [null, 92, 92, 'தசைப் பலன்கள் (பிருஹத் பராசரம்)', 'Dasha Results'],
   ] },
+  // PL9's shorter print (meera_HC2): the same dates in its compact layouts
+  { key: 'short', ta: 'சுருக்கமான தசை அமைப்பு', icon: '🗒️', tone: 'teal', items: [
+    [null, 93, 97, 'விம்சோத்தரி — புக்தி, அந்தரம் (சுருக்கம்)', 'Vimshottari (Short) AD and PD'],
+    [null, 98, 99, 'யோகினி — தசை, புக்தி (சுருக்கம்)', 'Yogini (Short) MD and AD'],
+  ] },
 ];
 
 /**

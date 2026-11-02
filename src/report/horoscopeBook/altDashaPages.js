@@ -156,4 +156,27 @@ async function buildYogini({ name = '', birth, dashaOptions, cycle }) {
   });
 }
 
-module.exports = { buildAshtottariMain, buildAshtottariShort, buildYogini, divideAshtottari, divideYogini };
+/** The "Yogini (Short) MD and AD" pages of PL9's shorter print: nine mahadashas to a page (`part` 0 and 1), each antardasha with its beginning only. */
+async function buildYoginiShort({ name = '', birth, dashaOptions, part }) {
+  return enginesFor(birth, (moon, birthMs, off) => {
+    const sc = yearScale(dashaOptions, birthMs);
+    const d = A.buildYoginiDasha(moon, birthMs);
+    const first = d.periods[0];
+    const blocks = d.periods.slice(part * 9, part * 9 + 9).map((p) => ({
+      kind: 'table', tile: true,
+      heading: `${YOGINI_NAMES[p.index]} (${A.YOGINI_YEARS[p.index]}y)`,
+      aside: `${p === first ? '0 yrs.' : ageText(birthMs, sc(p.startMs), off)} · ${dmyOf(sc(Math.max(p.startMs, birthMs)), off)} → ${dmyOf(sc(p.endMs), off)}`,
+      columns: ['Antar', 'Beginning'],
+      rows: divideYogini(p).map((s) => [YOGINI_ABBR[s.index], s.startMs === null ? '' : dmyOf(sc(s.startMs), off)]),
+    }));
+    return {
+      ...head(name, birth),
+      blocks: [
+        { kind: 'text', heading: 'Yogini Mahadashas and Antardashas', text: `Dasha balance at birth: ${YOGINI_NAMES[first.index]} ${ymdText(birthMs, sc(first.endMs), off)}. The dates are given for dasha beginning dates; the running age is given for dasha beginning dates.` },
+        ...blocks,
+      ],
+    };
+  });
+}
+
+module.exports = { buildAshtottariMain, buildAshtottariShort, buildYogini, buildYoginiShort, divideAshtottari, divideYogini };

@@ -17,7 +17,7 @@ const { buildPage18 } = require('./divisionalAshtakavargaPage');
 const { buildPage19 } = require('./healthPage');
 const { buildPage20 } = require('./dashaPage');
 const { buildVimshottariDetail, buildVimshottariSookshma } = require('./vimshottariPages');
-const { buildAshtottariMain, buildAshtottariShort, buildYogini } = require('./altDashaPages');
+const { buildAshtottariMain, buildAshtottariShort, buildYogini, buildYoginiShort } = require('./altDashaPages');
 const { buildRarePage } = require('./rarePages');
 
 const { buildKpChart, buildKpSignificators } = require('./kpPages');
@@ -36,6 +36,7 @@ const { buildJaiminiSystem } = require('./jaiminiPage');
 
 const { buildKalachakraMain, buildKalachakraShort } = require('./kalachakraPages');
 
+const { buildVimshottariShort } = require('./vimshottariPages');
 const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults } = require('./extraPages');
 
 const BOOK_SECTIONS = [
@@ -132,6 +133,14 @@ const BOOK_SECTIONS = [
   { id: 'p90', title: 'Page 90 · Sadhesati and Remedies', build: buildSadeSatiRemedies },
   { id: 'p91', title: 'Page 91 · Gemstones', build: buildGemstonesPage },
   { id: 'p92', title: 'Page 92 · Dasha Results', build: buildDashaResults },
+  // PL9's shorter print (meera_HC2): the Vimshottari antardashas with only the pratyantardasha beginnings, and the Yogini dasha in two pages
+  { id: 'p93', title: 'Page 93 · Vimshottari (Short) AD and PD #1', build: (q) => buildVimshottariShort({ ...q, part: 0 }) },
+  { id: 'p94', title: 'Page 94 · Vimshottari (Short) AD and PD #2', build: (q) => buildVimshottariShort({ ...q, part: 1 }) },
+  { id: 'p95', title: 'Page 95 · Vimshottari (Short) AD and PD #3', build: (q) => buildVimshottariShort({ ...q, part: 2 }) },
+  { id: 'p96', title: 'Page 96 · Vimshottari (Short) AD and PD #4', build: (q) => buildVimshottariShort({ ...q, part: 3 }) },
+  { id: 'p97', title: 'Page 97 · Vimshottari (Short) AD and PD #5', build: (q) => buildVimshottariShort({ ...q, part: 4 }) },
+  { id: 'p98', title: 'Page 98 · Yogini (Short) MD and AD #1', build: (q) => buildYoginiShort({ ...q, part: 0 }) },
+  { id: 'p99', title: 'Page 99 · Yogini (Short) MD and AD #2', build: (q) => buildYoginiShort({ ...q, part: 1 }) },
 ];
 
 /** The sections without their builders, for the print centre's list. */

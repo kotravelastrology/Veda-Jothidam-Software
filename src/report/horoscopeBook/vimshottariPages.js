@@ -6,6 +6,9 @@
  *    is beside its name. The birth dasha's antardashas that ended before birth are listed without dates, as the sample lists them.
  *  - Pages 30-32, "Vimshottari Dasha - PD and Sookshma": the pratyantardashas from the one running on the date of printing, thirty-six
  *    of them (twelve a page), each with its nine sookshma dashas and the date and time each begins.
+ *  - The "Vimshottari (Short) AD and PD" pages of PL9's shorter print (meera_HC2, pages 18-22): fifteen antardashas to a page, each with its
+ *    beginning and ending and only the beginning of each of its pratyantardashas, from the first antardasha still running at birth to the
+ *    seventy-fifth; the same dates as the detailed pages.
  * The periods are the engine's (vimshottariDasha.js, BPHS ch.46 and ch.51): the sub-periods of a period are laid over its full
  * length from its own lord, and a period running at birth keeps only what was still to run. The dasha year and the balance method
  * are the settings'. Each builder returns a Promise of { title, subtitle, blocks }.
@@ -112,4 +115,40 @@ async function buildVimshottariSookshma({ name = '', birth, dashaOptions, part, 
   };
 }
 
-module.exports = { buildVimshottariDetail, buildVimshottariSookshma, ageText, listChildren };
+/** The antardashas that end after birth, in order, each with its mahadasha. */
+function flatAntardashas(tree, birthLocal) {
+  const out = [];
+  for (const md of tree.dashas) for (const ad of md.Bhukti || []) {
+    if (ad.endLocal.slice(0, 10) > birthLocal.slice(0, 10)) out.push({ md, ad });
+  }
+  return out;
+}
+
+// PL9 prints seventy-five antardashas, five pages of fifteen (to the 108th year on meera's chart): the count, not an age, ends them
+const SHORT_PER_PAGE = 15;
+const SHORT_PAGES = 5;
+/** PL9's three-letter names for the nine lords. */
+const ABBR3 = { Sun: 'Sun', Moon: 'Mon', Mars: 'Mar', Mercury: 'Mer', Jupiter: 'Jup', Venus: 'Ven', Saturn: 'Sat', Rahu: 'Rah', Ketu: 'Ket' };
+
+/** Short pages 0 to 4: fifteen antardashas each, with the beginning dates of their pratyantardashas. */
+async function buildVimshottariShort({ name = '', birth, dashaOptions, part }) {
+  const { tree, birthLocal } = await treeFor(birth, dashaOptions, 3);
+  const slice = flatAntardashas(tree, birthLocal).slice(0, SHORT_PER_PAGE * SHORT_PAGES).slice(part * SHORT_PER_PAGE, (part + 1) * SHORT_PER_PAGE);
+  const blocks = slice.map(({ md, ad }) => ({
+    kind: 'table', tile: true,
+    heading: `${ABBR3[md.lord]}-${ABBR3[ad.lord]}`,
+    aside: `${dmy(ad.startLocal)} → ${dmy(ad.endLocal)}`,
+    columns: ['Antar', 'Begin'],
+    rows: listChildren(ad, 'Antara').map(({ lord, node }) => [ABBR3[lord], node ? dmy(node.startLocal) : '']),
+  }));
+  return {
+    title: `ஜாதகம் — ${name}`.trim(),
+    subtitle: `${birth.placeName} · ${birth.day} ${MONTH_EN[birth.month - 1]} ${birth.year}`,
+    blocks: [
+      { kind: 'text', heading: 'Vimshottari Antardasha and Pratyantardashas', text: '*The dates are given for dasha beginning dates.' },
+      ...blocks,
+    ],
+  };
+}
+
+module.exports = { buildVimshottariShort, buildVimshottariDetail, buildVimshottariSookshma, ageText, listChildren };

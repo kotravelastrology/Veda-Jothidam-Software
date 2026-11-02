@@ -47,7 +47,7 @@ Method: every page of the book is built for each birth and its numbers (dates to
 ## Not built yet
 
 - KOTRAVEL_HP1's extra pages are built as pages 89-92 of the book from this software's own sourced engines, not PL9's canned prose (`extraPages.js`): Mangala dosha (89), Sadhesati phases and remedies (90), gemstones (91), the running and next Vimshottari mahadasha read against BPHS ch.47-48 (92). Not built: HP1's introductory text pages (pp.9-15, general Vedic text and the nature/character card) and its per-antardasha and per-pratyantardasha result bullets (pp.22-56); no sourced equivalent exists in the library yet.
-- meera's "Vimshottari (Short)" and "Yogini (Short)" layouts (their dates agree with the detailed pages already built).
+- meera's "Vimshottari (Short)" (5 pages, seventy-five antardashas with only the pratyantardasha beginnings) and "Yogini (Short)" (2 pages of nine mahadashas) are built as pages 93-99 (`vimshottariPages.js`, `altDashaPages.js`); every date on all seven pages equals the printout's within a day. One difference stays: meera's Yogini page prints "Dasha balance at birth: Bhramari 8y 8m 28d", which is the true balance (3y 8m 29d, the page's own ages and dates agree with it) plus the next period's five years; the book prints the true one.
 
 ## Page 7 special points: sources and what was built (2026-11-04)
 

@@ -171,6 +171,23 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     assert.ok(t.rows.length >= 2 && t.rows.every((r) => /ப\.\d/.test(r[5]) && !/PDF/.test(r[5])), 'each section names its printed page');
   }
   assert.ok(!/undefined|NaN|null/.test(JSON.stringify(p92)));
+  // pages 93-97: seventy-five antardashas, fifteen a page, with only the beginnings of their pratyantardashas (PL9's shorter print)
+  let shortBlocks = 0;
+  for (const id of ['p93', 'p94', 'p95', 'p96', 'p97']) {
+    const page = await build(id);
+    const tiles = page.blocks.filter((b) => b.kind === 'table');
+    shortBlocks += tiles.length;
+    assert.ok(tiles.every((t) => t.columns.join() === 'Antar,Begin' && t.rows.length === 9 && /^[A-Z][a-z]{2}-[A-Z][a-z]{2}$/.test(t.heading)), id);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+  assert.equal(shortBlocks, 75, 'seventy-five antardashas');
+  // pages 98-99: nine Yogini mahadashas each, with the antardasha beginnings
+  for (const id of ['p98', 'p99']) {
+    const page = await build(id);
+    const tiles = page.blocks.filter((b) => b.kind === 'table');
+    assert.equal(tiles.length, 9, id);
+    assert.ok(tiles.every((t) => t.columns.join() === 'Antar,Beginning' && t.rows.length === 8), id);
+  }
 
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });
