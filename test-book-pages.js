@@ -75,6 +75,18 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
   assert.equal(p61.blocks[1].heading, 'Aquarius (9y)');
   assert.equal(p61.blocks[2].rows[0][1], '19-08-1999', 'the sample: Pisces begins 19-08-1999');
 
+  // pages 48-59: the sign dashas as the sample prints them (K.N. Rao chara, Sthira, Drig, Kendradi, Navamsha)
+  const heads = async (id) => (await build(id)).blocks.slice(1).map((b) => b.heading);
+  assert.deepEqual(await heads('p48'), ['Leo (11y)', 'Virgo (12y)', 'Libra (11y)', 'Scorpio (8y)', 'Sagittarius (7y)', 'Capricorn (1y)', 'Aquarius (2y)', 'Pisces (8y)', 'Aries (1y)', 'Taurus (4y)', 'Gemini (3y)', 'Cancer (4y)']);
+  assert.deepEqual(await heads('p50'), ['Virgo (9y)', 'Libra (7y)', 'Scorpio (8y)', 'Sagittarius (9y)', 'Capricorn (7y)', 'Aquarius (8y)', 'Pisces (9y)', 'Aries (7y)', 'Taurus (8y)', 'Gemini (9y)', 'Cancer (7y)', 'Leo (8y)']);
+  const p50 = await build('p50');
+  assert.deepEqual(p50.blocks[1].rows.slice(0, 3), [['Beginning', '05-10-1990'], ['Ending', '19-08-1999'], ['6 Vir', '05-10-1990']]);
+  assert.equal(p50.blocks[1].rows[3][0], '5 Leo'); // Virgo is even: the sub-periods run backward
+  assert.equal(p50.blocks[2].rows[2][0], '1 Ari'); // Libra's seventh, Aries, is the stronger
+  assert.deepEqual(await heads('p53'), ['Aries (1y)', 'Leo (11y)', 'Scorpio (8y)', 'Aquarius (2y)', 'Taurus (3y)', 'Cancer (4y)', 'Libra (10y)', 'Capricorn (1y)', 'Gemini (4y)', 'Virgo (12y)', 'Sagittarius (8y)', 'Pisces (9y)']);
+  assert.deepEqual(await heads('p55'), ['Aries (1y)', 'Taurus (4y)', 'Gemini (3y)', 'Cancer (8y)', 'Leo (1y)', 'Virgo (12y)', 'Libra (11y)', 'Scorpio (6y)', 'Sagittarius (7y)', 'Capricorn (11y)', 'Aquarius (10y)', 'Pisces (4y)']);
+  assert.deepEqual(await heads('p59'), ['Aquarius (2y)', 'Taurus (3y)', 'Leo (11y)', 'Scorpio (8y)', 'Pisces (9y)', 'Gemini (4y)', 'Virgo (12y)', 'Sagittarius (8y)', 'Aries (1y)', 'Cancer (4y)', 'Libra (10y)', 'Capricorn (1y)']);
+
   // page 47: the Chara Karakas are the sample's
   const p47 = await build('p47');
   const ck = block(p47, 'Chara Karakas');

@@ -14,6 +14,12 @@
 const { withBirth } = require('./charts');
 const RS = require('../../dasha/bphsRashiDashas');
 const K = require('../../dasha/kalachakraBphs');
+const P = require('../../dasha/pl9SignDashas');
+
+/** The engines of the sign dashas: the sources' (bphsRashiDashas.js) and the PL9 sample's reckoning (pl9SignDashas.js). */
+const SYSTEMS = {
+  ...RS.SYSTEMS, 'chara-pl9': P.charaKNRao, 'sthira-pl9': P.sthiraPL9, 'drig-pl9': P.drigPL9, 'kendradi-pl9': P.kendradiPL9, 'navamsha-pl9': P.navamshaPL9,
+};
 
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const SIGN = ['Ari', 'Tau', 'Gem', 'Can', 'Leo', 'Vir', 'Lib', 'Sco', 'Sag', 'Cap', 'Aqu', 'Pis'];
@@ -22,9 +28,13 @@ const PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn',
 const pad = (n) => String(n).padStart(2, '0');
 
 const TITLES = {
-  'jaimini-chara': { page: 'Jaimini Chara Dasha', note: 'Rath\'s reading of the Jaimini Upadesa Sutras (counting from a sign to its lord\'s sign). PL9\'s years differ by a year for Libra, Sagittarius and Pisces; the sub-periods (from the sign or its seventh, the stronger) are the sample\'s kind.' },
-  narayana: { page: 'Narayana Dasha', note: 'Rath, Jaimini Upadesa Sutras: the signs, years and sub-periods (from the sign or its seventh, the stronger) agree with the sample.' },
-  'niryaana-shoola': { page: 'Shoola Dasha', note: 'Nine years a sign from the stronger of the Lagna and the seventh (P.S. Sastri, Jaimini Sutram 2.3.5-12 and 2.3.18). PL9 prints this reckoning as "Shoola Dasha"; its own "Niryaana Shoola" pages differ.' },
+  'chara-pl9': { page: 'Jaimini Chara Dasha', note: `K.N. Rao's reckoning (Predicting through Jaimini's Chara Dasa): the years are the count to the lord's sign less one, with no year added for an exalted lord or taken for a debilitated one; Scorpio and Aquarius by his special rules; the sub-periods are the twelve parts in the order of the sign, each sign taking its own last. Rath's reading (with the exaltation year) differs by a year in some signs.` },
+  narayana: { page: 'Narayana Dasha', note: `Rath, Jaimini Upadesa Sutras: the signs, years and sub-periods (from the sign or its seventh, the stronger) agree with the sample.` },
+  'niryaana-shoola': { page: 'Shoola Dasha', note: `Nine years a sign from the stronger of the Lagna and the seventh (P.S. Sastri, Jaimini Sutram 2.3.5-12 and 2.3.18). The sample prints this reckoning as "Shoola Dasha".` },
+  'sthira-pl9': { page: 'Sthira Dasha', note: `From the sign of the Brahma graha (the stronger of the lords of the 6th, 8th and 12th from the stronger of the lagna and the seventh, Saturn, Rahu and Ketu excepted; B.V. Raman's strengths as Koch tabulates them), 7, 8 or 9 years for a movable, fixed or dual sign (Jaimini 2.3.3-4). The sub-periods are twelve equal parts from the sign or its seventh, the stronger.` },
+  'drig-pl9': { page: 'Drig Dasha', note: `The 9th, 10th and 11th from the lagna, each followed by the three signs it aspects (Jaimini 2.4.21-23); the sample's years are the Chara years of Rath's count (the sutra's own nine years, or 7, 8, 9 as in Sthira, are other readings).` },
+  'kendradi-pl9': { page: 'Lagna Kendradi Rashi Dasha', note: `From the stronger of the lagna and the seventh: the angles, the succeedents, the cadents (as the Karaka Kendra dasha, Jaimini 2.4.11-13, is ordered from the Atmakaraka); the years as for the Drig dasha.` },
+  'navamsha-pl9': { page: 'Navamsha Dasha', note: `The signs onward from the 9th from the lagna (the sample, a Leo lagna, begins with Aries), the years the count forward to the lord's sign less one. Jaimini 2.3.1-2 gives a different dasha (nine years each, from the lagna or the seventh).` }
 };
 
 function dmyOf(ms, offsetMinutes) {
@@ -48,14 +58,14 @@ async function buildRashiDasha({ name = '', birth, dashaOptions, system, cycle }
     const lagnaSign = Math.floor(chart.lagna.longitude / 30);
     const facts = { signs, degrees, lagnaSign, lagnaLongitude: chart.lagna.longitude, moonFraction: (chart.grahas.Moon.longitude % (360 / 27)) / (360 / 27) };
     const birthMs = (chart.julianDay - 2440587.5) * 86400000;
-    const result = RS.SYSTEMS[system](facts);
+    const result = SYSTEMS[system](facts);
     const all = RS.schedule(result, birthMs, 2);
     const at = (ms) => birthMs + (ms - birthMs) * (yearDays / 365.25);
     const perCycle = result.periods.length;
     const slice = all.slice(cycle * perCycle, cycle * perCycle + perCycle);
     const blocks = slice.map((p) => {
       const start = at(p.startMs); const end = at(p.endMs);
-      const order = K.walkOf(p.sign, facts);
+      const order = p.order ?? K.walkOf(p.sign, facts);
       const part = (end - start) / 12;
       return {
         kind: 'table', tile: true,

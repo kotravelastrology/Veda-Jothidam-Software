@@ -35,7 +35,7 @@ HTML -> PDF, see VJ-019), so the book prints from the app.
 | 38-40 | Yogini Dasha, three cycles | Yogini sourced (dasha work) |
 | 41-46 | Kala Chakra Dasha MD/AD and AD/PD (6 pages) | Built |
 | 47-49 | Jaimini System, Chara Dasha (2 pages) | Built |
-| 50-61 | Sthira, Niryaana Shoola, Drig, Navamsha, Narayana, Lagna Kendradi Rashi, Shoola (12 pages) | Built (BPHS rashi dashas) |
+| 50-61 | Sthira, Niryaana Shoola, Drig, Navamsha, Narayana, Lagna Kendradi Rashi, Shoola (12 pages) | First-cycle pages 50, 51, 53, 55, 57, 59, 61 built; second-cycle pages 52, 54, 56, 58, 60 not built (below) |
 | 62-66 | Tribhagi, Tribhagi 40 (5 pages) | Tribhagi sourced without worked example (see dasha register) |
 | 67-78 | Shodashottari, Dwadashottari, Dwisaptatisama, Shastihayani, Shattrimshatsama, Panchottari, Satabdika, Chaturshitisama (12 pages) | Rare dashas: BPHS pages not in library (register group 5) |
 | 79-80 | Sadhesati of Saturn, Laghu Kalyani Dhayya and Kantaka | Built (Saturn transit) |
@@ -60,8 +60,8 @@ HTML -> PDF, see VJ-019), so the book prints from the app.
 
 ## Status 2026-11-03 (the book page, /book)
 
-68 of the 88 pages are built as data and shown in the new design (cover, contents, a page group each; Ctrl+P prints): pages 1-3, 4, 5-6, 7, 8-20,
-21-32 (Vimshottari detail), 33-40 (Ashtottari, Yogini), 47-49, 57-58, 61, 62-63, 67-70, 73-78 (the rare dashas with a table), 79-88. Each was compared with the
+81 of the 88 pages are built as data and shown in the new design (cover, contents, a page group each; Ctrl+P prints): pages 1-3, 4, 5-6, 7, 8-20,
+21-32 (Vimshottari detail), 33-40 (Ashtottari, Yogini), 47-51, 53, 55, 57, 59, 61, 62-63, 67-70, 73-78 (the rare dashas with a table), 79-88. Each was compared with the
 sample on the sample's 360-day year (test-book-pages.js holds the matching figures). The Ashtakavarga pages (14-17) are also a screen of their own,
 /ashtakavarga, with each planet's chart of bindus beside its contributor table.
 
@@ -69,12 +69,20 @@ Not built, and why (nothing is filled in with something else; the book lists the
 
 | Pages | Dasha | Reason |
 |---|---|---|
-| 50 | Sthira | the Brahma and the start sign differ from the sample's (Virgo); neither of the engine's two readings (BPHS, Rath) gives it |
-| 51-52, 53-54, 55-56, 59-60 | Niryaana Shoola, Drig, Navamsha, Lagna Kendradi | PL9's Niryaana Shoola and Drig pages are the same table in the sample; none of the four has a source for the sample's reckoning (rareDashas.js lists Drig, Navamsha and Lagna Kendradi as declared without a table) |
+| 52, 54, 56, 58, 60 | second cycle of Niryaana Shoola, Drig, Navamsha, Narayana, Lagna Kendradi | the sample repeats the heading years and changes the durations in the second cycle; no source gives that rule, so only the verified first cycle is built (page 49, the Chara repeat, is a verified repeat) |
 | 71-72 | Shastihayani | declared without a table (bphsDashas.js SHASTIHAYANI_PROBLEM_TA) |
 
-Differences from the sample that are kept and noted on the pages: the Jaimini chara dasha years for Libra, Sagittarius and Pisces (Rath's count) and the order of the sub-periods in the sign dashas
-(from the lord's sign, Rath 2.4.31-34); the Yogini balance at birth two weeks shorter in the sample; the sample's sunrise 06:01 against the engine's 05:58 (the upagraha degrees follow it by about a degree);
+Sign dashas of pages 48-59 (2026-11-03, after re-reading the Jaimini books against the sample; engine src/dasha/pl9SignDashas.js, test-pl9-sign-dashas.js). The sample's sequences and years are reproduced exactly for the five reckonings:
+
+| Dasha | Reckoning (as the sample prints it) | Source read |
+|---|---|---|
+| Chara (48-49) | K.N. Rao: years = count to the lord's sign less one; no year for exaltation/debilitation; Scorpio and Aquarius by his special rules; sub-periods in the order of the sign, own sign last | K.N. Rao, Predicting through Jaimini's Chara Dasa (Rath's count, with the exaltation year, differs by a year in some signs) |
+| Sthira (50) | from the Brahma graha's sign: 7, 8, 9 years for movable, fixed, dual; Brahma = stronger of the lords of 6, 8, 12 from the stronger of lagna/7th (Saturn, Rahu, Ketu excepted), strengths per B.V. Raman | Koch, Sthiradasa Concepts and Illustrations; Jaimini 2.3.3-4 |
+| Drig (51, 53) | 9th, 10th, 11th from lagna, each followed by its three aspected signs; Chara years | Vishnu Bhaskar vol.1 Part VI (the sutra's own nine years, or 7, 8, 9, are other readings); Jaimini 2.4.21-23. The sample prints Niryaana Shoola (51) identical to Drig |
+| Lagna Kendradi (59) | from the stronger of lagna/7th: angles, succeedents, cadents; Chara years | Vishnu Bhaskar (Karaka Kendra groups 1,4,7,10; 2,5,8,11; 3,6,9,12); Jaimini 2.4.11-13 |
+| Navamsha (55) | 12 signs onward from the 9th from lagna (inference from the sample), forward-count years | Jaimini 2.3.1-2 gives a different dasha (nine years each from lagna or 7th): the book follows the sample, as the owner decided |
+
+Differences from the sample that are kept and noted on the pages: the Narayana dasha (Rath's count and sub-period order, from the lord's sign, Rath 2.4.31-34); the Yogini balance at birth two weeks shorter in the sample; the sample's sunrise 06:01 against the engine's 05:58 (the upagraha degrees follow it by about a degree);
 the sample's KP Sun (16:50) against 17:49 here (the Moon, Mars, Mercury, Jupiter, Venus, Saturn and the cusps agree to a second); "Houses Signified by Planets" of KP page 82 and the cuspal chart are not built.
 
 Update 2026-11-03 (later): Tribhagi 40 (pages 64-66, Vimshottari divided by three, the sample's dates reproduced) is built; 71 of 88 pages. Kalachakra 41-46: BPHS ch.46 vv.52-111 and ch.64 give the nine-sign sequences per pada and the antardasha tables, and the balance rule is the sample's (the pada's total years x the elapsed share of the pada, taken off the sequence), but the sequences carry the gatis (Sagittarius to Aries) and the walks inside a period differ from the sequence; only the Ashwini-type pada 3 is checked against the sample, so it is not built.
