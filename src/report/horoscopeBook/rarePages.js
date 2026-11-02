@@ -4,7 +4,7 @@
  * sample's "... Mahadasha and Antardashas": the dasha balance at birth, and a block for each mahadasha (nine to a page, in order from
  * birth) with its antardashas and their dates. The periods are nakshatraDashaEngine.js's: a period's sub-periods are laid over its
  * full length from its own lord, and the birth dasha keeps only what was still to run (those that ended before birth have no dates).
- * Not built here: Tribhagi 40 and Shastihayani (no table in the registry), and the other dashas the registry declares without one.
+ * Shastihayani (pages 71-72) is the registry's table of 28 divisions (bphsDashas.js). Not built here: the other dashas the registry declares without a table.
  * Dates are in the birth place's time, on the settings' dasha year. Each builder returns a Promise of { title, subtitle, blocks }.
  */
 const { withBirth } = require('./charts');
@@ -20,7 +20,7 @@ const pad = (n) => String(n).padStart(2, '0');
 /** The method's name as the sample's page title has it. */
 const TITLES = {
   tribhagi: 'Tribhagi', 'tribhagi-40': 'Tribhagi 40', shodashottari: 'Shodashottari', dwadashottari: 'Dwadashottari', 'dwisaptati-sama': 'Dwisaptatisama',
-  'shattrimshat-sama': 'Shattrimshatsama', panchottari: 'Panchottari', shatabdika: 'Satabdika', 'chaturashiti-sama': 'Chaturshitisama',
+  'shattrimshat-sama': 'Shattrimshatsama', panchottari: 'Panchottari', shatabdika: 'Satabdika', 'chaturashiti-sama': 'Chaturshitisama', shashtihayani: 'Shastihayani',
 };
 
 /** 'dd-mm-yyyy' of a UTC millisecond count in the zone of `offsetMinutes`. */

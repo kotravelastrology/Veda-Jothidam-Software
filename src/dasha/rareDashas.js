@@ -210,7 +210,17 @@ const METHODS = [
       + (sys.example?.disagrees ? 'நூலின் எடுத்துக்காட்டு (மிருகசீரிடம் → செவ்வாய்) அதன் சொந்த விதியுடன் (→ புதன்) ஒத்துப்போகவில்லை; விதி அப்படியே. ' : '')
       + 'துணைக் காலங்கள் விம்சோத்தரி போலவே விகிதப்படி (நூல் தனியாகச் சொல்லவில்லை).',
   })),
-  declared('shashtihayani', 'Shashtihayani', 'ஷஷ்டிஹாயனி', B.SHASTIHAYANI_PROBLEM_TA),
+  createCoverage({
+    id: 'shashtihayani',
+    name: 'Shashtihayani', nameTa: 'ஷஷ்டிஹாயனி',
+    family: 'nakshatra',
+    level: 'SOURCED',
+    implemented: true,
+    source: { ...B.SHASTIHAYANI_SOURCE },
+    notes: '60 ஆண்டு; 8 அதிபதிகள் 28 பிரிவுகளில் (அபிஜித் உட்பட) 3 அல்லது 4 பிரிவுகளைப் பெறுகிறார்கள்: குரு, சூரியன், செவ்வாய் ஒவ்வொருவருக்கும் 10, மற்ற ஐவருக்கும் 6 ஆண்டு. '
+      + 'சந்தானம் பதிப்பின் அட்டவணை ஸ்கேனில் வலது ஓரத்தில் வெட்டுப்பட்டிருந்தது; முழு அட்டவணை கிரீஷ் சந்த் சர்மா (அட்டவணை 12) மற்றும் வி.பி. கோயல் நூல்களில் உள்ளது, சித்திரை சந்திரனின் குழுவில். '
+      + `பொருந்தும் நிலை (நூல்): ${B.SHASTIHAYANI_WHEN_TA}. துணைக் காலங்கள் அதிபதிகளின் ஆண்டுகளின் விகிதப்படி; Parashara Light மாதிரி (ரேவதி → ராகு, இருப்பு 0y 8m 2d) ஒத்துப்போகிறது.`,
+  }),
 
   ...['chara', 'sthira', 'yogardha', 'mandooka', 'dirga', 'lagnadi', 'niryaana-shoola', 'jaimini-chara', 'narayana'].map((id) => createCoverage({
     id,
@@ -235,7 +245,7 @@ const METHODS = [
 
 const BY_ID = new Map(METHODS.map((m) => [m.id, m]));
 
-const TABLES = { tribhagi: TRIBHAGI_TABLE, 'tribhagi-40': TRIBHAGI40_TABLE, ashtottari: B.ASHTOTTARI, ...B.TABLES };
+const TABLES = { tribhagi: TRIBHAGI_TABLE, 'tribhagi-40': TRIBHAGI40_TABLE, ashtottari: B.ASHTOTTARI, shashtihayani: B.SHASTIHAYANI, ...B.TABLES };
 
 const getMethod = (id) => BY_ID.get(id) ?? null;
 const getTable = (id) => TABLES[id] ?? null;

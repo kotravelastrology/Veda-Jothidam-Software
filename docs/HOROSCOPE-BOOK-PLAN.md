@@ -35,9 +35,9 @@ HTML -> PDF, see VJ-019), so the book prints from the app.
 | 38-40 | Yogini Dasha, three cycles | Yogini sourced (dasha work) |
 | 41-46 | Kala Chakra Dasha MD/AD and AD/PD (6 pages) | Built |
 | 47-49 | Jaimini System, Chara Dasha (2 pages) | Built |
-| 50-61 | Sthira, Niryaana Shoola, Drig, Navamsha, Narayana, Lagna Kendradi Rashi, Shoola (12 pages) | First-cycle pages 50, 51, 53, 55, 57, 59, 61 built; second-cycle pages 52, 54, 56, 58, 60 not built (below) |
+| 50-61 | Sthira, Niryaana Shoola, Drig, Navamsha, Narayana, Lagna Kendradi Rashi, Shoola (12 pages) | All built; second cycles (52, 54, 56, 58, 60) by the rules below |
 | 62-66 | Tribhagi, Tribhagi 40 (5 pages) | Tribhagi sourced without worked example (see dasha register) |
-| 67-78 | Shodashottari, Dwadashottari, Dwisaptatisama, Shastihayani, Shattrimshatsama, Panchottari, Satabdika, Chaturshitisama (12 pages) | Rare dashas: BPHS pages not in library (register group 5) |
+| 67-78 | Shodashottari, Dwadashottari, Dwisaptatisama, Shastihayani, Shattrimshatsama, Panchottari, Satabdika, Chaturshitisama (12 pages) | All built; Shastihayani (71-72) from Girish Chand Sharma's BPHS Table 12 and V.P. Goel |
 | 79-80 | Sadhesati of Saturn, Laghu Kalyani Dhayya and Kantaka | Built (Saturn transit) |
 | 81-82 | Krishnamurti Paddhati: Chart and Significators | Built (KP chart, house significators) |
 | 83-88 | Varshaphala Charts, six years (1, 13, 25, 37, 49, 61) | Built (Varshaphala) |
@@ -60,17 +60,19 @@ HTML -> PDF, see VJ-019), so the book prints from the app.
 
 ## Status 2026-11-03 (the book page, /book)
 
-81 of the 88 pages are built as data and shown in the new design (cover, contents, a page group each; Ctrl+P prints): pages 1-3, 4, 5-6, 7, 8-20,
-21-32 (Vimshottari detail), 33-40 (Ashtottari, Yogini), 47-51, 53, 55, 57, 59, 61, 62-63, 67-70, 73-78 (the rare dashas with a table), 79-88. Each was compared with the
+all 88 pages are built as data and shown in the new design (cover, contents, a page group each; Ctrl+P prints): pages 1-3, 4, 5-6, 7, 8-20,
+21-32 (Vimshottari detail), 33-40 (Ashtottari, Yogini), 47-61, 62-63, 67-70, 73-78 (the rare dashas with a table), 79-88. Each was compared with the
 sample on the sample's 360-day year (test-book-pages.js holds the matching figures). The Ashtakavarga pages (14-17) are also a screen of their own,
 /ashtakavarga, with each planet's chart of bindus beside its contributor table.
 
-Not built, and why (nothing is filled in with something else; the book lists them as coming):
+Every page of the sample is now built (2026-11-03). Where the sample and the sources disagree, the page says so:
 
-| Pages | Dasha | Reason |
+| Pages | Dasha | How built |
 |---|---|---|
-| 52, 54, 56, 58, 60 | second cycle of Niryaana Shoola, Drig, Navamsha, Narayana, Lagna Kendradi | the sample repeats the heading years and changes the durations in the second cycle; no source gives that rule, so only the verified first cycle is built (page 49, the Chara repeat, is a verified repeat) |
-| 71-72 | Shastihayani | declared without a table (bphsDashas.js SHASTIHAYANI_PROBLEM_TA) |
+| 56 | Navamsha, second cycle | the first cycle repeated, as the sample prints it (its ages 76y10m ... 149y9m and dates reproduced) |
+| 58 | Narayana, second cycle | the same order of signs, each sign twelve less its first-cycle years (Rath, Narayana Dasa, "Second Cycle of Narayana Dasa", printed p.41; Koch, Drig Dasa, "The Second Cycle of Dasas"); a sign that had twelve (Virgo) has none left. The sample's ages (71y11m, 81y9m, 89y8m ... 131y1m) are reproduced |
+| 52, 54, 60 | Niryaana Shoola, Drig, Lagna Kendradi, second cycle | the same rule (Koch). The sample prints these pages with repeated headings and its first four periods do not follow any rule (Drig: 8, 8, 3, 4 years where the rule gives 11, 1, 4, 10); from the fifth period of Drig its durations (9, 8, 2, 11, 8, 4, 3) are the rule's. Kept as the rule gives them, not as the sample prints them |
+| 71-72 | Shastihayani | the complete table of BPHS ch.46 vv.40-41 (Girish Chand Sharma, Table 12; V.P. Goel, pp.13-14): 28 divisions with Abhijit in groups of 3 and 4 from Ashwini, Jupiter/Sun/Mars 10 years, the other five 6; Chitra in the Moon's group. The Santhanam scan was cut off on the right. The sample's dates (Rahu balance, Jupiter 07-06-1991 ... Rahu 2050-2068) are reproduced; the balance is 8m5d against the sample's 8m2d (the Moon's longitude) |
 
 Sign dashas of pages 48-59 (2026-11-03, after re-reading the Jaimini books against the sample; engine src/dasha/pl9SignDashas.js, test-pl9-sign-dashas.js). The sample's sequences and years are reproduced exactly for the five reckonings:
 

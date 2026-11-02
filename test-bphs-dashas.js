@@ -140,10 +140,30 @@ for (const id of [...Object.keys(TOTAL), 'ashtottari']) {
 }
 
 // ----------------------------------------------------------------- the register ---
-const dec = R.getMethod('shashtihayani');
-assert.equal(dec.level, 'DECLARED');
-assert.equal(R.getTable('shashtihayani'), null);
-assert.match(dec.notes, /சித்திரை/, 'the reason: Chitra is named nowhere in the completed table');
+// Shastihayani: the complete table (Girish Chand Sharma, Table 12; V.P. Goel), 28 divisions with Abhijit, Chitra in the Moon's group
+const shs = R.getMethod('shashtihayani');
+assert.equal(shs.level, 'SOURCED');
+assert.ok(shs.implemented && /Table 12/.test(shs.source.pageLocus));
+assert.equal(R.getTable('shashtihayani'), B.SHASTIHAYANI);
+assert.deepEqual(B.SHASTIHAYANI_BLOCKS.map((b) => [b.lord, b.years, b.parts.length]),
+  [['Jupiter', 10, 3], ['Sun', 10, 4], ['Mars', 10, 3], ['Moon', 6, 4], ['Mercury', 6, 3], ['Venus', 6, 4], ['Saturn', 6, 3], ['Rahu', 6, 4]]);
+assert.equal(B.SHASTIHAYANI_BLOCKS.reduce((n, b) => n + b.parts.length, 0), 28);
+assert.equal(B.SHASTIHAYANI_BLOCKS.reduce((n, b) => n + b.years, 0), 60);
+assert.ok(B.SHASTIHAYANI_BLOCKS[3].parts.includes(B.NAK.Chitra));
+{
+  const at = (nak, frac = 0) => B.shastihayaniBalance((nak + frac) * STAR_DEG);
+  assert.equal(at(B.NAK.Ashwini).lord, 'Jupiter');
+  assert.ok(Math.abs(at(B.NAK.Ashwini).share - 10 / 3) < 1e-9, 'each of the three divisions: 3y 4m of Jupiter (Goel)');
+  assert.ok(Math.abs(at(B.NAK.Mrigashira).share - 2.5) < 1e-9, 'each of the four divisions: 2y 6m of the Sun (Goel)');
+  assert.equal(at(B.NAK.Revati, 0.5).lord, 'Rahu');
+  // Abhijit takes 2 years of Saturn: the whole of it is spanned in 4 deg 13 min 20 sec (Goel)
+  assert.equal(B.shastihayaniBalance(279).lord, 'Saturn');
+  assert.ok(Math.abs((B.ABHIJIT_TO - B.ABHIJIT_FROM) - (4 + 13 / 60 + 20 / 3600)) < 1e-9);
+  // the Parashara's Light sample: Moon at 353.943 deg, the end of Revati, leaves 0y 8m 5d of Rahu's six years (the sample 0y 8m 2d)
+  const sample = B.shastihayaniBalance(353.9430681095887);
+  assert.equal(sample.lord, 'Rahu');
+  assert.ok(Math.abs(sample.balanceYears * 360 - (8 * 30 + 2)) < 5, String(sample.balanceYears * 360));
+}
 for (const id of [...Object.keys(TOTAL), 'ashtottari']) {
   const m = R.getMethod(id);
   assert.equal(m.level, 'SOURCED', id);
@@ -158,7 +178,7 @@ assert.match(B.ASHTOTTARI_SOURCE.pageLocus, /printed pp\.409-410 \(PDF 416-417\)
 assert.match(B.SYSTEMS.shodashottari.source.pageLocus, /printed pp\.410-411 \(PDF 417-418\)/);
 assert.match(citeTa(B.SYSTEMS['dwisaptati-sama'].source), /ப\.414/);
 for (const [id, s] of Object.entries(B.SYSTEMS)) assert.ok(/[஀-௿]/.test(s.nameTa) && /[஀-௿]/.test(s.whenTa), id);
-assert.ok(/[஀-௿]/.test(B.SHASTIHAYANI_PROBLEM_TA));
+assert.ok(/[஀-௿]/.test(B.SHASTIHAYANI_WHEN_TA));
 
 // ----------------------------------------------------------------- when each system is said to suit ---
 {

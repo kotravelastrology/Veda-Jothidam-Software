@@ -6,8 +6,8 @@
  * start rule "count from [a star] to the birth star (inclusive), divide by [7 or 8]; the remainder names the lord".
  * Each star has one lord and the cycle repeats along the 27 stars; the first period is the birth lord's balance.
  * Ashtottari is different: eight lords hold blocks of 3 or 4 of 28 divisions (Abhijit between Uttarashada and
- * Sravana), a star's share being the lord's years over the block's stars. Shastihayani's table is incomplete in the
- * printed book (see `SHASTIHAYANI`), Kala and Chakra are not nakshatra dashas.
+ * Sravana), a star's share being the lord's years over the block's stars; Shastihayani is built the same way (see `SHASTIHAYANI`).
+ * Kala and Chakra are not nakshatra dashas.
  *
  * Every rule is as printed. Where the printed worked example does not agree with the printed rule (Chaturashiti-sama)
  * both are kept and the page says so.
@@ -135,10 +135,10 @@ function divisionOf(longitude) {
   return { division: star, fraction: (lon - from) / (to - from) };
 }
 
-/** Ashtottari's balance at birth: the part of the lord's years not yet spent in the block (BPHS p.409-410 and the example). */
-function ashtottariBalance(longitude) {
+/** The balance at birth of a system whose lords hold blocks of the 28 divisions: the part of the lord's years not yet spent in the block. */
+const blockBalance = (blocks) => (longitude) => {
   const { division, fraction } = divisionOf(longitude);
-  const block = ASHTOTTARI_BLOCKS.find((b) => b.parts.includes(division));
+  const block = blocks.find((b) => b.parts.includes(division));
   const share = block.years / block.parts.length;
   const position = block.parts.indexOf(division);
   const expired = share * (position + fraction);
@@ -146,7 +146,9 @@ function ashtottariBalance(longitude) {
     nakshatraIndex: division === ABHIJIT ? NAK.UAshadha : division, division, lord: block.lord, elapsedFraction: fraction,
     totalYears: block.years, share, expiredYears: expired, balanceYears: block.years - expired,
   };
-}
+};
+/** Ashtottari's balance at birth (BPHS p.409-410 and the example). */
+const ashtottariBalance = blockBalance(ASHTOTTARI_BLOCKS);
 const ASHTOTTARI = createDashaTable({
   id: 'ashtottari', cycle: ASHTOTTARI_BLOCKS.map((b) => b.lord),
   years: Object.fromEntries(ASHTOTTARI_BLOCKS.map((b) => [b.lord, b.years])), totalYears: 108,
@@ -158,11 +160,37 @@ const ASHTOTTARI_WHEN_TA = 'ராகு லக்னாதிபதியில
 
 // ------------------------------------------------------------------------ Shastihayani ---
 /**
- * The printed table (p.416) is cut off at the right edge of the scan, and the retyped text that completes it
- * (verses 40-41) gives 27 divisions with Abhijit counted and Chitra named nowhere. The Sun is said to rule 4 stars in
- * the example (the Santhanam table prints three). Both editions disagree, so no table is entered here.
+ * The 28 divisions (Abhijit included) in groups of three and four taken alternately from Ashwini, the lords in the order Jupiter, Sun, Mars, Moon,
+ * Mercury, Venus, Saturn, Rahu: ten years for each of the first three groups and six for each of the other five, sixty in all. The printed table of
+ * the Santhanam edition (p.416) is cut off at the right edge of its scan; the complete table is BPHS ch.46 vv.40-41 in Girish Chand Sharma's edition
+ * (Table 12, printed pp.37-38) and V.P. Goel, Predicting through Shasti Hayani Dasha (2004, printed pp.13-14), which agree, Chitra in the Moon's group.
+ * Each division of a group takes an equal share of the lord's years, as in Ashtottari; the Parashara's Light sample (Revati, four divisions of Rahu's six
+ * years) agrees.
  */
-const SHASTIHAYANI_PROBLEM_TA = 'அச்சிட்ட அட்டவணை ஸ்கேனின் வலது ஓரத்தில் வெட்டப்பட்டுள்ளது (சனி, ராகு நிரல்கள் இல்லை); வேறொரு பதிப்பின் முழு உரையில் சித்திரை எங்குமில்லை, அபிஜித் உள்ளது. எடுத்துக்காட்டு சூரியனுக்கு 4 நட்சத்திரம் என்கிறது (சந்தானம் அட்டவணையில் 3). எனவே அட்டவணை எழுதப்படவில்லை.';
+const SHASTIHAYANI_BLOCKS = Object.freeze([
+  { lord: 'Jupiter', years: 10, parts: [NAK.Ashwini, NAK.Bharani, NAK.Krittika] },
+  { lord: 'Sun', years: 10, parts: [NAK.Rohini, NAK.Mrigashira, NAK.Ardra, NAK.Punarvasu] },
+  { lord: 'Mars', years: 10, parts: [NAK.Pushya, NAK.Ashlesha, NAK.Magha] },
+  { lord: 'Moon', years: 6, parts: [NAK.PPhalguni, NAK.UPhalguni, NAK.Hasta, NAK.Chitra] },
+  { lord: 'Mercury', years: 6, parts: [NAK.Swati, NAK.Vishakha, NAK.Anuradha] },
+  { lord: 'Venus', years: 6, parts: [NAK.Jyeshtha, NAK.Moola, NAK.PAshadha, NAK.UAshadha] },
+  { lord: 'Saturn', years: 6, parts: [ABHIJIT, NAK.Shravana, NAK.Dhanishta] },
+  { lord: 'Rahu', years: 6, parts: [NAK.Shatabhisha, NAK.PBhadra, NAK.UBhadra, NAK.Revati] },
+]);
+const shastihayaniBalance = blockBalance(SHASTIHAYANI_BLOCKS);
+const SHASTIHAYANI = createDashaTable({
+  id: 'shashtihayani', cycle: SHASTIHAYANI_BLOCKS.map((b) => b.lord),
+  years: Object.fromEntries(SHASTIHAYANI_BLOCKS.map((b) => [b.lord, b.years])), totalYears: 60,
+  lordOfNakshatra: (n) => SHASTIHAYANI_BLOCKS.find((b) => b.parts.includes(n)).lord,
+  balanceAt: shastihayaniBalance,
+});
+const SHASTIHAYANI_SOURCE = Object.freeze({
+  ...BPHS,
+  pageLocus: 'Chapter 46 verses 40-41, printed p.416 (PDF 423; the table is cut off at the right edge of the scan). The complete table: Girish Chand Sharma, BPHS Vol.2, printed pp.37-38 (PDF 59-60), Table 12, and '
+    + 'V.P. Goel, Predicting through Shasti Hayani Dasha (2004), printed pp.13-14 (PDF 11-12): "Starting from Ashwini Nakshatra make groups of three and four Nakshatra taken alternately. Abhijit Nakshatra is included ... '
+    + 'The order and the lords of Dasha are Jupiter, Sun, Mars, Moon, Mercury, Venus, Saturn and Rahu"; the first three groups ten years, the last five six years each.',
+});
+const SHASTIHAYANI_WHEN_TA = 'சூரியன் லக்னத்தில் இருக்கும்போது';
 
 // --------------------------------------------------------------------------- when each applies ---
 const SIGN_LORD = Object.freeze(['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter']);
@@ -229,5 +257,6 @@ function applicability(system, facts) {
 module.exports = {
   applicability, horaOf, navamshaSign, SIGN_LORD,
   BPHS, NAK, SYSTEMS, TABLES, countFor, lordOf, ASHTOTTARI, ASHTOTTARI_BLOCKS, ASHTOTTARI_SOURCE, ASHTOTTARI_WHEN_TA,
-  ashtottariBalance, divisionOf, ABHIJIT, ABHIJIT_FROM, ABHIJIT_TO, SHASTIHAYANI_PROBLEM_TA,
+  ashtottariBalance, divisionOf, ABHIJIT, ABHIJIT_FROM, ABHIJIT_TO,
+  SHASTIHAYANI, SHASTIHAYANI_BLOCKS, SHASTIHAYANI_SOURCE, SHASTIHAYANI_WHEN_TA, shastihayaniBalance,
 };

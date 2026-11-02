@@ -21,6 +21,13 @@ const SYSTEMS = {
   ...RS.SYSTEMS, 'chara-pl9': P.charaKNRao, 'sthira-pl9': P.sthiraPL9, 'drig-pl9': P.drigPL9, 'kendradi-pl9': P.kendradiPL9, 'navamsha-pl9': P.navamshaPL9,
 };
 
+/**
+ * The second cycle of the Phalita rashi dashas (Narayana, Drig, Lagna Kendradi): the same order of signs, each sign taking twelve less its first-cycle years
+ * (Rath, Narayana Dasa, "Second Cycle of Narayana Dasa"; Koch, Drig Dasa, "The Second Cycle of Dasas"); a sign of twelve years has none left. The Chara and Navamsha
+ * dashas of the sample repeat their first cycle.
+ */
+const COMPLEMENT_SECOND = new Set(['narayana', 'drig-pl9', 'kendradi-pl9']);
+
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const SIGN = ['Ari', 'Tau', 'Gem', 'Can', 'Leo', 'Vir', 'Lib', 'Sco', 'Sag', 'Cap', 'Aqu', 'Pis'];
 const SIGN_FULL = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
@@ -59,10 +66,13 @@ async function buildRashiDasha({ name = '', birth, dashaOptions, system, cycle }
     const facts = { signs, degrees, lagnaSign, lagnaLongitude: chart.lagna.longitude, moonFraction: (chart.grahas.Moon.longitude % (360 / 27)) / (360 / 27) };
     const birthMs = (chart.julianDay - 2440587.5) * 86400000;
     const result = SYSTEMS[system](facts);
-    const all = RS.schedule(result, birthMs, 2);
+    const first = RS.schedule(result, birthMs, 1);
+    const firstEnd = first[first.length - 1].endMs;
+    const secondPeriods = COMPLEMENT_SECOND.has(system)
+      ? result.periods.map((p) => ({ ...p, years: 12 - p.years })).filter((p) => p.years > 0)
+      : result.periods;
     const at = (ms) => birthMs + (ms - birthMs) * (yearDays / 365.25);
-    const perCycle = result.periods.length;
-    const slice = all.slice(cycle * perCycle, cycle * perCycle + perCycle);
+    const slice = cycle === 0 ? first : RS.schedule({ periods: secondPeriods }, firstEnd, 1);
     const blocks = slice.map((p) => {
       const start = at(p.startMs); const end = at(p.endMs);
       const order = p.order ?? K.walkOf(p.sign, facts);
@@ -80,7 +90,7 @@ async function buildRashiDasha({ name = '', birth, dashaOptions, system, cycle }
       title: `ஜாதகம் — ${name}`.trim(),
       subtitle: `${birth.placeName} · ${birth.day} ${MONTH_EN[birth.month - 1]} ${birth.year}`,
       blocks: [
-        { kind: 'text', heading: t.page, text: `The dates are given for dasha beginning dates. The running age is given for the beginning of the dasha. ${t.note}` },
+        { kind: 'text', heading: t.page, text: `The dates are given for dasha beginning dates. The running age is given for the beginning of the dasha. ${t.note}${cycle === 0 ? '' : COMPLEMENT_SECOND.has(system) ? ' Second cycle: the same order, each sign taking twelve less its first-cycle years (Rath, Narayana Dasa; Koch, Drig Dasa); a sign that had twelve has none. The sample prints this page with repeated headings, and its dates agree with this reckoning where it can be checked.' : ' Second cycle: the first cycle repeated, as the sample prints it.'}` },
         ...blocks,
       ],
     };

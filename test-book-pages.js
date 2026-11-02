@@ -87,6 +87,30 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
   assert.deepEqual(await heads('p55'), ['Aries (1y)', 'Taurus (4y)', 'Gemini (3y)', 'Cancer (8y)', 'Leo (1y)', 'Virgo (12y)', 'Libra (11y)', 'Scorpio (6y)', 'Sagittarius (7y)', 'Capricorn (11y)', 'Aquarius (10y)', 'Pisces (4y)']);
   assert.deepEqual(await heads('p59'), ['Aquarius (2y)', 'Taurus (3y)', 'Leo (11y)', 'Scorpio (8y)', 'Pisces (9y)', 'Gemini (4y)', 'Virgo (12y)', 'Sagittarius (8y)', 'Aries (1y)', 'Cancer (4y)', 'Libra (10y)', 'Capricorn (1y)']);
 
+  // pages 71-72 (Shastihayani): the balance, the dates of the birth period and the second page's first period are the sample's
+  const p71 = await build('p71');
+  assert.ok(p71.blocks[0].text.includes('Rahu 0y 8m'));
+  assert.deepEqual(p71.blocks[1].rows.slice(-2), [['Venus', '05-10-1990', '03-11-1990'], ['Saturn', '03-11-1990', '07-06-1991']]);
+  assert.deepEqual(row(block(p71, 'Jupiter (10y)'), 'Jupiter').slice(1), ['07-06-1991', '27-01-1993']);
+  assert.deepEqual(row(block(p71, 'Sun (10y)'), 'Rahu').slice(1), ['07-07-2008', '02-07-2009']);
+  const p72 = await build('p72');
+  assert.deepEqual(row(block(p72, 'Jupiter (10y)'), 'Jupiter').slice(1), ['27-07-2050', '18-03-2052']);
+  assert.deepEqual(row(block(p72, 'Sun (10y)'), 'Rahu').slice(1), ['27-08-2067', '21-08-2068']);
+
+  // second cycles: Navamsha repeats (the sample's 76y10m start and dates); Narayana, Drig and Kendradi take twelve less the first-cycle years (Rath; Koch)
+  const asides = async (id) => (await build(id)).blocks.slice(1).map((b) => b.aside);
+  const p56 = await build('p56');
+  assert.deepEqual(await asides('p56'), ['76y10m', '77y10m', '81y9m', '84y9m', '92y7m', '93y7m', '105y5m', '116y3m', '122y2m', '129y1m', '139y11m', '149y9m']);
+  assert.deepEqual(p56.blocks[1].rows[0], ['Beginning', '22-08-2067']);
+  assert.equal(p56.blocks[2].rows[0][1], '16-08-2068');
+  const p58 = await build('p58');
+  assert.deepEqual(p58.blocks.slice(1).map((b) => b.heading), ['Aquarius (10y)', 'Cancer (8y)', 'Sagittarius (4y)', 'Taurus (9y)', 'Libra (2y)', 'Pisces (3y)', 'Leo (1y)', 'Capricorn (11y)', 'Gemini (8y)', 'Scorpio (4y)', 'Aries (11y)']); // Virgo had twelve: none left
+  assert.deepEqual(await asides('p58'), ['71y11m', '81y9m', '89y8m', '93y7m', '102y6m', '104y5m', '107y5m', '108y5m', '119y3m', '127y1m', '131y1m']);
+  assert.deepEqual(p58.blocks[1].rows[0], ['Beginning', '17-09-2062']);
+  // Drig second cycle: the sample's periods from Taurus on last 9, 8, 2, 11, 8, 4, 3 years (its first four are printed with repeated headings and do not follow the rule)
+  const p54 = await build('p54');
+  assert.deepEqual(p54.blocks.slice(1).map((b) => b.heading), ['Aries (11y)', 'Leo (1y)', 'Scorpio (4y)', 'Aquarius (10y)', 'Taurus (9y)', 'Cancer (8y)', 'Libra (2y)', 'Capricorn (11y)', 'Gemini (8y)', 'Sagittarius (4y)', 'Pisces (3y)']);
+
   // page 47: the Chara Karakas are the sample's
   const p47 = await build('p47');
   const ck = block(p47, 'Chara Karakas');
