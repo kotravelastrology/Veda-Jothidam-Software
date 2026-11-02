@@ -44,6 +44,16 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
   // the sample ends it on 25-12-1990: its balance at birth is two weeks shorter (the Moon's longitude is the same), a day's difference here
   assert.equal(row(block(p38, 'Ulka (6y)'), 'Sank Ra')[2], '26-12-1990');
 
+  // pages 41-42 (Kala Chakra): the balance, the first mahadashas' dates, and the pratyantardashas of the birth antardasha are the sample's
+  const p41 = await build('p41');
+  assert.ok(p41.blocks[0].text.includes('Jeeva Rashi: Gemini') && p41.blocks[0].text.includes('Deha Rashi: Taurus'));
+  assert.deepEqual(p41.blocks.slice(1).map((b) => b.heading), ['Tau (16y)', 'Ari (7y)', 'Pis (10y)', 'Aqu (4y)', 'Cap (4y)', 'Sag (10y)', 'Ari (7y)', 'Tau (16y)', 'Gem (9y)', 'Can (21y)', 'Leo (5y)', 'Vir (9y)']);
+  assert.deepEqual(p41.blocks[1].rows.slice(0, 2), [['Beginning', '05-10-1990'], ['Ending', '26-07-1991']]);
+  assert.deepEqual(p41.blocks[2].rows.slice(0, 3), [['Beginning', '26-07-1991'], ['Ending', '19-06-1998'], ['1 Ari', '26-07-1991']]);
+  const p42 = await build('p42');
+  assert.equal(p42.blocks[1].heading, 'Tau-Gem J');
+  assert.deepEqual(p42.blocks[1].rows.filter((r) => r[1]).slice(0, 3), [['Ari', '05-10-1990'], ['Tau D', '19-10-1990'], ['Gem J', '28-11-1990']]);
+
   // pages 62 and 67 (Tribhagi and Shodashottari): the dates are the sample's
   const p62 = await build('p62');
   assert.deepEqual(row(block(p62, 'Mercury (11.33y)'), 'Mars').slice(1), ['05-10-1990', '25-11-1990']);

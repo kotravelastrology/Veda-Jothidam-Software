@@ -34,6 +34,8 @@ const { buildRashiDasha } = require('./rashiPages');
 
 const { buildJaiminiSystem } = require('./jaiminiPage');
 
+const { buildKalachakraMain, buildKalachakraShort } = require('./kalachakraPages');
+
 const BOOK_SECTIONS = [
   { id: 'p1', title: 'Page 1 · Birth Particulars', build: buildPage1 },
   { id: 'p2', title: 'Page 2 · Birth Chart', build: buildPage2 },
@@ -75,6 +77,12 @@ const BOOK_SECTIONS = [
   { id: 'p38', title: 'Page 38 · Yogini Dasha - First Cycle', build: (q) => buildYogini({ ...q, cycle: 0 }) },
   { id: 'p39', title: 'Page 39 · Yogini Dasha - Second Cycle', build: (q) => buildYogini({ ...q, cycle: 1 }) },
   { id: 'p40', title: 'Page 40 · Yogini Dasha - Third Cycle', build: (q) => buildYogini({ ...q, cycle: 2 }) },
+  { id: 'p41', title: 'Page 41 · Kala Chakra Dasha - MD and AD', build: buildKalachakraMain },
+  { id: 'p42', title: 'Page 42 · Kala Chakra Dasha AD and PD #1', build: (q) => buildKalachakraShort({ ...q, part: 0 }) },
+  { id: 'p43', title: 'Page 43 · Kala Chakra Dasha AD and PD #2', build: (q) => buildKalachakraShort({ ...q, part: 1 }) },
+  { id: 'p44', title: 'Page 44 · Kala Chakra Dasha AD and PD #3', build: (q) => buildKalachakraShort({ ...q, part: 2 }) },
+  { id: 'p45', title: 'Page 45 · Kala Chakra Dasha AD and PD #4', build: (q) => buildKalachakraShort({ ...q, part: 3 }) },
+  { id: 'p46', title: 'Page 46 · Kala Chakra Dasha AD and PD #5', build: (q) => buildKalachakraShort({ ...q, part: 4 }) },
   { id: 'p47', title: 'Page 47 · Jaimini System', build: buildJaiminiSystem },
   { id: 'p48', title: 'Page 48 · Jaimini Chara Dasha #1', build: (q) => buildRashiDasha({ ...q, system: "jaimini-chara", cycle: 0 }) },
   { id: 'p49', title: 'Page 49 · Jaimini Chara Dasha #2', build: (q) => buildRashiDasha({ ...q, system: "jaimini-chara", cycle: 1 }) },

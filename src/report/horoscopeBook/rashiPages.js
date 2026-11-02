@@ -3,17 +3,17 @@
  * dashas. Each page is twelve blocks, one for each sign period in order from birth, headed by the sign, its years and the age at which it begins;
  * under it the twelve sub-periods (the sign, and the date it begins). The periods are bphsRashiDashas.js's: Rath's reading of the Jaimini Upadesa
  * Sutras (chara and Narayana: the sign's years by counting to its lord's sign) and P.S. Sastri's Jaimini Sutram 2.3 (the Shoola dasha of nine
- * years a sign, here the Niryaana Shoola engine). The sub-periods are the twelve equal parts of a period in the order fiveLevel.js's subOrder takes
- * from Rath 2.4.31-34 (from the sign of the period's lord; forward or backward by the sign and by Saturn and Ketu's place).
+ * years a sign, here the Niryaana Shoola engine). The sub-periods are the twelve equal parts of a period, from the sign itself or the seventh from it,
+ * whichever is the stronger (Rath 2.4.13; jaiminiShoola.strongerOfPair), onward from an odd sign and backward from an even one (kalachakraBphs.js walkOf):
+ * the reading the sample's pages follow.
  *
  * Differences from the sample, recorded and not hidden: for the chara dasha PL9's years for Libra, Sagittarius and Pisces differ from the
- * Rath count by a year; the sub-periods start from the period's own sign in the sample, from its lord's sign here. The Narayana periods (signs
- * and years) match the sample's. Dates are in the birth place's time on the settings' dasha year (a year counted as 360 days is what the sample uses).
+ * Rath count by a year. The Narayana periods (signs and years) match the sample's. Dates are in the birth place's time on the settings' dasha year (a year counted as 360 days is what the sample uses).
  * Each builder returns a Promise of { title, subtitle, blocks }.
  */
 const { withBirth } = require('./charts');
 const RS = require('../../dasha/bphsRashiDashas');
-const FL = require('../../dasha/fiveLevel');
+const K = require('../../dasha/kalachakraBphs');
 
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const SIGN = ['Ari', 'Tau', 'Gem', 'Can', 'Leo', 'Vir', 'Lib', 'Sco', 'Sag', 'Cap', 'Aqu', 'Pis'];
@@ -22,8 +22,8 @@ const PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn',
 const pad = (n) => String(n).padStart(2, '0');
 
 const TITLES = {
-  'jaimini-chara': { page: 'Jaimini Chara Dasha', note: 'Rath\'s reading of the Jaimini Upadesa Sutras (counting from a sign to its lord\'s sign). PL9\'s years differ by a year for Libra, Sagittarius and Pisces; the sub-periods here start from the lord\'s sign (Rath 2.4.31-34), PL9\'s from the period\'s own sign.' },
-  narayana: { page: 'Narayana Dasha', note: 'Rath, Jaimini Upadesa Sutras: the signs and years agree with the sample; the sub-periods start from the lord\'s sign (Rath 2.4.31-34), the sample\'s from the period\'s own sign.' },
+  'jaimini-chara': { page: 'Jaimini Chara Dasha', note: 'Rath\'s reading of the Jaimini Upadesa Sutras (counting from a sign to its lord\'s sign). PL9\'s years differ by a year for Libra, Sagittarius and Pisces; the sub-periods (from the sign or its seventh, the stronger) are the sample\'s kind.' },
+  narayana: { page: 'Narayana Dasha', note: 'Rath, Jaimini Upadesa Sutras: the signs, years and sub-periods (from the sign or its seventh, the stronger) agree with the sample.' },
   'niryaana-shoola': { page: 'Shoola Dasha', note: 'Nine years a sign from the stronger of the Lagna and the seventh (P.S. Sastri, Jaimini Sutram 2.3.5-12 and 2.3.18). PL9 prints this reckoning as "Shoola Dasha"; its own "Niryaana Shoola" pages differ.' },
 };
 
@@ -55,7 +55,7 @@ async function buildRashiDasha({ name = '', birth, dashaOptions, system, cycle }
     const slice = all.slice(cycle * perCycle, cycle * perCycle + perCycle);
     const blocks = slice.map((p) => {
       const start = at(p.startMs); const end = at(p.endMs);
-      const { order } = FL.subOrder(p.sign, facts);
+      const order = K.walkOf(p.sign, facts);
       const part = (end - start) / 12;
       return {
         kind: 'table', tile: true,
