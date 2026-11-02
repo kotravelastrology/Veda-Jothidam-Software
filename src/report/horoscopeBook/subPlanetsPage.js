@@ -53,13 +53,15 @@ async function buildSubPlanets({ name = '', birth }) {
     const off = birth.utcOffsetMinutes ?? 0;
     const ayanamsha = chart.ayanamsha;
     // the Hindu day of the birth: a birth before the civil day's sunrise belongs to the day before
-    const civilSunrise = sunriseJulianDay(julianDay(birth.year, birth.month, birth.day, -off / 60), birth.latitude, birth.longitude);
+    // the sunrise is the settings' (PL9's: the Sun's centre on the horizon, as the Gulika and special lagna calculations below count it)
+    const mode = birth.sunrise ?? 'disc-centre';
+    const civilSunrise = sunriseJulianDay(julianDay(birth.year, birth.month, birth.day, -off / 60), birth.latitude, birth.longitude, 0, mode);
     const hinduDate = new Date(Date.UTC(birth.year, birth.month - 1, chart.julianDay < civilSunrise ? birth.day - 1 : birth.day));
     const weekday = hinduDate.getUTCDay();
     const midnight = julianDay(hinduDate.getUTCFullYear(), hinduDate.getUTCMonth() + 1, hinduDate.getUTCDate(), -off / 60);
-    const rise = sunriseJulianDay(midnight, birth.latitude, birth.longitude);
-    const set = sunsetJulianDay(rise, birth.latitude, birth.longitude);
-    const nextRise = sunriseJulianDay(set, birth.latitude, birth.longitude);
+    const rise = sunriseJulianDay(midnight, birth.latitude, birth.longitude, 0, mode);
+    const set = sunsetJulianDay(rise, birth.latitude, birth.longitude, 0, mode);
+    const nextRise = sunriseJulianDay(set, birth.latitude, birth.longitude, 0, mode);
     const isDay = chart.julianDay >= rise && chart.julianDay < set;
     const from = isDay ? rise : set;
     const length = (isDay ? set - rise : nextRise - set) / 8;
@@ -102,7 +104,7 @@ async function buildSubPlanets({ name = '', birth }) {
         {
           kind: 'text',
           heading: 'Upagrahas or Sub-planets — Gulikaadi Group',
-          text: `Birth ${isDay ? 'between sun-rise and sun-set' : (chart.julianDay < rise ? 'between midnight and sun-rise' : 'between sun-set and midnight')} • Sunrise-Sunset: ${clock(rise, off)}-${clock(set, off)} • Astrological weekday: ${WEEKDAY_EN[weekday]}`,
+          text: `Birth ${isDay ? (chart.julianDay < (rise + set) / 2 ? 'between sun-rise and mid-day' : 'between mid-day and sun-set') : (chart.julianDay < rise ? 'between midnight and sun-rise' : 'between sun-set and midnight')} • Sunrise-Sunset: ${clock(rise, off)}-${clock(set, off)} • Astrological weekday: ${WEEKDAY_EN[weekday]}`,
         },
         {
           kind: 'table',

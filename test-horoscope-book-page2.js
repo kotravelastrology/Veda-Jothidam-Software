@@ -38,10 +38,10 @@ async function main() {
   assert.deepStrictEqual(row('Jupiter').slice(2, 12), ['Can', '15:11:21', '00:09:08', 'Pushya', '4', 'Moon', 'Saturn', 'Jupiter', 'Saturn', 'Exalt.']);
   assert.deepStrictEqual(row('Venus').slice(0, 12), ['Venus', 'C', 'Vir', '10:34:14', '01:14:52', 'Hasta', '1', 'Mercury', 'Moon', 'Moon', 'Saturn', 'Debil.']);
   assert.deepStrictEqual(row('Saturn').slice(2, 12), ['Sag', '25:05:12', '00:01:10', 'Purva Ashadha', '4', 'Jupiter', 'Venus', 'Mercury', 'Rahu', 'Enemy']);
-  // Nodes: sample Rahu/Ketu degrees 10:03:38 (ours 13 seconds later); speed -00:03:11 in both; no status is built for nodes.
-  assert.deepStrictEqual(row('Rahu').slice(2, 11), ['Cap', '10:03:51', '-00:03:11', 'Shravana', '1', 'Saturn', 'Moon', 'Moon', 'Moon']);
+  // Nodes: sample Rahu/Ketu degrees 10:03:38 (the nutation put back on the mean node); speed -00:03:11; no status is built for nodes.
+  assert.deepStrictEqual(row('Rahu').slice(2, 11), ['Cap', '10:03:38', '-00:03:11', 'Shravana', '1', 'Saturn', 'Moon', 'Moon', 'Moon']);
   assert.equal(row('Rahu')[11], NOT_BUILT);
-  assert.deepStrictEqual(row('Ketu').slice(2, 11), ['Can', '10:03:51', '-00:03:11', 'Pushya', '3', 'Moon', 'Saturn', 'Venus', 'Mercury']);
+  assert.deepStrictEqual(row('Ketu').slice(2, 11), ['Can', '10:03:38', '-00:03:11', 'Pushya', '3', 'Moon', 'Saturn', 'Venus', 'Mercury']);
 
   // Shad Bala is not built for any row, and the table says why.
   for (const r of table.rows) assert.equal(r[12], NOT_BUILT);

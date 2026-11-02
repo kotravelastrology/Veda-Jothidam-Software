@@ -27,7 +27,8 @@ async function main() {
   const page = await buildPage20({ name: 'aniruddha', birth, dashaOptions: { yearDays: 360, balance: 'degree' } });
   assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), 'no undefined, NaN or null on page 20');
   assert.strictEqual(page.blocks[0].kind, 'text');
-  assert.strictEqual(page.blocks[0].text, 'Mercury 7y 8m 20d');
+  // the sample prints 7y 7m 11d: the calendar time from the birth date to the end of the birth dasha (calendarAge.js)
+  assert.strictEqual(page.blocks[0].text, 'Mercury 7y 7m 11d');
 
   const mahadashas = page.blocks.slice(1);
   assert.deepStrictEqual(mahadashas.map((b) => b.heading), [
@@ -36,8 +37,8 @@ async function main() {
 
   // The first mahadasha starts at birth with the antardashas still to run (four of nine), as the sample lists them.
   assert.deepStrictEqual(mahadashas[0].rows.map((r) => r[0]), PL9_MERCURY.map((r) => r[0]));
-  assert.strictEqual(mahadashas[0].note, 'From 0 yrs to 7y 8m 20d');
-  assert.strictEqual(mahadashas[1].note, 'From 7y 8m 20d to 14y 8m 20d');
+  assert.strictEqual(mahadashas[0].note, 'From 0 yrs. to 7y7m');
+  assert.strictEqual(mahadashas[1].note, 'From 7y7m to 14y6m');
 
   // Each antardasha ends where the next begins, and each mahadasha's antardashas cover the whole mahadasha.
   for (const b of mahadashas) {
@@ -61,7 +62,7 @@ async function main() {
   const julian = await buildPage20({ name: 'aniruddha', birth, dashaOptions: { yearDays: 365.25, balance: 'degree' } });
   assert.strictEqual(dayOf(julian.blocks[2].rows[0][2]) - dayOf(julian.blocks[2].rows[0][1]), 150, '365.25-day year');
   const byTime = await buildPage20({ name: 'aniruddha', birth, dashaOptions: { yearDays: 360, balance: 'time' } });
-  assert.strictEqual(byTime.blocks[0].text, 'Mercury 7y 8m 10d', 'balance by time');
+  assert.strictEqual(byTime.blocks[0].text, 'Mercury 7y 7m 0d', 'balance by time');
 
   console.log('test-horoscope-book-dasha-page: all assertions passed');
 }

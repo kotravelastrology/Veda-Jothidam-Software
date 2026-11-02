@@ -12,6 +12,7 @@
 const { withBirth } = require('./charts');
 const A = require('../../dasha/altDashas');
 
+const { ymdText, ageText } = require('./calendarAge');
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MS_PER_YEAR = 365.25 * 86400000;
 const YOGINI_ABBR = ['Mang Mo', 'Ping Su', 'Dhan Ju', 'Bhra Ma', 'Bhad Me', 'Ulka Sa', 'Sidh Ve', 'Sank Ra'];
@@ -24,14 +25,8 @@ function dmyOf(ms, offsetMinutes) {
   const d = new Date(ms + offsetMinutes * 60000);
   return `${pad(d.getUTCDate())}-${pad(d.getUTCMonth() + 1)}-${d.getUTCFullYear()}`;
 }
-/** Completed years and months from `fromMs` to `toMs`, "7y3m". */
-function ageOf(fromMs, toMs, offsetMinutes) {
-  const a = new Date(fromMs + offsetMinutes * 60000);
-  const b = new Date(toMs + offsetMinutes * 60000);
-  let months = (b.getUTCFullYear() - a.getUTCFullYear()) * 12 + (b.getUTCMonth() - a.getUTCMonth()) - (b.getUTCDate() < a.getUTCDate() ? 1 : 0);
-  if (months < 0) months = 0;
-  return `${Math.floor(months / 12)}y${months % 12}m`;
-}
+/** The engines work in 365.25-day years; the settings' dasha year (PL9: 360 days) rescales every date from the birth moment. */
+const yearScale = (dashaOptions, birthMs) => { const k = (dashaOptions?.yearDays ?? 365.25) / 365.25; return (ms) => birthMs + (ms - birthMs) * k; };
 
 function head(name, birth) {
   return { title: `ஜாதகம் — ${name}`.trim(), subtitle: `${birth.placeName} · ${birth.day} ${MONTH_EN[birth.month - 1]} ${birth.year}` };
@@ -54,11 +49,13 @@ const ASHT = { lords: A.ASHTOTTARI_LORDS, years: A.ASHTOTTARI_YEARS, total: 108 
  */
 function divideAshtottari(period) {
   const full = ASHT.years[period.index];
-  let cursor = period.endMs - full * MS_PER_YEAR;
+  // a mahadasha is its lord's years; an antardasha handed in with its full span (fullStartMs, fullEndMs) is divided over that span, not over its lord's years
+  const spanMs = period.fullStartMs !== undefined ? period.fullEndMs - period.fullStartMs : full * MS_PER_YEAR;
+  let cursor = period.fullStartMs !== undefined ? period.fullStartMs : period.endMs - spanMs;
   const out = [];
   for (let i = 0; i < 8; i += 1) {
     const idx = (period.index + i) % 8;
-    const len = (ASHT.years[idx] / ASHT.total) * full * MS_PER_YEAR;
+    const len = (ASHT.years[idx] / ASHT.total) * spanMs;
     const end = cursor + len;
     out.push({ index: idx, lord: ASHT.lords[idx], startMs: end > period.startMs + 1 ? Math.max(cursor, period.startMs) : null, endMs: end > period.startMs + 1 ? end : null, fullStartMs: cursor, fullEndMs: end });
     cursor = end;
@@ -67,22 +64,21 @@ function divideAshtottari(period) {
 }
 
 /** Page 33: Ashtottari mahadashas with their antardashas. */
-async function buildAshtottariMain({ name = '', birth }) {
+async function buildAshtottariMain({ name = '', birth, dashaOptions }) {
   return enginesFor(birth, (moon, birthMs, off) => {
+    const sc = yearScale(dashaOptions, birthMs);
     const d = A.buildAshtottariDasha(moon, birthMs);
     const blocks = d.periods.map((p) => ({
       kind: 'table', tile: true,
       heading: `${p.lord} (${ASHT.years[p.index]}y)`,
-      aside: `From ${ageOf(birthMs, p.startMs, off)} to ${ageOf(birthMs, p.endMs, off)}`,
+      aside: `From ${p === d.periods[0] ? '0 yrs.' : ageText(birthMs, sc(p.startMs), off)} to ${ageText(birthMs, sc(p.endMs), off)}`,
       columns: ['Antar', 'Beginning', 'Ending'],
-      rows: divideAshtottari(p).map((s) => [s.lord, s.startMs === null ? '-' : dmyOf(s.startMs, off), s.endMs === null ? '-' : dmyOf(s.endMs, off)]),
+      rows: divideAshtottari(p).map((s) => [s.lord, s.startMs === null ? '-' : dmyOf(sc(s.startMs), off), s.endMs === null ? '-' : dmyOf(sc(s.endMs), off)]),
     }));
-    const balYears = d.periods[0].years;
-    const y = Math.floor(balYears); const m = Math.floor((balYears - y) * 12); const dd = Math.round((((balYears - y) * 12) - m) * 30);
     return {
       ...head(name, birth),
       blocks: [
-        { kind: 'text', heading: 'Ashtottari Mahadashas and Antardashas', text: `Dasha balance at birth: ${d.startLord} ${y}y ${m}m ${dd}d. ${d.note ?? ''}`.trim() },
+        { kind: 'text', heading: 'Ashtottari Mahadashas and Antardashas', text: `Dasha balance at birth: ${d.startLord} ${ymdText(birthMs, sc(d.periods[0].endMs), off)}. ${d.note ?? ''}`.trim() },
         ...blocks,
       ],
     };
@@ -90,13 +86,21 @@ async function buildAshtottariMain({ name = '', birth }) {
 }
 
 /** Pages 34-37: Ashtottari antardashas from birth with their pratyantardashas, `per` to a page; `part` is 0-3. */
-async function buildAshtottariShort({ name = '', birth, part }) {
+async function buildAshtottariShort({ name = '', birth, dashaOptions, part }) {
   return enginesFor(birth, (moon, birthMs, off) => {
+    const sc = yearScale(dashaOptions, birthMs);
     const d = A.buildAshtottariDasha(moon, birthMs);
+    // The antardashas run on into the next cycle's first mahadasha until the age of a hundred years: PL9 lists every one that ends by then (Arjun: Rah-Rah, Rah-Ven and Rah-Sun
+    // after Jupiter's, the last ending on 28-03-2083, not yet a hundred years from 12-05-1983)
+    const last = d.periods[d.periods.length - 1];
+    const nextIndex = d.periods[0].index;
+    const mahadashas = [...d.periods, { index: nextIndex, lord: ASHT.lords[nextIndex], startMs: last.endMs, endMs: last.endMs + ASHT.years[nextIndex] * MS_PER_YEAR }];
+    const birthLocal = new Date(birthMs + off * 60000);
+    const hundred = Date.UTC(birthLocal.getUTCFullYear() + 100, birthLocal.getUTCMonth(), birthLocal.getUTCDate(), birthLocal.getUTCHours(), birthLocal.getUTCMinutes()) - off * 60000;
     const flat = [];
-    for (const md of d.periods) {
+    for (const md of mahadashas) {
       for (const ad of divideAshtottari(md)) {
-        if (ad.startMs === null) continue;
+        if (ad.startMs === null || sc(ad.endMs) > hundred) continue;
         flat.push({ md, ad: { ...ad, index: ad.index } });
       }
     }
@@ -104,9 +108,9 @@ async function buildAshtottariShort({ name = '', birth, part }) {
     const blocks = flat.slice(part * per, part * per + per).map(({ md, ad }) => ({
       kind: 'table', tile: true,
       heading: `${ABBR3[md.lord]}-${ABBR3[ad.lord]}`,
-      aside: `${dmyOf(ad.startMs, off)} → ${dmyOf(ad.endMs, off)}`,
+      aside: `${dmyOf(sc(ad.startMs), off)} → ${dmyOf(sc(ad.endMs), off)}`,
       columns: ['Pratyantar', 'Begins'],
-      rows: divideAshtottari({ index: ad.index, startMs: ad.startMs, endMs: ad.endMs }).map((s) => [s.lord, s.startMs === null ? '' : dmyOf(s.startMs, off)]),
+      rows: divideAshtottari({ index: ad.index, startMs: ad.startMs, endMs: ad.endMs, fullStartMs: ad.fullStartMs, fullEndMs: ad.fullEndMs }).map((s) => [s.lord, s.startMs === null ? '' : dmyOf(sc(s.startMs), off)]),
     }));
     return { ...head(name, birth), blocks: [{ kind: 'text', heading: 'Ashtottari Antardashas and Pratyantardashas', text: 'The dates are given for dasha beginning dates.' }, ...blocks] };
   });
@@ -129,23 +133,23 @@ function divideYogini(period) {
 }
 
 /** Pages 38-40: the Yogini dasha, one thirty-six-year cycle to a page (`cycle` 0-2). */
-async function buildYogini({ name = '', birth, cycle }) {
+async function buildYogini({ name = '', birth, dashaOptions, cycle }) {
   return enginesFor(birth, (moon, birthMs, off) => {
+    const sc = yearScale(dashaOptions, birthMs);
     const d = A.buildYoginiDasha(moon, birthMs);
     const first = d.periods[0];
     const slice = d.periods.slice(cycle * 8, cycle * 8 + 8);
     const blocks = slice.map((p) => ({
       kind: 'table', tile: true,
       heading: `${YOGINI_NAMES[p.index]} (${A.YOGINI_YEARS[p.index]}y)`,
-      aside: `From ${ageOf(birthMs, p.startMs, off)} to ${ageOf(birthMs, p.endMs, off)}`,
+      aside: `From ${p === first ? '0 yrs.' : ageText(birthMs, sc(p.startMs), off)} to ${ageText(birthMs, sc(p.endMs), off)}`,
       columns: ['Antar', 'Beginning', 'Ending'],
-      rows: divideYogini(p).map((s) => [YOGINI_ABBR[s.index], s.startMs === null ? '' : dmyOf(s.startMs, off), s.endMs === null ? '' : dmyOf(s.endMs, off)]),
+      rows: divideYogini(p).map((s) => [YOGINI_ABBR[s.index], s.startMs === null ? '' : dmyOf(sc(s.startMs), off), s.endMs === null ? '' : dmyOf(sc(s.endMs), off)]),
     }));
-    const years = first.years; const y = Math.floor(years); const m = Math.floor((years - y) * 12); const dd = Math.round((((years - y) * 12) - m) * 30);
     return {
       ...head(name, birth),
       blocks: [
-        { kind: 'text', heading: `Yogini Mahadashas and Antardashas (${['First', 'Second', 'Third'][cycle]} cycle)`, text: `Dasha balance at birth: ${YOGINI_NAMES[first.index]} ${y}y ${m}m ${dd}d.` },
+        { kind: 'text', heading: `Yogini Mahadashas and Antardashas (${['First', 'Second', 'Third'][cycle]} cycle)`, text: `Dasha balance at birth: ${YOGINI_NAMES[first.index]} ${ymdText(birthMs, sc(first.endMs), off)}.` },
         ...blocks,
       ],
     };

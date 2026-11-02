@@ -9,6 +9,7 @@
  */
 const { withBirth } = require('./charts');
 const K = require('../../dasha/kalachakraBphs');
+const { ymdText } = require('./calendarAge');
 
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const SIGN = ['Ari', 'Tau', 'Gem', 'Can', 'Leo', 'Vir', 'Lib', 'Sco', 'Sag', 'Cap', 'Aqu', 'Pis'];
@@ -77,7 +78,7 @@ async function buildKalachakraMain({ name = '', birth, dashaOptions }) {
       {
         kind: 'text',
         heading: 'Kala Chakra Mahadashas and Antardashas',
-        text: `Dasha balance at birth: ${SIGN_FULL[k.mahas[0].sign]} ${balanceText(k.balanceYears)} • Jeeva Rashi: ${SIGN_FULL[k.jeeva]} • Deha Rashi: ${SIGN_FULL[k.deha]} • ${k.chakra === 'savya' ? 'Savya' : 'Apsavya'} chakra, pada ${k.pada} · The dates are the dasha beginning dates.`,
+        text: `Dasha balance at birth: ${SIGN_FULL[k.mahas[0].sign]} ${ymdText(birthMs, at(k.mahas[0].endYears), off)} • Jeeva Rashi: ${SIGN_FULL[k.jeeva]} • Deha Rashi: ${SIGN_FULL[k.deha]} • ${k.chakra === 'savya' ? 'Savya' : 'Apsavya'} chakra, pada ${k.pada} · The dates are the dasha beginning dates.`,
       },
       ...blocks,
     ],

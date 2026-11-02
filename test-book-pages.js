@@ -41,8 +41,8 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
   assert.equal(row(block(p33, 'Rahu (12y)'), 'Moon')[1], '05-10-1990');
   const p38 = await build('p38');
   assert.equal(row(block(p38, 'Ulka (6y)'), 'Sank Ra')[1], '05-10-1990');
-  // the sample ends it on 25-12-1990: its balance at birth is two weeks shorter (the Moon's longitude is the same), a day's difference here
-  assert.equal(row(block(p38, 'Ulka (6y)'), 'Sank Ra')[2], '26-12-1990');
+  // the sample ends it on 25-12-1990 (the balance as the calendar's date, not the dasha years', is the same here)
+  assert.equal(row(block(p38, 'Ulka (6y)'), 'Sank Ra')[2], '25-12-1990');
 
   // pages 41-42 (Kala Chakra): the balance, the first mahadashas' dates, and the pratyantardashas of the birth antardasha are the sample's
   const p41 = await build('p41');
@@ -56,12 +56,12 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
 
   // pages 62 and 67 (Tribhagi and Shodashottari): the dates are the sample's
   const p62 = await build('p62');
-  assert.deepEqual(row(block(p62, 'Mercury (11.33y)'), 'Mars').slice(1), ['05-10-1990', '25-11-1990']);
-  assert.deepEqual(row(block(p62, 'Mercury (11.33y)'), 'Rahu').slice(1), ['25-11-1990', '29-07-1992']);
+  assert.deepEqual(row(block(p62, 'Mercury (11y)'), 'Mars').slice(1), ['05-10-1990', '25-11-1990']);
+  assert.deepEqual(row(block(p62, 'Mercury (11y)'), 'Rahu').slice(1), ['25-11-1990', '29-07-1992']);
   // page 64 (Tribhagi 40, Vimshottari divided by three): the sample's antardashas of the birth period
   const p64 = await build('p64');
-  assert.deepEqual(row(block(p64, 'Mercury (5.67y)'), 'Mars').slice(1), ['05-10-1990', '30-10-1990']);
-  assert.deepEqual(row(block(p64, 'Mercury (5.67y)'), 'Rahu').slice(1), ['30-10-1990', '01-09-1991']);
+  assert.deepEqual(row(block(p64, 'Mercury (5y)'), 'Mars').slice(1), ['05-10-1990', '30-10-1990']);
+  assert.deepEqual(row(block(p64, 'Mercury (5y)'), 'Rahu').slice(1), ['30-10-1990', '01-09-1991']);
   const p67 = await build('p67');
   assert.deepEqual(row(block(p67, 'Saturn (14y)'), 'Venus').slice(1), ['05-10-1990', '29-09-1992']);
 

@@ -114,7 +114,8 @@ const RAMAN_SAPTAVARGAJA_POINTS = Object.freeze({ own: 30, greatFriend: 22.5, fr
 function saptavargajaBalaRaman(planet, rasiIndex, degreeInSign, rasiPositions) {
   const mt = MOOLATRIKONA[planet];
   const score = (sign, lord, isRasi) => {
-    if (mt && sign === mt.sign) return isRasi ? 45 : RAMAN_SAPTAVARGAJA_POINTS.own;
+    // moolatrikona 45 counts only inside the moolatrikona degrees of the Rasi (Mercury in Virgo 16-20, not at Virgo 5, where he is in his own sign: 30, as PL9 has it)
+    if (mt && sign === mt.sign) return isRasi && degreeInSign >= mt.from && degreeInSign < mt.to ? 45 : RAMAN_SAPTAVARGAJA_POINTS.own;
     if (lord === planet || OWN_SIGNS[planet].includes(sign)) return RAMAN_SAPTAVARGAJA_POINTS.own;
     return RAMAN_SAPTAVARGAJA_POINTS[compoundRelationship(planet, lord, rasiPositions)];
   };
@@ -306,8 +307,10 @@ function digBala(planet, longitude, { ascendant, mc }) {
 
 const NAISARGIKA_RANK = { Saturn: 1, Mars: 2, Mercury: 3, Jupiter: 4, Venus: 5, Moon: 6, Sun: 7 };
 /** Naisargika Bala (v.14, file p.227-228): fixed constants, (60/7) x rank -- reproduces the book's own printed 1.000/0.857/... Rupa figures exactly. */
-function naisargikaBala(planet) {
-  return (60 / 7) * NAISARGIKA_RANK[planet];
+function naisargikaBala(planet, rounded = false) {
+  const share = NAISARGIKA_RANK[planet] / 7;
+  // Parashara's Light prints 51.42, 42.84, 34.26, 25.74, 17.16, 8.58: sixty times the seventh read to three decimals (the Rupa figures .857, .714 ...)
+  return 60 * (rounded ? Math.round(share * 1000) / 1000 : share);
 }
 
 const PAKSHA_BENEFICS = new Set(['Jupiter', 'Venus', 'Mercury']);
@@ -339,6 +342,21 @@ function pakshaBalaRaman(planet, longitudes, isWaxingMoon) {
   const subha = (rawDiff <= 180 ? rawDiff : 360 - rawDiff) / 3;
   const value = ramanIsMalefic(planet, longitudes, isWaxingMoon) ? 60 - subha : subha;
   return planet === 'Moon' ? 2 * value : value;
+}
+
+/**
+ * Paksha Bala as Parashara's Light prints it (three printouts agree): Raman's classification, but the Moon's own is her elongation from the Sun
+ * (reduced to 180 degrees) over three whatever the fortnight, not doubled and not taken from sixty (Moon 1.75 at a dark Moon, 58.55 just
+ * after the full Moon); the others get the share if subha and sixty less it if papa (Budha papa when with a malefic).
+ */
+function pakshaBalaPL9(planet, longitudes, isWaxingMoon) {
+  const rawDiff = normalizeDegrees(longitudes.Moon - longitudes.Sun);
+  const subha = (rawDiff <= 180 ? rawDiff : 360 - rawDiff) / 3;
+  if (planet === 'Moon') return subha;
+  // Budha is papa when he shares a rasi with the Sun, Mars or Saturn (PL9: Arjun's Mercury 27:56 Aries with the Sun 27:29, the sample's Virgo 4:55 with the Sun 17:44)
+  const sign = (p) => Math.floor(longitudes[p] / 30);
+  const papa = planet === 'Mercury' ? ['Sun', 'Mars', 'Saturn'].some((other) => sign(other) === sign('Mercury')) : ramanIsMalefic(planet, longitudes, isWaxingMoon);
+  return papa ? 60 - subha : subha;
 }
 
 /** Tribhaga Bala (v.12, file p.222-223): 60 Virupas to the lord of the day/night third the birth falls in, plus Jupiter always gets 60. */
@@ -435,6 +453,12 @@ function ramanKranti(sayanaLongitude) {
 const RAMAN_AYANA_SOUTH_ADDITIVE = new Set(['Moon', 'Saturn']);
 function ayanaBalaRaman(planet, sayanaLongitude) {
   return ramanAyanaFromKranti(planet, ramanKranti(sayanaLongitude));
+}
+
+/** Ayana Bala as Parashara's Light prints it: Raman's formula, but the Sun's result is not doubled (Arjun's Sun 53.35 beside Venus 59.95, Saturn 44.82). */
+function ayanaBalaPL9(planet, sayanaLongitude) {
+  const value = ayanaBalaRaman(planet, sayanaLongitude);
+  return planet === 'Sun' ? value / 2 : value;
 }
 
 /** Raman's Ayana Bala from a Kranti in degrees (north positive): the formula of Art.75 without the table. */
@@ -574,8 +598,8 @@ function ramanChesta(planet, trueLongitude, birthJd, birthYear) {
  * primitives already trusted from S3/S5.
  */
 function findDayNightThird({ birthJd, latitude, longitude, jdLocalMidnight }) {
-  const todaySunrise = sunriseJulianDay(jdLocalMidnight, latitude, longitude);
-  const todaySunset = sunsetJulianDay(todaySunrise, latitude, longitude);
+  const todaySunrise = sunriseJulianDay(jdLocalMidnight, latitude, longitude, 0, SUNRISE_MODE);
+  const todaySunset = sunsetJulianDay(todaySunrise, latitude, longitude, 0, SUNRISE_MODE);
 
   let windowStart;
   let windowEnd;
@@ -583,11 +607,11 @@ function findDayNightThird({ birthJd, latitude, longitude, jdLocalMidnight }) {
   if (birthJd >= todaySunrise && birthJd <= todaySunset) {
     windowStart = todaySunrise; windowEnd = todaySunset; isDaytime = true;
   } else if (birthJd < todaySunrise) {
-    const previousSunrise = sunriseJulianDay(jdLocalMidnight - 1, latitude, longitude);
-    const previousSunset = sunsetJulianDay(previousSunrise, latitude, longitude);
+    const previousSunrise = sunriseJulianDay(jdLocalMidnight - 1, latitude, longitude, 0, SUNRISE_MODE);
+    const previousSunset = sunsetJulianDay(previousSunrise, latitude, longitude, 0, SUNRISE_MODE);
     windowStart = previousSunset; windowEnd = todaySunrise; isDaytime = false;
   } else {
-    const nextSunrise = sunriseJulianDay(todaySunset, latitude, longitude);
+    const nextSunrise = sunriseJulianDay(todaySunset, latitude, longitude, 0, SUNRISE_MODE);
     windowStart = todaySunset; windowEnd = nextSunrise; isDaytime = false;
   }
   const fraction = (birthJd - windowStart) / (windowEnd - windowStart);
@@ -601,11 +625,11 @@ function findDayNightThird({ birthJd, latitude, longitude, jdLocalMidnight }) {
  * 24-part division of that same span.
  */
 function sunriseAnchoredWindow(birthJd, latitude, longitude, jdLocalMidnight) {
-  const todaySunrise = sunriseJulianDay(jdLocalMidnight, latitude, longitude);
+  const todaySunrise = sunriseJulianDay(jdLocalMidnight, latitude, longitude, 0, SUNRISE_MODE);
   if (birthJd >= todaySunrise) {
-    return { sunrise: todaySunrise, nextSunrise: sunriseJulianDay(jdLocalMidnight + 1, latitude, longitude) };
+    return { sunrise: todaySunrise, nextSunrise: sunriseJulianDay(jdLocalMidnight + 1, latitude, longitude, 0, SUNRISE_MODE) };
   }
-  return { sunrise: sunriseJulianDay(jdLocalMidnight - 1, latitude, longitude), nextSunrise: todaySunrise };
+  return { sunrise: sunriseJulianDay(jdLocalMidnight - 1, latitude, longitude, 0, SUNRISE_MODE), nextSunrise: todaySunrise };
 }
 
 /**
@@ -659,6 +683,9 @@ function masaLord(ahargana) {
 function dinaLord(ahargana) {
   return REMAINDER_TO_WEEKDAY_LORD[((ahargana % 7) + 7) % 7];
 }
+
+/** The sunrise the day and night thirds and the Hora count from: the centre of the Sun's disc on the horizon, Parashara's Light's (and the Hindu) sunrise. */
+const SUNRISE_MODE = 'disc-centre';
 
 const NATURAL_ORDER = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 /**
@@ -732,14 +759,20 @@ const SHADBALA_COMPONENT_MINIMUMS = {
 function calculateShadbala({
   longitudes, lagnaRasiIndex, ascendant, mc,
   birthJd, latitude, longitude, year, month, day, utcOffsetMinutes, drikMethod = 'bphs', sthanaMethod = 'bphs',
-  kalaMethod = 'bphs', ayanamsaDegrees, chestaMethod = 'bphs',
+  kalaMethod = 'bphs', ayanamsaDegrees, chestaMethod = 'bphs', reading = 'bphs',
 }) {
-  if (chestaMethod !== 'bphs' && chestaMethod !== 'raman') throw new Error(`unknown chesta method ${chestaMethod}`);
+  // 'pl9': what Parashara's Light prints, as far as three printouts (Arjun, meera, the aniruddha sample) let it be reproduced. Sthana is Raman's (every
+  // part of it identical to PL9's, Saptavargaja and Drekkana included); Paksha, Ayana and Naisargika as PL9 prints them; the Sun's and Moon's Chesta are
+  // their Ayana and Paksha Bala (as the BPHS has them), the other five Raman's. Nata-Unnata, Ayana, Chesta and Drik differ from PL9's own figures by
+  // its internal approximations (not reproduced): see docs/PL9-multi-sample-audit.md.
+  const isPL9 = reading === 'pl9';
+  if (isPL9) { sthanaMethod = 'raman'; kalaMethod = 'pl9'; chestaMethod = 'pl9'; }
+  if (chestaMethod !== 'bphs' && chestaMethod !== 'raman' && chestaMethod !== 'pl9') throw new Error(`unknown chesta method ${chestaMethod}`);
   const drikOf = DRIK_METHODS[drikMethod];
   if (!drikOf) throw new Error(`unknown drik method ${drikMethod}`);
   if (sthanaMethod !== 'bphs' && sthanaMethod !== 'raman') throw new Error(`unknown sthana method ${sthanaMethod}`);
-  if (kalaMethod !== 'bphs' && kalaMethod !== 'raman') throw new Error(`unknown kala method ${kalaMethod}`);
-  const isRamanKala = kalaMethod === 'raman';
+  if (kalaMethod !== 'bphs' && kalaMethod !== 'raman' && kalaMethod !== 'pl9') throw new Error(`unknown kala method ${kalaMethod}`);
+  const isRamanKala = kalaMethod === 'raman' || kalaMethod === 'pl9';
   // Raman's Ayana uses sayana longitudes (Art.72: add the ayanamsha of the birth year). Default: the chart's own ayanamsha.
   const ayanamsa = isRamanKala ? (ayanamsaDegrees ?? getAyanamsa(birthJd)) : 0;
   const eotDays = isRamanKala ? equationOfTimeDays(birthJd) : 0;
@@ -773,17 +806,22 @@ function calculateShadbala({
 
     const bphsAyanaBala = ayanaBala(planet, kranti(planet, birthJd));
     const kaala = {
-      pakshaBala: isRamanKala ? pakshaBalaRaman(planet, longitudes, isWaxingMoon) : pakshaBala(planet, longitudes.Sun, longitudes.Moon),
+      pakshaBala: kalaMethod === 'pl9' ? pakshaBalaPL9(planet, longitudes, isWaxingMoon)
+        : (isRamanKala ? pakshaBalaRaman(planet, longitudes, isWaxingMoon) : pakshaBala(planet, longitudes.Sun, longitudes.Moon)),
       tribhagaBala: tribhagaBala(planet, isDaytime, thirdIndex),
       nathonnataBala: nathonnataBala(planet, birthJd, jdLocalMidnight, eotDays),
-      ayanaBala: isRamanKala ? ayanaBalaRaman(planet, planetLongitude + ayanamsa) : bphsAyanaBala,
+      ayanaBala: kalaMethod === 'pl9' ? ayanaBalaPL9(planet, planetLongitude + ayanamsa) : (isRamanKala ? ayanaBalaRaman(planet, planetLongitude + ayanamsa) : bphsAyanaBala),
       varshaMasaDinaHoraBala: varshaMasaDinaHoraBala(planet, varshaMasaDinaHoraLords),
     };
     const kaalaBala = kaala.pakshaBala + kaala.tribhagaBala + kaala.nathonnataBala
       + kaala.varshaMasaDinaHoraBala + kaala.ayanaBala;
 
     let cheshtaBala;
-    if (chestaMethod === 'raman') {
+    if (chestaMethod === 'pl9') {
+      if (planet === 'Sun') cheshtaBala = kaala.ayanaBala;
+      else if (planet === 'Moon') cheshtaBala = kaala.pakshaBala;
+      else cheshtaBala = ramanChesta(planet, planetLongitude, birthJd, year).bala;
+    } else if (chestaMethod === 'raman') {
       cheshtaBala = planet === 'Sun' || planet === 'Moon' ? 0 : ramanChesta(planet, planetLongitude, birthJd, year).bala;
     } else if (planet === 'Moon') {
       cheshtaBala = kaala.pakshaBala;
@@ -799,7 +837,7 @@ function calculateShadbala({
       digBala: digBala(planet, planetLongitude, { ascendant, mc }),
       kaala,
       kaalaBala,
-      naisargikaBala: naisargikaBala(planet),
+      naisargikaBala: naisargikaBala(planet, isPL9),
       cheshtaBala,
       drikBala: drikOf(planet, longitudes, isWaxingMoon),
     };
@@ -935,6 +973,8 @@ module.exports = {
   pakshaBalaRaman,
   ramanKranti,
   ayanaBalaRaman,
+  ayanaBalaPL9,
+  pakshaBalaPL9,
   ramanAyanaFromKranti,
   equationOfTimeDays,
   ramanChestaInterval,

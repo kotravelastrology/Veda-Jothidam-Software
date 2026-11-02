@@ -19,6 +19,7 @@ const { withBirth } = require('./charts');
 const { createChartContext } = require('../../contracts/chartContext');
 const { buildVimshottariDasha } = require('../../dasha/vimshottariDasha');
 const { planetLongitude } = require('../../ephemeris/siderealPositions');
+const { ymdText, ageText } = require('./calendarAge');
 
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -54,9 +55,9 @@ function dateText(jd, utcOffsetMinutes) {
  */
 function buildPage20({ name = '', birth, dashaOptions = { yearDays: 365.25, balance: 'degree' } }) {
   const ayanamsha = createChartContext({
-    year: birth.year, month: birth.month, day: birth.day, hour: birth.hour, minute: birth.minute,
+    year: birth.year, month: birth.month, day: birth.day, hour: birth.hour, minute: birth.minute, second: birth.second,
     ianaTimeZone: birth.ianaTimeZone ?? 'Asia/Kolkata', utcOffsetMinutes: birth.utcOffsetMinutes,
-    latitude: birth.latitude, longitude: birth.longitude, placeName: birth.placeName, calendarMode: 'tirukanita',
+    latitude: birth.latitude, longitude: birth.longitude, placeName: birth.placeName, calendarMode: 'tirukanita', ayanamsha: birth.ayanamsha, houseSystem: birth.houseSystem, nodeType: birth.nodeType,
   }).ayanamsha;
   return withBirth(birth, ({ chart }) => {
     const offset = birth.utcOffsetMinutes ?? 0;
@@ -73,7 +74,11 @@ function buildPage20({ name = '', birth, dashaOptions = { yearDays: 365.25, bala
 
     // Each mahadasha's start in years from birth (the first one is already running at birth).
     let elapsedBeforeThis = 0;
-    const blocks = [{ kind: 'text', heading: 'Dasha balance at birth', text: `${tree.startingLord} ${yearsText(balance)}` }];
+    // The balance and the ages in the headings are calendar differences from the birth date (PL9's way, calendarAge.js), the dates being the dasha years'
+    const msOf = (jd) => (jd - 2440587.5) * 86400000;
+    const birthMs = msOf(birthJd);
+    const endMsOf = (years) => msOf(birthJd + years * yearDays);
+    const blocks = [{ kind: 'text', heading: 'Dasha balance at birth', text: `${tree.startingLord} ${ymdText(birthMs, endMsOf(balance), offset)}` }];
     lords.forEach((lord, i) => {
       const years = YEARS[lord];
       const startYears = i === 0 ? 0 : elapsedBeforeThis;
@@ -97,7 +102,7 @@ function buildPage20({ name = '', birth, dashaOptions = { yearDays: 365.25, bala
           dateText(Math.max(r.start, birthJd), offset),
           dateText(r.end, offset),
         ]),
-        note: `From ${startYears === 0 ? '0 yrs' : yearsText(startYears)} to ${yearsText(endYears)}`,
+        note: `From ${startYears === 0 ? '0 yrs.' : ageText(birthMs, endMsOf(startYears), offset)} to ${ageText(birthMs, endMsOf(endYears), offset)}`,
       });
       elapsedBeforeThis = endYears;
     });

@@ -11,14 +11,15 @@
  * one rupa at six. Jupiter: half the degrees plus 45 at three and seven signs, 60 - degrees at four and eight. Saturn: 60
  * minus half the excess over two signs (60-90), degrees plus 30 above eight signs (240-270).
  *
- * The aspecting nodes are not built: BPHS ch.26 gives drishti for the grahas only. Their cells read as not built.
+ * The nodes, which BPHS ch.26 gives no drishti, are what Parashara's Light prints on three printouts: Rahu and Ketu aspect as Jupiter does, the 7th and the
+ * special 5th and 9th, by Jupiter's rules above (Arjun: Ketu on the Sun at 144.2 degrees is 60 - 24.2 = 35.8, PL9 35; Rahu on Saturn at 122.7 is 57).
  */
 const { drishtiPinda } = require('./aspectStrength');
 
 const SEVEN = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 const GRAHAS = [...SEVEN, 'Rahu', 'Ketu'];
 const SLAB_BY_HOUSE = { 3: '1/4', 10: '1/4', 5: '1/2', 9: '1/2', 4: '3/4', 8: '3/4', 7: '4/4' };
-const SPECIAL_HOUSES = { Mars: [4, 8], Jupiter: [5, 9], Saturn: [3, 10] };
+const SPECIAL_HOUSES = { Mars: [4, 8], Jupiter: [5, 9], Saturn: [3, 10], Rahu: [5, 9], Ketu: [5, 9] };
 
 const norm = (d) => ((d % 360) + 360) % 360;
 const signOf = (lon) => Math.floor(norm(lon) / 30);
@@ -47,11 +48,14 @@ function aspectVirupa(aspector, angle) {
     if (s === 3 || s === 7) return 60 - r;
     if (s === 6) return 60;
   }
-  if (aspector === 'Jupiter') {
+  if (aspector === 'Jupiter' || aspector === 'Rahu' || aspector === 'Ketu') {
     if (s === 3 || s === 7) return r / 2 + 45;
     if (s === 4 || s === 8) return 60 - r;
   }
   if (aspector === 'Saturn') {
+    // Parashara's Light's Saturn below his 3rd house: twice the degrees over thirty (38.4 degrees is 16, 57.3 is 54 on Arjun's page; the general rule gives 4 and 13), and twice the degrees under three hundred
+    if (d >= 30 && d <= 60) return (d - 30) * 2;
+    if (d >= 270 && d < 300) return (300 - d) * 2; // and the same from the other side (meera: Saturn 276.2 degrees from the Sun is 47, 292.5 from Venus 15)
     if (d > 60 && d < 90) return 60 - (d - 60) / 2;
     if (d > 240 && d < 270) return r + 30;
   }
@@ -63,7 +67,8 @@ function aspectCell(aspector, aspectorLon, pointLon) {
   const house = houseFrom(aspectorLon, pointLon);
   const fraction = aspectFraction(aspector, house);
   const virupa = Math.floor(aspectVirupa(aspector, norm(pointLon - aspectorLon)));
-  if (fraction === null) return null;
+  // a point off the slab houses still has its angular value, which PL9 prints under a dash (Sun on Jupiter at 163 degrees: "- (26)")
+  if (fraction === null) return virupa > 0 ? { fraction: '-', virupa } : null;
   return { fraction, virupa };
 }
 
@@ -75,7 +80,7 @@ function aspectsOnPlanets(longitudes) {
   return GRAHAS.map((aspected) => ({
     aspected,
     cells: GRAHAS.map((aspector) => {
-      if (aspector === aspected || !SEVEN.includes(aspector)) return null;
+      if (aspector === aspected) return null;
       return aspectCell(aspector, longitudes[aspector], longitudes[aspected]);
     }),
   }));
@@ -89,7 +94,6 @@ function aspectsOnBhavas(longitudes, points) {
   return points.map((pointLon, i) => ({
     house: i + 1,
     cells: GRAHAS.map((aspector) => {
-      if (!SEVEN.includes(aspector)) return null;
       const virupa = Math.floor(aspectVirupa(aspector, norm(pointLon - longitudes[aspector])));
       return virupa === 0 ? null : virupa;
     }),

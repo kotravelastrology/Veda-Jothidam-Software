@@ -19,6 +19,7 @@ const {
   formatLocalDateTime, karanaName,
 } = require('../panchangam/tirukanitaPanchangam');
 const { withEphemeris } = require('../ephemeris/isolation');
+const { trueAyanamsa } = require('../ephemeris/swissEphemeris');
 const { sunriseJulianDay, sunsetJulianDay, planetLongitude } = require('../ephemeris/siderealPositions');
 const { buildVimshottariDasha, birthNakshatraAndBalance, VIMSHOTTARI_YEARS } = require('../dasha/vimshottariDasha');
 const { tamilDate } = require('./tamilCalendar');
@@ -141,7 +142,7 @@ function buildBirthParticulars({ birth, engine = {}, dashaOptions = { yearDays: 
       lagna: { rasiIndex: chart.lagna.rasiIndex, rasiTa: N.RASI_TA[chart.lagna.rasiIndex], degree: sexagesimal(chart.lagna.degreeInSign) },
       moon: { rasiIndex: rasi, rasiTa: N.RASI_TA[rasi], degree: sexagesimal(moon.degreeInSign), lordTa: N.PLANET_TA[RASI_LORD[rasi]] },
       sun: { rasiIndex: sun.rasiIndex, rasiTa: N.RASI_TA[sun.rasiIndex], degree: sexagesimal(sun.degreeInSign) },
-      ayanamsha: { name: ayan, degrees: sexagesimal(swe.getAyanamsa(jdBirth)) },
+      ayanamsha: { name: ayan, degrees: sexagesimal(trueAyanamsa(jdBirth)) },
       dasha: {
         lord: dasha.startingLord,
         lordTa: N.PLANET_TA[dasha.startingLord],

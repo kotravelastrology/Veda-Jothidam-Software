@@ -11,6 +11,7 @@ const { withBirth } = require('./charts');
 const R = require('../../dasha/rareDashas');
 const E = require('../../dasha/nakshatraDashaEngine');
 const FL = require('../../dasha/fiveLevel');
+const { ymdText } = require('./calendarAge');
 
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const ABBR = { Sun: 'Su', Moon: 'Mo', Mars: 'Ma', Mercury: 'Me', Jupiter: 'Ju', Venus: 'Ve', Saturn: 'Sa', Rahu: 'Ra', Ketu: 'Ke' };
@@ -51,17 +52,18 @@ function buildRarePage({ name = '', birth, dashaOptions, method, page }) {
     const off = birth.utcOffsetMinutes ?? 0;
     const birthMs = (chart.julianDay - 2440587.5) * 86400000;
     const moon = chart.grahas.Moon.longitude;
-    const tree = E.buildDasha(table, { birthMs, moonLongitude: moon, depth: 2, cycles: Math.ceil(130 / table.totalYears) + 1 });
+    const tree = E.buildDasha(table, { birthMs, moonLongitude: moon, depth: 2, cycles: 8 });
     // the settings' dasha year: the engine counts in 365.25-day years, so scale the distance from birth
     const at = (years) => birthMs + years * yearDays * 86400000;
-    // the mahadashas that begin within a lifetime of 120 years
-    const lifetime = tree.periods.filter((p) => p.startYears < 120);
+    // Parashara's Light prints every page in full (nine mahadashas a page) whatever the age they reach: Arjun's Tribhagi, Dwisaptatisama and Shastihayani second pages run to
+    // 18 mahadashas, ages 130 to 170
+    const lifetime = tree.periods;
     const chunk = lifetime.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
     const blocks = chunk.map((p) => {
       const byLord = new Map((p.children || []).map((c) => [c.lord, c]));
       return {
         kind: 'table', tile: true,
-        heading: `${p.lord} (${Number(table.years[p.lord].toFixed(2))}y)`,
+        heading: `${p.lord} (${Math.floor(table.years[p.lord] + 1e-9)}y)`, // PL9 prints the whole years (Tribhagi's 12.67 as 12y)
         columns: ['Antar', 'Beginning', 'Ending'],
         rows: E.orderFrom(table, p.lord).map((lord) => {
           const c = byLord.get(lord);
@@ -77,7 +79,7 @@ function buildRarePage({ name = '', birth, dashaOptions, method, page }) {
         {
           kind: 'text',
           heading: `${TITLES[method]} Mahadashas and Antardashas`,
-          text: `Dasha balance at birth: ${tree.startLord} ${ymd(tree.balanceYears)} · Dasha at the time of birth: ${atBirth} · ${table.totalYears}-year cycle`,
+          text: `Dasha balance at birth: ${tree.startLord} ${ymdText(birthMs, at(tree.balanceYears), off)} · Dasha at the time of birth: ${atBirth} · ${table.totalYears}-year cycle`,
         },
         ...blocks,
       ],

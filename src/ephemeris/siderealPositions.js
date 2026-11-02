@@ -1,5 +1,5 @@
 const {
-  calculatePosition, calculateRiseTransitSet, setSiderealMode,
+  calculatePosition, calculateRiseTransitSet, setSiderealMode, getAyanamsa, getAyanamsaExUt,
   Planet, LunarPoint, SiderealMode, CalculationFlag, RiseTransitFlag,
 } = require('@swisseph/node');
 
@@ -62,8 +62,13 @@ function nodeLongitude(julianDay, ayanamsha = 'Lahiri', nodeType = 'mean') {
   setSiderealMode(siderealMode);
   const flags = CalculationFlag.SwissEphemeris | CalculationFlag.Sidereal;
   const rahu = calculatePosition(julianDay, body, flags);
+  // The mean node is referred to the mean equinox of date, but Swiss Ephemeris's sidereal flag takes the true ayanamsha (with nutation) off it:
+  // the mean ayanamsha is the one to subtract, so the nutation in longitude (up to ~19") is put back. Parashara's Light's Rahu agrees
+  // to the second only so (Arjun 12 May 1983: 03:17:01; the Swiss value alone is 03:16:42).
+  if (nodeType !== 'true') return norm360(rahu.longitude + (getAyanamsa(julianDay) - getAyanamsaExUt(julianDay, CalculationFlag.SwissEphemeris)));
   return rahu.longitude;
 }
+const norm360 = (x) => ((x % 360) + 360) % 360;
 
 /** Back-compat alias — the mean node is the project default (see nodeLongitude). */
 function meanNodeLongitude(julianDay, ayanamsha = 'Lahiri') {

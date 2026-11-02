@@ -30,11 +30,11 @@ async function main() {
   assert.equal(field(doc, 0, 'LMT Corr.'), '-00:08:52 hrs');
   assert.equal(field(doc, 0, 'Local Mean Time'), '04:21:08 hrs');
   assert.equal(field(doc, 0, 'Sunsign (Western)'), 'துலாம்');
-  // Sample: Sidereal Time 05:14:37; sample Lagna Leo 25:03:02, as ours (with the true ayanamsha).
-  assert.equal(field(doc, 0, 'Sidereal Time'), '05:14:36 hrs');
+  // Sample: Sidereal Time 29:14:37 (the Hindu day's 24 hours added for a birth before sunrise); sample Lagna Leo 25:03:02, as ours (with the true ayanamsha).
+  assert.equal(field(doc, 0, 'Sidereal Time'), '29:14:37 hrs');
   assert.ok(field(doc, 0, 'Lagna').startsWith('சிம்மம் 25:03:'), 'lagna is Leo 25 degrees');
-  // Sample: -23:43:54 Lahiri; ours is 13 seconds different.
-  assert.equal(field(doc, 0, 'Ayanamsha'), '-23:43:41 Lahiri');
+  // Sample: -23:43:54 Lahiri (the true ayanamsha, with the nutation)
+  assert.equal(field(doc, 0, 'Ayanamsha'), '-23:43:54 Lahiri');
   assert.ok(field(doc, 0, 'Ishtkaal').startsWith('56:'), 'birth before sunrise uses the previous Hindu day');
 
   // Hindu calendar (section 1): the Hindu day is Thursday 4 October, so every "at sunrise" value is 4 October's.
@@ -59,11 +59,17 @@ async function main() {
   assert.equal(field(doc, 1, 'Moon Nak exit'), '5 October 1990 14:24:00');
   assert.equal(field(doc, 1, 'Dasha at birth'), 'Mercury');
   assert.ok(field(doc, 1, 'Degree (sunrise)').startsWith('கன்னி 16:48:'), 'sun at sunrise in Virgo 16:48 as in the sample');
-  // Sample: sunrise 06:01:42, sunset 17:53:35, balance 7y 7m 11d. Ours differ (see the report); pinned as built.
-  assert.equal(field(doc, 1, 'Sunrise'), '05:58:05 hrs');
-  assert.equal(field(doc, 1, 'Balance of Dasha'), '7y 8m 20d');
-  assert.ok(field(doc, 1, 'Kartikadi System').startsWith('கட்டப்படவில்லை'), 'Kartikadi is marked not built');
-  assert.ok(field(doc, 1, 'Bhayat').startsWith('கட்டப்படவில்லை'), 'Bhayat is marked not built');
+  // Sample: sunrise 06:01:42 (the Sun's centre on the horizon), sunset 17:53:35, Bhayat 29:56:30, Bhabhog 54:41:30 (ours 54:41:31), balance 7y 7m 11d (calendar time to the end of the birth dasha, on the 360-day dasha year)
+  assert.equal(field(doc, 1, 'Sunrise'), '06:01:42 hrs');
+  assert.equal(field(doc, 1, 'Sunset'), '17:53:35 hrs');
+  assert.equal(field(doc, 1, 'Bhayat'), '29:56:30 ghatis');
+  assert.equal(field(doc, 1, 'Bhabhog'), '54:41:31 ghatis');
+  const docOn360 = await buildPage1({ name: 'aniruddha', sex: 'Female', country: 'India', birth: sampleBirth, dashaOptions: { yearDays: 360, balance: 'degree' } });
+  assert.equal(field(docOn360, 1, 'Balance of Dasha'), '7y 7m 11d');
+  // Chaitradi lunar month is the purnimanta one, Kartikadi's the amanta; a Shukla Purnima is Ashvina in both (sample: Aswini, Aswini; Vikram 2047 and 2046)
+  assert.equal(field(doc, 1, 'Chaitradi System: Lunar Month'), 'ஆஸ்வினம்');
+  assert.equal(field(doc, 1, 'Kartikadi System: Lunar Month'), 'ஆஸ்வினம்');
+  assert.equal(field(doc, 1, 'Kartikadi System: Vikram Samvat'), '2046');
 
   // Family particulars (section 2): empty input prints a dash.
   assert.equal(field(doc, 2, 'Father'), '—');
@@ -77,9 +83,8 @@ async function main() {
   assert.equal(field(doc, 3, 'Gana'), 'தேவ');
   assert.equal(field(doc, 3, 'Rashi'), 'மீனம்');
   assert.equal(field(doc, 3, 'Nadi'), 'அந்த்யம் (கபம்)');
-  for (const en of ['Varga', 'Yunja', 'Hansak (Tatwa)', 'Naamakshar', 'Paya (Rashi)', 'Paya (Nakshatra)']) {
-    assert.ok(field(doc, 3, en).startsWith('கட்டப்படவில்லை'), `${en} is marked not built`);
-  }
+  // the sample prints Simha, Poorva, Jala, Cha, Iron, Gold (and Arjun's, meera's and Kotravel's printouts agree with the same tables, test-avakhada-extra.js)
+  assert.deepStrictEqual(['Varga', 'Yunja', 'Hansak (Tatwa)', 'Naamakshar', 'Paya (Rashi)', 'Paya (Nakshatra)'].map((en) => field(doc, 3, en)), ['Simha', 'Poorva', 'Jala', 'Cha', 'Iron', 'Gold']);
 
   // Tamil calendar (section 4): Friday, Puratasi 19.
   assert.equal(field(doc, 4, 'Tamil Weekday'), 'வெள்ளி');

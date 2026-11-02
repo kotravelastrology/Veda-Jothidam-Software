@@ -109,12 +109,13 @@ function findSolarReturnUtcMs(natalSunLon, birthUtcMs, yearsElapsed) {
   return (lo + hi) / 2;
 }
 
-function fmtIst(ms) {
-  const d = new Date(ms + 330 * 60000);
+function fmtIst(ms, offsetMinutes = 330) {
+  const d = new Date(ms + offsetMinutes * 60000);
   const p = (n) => String(n).padStart(2, '0');
   return {
     date: `${d.getUTCFullYear()}-${p(d.getUTCMonth() + 1)}-${p(d.getUTCDate())}`,
     time: `${p(d.getUTCHours())}:${p(d.getUTCMinutes())}`,
+    second: d.getUTCSeconds(),
   };
 }
 
@@ -227,11 +228,13 @@ function calculateVarshaphala(birthInput, age, { varsheshaMethod = 'BOOK', stren
 
   const birthUtcMs = Date.UTC(
     birthInput.year, birthInput.month - 1, birthInput.day,
-    birthInput.hour, birthInput.minute || 0, 0,
+    birthInput.hour, birthInput.minute || 0, birthInput.second || 0,
   ) - (birthInput.utcOffsetMinutes || 0) * 60000;
 
   const returnUtcMs = findSolarReturnUtcMs(natalSunLon, birthUtcMs, yearsElapsed);
-  const ist = fmtIst(returnUtcMs);
+  // the return's wall clock at the birth place (the time is shown to the minute, the chart is cast for the second: PL9's Ascendant, to the minute of arc, depends on it)
+  const wallOffset = birthInput.utcOffsetMinutes ?? 330;
+  const ist = fmtIst(returnUtcMs, wallOffset);
 
   // Varsha chart: same place, the solar-return date/time (given in IST → convert back with the birth offset)
   const varshaInput = {
@@ -241,7 +244,8 @@ function calculateVarshaphala(birthInput, age, { varsheshaMethod = 'BOOK', stren
     day: Number(ist.date.slice(8, 10)),
     hour: Number(ist.time.slice(0, 2)),
     minute: Number(ist.time.slice(3, 5)),
-    utcOffsetMinutes: 330, // fmtIst produced an IST wall-clock time
+    second: ist.second,
+    utcOffsetMinutes: wallOffset, // fmtIst produced the birth zone's wall-clock time
   };
   const varsha = calculateParashariChart({ input: varshaInput, ayanamsha: 'Lahiri', houseSystem: 'Placidus' });
 
@@ -255,7 +259,7 @@ function calculateVarshaphala(birthInput, age, { varsheshaMethod = 'BOOK', stren
 
   // Day/night at the solar return (Sun above horizon ≈ 6:00–18:00 local as a cheap proxy)
   const localHour = Number(ist.time.slice(0, 2)) + Number(ist.time.slice(3, 5)) / 60
-    + (birthInput.longitude - 82.5) / 15; // rough LMT correction from IST meridian
+    + (birthInput.longitude - (wallOffset / 60) * 15) / 15; // rough LMT correction from the zone's meridian
   const daytime = localHour >= 6 && localHour < 18;
 
   // ── Varshesha (year lord) — classical Panchadhikari + PVB selection ────────

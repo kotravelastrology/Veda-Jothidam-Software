@@ -11,6 +11,12 @@ const MONTH_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July'
 const ABBR = { Sun: 'Su', Moon: 'Mo', Mars: 'Ma', Mercury: 'Me', Jupiter: 'Ju', Venus: 'Ve', Saturn: 'Sa', Rahu: 'Ra', Ketu: 'Ke' };
 const pad = (n) => String(n).padStart(2, '0');
 const mm = (deg) => `${pad(Math.floor(deg))}:${pad(Math.floor((deg % 1) * 60))}`;
+const SIGN3 = ['Ari', 'Tau', 'Gem', 'Can', 'Leo', 'Vir', 'Lib', 'Sco', 'Sag', 'Cap', 'Aqu', 'Pis'];
+/** The Muntha as PL9 prints it: its sign and the natal Lagna's degree in it, to the second ("Lib 07:17:50"). */
+function munthaText(v) {
+  const total = Math.floor(v.natal.lagnaDegree * 3600 + 1e-6);
+  return `${SIGN3[v.muntha.rasiIndex]} ${pad(Math.floor(total / 3600))}:${pad(Math.floor((total % 3600) / 60))}:${pad(total % 60)}`;
+}
 
 function chartCard(birth, age) {
   const v = calculateVarshaphala(birth, age);
@@ -25,7 +31,7 @@ function chartCard(birth, age) {
     ['As', mm(c.lagna.degreeInSign), 'Ma', deg('Mars'), 'Ve', deg('Venus')],
     ['Su', deg('Sun'), 'Me', deg('Mercury'), 'Sa', deg('Saturn')],
     ['Mo', deg('Moon'), 'Ju', deg('Jupiter'), 'Ra', deg('Rahu')],
-    ['YL', v.varshesha, 'Mun', v.muntha.rasi, '', ''],
+    ['YL', v.varshesha, 'Mun', munthaText(v), '', ''],
   ];
   return {
     kind: 'chartCard', tile: true,

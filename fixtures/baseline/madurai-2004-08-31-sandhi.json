@@ -1,7 +1,7 @@
 {
   "fixtureId": "madurai-2004-08-31-sandhi",
   "fixtureVersion": 1,
-  "recordedAt": "2026-11-01",
+  "recordedAt": "2026-11-02",
   "engine": "1.3.1",
   "settings": {
     "ayanamsha": "Lahiri",
@@ -9,7 +9,7 @@
     "nodeType": "mean",
     "calendarMode": "tirukanita"
   },
-  "hash": "81e30f02dfc67419089fd104235102f47bb056d93e8c5940932cc03385903416",
+  "hash": "901572f1cb5896866b4e7c4715acce31ffda5502e55435ad4ee38554e3c22b70",
   "result": {
     "lagna": {
       "longitude": 104.989601,
@@ -64,15 +64,15 @@
         "house": 12
       },
       "Rahu": {
-        "longitude": 10.918406,
+        "longitude": 10.920814,
         "rasi": "Mesha",
-        "degreeInSign": 10.918406,
+        "degreeInSign": 10.920814,
         "house": 10
       },
       "Ketu": {
-        "longitude": 190.918406,
+        "longitude": 190.920814,
         "rasi": "Tula",
-        "degreeInSign": 10.918406,
+        "degreeInSign": 10.920814,
         "house": 4
       }
     },

@@ -23,7 +23,7 @@
  *    years each, from the lagna or the seventh) is a different dasha.
  * A "chart" is { signs, degrees, longitudes?, lagnaSign } as the other sign-dasha engines take it. Signs run 0 = Aries to 11 = Pisces.
  */
-const { signYears, atmakaraka } = require('./jaiminiRashiDashas');
+const { signYears, atmakaraka, narayanaOrder, oddFooted } = require('./jaiminiRashiDashas');
 const { strongerOfPair, aspected } = require('./jaiminiShoola');
 const { d1Dignity, EXALTATION, DEBILITATION } = require('../chart/shadbala');
 
@@ -33,7 +33,38 @@ const PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn',
 const WEEK = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'];
 const mod12 = (n) => ((n % 12) + 12) % 12;
 const quality = (s) => s % 3; // 0 movable, 1 fixed, 2 dual
+const SEVEN = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 const forwardDiff = (from, to) => mod12(to - from);
+
+/**
+ * The stronger of a sign and its seventh as Parashara's Light takes it, tested on Arjun's and the sample's twelve pairs (24 of 24, and every sub-period start of the sign dashas):
+ * the sign with a graha in it against one with none, then the sign with more grahas (the seven, not the nodes, the Lagna not counted), then the one holding the graha of
+ * greater degree, then the one whose lord has the greater degree; a tie goes to the sign itself. (Jaimini's ladder of jaiminiShoola.strongerOfPair, with the natural strength
+ * of the sign and the lord's dignity before the degrees, agrees on the sample and not on Arjun: Taurus and Scorpio, Cancer and Capricorn.)
+ */
+function strongerPL9(a, b, chart) {
+  const { signs, degrees } = chart;
+  const holding = (s) => SEVEN.filter((p) => signs[p] === s);
+  const keys = [
+    (s) => (holding(s).length > 0 ? 1 : 0),
+    (s) => holding(s).length,
+    (s) => Math.max(-1, ...holding(s).map((p) => degrees[p] ?? 0)),
+    (s) => degrees[LORD[s]] ?? 0,
+  ];
+  for (const key of keys) {
+    const x = key(a);
+    const y = key(b);
+    if (x !== y) return x > y ? a : b;
+  }
+  return a;
+}
+
+/** The twelve signs of a period for the sign `sign`: from the sign or its seventh, the stronger; onward from an odd sign, backward from an even one. */
+function walkPL9(sign, chart) {
+  const winner = strongerPL9(sign, mod12(sign + 6), chart);
+  const forward = winner % 2 === 0; // Aries (0) is an odd sign
+  return Array.from({ length: 12 }, (_, i) => mod12(forward ? winner + i : winner - i));
+}
 const backwardDiff = (from, to) => mod12(from - to);
 
 /** K.N. Rao's direct group for counting: Aries, Taurus, Gemini, Libra, Scorpio, Sagittarius. */
@@ -120,7 +151,7 @@ function brahma(chart) {
   const seventh = mod12(chart.lagnaSign + 6);
   const bl = signStrength(chart.lagnaSign, chart);
   const bs = signStrength(seventh, chart);
-  const base = bl !== bs ? (bl > bs ? chart.lagnaSign : seventh) : strongerOfPair(chart.lagnaSign, seventh, chart).winner;
+  const base = bl !== bs ? (bl > bs ? chart.lagnaSign : seventh) : strongerPL9(chart.lagnaSign, seventh, chart);
   const lords = [5, 7, 11].map((h) => LORD[mod12(base + h)]);
   let candidates = [...new Set(lords)].filter((p) => !['Saturn', 'Rahu', 'Ketu'].includes(p));
   let fallback = false;
@@ -168,11 +199,32 @@ function drigPL9(chart) {
 
 /** Lagna Kendradi: from the stronger of the lagna and the seventh, the angles, the succeedents, the cadents; Rath's years. */
 function kendradiPL9(chart) {
-  const { winner } = strongerOfPair(chart.lagnaSign, mod12(chart.lagnaSign + 6), chart);
+  const winner = strongerPL9(chart.lagnaSign, mod12(chart.lagnaSign + 6), chart);
   const odd = winner % 2 === 0;
   const houses = odd ? [1, 4, 7, 10, 2, 5, 8, 11, 3, 6, 9, 12] : [1, 10, 7, 4, 12, 9, 6, 3, 11, 8, 5, 2];
   const periods = houses.map((h) => ({ sign: mod12(winner + h - 1), ...signYears(mod12(winner + h - 1), chart) }));
   return { id: 'kendradi-pl9', start: winner, forward: odd, periods };
+}
+
+/**
+ * Shoola dasha (page 61): nine years each, from the stronger of the lagna and the seventh onward through the zodiac (Arjun's Virgo, Libra, Scorpio ..., the sample's Aquarius,
+ * Pisces, Aries ...); each period's twelve parts begin with its own sign, onward from an odd one and backward from an even one.
+ */
+function shoolaPL9(chart) {
+  const start = strongerPL9(chart.lagnaSign, mod12(chart.lagnaSign + 6), chart);
+  const periods = Array.from({ length: 12 }, (_, i) => {
+    const sign = mod12(start + i);
+    const forward = sign % 2 === 0;
+    return { sign, years: 9, order: Array.from({ length: 12 }, (_, k) => mod12(forward ? sign + k : sign - k)) };
+  });
+  return { id: 'shoola-pl9', start, forward: true, periods };
+}
+
+/** Narayana (page 57): Rath's order and years, from the stronger of the lagna and the seventh by Parashara's Light's ladder (Kotravel: from Taurus, not from the Scorpio lagna). */
+function narayanaPL9(chart) {
+  const winner = strongerPL9(chart.lagnaSign, mod12(chart.lagnaSign + 6), chart);
+  const periods = narayanaOrder(winner).map((sign) => ({ sign, ...signYears(sign, chart) }));
+  return { id: 'narayana-pl9', start: winner, forward: oddFooted(mod12(winner + 8)), periods };
 }
 
 /** Navamsha dasha: the signs onward from the 9th from the lagna, the years the forward count to the lord's sign less one. */
@@ -189,5 +241,5 @@ function navamshaPL9(chart) {
 }
 
 module.exports = {
-  charaYearsKNRao, charaKNRao, signStrength, planetStrength, brahma, sthiraPL9, drigPL9, kendradiPL9, navamshaPL9, aspectedInOrder,
+  charaYearsKNRao, charaKNRao, signStrength, planetStrength, brahma, sthiraPL9, drigPL9, kendradiPL9, navamshaPL9, shoolaPL9, narayanaPL9, aspectedInOrder, strongerPL9, walkPL9,
 };

@@ -92,9 +92,9 @@ function houseOf(houses, lon) {
 /** Runs the builder inside an ephemeris session for one birth; the Ascendant and Gulika are computed once. */
 function withBirth(birth, build) {
   const ctx = createChartContext({
-    year: birth.year, month: birth.month, day: birth.day, hour: birth.hour, minute: birth.minute,
+    year: birth.year, month: birth.month, day: birth.day, hour: birth.hour, minute: birth.minute, second: birth.second,
     ianaTimeZone: birth.ianaTimeZone ?? 'Asia/Kolkata', utcOffsetMinutes: birth.utcOffsetMinutes,
-    latitude: birth.latitude, longitude: birth.longitude, placeName: birth.placeName, calendarMode: 'tirukanita', sunrise: birth.sunrise,
+    latitude: birth.latitude, longitude: birth.longitude, placeName: birth.placeName, calendarMode: 'tirukanita', ayanamsha: birth.ayanamsha, houseSystem: birth.houseSystem, nodeType: birth.nodeType, sunrise: birth.sunrise,
   });
   return withEphemeris({ ayanamsha: ctx.ayanamsha }, () => {
     const chart = calculateParashariChart(ctx);

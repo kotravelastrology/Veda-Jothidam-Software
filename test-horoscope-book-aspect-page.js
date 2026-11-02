@@ -30,9 +30,9 @@ async function main() {
   };
 
   // Degrees as PL9 prints them (aspected grahas' longitudes).
-  assert.strictEqual(planets.rows.find((r) => r[0] === 'Sun')[1], '167:44');
-  assert.strictEqual(planets.rows.find((r) => r[0] === 'Moon')[1], '353:57');
-  assert.strictEqual(planets.rows.find((r) => r[0] === 'Ketu')[1], '100:04');
+  assert.strictEqual(planets.rows.find((r) => r[0] === 'Sun')[1], '167:43');
+  assert.strictEqual(planets.rows.find((r) => r[0] === 'Moon')[1], '353:56');
+  assert.strictEqual(planets.rows.find((r) => r[0] === 'Ketu')[1], '100:03');
 
   // Aspects on planets, PL9 page 12 cells (aspecting graha in the column, aspected graha in the row).
   assert.strictEqual(cell(planets, 'Sun', 'Moon'), '4/4 (47)');
@@ -47,13 +47,15 @@ async function main() {
   assert.strictEqual(cell(planets, 'Venus', 'Saturn'), '4/4 (45)');
   assert.strictEqual(cell(planets, 'Rahu', 'Sun'), '1/2 (33)');
   assert.strictEqual(cell(planets, 'Ketu', 'Saturn'), '3/4 (52)');
-  // Pinned: PL9 prints a value of 5 on Saturn to Mars, a house BPHS gives no aspect.
-  assert.strictEqual(cell(planets, 'Mars', 'Saturn'), '-', 'PL9 prints 5 here, a non-aspect house');
+  // PL9 prints the value under a dash for a point off the slab houses (Saturn to Mars: 5)
+  assert.strictEqual(cell(planets, 'Mars', 'Saturn'), '- (5)', 'a value off the slab houses is printed under a dash');
 
-  // The aspecting nodes are not built, in every row.
+  // The aspecting nodes aspect as Jupiter does (as PL9 prints them): Rahu and Ketu are opposite, a full aspect each way
+  assert.strictEqual(cell(planets, 'Ketu', 'Rahu'), '4/4 (60)');
+  assert.strictEqual(cell(planets, 'Rahu', 'Ketu'), '4/4 (60)');
   for (const row of planets.rows) {
-    assert.strictEqual(row[col('Rahu')], NOT_BUILT, `${row[0]} Rahu column is not built`);
-    assert.strictEqual(row[col('Ketu')], NOT_BUILT, `${row[0]} Ketu column is not built`);
+    assert.notStrictEqual(row[col('Rahu')], NOT_BUILT, `${row[0]} Rahu column is built`);
+    assert.notStrictEqual(row[col('Ketu')], NOT_BUILT, `${row[0]} Ketu column is built`);
   }
 
   // Aspects on bhavas, PL9 page 12 (values only, bhava points at the Ascendant and each thirty degrees on).
@@ -63,8 +65,8 @@ async function main() {
   assert.strictEqual(cell(bhavas, 'IV', 'Mars'), '60');
   assert.strictEqual(cell(bhavas, 'V', 'Saturn'), '-');
   assert.strictEqual(cell(bhavas, 'XII', 'Mars'), '23');
-  // Pinned: the seventh bhava point lies within 0.1 degree of Saturn's 60-degree boundary; PL9 gives 59, ours 14.
-  assert.strictEqual(cell(bhavas, 'VII', 'Saturn'), '14', 'PL9 prints 59 here (boundary case)');
+  // Saturn's 3rd and 10th (twice the degrees from the boundary, aspectTables.js) gives PL9's 59 at the seventh bhava, which the general rule put at 14.
+  assert.strictEqual(cell(bhavas, 'VII', 'Saturn'), '59');
 
   // Aspects on bhavas, Sripati bhava madhyas (page 3's convention). Not in PL9; these are regression pins of the same rules.
   assert.strictEqual(sripati.rows.length, 12);
@@ -72,7 +74,7 @@ async function main() {
   assert.strictEqual(cell(sripati, 'II', 'Mars'), '23');
   assert.strictEqual(cell(sripati, 'IV', 'Mars'), '60');
   assert.strictEqual(cell(sripati, 'V', 'Saturn'), '-');
-  assert.strictEqual(cell(sripati, 'VII', 'Saturn'), '14');
+  assert.strictEqual(cell(sripati, 'VII', 'Saturn'), '59');
   assert.notStrictEqual(sripati.rows[1][1], bhavas.rows[1][1], 'house II differs: Sripati is not thirty degrees on');
 
   console.log('test-horoscope-book-aspect-page: all assertions passed');

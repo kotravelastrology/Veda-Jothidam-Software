@@ -154,7 +154,8 @@ function reductionBlocks(body, rasi) {
   const places = body === 'Lagna' ? LAGNA_PLACES : undefined;
   const before = calculateBhinnashtakavarga(body, rasi, places);
   const trikona = trikonaReduction(before);
-  const grahaSigns = new Set(SEVEN_PLANETS.map((p) => rasi[p]));
+  // a sign counts as occupied for the Ekadhipatya rule when a graha or the Lagna is in it (Parashara's Light: Arjun's Virgo, holding only the Lagna, keeps its bindus; 24 of 24 grids of three printouts)
+  const grahaSigns = new Set([...SEVEN_PLANETS.map((p) => rasi[p]), rasi.Lagna]);
   const ekadhipatya = ekadhipatyaReduction(trikona, grahaSigns);
   const grid = (values) => values.map((n) => [String(n)]);
   const pindas = [

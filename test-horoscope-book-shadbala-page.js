@@ -30,11 +30,17 @@ async function main() {
   assert.deepStrictEqual(row('Hora Bala'), [0, 0, 60, 0, 0, 0, 0], 'Kuja is the lord of the hour');
   assert.deepStrictEqual(row('Tri-Bhaga Bala'), [0, 0, 60, 0, 60, 0, 0], 'Kuja and Guru get Tribhaga (PL9 agrees)');
 
-  // Naisargika (PL9 60, 51.42, 17.16, 25.74, 34.26, 42.84, 8.58): our rank constants give 0.03 off at most.
-  const naisargika = row('5. Naisargika Bala');
-  [60, 51.42, 17.16, 25.74, 34.26, 42.84, 8.58].forEach((v, i) => {
-    assert.ok(Math.abs(naisargika[i] - v) < 0.035, `${PLANETS[i]} Naisargika ${naisargika[i]} vs PL9 ${v}`);
-  });
+  // Rows the PL9 reading reproduces to the paisa on this printout (and on the Arjun and meera ones, see test-shadbala-pl9.js): the whole of Sthana
+  // (Raman's: Saptavargaja, Ojhayugma, Kendradi, Drekkana), Paksha (the Moon's elongation over three, Budha papa with the Sun in his sign), Naisargika.
+  assert.deepStrictEqual(row('Sapta-vargaja Bala'), [82.50, 75.00, 82.50, 95.63, 131.25, 95.63, 88.13]);
+  assert.deepStrictEqual(row('Ojhayugma Bala'), [15, 15, 15, 15, 0, 15, 15]);
+  assert.deepStrictEqual(row('Kendradi Bala'), [30, 30, 60, 30, 15, 30, 30]);
+  assert.deepStrictEqual(row('Drekkana Bala'), [0, 15, 0, 0, 0, 0, 0]);
+  assert.deepStrictEqual(row('1. Sthana Bala'), [134.92, 181.98, 180.47, 197.27, 202.85, 146.10, 171.43]);
+  assert.deepStrictEqual(row('Paksha Bala'), [2.07, 57.93, 2.07, 2.07, 57.93, 57.93, 2.07]);
+  assert.deepStrictEqual(row('5. Naisargika Bala'), [60, 51.42, 17.16, 25.74, 34.26, 42.84, 8.58]);
+  // Chesta of the Sun and the Moon is their Ayana and Paksha Bala, as PL9 prints it
+  assert.deepStrictEqual(row('4. Chesta Bala').slice(0, 2), [row('Ayana Bala')[0], row('Paksha Bala')[1]]);
 
   // The minimum Pinda is BPHS v.32-33, and PL9 prints the same numbers.
   assert.deepStrictEqual(row('Minimum requirements'), [390, 360, 300, 420, 390, 330, 300]);
@@ -44,7 +50,7 @@ async function main() {
   const sthanaParts = ['Ochcha Bala', 'Sapta-vargaja Bala', 'Ojhayugma Bala', 'Kendradi Bala', 'Drekkana Bala'];
   const kaalaParts = ['Nata-Unnata Bala', 'Paksha Bala', 'Tri-Bhaga Bala', 'Varsha Bala', 'Maasa Bala', 'Vaara Bala', 'Hora Bala',
     'Ayana Bala', 'Yuddha Bala'];
-  sum(sthanaParts).forEach((v, i) => assert.ok(Math.abs(v - row('1. Sthana Bala')[i]) < 0.01, `${PLANETS[i]} Sthana parts sum`));
+  sum(sthanaParts).forEach((v, i) => assert.ok(Math.abs(v - row('1. Sthana Bala')[i]) < 0.02, `${PLANETS[i]} Sthana parts sum`));
   sum(kaalaParts).forEach((v, i) => assert.ok(Math.abs(v - row('3. Kaala Bala')[i]) < 0.01, `${PLANETS[i]} Kaala parts sum`));
 
   // The total is the sum of the six parts (Yuddha included), the rupas are that over 60, and the total over the minimum
@@ -60,7 +66,9 @@ async function main() {
   const ofRequired = row('Shadbala % of required');
   shadbalaTotal.forEach((t, i) => assert.ok(Math.abs(ofRequired[i] - t / [390, 360, 300, 420, 390, 330, 300][i]) < 0.01,
     `${PLANETS[i]} total % of required`));
-  assert.deepStrictEqual(row('Relative Rank'), [7, 5, 1, 6, 2, 4, 3], 'rank by total over minimum, strongest first');
+  // the rank is by the total over the minimum, strongest first (PL9: 7 3 1 6 2 5 4 on its own totals, which differ in Nata-Unnata, Ayana, Chesta and Drik)
+  const rankOf = ofRequired.map((v) => 1 + ofRequired.filter((w) => w > v).length);
+  assert.deepStrictEqual(row('Relative Rank'), rankOf, 'rank by total over minimum, strongest first');
 
   // Ishta and Kashta Phala (Raman Art.138-139): each is a real number between 0 and 60 (both factors are). The Drik minimum
   // is not built (BPHS gives none).

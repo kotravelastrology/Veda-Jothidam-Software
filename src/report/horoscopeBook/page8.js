@@ -17,6 +17,7 @@ const { specialLagnas } = require('../../chart/specialLagnas');
 const { calculateVargas } = require('../../chart/vargaChart');
 const { calculateUpagrahas } = require('../../report/upagraha');
 const { gridCells, sripatiHouses, houseOf } = require('./charts');
+const { weekdayOf, geo, signedOffset, sexagesimal, standardAndDaylight, DAY_EN } = require('./page1');
 
 const MONTH_EN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const norm = (x) => ((x % 360) + 360) % 360;
@@ -24,10 +25,13 @@ const norm = (x) => ((x % 360) + 360) % 360;
 /** The sign index (0-11) of a longitude. */
 const signOf = (lon) => Math.floor(norm(lon) / 30);
 
-/** The Equal Bhava house (from the Ascendant, 30 degrees each) holds a longitude; its middle sign is where it is printed. */
+/**
+ * The Equal Bhava house of a longitude, and the sign of the house's middle where it is printed. The Ascendant's degree is the middle of the first house (fifteen degrees
+ * either side of it), as the Parashara's Light chart has it: Arjun's Sun at Aries 27:28 stands in the Taurus house, the Moon at 22:13 in the Aries one.
+ */
 function equalBhavaSign(lon, lagna) {
-  const h = Math.floor(norm(lon - lagna) / 30);
-  return signOf(lagna + 30 * h + 15);
+  const h = Math.floor(norm(lon - lagna + 15) / 30);
+  return signOf(lagna + 30 * h);
 }
 
 /** Placements of the bodies in a grid, with an optional marker (label, longitude) at its own sign. */
@@ -36,10 +40,10 @@ function withMarker(placements, marker) {
 }
 
 /** The Hindu day's sunrise and the Sun's longitude there, for the Hora and Ghatika lagnas. */
-function sunAtHinduSunrise(birth, birthJd, ayan) {
-  const civilSunrise = sunriseJulianDay(swe.julianDay(birth.year, birth.month, birth.day, 0), birth.latitude, birth.longitude);
+function sunAtHinduSunrise(birth, birthJd, ayan, mode = 'disc-centre') {
+  const civilSunrise = sunriseJulianDay(swe.julianDay(birth.year, birth.month, birth.day, 0), birth.latitude, birth.longitude, 0, mode);
   const day = birthJd < civilSunrise ? [birth.year, birth.month, birth.day - 1] : [birth.year, birth.month, birth.day];
-  const rise = sunriseJulianDay(swe.julianDay(day[0], day[1], day[2], 0), birth.latitude, birth.longitude);
+  const rise = sunriseJulianDay(swe.julianDay(day[0], day[1], day[2], 0), birth.latitude, birth.longitude, 0, mode);
   return { rise, sunLongitude: planetLongitude(rise, 'Sun', ayan) };
 }
 
@@ -49,15 +53,15 @@ function sunAtHinduSunrise(birth, birthJd, ayan) {
  */
 function buildPage8({ name = '', birth }) {
   const ctx = createChartContext({
-    year: birth.year, month: birth.month, day: birth.day, hour: birth.hour, minute: birth.minute,
+    year: birth.year, month: birth.month, day: birth.day, hour: birth.hour, minute: birth.minute, second: birth.second,
     ianaTimeZone: birth.ianaTimeZone ?? 'Asia/Kolkata', utcOffsetMinutes: birth.utcOffsetMinutes,
-    latitude: birth.latitude, longitude: birth.longitude, placeName: birth.placeName, calendarMode: 'tirukanita', sunrise: birth.sunrise,
+    latitude: birth.latitude, longitude: birth.longitude, placeName: birth.placeName, calendarMode: 'tirukanita', ayanamsha: birth.ayanamsha, houseSystem: birth.houseSystem, nodeType: birth.nodeType, sunrise: birth.sunrise,
   });
   return withEphemeris({ ayanamsha: ctx.ayanamsha }, () => {
     const chart = calculateParashariChart(ctx);
     const jdBirth = chart.julianDay;
     const lagnaLon = chart.lagna.longitude;
-    const { rise, sunLongitude } = sunAtHinduSunrise(birth, jdBirth, ctx.ayanamsha);
+    const { rise, sunLongitude } = sunAtHinduSunrise(birth, jdBirth, ctx.ayanamsha, ctx.sunrise);
     const hoursSinceSunrise = (jdBirth - rise) * 24;
     const grahas = Object.fromEntries(Object.entries(chart.grahas).map(([p, g]) => [p, g.longitude]));
 
@@ -106,10 +110,13 @@ function buildPage8({ name = '', birth }) {
     const markerNote = 'Marker label (AL, Ka, BL, HL, GL) is placed at the sign of that point. The sample prints only As here.';
 
     const dateText = `${birth.day} ${MONTH_EN[birth.month - 1]} ${birth.year}`;
+    const { standard, daylight } = standardAndDaylight(birth);
+    const pad = (n) => String(n).padStart(2, '0');
     return {
       title: `ஜாதகம் — ${name}`.trim(),
       subtitle: `${birth.placeName} · ${dateText}`,
       blocks: [
+        { kind: 'text', heading: 'Birth details', text: `Date of birth: ${dateText}, ${DAY_EN[weekdayOf([birth.year, birth.month, birth.day])]} • Time of birth: ${pad(birth.hour)}:${pad(birth.minute)}:${pad(birth.second ?? 0)} hrs • Place of birth: ${birth.placeName} • Longitude/Latitude: ${geo(birth.longitude, 'E', 'W')} ${geo(birth.latitude, 'N', 'S')} • Time zone: ${signedOffset(-standard)} hrs • DST: ${sexagesimal(daylight / 60)} hrs` },
         titled('Birth Chart', rasi),
         titled('Moon Chart', rasi),
         titled('Sun Chart', rasi),

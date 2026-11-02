@@ -7,7 +7,7 @@
  *
  * Signs here are 0-based (0 = Mesha .. 11 = Meena), as the Ashtakavarga engine takes them.
  *
- * Ekadhipatya: where neither sign of a pair holds a graha, PL9 reduces the larger bindu to the smaller, whereas the printed
+ * Ekadhipatya (a sign is occupied by a graha or by the Lagna, Parashara's Light's reading): where neither sign of a pair holds a graha, PL9 reduces the larger bindu to the smaller, whereas the printed
  * table takes the difference. The sample shows four such cases; the difference gives a different value in three of them,
  * and the fourth (a smaller of 1) agrees either way. The rule used is PL9's, and it reproduces every cell of the sample. The
  * equal case (both signs to zero) follows the printed table and is not in the sample. The printed rule for a pair with one
@@ -20,8 +20,9 @@ const TRIKONA_GROUPS = [[0, 4, 8], [1, 5, 9], [2, 6, 10], [3, 7, 11]];
 // The two signs each planet owns (Sun and Moon own one sign each and take no Ekadhipatya reduction).
 const OWNER_PAIRS = { Mars: [0, 7], Venus: [1, 6], Mercury: [2, 5], Jupiter: [8, 11], Saturn: [9, 10] };
 
-// Rashi multipliers, Aries to Pisces (printed p.146).
-const RASHI_MULTIPLIER = [7, 10, 8, 4, 10, 5, 7, 8, 9, 5, 11, 12];
+// Rashi multipliers, Aries to Pisces: BPHS (Santhanam) Vol.2 ch.69, printed p.879, "Rasimana Chakra" 7 10 8 4 10 6 7 8 9 5 11 12. Vishnu Bhaskar's printed p.146 gives Virgo 5;
+// Parashara's Light prints Virgo as 6 (every pinda of Arjun, meera and the sample agrees to the unit with the BPHS row)
+const RASHI_MULTIPLIER = [7, 10, 8, 4, 10, 6, 7, 8, 9, 5, 11, 12];
 
 // Graha multipliers (printed p.146).
 const GRAHA_MULTIPLIER = { Sun: 5, Moon: 5, Mars: 8, Mercury: 5, Jupiter: 10, Venus: 7, Saturn: 5 };

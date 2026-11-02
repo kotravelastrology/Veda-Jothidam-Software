@@ -71,9 +71,9 @@ function gridCells(placements) {
 function buildPage2({ name = '', birth }) {
   const { latitude: lat, longitude: lon, utcOffsetMinutes: off } = birth;
   const ctx = createChartContext({
-    year: birth.year, month: birth.month, day: birth.day, hour: birth.hour, minute: birth.minute,
+    year: birth.year, month: birth.month, day: birth.day, hour: birth.hour, minute: birth.minute, second: birth.second,
     ianaTimeZone: birth.ianaTimeZone ?? 'Asia/Kolkata', utcOffsetMinutes: off,
-    latitude: lat, longitude: lon, placeName: birth.placeName, calendarMode: 'tirukanita', sunrise: birth.sunrise,
+    latitude: lat, longitude: lon, placeName: birth.placeName, calendarMode: 'tirukanita', ayanamsha: birth.ayanamsha, houseSystem: birth.houseSystem, nodeType: birth.nodeType, sunrise: birth.sunrise,
   });
   const ayan = ctx.ayanamsha;
 

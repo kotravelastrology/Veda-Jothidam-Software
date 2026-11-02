@@ -18,7 +18,7 @@ const P = require('../../dasha/pl9SignDashas');
 
 /** The engines of the sign dashas: the sources' (bphsRashiDashas.js) and the PL9 sample's reckoning (pl9SignDashas.js). */
 const SYSTEMS = {
-  ...RS.SYSTEMS, 'chara-pl9': P.charaKNRao, 'sthira-pl9': P.sthiraPL9, 'drig-pl9': P.drigPL9, 'kendradi-pl9': P.kendradiPL9, 'navamsha-pl9': P.navamshaPL9,
+  ...RS.SYSTEMS, 'chara-pl9': P.charaKNRao, 'sthira-pl9': P.sthiraPL9, 'drig-pl9': P.drigPL9, 'kendradi-pl9': P.kendradiPL9, 'navamsha-pl9': P.navamshaPL9, 'shoola-pl9': P.shoolaPL9, 'narayana-pl9': P.narayanaPL9,
 };
 
 /**
@@ -26,7 +26,7 @@ const SYSTEMS = {
  * (Rath, Narayana Dasa, "Second Cycle of Narayana Dasa"; Koch, Drig Dasa, "The Second Cycle of Dasas"); a sign of twelve years has none left. The Chara and Navamsha
  * dashas of the sample repeat their first cycle.
  */
-const COMPLEMENT_SECOND = new Set(['narayana', 'drig-pl9', 'kendradi-pl9']);
+const COMPLEMENT_SECOND = new Set(['narayana', 'narayana-pl9', 'drig-pl9', 'kendradi-pl9']);
 
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const SIGN = ['Ari', 'Tau', 'Gem', 'Can', 'Leo', 'Vir', 'Lib', 'Sco', 'Sag', 'Cap', 'Aqu', 'Pis'];
@@ -36,11 +36,13 @@ const pad = (n) => String(n).padStart(2, '0');
 
 const TITLES = {
   'chara-pl9': { page: 'Jaimini Chara Dasha', note: `K.N. Rao's reckoning (Predicting through Jaimini's Chara Dasa): the years are the count to the lord's sign less one, with no year added for an exalted lord or taken for a debilitated one; Scorpio and Aquarius by his special rules; the sub-periods are the twelve parts in the order of the sign, each sign taking its own last. Rath's reading (with the exaltation year) differs by a year in some signs.` },
+  'narayana-pl9': { page: 'Narayana Dasha', note: `Rath, Jaimini Upadesa Sutras: the order and years, from the stronger of the lagna and the seventh as Parashara's Light takes it; the sub-periods from the sign or its seventh, the stronger.` },
   narayana: { page: 'Narayana Dasha', note: `Rath, Jaimini Upadesa Sutras: the signs, years and sub-periods (from the sign or its seventh, the stronger) agree with the sample.` },
   'niryaana-shoola': { page: 'Shoola Dasha', note: `Nine years a sign from the stronger of the Lagna and the seventh (P.S. Sastri, Jaimini Sutram 2.3.5-12 and 2.3.18). The sample prints this reckoning as "Shoola Dasha".` },
   'sthira-pl9': { page: 'Sthira Dasha', note: `From the sign of the Brahma graha (the stronger of the lords of the 6th, 8th and 12th from the stronger of the lagna and the seventh, Saturn, Rahu and Ketu excepted; B.V. Raman's strengths as Koch tabulates them), 7, 8 or 9 years for a movable, fixed or dual sign (Jaimini 2.3.3-4). The sub-periods are twelve equal parts from the sign or its seventh, the stronger.` },
   'drig-pl9': { page: 'Drig Dasha', note: `The 9th, 10th and 11th from the lagna, each followed by the three signs it aspects (Jaimini 2.4.21-23); the sample's years are the Chara years of Rath's count (the sutra's own nine years, or 7, 8, 9 as in Sthira, are other readings).` },
   'kendradi-pl9': { page: 'Lagna Kendradi Rashi Dasha', note: `From the stronger of the lagna and the seventh: the angles, the succeedents, the cadents (as the Karaka Kendra dasha, Jaimini 2.4.11-13, is ordered from the Atmakaraka); the years as for the Drig dasha.` },
+  'shoola-pl9': { page: 'Shoola Dasha', note: `Nine years a sign, from the stronger of the lagna and the seventh onward through the zodiac; each period's parts begin with its own sign, onward from an odd sign and backward from an even one.` },
   'navamsha-pl9': { page: 'Navamsha Dasha', note: `The signs onward from the 9th from the lagna (the sample, a Leo lagna, begins with Aries), the years the count forward to the lord's sign less one. Jaimini 2.3.1-2 gives a different dasha (nine years each, from the lagna or the seventh).` }
 };
 
@@ -75,7 +77,7 @@ async function buildRashiDasha({ name = '', birth, dashaOptions, system, cycle }
     const slice = cycle === 0 ? first : RS.schedule({ periods: secondPeriods }, firstEnd, 1);
     const blocks = slice.map((p) => {
       const start = at(p.startMs); const end = at(p.endMs);
-      const order = p.order ?? K.walkOf(p.sign, facts);
+      const order = p.order ?? P.walkPL9(p.sign, facts);
       const part = (end - start) / 12;
       return {
         kind: 'table', tile: true,

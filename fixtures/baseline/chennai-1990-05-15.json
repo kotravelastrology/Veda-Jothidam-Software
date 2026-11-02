@@ -1,7 +1,7 @@
 {
   "fixtureId": "chennai-1990-05-15",
   "fixtureVersion": 1,
-  "recordedAt": "2026-11-01",
+  "recordedAt": "2026-11-02",
   "engine": "1.3.1",
   "settings": {
     "ayanamsha": "Lahiri",
@@ -9,7 +9,7 @@
     "nodeType": "mean",
     "calendarMode": "tirukanita"
   },
-  "hash": "dd73017f9a6554a6d7010f74b0fb2a16cdc7e607571c68437dda28f6dda828a8",
+  "hash": "315a31c07cf5e64e4ac3b39bbdda985e8551e4e3b20ab8206e5f56dca2feda82",
   "result": {
     "lagna": {
       "longitude": 96.866904,
@@ -64,15 +64,15 @@
         "house": 6
       },
       "Rahu": {
-        "longitude": 287.628795,
+        "longitude": 287.625542,
         "rasi": "Makara",
-        "degreeInSign": 17.628795,
+        "degreeInSign": 17.625542,
         "house": 7
       },
       "Ketu": {
-        "longitude": 107.628795,
+        "longitude": 107.625542,
         "rasi": "Karkataka",
-        "degreeInSign": 17.628795,
+        "degreeInSign": 17.625542,
         "house": 1
       }
     },

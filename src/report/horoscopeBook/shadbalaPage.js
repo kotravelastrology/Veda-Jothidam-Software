@@ -82,7 +82,7 @@ function buildPage11({ name = '', birth }) {
       day: birth.day,
       utcOffsetMinutes: birth.utcOffsetMinutes,
     };
-    const shadbala = calculateShadbala(common);
+    const shadbala = calculateShadbala({ ...common, reading: 'pl9' });
     const jdLocalMidnight = julianDay(birth.year, birth.month, birth.day, -birth.utcOffsetMinutes / 60);
     const lords = computeVarshaMasaDinaHoraLords(chart.julianDay, birth.latitude, birth.longitude, jdLocalMidnight);
     const rows = Object.fromEntries(PLANETS.map((p) => [p, planetRows(shadbala.perPlanet[p], p, lords)]));
@@ -170,12 +170,13 @@ function buildPage11({ name = '', birth }) {
           heading: 'Shad Bala',
           columns: ['', ...PLANETS],
           rows: shadbalaRows,
-          note: 'BPHS ch.27 throughout. Minimum requirements: v.32-33 (Santhanam, p.287). Component minimums by group: v.34-36 '
-            + '(p.287-288), Kaala 50 and Chesta 112 for Sun, Mercury and Jupiter; PL9 prints them the other way round. Ayana, '
-            + 'Chesta, Saptavargaja and Drik differ from PL9\'s own readings, so the totals differ from its page too (Sun 214 '
-            + 'against 275, Jupiter 467 against 536, Mercury 428 against 391). Ishta and Kashta use Raman\'s Chesta for every planet, '
-            + 'because the BPHS Sun\'s Chesta (his Ayana) can be negative. Rank: Mars, Jupiter, Mercury and Sun agree with PL9; Moon, Saturn '
-            + 'and Venus are placed differently.',
+          note: `The reading Parashara's Light prints, as far as three of its printouts (Arjun, meera, the aniruddha sample) let it be reproduced: `
+            + `Sthana is B.V. Raman's (Graha and Bhava Balas ch.3), every part identical to PL9's (Ochcha, Saptavargaja, Ojhayugma, Kendradi, Drekkana), `
+            + `as are Dig, Tri-Bhaga, Varsha, Maasa, Vaara and Hora, Paksha (the Moon's one third of her elongation, not doubled), Naisargika (sixtieths of `
+            + `sevenths read to three decimals), and the Sun's and Moon's Chesta (his Ayana, her Paksha Bala). Minimum requirements: BPHS ch.27 v.32-33 (Santhanam, p.287). `
+            + `Nata-Unnata, Ayana (Raman's formula; PL9's declination is not Raman's table), Chesta of the five planets and Drik differ from PL9's own figures `
+            + `by its internal approximations, which no reading of Raman or the BPHS reproduces, so the totals differ from its page by those parts. `
+            + `Ishta and Kashta use Raman's Chesta (Art.138-139); PL9 prints Kashta as sixty less Ishta.`,
         },
         {
           kind: 'table',

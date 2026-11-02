@@ -13,6 +13,8 @@ const SCO = 7; const SAG = 8; const CAP = 9; const AQU = 10; const PIS = 11;
 
 async function main() {
   const doc = await buildPage8({ name: 'aniruddha', birth });
+  assert.equal(doc.blocks[0].kind, 'text', 'the birth details heading the page');
+  doc.blocks = doc.blocks.slice(1);
   assert.equal(doc.blocks.length, 12, 'twelve charts on page 8');
   assert.ok(!/undefined|NaN|null/.test(JSON.stringify(doc)), 'no undefined or NaN in page 8');
   const [birthChart, moonChart, sunChart, sripati, equal, kp, arudha, karkamshaBirth, karkamshaNav, bhavaLagna, horaLagna, ghatika] = doc.blocks;
