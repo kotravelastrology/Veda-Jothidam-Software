@@ -8,7 +8,7 @@ import { bookCatalogue, computeBook } from './actions';
 import { BlockView, TONE, groupBlocks, type Tone } from './blocks';
 
 /**
- * The horoscope book (PL9's 88-page print, aniruddha_HC4): every page of that book is listed in its family; click the pages
+ * The horoscope book (PL9's 88-page print, aniruddha_HC4, and the pages after it): every page of that book is listed in its family; click the pages
  * wanted and make the book. Pages this software already builds can be picked; the rest are listed as coming, with their
  * page numbers in the sample. The book has a cover, a contents page and one page group for each chosen page, in a new design:
  * the page printed is the page shown (Ctrl+P, and "save as PDF" from the print dialog).
@@ -68,7 +68,7 @@ function Contents({ book }: { book: Book }) {
               <span className="w-8 shrink-0 text-right text-sm font-bold tabular-nums text-saffron">{s.page}</span>
               <span className="min-w-0 flex-1">
                 <span className="block text-[15px] font-semibold text-ink">{s.ta}</span>
-                <span className="block text-[11px] text-ink-soft">{s.en} · PL9 ப. {s.page}</span>
+                <span className="block text-[11px] text-ink-soft">{s.en} · {s.page > 88 ? 'கூடுதல் ப.' : 'PL9 ப.'} {s.page}</span>
               </span>
             </a>
           </li>
@@ -193,7 +193,7 @@ export default function BookView() {
                             <span className={`mt-0.5 grid size-4 shrink-0 place-items-center rounded border text-[10px] ${i.built && on ? 'border-saffron bg-saffron text-white' : 'border-line'}`} aria-hidden>{i.built && on ? '✓' : ''}</span>
                             <span className="min-w-0 flex-1">
                               <span className="block font-semibold text-ink">{i.ta}</span>
-                              <span className="block text-[10px] text-ink-soft">PL9 ப. {i.from}{i.to !== i.from ? `–${i.to}` : ''}{i.pages > 1 ? ` (${i.pages} பக்கங்கள்)` : ''}</span>
+                              <span className="block text-[10px] text-ink-soft">{i.from > 88 ? 'கூடுதல் ப.' : 'PL9 ப.'} {i.from}{i.to !== i.from ? `–${i.to}` : ''}{i.pages > 1 ? ` (${i.pages} பக்கங்கள்)` : ''}</span>
                             </span>
                             {!i.built && <span className="shrink-0 rounded-full bg-ink/10 px-2 py-0.5 text-[10px] text-ink-soft">விரைவில்</span>}
                             {i.built && !i.complete && <span className="shrink-0 rounded-full bg-ink/10 px-2 py-0.5 text-[10px] text-ink-soft">{i.sections.length}/{i.pages}</span>}

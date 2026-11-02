@@ -36,6 +36,8 @@ const { buildJaiminiSystem } = require('./jaiminiPage');
 
 const { buildKalachakraMain, buildKalachakraShort } = require('./kalachakraPages');
 
+const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults } = require('./extraPages');
+
 const BOOK_SECTIONS = [
   { id: 'p1', title: 'Page 1 · Birth Particulars', build: buildPage1 },
   { id: 'p2', title: 'Page 2 · Birth Chart', build: buildPage2 },
@@ -125,6 +127,11 @@ const BOOK_SECTIONS = [
   { id: 'p86', title: 'Page 86 · Varshaphala Charts #4', build: (q) => buildVarshaCharts({ ...q, part: 3 }) },
   { id: 'p87', title: 'Page 87 · Varshaphala Charts #5', build: (q) => buildVarshaCharts({ ...q, part: 4 }) },
   { id: 'p88', title: 'Page 88 · Varshaphala Charts #6', build: (q) => buildVarshaCharts({ ...q, part: 5 }) },
+  // the pages after the sample's 88 (extraPages.js): what the HP1 prediction print carries besides
+  { id: 'p89', title: 'Page 89 · Mangala Dosha', build: buildMangalaPage },
+  { id: 'p90', title: 'Page 90 · Sadhesati and Remedies', build: buildSadeSatiRemedies },
+  { id: 'p91', title: 'Page 91 · Gemstones', build: buildGemstonesPage },
+  { id: 'p92', title: 'Page 92 · Dasha Results', build: buildDashaResults },
 ];
 
 /** The sections without their builders, for the print centre's list. */

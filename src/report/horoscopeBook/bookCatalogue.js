@@ -70,6 +70,13 @@ const FAMILIES = [
   { key: 'varsha', ta: 'வருட பலன்', icon: '🎂', tone: 'saffron', items: [
     [null, 83, 88, 'வர்ஷபல ஜாதகங்கள் (1 முதல் 72 வயது வரை)', 'Varshaphala Charts'],
   ] },
+  // pages 89 on are not in the 88-page sample: the HP1 prediction print's extra pages (extraPages.js)
+  { key: 'hp1', ta: 'கூடுதல் பக்கங்கள் (கணிப்பு நூல்)', icon: '✨', tone: 'rose', items: [
+    [null, 89, 89, 'செவ்வாய் (மங்கள) தோஷம்', 'Mangala Dosha'],
+    [null, 90, 90, 'ஏழரைச் சனி & பரிகாரங்கள்', 'Sadhesati and Remedies'],
+    [null, 91, 91, 'ரத்தினங்கள்', 'Gemstones'],
+    [null, 92, 92, 'தசைப் பலன்கள் (பிருஹத் பராசரம்)', 'Dasha Results'],
+  ] },
 ];
 
 /**

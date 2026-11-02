@@ -46,7 +46,7 @@ Method: every page of the book is built for each birth and its numbers (dates to
 
 ## Not built yet
 
-- KOTRAVEL_HP1: Mangala dosha, Sade Sati with remedies, gemstone recommendation, and the long interpretation pages (the printout is 56 pages; the book has the 88 of the HC4 set).
+- KOTRAVEL_HP1's extra pages are built as pages 89-92 of the book from this software's own sourced engines, not PL9's canned prose (`extraPages.js`): Mangala dosha (89), Sadhesati phases and remedies (90), gemstones (91), the running and next Vimshottari mahadasha read against BPHS ch.47-48 (92). Not built: HP1's introductory text pages (pp.9-15, general Vedic text and the nature/character card) and its per-antardasha and per-pratyantardasha result bullets (pp.22-56); no sourced equivalent exists in the library yet.
 - meera's "Vimshottari (Short)" and "Yogini (Short)" layouts (their dates agree with the detailed pages already built).
 
 ## Page 7 special points: sources and what was built (2026-11-04)

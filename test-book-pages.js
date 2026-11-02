@@ -143,5 +143,34 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
   assert.equal(cards[0].rows[1][1], '17:43', 'the Sun at its return');
   assert.equal((await build('p88')).blocks.filter((b) => b.kind === 'chartCard').length, 12);
 
+  // page 89, the Mangala dosha: Mars's house from the Lagna, Moon and Venus under each reading
+  const p89 = await build('p89');
+  const formation = block(p89, 'செவ்வாய் நிற்கும் வீடு — லக்னம், சந்திரன், சுக்கிரனிலிருந்து');
+  assert.deepEqual(formation.columns.slice(0, 5), ['முறை', 'லக்னம்', 'சந்திரன்', 'சுக்கிரன்', 'தோஷம்']);
+  assert.equal(formation.rows.length, 5, 'five readings: Vishnu Bhaskar three, Bhagat, Maansagari');
+  for (const r of formation.rows) assert.ok(/ப\.\d/.test(r[5]) && !/PDF/.test(r[5]), `a printed page, never a PDF page: ${r[5]}`);
+  assert.ok(!/undefined|NaN|null/.test(JSON.stringify(p89)));
+  // page 90: Saturn from the Moon, the three phases and the remedies the books record, each with a printed page
+  const p90 = await build('p90');
+  assert.equal(block(p90, 'ஏழரைச் சனியின் மூன்று கட்டங்கள்').rows.length, 3);
+  const remedies = block(p90, 'பரிகாரம் — நூல்களில் பதிவானவை');
+  assert.ok(remedies.rows.length >= 3 && remedies.rows.every((r) => r[2] && !/PDF/.test(r[2])), 'every remedy names its book');
+  assert.ok(!/undefined|NaN|null/.test(JSON.stringify(p90)));
+  // page 91: seven planets, each with the three books' words and whether they agree
+  const p91 = await build('p91');
+  const gems = block(p91, 'ஏழு கிரகங்களின் ரத்தினங்கள்');
+  assert.equal(gems.rows.length, 7);
+  assert.ok(gems.rows.every((r) => r.length === 6 && r.every(Boolean)), 'no empty cell');
+  assert.ok(!/undefined|NaN|null/.test(JSON.stringify(p91)));
+  // page 92: the running mahadasha and the next, BPHS ch.47 placements held / not held / not checked, with printed pages
+  const p92 = await build('p92');
+  const dashaTables = p92.blocks.filter((b) => b.kind === 'table' && b.columns.length === 6);
+  assert.equal(dashaTables.length, 2, 'the running mahadasha and the next');
+  for (const t of dashaTables) {
+    assert.ok(/மகாதசை — \d\d-\d\d-\d{4} முதல்/.test(t.heading), t.heading);
+    assert.ok(t.rows.length >= 2 && t.rows.every((r) => /ப\.\d/.test(r[5]) && !/PDF/.test(r[5])), 'each section names its printed page');
+  }
+  assert.ok(!/undefined|NaN|null/.test(JSON.stringify(p92)));
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });
