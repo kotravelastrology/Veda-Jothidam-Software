@@ -68,20 +68,29 @@ const FAMILIES = [
     [null, 81, 82, 'KP ஜாதகம் & குறிகாட்டிகள்', 'Krishnamurti Paddhati'],
   ] },
   { key: 'varsha', ta: 'வருட பலன்', icon: '🎂', tone: 'saffron', items: [
-    [null, 83, 88, 'வர்ஷபல ஜாதகங்கள் (1, 13, 25, 37, 49, 61 வயது)', 'Varshaphala Charts'],
+    [null, 83, 88, 'வர்ஷபல ஜாதகங்கள் (1 முதல் 72 வயது வரை)', 'Varshaphala Charts'],
   ] },
 ];
 
-/** The catalogue with each item's `built` flag, read from the registry of pages this software builds. */
+/**
+ * The catalogue, each item with the registry sections that build its pages (section ids are "p" and the sample's page number).
+ * An item is `built` when at least one of its pages is, and `complete` when all are; a run of pages is picked as one item.
+ */
 function bookCatalogue() {
   const builtIds = new Set(BOOK_SECTIONS.map((s) => s.id));
   return FAMILIES.map((f) => ({
     key: f.key, ta: f.ta, icon: f.icon, tone: f.tone,
-    items: f.items.map(([id, from, to, ta, en]) => ({
-      id: id ?? `pages-${from}-${to}`,
-      from, to, pages: to - from + 1, ta, en,
-      built: id !== null && builtIds.has(id),
-    })),
+    items: f.items.map(([, from, to, ta, en]) => {
+      const sections = [];
+      for (let n = from; n <= to; n += 1) if (builtIds.has(`p${n}`)) sections.push(`p${n}`);
+      return {
+        id: from === to ? `p${from}` : `pages-${from}-${to}`,
+        from, to, pages: to - from + 1, ta, en,
+        sections,
+        built: sections.length > 0,
+        complete: sections.length === to - from + 1,
+      };
+    }),
   }));
 }
 

@@ -54,15 +54,19 @@ function buildYoginiDasha(moonLongitudeSidereal, birthMs) {
 
   const periods = [];
   let cursor = birthMs;
+  // The eight sub-periods are laid over the period's FULL length; the birth period (only the balance) keeps those still to run,
+  // the one running at birth cut at birth (the Parashara's Light sample lists them so).
   const withSubs = (p) => {
     const subs = [];
-    let sc = p.startMs;
+    const fullYears = YOGINI_YEARS[p.index];
+    let sc = p.endMs - fullYears * MS_PER_YEAR;
     const totalUnits = 36;
     for (let i = 0; i < 8; i += 1) {
       const idx = (p.index + i) % 8;
-      const subYears = (YOGINI_YEARS[idx] / totalUnits) * p.years;
-      subs.push(yoginiEntry(idx, sc, subYears));
-      sc += subYears * MS_PER_YEAR;
+      const subYears = (YOGINI_YEARS[idx] / totalUnits) * fullYears;
+      const end = sc + subYears * MS_PER_YEAR;
+      if (end > p.startMs + 1) subs.push(yoginiEntry(idx, Math.max(sc, p.startMs), (end - Math.max(sc, p.startMs)) / MS_PER_YEAR));
+      sc = end;
     }
     return { ...p, subs };
   };
@@ -104,14 +108,17 @@ function buildAshtottariDasha(moonLongitudeSidereal, birthMs) {
   const bal = ashtottariBalance(norm360(moonLongitudeSidereal));
   const startLordIdx = ASHTOTTARI_LORDS.indexOf(bal.lord);
 
+  // As for Yogini: sub-periods over the FULL length, the birth period keeping those still to run
   const withSubs = (p) => {
     const subs = [];
-    let sc = p.startMs;
+    const fullYears = ASHTOTTARI_YEARS[p.index];
+    let sc = p.endMs - fullYears * MS_PER_YEAR;
     for (let i = 0; i < 8; i += 1) {
       const idx = (p.index + i) % 8;
-      const subYears = (ASHTOTTARI_YEARS[idx] / 108) * p.years;
-      subs.push(ashtottariEntry(idx, sc, subYears));
-      sc += subYears * MS_PER_YEAR;
+      const subYears = (ASHTOTTARI_YEARS[idx] / 108) * fullYears;
+      const end = sc + subYears * MS_PER_YEAR;
+      if (end > p.startMs + 1) subs.push(ashtottariEntry(idx, Math.max(sc, p.startMs), (end - Math.max(sc, p.startMs)) / MS_PER_YEAR));
+      sc = end;
     }
     return { ...p, subs };
   };

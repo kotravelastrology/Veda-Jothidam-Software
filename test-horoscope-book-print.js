@@ -11,7 +11,10 @@ async function main() {
   // The registry: unique ids, in the book's order, and the list the print centre shows.
   const ids = BOOK_SECTIONS.map((s) => s.id);
   assert.strictEqual(new Set(ids).size, ids.length, 'section ids are unique');
-  assert.deepStrictEqual(ids, ['p1', 'p2', 'p3', 'p5', 'p6', 'p8', 'p9', 'p10', 'p11', 'p12', 'p13', 'p14', 'p15', 'p16', 'p17', 'p18', 'p19', 'p20']);
+  // the pages built, in the sample's page order (the catalogue, bookCatalogue.js, lists all 88)
+  const numbers = ids.map((id) => Number(id.slice(1)));
+  assert.deepStrictEqual(numbers, [...numbers].sort((a, b) => a - b), 'in the order of the book');
+  for (const n of [1, 2, 3, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]) assert.ok(numbers.includes(n), `page ${n}`);
   assert.deepStrictEqual(bookSectionList().map((s) => s.id), ids);
   assert.ok(bookSectionList().every((s) => typeof s.title === 'string' && s.title.length > 0 && !('build' in s)));
 

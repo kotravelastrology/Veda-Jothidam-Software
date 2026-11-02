@@ -20,12 +20,16 @@ for (const i of items) {
 assert.equal(next, 89, 'the catalogue ends at page 88');
 assert.equal(items.reduce((n, i) => n + i.pages, 0), 88);
 
-// ids are unique, every item has a Tamil and an English title, and the built ones are exactly the registry's
+// ids are unique, every item has a Tamil and an English title, and the pages built are exactly the registry's
 assert.equal(new Set(items.map((i) => i.id)).size, items.length);
 for (const i of items) { assert.ok(/[஀-௿]/.test(i.ta), `${i.id}: a Tamil title`); assert.ok(i.en); }
-const built = items.filter((i) => i.built).map((i) => i.id);
-assert.deepEqual(built, BOOK_SECTIONS.map((s) => s.id), 'built = the registry, in the book order');
-for (const i of items.filter((x) => !x.built)) assert.ok(i.id.startsWith('pages-'), `${i.id}: a page not built has a placeholder id`);
+const builtPages = items.flatMap((i) => i.sections);
+assert.deepEqual(builtPages, BOOK_SECTIONS.map((s) => s.id), 'the pages built are the registry, in the book order');
+for (const i of items) {
+  assert.equal(i.built, i.sections.length > 0);
+  assert.equal(i.complete, i.sections.length === i.pages);
+  for (const sec of i.sections) { const n = Number(sec.slice(1)); assert.ok(n >= i.from && n <= i.to, `${sec} inside ${i.id}`); }
+}
 for (const f of families) assert.ok(['saffron', 'indigo', 'teal', 'rose'].includes(f.tone));
 
-console.log(`test-book-catalogue: ${built.length} of ${items.length} items built; all assertions passed`);
+console.log(`test-book-catalogue: ${builtPages.length} of 88 pages built; all assertions passed`);

@@ -122,6 +122,23 @@ function subPeriods(table, parentLord, parentDurationYears, parentStartYears) {
   });
 }
 
+/**
+ * The sub-periods of a period laid over its FULL length (its own lord first), keeping only those still to run when the period began
+ * before birth (the balance of the birth dasha, and the sub-period holding the moment of birth at each level below it): the ones that
+ * ended before birth are left out and the one running at birth starts at birth (as the Parashara's Light sample lists them).
+ * `fullStartYears` and `fullDurationYears` on a node say where a clipped period really began and how long it is in full.
+ */
+const CLIP = 1e-9;
+function childPeriods(table, node) {
+  const fullStart = node.fullStartYears ?? node.startYears;
+  const fullDuration = node.fullDurationYears ?? node.durationYears;
+  return subPeriods(table, node.lord, fullDuration, fullStart)
+    .filter((c) => c.endYears > node.startYears + CLIP)
+    .map((c) => (c.startYears < node.startYears - CLIP
+      ? { ...c, fullStartYears: c.startYears, fullDurationYears: c.durationYears, startYears: node.startYears, durationYears: c.endYears - node.startYears }
+      : c));
+}
+
 const isoDate = (ms) => new Date(ms).toISOString().slice(0, 10);
 
 function withDates(period, birthMs) {
@@ -149,14 +166,10 @@ function buildDasha(table, { birthMs, moonLongitude, depth = 2, cycles = 1 }) {
   }
   const balance = birthBalance(table, moonLongitude);
 
-  const expand = (lord, durationYears, startYears, level) => {
-    const node = withDates({ lord, durationYears, startYears, endYears: startYears + durationYears }, birthMs);
+  const expand = (period, level) => {
+    const node = withDates({ ...period, endYears: period.startYears + period.durationYears }, birthMs);
     if (level >= depth) return node;
-    return {
-      ...node,
-      children: subPeriods(table, lord, durationYears, startYears)
-        .map((p) => expand(p.lord, p.durationYears, p.startYears, level + 1)),
-    };
+    return { ...node, children: childPeriods(table, node).map((p) => expand(p, level + 1)) };
   };
 
   const order = orderFrom(table, balance.lord);
@@ -167,8 +180,12 @@ function buildDasha(table, { birthMs, moonLongitude, depth = 2, cycles = 1 }) {
       const lord = order[i];
       // Only the very first period is shortened — it is the balance remaining
       // at birth, not a full mahadasha.
-      const duration = (c === 0 && i === 0) ? balance.balanceYears : table.years[lord];
-      periods.push(expand(lord, duration, cursor, 1));
+      const first = c === 0 && i === 0;
+      const duration = first ? balance.balanceYears : table.years[lord];
+      periods.push(expand({
+        lord, durationYears: duration, startYears: cursor,
+        ...(first ? { fullStartYears: balance.balanceYears - table.years[lord], fullDurationYears: table.years[lord] } : {}),
+      }, 1));
       cursor += duration;
     }
   }
@@ -185,6 +202,6 @@ function buildDasha(table, { birthMs, moonLongitude, depth = 2, cycles = 1 }) {
 }
 
 module.exports = {
-  createDashaTable, buildDasha, birthBalance, subPeriods, orderFrom,
+  createDashaTable, buildDasha, birthBalance, subPeriods, childPeriods, orderFrom,
   DAYS_PER_YEAR, NAK_COUNT, NAK_SPAN,
 };

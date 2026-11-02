@@ -15,7 +15,7 @@ const { resolveLibraryPath } = require('../../src/library/libraryPath');
 export interface BookRequest {
   profile?: { profileId: string; revision?: number };
   form?: BirthFormInput;
-  /** the page ids to put in the book, as the catalogue lists them */
+  /** the catalogue items to put in the book (an item is a page or a run of pages), by id */
   sections: string[];
   engine?: { ayanamsha?: string; houseSystem?: string; nodeType?: 'mean' | 'true' };
   dashaOptions?: { yearDays: number; balance: 'degree' | 'time' };
@@ -50,10 +50,20 @@ export async function computeBook(req: BookRequest) {
     throw new Error('ஒரு சுயவிவரம் அல்லது பிறப்பு விவரம் தேவை.');
   }
   const options = req.dashaOptions ?? { yearDays: 365.25, balance: 'degree' };
-  const built = await B.buildBookSections({ name, birth: input, ids: req.sections, dashaOptions: options });
+  // the items chosen become the registry's page sections, in the book's order
+  const chosen = new Set(req.sections);
+  const byPage = new Map<string, any>();
+  const ids: string[] = [];
+  for (const family of catalogue()) {
+    for (const item of family.items) {
+      for (const section of item.sections) {
+        byPage.set(section, { ...item, family: family.ta, page: Number(section.slice(1)) });
+        if (chosen.has(item.id)) ids.push(section);
+      }
+    }
+  }
+  const built = await B.buildBookSections({ name, birth: input, ids, dashaOptions: options });
   if (built.length === 0) throw new Error('குறைந்தது ஒரு பக்கத்தைத் தேர்வு செய்யுங்கள்.');
-  const byId = new Map<string, any>();
-  for (const family of catalogue()) for (const item of family.items) byId.set(item.id, { ...item, family: family.ta });
   const particulars = await buildBirthParticulars({
     birth: input,
     engine: { ayanamsha: input.ayanamsha, houseSystem: input.houseSystem, nodeType: input.nodeType },
@@ -64,6 +74,10 @@ export async function computeBook(req: BookRequest) {
   return JSON.parse(JSON.stringify({
     name,
     particulars,
-    sections: built.map((s: any) => ({ ...byId.get(s.id), doc: s.doc })),
+    sections: built.map((s: any) => {
+      const item = byPage.get(s.id);
+      const nth = item.pages > 1 ? ` — ${item.page - item.from + 1}` : '';
+      return { ...item, id: s.id, ta: `${item.ta}${nth}`, en: `${item.en}${nth}`, doc: s.doc };
+    }),
   }));
 }

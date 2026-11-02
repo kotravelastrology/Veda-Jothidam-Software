@@ -175,4 +175,4 @@ function buildPage6({ name = '', birth }) {
   }));
 }
 
-module.exports = { buildPage3, buildPage5, buildPage6, sripatiHouses, houseOf, vargaSign, withBirth, gridCells };
+module.exports = { buildPage3, buildPage5, buildPage6, sripatiHouses, houseOf, vargaSign, vargaPlacements, bodiesOf, withBirth, gridCells };

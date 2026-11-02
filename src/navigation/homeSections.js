@@ -18,6 +18,7 @@ const HOME_SECTIONS = [
       link('/worksheet', '🪔', 'ஜாதக மேசை', 'Worksheet'),
       link('/report', '📖', 'முழு ஜாதக அறிக்கை', 'Horoscope report'),
       link('/divisional-charts', '🔷', 'வர்க்கச் சக்கரங்கள்', 'Divisional charts'),
+      link('/ashtakavarga', '🔢', 'அஷ்டகவர்க்கம்', 'Ashtakavarga'),
       link('/lordships', '👑', 'பாவாதிபதிகள்', 'Lordships'),
       link('/interpreting-grahas', '🪐', 'கிரக விளக்கம்', 'Interpreting grahas'),
       link('/house-analysis', '🏠', 'பாவ பலம்', 'House analysis'),

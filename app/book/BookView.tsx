@@ -5,6 +5,7 @@ import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { useSettings, toDashaOptions, toEngineOptions } from '@/src/ui/SettingsPanel';
 import { PageEyebrow } from '@/src/ui/PageEyebrow';
 import { bookCatalogue, computeBook } from './actions';
+import { BlockView, TONE, groupBlocks, type Tone } from './blocks';
 
 /**
  * The horoscope book (PL9's 88-page print, aniruddha_HC4): every page of that book is listed in its family; click the pages
@@ -14,60 +15,7 @@ import { bookCatalogue, computeBook } from './actions';
  */
 
 type Catalogue = Awaited<ReturnType<typeof bookCatalogue>>;
-type Tone = 'saffron' | 'indigo' | 'teal' | 'rose';
 type Book = Awaited<ReturnType<typeof computeBook>>;
-
-const TONE: Record<Tone, { bar: string; chip: string; soft: string; text: string }> = {
-  saffron: { bar: 'bg-saffron', chip: 'icon-chip-saffron', soft: 'bg-saffron/10', text: 'text-saffron' },
-  indigo: { bar: 'bg-indigo', chip: 'icon-chip-indigo', soft: 'bg-indigo/10', text: 'text-indigo' },
-  teal: { bar: 'bg-teal', chip: 'icon-chip-teal', soft: 'bg-teal/10', text: 'text-teal' },
-  rose: { bar: 'bg-rose', chip: 'icon-chip-rose', soft: 'bg-rose/10', text: 'text-rose' },
-};
-
-// South-Indian grid: the sign in each cell; -1 is the centre, which spans four cells.
-const GRID_SIGNS = [[11, 0, 1, 2], [10, -1, -1, 3], [9, -1, -1, 4], [8, 7, 6, 5]];
-
-function SignGrid({ cells, title }: { cells: string[][]; title: string }) {
-  return (
-    <div className="w-full max-w-[22rem] break-inside-avoid">
-      <div className="grid grid-cols-4 overflow-hidden rounded-xl border-2 border-ink/70 bg-surface print:rounded-none print:border-black">
-        {GRID_SIGNS.flatMap((row, r) => row.map((sign, c) => {
-          if (sign < 0) {
-            return r === 1 && c === 1 ? (
-              <div key={`${r}${c}`} className="col-span-2 row-span-2 grid place-items-center border border-ink/20 bg-saffron/5 p-2 text-center text-[11px] font-semibold text-ink-soft print:border-black/40">{title}</div>
-            ) : null;
-          }
-          return (
-            <div key={`${r}${c}`} className="min-h-16 border border-ink/20 p-1.5 text-[13px] font-bold leading-tight text-ink print:border-black/40 print:text-black">
-              {cells[sign].map((label, i) => <div key={i}>{label}</div>)}
-            </div>
-          );
-        }))}
-      </div>
-    </div>
-  );
-}
-
-function Table({ columns, rows }: { columns: string[]; rows: string[][] }) {
-  return (
-    <div className="overflow-x-auto rounded-xl border border-line print:overflow-visible print:rounded-none print:border-black/40">
-      <table className="w-full border-collapse text-[12px] print:text-[10px]" style={{ fontVariantNumeric: 'tabular-nums' }}>
-        <thead>
-          <tr className="bg-ink/[0.06] text-left text-ink print:bg-gray-200 print:text-black">
-            {columns.map((c, i) => <th key={`${c}-${i}`} className="px-2.5 py-1.5 font-bold">{c}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((r, ri) => (
-            <tr key={ri} className="break-inside-avoid border-t border-line/60 odd:bg-transparent even:bg-saffron/[0.05] print:border-gray-300 print:even:bg-gray-50">
-              {r.map((c, ci) => <td key={ci} className={`px-2.5 py-1 align-top ${ci === 0 ? 'font-semibold text-ink' : 'text-ink'} print:text-black`}>{c}</td>)}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-}
 
 const dmy = (date: string) => { const [y, m, d] = date.split('-'); return `${d}-${m}-${y}`; };
 
@@ -117,10 +65,10 @@ function Contents({ book }: { book: Book }) {
         {book.sections.map((s: any, i: number) => (
           <li key={s.id}>
             <a href={`#book-${s.id}`} className="flex items-baseline gap-3 rounded-lg px-2 py-1.5 hover:bg-saffron/10">
-              <span className="w-8 shrink-0 text-right text-sm font-bold tabular-nums text-saffron">{i + 1}</span>
+              <span className="w-8 shrink-0 text-right text-sm font-bold tabular-nums text-saffron">{s.page}</span>
               <span className="min-w-0 flex-1">
                 <span className="block text-[15px] font-semibold text-ink">{s.ta}</span>
-                <span className="block text-[11px] text-ink-soft">{s.en} · PL9 ப. {s.from}{s.to !== s.from ? `–${s.to}` : ''}</span>
+                <span className="block text-[11px] text-ink-soft">{s.en} · PL9 ப. {s.page}</span>
               </span>
             </a>
           </li>
@@ -143,14 +91,12 @@ function Page({ s, n, tone }: { s: any; n: number; tone: Tone }) {
         </div>
       </header>
       <div className="space-y-5 p-5">
-        {s.doc.blocks.map((b: any, i: number) => (
-          <div key={i}>
-            {b.heading && <h4 className="mb-1.5 flex items-center gap-2 text-sm font-bold text-ink print:text-black"><span className={`inline-block h-4 w-1 rounded ${t.bar}`} aria-hidden />{b.heading}</h4>}
-            {b.kind === 'table' ? <Table columns={b.columns} rows={b.rows} />
-              : b.kind === 'signGrid' ? <SignGrid cells={b.cells} title={b.heading ?? ''} />
-              : <p className="text-sm text-ink print:text-black">{b.text}</p>}
-            {b.note && <p className="mt-1 text-[11px] text-ink-soft print:text-black">{b.note}</p>}
-          </div>
+        {groupBlocks(s.doc.blocks).map((group: any, gi: number) => (
+          group.grid ? (
+            <div key={gi} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 print:grid-cols-3">
+              {group.blocks.map((b: any, i: number) => <BlockView key={i} b={b} bar={t.bar} compact />)}
+            </div>
+          ) : <BlockView key={gi} b={group.blocks[0]} bar={t.bar} />
         ))}
       </div>
     </section>
@@ -176,7 +122,7 @@ export default function BookView() {
   const allBuilt = useMemo(() => catalogue.flatMap((f: any) => f.items.filter((i: any) => i.built)), [catalogue]);
   const totals = useMemo(() => {
     const all = catalogue.flatMap((f: any) => f.items);
-    return { pages: all.reduce((n: number, i: any) => n + i.pages, 0), builtPages: all.filter((i: any) => i.built).reduce((n: number, i: any) => n + i.pages, 0) };
+    return { pages: all.reduce((n: number, i: any) => n + i.pages, 0), builtPages: all.reduce((n: number, i: any) => n + i.sections.length, 0) };
   }, [catalogue]);
   const toggle = (id: string) => setSelected((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
   const toggleFamily = (family: any) => {
@@ -250,6 +196,7 @@ export default function BookView() {
                               <span className="block text-[10px] text-ink-soft">PL9 ப. {i.from}{i.to !== i.from ? `–${i.to}` : ''}{i.pages > 1 ? ` (${i.pages} பக்கங்கள்)` : ''}</span>
                             </span>
                             {!i.built && <span className="shrink-0 rounded-full bg-ink/10 px-2 py-0.5 text-[10px] text-ink-soft">விரைவில்</span>}
+                            {i.built && !i.complete && <span className="shrink-0 rounded-full bg-ink/10 px-2 py-0.5 text-[10px] text-ink-soft">{i.sections.length}/{i.pages}</span>}
                           </button>
                         </li>
                       );
@@ -274,7 +221,7 @@ export default function BookView() {
         <article className="print-area space-y-6 print:space-y-0">
           <Cover book={book} />
           <Contents book={book} />
-          {book.sections.map((s: any, i: number) => <Page key={s.id} s={s} n={i + 1} tone={toneOf[s.id] ?? 'saffron'} />)}
+          {book.sections.map((s: any, i: number) => <Page key={s.id} s={s} n={s.page} tone={toneOf[s.id] ?? 'saffron'} />)}
         </article>
       )}
     </main>

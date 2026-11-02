@@ -12,7 +12,7 @@
  * Parashara's Light prints other strings for the sign dashas below the main level; they are not reproduced.
  */
 const { signYears } = require('./jaiminiRashiDashas');
-const { buildDasha, subPeriods } = require('./nakshatraDashaEngine');
+const { buildDasha, childPeriods } = require('./nakshatraDashaEngine');
 
 const LEVELS = ['Mahadasha', 'Antardasha', 'Pratyantardasha', 'Sookshma', 'Prana'];
 
@@ -84,7 +84,7 @@ function tableChain({ table, birthMs, moonLongitude, atMs, depth = 5 }) {
     list = node.children || [];
   }
   if (depth >= 5 && node) {
-    const next = subPeriods(table, node.lord, node.durationYears, node.startYears).find(inside);
+    const next = childPeriods(table, node).find(inside);
     if (next) out.push({ level: 5, lord: next.lord, startMs: at(next.startYears), endMs: at(next.endYears) });
   }
   return out;
