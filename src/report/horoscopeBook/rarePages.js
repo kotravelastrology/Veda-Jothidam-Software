@@ -19,7 +19,7 @@ const pad = (n) => String(n).padStart(2, '0');
 
 /** The method's name as the sample's page title has it. */
 const TITLES = {
-  tribhagi: 'Tribhagi', shodashottari: 'Shodashottari', dwadashottari: 'Dwadashottari', 'dwisaptati-sama': 'Dwisaptatisama',
+  tribhagi: 'Tribhagi', 'tribhagi-40': 'Tribhagi 40', shodashottari: 'Shodashottari', dwadashottari: 'Dwadashottari', 'dwisaptati-sama': 'Dwisaptatisama',
   'shattrimshat-sama': 'Shattrimshatsama', panchottari: 'Panchottari', shatabdika: 'Satabdika', 'chaturashiti-sama': 'Chaturshitisama',
 };
 

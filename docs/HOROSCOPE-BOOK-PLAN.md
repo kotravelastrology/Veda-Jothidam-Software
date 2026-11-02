@@ -72,9 +72,10 @@ Not built, and why (nothing is filled in with something else; the book lists the
 | 41-46 | Kala Chakra | the engine (kalachakraDasha.js) starts the first mahadasha at birth with its full years: the balance at birth and the antardasha / pratyantardasha levels are not in the source read (the sample has both) |
 | 50 | Sthira | the Brahma and the start sign differ from the sample's (Virgo); neither of the engine's two readings (BPHS, Rath) gives it |
 | 51-52, 53-54, 55-56, 59-60 | Niryaana Shoola, Drig, Navamsha, Lagna Kendradi | PL9's Niryaana Shoola and Drig pages are the same table in the sample; none of the four has a source for the sample's reckoning (rareDashas.js lists Drig, Navamsha and Lagna Kendradi as declared without a table) |
-| 64-66 | Tribhagi 40 | no table in the registry (Tribhagi is the 80-year one, built on 62-63) |
 | 71-72 | Shastihayani | declared without a table (bphsDashas.js SHASTIHAYANI_PROBLEM_TA) |
 
 Differences from the sample that are kept and noted on the pages: the Jaimini chara dasha years for Libra, Sagittarius and Pisces (Rath's count) and the order of the sub-periods in the sign dashas
 (from the lord's sign, Rath 2.4.31-34); the Yogini balance at birth two weeks shorter in the sample; the sample's sunrise 06:01 against the engine's 05:58 (the upagraha degrees follow it by about a degree);
 the sample's KP Sun (16:50) against 17:49 here (the Moon, Mars, Mercury, Jupiter, Venus, Saturn and the cusps agree to a second); "Houses Signified by Planets" of KP page 82 and the cuspal chart are not built.
+
+Update 2026-11-03 (later): Tribhagi 40 (pages 64-66, Vimshottari divided by three, the sample's dates reproduced) is built; 71 of 88 pages. Kalachakra 41-46: BPHS ch.46 vv.52-111 and ch.64 give the nine-sign sequences per pada and the antardasha tables, and the balance rule is the sample's (the pada's total years x the elapsed share of the pada, taken off the sequence), but the sequences carry the gatis (Sagittarius to Aries) and the walks inside a period differ from the sequence; only the Ashwini-type pada 3 is checked against the sample, so it is not built.

@@ -66,6 +66,22 @@ const TRIBHAGI_TABLE = createDashaTable({
   lordOfNakshatra: vimshottariLordOf,
 });
 
+/**
+ * Tribhagi 40 — the same reduction taken to a third, a cycle of 40 years (the Parashara's Light sample prints it as "Tribhagi 40",
+ * its periods Mercury 5y, Ketu 2y, Venus 6y ... which are Vimshottari's divided by three). Like Tribhagi it needs no start rule of its
+ * own. SOURCED on the same footing; the dates are checked against the sample's page (test-book-pages.js).
+ */
+const TRIBHAGI40_SCALE = 1 / 3;
+const TRIBHAGI40_TABLE = createDashaTable({
+  id: 'tribhagi-40',
+  cycle: VIMSHOTTARI_CYCLE,
+  years: Object.fromEntries(
+    Object.entries(VIMSHOTTARI_YEARS).map(([lord, y]) => [lord, y * TRIBHAGI40_SCALE]),
+  ),
+  totalYears: 120 * TRIBHAGI40_SCALE,
+  lordOfNakshatra: vimshottariLordOf,
+});
+
 /** What a DECLARED nakshatra dasha is waiting for. */
 const NEEDS_START_RULE = 'ஆண்டுகளின் அட்டவணை பரவலாகச் சொல்லப்படுவது; ஆனால் பிறப்பு '
   + 'நட்சத்திரத்திலிருந்து தொடக்க அதிபதியைத் தீர்மானிக்கும் விதி (start rule) '
@@ -95,6 +111,21 @@ const METHODS = [
       + 'தசை முறை.',
   }),
 
+  createCoverage({
+    id: 'tribhagi-40',
+    name: 'Tribhagi 40', nameTa: 'திரிபாகி 40',
+    family: 'nakshatra',
+    level: 'SOURCED',
+    implemented: true,
+    source: {
+      ...BPHS,
+      pageLocus: 'derived from the Vimshottari table at file pages 407-411 / printed '
+        + 'pages 400-404 by a reduction to a third; the reduction itself is not quoted '
+        + 'from a verified page (the sample horoscope book of Parashara Light prints the same periods)',
+      convention: '40-year cycle — Vimshottari durations x 1/3, same nakshatra lords',
+    },
+    notes: 'விம்சோத்தரியின் அதே நட்சத்திர அதிபதிகள்; காலங்கள் மூன்றில் ஒரு பங்கு (120 → 40 ஆண்டு).',
+  }),
   createCoverage({
     id: 'tribhagi',
     name: 'Tribhagi', nameTa: 'திரிபாகி',
@@ -204,7 +235,7 @@ const METHODS = [
 
 const BY_ID = new Map(METHODS.map((m) => [m.id, m]));
 
-const TABLES = { tribhagi: TRIBHAGI_TABLE, ashtottari: B.ASHTOTTARI, ...B.TABLES };
+const TABLES = { tribhagi: TRIBHAGI_TABLE, 'tribhagi-40': TRIBHAGI40_TABLE, ashtottari: B.ASHTOTTARI, ...B.TABLES };
 
 const getMethod = (id) => BY_ID.get(id) ?? null;
 const getTable = (id) => TABLES[id] ?? null;

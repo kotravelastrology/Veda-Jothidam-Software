@@ -48,6 +48,10 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
   const p62 = await build('p62');
   assert.deepEqual(row(block(p62, 'Mercury (11.33y)'), 'Mars').slice(1), ['05-10-1990', '25-11-1990']);
   assert.deepEqual(row(block(p62, 'Mercury (11.33y)'), 'Rahu').slice(1), ['25-11-1990', '29-07-1992']);
+  // page 64 (Tribhagi 40, Vimshottari divided by three): the sample's antardashas of the birth period
+  const p64 = await build('p64');
+  assert.deepEqual(row(block(p64, 'Mercury (5.67y)'), 'Mars').slice(1), ['05-10-1990', '30-10-1990']);
+  assert.deepEqual(row(block(p64, 'Mercury (5.67y)'), 'Rahu').slice(1), ['30-10-1990', '01-09-1991']);
   const p67 = await build('p67');
   assert.deepEqual(row(block(p67, 'Saturn (14y)'), 'Venus').slice(1), ['05-10-1990', '29-09-1992']);
 
