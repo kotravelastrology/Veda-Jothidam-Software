@@ -18,6 +18,7 @@ const { sunriseBefore } = require('../../chart/sunriseBefore');
 const SL = require('../../chart/specialLagnas');
 const { kpChain } = require('../kpSystem');
 const N = require('../../sources/tamilNames');
+const SP = require('../specialPoints');
 const { julianDay } = require('@swisseph/node');
 
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -30,6 +31,7 @@ const PORTIONS = [
   { lord: 'Saturn', name: 'Gulika', mark: 'Gk' },
 ];
 const DHOOMADI = [['Dhuma', 'Dhooma', 'Mars', 'Dh'], ['Vyatipata', 'Vyatipata', 'Rahu', 'Vy'], ['Parivesha', 'Parivesha', 'Moon', 'Pv'], ['Indrachapa', 'Inderchapa', 'Venus', 'In'], ['Upaketu', 'Upaketu', 'Ketu', 'Uk']];
+const SIGN_FULL = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
 const LORD_ABBR = { Sun: 'Sun', Moon: 'Mon', Mars: 'Mar', Mercury: 'Mer', Jupiter: 'Jup', Venus: 'Ven', Saturn: 'Sat', Rahu: 'Rah', Ketu: 'Ket' };
 
 const pad = (n) => String(n).padStart(2, '0');
@@ -89,6 +91,30 @@ async function buildSubPlanets({ name = '', birth }) {
       return [label, w.sign, dms(Number(lon) % 30)];
     });
 
+    // the special points (specialPoints.js): Indu Lagna, Beeja (a man) or Kshetra (a woman) Sphuta, the Yogi group, the 64th Navamsha, the 22nd Drekkana
+    const longitudes = Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'].map((g) => [g, chart.grahas[g].longitude]));
+    const lagnaLon = chart.lagna.longitude;
+    const female = birth.gender === 'female';
+    const indu = SP.indu({ lagnaLongitude: lagnaLon, moonLongitude: longitudes.Moon });
+    lagnaRows.push(['Indu Lagna', SIGN3[indu.sign], dms(indu.degree)]);
+    const seed = SP.beeja({ longitudes, female });
+    const yg = SP.yogi({ sunLongitude: longitudes.Sun, moonLongitude: longitudes.Moon });
+    const oddEven = (odd) => (odd ? 'odd' : 'even');
+    // PL9 prints a percentage only where we have seen it (a man's odd/odd, a woman's odd/odd); otherwise the book's own wording
+    const seedVerdict = seed.outcome === 'certain' && !female ? '100% (good)' : seed.outcome === 'none' && female ? '0% (poor)'
+      : { certain: 'certain (book)', none: 'none (book)', delayed: 'after delay or treatment (book)' }[seed.outcome];
+    const sarpa = SP.sarpaDreshkana(Object.fromEntries(Object.entries(longitudes).filter(([g]) => g !== 'Rahu' && g !== 'Ketu')));
+    const pointRows = [
+      [seed.name, SIGN3[seed.sign], dms(seed.longitude % 30)],
+      [`${seed.name}: birth chart / Navamsha`, `${oddEven(seed.signOdd)}/${oddEven(seed.navamshaOdd)}`, seedVerdict],
+      ['Yogi Point', SIGN3[SP.signOf(yg.longitude)], dms(yg.longitude % 30)],
+      ['Yogi', LORD_ABBR[yg.yogi], ''],
+      ['Avayogi / Duplicate Yogi', `${LORD_ABBR[yg.avayogi]}/${LORD_ABBR[yg.duplicateYogi]}`, ''],
+      ['64th Navamsha (Mo/As)', `${SIGN_FULL[SP.navamsha64(longitudes.Moon)]}/${SIGN_FULL[SP.navamsha64(lagnaLon)]}`, ''],
+      ['22nd Dreshkana (As/Mo)', `${SIGN_FULL[SP.drekkana22(lagnaLon)]}/${SIGN_FULL[SP.drekkana22(longitudes.Moon)]}`, ''],
+      ['Sarpa Dreshkana', sarpa.length ? sarpa.map((g) => LORD_ABBR[g]).join(', ') : '—', ''],
+    ];
+
     const chartOf = (pick) => {
       const cells = Array.from({ length: 12 }, () => []);
       cells[Math.floor(chart.lagna.longitude / 30)].push('As');
@@ -123,7 +149,14 @@ async function buildSubPlanets({ name = '', birth }) {
         },
         { kind: 'signGrid', heading: 'Upagraha Chart (Beginning Time)', cells: chartOf((r) => r.b) },
         { kind: 'signGrid', heading: 'Upagraha Chart (Ending Time)', cells: chartOf((r) => r.e) },
-        { kind: 'table', heading: 'Special Lagnas and Points', columns: ['Lagna', 'Sign', 'Degree'], rows: lagnaRows, note: 'The special lagnas count from the sunrise that began the birth\'s day (the Sun\'s centre on the horizon): BPHS ch.5.' },
+        { kind: 'table', heading: 'Special Lagnas and Points', columns: ['Lagna', 'Sign', 'Degree'], rows: lagnaRows, note: 'The special lagnas count from the sunrise that began the birth\'s day (the Sun\'s centre on the horizon): BPHS ch.5. Indu Lagna: K.N. Rao and Metha, Ashtakvarga ch.17 (its degree is PL9\'s 15:00:00).' },
+        {
+          kind: 'table',
+          heading: 'Special Points',
+          columns: ['Point', 'Sign / value', 'Degree / verdict'],
+          rows: pointRows,
+          note: 'Beeja Sphuta = Sun + Venus + Jupiter (Kshetra Sphuta for a woman = Moon + Mars + Jupiter), K.N. Rao, Analysing Horoscope through modern techniques pp.86-87. Yogi point = Sun + Moon + 93°20′, the Avayogi the 6th Nakshatra from the Yogi\'s: Seshadri Iyer, New Techniques of Predictions vol.2; K. Sutton, Personal Panchanga p.142. 64th Navamsha, 22nd and Sarpa Dreshkana: Raj Kumar, Charisma of Navamsha 4.7; K.N. Rao, Pataki Rishta Chakra p.104.',
+        },
       ],
     };
   });

@@ -46,6 +46,20 @@ Method: every page of the book is built for each birth and its numbers (dates to
 
 ## Not built yet
 
-- Page 7: Indu Lagna, Beeja/Kshetra Sphuta and its odd/even evaluation, Yogi point, Yogi, Avayogi/Duplicate Yogi, 64th Navamsha, 22nd Drekkana (the 8th sign from the Drekkana sign of the lagna/Moon, from the data), Sarpa Dreshkana.
 - KOTRAVEL_HP1: Mangala dosha, Sade Sati with remedies, gemstone recommendation, and the long interpretation pages (the printout is 56 pages; the book has the 88 of the HC4 set).
 - meera's "Vimshottari (Short)" and "Yogini (Short)" layouts (their dates agree with the detailed pages already built).
+
+## Page 7 special points: sources and what was built (2026-11-04)
+
+Built in `src/report/specialPoints.js` and shown on page 7 (`subPlanetsPage.js`, test `test-special-points.js`). Arjun and Kotravel reproduce PL9's printed values in every row (Indu Lagna, Beeja Sphuta to the second, Yogi point, Yogi, Avayogi, Duplicate Yogi, 64th Navamsha, 22nd Dreshkana, Sarpa Dreshkana). The Beeja Sphuta and Yogi point add the planets' longitudes rounded to the second, as PL9 does. Not known from any printout: PL9's percentages for the mixed odd/even cases and its wording for a woman's Kshetra Sphuta; the page prints the book's wording there and PL9's own text only for the two cases seen (a man's odd/odd 100% good, a woman's odd/odd 0% poor).
+
+Each rule below was checked against PL9's printed values on Arjun and the aniruddha sample (all agree).
+
+| Point | Rule | Source (book, printed page) |
+|---|---|---|
+| Indu Lagna | kalas Sun 30, Moon 16, Mars 6, Mercury 8, Jupiter 10, Venus 12, Saturn 1; add the kalas of the lords of the 9th from the Lagna and from the Moon; remainder of 12 (0 = 12); count that many signs from the Moon (the Moon's sign is 1). PL9 prints the degree as 15:00:00. | K.N. Rao and Metha, Ashtakvarga, ch.17 "Indu Lagna and Financial Prosperity", printed pp.58-59 (also Raj Kumar, Delineating a Horoscope p.295) |
+| Beeja Sphuta (male) / Kshetra Sphuta (female) | Sun + Venus + Jupiter longitudes (male); Moon + Mars + Jupiter (female), reduced by 360 degrees; its sign and Navamsha judged: Beeja in odd sign and odd Navamsha, children certain; odd sign, even Navamsha, after delay and treatment; even and even, none. Kshetra: even sign, wife may have children; even sign and even Navamsha, she must; odd sign and even Navamsha, after treatment. PL9 prints "odd/odd 100% (good)" for a male and "odd/odd 0% (poor)" for a female; its percentages for the other cases are not known. | K.N. Rao, Analysing Horoscope through modern techniques, printed pp.86-87; Jyotish Exams printed pp.94-98 (Seshadri Iyer's worked examples) |
+| Yogi point, Yogi, Avayogi, Duplicate Yogi | Sun + Moon + 93 degrees 20 minutes is the Yogi point; the Vimshottari lord of its nakshatra is the Yogi; the lord of its sign is the Duplicate Yogi; the 6th nakshatra from the Yogi's (counting it first) gives the Avayogi (its lord). | Seshadri Iyer, New Techniques of Predictions vol.2 (1970) pp.12-13; "Yogi Avayogi technique" (Iyer's method as taught by Hart deFouw, calculation of the point); K. Sutton, Personal Panchanga p.142 (the Yogi, Duplicate Yogi and Avayogi defined) |
+| 64th Navamsha (Moon / Ascendant) | the sign of the Moon's (or the Ascendant's) Navamsha, then its 4th sign (the same Navamsha in the 8th sign); Parashara reckons it from the Moon and the Ascendant (BPHS ch.20 v.99) | Raj Kumar, Charisma of Navamsha, section 4.7, printed pp.50-51; K.N. Rao, Pataki Rishta Chakra p.104 |
+| 22nd Drekkana (Ascendant / Moon) | the same-numbered Drekkana of the 8th sign: its sign is the D3 sign of (8th sign + the Drekkana's number); Jataka Parijata: "the 22nd drekkana from the lagna" | K.N. Rao, Pataki Rishta Chakra p.104; Role of Navamsa and Drekkana in Prediction p.10 (Jataka Parijata); D3_drekkana notes p.4 |
+| Sarpa Dreshkana | the planets in the 2nd and 3rd Drekkana of Cancer, the 1st and 2nd of Scorpio, the 3rd of Pisces (Taurus is listed by some, not by PL9: the sample's Mars at Taurus 19 is not printed) | K.N. Rao, Pataki Rishta Chakra p.104; BPHS (Girish Chand Sharma) vol.1 printed p.141 (its Taurus entry is illegible in the scan) |
