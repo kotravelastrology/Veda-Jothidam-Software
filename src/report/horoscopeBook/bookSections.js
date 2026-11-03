@@ -37,7 +37,7 @@ const { buildJaiminiSystem } = require('./jaiminiPage');
 const { buildKalachakraMain, buildKalachakraShort } = require('./kalachakraPages');
 
 const { buildVimshottariShort } = require('./vimshottariPages');
-const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults } = require('./extraPages');
+const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults } = require('./extraPages');
 
 const BOOK_SECTIONS = [
   { id: 'p1', title: 'Page 1 · Birth Particulars', build: buildPage1 },
@@ -141,6 +141,16 @@ const BOOK_SECTIONS = [
   { id: 'p97', title: 'Page 97 · Vimshottari (Short) AD and PD #5', build: (q) => buildVimshottariShort({ ...q, part: 4 }) },
   { id: 'p98', title: 'Page 98 · Yogini (Short) MD and AD #1', build: (q) => buildYoginiShort({ ...q, part: 0 }) },
   { id: 'p99', title: 'Page 99 · Yogini (Short) MD and AD #2', build: (q) => buildYoginiShort({ ...q, part: 1 }) },
+  // the antardasha results (extraPages.js): the HP1 print's per-antardasha text, from BPHS ch.52-60, a page for each mahadasha from birth
+  { id: 'p100', title: 'Page 100 · Antardasha Results #1', build: (q) => buildAntardashaResults({ ...q, index: 0 }) },
+  { id: 'p101', title: 'Page 101 · Antardasha Results #2', build: (q) => buildAntardashaResults({ ...q, index: 1 }) },
+  { id: 'p102', title: 'Page 102 · Antardasha Results #3', build: (q) => buildAntardashaResults({ ...q, index: 2 }) },
+  { id: 'p103', title: 'Page 103 · Antardasha Results #4', build: (q) => buildAntardashaResults({ ...q, index: 3 }) },
+  { id: 'p104', title: 'Page 104 · Antardasha Results #5', build: (q) => buildAntardashaResults({ ...q, index: 4 }) },
+  { id: 'p105', title: 'Page 105 · Antardasha Results #6', build: (q) => buildAntardashaResults({ ...q, index: 5 }) },
+  { id: 'p106', title: 'Page 106 · Antardasha Results #7', build: (q) => buildAntardashaResults({ ...q, index: 6 }) },
+  { id: 'p107', title: 'Page 107 · Antardasha Results #8', build: (q) => buildAntardashaResults({ ...q, index: 7 }) },
+  { id: 'p108', title: 'Page 108 · Antardasha Results #9', build: (q) => buildAntardashaResults({ ...q, index: 8 }) },
 ];
 
 /** The sections without their builders, for the print centre's list. */

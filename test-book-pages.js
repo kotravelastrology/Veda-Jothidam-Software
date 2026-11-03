@@ -189,5 +189,26 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     assert.ok(tiles.every((t) => t.columns.join() === 'Antar,Beginning' && t.rows.length === 8), id);
   }
 
+  // pages 100-108: the nine mahadashas from birth in the order they run, each with its nine antardashas read against BPHS ch.52-60
+  const CYCLE_TA = ['கேது', 'சுக்கிரன்', 'சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'ராகு', 'குரு', 'சனி', 'புதன்']; // the Vimshottari order
+  let firstAt = -1;
+  for (let i = 0; i < 9; i += 1) {
+    const id = `p${100 + i}`;
+    const page = await build(id);
+    const at = CYCLE_TA.findIndex((t) => page.blocks[0].heading.startsWith(`${t} மகாதசை — `));
+    assert.ok(at >= 0, `${id}: ${page.blocks[0].heading}`);
+    if (firstAt < 0) firstAt = at; // the page for the birth dasha names whichever lord rules it; each page after it is the next in the cycle
+    assert.equal(at, (firstAt + i) % 9, `${id}: the mahadashas run in the Vimshottari order`);
+    const lord = CYCLE_TA[at];
+    const tables = page.blocks.filter((b) => b.kind === 'table');
+    assert.equal(tables.length, 9, `${id}: nine antardashas`);
+    assert.ok(tables.every((t) => t.columns.length === 6 && t.rows.length >= 2 && t.rows.every((r) => r.length === 6 && /Chapter \d+ v\.[\d-]+, ப\.\d+$/.test(r[5]) && !/PDF/.test(r[5]))), `${id}: a book, chapter, verse and printed page on each row`);
+    assert.ok(tables.every((t) => t.heading.startsWith(`${lord} தசை — `) && /^\d\d-\d\d-\d{4} → \d\d-\d\d-\d{4}$|^பிறப்புக்கு முன் முடிந்தது$/.test(t.aside) && /வீட்டில் \(/.test(t.note)), id);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), id);
+  }
+  // the birth dasha's antardashas that ended before birth carry no dates
+  const undated = (await build('p100')).blocks.filter((b) => b.aside === 'பிறப்புக்கு முன் முடிந்தது').length;
+  assert.ok(undated > 0 && undated < 9, 'some, not all, of the antardashas of the birth dasha ended before birth');
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });

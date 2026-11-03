@@ -12,6 +12,8 @@
  *    sign (gemstones.js), side by side with where they agree; no gem is recommended.
  *  - Page 92, "Dasha results": the Vimshottari mahadasha running on the day of printing and the next one, with what BPHS ch.47 and ch.48 say of the
  *    dasha of that planet, each placement the book names marked as holding, not holding, or not checked (dashaEffects.js; no verdict).
+ *  - Pages 100-108, "Antardasha results": one page for each of the nine mahadashas from birth, with a table for each of its nine antardashas of what
+ *    BPHS ch.52-60 say of that antardasha in that dasha, each placement the book names marked the same way (antardashaEffects.js; no verdict).
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -22,9 +24,11 @@ const ST = require('../saturnTransitTables');
 const { gemReading } = require('../gemstones');
 const GT = require('../gemstoneTables');
 const DE = require('../dashaEffects');
+const AE = require('../antardashaEffects');
 const { buildVimshottariDasha } = require('../../dasha/vimshottariDasha');
 const { planetLongitude } = require('../../ephemeris/siderealPositions');
-const { PLANET_TA } = require('../../sources/tamilNames');
+const { PLANET_TA, RASI_TA } = require('../../sources/tamilNames');
+const { treeFor, listChildren, dmy: dmyLocal } = require('./vimshottariPages');
 
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 /** citeTa's line for a book title (and author) and a page locus; the locus is set by assignment, as the engines' own `pageLocus` literals are the citation scanner's to read. */
@@ -176,12 +180,38 @@ const TAG_TA = {
   CONJ_MALEFIC: 'பாபருடன் சேர்க்கை', BENEFIC_CONJ: 'சுபருடன் சேர்க்கை', WANING: 'தேய்பிறைச் சந்திரன்', STRONG_VARGA: 'வர்க்க பலம்',
   BENEFIC_NAVAMSA: 'சுப நவாம்சம்', OWN_NAVAMSA: 'சொந்த நவாம்சம்', EXALTED_NAVAMSA: 'உச்ச நவாம்சம்', FRIEND_SIGN: 'நட்பு வீடு', BENEFIC_SIGN: 'சுப வீடு',
   BENEFIC_ASPECT: 'சுபர் பார்வை', MALEFIC_ASPECT: 'பாபர் பார்வை', COMBUST: 'அஸ்தமனம்',
+  // the antardasha reading (ch.52-60)
+  ASPECT_BENEFIC: 'சுபர் பார்வை', ASPECT_MALEFIC: 'பாபர் பார்வை', CONJ_BENEFIC: 'சுபருடன் சேர்க்கை', CONJ_DL: 'தசாநாதனுடன் சேர்க்கை',
+  D_KENDRA: 'தசாநாதனிலிருந்து கேந்திரம்', D_TRIKONA: 'தசாநாதனிலிருந்து திரிகோணம்', D_AUSPICIOUS: 'தசாநாதனிலிருந்து நல்ல இடம்',
+  BENEFIC_D_1_9_KENDRA: 'தசாநாதனிலிருந்து 1, 9, கேந்திரத்தில் சுபர்', WAXING: 'வளர்பிறைச் சந்திரன்', STRENGTH: 'பலம்', WEAK: 'பலவீனம்',
+  YOGAKARAKA: 'யோககாரகன்', INAUSPICIOUS_PLACE: 'அசுப இடம்', DEEP_EXALTATION: 'பரம உச்சம்', CRUEL_NAVAMSA: 'கொடிய நவாம்சம்', ENEMY_SIGN: 'பகை வீடு',
+  FRIEND_NAVAMSA: 'நட்பு நவாம்சம்', WITH_FRIEND: 'நட்புக் கிரகத்துடன்', OWN_VARGA: 'சொந்த வர்க்கம்', NOT_EXALTED: 'உச்சத்தில் இல்லை',
+  NEITHER_EXALTED_NOR_DEBILITATED: 'உச்சமும் நீசமும் இல்லை', IN_MALEFIC_SIGN: 'பாப ராசி', WITH_DEBILITATED: 'நீசக் கிரகத்துடன்',
+  ASPECT_LORD_1_9_10: 'லக்ன, 9, 10-ஆம் அதிபதி பார்வை', DEBILITATED_NAVAMSA: 'நீச நவாம்சம்',
 };
-const tagTa = (tag) => TAG_TA[tag]
-  ?? (/^H(\d+)$/.test(tag) ? `${tag.slice(1)}-ஆம் வீடு` : /^LORD_(\d+)$/.test(tag) ? `${tag.slice(5)}-ஆம் அதிபதி` : /^WITH_LORD_(\d+)$/.test(tag) ? `${tag.slice(10)}-ஆம் அதிபதியுடன்` : tag);
-const KIND_TA = { fav: 'நல்ல பலன்', unfav: 'தீய பலன்', cond: 'நிபந்தனைப் பலன்', note: 'மொழிபெயர்ப்பாளர் குறிப்பு' };
+const tagTa = (tag) => {
+  let m;
+  if (TAG_TA[tag]) return TAG_TA[tag];
+  if ((m = /^H(\d+)$/.exec(tag))) return `${m[1]}-ஆம் வீடு`;
+  if ((m = /^D(\d+)$/.exec(tag))) return `தசாநாதனிலிருந்து ${m[1]}-ஆம் வீடு`;
+  if ((m = /^LORD_(\d+)$/.exec(tag))) return `${m[1]}-ஆம் அதிபதி`;
+  if ((m = /^WITH_LORD_(\d+)$/.exec(tag))) return `${m[1]}-ஆம் அதிபதியுடன்`;
+  if ((m = /^SIGN_(\d+)$/.exec(tag))) return RASI_TA[Number(m[1])];
+  if ((m = /^WITH_([A-Z][a-z]+)$/.exec(tag))) return `${PLANET_TA[m[1]] ?? m[1]} சேர்க்கை`;
+  if ((m = /^ASPECT_([A-Z][a-z]+)$/.exec(tag))) return `${PLANET_TA[m[1]] ?? m[1]} பார்வை`;
+  return tag;
+};
+const KIND_TA = { fav: 'நல்ல பலன்', unfav: 'தீய பலன்', mixed: 'கலப்புப் பலன்', remedy: 'பரிகாரம்', cond: 'நிபந்தனைப் பலன்', note: 'மொழிபெயர்ப்பாளர் குறிப்பு' };
 const tags = (list) => list.map(tagTa).join(', ') || '—';
 const nullToDash = (x) => x || '—';
+
+/** The chart as the dasha-effects engines take it: the Lagna sign, each planet's sign and degree in it, and whether the Moon is waning. */
+function chartFacts(chart) {
+  const signs = Object.fromEntries(GT.PLANETS.concat(['Rahu', 'Ketu']).map((g) => [g, chart.grahas[g].rasiIndex]));
+  const degrees = Object.fromEntries(Object.keys(signs).map((g) => [g, chart.grahas[g].longitude % 30]));
+  const elongation = (((chart.grahas.Moon.longitude - chart.grahas.Sun.longitude) % 360) + 360) % 360;
+  return { lagnaSign: Math.floor(chart.lagna.longitude / 30), signs, degrees, moonWaning: elongation >= 180 };
+}
 
 /** Page 92: the BPHS ch.47-48 reading of the Vimshottari mahadasha running on `atMs` and of the next, against the chart. */
 async function buildDashaResults({ name = '', birth, dashaOptions, atMs = Date.now() }) {
@@ -194,10 +224,7 @@ async function buildDashaResults({ name = '', birth, dashaOptions, atMs = Date.n
     const nowJd = atMs / 86400000 + 2440587.5;
     let at = tree.dashas.findIndex((d) => d.startJulianDay <= nowJd && nowJd < d.endJulianDay);
     if (at < 0) at = nowJd < tree.dashas[0].startJulianDay ? 0 : tree.dashas.length - 1;
-    const signs = Object.fromEntries(GT.PLANETS.concat(['Rahu', 'Ketu']).map((g) => [g, chart.grahas[g].rasiIndex]));
-    const degrees = Object.fromEntries(Object.keys(signs).map((g) => [g, chart.grahas[g].longitude % 30]));
-    const elongation = (((chart.grahas.Moon.longitude - chart.grahas.Sun.longitude) % 360) + 360) % 360;
-    const facts = { lagnaSign: Math.floor(chart.lagna.longitude / 30), signs, degrees, moonWaning: elongation >= 180 };
+    const facts = chartFacts(chart);
     const dateOf = (jd) => dmy(new Date((jd - 2440587.5) * 86400000).toISOString(), off);
     const cite = (source, page) => located(source.title, `printed p.${page}`, source.author);
     const blocks = [{
@@ -229,4 +256,36 @@ async function buildDashaResults({ name = '', birth, dashaOptions, atMs = Date.n
   });
 }
 
-module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults };
+/**
+ * Pages 100-108: the antardashas of the `index`-th mahadasha from birth (0 to 8) against what BPHS ch.52-60 say of each, in the order the
+ * mahadasha runs them. An antardasha that ended before birth has no dates. Each placement the book names is marked as holding, not holding
+ * or not checked; no verdict.
+ */
+async function buildAntardashaResults({ name = '', birth, dashaOptions, index }) {
+  const { tree, chart } = await treeFor(birth, dashaOptions, 2);
+  const md = tree.dashas[index];
+  const facts = chartFacts(chart);
+  const source = AE.FIXTURE.source;
+  const chapter = AE.FIXTURE.chapters[md.lord];
+  const cite = (x) => located(source.title, `Chapter ${chapter} v.${x.verses.replace(/^(\d+)-\1$/, '$1')}, printed p.${x.page}`, source.author);
+  const blocks = [{
+    kind: 'text',
+    heading: `${PLANET_TA[md.lord] ?? md.lord} மகாதசை — ${dmyLocal(md.startLocal)} முதல் ${dmyLocal(md.endLocal)} வரை · உப-தசைப் பலன்கள் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். ${chapter})`,
+    text: 'இந்த மகாதசையின் ஒவ்வொரு புக்தியைப் பற்றியும் நூல் சொல்லும் இடங்களை ஜாதகத்தோடு ஒப்பிடுகிறோம். நூல் எத்தனை நிபந்தனைகள் பொருந்த வேண்டும் என்று சொல்லவில்லை; எனவே எவை பொருந்துகின்றன, எவை பொருந்தவில்லை, எவற்றை இங்கே சோதிக்கவில்லை என்று மட்டும் காட்டுகிறோம் — தீர்ப்பு இல்லை. "தசாநாதனிலிருந்து" என்பது இந்த மகாதசையின் அதிபதியிலிருந்து எண்ணுவது; மற்றவை லக்னத்திலிருந்து.',
+  }];
+  for (const { lord, node } of listChildren(md, 'Bhukti')) {
+    const e = AE.antardashaEffects(md.lord, lord, facts);
+    const place = `${PLANET_TA[lord] ?? lord} ஜாதகத்தில் ${e.house}-ஆம் வீட்டில் (${RASI_TA[e.sign]})${e.houseFromDasaLord ? `, தசாநாதனிலிருந்து ${e.houseFromDasaLord}-ஆம் வீடு` : ''}`;
+    blocks.push({
+      kind: 'table',
+      heading: `${PLANET_TA[md.lord] ?? md.lord} தசை — ${PLANET_TA[lord] ?? lord} புக்தி`,
+      aside: node ? `${dmyLocal(node.startLocal)} → ${dmyLocal(node.endLocal)}` : 'பிறப்புக்கு முன் முடிந்தது',
+      columns: ['வகை', 'நூல் சொல்வது', 'பொருந்தும்', 'பொருந்தாதவை', 'சோதிக்கவில்லை', 'நூல்'],
+      rows: e.sections.map((x) => [KIND_TA[x.kind] ?? x.kind, x.ta, tags(x.held), tags(x.failed), tags(x.unknown), cite(x)]),
+      note: place,
+    });
+  }
+  return { ...head(name, birth), blocks };
+}
+
+module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults };
