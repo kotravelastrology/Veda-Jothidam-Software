@@ -16,6 +16,10 @@
  *    BPHS ch.52-60 say of that antardasha in that dasha, each placement the book names marked the same way (antardashaEffects.js; no verdict).
  *  - Pages 109-117, "Pratyantardasha results": the same nine mahadashas, a table for each antardasha with its nine pratyantardashas, their dates, and what BPHS
  *    ch.61 says of each (the same 81 entries in every mahadasha), with where the antardasha lord stands (antardashaEffects.js; no verdict).
+ *  - Pages 118-121, "Sookshma results": the thirty-six pratyantardashas from the one running on the day of printing (the same as pages 30-32), nine to a page, each
+ *    with its nine sookshma dashas, their date-times, and what BPHS ch.62 says of each (antardashaEffects.js; no verdict).
+ *  - Pages 122-123, "Prana results": the nine prana dashas of each of eighteen sookshma dashas from the one running on the day of printing, their date-times, and what
+ *    BPHS ch.63 says of each (no verdict).
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -30,7 +34,7 @@ const AE = require('../antardashaEffects');
 const { buildVimshottariDasha } = require('../../dasha/vimshottariDasha');
 const { planetLongitude } = require('../../ephemeris/siderealPositions');
 const { PLANET_TA, RASI_TA } = require('../../sources/tamilNames');
-const { treeFor, listChildren, dmy: dmyLocal } = require('./vimshottariPages');
+const { treeFor, listChildren, dmy: dmyLocal, dmyHm } = require('./vimshottariPages');
 
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 /** citeTa's line for a book title (and author) and a page locus; the locus is set by assignment, as the engines' own `pageLocus` literals are the citation scanner's to read. */
@@ -326,4 +330,68 @@ async function buildPratyantarResults({ name = '', birth, dashaOptions, index })
   return { ...head(name, birth), blocks };
 }
 
-module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults };
+/** The index in `flat` of the period (`.node`) running at `asOf`; the first before birth, `span` from the end after the last one ends. */
+function runningIndex(flat, asOf, span) {
+  const jd = asOf.getTime() / 86400000 + 2440587.5;
+  const at = flat.findIndex((x) => x.node.startJulianDay <= jd && jd < x.node.endJulianDay);
+  if (at >= 0) return at;
+  return jd < flat[0].node.startJulianDay ? 0 : Math.max(0, flat.length - span);
+}
+
+/** One table of the nine sub-periods of `node`, each with its date-times, the book's effect (`look(outer, inner)`) and its citation. */
+function effectTable({ heading, node, childKey, look, chapter, source }) {
+  const rows = listChildren(node, childKey).map(({ lord, node: c }) => {
+    const e = look(node.lord, lord);
+    return [PLANET_TA[lord] ?? lord, c ? dmyHm(c.startLocal) : '—', c ? dmyHm(c.endLocal) : '—', e.ta, located(source.title, `Chapter ${chapter} v.${e.verse}, printed p.${e.page}`, source.author)];
+  });
+  return { kind: 'table', heading, aside: `${dmyHm(node.startLocal)} → ${dmyHm(node.endLocal)}`, columns: [childKey === 'Sookshma' ? 'சூக்ஷ்மம்' : 'பிராணம்', 'ஆரம்பம்', 'முடிவு', 'நூல் சொல்வது', 'நூல்'], rows };
+}
+
+/** Pages 118-121: nine of the thirty-six pratyantardashas from the one running on `asOf` (`part` 0 to 3), each with its nine sookshma dashas and BPHS ch.62's effect of each. */
+async function buildSookshmaResults({ name = '', birth, dashaOptions, part, asOf = new Date() }) {
+  const { tree } = await treeFor(birth, dashaOptions, 4);
+  const flat = [];
+  for (const md of tree.dashas) for (const ad of md.Bhukti || []) for (const pd of ad.Antara || []) flat.push({ md, ad, node: pd });
+  const first = runningIndex(flat, asOf, 36);
+  const source = AE.SOOKSHMA.source;
+  const g = AE.SOOKSHMA.general;
+  const slice = flat.slice(first + part * 9, first + part * 9 + 9);
+  const blocks = [{
+    kind: 'text',
+    heading: 'சூக்ஷ்ம தசைப் பலன்கள் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 62) — அச்சிடும் நாளில் நடப்பதிலிருந்து 36 பிரத்யந்தரங்கள் (பக்கங்கள் 30–32 போல)',
+    text: `நூல் ஒவ்வொரு பிரத்யந்தர-சூக்ஷ்ம ஜோடிக்கும் ஒரு பலனைத் தருகிறது; அது எல்லா மகாதசை-புக்தியிலும் ஒன்றே. ${g.method.ta} (${located(source.title, `Chapter 62 v.${g.method.verse}, printed p.${g.method.page}`, source.author)}.) ${g.note.ta} (${located(source.title, `Chapter 62 translator's note, printed p.${g.note.page}`, source.author)}.) நூல் இவற்றை எப்படி எடைபோடுவது என்று சொல்லவில்லை; எனவே தீர்ப்பு இல்லை.`,
+  }];
+  for (const { md, ad, node } of slice) {
+    blocks.push(effectTable({
+      heading: `${PLANET_TA[md.lord] ?? md.lord} தசை — ${PLANET_TA[ad.lord] ?? ad.lord} புக்தி — ${PLANET_TA[node.lord] ?? node.lord} பிரத்யந்தரம்`,
+      node, childKey: 'Sookshma', look: AE.sookshmaEffect, chapter: 62, source,
+    }));
+  }
+  return { ...head(name, birth), blocks };
+}
+
+/** Pages 122-123: nine of the eighteen sookshma dashas from the one running on `asOf` (`part` 0 or 1), each with its nine prana dashas and BPHS ch.63's effect of each. */
+async function buildPranaResults({ name = '', birth, dashaOptions, part, asOf = new Date() }) {
+  const { tree } = await treeFor(birth, dashaOptions, 5);
+  const flat = [];
+  for (const md of tree.dashas) for (const ad of md.Bhukti || []) for (const pd of ad.Antara || []) for (const sd of pd.Sookshma || []) flat.push({ md, ad, pd, node: sd });
+  const first = runningIndex(flat, asOf, 18);
+  const source = AE.PRANA.source;
+  const g = AE.PRANA.general;
+  const slice = flat.slice(first + part * 9, first + part * 9 + 9);
+  const blocks = [{
+    kind: 'text',
+    heading: 'பிராண தசைப் பலன்கள் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 63) — அச்சிடும் நாளில் நடக்கும் சூக்ஷ்மத்திலிருந்து 18 சூக்ஷ்மங்கள்',
+    text: `நூல் ஒவ்வொரு சூக்ஷ்ம-பிராண ஜோடிக்கும் ஒரு பலனைத் தருகிறது; அது எல்லா மேல்நிலைத் தசைகளிலும் ஒன்றே. ${g.method.ta} (${located(source.title, `Chapter 63 v.${g.method.verse}, printed p.${g.method.page}`, source.author)}.) ${g.rule.ta} (${located(source.title, `Chapter 63 v.${g.rule.verse}, printed p.${g.rule.page}`, source.author)}.) நூல் ஐந்தையும் எப்படி எடைபோடுவது என்று சொல்லவில்லை; எனவே தீர்ப்பு இல்லை.`,
+  }];
+  for (const { md, ad, pd, node } of slice) {
+    blocks.push(effectTable({
+      heading: `${PLANET_TA[md.lord] ?? md.lord} — ${PLANET_TA[ad.lord] ?? ad.lord} — ${PLANET_TA[pd.lord] ?? pd.lord} — ${PLANET_TA[node.lord] ?? node.lord} சூக்ஷ்மம்`,
+      node, childKey: 'Prana', look: AE.pranaEffect, chapter: 63, source,
+    }));
+  }
+  return { ...head(name, birth), blocks };
+}
+
+module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults };
+

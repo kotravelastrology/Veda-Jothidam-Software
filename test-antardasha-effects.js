@@ -169,4 +169,28 @@ assert.strictEqual(verse, 82);
 assert.ok(/^பிறருடன் வாக்குவாதம்/.test(A.pratyantarEffect('Sun', 'Sun').ta));
 assert.ok(/ஆடை/.test(A.pratyantarEffect('Venus', 'Venus').ta) && /மரண/.test(A.pratyantarEffect('Venus', 'Ketu').ta));
 
+// BPHS ch.62 (sookshma in pratyantar) and ch.63 (prana in sookshma): 81 entries each, v.2-82 in the book's order, the same at every higher level
+for (const [fx, look, first, lastP, name] of [[A.SOOKSHMA, A.sookshmaEffect, 770, 784, 'ch.62'], [A.PRANA, A.pranaEffect, 785, 798, 'ch.63']]) {
+  assert.ok(fx.source.title && fx.source.pageLocus && fx.scope && fx.general.method.ta.length > 20, name);
+  assert.deepStrictEqual(Object.keys(fx.pairs), ORDER, name);
+  let v = 1;
+  let last = first;
+  for (const outer of ORDER) {
+    assert.deepStrictEqual(Object.keys(fx.pairs[outer]), A.bookOrder(outer), `${name} ${outer}: the nine from the outer lord's own`);
+    for (const inner of A.bookOrder(outer)) {
+      const e = look(outer, inner);
+      v += 1;
+      assert.strictEqual(e.verse, v, `${name} ${outer}-${inner}: verse ${v}`);
+      assert.ok(e.page >= last && e.page <= lastP && e.ta.length > 10, `${name} ${outer}-${inner}`);
+      last = e.page;
+    }
+  }
+  assert.strictEqual(v, 82, name);
+}
+assert.ok(A.SOOKSHMA.general.note.ta.includes('பாப') && A.PRANA.general.rule.verse === 83 && A.PRANA.general.rule.page === 798);
+assert.ok(/^தாய்நாட்டை விட்டுச்/.test(A.sookshmaEffect('Sun', 'Sun').ta) && /சிவன் கோவில்/.test(A.sookshmaEffect('Venus', 'Venus').ta));
+assert.ok(/சிறந்த ஆடை/.test(A.pranaEffect('Mars', 'Mercury').ta) && /marria-/.test(A.pranaEffect('Mars', 'Mercury').ta));
+assert.strictEqual(A.sookshmaEffect('Venus', 'Ketu').verse, 82);
+assert.strictEqual(A.pranaEffect('Venus', 'Ketu').page, 798);
+
 console.log(`test-antardasha-effects: ${sections} sections of 81 antardashas; all assertions passed`);

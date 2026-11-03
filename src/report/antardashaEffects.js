@@ -20,6 +20,10 @@ const { navamshaSign } = require('./specialPoints');
 const FIXTURE = require('../../fixtures/dasha-effects/bphs-52-60.json');
 /** BPHS ch.61: the effect of each pratyantardasa lord in the antardasa of each lord (81 entries, the same in every mahadasha). */
 const PRATYANTAR = require('../../fixtures/dasha-effects/bphs-61.json');
+/** BPHS ch.62: the effect of each sookshma lord in the pratyantardasa of each lord (81 entries, the same in every mahadasha and antardasa). */
+const SOOKSHMA = require('../../fixtures/dasha-effects/bphs-62.json');
+/** BPHS ch.63: the effect of each prana lord in the sookshma dasa of each lord (81 entries, the same at every higher level). */
+const PRANA = require('../../fixtures/dasha-effects/bphs-63.json');
 
 const ORDER = Object.freeze(['Sun', 'Moon', 'Mars', 'Rahu', 'Jupiter', 'Saturn', 'Mercury', 'Ketu', 'Venus']);
 const SIGN_LORD = Object.freeze(['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter']);
@@ -107,5 +111,9 @@ function dashaAntardashas(dl, chart) {
 
 /** What ch.61 says of the pratyantardasa of `pd` in the antardasa of `ad`: { verse, page, ta }. */
 const pratyantarEffect = (ad, pd) => PRATYANTAR.pairs[ad]?.[pd];
+/** What ch.62 says of the sookshma dasa of `sd` in the pratyantardasa of `pd`: { verse, page, ta }. */
+const sookshmaEffect = (pd, sd) => SOOKSHMA.pairs[pd]?.[sd];
+/** What ch.63 says of the prana dasa of `pr` in the sookshma dasa of `sd`: { verse, page, ta }. */
+const pranaEffect = (sd, pr) => PRANA.pairs[sd]?.[pr];
 
-module.exports = { FIXTURE, PRATYANTAR, pratyantarEffect, ORDER, bookOrder, adFacts, antardashaEffects, dashaAntardashas };
+module.exports = { FIXTURE, PRATYANTAR, SOOKSHMA, PRANA, pratyantarEffect, sookshmaEffect, pranaEffect, ORDER, bookOrder, adFacts, antardashaEffects, dashaAntardashas };

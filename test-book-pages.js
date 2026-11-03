@@ -227,5 +227,34 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
   const dated = pr109.flatMap((t) => t.rows).filter((r) => r[1] !== '—');
   assert.ok(dated.length > 0 && dated.every((r) => /^\d\d-\d\d-\d{4}$/.test(r[1]) && /^\d\d-\d\d-\d{4}$/.test(r[2])));
 
+  // pages 118-121: nine of the thirty-six pratyantardashas from the one running now, each with its nine sookshma dashas read against BPHS ch.62
+  const pdNames = [];
+  for (let i = 0; i < 4; i += 1) {
+    const page = await build(`p${118 + i}`);
+    assert.ok(/அத். 62/.test(page.blocks[0].heading) && /Chapter 62 v\.1, ப\.770/.test(page.blocks[0].text) && /Chapter 62 translator's note, ப\.784/.test(page.blocks[0].text), `p${118 + i}`);
+    const tables = page.blocks.filter((b) => b.kind === 'table');
+    assert.equal(tables.length, 9, `p${118 + i}: nine pratyantardashas`);
+    assert.ok(tables.every((t) => t.columns.length === 5 && t.rows.length === 9 && t.rows.every((r) => /^\d\d-\d\d-\d{4} \d\d:\d\d$/.test(r[1]) && /^\d\d-\d\d-\d{4} \d\d:\d\d$/.test(r[2]) && /Chapter 62 v\.\d+, ப\.7[7-8]\d$/.test(r[4]) && r[3].length > 10)), `p${118 + i}: nine sookshma dashas with date-times and the book's effect`);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), `p${118 + i}`);
+    pdNames.push(...tables.map((t) => t.heading));
+  }
+  assert.equal(new Set(pdNames).size, 36, 'thirty-six different pratyantardashas over the four pages');
+  // pages 122-123: nine of the eighteen sookshma dashas from the one running now, each with its nine prana dashas read against BPHS ch.63
+  for (let i = 0; i < 2; i += 1) {
+    const page = await build(`p${122 + i}`);
+    assert.ok(/அத். 63/.test(page.blocks[0].heading) && /Chapter 63 v\.1, ப\.785/.test(page.blocks[0].text) && /Chapter 63 v\.83, ப\.798/.test(page.blocks[0].text), `p${122 + i}`);
+    const tables = page.blocks.filter((b) => b.kind === 'table');
+    assert.equal(tables.length, 9, `p${122 + i}: nine sookshma dashas`);
+    assert.ok(tables.every((t) => t.rows.length === 9 && t.rows.every((r) => /^\d\d-\d\d-\d{4} \d\d:\d\d$/.test(r[1]) && /Chapter 63 v\.\d+, ப\.(7[89]\d)$/.test(r[4]) && r[3].length > 10)), `p${122 + i}: nine prana dashas`);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), `p${122 + i}`);
+  }
+  // each prana table's dates run on from one prana dasha to the next and fill its sookshma dasha
+  const pr122 = (await build('p122')).blocks.filter((b) => b.kind === 'table');
+  for (const t of pr122) {
+    assert.equal(t.rows[0][1], t.aside.split(' → ')[0], `${t.heading}: the first prana begins where the sookshma begins`);
+    assert.equal(t.rows[8][2], t.aside.split(' → ')[1], `${t.heading}: the last prana ends where the sookshma ends`);
+    for (let k = 1; k < 9; k += 1) assert.equal(t.rows[k][1], t.rows[k - 1][2], `${t.heading}: prana ${k} follows ${k - 1}`);
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });

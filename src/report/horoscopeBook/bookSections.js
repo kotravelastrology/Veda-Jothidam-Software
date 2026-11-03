@@ -37,7 +37,7 @@ const { buildJaiminiSystem } = require('./jaiminiPage');
 const { buildKalachakraMain, buildKalachakraShort } = require('./kalachakraPages');
 
 const { buildVimshottariShort } = require('./vimshottariPages');
-const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults } = require('./extraPages');
+const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults } = require('./extraPages');
 
 const BOOK_SECTIONS = [
   { id: 'p1', title: 'Page 1 · Birth Particulars', build: buildPage1 },
@@ -161,6 +161,12 @@ const BOOK_SECTIONS = [
   { id: 'p115', title: 'Page 115 · Pratyantardasha Results #7', build: (q) => buildPratyantarResults({ ...q, index: 6 }) },
   { id: 'p116', title: 'Page 116 · Pratyantardasha Results #8', build: (q) => buildPratyantarResults({ ...q, index: 7 }) },
   { id: 'p117', title: 'Page 117 · Pratyantardasha Results #9', build: (q) => buildPratyantarResults({ ...q, index: 8 }) },
+  { id: 'p118', title: 'Page 118 · Sookshma Results #1', build: (q) => buildSookshmaResults({ ...q, part: 0 }) },
+  { id: 'p119', title: 'Page 119 · Sookshma Results #2', build: (q) => buildSookshmaResults({ ...q, part: 1 }) },
+  { id: 'p120', title: 'Page 120 · Sookshma Results #3', build: (q) => buildSookshmaResults({ ...q, part: 2 }) },
+  { id: 'p121', title: 'Page 121 · Sookshma Results #4', build: (q) => buildSookshmaResults({ ...q, part: 3 }) },
+  { id: 'p122', title: 'Page 122 · Prana Results #1', build: (q) => buildPranaResults({ ...q, part: 0 }) },
+  { id: 'p123', title: 'Page 123 · Prana Results #2', build: (q) => buildPranaResults({ ...q, part: 1 }) },
 ];
 
 /** The sections without their builders, for the print centre's list. */

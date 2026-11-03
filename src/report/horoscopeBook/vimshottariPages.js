@@ -151,4 +151,4 @@ async function buildVimshottariShort({ name = '', birth, dashaOptions, part }) {
   };
 }
 
-module.exports = { buildVimshottariShort, buildVimshottariDetail, buildVimshottariSookshma, ageText, listChildren, treeFor, dmy };
+module.exports = { buildVimshottariShort, buildVimshottariDetail, buildVimshottariSookshma, ageText, listChildren, treeFor, dmy, dmyHm };
