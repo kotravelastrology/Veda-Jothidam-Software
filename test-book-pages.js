@@ -210,5 +210,22 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
   const undated = (await build('p100')).blocks.filter((b) => b.aside === 'பிறப்புக்கு முன் முடிந்தது').length;
   assert.ok(undated > 0 && undated < 9, 'some, not all, of the antardashas of the birth dasha ended before birth');
 
+  // pages 109-117: the same nine mahadashas, each antardasha with its nine pratyantardashas read against BPHS ch.61
+  for (let i = 0; i < 9; i += 1) {
+    const id = `p${109 + i}`;
+    const page = await build(id);
+    const head = (await build(`p${100 + i}`)).blocks[0].heading.split(' மகாதசை')[0];
+    assert.ok(page.blocks[0].heading.startsWith(`${head} மகாதசை — `) && /அத். 61/.test(page.blocks[0].heading), id);
+    const tables = page.blocks.filter((b) => b.kind === 'table');
+    assert.equal(tables.length, 9, `${id}: nine antardashas`);
+    assert.ok(tables.every((t) => t.rows.length === 9 && t.rows.every((r) => r.length === 5 && /Chapter 61 v\.\d+, ப\.7\d\d$/.test(r[4]) && r[3].length > 10)), `${id}: nine pratyantardashas, each with the book's effect`);
+    assert.ok(tables.every((t) => /திரிகோணத்தில் (உள்ளது|இல்லை)/.test(t.note)), id);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), id);
+  }
+  // the effect is the antardasha-and-pratyantardasha pair's, whatever the mahadasha: the same row text wherever the pair recurs
+  const pr109 = (await build('p109')).blocks.filter((b) => b.kind === 'table');
+  const dated = pr109.flatMap((t) => t.rows).filter((r) => r[1] !== '—');
+  assert.ok(dated.length > 0 && dated.every((r) => /^\d\d-\d\d-\d{4}$/.test(r[1]) && /^\d\d-\d\d-\d{4}$/.test(r[2])));
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });

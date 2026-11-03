@@ -17,7 +17,7 @@ for (const i of items) {
   assert.equal(i.pages, i.to - i.from + 1);
   next = i.to + 1;
 }
-const EXTRA = 20; // pages 89-92 (Mangala dosha, Sadhesati with remedies, gemstones, dasha results), 93-99 (the shorter print's Vimshottari and Yogini) and 100-108 (antardasha results)
+const EXTRA = 29; // pages 89-92 (Mangala dosha, Sadhesati with remedies, gemstones, dasha results), 93-99 (the shorter print's Vimshottari and Yogini) 100-108 (antardasha results) and 109-117 (pratyantardasha results)
 assert.equal(next, 89 + EXTRA, 'the catalogue ends after the extra pages');
 assert.equal(items.reduce((n, i) => n + i.pages, 0), 88 + EXTRA);
 

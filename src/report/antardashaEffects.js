@@ -18,6 +18,8 @@ const { facts, houseOf } = require('./dashaEffects');
 const { navamshaSign } = require('./specialPoints');
 
 const FIXTURE = require('../../fixtures/dasha-effects/bphs-52-60.json');
+/** BPHS ch.61: the effect of each pratyantardasa lord in the antardasa of each lord (81 entries, the same in every mahadasha). */
+const PRATYANTAR = require('../../fixtures/dasha-effects/bphs-61.json');
 
 const ORDER = Object.freeze(['Sun', 'Moon', 'Mars', 'Rahu', 'Jupiter', 'Saturn', 'Mercury', 'Ketu', 'Venus']);
 const SIGN_LORD = Object.freeze(['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Saturn', 'Jupiter']);
@@ -103,4 +105,7 @@ function dashaAntardashas(dl, chart) {
   return bookOrder(dl).map((ad) => antardashaEffects(dl, ad, chart));
 }
 
-module.exports = { FIXTURE, ORDER, bookOrder, adFacts, antardashaEffects, dashaAntardashas };
+/** What ch.61 says of the pratyantardasa of `pd` in the antardasa of `ad`: { verse, page, ta }. */
+const pratyantarEffect = (ad, pd) => PRATYANTAR.pairs[ad]?.[pd];
+
+module.exports = { FIXTURE, PRATYANTAR, pratyantarEffect, ORDER, bookOrder, adFacts, antardashaEffects, dashaAntardashas };

@@ -149,4 +149,24 @@ const merSun = A.antardashaEffects('Saturn', 'Mercury', { ...chart, signs: { ...
 assert.deepStrictEqual(pick(merSun, 'mixed', '12-13').held.filter((t) => t.startsWith('WITH_')), ['WITH_Sun']);
 
 assert.strictEqual(A.dashaAntardashas('Sun', chart).length, 9);
+// BPHS ch.61: one effect for each pair of antardasha and pratyantardasha lords, v.2-82 in the book's order, the same in every mahadasha
+const pr = A.PRATYANTAR;
+assert.ok(pr.source.title && pr.source.pageLocus && pr.scope && pr.general.rule.ta && pr.general.method.page === 742);
+assert.deepStrictEqual(Object.keys(pr.pairs), ORDER);
+let verse = 1;
+let lastPage = 743;
+for (const ad of ORDER) {
+  assert.deepStrictEqual(Object.keys(pr.pairs[ad]), A.bookOrder(ad), `${ad}: the nine pratyantardashas from the antardasha lord's own`);
+  for (const pd of A.bookOrder(ad)) {
+    const e = A.pratyantarEffect(ad, pd);
+    verse += 1;
+    assert.strictEqual(e.verse, verse, `${ad}-${pd}: verse ${verse}`);
+    assert.ok(e.page >= lastPage && e.page <= 769 && e.ta.length > 10, `${ad}-${pd}`);
+    lastPage = e.page;
+  }
+}
+assert.strictEqual(verse, 82);
+assert.ok(/^பிறருடன் வாக்குவாதம்/.test(A.pratyantarEffect('Sun', 'Sun').ta));
+assert.ok(/ஆடை/.test(A.pratyantarEffect('Venus', 'Venus').ta) && /மரண/.test(A.pratyantarEffect('Venus', 'Ketu').ta));
+
 console.log(`test-antardasha-effects: ${sections} sections of 81 antardashas; all assertions passed`);

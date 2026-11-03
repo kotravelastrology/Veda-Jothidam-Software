@@ -37,7 +37,7 @@ const { buildJaiminiSystem } = require('./jaiminiPage');
 const { buildKalachakraMain, buildKalachakraShort } = require('./kalachakraPages');
 
 const { buildVimshottariShort } = require('./vimshottariPages');
-const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults } = require('./extraPages');
+const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults } = require('./extraPages');
 
 const BOOK_SECTIONS = [
   { id: 'p1', title: 'Page 1 · Birth Particulars', build: buildPage1 },
@@ -151,6 +151,16 @@ const BOOK_SECTIONS = [
   { id: 'p106', title: 'Page 106 · Antardasha Results #7', build: (q) => buildAntardashaResults({ ...q, index: 6 }) },
   { id: 'p107', title: 'Page 107 · Antardasha Results #8', build: (q) => buildAntardashaResults({ ...q, index: 7 }) },
   { id: 'p108', title: 'Page 108 · Antardasha Results #9', build: (q) => buildAntardashaResults({ ...q, index: 8 }) },
+  // the pratyantardasha results (extraPages.js): BPHS ch.61, a page for each mahadasha from birth
+  { id: 'p109', title: 'Page 109 · Pratyantardasha Results #1', build: (q) => buildPratyantarResults({ ...q, index: 0 }) },
+  { id: 'p110', title: 'Page 110 · Pratyantardasha Results #2', build: (q) => buildPratyantarResults({ ...q, index: 1 }) },
+  { id: 'p111', title: 'Page 111 · Pratyantardasha Results #3', build: (q) => buildPratyantarResults({ ...q, index: 2 }) },
+  { id: 'p112', title: 'Page 112 · Pratyantardasha Results #4', build: (q) => buildPratyantarResults({ ...q, index: 3 }) },
+  { id: 'p113', title: 'Page 113 · Pratyantardasha Results #5', build: (q) => buildPratyantarResults({ ...q, index: 4 }) },
+  { id: 'p114', title: 'Page 114 · Pratyantardasha Results #6', build: (q) => buildPratyantarResults({ ...q, index: 5 }) },
+  { id: 'p115', title: 'Page 115 · Pratyantardasha Results #7', build: (q) => buildPratyantarResults({ ...q, index: 6 }) },
+  { id: 'p116', title: 'Page 116 · Pratyantardasha Results #8', build: (q) => buildPratyantarResults({ ...q, index: 7 }) },
+  { id: 'p117', title: 'Page 117 · Pratyantardasha Results #9', build: (q) => buildPratyantarResults({ ...q, index: 8 }) },
 ];
 
 /** The sections without their builders, for the print centre's list. */

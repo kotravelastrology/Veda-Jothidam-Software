@@ -14,6 +14,8 @@
  *    dasha of that planet, each placement the book names marked as holding, not holding, or not checked (dashaEffects.js; no verdict).
  *  - Pages 100-108, "Antardasha results": one page for each of the nine mahadashas from birth, with a table for each of its nine antardashas of what
  *    BPHS ch.52-60 say of that antardasha in that dasha, each placement the book names marked the same way (antardashaEffects.js; no verdict).
+ *  - Pages 109-117, "Pratyantardasha results": the same nine mahadashas, a table for each antardasha with its nine pratyantardashas, their dates, and what BPHS
+ *    ch.61 says of each (the same 81 entries in every mahadasha), with where the antardasha lord stands (antardashaEffects.js; no verdict).
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -288,4 +290,40 @@ async function buildAntardashaResults({ name = '', birth, dashaOptions, index })
   return { ...head(name, birth), blocks };
 }
 
-module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults };
+/**
+ * Pages 109-117: the pratyantardashas of the `index`-th mahadasha from birth against BPHS ch.61, antardasha by antardasha. The book gives one
+ * effect for each pair of antardasha and pratyantardasha lords, the same in every mahadasha, and adds that the bad ones do not come if the
+ * antardasha lord is well placed; the page shows where that lord stands and gives no verdict.
+ */
+async function buildPratyantarResults({ name = '', birth, dashaOptions, index }) {
+  const { tree, chart } = await treeFor(birth, dashaOptions, 3);
+  const md = tree.dashas[index];
+  const facts = chartFacts(chart);
+  const source = AE.PRATYANTAR.source;
+  const cite = (x) => located(source.title, `Chapter 61 v.${x.verse}, printed p.${x.page}`, source.author);
+  const g = AE.PRATYANTAR.general;
+  const blocks = [{
+    kind: 'text',
+    heading: `${PLANET_TA[md.lord] ?? md.lord} மகாதசை — ${dmyLocal(md.startLocal)} முதல் ${dmyLocal(md.endLocal)} வரை · பிரத்யந்தர தசைப் பலன்கள் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 61)`,
+    text: `நூல் ஒவ்வொரு புக்தி-பிரத்யந்தர ஜோடிக்கும் ஒரு பலனைத் தருகிறது; அது எல்லா மகாதசையிலும் ஒன்றே. ${g.rule.ta} ${g.method.ta} புக்தி அதிபதி ஜாதகத்தில் நிற்கும் இடத்தை மட்டும் காட்டுகிறோம் — தீர்ப்பு இல்லை. ${cite(g.rule)}.`,
+  }];
+  for (const { lord, node: ad } of listChildren(md, 'Bhukti')) {
+    const house = DE.houseOf(facts.lagnaSign, facts.signs[lord]);
+    const place = `${PLANET_TA[lord] ?? lord} ஜாதகத்தில் ${house}-ஆம் வீட்டில் (${RASI_TA[facts.signs[lord]]}) — ${[1, 5, 9].includes(house) ? 'திரிகோணத்தில் உள்ளது' : 'திரிகோணத்தில் இல்லை'}${[1, 4, 7, 10].includes(house) ? ', கேந்திரத்தில் உள்ளது' : ''}`;
+    const rows = listChildren(ad ?? { lord, Antara: [] }, 'Antara').map(({ lord: pd, node }) => {
+      const e = AE.pratyantarEffect(lord, pd);
+      return [PLANET_TA[pd] ?? pd, node ? dmyLocal(node.startLocal) : '—', node ? dmyLocal(node.endLocal) : '—', e.ta, cite(e)];
+    });
+    blocks.push({
+      kind: 'table',
+      heading: `${PLANET_TA[md.lord] ?? md.lord} தசை — ${PLANET_TA[lord] ?? lord} புக்தி`,
+      aside: ad ? `${dmyLocal(ad.startLocal)} → ${dmyLocal(ad.endLocal)}` : 'பிறப்புக்கு முன் முடிந்தது',
+      columns: ['பிரத்யந்தரம்', 'ஆரம்பம்', 'முடிவு', 'நூல் சொல்வது', 'நூல்'],
+      rows,
+      note: place,
+    });
+  }
+  return { ...head(name, birth), blocks };
+}
+
+module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults };

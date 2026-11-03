@@ -83,8 +83,9 @@ const FAMILIES = [
     [null, 98, 99, 'யோகினி — தசை, புக்தி (சுருக்கம்)', 'Yogini (Short) MD and AD'],
   ] },
   // the HP1 print's per-antardasha results, from BPHS ch.52-60 (extraPages.js)
-  { key: 'antardasha', ta: 'புக்திப் பலன்கள் (பிருஹத் பராசரம்)', icon: '📖', tone: 'saffron', items: [
+  { key: 'antardasha', ta: 'புக்தி, பிரத்யந்தரப் பலன்கள் (பிருஹத் பராசரம்)', icon: '📖', tone: 'saffron', items: [
     [null, 100, 108, 'புக்திப் பலன்கள் — ஒவ்வொரு மகாதசைக்கும் ஒரு பக்கம் (பிருஹத் பராசரம், அத். 52–60)', 'Antardasha Results'],
+    [null, 109, 117, 'பிரத்யந்தரப் பலன்கள் — ஒவ்வொரு மகாதசைக்கும் ஒரு பக்கம் (பிருஹத் பராசரம், அத். 61)', 'Pratyantardasha Results'],
   ] },
 ];
 
