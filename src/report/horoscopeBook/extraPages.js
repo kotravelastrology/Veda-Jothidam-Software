@@ -27,6 +27,8 @@
  *  - Page 128, "Yogas leading to asceticism": BPHS ch.79's yogas read against the chart (pravrajyaYoga.js) with the order each names; strength and combustion are not checked.
  *  - Page 129, "Propitiation of the planets": how BPHS ch.84 says each planet is to be propitiated (idol, mantra, havana wood, food, gift), with the running dasha for reference;
  *    the book names no planet for a chart and none is chosen.
+ *  - Page 130, "Ashtakavarga: Saturn's transit": BPHS ch.70's rule for each planet (the house, its rekhas times the Yoga Pinda, divided by 27 and 12) worked on the chart, the nakshatras
+ *    and signs of Saturn's transit that follow and what the book says is harmed (ashtakavargaEffects.js).
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -40,12 +42,13 @@ const DE = require('../dashaEffects');
 const AE = require('../antardashaEffects');
 const { buildVimshottariDasha } = require('../../dasha/vimshottariDasha');
 const { planetLongitude } = require('../../ephemeris/siderealPositions');
-const { PLANET_TA, RASI_TA } = require('../../sources/tamilNames');
+const { PLANET_TA, RASI_TA, NAKSHATRA_TA } = require('../../sources/tamilNames');
 const { treeFor, listChildren, dmy: dmyLocal, dmyHm } = require('./vimshottariPages');
 const KP = require('./kalachakraPages');
 const KE = require('../kalachakraEffects');
 const J = require('../janmaDosha');
 const PY = require('../pravrajyaYoga');
+const AV = require('../ashtakavargaEffects');
 const REM = require('../../../fixtures/remedies/bphs-84.json');
 const { WAR_ELIGIBLE_PLANETS, warWinner } = require('../../chart/planetaryWar');
 const K = require('../../dasha/kalachakraBphs');
@@ -589,7 +592,51 @@ async function buildPlanetRemedies({ name = '', birth, dashaOptions, asOf = new 
   };
 }
 
-module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies };
+/**
+ * Page 130, "Ashtakavarga: Saturn's transit": BPHS ch.70's rule for each of the seven planets, worked on the chart (ashtakavargaEffects.js): the house the book takes from the
+ * planet, its rekhas times the Yoga Pinda, the nakshatras and signs of Saturn's transit that follow, and what the book says is harmed. No verdict: the book says the harm
+ * reaches death only if the dasha then running is unfavourable.
+ */
+async function buildAshtakavargaEffects({ name = '', birth }) {
+  const eff = await withBirth(birth, ({ chart }) => AV.chartEffects(chart));
+  const source = AV.DATA.source;
+  const cite = (x) => located(source.title, `Chapter 70 v.${x.verses}, printed ${pagesText(x.page)}`, source.author);
+  const nak = (list) => list.map((n) => NAKSHATRA_TA[n - 1]).join(', ');
+  const sign = (list) => list.map((r) => RASI_TA[r - 1]).join(', ');
+  const rows = AV.PLANETS.map((p) => {
+    const e = eff[p];
+    const d = AV.DATA.planets[p];
+    const t = e.targets;
+    return [
+      `${PLANET_TA[p] ?? p} — ${d.matter}`,
+      `${d.house}-ஆம் வீடு: ${RASI_TA[e.sign]}`,
+      e.rekhas === 0 ? `0 ரேகை — நூல் இதற்கு விடை தரவில்லை` : `${e.rekhas} × ${e.yogaPinda} (${e.rashiPinda} + ${e.grahaPinda}) = ${t.product}`,
+      e.rekhas === 0 ? '—' : nak(t.nakshatras),
+      e.rekhas === 0 ? '—' : sign(t.rasis),
+      d.ta,
+      cite(d),
+    ];
+  });
+  return {
+    ...head(name, birth),
+    blocks: [
+      {
+        kind: 'text',
+        heading: 'அஷ்டகவர்க்கமும் சனியின் கோசாரமும் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 70)',
+        text: `${AV.DATA.matters.ta} (${cite(AV.DATA.matters)}.) ${AV.DATA.method.ta} (${cite(AV.DATA.method)}.) கீழே ஒவ்வொரு கிரகத்துக்கும் நூல் குறிக்கும் வீட்டின் ரேகைகள் (குறைப்புக்கு முன்), அக்கிரகத்தின் யோக பிண்டம் (ராசி பிண்டம் + கிரக பிண்டம்), பெருக்கல் ÷27, ÷12 மீதிகளால் வரும் நட்சத்திரம்-ராசி (அவற்றுடன் திரிகோணங்கள்) காட்டப்படுகின்றன; தீர்ப்பு இல்லை.`,
+      },
+      {
+        kind: 'table',
+        heading: 'சனி செல்லும் நட்சத்திரங்களும் ராசிகளும்',
+        columns: ['கிரகம் — பொருள்', 'நூல் குறிக்கும் வீடு', 'ரேகை × யோக பிண்டம்', 'சனி செல்லும் நட்சத்திரங்கள் (தானும் திரிகோணமும்)', 'சனி செல்லும் ராசிகள் (தானும் திரிகோணமும்)', 'நூல் சொல்வது', 'நூல்'],
+        rows,
+      },
+    ],
+  };
+}
+
+module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects };
+
 
 
 

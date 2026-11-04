@@ -323,5 +323,18 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
   }
 
+  // page 130: BPHS ch.70's Saturn-transit rule for the seven planets, worked on the sample's Ashtakavarga
+  {
+    const page = await build('p130');
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 70/.test(page.blocks[0].heading) && /Chapter 70 v\.1-6, ப\.881/.test(page.blocks[0].text) && /Chapter 70 v\.7-11, ப\.882-883/.test(page.blocks[0].text));
+    assert.equal(t.length, 1);
+    assert.deepEqual(t[0].rows.map((r) => r[0].split(' — ')[0]), ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி']);
+    assert.deepEqual(t[0].rows.map((r) => r[1].split('-')[0]), ['9', '4', '3', '4', '5', '7', '8']);
+    assert.ok(t[0].rows.every((r) => r.length === 7 && /Chapter 70 v\.[\d-]+, ப\.(88|89)\d/.test(r[6])));
+    assert.ok(t[0].rows.every((r) => /^\d \u00d7 \d+ \(\d+ \+ \d+\) = \d+$/.test(r[2]) && r[3].split(', ').length === 3 && r[4].split(', ').length === 3 || /^0 ரேகை/.test(r[2])));
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });
