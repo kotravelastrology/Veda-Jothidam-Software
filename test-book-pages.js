@@ -299,5 +299,17 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     }
   }
 
+  // page 128: the yogas leading to asceticism of BPHS ch.79, one row for each of the nine rules, each with its chapter, verses and printed page
+  for (const b of [birth, { ...birth, year: 2024, month: 3, day: 4, hour: 18, minute: 20 }]) {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p128').build({ name: 'x', birth: b, dashaOptions });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 79/.test(page.blocks[0].heading) && /தபஸ்வி/.test(page.blocks[0].text));
+    assert.equal(t.length, 1);
+    assert.equal(t[0].rows.length, 9);
+    assert.ok(t[0].rows.every((r) => r.length === 3 && /Chapter 79 v\.[\d-]+, ப\.9(4[89]|5[0-2])/.test(r[2]) && /^(உள்ளது|இல்லை|பகுதி|சோதிக்கப்படவில்லை)/.test(r[1])));
+    assert.equal(t[0].rows.filter((r) => /^சோதிக்கப்படவில்லை/.test(r[1])).length, 2);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });

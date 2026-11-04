@@ -24,6 +24,7 @@
  *    of each with what ch.64 says of each (kalachakraEffects.js); the book gives both for the Savya chakra only, so an Apsavya birth gets the book's rule and no table.
  *  - Page 127, "Inauspicious births": the births BPHS ch.85-96 call inauspicious (Amavasya, dark Chaturdashi, Bhadra, the three Gandantas, Abhukta Moola and others) read against
  *    the chart (janmaDosha.js), the effect the book gives and the book's remedy for each that holds; what the chart cannot say is listed and not checked.
+ *  - Page 128, "Yogas leading to asceticism": BPHS ch.79's yogas read against the chart (pravrajyaYoga.js) with the order each names; strength and combustion are not checked.
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -42,6 +43,8 @@ const { treeFor, listChildren, dmy: dmyLocal, dmyHm } = require('./vimshottariPa
 const KP = require('./kalachakraPages');
 const KE = require('../kalachakraEffects');
 const J = require('../janmaDosha');
+const PY = require('../pravrajyaYoga');
+const { WAR_ELIGIBLE_PLANETS, warWinner } = require('../../chart/planetaryWar');
 const K = require('../../dasha/kalachakraBphs');
 
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -499,7 +502,45 @@ async function buildJanmaDoshas({ name = '', birth }) {
   return { ...head(name, birth), blocks };
 }
 
-module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas };
+/**
+ * Page 128, "Yogas leading to asceticism": BPHS ch.79's yogas read against the chart (pravrajyaYoga.js), with the order the book names; strength, combustion and
+ * whether a Rajayoga is present are not checked, so no order is chosen and there is no verdict.
+ */
+async function buildPravrajyaYogas({ name = '', birth }) {
+  const facts = await withBirth(birth, ({ chart }) => {
+    const longitudes = Object.fromEntries(PY.PLANETS.map((p) => [p, chart.grahas[p].longitude]));
+    const wars = [];
+    for (let i = 0; i < WAR_ELIGIBLE_PLANETS.length; i += 1) {
+      for (let j = i + 1; j < WAR_ELIGIBLE_PLANETS.length; j += 1) {
+        const w = warWinner(WAR_ELIGIBLE_PLANETS[i], WAR_ELIGIBLE_PLANETS[j], longitudes, chart.julianDay);
+        if (w) wars.push([WAR_ELIGIBLE_PLANETS[i], WAR_ELIGIBLE_PLANETS[j], w]);
+      }
+    }
+    return { signs: Object.fromEntries(PY.PLANETS.map((p) => [p, chart.grahas[p].rasiIndex])), lagnaSign: chart.lagna.rasiIndex, moonLongitude: longitudes.Moon, wars };
+  });
+  const source = PY.DATA.source;
+  const cite = (r) => located(source.title, `Chapter 79 v.${r.verses}, printed ${pagesText(r.page)}`, source.author);
+  const label = { held: 'உள்ளது', 'not-held': 'இல்லை', unknown: 'பகுதி — முழுமையாகச் சோதிக்க இயலாது', 'not-checked': 'சோதிக்கப்படவில்லை' };
+  const rows = PY.evaluate(facts).map((r) => {
+    const rule = PY.byId[r.id];
+    const orders = r.orders ? ` நெறிகள்: ${[...new Set(r.orders)].map((p) => `${PLANET_TA[p] ?? p} — ${PY.DATA.orders[p]}`).join('; ')}.` : '';
+    return [rule.ta, `${label[r.status]} — ${r.detail}${orders}`, cite(rule)];
+  });
+  return {
+    ...head(name, birth),
+    blocks: [
+      {
+        kind: 'text',
+        heading: 'துறவுக்கு இட்டுச்செல்லும் யோகங்கள் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 79)',
+        text: `${PY.DATA.scope} ஏழு நெறிகளும் நூல் கூறியபடி: ${Object.entries(PY.DATA.orders).map(([p, o]) => `${PLANET_TA[p] ?? p} — ${o}`).join('; ')}.`,
+      },
+      { kind: 'table', heading: 'நூலின் விதிகள் — இந்த ஜாதகத்தில்', columns: ['நூல் சொல்வது', 'இந்த ஜாதகத்தில்', 'நூல்'], rows },
+    ],
+  };
+}
+
+module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas };
+
 
 
 

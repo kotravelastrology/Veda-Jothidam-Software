@@ -91,8 +91,9 @@ const FAMILIES = [
     [null, 124, 126, 'காலச்சக்ர தசை, புக்திப் பலன்கள் — சவ்ய சக்கரம் (பிருஹத் பராசரம், அத். 64–65)', 'Kalachakra Dasha Results'],
   ] },
   // the births BPHS ch.85-96 call inauspicious, with the book's remedies (janmaDosha.js)
-  { key: 'janma', ta: 'அசுபப் பிறப்புகள், பரிகாரங்கள் (பிருஹத் பராசரம்)', icon: '🕯️', tone: 'indigo', items: [
+  { key: 'janma', ta: 'அசுபப் பிறப்புகள், துறவு யோகம் (பிருஹத் பராசரம்)', icon: '🕯️', tone: 'indigo', items: [
     [null, 127, 127, 'அசுபப் பிறப்புகளும் நூல் கூறும் பரிகாரங்களும் (பிருஹத் பராசரம், அத். 85–96)', 'Inauspicious Births and Remedies'],
+    [null, 128, 128, 'துறவுக்கு இட்டுச்செல்லும் யோகங்கள் (பிருஹத் பராசரம், அத். 79)', 'Yogas Leading to Asceticism'],
   ] },
 ];
 
