@@ -311,5 +311,17 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
   }
 
+  // page 129: the propitiation of the planets, BPHS ch.84: nine planets in the book's order, each row with the chapter, verses and printed pages
+  {
+    const page = await build('p129');
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 84/.test(page.blocks[0].heading) && /Chapter 84 v\.26-27, ப\.1008/.test(page.blocks[0].text));
+    assert.equal(t.length, 1);
+    assert.deepEqual(t[0].rows.map((r) => r[0].replace(/ \(நடப்பு தசை\/புக்தி\)$/, '')), ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி', 'ராகு', 'கேது']);
+    assert.ok(t[0].rows.every((r) => r.length === 7 && /முறை$/.test(r[2]) && /Chapter 84 v\.3-14, ப\.1003-1005/.test(r[6]) && /v\.17-20, ப\.1006/.test(r[6]) && /v\.21-22, ப\.1007/.test(r[6])));
+    assert.ok(t[0].rows.some((r) => /நடப்பு தசை\/புக்தி/.test(r[0])), 'the running mahadasha lord is marked');
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });

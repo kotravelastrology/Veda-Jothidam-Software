@@ -25,6 +25,8 @@
  *  - Page 127, "Inauspicious births": the births BPHS ch.85-96 call inauspicious (Amavasya, dark Chaturdashi, Bhadra, the three Gandantas, Abhukta Moola and others) read against
  *    the chart (janmaDosha.js), the effect the book gives and the book's remedy for each that holds; what the chart cannot say is listed and not checked.
  *  - Page 128, "Yogas leading to asceticism": BPHS ch.79's yogas read against the chart (pravrajyaYoga.js) with the order each names; strength and combustion are not checked.
+ *  - Page 129, "Propitiation of the planets": how BPHS ch.84 says each planet is to be propitiated (idol, mantra, havana wood, food, gift), with the running dasha for reference;
+ *    the book names no planet for a chart and none is chosen.
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -44,6 +46,7 @@ const KP = require('./kalachakraPages');
 const KE = require('../kalachakraEffects');
 const J = require('../janmaDosha');
 const PY = require('../pravrajyaYoga');
+const REM = require('../../../fixtures/remedies/bphs-84.json');
 const { WAR_ELIGIBLE_PLANETS, warWinner } = require('../../chart/planetaryWar');
 const K = require('../../dasha/kalachakraBphs');
 
@@ -539,7 +542,55 @@ async function buildPravrajyaYogas({ name = '', birth }) {
   };
 }
 
-module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas };
+/**
+ * Page 129, "Propitiation of the planets": how BPHS ch.84 says each of the nine planets is to be propitiated (the idol and its form, the mantra and the number of
+ * its recitations, the wood for the havana, the food for Brahmins and the gift), with the Vimshottari mahadasha and antardasha running on the day of printing for
+ * reference. The book names no planet for a chart, only the one that causes adverse effects at any time; none is chosen here and nothing is claimed to work.
+ */
+async function buildPlanetRemedies({ name = '', birth, dashaOptions, asOf = new Date() }) {
+  const { tree } = await treeFor(birth, dashaOptions, 2);
+  const jd = asOf.getTime() / 86400000 + 2440587.5;
+  const md = tree.dashas.find((d) => d.startJulianDay <= jd && jd < d.endJulianDay);
+  const ad = md?.Bhukti?.find((b) => b.startJulianDay <= jd && jd < b.endJulianDay);
+  const source = REM.source;
+  const cite = (c) => located(source.title, `Chapter 84 v.${c.verses}, printed ${pagesText(c.page)}`, source.author);
+  const g = REM.general;
+  const running = md
+    ? `அச்சிடும் நாளில் நடப்பது: ${PLANET_TA[md.lord] ?? md.lord} மகாதசை${ad ? `, ${PLANET_TA[ad.lord] ?? ad.lord} புக்தி` : ''}. `
+    : '';
+  const rows = Object.keys(REM.planets).map((p) => {
+    const r = REM.planets[p];
+    const now = (md && md.lord === p) || (ad && ad.lord === p) ? ' (நடப்பு தசை/புக்தி)' : '';
+    return [
+      `${PLANET_TA[p] ?? p}${now}`,
+      `${r.idol}. ${r.form}`,
+      `${r.mantra} — ${r.count} முறை`,
+      r.wood,
+      r.food,
+      r.gift,
+      [REM.citations.idol, REM.citations.mantra, REM.citations.wood].map(cite).map((c, i) => (i ? c.replace(/^.*— /, '') : c)).join(' · '),
+    ];
+  });
+  return {
+    ...head(name, birth),
+    blocks: [
+      {
+        kind: 'text',
+        heading: 'கிரகங்களை அமைதிப்படுத்தும் வழிபாடு (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 84)',
+        text: `${g.why.ta} (${cite(g.why)}.) ${g.idols.ta} (${cite(g.idols)}.) ${g.offering.ta} (${cite(g.offering)}.) ${REM.havana.ta} (${cite(REM.havana)}.) ${g.which.ta} (${cite(g.which)}.) ${running}நூல் எந்த ஜாதகத்துக்கு எந்த கிரகம் என்று சொல்லவில்லை; இங்கு எந்தக் கிரகமும் தேர்ந்தெடுக்கப்படவில்லை, எதுவும் பலிக்கும் என்றும் கூறப்படவில்லை. உணவு, தானம் ஆகியவை அத். 84 v.23-25 (ப.1007).`,
+      },
+      {
+        kind: 'table',
+        heading: 'ஒன்பது கிரகங்களுக்கும் நூல் கூறுவது',
+        columns: ['கிரகம்', 'சிலையும் உருவமும்', 'மந்திரம் (தொடக்கம்), ஜப எண்ணிக்கை', 'ஹோம விறகு', 'அந்தணருக்கு உணவு', 'தானம்', 'நூல்'],
+        rows,
+      },
+    ],
+  };
+}
+
+module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies };
+
 
 
 

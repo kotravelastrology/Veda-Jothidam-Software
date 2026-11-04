@@ -37,7 +37,7 @@ const { buildJaiminiSystem } = require('./jaiminiPage');
 const { buildKalachakraMain, buildKalachakraShort } = require('./kalachakraPages');
 
 const { buildVimshottariShort } = require('./vimshottariPages');
-const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas } = require('./extraPages');
+const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies } = require('./extraPages');
 
 const BOOK_SECTIONS = [
   { id: 'p1', title: 'Page 1 · Birth Particulars', build: buildPage1 },
@@ -172,6 +172,7 @@ const BOOK_SECTIONS = [
   { id: 'p126', title: 'Page 126 · Kalachakra Dasha Results #3', build: (q) => buildKalachakraResults({ ...q, part: 2 }) },
   { id: 'p127', title: 'Page 127 · Inauspicious Births and Remedies', build: buildJanmaDoshas },
   { id: 'p128', title: 'Page 128 · Yogas Leading to Asceticism', build: buildPravrajyaYogas },
+  { id: 'p129', title: 'Page 129 · Propitiation of the Planets', build: buildPlanetRemedies },
 ];
 
 /** The sections without their builders, for the print centre's list. */
