@@ -22,6 +22,8 @@
  *    BPHS ch.63 says of each (no verdict).
  *  - Pages 124-126, "Kalachakra dasha results": the twelve mahadashas from birth with what BPHS ch.65 says of the dasha of each sign in its Amsa, and the twelve antardashas
  *    of each with what ch.64 says of each (kalachakraEffects.js); the book gives both for the Savya chakra only, so an Apsavya birth gets the book's rule and no table.
+ *  - Page 127, "Inauspicious births": the births BPHS ch.85-96 call inauspicious (Amavasya, dark Chaturdashi, Bhadra, the three Gandantas, Abhukta Moola and others) read against
+ *    the chart (janmaDosha.js), the effect the book gives and the book's remedy for each that holds; what the chart cannot say is listed and not checked.
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -39,6 +41,7 @@ const { PLANET_TA, RASI_TA } = require('../../sources/tamilNames');
 const { treeFor, listChildren, dmy: dmyLocal, dmyHm } = require('./vimshottariPages');
 const KP = require('./kalachakraPages');
 const KE = require('../kalachakraEffects');
+const J = require('../janmaDosha');
 const K = require('../../dasha/kalachakraBphs');
 
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -457,6 +460,46 @@ async function buildKalachakraResults({ name = '', birth, dashaOptions, part }) 
   return { ...head(name, birth), blocks };
 }
 
-module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults };
+/**
+ * Page 127, "Inauspicious births": the births BPHS ch.85-96 name as inauspicious although the Lagna and planets are well placed, each read against the chart
+ * (janmaDosha.js) with the effect the book gives, and the book's remedy for each that holds. What the chart cannot say is listed and not checked; no verdict.
+ */
+async function buildJanmaDoshas({ name = '', birth }) {
+  const facts = await J.janmaFacts(birth);
+  const results = J.evaluate(facts);
+  const source = J.DATA.source;
+  const cite = (x) => located(source.title, `Chapter ${x.ch} v.${x.verses}, printed ${pagesText(x.page)}`, source.author);
+  const label = { held: 'உள்ளது', 'not-held': 'இல்லை', unknown: 'தெரியவில்லை' };
+  const rows = results.map((r) => {
+    const c = J.byId[r.id];
+    const effect = r.status === 'held' && r.part && c.parts ? c.parts[r.part - 1] : [c.effect.ta, ...(c.parts ?? [])].join(' ');
+    const define = c.define ? `வரையறை (அத். ${c.define.ch} v.${c.define.verses}, ${pagesText(c.define.page).replace('pp.', 'ப.').replace('p.', 'ப.')}): ${c.define.ta} ` : '';
+    return [c.ta, `${label[r.status]} — ${r.detail}`, `${define}${effect}`, cite(c.effect)];
+  });
+  for (const u of J.DATA.unchecked) rows.push([u.ta, `சோதிக்கப்படவில்லை — ${u.reason}`, u.effect.ta, cite(u.effect)]);
+  const held = results.filter((r) => r.status === 'held');
+  const blocks = [
+    {
+      kind: 'text',
+      heading: 'அசுபப் பிறப்புகளும் அவற்றுக்கான பரிகாரங்களும் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 85–96)',
+      text: `${J.DATA.list.ta} (${cite({ ch: 85, verses: J.DATA.list.verses, page: J.DATA.list.page })}.) நாழிகை = 24 நிமிடம் எனக் கொள்ளப்பட்டது. நூல் தரும் பலன்களையும் பரிகாரங்களையும் மட்டும் காட்டுகிறோம்; தீர்ப்பு இல்லை, எந்தப் பரிகாரமும் பலிக்கும் என்று கூறப்படவில்லை.`,
+    },
+    { kind: 'table', heading: 'நூல் பெயரிடும் நிலைகள் — இந்த ஜாதகத்தில்', columns: ['நிலை', 'இந்த ஜாதகத்தில்', 'நூல் சொல்வது', 'நூல்'], rows },
+  ];
+  if (held.length) {
+    blocks.push({
+      kind: 'table',
+      heading: 'உள்ள நிலைகளுக்கு நூல் கூறும் பரிகாரங்கள்',
+      columns: ['நிலை', 'நூல் கூறும் பரிகாரம்', 'நூல்'],
+      rows: held.map((r) => { const c = J.byId[r.id]; return [c.ta, c.remedy.ta, cite(c.remedy)]; }),
+    });
+  } else {
+    blocks.push({ kind: 'text', heading: 'பரிகாரங்கள்', text: 'நூல் பெயரிடும் நிலைகளில் ஜாதகக் குறிப்பிலிருந்து சோதிக்கக்கூடிய எதுவும் இந்த ஜாதகத்தில் இல்லை; எனவே எந்தப் பரிகாரமும் இங்கு தரப்படவில்லை.' });
+  }
+  return { ...head(name, birth), blocks };
+}
+
+module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas };
+
 
 

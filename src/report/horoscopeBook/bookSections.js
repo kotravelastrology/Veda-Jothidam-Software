@@ -37,7 +37,7 @@ const { buildJaiminiSystem } = require('./jaiminiPage');
 const { buildKalachakraMain, buildKalachakraShort } = require('./kalachakraPages');
 
 const { buildVimshottariShort } = require('./vimshottariPages');
-const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults } = require('./extraPages');
+const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas } = require('./extraPages');
 
 const BOOK_SECTIONS = [
   { id: 'p1', title: 'Page 1 · Birth Particulars', build: buildPage1 },
@@ -170,6 +170,7 @@ const BOOK_SECTIONS = [
   { id: 'p124', title: 'Page 124 · Kalachakra Dasha Results #1', build: (q) => buildKalachakraResults({ ...q, part: 0 }) },
   { id: 'p125', title: 'Page 125 · Kalachakra Dasha Results #2', build: (q) => buildKalachakraResults({ ...q, part: 1 }) },
   { id: 'p126', title: 'Page 126 · Kalachakra Dasha Results #3', build: (q) => buildKalachakraResults({ ...q, part: 2 }) },
+  { id: 'p127', title: 'Page 127 · Inauspicious Births and Remedies', build: buildJanmaDoshas },
 ];
 
 /** The sections without their builders, for the print centre's list. */

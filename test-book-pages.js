@@ -282,5 +282,22 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     assert.ok(/அப்சவ்ய/.test(page.blocks[0].text) && /Chapter 64 v\.56-58, ப\.833-834/.test(page.blocks[0].text), id);
   }
 
+  // page 127: the inauspicious births of BPHS ch.85-96; the sample (5 Oct 1990) holds some and a Moola birth (4 March 2024, 18:20 IST) holds Abhukta Moola with its remedy
+  for (const [label, b, remedyFor] of [['sample', birth, null], ['moola', { ...birth, year: 2024, month: 3, day: 4, hour: 18, minute: 20, gender: 'female' }, 'அபுக்த மூலத்தில் பிறப்பு']]) {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p127').build({ name: 'x', birth: b, dashaOptions });
+    const tables = page.blocks.filter((t) => t.kind === 'table');
+    assert.ok(/அத். 85–96/.test(page.blocks[0].heading) && /Chapter 85 v\.1-4, ப\.1009/.test(page.blocks[0].text), label);
+    assert.equal(tables[0].rows.length, 15, `${label}: nine conditions and six not checked`);
+    assert.ok(tables[0].rows.every((r) => r.length === 4 && /Chapter \d+ v\.[\d-]+, ப\.10\d\d/.test(r[3]) && r[1].length > 5), label);
+    assert.equal(tables[0].rows.filter((r) => /^சோதிக்கப்படவில்லை/.test(r[1])).length, 6, label);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), label);
+    if (remedyFor) {
+      assert.ok(tables[0].rows.find((r) => r[0] === remedyFor && /^உள்ளது/.test(r[1])), 'Abhukta Moola holds');
+      assert.ok(tables[0].rows.find((r) => /திருமண உறவுகளுக்கான/.test(r[0]) && /^உள்ளது/.test(r[1])), 'Moola quarter 1-3 holds for a girl');
+      assert.equal(tables.length, 2);
+      assert.ok(tables[1].rows.find((r) => r[0] === remedyFor && /Chapter 93 v\.3-20, ப\.1029-1032/.test(r[2])), 'its remedy, with the chapter, verses and pages');
+    }
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });

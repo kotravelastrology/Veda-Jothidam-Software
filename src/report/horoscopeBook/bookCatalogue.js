@@ -90,6 +90,10 @@ const FAMILIES = [
     [null, 122, 123, 'பிராண தசைப் பலன்கள் — நடக்கும் சூக்ஷ்மத்திலிருந்து 18 சூக்ஷ்மங்கள் (பிருஹத் பராசரம், அத். 63)', 'Prana Results'],
     [null, 124, 126, 'காலச்சக்ர தசை, புக்திப் பலன்கள் — சவ்ய சக்கரம் (பிருஹத் பராசரம், அத். 64–65)', 'Kalachakra Dasha Results'],
   ] },
+  // the births BPHS ch.85-96 call inauspicious, with the book's remedies (janmaDosha.js)
+  { key: 'janma', ta: 'அசுபப் பிறப்புகள், பரிகாரங்கள் (பிருஹத் பராசரம்)', icon: '🕯️', tone: 'indigo', items: [
+    [null, 127, 127, 'அசுபப் பிறப்புகளும் நூல் கூறும் பரிகாரங்களும் (பிருஹத் பராசரம், அத். 85–96)', 'Inauspicious Births and Remedies'],
+  ] },
 ];
 
 /**
