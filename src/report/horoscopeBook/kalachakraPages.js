@@ -112,4 +112,4 @@ async function buildKalachakraShort({ name = '', birth, dashaOptions, part }) {
   };
 }
 
-module.exports = { buildKalachakraMain, buildKalachakraShort };
+module.exports = { buildKalachakraMain, buildKalachakraShort, setup, dmyOf };

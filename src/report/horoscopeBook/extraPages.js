@@ -20,6 +20,8 @@
  *    with its nine sookshma dashas, their date-times, and what BPHS ch.62 says of each (antardashaEffects.js; no verdict).
  *  - Pages 122-123, "Prana results": the nine prana dashas of each of eighteen sookshma dashas from the one running on the day of printing, their date-times, and what
  *    BPHS ch.63 says of each (no verdict).
+ *  - Pages 124-126, "Kalachakra dasha results": the twelve mahadashas from birth with what BPHS ch.65 says of the dasha of each sign in its Amsa, and the twelve antardashas
+ *    of each with what ch.64 says of each (kalachakraEffects.js); the book gives both for the Savya chakra only, so an Apsavya birth gets the book's rule and no table.
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -35,6 +37,9 @@ const { buildVimshottariDasha } = require('../../dasha/vimshottariDasha');
 const { planetLongitude } = require('../../ephemeris/siderealPositions');
 const { PLANET_TA, RASI_TA } = require('../../sources/tamilNames');
 const { treeFor, listChildren, dmy: dmyLocal, dmyHm } = require('./vimshottariPages');
+const KP = require('./kalachakraPages');
+const KE = require('../kalachakraEffects');
+const K = require('../../dasha/kalachakraBphs');
 
 const MONTH_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 /** citeTa's line for a book title (and author) and a page locus; the locus is set by assignment, as the engines' own `pageLocus` literals are the citation scanner's to read. */
@@ -393,5 +398,65 @@ async function buildPranaResults({ name = '', birth, dashaOptions, part, asOf = 
   return { ...head(name, birth), blocks };
 }
 
-module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults };
+/** 'p.835' for one page, 'pp.835-836' for a range, as the citation scanner reads a locus. */
+const pagesText = (p) => (String(p).includes('-') ? `pp.${p}` : `p.${p}`);
+
+/**
+ * Pages 124-126, "Kalachakra dasha results": page 124 the twelve mahadashas from birth with what BPHS ch.65 says of the dasha of each sign in its Amsa; pages 125-126 the
+ * twelve antardashas of six mahadashas each with what ch.64 says of each (kalachakraEffects.js). The book gives both for the Savya chakra only; for an Apsavya birth
+ * the pages say so and give the book's rule (ch.64 v.56-58). No verdict.
+ */
+async function buildKalachakraResults({ name = '', birth, dashaOptions, part }) {
+  const { k, facts, off, at } = await KP.setup(birth, dashaOptions, 12);
+  const s64 = KE.ANTARDASHA.source;
+  const s65 = KE.DASHA.source;
+  const where = `${k.chakra === 'savya' ? 'சவ்ய' : 'அப்சவ்ய'} சக்கர`;
+  const apsavya = KE.ANTARDASHA.general.apsavya;
+  const noTable = `இந்த ஜாதகத்தில் சந்திரன் நிற்கும் நட்சத்திரம் ${where}த்தைச் சேர்ந்தது. நூல் இந்தப் பலன்களை சவ்ய சக்கரத்துக்கு மட்டுமே தருகிறது; அப்சவ்யத்துக்கு அட்டவணை இல்லை. ${apsavya.ta} (${located(s64.title, `Chapter 64 v.${apsavya.verse}, printed ${pagesText(apsavya.page)}`, s64.author)}.) எனவே இங்கு பலன் எதுவும் தரப்படவில்லை.`;
+  const lead = {
+    kind: 'text',
+    heading: part === 0
+      ? 'காலச்சக்ர தசைப் பலன்கள் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 65) — முதல் 12 மகாதசைகள்'
+      : `காலச்சக்ர புக்திப் பலன்கள் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 64) — மகாதசைகள் ${part === 1 ? '1–6' : '7–12'}`,
+    text: k.chakra === 'savya'
+      ? (part === 0
+        ? `ஒவ்வொரு மகாதசைக்கும் நூல் அதன் அம்சத்தையும் (சந்திரன் நிற்கும் பாதத்தின் நவாம்சம்) வரிசையில் அதன் இடத்தையும் கொண்டு ஒரு பலன் தருகிறது. ${KE.DASHA.general.remedy.ta} (${located(s65.title, `Chapter 65 v.${KE.DASHA.general.remedy.verse}, printed ${pagesText(KE.DASHA.general.remedy.page)}`, s65.author)}.) தீர்ப்பு இல்லை.`
+        : `ஒவ்வொரு மகாதசையின் அம்சத்தில், புக்தி ராசியின் அதிபதி பெயரில் நூல் சொல்லும் பலன்கள் இவை. ${KE.ANTARDASHA.general.lords.ta} (${located(s64.title, `Chapter 64 translator's note, printed ${pagesText(KE.ANTARDASHA.general.lords.page)}`, s64.author)}.) நூல் சில அதிபதிகளுக்குப் பலன் சொல்லவில்லை; அங்கு "—" காட்டப்படுகிறது. புக்தி நாட்கள் பக்கம் 41-இன் கணக்கே (PL9 மாதிரி), அத். 64 v.1-இன் சமமற்ற அட்டவணை அல்ல. தீர்ப்பு இல்லை.`)
+      : noTable,
+  };
+  const blocks = [lead];
+  if (k.chakra === 'savya') {
+    if (part === 0) {
+      blocks.push({
+        kind: 'table',
+        heading: `அம்சம்: ${RASI_TA[k.mahas[0].amsa]} — தசைகள்`,
+        columns: ['தசை', 'ஆரம்பம்', 'முடிவு', 'அம்சம்-வரிசை', 'நூல் சொல்வது', 'நூல்'],
+        rows: k.mahas.map((m) => {
+          const e = KE.dashaEffect(m);
+          const cite = e ? located(s65.title, `Chapter 65 v.${e.verses}, printed ${pagesText(e.page)}`, s65.author) : '—';
+          return [`${RASI_TA[m.sign]} (${m.fullYears} ஆண்டு)`, KP.dmyOf(at(m.startYears), off), KP.dmyOf(at(m.endYears), off), e ? `${RASI_TA[m.amsa]} அம்சம், ${m.position}-ஆவது` : '—', e ? e.ta : 'அப்சவ்யம் — நூலில் இல்லை', cite];
+        }),
+      });
+    } else {
+      for (const m of k.mahas.slice((part - 1) * 6, (part - 1) * 6 + 6)) {
+        const rows = K.subPeriods(m, facts).map((a) => {
+          const e = KE.antardashaEffect(m, a.sign);
+          const cite = e.ta.length ? located(s64.title, `Chapter 64 v.${e.verses}, printed ${pagesText(e.page)}`, s64.author) : '—';
+          return [`${RASI_TA[a.sign]} (${PLANET_TA[e.lord] ?? e.lord})`, a.elapsed ? 'பிறப்புக்கு முன் முடிந்தது' : KP.dmyOf(at(a.startYears), off), a.elapsed ? '—' : KP.dmyOf(at(a.endYears), off), e.ta.length ? e.ta.join(' / ') : '—', cite];
+        });
+        blocks.push({
+          kind: 'table',
+          heading: `${RASI_TA[m.sign]} தசை — ${RASI_TA[m.amsa]} அம்சம்`,
+          aside: `${KP.dmyOf(at(m.startYears), off)} → ${KP.dmyOf(at(m.endYears), off)}`,
+          columns: ['புக்தி', 'ஆரம்பம்', 'முடிவு', 'நூல் சொல்வது', 'நூல்'],
+          rows,
+        });
+      }
+    }
+  }
+  return { ...head(name, birth), blocks };
+}
+
+module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults };
+
 

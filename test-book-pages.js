@@ -256,5 +256,31 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     for (let k = 1; k < 9; k += 1) assert.equal(t.rows[k][1], t.rows[k - 1][2], `${t.heading}: prana ${k} follows ${k - 1}`);
   }
 
+  // pages 124-126: the Kalachakra dasha's results from BPHS ch.65 (page 124) and ch.64 (pages 125-126); the sample is a Savya birth in Revati pada 3 (Aquarius Amsa)
+  const k124 = await build('p124');
+  assert.ok(/அத். 65/.test(k124.blocks[0].heading) && /Chapter 65 v\.32, ப\.841/.test(k124.blocks[0].text));
+  const kt = k124.blocks.filter((b) => b.kind === 'table');
+  assert.equal(kt.length, 1);
+  assert.equal(kt[0].rows.length, 12);
+  assert.ok(kt[0].rows.every((r) => r.length === 6 && /^\d\d-\d\d-\d{4}$/.test(r[1]) && /Chapter 65 v\.[\d½-]+, ப\.8[34]\d/.test(r[5]) && r[4].length > 5));
+  assert.deepEqual(kt[0].rows[0].slice(0, 5), ['ரிஷபம் (16 ஆண்டு)', '05-10-1990', '26-07-1991', 'கும்பம் அம்சம், 1-ஆவது', 'செல்வப் பெருக்கம்.']);
+  assert.equal(kt[0].rows[1][3], 'கும்பம் அம்சம், 2-ஆவது');
+  for (const [id, first] of [['p125', 'ரிஷபம் தசை — கும்பம் அம்சம்'], ['p126', null]]) {
+    const page = await build(id);
+    assert.ok(/அத். 64/.test(page.blocks[0].heading), id);
+    const tables = page.blocks.filter((b) => b.kind === 'table');
+    assert.equal(tables.length, 6, `${id}: six mahadashas`);
+    assert.ok(tables.every((t) => t.rows.length === 12 && t.rows.every((r) => r.length === 5 && /^[^\s]+ \([^)]+\)$/.test(r[0]) && (r[3] === '—' ? r[4] === '—' : /Chapter 64 v\.[\d-]+, ப\.8[23]\d/.test(r[4])))), `${id}: twelve antardashas, each with the book's effect or none`);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), id);
+    if (first) assert.equal(tables[0].heading, first);
+  }
+  // an Apsavya birth (15 October 1990, Moon in Mrigasira): the book gives no table for it, so the pages give its rule and no rows
+  const apsavyaBirth = { ...birth, day: 15 };
+  for (const id of ['p124', 'p125', 'p126']) {
+    const page = await BOOK_SECTIONS.find((s) => s.id === id).build({ name: 'x', birth: apsavyaBirth, dashaOptions });
+    assert.equal(page.blocks.length, 1, id);
+    assert.ok(/அப்சவ்ய/.test(page.blocks[0].text) && /Chapter 64 v\.56-58, ப\.833-834/.test(page.blocks[0].text), id);
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });

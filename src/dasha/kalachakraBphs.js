@@ -91,6 +91,8 @@ function kalachakraMahadashas(moonLongitude, count = 12) {
       mahas.push({
         sign: s, years: end - Math.max(start, 0), startYears: Math.max(start, 0), endYears: end,
         fullYears: years, ...(start < -1e-9 ? { fullStartYears: start } : {}),
+        // the pada whose sequence this sign belongs to: its Navamsha sign (BPHS ch.65 calls it the Amsa), the sign's place in the sequence, and the chakra
+        amsa: (at.nakshatra * 4 + at.pada - 1) % 12, position: index + 1, chakra: GROUP_OF[at.nakshatra].chakra,
       });
     }
     begin = end;
