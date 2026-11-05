@@ -30,6 +30,8 @@
  *  - Page 130, "Ashtakavarga: Saturn's transit": BPHS ch.70's rule for each planet (the house, its rekhas times the Yoga Pinda, divided by 27 and 12) worked on the chart, the nakshatras
  *    and signs of Saturn's transit that follow and what the book says is harmed (ashtakavargaEffects.js).
  *  - Page 131, "Panchamahapurusha yogas": the five yogas of BPHS ch.75 read against the chart (mahapurushaYoga.js) with the features the book gives for each that holds.
+ *  - Pages 132-133, "Sudarshana Chakra dasha": the twelve solar years from the one running on the day of printing and the twelve months of that year, the house that is the Ascendant of each
+ *    in each circle (Ascendant, Moon, Sun) and the facts BPHS ch.74 v.24-26 asks for (sudarshanaDasha.js; no verdict, the Ashtakavarga cross-check is not done).
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -51,6 +53,7 @@ const J = require('../janmaDosha');
 const PY = require('../pravrajyaYoga');
 const AV = require('../ashtakavargaEffects');
 const MP = require('../mahapurushaYoga');
+const SD = require('../sudarshanaDasha');
 const REM = require('../../../fixtures/remedies/bphs-84.json');
 const { WAR_ELIGIBLE_PLANETS, warWinner } = require('../../chart/planetaryWar');
 const K = require('../../dasha/kalachakraBphs');
@@ -671,7 +674,64 @@ async function buildMahapurushaYogas({ name = '', birth }) {
   };
 }
 
-module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
+/** Pages 132-133: the Sudarshana Chakra dasha of BPHS ch.74. `part` 0: the twelve solar years from the one running on `asOf`; `part` 1: the twelve months of that year. */
+async function buildSudarshanaDasha({ name = '', birth, part = 0, asOf = new Date() }) {
+  const facts = await withBirth(birth, ({ chart }) => ({
+    signs: { lagna: chart.lagna.rasiIndex, ...Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'].map((p) => [p, chart.grahas[p].rasiIndex])) },
+    sunLongitude: chart.grahas.Sun.longitude,
+    birthMs: Math.round((chart.julianDay - 2440587.5) * 86400000),
+  }));
+  const offset = birth.utcOffsetMinutes ?? 0;
+  const local = (ms) => dmyHm(new Date(ms + offset * 60000).toISOString().slice(0, 16).replace('T', ' '));
+  const source = SD.DATA.source;
+  const cite = (x) => located(source.title, `Chapter 74 v.${x.verses}, printed ${pagesText(x.page)}`, source.author);
+  const circles = SD.circlesOf(facts.signs);
+  const CIRCLE_TA = { lagna: 'லக்னம்', moon: 'சந்திரன்', sun: 'சூரியன்' };
+  const REF_KEY = { lagna: 'lagna', moon: 'Moon', sun: 'Sun' };
+  const tamilPlanets = (list) => (list.length ? list.map((x) => `${PLANET_TA[x.planet]} (${x.house})`).join(', ') : 'இல்லை');
+  const houses = (list) => (list.length ? list.join(', ') : 'இல்லை');
+  const reading = (n, ref) => {
+    const r = SD.readPeriod(facts.signs, SD.periodAscendant(ref, n));
+    return {
+      sign: r.ascSign,
+      text: `சுபர் 1, 4, 5, 7, 8, 9, 10-இல்: ${tamilPlanets(r.goodBenefics)} · பாவர் 3, 6, 11-இல்: ${tamilPlanets(r.maleficsIn3611)} · ராகு/கேது மட்டும் உள்ள வீடு: ${houses(r.nodesOnly)} · பாவர் மிகுந்த வீடு: ${houses(r.maleficMajority)} · 6 அல்லது 12-ஆம் வீட்டில் சுபர் உள்ள வீடு: ${houses(r.beneficsIn6Or12)}`,
+    };
+  };
+  const separate = circles.length === 3
+    ? 'இந்த ஜாதகத்தில் லக்னம், சந்திரன், சூரியன் மூவரும் வெவ்வேறு ராசிகளில் உள்ளனர்; எனவே மூன்று வட்டங்களும் படிக்கப்படுகின்றன.'
+    : 'இந்த ஜாதகத்தில் லக்னம், சூரியன், சந்திரன் ஆகியவற்றில் இருவர் அல்லது மூவர் ஒரே ராசியில் உள்ளனர்; எனவே நூல் சொல்வதுபோல் பிறப்பு ஜாதகம் (லக்னவட்டம்) மட்டுமே படிக்கப்படுகிறது.';
+  const running = SD.yearNumberAt(facts.birthMs, facts.sunLongitude, asOf.getTime());
+  const monthNote = part === 1
+    ? ' மாதத்தின் லக்னம் ஒவ்வொரு ஆண்டிலும் 1-ஆம் வீட்டிலிருந்து தொடங்குவதாக அச்சிட்ட ஆங்கிலம் கூறுவதால் அவ்வாறே கொள்ளப்பட்டது; சமஸ்கிருத வரிகள் இதைத் தெளிவுபடுத்தவில்லை. 2½ நாள் பிரத்யந்தரமும் 12½ நாழிகை விதசையும் இதே முறையில் வரும்; அவை பட்டியலிடப்படவில்லை.'
+    : '';
+  const blocks = [{
+    kind: 'text',
+    heading: part === 0
+      ? 'சுதர்சன சக்கர தசை — ஆண்டுகள் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 74) — அச்சிடும் நாளில் நடக்கும் ஆண்டிலிருந்து 12 ஆண்டுகள்'
+      : `சுதர்சன சக்கர தசை — ${running}-ஆம் ஆண்டின் 12 மாதங்கள் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 74)`,
+    text: `${SD.DATA.general.ta} (${cite(SD.DATA.general)}.) ${SD.DATA.dasha.ta} (${cite(SD.DATA.dasha)}.) ${SD.DATA.separate.ta} (${cite(SD.DATA.separate)}.) ${separate} ஆண்டும் மாதமும் சூரியனின் பிறந்த நிலையிலிருந்து கணிக்கப்பட்டவை: ஆண்டு = சூரியன் பிறப்பு பாகைக்குத் திரும்பும் வரை; மாதம் = சூரியன் 30° நகரும் வரை. கீழே நூல் கேட்கும் நிலைகள் (${cite(SD.DATA.favourable)}) ஒவ்வொரு காலத்துக்கும் பட்டியலிடப்படுகின்றன; அவற்றை எப்படி எடைபோடுவது என்று நூல் சொல்லவில்லை (வலிமை மிக்கது தீர்மானிக்கும் என்று மட்டும்), எனவே தீர்ப்பு இல்லை. நூலின் உதாரணத்தில்போல சந்திரனும் புதனும் சுபர்; சூரியன், செவ்வாய், சனி, ராகு, கேது பாவர். அஷ்டகவர்க்கத்தால் மறுசரிபார்த்தல் (${cite(SD.DATA.ashtakavarga)}) செய்யப்படவில்லை.${monthNote}`,
+  }];
+  const rows = [];
+  if (part === 0) {
+    for (const y of SD.yearBounds(facts.birthMs, facts.sunLongitude, running, 12)) {
+      for (const c of circles) {
+        const r = reading(y.year, facts.signs[REF_KEY[c.id]]);
+        rows.push([`${y.year}-ஆம் ஆண்டு (வயது ${y.year - 1}) · ${local(y.startMs)} முதல் ${local(y.endMs)} வரை`, CIRCLE_TA[c.id], `${RASI_TA[r.sign]} (${((y.year - 1) % 12) + 1}-ஆம் வீடு லக்னம்)`, r.text]);
+      }
+    }
+  } else {
+    for (const m of SD.monthBounds(facts.birthMs, facts.sunLongitude, running)) {
+      for (const c of circles) {
+        const r = reading(m.month, facts.signs[REF_KEY[c.id]]);
+        rows.push([`மாதம் ${m.month} · ${local(m.startMs)} முதல் ${local(m.endMs)} வரை`, CIRCLE_TA[c.id], `${RASI_TA[r.sign]} (${m.month}-ஆம் வீடு லக்னம்)`, r.text]);
+      }
+    }
+  }
+  blocks.push({ kind: 'table', heading: part === 0 ? 'ஆண்டுகள் — நூல் கேட்கும் நிலைகள்' : `${running}-ஆம் ஆண்டின் மாதங்கள் — நூல் கேட்கும் நிலைகள்`, columns: ['காலம்', 'வட்டம்', 'லக்னமாகும் ராசி', 'நிலைகள் (எண்கள் = அந்தக் காலத்தின் லக்னத்திலிருந்து வீடு)'], rows });
+  return { ...head(name, birth), blocks };
+}
+
+module.exports = { buildSudarshanaDasha, buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
 
 
 

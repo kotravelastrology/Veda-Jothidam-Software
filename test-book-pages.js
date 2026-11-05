@@ -349,5 +349,29 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), label);
   }
 
+  // pages 132-133: the Sudarshana Chakra dasha of BPHS ch.74; the sample has the Ascendant, Sun and Moon in three signs (three circles), 11 January 2024 17:30 IST (new Moon) has the Sun and Moon together (the birth chart alone)
+  {
+    const asOf = new Date('2026-11-05T00:00:00Z');
+    for (const [label, b, circles, run] of [['sample', birth, ['லக்னம்', 'சந்திரன்', 'சூரியன்'], 37], ['new moon', { ...birth, year: 2024, month: 1, day: 11, hour: 17, minute: 30 }, ['லக்னம்'], 3]]) {
+      const years = await BOOK_SECTIONS.find((s) => s.id === 'p132').build({ name: 'x', birth: b, dashaOptions, asOf });
+      const months = await BOOK_SECTIONS.find((s) => s.id === 'p133').build({ name: 'x', birth: b, dashaOptions, asOf });
+      for (const page of [years, months]) {
+        const t = page.blocks.filter((x) => x.kind === 'table');
+        assert.ok(/அத். 74/.test(page.blocks[0].heading) && /Chapter 74 v\.1-9, ப\.912-914/.test(page.blocks[0].text) && /Chapter 74 v\.24-26, ப\.921/.test(page.blocks[0].text), label);
+        assert.equal(t.length, 1, label);
+        assert.equal(t[0].rows.length, 12 * circles.length, label);
+        assert.ok(t[0].rows.every((r) => r.length === 4 && circles.includes(r[1]) && /^[^\d]+ \(\d+-ஆம் வீடு லக்னம்\)$/.test(r[2]) && /^சுபர் 1, 4, 5, 7, 8, 9, 10-இல்:/.test(r[3])), label);
+        assert.deepEqual([...new Set(t[0].rows.map((r) => r[1]))], circles, label);
+        assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), label);
+      }
+      // the running year on 5 November 2026 (36 years lived for the sample makes year 37 the 1st house again; 2 for the new-moon birth makes year 3 the 3rd); its months run from the 1st house
+      assert.ok(new RegExp(`^${run}-ஆம் ஆண்டு \\(வயது ${run - 1}\\)`).test(years.blocks[1].rows[0][0]) && new RegExp(`\\(${((run - 1) % 12) + 1}-ஆம் வீடு லக்னம்\\)`).test(years.blocks[1].rows[0][2]), label);
+      assert.ok(years.blocks[1].rows.every((r, i) => new RegExp(`^${run + Math.floor(i / circles.length)}-ஆம் ஆண்டு`).test(r[0])), label);
+      assert.ok(/^மாதம் 1 /.test(months.blocks[1].rows[0][0]) && /\(1-ஆம் வீடு லக்னம்\)/.test(months.blocks[1].rows[0][2]) && /\(12-ஆம் வீடு லக்னம்\)/.test(months.blocks[1].rows.at(-1)[2]), label);
+      assert.ok(new RegExp(`${run}-ஆம் ஆண்டின் 12 மாதங்கள்`).test(months.blocks[0].heading), label);
+      assert.ok(/பிறப்பு ஜாதகம் \(லக்னவட்டம்\) மட்டுமே/.test(years.blocks[0].text) === (circles.length === 1), label);
+    }
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });
