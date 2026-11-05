@@ -336,5 +336,18 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
   }
 
+  // page 131: the Panchamahapurusha yogas of BPHS ch.75; the sample holds none, 3 March 2024 09:00 IST holds Ruchaka (Mars exalted in the 10th), 17 January 2024 03:00 Sasa (Saturn own in the 4th)
+  for (const [label, b, held] of [['sample', birth, []], ['ruchaka', { ...birth, year: 2024, month: 3, day: 3, hour: 9, minute: 0 }, ['ருசகம்']], ['sasa', { ...birth, year: 2024, month: 1, day: 17, hour: 3, minute: 0 }, ['சசம்']]]) {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p131').build({ name: 'x', birth: b, dashaOptions });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 75/.test(page.blocks[0].heading) && /Chapter 75 v\.1-2, ப\.924/.test(page.blocks[0].text), label);
+    assert.equal(t[0].rows.length, 5, label);
+    assert.deepEqual(t[0].rows.map((r) => r[0].split(' ')[0]), ['ருசகம்', 'பத்ரம்', 'ஹம்சம்', 'மாளவ்யம்', 'சசம்'], label);
+    assert.ok(t[0].rows.every((r) => r.length === 4 && /Chapter 75 v\.[\d-]+, ப\.92[4-7]/.test(r[3])), label);
+    assert.deepEqual(t[0].rows.filter((r) => /^உள்ளது/.test(r[1])).map((r) => r[0].split(' ')[0]), held, label);
+    assert.ok(t[0].rows.every((r) => (/^உள்ளது/.test(r[1]) ? r[2].length > 80 : r[2] === '—')), `${label}: the features only for a yoga that holds`);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), label);
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });

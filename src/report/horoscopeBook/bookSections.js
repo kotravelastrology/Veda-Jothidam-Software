@@ -37,7 +37,7 @@ const { buildJaiminiSystem } = require('./jaiminiPage');
 const { buildKalachakraMain, buildKalachakraShort } = require('./kalachakraPages');
 
 const { buildVimshottariShort } = require('./vimshottariPages');
-const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects } = require('./extraPages');
+const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas } = require('./extraPages');
 
 const BOOK_SECTIONS = [
   { id: 'p1', title: 'Page 1 · Birth Particulars', build: buildPage1 },
@@ -174,6 +174,7 @@ const BOOK_SECTIONS = [
   { id: 'p128', title: 'Page 128 · Yogas Leading to Asceticism', build: buildPravrajyaYogas },
   { id: 'p129', title: 'Page 129 · Propitiation of the Planets', build: buildPlanetRemedies },
   { id: 'p130', title: "Page 130 · Ashtakavarga: Saturn's Transit", build: buildAshtakavargaEffects },
+  { id: 'p131', title: 'Page 131 · Panchamahapurusha Yogas', build: buildMahapurushaYogas },
 ];
 
 /** The sections without their builders, for the print centre's list. */

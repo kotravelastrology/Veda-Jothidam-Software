@@ -29,6 +29,7 @@
  *    the book names no planet for a chart and none is chosen.
  *  - Page 130, "Ashtakavarga: Saturn's transit": BPHS ch.70's rule for each planet (the house, its rekhas times the Yoga Pinda, divided by 27 and 12) worked on the chart, the nakshatras
  *    and signs of Saturn's transit that follow and what the book says is harmed (ashtakavargaEffects.js).
+ *  - Page 131, "Panchamahapurusha yogas": the five yogas of BPHS ch.75 read against the chart (mahapurushaYoga.js) with the features the book gives for each that holds.
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -49,6 +50,7 @@ const KE = require('../kalachakraEffects');
 const J = require('../janmaDosha');
 const PY = require('../pravrajyaYoga');
 const AV = require('../ashtakavargaEffects');
+const MP = require('../mahapurushaYoga');
 const REM = require('../../../fixtures/remedies/bphs-84.json');
 const { WAR_ELIGIBLE_PLANETS, warWinner } = require('../../chart/planetaryWar');
 const K = require('../../dasha/kalachakraBphs');
@@ -635,7 +637,42 @@ async function buildAshtakavargaEffects({ name = '', birth }) {
   };
 }
 
-module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects };
+/**
+ * Page 131, "Panchamahapurusha yogas": the five yogas of BPHS ch.75 read against the chart (mahapurushaYoga.js), with the features the book gives for the native of each yoga that
+ * holds. The chapter asks only that the planet be in its own or exalted sign and in a kendra; no verdict.
+ */
+async function buildMahapurushaYogas({ name = '', birth }) {
+  const facts = await withBirth(birth, ({ chart }) => ({
+    signs: Object.fromEntries(['Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].map((p) => [p, chart.grahas[p].rasiIndex])),
+    lagnaSign: chart.lagna.rasiIndex,
+  }));
+  const source = MP.DATA.source;
+  const cite = (x) => located(source.title, `Chapter 75 v.${x.verses}, printed ${pagesText(x.page)}`, source.author);
+  const dignityTa = { own: 'சொந்த ராசி', exalted: 'உச்ச ராசி' };
+  const YOGA_TA = { Ruchaka: 'ருசகம்', Bhadra: 'பத்ரம்', Hamsa: 'ஹம்சம்', Malavya: 'மாளவ்யம்', Sasa: 'சசம்' };
+  const rows = MP.evaluate(facts).map((r) => {
+    const y = MP.DATA.yogas[r.yoga];
+    const where = `${PLANET_TA[r.planet] ?? r.planet}: ${RASI_TA[r.sign]} ராசி, லக்னத்திலிருந்து ${r.house}-ஆம் வீடு`;
+    const why = r.status === 'held'
+      ? `${where}, ${dignityTa[r.dignity]}, கேந்திரம்.`
+      : `${where}; ${r.dignity ? 'கேந்திரம் அல்ல' : MP.KENDRA.includes(r.house) ? 'சொந்த-உச்ச ராசி அல்ல' : 'சொந்த-உச்ச ராசியும் அல்ல, கேந்திரமும் அல்ல'}.`;
+    return [`${YOGA_TA[r.yoga]} (${PLANET_TA[r.planet] ?? r.planet})`, `${r.status === 'held' ? 'உள்ளது' : 'இல்லை'} — ${why}`, r.status === 'held' ? y.ta : '—', cite(y)];
+  });
+  return {
+    ...head(name, birth),
+    blocks: [
+      {
+        kind: 'text',
+        heading: 'பஞ்சமகாபுருஷ யோகங்கள் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 75)',
+        text: `${MP.DATA.general.ta} (${cite(MP.DATA.general)}.) நூல் வேறு நிபந்தனை (கிரகத்தின் பலம், பார்வை, பாகை) கேட்கவில்லை; எனவே அதுவே சோதிக்கப்படுகிறது. யோகம் உள்ளவற்றுக்கு மட்டும் நூல் தரும் உடல்-குண அடையாளங்கள் காட்டப்படுகின்றன. நூலில் கூறப்படும் நாடுகள் பராசரர் காலத்தில் இருந்தவை; இப்போது அடையாளம் காண இயலாது என்று மொழிபெயர்ப்பாளர் குறிப்பிடுகிறார். தீர்ப்பு இல்லை.`,
+      },
+      { kind: 'table', heading: 'ஐந்து யோகங்கள் — இந்த ஜாதகத்தில்', columns: ['யோகம்', 'இந்த ஜாதகத்தில்', 'நூல் தரும் அடையாளங்கள்', 'நூல்'], rows },
+    ],
+  };
+}
+
+module.exports = { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
+
 
 
 
