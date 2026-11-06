@@ -33,6 +33,7 @@ const HOME_SECTIONS = [
       link('/planet-house', '📚', 'கிரகம் பாவத்தில்', 'Planets in houses'),
       link('/health', '🩺', 'ஆரோக்கியம்', 'Health (BPHS)'),
       link('/rectification', '⏱️', 'ஜனன கால திருத்தம்', 'Rectification'),
+      link('/nashta-jataka', '🧭', 'நஷ்ட ஜாதகம்', 'Lost horoscopy'),
     ],
   },
   {

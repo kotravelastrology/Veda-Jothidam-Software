@@ -37,7 +37,7 @@ const { buildJaiminiSystem } = require('./jaiminiPage');
 const { buildKalachakraMain, buildKalachakraShort } = require('./kalachakraPages');
 
 const { buildVimshottariShort } = require('./vimshottariPages');
-const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas, buildSudarshanaDasha, buildElementsGunas } = require('./extraPages');
+const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas, buildSudarshanaDasha, buildElementsGunas, buildAshtakavargaLongevity, buildSamudayaEffects } = require('./extraPages');
 
 const BOOK_SECTIONS = [
   { id: 'p1', title: 'Page 1 · Birth Particulars', build: buildPage1 },
@@ -178,6 +178,8 @@ const BOOK_SECTIONS = [
   { id: 'p132', title: 'Page 132 · Sudarshana Chakra Dasha: Years', build: (q) => buildSudarshanaDasha({ ...q, part: 0 }) },
   { id: 'p133', title: 'Page 133 · Sudarshana Chakra Dasha: Months', build: (q) => buildSudarshanaDasha({ ...q, part: 1 }) },
   { id: 'p134', title: 'Page 134 · Five Elements and Three Gunas', build: buildElementsGunas },
+  { id: 'p135', title: 'Page 135 · Ashtakavarga Longevity', build: buildAshtakavargaLongevity },
+  { id: 'p136', title: 'Page 136 · Samudaya Ashtakavarga', build: buildSamudayaEffects },
 ];
 
 /** The sections without their builders, for the print centre's list. */

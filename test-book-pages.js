@@ -392,5 +392,36 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
   }
 
+  // pages 135-136: the longevity of the eight Ashtakavargas (BPHS ch.71) and the Samudaya Ashtakavarga (ch.72); the sample's Sun Ashtakavarga gives 14 years 0 months 18 days 30 ghatikas, as the book's own chart does
+  {
+    const asOf = new Date('2026-11-05T00:00:00Z');
+    const longevity = await BOOK_SECTIONS.find((s) => s.id === 'p135').build({ name: 'x', birth, dashaOptions, asOf });
+    const t1 = longevity.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 71/.test(longevity.blocks[0].heading) && /Chapter 71 v\.1-4, ப\.895/.test(longevity.blocks[0].text) && /Chapter 71 worked example, ப\.896/.test(longevity.blocks[0].text));
+    assert.equal(t1.length, 1);
+    assert.deepEqual(t1[0].rows.slice(0, 8).map((r) => r[0]), ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி', 'லக்னம்']);
+    assert.ok(t1[0].rows.slice(0, 8).every((r) => r[1].split(' ').length === 12 && /^\d+ ஆண்டு \d+ மாதம் \d+ நாள் \d+ நாழிகை$/.test(r[2]) && /^\d+ ஆண்டு \d+ மாதம் \d+ நாள் \d+ நாழிகை$/.test(r[3])));
+    assert.equal(t1[0].rows[0][2], '14 ஆண்டு 0 மாதம் 18 நாள் 30 நாழிகை');
+    assert.equal(t1[0].rows[0][3], '7 ஆண்டு 0 மாதம் 9 நாள் 15 நாழிகை');
+    assert.equal(t1[0].rows[0][1].split(' ').reduce((a, b) => a + Number(b), 0), 48);
+    assert.equal(t1[0].rows[7][1].split(' ').reduce((a, b) => a + Number(b), 0), 49);
+    assert.equal(t1[0].rows[8][0], 'எட்டின் பாதிகளின் கூட்டு');
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(longevity)));
+
+    const samudaya = await BOOK_SECTIONS.find((s) => s.id === 'p136').build({ name: 'x', birth, dashaOptions, asOf });
+    const t2 = samudaya.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 72/.test(samudaya.blocks[0].heading) && /Chapter 72 v\.3-5, ப\.897-898/.test(samudaya.blocks[0].text) && /Chapter 72 v\.11-28, ப\.900-904/.test(samudaya.blocks[0].text));
+    assert.equal(t2.length, 4);
+    assert.deepEqual(t2.map((t) => t.rows.length), [12, 12, 4, 3]);
+    assert.equal(t2[0].rows.reduce((a, r) => a + Number(r[1]), 0), 386, 'the seven Bhinnashtakavargas and the Ascendant\'s');
+    assert.equal(t2[0].rows.filter((r) => /நடப்பு மாதம்/.test(r[3])).length, 1, 'the Sun is in one sign on the day of printing');
+    assert.ok(/^துலாம்/.test(t2[0].rows.find((r) => /நடப்பு மாதம்/.test(r[3]))[0]), 'the Sun is in Libra on 5 November 2026');
+    assert.ok(t2[0].rows.every((r) => r.length === 7 && /Chapter 72 v\.(11-28|29), ப\.(900-904|904)/.test(r[6])));
+    assert.ok(t2[0].rows.every((r) => (Number(r[1]) > 30 ? r[5] === '—' && /^30-க்கு மேல்/.test(r[4]) : r[5].length > 5)));
+    assert.ok(t2[2].rows.every((r) => r.length === 3) && t2[3].rows.every((r) => r.length === 4));
+    assert.deepEqual(t2[1].rows.map((r) => Number(r[1])), t2[0].rows.map((r) => Number(r[1])).slice(4).concat(t2[0].rows.map((r) => Number(r[1])).slice(0, 4)), 'the houses run from the Leo Lagna of the sample');
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(samudaya)));
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });

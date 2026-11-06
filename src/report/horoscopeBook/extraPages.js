@@ -34,6 +34,9 @@
  *    in each circle (Ascendant, Moon, Sun) and the facts BPHS ch.74 v.24-26 asks for (sudarshanaDasha.js; no verdict, the Ashtakavarga cross-check is not done).
  *  - Page 134, "Elements and gunas": the element and guna of each planet and the temperament and class that follow from the planet leading by each of the two BPHS Shadbala figures
  *    (BPHS ch.76-77, elementsGunas.js); the books name no measure of strength, so none is chosen.
+ *  - Page 135, "Ashtakavarga longevity": the span of life each of the eight Ashtakavargas gives by its rekhas and half their sum (BPHS ch.71, ashtakavargaLongevity.js).
+ *  - Page 136, "Samudaya Ashtakavarga": the aggregate rekhas read for the signs, houses, the wealth condition, the three parts of life and the month of the Sun in each sign with the
+ *    book's remedies (BPHS ch.72, samudayaEffects.js; nothing is claimed to work).
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -57,6 +60,9 @@ const AV = require('../ashtakavargaEffects');
 const MP = require('../mahapurushaYoga');
 const SD = require('../sudarshanaDasha');
 const EG = require('../elementsGunas');
+const AL = require('../ashtakavargaLongevity');
+const SE = require('../samudayaEffects');
+const { whenSunAt, sunLon } = require('../masaPravesha');
 const { calculateShadbala, SHADBALA_MINIMUM_VIRUPAS } = require('../../chart/shadbala');
 const REM = require('../../../fixtures/remedies/bphs-84.json');
 const { WAR_ELIGIBLE_PLANETS, warWinner } = require('../../chart/planetaryWar');
@@ -791,7 +797,106 @@ async function buildElementsGunas({ name = '', birth }) {
   };
 }
 
-module.exports = { buildElementsGunas, buildSudarshanaDasha, buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
+const ymdTa = (g) => `${g.years} ஆண்டு ${g.months} மாதம் ${g.days} நாள் ${g.ghatikas} நாழிகை`;
+
+/** Page 135: the longevity the eight Ashtakavargas give (BPHS ch.71). */
+async function buildAshtakavargaLongevity({ name = '', birth }) {
+  const rasi = await withBirth(birth, ({ chart }) => AL.rasiPositions(chart));
+  const r = AL.longevity(rasi);
+  const source = AL.DATA.source;
+  const cite = (x) => located(source.title, `Chapter 71 v.${x.verses}, printed ${pagesText(x.page)}`, source.author);
+  const CHART_TA = { Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்', Jupiter: 'குரு', Venus: 'சுக்கிரன்', Saturn: 'சனி', Lagna: 'லக்னம்' };
+  const rows = r.charts.map((c) => [CHART_TA[c.chart], c.rekhas.join(' '), ymdTa(AL.toYmd(c.span)), ymdTa(AL.toYmd(c.half))]);
+  rows.push(['எட்டின் பாதிகளின் கூட்டு', '', '', ymdTa(AL.toYmd(r.total))]);
+  return {
+    ...head(name, birth),
+    blocks: [
+      {
+        kind: 'text',
+        heading: 'அஷ்டகவர்க்க ஆயுள் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 71)',
+        text: `${AL.DATA.spans.ta} (${cite(AL.DATA.spans)}.) எடுக்கப்பட்ட ரேகைகள் குறைப்புக்கு (சோதனம்) முன்னுள்ள பின்னாஷ்டகவர்க்க எண்ணிக்கைகள்; நூல் எந்தக் குறைப்பையும் சொல்லவில்லை. லக்னத்தின் அஷ்டகவர்க்கம் இந்த மென்பொருளின் (சி.எஸ். படேல் அட்டவணை) தான். ஓராண்டு 12 மாதம், மாதம் 30 நாள், நாள் 60 நாழிகை (நூலின் சொந்த மொத்தங்கள் கூடும் அலகுகள்). நூலின் உதாரணத்தில் சூரியனின் ரேகைகள் மட்டுமே முழுமையாக உள்ளன (14 ஆண்டு 18 நாள் 30 நாழிகை, பாதி 7 ஆண்டு 9 நாள் 15 நாழிகை); அது சோதனையில் மீண்டும் வருகிறது (${located(source.title, `Chapter 71 worked example, printed p.${AL.DATA.example.page}`, source.author)}). இது இவர் எவ்வளவு காலம் வாழ்வார் என்று சொல்வதில்லை — வேறு முறைகளோடு ஒப்பிடுவதற்கான எண் மட்டும்; தீர்ப்பு இல்லை.`,
+      },
+      { kind: 'table', heading: 'எட்டு அஷ்டகவர்க்கங்களின் ஆயுள்', columns: ['அஷ்டகவர்க்கம்', 'ரேகைகள் (மேஷம் முதல் மீனம் வரை)', 'ராசிகளின் ஆயுள் கூட்டு', 'பாதி (நூலின் ஆயுள்)'], rows },
+    ],
+  };
+}
+
+/** The dates of the solar month in which the Sun is in `sign` (0-11): the one running on `asOf`, or the next. */
+function sunMonthOf(sign, asOfMs, offsetMinutes) {
+  const L0 = sunLon(asOfMs);
+  let rel = (((sign * 30 - L0) % 360) + 360) % 360;
+  if (rel > 330) rel -= 360;
+  const entry = whenSunAt(sign * 30, asOfMs + (rel / 0.9856) * 86400000);
+  const exit = whenSunAt(((sign + 1) * 30) % 360, entry + 30.4 * 86400000);
+  const f = (ms) => dmyLocal(new Date(ms + offsetMinutes * 60000).toISOString().slice(0, 10));
+  return { from: f(entry), to: f(exit), current: entry <= asOfMs && asOfMs < exit };
+}
+
+/** Page 136: the Samudaya Ashtakavarga of BPHS ch.72 read for the signs, houses, wealth condition, the three parts of life and the Sun's months. */
+async function buildSamudayaEffects({ name = '', birth, asOf = new Date() }) {
+  const facts = await withBirth(birth, ({ chart }) => ({
+    rasi: AL.rasiPositions(chart),
+    signs: Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'].map((p) => [p, chart.grahas[p].rasiIndex])),
+    lagnaSign: chart.lagna.rasiIndex,
+  }));
+  const offset = birth.utcOffsetMinutes ?? 0;
+  const sam = SE.samudaya(facts.rasi);
+  const counts = SE.houseCounts(sam, facts.lagnaSign);
+  const source = SE.DATA.source;
+  const cite = (x) => located(source.title, `Chapter 72 v.${x.verses}, printed ${pagesText(x.page)}`, source.author);
+  const BAND_TA = { favourable: 'நற்பலன் (30-க்கு மேல்)', medium: 'நடுத்தரம் (25–30)', adverse: 'தீய பலன் (25-க்குக் குறைவு)' };
+  const signRows = Array.from({ length: 12 }, (_, s) => {
+    const house = ((s - facts.lagnaSign + 12) % 12) + 1;
+    const b = SE.band(sam[s]);
+    const month = sunMonthOf(s, asOf.getTime(), offset);
+    const entry = SE.monthEntry(sam[s]);
+    const bandText = `${BAND_TA[b.band]}${b.exactly30 ? ' — சரியாக 30: செய்யுள் "30-க்கு மேல்" என்கிறது, நூலின் உதாரணம் 30-ஐ சாதகமாகக் கொள்கிறது' : ''}`;
+    return [
+      `${RASI_TA[s]} (${house}-ஆம் வீடு)`,
+      `${sam[s]}`,
+      bandText,
+      `${month.from} முதல் ${month.to} வரை${month.current ? ' (நடப்பு மாதம்)' : ''}`,
+      entry ? entry.effect : `${SE.DATA.above.ta}`,
+      entry ? entry.remedy : '—',
+      cite(entry ? SE.DATA.month : SE.DATA.above),
+    ];
+  });
+  const w = SE.wealthCondition(counts);
+  const yn = (x) => (x ? 'பொருந்துகிறது' : 'பொருந்தவில்லை');
+  const wealthRows = [
+    ['11-ஆம் வீடு 10-ஆம் வீட்டைவிட அதிகம்', `${counts[10]} / ${counts[9]}`, yn(w.eleventhOverTenth)],
+    ['12-ஆம் வீடு 11-ஆம் வீட்டைவிடக் குறைவு', `${counts[11]} / ${counts[10]}`, yn(w.twelfthUnderEleventh)],
+    ['லக்னத்தில் மற்ற எல்லா வீடுகளையும்விட அதிகம்', `${counts[0]} / அதிகபட்சம் மற்றவை ${Math.max(...counts.slice(1))}`, yn(w.lagnaLargest)],
+    ['மூன்றும் சேர்ந்தால் (v.7–8: செல்வமும் இன்பமும்)', '', w.held ? 'மூன்றும் பொருந்துகின்றன' : w.reverse ? 'மூன்றும் எதிராக உள்ளன (சமஸ்கிருதம்: வறுமை)' : 'சில மட்டும் பொருந்துகின்றன'],
+  ];
+  const houseRows = counts.map((c, i) => {
+    const b = SE.band(c);
+    return [`${i + 1}-ஆம் வீடு (${RASI_TA[(facts.lagnaSign + i) % 12]})`, `${c}`, `${BAND_TA[b.band]}${b.exactly30 ? ' — சரியாக 30' : ''}${[6, 8, 12].includes(i + 1) ? ' · மொழிபெயர்ப்பாளர் குறிப்பு: 6, 8, 12-இல் குறைவு சாதகம்' : ''}`];
+  });
+  const partTa = ['குழந்தைப் பருவம் (1–4)', 'இளமை (5–8)', 'முதுமை (9–12)'];
+  const sectionRows = SE.sections(facts.signs, facts.lagnaSign).map((s) => [
+    partTa[s.part - 1],
+    s.benefics.length ? s.benefics.map((p) => PLANET_TA[p]).join(', ') : 'இல்லை',
+    s.malefics.length ? s.malefics.map((p) => PLANET_TA[p]).join(', ') : 'இல்லை',
+    s.reading === 'benefics' ? 'சுபர் அதிகம் — மகிழ்ச்சி' : s.reading === 'malefics' ? 'பாவிகள் அதிகம் — துன்பம்' : 'சமம் — கலப்புப் பலன்',
+  ]);
+  return {
+    ...head(name, birth),
+    blocks: [
+      {
+        kind: 'text',
+        heading: 'சமுதாய அஷ்டகவர்க்கம் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 72)',
+        text: `${SE.DATA.limits.ta} (${cite(SE.DATA.limits)}.) ${SE.DATA.houses.ta} (${cite(SE.DATA.houses)}.) ${SE.DATA.month.ta} (${cite(SE.DATA.month)}.) சமுதாயம் லக்னம் உட்பட எட்டு அஷ்டகவர்க்கங்களின் கூட்டு (நூலின் உதாரணத்தில் லக்னத்தின் 5 சேர்க்கப்படுகிறது); இது கூட்டு 337 ஐக் கொண்ட பலதீபிகை முறையிலிருந்து வேறு. சூரியன் அந்த ராசியில் செல்லும் மாதத்தின் தேதிகள் அச்சிடும் நாளிலிருந்து நடப்பு அல்லது அடுத்த மாதத்துக்குக் காட்டப்படுகின்றன. பரிகாரங்கள் நூல் சொன்னபடி சுருக்கப்பட்டுள்ளன; எதுவும் பலிக்கும் என்று சொல்லப்படவில்லை. ${SE.DATA.afford.ta} (மொழிபெயர்ப்பாளர், ப.904.) தீர்ப்பு இல்லை.`,
+      },
+      { kind: 'table', heading: 'ராசிகள் — சமுதாய ரேகைகளும் அந்த ராசியில் சூரியன் செல்லும் மாதமும்', columns: ['ராசி', 'ரேகை', 'வகை (v.3–5)', 'சூரியன் இந்த ராசியில்', 'அந்த மாதத்தின் பலன்', 'நூல் தரும் பரிகாரம்', 'நூல்'], rows: signRows },
+      { kind: 'table', heading: `வீடுகள் (v.6) — ${cite(SE.DATA.houses)}`, columns: ['வீடு', 'ரேகை', 'வகை'], rows: houseRows },
+      { kind: 'table', heading: `செல்வ நிபந்தனை (v.7–8) — ${cite(SE.DATA.wealth)}`, columns: ['நிபந்தனை', 'ரேகைகள்', 'இந்த ஜாதகத்தில்'], rows: wealthRows },
+      { kind: 'table', heading: `வாழ்வின் மூன்று பகுதிகள் (v.9–10) — ${cite(SE.DATA.sections)}`, columns: ['பகுதி', 'சுபர்', 'பாவிகள்', 'நூலின் வாசிப்பு'], rows: sectionRows },
+    ],
+  };
+}
+
+module.exports = { buildAshtakavargaLongevity, buildSamudayaEffects, buildElementsGunas, buildSudarshanaDasha, buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
 
 
 
