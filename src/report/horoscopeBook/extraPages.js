@@ -32,6 +32,8 @@
  *  - Page 131, "Panchamahapurusha yogas": the five yogas of BPHS ch.75 read against the chart (mahapurushaYoga.js) with the features the book gives for each that holds.
  *  - Pages 132-133, "Sudarshana Chakra dasha": the twelve solar years from the one running on the day of printing and the twelve months of that year, the house that is the Ascendant of each
  *    in each circle (Ascendant, Moon, Sun) and the facts BPHS ch.74 v.24-26 asks for (sudarshanaDasha.js; no verdict, the Ashtakavarga cross-check is not done).
+ *  - Page 134, "Elements and gunas": the element and guna of each planet and the temperament and class that follow from the planet leading by each of the two BPHS Shadbala figures
+ *    (BPHS ch.76-77, elementsGunas.js); the books name no measure of strength, so none is chosen.
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -54,6 +56,8 @@ const PY = require('../pravrajyaYoga');
 const AV = require('../ashtakavargaEffects');
 const MP = require('../mahapurushaYoga');
 const SD = require('../sudarshanaDasha');
+const EG = require('../elementsGunas');
+const { calculateShadbala, SHADBALA_MINIMUM_VIRUPAS } = require('../../chart/shadbala');
 const REM = require('../../../fixtures/remedies/bphs-84.json');
 const { WAR_ELIGIBLE_PLANETS, warWinner } = require('../../chart/planetaryWar');
 const K = require('../../dasha/kalachakraBphs');
@@ -731,7 +735,63 @@ async function buildSudarshanaDasha({ name = '', birth, part = 0, asOf = new Dat
   return { ...head(name, birth), blocks };
 }
 
-module.exports = { buildSudarshanaDasha, buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
+/** Page 134: the five elements (BPHS ch.76) and the three gunas (ch.77) of the chart's planets, with the planet that leads by each of the two Shadbala figures. */
+async function buildElementsGunas({ name = '', birth }) {
+  const facts = await withBirth(birth, ({ chart }) => {
+    const longitudes = Object.fromEntries(EG.PLANETS.map((p) => [p, chart.grahas[p].longitude]));
+    const shadbala = calculateShadbala({
+      longitudes, lagnaRasiIndex: chart.lagna.rasiIndex, ascendant: chart.lagna.longitude, mc: chart.mc, birthJd: chart.julianDay,
+      latitude: birth.latitude, longitude: birth.longitude, year: birth.year, month: birth.month, day: birth.day, utcOffsetMinutes: birth.utcOffsetMinutes, reading: 'pl9',
+    });
+    return Object.fromEntries(EG.PLANETS.map((p) => [p, { sign: chart.grahas[p].rasiIndex, total: shadbala.perPlanet[p].shadbalaTotal }]));
+  });
+  const total = Object.fromEntries(EG.PLANETS.map((p) => [p, facts[p].total]));
+  const ratio = Object.fromEntries(EG.PLANETS.map((p) => [p, facts[p].total / SHADBALA_MINIMUM_VIRUPAS[p]]));
+  const source = EG.DATA.source;
+  const cite77 = (x) => located(source.title, `Chapter 77 v.${x.verses}, printed ${pagesText(x.page)}`, source.author);
+  const cite76 = (x) => located(source.title, `Chapter 76 v.${x.verses}, printed ${pagesText(x.page)}`, source.author);
+  const GUNA_TA = { sattva: 'சத்வம்', rajas: 'ரஜஸ்', tamas: 'தமஸ்' };
+  const ELEMENT_TA = Object.fromEntries(Object.entries(EG.DATA.elements).map(([k, v]) => [k, v.name]));
+  const f2 = (x) => x.toFixed(2);
+  const names = (list) => list.map((p) => PLANET_TA[p]).join(', ');
+  const planetRows = EG.PLANETS.map((p) => [PLANET_TA[p], ELEMENT_TA[EG.DATA.element[p]], GUNA_TA[EG.DATA.guna[p]], f2(total[p]), `${f2(ratio[p] * 100)} %`, `${RASI_TA[facts[p].sign]}${EG.debilitated(p, facts[p].sign) ? ' (நீசம்)' : ''}`]);
+  const measures = [['Shadbala மொத்தம் (விருபம்)', total], ['Shadbala மொத்தம் ÷ தேவையான குறைந்தபட்சம்', ratio]];
+  const elementRows = measures.map(([label, values]) => {
+    const r = EG.elementOf(values);
+    if (r.element === 'mixed') return [label, names(r.leaders), 'கலப்பு', 'பல கிரகங்கள் சம வலிமை; நூல் கலப்பு இயல்பு என்கிறது.', '—', cite76(EG.DATA.elementVerses)];
+    const e = EG.DATA.elements[r.element];
+    const lead = r.leaders[0];
+    const adverse = EG.debilitated(lead, facts[lead].sign) ? ' ' + `${PLANET_TA[lead]} நீச ராசியில் உள்ளது: நூல் (v.17) பலன் எதிராக இருக்கும் என்கிறது.` : '';
+    return [label, names(r.leaders), e.name, `${e.temperament}${adverse}`, e.predominant, `${cite76(e)}`];
+  });
+  const gunaRows = [];
+  for (const [label, values] of measures) {
+    const byLeader = EG.gunaOfLeader(values);
+    const sums = EG.gunaTotals(values);
+    const byGroup = EG.gunaLeading(sums);
+    const classRow = (how, g, detail) => {
+      const c = EG.DATA.classes[g === 'equal' ? 'equal' : g];
+      gunaRows.push([`${label} — ${how}`, detail, g === 'equal' ? 'சமம்' : GUNA_TA[g], c.name, c.ta, cite77(c)]);
+    };
+    classRow('வலிமை மிக்க கிரகம்', byLeader, names(EG.leaders(values)));
+    classRow('குணவாரிக் கூட்டுத்தொகை', byGroup, EG.GUNAS.map((g) => `${GUNA_TA[g]} ${f2(sums[g])}`).join(' · '));
+  }
+  return {
+    ...head(name, birth),
+    blocks: [
+      {
+        kind: 'text',
+        heading: 'ஐம்பூதங்களும் முக்குணங்களும் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 76–77)',
+        text: `${EG.DATA.elementVerses.ta} (${cite76(EG.DATA.elementVerses)}.) ${EG.DATA.strength.ta} (${cite76(EG.DATA.strength)}.) ${EG.DATA.gunaVerses.ta} (${cite77(EG.DATA.gunaVerses)}.) ${EG.DATA.job.ta} (${cite77(EG.DATA.job)}.) இரு அத்தியாயங்களும் கிரகத்தின் வலிமையை எதனால் அளப்பது என்று சொல்லவில்லை; இங்கு பிருஹத் பராசரத்தின் அத். 27 ஷட்பலம் (பக்கம் 11 போல) எடுக்கப்பட்டு, அதன் இரு அளவுகளில் (மொத்த விருபம்; தேவையான குறைந்தபட்சத்துடன் விகிதம்) முன்னிற்கும் கிரகம் தனித்தனியாகக் காட்டப்படுகிறது; குணங்களுக்கு வலிமை மிக்க கிரகமும் குணவாரிக் கூட்டுத்தொகையும் காட்டப்படுகின்றன. நூல் எதைத் தேர்வது என்று சொல்லாததால் எதுவும் தேர்ந்தெடுக்கப்படவில்லை; அசுப வீடு எவை என்று நூல் சொல்லாததால் அது சோதிக்கப்படவில்லை (நீச ராசி மட்டும்). தீர்ப்பு இல்லை.`,
+      },
+      { kind: 'table', heading: 'கிரகங்கள் — பூதம், குணம், வலிமை', columns: ['கிரகம்', 'பூதம்', 'குணம்', 'Shadbala (விருபம்)', 'தேவையானதில்', 'ராசி'], rows: planetRows },
+      { kind: 'table', heading: 'பிறப்பில் பூத இயல்பு (அத். 76) — ஒவ்வொரு அளவிலும் முன்னிற்கும் கிரகம்', columns: ['அளவு', 'முன்னிற்கும் கிரகம்', 'பூதம்', 'இயல்பு (v.6–10) — நீச நிலை', 'அது மிகுந்தால் (v.11–15)', 'நூல்'], rows: elementRows },
+      { kind: 'table', heading: 'பிறப்பில் குணம் (அத். 77)', columns: ['அளவு — முறை', 'கிரகம் / கூட்டுத்தொகை', 'குணம்', 'வகை', 'நூல் தரும் இயல்புகள் (v.5–8)', 'நூல்'], rows: gunaRows },
+    ],
+  };
+}
+
+module.exports = { buildElementsGunas, buildSudarshanaDasha, buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
 
 
 

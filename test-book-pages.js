@@ -373,5 +373,24 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     }
   }
 
+  // page 134: the five elements and three gunas of BPHS ch.76-77; the sample's Mars leads by both Shadbala figures (fire, tamas) and the Sun, Moon and Jupiter are sattva
+  {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p134').build({ name: 'x', birth, dashaOptions });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 76/.test(page.blocks[0].heading) && /Chapter 76 v\.2-5, 11-14, ப\.928-930/.test(page.blocks[0].text) && /Chapter 77 v\.1-4, 10, ப\.932-934/.test(page.blocks[0].text));
+    assert.equal(t.length, 3);
+    assert.deepEqual(t[0].rows.map((r) => r[0]), ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி']);
+    assert.deepEqual(t[0].rows.map((r) => r[1]), ['நெருப்பு', 'நீர்', 'நெருப்பு', 'நிலம்', 'ஆகாயம்', 'நீர்', 'காற்று']);
+    assert.deepEqual(t[0].rows.map((r) => r[2]), ['சத்வம்', 'சத்வம்', 'தமஸ்', 'ரஜஸ்', 'சத்வம்', 'ரஜஸ்', 'தமஸ்']);
+    assert.ok(t[0].rows.every((r) => /^\d+\.\d\d$/.test(r[3]) && /^\d+\.\d\d %$/.test(r[4])));
+    assert.ok(/நீசம்/.test(t[0].rows[5][5]), 'Venus in Virgo is debilitated');
+    assert.equal(t[1].rows.length, 2);
+    assert.ok(t[1].rows.every((r) => r[1] === 'செவ்வாய்' && r[2] === 'நெருப்பு' && /Chapter 76 v\.6, 11, ப\.929-930/.test(r[5])));
+    assert.equal(t[2].rows.length, 4);
+    assert.deepEqual(t[2].rows.map((r) => r[2]), ['தமஸ்', 'சத்வம்', 'தமஸ்', 'சத்வம்']);
+    assert.ok(t[2].rows.every((r) => /Chapter 77 v\.[5-7], ப\.933/.test(r[5])));
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });

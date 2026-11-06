@@ -1,0 +1,33 @@
+{
+  "id": "bphs-76-77",
+  "source": {
+    "title": "Brihat Parashara Hora Shastra (BPHS)",
+    "author": "R. Santhanam (translation)",
+    "tradition": "Parashari",
+    "file": "Jyotish_BPHS_Santhanam_Vol.2.pdf",
+    "pageLocus": "Chapter 76 \"Effects of the Five Elements\", verses 1-18, printed pp.928-931, and chapter 77 \"Effects of the Satwa Guna etc.\", verses 1-15, printed pp.932-935 (PDF page = printed - 489). The verses are summarised in Tamil, not quoted. Pp.929, 930 and 933 were read from the scan beside the Sanskrit."
+  },
+  "scope": "Chapter 76 gives each planet an element (v.2, v.5, v.11-14: fire the Sun and Mars, earth Mercury, ether Jupiter, water the Moon and Venus, air Saturn) and says the native's temperament follows the planet of greater strength at birth, mixed if many are equal (v.3-4), with the features of each temperament (v.6-10) and of each element when it predominates (v.11-15), the effect in proportion to the planet's strength and adverse if it is debilitated or in an inauspicious house (v.16-17). Chapter 77 gives the Sun, Moon and Jupiter the sattva guna, Mercury and Venus the rajas, Mars and Saturn the tamas; the guna that predominates at birth makes the native uttama, madhyama or adhama, and equal gunas udaseena (v.1-4), with the attributes of each (v.5-8); one that exceeds the others is the predominant one, otherwise all are equal (v.10). Neither chapter names the measure of a planet's strength (nor of a guna's predominance) and neither says which houses are inauspicious, so the page uses the BPHS Shadbala of ch.27 as the software computes it, shows the planet that leads by each of its two figures (the total in virupas and the total over its required minimum) and, for the gunas, both the leading planet and the sum of the planets of each guna, and does not choose between them. The debilitated sign is checked; 'inauspicious house' is not checked (the book does not name them). Ch.76 v.18 (a planet's dasha tells the native of unknown birth time what the planet shows) and ch.77 v.11-22 (the likeness of master and servant, husband and wife; origins of the attributes; Kala) are not built. No verdict.",
+  "element": {
+    "Sun": "fire", "Mars": "fire", "Mercury": "earth", "Jupiter": "ether", "Moon": "water", "Venus": "water", "Saturn": "air"
+  },
+  "elementVerses": { "verses": "2-5, 11-14", "page": "928-930", "ta": "செவ்வாய் நெருப்பு, புதன் நிலம், குரு ஆகாயம், சுக்கிரன் நீர், சனி காற்று என்று v.2 கூறுகிறது; v.5 சூரியனை நெருப்புக்கும் சந்திரனை நீருக்கும், v.11-14 நெருப்புக்குச் சூரியன் அல்லது செவ்வாய், நீருக்குச் சந்திரன் அல்லது சுக்கிரன் என்றும் சேர்க்கின்றன. பிறப்பில் வலிமை மிக்க கிரகத்தின் இயல்பு பிறந்தவருக்கு அமையும்; பல கிரகங்கள் சம வலிமையில் இருந்தால் கலப்பு இயல்பு. எல்லாக் கிரகங்களும் தம் தசையில் தம் பூதத்துக்குரிய உடல் ஒளியைத் தரும்." },
+  "elements": {
+    "fire": { "name": "நெருப்பு", "verses": "6, 11", "page": "929-930", "temperament": "பசியால் வருந்துபவன்; அமைதியின்மை; வீரம் (சமஸ்கிருத வரியில்); மெலிந்த உடல்; அறிவுடையவன்; அதிக உணவு உண்பவன்; கூர்மை; வெளுத்த நிறம்; தற்பெருமை.", "predominant": "(சூரியன் அல்லது செவ்வாய் மிகுந்தால்) முகமும் உடலும் பொன்போல் ஒளிரும்; மகிழ்ச்சியான கண்கள்; எல்லா முயற்சியிலும் வெற்றி; பகைவரை வெல்லுதல்; செல்வ லாபம்." },
+    "earth": { "name": "நிலம்", "verses": "7, 12", "page": "929-930", "temperament": "கற்பூரம், தாமரை மணம் வீசும் உடல்; சுகபோக விருப்பம்; நிலையான மகிழ்ச்சி; வலிமை (சமஸ்கிருத வரியில்); பொறுமை; சிங்கம்போல் ஆழ்ந்த குரல்.", "predominant": "(புதன் மிகுந்தால்) உடல் பலவகை மணம் வீசும்; நகம், முடி, பல் தூய்மை; சுகமும் செல்வமும் கிடைக்கும்; சமய நாட்டம்." },
+    "ether": { "name": "ஆகாயம்", "verses": "8, 13", "page": "929-930", "temperament": "சொல்-பொருள் அறிவு; நீதித் திறன்; ஒளிமிக்கவன்; கற்றவன்; திறந்த (மறைவற்ற) முகம்; உயரமான உடல்.", "predominant": "(குரு மிகுந்தால்) திறமையாகப் பேசுபவன்; பாடல் முதலியவற்றைக் கற்று மகிழ்வான்." },
+    "water": { "name": "நீர்", "verses": "9, 14", "page": "929-930", "temperament": "ஒளி; சுமை தாங்குபவன்; இனிய பேச்சு; அரசன்; பல நண்பர்; கற்றவன்.", "predominant": "(சந்திரன் அல்லது சுக்கிரன் மிகுந்தால்) மென்மையான உடல்; நல்ல உடல்நலம்; சுவையான உணவு, அதனால் மகிழ்ச்சி." },
+    "air": { "name": "காற்று", "verses": "10, 15", "page": "930-931", "temperament": "தானம் செய்பவன்; கோபம் மிகுந்தவன்; வெளுத்த நிறம்; அலைவதில் விருப்பம்; பகைவரை வெல்பவன்; அரசன்; மெலிந்த உடல்.", "predominant": "(சனி மிகுந்தால்) உடல் அழுக்கடையும்; அறிவு மந்தம்; வாதம், துன்பம், வேதனை." }
+  },
+  "strength": { "verses": "16-17", "page": "931", "ta": "கிரகங்கள் போதிய வலிமையுடன் இருந்தால் மட்டுமே பூதங்களின் பலன் முழுமையாக நடக்கும்; வலிமை குறைந்தால் அதற்கேற்பக் குறையும். அந்தக் கிரகம் நீச ராசியில் இருந்தாலோ அசுபமான வீட்டில் இருந்தாலோ பலன் எதிராக (மேலே சொன்னதற்கு மாறாக) இருக்கும்; வலிமையே இல்லாத கிரகத்தின் பூத பலனைக் கற்பனையில் மட்டுமே அனுபவிப்பான்." },
+  "guna": { "Sun": "sattva", "Moon": "sattva", "Jupiter": "sattva", "Mercury": "rajas", "Venus": "rajas", "Mars": "tamas", "Saturn": "tamas" },
+  "gunaVerses": { "verses": "1-4, 10", "page": "932-934", "ta": "சூரியன், சந்திரன், குரு ஆகிய சத்வ குணக் கிரகங்கள் மிகுந்தால் பிறந்தவன் சத்வ குணத்தவன், நல்ல நடத்தையுள்ளவன்; புதன், சுக்கிரன் (ரஜோ குணம்) மிகுந்தால் ரஜோ குணத்தவன், அறிவுள்ளவன்; செவ்வாய், சனி (தமோ குணம்) மிகுந்தால் மூடன்; பிறப்பில் எல்லாம் சமமாக இருந்தால் கலவை. இவ்வாறு உத்தமம், மத்யமம், அதமம், உதாசீனம் என்று நால்வகை உயிர்கள். மூன்றில் ஒன்று மற்றவற்றைவிட மிகுந்தால் அதுவே மேலோங்கியது; இல்லாவிடில் எல்லாம் சமம்." },
+  "classes": {
+    "sattva": { "name": "உத்தமம் (சத்வ குணம்)", "verses": "5", "page": "933", "ta": "புலன்களையும் மனத்தையும் அடக்குதல், எளிமை, வாய்மை, பொறுமை, மனநிறைவு." },
+    "rajas": { "name": "மத்யமம் (ரஜோ குணம்)", "verses": "6", "page": "933", "ta": "வீரம், ஒளி, துணிவு, திறமை, போரில் பின்வாங்காமை, சான்றோரைக் காப்பது." },
+    "tamas": { "name": "அதமம் (தமோ குணம்)", "verses": "7", "page": "933", "ta": "பேராசை, பொய், மந்தம், சோம்பல், பிறருக்குப் பணிவிடை செய்தல்." },
+    "equal": { "name": "உதாசீனம் (குணங்கள் சமம்)", "verses": "8", "page": "933", "ta": "வேளாண்மை, வணிகம், கால்நடைப் பாதுகாப்பு, உண்மையும் பொய்யும் பேசுதல்." }
+  },
+  "job": { "verses": "9", "page": "933", "ta": "இந்தக் குணங்களைக் கொண்டே மனிதரை உத்தமம் முதலிய வகைகளாகப் பிரிக்க வேண்டும்; ஒருவரின் குணத்துக்கு ஏற்ற வேலையில் அவரை அமர்த்த வேண்டும்." },
+  "origin": { "verses": "14-15", "page": "934-935", "ta": "ஒருவரின் குணங்கள் தந்தை, தாய், பிறந்த நேரம், சேரும் மனிதர் ஆகியவற்றைச் சார்ந்தவை; பிறந்த நேரமும் சேர்க்கையும் தரும் குணங்கள் பெற்றோர் தருபவற்றைவிட வலிமையானவை; எனவே பிறக்கும்போது மிகுந்த சத்வ, ரஜோ, தமோ குணமே அவனை அலங்கரிக்கும்." }
+}
