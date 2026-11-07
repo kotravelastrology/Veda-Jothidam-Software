@@ -441,5 +441,45 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
   }
 
+  // pages 138-139: the yogas of BPHS ch.83; the sample holds none of the curses' yogas (so no remedy is shown), 3 January 1980 05:17 holds the serpent's 6th and the unclear 3rd,
+  // 29 January 1980 21:17 the Brahmin's 9th (and the father's 4th, unclear)
+  {
+    const at = (year, month, day, hour, minute) => ({ ...birth, year, month, day, hour, minute });
+    const build = (id, b) => BOOK_SECTIONS.find((s) => s.id === id).build({ name: 'x', birth: b, dashaOptions });
+    const textOf = (page) => page.blocks.map((x) => (x.kind === 'text' ? `${x.heading} ${x.text}` : '')).join(' ');
+    const tableFor = (page, word) => page.blocks.find((x) => x.kind === 'table' && x.heading.includes(word));
+
+    const none1 = await build('p138', birth);
+    assert.ok(/அத். 83/.test(none1.blocks[0].heading) && /ப\.990/.test(none1.blocks[0].text));
+    assert.ok(!/நாக ராஜ|கயாவில்|இராமேசுவரம்/.test(textOf(none1)), 'no remedy where no yoga holds');
+    const general = tableFor(none1, 'பொதுவான');
+    assert.equal(general.rows.length, 1);
+    assert.equal(general.rows[0][2], 'சோதிக்கப்படவில்லை (வலிமை மட்டுமே)');
+    assert.ok(/நாகத்தின் சாபம்/.test(none1.blocks.at(-1).text) && /தந்தையின் சாபம்/.test(none1.blocks.at(-1).text) && /தாயின் சாபம்/.test(none1.blocks.at(-1).text));
+    const none2 = await build('p139', birth);
+    assert.ok(!/சந்தான கோபால|சாந்திராயண/.test(textOf(none2)), 'neither the curses\' remedies nor the Grahas\' remedies without a matching yoga');
+    assert.ok(['சகோதரரின்', 'தாய்மாமனின்', 'அந்தணரின்', 'மனைவியின்', 'பிதிர்களின்'].every((w) => none2.blocks.at(-1).text.includes(w)));
+
+    const serpent = await build('p138', at(1980, 1, 3, 5, 17));
+    const st = tableFor(serpent, 'நாகத்தின் சாபம்');
+    assert.deepEqual(st.rows.map((r) => r[0]), ['3', '6']);
+    assert.ok(/^தெளிவில்லை/.test(st.rows[0][2]) && st.rows[1][2] === 'பொருந்துகிறது');
+    assert.ok(/வலிமையற்றது \(சோதிக்கப்படவில்லை\)/.test(st.rows[0][1]) && /5-ஆம் வீடு (மேஷம்|விருச்சிகம்)/.test(st.rows[1][1]));
+    assert.ok(/நாக ராஜ/.test(textOf(serpent)) && /Chapter 83 v\.9-16, ப\.987/.test(textOf(serpent)) && /Chapter 83 v\.17-19, ப\.988/.test(textOf(serpent)));
+    assert.ok(/பொருந்தாதவை: 1, 2, 4, 5, 7, 8/.test(textOf(serpent)));
+    assert.ok(!/நாகத்தின் சாபம்[^;]*\(Brihat/.test(serpent.blocks.at(-1).text) && /தந்தையின் சாபம்/.test(serpent.blocks.at(-1).text));
+
+    const brahmin = await build('p139', at(1980, 1, 29, 21, 17));
+    const bt = tableFor(brahmin, 'அந்தணரின் சாபம்');
+    assert.deepEqual(bt.rows.map((r) => [r[0], r[2]]), [['9', 'பொருந்துகிறது']]);
+    assert.ok(/சாந்திராயண/.test(textOf(brahmin)) && /Chapter 83 v\.79-81, ப\.997/.test(textOf(brahmin)) && /சந்தான கோபால/.test(textOf(brahmin)));
+    assert.ok(!/ஹரிவம்ச புராணம் கேட்டுச்/.test(textOf(brahmin)), 'the brother\'s remedy is not shown');
+    const father = await build('p138', at(1980, 1, 29, 21, 17));
+    const ft = tableFor(father, 'தந்தையின் சாபம்');
+    assert.deepEqual(ft.rows.map((r) => r[0]), ['4']);
+    assert.ok(/^தெளிவில்லை/.test(ft.rows[0][2]) && /அஸ்தங்கம் \(சோதிக்கப்படவில்லை\)/.test(ft.rows[0][1]));
+    for (const page of [none1, none2, serpent, brahmin, father]) assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });

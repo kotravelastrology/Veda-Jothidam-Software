@@ -17,7 +17,7 @@ for (const i of items) {
   assert.equal(i.pages, i.to - i.from + 1);
   next = i.to + 1;
 }
-const EXTRA = 49; // pages 89-92 (Mangala dosha, Sadhesati with remedies, gemstones, dasha results), 93-99 (the shorter print's Vimshottari and Yogini) 100-108 (antardasha results), 109-117 (pratyantardasha results), 118-121 (sookshma results) 122-123 (prana results) 124-126 (Kalachakra results) 127 (inauspicious births) 128 (yogas leading to asceticism) 129 (propitiation of the planets) 130 (Ashtakavarga and Saturn's transit) 131 (Panchamahapurusha yogas) 132-133 (Sudarshana Chakra dasha) 134 (elements and gunas) 135 (Ashtakavarga longevity) 136 (Samudaya Ashtakavarga) and 137 (Female horoscopy)
+const EXTRA = 51; // pages 89-92 (Mangala dosha, Sadhesati with remedies, gemstones, dasha results), 93-99 (the shorter print's Vimshottari and Yogini) 100-108 (antardasha results), 109-117 (pratyantardasha results), 118-121 (sookshma results) 122-123 (prana results) 124-126 (Kalachakra results) 127 (inauspicious births) 128 (yogas leading to asceticism) 129 (propitiation of the planets) 130 (Ashtakavarga and Saturn's transit) 131 (Panchamahapurusha yogas) 132-133 (Sudarshana Chakra dasha) 134 (elements and gunas) 135 (Ashtakavarga longevity) 136 (Samudaya Ashtakavarga) 137 (Female horoscopy) and 138-139 (curses of the previous birth)
 assert.equal(next, 89 + EXTRA, 'the catalogue ends after the extra pages');
 assert.equal(items.reduce((n, i) => n + i.pages, 0), 88 + EXTRA);
 

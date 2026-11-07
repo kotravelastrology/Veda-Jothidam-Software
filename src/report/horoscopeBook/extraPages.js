@@ -38,6 +38,8 @@
  *  - Page 136, "Samudaya Ashtakavarga": the aggregate rekhas read for the signs, houses, the wealth condition, the three parts of life and the month of the Sun in each sign with the
  *    book's remedies (BPHS ch.72, samudayaEffects.js; nothing is claimed to work).
  *  - Page 137, "Female horoscopy": what BPHS ch.80 says of a woman's chart, read rule by rule (femaleHoroscopy.js); given only for a chart marked female, for the astrologer, no verdicts.
+ *  - Pages 138-139, "Curses of the previous birth": the yogas of BPHS ch.83 (the serpent's, the father's, the mother's, a brother's, the maternal uncle's, a Brahmin's, the wife's and the
+ *    ancestors' curse, ending in want of a male issue) read condition by condition (curseYogas.js), with the remedies the book names; strength and combustion are not checked.
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -64,6 +66,7 @@ const EG = require('../elementsGunas');
 const AL = require('../ashtakavargaLongevity');
 const SE = require('../samudayaEffects');
 const FH = require('../femaleHoroscopy');
+const CY = require('../curseYogas');
 const { varaAt } = require('../rogaArambha');
 const { whenSunAt, sunLon } = require('../masaPravesha');
 const { calculateShadbala, SHADBALA_MINIMUM_VIRUPAS } = require('../../chart/shadbala');
@@ -942,7 +945,68 @@ async function buildFemaleHoroscopy({ name = '', birth }) {
   };
 }
 
-module.exports = { buildFemaleHoroscopy, buildAshtakavargaLongevity, buildSamudayaEffects, buildElementsGunas, buildSudarshanaDasha, buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
+/** Pages 138-139: the yogas of BPHS ch.83 (curses of the previous birth that end in want of a male issue) read against the chart; `part` 0 the general yogas, the serpent's, the father's and the mother's, `part` 1 the rest. */
+async function buildCurseYogas({ name = '', birth, part = 0 }) {
+  const facts = await withBirth(birth, ({ chart, gulika }) => ({
+    signs: Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'].map((p) => [p, chart.grahas[p].rasiIndex])),
+    longitudes: Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].map((p) => [p, chart.grahas[p].longitude])),
+    lagnaSign: chart.lagna.rasiIndex,
+    gulikaSign: gulika.rasiIndex,
+  }));
+  const results = CY.evaluate(facts);
+  const source = CY.DATA.source;
+  const cite = (x) => located(source.title, `Chapter 83 v.${x.verses}, printed ${pagesText(x.page)}`, source.author);
+  const STATUS_TA = { held: 'பொருந்துகிறது', unknown: 'தெளிவில்லை (வலிமை/அஸ்தங்கம் சோதிக்கப்படவில்லை)', 'not-checked': 'சோதிக்கப்படவில்லை (வலிமை மட்டுமே)' };
+  const yogaRows = (id, yogas) => {
+    const rows = [];
+    const quiet = [];
+    for (const y of yogas) {
+      const r = results.find((x) => x.id === id && x.n === y.n);
+      if (r.status === 'not-held') { quiet.push(y.n); continue; }
+      const cond = y.atoms.map(CY.describe).join('; ');
+      rows.push([`${y.n}`, cond, r.loose ? 'மொழிபெயர்ப்பாளரின் தளர்வான வாசிப்பில் மட்டும் (சூரியன், செவ்வாய், சனியில் ஒருவர் லக்னத்திலும் ஒருவர் 5-இலும்; ராகு, குருவில் ஒருவர் 8-இலும் ஒருவர் 12-இலும்)' : STATUS_TA[r.status]]);
+    }
+    return { rows, quiet };
+  };
+  const block = (title, citeText, yogas, id, remedy, note) => {
+    const { rows, quiet } = yogaRows(id, yogas);
+    if (!rows.length) return [];
+    return [
+      {
+        kind: 'text',
+        heading: title,
+        text: `${citeText}. நூலின் ${yogas.length} யோகங்களில் ${rows.length} பொருந்துகின்றன அல்லது தெளிவற்றவை; பொருந்தாதவை: ${quiet.length ? quiet.join(', ') : 'இல்லை'}.${note ? ` ${note}` : ''}${remedy ? ` பரிகாரம் (நூல் சொன்னபடி, எதுவும் பலிக்கும் என்று சொல்லப்படவில்லை): ${remedy.ta} (${cite(remedy)}.)` : ''}`,
+      },
+      { kind: 'table', heading: `${title} — பொருந்துபவை`, columns: ['யோகம்', 'நிபந்தனைகள் (லக்னத்திலிருந்து வீடுகள்)', 'இந்த ஜாதகத்தில்'], rows },
+    ];
+  };
+  const blocks = [];
+  if (part === 0) {
+    blocks.push({
+      kind: 'text',
+      heading: 'முன்பிறப்புச் சாபங்களும் மகனற்ற நிலையும் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 83) — ஜோதிடர் பயன்பாட்டுக்கு',
+      text: `அத்தியாயம் தரும் யோகங்கள் முன்பிறப்புச் சாபத்தால் வரும் மகனற்ற நிலையைக் காட்டுபவை (நூலின் குறிப்பு: இங்கு "குழந்தையின்மை" என்பது ஆண் வாரிசு இன்மை; ப.990). ஒவ்வொரு யோகமும் நிபந்தனைகளாகப் பிரிக்கப்பட்டு ஜாதகத்தில் படிக்கப்படுகிறது: வீடுகள் லக்னத்திலிருந்து; பார்வை அத். 26-இன்படி ராசிகளால்; "பாவிகளுக்கு நடுவில்" என்பது சொல்லப்பட்ட ராசிக்கு 12-இலும் 2-இலும் பாவி; சுபர் சந்திரன், புதன், குரு, சுக்கிரன்; பாவிகள் சூரியன், செவ்வாய், சனி, ராகு, கேது. கிரகத்தின் வலிமை, அஸ்தங்கம் தேவைப்படும் நிபந்தனைகள் சோதிக்கப்படுவதில்லை; மற்றவை அனைத்தும் பொருந்தினால் அந்த யோகம் "தெளிவில்லை" எனக் காட்டப்படுகிறது. நூல் எந்த யோகத்தை எவ்வளவு வலுவாகக் கொள்வது என்று சொல்லவில்லை; எதுவும் தீர்ப்பு அல்ல. ஒரு சாபத்தின் எந்த யோகமும் பொருந்தாவிட்டால் அதன் பரிகாரம் காட்டப்படுவதில்லை (அது ஒரு சாபம் இருப்பதாகக் குறிக்கக்கூடாது); பொருந்தினால் நூல் சொன்னபடி சுருக்கமாகக் காட்டப்படும். யோகங்கள் நூலின் வரிசையில் எண்ணப்பட்டுள்ளன.`,
+    });
+    blocks.push(...block('பொதுவான யோகங்கள் (v.7–8)', `${CY.DATA.general.ta} (${cite(CY.DATA.general)})`, CY.DATA.general.yogas, 'GENERAL', null, ''));
+  }
+  const wanted = part === 0 ? ['SERPENT', 'FATHER', 'MOTHER'] : ['BROTHER', 'UNCLE', 'BRAHMIN', 'WIFE', 'ANCESTORS'];
+  for (const c of CY.DATA.curses.filter((x) => wanted.includes(x.id))) {
+    const note = c.yogas.filter((y) => y.note).map((y) => `யோகம் ${y.n}: ${y.note}`).join(' ');
+    blocks.push(...block(`${c.ta} (v.${c.verses})`, cite(c), c.yogas, c.id, c.remedy, note));
+  }
+  const noneIds = CY.DATA.curses.filter((c) => wanted.includes(c.id)).filter((c) => !results.some((r) => r.id === c.id && r.status !== 'not-held'));
+  blocks.push({
+    kind: 'text',
+    heading: 'எந்த யோகமும் பொருந்தாதவை',
+    text: noneIds.length
+      ? `இந்தப் பக்கத்தின் சாபங்களில் ${noneIds.map((c) => `${c.ta} (${cite(c)})`).join('; ')} ஆகியவற்றின் எந்த யோகமும் இந்த ஜாதகத்தில் பொருந்தவில்லை; அவற்றின் பரிகாரங்கள் காட்டப்படவில்லை.`
+      : 'இந்தப் பக்கத்தின் எல்லாச் சாபங்களிலும் ஏதேனும் ஒரு யோகம் பொருந்துகிறது அல்லது தெளிவற்றதாக உள்ளது.',
+  });
+  if (part === 1 && results.some((r) => r.status === 'held' || r.status === 'unknown')) blocks.push({ kind: 'text', heading: 'கிரகங்களின் தீங்கால் மகனற்றவர்க்கான பரிகாரங்கள் (v.109–111)', text: `${CY.DATA.grahaRemedies.ta} (${cite(CY.DATA.grahaRemedies)}.) எதுவும் பலிக்கும் என்று சொல்லப்படவில்லை.` });
+  return { ...head(name, birth), blocks };
+}
+
+module.exports = { buildCurseYogas, buildFemaleHoroscopy, buildAshtakavargaLongevity, buildSamudayaEffects, buildElementsGunas, buildSudarshanaDasha, buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
 
 
 
