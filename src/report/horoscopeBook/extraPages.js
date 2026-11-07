@@ -74,6 +74,7 @@ const FH = require('../femaleHoroscopy');
 const CY = require('../curseYogas');
 const PR = require('../planetaryRays');
 const AY = require('../ashtakavargaYears');
+const SP = require('../saturnPassages');
 const LR = require('../lagnaRasi');
 const JR = require('../janmaRasi');
 const JN = require('../janmaNakshatra');
@@ -1111,6 +1112,26 @@ async function buildAshtakavargaRest({ name = '', birth, dashaOptions, asOf = ne
     return [RASI_TA[s], `${sunBav[s]} (புள்ளி ${8 - sunBav[s]})`, `${month.from} முதல் ${month.to} வரை${month.current ? ' (நடப்பு மாதம்)' : ''}`, `${moonBav[s]} (புள்ளி ${8 - moonBav[s]})`, marks];
   });
 
+  // the dates of Saturn's passages through the signs and the nakshatras page 130 gives for each matter, from six years before the day of printing (to find where a passage began) to fifteen years after it
+  const targets = AV.chartEffects(chart);
+  const fromJd = asOf.getTime() / 86400000 + 2440587.5 - 6 * 365.25;
+  const nowJd = asOf.getTime() / 86400000 + 2440587.5;
+  const toJd = nowJd + 15 * 365.25;
+  const dayText = (jd) => dmyLocal(new Date((jd - 2440587.5) * 86400000 + offset * 60000).toISOString().slice(0, 10));
+  const spans = (list, label) => list.filter((w) => w.toJd >= nowJd).map((w) => `${label(w.key)} ${w.continuesBefore ? 'முன்பே தொடங்கியது' : dayText(w.fromJd)} முதல் ${w.continuesAfter ? 'தொடர்கிறது' : dayText(w.toJd)} வரை${w.fromJd <= nowJd && w.toJd >= nowJd ? ' (நடப்பில்)' : ''}`).join(' · ') || 'இந்த 15 ஆண்டுகளில் இல்லை';
+  const passageRows = AV.PLANETS.map((p) => {
+    const t = targets[p].targets;
+    if (!t.rasis.length) return [`${PLANET_TA[p]} — ${AV.DATA.planets[p].matter}`, '—', '0 ரேகை: நூல் இலக்கு தரவில்லை', '—', '—'];
+    const signList = t.rasis.map((r) => r - 1);
+    return [
+      `${PLANET_TA[p]} — ${AV.DATA.planets[p].matter}`,
+      t.rasis.map((r) => RASI_TA[r - 1]).join(', '),
+      spans(SP.signPassages(signList, fromJd, toJd, chart.ayanamsha), (s) => RASI_TA[s]),
+      t.nakshatras.map((n) => NAKSHATRA_TA[n - 1]).join(', '),
+      spans(SP.nakshatraPassages(t.nakshatras, fromJd, toJd, chart.ayanamsha), (n) => NAKSHATRA_TA[n - 1]),
+    ];
+  });
+
   return {
     ...head(name, birth),
     blocks: [
@@ -1132,6 +1153,12 @@ async function buildAshtakavargaRest({ name = '', birth, dashaOptions, asOf = ne
         text: `${AY.DATA.sun.ta} (${cite(AY.DATA.sun)}.) ${AY.DATA.moon.ta} (${cite(AY.DATA.moon)}.) "அதிகப் புள்ளி" என்பது குறைந்த ரேகை (ஒரு ராசியில் எட்டு பங்களிப்பாளர்கள் என்பதால் புள்ளிகள் = 8 − ரேகைகள்). எந்த எண்ணிலிருந்து "அதிகம்" என்று நூல் வரம்பு தரவில்லை; எனவே சூரிய, சந்திர அஷ்டகவர்க்கங்களில் அதிக, குறைந்த ரேகைகள் உள்ள ராசிகள் மட்டும் குறிக்கப்படுகின்றன; வேறு எதுவும் நல்லது-தீயது எனச் சொல்லப்படவில்லை. மத்யம குரு ராசியில் செல்லும் சம்வத்சரம் கணிக்கப்படவில்லை. சூரியன் அந்த ராசியில் செல்லும் மாதத்தின் தேதிகள் அச்சிடும் நாளிலிருந்து நடப்பு அல்லது அடுத்த மாதத்துக்குக் காட்டப்படுகின்றன.`,
       },
       { kind: 'table', heading: 'ராசிகள் — சூரிய, சந்திர அஷ்டகவர்க்க ரேகைகள்', columns: ['ராசி', 'சூரிய அஷ்டகவர்க்க ரேகை', 'சூரியன் இந்த ராசியில்', 'சந்திர அஷ்டகவர்க்க ரேகை', 'குறிப்பு'], rows: signRows },
+      {
+        kind: 'text',
+        heading: 'சனியின் கோசாரக் காலங்கள் — பக்கம் 130-இன் இலக்குகளுக்கு',
+        text: `${AV.DATA.method.ta} (${cite(AV.DATA.method)}.) பக்கம் 130 ஒவ்வொரு பொருளுக்கும் சனி செல்லும்போது தீங்கு என்று நூல் குறிக்கும் ராசிகளையும் நட்சத்திரங்களையும் (மூன்று, மூன்று) தருகிறது; இங்கு அவற்றில் சனி உண்மையில் செல்லும் காலங்கள் கோள் நிலைக் கணிப்பிலிருந்து தரப்படுகின்றன (வக்ர மீளல்களும் தனி வரிசையாக). அச்சிடும் நாளுக்குப் பின் 15 ஆண்டுகள் காட்டப்படுகின்றன. நூல் சொல்வது: அந்தக் காலத்தில் அசுப தசை நடந்தால் மட்டுமே மரணம்; சாதகமான தசையில் துன்பம் மட்டும் (இங்கு தசை சோதிக்கப்படவில்லை; எந்த தசை அசுபம் என்று நூல் இங்கு சொல்லவில்லை). இவை நூலின் கூற்றுகள்; தீர்ப்பு அல்ல; ஜோதிடர் பயன்பாட்டுக்கு.`,
+      },
+      { kind: 'table', heading: 'சனி இந்த ராசிகளிலும் நட்சத்திரங்களிலும் செல்லும் காலங்கள்', columns: ['பொருள்', 'நூல் குறிக்கும் ராசிகள்', 'சனி அவற்றில் செல்லும் காலம்', 'நூல் குறிக்கும் நட்சத்திரங்கள்', 'சனி அவற்றில் செல்லும் காலம்'], rows: passageRows },
     ],
   };
 }

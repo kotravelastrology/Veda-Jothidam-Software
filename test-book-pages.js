@@ -505,8 +505,8 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     const page = await BOOK_SECTIONS.find((s) => s.id === 'p141').build({ name: 'x', birth, dashaOptions, asOf: new Date('2026-11-05T00:00:00Z') });
     const t = page.blocks.filter((x) => x.kind === 'table');
     assert.ok(/அத். 70/.test(page.blocks[0].heading) && /Chapter 70 v\.37-40, ப\.893/.test(page.blocks[0].text));
-    assert.equal(t.length, 3);
-    assert.deepEqual(t.map((x) => x.rows.length), [3, 6, 12]);
+    assert.equal(t.length, 4);
+    assert.deepEqual(t.map((x) => x.rows.length), [3, 6, 12, 7]);
     assert.deepEqual(t[0].rows.map((r) => r[1]), ['14', '31', '45']);
     assert.deepEqual(t[0].rows.map((r) => r[2]), ['14-ஆம் ஆண்டு', '31-ஆம் ஆண்டு', '45-ஆம் ஆண்டு']);
     assert.deepEqual(t[0].rows.map((r) => r[3]), ['05-10-2003 முதல் 05-10-2004 வரை', '05-10-2020 முதல் 05-10-2021 வரை', '05-10-2034 முதல் 05-10-2035 வரை']);
@@ -520,6 +520,14 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     assert.equal(t[2].rows.filter((r) => /சூரிய அஷ்டகவர்க்கத்தில் குறைந்த ரேகை/.test(r[4])).length, 1);
     assert.equal(t[2].rows.reduce((a, r) => a + Number(r[1].split(' ')[0]), 0), 48, 'the Sun\'s Bhinnashtakavarga holds 48 rekhas');
     assert.equal(t[2].rows.reduce((a, r) => a + Number(r[3].split(' ')[0]), 0), 49, 'the Moon\'s holds 49');
+    // Saturn's passages through the signs and nakshatras of page 130 (the sample's: Saturn in Pisces since 29 March 2025, at the day of printing 5 November 2026)
+    assert.deepEqual(t[3].rows.map((r) => r[0].split(' — ')[0]), ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி']);
+    assert.ok(t[3].rows.every((r) => r.length === 5));
+    assert.ok(t[3].rows.every((r) => /மீனம் 29-03-2025 முதல் 03-06-2027 வரை \(நடப்பில்\)/.test(r[2]) || !/மீனம்/.test(r[1])), 'Saturn is in Pisces now');
+    assert.ok(t[3].rows.slice(0, 1).every((r) => r[1] === 'மீனம், கடகம், விருச்சிகம்' && r[3] === 'ரேவதி, ஆயில்யம், கேட்டை'));
+    assert.ok(/ரேவதி 08-02-2027 முதல் 03-06-2027 வரை/.test(t[3].rows[0][4]), 'Saturn is back in Revati from 8 February 2027');
+    assert.ok(t[3].rows.every((r) => /\d\d-\d\d-20\d\d முதல் \d\d-\d\d-20\d\d வரை|இந்த 15 ஆண்டுகளில் இல்லை/.test(r[2]) && /\d\d-\d\d-20\d\d முதல் \d\d-\d\d-20\d\d வரை|இந்த 15 ஆண்டுகளில் இல்லை/.test(r[4])));
+    assert.ok(/சனியின் கோசாரக் காலங்கள்/.test(page.blocks.map((b) => b.heading).join(' ')));
     assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
   }
 
