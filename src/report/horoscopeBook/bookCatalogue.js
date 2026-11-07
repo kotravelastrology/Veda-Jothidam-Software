@@ -5,6 +5,7 @@
  * something else. `pages` are the sample's page numbers, so the catalogue can be checked against the PDF.
  */
 const { BOOK_SECTIONS } = require('./bookSections');
+const { audienceOf } = require('./bookSelection');
 
 /** [id or null, first page, last page, Tamil title, PL9's English title] */
 const FAMILIES = [
@@ -126,6 +127,7 @@ function bookCatalogue() {
         sections,
         built: sections.length > 0,
         complete: sections.length === to - from + 1,
+        audience: audienceOf(from),
       };
     }),
   }));

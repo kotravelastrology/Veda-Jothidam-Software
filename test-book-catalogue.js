@@ -5,6 +5,7 @@
 const assert = require('node:assert/strict');
 const { bookCatalogue } = require('./src/report/horoscopeBook/bookCatalogue');
 const { BOOK_SECTIONS } = require('./src/report/horoscopeBook/bookSections');
+const { ASTROLOGER_ONLY, audienceOf, defaultSelection } = require('./src/report/horoscopeBook/bookSelection');
 
 const families = bookCatalogue();
 const items = families.flatMap((f) => f.items);
@@ -32,5 +33,20 @@ for (const i of items) {
   for (const sec of i.sections) { const n = Number(sec.slice(1)); assert.ok(n >= i.from && n <= i.to, `${sec} inside ${i.id}`); }
 }
 for (const f of families) assert.ok(['saffron', 'indigo', 'teal', 'rose'].includes(f.tone));
+
+// who a page is for: the female horoscopy (ch.80, page 137) and the curses of the previous birth (ch.83, pages 138-139) are for the astrologer, all the others for a client
+assert.deepEqual(items.filter((i) => i.audience === 'astrologer').map((i) => i.id), ['p137', 'pages-138-139']);
+assert.ok(items.every((i) => i.audience === 'astrologer' || i.audience === 'client'));
+assert.deepEqual(ASTROLOGER_ONLY, [137, 138]);
+assert.equal(audienceOf(137), 'astrologer');
+assert.equal(audienceOf(136), 'client');
+// the default choice leaves them out, with `withAstrologer` they are in, and a page that is not built is never chosen
+const chosen = defaultSelection(families);
+assert.ok(!chosen.includes('p137') && !chosen.includes('pages-138-139'));
+assert.deepEqual(chosen, items.filter((i) => i.built && i.audience === 'client').map((i) => i.id));
+const everything = defaultSelection(families, { withAstrologer: true });
+assert.deepEqual(everything, items.filter((i) => i.built).map((i) => i.id));
+assert.equal(everything.length - chosen.length, 2);
+assert.deepEqual(defaultSelection([{ items: [{ id: 'x', built: false, audience: 'client' }, { id: 'y', built: true, audience: 'astrologer' }, { id: 'z', built: true, audience: 'client' }] }]), ['z']);
 
 console.log(`test-book-catalogue: ${builtPages.length} of ${88 + EXTRA} pages built; all assertions passed`);

@@ -5,6 +5,8 @@ import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
 import { useSettings, toDashaOptions, toEngineOptions } from '@/src/ui/SettingsPanel';
 import { PageEyebrow } from '@/src/ui/PageEyebrow';
 import { bookCatalogue, computeBook } from './actions';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { defaultSelection } = require('../../src/report/horoscopeBook/bookSelection');
 import { BlockView, TONE, groupBlocks, type Tone } from './blocks';
 
 /**
@@ -88,6 +90,7 @@ function Page({ s, n, tone }: { s: any; n: number; tone: Tone }) {
           <p className={`text-[11px] font-bold tracking-wide ${t.text}`}>{s.family}</p>
           <h3 className="font-[family-name:var(--font-tamil-serif)] text-xl font-bold leading-tight text-ink print:text-black">{s.ta}</h3>
           <p className="text-[11px] text-ink-soft print:text-black">{s.en}</p>
+          {s.audience === 'astrologer' && <p className="mt-0.5 text-[11px] font-semibold text-rose print:text-black">ஜோதிடர் பயன்பாட்டுக்கு — நூலின் சொற்கள்; வாடிக்கையாளருக்கு அப்படியே தர வேண்டாம்</p>}
         </div>
       </header>
       <div className="space-y-5 p-5">
@@ -108,6 +111,8 @@ export default function BookView() {
   const [party, setParty] = useState<Party | null>(null);
   const [catalogue, setCatalogue] = useState<Catalogue>([]);
   const [selected, setSelected] = useState<string[]>([]);
+  /** whether the pages for the astrologer (the female horoscopy, the curses) are in the "all" buttons and the choice */
+  const [withAstrologer, setWithAstrologer] = useState(false);
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -115,18 +120,23 @@ export default function BookView() {
   useEffect(() => {
     bookCatalogue().then((c) => {
       setCatalogue(c);
-      setSelected(c.flatMap((f: any) => f.items.filter((i: any) => i.built).map((i: any) => i.id)));
+      setSelected(defaultSelection(c));
     }).catch(() => setCatalogue([]));
   }, []);
 
-  const allBuilt = useMemo(() => catalogue.flatMap((f: any) => f.items.filter((i: any) => i.built)), [catalogue]);
+  const allChosen = useMemo(() => defaultSelection(catalogue, { withAstrologer }) as string[], [catalogue, withAstrologer]);
+  const astrologerIds = useMemo(() => catalogue.flatMap((f: any) => f.items.filter((i: any) => i.built && i.audience === 'astrologer').map((i: any) => i.id)) as string[], [catalogue]);
+  const setWithAstrologerPages = (on: boolean) => {
+    setWithAstrologer(on);
+    setSelected((cur) => (on ? [...new Set([...cur, ...astrologerIds])] : cur.filter((x) => !astrologerIds.includes(x))));
+  };
   const totals = useMemo(() => {
     const all = catalogue.flatMap((f: any) => f.items);
     return { pages: all.reduce((n: number, i: any) => n + i.pages, 0), builtPages: all.reduce((n: number, i: any) => n + i.sections.length, 0) };
   }, [catalogue]);
   const toggle = (id: string) => setSelected((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
   const toggleFamily = (family: any) => {
-    const ids = family.items.filter((i: any) => i.built).map((i: any) => i.id);
+    const ids = family.items.filter((i: any) => i.built && (withAstrologer || i.audience !== 'astrologer')).map((i: any) => i.id);
     const all = ids.every((id: string) => selected.includes(id));
     setSelected((cur) => (all ? cur.filter((x) => !ids.includes(x)) : [...new Set([...cur, ...ids])]));
   };
@@ -161,14 +171,20 @@ export default function BookView() {
         <section className="mb-4 rounded-2xl border border-line bg-surface p-3 shadow-sm sm:p-4" aria-label="பக்கங்களைத் தேர்வு செய்">
           <div className="mb-3 flex flex-wrap items-center gap-2">
             <h2 className="mr-2 font-[family-name:var(--font-tamil-serif)] text-base font-bold text-ink">நூலில் எவை வேண்டும்?</h2>
-            <button type="button" className={pill} onClick={() => setSelected(allBuilt.map((i: any) => i.id))}>அனைத்தும்</button>
+            <button type="button" className={pill} onClick={() => setSelected(allChosen)}>அனைத்தும்</button>
             <button type="button" className={pill} onClick={() => setSelected([])}>எதுவுமில்லை</button>
+            {astrologerIds.length > 0 && (
+              <label className="flex items-center gap-1 text-xs text-ink-soft" title="பெண் ஜாதகம், முன்பிறப்புச் சாபங்கள்: நூலின் கடுமையான சொற்கள்; ஜோதிடரின் வாசிப்புக்கு, வாடிக்கையாளருக்கு அப்படியே தர வேண்டாம்">
+                <input type="checkbox" checked={withAstrologer} onChange={(e) => setWithAstrologerPages(e.target.checked)} />
+                ஜோதிடர் பயன்பாட்டுப் பக்கங்களையும் சேர் ({astrologerIds.length})
+              </label>
+            )}
             <span className="ml-auto text-xs text-ink-soft">{selected.length} பகுதிகள் தேர்வு</span>
           </div>
           <div className="grid gap-3 md:grid-cols-2">
             {catalogue.map((f: any) => {
               const t = TONE[f.tone as Tone];
-              const ids = f.items.filter((i: any) => i.built).map((i: any) => i.id);
+              const ids = f.items.filter((i: any) => i.built && (withAstrologer || i.audience !== 'astrologer')).map((i: any) => i.id);
               const allOn = ids.length > 0 && ids.every((id: string) => selected.includes(id));
               return (
                 <div key={f.key} className="relative overflow-hidden rounded-xl border border-line bg-surface-2/30 p-3 pl-4">
@@ -195,6 +211,7 @@ export default function BookView() {
                               <span className="block font-semibold text-ink">{i.ta}</span>
                               <span className="block text-[10px] text-ink-soft">{i.from > 88 ? 'கூடுதல் ப.' : 'PL9 ப.'} {i.from}{i.to !== i.from ? `–${i.to}` : ''}{i.pages > 1 ? ` (${i.pages} பக்கங்கள்)` : ''}</span>
                             </span>
+                            {i.built && i.audience === 'astrologer' && <span className="shrink-0 rounded-full bg-rose-soft px-2 py-0.5 text-[10px] text-rose">ஜோதிடருக்கு</span>}
                             {!i.built && <span className="shrink-0 rounded-full bg-ink/10 px-2 py-0.5 text-[10px] text-ink-soft">விரைவில்</span>}
                             {i.built && !i.complete && <span className="shrink-0 rounded-full bg-ink/10 px-2 py-0.5 text-[10px] text-ink-soft">{i.sections.length}/{i.pages}</span>}
                           </button>
