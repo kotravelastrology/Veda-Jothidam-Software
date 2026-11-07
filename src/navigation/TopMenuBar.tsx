@@ -127,6 +127,7 @@ export function TopMenuBar() {
   // Classical References-menu keys → /references, with an optional category filter
   const REFERENCE_KEY_TO_PATH: Record<string, string> = {
     bphs: '/references',
+    samudrika: '/samudrika',
     saravali: '/references',
     planetHouse: '/planet-house',
     horasara: '/references',
@@ -215,6 +216,7 @@ export function TopMenuBar() {
         { label: 'Planetary Significations', key: 'karakas' },
         { label: 'Nakshatra Descriptions', key: 'nakshatras' },
         { label: 'Yogas Dictionary', key: 'yogas' },
+        { label: 'Body Signs and Moles (சாமுத்திரிகா)', key: 'samudrika' },
       ],
     },
     {

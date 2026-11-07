@@ -115,6 +115,7 @@ const HOME_SECTIONS = [
     links: [
       link('/references', '📚', 'சாஸ்திர நூல்கள்', 'Classical references'),
       link('/learning-resources', '🎓', 'சொல் · விதி · ஆதாரம்', 'Glossary'),
+      link('/samudrika', '🧿', 'சாமுத்திரிகா — உடல் அடையாளம், மச்சம்', 'Body signs and moles'),
       link('/evidence', '🧾', 'ஆதாரப் பலகைகள்', 'Evidence panels'),
       link('/research', '🔬', 'ஆராய்ச்சி', 'Research'),
     ],
