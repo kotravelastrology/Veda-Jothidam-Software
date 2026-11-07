@@ -1,0 +1,125 @@
+{
+ "id": "narapati-sanghatta-chakra",
+ "source": {
+  "title": "Narapatijayacarya Svarodaya",
+  "author": "Narapati (Subodhini Sanskrit-Hindi commentary of Pt. Ganesh Datt Pathaka)",
+  "tradition": "Svarodaya / Jayacarya (Sanskrit)",
+  "file": "C48-narapati-jayacharya-svarodaya-chaukhamba-1971-sanskrit-hindi.pdf",
+  "pageLocus": "Chapter \"Samghatta-chakram\" (Nakshatra Sanghatta), Kashi Sanskrit Series 205, Chaukhamba 1971, printed pp.148-150 (PDF page = printed + 20), verses 1-15 with the Hindi commentary and the diagram; read from the page images."
+ },
+ "scope": "The Nakshatra Sanghatta chakra: the 27 stars on the edge of a trapezoid of nine rows of triangles, each star joined by straight lines of the figure to two others (vedha). A star is struck (viddha) by a planet that stands in a star joined to it. The book uses it for war, the day's weather and disputes, with the star of a king's name. Which star to test is the reader's choice; the king's name-star is not available here.",
+ "left": [
+  "Revati",
+  "UBhadra",
+  "PBhadra",
+  "Shatabhisha",
+  "Dhanishta",
+  "Shravana",
+  "UAshadha",
+  "PAshadha",
+  "Mula"
+ ],
+ "right": [
+  "Ashwini",
+  "Bharani",
+  "Krittika",
+  "Rohini",
+  "Mrigashira",
+  "Ardra",
+  "Punarvasu",
+  "Pushya",
+  "Ashlesha"
+ ],
+ "bottom": [
+  "Jyeshtha",
+  "Anuradha",
+  "Vishakha",
+  "Swati",
+  "Chitra",
+  "Hasta",
+  "UPhalguni",
+  "PPhalguni",
+  "Magha"
+ ],
+ "lines": "Row k joins left[k] to right[k]; the slanting line from right[k] ends at bottom[k]; the slanting line from left[k] ends at bottom[10-k]. Each star lies on exactly two lines.",
+ "listedPairs": [
+  [
+   "Ashwini",
+   "Revati"
+  ],
+  [
+   "Ashwini",
+   "Jyeshtha"
+  ],
+  [
+   "Magha",
+   "Revati"
+  ],
+  [
+   "Magha",
+   "Ashlesha"
+  ],
+  [
+   "Ashlesha",
+   "Mula"
+  ]
+ ],
+ "listedPairsPage": {
+  "verses": "2",
+  "page": 148
+ },
+ "rules": [
+  {
+   "id": "V6_NO_VEDHA",
+   "verses": "6",
+   "page": 149,
+   "kind": "calm",
+   "ta": "ஒரு நட்சத்திரத்தை எந்தக் கிரகமும் வேதிக்காவிட்டால், அல்லது சுப கிரகம் வேதித்தால்: அரசர்களுக்கிடையே போர் இல்லை.",
+   "needsFocus": true
+  },
+  {
+   "id": "V6_MALEFIC_VEDHA",
+   "verses": "6",
+   "page": 149,
+   "kind": "war",
+   "ta": "தீய கிரகம் வேதித்தால்: அப்போதே கடும் போர்.",
+   "needsFocus": true
+  },
+  {
+   "id": "V7_MOON_VEDHA",
+   "verses": "7",
+   "page": 149,
+   "kind": "war",
+   "ta": "சனி, செவ்வாய், சூரியன் அல்லது ராகு சந்திரனை வேதித்த நாளில்: கடும் போர் (மூலம்: \"பாத\" — இந்தி உரை ராகு என்கிறது)."
+  },
+  {
+   "id": "V11_SUN_MOON_LINE",
+   "verses": "11",
+   "page": 149,
+   "kind": "war",
+   "ta": "சூரியனும் சந்திரனும் ஒரே கோட்டில் (வேதித்த நட்சத்திரங்களில்) இருந்த நாளில்: ஆயுதப் போர், பெரும் ஆயுதத் துன்பம்."
+  },
+  {
+   "id": "V12_MARS_RAHU_MOON",
+   "verses": "12",
+   "page": 149,
+   "kind": "war",
+   "ta": "செவ்வாயும் ராகுவும் ஒருவரையொருவர் வேதித்து, சந்திரன் அந்தக் கோட்டின் முனையில் (அவர்களில் ஒருவர் நட்சத்திரத்தில்) இருந்தால்: தீ அபாயமும் இரும்பு (ஆயுத) வீழ்ச்சியும்."
+  },
+  {
+   "id": "V13_MERCURY_VENUS_MOON",
+   "verses": "13",
+   "page": 149,
+   "kind": "weather",
+   "ta": "புதனும் சுக்கிரனும் ஒரே நட்சத்திரத்தில், சந்திரனும் அங்கே சேர்ந்தால்: மழையும் மின்னல் வீழ்ச்சியும்."
+  },
+  {
+   "id": "V14_FOUR_ONE_STAR",
+   "verses": "14",
+   "page": 149,
+   "kind": "weather",
+   "ta": "சந்திரன், சூரியன், சனி, ராகு ஒரே நட்சத்திரத்தில்: மேகமூட்டமான கெட்ட நாள்."
+  }
+ ],
+ "notBuilt": "Verses 4-5 (two kings' name-stars both struck; where the war will be, by Krittika counting), 8-10 (Rahu with an upagraha; division into benefic and malefic, friend and enemy, retrograde and fast planets) and 15 (Rahu, Sun, Mars and Moon in mutual vedha, whose combination the book states only in a sentence): the conditions are not stated fully enough to test. The Rashi Sanghatta chakra named by other authors is not in this book's chapter."
+}

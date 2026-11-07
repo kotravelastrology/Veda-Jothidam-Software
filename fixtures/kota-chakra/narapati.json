@@ -1,0 +1,528 @@
+{
+ "id": "narapati-kota-chakra",
+ "source": {
+  "title": "Narapatijayacarya Svarodaya",
+  "author": "Narapati (Subodhini Sanskrit-Hindi commentary of Pt. Ganesh Datt Pathaka)",
+  "tradition": "Svarodaya / Jayacarya (Sanskrit)",
+  "file": "C48-narapati-jayacharya-svarodaya-chaukhamba-1971-sanskrit-hindi.pdf",
+  "pageLocus": "Chapter \"Samachaturasradi Kotachakrani\", Kashi Sanskrit Series 205, Chaukhamba 1971, printed pp.226-240 (PDF page = printed + 20), verses 1-95 with the Hindi commentary; read from the page images."
+ },
+ "scope": "The fort chakra for a siege: the 28 stars (Abhijit included) in four parts of a fort, and what the planets standing in them say of the fort. The Moon, Mercury, Venus and Jupiter are benefic; Saturn, the Sun, Mars, Rahu and Ketu malefic (v.31). The book orients the chakra by the first letter of the fort's name (its direction) and reads entry and exit by the tithi and star; this page reads only which part of the fort each planet's star falls in, which does not depend on the orientation. A reading of a person's horoscope on this chakra (PL9 does it) is a modern use not found in this book.",
+ "zones": {
+  "BAHYA": [
+   "Krittika",
+   "Pushya",
+   "Ashlesha",
+   "Magha",
+   "Swati",
+   "Vishakha",
+   "Anuradha",
+   "Abhijit",
+   "Shravana",
+   "Dhanishta",
+   "Ashwini",
+   "Bharani"
+  ],
+  "PRAKARA": [
+   "Rohini",
+   "Punarvasu",
+   "PPhalguni",
+   "Chitra",
+   "Jyeshtha",
+   "UAshadha",
+   "Shatabhisha",
+   "Revati"
+  ],
+  "MADHYA": [
+   "Mrigashira",
+   "Ardra",
+   "UPhalguni",
+   "Hasta",
+   "Mula",
+   "PAshadha",
+   "PBhadra",
+   "UBhadra"
+  ]
+ },
+ "stambha": {
+  "East": "Ardra",
+  "South": "Hasta",
+  "West": "PAshadha",
+  "North": "UBhadra"
+ },
+ "entry": [
+  "Krittika",
+  "Rohini",
+  "Mrigashira",
+  "Magha",
+  "PPhalguni",
+  "UPhalguni",
+  "Anuradha",
+  "Jyeshtha",
+  "Mula",
+  "Dhanishta",
+  "Shatabhisha",
+  "PBhadra"
+ ],
+ "natures": {
+  "benefic": [
+   "Mercury",
+   "Venus",
+   "Moon",
+   "Jupiter"
+  ],
+  "malefic": [
+   "Saturn",
+   "Sun",
+   "Mars",
+   "Rahu",
+   "Ketu"
+  ]
+ },
+ "structureVerses": {
+  "verses": "19-26, 31",
+  "page": 230
+ },
+ "rules": [
+  {
+   "id": "K45_MADHYA",
+   "verses": "45",
+   "page": 233,
+   "kind": "bad",
+   "conds": [
+    [
+     "malefic",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "தீய கிரகம் உட்புற (மத்ய) நட்சத்திரத்தில்: கோட்டை (நகரம்) அழியும்."
+  },
+  {
+   "id": "K45_PRAKARA",
+   "verses": "45",
+   "page": 233,
+   "kind": "bad",
+   "conds": [
+    [
+     "malefic",
+     "PRAKARA",
+     1
+    ]
+   ],
+   "ta": "தீய கிரகம் சுவர் (பிராகார) நட்சத்திரத்தில்: சுவரில் உடைப்பு."
+  },
+  {
+   "id": "K45_BAHYA",
+   "verses": "45",
+   "page": 233,
+   "kind": "mixed",
+   "conds": [
+    [
+     "malefic",
+     "BAHYA",
+     1
+    ]
+   ],
+   "ta": "தீய கிரகம் வெளிப்புற (பாஹ்ய) நட்சத்திரத்தில்: கோட்டையை வளைத்த படையினர் இறப்பர்."
+  },
+  {
+   "id": "K46_FALL",
+   "verses": "46",
+   "page": 233,
+   "kind": "fall",
+   "conds": [
+    [
+     "malefic",
+     "MADHYA",
+     1
+    ],
+    [
+     "benefic",
+     "BAHYA",
+     1
+    ]
+   ],
+   "ta": "தீயது உள்ளே, சுபம் வெளியே: கோட்டையை உறுதியாகக் கைப்பற்றுவர்."
+  },
+  {
+   "id": "K46_HOLD",
+   "verses": "46",
+   "page": 233,
+   "kind": "hold",
+   "conds": [
+    [
+     "benefic",
+     "MADHYA",
+     1
+    ],
+    [
+     "malefic",
+     "BAHYA",
+     1
+    ]
+   ],
+   "ta": "சுபம் உள்ளே, தீயது வெளியே: கோட்டை கைப்பற்ற இயலாதது."
+  },
+  {
+   "id": "K47_NO_BATTLE",
+   "verses": "47",
+   "page": 233,
+   "kind": "fall",
+   "conds": [
+    [
+     "malefic",
+     "MADHYA",
+     4
+    ],
+    [
+     "benefic",
+     "PRAKARA",
+     1
+    ]
+   ],
+   "ta": "நான்கு தீய கிரகங்கள் உள்ளே, சுபம் சுவரில்: உட்பிளவால் போரின்றிக் கோட்டை கைப்பற்றப்படும்."
+  },
+  {
+   "id": "K48",
+   "verses": "48",
+   "page": 233,
+   "kind": "mixed",
+   "conds": [
+    [
+     "malefic",
+     "PRAKARA",
+     1
+    ],
+    [
+     "benefic",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "தீயது சுவரில், சுபம் உள்ளே: கோட்டை வீழும் நேரத்தில் முற்றுகையிடுபவன் உடைந்துபோவான் (மூலம்: \"வேஷ்டக\"); இந்தி உரை: காவலர் அழிவர் என்கிறது — உரைகள் மாறுபடுகின்றன."
+  },
+  {
+   "id": "K49",
+   "verses": "49",
+   "page": 233,
+   "kind": "mixed",
+   "conds": [
+    [
+     "benefic",
+     "MADHYA",
+     1
+    ],
+    [
+     "malefic",
+     "BAHYA",
+     1
+    ]
+   ],
+   "ta": "சுபம் உள்ளே, தீயது வெளியே: வெளிப்படையில் போரின்றியே குழப்பம் (சைன்யாவர்த்தம்) நேரும்."
+  },
+  {
+   "id": "K50_FALL_EASY",
+   "verses": "50",
+   "page": 234,
+   "kind": "fall",
+   "conds": [
+    [
+     "malefic",
+     "PRAKARA",
+     1
+    ],
+    [
+     "malefic",
+     "MADHYA",
+     1
+    ],
+    [
+     "benefic",
+     "BAHYA",
+     1
+    ]
+   ],
+   "ta": "தீயது சுவரிலும் உள்ளேயும், சுபம் வெளியே: முயற்சியின்றியே கோட்டை கைப்பற்றப்படும்."
+  },
+  {
+   "id": "K51_HOLD",
+   "verses": "51",
+   "page": 234,
+   "kind": "hold",
+   "conds": [
+    [
+     "benefic",
+     "MADHYA",
+     1
+    ],
+    [
+     "malefic",
+     "BAHYA",
+     1
+    ]
+   ],
+   "ta": "சுபம் உள்ளே, தீயது வெளியே: பிரம்மா முதலிய தேவர்களாலும் கோட்டையைக் கைப்பற்ற இயலாது."
+  },
+  {
+   "id": "K52",
+   "verses": "52",
+   "page": 234,
+   "kind": "mixed",
+   "conds": [
+    [
+     "malefic",
+     "PRAKARA",
+     1
+    ],
+    [
+     "malefic",
+     "BAHYA",
+     1
+    ],
+    [
+     "benefic",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "தீயது சுவரிலும் வெளியிலும், சுபம் உள்ளே: போர் நடக்கும்; ஆனால் சுவர் உடைபடாது, நகரும் வீழாது."
+  },
+  {
+   "id": "K53_STAMBHA_BENEFIC",
+   "verses": "53",
+   "page": 234,
+   "kind": "hold",
+   "conds": [
+    [
+     "benefic",
+     "STAMBHA",
+     2
+    ]
+   ],
+   "ta": "இரு சுப கிரகங்கள் தூண் (ஸ்தம்ப) நட்சத்திரங்களில்: அந்தக் கோட்டைக்கு ஒருபோதும் அழிவில்லை."
+  },
+  {
+   "id": "K55_STAMBHA_FOUR",
+   "verses": "55",
+   "page": 234,
+   "kind": "fall",
+   "conds": [
+    [
+     "all:Sun,Rahu,Saturn,Mars",
+     "STAMBHA",
+     4
+    ]
+   ],
+   "ta": "சூரியன், ராகு, சனி, செவ்வாய் தூண் நட்சத்திரங்களில்: கோட்டை விரைவில் அழியும் (சிவனே காக்கினும் கிரகதோஷத்தால் அழியும்)."
+  },
+  {
+   "id": "K57",
+   "verses": "57",
+   "page": 235,
+   "kind": "fall",
+   "conds": [
+    [
+     "benefic",
+     "BAHYA",
+     1
+    ],
+    [
+     "malefic",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "சுபம் வெளியே, தீயது உள்ளே: கோட்டை அதிபன் தானே கோட்டையை முற்றுகையிடுபவனுக்குக் கொடுப்பான்."
+  },
+  {
+   "id": "K58",
+   "verses": "58",
+   "page": 235,
+   "kind": "mixed",
+   "conds": [
+    [
+     "malefic",
+     "BAHYA",
+     1
+    ],
+    [
+     "malefic",
+     "MADHYA",
+     1
+    ],
+    [
+     "benefic",
+     "PRAKARA",
+     1
+    ]
+   ],
+   "ta": "தீயது வெளியிலும் உள்ளேயும், சுபம் சுவரில்: இரு பகைவரும் போரின்றியே அழிவர்."
+  },
+  {
+   "id": "K59",
+   "verses": "59",
+   "page": 235,
+   "kind": "mixed",
+   "conds": [
+    [
+     "malefic",
+     "PRAKARA",
+     1
+    ],
+    [
+     "benefic",
+     "BAHYA",
+     1
+    ],
+    [
+     "benefic",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "தீயது சுவரில், சுபம் வெளியிலும் உள்ளேயும்: சமமான போர்; நாள்தோறும் கோட்டை வீழ்ச்சி."
+  },
+  {
+   "id": "K60_TOGETHER",
+   "verses": "60",
+   "page": 235,
+   "kind": "war",
+   "conds": [
+    [
+     "together",
+     "ANY",
+     1
+    ]
+   ],
+   "ta": "ஒரே நட்சத்திரத்தில் சுப, தீய கிரகங்கள் சேர்ந்தால்: பயங்கரமான போர்."
+  },
+  {
+   "id": "K91_Sun",
+   "verses": "91",
+   "page": 239,
+   "kind": "planet",
+   "conds": [
+    [
+     "planet:Sun",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "சூரியன் உள்ளே: கோட்டையின் நீர் வற்றும்."
+  },
+  {
+   "id": "K91_Moon",
+   "verses": "91",
+   "page": 239,
+   "kind": "planet",
+   "conds": [
+    [
+     "planet:Moon",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "சந்திரன் உள்ளே: கோட்டை உடையும்."
+  },
+  {
+   "id": "K91_Mars",
+   "verses": "91",
+   "page": 239,
+   "kind": "planet",
+   "conds": [
+    [
+     "planet:Mars",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "செவ்வாய் உள்ளே: தீ அபாயம்."
+  },
+  {
+   "id": "K91_Mercury",
+   "verses": "91",
+   "page": 239,
+   "kind": "planet",
+   "conds": [
+    [
+     "planet:Mercury",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "புதன் உள்ளே: அறிவு பலத்தால் வலிமை பெறுவர்."
+  },
+  {
+   "id": "K92_Jupiter",
+   "verses": "92",
+   "page": 240,
+   "kind": "planet",
+   "conds": [
+    [
+     "planet:Jupiter",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "குரு உள்ளே: உணவு வளமும் மிகுந்த நீரும்."
+  },
+  {
+   "id": "K92_Venus",
+   "verses": "92",
+   "page": 240,
+   "kind": "planet",
+   "conds": [
+    [
+     "planet:Venus",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "சுக்கிரன் உள்ளே: மக்கள் நிலையற்ற மனத்தினராவர்."
+  },
+  {
+   "id": "K92_Saturn",
+   "verses": "92",
+   "page": 240,
+   "kind": "planet",
+   "conds": [
+    [
+     "planet:Saturn",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "சனி உள்ளே: மரணமும் நோயும்."
+  },
+  {
+   "id": "K93_Rahu",
+   "verses": "93",
+   "page": 240,
+   "kind": "planet",
+   "conds": [
+    [
+     "planet:Rahu",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "ராகு உள்ளே: உட்பிளவு, கோட்டை உடைவு, பெரும் அச்சம்."
+  },
+  {
+   "id": "K93_Ketu",
+   "verses": "93",
+   "page": 240,
+   "kind": "planet",
+   "conds": [
+    [
+     "planet:Ketu",
+     "MADHYA",
+     1
+    ]
+   ],
+   "ta": "கேது உள்ளே: கோட்டை அதிபனுக்கு விஷம் கொடுக்கப்படும்."
+  }
+ ],
+ "notNeeded": "Verses 66-90 (equal numbers of benefics and malefics giving a truce, the Moon in the entry or exit stars and night battles, retrograde malefics in entry and exit stars, upward and downward aspects) and the mini-system of v.95 onward are not built: their conditions are not stated completely enough to test."
+}

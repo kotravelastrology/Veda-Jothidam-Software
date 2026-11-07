@@ -73,3 +73,18 @@ console.log(JSON.stringify({
   pongal: byKey['thai-pongal'],
   deepavali: byKey['deepavali'],
 }, null, 2));
+
+// The sixty years' Tamil names (பஞ்சாங்கமும், வான சாஸ்திரமும், அனுபந்தம் 1, p.7): every year has one, in the order of SAMVATSARA
+{
+  const assert2 = require('node:assert/strict');
+  const C = require('./src/report/tamilCalendar');
+  assert2.equal(C.SAMVATSARA.length, 60);
+  const ta = C.SAMVATSARA.map((n) => C.tamilDate(Date.UTC(1987 + C.SAMVATSARA.indexOf(n), 6, 1), 13.08, 80.28, 'Lahiri').samvatsara.ta);
+  assert2.ok(ta.every((t) => /[஀-௿]/.test(t)), 'all sixty names are in Tamil');
+  assert2.equal(new Set(ta).size, 60, 'sixty different names');
+  assert2.equal(ta[0], 'பிரபவ');
+  assert2.equal(ta[59], 'அக்ஷய');
+  assert2.equal(C.tamilDate(Date.UTC(1990, 9, 5), 13.08, 80.28, 'Lahiri').samvatsara.ta, 'பிரமோதூத', '1990-91 is Pramoduta, as the PL9 sample prints it');
+  assert2.equal(C.tamilDate(Date.UTC(2026, 10, 1), 13.08, 80.28, 'Lahiri').samvatsara.ta, 'பராபவ');
+  console.log('test-tamil-calendar: sixty Tamil year names ok');
+}

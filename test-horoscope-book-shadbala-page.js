@@ -1,0 +1,124 @@
+const assert = require('assert');
+const { buildPage11 } = require('./src/report/horoscopeBook/shadbalaPage');
+
+// Sample birth, PL9 aniruddha_HC4 page 11: 5 October 1990, 04:30 IST, Chennai (13N05' 80E17').
+const birth = {
+  year: 1990, month: 10, day: 5, hour: 4, minute: 30, ianaTimeZone: 'Asia/Kolkata', utcOffsetMinutes: 330,
+  latitude: 13 + 5 / 60, longitude: 80 + 17 / 60, placeName: 'Chennai',
+};
+const PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+const NOT_BUILT = 'கட்டப்படவில்லை';
+
+async function main() {
+  const page = await buildPage11({ name: 'aniruddha', birth });
+  assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), 'no undefined or NaN on page 11');
+  assert.deepStrictEqual(page.blocks.map((b) => b.heading), ['Shad Bala', 'Bhava Bala']);
+
+  const table = page.blocks[0];
+  const row = (label) => {
+    const r = table.rows.find((x) => x[0] === label);
+    assert.ok(r, `${label} row exists`);
+    return r.slice(1).map(Number);
+  };
+
+  // Rows that match PL9's printed page exactly (to the paisa): Ochcha, Dig, and the Lagna-independent Kaala parts.
+  assert.deepStrictEqual(row('Ochcha Bala'), [7.42, 46.98, 22.97, 56.64, 56.60, 5.48, 38.30]);
+  assert.deepStrictEqual(row('2. Dig Bala'), [22.70, 20.63, 57.75, 56.71, 46.71, 34.91, 40.01]);
+  assert.deepStrictEqual(row('Varsha Bala'), [0, 15, 0, 0, 0, 0, 0], 'Chandra is the lord of the year');
+  assert.deepStrictEqual(row('Maasa Bala'), [0, 0, 0, 0, 0, 30, 0], 'Shukra is the lord of the month');
+  assert.deepStrictEqual(row('Vaara Bala'), [0, 0, 0, 0, 45, 0, 0], 'Guru is the lord of the day');
+  assert.deepStrictEqual(row('Hora Bala'), [0, 0, 60, 0, 0, 0, 0], 'Kuja is the lord of the hour');
+  assert.deepStrictEqual(row('Tri-Bhaga Bala'), [0, 0, 60, 0, 60, 0, 0], 'Kuja and Guru get Tribhaga (PL9 agrees)');
+
+  // Rows the PL9 reading reproduces to the paisa on this printout (and on the Arjun and meera ones, see test-shadbala-pl9.js): the whole of Sthana
+  // (Raman's: Saptavargaja, Ojhayugma, Kendradi, Drekkana), Paksha (the Moon's elongation over three, Budha papa with the Sun in his sign), Naisargika.
+  assert.deepStrictEqual(row('Sapta-vargaja Bala'), [82.50, 75.00, 82.50, 95.63, 131.25, 95.63, 88.13]);
+  assert.deepStrictEqual(row('Ojhayugma Bala'), [15, 15, 15, 15, 0, 15, 15]);
+  assert.deepStrictEqual(row('Kendradi Bala'), [30, 30, 60, 30, 15, 30, 30]);
+  assert.deepStrictEqual(row('Drekkana Bala'), [0, 15, 0, 0, 0, 0, 0]);
+  assert.deepStrictEqual(row('1. Sthana Bala'), [134.92, 181.98, 180.47, 197.27, 202.85, 146.10, 171.43]);
+  assert.deepStrictEqual(row('Paksha Bala'), [2.07, 57.93, 2.07, 2.07, 57.93, 57.93, 2.07]);
+  assert.deepStrictEqual(row('5. Naisargika Bala'), [60, 51.42, 17.16, 25.74, 34.26, 42.84, 8.58]);
+  // Chesta of the Sun and the Moon is their Ayana and Paksha Bala, as PL9 prints it
+  assert.deepStrictEqual(row('4. Chesta Bala').slice(0, 2), [row('Ayana Bala')[0], row('Paksha Bala')[1]]);
+
+  // The minimum Pinda is BPHS v.32-33, and PL9 prints the same numbers.
+  assert.deepStrictEqual(row('Minimum requirements'), [390, 360, 300, 420, 390, 330, 300]);
+
+  // The parts sum to their headings (an internal check on the table, not on PL9).
+  const sum = (labels) => PLANETS.map((_, i) => labels.reduce((s, l) => s + row(l)[i], 0));
+  const sthanaParts = ['Ochcha Bala', 'Sapta-vargaja Bala', 'Ojhayugma Bala', 'Kendradi Bala', 'Drekkana Bala'];
+  const kaalaParts = ['Nata-Unnata Bala', 'Paksha Bala', 'Tri-Bhaga Bala', 'Varsha Bala', 'Maasa Bala', 'Vaara Bala', 'Hora Bala',
+    'Ayana Bala', 'Yuddha Bala'];
+  sum(sthanaParts).forEach((v, i) => assert.ok(Math.abs(v - row('1. Sthana Bala')[i]) < 0.02, `${PLANETS[i]} Sthana parts sum`));
+  sum(kaalaParts).forEach((v, i) => assert.ok(Math.abs(v - row('3. Kaala Bala')[i]) < 0.01, `${PLANETS[i]} Kaala parts sum`));
+
+  // The total is the sum of the six parts (Yuddha included), the rupas are that over 60, and the total over the minimum
+  // gives the rank: the strongest is 1. PL9 ranks the Moon, Saturn and Venus differently (3, 4, 5 against our 5, 3, 4).
+  const shadbalaTotal = row('Total Shadbala');
+  PLANETS.forEach((_, i) => {
+    const parts = ['1. Sthana Bala', '2. Dig Bala', '3. Kaala Bala', '4. Chesta Bala', '5. Naisargika Bala', '6. Drik Bala']
+      .reduce((s, l) => s + row(l)[i], 0) + row('Yuddha Bala')[i];
+    assert.ok(Math.abs(shadbalaTotal[i] - parts) < 0.02, `${PLANETS[i]} total is the sum of its parts (to 2dp rounding)`);
+  });
+  const rupas = row('Shadbala in Rupas');
+  shadbalaTotal.forEach((t, i) => assert.ok(Math.abs(rupas[i] - t / 60) < 0.01, `${PLANETS[i]} rupas`));
+  const ofRequired = row('Shadbala % of required');
+  shadbalaTotal.forEach((t, i) => assert.ok(Math.abs(ofRequired[i] - t / [390, 360, 300, 420, 390, 330, 300][i]) < 0.01,
+    `${PLANETS[i]} total % of required`));
+  // the rank is by the total over the minimum, strongest first (PL9: 7 3 1 6 2 5 4 on its own totals, which differ in Nata-Unnata, Ayana, Chesta and Drik)
+  const rankOf = ofRequired.map((v) => 1 + ofRequired.filter((w) => w > v).length);
+  assert.deepStrictEqual(row('Relative Rank'), rankOf, 'rank by total over minimum, strongest first');
+
+  // Ishta and Kashta Phala (Raman Art.138-139): each is a real number between 0 and 60 (both factors are). The Drik minimum
+  // is not built (BPHS gives none).
+  for (const label of ['Ishta Phala', 'Kashta Phala']) {
+    const values = row(label);
+    assert.ok(values.every((v) => Number.isFinite(v) && v >= 0 && v <= 60), `${label} is a value in 0-60`);
+  }
+  const drik = table.rows.find((x) => x[0] === 'Drik Bala % of required');
+  assert.ok(drik && drik.slice(1).every((v) => v === NOT_BUILT), 'Drik Bala % of required is not built');
+
+  // Bhava Bala (PL9 sample, page 11): Planets in (BPHS v.30) and Day-Night (BPHS v.31) match PL9 exactly on this night birth.
+  // Digbala (Raman Art.131) is within one unit of PL9 for every house but XII (ours 20, PL9 10), whose Cancer base gives 20 by
+  // Raman's rule. Drishti and From Lord are Raman's readings and are not asserted against PL9's own.
+  const bhava = page.blocks[1];
+  const bhavaRow = (label) => {
+    const r = bhava.rows.find((x) => x[0] === label);
+    assert.ok(r, `${label} bhava row exists`);
+    return r.slice(1).map(Number);
+  };
+  assert.deepStrictEqual(bhavaRow('Planets in'), [0, 0, 0, 0, -60, 0, 0, 0, 0, -60, 0, 60]);
+  assert.deepStrictEqual(bhavaRow('Day-Night'), [0, 0, 0, 0, 15, 15, 0, 0, 15, 15, 0, 15]);
+  const pl9Dig = [30, 49, 39, 30, 9, 40, 0, 20, 49, 59, 40, 10];
+  bhavaRow('Dig Bala').forEach((v, i) => {
+    if (i === 11) return;
+    assert.ok(Math.abs(v - pl9Dig[i]) <= 1, `house ${i + 1} Digbala ${v} vs PL9 ${pl9Dig[i]}`);
+  });
+  assert.deepStrictEqual(bhavaRow('Rashi').length, 12);
+  for (const label of ['From Lord', 'Drishti', 'Bhava Bala Total']) {
+    assert.ok(bhavaRow(label).every((v) => Number.isFinite(v)), `${label} is finite`);
+  }
+  const total = bhavaRow('Bhava Bala Total');
+  const parts = ['From Lord', 'Dig Bala', 'Drishti', 'Planets in', 'Day-Night'].map(bhavaRow);
+  total.forEach((t, i) => assert.ok(Math.abs(t - (parts[0][i] + parts[1][i] + parts[2][i] + parts[3][i] + parts[4][i])) <= 1,
+    `house ${i + 1} total is the sum of its parts`));
+
+  // Component "% of required" uses BPHS v.34-36's group minimums: Sun's Sthana 134.92 would read 0.82 against 165 in PL9;
+  // our Sun Sthana (140.42, with our Saptavargaja) reads 0.85. Assert the arithmetic, not PL9's figure.
+  const sthanaOf = row('1. Sthana Bala');
+  const sthanaRequired = row('Sthana Bala % of required');
+  assert.ok(Math.abs(sthanaRequired[0] - sthanaOf[0] / 165) < 0.006, 'Sun Sthana % of required = Sthana / 165');
+  assert.ok(Math.abs(row('Dig Bala % of required')[0] - 22.70 / 35) < 0.006, 'Sun Dig % of required = 22.70 / 35');
+  assert.ok(Math.abs(row('Kaala Bala % of required')[0] - row('3. Kaala Bala')[0] / 50) < 0.006,
+    'Sun Kaala % of required uses the Kaala minimum 50 (BPHS v.34-36)');
+  assert.ok(Math.abs(row('Chesta Bala % of required')[0] - row('4. Chesta Bala')[0] / 112) < 0.006,
+    'Sun Chesta % of required uses the Chesta minimum 112 (BPHS v.34-36)');
+
+  console.log('test-horoscope-book-shadbala-page: all assertions passed');
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

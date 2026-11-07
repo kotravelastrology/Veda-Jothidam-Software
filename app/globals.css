@@ -5,7 +5,7 @@
   --surface: #ffffff;
   --surface-2: #fdeed2;
   --ink: #2b1b12;
-  --ink-soft: #6b5747;
+  --ink-soft: #5b4636;
   --line: #ecdcc0;
 
   --saffron: #c96a12;
@@ -16,10 +16,15 @@
   --rose-soft: #f6ddd8;
   --teal: #1f7a5c;
   --teal-soft: #dcf0e7;
+
+  /* the top bar and the status bar: dark in both themes */
+  --bar: #2b1b12;
+  --bar-ink: #fff8ed;
 }
 
+/* Dark colours: from the system's setting, unless Settings > Theme says Light; always when it says Dark. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #17111c;
     --surface: #241b2e;
     --surface-2: #2c2138;
@@ -35,8 +40,36 @@
     --rose-soft: #3a221e;
     --teal: #5fcba0;
     --teal-soft: #16302a;
+
+    --bar: #0d0911;
+    --bar-ink: #f3e9da;
   }
 }
+
+:root[data-theme="dark"] {
+  --bg: #17111c;
+  --surface: #241b2e;
+  --surface-2: #2c2138;
+  --ink: #f3e9da;
+  --ink-soft: #c9b8ce;
+  --line: #3a2d47;
+
+  --saffron: #f4a94a;
+  --saffron-soft: #3d2a13;
+  --indigo: #a395d6;
+  --indigo-soft: #2a2340;
+  --rose: #e8776a;
+  --rose-soft: #3a221e;
+  --teal: #5fcba0;
+  --teal-soft: #16302a;
+
+  --bar: #0d0911;
+  --bar-ink: #f3e9da;
+}
+
+/* Settings > Font size: every size in the program is in rem, so the root size scales the whole screen. */
+:root[data-font="small"] { font-size: 14px; }
+:root[data-font="large"] { font-size: 18px; }
 
 body {
   background: var(--bg);
@@ -58,6 +91,78 @@ body {
   --color-rose-soft: var(--rose-soft);
   --color-teal: var(--teal);
   --color-teal-soft: var(--teal-soft);
+  --color-bar: var(--bar);
+  --color-bar-ink: var(--bar-ink);
   --font-tamil-serif: var(--font-noto-serif-tamil);
   --font-tamil-sans: var(--font-noto-sans-tamil);
+}
+
+/* The print center (/print): when a document is shown, only it is printed; the menus, panels and controls are hidden. */
+@media print {
+  body:has(.print-area) * { visibility: hidden; }
+  body:has(.print-area) .print-area, body:has(.print-area) .print-area * { visibility: visible; }
+  body:has(.print-area) .print-area { position: absolute; left: 0; top: 0; width: 100%; margin: 0; }
+  body:has(.print-area) { background: #fff; }
+  @page { margin: 12mm; }
+}
+
+/* The watermark behind every page (MainLayout): a zodiac wheel and a South Indian chart, very faint, fixed while the page scrolls. */
+.kotravel-watermark {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 600 600%22 fill=%22none%22 stroke=%22%23c96a12%22 stroke-width=%222%22><circle cx=%22300%22 cy=%22300%22 r=%22290%22/><circle cx=%22300%22 cy=%22300%22 r=%22250%22/><circle cx=%22300%22 cy=%22300%22 r=%22200%22/><circle cx=%22300%22 cy=%22300%22 r=%2292%22/><circle cx=%22300%22 cy=%22300%22 r=%2260%22/><line x1=%22500.0%22 y1=%22300.0%22 x2=%22590.0%22 y2=%22300.0%22/><circle cx=%22560.8%22 cy=%22369.9%22 r=%224%22/><line x1=%22473.2%22 y1=%22400.0%22 x2=%22551.1%22 y2=%22445.0%22/><circle cx=%22490.9%22 cy=%22490.9%22 r=%224%22/><line x1=%22400.0%22 y1=%22473.2%22 x2=%22445.0%22 y2=%22551.1%22/><circle cx=%22369.9%22 cy=%22560.8%22 r=%224%22/><line x1=%22300.0%22 y1=%22500.0%22 x2=%22300.0%22 y2=%22590.0%22/><circle cx=%22230.1%22 cy=%22560.8%22 r=%224%22/><line x1=%22200.0%22 y1=%22473.2%22 x2=%22155.0%22 y2=%22551.1%22/><circle cx=%22109.1%22 cy=%22490.9%22 r=%224%22/><line x1=%22126.8%22 y1=%22400.0%22 x2=%2248.9%22 y2=%22445.0%22/><circle cx=%2239.2%22 cy=%22369.9%22 r=%224%22/><line x1=%22100.0%22 y1=%22300.0%22 x2=%2210.0%22 y2=%22300.0%22/><circle cx=%2239.2%22 cy=%22230.1%22 r=%224%22/><line x1=%22126.8%22 y1=%22200.0%22 x2=%2248.9%22 y2=%22155.0%22/><circle cx=%22109.1%22 cy=%22109.1%22 r=%224%22/><line x1=%22200.0%22 y1=%22126.8%22 x2=%22155.0%22 y2=%2248.9%22/><circle cx=%22230.1%22 cy=%2239.2%22 r=%224%22/><line x1=%22300.0%22 y1=%22100.0%22 x2=%22300.0%22 y2=%2210.0%22/><circle cx=%22369.9%22 cy=%2239.2%22 r=%224%22/><line x1=%22400.0%22 y1=%22126.8%22 x2=%22445.0%22 y2=%2248.9%22/><circle cx=%22490.9%22 cy=%22109.1%22 r=%224%22/><line x1=%22473.2%22 y1=%22200.0%22 x2=%22551.1%22 y2=%22155.0%22/><circle cx=%22560.8%22 cy=%22230.1%22 r=%224%22/><line x1=%22500.0%22 y1=%22300.0%22 x2=%22514.0%22 y2=%22300.0%22/><line x1=%22494.6%22 y1=%22346.1%22 x2=%22508.2%22 y2=%22349.4%22/><line x1=%22478.7%22 y1=%22389.8%22 x2=%22491.2%22 y2=%22396.0%22/><line x1=%22453.2%22 y1=%22428.6%22 x2=%22463.9%22 y2=%22437.6%22/><line x1=%22419.4%22 y1=%22460.4%22 x2=%22427.8%22 y2=%22471.7%22/><line x1=%22379.2%22 y1=%22483.6%22 x2=%22384.8%22 y2=%22496.5%22/><line x1=%22334.7%22 y1=%22497.0%22 x2=%22337.2%22 y2=%22510.7%22/><line x1=%22288.4%22 y1=%22499.7%22 x2=%22287.6%22 y2=%22513.6%22/><line x1=%22242.6%22 y1=%22491.6%22 x2=%22238.6%22 y2=%22505.0%22/><line x1=%22200.0%22 y1=%22473.2%22 x2=%22193.0%22 y2=%22485.3%22/><line x1=%22162.8%22 y1=%22445.5%22 x2=%22153.1%22 y2=%22455.7%22/><line x1=%22132.9%22 y1=%22409.9%22 x2=%22121.2%22 y2=%22417.6%22/><line x1=%22112.1%22 y1=%22368.4%22 x2=%2298.9%22 y2=%22373.2%22/><line x1=%22101.4%22 y1=%22323.2%22 x2=%2287.4%22 y2=%22324.8%22/><line x1=%22101.4%22 y1=%22276.8%22 x2=%2287.4%22 y2=%22275.2%22/><line x1=%22112.1%22 y1=%22231.6%22 x2=%2298.9%22 y2=%22226.8%22/><line x1=%22132.9%22 y1=%22190.1%22 x2=%22121.2%22 y2=%22182.4%22/><line x1=%22162.8%22 y1=%22154.5%22 x2=%22153.1%22 y2=%22144.3%22/><line x1=%22200.0%22 y1=%22126.8%22 x2=%22193.0%22 y2=%22114.7%22/><line x1=%22242.6%22 y1=%22108.4%22 x2=%22238.6%22 y2=%2295.0%22/><line x1=%22288.4%22 y1=%22100.3%22 x2=%22287.6%22 y2=%2286.4%22/><line x1=%22334.7%22 y1=%22103.0%22 x2=%22337.2%22 y2=%2289.3%22/><line x1=%22379.2%22 y1=%22116.4%22 x2=%22384.8%22 y2=%22103.5%22/><line x1=%22419.4%22 y1=%22139.6%22 x2=%22427.8%22 y2=%22128.3%22/><line x1=%22453.2%22 y1=%22171.4%22 x2=%22463.9%22 y2=%22162.4%22/><line x1=%22478.7%22 y1=%22210.2%22 x2=%22491.2%22 y2=%22204.0%22/><line x1=%22494.6%22 y1=%22253.9%22 x2=%22508.2%22 y2=%22250.6%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(0 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(45 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(90 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(135 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(180 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(225 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(270 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(315 300 300)%22/></svg>"), url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 420 420%22 fill=%22none%22 stroke=%22%23c96a12%22 stroke-width=%222.5%22><rect x=%2210%22 y=%2210%22 width=%22400%22 height=%22400%22/><line x1=%22110%22 y1=%2210%22 x2=%22110%22 y2=%22110%22/><line x1=%22110%22 y1=%22310%22 x2=%22110%22 y2=%22410%22/><line x1=%2210%22 y1=%22110%22 x2=%22110%22 y2=%22110%22/><line x1=%22310%22 y1=%22110%22 x2=%22410%22 y2=%22110%22/><line x1=%22210%22 y1=%2210%22 x2=%22210%22 y2=%22110%22/><line x1=%22210%22 y1=%22310%22 x2=%22210%22 y2=%22410%22/><line x1=%2210%22 y1=%22210%22 x2=%22110%22 y2=%22210%22/><line x1=%22310%22 y1=%22210%22 x2=%22410%22 y2=%22210%22/><line x1=%22310%22 y1=%2210%22 x2=%22310%22 y2=%22110%22/><line x1=%22310%22 y1=%22310%22 x2=%22310%22 y2=%22410%22/><line x1=%2210%22 y1=%22310%22 x2=%22110%22 y2=%22310%22/><line x1=%22310%22 y1=%22310%22 x2=%22410%22 y2=%22310%22/><rect x=%22110%22 y=%22110%22 width=%22200%22 height=%22200%22/><path d=%22M210 120 L300 210 L210 300 L120 210 Z%22/><circle cx=%22210%22 cy=%22210%22 r=%2222%22/></svg>");
+  background-repeat: no-repeat;
+  background-position: right -160px bottom -200px, left -70px top 150px;
+  background-size: min(720px, 90vw), min(380px, 55vw);
+  opacity: 0.07;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .kotravel-watermark { background-image: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 600 600%22 fill=%22none%22 stroke=%22%23f4a94a%22 stroke-width=%222%22><circle cx=%22300%22 cy=%22300%22 r=%22290%22/><circle cx=%22300%22 cy=%22300%22 r=%22250%22/><circle cx=%22300%22 cy=%22300%22 r=%22200%22/><circle cx=%22300%22 cy=%22300%22 r=%2292%22/><circle cx=%22300%22 cy=%22300%22 r=%2260%22/><line x1=%22500.0%22 y1=%22300.0%22 x2=%22590.0%22 y2=%22300.0%22/><circle cx=%22560.8%22 cy=%22369.9%22 r=%224%22/><line x1=%22473.2%22 y1=%22400.0%22 x2=%22551.1%22 y2=%22445.0%22/><circle cx=%22490.9%22 cy=%22490.9%22 r=%224%22/><line x1=%22400.0%22 y1=%22473.2%22 x2=%22445.0%22 y2=%22551.1%22/><circle cx=%22369.9%22 cy=%22560.8%22 r=%224%22/><line x1=%22300.0%22 y1=%22500.0%22 x2=%22300.0%22 y2=%22590.0%22/><circle cx=%22230.1%22 cy=%22560.8%22 r=%224%22/><line x1=%22200.0%22 y1=%22473.2%22 x2=%22155.0%22 y2=%22551.1%22/><circle cx=%22109.1%22 cy=%22490.9%22 r=%224%22/><line x1=%22126.8%22 y1=%22400.0%22 x2=%2248.9%22 y2=%22445.0%22/><circle cx=%2239.2%22 cy=%22369.9%22 r=%224%22/><line x1=%22100.0%22 y1=%22300.0%22 x2=%2210.0%22 y2=%22300.0%22/><circle cx=%2239.2%22 cy=%22230.1%22 r=%224%22/><line x1=%22126.8%22 y1=%22200.0%22 x2=%2248.9%22 y2=%22155.0%22/><circle cx=%22109.1%22 cy=%22109.1%22 r=%224%22/><line x1=%22200.0%22 y1=%22126.8%22 x2=%22155.0%22 y2=%2248.9%22/><circle cx=%22230.1%22 cy=%2239.2%22 r=%224%22/><line x1=%22300.0%22 y1=%22100.0%22 x2=%22300.0%22 y2=%2210.0%22/><circle cx=%22369.9%22 cy=%2239.2%22 r=%224%22/><line x1=%22400.0%22 y1=%22126.8%22 x2=%22445.0%22 y2=%2248.9%22/><circle cx=%22490.9%22 cy=%22109.1%22 r=%224%22/><line x1=%22473.2%22 y1=%22200.0%22 x2=%22551.1%22 y2=%22155.0%22/><circle cx=%22560.8%22 cy=%22230.1%22 r=%224%22/><line x1=%22500.0%22 y1=%22300.0%22 x2=%22514.0%22 y2=%22300.0%22/><line x1=%22494.6%22 y1=%22346.1%22 x2=%22508.2%22 y2=%22349.4%22/><line x1=%22478.7%22 y1=%22389.8%22 x2=%22491.2%22 y2=%22396.0%22/><line x1=%22453.2%22 y1=%22428.6%22 x2=%22463.9%22 y2=%22437.6%22/><line x1=%22419.4%22 y1=%22460.4%22 x2=%22427.8%22 y2=%22471.7%22/><line x1=%22379.2%22 y1=%22483.6%22 x2=%22384.8%22 y2=%22496.5%22/><line x1=%22334.7%22 y1=%22497.0%22 x2=%22337.2%22 y2=%22510.7%22/><line x1=%22288.4%22 y1=%22499.7%22 x2=%22287.6%22 y2=%22513.6%22/><line x1=%22242.6%22 y1=%22491.6%22 x2=%22238.6%22 y2=%22505.0%22/><line x1=%22200.0%22 y1=%22473.2%22 x2=%22193.0%22 y2=%22485.3%22/><line x1=%22162.8%22 y1=%22445.5%22 x2=%22153.1%22 y2=%22455.7%22/><line x1=%22132.9%22 y1=%22409.9%22 x2=%22121.2%22 y2=%22417.6%22/><line x1=%22112.1%22 y1=%22368.4%22 x2=%2298.9%22 y2=%22373.2%22/><line x1=%22101.4%22 y1=%22323.2%22 x2=%2287.4%22 y2=%22324.8%22/><line x1=%22101.4%22 y1=%22276.8%22 x2=%2287.4%22 y2=%22275.2%22/><line x1=%22112.1%22 y1=%22231.6%22 x2=%2298.9%22 y2=%22226.8%22/><line x1=%22132.9%22 y1=%22190.1%22 x2=%22121.2%22 y2=%22182.4%22/><line x1=%22162.8%22 y1=%22154.5%22 x2=%22153.1%22 y2=%22144.3%22/><line x1=%22200.0%22 y1=%22126.8%22 x2=%22193.0%22 y2=%22114.7%22/><line x1=%22242.6%22 y1=%22108.4%22 x2=%22238.6%22 y2=%2295.0%22/><line x1=%22288.4%22 y1=%22100.3%22 x2=%22287.6%22 y2=%2286.4%22/><line x1=%22334.7%22 y1=%22103.0%22 x2=%22337.2%22 y2=%2289.3%22/><line x1=%22379.2%22 y1=%22116.4%22 x2=%22384.8%22 y2=%22103.5%22/><line x1=%22419.4%22 y1=%22139.6%22 x2=%22427.8%22 y2=%22128.3%22/><line x1=%22453.2%22 y1=%22171.4%22 x2=%22463.9%22 y2=%22162.4%22/><line x1=%22478.7%22 y1=%22210.2%22 x2=%22491.2%22 y2=%22204.0%22/><line x1=%22494.6%22 y1=%22253.9%22 x2=%22508.2%22 y2=%22250.6%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(0 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(45 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(90 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(135 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(180 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(225 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(270 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(315 300 300)%22/></svg>"), url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 420 420%22 fill=%22none%22 stroke=%22%23f4a94a%22 stroke-width=%222.5%22><rect x=%2210%22 y=%2210%22 width=%22400%22 height=%22400%22/><line x1=%22110%22 y1=%2210%22 x2=%22110%22 y2=%22110%22/><line x1=%22110%22 y1=%22310%22 x2=%22110%22 y2=%22410%22/><line x1=%2210%22 y1=%22110%22 x2=%22110%22 y2=%22110%22/><line x1=%22310%22 y1=%22110%22 x2=%22410%22 y2=%22110%22/><line x1=%22210%22 y1=%2210%22 x2=%22210%22 y2=%22110%22/><line x1=%22210%22 y1=%22310%22 x2=%22210%22 y2=%22410%22/><line x1=%2210%22 y1=%22210%22 x2=%22110%22 y2=%22210%22/><line x1=%22310%22 y1=%22210%22 x2=%22410%22 y2=%22210%22/><line x1=%22310%22 y1=%2210%22 x2=%22310%22 y2=%22110%22/><line x1=%22310%22 y1=%22310%22 x2=%22310%22 y2=%22410%22/><line x1=%2210%22 y1=%22310%22 x2=%22110%22 y2=%22310%22/><line x1=%22310%22 y1=%22310%22 x2=%22410%22 y2=%22310%22/><rect x=%22110%22 y=%22110%22 width=%22200%22 height=%22200%22/><path d=%22M210 120 L300 210 L210 300 L120 210 Z%22/><circle cx=%22210%22 cy=%22210%22 r=%2222%22/></svg>"); opacity: 0.06; }
+}
+:root[data-theme="dark"] .kotravel-watermark { background-image: url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 600 600%22 fill=%22none%22 stroke=%22%23f4a94a%22 stroke-width=%222%22><circle cx=%22300%22 cy=%22300%22 r=%22290%22/><circle cx=%22300%22 cy=%22300%22 r=%22250%22/><circle cx=%22300%22 cy=%22300%22 r=%22200%22/><circle cx=%22300%22 cy=%22300%22 r=%2292%22/><circle cx=%22300%22 cy=%22300%22 r=%2260%22/><line x1=%22500.0%22 y1=%22300.0%22 x2=%22590.0%22 y2=%22300.0%22/><circle cx=%22560.8%22 cy=%22369.9%22 r=%224%22/><line x1=%22473.2%22 y1=%22400.0%22 x2=%22551.1%22 y2=%22445.0%22/><circle cx=%22490.9%22 cy=%22490.9%22 r=%224%22/><line x1=%22400.0%22 y1=%22473.2%22 x2=%22445.0%22 y2=%22551.1%22/><circle cx=%22369.9%22 cy=%22560.8%22 r=%224%22/><line x1=%22300.0%22 y1=%22500.0%22 x2=%22300.0%22 y2=%22590.0%22/><circle cx=%22230.1%22 cy=%22560.8%22 r=%224%22/><line x1=%22200.0%22 y1=%22473.2%22 x2=%22155.0%22 y2=%22551.1%22/><circle cx=%22109.1%22 cy=%22490.9%22 r=%224%22/><line x1=%22126.8%22 y1=%22400.0%22 x2=%2248.9%22 y2=%22445.0%22/><circle cx=%2239.2%22 cy=%22369.9%22 r=%224%22/><line x1=%22100.0%22 y1=%22300.0%22 x2=%2210.0%22 y2=%22300.0%22/><circle cx=%2239.2%22 cy=%22230.1%22 r=%224%22/><line x1=%22126.8%22 y1=%22200.0%22 x2=%2248.9%22 y2=%22155.0%22/><circle cx=%22109.1%22 cy=%22109.1%22 r=%224%22/><line x1=%22200.0%22 y1=%22126.8%22 x2=%22155.0%22 y2=%2248.9%22/><circle cx=%22230.1%22 cy=%2239.2%22 r=%224%22/><line x1=%22300.0%22 y1=%22100.0%22 x2=%22300.0%22 y2=%2210.0%22/><circle cx=%22369.9%22 cy=%2239.2%22 r=%224%22/><line x1=%22400.0%22 y1=%22126.8%22 x2=%22445.0%22 y2=%2248.9%22/><circle cx=%22490.9%22 cy=%22109.1%22 r=%224%22/><line x1=%22473.2%22 y1=%22200.0%22 x2=%22551.1%22 y2=%22155.0%22/><circle cx=%22560.8%22 cy=%22230.1%22 r=%224%22/><line x1=%22500.0%22 y1=%22300.0%22 x2=%22514.0%22 y2=%22300.0%22/><line x1=%22494.6%22 y1=%22346.1%22 x2=%22508.2%22 y2=%22349.4%22/><line x1=%22478.7%22 y1=%22389.8%22 x2=%22491.2%22 y2=%22396.0%22/><line x1=%22453.2%22 y1=%22428.6%22 x2=%22463.9%22 y2=%22437.6%22/><line x1=%22419.4%22 y1=%22460.4%22 x2=%22427.8%22 y2=%22471.7%22/><line x1=%22379.2%22 y1=%22483.6%22 x2=%22384.8%22 y2=%22496.5%22/><line x1=%22334.7%22 y1=%22497.0%22 x2=%22337.2%22 y2=%22510.7%22/><line x1=%22288.4%22 y1=%22499.7%22 x2=%22287.6%22 y2=%22513.6%22/><line x1=%22242.6%22 y1=%22491.6%22 x2=%22238.6%22 y2=%22505.0%22/><line x1=%22200.0%22 y1=%22473.2%22 x2=%22193.0%22 y2=%22485.3%22/><line x1=%22162.8%22 y1=%22445.5%22 x2=%22153.1%22 y2=%22455.7%22/><line x1=%22132.9%22 y1=%22409.9%22 x2=%22121.2%22 y2=%22417.6%22/><line x1=%22112.1%22 y1=%22368.4%22 x2=%2298.9%22 y2=%22373.2%22/><line x1=%22101.4%22 y1=%22323.2%22 x2=%2287.4%22 y2=%22324.8%22/><line x1=%22101.4%22 y1=%22276.8%22 x2=%2287.4%22 y2=%22275.2%22/><line x1=%22112.1%22 y1=%22231.6%22 x2=%2298.9%22 y2=%22226.8%22/><line x1=%22132.9%22 y1=%22190.1%22 x2=%22121.2%22 y2=%22182.4%22/><line x1=%22162.8%22 y1=%22154.5%22 x2=%22153.1%22 y2=%22144.3%22/><line x1=%22200.0%22 y1=%22126.8%22 x2=%22193.0%22 y2=%22114.7%22/><line x1=%22242.6%22 y1=%22108.4%22 x2=%22238.6%22 y2=%2295.0%22/><line x1=%22288.4%22 y1=%22100.3%22 x2=%22287.6%22 y2=%2286.4%22/><line x1=%22334.7%22 y1=%22103.0%22 x2=%22337.2%22 y2=%2289.3%22/><line x1=%22379.2%22 y1=%22116.4%22 x2=%22384.8%22 y2=%22103.5%22/><line x1=%22419.4%22 y1=%22139.6%22 x2=%22427.8%22 y2=%22128.3%22/><line x1=%22453.2%22 y1=%22171.4%22 x2=%22463.9%22 y2=%22162.4%22/><line x1=%22478.7%22 y1=%22210.2%22 x2=%22491.2%22 y2=%22204.0%22/><line x1=%22494.6%22 y1=%22253.9%22 x2=%22508.2%22 y2=%22250.6%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(0 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(45 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(90 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(135 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(180 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(225 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(270 300 300)%22/><ellipse cx=%22300%22 cy=%22254%22 rx=%2214%22 ry=%2244%22 transform=%22rotate(315 300 300)%22/></svg>"), url("data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 420 420%22 fill=%22none%22 stroke=%22%23f4a94a%22 stroke-width=%222.5%22><rect x=%2210%22 y=%2210%22 width=%22400%22 height=%22400%22/><line x1=%22110%22 y1=%2210%22 x2=%22110%22 y2=%22110%22/><line x1=%22110%22 y1=%22310%22 x2=%22110%22 y2=%22410%22/><line x1=%2210%22 y1=%22110%22 x2=%22110%22 y2=%22110%22/><line x1=%22310%22 y1=%22110%22 x2=%22410%22 y2=%22110%22/><line x1=%22210%22 y1=%2210%22 x2=%22210%22 y2=%22110%22/><line x1=%22210%22 y1=%22310%22 x2=%22210%22 y2=%22410%22/><line x1=%2210%22 y1=%22210%22 x2=%22110%22 y2=%22210%22/><line x1=%22310%22 y1=%22210%22 x2=%22410%22 y2=%22210%22/><line x1=%22310%22 y1=%2210%22 x2=%22310%22 y2=%22110%22/><line x1=%22310%22 y1=%22310%22 x2=%22310%22 y2=%22410%22/><line x1=%2210%22 y1=%22310%22 x2=%22110%22 y2=%22310%22/><line x1=%22310%22 y1=%22310%22 x2=%22410%22 y2=%22310%22/><rect x=%22110%22 y=%22110%22 width=%22200%22 height=%22200%22/><path d=%22M210 120 L300 210 L210 300 L120 210 Z%22/><circle cx=%22210%22 cy=%22210%22 r=%2222%22/></svg>"); opacity: 0.06; }
+@media print { .kotravel-watermark { display: none; } }
+
+/* Icon tiles: an icon on a soft raised tile, in a section's tone when one is given (toolbar, home page, menus, tools). */
+.icon-chip {
+  display: inline-grid;
+  place-items: center;
+  border-radius: 0.8em;
+  background: linear-gradient(150deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 1px solid var(--line);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.7), 0 1px 2px rgb(43 27 18 / 0.12), 0 2px 6px -2px rgb(43 27 18 / 0.15);
+  line-height: 1;
+}
+.icon-chip > * { filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.18)); }
+.icon-chip-saffron { background: linear-gradient(150deg, #fff7ea 0%, #fbd9a6 100%); border-color: #f0c482; }
+.icon-chip-indigo { background: linear-gradient(150deg, #f4f1fc 0%, #d9d1f2 100%); border-color: #c5bbe8; }
+.icon-chip-teal { background: linear-gradient(150deg, #effaf5 0%, #c7ead9 100%); border-color: #a8dcc3; }
+.icon-chip-rose { background: linear-gradient(150deg, #fdf1ef 0%, #f3cdc7 100%); border-color: #eab3ab; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .icon-chip { box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 1px 3px rgb(0 0 0 / 0.5); }
+  :root:not([data-theme="light"]) :is(.icon-chip-saffron, .icon-chip-indigo, .icon-chip-teal, .icon-chip-rose) { background: linear-gradient(150deg, var(--surface-2), var(--surface)); border-color: var(--line); }
+}
+:root[data-theme="dark"] .icon-chip { box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06), 0 1px 3px rgb(0 0 0 / 0.5); }
+:root[data-theme="dark"] :is(.icon-chip-saffron, .icon-chip-indigo, .icon-chip-teal, .icon-chip-rose) { background: linear-gradient(150deg, var(--surface-2), var(--surface)); border-color: var(--line); }
+
+/* Crisp text: the browser's legibility shaping, and no type smaller than a Tamil vowel sign can be read at (the pages use
+   8 and 9 px in places; these rules are unlayered, so they win over the generated utilities). */
+body { text-rendering: optimizeLegibility; font-kerning: normal; }
+.text-\[8px\] { font-size: 10px; }
+.text-\[9px\] { font-size: 10.5px; }
+.text-\[10px\] { font-size: 11px; }
+
+/* Planet colours on the charts (app/worksheet/useWorksheetColor.ts); lighter ones in the dark theme so the Moon and the lagna stay
+   readable. A colour chosen in the Colors dialog replaces these. */
+:root { --pl-Su: #b45309; --pl-Mo: #374151; --pl-Ma: #dc2626; --pl-Me: #15803d; --pl-Ju: #d97706; --pl-Ve: #c026d3; --pl-Sa: #2563eb; --pl-Ra: #6b7280; --pl-Ke: #6b7280; --pl-As: #7c2d12; --pl-Gk: #78716c; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --pl-Su: #f59e0b; --pl-Mo: #e5e7eb; --pl-Ma: #f87171; --pl-Me: #4ade80; --pl-Ju: #fbbf24; --pl-Ve: #e879f9; --pl-Sa: #60a5fa; --pl-Ra: #a8a29e; --pl-Ke: #a8a29e; --pl-As: #fdba74; --pl-Gk: #d6d3d1; } }
+:root[data-theme="dark"] { --pl-Su: #f59e0b; --pl-Mo: #e5e7eb; --pl-Ma: #f87171; --pl-Me: #4ade80; --pl-Ju: #fbbf24; --pl-Ve: #e879f9; --pl-Sa: #60a5fa; --pl-Ra: #a8a29e; --pl-Ke: #a8a29e; --pl-As: #fdba74; --pl-Gk: #d6d3d1; }
+
+/* Phones: nothing on a page may be wider than the screen. A wide table scrolls sideways inside itself, a drawing shrinks to fit,
+   and a grid's cells may be narrower than their content's natural width (otherwise one wide chart widens the whole page). */
+@media (max-width: 640px) {
+  main table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  main svg, main img { max-width: 100%; height: auto; }
+  main .grid > * { min-width: 0; }
 }

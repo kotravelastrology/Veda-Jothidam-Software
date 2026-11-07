@@ -1,0 +1,308 @@
+{
+  "purpose": "Transcription record for Saturn-transit definitions (Sade Sati, Ardhashtama, Ashtama, Kantaka). Every entry was read from a rendered page image on 2026-09-30, not from OCR. test-saturn-transit.js asserts src/report/saturnTransitTables.js agrees with this file.",
+  "houseCounting": "From the natal Moon's sign; 1 = the Moon's own sign, 2 = the next sign.",
+  "verifiedBy": "page image",
+  "conditions": {
+    "SADE_SATI": {
+      "houses": [
+        12,
+        1,
+        2
+      ],
+      "agreedBy": [
+        "VISHNU_BHASKAR p.142",
+        "PULIPPANI p.69 and p.171",
+        "SHUBHAKARAN section 34"
+      ]
+    },
+    "ARDHASHTAMA": {
+      "houses": [
+        4
+      ],
+      "agreedBy": [
+        "VISHNU_BHASKAR p.142 (VIII)",
+        "PULIPPANI p.168"
+      ]
+    },
+    "ASHTAMA": {
+      "houses": [
+        8
+      ],
+      "agreedBy": [
+        "VISHNU_BHASKAR p.142 (VIII)",
+        "PULIPPANI p.169",
+        "SHUBHAKARAN section 34"
+      ]
+    }
+  },
+  "kantaka": {
+    "note": "The sources disagree; each reading is recorded separately.",
+    "PARASHARAS_LIGHT": {
+      "houses": [
+        4,
+        7
+      ],
+      "page": "PL 6.1 manual printed p.191, glossary: 'Transit of Saturn in the 4th and 7th rashis from the Moon.'"
+    },
+    "VISHNU_BHASKAR": {
+      "houses": [
+        4,
+        7,
+        10
+      ],
+      "page": "printed p.142, IX: 'When Saturn is in 4, 7, 10th house from Moon Lagna'"
+    },
+    "PULIPPANI": {
+      "houses": [
+        4,
+        7,
+        8
+      ],
+      "page": "printed pp.168-169: 4th 'Ardhashtama Sani or Kantaka Sani'; 7th 'also known as Kantaka Shani, worse than his 4th'; 8th 'Ashtama Kantaka Sani'. Introduction p.69 names only the 8th."
+    },
+    "RATH": {
+      "houses": [
+        1,
+        8,
+        10
+      ],
+      "page": "Vedic Remedies in Astrology printed p.170, footnote 52: '1st, 8th or 10th house from the Lagna, AL or Natal Moon'"
+    },
+    "default": "PULIPPANI",
+    "defaultReason": "Houses 4 and 7 are named by three of the four sources (Parashara's Light, Vishnu Bhaskar, Pulippani); 10 by two, 8 by two, 1 by one.",
+    "defaultRule": "Owner 2026-10-03: the source with the most explanation first. Words on Kantaka Saturn: Pulippani 576 (printed pp.168-170), Rath 182 (p.170 §e + fn 52), Vishnu Bhaskar 27 (p.142 §IX), Parashara's Light 13 (6.1 manual glossary p.191). Before this the default was PARASHARAS_LIGHT, the only pair (4, 7) named by three of the four.",
+    "rank": [
+      "PULIPPANI",
+      "RATH",
+      "VISHNU_BHASKAR",
+      "PARASHARAS_LIGHT"
+    ]
+  },
+  "sadeSatiPhases": {
+    "1": {
+      "phase": "PEAK",
+      "dhaiya": "Second",
+      "bodyPart": "abdomen",
+      "aspects": [
+        3,
+        7,
+        10
+      ]
+    },
+    "2": {
+      "phase": "SETTING",
+      "dhaiya": "Third",
+      "bodyPart": "legs",
+      "aspects": [
+        4,
+        8,
+        11
+      ]
+    },
+    "12": {
+      "phase": "RISING",
+      "dhaiya": "First",
+      "bodyPart": "head",
+      "aspects": [
+        2,
+        6,
+        9
+      ]
+    }
+  },
+  "sadeSatiCycles": [
+    "First",
+    "Second",
+    "Third"
+  ],
+  "nominalDuration": {
+    "cycleMonths": 90,
+    "dhaiyaMonths": 30,
+    "maleficMonths": 25,
+    "page": "Vishnu Bhaskar printed p.143, XIII"
+  },
+  "arishtaBySign": [
+    {
+      "sign": "Aries",
+      "printed": "Middle 2½ yrs"
+    },
+    {
+      "sign": "Taurus",
+      "printed": "First 2½ yrs"
+    },
+    {
+      "sign": "Gemini",
+      "printed": "Last 2½ yrs"
+    },
+    {
+      "sign": "Cancer",
+      "printed": "Middle 2½ yrs"
+    },
+    {
+      "sign": "Leo",
+      "printed": "1st 5 yrs. – Middle 2½ yrs are specially bad"
+    },
+    {
+      "sign": "Virgo",
+      "printed": "1st 5 yrs. – Middle 2½ yrs are specially bad"
+    },
+    {
+      "sign": "Libra",
+      "printed": "Last 2½ yrs"
+    },
+    {
+      "sign": "Scorpio",
+      "printed": "Last 5 yrs. – Middle 2½ yrs are too bad"
+    },
+    {
+      "sign": "Sagittarius",
+      "printed": "First 2½ yrs"
+    },
+    {
+      "sign": "Capricorn",
+      "printed": "1st 5 yrs. – First 2½ yrs are specially bad"
+    },
+    {
+      "sign": "Aquarius",
+      "printed": "First and last 2½ yrs. (Total 5 yrs.)"
+    },
+    {
+      "sign": "Pisces",
+      "printed": "Whole 7½ yrs. – Last 2½ yrs especially bad"
+    }
+  ],
+  "notImplemented": [
+    {
+      "id": "SHUBHAKARAN_DEGREE_BASED",
+      "page": "Nakshatra based predictions part 1, section 34, PDF page 39: Sade-Sathi from 330.01° to 60.00° of the birth Moon's degree, Ashtama 210°-240°, Kantaka 90.01°-120.00°; the author says he 'slightly disagrees' with the usual sign-based reading."
+    }
+  ],
+  "remedies": [
+    {
+      "id": "RATH_RUDRAM_KANTAKA",
+      "page": "Rath printed p.170, §e",
+      "practice": "Recite an extract of Shri Rudram eleven times each morning, after bathing, facing east."
+    },
+    {
+      "id": "SHUBHAKARAN_SHANI_VERSE",
+      "page": "Shubhakaran PDF p.41 (printed 40)",
+      "practice": "Recite a Shani verse 11 times daily during the evil transit."
+    },
+    {
+      "id": "SHUBHAKARAN_RUDRAM_40_DAYS",
+      "page": "Shubhakaran PDF pp.41-42 (printed 40-41)",
+      "practice": "Recite a Rudram extract 11 times daily for 40 days, do puja of Rudra, homa on the 41st day."
+    }
+  ],
+  "tamil": {
+    "source": "Sudamani Ullamudaiyan, chapter கோசாரபலமும் திசாபுத்தி பலனும் (scan page = printed page + 25)",
+    "verifiedBy": "page image, printed pp.148-150 (scan pages 173-175)",
+    "saturnGoodHouses": {
+      "verse": 341,
+      "verseWords": "ஆன்றபன் னொன்றுமூன் றீரைந் தாறு / அருக்கன்மதி ஒன்றுமூன் றாறேழ் பத்தோ / டேன்றபதி னொன்றரவு சனிசேய் மூன்றே / இருமூன்றே பத்தொன்றுமா",
+      "houses": [
+        3,
+        6,
+        11
+      ],
+      "reading": "Rahu, Saturn and Mars: மூன்றே (3), இருமூன்றே (2x3 = 6), பத்தொன்று (ten-and-one = 11).",
+      "commentaryAlsoLists": [
+        10
+      ],
+      "commentaryWords": "மூன்றாம், ஆறாம், பத்தாம், பதினோராம் இடங்களில் இராகுவும், சனியும் செவ்வாயும் நல்லர்",
+      "disagreement": "The printed commentary lists four houses; the verse gives three (பத்தொன்று = 11), as do the three-entry vedha list and both English books. The verse is followed."
+    },
+    "saturnVedha": {
+      "verse": 342,
+      "houses": {
+        "3": 12,
+        "6": 9,
+        "11": 5
+      },
+      "reading": "சனி சேய் இரா(கு): ஈராறு (12), ஒன்பான் (9), ஐந்தாம் (5)"
+    },
+    "english": {
+      "PULIPPANI": {
+        "houses": [
+          3,
+          6,
+          11
+        ],
+        "page": "printed p.69"
+      },
+      "VISHNU_BHASKAR": {
+        "houses": [
+          3,
+          6,
+          11
+        ],
+        "vedha": {
+          "3": 12,
+          "6": 9,
+          "11": 5
+        },
+        "page": "printed p.139 (PDF 53 of volume-1 part 02)",
+        "fatherSon": "Su-Sa do not cause vedha"
+      }
+    },
+    "angaSani": {
+      "verse": 344,
+      "status": "ORDER_ASSUMED",
+      "bands": [
+        {
+          "part": "வாய்",
+          "portions": 1
+        },
+        {
+          "part": "வலக்கை",
+          "portions": 4
+        },
+        {
+          "part": "கால்",
+          "portions": 6
+        },
+        {
+          "part": "இடக்கை",
+          "portions": 4
+        },
+        {
+          "part": "வயிறு",
+          "portions": 5
+        },
+        {
+          "part": "கண்",
+          "portions": 2
+        },
+        {
+          "part": "புயம்",
+          "portions": 2
+        },
+        {
+          "part": "தலை",
+          "portions": 3
+        }
+      ],
+      "total": 27,
+      "rule": "இவையெல்லாம் பிறந்தநாள் தொட்டுக் கோள்நின்ற நாளளவும் எண்ணிப் பலன் சொல்வது (printed p.150)",
+      "notStated": [
+        "the order in which the portions are counted",
+        "whether the birth star is counted as 1"
+      ],
+      "otherPlanetsSumTo27": "Sun: head 3, mouth 3, stomach 5, right hand 8, legs 8; Mars 27 including the left-side 1; benefics head 3, neck 3, right hand 3, left hand 3, stomach 5, waist 2, feet 8"
+    },
+    "notFound": {
+      "names": [
+        "ஏழரைச் சனி",
+        "அஷ்டமச் சனி",
+        "அர்த்தாஷ்டமம்",
+        "கண்டகச் சனி"
+      ],
+      "searched": [
+        "Sudamani OCR text",
+        "Jathaka Alangaram (2007, 1964)",
+        "Kalachakram"
+      ],
+      "caveat": "OCR search; a garbled word could be missed"
+    }
+  }
+}

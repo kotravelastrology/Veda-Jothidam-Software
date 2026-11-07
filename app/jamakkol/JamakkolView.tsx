@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { computeJamakkol, type JamakkolQuery } from './actions';
 import { JamakkolChartBox } from '@/src/charts/kattam/JamakkolChartBox';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 const POINT_TA: Record<string, string> = {
   Sun: 'சூரியன்', Moon: 'சந்திரன்', Mars: 'செவ்வாய்', Mercury: 'புதன்',
@@ -48,7 +49,7 @@ export default function JamakkolView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-6">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">Jamakkol Prasnam</p>
+        <PageEyebrow fallback="Jamakkol Prasnam" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஜாமக்கோள் ப்ரசன்னம்</h1>
         <p className="text-sm text-ink-soft mt-1">
           சூரிய உதயத்தை அடிப்படையாகக் கொண்ட தமிழ் ப்ரசன்னம் — கேள்வி நேரம் + இடம் மட்டும் தேவை.

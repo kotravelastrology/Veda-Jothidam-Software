@@ -24,7 +24,7 @@ assert.deepEqual(nakshatraPada(360), { nakshatraIndex: 0, pada: 1 });
 
 // ── suggestNames ───────────────────────────────────────────────────
 const r = suggestNames({ nakshatraIndex: 0, pada: 2, gender: 'both' });
-assert.equal(r.nakshatra, 'அஸ்வினி');
+assert.equal(r.nakshatra, 'அசுவினி');
 assert.equal(r.pada, 2);
 assert.equal(r.syllable, 'ச');
 assert.equal(r.count, r.names.length);

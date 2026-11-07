@@ -1,0 +1,58 @@
+{
+  "id": "bphs-73",
+  "source": {
+    "title": "Brihat Parashara Hora Shastra (BPHS)",
+    "author": "R. Santhanam (translation)",
+    "tradition": "Parashari",
+    "file": "Jyotish_BPHS_Santhanam_Vol.2.pdf",
+    "pageLocus": "Chapter 73 \"Effects of the Rays of the Planets\", verses 1-23, printed pp.905-911 (PDF page = printed - 489). The verses are summarised in Tamil, not quoted. The text layer of all seven pages is clean; the worked example (pp.906-908) was recomputed from the longitudes it gives."
+  },
+  "scope": "The number of rays (rashmi) of each planet and what the total of the seven says of the native's standing. A planet has its full rays at its point of deep exaltation (Sun 10, Moon 9, Mars 5, Mercury 5, Jupiter 7, Venus 8, Saturn 5) and none at its point of deep debilitation, and between them in proportion to its distance from the debilitation point in signs, taken as 6 signs at most (v.1-2: the longitude less the debilitation point, or 12 signs less that if it is more than 6, times the full rays, over 6). The rays so found are then corrected by the planet's dignity (v.3-7, 'other Acharyas'): trebled in the sign of exaltation, doubled in the Moolatrikona, times 3/2 in its own sign, times 4/3 in the sign of a great friend, 6/5 of a friend, halved in an enemy's, times 2/5 in a great enemy's, unchanged in a neutral's; the effects are declared from the sum of the net rays (v.8-18, 19-23). The sign's lord is a friend, great friend and so on by the compound (Panchadha) relationship of BPHS ch.3 in the birth chart, the Moolatrikona is the degree band of ch.3 v.51-54, and a planet in its sign of exaltation is read as exalted before any other dignity. The distance is taken from the longitude as it is, not from the sign. The book's worked example (pp.906-908) is recomputed from its longitudes: the rays it prints for Mercury (0.85), Jupiter (1.50) and Saturn (4.35) follow the rule (0.885, 1.505 and 4.36), but those printed for the Sun (5.55), Moon (6.67), Mars (2.37) and Venus (6.05) do not (6.09, 7.33, 2.14 and 6.36), because its arithmetic in signs, degrees and minutes goes wrong for those four; its printed corrections (Mars friend 6/5, Venus great friend 4/3 although the text says 5/3, Saturn great enemy 2/5) follow the rule, and its total of 27.67 and the one the rule gives for it (about 29.1) fall in the same row of the table (24 to 30). So the rule is followed and the printed figures are not copied. The effects are the book's, short and not softened, and are not verdicts: the book says they must be read with the status of the native (v.19-20), which is not computed, and that planets going from debilitation to exaltation give their full effects and those going from exaltation to debilitation less (v.21), shown here for each planet. The deep debilitation points are those of ch.3 (Sun Libra 10, Moon Scorpio 3, Mars Cancer 28, Mercury Pisces 15, Jupiter Capricorn 5, Venus Virgo 27, Saturn Aries 20).",
+  "rule": { "verses": "1-2", "page": "905", "ta": "கிரகங்கள் உச்சத்தின் ஆழ்புள்ளியில் இருக்கும்போது அவற்றின் கதிர்கள்: சூரியன் 10, சந்திரன் 9, செவ்வாய் 5, புதன் 5, குரு 7, சுக்கிரன் 8, சனி 5; நீசத்தின் ஆழ்புள்ளியில் கதிர் இல்லை; இடையில் ராசிகளின் அளவுக்கு விகிதமாக. முறை: கிரகத்தின் தீர்க்கத்திலிருந்து நீச ராசிப் புள்ளியைக் கழிக்க; மீதி 6 ராசிக்குக் குறைவானால் அந்தக் கிரகத்தின் முழுக் கதிர்களால் பெருக்கி 6-ஆல் வகுக்க; 6 ராசிக்கு மேலானால் அதை 12-இலிருந்து கழித்து அதே முறை." },
+  "corrections": { "verses": "3-7", "page": "906", "ta": "மற்ற ஆசாரியர்கள் கூறும் திருத்தங்கள்: உச்ச ராசியில் இருந்தால் கதிர்கள் மூன்று மடங்கு; மூலத்திரிகோணத்தில் இரு மடங்கு; சொந்த ராசியில் 3/2 மடங்கு; அதிமித்திரன் வீட்டில் 4/3 மடங்கு; நண்பன் வீட்டில் 6/5 மடங்கு; பகைவன் வீட்டில் பாதி; அதிசத்ருவின் வீட்டில் 2/5 மடங்கு; நடுநிலையன் வீட்டில் மாற்றம் இல்லை. இவ்வாறு வந்த நிகர (net) கதிர்களைக் கொண்டே பலன் சொல்ல வேண்டும்.",
+    "factor": { "exalted": 3, "moolatrikona": 2, "own": 1.5, "greatFriend": 1.3333333333333333, "friend": 1.2, "neutral": 1, "enemy": 0.5, "greatEnemy": 0.4 }
+  },
+  "maxRays": { "Sun": 10, "Moon": 9, "Mars": 5, "Mercury": 5, "Jupiter": 7, "Venus": 8, "Saturn": 5 },
+  "effects": {
+    "verses": "8-18", "page": "909-910",
+    "table": [
+      { "min": 1, "max": 5, "ta": "எவ்வளவு உயர்ந்த குடும்பத்தில் பிறந்தாலும் ஏழை, மகிழ்ச்சியற்றவன்" },
+      { "min": 6, "max": 10, "ta": "ஏழை, சுமை சுமப்பவன், மனைவி-குழந்தைகள் இல்லாதவன்" },
+      { "min": 11, "max": 11, "ta": "குறைந்த செல்வம், சில குழந்தைகள்" },
+      { "min": 12, "max": 12, "ta": "குறைந்த செல்வம், மூடன், தீயவன்" },
+      { "min": 13, "max": 13, "ta": "திருடன்" },
+      { "min": 14, "max": 14, "ta": "செல்வமுள்ளவன், பல குடும்பங்களைக் காப்பவன், கற்றவன், குடும்ப மரபைப் பின்பற்றுபவன்" },
+      { "min": 15, "max": 15, "ta": "குடும்பத் தலைவன், பல கலைகளில் தேர்ச்சி, நற்குணங்கள் (இது பிரம்மன் கூறியது)" },
+      { "min": 16, "max": 16, "ta": "குடும்பத்தில் மிகச் சிறந்தவன்" },
+      { "min": 17, "max": 17, "ta": "பல வேலையாட்களை வைத்திருப்பவன்" },
+      { "min": 18, "max": 18, "ta": "பெரிய குடும்பத்தைக் காப்பவன்" },
+      { "min": 19, "max": 19, "ta": "பெயரும் புகழும் உடையவன்" },
+      { "min": 20, "max": 20, "ta": "பெரிய குடும்பமும் உறவினரும் உடையவன்" },
+      { "min": 21, "max": 21, "ta": "ஐம்பது பேரைக் காத்துப் போற்றுபவன்" },
+      { "min": 22, "max": 22, "ta": "தானம் செய்பவன், இரக்கமுள்ளவன்" },
+      { "min": 23, "max": 23, "ta": "பண்பட்டவன், மகிழ்ச்சியானவன்" },
+      { "min": 24, "max": 30, "ta": "ஆரோக்கியமானவன், வலிமையானவன், அரசனுக்கு விருப்பமானவன், ஒளிமிக்கவன், பெரிய குடும்பம் உடையவன்" },
+      { "min": 31, "max": 40, "ta": "அமைச்சர் (உயர் பதவியாளர்), நூறு முதல் ஆயிரம் பேரைக் காத்துப் போற்றுபவன்" },
+      { "min": 40, "max": 50, "ta": "அரசன் (மிக உயர்ந்த நிர்வாக அல்லது அரசியல் பதவி)" },
+      { "min": 51, "max": null, "ta": "வலிமையான பேரரசன்" }
+    ],
+    "note": "நூலின் அட்டவணையில் 40 இரு வரிகளிலும் (31–40, 40–50) வருகிறது; எனவே 40 கதிர்களுக்கு இரண்டும் காட்டப்படுகின்றன. 1-க்குக் குறைவான மொத்தத்துக்கு நூல் பலன் சொல்லவில்லை."
+  },
+  "status": { "verses": "19-20", "page": "910", "ta": "பிறக்கும்போதுள்ள கதிர்களின் எண்ணிக்கையின்படி, பிறந்தவனின் நிலையையும் கருத்தில் கொண்டு பலன் சொல்ல வேண்டும். எடுத்துக்காட்டு: 50-க்கு மேல் கதிர் இருந்து, சத்திரியக் குடும்பத்தில் பிறந்தவன் வலிமையான பேரரசன்; வைசியக் குடும்பத்தில் பிறந்தவன் அரசன் (அல்லது உயர் பதவியாளன்); சூத்திரக் குடும்பத்தில் பிறந்தவன் செல்வந்தன்; அந்தணக் குடும்பத்தில் பிறந்தவன் மிகுந்த கற்றவன், சமய நெறிகளைக் கடைப்பிடிப்பவன். (பிறந்தவனின் குடும்ப நிலை இங்கு கணிக்கப்படவில்லை.)" },
+  "direction": { "verses": "21", "page": "910", "ta": "நீசத்திலிருந்து உச்சத்தை நோக்கிச் செல்லும் கிரகங்களின் பலன்கள் முழுமையானவை; உச்சத்திலிருந்து நீசத்தை நோக்கிச் செல்பவை மேலே சொன்னதைவிடக் குறைவு." },
+  "closing": { "verses": "22-23", "page": "911", "ta": "எல்லாக் கிரகங்களின் நல்ல-தீய பலன்களும் அவற்றின் கதிர்களின் எண்ணிக்கையைப் பொறுத்தவை; கதிர்களின் பலன் தெரியாமல் கணிப்பு சரியாகாது; எனவே ஜாதகப் பலன் சொல்லும்போது கதிர்களின் எண்ணிக்கையைக் கருத வேண்டும்." },
+  "example": {
+    "page": "906-908",
+    "planets": {
+      "Sun": { "longitude": [9, 29, 36, 53], "printedGross": 5.55, "printedNet": 5.55 },
+      "Moon": { "longitude": [2, 6, 22, 0], "printedGross": 6.6667, "printedNet": 6.6667 },
+      "Mars": { "longitude": [1, 10, 56, 20], "printedGross": 2.3667, "printedNet": 2.8333 },
+      "Mercury": { "longitude": [10, 13, 9, 26], "printedGross": 0.85, "printedNet": 1.0167 },
+      "Jupiter": { "longitude": [10, 13, 41, 18], "printedGross": 1.5, "printedNet": 1.8 },
+      "Venus": { "longitude": [10, 20, 4, 2], "printedGross": 6.05, "printedNet": 8.0667 },
+      "Saturn": { "longitude": [7, 13, 2, 24], "printedGross": 4.35, "printedNet": 1.7333 }
+    },
+    "printedTotal": 27.67,
+    "note": "The longitudes are written as signs, degrees, minutes and seconds; the printed rays are in rays and sixtieths (5/33 is 5.55). The Moon's printed remainder 39/49/33 does not follow from its longitude."
+  }
+}

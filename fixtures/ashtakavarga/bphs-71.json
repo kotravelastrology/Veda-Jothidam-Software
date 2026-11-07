@@ -1,0 +1,33 @@
+{
+  "id": "bphs-71",
+  "source": {
+    "title": "Brihat Parashara Hora Shastra (BPHS)",
+    "author": "R. Santhanam (translation)",
+    "tradition": "Parashari",
+    "file": "Jyotish_BPHS_Santhanam_Vol.2.pdf",
+    "pageLocus": "Chapter 71 \"Determination of Longevity Through the Ashtakavarga\", verses 1-4, printed pp.895-896 (PDF page = printed - 489). The verses are summarised in Tamil, not quoted. Both pages were read from the scan beside the Sanskrit."
+  },
+  "scope": "The span of life that each of the eight Ashtakavargas (the seven planets' and the Ascendant's) gives, by the rekhas in its twelve signs, and half the sum of the eight. The rekhas are those of the Bhinnashtakavarga before any reduction (the chapter names no reduction); the Ascendant's own Ashtakavarga is the software's (C.S. Patel's table). A year is taken as twelve months of thirty days and a day as sixty ghatikas, the units in which the book's own totals add up (its eight spans total 2 months 25 days). The book's worked chart gives the Sun's rekhas and spans in full (14 years 18 days 30 ghatikas, half 7 years 9 days 15 ghatikas) and reproduces from them; the other seven spans and the total in its table (66 years 2 months 25 days 30 ghatikas) belong to a chart whose rekhas it does not print, and the print gives Venus's years as 0 against a total that needs 13. Nothing here says how long the native will live: the book's span is a figure to be compared with other methods (BPHS ch.43-46 give those) and no verdict is given.",
+  "spans": {
+    "verses": "1-4", "page": "895",
+    "ta": "ஒவ்வொரு ராசியிலும் உள்ள ரேகைகளுக்கு நூல் ஆயுள் அளவு தருகிறது: ரேகை இல்லாத ராசி 2 நாள்; 1 ரேகை 1½ நாள்; 2 ரேகை 1 நாள்; 3 ரேகை ½ நாள்; 4 ரேகை 7½ நாள்; 5 ரேகை 2 ஆண்டு; 6 ரேகை 4 ஆண்டு; 7 ரேகை 6 ஆண்டு; 8 ரேகை 8 ஆண்டு. லக்னம் மற்றும் எல்லாக் கிரகங்களின் அஷ்டகவர்க்கங்களிலும் இவ்வாறு கூட்டி, மொத்தத்தின் பாதி அஷ்டகவர்க்க ஆயுள்.",
+    "perRekha": [
+      { "rekhas": 0, "ghatikas": 120 },
+      { "rekhas": 1, "ghatikas": 90 },
+      { "rekhas": 2, "ghatikas": 60 },
+      { "rekhas": 3, "ghatikas": 30 },
+      { "rekhas": 4, "ghatikas": 450 },
+      { "rekhas": 5, "ghatikas": 43200 },
+      { "rekhas": 6, "ghatikas": 86400 },
+      { "rekhas": 7, "ghatikas": 129600 },
+      { "rekhas": 8, "ghatikas": 172800 }
+    ]
+  },
+  "example": {
+    "page": "896",
+    "sunRekhas": [5, 3, 2, 4, 3, 4, 6, 5, 2, 3, 6, 5],
+    "total": { "years": 14, "months": 0, "days": 18, "ghatikas": 30 },
+    "half": { "years": 7, "months": 0, "days": 9, "ghatikas": 15 },
+    "note": "The book's chart has the Sun's rekhas 5 3 2 4 3 4 6 5 2 3 6 5 from Capricorn (sign 10) round to Sagittarius; its eight half-spans as printed are Moon 7y 0m 12d 15gh, Mars 4y 7d, Mercury 12y 4d 45gh, Jupiter 12y 16d, Venus 0y 12d 15gh (the 0 years is a misprint for a figure of about 13), Saturn 4y 10d 45gh, Ascendant 7y 12d 45gh and Sun 7y 9d 15gh, in total 66y 2m 25d 30gh. The days and ghatikas of these add to 85 days and 0 ghatikas, not 30."
+  }
+}
