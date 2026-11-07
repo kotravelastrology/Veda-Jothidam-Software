@@ -37,7 +37,7 @@ const { buildJaiminiSystem } = require('./jaiminiPage');
 const { buildKalachakraMain, buildKalachakraShort } = require('./kalachakraPages');
 
 const { buildVimshottariShort } = require('./vimshottariPages');
-const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas, buildSudarshanaDasha, buildElementsGunas, buildAshtakavargaLongevity, buildSamudayaEffects } = require('./extraPages');
+const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas, buildSudarshanaDasha, buildElementsGunas, buildAshtakavargaLongevity, buildSamudayaEffects, buildFemaleHoroscopy } = require('./extraPages');
 
 const BOOK_SECTIONS = [
   { id: 'p1', title: 'Page 1 · Birth Particulars', build: buildPage1 },
@@ -180,6 +180,7 @@ const BOOK_SECTIONS = [
   { id: 'p134', title: 'Page 134 · Five Elements and Three Gunas', build: buildElementsGunas },
   { id: 'p135', title: 'Page 135 · Ashtakavarga Longevity', build: buildAshtakavargaLongevity },
   { id: 'p136', title: 'Page 136 · Samudaya Ashtakavarga', build: buildSamudayaEffects },
+  { id: 'p137', title: 'Page 137 · Female Horoscopy', build: buildFemaleHoroscopy },
 ];
 
 /** The sections without their builders, for the print centre's list. */

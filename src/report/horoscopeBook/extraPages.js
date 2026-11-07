@@ -37,6 +37,7 @@
  *  - Page 135, "Ashtakavarga longevity": the span of life each of the eight Ashtakavargas gives by its rekhas and half their sum (BPHS ch.71, ashtakavargaLongevity.js).
  *  - Page 136, "Samudaya Ashtakavarga": the aggregate rekhas read for the signs, houses, the wealth condition, the three parts of life and the month of the Sun in each sign with the
  *    book's remedies (BPHS ch.72, samudayaEffects.js; nothing is claimed to work).
+ *  - Page 137, "Female horoscopy": what BPHS ch.80 says of a woman's chart, read rule by rule (femaleHoroscopy.js); given only for a chart marked female, for the astrologer, no verdicts.
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -62,6 +63,8 @@ const SD = require('../sudarshanaDasha');
 const EG = require('../elementsGunas');
 const AL = require('../ashtakavargaLongevity');
 const SE = require('../samudayaEffects');
+const FH = require('../femaleHoroscopy');
+const { varaAt } = require('../rogaArambha');
 const { whenSunAt, sunLon } = require('../masaPravesha');
 const { calculateShadbala, SHADBALA_MINIMUM_VIRUPAS } = require('../../chart/shadbala');
 const REM = require('../../../fixtures/remedies/bphs-84.json');
@@ -896,7 +899,50 @@ async function buildSamudayaEffects({ name = '', birth, asOf = new Date() }) {
   };
 }
 
-module.exports = { buildAshtakavargaLongevity, buildSamudayaEffects, buildElementsGunas, buildSudarshanaDasha, buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
+/** Page 137: the readings of BPHS ch.80 (Female Horoscopy) against a woman's chart. Given only for a chart marked female. */
+async function buildFemaleHoroscopy({ name = '', birth }) {
+  const source = FH.DATA.source;
+  const cite = (x) => located(source.title, `Chapter 80 v.${x.verses}, printed ${pagesText(x.page)}`, source.author);
+  if (birth.gender !== 'female') {
+    return {
+      ...head(name, birth),
+      blocks: [{
+        kind: 'text',
+        heading: 'பெண் ஜாதகம் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 80)',
+        text: `இந்த அத்தியாயம் பெண்ணின் ஜாதகத்துக்கான பலன்களைச் சொல்கிறது; இந்த ஜாதகம் பெண் என்று குறிக்கப்படவில்லை, எனவே இங்கு கணிக்கப்படவில்லை. (${cite(FH.DATA.principle)}.)`,
+      }],
+    };
+  }
+  const jf = await J.janmaFacts(birth);
+  const facts = await withBirth(birth, ({ chart }) => ({
+    signs: Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn', 'Rahu', 'Ketu'].map((p) => [p, chart.grahas[p].rasiIndex])),
+    longitudes: Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].map((p) => [p, chart.grahas[p].longitude])),
+    lagnaSign: chart.lagna.rasiIndex,
+    lagnaLongitude: chart.lagna.longitude,
+    atMs: Math.round((chart.julianDay - 2440587.5) * 86400000),
+  }));
+  const vara = varaAt(facts.atMs, birth.latitude, birth.longitude, birth.utcOffsetMinutes ?? 0);
+  const rows = FH.evaluate({ ...facts, vara, nakshatra: jf.nak.index, tithi: jf.tithi.index + 1 });
+  const STATUS_TA = { held: 'பொருந்துகிறது', unknown: 'தெளிவில்லை', 'not-checked': 'சோதிக்கப்படவில்லை', 'not-held': 'பொருந்தவில்லை' };
+  const citeRow = (r) => cite({ verses: r.verses, page: r.page });
+  const bodyOf = (r) => (r.id === 'SIGN_NATURE' || r.id.startsWith('TRIMSAMSA') || r.id === 'NAVAMSA7' ? r.effect : r.text);
+  const activeRows = rows.filter((r) => r.status !== 'not-held').map((r) => [bodyOf(r), r.detail, STATUS_TA[r.status], citeRow(r)]);
+  const quietRows = rows.filter((r) => r.status === 'not-held').map((r) => [r.text.length > 70 ? `${r.text.slice(0, 70)}…` : r.text, r.detail, citeRow(r)]);
+  return {
+    ...head(name, birth),
+    blocks: [
+      {
+        kind: 'text',
+        heading: 'பெண் ஜாதகம் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 80) — ஜோதிடர் பயன்பாட்டுக்கு',
+        text: `${FH.DATA.principle.ta} (${cite(FH.DATA.principle)}.) நூலின் ஒவ்வொரு கூற்றும் அதன் சொற்களில் தரப்படுகிறது; எதுவும் இந்த நபர்மீதான தீர்ப்பு அல்ல. லக்னம் அல்லது சந்திரனில் எது பலம் என்று நூல் சொல்லாததால் இரண்டும் படிக்கப்படுகின்றன; கிரகங்களின் பலம், வக்ரம், சம வலிமை சோதிக்கப்படவில்லை; v.40, v.44 நூலின் வரிகள் தெளிவற்றவை என்பதால் உண்மைகளாக மட்டும் காட்டப்படுகின்றன. கிரகப் பார்வைகள் அத். 26-இன்படி ராசிகளால் எண்ணப்படுகின்றன; சுபர் சந்திரன், புதன், குரு, சுக்கிரன்; பாவிகள் சூரியன், செவ்வாய், சனி, ராகு, கேது.`,
+      },
+      { kind: 'table', heading: 'பொருந்துபவை, தெளிவற்றவை, சோதிக்கப்படாதவை', columns: ['நூலின் கூற்று', 'இந்த ஜாதகத்தில்', 'நிலை', 'நூல்'], rows: activeRows },
+      { kind: 'table', heading: 'பொருந்தாதவை', columns: ['நூலின் கூற்று (சுருக்கம்)', 'இந்த ஜாதகத்தில்', 'நூல்'], rows: quietRows },
+    ],
+  };
+}
+
+module.exports = { buildFemaleHoroscopy, buildAshtakavargaLongevity, buildSamudayaEffects, buildElementsGunas, buildSudarshanaDasha, buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
 
 
 

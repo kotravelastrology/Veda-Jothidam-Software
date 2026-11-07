@@ -423,5 +423,23 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     assert.ok(!/undefined|NaN|null/.test(JSON.stringify(samudaya)));
   }
 
+  // page 137: the readings of BPHS ch.80, only for a chart marked female
+  {
+    const male = await BOOK_SECTIONS.find((s) => s.id === 'p137').build({ name: 'x', birth: { ...birth, gender: 'male' }, dashaOptions });
+    assert.equal(male.blocks.length, 1);
+    assert.ok(/பெண் என்று குறிக்கப்படவில்லை/.test(male.blocks[0].text) && /Chapter 80 v\.2, ப\.953-955/.test(male.blocks[0].text));
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p137').build({ name: 'x', birth: { ...birth, gender: 'female' }, dashaOptions });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 80/.test(page.blocks[0].heading) && /Chapter 80 v\.2, ப\.953-955/.test(page.blocks[0].text));
+    assert.equal(t.length, 2);
+    assert.ok(t[0].rows.length >= 3 && t[0].rows.every((r) => r.length === 4 && ['பொருந்துகிறது', 'தெளிவில்லை', 'சோதிக்கப்படவில்லை'].includes(r[2]) && /Chapter 80 v\.[\d, -]+, ப\.9[56]\d/.test(r[3])));
+    assert.ok(t[1].rows.every((r) => r.length === 3 && /Chapter 80 v\./.test(r[2])));
+    // the Lagna's and Moon's Trimsamsa lines and the sign nature are always read; v.40 and v.55 are never judged
+    assert.ok(t[0].rows.filter((r) => /Chapter 80 v\.8-16/.test(r[3])).length === 2 && t[0].rows.some((r) => /Chapter 80 v\.5-7/.test(r[3])));
+    assert.ok(t[0].rows.some((r) => r[2] === 'சோதிக்கப்படவில்லை' && /v\.40/.test(r[3])) && t[0].rows.some((r) => r[2] === 'சோதிக்கப்படவில்லை' && /v\.55/.test(r[3])));
+    assert.equal(t[0].rows.length + t[1].rows.length, 42, 'every rule is read once: the sign nature, 2 Trimsamsa lines, the 7th, the 8th and the rest');
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });
