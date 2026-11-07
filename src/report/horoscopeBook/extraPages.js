@@ -1055,7 +1055,7 @@ async function buildPlanetaryRays({ name = '', birth }) {
 }
 
 /** Page 141: the rest of BPHS ch.70: the years of distress from Saturn's Ashtakavarga, the father's yogas and the Sun's and the Moon's Ashtakavarga for auspicious acts. */
-async function buildAshtakavargaRest({ name = '', birth, dashaOptions, asOf = new Date() }) {
+async function buildAshtakavargaRest({ name = '', birth, dashaOptions, asOf = new Date(), father = null }) {
   const { tree, chart } = await treeFor(birth, dashaOptions, 2);
   const rasi = AL.rasiPositions(chart);
   const signs = Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].map((p) => [p, chart.grahas[p].rasiIndex]));
@@ -1087,13 +1087,18 @@ async function buildAshtakavargaRest({ name = '', birth, dashaOptions, asOf = ne
   const fy = AY.fatherYogas({ signs, lagnaSign });
   const lord4Md = tree.dashas.find((d) => d.lord === fy.lord4);
   const houseOrNo = (h) => `${h}-ஆம் வீடு`;
+  // v.15 and v.17 (3), (4) need the father's Ascendant and Moon signs, given with the request
+  const link = father && Number.isInteger(father.lagnaSign) && Number.isInteger(father.moonSign) ? AY.fatherLink({ signs, lagnaSign, father }) : null;
+  const linkFacts = link
+    ? `தந்தையின் லக்னம் ${RASI_TA[father.lagnaSign]}, சந்திரன் ${RASI_TA[father.moonSign]}. பிறந்தவரின் லக்னம் (${RASI_TA[lagnaSign]}): தந்தையின் லக்னத்திலிருந்து ${houseOrNo(link.nativeLagna.fromFatherLagna)}, சந்திரனிலிருந்து ${houseOrNo(link.nativeLagna.fromFatherMoon)}; பிறந்தவரின் ராசி (${RASI_TA[signs.Moon]}): தந்தையின் லக்னத்திலிருந்து ${houseOrNo(link.nativeMoon.fromFatherLagna)}, சந்திரனிலிருந்து ${houseOrNo(link.nativeMoon.fromFatherMoon)} ("பிறப்பு" என்பது லக்னமா ராசியா என்று நூல் சொல்லாததால் நான்கும் காட்டப்படுகின்றன)`
+    : '';
   const fatherRows = [
     ['(1) 4-ஆம் அதிபதியின் தசையில் தந்தை மகிழ்ச்சியாக இருப்பார்', `4-ஆம் அதிபதி ${PLANET_TA[fy.lord4]}; அவரது மகாதசை ${lord4Md ? `${dmyLocal(lord4Md.startLocal)} முதல் ${dmyLocal(lord4Md.endLocal)} வரை` : 'முதல் 120 ஆண்டுகளில் வரவில்லை'}`, 'காலம்'],
     ['(2) 4-ஆம் அதிபதி லக்னத்திலோ 11-ஆம் வீட்டிலோ, அல்லது சந்திரனுக்கு 11 அல்லது 10-ஆம் வீட்டிலோ இருந்தால் தந்தைக்குக் கீழ்ப்படிந்தவன்', `${PLANET_TA[fy.lord4]} லக்னத்திலிருந்து ${houseOrNo(fy.lord4House)}, சந்திரனிலிருந்து ${houseOrNo(fy.lord4HouseFromMoon)}`, fy.obedient ? 'பொருந்துகிறது' : 'பொருந்தவில்லை'],
-    ['(3) தந்தையின் லக்னம்/சந்திரனிலிருந்து 3-ஆம் ராசியில் பிறப்பு', 'தந்தையின் ஜாதகம் தேவை', 'சோதிக்கப்படவில்லை'],
-    ['(4) தந்தையின் லக்னம்/சந்திரனிலிருந்து 10-ஆம் ராசியில் பிறப்பு', 'தந்தையின் ஜாதகம் தேவை', 'சோதிக்கப்படவில்லை'],
+    ['(3) தந்தையின் லக்னம்/சந்திரனிலிருந்து 3-ஆம் ராசியில் பிறப்பு', ...(link ? [linkFacts, link.third ? 'பொருந்துகிறது' : 'பொருந்தவில்லை'] : ['தந்தையின் ஜாதகம் தேவை', 'சோதிக்கப்படவில்லை'])],
+    ['(4) தந்தையின் லக்னம்/சந்திரனிலிருந்து 10-ஆம் ராசியில் பிறப்பு', ...(link ? [linkFacts, link.tenth ? 'பொருந்துகிறது' : 'பொருந்தவில்லை'] : ['தந்தையின் ஜாதகம் தேவை', 'சோதிக்கப்படவில்லை'])],
     ['(5) 10-ஆம் அதிபதி லக்னத்தில் இருந்தால் தந்தையைவிடச் சிறந்தவன்', `10-ஆம் அதிபதி ${PLANET_TA[fy.lord10]} ${RASI_TA[signs[fy.lord10]]} ராசியில்`, fy.tenthLordInLagna ? 'பொருந்துகிறது' : 'பொருந்தவில்லை'],
-    ['v.15: தந்தையின் மறைவுக்குப்பின் அவன் பொறுப்புகளை ஏற்பவன்', 'தந்தையின் ஜாதகம் தேவை', 'சோதிக்கப்படவில்லை'],
+    ['v.15: தந்தையின் மறைவுக்குப்பின் அவன் பொறுப்புகளை ஏற்பவன்', ...(link ? [`பிறந்தவரின் லக்னம் தந்தையின் லக்னத்திலிருந்து ${houseOrNo(link.nativeLagna.fromFatherLagna)}; தந்தையின் 8-ஆம் அதிபதி ${PLANET_TA[link.succession.lord8]} ${link.succession.lord8InNativeLagna ? 'பிறந்தவரின் லக்னத்தில் உள்ளார்' : 'பிறந்தவரின் லக்னத்தில் இல்லை'}`, link.succession.held ? 'பொருந்துகிறது' : 'பொருந்தவில்லை'] : ['தந்தையின் ஜாதகம் தேவை', 'சோதிக்கப்படவில்லை'])],
   ];
 
   // v.19-23: the Sun's and the Moon's Ashtakavarga
@@ -1146,7 +1151,7 @@ async function buildAshtakavargaRest({ name = '', birth, dashaOptions, asOf = ne
         heading: 'தந்தையின் நற்பேறு (v.16–18)',
         text: `${AY.DATA.father.ta} (${cite(AY.DATA.father)}.) ${AY.DATA.father.succession.ta} (${cite(AY.DATA.father.succession)}.) நூலின் v.12–14 (தந்தைக்கு அரிஷ்டம்: சனி கோசாரத்தில் திரிகோண ராசிகளில் செல்லும்போது சூரியனுக்கு 4-ஆம் இடத்தில் ராகு, சனி, செவ்வாய் இருத்தல் முதலியவை) சூரியனுக்கு 4-ஆம் இடம் பிறப்பு ஜாதகத்திலா கோசார ஜாதகத்திலா, எந்த நிலைகள் கோசாரத்தவை என்று தெளிவாகச் சொல்லாததால் இங்கு கட்டப்படவில்லை.`,
       },
-      { kind: 'table', heading: 'தந்தையின் நற்பேறு — பிறப்பு ஜாதகம் காட்டுவன', columns: ['நூலின் கூற்று', 'இந்த ஜாதகத்தில்', 'நிலை'], rows: fatherRows },
+      { kind: 'table', heading: 'தந்தையின் நற்பேறு — பிறப்பு ஜாதகம் காட்டுவன (தந்தையின் லக்ன, சந்திர ராசிகள் தரப்பட்டால் (3), (4), v.15 அவற்றையும் சார்ந்தவை)', columns: ['நூலின் கூற்று', 'இந்த ஜாதகத்தில்', 'நிலை'], rows: fatherRows },
       {
         kind: 'text',
         heading: 'சுப காரியங்களுக்குச் சூரிய-சந்திர அஷ்டகவர்க்கம் (v.19–23)',

@@ -20,6 +20,7 @@ type Catalogue = Awaited<ReturnType<typeof bookCatalogue>>;
 type Book = Awaited<ReturnType<typeof computeBook>>;
 
 const dmy = (date: string) => { const [y, m, d] = date.split('-'); return `${d}-${m}-${y}`; };
+const RASI_NAMES = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 
 function Cover({ book }: { book: Book }) {
   const p = book.particulars;
@@ -113,6 +114,9 @@ export default function BookView() {
   const [selected, setSelected] = useState<string[]>([]);
   /** whether the pages for the astrologer (the female horoscopy, the curses) are in the "all" buttons and the choice */
   const [withAstrologer, setWithAstrologer] = useState(false);
+  /** the signs of the father's Ascendant and Moon ('' = not given), for the page that reads the native against the father's chart */
+  const [fatherLagna, setFatherLagna] = useState('');
+  const [fatherMoon, setFatherMoon] = useState('');
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -149,7 +153,8 @@ export default function BookView() {
       const base = party.kind === 'profile'
         ? { profile: { profileId: party.profileId, revision: party.revision } }
         : { form: party.input, engine: toEngineOptions(settings) };
-      setBook(await computeBook({ ...base, sections: selected, dashaOptions: toDashaOptions(settings) }));
+      const father = fatherLagna !== '' && fatherMoon !== '' ? { lagnaSign: Number(fatherLagna), moonSign: Number(fatherMoon) } : undefined;
+      setBook(await computeBook({ ...base, sections: selected, dashaOptions: toDashaOptions(settings), ...(father ? { father } : {}) }));
     } catch (e) { setError(e instanceof Error ? e.message : String(e)); } finally { setLoading(false); }
   };
 
@@ -229,6 +234,22 @@ export default function BookView() {
             </button>
             {book && <button type="button" onClick={() => window.print()} className={pill}>🖨 அச்சிடு / PDF (Ctrl+P)</button>}
             {!party && <span className="text-xs text-ink-soft">முதலில் மேலே ஜாதகத்தைத் தேர்ந்தெடுங்கள்.</span>}
+          </div>
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-ink-soft">
+            <span className="font-semibold text-ink">தந்தையின் ஜாதகம் (விருப்பம் — பக்கம் 141-இன் தந்தை பற்றிய கூற்றுகளுக்கு):</span>
+            <label>லக்னம்
+              <select value={fatherLagna} onChange={(e) => setFatherLagna(e.target.value)} className="ml-1 rounded border border-line bg-surface-2 px-1 py-0.5 text-ink">
+                <option value="">—</option>
+                {RASI_NAMES.map((r, i) => <option key={r} value={String(i)}>{r}</option>)}
+              </select>
+            </label>
+            <label>சந்திர ராசி
+              <select value={fatherMoon} onChange={(e) => setFatherMoon(e.target.value)} className="ml-1 rounded border border-line bg-surface-2 px-1 py-0.5 text-ink">
+                <option value="">—</option>
+                {RASI_NAMES.map((r, i) => <option key={r} value={String(i)}>{r}</option>)}
+              </select>
+            </label>
+            {((fatherLagna === '') !== (fatherMoon === '')) && <span className="text-rose">இரண்டையும் தேர்ந்தால் மட்டுமே பயன்படும்.</span>}
           </div>
           {error && <p className="mt-2 text-sm text-rose">⚠️ {error}</p>}
         </section>

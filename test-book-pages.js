@@ -531,6 +531,28 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
   }
 
+  // page 141 read against the father's chart: Ascendant Gemini, Moon Capricorn. The sample's Leo Lagna is the 3rd from Gemini and its Pisces Moon the 10th (v.17 (3), (4)); Saturn, the lord of
+  // the father's 8th (Capricorn), is not in the native's Lagna and the Lagna is the 3rd, not the 8th, from the father's (v.15)
+  {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p141').build({ name: 'x', birth, dashaOptions, asOf: new Date('2026-11-05T00:00:00Z'), father: { lagnaSign: 2, moonSign: 9 } });
+    const f = page.blocks.filter((x) => x.kind === 'table')[1];
+    assert.deepEqual(f.rows.map((r) => r[2]), ['காலம்', 'பொருந்தவில்லை', 'பொருந்துகிறது', 'பொருந்துகிறது', 'பொருந்தவில்லை', 'பொருந்தவில்லை']);
+    assert.ok(/தந்தையின் லக்னம் மிதுனம், சந்திரன் மகரம்\. பிறந்தவரின் லக்னம் \(சிம்மம்\): தந்தையின் லக்னத்திலிருந்து 3-ஆம் வீடு, சந்திரனிலிருந்து 8-ஆம் வீடு; பிறந்தவரின் ராசி \(மீனம்\): தந்தையின் லக்னத்திலிருந்து 10-ஆம் வீடு/.test(f.rows[2][1]));
+    assert.equal(f.rows[2][1], f.rows[3][1]);
+    assert.ok(/தந்தையின் 8-ஆம் அதிபதி சனி பிறந்தவரின் லக்னத்தில் இல்லை/.test(f.rows[5][1]));
+    // the native's Lagna the 8th from the father's: Leo is the 8th from Capricorn (v.15)
+    const eighth = await BOOK_SECTIONS.find((s) => s.id === 'p141').build({ name: 'x', birth, dashaOptions, asOf: new Date('2026-11-05T00:00:00Z'), father: { lagnaSign: 9, moonSign: 0 } });
+    const e = eighth.blocks.filter((x) => x.kind === 'table')[1];
+    assert.ok(/பிறந்தவரின் லக்னம் தந்தையின் லக்னத்திலிருந்து 8-ஆம் வீடு/.test(e.rows[5][1]) && e.rows[5][2] === 'பொருந்துகிறது', 'Leo is the 8th from Capricorn');
+    // without the father's chart the three rows say what is needed; a half-given chart is the same
+    for (const father of [undefined, null, { lagnaSign: 2 }]) {
+      const none = await BOOK_SECTIONS.find((s) => s.id === 'p141').build({ name: 'x', birth, dashaOptions, asOf: new Date('2026-11-05T00:00:00Z'), father });
+      const n = none.blocks.filter((x) => x.kind === 'table')[1];
+      assert.deepEqual([2, 3, 5].map((i) => [n.rows[i][1], n.rows[i][2]]), [['தந்தையின் ஜாதகம் தேவை', 'சோதிக்கப்படவில்லை'], ['தந்தையின் ஜாதகம் தேவை', 'சோதிக்கப்படவில்லை'], ['தந்தையின் ஜாதகம் தேவை', 'சோதிக்கப்படவில்லை']]);
+    }
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify([page, eighth])));
+  }
+
   // page 142: the nature and character the books give; the sample's Lagna lord (the Sun) is not in the Lagna, 7 January 1985 20:10 has the Moon in a Cancer Lagna
   {
     const page = await BOOK_SECTIONS.find((s) => s.id === 'p142').build({ name: 'x', birth, dashaOptions });

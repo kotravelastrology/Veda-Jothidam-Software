@@ -19,6 +19,8 @@ export interface BookRequest {
   sections: string[];
   engine?: { ayanamsha?: string; houseSystem?: string; nodeType?: 'mean' | 'true' };
   dashaOptions?: { yearDays: number; balance: 'degree' | 'time' };
+  /** the signs (0 = Aries .. 11 = Pisces) of the father's Ascendant and Moon, for the pages that read the native against the father's chart (page 141) */
+  father?: { lagnaSign: number; moonSign: number };
 }
 
 /** Every page of PL9's horoscope book by family, with whether this software builds it yet. */
@@ -62,7 +64,8 @@ export async function computeBook(req: BookRequest) {
       }
     }
   }
-  const built = await B.buildBookSections({ name, birth: input, ids, dashaOptions: options });
+  const father = req.father && Number.isInteger(req.father.lagnaSign) && Number.isInteger(req.father.moonSign) && [req.father.lagnaSign, req.father.moonSign].every((x) => x >= 0 && x <= 11) ? req.father : null;
+  const built = await B.buildBookSections({ name, birth: input, ids, dashaOptions: options, father });
   if (built.length === 0) throw new Error('குறைந்தது ஒரு பக்கத்தைத் தேர்வு செய்யுங்கள்.');
   const particulars = await buildBirthParticulars({
     birth: input,

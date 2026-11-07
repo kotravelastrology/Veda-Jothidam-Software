@@ -55,4 +55,21 @@ function fatherYogas({ signs, lagnaSign }) {
   };
 }
 
-module.exports = { DATA, SIGN_LORD, sumForward, saturnYears, extremes, fatherYogas };
+/**
+ * What v.15 and v.17 (3), (4) ask of the father's chart, from the signs of the father's Ascendant and Moon (0-11) and the native's chart. The book says 'the birth' is in the 3rd or the
+ * 10th rasi from the father's Ascendant or Moon without saying whether the native's Ascendant or Moon sign is meant, so all four houses are given and 'third' and 'tenth' are true
+ * when any of them is the 3rd or the 10th.
+ * @returns {{ nativeLagna: {fromFatherLagna: number, fromFatherMoon: number}, nativeMoon: {fromFatherLagna: number, fromFatherMoon: number}, third: boolean, tenth: boolean,
+ *   succession: { lagnaIsEighth: boolean, lord8: string, lord8InNativeLagna: boolean, held: boolean } }}
+ */
+function fatherLink({ signs, lagnaSign, father }) {
+  const nativeLagna = { fromFatherLagna: houseFrom(lagnaSign, father.lagnaSign), fromFatherMoon: houseFrom(lagnaSign, father.moonSign) };
+  const nativeMoon = { fromFatherLagna: houseFrom(signs.Moon, father.lagnaSign), fromFatherMoon: houseFrom(signs.Moon, father.moonSign) };
+  const houses = [nativeLagna.fromFatherLagna, nativeLagna.fromFatherMoon, nativeMoon.fromFatherLagna, nativeMoon.fromFatherMoon];
+  const lord8 = SIGN_LORD[(father.lagnaSign + 7) % 12];
+  const lagnaIsEighth = nativeLagna.fromFatherLagna === 8;
+  const lord8InNativeLagna = signs[lord8] === lagnaSign;
+  return { nativeLagna, nativeMoon, third: houses.includes(3), tenth: houses.includes(10), succession: { lagnaIsEighth, lord8, lord8InNativeLagna, held: lagnaIsEighth || lord8InNativeLagna } };
+}
+
+module.exports = { DATA, SIGN_LORD, sumForward, saturnYears, extremes, fatherYogas, fatherLink };

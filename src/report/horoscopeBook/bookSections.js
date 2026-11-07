@@ -197,12 +197,12 @@ function bookSectionList() {
  * Builds the selected sections for one birth, in the book's order. Returns a Promise of [{ id, title, doc }].
  * Unknown ids are ignored.
  */
-async function buildBookSections({ name = '', birth, ids, dashaOptions }) {
+async function buildBookSections({ name = '', birth, ids, dashaOptions, father = null }) {
   const wanted = new Set(ids);
   const out = [];
   for (const section of BOOK_SECTIONS) {
     if (!wanted.has(section.id)) continue;
-    const doc = await section.build({ name, birth, dashaOptions });
+    const doc = await section.build({ name, birth, dashaOptions, father });
     out.push({ id: section.id, title: section.title, doc });
   }
   return out;

@@ -47,6 +47,30 @@ assert.deepEqual([f.lord4House, f.lord4HouseFromMoon, f.obedient], [4, 12, false
 f = Y.fatherYogas({ signs: signs({ Saturn: 0 }), lagnaSign: 0 });
 assert.equal(f.tenthLordInLagna, true, 'the 10th lord Saturn in the Aries Lagna');
 
+// the father's chart (v.15, v.17 (3), (4)): the father's Ascendant Aries (0) and Moon Libra (6)
+const fl = (over, lagnaSign, father) => Y.fatherLink({ signs: signs(over), lagnaSign, father });
+let k = fl({ Moon: 2 }, 7, { lagnaSign: 0, moonSign: 6 });
+assert.deepEqual(k.nativeLagna, { fromFatherLagna: 8, fromFatherMoon: 2 }, 'Scorpio is the 8th from Aries and the 2nd from Libra');
+assert.deepEqual(k.nativeMoon, { fromFatherLagna: 3, fromFatherMoon: 9 }, 'Gemini is the 3rd from Aries and the 9th from Libra');
+assert.equal(k.third, true, 'the native Moon in the 3rd from the father Ascendant');
+assert.equal(k.tenth, false);
+assert.equal(k.succession.lagnaIsEighth, true);
+assert.equal(k.succession.lord8, 'Mars', 'the 8th from Aries is Scorpio, of Mars');
+assert.equal(k.succession.held, true);
+// the 10th: the native's Moon in Capricorn (9) is the 10th from Aries
+k = fl({ Moon: 9 }, 1, { lagnaSign: 0, moonSign: 6 });
+assert.equal(k.nativeMoon.fromFatherLagna, 10);
+assert.deepEqual([k.third, k.tenth, k.succession.lagnaIsEighth], [false, true, false]);
+// the lord of the father's 8th in the native's Lagna: the father's Ascendant Taurus (1), the 8th Sagittarius, its lord Jupiter; Jupiter in the native's Lagna (Aries)
+k = fl({ Jupiter: 0, Moon: 5 }, 0, { lagnaSign: 1, moonSign: 6 });
+assert.deepEqual([k.succession.lord8, k.succession.lord8InNativeLagna, k.succession.lagnaIsEighth, k.succession.held], ['Jupiter', true, false, true]);
+k = fl({ Jupiter: 3, Moon: 5 }, 0, { lagnaSign: 1, moonSign: 6 });
+assert.equal(k.succession.held, false);
+// the 3rd from the father's Moon through the native's Ascendant: Libra (6) + 2 = Sagittarius (8)
+k = fl({ Moon: 5 }, 8, { lagnaSign: 3, moonSign: 6 });
+assert.equal(k.nativeLagna.fromFatherMoon, 3);
+assert.equal(k.third, true);
+
 // a real chart: the 5 October 1990 sample; Saturn's years from its own Bhinnashtakavarga
 const birth = { year: 1990, month: 10, day: 5, hour: 4, minute: 30, ianaTimeZone: 'Asia/Kolkata', utcOffsetMinutes: 330, latitude: 13 + 5 / 60, longitude: 80 + 17 / 60, placeName: 'Chennai' };
 (async () => {
