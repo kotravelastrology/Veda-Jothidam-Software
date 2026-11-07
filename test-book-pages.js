@@ -558,16 +558,21 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     const page = await BOOK_SECTIONS.find((s) => s.id === 'p142').build({ name: 'x', birth, dashaOptions });
     const t = page.blocks.filter((x) => x.kind === 'table');
     assert.equal(t.length, 1);
-    assert.deepEqual(t[0].rows.map((r) => r[1]), ['Saravali', 'Hora Sara', 'Brihat Jataka (P.S. Sastri, 2007)', 'Hora Sara', 'Brihat Jataka (B.S. Rao, 1986)']);
-    assert.deepEqual(t[0].rows.map((r) => r[0].split(' — ')[0]), ['லக்னம்', 'சந்திரன்', 'சந்திரன்', 'ஜன்ம நட்சத்திரம்', 'ஜன்ம நட்சத்திரம்']);
-    assert.ok(/Chapter 48/.test(t[0].rows[0][3]) && /Chapter 29/.test(t[0].rows[1][3]) && /Chapter 17/.test(t[0].rows[2][3]) && /Chapter 28/.test(t[0].rows[3][3]) && /Chapter 16/.test(t[0].rows[4][3]));
+    const MANSAGARI = 'Maansagari, Volume I (P.K. Vasudev)';
+    assert.deepEqual(t[0].rows.map((r) => r[1]), ['Saravali', 'Hora Sara', 'Brihat Jataka (P.S. Sastri, 2007)', 'Hora Sara', MANSAGARI, 'Brihat Jataka (B.S. Rao, 1986)', MANSAGARI, MANSAGARI]);
+    assert.deepEqual(t[0].rows.map((r) => r[0].split(' — ')[0]), ['லக்னம்', 'சந்திரன்', 'சந்திரன்', 'ஜன்ம நட்சத்திரம்', 'ஜன்ம நட்சத்திரம்', 'ஜன்ம நட்சத்திரம்', 'கணம்', 'யோனி']);
+    assert.ok(/Chapter 48/.test(t[0].rows[0][3]) && /Chapter 29/.test(t[0].rows[1][3]) && /Chapter 17/.test(t[0].rows[2][3]) && /Chapter 28/.test(t[0].rows[3][3]) && /Chapter 1 /.test(t[0].rows[4][3]) && /Chapter 16/.test(t[0].rows[5][3]));
+    // the sample's Moon is in Revati: Maansagari's verse 28 (p.73), the Deva gana (verse 1, pp.85-86) and the Gaja (elephant) yoni (verse 2, p.89), each with the book and its page
+    assert.ok(/Maansagari, Volume I, Harji — Chapter 1 .*ப\.62-73 — v\.28, ப\.73$/.test(t[0].rows[4][3]), t[0].rows[4][3]);
+    assert.deepEqual([t[0].rows[6][0], t[0].rows[7][0]], ['கணம் — தேவ', 'யோனி — யானை']);
+    assert.ok(/ப\.85-91 — v\.1, ப\.85-86$/.test(t[0].rows[6][3]) && /சுந்தர/.test(t[0].rows[6][2]) && /ப\.85-91 — v\.2, ப\.89$/.test(t[0].rows[7][3]) && /அரசனுக்குப் பிரியமானவன்/.test(t[0].rows[7][2]));
     assert.ok(t[0].rows.every((r) => r[2].length > 20 && /ப\.\d+/.test(r[3])));
     assert.ok(/லக்னம் சிம்மம்; சந்திரன் மீனம் ராசியில், ரேவதி நட்சத்திரம் 3-ஆம் பாதம்/.test(page.blocks[0].text) && /இங்கு சூரியன் லக்னத்தில் இல்லை/.test(page.blocks[0].text));
-    assert.ok(/சரவளி அத். 48/.test(page.blocks.at(-1).text) && /ஹோரா சாரம் அத். 28/.test(page.blocks.at(-1).text) && /ப்ருஹத் ஜாதகம் அத். 16/.test(page.blocks.at(-1).text));
+    assert.ok(/சரவளி அத். 48/.test(page.blocks.at(-1).text) && /ஹோரா சாரம் அத். 28/.test(page.blocks.at(-1).text) && /ப்ருஹத் ஜாதகம் அத். 16/.test(page.blocks.at(-1).text) && /மான்சாகரி தொகுதி 1, அத். 1/.test(page.blocks.at(-1).text) && /அபிஜித்/.test(page.blocks.at(-1).text));
     const cancer = await BOOK_SECTIONS.find((s) => s.id === 'p142').build({ name: 'x', birth: { ...birth, year: 1985, month: 1, day: 7, hour: 20, minute: 10 }, dashaOptions });
     const ct = cancer.blocks.find((x) => x.kind === 'table');
     assert.ok(ct.rows.some((r) => /^லக்னாதிபதி சந்திரன் லக்னத்திலேயே \(கடகம்\)/.test(r[0]) && /Bhrigu Samhita/.test(r[1]) && r[3].length > 20), 'the Moon, the Lagna lord of Cancer, stands in the Lagna');
-    assert.equal(ct.rows.length, 6);
+    assert.equal(ct.rows.length, 9); // Lagna lord row, Lagna, two Moon-sign books, three star books, the gana and the yoni
     assert.ok(/இங்கு இருக்கிறார்/.test(cancer.blocks[0].text));
     assert.ok(!/undefined|NaN|null/.test(JSON.stringify([page, cancer])));
   }

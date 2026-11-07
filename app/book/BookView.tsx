@@ -112,7 +112,7 @@ export default function BookView() {
   const [party, setParty] = useState<Party | null>(null);
   const [catalogue, setCatalogue] = useState<Catalogue>([]);
   const [selected, setSelected] = useState<string[]>([]);
-  /** whether the pages for the astrologer (the female horoscopy, the curses) are in the "all" buttons and the choice */
+  /** whether the pages for the astrologer (Saturn's transit harm, longevity, the female horoscopy, the curses, the years of distress) are in the "all" buttons and the choice */
   const [withAstrologer, setWithAstrologer] = useState(false);
   /** the signs of the father's Ascendant and Moon ('' = not given), for the page that reads the native against the father's chart */
   const [fatherLagna, setFatherLagna] = useState('');
@@ -179,7 +179,7 @@ export default function BookView() {
             <button type="button" className={pill} onClick={() => setSelected(allChosen)}>அனைத்தும்</button>
             <button type="button" className={pill} onClick={() => setSelected([])}>எதுவுமில்லை</button>
             {astrologerIds.length > 0 && (
-              <label className="flex items-center gap-1 text-xs text-ink-soft" title="பெண் ஜாதகம், முன்பிறப்புச் சாபங்கள்: நூலின் கடுமையான சொற்கள்; ஜோதிடரின் வாசிப்புக்கு, வாடிக்கையாளருக்கு அப்படியே தர வேண்டாம்">
+              <label className="flex items-center gap-1 text-xs text-ink-soft" title="சனி கோசாரத் தீங்கு (130), ஆயுள் (135), பெண் ஜாதகம் (137), முன்பிறப்புச் சாபங்கள் (138-139), துன்ப ஆண்டுகள் (141): நூலின் கடுமையான சொற்கள்; ஜோதிடரின் வாசிப்புக்கு, வாடிக்கையாளருக்கு அப்படியே தர வேண்டாம்">
                 <input type="checkbox" checked={withAstrologer} onChange={(e) => setWithAstrologerPages(e.target.checked)} />
                 ஜோதிடர் பயன்பாட்டுப் பக்கங்களையும் சேர் ({astrologerIds.length})
               </label>
