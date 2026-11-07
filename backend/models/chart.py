@@ -87,16 +87,16 @@ class Chart(db.Model):
             'id': self.id,
             'user_id': self.user_id,
             'name': self.name,
-            'birth_date': self.birth_date.isoformat(),
-            'birth_time': self.birth_time.isoformat(),
+            'birth_date': self.birth_date.isoformat() if self.birth_date else None,
+            'birth_time': self.birth_time.isoformat() if self.birth_time else None,
             'birth_location': self.birth_location,
             'latitude': self.latitude,
             'longitude': self.longitude,
             'timezone': self.timezone,
             'ayanamsa': self.ayanamsa,
             'node_type': self.node_type,
-            'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }
 
         if include_calculations:

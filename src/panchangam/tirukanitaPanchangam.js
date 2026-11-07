@@ -174,6 +174,8 @@ function calculateTirukanitaPanchangam(chartContext) {
 
 module.exports = {
   calculateTirukanitaPanchangam,
+  // the limb windows around any instant, not only at sunrise (a birth is read at its own moment)
+  findLimbWindow, tithiIndexAt, nakshatraIndexAt, yogaIndexAt, karanaSerialAt, formatLocalDateTime,
   karanaName,
   weekdayIndexAt,
   TITHI_NAMES,

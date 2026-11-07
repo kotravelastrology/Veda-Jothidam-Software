@@ -14,7 +14,7 @@ export function StatusBar() {
   }, []);
 
   return (
-    <div className="bg-ink text-surface border-t border-ink-soft/20 px-4 py-1 flex items-center justify-between text-xs h-8 fixed bottom-0 left-0 right-0">
+    <div className="bg-bar text-bar-ink border-t border-bar-ink/10 px-4 py-1 flex items-center justify-between text-xs h-8 fixed bottom-0 left-0 right-0">
       <div className="flex items-center gap-4">
         <span className="text-ink-soft/70">{status}</span>
         <span className="text-ink-soft/50">v1.0.0</span>

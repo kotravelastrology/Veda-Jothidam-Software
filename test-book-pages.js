@@ -1,0 +1,554 @@
+/**
+ * The horoscope book's pages built after page 20, against the PL9 sample (aniruddha_HC4: 5 October 1990, 04:30 IST, Chennai) on the sample's
+ * 360-day dasha year, where the sample's figures and ours are the same reckoning: the dates and values below are the sample's own.
+ */
+const assert = require('node:assert/strict');
+const { BOOK_SECTIONS } = require('./src/report/horoscopeBook/bookSections');
+
+const birth = { year: 1990, month: 10, day: 5, hour: 4, minute: 30, ianaTimeZone: 'Asia/Kolkata', utcOffsetMinutes: 330, latitude: 13 + 5 / 60, longitude: 80 + 17 / 60, placeName: 'Chennai' };
+const dashaOptions = { yearDays: 360, balance: 'degree' };
+const build = (id) => BOOK_SECTIONS.find((s) => s.id === id).build({ name: 'x', birth, dashaOptions });
+const block = (doc, heading) => doc.blocks.find((b) => b.heading === heading);
+const row = (b, first) => b.rows.find((r) => r[0] === first);
+
+(async () => {
+  // page 4: three rings of twelve houses
+  const p4 = await build('p4');
+  assert.equal(p4.blocks[0].rings.length, 3);
+  for (const ring of p4.blocks[0].rings) assert.equal(ring.houses.length, 12);
+  assert.ok(p4.blocks[0].rings[2].houses[0].includes('As'), 'the inner ring begins at the Ascendant');
+  assert.ok(p4.blocks[0].rings[1].houses[0].includes('Mo'), 'the middle ring begins at the Moon');
+
+  // page 7: the Dhoomadi group is the sample's to the second; the portion lords run Sun to Saturn
+  const p7 = await build('p7');
+  const dh = block(p7, 'Dhoomadi Group');
+  assert.deepEqual(row(dh, 'Upaketu').slice(2, 4), ['Leo', '17:43:34']);
+  assert.deepEqual(row(dh, 'Dhooma').slice(2, 4), ['Aqu', '01:03:34']);
+  assert.deepEqual(row(dh, 'Vyatipata').slice(2, 4), ['Tau', '28:56:26']);
+  const gu = p7.blocks.find((b) => b.columns && b.columns.includes('Duration of upagraha'));
+  assert.deepEqual(gu.rows.map((r) => r[1]), ['Sun', 'Mon', 'Mar', 'Mer', 'Jup', 'Ven', 'Sat']);
+
+  // page 21: the birth dasha's antardashas that ended before birth have no dates; Mercury-Mars has Venus, Sun, Moon from birth
+  const p21 = await build('p21');
+  const mm = block(p21, 'Mercury-Mars');
+  assert.deepEqual(mm.rows.filter((r) => r[1]).map((r) => [r[0], r[1]]), [['Venus', '05-10-1990'], ['Sun', '03-11-1990'], ['Moon', '21-11-1990']]);
+  assert.deepEqual(mm.rows.filter((r) => r[1]).map((r) => r[2]), ['03-11-1990', '21-11-1990', '21-12-1990']);
+  assert.equal(block(p21, 'Mercury-Mercury').rows.filter((r) => r[1]).length, 0);
+
+  // page 33 (Ashtottari) and 38 (Yogini): the first antardashas from birth
+  const p33 = await build('p33');
+  assert.equal(row(block(p33, 'Rahu (12y)'), 'Rahu')[1], '-');
+  assert.equal(row(block(p33, 'Rahu (12y)'), 'Moon')[1], '05-10-1990');
+  const p38 = await build('p38');
+  assert.equal(row(block(p38, 'Ulka (6y)'), 'Sank Ra')[1], '05-10-1990');
+  // the sample ends it on 25-12-1990 (the balance as the calendar's date, not the dasha years', is the same here)
+  assert.equal(row(block(p38, 'Ulka (6y)'), 'Sank Ra')[2], '25-12-1990');
+
+  // pages 41-42 (Kala Chakra): the balance, the first mahadashas' dates, and the pratyantardashas of the birth antardasha are the sample's
+  const p41 = await build('p41');
+  assert.ok(p41.blocks[0].text.includes('Jeeva Rashi: Gemini') && p41.blocks[0].text.includes('Deha Rashi: Taurus'));
+  assert.deepEqual(p41.blocks.slice(1).map((b) => b.heading), ['Tau (16y)', 'Ari (7y)', 'Pis (10y)', 'Aqu (4y)', 'Cap (4y)', 'Sag (10y)', 'Ari (7y)', 'Tau (16y)', 'Gem (9y)', 'Can (21y)', 'Leo (5y)', 'Vir (9y)']);
+  assert.deepEqual(p41.blocks[1].rows.slice(0, 2), [['Beginning', '05-10-1990'], ['Ending', '26-07-1991']]);
+  assert.deepEqual(p41.blocks[2].rows.slice(0, 3), [['Beginning', '26-07-1991'], ['Ending', '19-06-1998'], ['1 Ari', '26-07-1991']]);
+  const p42 = await build('p42');
+  assert.equal(p42.blocks[1].heading, 'Tau-Gem J');
+  assert.deepEqual(p42.blocks[1].rows.filter((r) => r[1]).slice(0, 3), [['Ari', '05-10-1990'], ['Tau D', '19-10-1990'], ['Gem J', '28-11-1990']]);
+
+  // pages 62 and 67 (Tribhagi and Shodashottari): the dates are the sample's
+  const p62 = await build('p62');
+  assert.deepEqual(row(block(p62, 'Mercury (11y)'), 'Mars').slice(1), ['05-10-1990', '25-11-1990']);
+  assert.deepEqual(row(block(p62, 'Mercury (11y)'), 'Rahu').slice(1), ['25-11-1990', '29-07-1992']);
+  // page 64 (Tribhagi 40, Vimshottari divided by three): the sample's antardashas of the birth period
+  const p64 = await build('p64');
+  assert.deepEqual(row(block(p64, 'Mercury (5y)'), 'Mars').slice(1), ['05-10-1990', '30-10-1990']);
+  assert.deepEqual(row(block(p64, 'Mercury (5y)'), 'Rahu').slice(1), ['30-10-1990', '01-09-1991']);
+  const p67 = await build('p67');
+  assert.deepEqual(row(block(p67, 'Saturn (14y)'), 'Venus').slice(1), ['05-10-1990', '29-09-1992']);
+
+  // pages 57 (Narayana) and 61: the periods' signs and dates are the sample's
+  const p57 = await build('p57');
+  const aq = block(p57, 'Aquarius (2y)');
+  assert.equal(aq.rows[0][1], '05-10-1990');
+  assert.equal(aq.rows[1][1], '24-09-1992');
+  assert.ok(block(p57, 'Cancer (4y)') && block(p57, 'Sagittarius (8y)') && block(p57, 'Taurus (3y)'));
+  const p61 = await build('p61');
+  assert.equal(p61.blocks[1].heading, 'Aquarius (9y)');
+  assert.equal(p61.blocks[2].rows[0][1], '19-08-1999', 'the sample: Pisces begins 19-08-1999');
+
+  // pages 48-59: the sign dashas as the sample prints them (K.N. Rao chara, Sthira, Drig, Kendradi, Navamsha)
+  const heads = async (id) => (await build(id)).blocks.slice(1).map((b) => b.heading);
+  assert.deepEqual(await heads('p48'), ['Leo (11y)', 'Virgo (12y)', 'Libra (11y)', 'Scorpio (8y)', 'Sagittarius (7y)', 'Capricorn (1y)', 'Aquarius (2y)', 'Pisces (8y)', 'Aries (1y)', 'Taurus (4y)', 'Gemini (3y)', 'Cancer (4y)']);
+  assert.deepEqual(await heads('p50'), ['Virgo (9y)', 'Libra (7y)', 'Scorpio (8y)', 'Sagittarius (9y)', 'Capricorn (7y)', 'Aquarius (8y)', 'Pisces (9y)', 'Aries (7y)', 'Taurus (8y)', 'Gemini (9y)', 'Cancer (7y)', 'Leo (8y)']);
+  const p50 = await build('p50');
+  assert.deepEqual(p50.blocks[1].rows.slice(0, 3), [['Beginning', '05-10-1990'], ['Ending', '19-08-1999'], ['6 Vir', '05-10-1990']]);
+  assert.equal(p50.blocks[1].rows[3][0], '5 Leo'); // Virgo is even: the sub-periods run backward
+  assert.equal(p50.blocks[2].rows[2][0], '1 Ari'); // Libra's seventh, Aries, is the stronger
+  assert.deepEqual(await heads('p53'), ['Aries (1y)', 'Leo (11y)', 'Scorpio (8y)', 'Aquarius (2y)', 'Taurus (3y)', 'Cancer (4y)', 'Libra (10y)', 'Capricorn (1y)', 'Gemini (4y)', 'Virgo (12y)', 'Sagittarius (8y)', 'Pisces (9y)']);
+  assert.deepEqual(await heads('p55'), ['Aries (1y)', 'Taurus (4y)', 'Gemini (3y)', 'Cancer (8y)', 'Leo (1y)', 'Virgo (12y)', 'Libra (11y)', 'Scorpio (6y)', 'Sagittarius (7y)', 'Capricorn (11y)', 'Aquarius (10y)', 'Pisces (4y)']);
+  assert.deepEqual(await heads('p59'), ['Aquarius (2y)', 'Taurus (3y)', 'Leo (11y)', 'Scorpio (8y)', 'Pisces (9y)', 'Gemini (4y)', 'Virgo (12y)', 'Sagittarius (8y)', 'Aries (1y)', 'Cancer (4y)', 'Libra (10y)', 'Capricorn (1y)']);
+
+  // pages 71-72 (Shastihayani): the balance, the dates of the birth period and the second page's first period are the sample's
+  const p71 = await build('p71');
+  assert.ok(p71.blocks[0].text.includes('Rahu 0y 8m'));
+  assert.deepEqual(p71.blocks[1].rows.slice(-2), [['Venus', '05-10-1990', '03-11-1990'], ['Saturn', '03-11-1990', '07-06-1991']]);
+  assert.deepEqual(row(block(p71, 'Jupiter (10y)'), 'Jupiter').slice(1), ['07-06-1991', '27-01-1993']);
+  assert.deepEqual(row(block(p71, 'Sun (10y)'), 'Rahu').slice(1), ['07-07-2008', '02-07-2009']);
+  const p72 = await build('p72');
+  assert.deepEqual(row(block(p72, 'Jupiter (10y)'), 'Jupiter').slice(1), ['27-07-2050', '18-03-2052']);
+  assert.deepEqual(row(block(p72, 'Sun (10y)'), 'Rahu').slice(1), ['27-08-2067', '21-08-2068']);
+
+  // second cycles: Navamsha repeats (the sample's 76y10m start and dates); Narayana, Drig and Kendradi take twelve less the first-cycle years (Rath; Koch)
+  const asides = async (id) => (await build(id)).blocks.slice(1).map((b) => b.aside);
+  const p56 = await build('p56');
+  assert.deepEqual(await asides('p56'), ['76y10m', '77y10m', '81y9m', '84y9m', '92y7m', '93y7m', '105y5m', '116y3m', '122y2m', '129y1m', '139y11m', '149y9m']);
+  assert.deepEqual(p56.blocks[1].rows[0], ['Beginning', '22-08-2067']);
+  assert.equal(p56.blocks[2].rows[0][1], '16-08-2068');
+  const p58 = await build('p58');
+  assert.deepEqual(p58.blocks.slice(1).map((b) => b.heading), ['Aquarius (10y)', 'Cancer (8y)', 'Sagittarius (4y)', 'Taurus (9y)', 'Libra (2y)', 'Pisces (3y)', 'Leo (1y)', 'Capricorn (11y)', 'Gemini (8y)', 'Scorpio (4y)', 'Aries (11y)']); // Virgo had twelve: none left
+  assert.deepEqual(await asides('p58'), ['71y11m', '81y9m', '89y8m', '93y7m', '102y6m', '104y5m', '107y5m', '108y5m', '119y3m', '127y1m', '131y1m']);
+  assert.deepEqual(p58.blocks[1].rows[0], ['Beginning', '17-09-2062']);
+  // Drig second cycle: the sample's periods from Taurus on last 9, 8, 2, 11, 8, 4, 3 years (its first four are printed with repeated headings and do not follow the rule)
+  const p54 = await build('p54');
+  assert.deepEqual(p54.blocks.slice(1).map((b) => b.heading), ['Aries (11y)', 'Leo (1y)', 'Scorpio (4y)', 'Aquarius (10y)', 'Taurus (9y)', 'Cancer (8y)', 'Libra (2y)', 'Capricorn (11y)', 'Gemini (8y)', 'Sagittarius (4y)', 'Pisces (3y)']);
+
+  // page 47: the Chara Karakas are the sample's
+  const p47 = await build('p47');
+  const ck = block(p47, 'Chara Karakas');
+  assert.deepEqual(ck.rows.map((r) => r[2]), ['25:05', '23:56', '19:05', '17:43', '15:11', '10:34', '04:55']);
+  assert.ok(ck.rows[0][1].includes('Sa') && ck.rows[6][1].includes('Me'));
+
+  // pages 79 and 80: Saturn's stays and the Ashtakavarga points of the signs are the sample's
+  const p79 = await build('p79');
+  const first = p79.blocks[1].rows.find((r) => r[2] === '05-03-1993');
+  assert.deepEqual([first[3], first[4], first[5], first[6]], ['15-10-1993', '0-7-10', '4', '29']);
+  const p80 = await build('p80');
+  const gem = p80.blocks[2].rows.find((r) => r[2] === '23-07-2002');
+  assert.deepEqual([gem[5], gem[6]], ['4', '34'], 'Saturn in Gemini: 4 bindus of its own, 34 of the Sarvashtakavarga');
+
+  // pages 81 and 82: the KP lagna and cusps are the sample's
+  const p81 = await build('p81');
+  assert.deepEqual(row(block(p81, 'Planets'), 'Lagna').slice(2, 4), ['Leo', '25:08:50']);
+  assert.deepEqual(row(block(p81, 'Planets'), 'Lagna').slice(6), ['Su', 'Ve', 'Me', 'Ra']);
+  const c2 = row(block(p81, 'Bhava Details (Placidus System)'), '2.Second'); // the sample: Vir 25:19:36, a second apart
+  assert.deepEqual([c2[1], c2[3]], ['Vir', 'Chitra']);
+  assert.ok(['25:19:36', '25:19:37'].includes(c2[2]), c2[2]);
+  const p82 = await build('p82');
+  assert.equal(p82.blocks[0].rows.length, 12);
+
+  // pages 83-88: twelve annual charts each, the first the sample's
+  const p83 = await build('p83');
+  const cards = p83.blocks.filter((b) => b.kind === 'chartCard');
+  assert.equal(cards.length, 12);
+  assert.ok(cards[0].heading.includes('5 October 1991 10:42'), cards[0].heading);
+  assert.equal(cards[0].rows[1][1], '17:43', 'the Sun at its return');
+  assert.equal((await build('p88')).blocks.filter((b) => b.kind === 'chartCard').length, 12);
+
+  // page 89, the Mangala dosha: Mars's house from the Lagna, Moon and Venus under each reading
+  const p89 = await build('p89');
+  const formation = block(p89, 'செவ்வாய் நிற்கும் வீடு — லக்னம், சந்திரன், சுக்கிரனிலிருந்து');
+  assert.deepEqual(formation.columns.slice(0, 5), ['முறை', 'லக்னம்', 'சந்திரன்', 'சுக்கிரன்', 'தோஷம்']);
+  assert.equal(formation.rows.length, 5, 'five readings: Vishnu Bhaskar three, Bhagat, Maansagari');
+  for (const r of formation.rows) assert.ok(/ப\.\d/.test(r[5]) && !/PDF/.test(r[5]), `a printed page, never a PDF page: ${r[5]}`);
+  assert.ok(!/undefined|NaN|null/.test(JSON.stringify(p89)));
+  // page 90: Saturn from the Moon, the three phases and the remedies the books record, each with a printed page
+  const p90 = await build('p90');
+  assert.equal(block(p90, 'ஏழரைச் சனியின் மூன்று கட்டங்கள்').rows.length, 3);
+  const remedies = block(p90, 'பரிகாரம் — நூல்களில் பதிவானவை');
+  assert.ok(remedies.rows.length >= 3 && remedies.rows.every((r) => r[2] && !/PDF/.test(r[2])), 'every remedy names its book');
+  assert.ok(!/undefined|NaN|null/.test(JSON.stringify(p90)));
+  // page 91: seven planets, each with the three books' words and whether they agree
+  const p91 = await build('p91');
+  const gems = block(p91, 'ஏழு கிரகங்களின் ரத்தினங்கள்');
+  assert.equal(gems.rows.length, 7);
+  assert.ok(gems.rows.every((r) => r.length === 6 && r.every(Boolean)), 'no empty cell');
+  assert.ok(!/undefined|NaN|null/.test(JSON.stringify(p91)));
+  // page 92: the running mahadasha and the next, BPHS ch.47 placements held / not held / not checked, with printed pages
+  const p92 = await build('p92');
+  const dashaTables = p92.blocks.filter((b) => b.kind === 'table' && b.columns.length === 6);
+  assert.equal(dashaTables.length, 2, 'the running mahadasha and the next');
+  for (const t of dashaTables) {
+    assert.ok(/மகாதசை — \d\d-\d\d-\d{4} முதல்/.test(t.heading), t.heading);
+    assert.ok(t.rows.length >= 2 && t.rows.every((r) => /ப\.\d/.test(r[5]) && !/PDF/.test(r[5])), 'each section names its printed page');
+  }
+  assert.ok(!/undefined|NaN|null/.test(JSON.stringify(p92)));
+  // pages 93-97: seventy-five antardashas, fifteen a page, with only the beginnings of their pratyantardashas (PL9's shorter print)
+  let shortBlocks = 0;
+  for (const id of ['p93', 'p94', 'p95', 'p96', 'p97']) {
+    const page = await build(id);
+    const tiles = page.blocks.filter((b) => b.kind === 'table');
+    shortBlocks += tiles.length;
+    assert.ok(tiles.every((t) => t.columns.join() === 'Antar,Begin' && t.rows.length === 9 && /^[A-Z][a-z]{2}-[A-Z][a-z]{2}$/.test(t.heading)), id);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+  assert.equal(shortBlocks, 75, 'seventy-five antardashas');
+  // pages 98-99: nine Yogini mahadashas each, with the antardasha beginnings
+  for (const id of ['p98', 'p99']) {
+    const page = await build(id);
+    const tiles = page.blocks.filter((b) => b.kind === 'table');
+    assert.equal(tiles.length, 9, id);
+    assert.ok(tiles.every((t) => t.columns.join() === 'Antar,Beginning' && t.rows.length === 8), id);
+  }
+
+  // pages 100-108: the nine mahadashas from birth in the order they run, each with its nine antardashas read against BPHS ch.52-60
+  const CYCLE_TA = ['கேது', 'சுக்கிரன்', 'சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'ராகு', 'குரு', 'சனி', 'புதன்']; // the Vimshottari order
+  let firstAt = -1;
+  for (let i = 0; i < 9; i += 1) {
+    const id = `p${100 + i}`;
+    const page = await build(id);
+    const at = CYCLE_TA.findIndex((t) => page.blocks[0].heading.startsWith(`${t} மகாதசை — `));
+    assert.ok(at >= 0, `${id}: ${page.blocks[0].heading}`);
+    if (firstAt < 0) firstAt = at; // the page for the birth dasha names whichever lord rules it; each page after it is the next in the cycle
+    assert.equal(at, (firstAt + i) % 9, `${id}: the mahadashas run in the Vimshottari order`);
+    const lord = CYCLE_TA[at];
+    const tables = page.blocks.filter((b) => b.kind === 'table');
+    assert.equal(tables.length, 9, `${id}: nine antardashas`);
+    assert.ok(tables.every((t) => t.columns.length === 6 && t.rows.length >= 2 && t.rows.every((r) => r.length === 6 && /Chapter \d+ v\.[\d-]+, ப\.\d+$/.test(r[5]) && !/PDF/.test(r[5]))), `${id}: a book, chapter, verse and printed page on each row`);
+    assert.ok(tables.every((t) => t.heading.startsWith(`${lord} தசை — `) && /^\d\d-\d\d-\d{4} → \d\d-\d\d-\d{4}$|^பிறப்புக்கு முன் முடிந்தது$/.test(t.aside) && /வீட்டில் \(/.test(t.note)), id);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), id);
+  }
+  // the birth dasha's antardashas that ended before birth carry no dates
+  const undated = (await build('p100')).blocks.filter((b) => b.aside === 'பிறப்புக்கு முன் முடிந்தது').length;
+  assert.ok(undated > 0 && undated < 9, 'some, not all, of the antardashas of the birth dasha ended before birth');
+
+  // pages 109-117: the same nine mahadashas, each antardasha with its nine pratyantardashas read against BPHS ch.61
+  for (let i = 0; i < 9; i += 1) {
+    const id = `p${109 + i}`;
+    const page = await build(id);
+    const head = (await build(`p${100 + i}`)).blocks[0].heading.split(' மகாதசை')[0];
+    assert.ok(page.blocks[0].heading.startsWith(`${head} மகாதசை — `) && /அத். 61/.test(page.blocks[0].heading), id);
+    const tables = page.blocks.filter((b) => b.kind === 'table');
+    assert.equal(tables.length, 9, `${id}: nine antardashas`);
+    assert.ok(tables.every((t) => t.rows.length === 9 && t.rows.every((r) => r.length === 5 && /Chapter 61 v\.\d+, ப\.7\d\d$/.test(r[4]) && r[3].length > 10)), `${id}: nine pratyantardashas, each with the book's effect`);
+    assert.ok(tables.every((t) => /திரிகோணத்தில் (உள்ளது|இல்லை)/.test(t.note)), id);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), id);
+  }
+  // the effect is the antardasha-and-pratyantardasha pair's, whatever the mahadasha: the same row text wherever the pair recurs
+  const pr109 = (await build('p109')).blocks.filter((b) => b.kind === 'table');
+  const dated = pr109.flatMap((t) => t.rows).filter((r) => r[1] !== '—');
+  assert.ok(dated.length > 0 && dated.every((r) => /^\d\d-\d\d-\d{4}$/.test(r[1]) && /^\d\d-\d\d-\d{4}$/.test(r[2])));
+
+  // pages 118-121: nine of the thirty-six pratyantardashas from the one running now, each with its nine sookshma dashas read against BPHS ch.62
+  const pdNames = [];
+  for (let i = 0; i < 4; i += 1) {
+    const page = await build(`p${118 + i}`);
+    assert.ok(/அத். 62/.test(page.blocks[0].heading) && /Chapter 62 v\.1, ப\.770/.test(page.blocks[0].text) && /Chapter 62 translator's note, ப\.784/.test(page.blocks[0].text), `p${118 + i}`);
+    const tables = page.blocks.filter((b) => b.kind === 'table');
+    assert.equal(tables.length, 9, `p${118 + i}: nine pratyantardashas`);
+    assert.ok(tables.every((t) => t.columns.length === 5 && t.rows.length === 9 && t.rows.every((r) => /^\d\d-\d\d-\d{4} \d\d:\d\d$/.test(r[1]) && /^\d\d-\d\d-\d{4} \d\d:\d\d$/.test(r[2]) && /Chapter 62 v\.\d+, ப\.7[7-8]\d$/.test(r[4]) && r[3].length > 10)), `p${118 + i}: nine sookshma dashas with date-times and the book's effect`);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), `p${118 + i}`);
+    pdNames.push(...tables.map((t) => t.heading));
+  }
+  assert.equal(new Set(pdNames).size, 36, 'thirty-six different pratyantardashas over the four pages');
+  // pages 122-123: nine of the eighteen sookshma dashas from the one running now, each with its nine prana dashas read against BPHS ch.63
+  for (let i = 0; i < 2; i += 1) {
+    const page = await build(`p${122 + i}`);
+    assert.ok(/அத். 63/.test(page.blocks[0].heading) && /Chapter 63 v\.1, ப\.785/.test(page.blocks[0].text) && /Chapter 63 v\.83, ப\.798/.test(page.blocks[0].text), `p${122 + i}`);
+    const tables = page.blocks.filter((b) => b.kind === 'table');
+    assert.equal(tables.length, 9, `p${122 + i}: nine sookshma dashas`);
+    assert.ok(tables.every((t) => t.rows.length === 9 && t.rows.every((r) => /^\d\d-\d\d-\d{4} \d\d:\d\d$/.test(r[1]) && /Chapter 63 v\.\d+, ப\.(7[89]\d)$/.test(r[4]) && r[3].length > 10)), `p${122 + i}: nine prana dashas`);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), `p${122 + i}`);
+  }
+  // each prana table's dates run on from one prana dasha to the next and fill its sookshma dasha
+  const pr122 = (await build('p122')).blocks.filter((b) => b.kind === 'table');
+  for (const t of pr122) {
+    assert.equal(t.rows[0][1], t.aside.split(' → ')[0], `${t.heading}: the first prana begins where the sookshma begins`);
+    assert.equal(t.rows[8][2], t.aside.split(' → ')[1], `${t.heading}: the last prana ends where the sookshma ends`);
+    for (let k = 1; k < 9; k += 1) assert.equal(t.rows[k][1], t.rows[k - 1][2], `${t.heading}: prana ${k} follows ${k - 1}`);
+  }
+
+  // pages 124-126: the Kalachakra dasha's results from BPHS ch.65 (page 124) and ch.64 (pages 125-126); the sample is a Savya birth in Revati pada 3 (Aquarius Amsa)
+  const k124 = await build('p124');
+  assert.ok(/அத். 65/.test(k124.blocks[0].heading) && /Chapter 65 v\.32, ப\.841/.test(k124.blocks[0].text));
+  const kt = k124.blocks.filter((b) => b.kind === 'table');
+  assert.equal(kt.length, 1);
+  assert.equal(kt[0].rows.length, 12);
+  assert.ok(kt[0].rows.every((r) => r.length === 6 && /^\d\d-\d\d-\d{4}$/.test(r[1]) && /Chapter 65 v\.[\d½-]+, ப\.8[34]\d/.test(r[5]) && r[4].length > 5));
+  assert.deepEqual(kt[0].rows[0].slice(0, 5), ['ரிஷபம் (16 ஆண்டு)', '05-10-1990', '26-07-1991', 'கும்பம் அம்சம், 1-ஆவது', 'செல்வப் பெருக்கம்.']);
+  assert.equal(kt[0].rows[1][3], 'கும்பம் அம்சம், 2-ஆவது');
+  for (const [id, first] of [['p125', 'ரிஷபம் தசை — கும்பம் அம்சம்'], ['p126', null]]) {
+    const page = await build(id);
+    assert.ok(/அத். 64/.test(page.blocks[0].heading), id);
+    const tables = page.blocks.filter((b) => b.kind === 'table');
+    assert.equal(tables.length, 6, `${id}: six mahadashas`);
+    assert.ok(tables.every((t) => t.rows.length === 12 && t.rows.every((r) => r.length === 5 && /^[^\s]+ \([^)]+\)$/.test(r[0]) && (r[3] === '—' ? r[4] === '—' : /Chapter 64 v\.[\d-]+, ப\.8[23]\d/.test(r[4])))), `${id}: twelve antardashas, each with the book's effect or none`);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), id);
+    if (first) assert.equal(tables[0].heading, first);
+  }
+  // an Apsavya birth (15 October 1990, Moon in Mrigasira): the book gives no table for it, so the pages give its rule and no rows
+  const apsavyaBirth = { ...birth, day: 15 };
+  for (const id of ['p124', 'p125', 'p126']) {
+    const page = await BOOK_SECTIONS.find((s) => s.id === id).build({ name: 'x', birth: apsavyaBirth, dashaOptions });
+    assert.equal(page.blocks.length, 1, id);
+    assert.ok(/அப்சவ்ய/.test(page.blocks[0].text) && /Chapter 64 v\.56-58, ப\.833-834/.test(page.blocks[0].text), id);
+  }
+
+  // page 127: the inauspicious births of BPHS ch.85-96; the sample (5 Oct 1990) holds some and a Moola birth (4 March 2024, 18:20 IST) holds Abhukta Moola with its remedy
+  for (const [label, b, remedyFor] of [['sample', birth, null], ['moola', { ...birth, year: 2024, month: 3, day: 4, hour: 18, minute: 20, gender: 'female' }, 'அபுக்த மூலத்தில் பிறப்பு']]) {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p127').build({ name: 'x', birth: b, dashaOptions });
+    const tables = page.blocks.filter((t) => t.kind === 'table');
+    assert.ok(/அத். 85–96/.test(page.blocks[0].heading) && /Chapter 85 v\.1-4, ப\.1009/.test(page.blocks[0].text), label);
+    assert.equal(tables[0].rows.length, 15, `${label}: nine conditions and six not checked`);
+    assert.ok(tables[0].rows.every((r) => r.length === 4 && /Chapter \d+ v\.[\d-]+, ப\.10\d\d/.test(r[3]) && r[1].length > 5), label);
+    assert.equal(tables[0].rows.filter((r) => /^சோதிக்கப்படவில்லை/.test(r[1])).length, 6, label);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), label);
+    if (remedyFor) {
+      assert.ok(tables[0].rows.find((r) => r[0] === remedyFor && /^உள்ளது/.test(r[1])), 'Abhukta Moola holds');
+      assert.ok(tables[0].rows.find((r) => /திருமண உறவுகளுக்கான/.test(r[0]) && /^உள்ளது/.test(r[1])), 'Moola quarter 1-3 holds for a girl');
+      assert.equal(tables.length, 2);
+      assert.ok(tables[1].rows.find((r) => r[0] === remedyFor && /Chapter 93 v\.3-20, ப\.1029-1032/.test(r[2])), 'its remedy, with the chapter, verses and pages');
+    }
+  }
+
+  // page 128: the yogas leading to asceticism of BPHS ch.79, one row for each of the nine rules, each with its chapter, verses and printed page
+  for (const b of [birth, { ...birth, year: 2024, month: 3, day: 4, hour: 18, minute: 20 }]) {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p128').build({ name: 'x', birth: b, dashaOptions });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 79/.test(page.blocks[0].heading) && /தபஸ்வி/.test(page.blocks[0].text));
+    assert.equal(t.length, 1);
+    assert.equal(t[0].rows.length, 9);
+    assert.ok(t[0].rows.every((r) => r.length === 3 && /Chapter 79 v\.[\d-]+, ப\.9(4[89]|5[0-2])/.test(r[2]) && /^(உள்ளது|இல்லை|பகுதி|சோதிக்கப்படவில்லை)/.test(r[1])));
+    assert.equal(t[0].rows.filter((r) => /^சோதிக்கப்படவில்லை/.test(r[1])).length, 2);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
+  // page 129: the propitiation of the planets, BPHS ch.84: nine planets in the book's order, each row with the chapter, verses and printed pages
+  {
+    const page = await build('p129');
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 84/.test(page.blocks[0].heading) && /Chapter 84 v\.26-27, ப\.1008/.test(page.blocks[0].text));
+    assert.equal(t.length, 1);
+    assert.deepEqual(t[0].rows.map((r) => r[0].replace(/ \(நடப்பு தசை\/புக்தி\)$/, '')), ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி', 'ராகு', 'கேது']);
+    assert.ok(t[0].rows.every((r) => r.length === 7 && /முறை$/.test(r[2]) && /Chapter 84 v\.3-14, ப\.1003-1005/.test(r[6]) && /v\.17-20, ப\.1006/.test(r[6]) && /v\.21-22, ப\.1007/.test(r[6])));
+    assert.ok(t[0].rows.some((r) => /நடப்பு தசை\/புக்தி/.test(r[0])), 'the running mahadasha lord is marked');
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
+  // page 130: BPHS ch.70's Saturn-transit rule for the seven planets, worked on the sample's Ashtakavarga
+  {
+    const page = await build('p130');
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 70/.test(page.blocks[0].heading) && /Chapter 70 v\.1-6, ப\.881/.test(page.blocks[0].text) && /Chapter 70 v\.7-11, ப\.882-883/.test(page.blocks[0].text));
+    assert.equal(t.length, 1);
+    assert.deepEqual(t[0].rows.map((r) => r[0].split(' — ')[0]), ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி']);
+    assert.deepEqual(t[0].rows.map((r) => r[1].split('-')[0]), ['9', '4', '3', '4', '5', '7', '8']);
+    assert.ok(t[0].rows.every((r) => r.length === 7 && /Chapter 70 v\.[\d-]+, ப\.(88|89)\d/.test(r[6])));
+    assert.ok(t[0].rows.every((r) => /^\d \u00d7 \d+ \(\d+ \+ \d+\) = \d+$/.test(r[2]) && r[3].split(', ').length === 3 && r[4].split(', ').length === 3 || /^0 ரேகை/.test(r[2])));
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
+  // page 131: the Panchamahapurusha yogas of BPHS ch.75; the sample holds none, 3 March 2024 09:00 IST holds Ruchaka (Mars exalted in the 10th), 17 January 2024 03:00 Sasa (Saturn own in the 4th)
+  for (const [label, b, held] of [['sample', birth, []], ['ruchaka', { ...birth, year: 2024, month: 3, day: 3, hour: 9, minute: 0 }, ['ருசகம்']], ['sasa', { ...birth, year: 2024, month: 1, day: 17, hour: 3, minute: 0 }, ['சசம்']]]) {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p131').build({ name: 'x', birth: b, dashaOptions });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 75/.test(page.blocks[0].heading) && /Chapter 75 v\.1-2, ப\.924/.test(page.blocks[0].text), label);
+    assert.equal(t[0].rows.length, 5, label);
+    assert.deepEqual(t[0].rows.map((r) => r[0].split(' ')[0]), ['ருசகம்', 'பத்ரம்', 'ஹம்சம்', 'மாளவ்யம்', 'சசம்'], label);
+    assert.ok(t[0].rows.every((r) => r.length === 4 && /Chapter 75 v\.[\d-]+, ப\.92[4-7]/.test(r[3])), label);
+    assert.deepEqual(t[0].rows.filter((r) => /^உள்ளது/.test(r[1])).map((r) => r[0].split(' ')[0]), held, label);
+    assert.ok(t[0].rows.every((r) => (/^உள்ளது/.test(r[1]) ? r[2].length > 80 : r[2] === '—')), `${label}: the features only for a yoga that holds`);
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), label);
+  }
+
+  // pages 132-133: the Sudarshana Chakra dasha of BPHS ch.74; the sample has the Ascendant, Sun and Moon in three signs (three circles), 11 January 2024 17:30 IST (new Moon) has the Sun and Moon together (the birth chart alone)
+  {
+    const asOf = new Date('2026-11-05T00:00:00Z');
+    for (const [label, b, circles, run] of [['sample', birth, ['லக்னம்', 'சந்திரன்', 'சூரியன்'], 37], ['new moon', { ...birth, year: 2024, month: 1, day: 11, hour: 17, minute: 30 }, ['லக்னம்'], 3]]) {
+      const years = await BOOK_SECTIONS.find((s) => s.id === 'p132').build({ name: 'x', birth: b, dashaOptions, asOf });
+      const months = await BOOK_SECTIONS.find((s) => s.id === 'p133').build({ name: 'x', birth: b, dashaOptions, asOf });
+      for (const page of [years, months]) {
+        const t = page.blocks.filter((x) => x.kind === 'table');
+        assert.ok(/அத். 74/.test(page.blocks[0].heading) && /Chapter 74 v\.1-9, ப\.912-914/.test(page.blocks[0].text) && /Chapter 74 v\.24-26, ப\.921/.test(page.blocks[0].text), label);
+        assert.equal(t.length, 1, label);
+        assert.equal(t[0].rows.length, 12 * circles.length, label);
+        assert.ok(t[0].rows.every((r) => r.length === 4 && circles.includes(r[1]) && /^[^\d]+ \(\d+-ஆம் வீடு லக்னம்\)$/.test(r[2]) && /^சுபர் 1, 4, 5, 7, 8, 9, 10-இல்:/.test(r[3])), label);
+        assert.deepEqual([...new Set(t[0].rows.map((r) => r[1]))], circles, label);
+        assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)), label);
+      }
+      // the running year on 5 November 2026 (36 years lived for the sample makes year 37 the 1st house again; 2 for the new-moon birth makes year 3 the 3rd); its months run from the 1st house
+      assert.ok(new RegExp(`^${run}-ஆம் ஆண்டு \\(வயது ${run - 1}\\)`).test(years.blocks[1].rows[0][0]) && new RegExp(`\\(${((run - 1) % 12) + 1}-ஆம் வீடு லக்னம்\\)`).test(years.blocks[1].rows[0][2]), label);
+      assert.ok(years.blocks[1].rows.every((r, i) => new RegExp(`^${run + Math.floor(i / circles.length)}-ஆம் ஆண்டு`).test(r[0])), label);
+      assert.ok(/^மாதம் 1 /.test(months.blocks[1].rows[0][0]) && /\(1-ஆம் வீடு லக்னம்\)/.test(months.blocks[1].rows[0][2]) && /\(12-ஆம் வீடு லக்னம்\)/.test(months.blocks[1].rows.at(-1)[2]), label);
+      assert.ok(new RegExp(`${run}-ஆம் ஆண்டின் 12 மாதங்கள்`).test(months.blocks[0].heading), label);
+      assert.ok(/பிறப்பு ஜாதகம் \(லக்னவட்டம்\) மட்டுமே/.test(years.blocks[0].text) === (circles.length === 1), label);
+    }
+  }
+
+  // page 134: the five elements and three gunas of BPHS ch.76-77; the sample's Mars leads by both Shadbala figures (fire, tamas) and the Sun, Moon and Jupiter are sattva
+  {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p134').build({ name: 'x', birth, dashaOptions });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 76/.test(page.blocks[0].heading) && /Chapter 76 v\.2-5, 11-14, ப\.928-930/.test(page.blocks[0].text) && /Chapter 77 v\.1-4, 10, ப\.932-934/.test(page.blocks[0].text));
+    assert.equal(t.length, 3);
+    assert.deepEqual(t[0].rows.map((r) => r[0]), ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி']);
+    assert.deepEqual(t[0].rows.map((r) => r[1]), ['நெருப்பு', 'நீர்', 'நெருப்பு', 'நிலம்', 'ஆகாயம்', 'நீர்', 'காற்று']);
+    assert.deepEqual(t[0].rows.map((r) => r[2]), ['சத்வம்', 'சத்வம்', 'தமஸ்', 'ரஜஸ்', 'சத்வம்', 'ரஜஸ்', 'தமஸ்']);
+    assert.ok(t[0].rows.every((r) => /^\d+\.\d\d$/.test(r[3]) && /^\d+\.\d\d %$/.test(r[4])));
+    assert.ok(/நீசம்/.test(t[0].rows[5][5]), 'Venus in Virgo is debilitated');
+    assert.equal(t[1].rows.length, 2);
+    assert.ok(t[1].rows.every((r) => r[1] === 'செவ்வாய்' && r[2] === 'நெருப்பு' && /Chapter 76 v\.6, 11, ப\.929-930/.test(r[5])));
+    assert.equal(t[2].rows.length, 4);
+    assert.deepEqual(t[2].rows.map((r) => r[2]), ['தமஸ்', 'சத்வம்', 'தமஸ்', 'சத்வம்']);
+    assert.ok(t[2].rows.every((r) => /Chapter 77 v\.[5-7], ப\.933/.test(r[5])));
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
+  // pages 135-136: the longevity of the eight Ashtakavargas (BPHS ch.71) and the Samudaya Ashtakavarga (ch.72); the sample's Sun Ashtakavarga gives 14 years 0 months 18 days 30 ghatikas, as the book's own chart does
+  {
+    const asOf = new Date('2026-11-05T00:00:00Z');
+    const longevity = await BOOK_SECTIONS.find((s) => s.id === 'p135').build({ name: 'x', birth, dashaOptions, asOf });
+    const t1 = longevity.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 71/.test(longevity.blocks[0].heading) && /Chapter 71 v\.1-4, ப\.895/.test(longevity.blocks[0].text) && /Chapter 71 worked example, ப\.896/.test(longevity.blocks[0].text));
+    assert.equal(t1.length, 1);
+    assert.deepEqual(t1[0].rows.slice(0, 8).map((r) => r[0]), ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி', 'லக்னம்']);
+    assert.ok(t1[0].rows.slice(0, 8).every((r) => r[1].split(' ').length === 12 && /^\d+ ஆண்டு \d+ மாதம் \d+ நாள் \d+ நாழிகை$/.test(r[2]) && /^\d+ ஆண்டு \d+ மாதம் \d+ நாள் \d+ நாழிகை$/.test(r[3])));
+    assert.equal(t1[0].rows[0][2], '14 ஆண்டு 0 மாதம் 18 நாள் 30 நாழிகை');
+    assert.equal(t1[0].rows[0][3], '7 ஆண்டு 0 மாதம் 9 நாள் 15 நாழிகை');
+    assert.equal(t1[0].rows[0][1].split(' ').reduce((a, b) => a + Number(b), 0), 48);
+    assert.equal(t1[0].rows[7][1].split(' ').reduce((a, b) => a + Number(b), 0), 49);
+    assert.equal(t1[0].rows[8][0], 'எட்டின் பாதிகளின் கூட்டு');
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(longevity)));
+
+    const samudaya = await BOOK_SECTIONS.find((s) => s.id === 'p136').build({ name: 'x', birth, dashaOptions, asOf });
+    const t2 = samudaya.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 72/.test(samudaya.blocks[0].heading) && /Chapter 72 v\.3-5, ப\.897-898/.test(samudaya.blocks[0].text) && /Chapter 72 v\.11-28, ப\.900-904/.test(samudaya.blocks[0].text));
+    assert.equal(t2.length, 4);
+    assert.deepEqual(t2.map((t) => t.rows.length), [12, 12, 4, 3]);
+    assert.equal(t2[0].rows.reduce((a, r) => a + Number(r[1]), 0), 386, 'the seven Bhinnashtakavargas and the Ascendant\'s');
+    assert.equal(t2[0].rows.filter((r) => /நடப்பு மாதம்/.test(r[3])).length, 1, 'the Sun is in one sign on the day of printing');
+    assert.ok(/^துலாம்/.test(t2[0].rows.find((r) => /நடப்பு மாதம்/.test(r[3]))[0]), 'the Sun is in Libra on 5 November 2026');
+    assert.ok(t2[0].rows.every((r) => r.length === 7 && /Chapter 72 v\.(11-28|29), ப\.(900-904|904)/.test(r[6])));
+    assert.ok(t2[0].rows.every((r) => (Number(r[1]) > 30 ? r[5] === '—' && /^30-க்கு மேல்/.test(r[4]) : r[5].length > 5)));
+    assert.ok(t2[2].rows.every((r) => r.length === 3) && t2[3].rows.every((r) => r.length === 4));
+    assert.deepEqual(t2[1].rows.map((r) => Number(r[1])), t2[0].rows.map((r) => Number(r[1])).slice(4).concat(t2[0].rows.map((r) => Number(r[1])).slice(0, 4)), 'the houses run from the Leo Lagna of the sample');
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(samudaya)));
+  }
+
+  // page 137: the readings of BPHS ch.80, only for a chart marked female
+  {
+    const male = await BOOK_SECTIONS.find((s) => s.id === 'p137').build({ name: 'x', birth: { ...birth, gender: 'male' }, dashaOptions });
+    assert.equal(male.blocks.length, 1);
+    assert.ok(/பெண் என்று குறிக்கப்படவில்லை/.test(male.blocks[0].text) && /Chapter 80 v\.2, ப\.953-955/.test(male.blocks[0].text));
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p137').build({ name: 'x', birth: { ...birth, gender: 'female' }, dashaOptions });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 80/.test(page.blocks[0].heading) && /Chapter 80 v\.2, ப\.953-955/.test(page.blocks[0].text));
+    assert.equal(t.length, 2);
+    assert.ok(t[0].rows.length >= 3 && t[0].rows.every((r) => r.length === 4 && ['பொருந்துகிறது', 'தெளிவில்லை', 'சோதிக்கப்படவில்லை'].includes(r[2]) && /Chapter 80 v\.[\d, -]+, ப\.9[56]\d/.test(r[3])));
+    assert.ok(t[1].rows.every((r) => r.length === 3 && /Chapter 80 v\./.test(r[2])));
+    // the Lagna's and Moon's Trimsamsa lines and the sign nature are always read; v.40 and v.55 are never judged
+    assert.ok(t[0].rows.filter((r) => /Chapter 80 v\.8-16/.test(r[3])).length === 2 && t[0].rows.some((r) => /Chapter 80 v\.5-7/.test(r[3])));
+    assert.ok(t[0].rows.some((r) => r[2] === 'சோதிக்கப்படவில்லை' && /v\.40/.test(r[3])) && t[0].rows.some((r) => r[2] === 'சோதிக்கப்படவில்லை' && /v\.55/.test(r[3])));
+    assert.equal(t[0].rows.length + t[1].rows.length, 42, 'every rule is read once: the sign nature, 2 Trimsamsa lines, the 7th, the 8th and the rest');
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
+  // pages 138-139: the yogas of BPHS ch.83; the sample holds none of the curses' yogas (so no remedy is shown), 3 January 1980 05:17 holds the serpent's 6th and the unclear 3rd,
+  // 29 January 1980 21:17 the Brahmin's 9th (and the father's 4th, unclear)
+  {
+    const at = (year, month, day, hour, minute) => ({ ...birth, year, month, day, hour, minute });
+    const build = (id, b) => BOOK_SECTIONS.find((s) => s.id === id).build({ name: 'x', birth: b, dashaOptions });
+    const textOf = (page) => page.blocks.map((x) => (x.kind === 'text' ? `${x.heading} ${x.text}` : '')).join(' ');
+    const tableFor = (page, word) => page.blocks.find((x) => x.kind === 'table' && x.heading.includes(word));
+
+    const none1 = await build('p138', birth);
+    assert.ok(/அத். 83/.test(none1.blocks[0].heading) && /ப\.990/.test(none1.blocks[0].text));
+    assert.ok(!/நாக ராஜ|கயாவில்|இராமேசுவரம்/.test(textOf(none1)), 'no remedy where no yoga holds');
+    const general = tableFor(none1, 'பொதுவான');
+    assert.equal(general.rows.length, 1);
+    assert.equal(general.rows[0][2], 'சோதிக்கப்படவில்லை (வலிமை மட்டுமே)');
+    assert.ok(/நாகத்தின் சாபம்/.test(none1.blocks.at(-1).text) && /தந்தையின் சாபம்/.test(none1.blocks.at(-1).text) && /தாயின் சாபம்/.test(none1.blocks.at(-1).text));
+    const none2 = await build('p139', birth);
+    assert.ok(!/சந்தான கோபால|சாந்திராயண/.test(textOf(none2)), 'neither the curses\' remedies nor the Grahas\' remedies without a matching yoga');
+    assert.ok(['சகோதரரின்', 'தாய்மாமனின்', 'அந்தணரின்', 'மனைவியின்', 'பிதிர்களின்'].every((w) => none2.blocks.at(-1).text.includes(w)));
+
+    const serpent = await build('p138', at(1980, 1, 3, 5, 17));
+    const st = tableFor(serpent, 'நாகத்தின் சாபம்');
+    assert.deepEqual(st.rows.map((r) => r[0]), ['3', '6']);
+    assert.ok(/^தெளிவில்லை/.test(st.rows[0][2]) && st.rows[1][2] === 'பொருந்துகிறது');
+    assert.ok(/வலிமையற்றது \(சோதிக்கப்படவில்லை\)/.test(st.rows[0][1]) && /5-ஆம் வீடு (மேஷம்|விருச்சிகம்)/.test(st.rows[1][1]));
+    assert.ok(/நாக ராஜ/.test(textOf(serpent)) && /Chapter 83 v\.9-16, ப\.987/.test(textOf(serpent)) && /Chapter 83 v\.17-19, ப\.988/.test(textOf(serpent)));
+    assert.ok(/பொருந்தாதவை: 1, 2, 4, 5, 7, 8/.test(textOf(serpent)));
+    assert.ok(!/நாகத்தின் சாபம்[^;]*\(Brihat/.test(serpent.blocks.at(-1).text) && /தந்தையின் சாபம்/.test(serpent.blocks.at(-1).text));
+
+    const brahmin = await build('p139', at(1980, 1, 29, 21, 17));
+    const bt = tableFor(brahmin, 'அந்தணரின் சாபம்');
+    assert.deepEqual(bt.rows.map((r) => [r[0], r[2]]), [['9', 'பொருந்துகிறது']]);
+    assert.ok(/சாந்திராயண/.test(textOf(brahmin)) && /Chapter 83 v\.79-81, ப\.997/.test(textOf(brahmin)) && /சந்தான கோபால/.test(textOf(brahmin)));
+    assert.ok(!/ஹரிவம்ச புராணம் கேட்டுச்/.test(textOf(brahmin)), 'the brother\'s remedy is not shown');
+    const father = await build('p138', at(1980, 1, 29, 21, 17));
+    const ft = tableFor(father, 'தந்தையின் சாபம்');
+    assert.deepEqual(ft.rows.map((r) => r[0]), ['4']);
+    assert.ok(/^தெளிவில்லை/.test(ft.rows[0][2]) && /அஸ்தங்கம் \(சோதிக்கப்படவில்லை\)/.test(ft.rows[0][1]));
+    for (const page of [none1, none2, serpent, brahmin, father]) assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
+  // page 140: the rays of the planets of BPHS ch.73 (the sample: the Moon, Mars, Saturn and the Sun in enemy signs, Mercury and Jupiter exalted); total 41.40, the 40-50 row
+  {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p140').build({ name: 'x', birth, dashaOptions });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 73/.test(page.blocks[0].heading) && /Chapter 73 v\.1-2, ப\.905/.test(page.blocks[0].text) && /Chapter 73 v\.3-7, ப\.906/.test(page.blocks[0].text));
+    assert.equal(t.length, 1);
+    assert.deepEqual(t[0].rows.slice(0, 7).map((r) => r[0]), ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி']);
+    assert.deepEqual(t[0].rows.slice(0, 7).map((r) => r[4]), ['பகைவன் வீடு', 'பகைவன் வீடு', 'பகைவன் வீடு', 'உச்ச ராசி', 'உச்ச ராசி', 'நடுநிலையன் வீடு', 'பகைவன் வீடு']);
+    assert.deepEqual(t[0].rows.slice(0, 7).map((r) => r[5]), ['× 1/2', '× 1/2', '× 1/2', '× 3', '× 3', '× 1', '× 1/2']);
+    for (const r of t[0].rows.slice(0, 7)) assert.ok(Math.abs(Number(r[3]) * ({ '× 1/2': 0.5, '× 3': 3, '× 1': 1 })[r[5]] - Number(r[6])) < 0.011, r[0]);
+    assert.equal(t[0].rows[7][0], 'மொத்தம்');
+    assert.ok(Math.abs(t[0].rows.slice(0, 7).reduce((s, r) => s + Number(r[6]), 0) - Number(t[0].rows[7][6])) < 0.05);
+    assert.equal(t[0].rows[7][6], '41.40');
+    const last = page.blocks.at(-1);
+    assert.ok(/^41\.40 — 40 முதல் 50 கதிர்கள்: அரசன்/.test(last.text) && /Chapter 73 v\.8-18, ப\.909-910/.test(last.text) && /Chapter 73 v\.19-20, ப\.910/.test(last.text) && /Chapter 73 v\.21, ப\.910/.test(last.text));
+    assert.ok(t[0].rows.slice(0, 7).every((r) => /^(சூரியன்|சந்திரன்)?.*/.test(r[7]) && /பலன் (முழுமை|குறைவு)/.test(r[7])));
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
+  // page 141: the rest of ch.70; the sample's Saturn is in Sagittarius for a Leo Lagna: 14 rekhas to Saturn, 31 back, 45 in all
+  {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p141').build({ name: 'x', birth, dashaOptions, asOf: new Date('2026-11-05T00:00:00Z') });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 70/.test(page.blocks[0].heading) && /Chapter 70 v\.37-40, ப\.893/.test(page.blocks[0].text));
+    assert.equal(t.length, 4);
+    assert.deepEqual(t.map((x) => x.rows.length), [3, 6, 12, 7]);
+    assert.deepEqual(t[0].rows.map((r) => r[1]), ['14', '31', '45']);
+    assert.deepEqual(t[0].rows.map((r) => r[2]), ['14-ஆம் ஆண்டு', '31-ஆம் ஆண்டு', '45-ஆம் ஆண்டு']);
+    assert.deepEqual(t[0].rows.map((r) => r[3]), ['05-10-2003 முதல் 05-10-2004 வரை', '05-10-2020 முதல் 05-10-2021 வரை', '05-10-2034 முதல் 05-10-2035 வரை']);
+    assert.ok(t[0].rows.every((r) => /மகாதசை — .+ புக்தி \(\d\d-\d\d-\d{4} முதல் \d\d-\d\d-\d{4}\)/.test(r[4])));
+    assert.ok(/சனியின் பின்னாஷ்டகவர்க்க ரேகைகள் \(மேஷம் முதல் மீனம் வரை\): (\d ){11}\d\./.test(page.blocks[0].text));
+    assert.deepEqual(t[1].rows.map((r) => r[2]), ['காலம்', 'பொருந்தவில்லை', 'சோதிக்கப்படவில்லை', 'சோதிக்கப்படவில்லை', 'பொருந்தவில்லை', 'சோதிக்கப்படவில்லை']);
+    assert.ok(/^4-ஆம் அதிபதி செவ்வாய்; அவரது மகாதசை \d\d-\d\d-20[4-5]\d முதல் \d\d-\d\d-20[4-5]\d வரை$/.test(t[1].rows[0][1]), 'the 4th lord Mars: its Vimshottari period');
+    assert.equal(t[2].rows.filter((r) => /நடப்பு மாதம்/.test(r[2])).length, 1);
+    assert.ok(/^துலாம்/.test(t[2].rows.find((r) => /நடப்பு மாதம்/.test(r[2]))[0]));
+    assert.equal(t[2].rows.filter((r) => /சூரிய அஷ்டகவர்க்கத்தில் அதிக ரேகை/.test(r[4])).length, 1);
+    assert.equal(t[2].rows.filter((r) => /சூரிய அஷ்டகவர்க்கத்தில் குறைந்த ரேகை/.test(r[4])).length, 1);
+    assert.equal(t[2].rows.reduce((a, r) => a + Number(r[1].split(' ')[0]), 0), 48, 'the Sun\'s Bhinnashtakavarga holds 48 rekhas');
+    assert.equal(t[2].rows.reduce((a, r) => a + Number(r[3].split(' ')[0]), 0), 49, 'the Moon\'s holds 49');
+    // Saturn's passages through the signs and nakshatras of page 130 (the sample's: Saturn in Pisces since 29 March 2025, at the day of printing 5 November 2026)
+    assert.deepEqual(t[3].rows.map((r) => r[0].split(' — ')[0]), ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி']);
+    assert.ok(t[3].rows.every((r) => r.length === 5));
+    assert.ok(t[3].rows.every((r) => /மீனம் 29-03-2025 முதல் 03-06-2027 வரை \(நடப்பில்\)/.test(r[2]) || !/மீனம்/.test(r[1])), 'Saturn is in Pisces now');
+    assert.ok(t[3].rows.slice(0, 1).every((r) => r[1] === 'மீனம், கடகம், விருச்சிகம்' && r[3] === 'ரேவதி, ஆயில்யம், கேட்டை'));
+    assert.ok(/ரேவதி 08-02-2027 முதல் 03-06-2027 வரை/.test(t[3].rows[0][4]), 'Saturn is back in Revati from 8 February 2027');
+    assert.ok(t[3].rows.every((r) => /\d\d-\d\d-20\d\d முதல் \d\d-\d\d-20\d\d வரை|இந்த 15 ஆண்டுகளில் இல்லை/.test(r[2]) && /\d\d-\d\d-20\d\d முதல் \d\d-\d\d-20\d\d வரை|இந்த 15 ஆண்டுகளில் இல்லை/.test(r[4])));
+    assert.ok(/சனியின் கோசாரக் காலங்கள்/.test(page.blocks.map((b) => b.heading).join(' ')));
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
+  // page 142: the nature and character the books give; the sample's Lagna lord (the Sun) is not in the Lagna, 7 January 1985 20:10 has the Moon in a Cancer Lagna
+  {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p142').build({ name: 'x', birth, dashaOptions });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.equal(t.length, 1);
+    assert.deepEqual(t[0].rows.map((r) => r[1]), ['Saravali', 'Hora Sara', 'Brihat Jataka (P.S. Sastri, 2007)', 'Hora Sara', 'Brihat Jataka (B.S. Rao, 1986)']);
+    assert.deepEqual(t[0].rows.map((r) => r[0].split(' — ')[0]), ['லக்னம்', 'சந்திரன்', 'சந்திரன்', 'ஜன்ம நட்சத்திரம்', 'ஜன்ம நட்சத்திரம்']);
+    assert.ok(/Chapter 48/.test(t[0].rows[0][3]) && /Chapter 29/.test(t[0].rows[1][3]) && /Chapter 17/.test(t[0].rows[2][3]) && /Chapter 28/.test(t[0].rows[3][3]) && /Chapter 16/.test(t[0].rows[4][3]));
+    assert.ok(t[0].rows.every((r) => r[2].length > 20 && /ப\.\d+/.test(r[3])));
+    assert.ok(/லக்னம் சிம்மம்; சந்திரன் மீனம் ராசியில், ரேவதி நட்சத்திரம் 3-ஆம் பாதம்/.test(page.blocks[0].text) && /இங்கு சூரியன் லக்னத்தில் இல்லை/.test(page.blocks[0].text));
+    assert.ok(/சரவளி அத். 48/.test(page.blocks.at(-1).text) && /ஹோரா சாரம் அத். 28/.test(page.blocks.at(-1).text) && /ப்ருஹத் ஜாதகம் அத். 16/.test(page.blocks.at(-1).text));
+    const cancer = await BOOK_SECTIONS.find((s) => s.id === 'p142').build({ name: 'x', birth: { ...birth, year: 1985, month: 1, day: 7, hour: 20, minute: 10 }, dashaOptions });
+    const ct = cancer.blocks.find((x) => x.kind === 'table');
+    assert.ok(ct.rows.some((r) => /^லக்னாதிபதி சந்திரன் லக்னத்திலேயே \(கடகம்\)/.test(r[0]) && /Bhrigu Samhita/.test(r[1]) && r[3].length > 20), 'the Moon, the Lagna lord of Cancer, stands in the Lagna');
+    assert.equal(ct.rows.length, 6);
+    assert.ok(/இங்கு இருக்கிறார்/.test(cancer.blocks[0].text));
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify([page, cancer])));
+  }
+
+  console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
+})().catch((e) => { console.error(e); process.exit(1); });

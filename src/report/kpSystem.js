@@ -15,6 +15,7 @@
 const { calculateChart } = require('../ephemeris/swissEphemeris');
 const { nodeLongitude } = require('../ephemeris/siderealPositions');
 const { kpLords } = require('./nadiCombinations');
+const { houseSignificators } = require('./kpHouseSignificators');
 
 const norm = (n) => ((n % 360) + 360) % 360;
 
@@ -168,8 +169,10 @@ function planetSignificators(lordName, kp) {
 /**
  * @param birthInput  the governed chart-context input (year..utcOffsetMinutes, lat, lng)
  * @param nodeType    'mean' | 'true'
+ * @param cuspsSidereal optional 1-indexed array of twelve sidereal (Krishnamurti) cusp longitudes that replaces the Placidus cusps of the moment: the horary chart,
+ *                      whose ascendant is the number's and whose planets are those of the time of judgment (kpHorary.js)
  */
-function calculateKpSystem(birthInput, { nodeType = 'mean' } = {}) {
+function calculateKpSystem(birthInput, { nodeType = 'mean', cuspsSidereal = null } = {}) {
   const chart = calculateChart({ ...birthInput, ayanamsa: 'Krishnamurti', houseSystem: 'Placidus' });
 
   const positions = [];
@@ -181,7 +184,7 @@ function calculateKpSystem(birthInput, { nodeType = 'mean' } = {}) {
   positions.push({ name: 'Rahu', ...kpChain(rahuLon), speed: -0.053, retrograde: true });
   positions.push({ name: 'Ketu', ...kpChain(rahuLon + 180), speed: -0.053, retrograde: true });
 
-  const cuspsRaw = chart.houses.cusps; // 1-indexed sidereal
+  const cuspsRaw = cuspsSidereal ?? chart.houses.cusps; // 1-indexed sidereal
   const cusps = Array.from({ length: 12 }, (_, i) => ({ number: i + 1, ...kpChain(cuspsRaw[i + 1]) }));
 
   // assign each object its Placidus house
@@ -197,7 +200,7 @@ function calculateKpSystem(birthInput, { nodeType = 'mean' } = {}) {
     available: true,
     ayanamsha: 'Krishnamurti',
     houseSystem: 'Placidus',
-    ascendant: norm(chart.houses.ascendant),
+    ascendant: norm(cuspsSidereal ? cuspsSidereal[1] : chart.houses.ascendant),
     dbas: vimshottariLevels(moon.longitude, 4),
     positions: positions.map((p) => ({
       name: p.name, longitude: p.longitude, sign: p.sign, degreeInSign: p.degreeInSign,
@@ -211,6 +214,7 @@ function calculateKpSystem(birthInput, { nodeType = 'mean' } = {}) {
     obstruction: obstructionHouses(cusps),
     rulingPlanets: rulingPlanets(weekdayPython, moon, cusps[0]),
     significators: significatorBreakdown(positions, cusps),
+    houseSignificators: houseSignificators({ positions, cusps: cusps.map((c) => ({ number: c.number, signLord: c.signLord })) }),
   };
 }
 

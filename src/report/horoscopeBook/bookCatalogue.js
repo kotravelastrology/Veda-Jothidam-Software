@@ -1,0 +1,136 @@
+/**
+ * The whole of PL9's horoscope book (the 88-page sample aniruddha_HC4) as a catalogue the book page lists: every page, in its
+ * family, with a Tamil title and PL9's own English one, and whether this software builds it yet (an id in bookSections.js).
+ * A page or run of pages that is not built shows in the list as "coming" and cannot be picked; it is never filled in with
+ * something else. `pages` are the sample's page numbers, so the catalogue can be checked against the PDF.
+ */
+const { BOOK_SECTIONS } = require('./bookSections');
+const { audienceOf } = require('./bookSelection');
+
+/** [id or null, first page, last page, Tamil title, PL9's English title] */
+const FAMILIES = [
+  { key: 'birth', ta: 'பிறப்பு விவரங்கள்', icon: '📜', tone: 'saffron', items: [
+    ['p1', 1, 1, 'பிறப்பு விவரங்கள் · இந்து & தமிழ் நாள்காட்டி · அவகடா', 'Birth Particulars'],
+  ] },
+  { key: 'charts', ta: 'ஜாதகக் கட்டங்கள்', icon: '🔷', tone: 'indigo', items: [
+    ['p2', 2, 2, 'பிறப்பு ஜாதகம் & கிரக அட்டவணை', 'Birth Chart'],
+    ['p3', 3, 3, 'சந்திர, நவாம்ச, பாவ ஜாதகங்கள்', 'Chandra, Navamsha and Bhava'],
+    [null, 4, 4, 'சுதர்சன சக்கரம்', 'Sudarshan Chakra'],
+    ['p5', 5, 5, 'வர்க்க ஜாதகங்கள் — 1', 'Divisional Charts #1'],
+    ['p6', 6, 6, 'வர்க்க ஜாதகங்கள் — 2', 'Divisional Charts #2'],
+    [null, 7, 7, 'உப கிரகங்கள்', 'Sub-Planets'],
+    ['p8', 8, 8, 'பலவித ஜாதகங்கள்', 'Birth Charts'],
+  ] },
+  { key: 'strength', ta: 'கிரக நிலை · பலம்', icon: '⚖️', tone: 'teal', items: [
+    ['p9', 9, 9, 'கிரக நட்பு', 'Planetary Friendship'],
+    ['p10', 10, 10, 'சோடசவர்க்கச் சுருக்கம்', 'Shodashvarga Summary'],
+    ['p11', 11, 11, 'சட்பலம் & பாவ பலம்', 'Shad Bala and Bhava Bala'],
+    ['p12', 12, 12, 'கிரக, பாவப் பார்வைகள்', 'Aspects on Planets and Bhavas'],
+    ['p13', 13, 13, 'கிரக அவஸ்தைகள்', 'Planetary Avasthas'],
+  ] },
+  { key: 'ashtakavarga', ta: 'அஷ்டகவர்க்கம்', icon: '🔢', tone: 'rose', items: [
+    ['p14', 14, 14, 'பின்னாஷ்டகவர்க்கம் — 1', 'Ashtakavarga - Bhinnashtaka #1'],
+    ['p15', 15, 15, 'பின்னாஷ்டகவர்க்கம் — 2', 'Ashtakavarga - Bhinnashtaka #2'],
+    ['p16', 16, 16, 'சர்வாஷ்டகவர்க்கம் & சஞ்சார சக்கரம்', 'Sarvashtaka & Chancha Chakra'],
+    ['p17', 17, 17, 'அஷ்டகவர்க்கச் சுருக்கல்கள்', 'Ashtakavarga - Reductions'],
+    ['p18', 18, 18, 'வர்க்க அஷ்டகவர்க்கம்', 'Divisional Charts - Ashtakavarga'],
+  ] },
+  { key: 'health', ta: 'உடல் நலம்', icon: '🩺', tone: 'teal', items: [
+    ['p19', 19, 19, 'கிரகங்களும் உடல் உறுப்புகளும்', 'Health'],
+  ] },
+  { key: 'vimshottari', ta: 'விம்சோத்தரி தசை', icon: '⏳', tone: 'saffron', items: [
+    ['p20', 20, 20, 'தசை — புக்தி', 'Vimshottari MD and AD'],
+    [null, 21, 29, 'புக்தி — அந்தரம் (விரிவு)', 'Vimshottari Detailed AD and PD'],
+    [null, 30, 32, 'அந்தரம் — சூட்சமம்', 'Vimshottari Dasha – PD and Sookshma'],
+  ] },
+  { key: 'nakshatra-dashas', ta: 'நட்சத்திர தசைகள்', icon: '🌙', tone: 'indigo', items: [
+    [null, 33, 37, 'அஷ்டோத்தரி', 'Ashtottari'],
+    [null, 38, 40, 'யோகினி', 'Yogini Dasha'],
+    [null, 41, 46, 'காலசக்கர தசை', 'Kala Chakra Dasha'],
+  ] },
+  { key: 'rashi-dashas', ta: 'ராசி தசைகள் (ஜைமினி முறை)', icon: '♈', tone: 'rose', items: [
+    [null, 47, 49, 'ஜைமினி — சர தசை', 'Jaimini System, Chara Dasha'],
+    [null, 50, 50, 'ஸ்திர தசை', 'Sthira Dasha'],
+    [null, 51, 52, 'நிர்யாண சூல தசை', 'Niryaana Shoola Dasha'],
+    [null, 53, 54, 'திரிக் தசை', 'Drig Dasha'],
+    [null, 55, 56, 'நவாம்ச தசை', 'Navamsha Dasha'],
+    [null, 57, 58, 'நாராயண தசை', 'Narayana Dasha'],
+    [null, 59, 60, 'லக்ன கேந்திராதி ராசி தசை', 'Lagna Kendradi Rashi Dasha'],
+    [null, 61, 61, 'சூல தசை', 'Shoola Dasha'],
+  ] },
+  { key: 'other-dashas', ta: 'பிற தசை முறைகள்', icon: '🗓️', tone: 'teal', items: [
+    [null, 62, 66, 'திரிபாகி தசை', 'Tribhagi, Tribhagi 40'],
+    [null, 67, 78, 'சோடசோத்தரி · துவாதசோத்தரி · துவிசப்ததிசம · சஷ்டிஹாயனி · சத்ரிம்சத்சம · பஞ்சோத்தரி · சதாப்திகா · சதுரசீதிசம', 'Shodashottari … Chaturshitisama'],
+  ] },
+  { key: 'saturn', ta: 'சனி கோசாரம்', icon: '🪐', tone: 'indigo', items: [
+    [null, 79, 80, 'ஏழரைச் சனி · லகு கல்யாணி · கண்டகச் சனி', 'Sadhesati · Laghu Kalyani Dhayya and Kantaka'],
+  ] },
+  { key: 'kp', ta: 'கிருஷ்ணமூர்த்தி பத்ததி', icon: '📐', tone: 'rose', items: [
+    [null, 81, 82, 'KP ஜாதகம் & குறிகாட்டிகள்', 'Krishnamurti Paddhati'],
+  ] },
+  { key: 'varsha', ta: 'வருட பலன்', icon: '🎂', tone: 'saffron', items: [
+    [null, 83, 88, 'வர்ஷபல ஜாதகங்கள் (1 முதல் 72 வயது வரை)', 'Varshaphala Charts'],
+  ] },
+  // pages 89 on are not in the 88-page sample: the HP1 prediction print's extra pages (extraPages.js)
+  { key: 'hp1', ta: 'கூடுதல் பக்கங்கள் (கணிப்பு நூல்)', icon: '✨', tone: 'rose', items: [
+    [null, 89, 89, 'செவ்வாய் (மங்கள) தோஷம்', 'Mangala Dosha'],
+    [null, 90, 90, 'ஏழரைச் சனி & பரிகாரங்கள்', 'Sadhesati and Remedies'],
+    [null, 91, 91, 'ரத்தினங்கள்', 'Gemstones'],
+    [null, 92, 92, 'தசைப் பலன்கள் (பிருஹத் பராசரம்)', 'Dasha Results'],
+  ] },
+  // PL9's shorter print (meera_HC2): the same dates in its compact layouts
+  { key: 'short', ta: 'சுருக்கமான தசை அமைப்பு', icon: '🗒️', tone: 'teal', items: [
+    [null, 93, 97, 'விம்சோத்தரி — புக்தி, அந்தரம் (சுருக்கம்)', 'Vimshottari (Short) AD and PD'],
+    [null, 98, 99, 'யோகினி — தசை, புக்தி (சுருக்கம்)', 'Yogini (Short) MD and AD'],
+  ] },
+  // the HP1 print's per-antardasha results, from BPHS ch.52-60 (extraPages.js)
+  { key: 'antardasha', ta: 'புக்தி, பிரத்யந்தர, சூக்ஷ்ம, பிராணப் பலன்கள் (பிருஹத் பராசரம்)', icon: '📖', tone: 'saffron', items: [
+    [null, 100, 108, 'புக்திப் பலன்கள் — ஒவ்வொரு மகாதசைக்கும் ஒரு பக்கம் (பிருஹத் பராசரம், அத். 52–60)', 'Antardasha Results'],
+    [null, 109, 117, 'பிரத்யந்தரப் பலன்கள் — ஒவ்வொரு மகாதசைக்கும் ஒரு பக்கம் (பிருஹத் பராசரம், அத். 61)', 'Pratyantardasha Results'],
+    [null, 118, 121, 'சூக்ஷ்ம தசைப் பலன்கள் — நடப்பதிலிருந்து 36 பிரத்யந்தரங்கள் (பிருஹத் பராசரம், அத். 62)', 'Sookshma Results'],
+    [null, 122, 123, 'பிராண தசைப் பலன்கள் — நடக்கும் சூக்ஷ்மத்திலிருந்து 18 சூக்ஷ்மங்கள் (பிருஹத் பராசரம், அத். 63)', 'Prana Results'],
+    [null, 124, 126, 'காலச்சக்ர தசை, புக்திப் பலன்கள் — சவ்ய சக்கரம் (பிருஹத் பராசரம், அத். 64–65)', 'Kalachakra Dasha Results'],
+  ] },
+  // the births BPHS ch.85-96 call inauspicious, with the book's remedies (janmaDosha.js)
+  { key: 'janma', ta: 'அசுபப் பிறப்புகள், துறவு யோகம், கிரக வழிபாடு, அஷ்டகவர்க்கப் பலன், பஞ்சமகாபுருஷர், சுதர்சன தசை, பூதம்-குணம், அஷ்டகவர்க்க ஆயுள், சமுதாயம், பெண் ஜாதகம், முன்பிறப்புச் சாபம், கிரகக் கதிர்கள், அஷ்டகவர்க்க மீதி, சுபாவம் (பிருஹத் பராசரம் மற்றும் பிற நூல்கள்)', icon: '🕯️', tone: 'indigo', items: [
+    [null, 127, 127, 'அசுபப் பிறப்புகளும் நூல் கூறும் பரிகாரங்களும் (பிருஹத் பராசரம், அத். 85–96)', 'Inauspicious Births and Remedies'],
+    [null, 128, 128, 'துறவுக்கு இட்டுச்செல்லும் யோகங்கள் (பிருஹத் பராசரம், அத். 79)', 'Yogas Leading to Asceticism'],
+    [null, 129, 129, 'கிரகங்களை அமைதிப்படுத்தும் வழிபாடு (பிருஹத் பராசரம், அத். 84)', 'Propitiation of the Planets'],
+    [null, 130, 130, 'அஷ்டகவர்க்கமும் சனியின் கோசாரமும் (பிருஹத் பராசரம், அத். 70)', "Ashtakavarga: Saturn's Transit"],
+    [null, 131, 131, 'பஞ்சமகாபுருஷ யோகங்கள் (பிருஹத் பராசரம், அத். 75)', 'Panchamahapurusha Yogas'],
+    [null, 132, 133, 'சுதர்சன சக்கர தசை — ஆண்டுகளும் மாதங்களும் (பிருஹத் பராசரம், அத். 74)', 'Sudarshana Chakra Dasha'],
+    [null, 134, 134, 'ஐம்பூதங்களும் முக்குணங்களும் (பிருஹத் பராசரம், அத். 76–77)', 'Five Elements and Three Gunas'],
+    [null, 135, 135, 'அஷ்டகவர்க்க ஆயுள் (பிருஹத் பராசரம், அத். 71)', 'Ashtakavarga Longevity'],
+    [null, 136, 136, 'சமுதாய அஷ்டகவர்க்கம் (பிருஹத் பராசரம், அத். 72)', 'Samudaya Ashtakavarga'],
+    [null, 137, 137, 'பெண் ஜாதகம் — பெண் குறிக்கப்பட்ட ஜாதகத்துக்கு (பிருஹத் பராசரம், அத். 80)', 'Female Horoscopy'],
+    [null, 138, 139, 'முன்பிறப்புச் சாபங்களும் மகனற்ற நிலையும் — நாகம், தந்தை, தாய், சகோதரர், தாய்மாமன், அந்தணர், மனைவி, பிதிர் (பிருஹத் பராசரம், அத். 83)', 'Curses of the Previous Birth'],
+    [null, 140, 140, 'கிரகங்களின் கதிர்கள் (பிருஹத் பராசரம், அத். 73)', 'Rays of the Planets'],
+    [null, 141, 141, 'அஷ்டகவர்க்கம் அத். 70-இன் மீதிப் பகுதிகள் — சனி ஆண்டுகள், தந்தை, சுப மாதங்கள் (பிருஹத் பராசரம், அத். 70)', 'Ashtakavarga Chapter 70, the Rest'],
+    [null, 142, 142, 'சுபாவமும் குணமும் — லக்னம், சந்திர ராசி, நட்சத்திரம் (சரவளி, ஹோரா சாரம், ப்ருஹத் ஜாதகம், ப்ருகு சம்ஹிதை)', 'Nature and Character from the Classical Books'],
+  ] },
+];
+
+/**
+ * The catalogue, each item with the registry sections that build its pages (section ids are "p" and the sample's page number).
+ * An item is `built` when at least one of its pages is, and `complete` when all are; a run of pages is picked as one item.
+ */
+function bookCatalogue() {
+  const builtIds = new Set(BOOK_SECTIONS.map((s) => s.id));
+  return FAMILIES.map((f) => ({
+    key: f.key, ta: f.ta, icon: f.icon, tone: f.tone,
+    items: f.items.map(([, from, to, ta, en]) => {
+      const sections = [];
+      for (let n = from; n <= to; n += 1) if (builtIds.has(`p${n}`)) sections.push(`p${n}`);
+      return {
+        id: from === to ? `p${from}` : `pages-${from}-${to}`,
+        from, to, pages: to - from + 1, ta, en,
+        sections,
+        built: sections.length > 0,
+        complete: sections.length === to - from + 1,
+        audience: audienceOf(from),
+      };
+    }),
+  }));
+}
+
+module.exports = { bookCatalogue };

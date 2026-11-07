@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { listKpEvents, computeKpTimeScan } from './actions';
+import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
 const CH = { lat: 13.0827, lon: 80.2707 };
 
@@ -52,7 +53,7 @@ export default function KpTimeScanView() {
   return (
     <main className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
-        <p className="font-mono text-xs uppercase tracking-widest text-ink-soft mb-1">KP Muhurta time scan</p>
+        <PageEyebrow fallback="KP Muhurta time scan" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">KP முகூர்த்த நேரம் தேடல்</h1>
         <p className="text-sm text-ink-soft mt-1">
           தேர்ந்த நிகழ்விற்கு, தேதி வரம்பில் லக்ன துணை-அதிபதி மாறும் ஒவ்வொரு துல்லியமான நேர இடைவெளியையும்

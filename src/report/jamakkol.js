@@ -11,10 +11,12 @@
  * Everything is a function of: the query instant (to the second), the
  * place, the sidereal Sun longitude, and the local sunrise/sunset.
  */
-const { julianDay, HouseSystem, SiderealMode, setSiderealMode, calculateHouses, getAyanamsa } = require('@swisseph/node');
+const { julianDay, HouseSystem, SiderealMode, setSiderealMode, calculateHouses } = require('@swisseph/node');
+const { trueAyanamsa } = require('../ephemeris/swissEphemeris');
 const { sunMoonLongitudes, sunriseJulianDay, sunsetJulianDay } = require('../ephemeris/siderealPositions');
 const { kpChain } = require('./kpSystem');
 const { computeTransitPositions } = require('./transitPositions');
+const { RASI_TA } = require('../sources/tamilNames');
 
 // கிரககதிர் / ராசிகதிர் — Jamakkol-Arudam-Project's source-engine.js (the same
 // verified reference used for the rest of this port), JK_GRAHA_KADIR / JK_RASI_KADIR.
@@ -23,7 +25,6 @@ const JK_RASI_KADIR = [8, 8, 5, 3, 8, 11, 2, 4, 6, 8, 8, 27];
 
 const norm = (n) => ((n % 360) + 360) % 360;
 
-const RASI_TA = ['மேஷம்', 'ரிஷபம்', 'மிதுனம்', 'கடகம்', 'சிம்மம்', 'கன்னி', 'துலாம்', 'விருச்சிகம்', 'தனுசு', 'மகரம்', 'கும்பம்', 'மீனம்'];
 const JK_WEEKDAY_LORDS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
 const JK_JAMA_SEQ = ['Sun', 'Mars', 'Jupiter', 'Mercury', 'Venus', 'Saturn', 'Moon', 'Rahu'];
 const JK_DAY_START_LORD = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
@@ -106,7 +107,7 @@ function jkComputeUdayam(nowHr, sunriseHr, sunsetHr, sunLon) {
 function siderealAscAt(jd, latitude, longitude) {
   setSiderealMode(SiderealMode.Lahiri);
   const h = calculateHouses(jd, latitude, longitude, HouseSystem.Placidus);
-  return norm(h.ascendant - getAyanamsa(jd));
+  return norm(h.ascendant - trueAyanamsa(jd));
 }
 
 /**

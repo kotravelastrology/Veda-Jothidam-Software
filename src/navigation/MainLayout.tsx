@@ -1,39 +1,48 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, Suspense } from 'react';
 import { TopMenuBar } from './TopMenuBar';
-import { Sidebar } from './Sidebar';
-import { Breadcrumb } from './Breadcrumb';
+import { WorksheetToolbar } from './WorksheetToolbar';
 import { StatusBar } from './StatusBar';
-import { useNavigation } from './navigationContext';
+import { ActiveProfileBar } from '../workspace/ActiveProfileBar';
+import { CommandPalette } from '../workspace/CommandPalette';
+import { useApplyAppearance } from '../ui/SettingsPanel';
 
 export function MainLayout({ children }: { children: ReactNode }) {
-  const { sidebarOpen } = useNavigation();
+  // Settings > Theme and Font size, on every page
+  useApplyAppearance();
 
   return (
-    <div className="flex flex-col h-screen bg-bg">
+    <div className="relative isolate flex flex-col h-screen">
+      {/* A faint zodiac wheel and South Indian chart behind every page (globals.css) */}
+      <div aria-hidden className="kotravel-watermark" />
       {/* Top Menu Bar */}
       <TopMenuBar />
 
-      {/* Main Content Area */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
-        <Sidebar />
+      {/* The icon toolbar of the open chart (PL9's top toolbar) */}
+      <Suspense fallback={null}>
+        <WorksheetToolbar />
+      </Suspense>
 
+      {/* Main Content Area (the menus are in the drawer the ☰ button opens, see TopMenuBar) */}
+      <div className="flex flex-1 overflow-hidden">
         {/* Main Content */}
         <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Breadcrumb */}
-          <Breadcrumb />
+          {/* Which person the workspace is working on (VJ-015) */}
+          <ActiveProfileBar />
 
           {/* Content Area */}
           <main className="flex-1 overflow-y-auto pb-8">
-            <div className={`${sidebarOpen ? 'md:ml-0' : 'md:ml-0'}`}>{children}</div>
+            {children}
           </main>
         </div>
       </div>
 
       {/* Status Bar */}
       <StatusBar />
+
+      {/* Ctrl+K command search (VJ-015) */}
+      <CommandPalette />
     </div>
   );
 }

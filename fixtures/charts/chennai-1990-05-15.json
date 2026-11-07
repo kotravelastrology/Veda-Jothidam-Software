@@ -1,0 +1,38 @@
+{
+  "fixtureId": "chennai-1990-05-15",
+  "fixtureVersion": 1,
+  "description": "Southern India, daytime birth. Primary regression chart: Moon late in Dhanu (Uttara Ashadha) gives a short Sun dasha balance, which exercises balance-at-birth. Lagna early in Karkataka keeps house cusps away from sign boundaries.",
+  "input": {
+    "name": "Fixture A",
+    "gender": "male",
+    "year": 1990,
+    "month": 5,
+    "day": 15,
+    "hour": 10,
+    "minute": 30,
+    "ianaTimeZone": "Asia/Kolkata",
+    "utcOffsetMinutes": 330,
+    "latitude": 13.0827,
+    "longitude": 80.2707,
+    "placeName": "Chennai"
+  },
+  "settings": {
+    "ayanamsha": "Lahiri",
+    "houseSystem": "Porphyrius",
+    "nodeType": "mean",
+    "calendarMode": "tirukanita"
+  },
+  "referenceSource": {
+    "engine": "@swisseph/node",
+    "doctrine": "Brihat Parashara Hora Shastra (R. Santhanam translation), C23_BPHS_Santhanam.pdf",
+    "locators": {
+      "vargas": "Ch.6 (divisional rules)",
+      "vimshottari": "Ch.46 vv.12-16 (order, durations, balance at birth); Ch.51 vv.1-2 (sub-period formula)",
+      "ashtakavarga": "file page 12 / printed page 4, Table-1"
+    },
+    "review": {
+      "status": "ENGINE_BASELINE",
+      "note": "Values recorded from this repository's own engine to detect drift. Not yet signed off against an independent published chart; see fixtures/README.md."
+    }
+  }
+}
