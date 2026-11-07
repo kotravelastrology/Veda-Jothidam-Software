@@ -37,7 +37,7 @@ const { buildJaiminiSystem } = require('./jaiminiPage');
 const { buildKalachakraMain, buildKalachakraShort } = require('./kalachakraPages');
 
 const { buildVimshottariShort } = require('./vimshottariPages');
-const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas, buildSudarshanaDasha, buildElementsGunas, buildAshtakavargaLongevity, buildSamudayaEffects, buildFemaleHoroscopy, buildCurseYogas } = require('./extraPages');
+const { buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas, buildSudarshanaDasha, buildElementsGunas, buildAshtakavargaLongevity, buildSamudayaEffects, buildFemaleHoroscopy, buildCurseYogas, buildPlanetaryRays, buildAshtakavargaRest, buildCharacterReadings } = require('./extraPages');
 
 const BOOK_SECTIONS = [
   { id: 'p1', title: 'Page 1 · Birth Particulars', build: buildPage1 },
@@ -183,6 +183,9 @@ const BOOK_SECTIONS = [
   { id: 'p137', title: 'Page 137 · Female Horoscopy', build: buildFemaleHoroscopy },
   { id: 'p138', title: 'Page 138 · Curses of the Previous Birth #1', build: (q) => buildCurseYogas({ ...q, part: 0 }) },
   { id: 'p139', title: 'Page 139 · Curses of the Previous Birth #2', build: (q) => buildCurseYogas({ ...q, part: 1 }) },
+  { id: 'p140', title: 'Page 140 · Rays of the Planets', build: buildPlanetaryRays },
+  { id: 'p141', title: 'Page 141 · Ashtakavarga: Saturn\'s Years, the Father, Auspicious Months', build: buildAshtakavargaRest },
+  { id: 'p142', title: 'Page 142 · Nature and Character from the Classical Books', build: buildCharacterReadings },
 ];
 
 /** The sections without their builders, for the print centre's list. */

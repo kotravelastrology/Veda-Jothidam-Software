@@ -481,5 +481,66 @@ const row = (b, first) => b.rows.find((r) => r[0] === first);
     for (const page of [none1, none2, serpent, brahmin, father]) assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
   }
 
+  // page 140: the rays of the planets of BPHS ch.73 (the sample: the Moon, Mars, Saturn and the Sun in enemy signs, Mercury and Jupiter exalted); total 41.40, the 40-50 row
+  {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p140').build({ name: 'x', birth, dashaOptions });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 73/.test(page.blocks[0].heading) && /Chapter 73 v\.1-2, ப\.905/.test(page.blocks[0].text) && /Chapter 73 v\.3-7, ப\.906/.test(page.blocks[0].text));
+    assert.equal(t.length, 1);
+    assert.deepEqual(t[0].rows.slice(0, 7).map((r) => r[0]), ['சூரியன்', 'சந்திரன்', 'செவ்வாய்', 'புதன்', 'குரு', 'சுக்கிரன்', 'சனி']);
+    assert.deepEqual(t[0].rows.slice(0, 7).map((r) => r[4]), ['பகைவன் வீடு', 'பகைவன் வீடு', 'பகைவன் வீடு', 'உச்ச ராசி', 'உச்ச ராசி', 'நடுநிலையன் வீடு', 'பகைவன் வீடு']);
+    assert.deepEqual(t[0].rows.slice(0, 7).map((r) => r[5]), ['× 1/2', '× 1/2', '× 1/2', '× 3', '× 3', '× 1', '× 1/2']);
+    for (const r of t[0].rows.slice(0, 7)) assert.ok(Math.abs(Number(r[3]) * ({ '× 1/2': 0.5, '× 3': 3, '× 1': 1 })[r[5]] - Number(r[6])) < 0.011, r[0]);
+    assert.equal(t[0].rows[7][0], 'மொத்தம்');
+    assert.ok(Math.abs(t[0].rows.slice(0, 7).reduce((s, r) => s + Number(r[6]), 0) - Number(t[0].rows[7][6])) < 0.05);
+    assert.equal(t[0].rows[7][6], '41.40');
+    const last = page.blocks.at(-1);
+    assert.ok(/^41\.40 — 40 முதல் 50 கதிர்கள்: அரசன்/.test(last.text) && /Chapter 73 v\.8-18, ப\.909-910/.test(last.text) && /Chapter 73 v\.19-20, ப\.910/.test(last.text) && /Chapter 73 v\.21, ப\.910/.test(last.text));
+    assert.ok(t[0].rows.slice(0, 7).every((r) => /^(சூரியன்|சந்திரன்)?.*/.test(r[7]) && /பலன் (முழுமை|குறைவு)/.test(r[7])));
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
+  // page 141: the rest of ch.70; the sample's Saturn is in Sagittarius for a Leo Lagna: 14 rekhas to Saturn, 31 back, 45 in all
+  {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p141').build({ name: 'x', birth, dashaOptions, asOf: new Date('2026-11-05T00:00:00Z') });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.ok(/அத். 70/.test(page.blocks[0].heading) && /Chapter 70 v\.37-40, ப\.893/.test(page.blocks[0].text));
+    assert.equal(t.length, 3);
+    assert.deepEqual(t.map((x) => x.rows.length), [3, 6, 12]);
+    assert.deepEqual(t[0].rows.map((r) => r[1]), ['14', '31', '45']);
+    assert.deepEqual(t[0].rows.map((r) => r[2]), ['14-ஆம் ஆண்டு', '31-ஆம் ஆண்டு', '45-ஆம் ஆண்டு']);
+    assert.deepEqual(t[0].rows.map((r) => r[3]), ['05-10-2003 முதல் 05-10-2004 வரை', '05-10-2020 முதல் 05-10-2021 வரை', '05-10-2034 முதல் 05-10-2035 வரை']);
+    assert.ok(t[0].rows.every((r) => /மகாதசை — .+ புக்தி \(\d\d-\d\d-\d{4} முதல் \d\d-\d\d-\d{4}\)/.test(r[4])));
+    assert.ok(/சனியின் பின்னாஷ்டகவர்க்க ரேகைகள் \(மேஷம் முதல் மீனம் வரை\): (\d ){11}\d\./.test(page.blocks[0].text));
+    assert.deepEqual(t[1].rows.map((r) => r[2]), ['காலம்', 'பொருந்தவில்லை', 'சோதிக்கப்படவில்லை', 'சோதிக்கப்படவில்லை', 'பொருந்தவில்லை', 'சோதிக்கப்படவில்லை']);
+    assert.ok(/^4-ஆம் அதிபதி செவ்வாய்; அவரது மகாதசை \d\d-\d\d-20[4-5]\d முதல் \d\d-\d\d-20[4-5]\d வரை$/.test(t[1].rows[0][1]), 'the 4th lord Mars: its Vimshottari period');
+    assert.equal(t[2].rows.filter((r) => /நடப்பு மாதம்/.test(r[2])).length, 1);
+    assert.ok(/^துலாம்/.test(t[2].rows.find((r) => /நடப்பு மாதம்/.test(r[2]))[0]));
+    assert.equal(t[2].rows.filter((r) => /சூரிய அஷ்டகவர்க்கத்தில் அதிக ரேகை/.test(r[4])).length, 1);
+    assert.equal(t[2].rows.filter((r) => /சூரிய அஷ்டகவர்க்கத்தில் குறைந்த ரேகை/.test(r[4])).length, 1);
+    assert.equal(t[2].rows.reduce((a, r) => a + Number(r[1].split(' ')[0]), 0), 48, 'the Sun\'s Bhinnashtakavarga holds 48 rekhas');
+    assert.equal(t[2].rows.reduce((a, r) => a + Number(r[3].split(' ')[0]), 0), 49, 'the Moon\'s holds 49');
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify(page)));
+  }
+
+  // page 142: the nature and character the books give; the sample's Lagna lord (the Sun) is not in the Lagna, 7 January 1985 20:10 has the Moon in a Cancer Lagna
+  {
+    const page = await BOOK_SECTIONS.find((s) => s.id === 'p142').build({ name: 'x', birth, dashaOptions });
+    const t = page.blocks.filter((x) => x.kind === 'table');
+    assert.equal(t.length, 1);
+    assert.deepEqual(t[0].rows.map((r) => r[1]), ['Saravali', 'Hora Sara', 'Brihat Jataka (P.S. Sastri, 2007)', 'Hora Sara', 'Brihat Jataka (B.S. Rao, 1986)']);
+    assert.deepEqual(t[0].rows.map((r) => r[0].split(' — ')[0]), ['லக்னம்', 'சந்திரன்', 'சந்திரன்', 'ஜன்ம நட்சத்திரம்', 'ஜன்ம நட்சத்திரம்']);
+    assert.ok(/Chapter 48/.test(t[0].rows[0][3]) && /Chapter 29/.test(t[0].rows[1][3]) && /Chapter 17/.test(t[0].rows[2][3]) && /Chapter 28/.test(t[0].rows[3][3]) && /Chapter 16/.test(t[0].rows[4][3]));
+    assert.ok(t[0].rows.every((r) => r[2].length > 20 && /ப\.\d+/.test(r[3])));
+    assert.ok(/லக்னம் சிம்மம்; சந்திரன் மீனம் ராசியில், ரேவதி நட்சத்திரம் 3-ஆம் பாதம்/.test(page.blocks[0].text) && /இங்கு சூரியன் லக்னத்தில் இல்லை/.test(page.blocks[0].text));
+    assert.ok(/சரவளி அத். 48/.test(page.blocks.at(-1).text) && /ஹோரா சாரம் அத். 28/.test(page.blocks.at(-1).text) && /ப்ருஹத் ஜாதகம் அத். 16/.test(page.blocks.at(-1).text));
+    const cancer = await BOOK_SECTIONS.find((s) => s.id === 'p142').build({ name: 'x', birth: { ...birth, year: 1985, month: 1, day: 7, hour: 20, minute: 10 }, dashaOptions });
+    const ct = cancer.blocks.find((x) => x.kind === 'table');
+    assert.ok(ct.rows.some((r) => /^லக்னாதிபதி சந்திரன் லக்னத்திலேயே \(கடகம்\)/.test(r[0]) && /Bhrigu Samhita/.test(r[1]) && r[3].length > 20), 'the Moon, the Lagna lord of Cancer, stands in the Lagna');
+    assert.equal(ct.rows.length, 6);
+    assert.ok(/இங்கு இருக்கிறார்/.test(cancer.blocks[0].text));
+    assert.ok(!/undefined|NaN|null/.test(JSON.stringify([page, cancer])));
+  }
+
   console.log(`test-book-pages: ${BOOK_SECTIONS.length} pages registered; all assertions passed`);
 })().catch((e) => { console.error(e); process.exit(1); });

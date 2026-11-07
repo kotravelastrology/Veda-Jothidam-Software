@@ -40,6 +40,11 @@
  *  - Page 137, "Female horoscopy": what BPHS ch.80 says of a woman's chart, read rule by rule (femaleHoroscopy.js); given only for a chart marked female, for the astrologer, no verdicts.
  *  - Pages 138-139, "Curses of the previous birth": the yogas of BPHS ch.83 (the serpent's, the father's, the mother's, a brother's, the maternal uncle's, a Brahmin's, the wife's and the
  *    ancestors' curse, ending in want of a male issue) read condition by condition (curseYogas.js), with the remedies the book names; strength and combustion are not checked.
+ *  - Page 140, "Rays of the planets": the rays (rashmi) of the seven planets by BPHS ch.73's rule with the dignity corrections and what the total says (planetaryRays.js).
+ *  - Page 141, "Ashtakavarga ch.70, the rest": the years of distress from Saturn's Ashtakavarga (v.37-40), the father's yogas the birth chart shows (v.16-18) and the Sun's and Moon's
+ *    Ashtakavarga for auspicious acts (v.19-23), with the running dasha at the start of each year (ashtakavargaYears.js).
+ *  - Page 142, "Character": what the classical books say of the rising sign, the Moon's sign and the birth star, each book apart (lagnaRasi.js, janmaRasi.js, janmaNakshatra.js, lagnaLordNature.js),
+ *    the sourced counterpart of the nature and character text that PL9's HP1 prints.
  * The builders return a Promise of { title, subtitle, blocks }, in the printSets shape.
  */
 const { withBirth } = require('./charts');
@@ -67,6 +72,13 @@ const AL = require('../ashtakavargaLongevity');
 const SE = require('../samudayaEffects');
 const FH = require('../femaleHoroscopy');
 const CY = require('../curseYogas');
+const PR = require('../planetaryRays');
+const AY = require('../ashtakavargaYears');
+const LR = require('../lagnaRasi');
+const JR = require('../janmaRasi');
+const JN = require('../janmaNakshatra');
+const LL = require('../lagnaLordNature');
+const { calculateBhinnashtakavarga } = require('../../chart/ashtakavarga');
 const { varaAt } = require('../rogaArambha');
 const { whenSunAt, sunLon } = require('../masaPravesha');
 const { calculateShadbala, SHADBALA_MINIMUM_VIRUPAS } = require('../../chart/shadbala');
@@ -1006,7 +1018,162 @@ async function buildCurseYogas({ name = '', birth, part = 0 }) {
   return { ...head(name, birth), blocks };
 }
 
-module.exports = { buildCurseYogas, buildFemaleHoroscopy, buildAshtakavargaLongevity, buildSamudayaEffects, buildElementsGunas, buildSudarshanaDasha, buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
+/** Page 140: the rays of the planets of BPHS ch.73 and what the total says. */
+async function buildPlanetaryRays({ name = '', birth }) {
+  const longitudes = await withBirth(birth, ({ chart }) => Object.fromEntries(PR.PLANETS.map((p) => [p, chart.grahas[p].longitude])));
+  const r = PR.rays(longitudes);
+  const source = PR.DATA.source;
+  const cite = (x) => located(source.title, `Chapter 73 v.${x.verses}, printed ${pagesText(x.page)}`, source.author);
+  const DIGNITY_TA = { exalted: 'உச்ச ராசி', moolatrikona: 'மூலத்திரிகோணம்', own: 'சொந்த ராசி', greatFriend: 'அதிமித்திரன் வீடு', friend: 'நண்பன் வீடு', neutral: 'நடுநிலையன் வீடு', enemy: 'பகைவன் வீடு', greatEnemy: 'அதிசத்ரு வீடு' };
+  const FACTOR_TA = { exalted: '× 3', moolatrikona: '× 2', own: '× 3/2', greatFriend: '× 4/3', friend: '× 6/5', neutral: '× 1', enemy: '× 1/2', greatEnemy: '× 2/5' };
+  const f2 = (x) => x.toFixed(2);
+  const dm = (lon) => { const t = Math.round(((lon % 30) + 30) % 30 * 60); return `${RASI_TA[Math.floor((((lon % 360) + 360) % 360) / 30)]} ${Math.floor(t / 60)}° ${String(t % 60).padStart(2, '0')}′`; };
+  const rows = PR.PLANETS.map((p) => {
+    const x = r.planets[p];
+    return [PLANET_TA[p], dm(x.longitude), `${f2(x.distance / 30)} ராசி`, f2(x.gross), DIGNITY_TA[x.dignity], FACTOR_TA[x.dignity], f2(x.net), x.direction === 'ascending' ? 'நீசத்திலிருந்து உச்சத்தை நோக்கி (பலன் முழுமை)' : 'உச்சத்திலிருந்து நீசத்தை நோக்கி (பலன் குறைவு)'];
+  });
+  rows.push(['மொத்தம்', '', '', '', '', '', f2(r.total), '']);
+  const effects = PR.effectRows(r.total);
+  const effectText = effects.length
+    ? effects.map((e) => `${e.max === null ? `${e.min}-க்கு மேல்` : e.min === e.max ? `${e.min}` : `${e.min} முதல் ${e.max}`} கதிர்கள்: ${e.ta}`).join('; ')
+    : 'மொத்தம் 1-க்குக் குறைவு: இதற்கு நூல் பலன் சொல்லவில்லை';
+  const blocks = [
+    {
+      kind: 'text',
+      heading: 'கிரகங்களின் கதிர்கள் (பிருஹத் பராசர ஹோரா சாஸ்திரம், அத். 73)',
+      text: `${PR.DATA.rule.ta} (${cite(PR.DATA.rule)}.) ${PR.DATA.corrections.ta} (${cite(PR.DATA.corrections)}.) நண்பன், அதிமித்திரன் முதலியவை அத். 3-இன் கூட்டுறவு (பஞ்சதா மைத்ரி) முறைப்படி ஜாதகத்தில் கண்டவை; மூலத்திரிகோணம் அத். 3 v.51–54-இன் பாகைகளின்படி; உச்ச ராசியில் உள்ள கிரகம் முதலில் உச்சம் எனக் கொள்ளப்படுகிறது. நூலின் உதாரணத்தை (ப.906–908) அதன் தீர்க்கங்களிலிருந்து மீண்டும் கணித்தேன்: புதன், குரு, சனிக்கு அதில் அச்சிட்ட கதிர்கள் விதிப்படி வருகின்றன; சூரியன், சந்திரன், செவ்வாய், சுக்கிரனுக்கு வரவில்லை (அவற்றின் ராசி-பாகை-கலைக் கணக்கு தவறுகிறது). எனவே இங்கு விதி பின்பற்றப்படுகிறது; அச்சிட்ட எண்கள் நகலெடுக்கப்படவில்லை. கதிர்களின் பலன்கள் நூலுடையவை, தீர்ப்பு அல்ல.`,
+    },
+    { kind: 'table', heading: 'கதிர்கள்', columns: ['கிரகம்', 'தீர்க்கம்', 'நீசப் புள்ளியிலிருந்து தூரம்', 'திருத்தத்துக்கு முன் கதிர்', 'ராசி நிலை', 'திருத்தம்', 'நிகரக் கதிர்', 'திசை (v.21)'], rows },
+    {
+      kind: 'text',
+      heading: 'மொத்தக் கதிர்களின் பலன் (v.8–18)',
+      text: `${f2(r.total)} — ${effectText}. (${cite(PR.DATA.effects)}.) ${PR.DATA.effects.note} ${PR.DATA.status.ta} (${cite(PR.DATA.status)}.) ${PR.DATA.direction.ta} (${cite(PR.DATA.direction)}.) ${PR.DATA.closing.ta} (${cite(PR.DATA.closing)}.)`,
+    },
+  ];
+  return { ...head(name, birth), blocks };
+}
+
+/** Page 141: the rest of BPHS ch.70: the years of distress from Saturn's Ashtakavarga, the father's yogas and the Sun's and the Moon's Ashtakavarga for auspicious acts. */
+async function buildAshtakavargaRest({ name = '', birth, dashaOptions, asOf = new Date() }) {
+  const { tree, chart } = await treeFor(birth, dashaOptions, 2);
+  const rasi = AL.rasiPositions(chart);
+  const signs = Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].map((p) => [p, chart.grahas[p].rasiIndex]));
+  const lagnaSign = chart.lagna.rasiIndex;
+  const source = AY.DATA.source;
+  const cite = (x) => located(source.title, `Chapter 70 v.${x.verses}, printed ${pagesText(x.page)}`, source.author);
+  const offset = birth.utcOffsetMinutes ?? 0;
+  const yearStart = (n) => new Date(Date.UTC(birth.year + n - 1, birth.month - 1, birth.day));
+  const dmyOfDate = (d) => `${String(d.getUTCDate()).padStart(2, '0')}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${d.getUTCFullYear()}`;
+  const dashaAt = (n) => {
+    const ms = Date.UTC(birth.year + n - 1, birth.month - 1, birth.day, birth.hour, birth.minute ?? 0) - offset * 60000;
+    const jd = ms / 86400000 + 2440587.5;
+    const md = tree.dashas.find((d) => d.startJulianDay <= jd && jd < d.endJulianDay);
+    const ad = md && (md.Bhukti || []).find((b) => b.startJulianDay <= jd && jd < b.endJulianDay);
+    return md ? `${PLANET_TA[md.lord] ?? md.lord} மகாதசை${ad ? ` — ${PLANET_TA[ad.lord] ?? ad.lord} புக்தி (${dmyLocal(ad.startLocal)} முதல் ${dmyLocal(ad.endLocal)})` : ''}` : '—';
+  };
+
+  // v.37-40: the years from Saturn's own Bhinnashtakavarga
+  const saturnRekhas = calculateBhinnashtakavarga('Saturn', rasi);
+  const yrs = AY.saturnYears(saturnRekhas, lagnaSign, signs.Saturn);
+  const yearRow = (label, n, note) => [label, `${n}`, `${n}-ஆம் ஆண்டு`, `${dmyOfDate(yearStart(n))} முதல் ${dmyOfDate(yearStart(n + 1))} வரை`, dashaAt(n), note];
+  const yearRows = [
+    yearRow(`லக்னம் (${RASI_TA[lagnaSign]}) முதல் சனி (${RASI_TA[signs.Saturn]}) வரை`, yrs.toSaturn, 'துன்பம்'),
+    yearRow('சனி முதல் லக்னம் வரை', yrs.fromSaturn, 'துன்பம்'),
+    yearRow('இரண்டின் கூட்டு', yrs.total, 'அரிஷ்ட தசையும் நடந்தால் மரணம் அல்லது மரணத்துக்கு நிகரான துன்பம் சாத்தியம் (நூல்)'),
+  ];
+
+  // v.16-18: the father's yogas the birth chart shows
+  const fy = AY.fatherYogas({ signs, lagnaSign });
+  const lord4Md = tree.dashas.find((d) => d.lord === fy.lord4);
+  const houseOrNo = (h) => `${h}-ஆம் வீடு`;
+  const fatherRows = [
+    ['(1) 4-ஆம் அதிபதியின் தசையில் தந்தை மகிழ்ச்சியாக இருப்பார்', `4-ஆம் அதிபதி ${PLANET_TA[fy.lord4]}; அவரது மகாதசை ${lord4Md ? `${dmyLocal(lord4Md.startLocal)} முதல் ${dmyLocal(lord4Md.endLocal)} வரை` : 'முதல் 120 ஆண்டுகளில் வரவில்லை'}`, 'காலம்'],
+    ['(2) 4-ஆம் அதிபதி லக்னத்திலோ 11-ஆம் வீட்டிலோ, அல்லது சந்திரனுக்கு 11 அல்லது 10-ஆம் வீட்டிலோ இருந்தால் தந்தைக்குக் கீழ்ப்படிந்தவன்', `${PLANET_TA[fy.lord4]} லக்னத்திலிருந்து ${houseOrNo(fy.lord4House)}, சந்திரனிலிருந்து ${houseOrNo(fy.lord4HouseFromMoon)}`, fy.obedient ? 'பொருந்துகிறது' : 'பொருந்தவில்லை'],
+    ['(3) தந்தையின் லக்னம்/சந்திரனிலிருந்து 3-ஆம் ராசியில் பிறப்பு', 'தந்தையின் ஜாதகம் தேவை', 'சோதிக்கப்படவில்லை'],
+    ['(4) தந்தையின் லக்னம்/சந்திரனிலிருந்து 10-ஆம் ராசியில் பிறப்பு', 'தந்தையின் ஜாதகம் தேவை', 'சோதிக்கப்படவில்லை'],
+    ['(5) 10-ஆம் அதிபதி லக்னத்தில் இருந்தால் தந்தையைவிடச் சிறந்தவன்', `10-ஆம் அதிபதி ${PLANET_TA[fy.lord10]} ${RASI_TA[signs[fy.lord10]]} ராசியில்`, fy.tenthLordInLagna ? 'பொருந்துகிறது' : 'பொருந்தவில்லை'],
+    ['v.15: தந்தையின் மறைவுக்குப்பின் அவன் பொறுப்புகளை ஏற்பவன்', 'தந்தையின் ஜாதகம் தேவை', 'சோதிக்கப்படவில்லை'],
+  ];
+
+  // v.19-23: the Sun's and the Moon's Ashtakavarga
+  const sunBav = calculateBhinnashtakavarga('Sun', rasi);
+  const moonBav = calculateBhinnashtakavarga('Moon', rasi);
+  const sx = AY.extremes(sunBav);
+  const mx = AY.extremes(moonBav);
+  const signRows = Array.from({ length: 12 }, (_, s) => {
+    const month = sunMonthOf(s, asOf.getTime(), offset);
+    const marks = [
+      sx.most.includes(s) ? 'சூரிய அஷ்டகவர்க்கத்தில் அதிக ரேகை' : '',
+      sx.fewest.includes(s) ? 'சூரிய அஷ்டகவர்க்கத்தில் குறைந்த ரேகை (அதிகப் புள்ளி)' : '',
+      mx.most.includes(s) ? 'சந்திர அஷ்டகவர்க்கத்தில் அதிக ரேகை' : '',
+      mx.fewest.includes(s) ? 'சந்திர அஷ்டகவர்க்கத்தில் குறைந்த ரேகை (அதிகப் புள்ளி)' : '',
+    ].filter(Boolean).join('; ') || '—';
+    return [RASI_TA[s], `${sunBav[s]} (புள்ளி ${8 - sunBav[s]})`, `${month.from} முதல் ${month.to} வரை${month.current ? ' (நடப்பு மாதம்)' : ''}`, `${moonBav[s]} (புள்ளி ${8 - moonBav[s]})`, marks];
+  });
+
+  return {
+    ...head(name, birth),
+    blocks: [
+      {
+        kind: 'text',
+        heading: 'அஷ்டகவர்க்கம் அத். 70-இன் மீதிப் பகுதிகள் (பிருஹத் பராசர ஹோரா சாஸ்திரம்) — ஜோதிடர் பயன்பாட்டுக்கு',
+        text: `${AY.DATA.years.ta} (${cite(AY.DATA.years)}.) சனியின் பின்னாஷ்டகவர்க்க ரேகைகள் (மேஷம் முதல் மீனம் வரை): ${saturnRekhas.join(' ')}. நூலின் உதாரணம்: ${AY.DATA.yearsExample.ta} ஆண்டுகள் வாழ்வின் எண்ணிக்கை ஆண்டுகள் (30-ஆம் ஆண்டு = 29-ஆம் பிறந்தநாள் முதல் 30-ஆம் பிறந்தநாள் வரை); அவ்வாண்டின் தொடக்கத்தில் நடக்கும் விம்சோத்தரி மகாதசை, புக்தி காட்டப்படுகின்றன. அரிஷ்ட தசை எது என்று இங்கு நூல் சொல்லவில்லை (v.41–42-இன் உதாரணம் மாரகேச தசை என்கிறது), எனவே அது தீர்மானிக்கப்படவில்லை. நூலின் சொற்கள் மென்மையாக்கப்படவில்லை; தீர்ப்பு அல்ல.`,
+      },
+      { kind: 'table', heading: `சனியின் அஷ்டகவர்க்கத்தால் துன்ப ஆண்டுகள் (v.37–40, ${cite(AY.DATA.years)})`, columns: ['கணக்கு', 'ரேகை', 'ஆண்டு', 'அந்த ஆண்டின் காலம்', 'ஆண்டின் தொடக்கத்தில் தசை', 'நூல்'], rows: yearRows },
+      {
+        kind: 'text',
+        heading: 'தந்தையின் நற்பேறு (v.16–18)',
+        text: `${AY.DATA.father.ta} (${cite(AY.DATA.father)}.) ${AY.DATA.father.succession.ta} (${cite(AY.DATA.father.succession)}.) நூலின் v.12–14 (தந்தைக்கு அரிஷ்டம்: சனி கோசாரத்தில் திரிகோண ராசிகளில் செல்லும்போது சூரியனுக்கு 4-ஆம் இடத்தில் ராகு, சனி, செவ்வாய் இருத்தல் முதலியவை) சூரியனுக்கு 4-ஆம் இடம் பிறப்பு ஜாதகத்திலா கோசார ஜாதகத்திலா, எந்த நிலைகள் கோசாரத்தவை என்று தெளிவாகச் சொல்லாததால் இங்கு கட்டப்படவில்லை.`,
+      },
+      { kind: 'table', heading: 'தந்தையின் நற்பேறு — பிறப்பு ஜாதகம் காட்டுவன', columns: ['நூலின் கூற்று', 'இந்த ஜாதகத்தில்', 'நிலை'], rows: fatherRows },
+      {
+        kind: 'text',
+        heading: 'சுப காரியங்களுக்குச் சூரிய-சந்திர அஷ்டகவர்க்கம் (v.19–23)',
+        text: `${AY.DATA.sun.ta} (${cite(AY.DATA.sun)}.) ${AY.DATA.moon.ta} (${cite(AY.DATA.moon)}.) "அதிகப் புள்ளி" என்பது குறைந்த ரேகை (ஒரு ராசியில் எட்டு பங்களிப்பாளர்கள் என்பதால் புள்ளிகள் = 8 − ரேகைகள்). எந்த எண்ணிலிருந்து "அதிகம்" என்று நூல் வரம்பு தரவில்லை; எனவே சூரிய, சந்திர அஷ்டகவர்க்கங்களில் அதிக, குறைந்த ரேகைகள் உள்ள ராசிகள் மட்டும் குறிக்கப்படுகின்றன; வேறு எதுவும் நல்லது-தீயது எனச் சொல்லப்படவில்லை. மத்யம குரு ராசியில் செல்லும் சம்வத்சரம் கணிக்கப்படவில்லை. சூரியன் அந்த ராசியில் செல்லும் மாதத்தின் தேதிகள் அச்சிடும் நாளிலிருந்து நடப்பு அல்லது அடுத்த மாதத்துக்குக் காட்டப்படுகின்றன.`,
+      },
+      { kind: 'table', heading: 'ராசிகள் — சூரிய, சந்திர அஷ்டகவர்க்க ரேகைகள்', columns: ['ராசி', 'சூரிய அஷ்டகவர்க்க ரேகை', 'சூரியன் இந்த ராசியில்', 'சந்திர அஷ்டகவர்க்க ரேகை', 'குறிப்பு'], rows: signRows },
+    ],
+  };
+}
+
+/** Page 142: what the classical books say of the rising sign, the Moon's sign and the birth star (the nature and character that PL9's HP1 prints as canned text), each book apart. */
+async function buildCharacterReadings({ name = '', birth }) {
+  const f = await withBirth(birth, ({ chart }) => ({
+    signs: Object.fromEntries(['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'].map((p) => [p, chart.grahas[p].rasiIndex])),
+    lagnaSign: chart.lagna.rasiIndex,
+    moonLongitude: chart.grahas.Moon.longitude,
+  }));
+  const moon = JR.janmaRasi(f.signs);
+  const star = JN.janmaNakshatra(f.moonLongitude);
+  const aspecting = PY.aspectors(f.signs, f.signs.Moon, 'Moon');
+  const lord = LL.lagnaLordInLagna(f.lagnaSign);
+  const lordInLagna = f.signs[lord.planet] === f.lagnaSign;
+  const names = (ps) => (ps.length ? ps.map((p) => PLANET_TA[p] ?? p).join(', ') : 'இல்லை');
+  const cellCite = (r) => `${citeTa(r.source)} — ${r.verses ? `v.${r.verses}, ` : ''}ப.${r.page}`;
+  const rows = [];
+  for (const r of LR.readings(f.lagnaSign)) rows.push([`லக்னம் — ${RASI_TA[f.lagnaSign]}`, `${r.source.title}`, r.ta, cellCite(r)]);
+  if (lordInLagna) rows.push([`லக்னாதிபதி ${PLANET_TA[lord.planet]} லக்னத்திலேயே (${RASI_TA[f.lagnaSign]})`, 'Bhrigu Samhita (T.M. Rao)', lord.ta, lord.citation]);
+  for (const r of moon.readings) rows.push([`சந்திரன் — ${RASI_TA[moon.sign]} ராசி`, `${r.source.title}`, r.ta, cellCite(r)]);
+  for (const r of star.readings) rows.push([`ஜன்ம நட்சத்திரம் — ${NAKSHATRA_TA[star.star - 1]}`, `${r.source.title}`, r.ta, cellCite(r)]);
+  return {
+    ...head(name, birth),
+    blocks: [
+      {
+        kind: 'text',
+        heading: 'சுபாவமும் குணமும் — நூல்களின்படி (லக்னம், சந்திர ராசி, ஜன்ம நட்சத்திரம்)',
+        text: `லக்னம் ${RASI_TA[f.lagnaSign]}; சந்திரன் ${RASI_TA[moon.sign]} ராசியில், ${NAKSHATRA_TA[star.star - 1]} நட்சத்திரம் ${star.pada}-ஆம் பாதம். PL9 இவற்றை ஒரே தயார் உரையாக அச்சிடுகிறது; இங்கு ஒவ்வொரு நூலின் கூற்றும் தனித்தனியே, ஒன்றாகக் கலக்காமல், பக்கத்துடன் காட்டப்படுகிறது (நூல் எதைத் தேர்வது என்று யாரும் சொல்லவில்லை; தீர்ப்பு இல்லை). சந்திரன் இருக்கும் ராசியில் சேர்ந்த கிரகங்கள்: ${names(moon.joined)}; அதைப் பார்க்கும் கிரகங்கள் (அத். 26-இன்படி ராசிகளால்): ${names(aspecting)} (ஹோரா சாரம்: இவை இல்லாவிட்டால் மட்டுமே கூறிய பலன்கள்; இருந்தால் அந்தக் கிரகத்தின் பலன்கள் வரும்). ப்ருஹத் ஜாதகம்: ராசி, அதன் அதிபதி, சந்திரன் மூவரும் வலிமையாக இருந்தால் மட்டுமே முழுப் பலன்; வலிமை சோதிக்கப்படவில்லை. லக்னாதிபதி லக்னத்தில் இருந்தால் மட்டுமே ப்ருகு சம்ஹிதைக் கூற்று பொருந்தும்: ${lordInLagna ? 'இங்கு இருக்கிறார்' : `இங்கு ${PLANET_TA[lord.planet]} லக்னத்தில் இல்லை, எனவே காட்டப்படவில்லை`}.`,
+      },
+      { kind: 'table', heading: 'நூல்கள் சொல்வது', columns: ['எதைப் பற்றி', 'நூல்', 'நூலின் கூற்று (சுருக்கம்)', 'மூலம்'], rows },
+      {
+        kind: 'text',
+        heading: 'ஒவ்வொரு நூலின் வரம்பு',
+        text: 'சரவளி அத். 48: இழந்த ஜாதகத்தைக் கண்டுபிடிக்க எழுதப்பட்டது; அதன் விதிகள் அறிந்த ஜாதகத்துக்கும் பொருந்தும் என்று நூல் கூறுகிறது; லக்னமோ லக்னாதிபதியோ வலிமையாக இருந்தால் பலன்கள் முழுமையாக வரும் (வலிமை சோதிக்கப்படவில்லை); கும்ப லக்னத்தை சத்யாசார்யரும் யவனரும் சுபமாகக் கொள்ளவில்லை, சாணக்கியர் ஒப்பவில்லை என்ற நூலின் குறிப்பு அந்த வரியுடன் உள்ளது. ஹோரா சாரம் அத். 28: 27 நட்சத்திரங்களுக்குச் சில வாக்கியங்கள்; சுபப் பார்வை அல்லது சேர்க்கை பலனை முழுமையாக்கும்; திருவாதிரை, ஆயில்யம், சதயம், பூசம், மூலம், சித்திரை, கேட்டை, கார்த்திகையில் பிறந்த பெண் தவிர்க்கப்பட வேண்டியவள்; தந்தையின் நட்சத்திரத்தில் பிறந்த மகன் தாயின் மரணத்தையும், தாயின் நட்சத்திரத்தில் பிறந்த மகன் தந்தையின் மரணத்தையும் தருவான்; பெண்களுக்கு இது இல்லை. ப்ருஹத் ஜாதகம் அத். 16: 27 நட்சத்திரங்களுக்கு ஒரு வரி, பாதங்கள் இல்லை; பலன்கள் சந்திரனின் வலிமைக்கு ஏற்ப (மொழிபெயர்ப்பாளர் குறிப்பு); நட்சத்திர சூடாமணி பாதவாரியாகத் தருகிறது.',
+      },
+    ],
+  };
+}
+
+module.exports = { buildPlanetaryRays, buildAshtakavargaRest, buildCharacterReadings, buildCurseYogas, buildFemaleHoroscopy, buildAshtakavargaLongevity, buildSamudayaEffects, buildElementsGunas, buildSudarshanaDasha, buildMangalaPage, buildSadeSatiRemedies, buildGemstonesPage, buildDashaResults, buildAntardashaResults, buildPratyantarResults, buildSookshmaResults, buildPranaResults, buildKalachakraResults, buildJanmaDoshas, buildPravrajyaYogas, buildPlanetRemedies, buildAshtakavargaEffects, buildMahapurushaYogas };
 
 
 
