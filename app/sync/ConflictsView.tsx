@@ -157,7 +157,7 @@ export default function ConflictsView() {
   };
 
   return (
-    <main className="min-h-screen p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Conflicts" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
@@ -199,6 +199,6 @@ export default function ConflictsView() {
           </p>
         </section>
       )}
-    </main>
+    </div>
   );
 }

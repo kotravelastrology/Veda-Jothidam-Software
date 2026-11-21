@@ -109,7 +109,7 @@ export default function DashaMethodsView() {
   const shown = showAll ? methods : methods.filter((m) => m.promoted);
 
   return (
-    <main className="min-h-screen p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Dasha methods" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
@@ -168,6 +168,6 @@ export default function DashaMethodsView() {
       <ul className="space-y-2">
         {shown.map((m) => <MethodRow key={m.id} m={m} />)}
       </ul>
-    </main>
+    </div>
   );
 }

@@ -47,7 +47,7 @@ export default function JamakkolView() {
   };
 
   return (
-    <main className="min-h-screen p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Jamakkol Prasnam" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஜாமக்கோள் ப்ரசன்னம்</h1>
@@ -146,6 +146,6 @@ export default function JamakkolView() {
           </p>
         </div>
       )}
-    </main>
+    </div>
   );
 }

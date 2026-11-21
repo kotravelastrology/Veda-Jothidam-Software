@@ -58,7 +58,7 @@ export default function NakshatraGocharaView() {
   const p = result?.planets[planet];
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Nakshatra Gochara" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நட்சத்திரக் கோசாரம் — தாரை, அங்க பலன்</h1>
@@ -194,6 +194,6 @@ export default function NakshatraGocharaView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

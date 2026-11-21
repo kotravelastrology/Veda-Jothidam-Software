@@ -2412,7 +2412,7 @@ export default function ReportBuilder() {
   }, [restored]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <main className="min-h-screen">
+    <div className="min-h-screen">
       <header className="bg-gradient-to-br from-indigo-soft via-bg to-saffron-soft px-6 py-8 border-b border-line print:hidden">
         <div className="max-w-3xl mx-auto">
           <PageEyebrow fallback="Report Builder" />
@@ -2498,6 +2498,6 @@ export default function ReportBuilder() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

@@ -299,7 +299,7 @@ export default function MangalaDoshaView() {
   }, [girl, boy]);
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Mangala (Kuja) dosha" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">மங்கள (செவ்வாய்) தோஷம்</h1>
@@ -381,6 +381,6 @@ export default function MangalaDoshaView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

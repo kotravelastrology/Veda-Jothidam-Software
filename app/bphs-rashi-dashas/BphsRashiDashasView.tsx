@@ -44,7 +44,7 @@ export default function BphsRashiDashasView() {
   const running = (p: any) => p.startDate <= today && today < p.endDate;
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="BPHS chapter 46 sign dashas" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ராசி தசைகள் — பராசரர் (BPHS அத்.46)</h1>
@@ -103,6 +103,6 @@ export default function BphsRashiDashasView() {
           {Object.entries(declared).map(([k, v]) => <li key={k}><strong className="text-ink">{k}</strong>: {v}</li>)}
         </ul>
       </section>
-    </main>
+    </div>
   );
 }

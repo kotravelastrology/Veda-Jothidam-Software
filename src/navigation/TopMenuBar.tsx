@@ -611,6 +611,15 @@ export function TopMenuBar() {
           </button>
 
           <div className="flex items-center gap-0.5 ml-auto">
+            {/* A phone has no search field in the bar: this opens the same search (charts, pages, actions) */}
+            <button
+              onClick={() => setCommandPaletteOpen(true)}
+              className="grid md:hidden place-items-center size-10 rounded-lg hover:bg-bar-ink/10 text-lg"
+              aria-label="ஜாதகம் அல்லது பக்கத்தைத் தேடு"
+              title="தேடு"
+            >
+              🔎
+            </button>
             {([
               ['file-new', '➕', 'புதிய ஜாதகம்', 'New chart'],
               ['open', '📂', 'ஜாதகத்தைத் திற', 'Open a chart'],

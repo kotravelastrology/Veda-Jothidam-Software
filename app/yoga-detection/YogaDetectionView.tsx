@@ -124,7 +124,7 @@ export default function YogaDetectionView() {
     .filter(label => formations.some(f => f.category === label));
 
   return (
-    <main className="min-h-screen p-6 max-w-6xl mx-auto">
+    <div className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Yoga Detection" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
@@ -229,6 +229,6 @@ export default function YogaDetectionView() {
           கணக்கிடப்படாத வலிமை எண்கள் காட்டப்படுவதில்லை.
         </p>
       </footer>
-    </main>
+    </div>
   );
 }

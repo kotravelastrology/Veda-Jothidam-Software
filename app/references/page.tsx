@@ -7,8 +7,8 @@ export const metadata: Metadata = {
 
 export default function ReferencesPage() {
   return (
-    <main className="min-h-screen p-6">
+    <div className="min-h-screen p-6">
       <ClassicalReferenceBrowser />
-    </main>
+    </div>
   );
 }

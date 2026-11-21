@@ -62,7 +62,7 @@ export default function KpTransitView() {
   const off = result?.place?.utcOffsetMinutes ?? 0;
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="KP transit · Reader V" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">KP கோசாரம் — கோசாரபல நிர்ணயம்</h1>
@@ -166,6 +166,6 @@ export default function KpTransitView() {
           )}
         </>
       )}
-    </main>
+    </div>
   );
 }

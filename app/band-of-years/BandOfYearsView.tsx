@@ -59,7 +59,7 @@ export default function BandOfYearsView() {
   const now = O?.now;
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Band of Years" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஆண்டுப் பட்டை — 35 ஆண்டுச் சுற்று</h1>
@@ -180,6 +180,6 @@ export default function BandOfYearsView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

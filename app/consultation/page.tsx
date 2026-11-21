@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function ConsultationPage() {
   const config = getConsultationConfig();
   return (
-    <main className="min-h-screen">
+    <div className="min-h-screen">
       <header className="bg-gradient-to-br from-teal-soft via-bg to-saffron-soft px-6 py-8 border-b border-line">
         <div className="max-w-xl mx-auto">
           <PageEyebrow fallback="Consultation" />
@@ -18,6 +18,6 @@ export default function ConsultationPage() {
         </div>
       </header>
       <ConsultationFlow config={config} />
-    </main>
+    </div>
   );
 }

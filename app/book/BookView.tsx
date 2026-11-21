@@ -160,7 +160,7 @@ export default function BookView() {
 
   const pill = 'rounded-full border border-line bg-surface px-3 py-1 text-xs text-ink transition hover:border-saffron hover:bg-saffron/10';
   return (
-    <main className="mx-auto min-h-screen max-w-5xl p-3 sm:p-6">
+    <div className="mx-auto min-h-screen max-w-5xl p-3 sm:p-6">
       <div className="print:hidden">
         <header className="mb-4">
           <PageEyebrow fallback="Horoscope book" />
@@ -262,6 +262,6 @@ export default function BookView() {
           {book.sections.map((s: any, i: number) => <Page key={s.id} s={s} n={s.page} tone={toneOf[s.id] ?? 'saffron'} />)}
         </article>
       )}
-    </main>
+    </div>
   );
 }

@@ -35,7 +35,7 @@ export default function SamudrikaView() {
   }, [hits]);
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Samudrika" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">உடல் அடையாளங்கள், மச்சம் (சாமுத்திரிகா)</h1>
@@ -85,6 +85,6 @@ export default function SamudrikaView() {
       <section className="bg-surface border border-line rounded-2xl p-4 mt-4 text-xs text-ink-soft">
         <p>{S.DATA.scopeTa}</p>
       </section>
-    </main>
+    </div>
   );
 }

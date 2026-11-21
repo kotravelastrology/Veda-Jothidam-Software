@@ -68,7 +68,7 @@ export default function RogaArambhaView() {
   const f = result?.facts;
 
   return (
-    <main className="min-h-screen p-6 max-w-6xl mx-auto">
+    <div className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Onset of Illness" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நோய்த் தொடக்கம்</h1>
@@ -249,6 +249,6 @@ export default function RogaArambhaView() {
           <ul className="list-disc ml-5 space-y-1 text-ink-soft">{table.ourReadingsTa.map((t: string, i: number) => <li key={i}>{t}</li>)}</ul>
         </section>
       )}
-    </main>
+    </div>
   );
 }

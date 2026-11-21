@@ -189,7 +189,7 @@ export function WorksheetToolbar() {
           <span className="text-ink-soft">ஜாதகம் எதுவும் திறக்கப்படவில்லை</span>
           <button type="button" onClick={() => uiActions.openChartDialog('all')} className="text-saffron hover:underline">📂 திற</button>
           <button type="button" onClick={() => router.push('/worksheet?new=1')} className="text-saffron hover:underline">➕ புதியது</button>
-          <button type="button" onClick={() => setCommandPaletteOpen(true)} className="text-ink-soft hover:text-ink">தேடு <kbd className="font-mono text-[10px]">Ctrl+K</kbd></button>
+          <button type="button" onClick={() => setCommandPaletteOpen(true)} className="text-ink-soft hover:text-ink">தேடு <kbd className="kbd-hint font-mono text-[10px]">Ctrl+K</kbd></button>
         </div>
       ))}
 

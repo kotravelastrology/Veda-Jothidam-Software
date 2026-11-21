@@ -18,7 +18,7 @@ export default function BabyNamesView() {
   }, [nakshatraIndex, pada, gender, search]);
 
   return (
-    <main className="min-h-screen p-6 max-w-2xl mx-auto">
+    <div className="min-h-screen p-6 max-w-2xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Baby names" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">குழந்தை பெயர்</h1>
@@ -84,6 +84,6 @@ export default function BabyNamesView() {
           &ldquo;{result.syllable}&rdquo; எழுத்திற்கான பெயர்கள் இன்னும் சேர்க்கப்படவில்லை.
         </p>
       ))}
-    </main>
+    </div>
   );
 }

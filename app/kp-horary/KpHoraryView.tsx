@@ -60,7 +60,7 @@ export default function KpHoraryView() {
 
   const a = result?.analysis;
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="KP horary · Reader VI" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">KP பிரச்னம் — எண் 1 முதல் 249</h1>
@@ -192,6 +192,6 @@ export default function KpHoraryView() {
         )}
         <p className="text-[11px] text-ink-soft mt-2">கணக்கிடப்பட்ட அட்டவணை நூலின் அட்டவணையுடன் ஒப்பிடப்பட்டது: எண் 10-41 பக்கப் படத்தில்; மற்றவை நூலின் உரை அடுக்கில் (243 மதிப்புகளில் 207 நேரடியாகப் பொருந்தின, மீதி எழுத்துணர்வுப் பிழைகள்). நூலின் சுமார் 110 கேள்விகளில் வீடுகளை உரையில் சொல்பவை (74) சேர்க்கப்பட்டுள்ளன; மற்றவை (உறவினரின் லக்னத்திலிருந்து எண்ணுபவை போன்ற சிக்கலானவை) இல்லை.</p>
       </section>
-    </main>
+    </div>
   );
 }

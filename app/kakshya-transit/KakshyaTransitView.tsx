@@ -51,7 +51,7 @@ export default function KakshyaTransitView() {
   const order = result ? result.planets.map((p: any) => p.planet) : [];
 
   return (
-    <main className="min-h-screen p-6 max-w-6xl mx-auto">
+    <div className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Kakshya Transit" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கோசாரக் காக்ஷ்யா</h1>
@@ -187,6 +187,6 @@ export default function KakshyaTransitView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

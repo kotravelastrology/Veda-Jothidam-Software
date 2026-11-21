@@ -58,7 +58,7 @@ export default function VarshaphalaView() {
   }, [input, age]);
 
   return (
-    <main className="min-h-screen p-6 max-w-4xl mx-auto">
+    <div className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Tajika · Annual Chart" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
@@ -403,7 +403,7 @@ export default function VarshaphalaView() {
           )}
         </div>
       )}
-    </main>
+    </div>
   );
 }
 

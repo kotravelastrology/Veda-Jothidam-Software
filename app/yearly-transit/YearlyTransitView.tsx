@@ -42,7 +42,7 @@ export default function YearlyTransitView() {
 
   const field = 'px-2 py-1.5 text-sm bg-surface border border-line rounded text-ink';
   return (
-    <main className="min-h-screen p-6 max-w-6xl mx-auto">
+    <div className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Yearly transit overview · South Indian" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஆண்டு கோசாரம் — தென்னிந்திய கட்டம்</h1>
@@ -90,6 +90,6 @@ export default function YearlyTransitView() {
           <p className="text-[11px] text-ink-soft mt-3">வரிக்கு மேல் சுட்டியை வைத்தால் அந்தத் தங்கலுக்குள் நடக்கும் வக்ரம்/நேர்கதி நாட்கள் தெரியும். தேதிகள்: {result.dateBasis === 'UT' ? 'UT' : 'பிறந்த இடத்தின் நேரம்'}.</p>
         </section>
       )}
-    </main>
+    </div>
   );
 }

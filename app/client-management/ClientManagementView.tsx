@@ -164,7 +164,7 @@ export default function ClientManagementView() {
   };
 
   return (
-    <main className="min-h-screen p-6 max-w-7xl mx-auto">
+    <div className="min-h-screen p-6 max-w-7xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Client Management" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
@@ -330,6 +330,6 @@ export default function ClientManagementView() {
           திருத்தங்கள் revision ஆகப் பதிவாகும்; பழைய பதிப்புகள் அழிக்கப்படுவதில்லை.
         </p>
       </footer>
-    </main>
+    </div>
   );
 }

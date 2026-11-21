@@ -67,7 +67,7 @@ export default function AshtakavargaView() {
   const pill = (on: boolean) => `rounded-full border px-4 py-1.5 text-sm transition ${on ? 'border-saffron bg-saffron/20 font-semibold text-ink' : 'border-line bg-surface text-ink hover:border-saffron'}`;
 
   return (
-    <main className="mx-auto min-h-screen max-w-6xl p-3 sm:p-6">
+    <div className="mx-auto min-h-screen max-w-6xl p-3 sm:p-6">
       <header className="mb-4">
         <PageEyebrow fallback="Ashtakavarga" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-2xl font-bold text-ink sm:text-3xl">அஷ்டகவர்க்கம்</h1>
@@ -107,6 +107,6 @@ export default function AshtakavargaView() {
           ))}
         </>
       )}
-    </main>
+    </div>
   );
 }

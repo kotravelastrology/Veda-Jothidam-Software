@@ -70,7 +70,7 @@ export default function HealthView() {
   }, [party]);
 
   return (
-    <main className="min-h-screen p-6 max-w-4xl mx-auto">
+    <div className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Health · BPHS" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஆரோக்கியம் — பராசரர் (BPHS)</h1>
@@ -153,6 +153,6 @@ export default function HealthView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

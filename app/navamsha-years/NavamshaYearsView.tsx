@@ -32,7 +32,7 @@ export default function NavamshaYearsView() {
   }, [party]);
 
   return (
-    <main className="min-h-screen p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Navamsha counts" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நவாம்ச எண்ணிக்கை (நவாம்ச வயது)</h1>
@@ -80,6 +80,6 @@ export default function NavamshaYearsView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

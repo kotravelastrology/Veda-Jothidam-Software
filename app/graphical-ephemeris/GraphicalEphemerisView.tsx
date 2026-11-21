@@ -41,7 +41,7 @@ export default function GraphicalEphemerisView() {
   const field = 'px-2 py-1.5 text-sm bg-surface border border-line rounded text-ink';
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Graphical ephemeris" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">வரைபட எபிமெரிஸ்</h1>
@@ -76,7 +76,7 @@ export default function GraphicalEphemerisView() {
 
       {data && <Chart data={data} ayanamsha={form.ayanamsha} nodeType={form.nodeType} />}
       {data && <EventTable data={data} />}
-    </main>
+    </div>
   );
 }
 

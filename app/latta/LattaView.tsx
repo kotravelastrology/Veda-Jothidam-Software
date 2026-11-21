@@ -101,7 +101,7 @@ export default function LattaView() {
   );
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Latta" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">லத்தை — கிரகங்களின் "உதை"</h1>
@@ -212,6 +212,6 @@ export default function LattaView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

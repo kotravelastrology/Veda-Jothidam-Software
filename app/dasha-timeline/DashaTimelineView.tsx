@@ -12,6 +12,7 @@ import { ABBR } from '@/src/worksheet/dashaList';
 import { PLANET_COLOR, PLANET_TA } from '../worksheet/worksheetStyle';
 import { computeDashaTimeline } from './actions';
 import { DashaTree, dmyHm, spanText, type TreePeriod } from './DashaTree';
+import { DashaLifeMap } from './DashaLifeMap';
 
 type Timeline = Awaited<ReturnType<typeof computeDashaTimeline>>;
 
@@ -68,10 +69,9 @@ export default function DashaTimelineView() {
     () => (data && asOfJd != null ? chainAt(mahadashas, asOfJd, MAX_LEVELS) : []),
     [data, asOfJd], // eslint-disable-line react-hooks/exhaustive-deps
   );
-  const totalDays = mahadashas.reduce((sum, m) => sum + (m.endJd - m.startJd), 0) || 1;
 
   return (
-    <main className="min-h-screen p-3 sm:p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-3 sm:p-6 max-w-5xl mx-auto">
       <header className="mb-4">
         <PageEyebrow fallback="Dasha Timeline" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-2xl sm:text-3xl font-bold text-ink">
@@ -135,26 +135,7 @@ export default function DashaTimelineView() {
             </ol>
           </section>
 
-          <div className="mb-4 rounded-2xl border border-line bg-surface p-3 sm:p-4">
-            <h2 className="mb-2 text-sm font-bold text-ink">வாழ்க்கை வரிசை — 120 ஆண்டு</h2>
-            <div className="flex h-9 overflow-hidden rounded-lg bg-line/20">
-              {mahadashas.map((m) => {
-                const days = m.endJd - m.startJd;
-                const widthPct = (days / totalDays) * 100;
-                const here = m.startJd <= asOfJd && asOfJd < m.endJd;
-                return (
-                  <div
-                    key={`${m.lord}-${m.startJd}`}
-                    className="flex items-center justify-center text-[11px] font-bold text-white"
-                    style={{ width: `${widthPct}%`, backgroundColor: PLANET_COLOR[ABBR[m.lord]], opacity: here ? 1 : 0.6 }}
-                    title={`${PLANET_TA[m.lord]} — ${dmyHm(localText(m.startJd, offset))} → ${dmyHm(localText(m.endJd, offset))}`}
-                  >
-                    {widthPct > 7 ? ABBR[m.lord] : ''}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <DashaLifeMap mahadashas={mahadashas} birthJd={data.birthJd} asOfJd={asOfJd} offset={offset} asOfLabel={asOf ? 'அந்த நேரம்' : 'இன்று'} />
 
           <DashaTree mahadashas={mahadashas} nowJd={asOfJd} offset={offset} />
         </>
@@ -171,6 +152,6 @@ export default function DashaTimelineView() {
           நேரங்கள் பிறந்த ஊர் நேரத்தில், நிமிடம் வரை.
         </p>
       </footer>
-    </main>
+    </div>
   );
 }

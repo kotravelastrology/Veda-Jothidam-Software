@@ -34,7 +34,7 @@ export default function NakshatraDeedsView() {
   const mk = star?.mukhaKey ? table.mukha[star.mukhaKey] : null;
 
   return (
-    <main className="min-h-screen p-6 max-w-6xl mx-auto">
+    <div className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Nakshatras and Suitable Deeds" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நட்சத்திரமும் காரியமும்</h1>
@@ -143,6 +143,6 @@ export default function NakshatraDeedsView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Kotravel app icon: the kolam wheel of the home page, in the program's saffron on its dark brown, with the Om at the centre. -->
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#4b2f1d"/><stop offset="1" stop-color="#241610"/></radialGradient>
+    <radialGradient id="core" cx="50%" cy="35%" r="70%"><stop offset="0" stop-color="#e98a2a"/><stop offset="1" stop-color="#b85d0e"/></radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <g transform="translate(256 256)" fill="none" stroke="#f4a94a" stroke-width="5">
+    <circle r="176" opacity=".95"/>
+    <circle r="150" stroke-width="3" opacity=".6"/>
+    <g opacity=".9"><ellipse cx="0" cy="-96" rx="25" ry="60" transform="rotate(0)"/><ellipse cx="0" cy="-96" rx="25" ry="60" transform="rotate(45)"/><ellipse cx="0" cy="-96" rx="25" ry="60" transform="rotate(90)"/><ellipse cx="0" cy="-96" rx="25" ry="60" transform="rotate(135)"/><ellipse cx="0" cy="-96" rx="25" ry="60" transform="rotate(180)"/><ellipse cx="0" cy="-96" rx="25" ry="60" transform="rotate(225)"/><ellipse cx="0" cy="-96" rx="25" ry="60" transform="rotate(270)"/><ellipse cx="0" cy="-96" rx="25" ry="60" transform="rotate(315)"/></g>
+    <circle cx="175.5" cy="72.7" r="5" fill="#f4a94a" stroke="none"/><circle cx="72.7" cy="175.5" r="5" fill="#f4a94a" stroke="none"/><circle cx="-72.7" cy="175.5" r="5" fill="#f4a94a" stroke="none"/><circle cx="-175.5" cy="72.7" r="5" fill="#f4a94a" stroke="none"/><circle cx="-175.5" cy="-72.7" r="5" fill="#f4a94a" stroke="none"/><circle cx="-72.7" cy="-175.5" r="5" fill="#f4a94a" stroke="none"/><circle cx="72.7" cy="-175.5" r="5" fill="#f4a94a" stroke="none"/><circle cx="175.5" cy="-72.7" r="5" fill="#f4a94a" stroke="none"/>
+  </g>
+  <circle cx="256" cy="256" r="86" fill="url(#core)" stroke="#fff8ed" stroke-opacity=".55" stroke-width="3"/>
+  <text x="256" y="294" text-anchor="middle" font-size="124" font-family="'Noto Sans Devanagari','Nirmala UI','Mangal',sans-serif" font-weight="700" fill="#fff8ed">ॐ</text>
+</svg>

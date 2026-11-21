@@ -53,7 +53,7 @@ export default function GrahaView() {
   }, [profileInput]);
 
   return (
-    <main className="min-h-screen p-6 max-w-6xl mx-auto">
+    <div className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Worksheet 020" />
         <h1 className="text-3xl font-bold text-ink">கிரகங்களின் விளக்கம் (Interpreting Grahas)</h1>
@@ -124,6 +124,6 @@ export default function GrahaView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

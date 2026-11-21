@@ -50,7 +50,7 @@ export default function Pada88View() {
   const s = result?.statements;
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="88th Nakshatra Pada" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">88-வது நட்சத்திர பாதம்</h1>
@@ -153,6 +153,6 @@ export default function Pada88View() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

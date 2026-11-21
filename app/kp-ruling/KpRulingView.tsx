@@ -89,7 +89,7 @@ export default function KpRulingView() {
   );
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="KP · Reader VI · ruling planets" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஆளும் கிரகங்கள் — நேரம் காணுதல்</h1>
@@ -140,6 +140,6 @@ export default function KpRulingView() {
           <p className="text-[11px] text-ink-soft">நூலின் நேரங்கள் அட்டவணைக் கணக்கால் வந்தவை; இங்கு துல்லியக் கணக்கு என்பதால் சில நொடிகள் முதல் ஓரிரு நிமிடம் வரை வேறுபடலாம். நூல் மேலும் கேட்கும் நிபந்தனைகளை (கேள்வியின் வீடுகளைக் குறிக்கும் கிரகங்கள்) <a className="underline" href="/kp-horary">KP பிரச்னம்</a> பக்கத்தில் காணலாம்.</p>
         </>
       )}
-    </main>
+    </div>
   );
 }

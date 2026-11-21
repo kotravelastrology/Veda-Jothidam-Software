@@ -11,6 +11,10 @@ import { useRecentCharts, useRememberParty, inputFromSaved } from '@/src/ui/char
 import { clearStash } from '@/src/ui/openChartStore';
 import { computeToday } from './todayActions';
 import { useSettings } from '@/src/ui/SettingsPanel';
+import { ShareButton } from '@/src/ui/ShareButton';
+import { panchangamShareText } from '@/src/ui/panchangamShare';
+import { InstallApp } from '@/src/pwa/InstallApp';
+import { PersonalTodayCard } from '@/src/ui/PersonalTodayCard';
 
 /**
  * The home page: the open chart (or the way to open one), today's panchangam, and every page of the program under the task it
@@ -45,17 +49,35 @@ function Kolam({ className = '' }: { className?: string }) {
   );
 }
 
+/** The last panchangam calculated (so that a phone with no connection still shows a day's panchangam, marked as saved). */
+const LAST_TODAY_KEY = 'kotravel-last-today';
+function readLastToday(): Today | null {
+  try {
+    const v = JSON.parse(localStorage.getItem(LAST_TODAY_KEY) ?? 'null');
+    return v && typeof v.date === 'string' && v.tithi && v.nakshatra ? (v as Today) : null;
+  } catch { return null; }
+}
+
 function TodayCard() {
   const { uiActions } = useNavigation();
   const { settings, loaded } = useSettings();
   const place = settings.astrologerPlace;
   const [today, setToday] = useState<Today | null>(null);
   const [failed, setFailed] = useState(false);
+  /** true when the card shows the last saved panchangam because the server could not be reached */
+  const [saved, setSaved] = useState(false);
   useEffect(() => {
     if (!loaded) return;
-    setToday(null); setFailed(false);
+    setToday(null); setFailed(false); setSaved(false);
     computeToday({ latitude: place.latitude, longitude: place.longitude, timeZone: place.timeZone, placeName: place.name })
-      .then(setToday).catch(() => setFailed(true));
+      .then((t) => {
+        setToday(t);
+        try { localStorage.setItem(LAST_TODAY_KEY, JSON.stringify(t)); } catch { /* storage full or unavailable */ }
+      })
+      .catch(() => {
+        const last = readLastToday();
+        if (last) { setToday(last); setSaved(true); } else setFailed(true);
+      });
   }, [loaded, place.latitude, place.longitude, place.timeZone, place.name]);
   const row = (label: string, value: string, until?: string, tone = 'text-ink') => (
     <div className="flex items-baseline justify-between gap-3 border-b border-line/60 py-1.5 last:border-0">
@@ -69,10 +91,22 @@ function TodayCard() {
         <h2 className="font-[family-name:var(--font-tamil-serif)] text-lg font-bold text-ink">🗓️ இன்றைய பஞ்சாங்கம்</h2>
         <button type="button" onClick={() => uiActions.openSettings()} className="text-[11px] text-ink-soft hover:text-saffron" title="ஜோதிடர் இருப்பிடம் — அமைப்புகள்">📍 {place.name}</button>
       </div>
-      {!today && !failed && <p className="py-6 text-center text-sm text-ink-soft">கணக்கிடப்படுகிறது…</p>}
-      {failed && <p className="py-6 text-center text-sm text-rose">இன்றைய பஞ்சாங்கத்தைக் கணக்கிட முடியவில்லை.</p>}
+      {!today && !failed && (
+        <div aria-busy="true" className="space-y-2 py-1" data-testid="today-skeleton">
+          <span className="sr-only">கணக்கிடப்படுகிறது…</span>
+          <div className="skeleton h-5 w-3/4" />
+          {[0, 1, 2, 3].map((i) => <div key={i} className="skeleton h-7 w-full" />)}
+          <div className="grid grid-cols-3 gap-1.5">{[0, 1, 2].map((i) => <div key={i} className="skeleton h-12" />)}</div>
+        </div>
+      )}
+      {failed && <p className="py-6 text-center text-sm text-rose">இன்றைய பஞ்சாங்கத்தைக் கணக்கிட முடியவில்லை. இணைய இணைப்பைச் சரிபார்க்கவும்.</p>}
       {today && (
         <>
+          {saved && (
+            <p className="mb-2 rounded-lg bg-rose/10 px-2.5 py-1.5 text-[11px] text-rose" role="status" data-testid="today-saved">
+              இணைப்பு இல்லை — கடைசியாகக் கணக்கிட்ட பஞ்சாங்கம் ({Number(today.date.slice(8, 10))} {MONTHS_TA[Number(today.date.slice(5, 7)) - 1]}) காட்டப்படுகிறது.
+            </p>
+          )}
           <p className="mb-2 text-sm text-ink">
             <strong>{today.weekdayTa}</strong> · {Number(today.date.slice(8, 10))} {MONTHS_TA[Number(today.date.slice(5, 7)) - 1]} {today.date.slice(0, 4)}
             <span className="ml-2 text-xs text-ink-soft">உதயம் {today.sunrise}</span>
@@ -89,10 +123,11 @@ function TodayCard() {
               </div>
             ))}
           </div>
-          <div className="mt-3 flex flex-wrap gap-1.5 text-xs">
+          <div className="mt-3 flex flex-wrap items-center gap-1.5 text-xs">
             <Link href="/nallaneram" className="rounded-full border border-line px-2.5 py-1 hover:border-saffron">🕰️ நல்ல நேரம்</Link>
             <Link href="/tamil-calendar" className="rounded-full border border-line px-2.5 py-1 hover:border-saffron">📆 நாட்காட்டி</Link>
             <Link href="/muhurta" className="rounded-full border border-line px-2.5 py-1 hover:border-saffron">🔎 முகூர்த்தம்</Link>
+            <ShareButton input={panchangamShareText({ ...today, placeName: today.placeName ?? place.name })} />
           </div>
           <p className="mt-2 text-[10px] text-ink-soft">திருக்கணிதம் · Karanam Ramakumar, Panchangam Calculations</p>
         </>
@@ -166,6 +201,12 @@ function ChartCard() {
   );
 }
 
+/** "Today for you" under the open chart's card, when a chart is open. */
+function PersonalToday() {
+  const chart = useOpenChart();
+  return chart ? <PersonalTodayCard name={chart.name} /> : null;
+}
+
 export default function HomeView() {
   const [query, setQuery] = useState('');
   const needle = query.trim().toLowerCase();
@@ -175,7 +216,7 @@ export default function HomeView() {
   );
 
   return (
-    <main className="min-h-screen pb-10">
+    <div className="pb-10">
       {/* Greeting, the open chart, today */}
       <section className="relative overflow-hidden border-b border-line bg-gradient-to-br from-saffron/20 via-bg to-indigo/10">
         <Kolam className="pointer-events-none absolute -right-16 -top-16 size-[26rem] text-saffron/15" />
@@ -186,8 +227,10 @@ export default function HomeView() {
               <p className="text-sm text-ink-soft">🕉️ வணக்கம்</p>
               <h1 className="font-[family-name:var(--font-tamil-serif)] text-4xl font-bold leading-tight text-ink sm:text-5xl">வேத ஜோதிடம்</h1>
               <p className="mt-1 text-sm text-ink-soft">ஒவ்வொரு கணக்கும் நூல் ஆதாரத்துடன் · Kotravel Vedic Astrology</p>
+              <InstallApp className="mt-3" />
             </div>
             <ChartCard />
+            <PersonalToday />
           </div>
           <TodayCard />
         </div>
@@ -255,6 +298,6 @@ export default function HomeView() {
           </div>
         )}
       </section>
-    </main>
+    </div>
   );
 }

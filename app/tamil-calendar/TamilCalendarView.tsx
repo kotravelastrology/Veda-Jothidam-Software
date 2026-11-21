@@ -40,7 +40,7 @@ export default function TamilCalendarView() {
   const todayStr = now.toISOString().slice(0, 10);
 
   return (
-    <main className="min-h-screen p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Tamil calendar" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">தமிழ் நாட்காட்டி</h1>
@@ -117,6 +117,6 @@ export default function TamilCalendarView() {
           </p>
         </section>
       )}
-    </main>
+    </div>
   );
 }

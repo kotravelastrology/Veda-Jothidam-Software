@@ -119,7 +119,7 @@ export default function EventsView() {
   const field = 'px-2 py-1.5 text-sm bg-surface border border-line rounded text-ink';
 
   return (
-    <main className="min-h-screen p-6 max-w-6xl mx-auto">
+    <div className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Events · worksheets 116-123" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நிகழ்வு ஜாதகங்கள்{range === '1-10' ? ' — நிகழ்வுகள் 1–10' : range === '11-20' ? ' — நிகழ்வுகள் 11–20' : ''}</h1>
@@ -202,7 +202,7 @@ export default function EventsView() {
           </>
         );
       })()}
-    </main>
+    </div>
   );
 }
 

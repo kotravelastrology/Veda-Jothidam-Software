@@ -522,7 +522,7 @@ export default function GocharaVedhaView() {
   const m = result?.methods[method];
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Gochara Vedha" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கோசார வேதை — ஒன்பது கிரகங்களும்</h1>
@@ -651,6 +651,6 @@ export default function GocharaVedhaView() {
           {result.sapta && <SaptashalakaSection s={result.sapta} />}
         </>
       )}
-    </main>
+    </div>
   );
 }

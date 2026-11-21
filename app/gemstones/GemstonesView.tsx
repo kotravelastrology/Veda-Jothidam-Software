@@ -214,7 +214,7 @@ export default function GemstonesView() {
   };
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Gemstones" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ரத்தினங்கள்</h1>
@@ -389,7 +389,7 @@ export default function GemstonesView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }
 

@@ -110,7 +110,7 @@ export default function DivisionalChartsView() {
   const info = VARGA_INFO[activeKey];
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Divisional Charts" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
@@ -216,6 +216,6 @@ export default function DivisionalChartsView() {
       <footer className="mt-12 pt-6 border-t border-line text-xs text-ink-soft text-center">
         <p>BPHS Ch.6 — வர்க பிரிவு விதிகள்; D30 மற்றும் D60 சம பிரிவு அல்லாத சிறப்பு விதிகளைப் பின்பற்றுகின்றன.</p>
       </footer>
-    </main>
+    </div>
   );
 }

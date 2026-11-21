@@ -53,7 +53,7 @@ export default function DashaCalendarView() {
   for (const d of result?.days ?? []) changesByDay.set(d.day, d.changes);
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Calendar" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">தசா நாட்காட்டி (Calendar)</h1>
@@ -98,6 +98,6 @@ export default function DashaCalendarView() {
           </div>
         </section>
       )}
-    </main>
+    </div>
   );
 }

@@ -74,7 +74,7 @@ export default function MoorthiView() {
   const keep = (es: any[]) => (all ? es : es.filter((e) => e.current || (Date.parse(e.utc) > at - 30 * 86400000 && Date.parse(e.utc) < at + 2 * 365.25 * 86400000)));
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Moorthi Nirnaya" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">மூர்த்தி நிர்ணயம் — பொன், வெள்ளி, செம்பு, இரும்பு</h1>
@@ -259,6 +259,6 @@ export default function MoorthiView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

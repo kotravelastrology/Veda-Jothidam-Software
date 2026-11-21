@@ -6,7 +6,7 @@ import { SettingsForm, useSettings } from '@/src/ui/SettingsPanel';
 export default function SettingsPageView() {
   const { resetSettings } = useSettings();
   return (
-    <main className="min-h-screen p-4 sm:p-6 max-w-2xl mx-auto">
+    <div className="min-h-screen p-4 sm:p-6 max-w-2xl mx-auto">
       <header className="mb-5">
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">⚙️ அமைப்புகள்</h1>
         <p className="text-sm text-ink-soft mt-1">ஒவ்வொரு மாற்றமும் உடனே சேமிக்கப்படும்; எல்லாப் பக்கங்களும் இதையே படிக்கின்றன. · Each change is saved at once and every page reads it.</p>
@@ -19,6 +19,6 @@ export default function SettingsPageView() {
           இயல்புநிலை · Reset to defaults
         </button>
       </div>
-    </main>
+    </div>
   );
 }

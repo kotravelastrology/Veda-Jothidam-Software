@@ -109,7 +109,7 @@ export default function PrintView() {
   };
 
   return (
-    <main className="min-h-screen p-6 max-w-6xl mx-auto">
+    <div className="min-h-screen p-6 max-w-6xl mx-auto">
       <div className="print:hidden">
         <header className="mb-5">
           <PageEyebrow fallback="Print · Research exports" />
@@ -207,6 +207,6 @@ export default function PrintView() {
           ))}
         </article>
       )}
-    </main>
+    </div>
   );
 }

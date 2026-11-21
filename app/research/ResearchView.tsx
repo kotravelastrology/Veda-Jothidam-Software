@@ -174,7 +174,7 @@ export default function ResearchView() {
   };
 
   return (
-    <main className="min-h-screen p-6 max-w-4xl mx-auto">
+    <div className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Research" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
@@ -324,6 +324,6 @@ export default function ResearchView() {
           </ul>
         </section>
       )}
-    </main>
+    </div>
   );
 }

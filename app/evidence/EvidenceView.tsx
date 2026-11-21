@@ -65,14 +65,14 @@ export default function EvidenceView() {
 
   if (!profile) {
     return (
-      <main className="min-h-screen p-6 max-w-5xl mx-auto">
+      <div className="min-h-screen p-6 max-w-5xl mx-auto">
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink mb-2">
           ஆதாரப் பலகைகள்
         </h1>
         <p className="text-sm text-ink-soft">
           ஒரு ஜாதகத்தைத் திறக்கவும் — <kbd className="font-mono text-xs">Ctrl+K</kbd>
         </p>
-      </main>
+      </div>
     );
   }
 
@@ -89,7 +89,7 @@ export default function EvidenceView() {
     : 0;
 
   return (
-    <main className="min-h-screen p-6 max-w-6xl mx-auto">
+    <div className="min-h-screen p-6 max-w-6xl mx-auto">
       <header className="mb-4">
         <PageEyebrow fallback="Evidence" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
@@ -259,6 +259,6 @@ export default function EvidenceView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

@@ -94,7 +94,7 @@ export default function HouseAnalysisView() {
   };
 
   return (
-    <main className="min-h-screen p-6 max-w-7xl mx-auto">
+    <div className="min-h-screen p-6 max-w-7xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="House Analysis" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
@@ -235,6 +235,6 @@ export default function HouseAnalysisView() {
           அந்த சராசரியை அடிப்படையாகக் கொண்டது, கண்டுபிடிக்கப்பட்ட சதவீதம் அல்ல.
         </p>
       </footer>
-    </main>
+    </div>
   );
 }

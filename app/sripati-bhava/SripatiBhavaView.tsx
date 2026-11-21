@@ -34,7 +34,7 @@ export default function SripatiBhavaView() {
   }, [party]);
 
   return (
-    <main className="min-h-screen p-6 max-w-4xl mx-auto">
+    <div className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Sripati bhava · Sripatipaddhati I.6-11" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஸ்ரீபதி பாவம் — பாவ மையங்கள், சந்திகள், கிரக பலன் அளவு</h1>
@@ -90,6 +90,6 @@ export default function SripatiBhavaView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

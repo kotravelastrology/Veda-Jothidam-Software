@@ -570,7 +570,7 @@ export default function SaturnTransitView() {
   const now = result?.now;
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Saturn transit · Sade Sati" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
@@ -767,6 +767,6 @@ export default function SaturnTransitView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

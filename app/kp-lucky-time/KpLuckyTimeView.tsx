@@ -61,7 +61,7 @@ export default function KpLuckyTimeView() {
   const asc = result?.ascendant ? result.ascendant.filter((a: any) => !onlyBoth || !result.moon || a.withinMoonWindow) : null;
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="KP · Reader V · lucky timings" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">KP நல்ல நேரம் — தொடங்க வேண்டிய தருணம்</h1>
@@ -143,6 +143,6 @@ export default function KpLuckyTimeView() {
           <p className="text-[11px] text-ink-soft">நூல்: இதே நேரம் மற்றவருக்கும் நல்லதாகாது — அவரவர் ஜாதகத்தின் குறிகாட்டிகளே (ப.229).</p>
         </>
       )}
-    </main>
+    </div>
   );
 }

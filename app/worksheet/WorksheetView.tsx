@@ -112,7 +112,7 @@ export default function WorksheetView() {
   // -------------------------------------------------------------------- no chart yet
   if (!party) {
     return (
-      <main className="min-h-screen p-6 max-w-3xl mx-auto">
+      <div className="min-h-screen p-6 max-w-3xl mx-auto">
         <header className="text-center mb-6 pt-4">
           <p className="text-4xl mb-2" aria-hidden>🪔</p>
           <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஜாதக மேசை</h1>
@@ -140,7 +140,7 @@ export default function WorksheetView() {
         )}
         <PartyChooser party={party} setParty={setParty} loading={loading} startManual={isNew} auto={false} remember={false} />
         {error && <p className="text-rose text-sm bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}
-      </main>
+      </div>
     );
   }
 
@@ -149,7 +149,7 @@ export default function WorksheetView() {
   const span = SPANS[layout] ?? SPANS.standard;
   const pill = 'px-3 py-1 rounded-full border border-line bg-surface text-xs text-ink hover:border-saffron hover:bg-saffron/10 transition';
   return (
-    <main className="min-h-screen p-3 sm:p-5 max-w-[88rem] mx-auto">
+    <div className="min-h-screen p-3 sm:p-5 max-w-[88rem] mx-auto">
       <header className="mb-3 rounded-2xl border border-line bg-surface p-3 sm:p-4 shadow-sm">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <div className="flex items-center gap-3 min-w-0">
@@ -233,7 +233,7 @@ export default function WorksheetView() {
           </CellFrame>
         </div>
       )}
-    </main>
+    </div>
   );
 }
 

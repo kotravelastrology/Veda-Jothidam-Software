@@ -27,7 +27,7 @@ export default function NatureView() {
   }, [profileInput]);
 
   return (
-    <main className="min-h-screen p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Worksheet 039" />
         <h1 className="text-3xl font-bold text-ink">இயல்பும் குணமும் (Nature &amp; Temperament)</h1>
@@ -52,6 +52,6 @@ export default function NatureView() {
           <p className="text-xs text-ink-soft">{data.entry.citation}</p>
         </section>
       )}
-    </main>
+    </div>
   );
 }

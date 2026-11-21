@@ -47,7 +47,7 @@ export default function SpecialLagnasView() {
   }, [party, kind]);
 
   return (
-    <main className="min-h-screen p-6 max-w-4xl mx-auto">
+    <div className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Special lagnas · BPHS chapter 5" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">சிறப்பு லக்னங்கள் — பராசரர் (BPHS அத்.5)</h1>
@@ -97,6 +97,6 @@ export default function SpecialLagnasView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

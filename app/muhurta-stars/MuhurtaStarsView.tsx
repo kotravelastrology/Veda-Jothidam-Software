@@ -404,7 +404,7 @@ export default function MuhurtaStarsView() {
   }
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Muhurta star" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">முகூர்த்த நட்சத்திரம் — லத்தை, திருமணத்தின் பத்து தோஷங்கள், தாரா பலம், சந்திர பலம், வைநாசிகம், 88/108-வது பாதம்</h1>
@@ -976,6 +976,6 @@ export default function MuhurtaStarsView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

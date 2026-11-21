@@ -106,7 +106,7 @@ export default function DashaBrowserView() {
   // -------------------------------------------------------------------- no chart yet
   if (!party) {
     return (
-      <main className="min-h-screen p-6 max-w-3xl mx-auto">
+      <div className="min-h-screen p-6 max-w-3xl mx-auto">
         <header className="text-center mb-6 pt-4">
           <p className="text-4xl mb-2" aria-hidden>🔭</p>
           <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">தசா பலன் உலாவி</h1>
@@ -116,7 +116,7 @@ export default function DashaBrowserView() {
         </header>
         <PartyChooser party={party} setParty={setParty} loading={loading} startManual={isNew} auto={false} remember={false} />
         {error && <p className="text-rose text-sm bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}
-      </main>
+      </div>
     );
   }
 
@@ -133,7 +133,7 @@ export default function DashaBrowserView() {
   const effectOf = (planet: string) => data?.effects.planets.find((p: any) => p.planet === planet);
 
   return (
-    <main className="min-h-screen p-3 sm:p-5 max-w-[88rem] mx-auto">
+    <div className="min-h-screen p-3 sm:p-5 max-w-[88rem] mx-auto">
       <header className="mb-3 rounded-2xl border border-line bg-surface p-3 sm:p-4 shadow-sm">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <div className="min-w-0">
@@ -295,6 +295,6 @@ export default function DashaBrowserView() {
           </section>
         </div>
       )}
-    </main>
+    </div>
   );
 }

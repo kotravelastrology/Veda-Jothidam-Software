@@ -51,7 +51,7 @@ export default function KpTimeScanView() {
   const isAward = events.find((e) => e.key === eventKey)?.name === 'Apply for Getting an Award/Prize';
 
   return (
-    <main className="min-h-screen p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="KP Muhurta time scan" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">KP முகூர்த்த நேரம் தேடல்</h1>
@@ -153,6 +153,6 @@ export default function KpTimeScanView() {
       )}
 
       <p className="text-[11px] text-ink-soft mt-6">முந்தைய kp-muhurat-workspace sub_level_analysis / search_candidate_windows-லிருந்து port.</p>
-    </main>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Noto_Sans_Tamil, Noto_Serif_Tamil } from "next/font/google";
 import "./globals.css";
 import { NavigationProvider } from "@/src/navigation/NavigationProvider";
@@ -22,6 +22,22 @@ const notoSerifTamil = Noto_Serif_Tamil({
 export const metadata: Metadata = {
   title: "Kotravel Vedic Astrology — பஞ்சாங்கம் & முகூர்த்தம்",
   description: "தினசரி பஞ்சாங்கம் மற்றும் முகூர்த்த நேரங்கள்",
+  applicationName: "Kotravel",
+  // Installed on an iPhone or iPad's home screen it opens full screen, under this name (Android and desktop read app/manifest.ts)
+  appleWebApp: { capable: true, title: "Kotravel", statusBarStyle: "default" },
+  formatDetection: { telephone: false },
+};
+
+// The page fills the whole screen of a phone with a notch (the bars keep clear of it with env(safe-area-inset-*)), and the browser's own
+// bar takes the colour of the program's top bar, in the light and the dark theme.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#2b1b12" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d0911" },
+  ],
 };
 
 export default function RootLayout({

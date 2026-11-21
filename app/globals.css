@@ -159,6 +159,43 @@ body { text-rendering: optimizeLegibility; font-kerning: normal; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --pl-Su: #f59e0b; --pl-Mo: #e5e7eb; --pl-Ma: #f87171; --pl-Me: #4ade80; --pl-Ju: #fbbf24; --pl-Ve: #e879f9; --pl-Sa: #60a5fa; --pl-Ra: #a8a29e; --pl-Ke: #a8a29e; --pl-As: #fdba74; --pl-Gk: #d6d3d1; } }
 :root[data-theme="dark"] { --pl-Su: #f59e0b; --pl-Mo: #e5e7eb; --pl-Ma: #f87171; --pl-Me: #4ade80; --pl-Ju: #fbbf24; --pl-Ve: #e879f9; --pl-Sa: #60a5fa; --pl-Ra: #a8a29e; --pl-Ke: #a8a29e; --pl-As: #fdba74; --pl-Gk: #d6d3d1; }
 
+/* Keyboard and screen readers: a visible ring wherever focus lands (the saffron of the program), and a link that skips the menus. */
+:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px; border-radius: 4px; }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline-offset: 0; }
+.skip-link {
+  position: absolute; left: 0.75rem; top: -4rem; z-index: 100;
+  background: var(--saffron); color: #2b1b12; font-weight: 700; padding: 0.5rem 0.9rem; border-radius: 0.6rem;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.25); transition: top 0.15s ease;
+}
+.skip-link:focus { top: 0.6rem; }
+
+/* A keyboard shortcut hint means nothing on a touch screen (no Ctrl key): it is shown only where there is a mouse. */
+@media (hover: none) and (pointer: coarse) { .kbd-hint { display: none; } }
+
+/* A person who asks their system for less motion gets none (the transitions and the shimmer of the loading placeholders). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* A placeholder for what is being calculated: soft bars that shimmer, in place of a "calculating…" line, so a card keeps its size. */
+.skeleton { position: relative; overflow: hidden; border-radius: 0.5rem; background: color-mix(in srgb, var(--ink) 9%, transparent); }
+.skeleton::after {
+  content: ""; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--surface) 70%, transparent), transparent);
+  animation: skeleton-shimmer 1.4s infinite;
+}
+@keyframes skeleton-shimmer { to { transform: translateX(100%); } }
+
+/* Phones: the toolbar keeps its icons (each has its name as a label for screen readers and a tooltip) but drops the words under them,
+   which saves a line of the small screen for the page; the bottom tabs and the ☰ menu carry the names. */
+@media (max-width: 640px) {
+  [data-testid="worksheet-toolbar"] [data-toolbar] > span:not(.icon-chip) { display: none; }
+  [data-testid="worksheet-toolbar"] [data-toolbar] { min-width: 2.75rem; min-height: 2.75rem; }
+}
+
+/* A standalone (installed) app has no browser bar: keep the top bar clear of the notch, and no pull-to-refresh bounce on the page itself. */
+@media (display-mode: standalone) { body { overscroll-behavior-y: none; } }
+
 /* Phones: nothing on a page may be wider than the screen. A wide table scrolls sideways inside itself, a drawing shrinks to fit,
    and a grid's cells may be narrower than their content's natural width (otherwise one wide chart widens the whole page). */
 @media (max-width: 640px) {

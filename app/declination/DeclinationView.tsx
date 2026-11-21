@@ -31,7 +31,7 @@ export default function DeclinationView() {
   }, [party]);
 
   return (
-    <main className="min-h-screen p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Declination" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கிராந்தி — கிரகங்களின் சாய்வு</h1>
@@ -64,6 +64,6 @@ export default function DeclinationView() {
           <p className="text-[11px] text-ink-soft mt-2">ராகு, கேது, யுரேனஸ், நெப்டியூன், புளூட்டோ இங்கே இல்லை (பாரம்பரிய ஏழு கிரகங்கள் மட்டும்).</p>
         </section>
       )}
-    </main>
+    </div>
   );
 }

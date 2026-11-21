@@ -39,7 +39,7 @@ export default function VimshopakaView() {
   const current = result?.schemes.find((s: any) => s.scheme === scheme);
 
   return (
-    <main className="min-h-screen p-6 max-w-4xl mx-auto">
+    <div className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Vimshopaka Bala" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">விம்சோபக பலம் — 20 புள்ளி வர்க்க பலம்</h1>
@@ -104,6 +104,6 @@ export default function VimshopakaView() {
           )}
         </>
       )}
-    </main>
+    </div>
   );
 }

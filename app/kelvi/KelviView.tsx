@@ -58,7 +58,7 @@ export default function KelviView() {
   };
 
   return (
-    <main className="min-h-screen p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Prashna reading" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கேள்வி–விடை</h1>
@@ -177,6 +177,6 @@ export default function KelviView() {
           </div>
         </article>
       ))}
-    </main>
+    </div>
   );
 }

@@ -201,7 +201,7 @@ export default function AnimatedTransitsView() {
   const field = 'px-2 py-1.5 text-sm bg-surface border border-line rounded text-ink';
 
   return (
-    <main className={`min-h-screen p-6 mx-auto ${usePartner ? 'max-w-[88rem]' : 'max-w-6xl'}`}>
+    <div className={`min-h-screen p-6 mx-auto ${usePartner ? 'max-w-[88rem]' : 'max-w-6xl'}`}>
       <header className="mb-5">
         <PageEyebrow fallback="Animated transits" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">{partnerMode ? 'அனிமேஷன் கோசாரம் — துணை (Partner)' : 'அனிமேஷன் கோசாரம்'}</h1>
@@ -275,6 +275,6 @@ export default function AnimatedTransitsView() {
           ))}
         </div>
       )}
-    </main>
+    </div>
   );
 }

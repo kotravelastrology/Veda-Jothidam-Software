@@ -57,7 +57,7 @@ export default function ClassicalMuhurtaView() {
   useEffect(() => { if (tab === 'eclipse' && !ecl) computeEclipses(Date.now(), 10).then(setEcl); }, [tab, ecl]);
 
   return (
-    <main className="min-h-screen p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Classical muhurta" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">பாரம்பரிய முகூர்த்தம்</h1>
@@ -184,6 +184,6 @@ export default function ClassicalMuhurtaView() {
       )}
 
       <p className="text-[11px] text-ink-soft mt-6">முந்தைய AstrologicLab src/timing/* -லிருந்து port செய்யப்பட்டது.</p>
-    </main>
+    </div>
   );
 }

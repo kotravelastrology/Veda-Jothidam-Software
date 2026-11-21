@@ -312,7 +312,7 @@ export default function PoruthamView() {
   const boyProfileId = boy?.kind === 'profile' ? boy.profileId : null;
 
   return (
-    <main className="min-h-screen p-6 max-w-4xl mx-auto">
+    <div className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Marriage Matching" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">திருமணப் பொருத்தம்</h1>
@@ -470,7 +470,7 @@ export default function PoruthamView() {
       )}
 
       {result?.ashtakoota && <AshtakootaSection a={result.ashtakoota} />}
-    </main>
+    </div>
   );
 }
 

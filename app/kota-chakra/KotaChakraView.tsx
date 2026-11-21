@@ -47,7 +47,7 @@ export default function KotaChakraView() {
   }, [mode, when, party, focus]);
 
   return (
-    <main className="min-h-screen p-6 max-w-4xl mx-auto">
+    <div className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Kota Chakra · Sanghatta Chakra" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">கோட்டா சக்கரம், சங்கட்ட சக்கரம் — நரபதி ஜயாசார்யர்</h1>
@@ -136,6 +136,6 @@ export default function KotaChakraView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

@@ -63,7 +63,7 @@ export default function NallaNeramView() {
   };
 
   return (
-    <main className="min-h-screen p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Nalla Neram" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">நல்ல நேரம்</h1>
@@ -206,6 +206,6 @@ export default function NallaNeramView() {
           </p>
         </div>
       )}
-    </main>
+    </div>
   );
 }

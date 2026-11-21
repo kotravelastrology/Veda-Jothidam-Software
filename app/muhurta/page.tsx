@@ -7,8 +7,8 @@ export const metadata: Metadata = {
 
 export default function MuhurtaPage() {
   return (
-    <main className="min-h-screen p-6">
+    <div className="min-h-screen p-6">
       <MuhurtaFinder />
-    </main>
+    </div>
   );
 }

@@ -31,7 +31,7 @@ export default function PlanetHouseView() {
   }, [party]);
 
   return (
-    <main className="min-h-screen p-6 max-w-4xl mx-auto">
+    <div className="min-h-screen p-6 max-w-4xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Planets in houses" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">லக்ன ராசி, சந்திர ராசி, பிறந்த நட்சத்திரம், கிரகம் பாவத்தில், தசாநாதன், பாவாதிபதி — நூல்கள் சொல்வது</h1>
@@ -128,6 +128,6 @@ export default function PlanetHouseView() {
           ))}
         </>
       )}
-    </main>
+    </div>
   );
 }

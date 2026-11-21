@@ -39,7 +39,7 @@ export default function RectificationView() {
   }, [input]);
 
   return (
-    <main className="min-h-screen p-6 max-w-3xl mx-auto">
+    <div className="min-h-screen p-6 max-w-3xl mx-auto">
       <header className="mb-6">
         <PageEyebrow fallback="Birth-Time Rectification" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">ஜனன கால திருத்தம்</h1>
@@ -120,6 +120,6 @@ export default function RectificationView() {
           </p>
         </div>
       )}
-    </main>
+    </div>
   );
 }

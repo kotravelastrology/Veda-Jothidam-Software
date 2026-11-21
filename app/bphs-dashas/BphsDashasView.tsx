@@ -44,7 +44,7 @@ export default function BphsDashasView() {
   const running = (p: any) => p.startDate <= today && today < p.endDate;
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="BPHS chapter 46 dashas" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">தசைகள் — பராசரர் (BPHS அத்.46)</h1>
@@ -120,6 +120,6 @@ export default function BphsDashasView() {
           </section>
         </>
       )}
-    </main>
+    </div>
   );
 }

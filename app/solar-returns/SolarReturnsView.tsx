@@ -63,7 +63,7 @@ export default function SolarReturnsView() {
   const deg = (d: number) => `${Math.floor(d)}°${String(Math.floor((d % 1) * 60)).padStart(2, '0')}'`;
 
   return (
-    <main className="min-h-screen p-6 max-w-5xl mx-auto">
+    <div className="min-h-screen p-6 max-w-5xl mx-auto">
       <header className="mb-5">
         <PageEyebrow fallback="Solar returns" />
         <h1 className="font-[family-name:var(--font-tamil-serif)] text-3xl font-bold text-ink">
@@ -204,6 +204,6 @@ export default function SolarReturnsView() {
           )}
         </>
       )}
-    </main>
+    </div>
   );
 }
