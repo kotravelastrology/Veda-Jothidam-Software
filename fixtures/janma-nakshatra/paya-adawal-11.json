@@ -1,0 +1,13 @@
+{
+  "id": "paya-adawal-11",
+  "source": {
+    "title": "Know About Astrology",
+    "author": "Shanker Adawal",
+    "tradition": "Modern textbook",
+    "file": "Jyotish_Know about Astrology_Shanker Adawal_miss 9 p.pdf",
+    "pageLocus": "Chapter 11 \"Birth Nakshatra and Paya\", printed p.263 (PDF page = printed - 13), read from the scan."
+  },
+  "scope": "The table `Birth Nakshatra and Paya`: Paya (Pad) by the birth nakshatra with the result the book gives each. The Paya of the Moon's house has no result in this book.",
+  "nakshatras": { "Silver": "the 12 nakshatras from Ardra", "Copper": "the 9 from Jyeshtha", "Gold": "the 3 from Revati", "Iron": "the 3 from Krittika" },
+  "results": { "Silver": "Best", "Copper": "Good", "Gold": "Medium", "Iron": "Bad" }
+}

@@ -42,4 +42,13 @@ function avakhadaExtra({ star, pada, moonSign, lagnaSign }) {
   return { varga: VARGA_ANIMALS[varga], yunja, hansak: ELEMENTS[moonSign % 4], naamakshar: spell(syllable), payaRashi, payaNakshatra };
 }
 
-module.exports = { avakhadaExtra, PADAS, VARGA_ANIMALS };
+/**
+ * What the book gives each Paya of the birth nakshatra: Silver (the 12 nakshatras from Ardra) Best, Copper (the 9 from Jyeshtha) Good, Gold (the 3 from Revati) Medium, Iron (the 3 from Krittika) Bad.
+ * Shanker Adawal, Know About Astrology, chapter 11, the table `Birth Nakshatra and Paya` (printed p.263; the PDF's page is the printed page minus 13), read from the scan.
+ * The Paya of the Moon's house (payaRashi) has no result in that book.
+ */
+const PAYA = require('../../fixtures/janma-nakshatra/paya-adawal-11.json');
+const PAYA_NAKSHATRA_RESULT = Object.freeze({ ...PAYA.results });
+const PAYA_SOURCE = PAYA.source;
+
+module.exports = { avakhadaExtra, PADAS, VARGA_ANIMALS, PAYA_NAKSHATRA_RESULT, PAYA_SOURCE };
