@@ -42,7 +42,7 @@ export interface KotaRequest {
 
 /** The planets of a moment or of a birth chart placed in the Kota Chakra and the Sanghatta Chakra of Narapati's Svarodaya. */
 export async function computeKotaSanghatta(req: KotaRequest) {
-  let longitudes: Record<string, number> = {};
+  const longitudes: Record<string, number> = {};
   let native: any = null;
   let when: string | null = null;
   if (req.mode === 'transit') {

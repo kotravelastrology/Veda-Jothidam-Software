@@ -7,8 +7,11 @@
  *   - /offline.html, a Tamil "no connection" page: shown when a page is asked for and the network fails;
  *   - nothing of any chart, calculation or page data: pages and every server action go to the network, so what is shown is always
  *     computed now and never an old copy of a chart.
+ *
+ * It also shows the notifications the server sends (src/notify/scheduler.js: the morning panchangam, a dasha change, a test), and a tap
+ * on one opens its page in the app.
  */
-const VERSION = 'kotravel-v1';
+const VERSION = 'kotravel-v2';
 const STATIC_CACHE = `${VERSION}-static`;
 const PRECACHE = ['/offline.html', '/icons/icon-192.png', '/icons/icon-512.png'];
 
@@ -49,4 +52,42 @@ self.addEventListener('fetch', (event) => {
   if (request.mode === 'navigate') {
     event.respondWith(fetch(request).catch(() => caches.match('/offline.html')));
   }
+});
+
+/** A page of this app only ('/dasha-timeline'), never another site. */
+function appPath(url) {
+  return typeof url === 'string' && url.startsWith('/') && !url.startsWith('//') ? url : '/';
+}
+
+self.addEventListener('push', (event) => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch {
+    data = { body: event.data ? event.data.text() : '' };
+  }
+  const options = {
+    body: typeof data.body === 'string' ? data.body : '',
+    icon: '/icons/icon-192.png',
+    lang: 'ta',
+    data: { url: appPath(data.url) },
+  };
+  if (typeof data.tag === 'string' && data.tag) options.tag = data.tag;
+  event.waitUntil(self.registration.showNotification(typeof data.title === 'string' && data.title ? data.title : 'Kotravel', options));
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const url = new URL(appPath(event.notification.data && event.notification.data.url), self.location.origin).href;
+  event.waitUntil((async () => {
+    const windows = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    const exact = windows.find((w) => w.url === url);
+    if (exact) return exact.focus();
+    const ours = windows.find((w) => new URL(w.url).origin === self.location.origin);
+    if (ours) {
+      await ours.focus();
+      return ours.navigate(url);
+    }
+    return self.clients.openWindow(url);
+  })());
 });

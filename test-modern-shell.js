@@ -113,4 +113,25 @@ assert.ok(/lang="ta"/.test(offline) && /இணைய இணைப்பு இ�
 const registrar = fs.readFileSync(path.join(root, 'src/pwa/PwaRegistrar.tsx'), 'utf8');
 assert.ok(/process\.env\.NODE_ENV !== 'production'/.test(registrar) && /unregister\(\)/.test(registrar) && /register\('\/sw\.js'/.test(registrar));
 
+// ------------------------------------------------------------------ the saved copy a card shows with no connection
+{
+  const { chartSubject, saveCopy, readCopy } = require('./src/ui/savedCopy');
+  const mem = new Map();
+  const store = { getItem: (k) => (mem.has(k) ? mem.get(k) : null), setItem: (k, v) => mem.set(k, String(v)) };
+  const input = { year: 1990, month: 10, day: 5, hour: 4, minute: 30, latitude: 13.08, longitude: 80.27, utcOffsetMinutes: 330, ayanamsha: 'Lahiri', name: 'not part of it' };
+  const subject = chartSubject(input, { yearDays: 365.25, balance: 'degree' });
+  assert.ok(!subject.includes('not part of it'), 'the subject is the moment, the place and the settings, not the name');
+  assert.equal(saveCopy(store, 'k', subject, { a: 1 }, 1000), true);
+  assert.deepEqual(readCopy(store, 'k', subject), { savedAt: 1000, data: { a: 1 } });
+  assert.equal(readCopy(store, 'k', chartSubject({ ...input, minute: 31 }, { yearDays: 365.25, balance: 'degree' })), null, 'never another chart\'s copy');
+  assert.equal(readCopy(store, 'k', chartSubject(input, { yearDays: 360, balance: 'degree' })), null, 'nor one computed with other settings');
+  assert.equal(readCopy(store, 'missing', subject), null);
+  mem.set('bad', '{not json');
+  assert.equal(readCopy(store, 'bad', subject), null);
+  const broken = { getItem: () => { throw new Error('blocked'); }, setItem: () => { throw new Error('full'); } };
+  assert.equal(saveCopy(broken, 'k', subject, {}), false, 'storage that fails is ignored');
+  assert.equal(readCopy(broken, 'k', subject), null);
+  assert.equal(readCopy(null, 'k', subject), null);
+}
+
 console.log('test-modern-shell: all assertions passed');

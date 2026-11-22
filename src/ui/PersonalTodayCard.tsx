@@ -7,6 +7,10 @@ import { useActiveBirthInput } from '../workspace/useActiveBirthInput';
 import { useSettings, toDashaOptions } from './SettingsPanel';
 import { ShareButton } from './ShareButton';
 import { personalShareText } from './personalShare';
+import { chartSubject, saveCopy, readCopy } from './savedCopy';
+
+/** The last result of this card on this device (src/ui/savedCopy.js), shown with its time when there is no connection. */
+const SAVED_KEY = 'kotravel-last-personal-today';
 
 /** What computePersonalToday returns (src/report/personalToday.js); the server action's result is plain JSON, so its shape is written out here. */
 interface DashaRow { level: number; levelTa: string; lord: string; lordTa: string; start: string; end: string; progress: number; daysLeft: number }
@@ -26,10 +30,16 @@ const PL: Record<string, string> = { Sun: 'Su', Moon: 'Mo', Mars: 'Ma', Mercury:
 const dmy = (iso: string) => iso.split('-').reverse().join('-');
 const ordinal = (n: number) => `${n}-ஆம்`;
 
-/** The device's date as 'YYYY-MM-DD' (the day the person is looking at). */
-function localIsoDate(): string {
-  const d = new Date();
+/** The device's date as 'YYYY-MM-DD' (the day the person is looking at, or the day a saved copy was computed). */
+function localIsoDate(ms: number = Date.now()): string {
+  const d = new Date(ms);
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+const savedWhen = (ms: number) => new Date(ms).toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+function storage(): Storage | null {
+  try { return window.localStorage; } catch { return null; }
 }
 
 /**
@@ -43,16 +53,31 @@ export function PersonalTodayCard({ name }: { name: string }) {
   const { input } = useActiveBirthInput();
   const [data, setData] = useState<PersonalToday | null>(null);
   const [failed, setFailed] = useState(false);
+  /** When the card shows a saved copy (no connection): the time it was computed */
+  const [savedAt, setSavedAt] = useState<number | null>(null);
 
   const run = useCallback(() => {
     if (!input) return;
-    computePersonalToday(input, toDashaOptions(settings))
-      .then((r) => { setData(r as PersonalToday); setFailed(false); })
-      .catch(() => setFailed(true));
+    const options = toDashaOptions(settings);
+    const subject = chartSubject(input, options);
+    computePersonalToday(input, options)
+      .then((r) => {
+        setData(r as PersonalToday);
+        setSavedAt(null);
+        setFailed(false);
+        saveCopy(storage(), SAVED_KEY, subject, r);
+      })
+      .catch(() => {
+        const copy = readCopy(storage(), SAVED_KEY, subject);
+        if (copy) {
+          setData(copy.data as PersonalToday);
+          setSavedAt(copy.savedAt);
+        } else setFailed(true);
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input, settings.dashaYearDays, settings.dashaBalance]);
 
-  useEffect(() => { setData(null); setFailed(false); run(); }, [run]);
+  useEffect(() => { setData(null); setSavedAt(null); setFailed(false); run(); }, [run]);
 
   // Back on the page after a while: the Moon changes its star in a day and a period can end, so it is read again
   useEffect(() => {
@@ -90,6 +115,12 @@ export function PersonalTodayCard({ name }: { name: string }) {
 
       {data && (
         <>
+          {savedAt !== null && (
+            <p className="mb-2 rounded-lg bg-saffron-soft px-2.5 py-1.5 text-[11px] text-ink" role="status" data-testid="personal-today-saved">
+              📴 இணைப்பு இல்லை: {savedWhen(savedAt)}-இல் கணக்கிட்டுச் சேமித்தது. அதன் பின் சந்திரன் நகர்ந்திருக்கலாம்.{' '}
+              <button type="button" onClick={run} className="font-semibold underline">மீண்டும் கணக்கிடு</button>
+            </p>
+          )}
           <div className="space-y-2.5">
             {data.dasha.map((d) => {
               const pct = Math.round(d.progress * 100);
@@ -142,7 +173,7 @@ export function PersonalTodayCard({ name }: { name: string }) {
 
           <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
             <p className="text-[10px] text-ink-soft">ஒவ்வொரு வரியின் முழு விளக்கமும் ஆதாரமும் அதன் பக்கத்தில்.</p>
-            <ShareButton input={personalShareText(name, data, localIsoDate())} />
+            <ShareButton input={personalShareText(name, data, localIsoDate(savedAt ?? Date.now()))} />
           </div>
         </>
       )}

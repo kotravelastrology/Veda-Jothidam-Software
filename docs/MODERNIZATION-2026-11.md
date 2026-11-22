@@ -29,8 +29,8 @@ that a day or a period is good or bad.
   never shown from an old copy.
 - Install: `src/pwa/InstallApp.tsx` on the home page: the browser's own install dialog (Chrome, Edge, Android) or, on an iPhone/iPad,
   the two Share-sheet steps. `src/pwa/pwaStore.ts` keeps the online / installable / installed facts in one store.
-- The status bar (larger screens) now says whether the server can be reached and which ayanamsha and nodes new charts take, instead of
-  a fixed "Ready".
+- The status bar (larger screens) now says whether the browser has a network (navigator.onLine, which cannot tell whether the server
+  answers) and which ayanamsha and nodes new charts take, instead of a fixed "Ready".
 
 ## 3. Home page
 
@@ -67,16 +67,77 @@ title (to be removed before sending if wished) and no birth detail.
 - A skip link ("உள்ளடக்கத்துக்குச் செல்") as the first Tab stop, a saffron focus ring wherever focus lands, progress bars with
   `role="progressbar"`, status lines with `aria-live`, and `prefers-reduced-motion` honoured (no transitions or shimmer).
 
-## Deliberately not done
+## Second pass (2026-11-21, "மீதி உள்ளவற்றைக் கட்டு")
 
-- **Free-form "ask the AI about my chart"**: an answer that is not one of the books' statements would break the sourcing rule. A safe
-  form would explain the page in view from its own cited lines; that needs the owner's decision and an API key.
-- **Push notifications** (Rahu kalam, a dasha change): needs a push server and the person's permission flow.
-- **Calculation without a connection**: the ephemeris runs on the server; doing it in the browser means Swiss Ephemeris in WebAssembly
-  and its licence. Offline, the app shows its shell, the saved panchangam and the no-connection page.
-- **A second language for the whole interface**: every page's text would need translating.
+The owner asked for the rest to be built. Of the four items first left out, two are built in a form that keeps the sourcing rule, one
+in part, and one is left for the owner's decision.
+
+### 7. இந்தப் பக்கத்தை விளக்கு (AI explains the page in view)
+
+- **What it does**: the ✨ button in the top bar sends the page's visible text (or the part the reader selected) with a question to
+  Claude, which must answer from that text alone: no rule, meaning, prediction or remedy the page does not state, no verdict, every
+  book's reading kept apart, and the page's own supporting lines copied word for word. `src/ai/pageExplain.js` then looks for each
+  copied line on the page: a line found is marked ✓, a line not on the page ✗ with a warning not to rely on that part.
+  `test-page-explain.js` (a stand-in client; nothing is sent).
+- **Request**: `app/explainActions.ts` with the official SDK (`@anthropic-ai/sdk` 1.6.0, pinned); model `claude-opus-5-5` (env
+  `KOTRAVEL_AI_MODEL` may name another), effort `medium`, the answer as structured output (JSON schema), the page in the user turn
+  with a cache breakpoint (a second question on the same page reads it from the cache), and server-side refusal fallback
+  (`fallbacks: "default"`).
+- **Privacy**: before anything leaves the server the open chart's name and birthplace are replaced (ஜாதகர், பிறந்த ஊர்); the panel
+  shows the exact text that is sent and, before the first question on a device, says what is sent, to whom, and that each question is
+  billed. Birth date and time and other names on the page are sent as they are, and the panel says so.
+- **Off by default**: the button appears only when the server has `ANTHROPIC_API_KEY` (or `ANTHROPIC_AUTH_TOKEN`). A server-wide limit
+  (`KOTRAVEL_AI_PER_HOUR`, default 60 questions an hour) keeps a server left open to the internet from running up the key owner's bill:
+  the program has no sign-in of its own, so the limit cannot be per person.
+- **Checked**: on the production build against a local stand-in for the API (scratchpad `prod-with-mock.mjs`): the button, the consent,
+  a whole-page and a selection question, ✓ ✓ ✗ marks and the warning, the name and place not in what was sent, and the request's
+  model, effort, format, fallback and cache settings. **Not called with a real key** (none is configured here).
+
+### 8. Notifications (அறிவிப்புகள்)
+
+- **What**: the morning panchangam at a chosen time for the astrologer's place (the home card's five limbs, Rahu kalam, Yamagandam),
+  and the starts of the open chart's dasha periods (dasha and bhukti, or with antara too) for two years, told on the morning of the
+  day. Facts only, as the home page and the dasha page show them. A test message. Settings page card
+  (`src/notify/NotificationSettings.tsx`).
+- **How**: Web Push. The browser's subscription is checked to point at a real push service (FCM, Mozilla, Apple, Windows; the server
+  will not post to any other address) and kept in `notifications.db` beside the chart library (`src/notify/notifyStore.js`;
+  `VEDA_NOTIFY_PATH`), with the server's VAPID keys (made once, or `VAPID_PUBLIC_KEY`/`VAPID_PRIVATE_KEY`). A dasha notice is stored as
+  its finished text and time: no birth details are kept. `instrumentation.ts` starts a one-minute clock in the production server
+  (`src/notify/schedulerHost.ts`, `scheduler.js`); each message is claimed in the store before it is sent, so two servers on one file
+  never both send it; a failed send is retried the next minute; a browser the push service no longer knows is removed. `web-push` 3.6.7
+  (pinned; 4.0.0 was 15 days old) signs and encrypts. The service worker (`kotravel-v2`) shows the message and opens only this app's
+  pages. `test-notify.js`.
+- **Checked**: on the production build in Chrome: permission, subscription with Google's push service, the server's test message
+  through FCM to the service worker (decrypted, in about a second), `showNotification` with these options, following a chart (21
+  antara starts listed). Headless Chrome does not keep shown notifications, so a notification on a real phone's screen is the
+  remaining device check (VJ-021).
+- **Limits**: only in the production build (the service worker is not registered in development); on an iPhone only after "Add to
+  Home Screen"; when the browser replaces a subscription by itself, opening the settings page and switching on again is needed.
+
+### 9. A saved copy for "இன்று உங்களுக்கு"
+
+The card keeps its last result for the chart on the device (`src/ui/savedCopy.js`, keyed by birth moment, place and settings, never
+shown for another chart) and with no connection shows it marked with the time it was computed. The calculation itself still needs the
+server (see below).
+
+### 10. ESLint
+
+`eslint.config.mjs` now uses Next 16's own flat configs (the FlatCompat wrapper had stopped ESLint before any rule ran). `npx eslint .`
+ends with 0 errors and about 1,036 warnings. Turned off or down, with the reason in the file: `no-require-imports` (the engines are
+CommonJS by design), `no-explicit-any` (warning: engine results are untyped JSON), `react/no-unescaped-entities` (quotes in Tamil and
+English text), and the React Compiler checks of eslint-plugin-react-hooks 6 (warnings: 54 setState-in-effect, 9 components made during
+render, 4 used-before-declared, 3 Date.now in render, 1 ref read in render), which are worth a later pass page by page. One real error
+fixed (`prefer-const` in app/kota-chakra/actions.ts).
+
+## Still not done
+
+- **Calculation without a connection**: the ephemeris would have to run in the browser (Swiss Ephemeris in WebAssembly with its data),
+  which is shipping Astrodienst's code and data to every visitor, one of the triggers of the licence decision VJ-007 leaves to the
+  owner. It also would make a second calculation path beside the server's. Not started until that decision.
+- **A second language for the whole interface**: every page's text would need translating; the owner works in Tamil. Not started.
+- **Free-form chat about a chart**: replaced by the page explainer above, which answers only from the page.
 
 ## Notes
 
-- `npx eslint` fails in this repository with "Converting circular structure to JSON" from the shared Next config (it did before this
-  pass); `npx tsc --noEmit` and the test suite are the checks that run.
+- `npm audit` lists advisories in packages that were here before this pass (next 16.3.4: one critical, fixed in 16.4.6; electron,
+  sharp, undici, zod and others). Neither package added here is among them. Upgrading Next is a separate step with its own testing.

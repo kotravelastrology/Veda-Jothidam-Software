@@ -1,6 +1,8 @@
 'use client';
 
 import { SettingsForm, useSettings } from '@/src/ui/SettingsPanel';
+import { AiStatusCard } from '@/src/ai/AiStatusCard';
+import { NotificationSettings } from '@/src/notify/NotificationSettings';
 
 /** The settings as a page: the same form as the ⚙️ panel (src/ui/SettingsPanel.tsx), so each setting has one place. */
 export default function SettingsPageView() {
@@ -18,6 +20,11 @@ export default function SettingsPageView() {
         <button onClick={resetSettings} className="px-4 py-2 text-sm font-medium rounded-lg border border-line text-ink hover:bg-ink-soft/10 transition-colors">
           இயல்புநிலை · Reset to defaults
         </button>
+      </div>
+      {/* Services that go beyond this computer: each says whether it is on and what it sends */}
+      <div className="mt-6 space-y-4">
+        <NotificationSettings />
+        <AiStatusCard />
       </div>
     </div>
   );
