@@ -40,6 +40,7 @@ import { ChartAnnotationsDialog } from '../ui/ChartAnnotationsDialog';
 import { useKeyboardShortcuts } from '../ui/useKeyboardShortcuts';
 import { FILE_MENU, EDIT_MENU, CHARTS_MENU, ITEM_BY_KEY } from './pl9Menus';
 import { ExplainLauncher } from '../ai/ExplainPanel';
+import { LangToggle } from '../i18n/LangToggle';
 
 interface MenuItem {
   label: string;
@@ -641,6 +642,8 @@ export function TopMenuBar() {
             <span className="hidden md:block w-px h-5 bg-bar-ink/20 mx-1" aria-hidden />
             {/* ✨ explains the page from its own lines (src/ai/ExplainPanel.tsx); shown only when the server has an Anthropic key */}
             <ExplainLauncher />
+            {/* EN / த: the interface language (src/i18n/lang.ts) */}
+            <LangToggle />
             <button
               onClick={uiActions.openTools}
               className="grid place-items-center size-9 rounded-lg hover:bg-bar-ink/10 text-base"

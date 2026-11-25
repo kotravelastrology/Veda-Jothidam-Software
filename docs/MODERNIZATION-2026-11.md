@@ -129,12 +129,64 @@ English text), and the React Compiler checks of eslint-plugin-react-hooks 6 (war
 render, 4 used-before-declared, 3 Date.now in render, 1 ref read in render), which are worth a later pass page by page. One real error
 fixed (`prefer-const` in app/kota-chakra/actions.ts).
 
+## Third pass (2026-11-22, "இந்த இரண்டையும் செய்து முடித்து விடலாம்")
+
+### 11. Calculation without a connection (இணையம் இல்லாமல் கணக்கிடுதல்)
+
+When the server cannot be reached, the home page's panchangam and "இன்று உங்களுக்கு", the worksheet and the dasha page are computed
+on the device by **the same engine code** the server runs, on **the same Swiss Ephemeris** compiled to WebAssembly, with **the same
+data files**. There is no second calculation path to drift: the three server actions' bodies moved into `src/calc/chartRuns.ts`, which
+both the server actions and the device (`src/offline/localEngine.ts`) call.
+
+- `@swisseph/browser` 1.4.0 (pinned; libswe 2.10.03, the same version as the server's `@swisseph/node` 1.3.1) and the three .se1
+  files in `public/ephe/` (planets 1800-2399, Moon, main asteroids). One download of about 2.5 MB (425 KB wasm + 2.0 MB data),
+  kept by the service worker.
+- `src/ephemeris/browserSwisseph.js` gives the browser module the native module's shape and defaults (the browser build defaults to
+  Moshier; the native one to the Swiss Ephemeris files). `swe_rise_trans` is not in the WebAssembly build: its fast path
+  (`rise_set_fast` in swecl.c, with Sinclair refraction) is ported line by line; it covers what the program asks for (Sun to true
+  node, rise and set, |latitude| ≤ 60°, the Sun to 65°) and throws a RangeError outside it rather than guess.
+- The bundlers swap `@swisseph/node`, `fs`, `path` and `crypto` for browser stand-ins in client code only (`next.config.mjs`,
+  webpack and Turbopack); the server keeps the native module.
+- Only a network failure falls back to the device (`withLocalFallback`); a server answer that is an error is shown as an error. A
+  page computed on the device says so (📴 chip). Settings has a card to switch it off on a device, to prepare it now, and to compare
+  the server's and the device's panchangam for today.
+- Verified: `test-offline-ephemeris.js` compares native and WebAssembly over 1800-2100, 34° S-65° N, four ayanamshas, three house
+  systems (positions to 1e-9°, speeds to 1e-6°/day, sunrises/sunsets to a microsecond) and runs 94 engine results both ways, all
+  equal; in the browser, with the production server stopped, the three pages showed the same text as with the server running
+  (production builds of Next 16.3.4, webpack and Turbopack; also in English). The Turbopack build also passes on Next 16.4.5.
+- **Licence (VJ-007)**: serving `public/ephe/` and the WebAssembly build distributes Astrodienst's Swiss Ephemeris to every visitor.
+  Under the AGPL that obliges offering the program's source to them; the alternative is Astrodienst's commercial licence. This is the
+  owner's decision and must be made before the site is public; until then, deploy only privately, or remove `public/ephe/` and the
+  package.
+
+### 12. English interface (ஆங்கில இடைமுகம்)
+
+The **EN / த** switch in the top bar (`src/i18n/LangToggle.tsx`) shows every page in English; the choice is kept per device. The
+pages are not changed and the program stays written in Tamil: `src/i18n/Translator.tsx` replaces the Tamil text on the screen (and
+title, aria-label, placeholder, alt) from a catalogue as React draws it, after hydration; a boot script hides the page until the first
+pass is done (at most 3 s).
+
+- The catalogue `src/i18n/en.json` is built by `node scripts/i18n/build.js` from: the names (`src/i18n/catalog/names.js`, index by
+  index from `src/sources/tamilNames.js`), the books' own English where the data keeps it beside the Tamil, and the hand translations
+  `src/i18n/catalog/*.json`. Text the code builds from parts is a pattern with {0}, {1}… so English can order its own words.
+- **Coverage: all 4,219 Tamil texts of the interface** (everything in `app/` and `src/**/*.tsx`). `test-i18n.js` fails when one has no
+  English, or only part of it; after adding Tamil to a page run `node scripts/i18n/build.js --missing out.json`, add the English to a
+  `src/i18n/catalog/*.json`, and build again.
+- A word with two senses gets its sense from the page: `data-i18n-ctx="weekday"` (செவ்வாய் = Tuesday, not Mars), `"month"`
+  (சித்திரை = Chithirai, not Chitra), `"abbr"` (the worksheet chart's Su, Mo, Ju…); a weekday or month word after a part fixes it too.
+- What the engines write (names of avasthas, taras, sahams, KP events, gem-wearing rules, the horoscope book's page titles…) has
+  English too (`src/i18n/catalog/engine-*.json`). Measured on all 73 pages with a chart open (every page opened in Tamil, its texts
+  put through the catalogue the way the Translator does): 22,158 of 25,182 texts come out wholly in English (88%); 46 pages have no
+  Tamil left and 55 are at 95% or more. Most of what is left is on the book pages: /muhurta-stars, /samudrika, /planet-house,
+  /varshaphala, /gochara-vedha, /latta.
+- **What stays in Tamil**: the books' statements whose English the data does not keep (the summaries the program wrote in Tamil from
+  the books). Putting them into English would be a new translation of a translation that no page cites, so they are left as written,
+  like the names and places people type in (and the Tamil names on /baby-names).
+
 ## Still not done
 
-- **Calculation without a connection**: the ephemeris would have to run in the browser (Swiss Ephemeris in WebAssembly with its data),
-  which is shipping Astrodienst's code and data to every visitor, one of the triggers of the licence decision VJ-007 leaves to the
-  owner. It also would make a second calculation path beside the server's. Not started until that decision.
-- **A second language for the whole interface**: every page's text would need translating; the owner works in Tamil. Not started.
+- **The books' statements in English**: where the data keeps only the Tamil summary (see above), and some of the rule labels of the
+  book pages named there.
 - **Free-form chat about a chart**: replaced by the page explainer above, which answers only from the page.
 
 ## Notes

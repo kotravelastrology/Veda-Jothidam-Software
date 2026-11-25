@@ -51,7 +51,7 @@ function Cover({ book }: { book: Book }) {
         {facts.map(([k, v]) => (
           <div key={k} className="rounded-xl bg-white/60 px-3 py-2 backdrop-blur-0 dark:bg-black/20 print:bg-white/70">
             <dt className="text-[11px] font-semibold text-ink-soft">{k}</dt>
-            <dd className="text-sm font-bold text-ink">{v}</dd>
+            <dd className="text-sm font-bold text-ink" data-i18n-ctx={k === 'கிழமை' ? 'weekday' : undefined}>{v}</dd>
           </div>
         ))}
       </dl>

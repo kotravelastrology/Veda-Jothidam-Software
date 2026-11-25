@@ -74,7 +74,7 @@ export function WorksheetChart({ lagnaRasiIndex, entriesByRasi, badges, center, 
             </div>
             <div className={`mt-0.5 flex ${dense ? 'flex-row flex-wrap gap-x-2' : 'flex-col'} gap-y-0.5`}>
               {entriesByRasi[rasiIndex].map((e, i) => (
-                <span key={`${e.abbr}-${i}`} className={`${dense ? 'text-[12px]' : 'text-[14px] sm:text-[17px]'} font-bold leading-tight whitespace-nowrap ${e.transit ? 'italic' : ''}`} style={{ color: e.transit ? '#e11d48' : colorOf(e.abbr) }} title={e.abbr}>
+                <span key={`${e.abbr}-${i}`} className={`${dense ? 'text-[12px]' : 'text-[14px] sm:text-[17px]'} font-bold leading-tight whitespace-nowrap ${e.transit ? 'italic' : ''}`} style={{ color: e.transit ? '#e11d48' : colorOf(e.abbr) }} title={e.abbr} data-i18n-ctx="abbr">
                   {NAME_TA[e.abbr] ?? e.abbr}
                   {e.detail && <span className="ml-1.5 font-semibold text-[11px] sm:text-[13px] text-ink-soft tabular-nums">{e.detail}</span>}
                 </span>

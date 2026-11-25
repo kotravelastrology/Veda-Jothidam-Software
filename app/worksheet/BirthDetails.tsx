@@ -83,7 +83,8 @@ export function BirthDetails({ p }: { p: BirthParticulars }) {
       </div>
 
       <div className="grid grid-flow-dense grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-        <Fact label="கிழமை" value={p.weekdayTa} note={p.birth.civilWeekdayTa !== p.weekdayTa ? `சூரிய உதயத்துக்கு முன் (நாள்: ${p.birth.civilWeekdayTa})` : undefined} />
+        {/* data-i18n-ctx: in English the weekday's word is Tuesday, not the planet Mars (src/i18n) */}
+        <Fact label="கிழமை" value={<span data-i18n-ctx="weekday">{p.weekdayTa}</span>} note={p.birth.civilWeekdayTa !== p.weekdayTa ? <span data-i18n-ctx="weekday">சூரிய உதயத்துக்கு முன் (நாள்: {p.birth.civilWeekdayTa})</span> : undefined} />
         <Fact label="சூரிய உதயம்" value={p.sunrise.slice(0, 5)} note={`அஸ்தமனம் ${p.sunset.slice(0, 5)}`} tone="rose" />
         <Fact label="நட்சத்திரம்" value={`${p.nakshatra.name} · ${p.nakshatra.pada}-ஆம் பாதம்`} note={`${until(p.nakshatra.endLocal, date)} · அதிபதி ${p.nakshatra.lordTa}`} tone="teal" />
         <Fact label="திதி" value={`${p.tithi.paksha} ${p.tithi.name}`} note={until(p.tithi.endLocal, date)} tone="indigo" />
@@ -107,7 +108,7 @@ export function BirthDetails({ p }: { p: BirthParticulars }) {
         <div className="mt-2 grid gap-x-6 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">
           <dl>
             <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-ink-soft">பிறப்பு</p>
-            <Row label="பிறந்த நாள்" value={`${dmyHm(`${p.birth.date} ${p.birth.time}`)} (${p.birth.civilWeekdayTa})`} />
+            <Row label="பிறந்த நாள்" value={<>{dmyHm(`${p.birth.date} ${p.birth.time}`)} (<span data-i18n-ctx="weekday">{p.birth.civilWeekdayTa}</span>)</>} />
             <Row label="ஊர்" value={p.birth.place ?? '—'} />
             <Row label="அட்சரேகை / தீர்க்கரேகை" value={`${p.birth.latitude} / ${p.birth.longitude}`} />
             <Row label="நேர மண்டலம்" value={`${p.birth.utcOffset} மணி`} />

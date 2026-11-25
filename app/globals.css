@@ -186,6 +186,9 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline-offs
 }
 @keyframes skeleton-shimmer { to { transform: translateX(100%); } }
 
+/* English mode (src/i18n): the page is shown once its Tamil text has been replaced (the boot script shows it after 3 s whatever happens) */
+html[data-lang='en']:not([data-translated]) body { visibility: hidden; }
+
 /* Phones: the toolbar keeps its icons (each has its name as a label for screen readers and a tooltip) but drops the words under them,
    which saves a line of the small screen for the page; the bottom tabs and the ☰ menu carry the names. */
 @media (max-width: 640px) {

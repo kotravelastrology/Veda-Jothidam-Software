@@ -3,6 +3,7 @@
 import { SettingsForm, useSettings } from '@/src/ui/SettingsPanel';
 import { AiStatusCard } from '@/src/ai/AiStatusCard';
 import { NotificationSettings } from '@/src/notify/NotificationSettings';
+import { OfflineCalcCard } from '@/src/offline/OfflineCalcCard';
 
 /** The settings as a page: the same form as the ⚙️ panel (src/ui/SettingsPanel.tsx), so each setting has one place. */
 export default function SettingsPageView() {
@@ -23,6 +24,7 @@ export default function SettingsPageView() {
       </div>
       {/* Services that go beyond this computer: each says whether it is on and what it sends */}
       <div className="mt-6 space-y-4">
+        <OfflineCalcCard />
         <NotificationSettings />
         <AiStatusCard />
       </div>

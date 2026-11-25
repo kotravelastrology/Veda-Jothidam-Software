@@ -10,6 +10,8 @@ import { useOpenChart } from '@/src/ui/useScreenPrefs';
 import { useRecentCharts, useRememberParty, inputFromSaved } from '@/src/ui/chartParty';
 import { clearStash } from '@/src/ui/openChartStore';
 import { computeToday } from './todayActions';
+import { withLocalFallback, localToday } from '@/src/offline/localEngine';
+import { DeviceChip } from '@/src/offline/DeviceChip';
 import { useSettings } from '@/src/ui/SettingsPanel';
 import { ShareButton } from '@/src/ui/ShareButton';
 import { panchangamShareText } from '@/src/ui/panchangamShare';
@@ -66,12 +68,16 @@ function TodayCard() {
   const [failed, setFailed] = useState(false);
   /** true when the card shows the last saved panchangam because the server could not be reached */
   const [saved, setSaved] = useState(false);
+  /** true when the server could not be reached and the panchangam was calculated on this device (src/offline/localEngine.ts) */
+  const [onDevice, setOnDevice] = useState(false);
   useEffect(() => {
     if (!loaded) return;
-    setToday(null); setFailed(false); setSaved(false);
-    computeToday({ latitude: place.latitude, longitude: place.longitude, timeZone: place.timeZone, placeName: place.name })
-      .then((t) => {
+    setToday(null); setFailed(false); setSaved(false); setOnDevice(false);
+    const at = { latitude: place.latitude, longitude: place.longitude, timeZone: place.timeZone, placeName: place.name };
+    withLocalFallback(() => computeToday(at), () => localToday(at))
+      .then(({ value: t, local }) => {
         setToday(t);
+        setOnDevice(local);
         try { localStorage.setItem(LAST_TODAY_KEY, JSON.stringify(t)); } catch { /* storage full or unavailable */ }
       })
       .catch(() => {
@@ -107,8 +113,9 @@ function TodayCard() {
               இணைப்பு இல்லை — கடைசியாகக் கணக்கிட்ட பஞ்சாங்கம் ({Number(today.date.slice(8, 10))} {MONTHS_TA[Number(today.date.slice(5, 7)) - 1]}) காட்டப்படுகிறது.
             </p>
           )}
+          {onDevice && <DeviceChip className="mb-2" />}
           <p className="mb-2 text-sm text-ink">
-            <strong>{today.weekdayTa}</strong> · {Number(today.date.slice(8, 10))} {MONTHS_TA[Number(today.date.slice(5, 7)) - 1]} {today.date.slice(0, 4)}
+            <strong data-i18n-ctx="weekday">{today.weekdayTa}</strong>{' · '}{Number(today.date.slice(8, 10))} {MONTHS_TA[Number(today.date.slice(5, 7)) - 1]} {today.date.slice(0, 4)}
             <span className="ml-2 text-xs text-ink-soft">உதயம் {today.sunrise}</span>
           </p>
           {row('திதி', `${today.tithi.paksha} ${today.tithi.name}`, today.tithi.until)}

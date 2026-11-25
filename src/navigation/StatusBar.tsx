@@ -26,7 +26,7 @@ export function StatusBar() {
   return (
     <div className="bg-bar text-bar-ink border-t border-bar-ink/10 px-4 py-1 hidden md:flex items-center justify-between text-xs h-8 fixed bottom-0 left-0 right-0 print:hidden" role="status">
       <div className="flex items-center gap-4">
-        <span className={online ? 'text-teal' : 'text-rose'} title={online ? 'இணைய இணைப்பு உள்ளது' : 'இணைய இணைப்பு இல்லை: கணக்கீடுகளுக்கு இணைப்பு வேண்டும்'}>
+        <span className={online ? 'text-teal' : 'text-rose'} title={online ? 'இணைய இணைப்பு உள்ளது' : 'இணைய இணைப்பு இல்லை: முகப்பு, பணித்தாள், தசைப் பக்கங்கள் தயார் செய்த சாதனத்திலேயே கணக்கிடப்படும்; மற்றவற்றுக்கு இணைப்பு வேண்டும்'}>
           ● {online ? 'இணைப்பில்' : 'இணைப்பு இல்லை'}
         </span>
         <span className="text-bar-ink/60">திருக்கணிதம் · {AYANAMSHA_TA[settings.ayanamsha] ?? settings.ayanamsha} அயனாம்சம் · {settings.nodeType === 'true' ? 'உண்மை' : 'சராசரி'} ராகு-கேது</span>

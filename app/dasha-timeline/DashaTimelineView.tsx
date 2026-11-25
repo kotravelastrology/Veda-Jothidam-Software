@@ -11,6 +11,8 @@ import { DASHA_LEVEL_TA, NAKSHATRA_TA } from '@/src/sources/tamilNames';
 import { ABBR } from '@/src/worksheet/dashaList';
 import { PLANET_COLOR, PLANET_TA } from '../worksheet/worksheetStyle';
 import { computeDashaTimeline } from './actions';
+import { withLocalFallback, localDashaTimeline } from '@/src/offline/localEngine';
+import { DeviceChip } from '@/src/offline/DeviceChip';
 import { DashaTree, dmyHm, spanText, type TreePeriod } from './DashaTree';
 import { DashaLifeMap } from './DashaLifeMap';
 
@@ -42,6 +44,8 @@ export default function DashaTimelineView() {
     [partyInput, party?.kind, settings.ayanamsha, settings.houseSystem, settings.nodeType],
   );
   const [data, setData] = useState<Timeline | null>(null);
+  /** The server could not be reached and the periods were calculated on this device */
+  const [onDevice, setOnDevice] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   // The moment the running periods are read at: now, until a date is picked
@@ -55,8 +59,9 @@ export default function DashaTimelineView() {
     if (!birthInput) { setData(null); return undefined; }
     let cancelled = false;
     setLoading(true); setError(null);
-    computeDashaTimeline(birthInput, toDashaOptions(settings))
-      .then((r) => { if (!cancelled) setData(r); })
+    const options = toDashaOptions(settings);
+    withLocalFallback(() => computeDashaTimeline(birthInput, options), () => localDashaTimeline(birthInput, options))
+      .then(({ value: r, local }) => { if (!cancelled) { setData(r); setOnDevice(local); } })
       .catch((e) => { if (!cancelled) { setError(e instanceof Error ? e.message : String(e)); setData(null); } })
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
@@ -87,6 +92,7 @@ export default function DashaTimelineView() {
       </div>
 
       {error && <div className="bg-rose/10 border border-rose rounded-lg p-4 mb-4 text-sm text-rose">{error}</div>}
+      {data && onDevice && <DeviceChip className="mb-4" />}
 
       {data && asOfJd != null && (
         <>

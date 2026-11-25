@@ -6,6 +6,7 @@ import { WorksheetToolbar } from './WorksheetToolbar';
 import { StatusBar } from './StatusBar';
 import { BottomNav } from './BottomNav';
 import { PwaRegistrar } from '../pwa/PwaRegistrar';
+import { Translator } from '../i18n/Translator';
 import { ActiveProfileBar } from '../workspace/ActiveProfileBar';
 import { CommandPalette } from '../workspace/CommandPalette';
 import { useApplyAppearance } from '../ui/SettingsPanel';
@@ -52,6 +53,9 @@ export function MainLayout({ children }: { children: ReactNode }) {
 
       {/* The service worker and the install prompt (production only) */}
       <PwaRegistrar />
+
+      {/* English mode: replaces the Tamil text as it is drawn (src/i18n/translate.js); in Tamil mode it does nothing */}
+      <Translator />
     </div>
   );
 }

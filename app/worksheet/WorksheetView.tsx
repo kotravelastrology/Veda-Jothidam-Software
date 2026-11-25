@@ -8,6 +8,9 @@ import { useChartParty, writeStash, inputFromSaved } from '@/src/ui/chartParty';
 import { useScreenPrefs, useTimeTool } from '@/src/ui/useScreenPrefs';
 import { localDateText, dateTextToMs } from '@/src/ui/timeToolStore';
 import { computeWorksheet } from './actions';
+import { withLocalFallback, localWorksheet } from '@/src/offline/localEngine';
+import { DeviceChip } from '@/src/offline/DeviceChip';
+import { readStash } from '@/src/ui/openChartStore';
 import { BirthDetails } from './BirthDetails';
 import {
   CellFrame, ChartCell, DashaCell, GraphCell, PlanetsCell, StrengthCell,
@@ -51,6 +54,8 @@ export default function WorksheetView() {
   const { settings } = useSettings();
   const { party, setParty, recent, isNew } = useChartParty();
   const [data, setData] = useState<WorksheetData | null>(null);
+  /** The server could not be reached and the worksheet was calculated on this device */
+  const [onDevice, setOnDevice] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [today, setToday] = useState('');
@@ -83,8 +88,17 @@ export default function WorksheetView() {
     const base = party.kind === 'profile'
       ? { profile: { profileId: party.profileId, revision: party.revision } }
       : { form: party.input, engine: toEngineOptions(settings) };
-    computeWorksheet({ ...base, dashaOptions: toDashaOptions(settings) })
-      .then((r) => { if (!cancelled) setData(r as WorksheetData); })
+    const dashaOptions = toDashaOptions(settings);
+    // On the device (no connection): a form as it is; a saved profile from the birth details the last calculation left in the stash,
+    // with the settings of this computer, since the profile's own record is on the server
+    const deviceInput = () => {
+      if (party.kind !== 'profile') return { ...party.input, ...toEngineOptions(settings) };
+      const bd = readStash()?.birthData;
+      if (!bd) throw new Error('இணைப்பு இல்லை, இந்தச் சுயவிவரத்தின் பிறப்பு விவரம் இந்தச் சாதனத்தில் இல்லை.');
+      return { ...inputFromSaved(bd), ...toEngineOptions(settings) };
+    };
+    withLocalFallback(() => computeWorksheet({ ...base, dashaOptions }), () => localWorksheet(deviceInput(), dashaOptions))
+      .then(({ value: r, local }) => { if (!cancelled) { setData(r as WorksheetData); setOnDevice(local); } })
       .catch((e) => { if (!cancelled) { setError(e instanceof Error ? e.message : String(e)); setData(null); } })
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
@@ -204,6 +218,7 @@ export default function WorksheetView() {
 
       {loading && !data && <p className="text-sm text-ink-soft p-4">கணக்கிடப்படுகிறது…</p>}
       {error && <p className="text-rose text-sm mb-3 bg-rose-soft rounded-xl p-3">⚠️ {error}</p>}
+      {data && onDevice && <DeviceChip className="mb-3" />}
 
       {data && <BirthDetails p={data.particulars} />}
 

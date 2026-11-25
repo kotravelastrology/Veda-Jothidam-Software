@@ -8,6 +8,8 @@ import { useSettings, toDashaOptions } from './SettingsPanel';
 import { ShareButton } from './ShareButton';
 import { personalShareText } from './personalShare';
 import { chartSubject, saveCopy, readCopy } from './savedCopy';
+import { withLocalFallback, localPersonalToday } from '../offline/localEngine';
+import { DeviceChip } from '../offline/DeviceChip';
 
 /** The last result of this card on this device (src/ui/savedCopy.js), shown with its time when there is no connection. */
 const SAVED_KEY = 'kotravel-last-personal-today';
@@ -55,14 +57,17 @@ export function PersonalTodayCard({ name }: { name: string }) {
   const [failed, setFailed] = useState(false);
   /** When the card shows a saved copy (no connection): the time it was computed */
   const [savedAt, setSavedAt] = useState<number | null>(null);
+  /** The server could not be reached and the card was calculated on this device */
+  const [onDevice, setOnDevice] = useState(false);
 
   const run = useCallback(() => {
     if (!input) return;
     const options = toDashaOptions(settings);
     const subject = chartSubject(input, options);
-    computePersonalToday(input, options)
-      .then((r) => {
+    withLocalFallback(() => computePersonalToday(input, options), () => localPersonalToday(input, options))
+      .then(({ value: r, local }) => {
         setData(r as PersonalToday);
+        setOnDevice(local);
         setSavedAt(null);
         setFailed(false);
         saveCopy(storage(), SAVED_KEY, subject, r);
@@ -77,7 +82,7 @@ export function PersonalTodayCard({ name }: { name: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input, settings.dashaYearDays, settings.dashaBalance]);
 
-  useEffect(() => { setData(null); setSavedAt(null); setFailed(false); run(); }, [run]);
+  useEffect(() => { setData(null); setSavedAt(null); setOnDevice(false); setFailed(false); run(); }, [run]);
 
   // Back on the page after a while: the Moon changes its star in a day and a period can end, so it is read again
   useEffect(() => {
@@ -115,9 +120,10 @@ export function PersonalTodayCard({ name }: { name: string }) {
 
       {data && (
         <>
+          {onDevice && <DeviceChip className="mb-2" />}
           {savedAt !== null && (
             <p className="mb-2 rounded-lg bg-saffron-soft px-2.5 py-1.5 text-[11px] text-ink" role="status" data-testid="personal-today-saved">
-              📴 இணைப்பு இல்லை: {savedWhen(savedAt)}-இல் கணக்கிட்டுச் சேமித்தது. அதன் பின் சந்திரன் நகர்ந்திருக்கலாம்.{' '}
+              <span>📴 இணைப்பு இல்லை: {savedWhen(savedAt)}-இல் கணக்கிட்டுச் சேமித்தது. அதன் பின் சந்திரன் நகர்ந்திருக்கலாம்.</span>{' '}
               <button type="button" onClick={run} className="font-semibold underline">மீண்டும் கணக்கிடு</button>
             </p>
           )}
@@ -149,7 +155,8 @@ export function PersonalTodayCard({ name }: { name: string }) {
                 <span className="block text-[11px] text-ink-soft">சந்திரன் இன்று</span>
                 <span className="block text-sm font-semibold text-ink">{data.moon.starTa} · {data.moon.pada}-ஆம் பாதம் <span className="font-normal text-ink-soft">({data.moon.rasiTa})</span></span>
                 <span className="block text-[11px] leading-snug text-ink-soft">
-                  {data.janma.starTa}-இலிருந்து {data.moon.count}-ஆவது நட்சத்திரம் · {ordinal(data.moon.tara)} தாரை: {data.moon.taraTa} <span className="whitespace-nowrap">(புளிப்பாணி: {data.moon.taraResultTa})</span> · ராசிக்கு {ordinal(data.moon.houseFromMoon)} வீடு
+                  {/* each phrase its own element, so that the English interface can order its words (src/i18n) */}
+                  <span>{data.janma.starTa}-இலிருந்து {data.moon.count}-ஆவது நட்சத்திரம்</span> · <span>{ordinal(data.moon.tara)} தாரை: {data.moon.taraTa}</span> <span className="whitespace-nowrap">(புளிப்பாணி: {data.moon.taraResultTa})</span> · <span>ராசிக்கு {ordinal(data.moon.houseFromMoon)} வீடு</span>
                 </span>
               </span>
               <span aria-hidden className="mt-1 text-ink-soft group-hover:text-saffron">›</span>

@@ -157,7 +157,7 @@ export function WorksheetToolbar() {
   const wide = shownPanel && shownPanel.columns.length >= 4;
 
   return (
-    <div ref={wrap} className="relative print:hidden border-b border-line bg-surface" data-testid="worksheet-toolbar">
+    <div ref={wrap} className="relative print:hidden border-b border-line bg-surface" data-testid="worksheet-toolbar" data-i18n-ctx="toolbar">
       <div className="flex items-center gap-0.5 overflow-x-auto px-2 py-1">
         {iconButton('tools', '🔧', 'கருவிகள்', 'Tools', () => { setOpenPanel(null); setTool('tiles'); })}
         <span className="mx-1 h-7 w-px bg-line shrink-0" aria-hidden />

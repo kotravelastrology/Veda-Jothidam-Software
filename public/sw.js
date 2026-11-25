@@ -1,19 +1,36 @@
 /*
  * Kotravel service worker (registered by src/pwa/PwaRegistrar.tsx in the production build only).
  *
- * It keeps three kinds of thing and nothing else:
- *   - the build's own files (/_next/static/*: scripts, styles and the fonts, whose names change with their content, so a kept copy is
- *     never stale) and the app icons: answered from the cache first;
- *   - /offline.html, a Tamil "no connection" page: shown when a page is asked for and the network fails;
- *   - nothing of any chart, calculation or page data: pages and every server action go to the network, so what is shown is always
- *     computed now and never an old copy of a chart.
+ * It keeps four kinds of thing and nothing else:
+ *   - the build's own files (/_next/static/*: scripts, styles, fonts and the WebAssembly ephemeris, whose names change with their
+ *     content, so a kept copy is never stale), the app icons and the Swiss Ephemeris data files (/ephe/*.se1): answered from the cache
+ *     first;
+ *   - the frame of three pages (SHELL_PAGES: home, worksheet, dasha), kept from the last visit and used only when the network fails.
+ *     Their HTML holds no chart: every chart and panchangam is calculated after the page opens, on the server or, without a connection,
+ *     on the device (src/offline/localEngine.ts), so a kept frame never shows an old chart;
+ *   - /offline.html, a Tamil "no connection" page: shown when any other page is asked for and the network fails;
+ *   - nothing of any calculation: every server action (POST) goes to the network untouched.
  *
  * It also shows the notifications the server sends (src/notify/scheduler.js: the morning panchangam, a dasha change, a test), and a tap
  * on one opens its page in the app.
  */
-const VERSION = 'kotravel-v2';
+const VERSION = 'kotravel-v3';
 const STATIC_CACHE = `${VERSION}-static`;
+const PAGES_CACHE = `${VERSION}-pages`;
 const PRECACHE = ['/offline.html', '/icons/icon-192.png', '/icons/icon-512.png'];
+const SHELL_PAGES = ['/', '/worksheet', '/dasha-timeline'];
+
+/** A shell page from the network, kept for the day there is none; the kept one, else the no-connection page, when it fails. */
+async function shellPage(request, pathname) {
+  const cache = await caches.open(PAGES_CACHE);
+  try {
+    const response = await fetch(request);
+    if (response.ok && response.type === 'basic') await cache.put(pathname, response.clone());
+    return response;
+  } catch {
+    return (await cache.match(pathname)) || caches.match('/offline.html');
+  }
+}
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE)).then(() => self.skipWaiting()));
@@ -33,7 +50,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  const isBuildFile = url.pathname.startsWith('/_next/static/') || url.pathname.startsWith('/icons/');
+  const isBuildFile = url.pathname.startsWith('/_next/static/') || url.pathname.startsWith('/icons/') || url.pathname.startsWith('/ephe/');
   if (isBuildFile) {
     event.respondWith(
       caches.open(STATIC_CACHE).then(async (cache) => {
@@ -47,7 +64,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // A page: the network, and the "no connection" page when there is none (client-side route changes are not navigations and
+  // A shell page (a navigation, or the app fetching it ahead of time as HTML; never a route change's data request, which has a query)
+  const wantsPage = request.mode === 'navigate' || (request.headers.get('accept') || '').includes('text/html');
+  if (wantsPage && !url.search && SHELL_PAGES.includes(url.pathname)) {
+    event.respondWith(shellPage(request, url.pathname));
+    return;
+  }
+
+  // Any other page: the network, and the "no connection" page when there is none (client-side route changes are not navigations and
   // are left to the browser)
   if (request.mode === 'navigate') {
     event.respondWith(fetch(request).catch(() => caches.match('/offline.html')));

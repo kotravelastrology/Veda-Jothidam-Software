@@ -4,6 +4,7 @@ import "./globals.css";
 import { NavigationProvider } from "@/src/navigation/NavigationProvider";
 import { MainLayout } from "@/src/navigation/MainLayout";
 import { WorkspaceProvider } from "@/src/workspace/WorkspaceProvider";
+import { LANG_BOOT_SCRIPT } from "@/src/i18n/lang";
 
 const notoSansTamil = Noto_Sans_Tamil({
   subsets: ["tamil", "latin"],
@@ -44,7 +45,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ta">
+    // The boot script may set lang="en" and data-lang before React hydrates (src/i18n/lang.ts), hence suppressHydrationWarning here
+    <html lang="ta" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: LANG_BOOT_SCRIPT }} />
+      </head>
       <body
         className={`${notoSansTamil.variable} ${notoSerifTamil.variable} font-[family-name:var(--font-tamil-sans)] antialiased`}
       >
