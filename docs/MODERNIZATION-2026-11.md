@@ -153,7 +153,7 @@ both the server actions and the device (`src/offline/localEngine.ts`) call.
 - Verified: `test-offline-ephemeris.js` compares native and WebAssembly over 1800-2100, 34° S-65° N, four ayanamshas, three house
   systems (positions to 1e-9°, speeds to 1e-6°/day, sunrises/sunsets to a microsecond) and runs 94 engine results both ways, all
   equal; in the browser, with the production server stopped, the three pages showed the same text as with the server running
-  (production builds of Next 16.3.4, webpack and Turbopack; also in English). The Turbopack build also passes on Next 16.4.5.
+  (production builds of Next 16.3.4, webpack and Turbopack, and of Next 16.4.5 on 2026-11-25; also in English).
 - **Licence (VJ-007)**: serving `public/ephe/` and the WebAssembly build distributes Astrodienst's Swiss Ephemeris to every visitor.
   Under the AGPL that obliges offering the program's source to them; the alternative is Astrodienst's commercial licence. This is the
   owner's decision and must be made before the site is public; until then, deploy only privately, or remove `public/ephe/` and the
