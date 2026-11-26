@@ -150,6 +150,7 @@ export default function KpTransitView() {
               </table>
             </div>
           </section>
+          {result.starZones?.available && <StarZones z={result.starZones} />}
           {result.lagnaStars && (
             <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
               <h2 className="font-semibold text-ink mb-1">இந்த லக்னத்துக்கு ஒவ்வொரு நட்சத்திரமும் என்ன குறிக்கிறது ({SIGN_TA[SIGN_EN.indexOf(result.lagnaStars.sign)]} லக்னம்)</h2>
@@ -167,5 +168,30 @@ export default function KpTransitView() {
         </>
       )}
     </div>
+  );
+}
+
+/** Reader V printed pp.16-39: the zone (star, or the part of a star in one sign) each planet and the ascendant of the birth chart stands in. */
+function StarZones({ z }: { z: any }) {
+  const [english, setEnglish] = useState(false);
+  const field = (label: string, ta: string, en: string) => (en || ta) ? <p className="text-xs"><span className="font-semibold">{label}:</span> {english ? en : ta}</p> : null;
+  return (
+    <details className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+      <summary className="font-semibold text-ink cursor-pointer">ஒவ்வொரு கிரகமும் நிற்கும் நட்சத்திர மண்டலம் — உடல், நோய், மனம், தொழில் (நூல் ப.16-39)</summary>
+      <p className="text-xs text-ink-soft mt-2 mb-2">நூல்: ராசி அதிபதியும் நட்சத்திர அதிபதியும் சேர்ந்து இந்த மண்டலம் பொதுவாகக் குறிப்பவை. இது நூலின் பட்டியல் மட்டும்; ஜாதகத்துக்கான தீர்ப்பு அல்ல. அடைப்புக்குள் உள்ளவை நூலே பழைய நூல்களிலிருந்து தருபவை. தமிழ் எங்கள் சுருக்கம். {citeTa(z.source)}</p>
+      <button type="button" onClick={() => setEnglish(!english)} className="text-xs underline mb-2">{english ? 'தமிழ்ச் சுருக்கம்' : 'நூலின் ஆங்கிலம்'}</button>
+      <div className="space-y-3">
+        {z.rows.map((r: any) => (
+          <div key={r.name} className="border-t border-line/40 pt-2">
+            <p className="text-sm font-semibold text-ink">{r.name === 'Ascendant' ? 'லக்னம்' : pt(r.name)} — {r.zone.starTa} ({pt(r.zone.signLord)} ராசி, {pt(r.zone.starLord)} நட்சத்திரம்; ப.{r.zone.pages})</p>
+            {field('உடல் பகுதி', r.zone.bodyTa, r.zone.body)}
+            {field('நோய்கள்', r.zone.diseasesTa, r.zone.diseases)}
+            {field('மன இயல்பு', r.zone.mentalTa, r.zone.mental)}
+            {field('தொழில்', r.zone.professionTa, r.zone.profession)}
+            {field('குறிப்பு', r.zone.noteTa ?? '', r.zone.note ?? '')}
+          </div>
+        ))}
+      </div>
+    </details>
   );
 }

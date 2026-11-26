@@ -10,6 +10,8 @@ const K = require('../../src/report/kpTransit');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const LS = require('../../src/report/kpLagnaStars');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const SZ = require('../../src/report/kpStarZones');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { createChartContext } = require('../../src/contracts/chartContext');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { calculateParashariChart } = require('../../src/chart/parashariChart');
@@ -74,7 +76,7 @@ export async function computeKpTransit(req: KpTransitRequest) {
   const asc = K.ascendantEntries({ points: points.byLords, latitude: place.latitude, longitude: place.longitude, fromJd: jd, hours: 24 });
   return JSON.parse(JSON.stringify({
     source: K.SOURCE, native: describeMatchParty(input, ctx, profile), place, onJd: jd, dba: chain,
-    reckoner: K.starReadyReckoner(kp), lagnaStars: { sign: kp.cusps[0].sign, table: LS.lagnaStarTable(kp.cusps[0].sign), source: LS.SOURCE }, reading, points: { lords: points.lords, byLords: points.byLords, byStarCount: points.byStar.length }, windows, ascendant: asc,
+    reckoner: K.starReadyReckoner(kp), lagnaStars: { sign: kp.cusps[0].sign, table: LS.lagnaStarTable(kp.cusps[0].sign), source: LS.SOURCE }, starZones: SZ.zonesForChart(kp), reading, points: { lords: points.lords, byLords: points.byLords, byStarCount: points.byStar.length }, windows, ascendant: asc,
     positionsNote: 'கிருஷ்ணமூர்த்தி அயனாம்சம், சராசரி ராகு',
   }));
 }
