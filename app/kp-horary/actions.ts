@@ -5,6 +5,8 @@ const H = require('../../src/report/kpHorary');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const T = require('../../src/report/kpHoraryTopics');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const LONG = require('../../src/report/kpLongevity');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const R = require('../../src/report/kpRulingTime');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { julianDay } = require('../../src/report/kpTransit');
@@ -37,5 +39,7 @@ export async function computeKpHorary(req: KpHoraryRequest) {
   const shape = (rows: any[]) => rows.map((r) => ({ signLord: r.signLord, starLord: r.starLord, subLord: r.subLord, subSubLord: r.subSubLord ?? null, from: r.from, to: r.to,
     times: r.jds.map((jd: number, i: number) => ({ start: R.clockOf(jd, req.utcOffsetMinutes, fromJd), end: R.clockOf(r.ends[i], req.utcOffsetMinutes, fromJd) })) }));
   const rising = { hours, bySub: shape(raw.bySub), bySubSub: shape(raw.bySubSub), source: R.SOURCE };
-  return JSON.parse(JSON.stringify({ ...chart, analysis, rising, source: H.SOURCE }));
+  // life, ailment, cure, accident (Reader VI printed pp.154-159): the book's conditions in this chart, no verdict
+  const longevity = LONG.describeLongevity(chart.kp);
+  return JSON.parse(JSON.stringify({ ...chart, analysis, rising, longevity, source: H.SOURCE }));
 }

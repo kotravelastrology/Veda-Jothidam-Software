@@ -121,11 +121,13 @@ export default function KpHoraryView() {
           </section>
 
           <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
-            <h2 className="font-semibold text-ink mb-1">ஆளும் கிரகங்கள் (நூல் ப.123)</h2>
+            <h2 className="font-semibold text-ink mb-1">ஆளும் கிரகங்கள் — தீர்ப்பு நேரத்தில் உண்மையில் உதிக்கும் லக்னத்தோடு (நூல் ப.123, 156)</h2>
             <p className="text-xs text-ink-soft mb-2">{result.ruling.factors.map((f: any) => `${FACTOR_TA[f[0]] ?? f[0]}: ${pt(f[1])}`).join(' · ')}. ராகு-கேது தாம் நிற்கும் ராசியின் அதிபதியின் முகவர்; அந்த அதிபதி ஆளும் கிரகமாக இருந்தால் சேர்க்கப்படுகிறார்கள். "வக்ர கிரகத்தின் நட்சத்திரத்தில் நிற்பவை நிராகரிக்கப்பட வேண்டும்" என்று நூல் சொல்வதால் அவை குறிக்கப்படுகின்றன (✱).</p>
             <p className="text-sm text-ink">{result.ruling.planets.map((r: any) => `${pt(r.planet)}${r.inRetrogradeStar ? ' ✱' : ''}${r.retrograde ? ' (வக்ரம்)' : ''}`).join(' · ')}</p>
             {result.ruling.nodesAdded.length > 0 && <p className="text-xs text-ink-soft mt-1">சேர்க்கப்பட்ட முனைகள்: {result.ruling.nodesAdded.map((n: any) => `${pt(n.node)} (${pt(n.forLord)}-இன் முகவர்)`).join(', ')}</p>}
           </section>
+
+          {result.longevity?.available && <Longevity l={result.longevity} pt={pt} />}
 
           {result.rising && (
             <section className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
@@ -193,5 +195,40 @@ export default function KpHoraryView() {
         <p className="text-[11px] text-ink-soft mt-2">கணக்கிடப்பட்ட அட்டவணை நூலின் அட்டவணையுடன் ஒப்பிடப்பட்டது: எண் 10-41 பக்கப் படத்தில்; மற்றவை நூலின் உரை அடுக்கில் (243 மதிப்புகளில் 207 நேரடியாகப் பொருந்தின, மீதி எழுத்துணர்வுப் பிழைகள்). நூலின் சுமார் 110 கேள்விகளில் வீடுகளை உரையில் சொல்பவை (74) சேர்க்கப்பட்டுள்ளன; மற்றவை (உறவினரின் லக்னத்திலிருந்து எண்ணுபவை போன்ற சிக்கலானவை) இல்லை.</p>
       </section>
     </div>
+  );
+}
+
+const SIGNS_EN = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+
+/** Reader VI printed pp.154-159: the book's conditions on life, ailment, cure and accident in this horary chart; no verdict is drawn. */
+function Longevity({ l, pt }: { l: any; pt: (n: string) => string }) {
+  const mark = (s: string) => (s === 'HELD' ? '● உள்ளது' : '○ இல்லை');
+  const list = (xs: string[]) => (xs.length ? xs.map(pt).join(', ') : '—');
+  // the same planet may be both sub-lords' nature (Mars twice): once
+  const natures = [...new Map([...l.ailmentNature, ...l.sixth.nature].map((n: any) => [n.planet, n])).values()];
+  const rules = (rs: any[]) => (
+    <ul className="space-y-1">
+      {rs.map((r: any) => <li key={r.id} className={r.status === 'HELD' ? 'text-ink' : 'text-ink-soft'}><span className="font-semibold">{mark(r.status)}</span> — {r.ta} <span className="text-ink-soft">(ப.{r.page})</span></li>)}
+    </ul>
+  );
+  return (
+    <details className="bg-surface border border-line rounded-2xl p-4 mb-4 text-sm">
+      <summary className="font-semibold text-ink cursor-pointer">ஆயுள், நோய், குணம், விபத்து — நூல் கூறும் நிபந்தனைகள் (ப.154-159)</summary>
+      <p className="text-xs text-ink-soft mt-2 mb-3">{l.notesTa.join(' ')} {citeTa(l.source)}</p>
+      <p className="text-xs mb-2">லக்னம் {SIGN_TA[SIGNS_EN.indexOf(l.ascendant.sign)] ?? l.ascendant.sign} ({({ Movable: 'சர', Fixed: 'ஸ்திர', Dual: 'உபய' } as Record<string, string>)[l.ascendant.modality]} ராசி) · பாதக ஸ்தானம் {l.ascendant.badhaka} · மாரக ஸ்தானங்கள் {l.ascendant.maraka.join(', ')} · லக்ன உப அதிபதி {l.subLordTa}, அவர் நிற்கும் நட்சத்திர அதிபதி {l.starLordTa} (குறிக்கும் வீடுகள்: {l.starLordHouses.join(', ') || '—'})</p>
+      <h3 className="text-xs font-semibold text-ink mb-1">ஆயுள் (ப.154-155)</h3>
+      {rules(l.life)}
+      <h3 className="text-xs font-semibold text-ink mt-3 mb-1">மரணக் குறிகாட்டிகள் — பாதக, மாரக வீடுகள் (ப.157)</h3>
+      <ul className="text-xs space-y-0.5">
+        {l.deathSignificators.map((d: any) => <li key={d.house}>{d.house}-ஆம் வீடு: நிற்பவை {list(d.occupants)} · அவர்கள் நட்சத்திரத்தில் {list(d.inOccupantsStars)} · அதிபதி {list(d.lord)} · அதிபதியின் நட்சத்திரத்தில் {list(d.inLordsStars)}</li>)}
+      </ul>
+      <h3 className="text-xs font-semibold text-ink mt-3 mb-1">நோய் (ப.158)</h3>
+      {rules(l.ailment)}
+      <p className="text-xs text-ink-soft mt-1">6-ஆம் கஸ்ப் உப அதிபதி {l.sixth.subLordTa}, நட்சத்திர அதிபதி {l.sixth.starLordTa}{natures.length ? ` · தன்மை: ${natures.map((n: any) => `${pt(n.planet)} — ${n.ta}`).join('; ')}` : ''}</p>
+      <h3 className="text-xs font-semibold text-ink mt-3 mb-1">குணம் (ப.158)</h3>
+      <p className="text-xs">{l.cure.ta} 5-ஆம் வீட்டுக் குறிகாட்டிகள்: {list(l.cure.significators5)} · 11-ஆம் வீட்டுக் குறிகாட்டிகள்: {list(l.cure.significators11)}</p>
+      <h3 className="text-xs font-semibold text-ink mt-3 mb-1">விபத்து (ப.159) — 8-ஆம் கஸ்ப் உப அதிபதி {l.accident.subLordTa}, நட்சத்திர அதிபதி {l.accident.starLordTa}</h3>
+      {rules(l.accident.rules)}
+    </details>
   );
 }
