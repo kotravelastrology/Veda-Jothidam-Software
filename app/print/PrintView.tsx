@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PartyChooser, type Party } from '@/src/ui/PartyChooser';
-import { useSettings, toDashaOptions } from '@/src/ui/SettingsPanel';
+import { useSettings, toDashaOptions, type AstrologerDetails } from '@/src/ui/SettingsPanel';
 import { buildPrintDocument, bookSectionList, type PrintKind } from './actions';
 import { PageEyebrow } from '@/src/ui/PageEyebrow';
 
@@ -46,6 +46,20 @@ function SignGrid({ cells }: { cells: string[][] }) {
         );
       }))}
     </div>
+  );
+}
+
+/** The astrologer's details and the cover text (Settings: Astrologer details, Cover page text) at the head of a printout. */
+function PrintHead({ astrologer, cover }: { astrologer: AstrologerDetails; cover: string }) {
+  const contact = [astrologer.phone, astrologer.email].filter(Boolean).join(' · ');
+  if (!astrologer.name && !astrologer.address && !contact && !cover) return null;
+  return (
+    <header className="mb-4 pb-3 border-b border-line text-center print:border-gray-400">
+      {astrologer.name && <p className="font-[family-name:var(--font-tamil-serif)] text-lg font-bold text-ink print:text-black">{astrologer.name}</p>}
+      {astrologer.address && <p className="text-xs text-ink-soft whitespace-pre-line print:text-black">{astrologer.address}</p>}
+      {contact && <p className="text-xs text-ink-soft print:text-black">{contact}</p>}
+      {cover && <p className="text-sm text-ink mt-2 whitespace-pre-line print:text-black">{cover}</p>}
+    </header>
   );
 }
 
@@ -181,6 +195,7 @@ export default function PrintView() {
 
       {doc && (
         <article className="print-area bg-surface border border-line rounded-2xl p-6 print:border-0 print:p-0 print:bg-white print:text-black">
+          <PrintHead astrologer={settings.astrologer} cover={settings.printText.cover} />
           <h2 className="font-[family-name:var(--font-tamil-serif)] text-2xl font-bold text-ink print:text-black">{doc.title}</h2>
           <p className="text-xs text-ink-soft mb-4 print:text-black">{doc.subtitle}</p>
           {doc.blocks.map((b: any, i: number) => b.kind === 'section' ? (
@@ -205,6 +220,12 @@ export default function PrintView() {
               {b.note && <p className="text-[11px] text-ink-soft mt-1 print:text-black">{b.note}</p>}
             </section>
           ))}
+          {settings.printText.footer && (
+            // fixed in print, so the browser repeats it at the foot of every printed page
+            <div className="mt-6 pt-2 border-t border-line text-[10px] text-ink-soft text-center print:fixed print:bottom-0 print:inset-x-0 print:bg-white print:text-black print:border-gray-400">
+              {settings.printText.footer}
+            </div>
+          )}
         </article>
       )}
     </div>

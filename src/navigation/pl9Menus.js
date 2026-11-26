@@ -62,13 +62,15 @@ const EDIT_MENU = [
     target: { action: 'astrologer-location' },
   },
   {
-    key: 'edit-astrologer-settings', label: 'Astrologer specific settings', status: 'pending',
-    target: { pending: "Not built: the astrologer's name, address and preferences are not stored or used in printouts yet." },
+    // Settings > Astrologer details: name, address, phone, email at the head of every print-centre printout (the options stay global)
+    key: 'edit-astrologer-settings', label: 'Astrologer specific settings', status: 'partial',
+    target: { action: 'astrologer-settings' },
   },
   divider(2),
   {
-    key: 'edit-cover-page', label: 'Cover page text', status: 'pending',
-    target: { pending: 'Not built: no cover page or footer text setting for the printouts yet.' },
+    // Settings > Cover page text: a text under the astrologer's details and a footer on every printed page
+    key: 'edit-cover-page', label: 'Cover page text', status: 'have',
+    target: { action: 'cover-page' },
   },
   divider(3),
   { key: 'preferences', label: 'Preferences', status: 'extra', target: { action: 'preferences' } },

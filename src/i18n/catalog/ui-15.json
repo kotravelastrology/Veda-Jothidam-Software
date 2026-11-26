@@ -35,5 +35,12 @@
  "{0} — {1} ({2} ராசி, {3} நட்சத்திரம்; ப.{4})": "{0} — {1} ({2}'s sign, {3}'s star; p.{4})",
  "உடல் பகுதி": "Part of the body",
  "நோய்கள்": "Diseases",
- "மன இயல்பு": "Mental qualities"
+ "மன இயல்பு": "Mental qualities",
+ "ஜோதிடர் விவரம்": "Astrologer details",
+ "முகவரி": "Address",
+ "அச்சு மையத்தின் ஒவ்வொரு அச்சின் தலைப்பிலும் வரும். இந்தக் கணினியில் மட்டுமே சேமிக்கப்படும்.": "Shown at the head of every printout from the print centre. Saved on this computer only.",
+ "அச்சு உரை": "Printout text",
+ "முகப்பு உரை": "Cover text",
+ "அடிக்குறிப்பு": "Footer",
+ "முகப்பு உரை ஜோதிடர் விவரத்தின் கீழே வரும்; அடிக்குறிப்பு அச்சின் ஒவ்வொரு பக்கத்தின் கீழும் வரும்.": "The cover text comes under the astrologer's details; the footer comes at the foot of every printed page."
 }

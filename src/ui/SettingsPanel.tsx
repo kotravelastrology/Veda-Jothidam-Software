@@ -18,6 +18,22 @@ export interface Settings {
   sunrise: 'upper-limb' | 'disc-centre';
   /** Astrologer's location (PL9 Edit menu): today's panchangam on the home page, and the place a new chart starts at. */
   astrologerPlace: AstrologerPlace;
+  /** Astrologer specific settings (PL9 Edit menu): who prepared the printout; shown at the head of every printout. */
+  astrologer: AstrologerDetails;
+  /** Cover page text (PL9 Edit menu): a text under the astrologer's details, and a footer on each printed page. */
+  printText: PrintText;
+}
+
+export type AstrologerDetails = {
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+}
+
+export type PrintText = {
+  cover: string;
+  footer: string;
 }
 
 export interface AstrologerPlace {
@@ -39,7 +55,21 @@ export const DEFAULT_SETTINGS: Settings = {
   showHints: false,
   sunrise: 'disc-centre',
   astrologerPlace: { name: 'Chennai', latitude: 13.0827, longitude: 80.2707, timeZone: 'Asia/Kolkata' },
+  astrologer: { name: '', address: '', phone: '', email: '' },
+  printText: { cover: '', footer: '' },
 };
+
+/** Keeps only string fields of the expected keys, so a damaged stored value cannot break a printout. */
+function cleanStrings<T extends Record<string, string>>(v: unknown, def: T): T {
+  const out = { ...def };
+  if (v && typeof v === 'object') {
+    for (const k of Object.keys(def) as (keyof T)[]) {
+      const x = (v as Record<string, unknown>)[k as string];
+      if (typeof x === 'string') out[k] = x as T[keyof T];
+    }
+  }
+  return out;
+}
 
 function isPlace(p: unknown): p is AstrologerPlace {
   const v = p as AstrologerPlace;
@@ -85,6 +115,8 @@ function readStoredSettings(): Settings {
     // are never left undefined for someone with older stored settings.
     if (!stored) return DEFAULT_SETTINGS;
     const merged = { ...DEFAULT_SETTINGS, ...JSON.parse(stored) };
+    merged.astrologer = cleanStrings(merged.astrologer, DEFAULT_SETTINGS.astrologer);
+    merged.printText = cleanStrings(merged.printText, DEFAULT_SETTINGS.printText);
     return isPlace(merged.astrologerPlace) ? merged : { ...merged, astrologerPlace: DEFAULT_SETTINGS.astrologerPlace };
   } catch (e) {
     console.error('Failed to load settings:', e);
@@ -124,8 +156,10 @@ export function useSettings() {
   };
 
   const resetSettings = () => {
-    setSettings(DEFAULT_SETTINGS);
-    localStorage.setItem('kotravel-settings', JSON.stringify(DEFAULT_SETTINGS));
+    // the options go back to their defaults; the astrologer's own details and printout texts are kept
+    const reset = { ...DEFAULT_SETTINGS, astrologer: settings.astrologer, printText: settings.printText };
+    setSettings(reset);
+    localStorage.setItem('kotravel-settings', JSON.stringify(reset));
     window.dispatchEvent(new Event(SETTINGS_CHANGED_EVENT));
   };
 
@@ -186,6 +220,50 @@ function AstrologerPlaceRow() {
   );
 }
 
+const textClass = 'w-full px-3 py-1.5 text-sm bg-bg border border-line rounded-lg';
+
+/** A text field that saves when it loses focus, so each keystroke is not a write. */
+function TextSetting({ label, en, value, onSave, multiline, placeholder }: {
+  label: string; en: string; value: string; onSave: (v: string) => void; multiline?: boolean; placeholder?: string;
+}) {
+  const [text, setText] = useState(value);
+  useEffect(() => setText(value), [value]);
+  const save = () => { if (text !== value) onSave(text.trim()); };
+  return (
+    <label className="block">
+      <span className="text-sm text-ink">{label} <span className="text-xs text-ink-soft">· {en}</span></span>
+      {multiline
+        ? <textarea rows={3} value={text} placeholder={placeholder} onChange={(e) => setText(e.target.value)} onBlur={save} className={`${textClass} mt-1`} />
+        : <input value={text} placeholder={placeholder} onChange={(e) => setText(e.target.value)} onBlur={save} className={`${textClass} mt-1`} />}
+    </label>
+  );
+}
+
+/** The astrologer's own details and the printout texts (PL9 Edit menu: Astrologer specific settings, Cover page text). */
+function PrintDetailsGroups() {
+  const { settings, updateSettings } = useSettings();
+  const a = settings.astrologer;
+  const t = settings.printText;
+  const setA = (k: keyof AstrologerDetails) => (v: string) => updateSettings({ astrologer: { ...a, [k]: v } });
+  const setT = (k: keyof PrintText) => (v: string) => updateSettings({ printText: { ...t, [k]: v } });
+  return (
+    <>
+      <Group id="settings-astrologer" title="ஜோதிடர் விவரம்" en="Astrologer details">
+        <TextSetting label="பெயர்" en="Name" value={a.name} onSave={setA('name')} />
+        <TextSetting label="முகவரி" en="Address" value={a.address} onSave={setA('address')} multiline />
+        <TextSetting label="தொலைபேசி" en="Phone" value={a.phone} onSave={setA('phone')} />
+        <TextSetting label="மின்னஞ்சல்" en="Email" value={a.email} onSave={setA('email')} />
+        <p className="text-xs text-ink-soft">அச்சு மையத்தின் ஒவ்வொரு அச்சின் தலைப்பிலும் வரும். இந்தக் கணினியில் மட்டுமே சேமிக்கப்படும்.</p>
+      </Group>
+      <Group id="settings-cover" title="அச்சு உரை" en="Cover page text">
+        <TextSetting label="முகப்பு உரை" en="Cover text" value={t.cover} onSave={setT('cover')} multiline />
+        <TextSetting label="அடிக்குறிப்பு" en="Footer" value={t.footer} onSave={setT('footer')} />
+        <p className="text-xs text-ink-soft">முகப்பு உரை ஜோதிடர் விவரத்தின் கீழே வரும்; அடிக்குறிப்பு அச்சின் ஒவ்வொரு பக்கத்தின் கீழும் வரும்.</p>
+      </Group>
+    </>
+  );
+}
+
 /**
  * Every setting of the program, in one form: the Settings panel (⚙️) and the /settings page both show it, so each setting has
  * one place. Only settings that something reads are here.
@@ -218,6 +296,8 @@ export function SettingsForm() {
       <Group id="settings-location" title="ஜோதிடர் இருப்பிடம்" en="Astrologer's location">
         <AstrologerPlaceRow />
       </Group>
+
+      <PrintDetailsGroups />
 
       <Group id="settings-calculations" title="கணக்கீடுகள்" en="Calculations">
         <Row label="அயனாம்சம்" en="Ayanamsha">

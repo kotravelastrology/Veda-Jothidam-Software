@@ -452,6 +452,14 @@ export function TopMenuBar() {
         uiActions.openSettings();
         setTimeout(() => document.getElementById('settings-location')?.scrollIntoView({ block: 'start' }), 120);
         break;
+      case 'astrologer-settings':
+        uiActions.openSettings();
+        setTimeout(() => document.getElementById('settings-astrologer')?.scrollIntoView({ block: 'start' }), 120);
+        break;
+      case 'cover-page':
+        uiActions.openSettings();
+        setTimeout(() => document.getElementById('settings-cover')?.scrollIntoView({ block: 'start' }), 120);
+        break;
 
       case 'settings':
       case 'preferences':
