@@ -29,6 +29,15 @@ import uuid
 db = SQLAlchemy()
 
 
+def _jwt_secret() -> str:
+    """The same secret the app signs with (config.py's JWT_SECRET_KEY). No fallback:
+    a default string in the source would let anyone forge tokens."""
+    secret = os.environ.get('JWT_SECRET_KEY')
+    if not secret:
+        raise RuntimeError('JWT_SECRET_KEY is not set')
+    return secret
+
+
 # ==================== USER MODEL ====================
 
 class User(db.Model):
@@ -111,7 +120,7 @@ class User(db.Model):
                 'exp': datetime.utcnow().timestamp() + expires_in,
                 'iat': datetime.utcnow().timestamp(),
             },
-            os.environ.get('JWT_SECRET', 'veda-jothidam-dev-secret-key'),
+            _jwt_secret(),
             algorithm='HS256'
         )
 
@@ -131,7 +140,7 @@ class User(db.Model):
                 'type': 'refresh',
                 'exp': datetime.utcnow().timestamp() + expires_in,
             },
-            os.environ.get('JWT_SECRET', 'veda-jothidam-dev-secret-key'),
+            _jwt_secret(),
             algorithm='HS256'
         )
 
@@ -149,7 +158,7 @@ class User(db.Model):
         try:
             return jwt.decode(
                 token,
-                os.environ.get('JWT_SECRET', 'veda-jothidam-dev-secret-key'),
+                _jwt_secret(),
                 algorithms=['HS256']
             )
         except jwt.ExpiredSignatureError:

@@ -25,8 +25,6 @@ interface Activity {
 }
 
 interface Prediction {
-  eventSuccess: number;
-  karmaStrength: number;
   timing: string;
   bhuktiBenefit: string;
   daysActive: number;
@@ -50,7 +48,7 @@ export function MuhurtaEnhancementsRenderer({ data }: { data: MuhurtaEnhancement
     return <div className={styles.empty}>Muhurta Enhancements data unavailable</div>;
   }
 
-  const qualityColor = {
+  const qualityColor: Record<string, string> = {
     Excellent: '#28a745',
     Good: '#ffc107',
     Average: '#fd7e14',
@@ -120,14 +118,6 @@ export function MuhurtaEnhancementsRenderer({ data }: { data: MuhurtaEnhancement
 
           <div className={styles.predictions}>
             <h4>Predictions</h4>
-            <div className={styles.predictionRow}>
-              <span className={styles.label}>Event Success:</span>
-              <span className={styles.value}>{data.predictions.eventSuccess}%</span>
-            </div>
-            <div className={styles.predictionRow}>
-              <span className={styles.label}>Karma Strength:</span>
-              <span className={styles.value}>{data.predictions.karmaStrength}%</span>
-            </div>
             <div className={styles.predictionRow}>
               <span className={styles.label}>Current Bhukti:</span>
               <span className={styles.value}>{data.predictions.bhuktiBenefit}</span>

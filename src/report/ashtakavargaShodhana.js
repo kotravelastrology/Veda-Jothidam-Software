@@ -13,7 +13,7 @@
  *    Sodhya Piṇḍa = Rāśi + Graha.
  */
 const ASTAKA_PLANETS = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
-const RASHI_GUNAKARA = [7, 10, 8, 4, 10, 5, 7, 8, 9, 5, 11, 12];
+const RASHI_GUNAKARA = [7, 10, 8, 4, 10, 6, 7, 8, 9, 5, 11, 12]; // BPHS (Santhanam) Vol.2 ch.69, printed p.879: Kanya 6
 const GRAHA_GUNAKARA = { Sun: 5, Moon: 5, Mars: 8, Mercury: 5, Jupiter: 10, Venus: 7, Saturn: 5 };
 const EKADHIPATYA_PAIRS = [[0, 7], [1, 6], [2, 5], [8, 11], [9, 10]];
 

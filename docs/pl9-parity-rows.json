@@ -1,0 +1,2600 @@
+[
+ {
+  "group": "File",
+  "name": "New / Ctrl+N",
+  "verdict": "BUILT",
+  "evidence": "/library, /create-chart (VJ-011)"
+ },
+ {
+  "group": "File",
+  "name": "Open / Ctrl+O",
+  "verdict": "BUILT",
+  "evidence": "/library, /create-chart (VJ-011)"
+ },
+ {
+  "group": "File",
+  "name": "File Manager / Ctrl+M",
+  "verdict": "BUILT",
+  "evidence": "/library"
+ },
+ {
+  "group": "File",
+  "name": "Save / Ctrl+S",
+  "verdict": "BUILT",
+  "evidence": "/library, /create-chart (VJ-011)"
+ },
+ {
+  "group": "File",
+  "name": "Save As",
+  "verdict": "BUILT",
+  "evidence": "/library, /create-chart (VJ-011)"
+ },
+ {
+  "group": "File",
+  "name": "Save To",
+  "verdict": "BUILT",
+  "evidence": "/library, /create-chart (VJ-011)"
+ },
+ {
+  "group": "File",
+  "name": "Close / Ctrl+E",
+  "verdict": "BUILT",
+  "evidence": "/library, /create-chart (VJ-011)"
+ },
+ {
+  "group": "File",
+  "name": "Exit / Ctrl+Q",
+  "verdict": "BUILT",
+  "evidence": "Electron shell (VJ-008)"
+ },
+ {
+  "group": "File",
+  "name": "Model Printing",
+  "verdict": "ABSENT",
+  "evidence": "no print pipeline wired to UI"
+ },
+ {
+  "group": "File",
+  "name": "Print screen / Ctrl+P",
+  "verdict": "ABSENT",
+  "evidence": "no print pipeline wired to UI"
+ },
+ {
+  "group": "File",
+  "name": "Printer Setup",
+  "verdict": "ABSENT",
+  "evidence": "no print pipeline wired to UI"
+ },
+ {
+  "group": "File",
+  "name": "Copy screen to Clipboard / Ctrl+C",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "File",
+  "name": "Language → English / Tamil",
+  "verdict": "ABSENT",
+  "evidence": "no EN/TA toggle; app is Tamil-first"
+ },
+ {
+  "group": "File",
+  "name": "Recent files / Ctrl+L",
+  "verdict": "BUILT",
+  "evidence": "/library, /create-chart (VJ-011)"
+ },
+ {
+  "group": "Edit",
+  "name": "Birth data / Ctrl+B",
+  "verdict": "BUILT",
+  "evidence": "BirthDataForm"
+ },
+ {
+  "group": "Edit",
+  "name": "Anka value",
+  "verdict": "PARTIAL",
+  "evidence": "src/report/numerology.js exists, no dedicated UI"
+ },
+ {
+  "group": "Edit",
+  "name": "Events",
+  "verdict": "BUILT",
+  "evidence": "VJ-022 consultations + journal"
+ },
+ {
+  "group": "Edit",
+  "name": "Chart Notes",
+  "verdict": "BUILT",
+  "evidence": "VJ-022 consultations + journal"
+ },
+ {
+  "group": "Edit",
+  "name": "Native’s current location",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Edit",
+  "name": "Astrologer’s location",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Edit",
+  "name": "Astrologer specific settings",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Edit",
+  "name": "Cover page text",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "001. Birth Chart I",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js, /divisional-charts"
+ },
+ {
+  "group": "Worksheets",
+  "name": "002. Birth Chart II",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js, /divisional-charts"
+ },
+ {
+  "group": "Worksheets",
+  "name": "003. Vargas I",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js, /divisional-charts"
+ },
+ {
+  "group": "Worksheets",
+  "name": "004. Vargas II",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js, /divisional-charts"
+ },
+ {
+  "group": "Worksheets",
+  "name": "005. Vargas III",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js, /divisional-charts"
+ },
+ {
+  "group": "Worksheets",
+  "name": "006. Vargas IV",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js, /divisional-charts"
+ },
+ {
+  "group": "Worksheets",
+  "name": "007. Vargas V",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js, /divisional-charts"
+ },
+ {
+  "group": "Worksheets",
+  "name": "008. Sunrise Chart",
+  "verdict": "BUILT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "009. Special Lagnas",
+  "verdict": "PARTIAL",
+  "evidence": "jaimini.js has some"
+ },
+ {
+  "group": "Worksheets",
+  "name": "010. Navamsha Ages",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "011. Sudarshan Chakra",
+  "verdict": "BUILT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "012. Alternate Lagnas",
+  "verdict": "PARTIAL",
+  "evidence": "jaimini.js has some"
+ },
+ {
+  "group": "Worksheets",
+  "name": "013. Unused",
+  "verdict": "N/A",
+  "evidence": "PL9 placeholder"
+ },
+ {
+  "group": "Worksheets",
+  "name": "014. Lordships",
+  "verdict": "BUILT",
+  "evidence": "planetaryRelationship.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "015. Relationships",
+  "verdict": "BUILT",
+  "evidence": "planetaryRelationship.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "016. Signs in All Vargas",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js, /divisional-charts"
+ },
+ {
+  "group": "Worksheets",
+  "name": "017. Vimshopaka",
+  "verdict": "PARTIAL",
+  "evidence": "referenced in ReportBuilder only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "018. Shadbala",
+  "verdict": "BUILT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "019. Bhava Bala",
+  "verdict": "BUILT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "020. Interpreting Grahas",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine"
+ },
+ {
+  "group": "Worksheets",
+  "name": "021. Aspects on Planets",
+  "verdict": "BUILT",
+  "evidence": "aspectMatrix.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "022. Aspects from Planets",
+  "verdict": "BUILT",
+  "evidence": "aspectMatrix.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "023. Aspects on Houses 1–3",
+  "verdict": "BUILT",
+  "evidence": "aspectMatrix.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "024. Aspects on Houses 4–6",
+  "verdict": "BUILT",
+  "evidence": "aspectMatrix.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "025. Aspects on Houses 7–9",
+  "verdict": "BUILT",
+  "evidence": "aspectMatrix.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "026. Aspects on Houses 10–12",
+  "verdict": "BUILT",
+  "evidence": "aspectMatrix.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "027. Jaimini Karakas",
+  "verdict": "BUILT",
+  "evidence": "jaimini.js, karaka.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "028. Padas",
+  "verdict": "BUILT",
+  "evidence": "jaimini.js, karaka.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "029. Unused",
+  "verdict": "N/A",
+  "evidence": "PL9 placeholder"
+ },
+ {
+  "group": "Worksheets",
+  "name": "030. Nakshatra Dashas",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-027: 5 of ~23 implemented"
+ },
+ {
+  "group": "Worksheets",
+  "name": "031. Rashi Dashas",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-027: 5 of ~23 implemented"
+ },
+ {
+  "group": "Worksheets",
+  "name": "032. Auspiciousness",
+  "verdict": "BUILT",
+  "evidence": "/nallaneram, /muhurta"
+ },
+ {
+  "group": "Worksheets",
+  "name": "033. Declination",
+  "verdict": "PARTIAL",
+  "evidence": "used inside shadbala, not a worksheet"
+ },
+ {
+  "group": "Worksheets",
+  "name": "034. Nakshatra Spatial",
+  "verdict": "BUILT",
+  "evidence": "nakshatraExtras.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "035. Nakshatra Deities",
+  "verdict": "BUILT",
+  "evidence": "nakshatraExtras.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "036. Panch Pakshi",
+  "verdict": "BUILT",
+  "evidence": "extendedPorutham.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "037. Yogas",
+  "verdict": "BUILT",
+  "evidence": "/yoga-detection"
+ },
+ {
+  "group": "Worksheets",
+  "name": "038. Rectification",
+  "verdict": "BUILT",
+  "evidence": "/rectification"
+ },
+ {
+  "group": "Worksheets",
+  "name": "039. Nature & Temperament",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine / numerology"
+ },
+ {
+  "group": "Worksheets",
+  "name": "040. Physical Characteristics",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine / numerology"
+ },
+ {
+  "group": "Worksheets",
+  "name": "041. Lucky Points",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine / numerology"
+ },
+ {
+  "group": "Worksheets",
+  "name": "042. Sun in House",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-house chapters"
+ },
+ {
+  "group": "Worksheets",
+  "name": "043. Moon in House",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-house chapters"
+ },
+ {
+  "group": "Worksheets",
+  "name": "044. Mars in House",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-house chapters"
+ },
+ {
+  "group": "Worksheets",
+  "name": "045. Mercury in House",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-house chapters"
+ },
+ {
+  "group": "Worksheets",
+  "name": "046. Jupiter in House",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-house chapters"
+ },
+ {
+  "group": "Worksheets",
+  "name": "047. Venus in House",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-house chapters"
+ },
+ {
+  "group": "Worksheets",
+  "name": "048. Saturn in House",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-house chapters"
+ },
+ {
+  "group": "Worksheets",
+  "name": "049. Rahu in House",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-house chapters"
+ },
+ {
+  "group": "Worksheets",
+  "name": "050. Ketu in House",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-house chapters"
+ },
+ {
+  "group": "Worksheets",
+  "name": "051. Bhavesh 1–2",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A"
+ },
+ {
+  "group": "Worksheets",
+  "name": "052. Bhavesh 3–4",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A"
+ },
+ {
+  "group": "Worksheets",
+  "name": "053. Bhavesh 5–6",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A"
+ },
+ {
+  "group": "Worksheets",
+  "name": "054. Bhavesh 7–8",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A"
+ },
+ {
+  "group": "Worksheets",
+  "name": "055. Bhavesh 9–10",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A"
+ },
+ {
+  "group": "Worksheets",
+  "name": "056. Bhavesh 11–12",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A"
+ },
+ {
+  "group": "Worksheets",
+  "name": "057. Rectification",
+  "verdict": "BUILT",
+  "evidence": "/rectification"
+ },
+ {
+  "group": "Worksheets",
+  "name": "058. Chart Tutor",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "059. Dasha Effects Browser",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "060. Unused",
+  "verdict": "N/A",
+  "evidence": "PL9 placeholder"
+ },
+ {
+  "group": "Worksheets",
+  "name": "061. Annual Solar I — natal place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "062. Annual Solar II — natal place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "063. Annual Solar III — natal place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "064. Annual Solar I — local place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "065. Annual Solar II — local place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "066. Annual Solar III — local place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "067. Eight-year Overview I",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "068. Eight-year Overview II",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "069. Tithi Pravesh I",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "070. Tithi Pravesh II",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "071. Sahams",
+  "verdict": "BUILT",
+  "evidence": "varshaphala.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "072. Monthly Solar I — natal place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "073. Monthly Solar II — natal place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "074. Monthly Solar III — natal place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "075. Monthly Solar I — local place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "076. Monthly Solar II — local place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "077. Monthly Solar III — local place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "078. Daily Solar I — natal place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "079. Daily Solar II — natal place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "080. Daily Solar III — natal place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "081. Daily Solar I — local place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "082. Daily Solar II — local place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "083. Daily Solar III — local place",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "084. Three-month Overview",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "085. Three-day Overview",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "086. Annual Dashas",
+  "verdict": "BUILT",
+  "evidence": "varshaphala.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "087. Unused",
+  "verdict": "N/A",
+  "evidence": "PL9 placeholder"
+ },
+ {
+  "group": "Worksheets",
+  "name": "088. Tajika Yogas",
+  "verdict": "BUILT",
+  "evidence": "/yoga-detection"
+ },
+ {
+  "group": "Worksheets",
+  "name": "089. Tripataki Chakra",
+  "verdict": "BUILT",
+  "evidence": "varshaphala.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "090. Annual Interpretations",
+  "verdict": "BUILT",
+  "evidence": "varshaphala.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "091. Compatibility — Composite",
+  "verdict": "PARTIAL",
+  "evidence": "/porutham — 9 of 10 tables page-verified (Kalaprakasika); no Ashtakoota"
+ },
+ {
+  "group": "Worksheets",
+  "name": "092. Compatibility — Kutas",
+  "verdict": "PARTIAL",
+  "evidence": "/porutham — 9 of 10 tables page-verified (Kalaprakasika); no Ashtakoota"
+ },
+ {
+  "group": "Worksheets",
+  "name": "093. Animated Transits — Partner",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "094. Mangala Considerations",
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha (mangalaDosha.js)"
+ },
+ {
+  "group": "Worksheets",
+  "name": "095. Mangala Cancellation",
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha (mangalaDosha.js)"
+ },
+ {
+  "group": "Worksheets",
+  "name": "096. Dash Koota",
+  "verdict": "PARTIAL",
+  "evidence": "/porutham — 9 of 10 tables page-verified (Kalaprakasika); no Ashtakoota"
+ },
+ {
+  "group": "Worksheets",
+  "name": "097. Unused",
+  "verdict": "N/A",
+  "evidence": "PL9 placeholder"
+ },
+ {
+  "group": "Worksheets",
+  "name": "098. Animated Transits I",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "099. Animated Transits II",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "100. Animated Transit Vargas",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js, /divisional-charts"
+ },
+ {
+  "group": "Worksheets",
+  "name": "101. Calendar",
+  "verdict": "BUILT",
+  "evidence": "/tamil-calendar"
+ },
+ {
+  "group": "Worksheets",
+  "name": "102. Graphical Ephemeris",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "103. Three-month Graphical Ephemeris",
+  "verdict": "ABSENT",
+  "evidence": "varshaphala.js covers the annual chart only"
+ },
+ {
+  "group": "Worksheets",
+  "name": "104. Yearly Transit — South Indian",
+  "verdict": "PARTIAL",
+  "evidence": "transitPositions.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "105. Dasha & Transit Timelines",
+  "verdict": "BUILT",
+  "evidence": "/dasha-timeline (VJ-017)"
+ },
+ {
+  "group": "Worksheets",
+  "name": "106. Samudaya Ashtakavarga",
+  "verdict": "BUILT",
+  "evidence": "ashtakavargaVariations.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "107. Bhinna Ashtakavarga",
+  "verdict": "BUILT",
+  "evidence": "ashtakavargaVariations.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "108. Prastar Ashtakavarga",
+  "verdict": "BUILT",
+  "evidence": "ashtakavargaVariations.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "109. Sarva & Chancha",
+  "verdict": "BUILT",
+  "evidence": "ashtakavargaVariations.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "110. Kaksha Dasha Calendar",
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit — Saturn only: Kakshya windows by sign and by Patel's bhava method (saturnAshtakavarga.js); not the monthly all-planet calendar"
+ },
+ {
+  "group": "Worksheets",
+  "name": "111. Kota Chakra",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "112. Sanghatta Chakra",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "113. Sarvatobhadra Chakra",
+  "verdict": "BUILT",
+  "evidence": "sarvatobhadraChakra.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "114. Unused",
+  "verdict": "N/A",
+  "evidence": "PL9 placeholder"
+ },
+ {
+  "group": "Worksheets",
+  "name": "115. Ashtakavarga Reductions",
+  "verdict": "BUILT",
+  "evidence": "ashtakavargaVariations.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "116. Events Overview",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-022 journal, not PL9 event worksheets"
+ },
+ {
+  "group": "Worksheets",
+  "name": "117. Events 1–10",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-022 journal, not PL9 event worksheets"
+ },
+ {
+  "group": "Worksheets",
+  "name": "118. Events 11–20",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-022 journal, not PL9 event worksheets"
+ },
+ {
+  "group": "Worksheets",
+  "name": "119. Event Charts I",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "120. Event Charts II",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Worksheets",
+  "name": "121. Events 1–10 — Varshaphala",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-022 journal, not PL9 event worksheets"
+ },
+ {
+  "group": "Worksheets",
+  "name": "122. Events 1–10 — alternate view",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-022 journal, not PL9 event worksheets"
+ },
+ {
+  "group": "Worksheets",
+  "name": "123. Events 11–20 — alternate view",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-022 journal, not PL9 event worksheets"
+ },
+ {
+  "group": "Worksheets",
+  "name": "124. Muhurta",
+  "verdict": "BUILT",
+  "evidence": "/muhurta, /classical-muhurta"
+ },
+ {
+  "group": "Worksheets",
+  "name": "125. Muhurta Dashas & Balas",
+  "verdict": "BUILT",
+  "evidence": "/muhurta, /classical-muhurta"
+ },
+ {
+  "group": "Worksheets",
+  "name": "126. Muhurta Vargas",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js, /divisional-charts"
+ },
+ {
+  "group": "Worksheets",
+  "name": "127. Reserved",
+  "verdict": "N/A",
+  "evidence": "PL9 placeholder"
+ },
+ {
+  "group": "Worksheets",
+  "name": "128. Prashna",
+  "verdict": "BUILT",
+  "evidence": "/kelvi, /jamakkol, kpSystem.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "129. Prashna Vargas",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js, /divisional-charts"
+ },
+ {
+  "group": "Worksheets",
+  "name": "130. Krishnamurti I",
+  "verdict": "BUILT",
+  "evidence": "/kelvi, /jamakkol, kpSystem.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "131. Krishnamurti II",
+  "verdict": "BUILT",
+  "evidence": "/kelvi, /jamakkol, kpSystem.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "132. KP Prashna",
+  "verdict": "BUILT",
+  "evidence": "/kelvi, /jamakkol, kpSystem.js"
+ },
+ {
+  "group": "Worksheets",
+  "name": "133. Unused",
+  "verdict": "N/A",
+  "evidence": "PL9 placeholder"
+ },
+ {
+  "group": "Worksheets",
+  "name": "134. Sadhesati Calculations",
+  "verdict": "BUILT",
+  "evidence": "/saturn-transit (saturnTransit.js)"
+ },
+ {
+  "group": "Worksheets",
+  "name": "135. Sadhesati Remedies",
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit: practices recorded in two books, with pages"
+ },
+ {
+  "group": "Worksheets",
+  "name": "136. Sadhesati Results",
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit: the book text per phase and cycle"
+ },
+ {
+  "group": "Worksheets",
+  "name": "137. Mangala",
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha (mangalaDosha.js)"
+ },
+ {
+  "group": "Worksheets",
+  "name": "138. Gem Recommendations",
+  "verdict": "PARTIAL",
+  "evidence": "/gemstones: three books side by side with pages; no single recommendation, no PL9 gem scoring"
+ },
+ {
+  "group": "Worksheets",
+  "name": "139. Lucky Stone",
+  "verdict": "ABSENT",
+  "evidence": "Raj Kumar PDF 121-122 gives Western month/numerology stones; not read as Vedic, not built"
+ },
+ {
+  "group": "Reports / Horoscope",
+  "name": "Large Birth Chart & Navamsha",
+  "verdict": "BUILT",
+  "evidence": "VedicChartBox"
+ },
+ {
+  "group": "Reports / Horoscope",
+  "name": "Large Birth Chart",
+  "verdict": "BUILT",
+  "evidence": "VedicChartBox"
+ },
+ {
+  "group": "Reports / Horoscope",
+  "name": "Divisional Charts #1",
+  "verdict": "BUILT",
+  "evidence": "/divisional-charts (16 vargas)"
+ },
+ {
+  "group": "Reports / Horoscope",
+  "name": "Divisional Charts #2",
+  "verdict": "BUILT",
+  "evidence": "/divisional-charts (16 vargas)"
+ },
+ {
+  "group": "Reports / Horoscope",
+  "name": "Chandra, Navamsha and Bhava",
+  "verdict": "BUILT",
+  "evidence": "VedicChartBox"
+ },
+ {
+  "group": "Reports / Horoscope",
+  "name": "Sudarshan Chakra",
+  "verdict": "BUILT",
+  "evidence": "SudarshanaChakraRenderer"
+ },
+ {
+  "group": "Reports / Horoscope",
+  "name": "Divisional Charts (All)",
+  "verdict": "BUILT",
+  "evidence": "/divisional-charts (16 vargas)"
+ },
+ {
+  "group": "Reports / Horoscope",
+  "name": "Jaimini System",
+  "verdict": "BUILT",
+  "evidence": "src/report/jaimini.js"
+ },
+ {
+  "group": "Reports / Horoscope",
+  "name": "Sub-Planets / Upagrahas",
+  "verdict": "BUILT",
+  "evidence": "src/report/upagraha.js"
+ },
+ {
+  "group": "Reports / Horoscope",
+  "name": "Birth Charts",
+  "verdict": "BUILT",
+  "evidence": "VedicChartBox"
+ },
+ {
+  "group": "Reports / Horoscope",
+  "name": "Planetary Details",
+  "verdict": "BUILT",
+  "evidence": "/report"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Planetary Friendship",
+  "verdict": "BUILT",
+  "evidence": "planetaryRelationship.js"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Shodashvarga Summary",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Graha and Bhava Bala",
+  "verdict": "BUILT",
+  "evidence": "shadbala.js, bhavaBala.js"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Aspects on Planets and Bhavas",
+  "verdict": "BUILT",
+  "evidence": "aspectMatrix.js"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Detailed Shad Bala",
+  "verdict": "BUILT",
+  "evidence": "shadbala.js, bhavaBala.js"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Basic Calculations",
+  "verdict": "BUILT",
+  "evidence": "tirukanitaPanchangam.js"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Bhinnashtaka #1",
+  "verdict": "BUILT",
+  "evidence": "ashtakavarga.js + variations"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Bhinnashtaka #2",
+  "verdict": "BUILT",
+  "evidence": "ashtakavarga.js + variations"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Ashtakavarga Reductions",
+  "verdict": "BUILT",
+  "evidence": "ashtakavarga.js + variations"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Planetary Avasthas",
+  "verdict": "BUILT",
+  "evidence": "avasthas.js"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "KP Chart",
+  "verdict": "BUILT",
+  "evidence": "kpSystem.js"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "KP Significators",
+  "verdict": "BUILT",
+  "evidence": "kpSystem.js"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Ashtakavarga Summary",
+  "verdict": "BUILT",
+  "evidence": "ashtakavarga.js + variations"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Sarvashtaka & Chancha",
+  "verdict": "BUILT",
+  "evidence": "ashtakavargaVariations.js"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Divisional Charts — Ashtakavarga",
+  "verdict": "BUILT",
+  "evidence": "ashtakavarga.js + variations"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Health",
+  "verdict": "PARTIAL",
+  "evidence": "ayurdaya.js (longevity), not a health report"
+ },
+ {
+  "group": "Reports / Calculations",
+  "name": "Planetary Friendship / Nakshatra Spatial Matrix",
+  "verdict": "BUILT",
+  "evidence": "planetaryRelationship.js"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Opening Page",
+  "verdict": "PARTIAL",
+  "evidence": "reportDocument.js has no cover page"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Panchanga Details",
+  "verdict": "BUILT",
+  "evidence": "tirukanitaPanchangam.js"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "General Interpretations #1",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "General Interpretations #2",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Lucky Points",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Nakshatra Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape; /nakshatra-gochara — taras, Pulippani's star classes, anga phala in four books (nakshatraGochara.js)"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Sun Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Moon Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Mars Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Mercury Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Jupiter Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Venus Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Saturn Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Rahu Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Ketu Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Bhavesh 1–2",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-lord chapters"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Bhavesh 3–4",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-lord chapters"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Bhavesh 5–6",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-lord chapters"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Bhavesh 7–8",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-lord chapters"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Bhavesh 9–10",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-lord chapters"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Bhavesh 11–12",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-lord chapters"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Bhavesh 1–4",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-lord chapters"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Bhavesh 5–8",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-lord chapters"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Bhavesh 9–12",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine Q&A, not per-lord chapters"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Dasha Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Transit Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape; /gochara-vedha — rasi vedha for all nine planets, nakshatra vedha and the Saptashalaka chakra (gocharaVedha.js, nakshatraVedha.js, saptashalaka.js); /moorthi-nirnaya — the form of each sign entry in six books (moorthi.js); /latta — Phaladeepika XXVI.42-47 and six books (latta.js); /pada-88 — the 88th nakshatra pada in four books (pada88.js)"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Classics English — Houses and Planets",
+  "verdict": "PARTIAL",
+  "evidence": "yoga engines exist; no classical text corpus"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Classics — Yogas",
+  "verdict": "PARTIAL",
+  "evidence": "yoga engines exist; no classical text corpus"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Classics — Jaimini",
+  "verdict": "BUILT",
+  "evidence": "jaimini.js"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Classics — Curses and Evils",
+  "verdict": "PARTIAL",
+  "evidence": "doshas.js covers some"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "1001 Applicable Benefic Yogas",
+  "verdict": "ABSENT",
+  "evidence": "no 1001-yoga corpus"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "1001 Applicable Malefic Yogas",
+  "verdict": "ABSENT",
+  "evidence": "no 1001-yoga corpus"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "1001 Applicable Mixed Yogas",
+  "verdict": "ABSENT",
+  "evidence": "no 1001-yoga corpus"
+ },
+ {
+  "group": "Reports / Interpretations",
+  "name": "Life Interpretations",
+  "verdict": "PARTIAL",
+  "evidence": "answerEngine.js Q&A corpus, different shape"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari MD/AD Standard",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Detailed #1",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Detailed #2",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Detailed #3",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Detailed #4",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Detailed #5",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Detailed #6",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Detailed #7",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Detailed #8",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Detailed #9",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Short #1",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Short #2",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Short #3",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Short #4",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD Short #5",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari PD/Sookshma Short #1",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari PD/Sookshma Short #2",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari PD/Sookshma Short #3",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD 5P+1C+9N #1",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Vimshottari AD/PD 5P+1C+9N #2",
+  "verdict": "BUILT",
+  "evidence": "vimshottariDasha.js — the one VERIFIED method (VJ-027)"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Ashtottari Standard",
+  "verdict": "PARTIAL",
+  "evidence": "altDashas.js — STRUCTURE_ONLY, no source stamp"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Ashtottari Short #1",
+  "verdict": "PARTIAL",
+  "evidence": "altDashas.js — STRUCTURE_ONLY, no source stamp"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Ashtottari Short #2",
+  "verdict": "PARTIAL",
+  "evidence": "altDashas.js — STRUCTURE_ONLY, no source stamp"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Ashtottari Short #3",
+  "verdict": "PARTIAL",
+  "evidence": "altDashas.js — STRUCTURE_ONLY, no source stamp"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Ashtottari Short #4",
+  "verdict": "PARTIAL",
+  "evidence": "altDashas.js — STRUCTURE_ONLY, no source stamp"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Yogini Detailed Cycle #1",
+  "verdict": "PARTIAL",
+  "evidence": "altDashas.js — STRUCTURE_ONLY, no source stamp"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Yogini Detailed Cycle #2",
+  "verdict": "PARTIAL",
+  "evidence": "altDashas.js — STRUCTURE_ONLY, no source stamp"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Yogini Detailed Cycle #3",
+  "verdict": "PARTIAL",
+  "evidence": "altDashas.js — STRUCTURE_ONLY, no source stamp"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Yogini Short #1",
+  "verdict": "PARTIAL",
+  "evidence": "altDashas.js — STRUCTURE_ONLY, no source stamp"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Yogini Short #2",
+  "verdict": "PARTIAL",
+  "evidence": "altDashas.js — STRUCTURE_ONLY, no source stamp"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Kalachakra MD/AD",
+  "verdict": "BUILT",
+  "evidence": "kalachakraDasha.js — SOURCED"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Kalachakra AD/PD #1",
+  "verdict": "BUILT",
+  "evidence": "kalachakraDasha.js — SOURCED"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Kalachakra AD/PD #2",
+  "verdict": "BUILT",
+  "evidence": "kalachakraDasha.js — SOURCED"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Kalachakra AD/PD #3",
+  "verdict": "BUILT",
+  "evidence": "kalachakraDasha.js — SOURCED"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Kalachakra AD/PD #4",
+  "verdict": "BUILT",
+  "evidence": "kalachakraDasha.js — SOURCED"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Kalachakra AD/PD #5",
+  "verdict": "BUILT",
+  "evidence": "kalachakraDasha.js — SOURCED"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Chara #1",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Chara #2",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Chara #3",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Sthira",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Niryaana Shoola #1",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Niryaana Shoola #2",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Drig #1",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Drig #2",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Navamsha Dasha #1",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Navamsha Dasha #2",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Narayana #1",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Narayana #2",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Lagna Kendradi Rashi #1",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Lagna Kendradi Rashi #2",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Shoola",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Padanadhamsa",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Tribhagi #1",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-027 — SOURCED, no worked example"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Tribhagi #2",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-027 — SOURCED, no worked example"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Tribhagi 40 #1",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-027 — SOURCED, no worked example"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Tribhagi 40 #2",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-027 — SOURCED, no worked example"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Tribhagi 40 #3",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-027 — SOURCED, no worked example"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Shodashottari",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Dwadashottari",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Dwisaptatisama #1",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Dwisaptatisama #2",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Shastihayani #1",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Shastihayani #2",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Shattrimshatsama #1",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Shattrimshatsama #2",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Shattrimshatsama #3",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Panchottari",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Satabdika",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Dashas",
+  "name": "Chaturshitisama",
+  "verdict": "ABSENT",
+  "evidence": "DECLARED in VJ-027: start rule not establishable without the text"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala Charts #1",
+  "verdict": "BUILT",
+  "evidence": "/varshaphala"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala Charts #2",
+  "verdict": "BUILT",
+  "evidence": "/varshaphala"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala Charts #3",
+  "verdict": "BUILT",
+  "evidence": "/varshaphala"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala Charts #4",
+  "verdict": "BUILT",
+  "evidence": "/varshaphala"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala Charts #5",
+  "verdict": "BUILT",
+  "evidence": "/varshaphala"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala Charts #6",
+  "verdict": "BUILT",
+  "evidence": "/varshaphala"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Basic Calculations",
+  "verdict": "BUILT",
+  "evidence": "/varshaphala"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Natal Chart",
+  "verdict": "BUILT",
+  "evidence": "/varshaphala"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Chart & Planetary Details",
+  "verdict": "BUILT",
+  "evidence": "/varshaphala"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Planetary Strength",
+  "verdict": "BUILT",
+  "evidence": "/varshaphala"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Tajika Yogas Summary",
+  "verdict": "BUILT",
+  "evidence": "tajikaYogas.js"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Tripataki Chakra",
+  "verdict": "BUILT",
+  "evidence": "varshaphala.js"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Sahams",
+  "verdict": "BUILT",
+  "evidence": "sahams.js"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Mudda Dasha",
+  "verdict": "BUILT",
+  "evidence": "varshaphala.js"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Mudda Dasha — Kalidasa",
+  "verdict": "BUILT",
+  "evidence": "varshaphala.js"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Mudda Dasha — without balance",
+  "verdict": "BUILT",
+  "evidence": "varshaphala.js"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Patyayini Dasha",
+  "verdict": "BUILT",
+  "evidence": "varshaphala.js"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Consolidated #1",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Consolidated #2",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Chart Interpretations",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Dasha Interpretations",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Varshaphala — Monthly Charts",
+  "verdict": "BUILT",
+  "evidence": "/varshaphala"
+ },
+ {
+  "group": "Reports / Compatibility",
+  "name": "Compatibility — Basic Birth Details",
+  "verdict": "BUILT",
+  "evidence": "/porutham shows both charts"
+ },
+ {
+  "group": "Reports / Compatibility",
+  "name": "Compatibility — Birth Chart & Planetary Details",
+  "verdict": "BUILT",
+  "evidence": "/porutham shows both charts"
+ },
+ {
+  "group": "Reports / Compatibility",
+  "name": "Compatibility — Moon / Navamsha / Dashas",
+  "verdict": "BUILT",
+  "evidence": "/porutham shows both charts"
+ },
+ {
+  "group": "Reports / Compatibility",
+  "name": "Compatibility — Ashtkoot Guna Matching",
+  "verdict": "SUSPECT",
+  "evidence": "CompatibilityMatrix.tsx: 36-guna from formulas that are not the Ashtakoota rules"
+ },
+ {
+  "group": "Reports / Compatibility",
+  "name": "Compatibility — Mangala Dosha Consideration",
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha: every book's reading, intensity and the book's results by house"
+ },
+ {
+  "group": "Reports / Compatibility",
+  "name": "Compatibility — Mangala Dosha Results",
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha: every book's reading, intensity and the book's results by house"
+ },
+ {
+  "group": "Reports / Compatibility",
+  "name": "Compatibility — Mangala Dosha Cancellation",
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha: cancellations per source with pages, partner-chart conditions included"
+ },
+ {
+  "group": "Reports / Compatibility",
+  "name": "Compatibility — Dash-Koota Table",
+  "verdict": "PARTIAL",
+  "evidence": "tamilPorutham.js — 9 of 10 tables read from Kalaprakasika (page-verified), Rasi Adhipathi unsourced"
+ },
+ {
+  "group": "Reports / Compatibility",
+  "name": "Compatibility — Dash-Koota Compatibility",
+  "verdict": "PARTIAL",
+  "evidence": "tamilPorutham.js — 9 of 10 tables read from Kalaprakasika (page-verified), Rasi Adhipathi unsourced"
+ },
+ {
+  "group": "Reports / Compatibility",
+  "name": "Compatibility — Saptapadi",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Reports / Astronomy",
+  "name": "Astronomy — Details",
+  "verdict": "ABSENT",
+  "evidence": "siderealPositions.js computes positions; no astronomy report"
+ },
+ {
+  "group": "Reports / Astronomy",
+  "name": "Astronomy — Sun",
+  "verdict": "ABSENT",
+  "evidence": "siderealPositions.js computes positions; no astronomy report"
+ },
+ {
+  "group": "Reports / Astronomy",
+  "name": "Astronomy — Moon",
+  "verdict": "ABSENT",
+  "evidence": "siderealPositions.js computes positions; no astronomy report"
+ },
+ {
+  "group": "Reports / Astronomy",
+  "name": "Astronomy — Mars",
+  "verdict": "ABSENT",
+  "evidence": "siderealPositions.js computes positions; no astronomy report"
+ },
+ {
+  "group": "Reports / Astronomy",
+  "name": "Astronomy — Mercury",
+  "verdict": "ABSENT",
+  "evidence": "siderealPositions.js computes positions; no astronomy report"
+ },
+ {
+  "group": "Reports / Astronomy",
+  "name": "Astronomy — Jupiter",
+  "verdict": "ABSENT",
+  "evidence": "siderealPositions.js computes positions; no astronomy report"
+ },
+ {
+  "group": "Reports / Astronomy",
+  "name": "Astronomy — Venus",
+  "verdict": "ABSENT",
+  "evidence": "siderealPositions.js computes positions; no astronomy report"
+ },
+ {
+  "group": "Reports / Astronomy",
+  "name": "Astronomy — Saturn",
+  "verdict": "ABSENT",
+  "evidence": "siderealPositions.js computes positions; no astronomy report"
+ },
+ {
+  "group": "Reports / Remedies",
+  "name": "Sadhesati Calculations",
+  "verdict": "BUILT",
+  "evidence": "/saturn-transit — saturnTransit.js: dates from the ephemeris, definitions cited to printed pages"
+ },
+ {
+  "group": "Reports / Remedies",
+  "name": "Sadhesati Remedies",
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit lists practices recorded in two books, with pages; not the PL9 remedy text"
+ },
+ {
+  "group": "Reports / Remedies",
+  "name": "Sadhesati Results",
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit gives the book text per phase and cycle; not the PL9 results wording"
+ },
+ {
+  "group": "Reports / Remedies",
+  "name": "Dhayya Results",
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit: Pulippani's text for the 4th, 7th and 8th from three passages, each period with its round, plus vedha/vipareetha windows; not the PL9 wording; Ashtakavarga bindus per house (three books) and Kakshya windows"
+ },
+ {
+  "group": "Reports / Remedies",
+  "name": "Kantaka Saturn Results",
+  "verdict": "PARTIAL",
+  "evidence": "/saturn-transit: Pulippani's text for the 4th, 7th and 8th from three passages, each period with its round, plus vedha/vipareetha windows; not the PL9 wording; Ashtakavarga bindus per house (three books) and Kakshya windows"
+ },
+ {
+  "group": "Reports / Remedies",
+  "name": "Sadhesati / Kantaka Calculations",
+  "verdict": "BUILT",
+  "evidence": "/saturn-transit — saturnTransit.js: dates from the ephemeris, definitions cited to printed pages"
+ },
+ {
+  "group": "Reports / Remedies",
+  "name": "Mangala Consideration",
+  "verdict": "BUILT",
+  "evidence": "/mangala-dosha"
+ },
+ {
+  "group": "Reports / Remedies",
+  "name": "Mangala Results and Remedies",
+  "verdict": "PARTIAL",
+  "evidence": "/mangala-dosha: results by house (Vishnu Bhaskar) and remedies as one book records them; not the PL9 wording"
+ },
+ {
+  "group": "Reports / Remedies",
+  "name": "Gem Stone #1",
+  "verdict": "ABSENT",
+  "evidence": "no gemstone module"
+ },
+ {
+  "group": "Reports / Remedies",
+  "name": "Gem Stone #2",
+  "verdict": "ABSENT",
+  "evidence": "no gemstone module"
+ },
+ {
+  "group": "Reports / Varshaphala",
+  "name": "Tajika Yogas — Detailed",
+  "verdict": "BUILT",
+  "evidence": "tajikaYogas.js"
+ },
+ {
+  "group": "Reports / Astrology Lessons",
+  "name": "Tutorial — TOC",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Reports / Astrology Lessons",
+  "name": "Dictionary",
+  "verdict": "BUILT",
+  "evidence": "/learning-resources glossary (VJ-026)"
+ },
+ {
+  "group": "Reports / Astrology Lessons",
+  "name": "Vedic Deities",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Reports",
+  "name": "Reports overview / F6",
+  "verdict": "PARTIAL",
+  "evidence": "/report exists; no preview-control shell"
+ },
+ {
+  "group": "Reports",
+  "name": "Preview controls",
+  "verdict": "PARTIAL",
+  "evidence": "/report exists; no preview-control shell"
+ },
+ {
+  "group": "Classical references",
+  "name": "Brihat Parashara Hora Shastra",
+  "verdict": "PARTIAL",
+  "evidence": "/references paraphrases; source registry cites it (VJ-026)"
+ },
+ {
+  "group": "Classical references",
+  "name": "BPHS Sanskrit",
+  "verdict": "MENU_ONLY",
+  "evidence": "named in TopMenuBar; no text behind it"
+ },
+ {
+  "group": "Classical references",
+  "name": "Saravali",
+  "verdict": "MENU_ONLY",
+  "evidence": "named in TopMenuBar; no text behind it"
+ },
+ {
+  "group": "Classical references",
+  "name": "Hora Sara",
+  "verdict": "MENU_ONLY",
+  "evidence": "named in TopMenuBar; no text behind it"
+ },
+ {
+  "group": "Classical references",
+  "name": "Garga Hora",
+  "verdict": "MENU_ONLY",
+  "evidence": "named in TopMenuBar; no text behind it"
+ },
+ {
+  "group": "Classical references",
+  "name": "1001 Yogas",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Classical references",
+  "name": "Horoscope Interpretation",
+  "verdict": "MENU_ONLY",
+  "evidence": "named in TopMenuBar; no text behind it"
+ },
+ {
+  "group": "Classical references / Descriptions",
+  "name": "Planetary Significations / Karakas",
+  "verdict": "BUILT",
+  "evidence": "karaka.js"
+ },
+ {
+  "group": "Classical references / Descriptions",
+  "name": "Ascendant effects / Lagna",
+  "verdict": "PARTIAL",
+  "evidence": "classicalReferencesData.ts paraphrase, loose chapter refs"
+ },
+ {
+  "group": "Classical references / Descriptions",
+  "name": "Navamsha",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js"
+ },
+ {
+  "group": "Classical references / Descriptions",
+  "name": "Significations of signs",
+  "verdict": "PARTIAL",
+  "evidence": "classicalReferencesData.ts paraphrase, loose chapter refs"
+ },
+ {
+  "group": "Classical references / Descriptions",
+  "name": "Signification of houses / Bhava",
+  "verdict": "PARTIAL",
+  "evidence": "classicalReferencesData.ts paraphrase, loose chapter refs"
+ },
+ {
+  "group": "Classical references / Descriptions",
+  "name": "Nakshatra descriptions",
+  "verdict": "BUILT",
+  "evidence": "nakshatraExtras.js"
+ },
+ {
+  "group": "Classical references / Descriptions",
+  "name": "Drekkana descriptions",
+  "verdict": "BUILT",
+  "evidence": "vargaChart.js"
+ },
+ {
+  "group": "Classical references / Descriptions",
+  "name": "Tithi",
+  "verdict": "BUILT",
+  "evidence": "tirukanitaPanchangam.js"
+ },
+ {
+  "group": "Classical references / Descriptions",
+  "name": "Yoga",
+  "verdict": "BUILT",
+  "evidence": "tirukanitaPanchangam.js"
+ },
+ {
+  "group": "Classical references / Descriptions",
+  "name": "Karana",
+  "verdict": "BUILT",
+  "evidence": "tirukanitaPanchangam.js"
+ },
+ {
+  "group": "Classical references",
+  "name": "Lordship effects",
+  "verdict": "MENU_ONLY",
+  "evidence": "named in TopMenuBar; no text behind it"
+ },
+ {
+  "group": "Options / Preferences",
+  "name": "Chart style",
+  "verdict": "PARTIAL",
+  "evidence": "South/North toggle only"
+ },
+ {
+  "group": "Options / Preferences",
+  "name": "Display",
+  "verdict": "PARTIAL",
+  "evidence": "South/North toggle only"
+ },
+ {
+  "group": "Options / Preferences",
+  "name": "Fonts",
+  "verdict": "ABSENT",
+  "evidence": "no fonts, colour coding, printing or system preferences"
+ },
+ {
+  "group": "Options / Preferences",
+  "name": "Color Coding",
+  "verdict": "ABSENT",
+  "evidence": "no fonts, colour coding, printing or system preferences"
+ },
+ {
+  "group": "Options / Preferences",
+  "name": "Nature of Planets",
+  "verdict": "ABSENT",
+  "evidence": "no fonts, colour coding, printing or system preferences"
+ },
+ {
+  "group": "Options / Preferences",
+  "name": "Calculation",
+  "verdict": "BUILT",
+  "evidence": "ayanamsha / house system / node type"
+ },
+ {
+  "group": "Options / Preferences",
+  "name": "Printing",
+  "verdict": "ABSENT",
+  "evidence": "no fonts, colour coding, printing or system preferences"
+ },
+ {
+  "group": "Options / Preferences",
+  "name": "Dashas",
+  "verdict": "BUILT",
+  "evidence": "/dasha-methods (VJ-027)"
+ },
+ {
+  "group": "Options / Preferences",
+  "name": "Yoga",
+  "verdict": "ABSENT",
+  "evidence": "no fonts, colour coding, printing or system preferences"
+ },
+ {
+  "group": "Options / Preferences",
+  "name": "Panchang",
+  "verdict": "ABSENT",
+  "evidence": "no fonts, colour coding, printing or system preferences"
+ },
+ {
+  "group": "Options / Preferences",
+  "name": "System",
+  "verdict": "ABSENT",
+  "evidence": "no fonts, colour coding, printing or system preferences"
+ },
+ {
+  "group": "Options",
+  "name": "Chart style மாற்ற முயற்சி",
+  "verdict": "PARTIAL",
+  "evidence": "SettingsPanel covers some"
+ },
+ {
+  "group": "Options",
+  "name": "Screen and Toolbar",
+  "verdict": "PARTIAL",
+  "evidence": "SettingsPanel covers some"
+ },
+ {
+  "group": "Options",
+  "name": "Accounting",
+  "verdict": "PARTIAL",
+  "evidence": "SettingsPanel covers some"
+ },
+ {
+  "group": "Options",
+  "name": "Reset all options settings now",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Tools",
+  "name": "Change Location Tool / F8",
+  "verdict": "MENU_ONLY",
+  "evidence": "Sidebar links to /tools/location and /tools/time — both 404"
+ },
+ {
+  "group": "Tools",
+  "name": "Change Time Tool / F9",
+  "verdict": "MENU_ONLY",
+  "evidence": "Sidebar links to /tools/location and /tools/time — both 404"
+ },
+ {
+  "group": "Tools",
+  "name": "Change Time Tool Bar",
+  "verdict": "MENU_ONLY",
+  "evidence": "Sidebar links to /tools/location and /tools/time — both 404"
+ },
+ {
+  "group": "Tools",
+  "name": "General Notes",
+  "verdict": "BUILT",
+  "evidence": "VJ-022"
+ },
+ {
+  "group": "Tools",
+  "name": "Chart Notes",
+  "verdict": "BUILT",
+  "evidence": "VJ-022"
+ },
+ {
+  "group": "Tools",
+  "name": "Worksheet Notes",
+  "verdict": "BUILT",
+  "evidence": "VJ-022"
+ },
+ {
+  "group": "Tools",
+  "name": "Interpretation hints",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Tools",
+  "name": "Yogas",
+  "verdict": "BUILT",
+  "evidence": "/yoga-detection"
+ },
+ {
+  "group": "Tools",
+  "name": "Chart navigator",
+  "verdict": "BUILT",
+  "evidence": "CommandPalette (VJ-015)"
+ },
+ {
+  "group": "Tools",
+  "name": "Rectification Tool",
+  "verdict": "BUILT",
+  "evidence": "/rectification"
+ },
+ {
+  "group": "Print",
+  "name": "User Defined Printouts → Design Tool",
+  "verdict": "ABSENT",
+  "evidence": "VJ-019 produces a real PDF but no UI calls it; no print sets"
+ },
+ {
+  "group": "Print",
+  "name": "Print Model / F7",
+  "verdict": "ABSENT",
+  "evidence": "VJ-019 produces a real PDF but no UI calls it; no print sets"
+ },
+ {
+  "group": "Print",
+  "name": "Print default set / Ctrl+F7",
+  "verdict": "ABSENT",
+  "evidence": "VJ-019 produces a real PDF but no UI calls it; no print sets"
+ },
+ {
+  "group": "Print / Dashas",
+  "name": "1–5 level dashas",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Print / Dashas",
+  "name": "Compact lifetime — 3 levels",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Print",
+  "name": "Ephemeris",
+  "verdict": "ABSENT",
+  "evidence": "VJ-019 produces a real PDF but no UI calls it; no print sets"
+ },
+ {
+  "group": "Print",
+  "name": "Panchang",
+  "verdict": "ABSENT",
+  "evidence": "VJ-019 produces a real PDF but no UI calls it; no print sets"
+ },
+ {
+  "group": "Print",
+  "name": "Krishnamurthi",
+  "verdict": "ABSENT",
+  "evidence": "VJ-019 produces a real PDF but no UI calls it; no print sets"
+ },
+ {
+  "group": "Print",
+  "name": "Transit/dasha Report",
+  "verdict": "ABSENT",
+  "evidence": "VJ-019 produces a real PDF but no UI calls it; no print sets"
+ },
+ {
+  "group": "Research",
+  "name": "Search for Charts",
+  "verdict": "BUILT",
+  "evidence": "FTS5 search (VJ-011)"
+ },
+ {
+  "group": "Research / Statistics",
+  "name": "Ascendant / signs",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-028 predicates cover these dimensions; no statistics output"
+ },
+ {
+  "group": "Research / Statistics",
+  "name": "Nakshatras",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-028 predicates cover these dimensions; no statistics output"
+ },
+ {
+  "group": "Research / Statistics",
+  "name": "Aspects",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-028 predicates cover these dimensions; no statistics output"
+ },
+ {
+  "group": "Research / Statistics",
+  "name": "Dignities",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-028 predicates cover these dimensions; no statistics output"
+ },
+ {
+  "group": "Research / Statistics",
+  "name": "Conjunctions",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-028 predicates cover these dimensions; no statistics output"
+ },
+ {
+  "group": "Research / Statistics",
+  "name": "Shad Bala",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-028 predicates cover these dimensions; no statistics output"
+ },
+ {
+  "group": "Research / Statistics",
+  "name": "Houses",
+  "verdict": "PARTIAL",
+  "evidence": "VJ-028 predicates cover these dimensions; no statistics output"
+ },
+ {
+  "group": "Research",
+  "name": "Statistics — Graph",
+  "verdict": "PARTIAL",
+  "evidence": "/research cohorts (VJ-028) — no graphs"
+ },
+ {
+  "group": "Research",
+  "name": "Export Birth Chart",
+  "verdict": "BUILT",
+  "evidence": "VJ-012 archive"
+ },
+ {
+  "group": "Research",
+  "name": "Export Ephemeris",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Research",
+  "name": "Time of transits",
+  "verdict": "BUILT",
+  "evidence": "/kp-time-scan, /dasha-timeline (VJ-017)"
+ },
+ {
+  "group": "Research",
+  "name": "Calculator",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Windows",
+  "name": "Cascade",
+  "verdict": "PARTIAL",
+  "evidence": "WindowManager exists; claims unaudited (Phase 30)"
+ },
+ {
+  "group": "Windows",
+  "name": "Tile",
+  "verdict": "PARTIAL",
+  "evidence": "WindowManager exists; claims unaudited (Phase 30)"
+ },
+ {
+  "group": "Windows",
+  "name": "Tile Horizontally",
+  "verdict": "PARTIAL",
+  "evidence": "WindowManager exists; claims unaudited (Phase 30)"
+ },
+ {
+  "group": "Windows",
+  "name": "Select open chart",
+  "verdict": "PARTIAL",
+  "evidence": "WindowManager exists; claims unaudited (Phase 30)"
+ },
+ {
+  "group": "Help",
+  "name": "Manual / F1",
+  "verdict": "PARTIAL",
+  "evidence": "HelpPanel"
+ },
+ {
+  "group": "Help",
+  "name": "Use Balloon help",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Help",
+  "name": "Vedic Astrology Tutorial",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Help",
+  "name": "Check for Updates",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Help",
+  "name": "Deactivate on this computer",
+  "verdict": "ABSENT",
+  "evidence": ""
+ },
+ {
+  "group": "Help",
+  "name": "About",
+  "verdict": "PARTIAL",
+  "evidence": "HelpPanel"
+ },
+ {
+  "group": "Toolbar",
+  "name": "Preferences / tools",
+  "verdict": "BUILT",
+  "evidence": "/settings"
+ },
+ {
+  "group": "Toolbar",
+  "name": "Natal",
+  "verdict": "BUILT",
+  "evidence": "routes exist"
+ },
+ {
+  "group": "Toolbar",
+  "name": "Varshaphala",
+  "verdict": "BUILT",
+  "evidence": "routes exist"
+ },
+ {
+  "group": "Toolbar",
+  "name": "Compatibility",
+  "verdict": "BUILT",
+  "evidence": "routes exist"
+ },
+ {
+  "group": "Toolbar",
+  "name": "Transits",
+  "verdict": "BUILT",
+  "evidence": "routes exist"
+ },
+ {
+  "group": "Toolbar",
+  "name": "KP",
+  "verdict": "BUILT",
+  "evidence": "routes exist"
+ },
+ {
+  "group": "Toolbar",
+  "name": "Reports / Interpretations",
+  "verdict": "BUILT",
+  "evidence": "routes exist"
+ },
+ {
+  "group": "Toolbar",
+  "name": "Favorites",
+  "verdict": "PARTIAL",
+  "evidence": "ChartLibraryManager (old localStorage layer)"
+ },
+ {
+  "group": "Toolbar",
+  "name": "Chart switch / history",
+  "verdict": "PARTIAL",
+  "evidence": "ChartLibraryManager (old localStorage layer)"
+ },
+ {
+  "group": "Toolbar",
+  "name": "Red X / close",
+  "verdict": "BUILT",
+  "evidence": ""
+ }
+]

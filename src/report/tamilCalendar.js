@@ -19,6 +19,7 @@
  */
 const { julianDay } = require('@swisseph/node');
 const { sunMoonLongitudes, sunriseJulianDay, sunsetJulianDay } = require('../ephemeris/siderealPositions');
+const { NAKSHATRA_TA, WEEKDAY_TA: VAARA_TA } = require('../sources/tamilNames');
 
 const norm360 = (d) => ((d % 360) + 360) % 360;
 const NAK_SPAN = 360 / 27;
@@ -45,9 +46,27 @@ const SAMVATSARA = [
   'Rakshasa', 'Nala', 'Pingala', 'Kalayukti', 'Siddharthi', 'Raudra', 'Durmati', 'Dundubhi',
   'Rudhirodgari', 'Raktakshi', 'Krodhana', 'Akshaya',
 ];
+/**
+ * The sixty years' Tamil names, as printed in பஞ்சாங்கமும், வான சாஸ்திரமும் (தமிழ் நாட்டு முறை), சௌமார குருகுலம், மன்னார்குடி,
+ * அனுபந்தம் 1 "தமிழ் வருடம் அறுபதுக்குள்ள பெயர்", printed p.7 (scan p.8), read from the page image; the book's own spellings.
+ * The order is the same as SAMVATSARA's (Prabhava = 1 ... Akshaya = 60). The PL9 sample (aniruddha_HC4, p.1) prints 1990-91 as PRAMODHOODHA.
+ */
 const SAMVATSARA_TA = {
-  Vishvavasu: 'விசுவாவசு', Parabhava: 'பரபாவ', Plavanga: 'பிலவங்க', Kilaka: 'கீலக',
-  Prabhava: 'பிரபவ', Vibhava: 'விபவ', Shukla: 'சுக்ல', Krodhi: 'குரோதி',
+  Prabhava: 'பிரபவ', Vibhava: 'விபவ', Shukla: 'சுக்கில', Pramoduta: 'பிரமோதூத',
+  Prajapati: 'பிரசோற்பத்தி', Angirasa: 'ஆங்கிரச', Srimukha: 'ஸ்ரீமுக', Bhava: 'பவ',
+  Yuva: 'யுவ', Dhatri: 'தாது', Ishvara: 'ஈசுர', Bahudhanya: 'வெகுதானிய',
+  Pramadi: 'பிரமாதி', Vikrama: 'விக்கிரம', Vishu: 'விஷு', Chitrabhanu: 'சித்திரபானு',
+  Svabhanu: 'சுபானு', Tarana: 'தாரண', Parthiva: 'பார்த்திப', Vyaya: 'வியய',
+  Sarvajit: 'சர்வசித்து', Sarvadhari: 'சர்வதாரி', Virodhi: 'விரோதி', Vikruti: 'விகுர்தி',
+  Khara: 'கர', Nandana: 'நந்தன', Vijaya: 'விஜய', Jaya: 'ஜய',
+  Manmatha: 'மன்மத', Durmukhi: 'துன்முகி', Hevilambi: 'ஹேவிளம்பி', Vilambi: 'விளம்பி',
+  Vikari: 'விகாரி', Sharvari: 'சார்வரி', Plava: 'பிலவ', Shubhakrit: 'சுபகிருது',
+  Shobhakrit: 'சோபகிருது', Krodhi: 'குரோதி', Vishvavasu: 'விசுவாவசு', Parabhava: 'பராபவ',
+  Plavanga: 'பிலவங்க', Kilaka: 'கீலக', Saumya: 'சௌமிய', Sadharana: 'சாதாரண',
+  Virodhikruti: 'விரோதிகிருது', Paridhavi: 'பரிதாபி', Pramadicha: 'பிரமாதீச', Ananda: 'ஆனந்த',
+  Rakshasa: 'ராக்ஷச', Nala: 'நள', Pingala: 'பிங்கள', Kalayukti: 'காளயுக்தி',
+  Siddharthi: 'சித்தார்த்தி', Raudra: 'ரௌத்திரி', Durmati: 'துன்மதி', Dundubhi: 'துந்துபி',
+  Rudhirodgari: 'ருத்திரோற்காரி', Raktakshi: 'ரக்தாக்ஷி', Krodhana: 'குரோதன', Akshaya: 'அக்ஷய',
 };
 
 const RITU = [
@@ -63,13 +82,6 @@ const TITHI_TA = [
   'பிரதமை', 'துவிதியை', 'திருதியை', 'சதுர்த்தி', 'பஞ்சமி', 'சஷ்டி', 'சப்தமி', 'அஷ்டமி',
   'நவமி', 'தசமி', 'ஏகாதசி', 'துவாதசி', 'திரயோதசி', 'சதுர்த்தசி', 'பௌர்ணமி',
 ];
-const NAKSHATRA_TA = [
-  'அசுவினி', 'பரணி', 'கிருத்திகை', 'ரோகிணி', 'மிருகசீரிடம்', 'திருவாதிரை', 'புனர்பூசம்',
-  'பூசம்', 'ஆயில்யம்', 'மகம்', 'பூரம்', 'உத்திரம்', 'ஹஸ்தம்', 'சித்திரை', 'சுவாதி',
-  'விசாகம்', 'அனுஷம்', 'கேட்டை', 'மூலம்', 'பூராடம்', 'உத்திராடம்', 'திருவோணம்',
-  'அவிட்டம்', 'சதயம்', 'பூரட்டாதி', 'உத்திரட்டாதி', 'ரேவதி',
-];
-const VAARA_TA = ['ஞாயிறு', 'திங்கள்', 'செவ்வாய்', 'புதன்', 'வியாழன்', 'வெள்ளி', 'சனி'];
 
 // ── kāla reference instants of a solar day (KL-005; midpoints) ────────────
 function kalaReferenceJd(kala, sunriseJd, sunsetJd, nextSunriseJd) {

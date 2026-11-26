@@ -1,0 +1,15 @@
+{
+ "இரு பக்கமும் ஒரே வகையில் இருக்க வேண்டும் — இரண்டும் சேமித்த சுயவிவரங்கள், அல்லது இரண்டும் நேரடிப் படிவங்கள்.": "Both sides must be of one kind — both saved profiles, or both direct forms.",
+ "சூரிய உதயத்துக்கு முன் (நாள்:": "Before sunrise (day:",
+ "இரு ஜாதகங்களை ஒப்பிட்டு உரைநடையில் பலன் சொல்லும் முறைக்கு, சரிபார்க்கப்பட்ட விதித் தொகுப்பு இந்த software-இல் இல்லை.": "For a method that compares two charts and states results in prose, this software has no verified rule set.",
+ "\"Excellent Match\" போன்ற தீர்ப்புகள் — ஆனால் அவை ஒரு நிலையான இயல்புநிலை எண்ணிலிருந்து (50) உருவானவை; இரு ஜாதகங்களும் ஒப்பிடப்படாமலேயே ஒவ்வொரு ஜோடிக்கும் அதே தீர்ப்பு வந்தது": "Verdicts like \"Excellent Match\" — but they came from a fixed default number (50); without the two charts even being compared, every pair got the same verdict",
+ "வட இந்திய 36-குண பொருத்த முறை இந்த software-இல் இன்னும் செயல்படுத்தப்படவில்லை. சரிபார்க்கப்பட்ட நூல் ஆதாரம் இல்லாமல் ஒரு புள்ளியைக் காட்ட மாட்டோம்.": "The North Indian 36-guna matching method is not yet implemented in this software. Without a verified book source we will not show a score.",
+ "36-இல் ஒரு புள்ளி — ஆனால் அதன் சூத்திரங்கள் உண்மையான அஷ்டகூட விதிகள் அல்ல, மேலும் அது ஒவ்வொரு ஜோடிக்கும் ஒரே எண்ணையே (26/36) தந்துகொண்டிருந்தது": "A score out of 36 — but its formulas were not the real Ashtakoota rules, and it kept giving every pair the same number (26/36)",
+ "📴 இணைப்பு இல்லை: {0}-இல் கணக்கிட்டுச் சேமித்தது. அதன் பின் சந்திரன் நகர்ந்திருக்கலாம்.": "📴 No connection: calculated and saved at {0}. The Moon may have moved since.",
+ "{0}-இலிருந்து {1}-ஆவது நட்சத்திரம்": "{1}th nakshatra from {0}",
+ "-ஆவது நட்சத்திரம்": "th nakshatra",
+ "{0} தாரை: {1}": "{0} tara: {1}",
+ "ராசிக்கு {0} வீடு": "{0} house from the Moon sign",
+ "ராசிக்கு": "from the Moon sign:",
+ "இணைய இணைப்பு இல்லை: முகப்பு, பணித்தாள், தசைப் பக்கங்கள் தயார் செய்த சாதனத்திலேயே கணக்கிடப்படும்; மற்றவற்றுக்கு இணைப்பு வேண்டும்": "No internet connection: the home, worksheet and dasha pages are calculated on a prepared device itself; the others need a connection"
+}

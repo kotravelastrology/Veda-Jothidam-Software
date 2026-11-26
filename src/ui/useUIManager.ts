@@ -2,11 +2,13 @@
 
 import { useState, useCallback } from 'react';
 
+export type HelpTab = 'help' | 'tutorial' | 'about' | 'shortcuts' | 'updates';
+
 export interface UIState {
   settingsOpen: boolean;
   toolsOpen: boolean;
   helpOpen: boolean;
-  helpTab: 'help' | 'about' | 'shortcuts';
+  helpTab: HelpTab;
   chartDialogOpen: boolean;
   chartDialogMode: 'all' | 'recent';
   annotationDialog: 'none' | 'notes' | 'events';
@@ -24,7 +26,7 @@ export interface UIActions {
   openTools: () => void;
   closeTools: () => void;
   toggleTools: () => void;
-  openHelp: (tab?: 'help' | 'about' | 'shortcuts') => void;
+  openHelp: (tab?: HelpTab) => void;
   closeHelp: () => void;
   toggleHelp: () => void;
   openChartDialog: (mode?: 'all' | 'recent') => void;

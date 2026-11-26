@@ -1,0 +1,118 @@
+{
+  "_note": "Each book's statements as printed, grouped the way the book groups them (read from the page text and, for Shridhar Table 22.2 and Joshi Table 13.1, from the page images, 2026-10-21). Stars are the names the test maps to 0-26.",
+  "lengths": {
+    "KALAPRAKASIKA": [
+      { "stars": ["ashwini"], "kind": "CURE", "parts": [[9, "DAY"]] },
+      { "stars": ["bharani"], "kind": "CURE", "parts": [[5, "DAY"]] },
+      { "stars": ["krittika"], "kind": "CURE", "parts": [[7, "DAY"]] },
+      { "stars": ["rohini"], "kind": "CURE", "parts": [[21, "DAY"]] },
+      { "stars": ["mrigasira"], "kind": "CURE", "parts": [[5, "DAY"], [9, "DAY"]] },
+      { "stars": ["ardra"], "kind": "DANGER", "parts": [[5, "DAY"], [3, "FORTNIGHT"]] },
+      { "stars": ["punarvasu"], "kind": "CURE", "parts": [[7, "NIGHT"]] },
+      { "stars": ["pushya"], "kind": "CURE", "parts": [[8, "DAY"]] },
+      { "stars": ["ashlesha"], "kind": "DANGER", "parts": [[8, "DAY"]] },
+      { "stars": ["magha"], "kind": "DANGER", "parts": [[10, "NIGHT"]] },
+      { "stars": ["purva phalguni"], "kind": "CURE", "parts": [[21, "DAY"]] },
+      { "stars": ["uttara phalguni"], "kind": "CURE", "parts": [[9, "DAY"]] },
+      { "stars": ["hasta"], "kind": "CURE", "parts": [[7, "NIGHT"]] },
+      { "stars": ["chitra"], "kind": "CURE", "parts": [[8, "NIGHT"]] },
+      { "stars": ["swati"], "kind": "CURE", "parts": [[10, "NIGHT"], [3, "FORTNIGHT"]] },
+      { "stars": ["vishakha"], "kind": "CURE", "parts": [[25, "DAY"]] },
+      { "stars": ["anuradha"], "kind": "CURE", "parts": [[10, "DAY"]] },
+      { "stars": ["jyeshtha"], "kind": "CURE", "parts": [[12, "DAY"]] },
+      { "stars": ["moola"], "kind": "CURE", "parts": [[10, "NIGHT"]] },
+      { "stars": ["purvashadha"], "kind": "CURE", "parts": [[8, "NIGHT"]] },
+      { "stars": ["uttarashadha"], "kind": "CURE", "parts": [[1, "MONTH"]] },
+      { "stars": ["sravana"], "kind": "CURE", "parts": [[8, "NIGHT"]] },
+      { "stars": ["dhanishta"], "kind": "CURE", "parts": [[10, "NIGHT"]] },
+      { "stars": ["satabhisha"], "kind": "DEVELOP", "parts": [[6, "DAY"]] },
+      { "stars": ["purva bhadrapada"], "kind": "DEVELOP", "parts": [[12, "DAY"]] },
+      { "stars": ["uttarabhadrapada"], "kind": "CURE", "parts": [[1, "FORTNIGHT"]] },
+      { "stars": ["revati"], "kind": "CURE", "parts": [[8, "DAY"]] }
+    ],
+    "MC": [
+      { "stars": ["swati", "jyeshtha", "purva phalguni", "purvashadha", "purva bhadrapada", "ardra", "ashlesha"], "kind": "DEATH", "parts": [] },
+      { "stars": ["revati", "anuradha"], "kind": "LONG", "parts": [] },
+      { "stars": ["bharani", "sravana", "satabhisha", "chitra"], "kind": "CURE", "parts": [[11, "DAY"]] },
+      { "stars": ["vishakha", "hasta", "dhanishta"], "kind": "CURE", "parts": [[15, "DAY"]] },
+      { "stars": ["moola", "krittika", "ashwini"], "kind": "CURE", "parts": [[9, "DAY"]] },
+      { "stars": ["uttarabhadrapada", "uttara phalguni", "pushya", "punarvasu", "rohini"], "kind": "CURE", "parts": [[7, "DAY"]] },
+      { "stars": ["mrigasira", "uttarashadha"], "kind": "CURE", "parts": [[1, "MONTH"]] }
+    ],
+    "JOSHI": [
+      { "stars": ["swati", "jyeshtha", "purva phalguni", "purvashadha", "purva bhadrapada", "ardra", "ashlesha"], "kind": "DEATH", "parts": [] },
+      { "stars": ["revati", "anuradha"], "kind": "LONG", "parts": [] },
+      { "stars": ["bharani", "sravana", "satabhisha", "chitra"], "kind": "CURE", "parts": [[11, "DAY"]] },
+      { "stars": ["vishakha", "hasta", "dhanishta"], "kind": "CURE", "parts": [[15, "DAY"]] },
+      { "stars": ["moola", "krittika", "ashwini"], "kind": "CURE", "parts": [[9, "DAY"]] },
+      { "stars": ["magha"], "kind": "CURE", "parts": [[20, "DAY"]] },
+      { "stars": ["uttara phalguni", "uttarabhadrapada", "pushya", "punarvasu", "rohini"], "kind": "CURE", "parts": [[7, "DAY"]] },
+      { "stars": ["mrigasira", "uttarashadha"], "kind": "CURE", "parts": [[30, "DAY"]] }
+    ],
+    "RANGACHARYA": [
+      { "stars": ["ashwini", "krittika", "moola"], "kind": "CURE", "parts": [[9, "DAY"]] },
+      { "stars": ["rohini", "uttarabhadrapada", "punarvasu", "pushya", "uttara phalguni"], "kind": "CURE", "parts": [[7, "DAY"]] },
+      { "stars": ["magha"], "kind": "CURE", "parts": [[20, "DAY"]] },
+      { "stars": ["satabhisha", "bharani", "chitra", "sravana"], "kind": "CURE", "parts": [[11, "DAY"]] },
+      { "stars": ["vishakha", "hasta", "dhanishta"], "kind": "CURE", "parts": [[15, "DAY"]] },
+      { "stars": ["mrigasira", "uttarashadha"], "kind": "CURE", "parts": [[1, "MONTH"]] },
+      { "stars": ["revati", "anuradha"], "kind": "LONG", "parts": [] }
+    ],
+    "KR": [
+      { "stars": ["swati", "jyeshtha", "purva phalguni", "purvashadha", "purva bhadrapada", "ardra", "ashlesha"], "kind": "HARD", "parts": [] },
+      { "stars": ["bharani", "sravana", "satabhisha", "vishakha", "hasta", "dhanishta", "chitra"], "kind": "CURE", "parts": [[1, "FORTNIGHT"]] },
+      { "stars": ["revati", "anuradha"], "kind": "LONG", "parts": [] },
+      { "stars": ["moola", "krittika", "ashwini"], "kind": "QUICK", "parts": [] },
+      { "stars": ["magha"], "kind": "LONG", "parts": [] },
+      { "stars": ["uttara phalguni", "uttarabhadrapada", "pushya", "punarvasu", "rohini"], "kind": "CURE", "parts": [[7, "DAY"]] },
+      { "stars": ["mrigasira", "uttarashadha"], "kind": "LONG", "parts": [] }
+    ]
+  },
+  "wilhelmDiffersFromKalaprakasika": ["vishakha", "anuradha"],
+  "wilhelmMcRemarks": {
+    "bharani": 11, "krittika": 9, "rohini": 7, "mrigasira": "MONTH", "ardra": "DEATH", "pushya": 7, "ashlesha": "DEATH",
+    "purva phalguni": "DEATH", "hasta": 15, "chitra": 11, "swati": "DEATH", "vishakha": 11, "anuradha": "LONG", "jyeshtha": "DEATH",
+    "moola": 9, "purvashadha": "DEATH", "sravana": 11, "dhanishta": 11, "satabhisha": 11, "purva bhadrapada": "DEATH",
+    "uttarabhadrapada": 9, "revati": "LONG"
+  },
+  "wilhelmMcDisagreesWithMcVerse": ["vishakha", "dhanishta", "uttarabhadrapada"],
+  "shridharTable22_2": {
+    "ashwini": { "days": 9, "q": [9, 11, 10, 20] }, "bharani": { "days": 11, "q": [0, 80, 40, 11] }, "krittika": { "days": 9, "q": [9, 11, 16, 28] },
+    "rohini": { "days": 7, "q": [7, 9, 18, 30] }, "mrigasira": { "days": 30, "q": [9, 5, 7, 10] }, "ardra": { "death": true, "q": [0, 18, 0, 0] },
+    "punarvasu": { "days": 7, "q": [7, 14, 2, 21] }, "pushya": { "days": 7, "q": [7, 7, 20, 21] }, "ashlesha": { "death": true, "q": [0, 0, 41, 0] },
+    "magha": { "days": 20, "q": [15, 7, 17, 20] }, "purva phalguni": { "death": true, "q": [0, 15, 0, 30] }, "uttara phalguni": { "days": 7, "q": [7, 14, 7, 60] },
+    "hasta": { "days": 15, "q": [15, 17, 15, 0] }, "chitra": { "days": 11, "q": [11, 9, 11, 16] }, "swati": { "death": true, "q": [60, 17, 30, 0] },
+    "vishakha": { "days": 15, "q": [15, 0, 4, 13] }, "anuradha": { "long": true, "q": [60, 12, 36, 20] }, "jyeshtha": { "death": true, "q": [59, 9, 6, 4] },
+    "moola": { "days": 7, "q": [0, 9, 15, 6] }, "purvashadha": { "death": true, "q": [0, 15, 24, 10] }, "uttarashadha": { "days": 30, "q": [30, 24, 26, 16] },
+    "sravana": { "days": 11, "q": [60, 24, 6, 9] }, "dhanishta": { "days": 15, "q": [15, 4, 20, 21] }, "satabhisha": { "days": 11, "q": [0, 45, 3, 2] },
+    "purva bhadrapada": { "death": true, "q": [0, 12, 21, 19] }, "uttarabhadrapada": { "days": 7, "q": [10, 2, 9, 15] }
+  },
+  "shridharTextDeathStars": ["swati", "jyeshtha", "ardra", "ashlesha", "purva phalguni", "purvashadha", "purva bhadrapada"],
+  "shridharTextLongStars": ["revati", "anuradha"],
+  "flags": {
+    "NEEDS_TREATMENT": { "WILHELM": ["ardra", "ashlesha", "purva phalguni", "swati", "jyeshtha", "purvashadha", "purva bhadrapada"], "RAMAN": ["purva phalguni", "purvashadha", "purva bhadrapada", "ashlesha", "jyeshtha", "ardra", "swati"] },
+    "FATAL": { "RANGACHARYA": ["purva phalguni", "purvashadha", "purva bhadrapada", "ashlesha", "bharani", "satabhisha"] },
+    "SNAKE": ["bharani", "ashlesha", "moola", "krittika", "vishakha", "ardra", "magha"]
+  },
+  "combos": {
+    "kalaprakasika": [
+      { "vara": "Sun", "tithi": 4, "stars": ["ardra", "ashlesha", "magha"] },
+      { "vara": "Tue", "tithi": 9, "stars": ["swati", "jyeshtha", "bharani"] },
+      { "vara": "Sat", "tithi": 14, "stars": ["purva phalguni", "purvashadha", "purva bhadrapada"] }
+    ],
+    "shridharTable22_1TuesdayAsPrinted": ["swati", "jyeshtha", "magha"],
+    "mcStars": ["bharani", "krittika", "ardra", "ashlesha", "purva phalguni", "vishakha", "jyeshtha", "purvashadha", "dhanishta", "satabhisha", "purva bhadrapada"],
+    "mcTithis": [4, 9, 14, 12, 6],
+    "krJoshiStars": ["ardra", "ashlesha", "jyeshtha", "satabhisha", "bharani", "purva phalguni", "purvashadha", "purva bhadrapada", "vishakha", "krittika"],
+    "krJoshiTithis": [4, 6, 9, 12, 14],
+    "tithiSix": [4, 9, 14, 6, 8, 12],
+    "tara": [1, 3, 5, 7, 10, 19],
+    "ramanTara": [1, 3, 5, 7]
+  },
+  "triNadiTable18_22": {
+    "ADI": ["ashwini", "ardra", "punarvasu", "uttara phalguni", "hasta", "jyeshtha", "moola", "satabhisha", "purva bhadrapada"],
+    "MADHYA": ["bharani", "mrigasira", "pushya", "purva phalguni", "chitra", "anuradha", "purvashadha", "dhanishta", "uttarabhadrapada"],
+    "ANTYA": ["krittika", "rohini", "ashlesha", "magha", "swati", "vishakha", "uttarashadha", "sravana", "revati"]
+  },
+  "words": { "WILHELM": 681, "KALAPRAKASIKA": 356, "MC": 243, "KR": 191, "JOSHI": 180, "RAMAN": 134, "RANGACHARYA": 98, "SHRIDHAR_TEXT": 239 }
+}

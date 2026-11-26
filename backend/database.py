@@ -68,6 +68,30 @@ def get_db_path():
     return f"sqlite:///{db_path}"
 
 
+def resolve_database_url(database_url):
+    """
+    Make a relative sqlite:/// URL absolute, anchored at the repo root.
+
+    DATABASE_URL in .env is written relative to the repo root
+    ("sqlite:///./backend/database/taara_vedic.db"), but run.py and wsgi.py
+    are started from backend/, where that resolves to backend/backend/... and
+    SQLite fails with "unable to open database file". Non-sqlite URLs and
+    absolute paths are returned unchanged.
+    """
+    prefix = 'sqlite:///'
+    if not database_url.startswith(prefix):
+        return database_url
+
+    path = database_url[len(prefix):]
+    if not path.startswith('./') and not path.startswith('../'):
+        return database_url
+
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    absolute = os.path.abspath(os.path.join(repo_root, path))
+    os.makedirs(os.path.dirname(absolute), exist_ok=True)
+    return f"{prefix}{absolute.replace(chr(92), '/')}"
+
+
 def test_connection():
     """
     Test database connection.

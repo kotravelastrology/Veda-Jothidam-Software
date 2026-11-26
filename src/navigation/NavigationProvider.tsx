@@ -9,7 +9,9 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   const [currentChart, setCurrentChart] = useState<ChartType | null>(null);
   const [currentReport, setCurrentReport] = useState<ReportType | null>(null);
   const [breadcrumb, setBreadcrumb] = useState<string[]>(['Home']);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  // The ☰ menu drawer covers the page (the whole screen on a phone), so it always starts closed; it used to be the sidebar's
+  // saved layout choice (VJ-015) and reopened after a reload.
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [uiState, uiActions] = useUIManager();
 
   return (

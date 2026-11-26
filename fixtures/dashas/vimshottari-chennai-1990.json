@@ -1,0 +1,85 @@
+{
+  "id": "vimshottari-chennai-1990",
+  "system": "vimshottari",
+  "status": "INDEPENDENT_WORKED_EXAMPLE",
+  "purpose": "VJ-027 acceptance: an independent worked example. The expected values below were derived by applying the stated BPHS rule arithmetically, NOT by running the engine and recording what it produced. A fixture recorded from the code under test proves only that the code is deterministic.",
+  "source": {
+    "title": "Brihat Parashara Hora Shastra (BPHS)",
+    "author": "R. Santhanam (translation)",
+    "file": "C23_BPHS_Santhanam.pdf",
+    "pageLocus": "file pages 407-411 / printed pages 400-404 (Ch.46 vv.12-16)",
+    "tradition": "Parashari"
+  },
+  "input": {
+    "moonLongitude": 269.84223816,
+    "note": "The sidereal Moon of the chennai-1990-05-15 chart fixture (Lahiri), which the VJ-008 Electron proof also used."
+  },
+  "derivation": [
+    "nakshatra span = 360 / 27 = 13.333333333333334 degrees",
+    "269.84223816 / 13.333333333333334 = 20.238167862 -> nakshatra index 20 (0-based), Uttara Ashadha",
+    "BPHS Ch.46 lord cycle: Ketu, Venus, Sun, Moon, Mars, Rahu, Jupiter, Saturn, Mercury",
+    "lord of nakshatra 20 = cycle[20 mod 9] = cycle[2] = Sun",
+    "degrees elapsed into the nakshatra = 269.84223816 - (20 x 13.333333333333334) = 3.175571493",
+    "elapsed fraction = 3.175571493 / 13.333333333333334 = 0.2381678620",
+    "Sun's full mahadasha = 6 years, so the balance at birth = 6 x (1 - 0.2381678620) = 4.570992828",
+    "mahadasha order runs from Sun: Sun, Moon, Mars, Rahu, Jupiter, Saturn, Mercury, Ketu, Venus",
+    "each later mahadasha takes its full BPHS span; only the first is shortened",
+    "cumulative end in years = 4.570992828 + (120 - 6) = 118.570992828",
+    "the first mahadasha is only the balance, so its sub-periods are the tail of the FULL 6-year Sun dasha (the Parashara's Light sample lists the birth dasha's antardashas this way): each sublord takes 6 x its years / 120 = its years / 20 of a year",
+    "full antardashas in order from Sun: Sun 0.30, Moon 0.50, Mars 0.35, Rahu 0.90, Jupiter 0.80, Saturn 0.95, Mercury 0.85, Ketu 0.35, Venus 1.00 (sum 6.00)",
+    "elapsed in the dasha = 6 - 4.570992828 = 1.429007172 years; the running totals are Sun 0.30, Moon 0.80, Mars 1.15, Rahu 2.05, so birth falls in Rahu with 2.05 - 1.429007172 = 0.620992828 years of it left",
+    "the sub-periods still to run: Rahu 0.620992828, Jupiter 0.80, Saturn 0.95, Mercury 0.85, Ketu 0.35, Venus 1.00; they sum to 4.570992828, the balance"
+  ],
+  "expected": {
+    "nakshatraIndex": 20,
+    "startLord": "Sun",
+    "elapsedFraction": 0.238167862,
+    "balanceYears": 4.570992828,
+    "mahadashaOrder": [
+      "Sun",
+      "Moon",
+      "Mars",
+      "Rahu",
+      "Jupiter",
+      "Saturn",
+      "Mercury",
+      "Ketu",
+      "Venus"
+    ],
+    "endYears": [
+      4.570992828,
+      14.570992828,
+      21.570992828,
+      39.570992828,
+      55.570992828,
+      74.570992828,
+      91.570992828,
+      98.570992828,
+      118.570992828
+    ],
+    "firstBhuktiOfSun": {
+      "note": "The sub-periods of the birth dasha are the tail of the full 6-year dasha: the antardashas that ended before birth are left out and the one running at birth is cut at birth (Rahu 0.620992828 of its 0.90).",
+      "parentDurationYears": 4.570992828,
+      "order": [
+        "Rahu",
+        "Jupiter",
+        "Saturn",
+        "Mercury",
+        "Ketu",
+        "Venus"
+      ],
+      "durationsYears": [
+        0.620992828,
+        0.8,
+        0.95,
+        0.85,
+        0.35,
+        1.0
+      ]
+    }
+  },
+  "tolerance": {
+    "years": 1e-06,
+    "note": "The derivation above is written to nine decimals; the engine works in full double precision, so agreement to 1e-6 years (about 30 seconds) is the bar."
+  }
+}

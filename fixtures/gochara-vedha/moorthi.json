@@ -1,0 +1,74 @@
+{
+  "_about": "Moorthi Nirnaya as six books print it, transcribed from page images on 2026-10-08 independently of src/report/moorthiTables.js. Table rows are 'rasi|conventional|quantum|special|special quantum|total' in the book's own words and figures, slips included.",
+  "groups": {
+    "PULIPPANI": { "page": "Gochar Phaladeepika printed p.219 (PDF 212)", "Swarna": [1, 6, 11], "Rajatha": [2, 5, 9], "Tamra": [3, 7, 10], "Loh": [8, 4, 12] },
+    "RAJ_KUMAR_CHARISMA": { "page": "Charisma of Planets PDF p.262, Table No.20", "Swarna": [1, 6, 11], "Rajat": [2, 5, 9], "Tamra": [3, 7, 10], "Loha": [4, 8, 12] },
+    "RAJ_KUMAR_DELINEATING": { "page": "Delineating a Horoscope PDF p.113, Table No.8", "Swarna": [1, 6, 11], "Rajat": [2, 5, 9], "Tamra": [3, 7, 10], "Loha": [4, 8, 12] },
+    "GOUR": { "page": "The Celestial Delivery Boy printed p.31 (PDF 34)", "Swarna": [1, 6, 11], "Rajata": [2, 5, 9], "Tamra": [3, 7, 10], "Loh": [4, 8, 12] },
+    "RAO": { "page": "Vedic Astrology: An Integrated Approach printed p.306 (PDF 312), Table 62", "Swarna": [1, 6, 11], "Rajata": [2, 5, 9], "Taamra": [3, 7, 10], "Loha": [4, 8, 12] },
+    "SANTHANAM": { "page": "Jyotisharnava Navanitam printed p.153 (PDF 160)", "Swarna": [6, 1, 11], "Rajata": [5, 2, 9], "Tamra": [7, 3, 10], "Loha": [8, 4, 12] }
+  },
+  "pulippaniGrades": {
+    "page": "printed p.219 (PDF 212)",
+    "benefic": ["Swarna|good results", "Rajatha|3/4 good", "Thambra|1/2 good", "Loha|1/4 good"],
+    "malefic": ["Rajatha|good results", "Thambra|3/4 good", "Loha|1/2 good", "Swarna|1/4 good"]
+  },
+  "pulippaniQuanta": {
+    "p220": { "conventionalGood": 0.5, "conventionalBad": "Nil", "Swarna": 0.5, "Rajatha": 0.25, "Thambra": 0.125, "Loha": 0.0625 },
+    "p334": { "Swarna": "0.500", "Rajatha": "0375", "Thambra": "0.250", "Loha": "0.125" }
+  },
+  "pulippani1998": {
+    "page": "printed pp.220-221 (PDF 213-214)",
+    "printed": "On 9.1.1998 at 1.38 a.m. Jupiter entered Kumbha from Makara and Moon in Mesha",
+    "Swarna": ["Gemini", "Scorpio", "Aries"],
+    "Rajatha": ["Leo", "Sagittarius", "Pisces"],
+    "Thambra": ["Cancer", "Libra", "Aquarius"],
+    "Loha": ["Virgo", "Capricorn", "Taurus"],
+    "goodHousesJupiter": [2, 5, 7, 9, 11]
+  },
+  "table17": {
+    "page": "printed pp.222-223 (PDF 215-216)",
+    "rows": [
+      "Aries|Good 11|0300|Swarna|0.500|1.00",
+      "Taurus|Bad 10|-|Loha|0.125|0.125",
+      "Gemini|Good 9|0500|Swarna|0500|1.00",
+      "Cancer|Bad 8|-|Thambra|0.250|0.250",
+      "Leo|Good 7|0.500|Rajatha|0.375|0.875",
+      "Virgo|Bad 6|-|Loha|0.125|0.125",
+      "Scorpio|Bad 4|-|Swarna|0.500|0500",
+      "Sagittarius|Bad 3|-|Rajatha|0.375|0.375",
+      "Capricorn|Good2|0500|Loha|0.625|0.5625",
+      "Aquarius|Bad 1|-|Thambra|0.250|0.250",
+      "Pisces|Bad 12|-|Rajatha|0.375|0.375"
+    ]
+  },
+  "table23": {
+    "page": "printed p.334 (PDF 327); the transit Moon in Pisces at Jupiter's entry into Gemini (p.332)",
+    "rows": [
+      "ARIES|V.BAD(3)|-|LOHA|0.125|0.125",
+      "TAURUS|GOOD (2)|0.500|SWARNA|0.500|0.500",
+      "GEMINI|BAD(I)|-|THAMBRA|0.250|0.250",
+      "CANCER|BAD(2|-|RAJATHA|0.375|0.375",
+      "LEO|GOOD (11)|0.500|LOHA|0.125|0.125",
+      "VIRGO|BAD (10)|.|THAMBRA|0.250|0.250",
+      "LIBRA|GOOD (9)|0.500|SWARNA|0.500|0.500",
+      "SCORPIO|BAD (8)|-|RAJATHA|0.375|0.375",
+      "SAGITTARIUS|GOOD (7)|0.500|LOHA|0.125|0.125",
+      "CAPRICORN|BAD (6)|-|THAMBRA|0.250|0.250",
+      "AQUARIUS|GOOD (5)|0.500|RAJATHA|0.375|0.375",
+      "PISCES|BAD (4)|.|SWARNA|0.500|0.500"
+    ]
+  },
+  "table24Saturn": {
+    "page": "printed p.335 (PDF 328), the SATURN IN TAURUS 'SPECIAL' column",
+    "forms": ["LOHA", "THAMBRA", "RAJATHA", "SWARNA", "LOHA", "SWARNA", "THAMBRA", "RAJATHA", "LOHA", "THAMBRA", "SWARNA", "RAJATHA"]
+  },
+  "examples": {
+    "rao": { "page": "printed p.306", "planet": "Mercury", "sign": "Gemini", "printedIst": "2000-05-26T15:06+05:30", "moon": "Aquarius 10 29", "natalAquarius": "swarna", "natalPisces": "loha" },
+    "gour": { "page": "printed pp.30-31", "planet": "Saturn", "sign": "Leo", "printedIst": "2006-11-01T07:12+05:30", "moon": "Aquarius", "natal": "Gemini", "murti": "Rajat" },
+    "rajKumarIndira": { "page": "Delineating a Horoscope PDF p.113", "planet": "Saturn", "sign": "Sagittarius", "printedDate": "1958-11-09", "moon": "Virgo", "natal": "Capricorn (Mo 5:36, chart No.1)", "moorthy": "Rajat" },
+    "rajKumarJupiter2002": { "page": "Charisma of Planets PDF p.263", "planet": "Jupiter", "sign": "Cancer", "printedDate": "2002-07-05", "moon": "Aries", "natal": "Taurus", "moorthy": "Iron" },
+    "rajKumarSaturn2002": { "page": "Charisma of Planets PDF p.263", "planet": "Saturn", "sign": "Gemini", "printedDate": "2002-07-23", "moon": "Sagittarius", "natal": "Taurus", "moorthy": "Iron" }
+  },
+  "wordCounts": { "PULIPPANI": 1821, "RAJ_KUMAR": 418, "GOUR": 329, "RAO": 271, "SANTHANAM": 222 }
+}

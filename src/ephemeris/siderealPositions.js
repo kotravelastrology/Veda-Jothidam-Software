@@ -1,5 +1,5 @@
 const {
-  calculatePosition, calculateRiseTransitSet, setSiderealMode,
+  calculatePosition, calculateRiseTransitSet, setSiderealMode, getAyanamsa, getAyanamsaExUt,
   Planet, LunarPoint, SiderealMode, CalculationFlag, RiseTransitFlag,
 } = require('@swisseph/node');
 
@@ -17,6 +17,25 @@ function sunMoonLongitudes(julianDay, ayanamsha = 'Lahiri') {
   const sun = calculatePosition(julianDay, Planet.Sun, flags);
   const moon = calculatePosition(julianDay, Planet.Moon, flags);
   return { sunLongitude: sun.longitude, moonLongitude: moon.longitude };
+}
+
+/**
+ * One graha's sidereal longitude at a Julian Day, without building a chart.
+ *
+ * For scanning a slow planet across decades (Saturn's sign changes, for Sade
+ * Sati), where `calculateChart` would also compute the houses and six other
+ * planets on every one of tens of thousands of calls. The sidereal mode is set
+ * and used inside this one synchronous call, so it is safe for the same reason
+ * as the functions around it.
+ */
+function planetLongitude(julianDay, planetName, ayanamsha = 'Lahiri') {
+  const siderealMode = SiderealMode[ayanamsha];
+  if (siderealMode === undefined) throw new RangeError(`Unsupported ayanamsa: ${ayanamsha}`);
+  const body = Planet[planetName];
+  if (body === undefined) throw new RangeError(`Unsupported planet: ${planetName}`);
+  setSiderealMode(siderealMode);
+  const flags = CalculationFlag.SwissEphemeris | CalculationFlag.Sidereal;
+  return calculatePosition(julianDay, body, flags).longitude;
 }
 
 /**
@@ -43,8 +62,13 @@ function nodeLongitude(julianDay, ayanamsha = 'Lahiri', nodeType = 'mean') {
   setSiderealMode(siderealMode);
   const flags = CalculationFlag.SwissEphemeris | CalculationFlag.Sidereal;
   const rahu = calculatePosition(julianDay, body, flags);
+  // The mean node is referred to the mean equinox of date, but Swiss Ephemeris's sidereal flag takes the true ayanamsha (with nutation) off it:
+  // the mean ayanamsha is the one to subtract, so the nutation in longitude (up to ~19") is put back. Parashara's Light's Rahu agrees
+  // to the second only so (Arjun 12 May 1983: 03:17:01; the Swiss value alone is 03:16:42).
+  if (nodeType !== 'true') return norm360(rahu.longitude + (getAyanamsa(julianDay) - getAyanamsaExUt(julianDay, CalculationFlag.SwissEphemeris)));
   return rahu.longitude;
 }
+const norm360 = (x) => ((x % 360) + 360) % 360;
 
 /** Back-compat alias — the mean node is the project default (see nodeLongitude). */
 function meanNodeLongitude(julianDay, ayanamsha = 'Lahiri') {
@@ -52,28 +76,43 @@ function meanNodeLongitude(julianDay, ayanamsha = 'Lahiri') {
 }
 
 /**
+ * Which moment counts as sunrise and sunset (SUNRISE_MODES):
+ *  - 'upper-limb': the Sun's upper edge touches the horizon, with refraction (the visible sunrise; K.S. Charak, Elements of
+ *    Vedic Astrology, "Ancient Indian Method of Calculating the Cusp of the Lagna": "the visibility of the upper limb of the disc
+ *    of the Sun"). The default of these two functions, so the panchangam's times are the visible ones.
+ *  - 'disc-centre': the centre of the disc on the horizon, without refraction (G.K. Ojha, Predictive Astrology of the Hindus,
+ *    printed pp.35-36: "in Hindu astrology it is the rising or setting of the centre of the Sun's disc"; about 3 min 25 s after
+ *    the visible sunrise). Parashara's Light 9 reckons Gulika from this sunrise (its sample chart's Gulika, 03:02 Leo, needs it);
+ *    Gulika's default (src/report/upagraha.js, the chart context).
+ */
+const SUNRISE_MODES = ['upper-limb', 'disc-centre'];
+const SE_BIT_DISC_CENTER = 256;
+const SE_BIT_NO_REFRACTION = 512;
+const riseBits = (mode) => (mode === 'disc-centre' ? SE_BIT_DISC_CENTER | SE_BIT_NO_REFRACTION : 0);
+
+/**
  * Sunrise for the given UTC-midnight Julian Day at a location, per the
  * sunrise-day-boundary rule verified in S1-B (Panchangam Calculations,
  * Karanam Ramakumar, file page 1). Longitude is east-positive, matching the
  * convention already used by calculateHouses in swissEphemeris.js.
  */
-function sunriseJulianDay(julianDayUTCMidnight, latitude, longitude, altitude = 0) {
+function sunriseJulianDay(julianDayUTCMidnight, latitude, longitude, altitude = 0, mode = 'upper-limb') {
   const result = calculateRiseTransitSet(
-    julianDayUTCMidnight, Planet.Sun, RiseTransitFlag.Rise,
+    julianDayUTCMidnight, Planet.Sun, RiseTransitFlag.Rise | riseBits(mode),
     longitude, latitude, altitude, CalculationFlag.SwissEphemeris,
   );
   return result.time;
 }
 
 /** Sunset following a given sunrise, for day-duration-based kalam calculations. */
-function sunsetJulianDay(julianDayAtOrAfterSunrise, latitude, longitude, altitude = 0) {
+function sunsetJulianDay(julianDayAtOrAfterSunrise, latitude, longitude, altitude = 0, mode = 'upper-limb') {
   const result = calculateRiseTransitSet(
-    julianDayAtOrAfterSunrise, Planet.Sun, RiseTransitFlag.Set,
+    julianDayAtOrAfterSunrise, Planet.Sun, RiseTransitFlag.Set | riseBits(mode),
     longitude, latitude, altitude, CalculationFlag.SwissEphemeris,
   );
   return result.time;
 }
 
 module.exports = {
-  sunMoonLongitudes, nodeLongitude, meanNodeLongitude, sunriseJulianDay, sunsetJulianDay,
+  sunMoonLongitudes, planetLongitude, nodeLongitude, meanNodeLongitude, sunriseJulianDay, sunsetJulianDay, SUNRISE_MODES,
 };

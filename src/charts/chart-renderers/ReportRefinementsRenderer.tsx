@@ -40,7 +40,7 @@ export function ReportRefinementsRenderer({ data }: { data: ReportRefinementsDat
   }
 
   const formats = ['PDF', 'Image', 'JSON', 'HTML'];
-  const formatIcons = {
+  const formatIcons: Record<string, string> = {
     PDF: '📄',
     Image: '🖼️',
     JSON: '⚙️',

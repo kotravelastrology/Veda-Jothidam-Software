@@ -1,0 +1,83 @@
+'use server';
+
+import type { BirthFormInput } from '../report/actions';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { createChartContext } = require('../../src/contracts/chartContext');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { calculateParashariChart } = require('../../src/chart/parashariChart');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { muhurtaStarChecks, MAX_DAYS } = require('../../src/report/muhurtaStars');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { describeMatchParty } = require('../../src/report/matchParties');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { openLibrary } = require('../../src/library/chartRepository');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { resolveLibraryPath } = require('../../src/library/libraryPath');
+
+export interface MuhurtaStarsRequest {
+  profile?: { profileId: string; revision?: number };
+  form?: BirthFormInput;
+  /** First day (YYYY-MM-DD, the person's local date); today when omitted. */
+  fromDate?: string;
+  days?: number;
+  /** Where the event is held: the lagna (shuddhi, the 88th-pada remedy), sunrise and sunset. The birth place when omitted. */
+  place?: { name?: string; latitude: number; longitude: number };
+  /** A journey's direction ('E' … 'NE'), for travel's rules; none when omitted. */
+  direction?: string;
+  /** The acts (lagna shuddhi events) whose own rules are computed — the chosen one; none for marriage or another act. */
+  events?: string[];
+}
+
+/**
+ * The muhurta star over a period for one person: Latta, the marriage evils,
+ * tara and chandra bala, the person's birth star, 88th and 108th padas and
+ * Vainashika, and lagna shuddhi at the event's place. A saved profile is read
+ * with its stored settings.
+ */
+export async function computeMuhurtaStars(req: MuhurtaStarsRequest) {
+  let input: BirthFormInput;
+  let profile: any = null;
+  if (req.profile) {
+    const library = openLibrary(resolveLibraryPath());
+    try {
+      const p = library.getProfile(req.profile.profileId, req.profile.revision);
+      if (!p) throw new Error(`சுயவிவரம் கிடைக்கவில்லை: ${req.profile.profileId}`);
+      input = { ...p.input, ...p.settings };
+      profile = p;
+    } finally {
+      library.close();
+    }
+  } else if (req.form) {
+    input = req.form;
+  } else {
+    throw new Error('ஒரு சுயவிவரம் அல்லது பிறப்பு விவரம் தேவை.');
+  }
+  const ctx = createChartContext({ ...input, calendarMode: 'tirukanita' });
+  const chart = calculateParashariChart(ctx);
+  const off = input.utcOffsetMinutes ?? 0;
+  const days = Math.min(Math.max(Math.round(req.days ?? 30), 1), MAX_DAYS);
+  const now = Date.now();
+  // Local midnight of the first day, in the person's offset.
+  const localToday = new Date(now + off * 60000).toISOString().slice(0, 10);
+  const fromDate = /^\d{4}-\d{2}-\d{2}$/.test(req.fromDate ?? '') ? req.fromDate! : localToday;
+  const fromMs = Date.parse(`${fromDate}T00:00:00Z`) - off * 60000;
+  const p = req.place;
+  const eventPlace = p && Number.isFinite(p.latitude) && Number.isFinite(p.longitude) && Math.abs(p.latitude) <= 90 && Math.abs(p.longitude) <= 180
+    ? { name: p.name || null, latitude: p.latitude, longitude: p.longitude, isBirthPlace: false }
+    : { name: input.placeName ?? null, latitude: input.latitude, longitude: input.longitude, isBirthPlace: true };
+  const result = muhurtaStarChecks({
+    natalMoonLongitude: chart.grahas.Moon.longitude,
+    natalLagnaLongitude: chart.lagna.longitude,
+    fromMs, toMs: fromMs + days * 86400000, atMs: now,
+    ayanamsha: ctx.ayanamsha, nodeType: ctx.nodeType ?? 'mean',
+    latitude: eventPlace.latitude, longitude: eventPlace.longitude,
+    natalLongitudes: Object.fromEntries(Object.entries(chart.grahas).map(([p, g]: [string, any]) => [p, g.longitude])),
+    direction: req.direction || null,
+    events: Array.isArray(req.events) ? req.events.filter((e) => typeof e === 'string').slice(0, 4) : [],
+  });
+  return JSON.parse(JSON.stringify({
+    ...result, fromDate, days, eventPlace,
+    displayOffsetMinutes: off,
+    native: describeMatchParty(input, ctx, profile),
+  }));
+}

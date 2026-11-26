@@ -20,6 +20,13 @@ const BPHS_DOSHAS_SOURCE = {
 // axis rule). Cited separately and honestly rather than folded into the
 // BPHS_DOSHAS_SOURCE citation above; page-verified classical citation is a
 // follow-up, same TBD convention as BPHS_DOSHAS_SOURCE.pageLocus.
+//
+// UPDATE 2026-10-02: the page-verified treatment now lives in
+// src/report/mangalaDosha.js (page /mangala-dosha). It found that the books do
+// not state this one rule: Mansagari's verse gives 1/4/7/8/12 from Lagna, Vishnu
+// Bhaskar gives both five and six houses in the same chapter, and Bhagat six.
+// The detection below is therefore ONE of several readings, kept for the
+// existing yoga/dosha list; the cancellations are modelled there, not here.
 const TRADITIONAL_DOSHA_SOURCE = {
   title: 'Kuja (Mangal) Dosha & Kala Sarpa Dosha — traditional vivaha/graha-dosha rules',
   author: 'Popular Parashari-tradition convention (not a single BPHS verse)',
@@ -320,9 +327,9 @@ const DOSHAS_CATALOG = {
     name: 'Mangal Dosha (Kuja Dosha)',
     chapter: null,
     formation_rule: 'Mars in 1st, 2nd, 4th, 7th, 8th or 12th house from Lagna, or from Moon',
-    effects: 'திருமணத் தாமதம் / துணையுடன் முரண்பாடு அபாயம் எனப் பாரம்பரியமாகக் கருதப்படுகிறது. Classically several cancellation (parihara) conditions exist — e.g. Mars in its own/exalted sign, or matching Mangal Dosha in both charts — which are not modeled here.',
+    effects: 'திருமணத் தாமதம் / துணையுடன் முரண்பாடு அபாயம் எனப் பாரம்பரியமாகக் கருதப்படுகிறது. நூல்கள் இடங்களிலும் நீக்கும் நிபந்தனைகளிலும் ஒத்துப்போவதில்லை; ஒவ்வொரு நூலின் முறையும் பக்கத்துடன் /mangala-dosha பக்கத்தில் உள்ளது.',
     severity: 'High',
-    remedies: 'செவ்வாய் பூஜை, மங்கள தோஷ நிவாரண பூஜை; இறுதி முடிவுக்கு முன் ஜோதிடர் ஆலோசனை பரிந்துரைக்கப்படுகிறது (parihara நிபந்தனைகள் இங்கு சரிபார்க்கப்படவில்லை)',
+    remedies: 'செவ்வாய் பூஜை, மங்கள தோஷ நிவாரண பூஜை; இறுதி முடிவுக்கு முன் ஜோதிடர் ஆலோசனை பரிந்துரைக்கப்படுகிறது (நீக்கும் நிபந்தனைகள்: /mangala-dosha)',
     detection(chart) {
       try {
         const doshaHouses = new Set([1, 2, 4, 7, 8, 12]);

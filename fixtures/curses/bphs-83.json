@@ -1,0 +1,145 @@
+{
+  "id": "bphs-83",
+  "source": {
+    "title": "Brihat Parashara Hora Shastra (BPHS)",
+    "author": "R. Santhanam (translation)",
+    "tradition": "Parashari",
+    "file": "Jyotish_BPHS_Santhanam_Vol.2.pdf",
+    "pageLocus": "Chapter 83 \"Effects of Curses in the Previous Birth\", verses 1-111, printed pp.985-1002 (PDF page = printed - 489). The verses are summarised in Tamil, not quoted. The yogas were read from the text of the same translation in BPHS_Ch.83_Effects of Curses in Previous Birth.pdf and checked against the Vol.2 text layer (pp.987, 989, 993, 1001); the page ranges of each curse follow the Vol.2 headings."
+  },
+  "scope": "The yogas of the chart that the chapter says show a curse of the previous birth ending in want of a male issue (the chapter's own note, p.990: 'childlessness' means want of male issue): the curses of a serpent, the father, the mother, a brother, the maternal uncle, a Brahmin, the wife and of departed ancestors whose Shraddha was not performed, 9 to 13 yogas for each, with the remedies the book names; and the general yogas of v.7-8. Each yoga is a list of conditions read from the chart as the book words them (houses from the Lagna, lords of houses, conjunction in one sign, aspects counted by signs as in BPHS ch.26, 'hemmed between malefics' as a malefic in the 12th and the 2nd from the sign, debilitation, Navamsha owners, waning Moon, Gulika). Where a condition needs the strength of a planet ('devoid of strength', 'endowed with strength') or combustion, it is not checked and the yoga is shown as unclear when everything else holds. v.8 of the father's curse (the Sun, Mars and Saturn in the Ascendant and the 5th and Rahu and Jupiter in the 8th and 12th) is read as the translator's most logical order and, failing that, as his looser reading, marked so. The brother's second yoga as printed puts Mars in the Ascendant and in the 8th and cannot hold. Benefics are the Moon, Mercury, Jupiter and Venus and malefics the Sun, Mars, Saturn, Rahu and Ketu. The page is for the astrologer; the remedies are summarised as the book states them and nothing is claimed to work; no verdict.",
+  "general": {
+    "verses": "7-8", "page": "986",
+    "ta": "மகனற்ற நிலை: குரு, லக்னாதிபதி, 5-ஆம் அதிபதி மூவரும் வலிமையற்றிருந்தால்; அல்லது சூரியன், செவ்வாய், ராகு, சனி வலிமையுடன் 5-ஆம் வீட்டில் இருந்து குருவும் 5-ஆம் அதிபதியும் வலிமையற்றிருந்தால்.",
+    "yogas": [
+      { "n": 1, "atoms": ["weak:Jupiter", "weak:lord1", "weak:lord5"] },
+      { "n": 2, "atoms": ["occ:5=Sun,Mars,Rahu,Saturn", "strong:Sun,Mars,Rahu,Saturn", "weak:Jupiter", "weak:lord5"] }
+    ]
+  },
+  "curses": [
+    {
+      "id": "SERPENT", "ta": "நாகத்தின் சாபம்", "verses": "9-16", "page": "987",
+      "remedy": { "verses": "17-19", "page": "988", "ta": "தங்கத்தில் நாக ராஜ உருவம் செய்து விதிப்படி வழிபட்டு, பசு, நிலம், எள், தங்கம் முதலியவற்றைத் தானம் செய்தால் நாகராஜன் மகிழ்ந்து மகனைத் தருவான், குலம் தொடரும்." },
+      "yogas": [
+        { "n": 1, "atoms": ["Rahu@5", "asp:Mars>Rahu"] },
+        { "n": 2, "atoms": ["lord5+Rahu", "Moon@5", "asp:Saturn>Moon"] },
+        { "n": 3, "atoms": ["Jupiter+Rahu", "weak:lord5", "lord1+Mars"] },
+        { "n": 4, "atoms": ["Jupiter+Mars", "Rahu@1", "lord5@6,8,12"] },
+        { "n": 5, "atoms": ["lord:h5=Mercury", "nav:Mercury=Mars", "Mercury+Mars", "Rahu@1", "Gulika@1"] },
+        { "n": 6, "atoms": ["sign:h5=Aries,Scorpio", { "or": [["lord5+Rahu"], ["lord5+Mercury"]] }] },
+        { "n": 7, "atoms": ["occ:5=Sun,Saturn,Mars,Rahu,Mercury,Jupiter", "weak:lord5", "weak:lord1"] },
+        { "n": 8, "atoms": [{ "or": [["lord1+Rahu"], ["Jupiter+Rahu"]] }, "lord5+Mars"] }
+      ]
+    },
+    {
+      "id": "FATHER", "ta": "முற்பிறப்பில் தந்தையின் சாபம்", "verses": "20-30", "page": "988-990",
+      "remedy": { "verses": "31-33", "page": "990", "ta": "கயாவில் சிராத்தம்; பத்தாயிரம், ஆயிரம் அல்லது நூறு அந்தணருக்கு (இயன்றபடி) உணவு; கன்னிகாதானம் (மொழிபெயர்ப்பாளர்: பிறர் மகளின் திருமணத்துக்கு உதவுதல்); பசு தானம். இவற்றால் சாபம் நீங்கி மகன்-பேரன் வழி குலம் தொடரும்." },
+      "yogas": [
+        { "n": 1, "atoms": ["Sun@5", "deb:Sun", "nav:Sun=Saturn", "kartari:Sun"] },
+        { "n": 2, "atoms": ["lord:h5=Sun", "Sun@1,5,9", "withmal:Sun", "kartari:Sun", "asp:mal>Sun"] },
+        { "n": 3, "atoms": ["insign:Jupiter=Sun", "lord5+Sun", "occ:1=mal", "occ:5=mal"] },
+        { "n": 4, "atoms": ["lord1@5", "weak:lord1", "combust:lord5", "occ:1=mal", "occ:5=mal"] },
+        { "n": 5, "atoms": ["exch:5,10", "occ:1=mal", "occ:5=mal"] },
+        { "n": 6, "atoms": ["lord:h10=Mars", "Mars+lord5", "occ:1=mal", "occ:5=mal", "occ:10=mal"] },
+        { "n": 7, "atoms": ["lord10@6,8,12", "insign:Jupiter=mal", "withmal:lord1", "withmal:lord5"] },
+        { "n": 8, "atoms": ["Sun@1", "Mars@5", "Saturn@5", "Rahu@8", "Jupiter@12"], "loose": ["any:Sun,Mars,Saturn@1", "any:Sun,Mars,Saturn@5", "any:Rahu,Jupiter@8", "any:Rahu,Jupiter@12"] },
+        { "n": 9, "atoms": ["Sun@8", "Saturn@5", "lord5+Rahu", "occ:1=mal"] },
+        { "n": 10, "atoms": ["lord12@1", "lord8@5", "lord10@8"] },
+        { "n": 11, "atoms": ["lord6@5", "lord10@6", "Jupiter+Rahu"] }
+      ]
+    },
+    {
+      "id": "MOTHER", "ta": "முற்பிறப்பில் தாயின் சாபம்", "verses": "34-50", "page": "990-993",
+      "remedy": { "verses": "34-50", "page": "993", "ta": "இராமேசுவரம் பாலமுள்ள கடலில் நீராடுதல்; ஒரு லட்சம் காயத்ரி ஜபம்; தீய கிரகங்களுக்குரிய பொருள்களைத் தானம்; அந்தணருக்கு உணவு; அரச மரத்தை 1008 முறை வலம் வருதல். இவற்றால் மகன் பிறப்பான், குலம் தொடரும்." },
+      "yogas": [
+        { "n": 1, "atoms": ["lord:h5=Moon", { "or": [["deb:Moon"], ["kartari:Moon"]] }, "occ:4=mal", "occ:5=mal"] },
+        { "n": 2, "atoms": ["Saturn@11", "occ:4=mal", "Moon@5", "deb:Moon"] },
+        { "n": 3, "atoms": ["lord5@6,8,12", "deb:lord1", "withmal:Moon"] },
+        { "n": 4, "atoms": ["lord5@6,8,12", "nav:Moon=mal", "occ:1=mal", "occ:5=mal"] },
+        { "n": 5, "atoms": ["lord5+Moon", "lord5+Saturn", "lord5+Rahu", "lord5+Mars", "lord5@5,9"] },
+        { "n": 6, "atoms": ["lord:h4=Mars", "Mars+Saturn", "Mars+Rahu", "Sun@5", "Moon@1"] },
+        { "n": 7, "atoms": ["lord1@6", "lord5@6", "lord4@8", "lord8@1", "lord10@1"] },
+        { "n": 8, "atoms": ["lord6@1", "lord8@1", "lord4@12", "Moon@5", "Jupiter@5", "occ:5=mal"] },
+        { "n": 9, "atoms": ["kartari:h1", "waning", "Moon@7", "Rahu@4", "Saturn@5"] },
+        { "n": 10, "atoms": ["exch:5,8", "lord4@6,8,12", "Moon@6,8,12"] },
+        { "n": 11, "atoms": ["sign:h1=Cancer", "Mars@1", "Rahu@1", "Moon@5", "Saturn@5"] },
+        { "n": 12, "atoms": ["Mars@1", "Rahu@5", "Sun@8", "Saturn@12", "lord1@6,8,12", "lord4@6,8,12"] },
+        { "n": 13, "atoms": ["Mars@8", "Rahu@8", "Jupiter@8", "Saturn@5", "Moon@5"] }
+      ]
+    },
+    {
+      "id": "BROTHER", "ta": "முற்பிறப்பில் சகோதரரின் சாபம்", "verses": "51-61", "page": "993-994",
+      "remedy": { "verses": "62-64", "page": "994", "ta": "ஹரிவம்ச புராணம் கேட்டுச் சாந்திராயண விரதம்; காவிரி, கங்கை அல்லது மகாநதிக் கரையில் சாளக்கிராமத்தின் முன் அரச மரக்கன்று நட்டு வழிபாடு; மனைவி மூலம் 10 பசு தானம்; மாமரங்கள் நடப்பட்ட நிலம் தானம். இவற்றால் சாபம் நீங்கும், மகன் பிறப்பான்." },
+      "yogas": [
+        { "n": 1, "atoms": ["lord3@5", "lord3+Rahu", "lord3+Mars", "lord1@8", "lord5@8"] },
+        { "n": 2, "atoms": ["Mars@1", "Saturn@5", "lord3@9", "Mars@8"], "note": "நூலின் அச்சில் செவ்வாய் லக்னத்திலும் 8-ஆம் வீட்டிலும் குறிக்கப்படுகிறது; அதனால் இது பொருந்த இயலாது." },
+        { "n": 3, "atoms": ["deb:Jupiter", "Jupiter@3", "Saturn@5", "Moon@8", "Mars@8"] },
+        { "n": 4, "atoms": ["lord1@12", "Mars@5", "lord5@8", "withmal:lord5"] },
+        { "n": 5, "atoms": ["kartari:h1", "kartari:h5", "lord1@6,8,12", "lord5@6,8,12"] },
+        { "n": 6, "atoms": ["lord10@3", "withmal:lord10", "Mars@5", "withben:Mars"] },
+        { "n": 7, "atoms": ["sign:h5=Gemini,Virgo", "Saturn@5", "Rahu@5", "Mercury@12", "Mars@12"] },
+        { "n": 8, "atoms": ["lord1@3", "lord3@5", "occ:1=mal", "occ:3=mal", "occ:5=mal"] },
+        { "n": 9, "atoms": ["lord3@8", "Jupiter+Saturn", "Jupiter@5"] },
+        { "n": 10, "atoms": ["lord8@5", "lord8+lord3", "Mars@8", "Saturn@8"] }
+      ]
+    },
+    {
+      "id": "UNCLE", "ta": "முற்பிறப்பில் தாய்மாமனின் சாபம்", "verses": "65-68", "page": "995",
+      "remedy": { "verses": "69-70", "page": "996", "ta": "விஷ்ணு விக்கிரகம் நிறுவுதல்; ஆழமான அல்லது சாதாரணக் கிணறு, அணை, குளம் ஆகியவற்றை (அல்லது எல்லாவற்றையும்) அமைத்தல். இவற்றால் சாபம் நீங்கி மகன் பிறப்பான், குலம் தொடரும்." },
+      "yogas": [
+        { "n": 1, "atoms": ["occ:5=Mercury,Jupiter,Mars,Rahu", "Saturn@1"] },
+        { "n": 2, "atoms": ["lord1@5", "lord5@5", "Saturn@5", "Mars@5", "Mercury@5"] },
+        { "n": 3, "atoms": ["lord6@1", "combust:lord6", "Saturn@7", "lord1+Mercury"] },
+        { "n": 4, "atoms": ["lord1@1", "lord4@1", "Moon@5", "Mercury@5", "Mars@5"] }
+      ]
+    },
+    {
+      "id": "BRAHMIN", "ta": "அந்தணரின் சாபம் (செல்வச் செருக்கில் அந்தணரை அவமதித்தவன்)", "verses": "71-78", "page": "997",
+      "remedy": { "verses": "79-81", "page": "997", "ta": "சாந்திராயண விரதம், மூன்று முறை பிராயச்சித்தம்; அந்தணருக்கு உணவளித்து, வசதிக்கேற்ப பசுவும் தங்கத்துடன் ஐந்து ரத்தினங்களும் பணமும் தானம். இவற்றால் சாபம் நீங்கி மகிழ்ச்சி உண்டாகும்." },
+      "yogas": [
+        { "n": 1, "atoms": ["insign:Rahu=Jupiter", "Jupiter@5"] },
+        { "n": 2, "atoms": ["lord9@5", "lord5@8", "lord5+Jupiter", "lord5+Mars", "lord5+Rahu"] },
+        { "n": 3, "atoms": ["deb:lord9", "lord12+Rahu", "lord12@5"] },
+        { "n": 4, "atoms": ["deb:Jupiter", { "or": [["Rahu@1"], ["Rahu@5"]] }, "lord5@6,8,12"] },
+        { "n": 5, "atoms": ["lord5@8", "Jupiter@8", "withmal:lord5", "withmal:Jupiter"] },
+        { "n": 6, "atoms": ["lord5@8", "lord5+Sun", "lord5+Moon"] },
+        { "n": 7, "atoms": ["nav:Jupiter=Saturn", "Jupiter+Saturn", "Jupiter+Mars", "lord5@12"] },
+        { "n": 8, "atoms": ["Jupiter+Saturn", "Jupiter@1", "Rahu@9"] },
+        { "n": 9, "atoms": ["Rahu+Jupiter", "Rahu@12"] }
+      ]
+    },
+    {
+      "id": "WIFE", "ta": "முற்பிறப்பில் மனைவியின் சாபம்", "verses": "82-92", "page": "998-999",
+      "remedy": { "verses": "93-94", "page": "999", "ta": "மணமாகாத ஒரு பெண்ணுக்குத் திருமணம் செய்துவைத்தல்; அத்தகைய பெண் கிடைக்காவிட்டால் ஓர் அந்தணத் தம்பதிக்குத் தங்கத்தில் லட்சுமி நாராயண விக்கிரகம், கறவைப் பசு, படுக்கை, ஆபரணம், ஆடை தானம். (மொழிபெயர்ப்பாளர்: 'கன்னிகாதானம்' என்பது தன் மகளை அல்ல, பிறர் மகளின் திருமணத்துக்கு உதவுதல்.)" },
+      "yogas": [
+        { "n": 1, "atoms": ["lord1@5", "nav:Saturn=lord7", "lord5@8"] },
+        { "n": 2, "atoms": ["lord7@8", "lord12@5", "withmal:Jupiter"] },
+        { "n": 3, "atoms": ["Venus@5", "lord7@8", "occ:5=mal"] },
+        { "n": 4, "atoms": ["occ:2=mal", "occ:5=mal", "lord7@8"] },
+        { "n": 5, "atoms": ["Venus@9", "lord7@8", "occ:1=mal", "occ:5=mal"] },
+        { "n": 6, "atoms": ["lord:h9=Venus", "inim:lord5", "lord1@6,8,12", "lord7@6,8,12", "Jupiter@6,8,12"] },
+        { "n": 7, "atoms": ["sign:h5=Taurus,Libra", "occ:5=Sun,Moon", "occ:12=mal", "occ:1=mal", "occ:2=mal"] },
+        { "n": 8, "atoms": ["Saturn@7", "Venus@7", "lord8@5", "occ:1=Sun,Rahu"] },
+        { "n": 9, "atoms": ["Mars@2", "Jupiter@12", "Venus@5", "Rahu@5"] },
+        { "n": 10, "atoms": ["lord2@8", "lord7@8", "Mars@5", "Saturn@1", "withmal:Jupiter"] },
+        { "n": 11, "atoms": ["Rahu@1", "Saturn@5", "Mars@9", "lord5@8", "lord7@8"] }
+      ]
+    },
+    {
+      "id": "ANCESTORS", "ta": "பிதிர்களின் சாபம் (முற்பிறப்பில் தந்தை-தாய்க்குச் சிராத்தம் செய்யாமை)", "verses": "95-105", "page": "1000-1001",
+      "remedy": { "verses": "106-108", "page": "1002", "ta": "பிண்ட தானம், ருத்ராபிஷேகம், தங்கத்தில் பிரம்ம விக்கிரகம், பசு, வெள்ளிப் பாத்திரம், நீலமணி தானம்; அந்தணருக்கு உணவும் பணமும். இவற்றால் சாபம் நீங்கி மகன் பிறப்பான்." },
+      "yogas": [
+        { "n": 1, "atoms": ["Saturn@5", "Sun@5", "waning", "Moon@7", "Rahu@12", "Jupiter@12"] },
+        { "n": 2, "atoms": ["lord:h5=Saturn", "Saturn@8", "Mars@1", "Jupiter@8"] },
+        { "n": 3, "atoms": ["occ:1=mal", "Sun@12", "Mars@5", "Saturn@5", "Mercury@5", "lord5@8"] },
+        { "n": 4, "atoms": ["Rahu@1", "Saturn@5", "Jupiter@8"] },
+        { "n": 5, "atoms": ["occ:1=Venus,Jupiter,Rahu,Moon", "Saturn@8", "lord1@8"] },
+        { "n": 6, "atoms": ["deb:lord5", "deb:Jupiter", "aspdeb:lord5", "aspdeb:Jupiter"] },
+        { "n": 7, "atoms": ["Saturn@1", "Rahu@5", "Sun@8", "Mars@12"] },
+        { "n": 8, "atoms": ["lord7@6,8,12", "Moon@5", "Saturn@1", "Gulika@1"] },
+        { "n": 9, "atoms": ["lord8@5", "lord8+Saturn", "lord8+Venus", "deb:Jupiter"] }
+      ]
+    }
+  ],
+  "grahaRemedies": { "verses": "109-111", "page": "1002", "ta": "கிரகங்களின் தீங்கால் மகனற்றவர்களுக்கு: புதன்-சுக்கிரன் தீங்கு — சிவ வழிபாடு; குரு-சந்திரன் தீங்கு — சந்தான கோபால மந்திரம், தகுந்த யந்திரம் அணிந்து வழிபடல், தகுந்த மருந்து; ராகு தீங்கு — கன்னிகாதானம்; சூரியன் தீங்கு — விஷ்ணு வழிபாடு; செவ்வாய்-சனி தீங்கு — ருத்ரிய ஜபம். ஹரிவம்ச புராணத்தை பக்தியுடன் கேட்பது எல்லாக் குறைகளையும் நீக்கி மகனைத் தரும்." }
+}

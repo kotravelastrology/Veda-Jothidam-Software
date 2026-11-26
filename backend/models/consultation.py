@@ -59,13 +59,13 @@ class Consultation(db.Model):
         return {
             'id': self.id,
             'chart_id': self.chart_id,
-            'consultation_date': self.consultation_date.isoformat(),
+            'consultation_date': self.consultation_date.isoformat() if self.consultation_date else None,
             'notes': self.notes,
             'recommendations': self.recommendations,
             'remedies': self.remedies,
             'follow_up_date': self.follow_up_date.isoformat() if self.follow_up_date else None,
-            'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
+            'created_at': self.created_at.isoformat() if self.created_at else None,
+            'updated_at': self.updated_at.isoformat() if self.updated_at else None
         }
 
     def to_dict_summary(self):
@@ -73,9 +73,9 @@ class Consultation(db.Model):
         return {
             'id': self.id,
             'chart_id': self.chart_id,
-            'consultation_date': self.consultation_date.isoformat(),
+            'consultation_date': self.consultation_date.isoformat() if self.consultation_date else None,
             'follow_up_date': self.follow_up_date.isoformat() if self.follow_up_date else None,
-            'created_at': self.created_at.isoformat()
+            'created_at': self.created_at.isoformat() if self.created_at else None
         }
 
     def has_follow_up(self):

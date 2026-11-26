@@ -1,14 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { computeMuhurtaSearch } from '@/app/muhurta/actions';
+import { computeMuhurtaSearch, muhurtaActs } from '@/app/muhurta/actions';
 
 interface AuspiciousTime {
   date: string;
   startTime: string;
   endTime: string;
   muhurtaType: 'abhijit' | 'brahma' | 'auspicious' | 'neutral';
-  yogaQuality: number; // 0-100
+  yogaQuality: number | null; // 0-100; null where the purpose's rules are not yet from the books
   tithi: string;
   nakshatra: string;
   dayOfWeek: string;
@@ -16,7 +16,8 @@ interface AuspiciousTime {
 }
 
 interface MuhurtaFilters {
-  purpose: 'marriage' | 'business' | 'travel' | 'surgery' | 'ritual' | 'houseWarming';
+  /** One of the named purposes below, or 'act:<EVENT>' — another act read from the books. */
+  purpose: string;
   duration: number; // in hours
   startDate: string;
   endDate: string;
@@ -44,63 +45,26 @@ export function MuhurtaFinder() {
     }));
   }, []);
 
-  // Vedic Muhurta Criteria by Purpose
-  const muhurtaCriteria = {
-    marriage: {
-      favorable_yogas: ['Gajachaya', 'Siddha', 'Saubhagya', 'Shobhana'],
-      avoid_tithis: ['Chaturthi', 'Ashtami', 'Chaturdashi'],
-      avoid_nakshatras: ['Magha', 'Vishakha', 'Jyeshtha'],
-      favorable_grahas: ['Venus', 'Jupiter'],
-      duration_hours: 1.5,
-    },
-    business: {
-      favorable_yogas: ['Vriddhi', 'Dhruva', 'Harshana', 'Siddha'],
-      avoid_tithis: ['Amavasya', 'Purnima'],
-      avoid_nakshatras: ['Ashlesha', 'Magha', 'Mula'],
-      favorable_grahas: ['Mercury', 'Jupiter'],
-      duration_hours: 2,
-    },
-    travel: {
-      favorable_yogas: ['Ashwini', 'Pushya', 'Punarvasu', 'Uttara'],
-      avoid_tithis: ['Ashtami', 'Chaturdashi'],
-      avoid_nakshatras: ['Jyeshtha', 'Mula', 'Vishakha'],
-      favorable_grahas: ['Mercury', 'Sun'],
-      duration_hours: 1,
-    },
-    surgery: {
-      favorable_yogas: ['Pushya', 'Rohini', 'Hasta', 'Uttara'],
-      avoid_tithis: ['Amavasya', 'Purnima', 'Chaturdashi'],
-      avoid_nakshatras: ['Magha', 'Mula', 'Jyeshtha'],
-      favorable_grahas: ['Sun', 'Mars'],
-      duration_hours: 4,
-    },
-    ritual: {
-      favorable_yogas: ['Siddha', 'Saubhagya', 'Shobhana', 'Auspicious'],
-      avoid_tithis: ['Chaturthi', 'Ashtami'],
-      avoid_nakshatras: ['Ashlesha', 'Mula'],
-      favorable_grahas: ['Jupiter', 'Venus'],
-      duration_hours: 2,
-    },
-    houseWarming: {
-      favorable_yogas: ['Shobhana', 'Auspicious', 'Dhruva', 'Siddha'],
-      avoid_tithis: ['Amavasya', 'Purnima', 'Ashtami'],
-      avoid_nakshatras: ['Magha', 'Mula', 'Jyeshtha'],
-      favorable_grahas: ['Jupiter', 'Venus', 'Mercury'],
-      duration_hours: 2,
-    },
-  };
+  // The unsourced per-purpose lists that stood here were removed (2026-10-11); the
+  // rules come from the books through the engine, or the purpose shows SOURCE REQUIRED.
+  const DURATION_HOURS: Record<string, number> = { marriage: 1.5, business: 2, travel: 1, medicine: 1, surgery: 4, recoveryBath: 1, ritual: 2, houseWarming: 2, oldHouse: 2, upanayana: 2, vidyarambha: 1, study: 1 };
 
   // Real electional results (from the src/report/muhurtaSearch engine via a
   // server action). No mock — computed on demand from the Swiss Ephemeris.
   const [auspiciousTimes, setAuspiciousTimes] = useState<AuspiciousTime[]>([]);
   const [searchError, setSearchError] = useState<string | null>(null);
+  const [meta, setMeta] = useState<any>(null);
+  const [book, setBook] = useState<string>('');
+  const [acts, setActs] = useState<{ key: string; label: string; groupTa: string }[]>([]);
+  useEffect(() => { muhurtaActs().then(setActs).catch(() => setActs([])); }, []);
 
   const PURPOSE_TO_ENGINE: Record<string, string> = {
     marriage: 'marriage', business: 'business', travel: 'travel',
-    surgery: 'medical', ritual: 'education', houseWarming: 'griha',
+    // "Ritual" is no event read from the books yet (it used to borrow education's old unsourced list).
+    medicine: 'medical', surgery: 'surgery', recoveryBath: 'rogasnana', ritual: 'ritual', houseWarming: 'griha', oldHouse: 'oldhouse', upanayana: 'upanayana', vidyarambha: 'education', study: 'study',
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (bookId: string = book) => {
     if (!filters.startDate || !filters.endDate) return;
     setIsSearching(true);
     setSearchError(null);
@@ -108,11 +72,15 @@ export function MuhurtaFinder() {
       const res: any = await computeMuhurtaSearch({
         startDate: filters.startDate,
         endDate: filters.endDate,
-        purpose: PURPOSE_TO_ENGINE[filters.purpose] ?? 'marriage',
+        purpose: PURPOSE_TO_ENGINE[filters.purpose] ?? filters.purpose,
         latitude: 13.0827, longitude: 80.2707, utcOffsetMinutes: 330,
+        book: bookId || undefined,
       });
-      const dur = muhurtaCriteria[filters.purpose].duration_hours;
-      const mapped: AuspiciousTime[] = (res.days || []).flatMap((d: any) => {
+      const { days, ...rest } = res;
+      setMeta(rest);
+      if (res.book) setBook(res.book);
+      const dur = DURATION_HOURS[filters.purpose] ?? 1;
+      const mapped: AuspiciousTime[] = (days || []).flatMap((d: any) => {
         const dayOfWeek = d.weekday.slice(0, 3);
         if (filters.preferredDayOfWeek && dayOfWeek !== filters.preferredDayOfWeek) return [];
         const w = d.windows[0];
@@ -120,9 +88,9 @@ export function MuhurtaFinder() {
           date: d.date,
           startTime: w ? w.from : '06:00',
           endTime: w ? w.to : '07:30',
-          muhurtaType: d.score >= 80 ? 'abhijit' : d.score >= 62 ? 'auspicious' : 'neutral',
+          muhurtaType: d.score === null ? 'neutral' : d.score >= 80 ? 'abhijit' : d.score >= 62 ? 'auspicious' : 'neutral',
           yogaQuality: d.score,
-          tithi: d.tithi,
+          tithi: d.month ? `${d.tithi} · ${d.month} மாதம்` : d.tithi,
           nakshatra: d.nakshatra,
           dayOfWeek,
           notes: `${d.rating}${d.notes?.length ? ' · ' + d.notes.join('; ') : ''} · ${dur}h`,
@@ -158,17 +126,30 @@ export function MuhurtaFinder() {
               <label className="text-sm font-semibold text-ink">Purpose</label>
               <select
                 value={filters.purpose}
-                onChange={(e) =>
-                  setFilters(prev => ({ ...prev, purpose: e.target.value as any }))
-                }
+                onChange={(e) => {
+                  setFilters(prev => ({ ...prev, purpose: e.target.value as any }));
+                  setBook('');
+                }}
                 className="w-full px-3 py-2 rounded border border-line bg-surface text-ink text-sm"
               >
                 <option value="marriage">💒 Marriage</option>
                 <option value="business">💼 Business</option>
                 <option value="travel">✈️ Travel</option>
-                <option value="surgery">⚕️ Surgery</option>
+                <option value="medicine">💊 மருந்து / சிகிச்சை (Medicine)</option>
+                <option value="surgery">⚕️ அறுவை சிகிச்சை (Surgery)</option>
+                <option value="recoveryBath">🛁 நோய் நீங்கிய முதல் குளியல் (Recovery bath)</option>
                 <option value="ritual">🙏 Ritual</option>
                 <option value="houseWarming">🏠 House Warming</option>
+                <option value="oldHouse">🏚️ பழைய வீட்டில் நுழைதல் (Old house)</option>
+                <option value="upanayana">🧵 உபநயனம் (Upanayana)</option>
+                <option value="vidyarambha">📚 வித்யாரம்பம் (Aksharabhyasa)</option>
+                <option value="study">🎓 கல்வி தொடக்கம் (Vidya)</option>
+                {/* The other acts read from the books, by family. */}
+                {[...new Set(acts.map((a) => a.groupTa))].map((g) => (
+                  <optgroup key={g} label={g}>
+                    {acts.filter((a) => a.groupTa === g).map((a) => <option key={a.key} value={a.key}>{a.label}</option>)}
+                  </optgroup>
+                ))}
               </select>
             </div>
 
@@ -233,8 +214,18 @@ export function MuhurtaFinder() {
               </select>
             </div>
 
+            {meta?.sourced && meta?.books && (meta.purpose === (PURPOSE_TO_ENGINE[filters.purpose] ?? filters.purpose)) && (
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-ink">நூல் (விதிகள்)</label>
+                <select value={book} onChange={(e) => { setBook(e.target.value); handleSearch(e.target.value); }}
+                  className="w-full px-3 py-2 rounded border border-line bg-surface text-ink text-sm">
+                  {meta.books.map((b: any) => <option key={b.id} value={b.id}>{b.labelTa}{b.isDefault ? ' (இயல்பு)' : ''}</option>)}
+                </select>
+              </div>
+            )}
+
             <button
-              onClick={handleSearch}
+              onClick={() => handleSearch()}
               disabled={isSearching}
               className="w-full px-4 py-2 bg-saffron text-ink font-semibold rounded hover:bg-saffron/90 disabled:opacity-50 transition-colors"
             >
@@ -253,6 +244,17 @@ export function MuhurtaFinder() {
                 : auspiciousTimes.length > 0 ? `${auspiciousTimes.length} நாட்கள் — சிறந்தது முதலில்`
                 : 'தேதி வரம்பு + நோக்கம் தேர்ந்து "Find Muhurtas" அழுத்தவும் (சூரிய உதயத்தின் உண்மையான பஞ்சாங்கம்)'}
             </h4>
+            {meta && !isSearching && (
+              <div className={`text-xs rounded p-3 ${meta.sourced ? 'bg-surface border border-line text-ink' : 'bg-rose-soft text-rose'}`}>
+                {meta.sourced ? (
+                  <>
+                    <p><strong>{meta.purposeLabel}</strong> — நூல்: {meta.books.find((b: any) => b.id === meta.book)?.labelTa}. {meta.source?.title} — {String(meta.source?.pageLocus ?? '').split(': ')[0]}</p>
+                    <p className="text-ink-soft mt-1">{meta.rankTa}</p>
+                  </>
+                ) : <p>{meta.missingTa}</p>}
+                {meta.noteTa && <p className="mt-1">{meta.noteTa}</p>}
+              </div>
+            )}
 
             <div className="max-h-96 overflow-y-auto space-y-3">
               {auspiciousTimes.slice(0, 10).map((muhurta, idx) => (
@@ -272,7 +274,7 @@ export function MuhurtaFinder() {
                       <div className="text-sm text-ink-soft">{muhurta.dayOfWeek}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-bold text-saffron">{muhurta.yogaQuality}%</div>
+                      <div className="text-lg font-bold text-saffron">{muhurta.yogaQuality === null ? '—' : `${muhurta.yogaQuality}%`}</div>
                       <div className="text-xs text-ink-soft">{muhurta.muhurtaType}</div>
                     </div>
                   </div>
@@ -311,7 +313,7 @@ export function MuhurtaFinder() {
                 </div>
                 <div>
                   <div className="text-xs font-semibold text-ink-soft uppercase">Yoga Quality</div>
-                  <p className="text-ink font-semibold">{selectedMuhurta.yogaQuality}%</p>
+                  <p className="text-ink font-semibold">{selectedMuhurta.yogaQuality === null ? '—' : `${selectedMuhurta.yogaQuality}%`}</p>
                 </div>
                 <div>
                   <div className="text-xs font-semibold text-ink-soft uppercase">Type</div>

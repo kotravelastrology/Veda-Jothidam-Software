@@ -24,7 +24,25 @@ const NATURAL_ENEMIES = {
   Venus: ['Moon', 'Sun'],
   Saturn: ['Sun', 'Moon', 'Mars'],
 };
+/**
+ * The nodes' natural relations: BPHS ch.3 v.55 notes (Santhanam, PDF p.41): Rahu's friends are Guru, Sukra and Sani, his
+ * enemies Ravi, Chandra and Kuja, Budha neutral; Ketu's friends are Kuja, Sukra and Sani, his enemies the luminaries,
+ * Budha and Guru neutral. BPHS says nothing of Rahu with Ketu, so they are neutral here.
+ */
+const NODE_FRIENDS = Object.freeze({ Rahu: ['Jupiter', 'Venus', 'Saturn'], Ketu: ['Mars', 'Venus', 'Saturn'] });
+const NODE_ENEMIES = Object.freeze({ Rahu: ['Sun', 'Moon', 'Mars'], Ketu: ['Sun', 'Moon'] });
+const NODES = ['Rahu', 'Ketu'];
+
 function naturalRelation(planet, other) {
+  if (NODES.includes(planet) || NODES.includes(other)) {
+    // The node's own list decides its pair with each other body.
+    const node = NODES.includes(planet) ? planet : other;
+    const body = node === planet ? other : planet;
+    if (NODES.includes(body)) return 'neutral';
+    if (NODE_FRIENDS[node].includes(body)) return 'friend';
+    if (NODE_ENEMIES[node].includes(body)) return 'enemy';
+    return 'neutral';
+  }
   if (NATURAL_FRIENDS[planet].includes(other)) return 'friend';
   if (NATURAL_ENEMIES[planet].includes(other)) return 'enemy';
   return 'neutral';
@@ -89,4 +107,6 @@ module.exports = {
   relationToSignLord,
   NATURAL_FRIENDS,
   NATURAL_ENEMIES,
+  NODE_FRIENDS,
+  NODE_ENEMIES,
 };

@@ -126,6 +126,7 @@
 
 .filterButtons {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 15px;
 }
@@ -159,6 +160,7 @@
 
 .pairRow {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 15px;
   padding: 12px;
@@ -193,6 +195,7 @@
   flex-direction: column;
   gap: 4px;
   flex: 1;
+  min-width: 0;
 }
 
 .elements {
@@ -208,6 +211,8 @@
   border-radius: 3px;
   display: inline-block;
   width: fit-content;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .source {

@@ -201,7 +201,12 @@ assert.equal(shadbala.perPlanet.Moon.yuddhaBala, 0, "Moon's Yuddha Bala is exact
 // transfers points from loser to winner, nothing is created or destroyed.
 const totalYuddha = Object.values(shadbala.perPlanet).reduce((sum, p) => sum + p.yuddhaBala, 0);
 close(totalYuddha, 0, 1e-9, 'Yuddha Bala deltas net to zero across all planets');
-assert.equal(shadbala.perPlanet.Sun.shadbalaTotal.status, 'SOURCE_REQUIRED');
+// The total is the sum of the six BPHS parts (Yuddha included), for every planet.
+for (const planet of Object.keys(shadbala.perPlanet)) {
+  const p = shadbala.perPlanet[planet];
+  const parts = p.sthanaBala + p.digBala + p.kaalaBala + p.cheshtaBala + p.naisargikaBala + p.drikBala + p.yuddhaBala;
+  close(p.shadbalaTotal, parts, 1e-9, `${planet} Shadbala total is the sum of its parts`);
+}
 assert.equal(shadbala.perPlanet.Sun.cheshtaBala, shadbala.perPlanet.Sun.kaala.ayanaBala); // Sun's Cheshta = Ayana Bala (v.15-17)
 assert.equal(shadbala.perPlanet.Moon.cheshtaBala, shadbala.perPlanet.Moon.kaala.pakshaBala); // Moon's = Paksha Bala (v.18)
 // Cheshta Bala for the 5 planets (Mars, Mercury, Jupiter, Venus, Saturn) is now computable via v.24-25

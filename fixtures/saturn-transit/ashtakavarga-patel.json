@@ -1,0 +1,88 @@
+{
+  "_about": "Two worked charts from C.S. Patel and C.A. Subramania Aiyar, Ashtakavarga (2nd edition), transcribed from the page images on 2026-10-05/06 independently of src/report/saturnAshtakavargaTables.js. Positions are [sign (0 = Aries), degree, minute]. The test computes everything below from the positions alone and compares.",
+  "saturnTable": {
+    "source": "printed pp.20-21 (PDF 54-55), slokas 12-13: in Saturn's Ashtakavarga he is auspicious from ...",
+    "Sun": [1, 2, 4, 7, 8, 10, 11], "Moon": [3, 6, 11], "Mars": [3, 5, 6, 10, 11, 12], "Mercury": [6, 8, 9, 10, 11, 12],
+    "Jupiter": [5, 6, 11, 12], "Venus": [6, 11, 12], "Saturn": [3, 5, 6, 11], "Lagna": [1, 3, 4, 6, 10, 11]
+  },
+  "tableDifferences": {
+    "source": "printed p.18 (PDF 52) sloka 5 (e) and p.20 (PDF 54) slokas 10-11 (c), each with an asterisk and a footnote",
+    "Moon": { "Jupiter": { "patel": [1, 2, 4, 7, 8, 10, 11], "footnote": [1, 4, 7, 8, 10, 11, 12] } },
+    "Venus": { "Mars": { "patel": [3, 4, 6, 9, 11, 12], "footnote": [3, 5, 6, 9, 11, 12] } }
+  },
+  "standardHoroscope": {
+    "source": "printed p.11 (PDF 45): planetary positions; p.12 (PDF 46): the twelve bhavas with their sandhis; p.66 (PDF 100): the Sun's Prastarashtakavarga; p.68 (PDF 103): the Lagna bhava's bindu Kakshyas; p.154 (PDF 189): Saturn's Ashtakavarga by bhava",
+    "lagna": [2, 4, 37],
+    "mc": [10, 28, 50],
+    "planets": {
+      "Sun": [4, 29, 40], "Moon": [6, 13, 34], "Mars": [4, 7, 1], "Mercury": [5, 5, 36],
+      "Jupiter": [5, 15, 35], "Venus": [6, 15, 37], "Saturn": [9, 16, 11]
+    },
+    "bhavaTable": [
+      { "bhava": 1, "cusp": [2, 4, 37], "sandhiAfter": [2, 18, 39] },
+      { "bhava": 2, "cusp": [3, 2, 41], "sandhiAfter": [3, 16, 44] },
+      { "bhava": 3, "cusp": [4, 0, 46], "sandhiAfter": [4, 14, 48] },
+      { "bhava": 4, "cusp": [4, 28, 50], "sandhiAfter": [5, 14, 48] },
+      { "bhava": 5, "cusp": [6, 0, 46], "sandhiAfter": [6, 16, 44] },
+      { "bhava": 6, "cusp": [7, 2, 41], "sandhiAfter": [7, 18, 39] },
+      { "bhava": 7, "cusp": [8, 4, 37], "sandhiAfter": [8, 18, 39] },
+      { "bhava": 8, "cusp": [9, 2, 41], "sandhiAfter": [9, 16, 44] },
+      { "bhava": 9, "cusp": [10, 0, 46], "sandhiAfter": [10, 14, 48] },
+      { "bhava": 10, "cusp": [10, 28, 50], "sandhiAfter": [11, 14, 48] },
+      { "bhava": 11, "cusp": [0, 0, 46], "sandhiAfter": [0, 16, 44] },
+      { "bhava": 12, "cusp": [1, 2, 41], "sandhiAfter": [1, 18, 39] }
+    ],
+    "rasiLabelOfBhava1": 3,
+    "_rasiLabels": "The Prastara columns are 'Bhavas represented by rasis': bhava n carries the label (3 + n - 1), counting Gemini (the Lagna's sign) as 3, so the Sun's bhava 4 is labelled 6 (Kanya) although the Sun is in Leo.",
+    "sunPrastaraByLabel": {
+      "Saturn": [6, 7, 8, 10, 11, 1, 4, 5],
+      "Jupiter": [11, 12, 3, 5],
+      "Mars": [6, 8, 11, 12, 1, 2, 3, 5],
+      "Sun": [6, 7, 9, 12, 1, 2, 3, 4],
+      "Venus": [6, 12, 1],
+      "Mercury": [8, 10, 11, 2, 3, 4, 5],
+      "Moon": [9, 12, 4, 5],
+      "Lagna": [6, 8, 12, 1, 2, 5]
+    },
+    "sunTotalsByLabel": { "6": 5, "7": 2, "8": 4, "9": 2, "10": 2, "11": 4, "12": 6, "1": 5, "2": 4, "3": 4, "4": 4, "5": 6 },
+    "saturnBavByBhava": [5, 3, 5, 4, 2, 2, 3, 1, 2, 6, 3, 3],
+    "lagnaBhavaSunBinduKakshyas": [
+      { "lord": "Jupiter", "from": [1, 22, 38], "to": [1, 26, 38] },
+      { "lord": "Mars", "from": [1, 26, 38], "to": [2, 0, 37] },
+      { "lord": "Sun", "from": [2, 0, 37], "to": [2, 4, 37] },
+      { "lord": "Mercury", "from": [2, 8, 8], "to": [2, 11, 38] }
+    ]
+  },
+  "edwardVII": {
+    "source": "printed pp.xxxiii-xxxv (PDF 33-35), Postscript, horoscope of King Edward VII (Nirayana, ayanamsa 21°37'59\")",
+    "planets": {
+      "Sun": [6, 25, 16], "Moon": [5, 7, 49], "Mars": [8, 23, 36], "Mercury": [7, 10, 4],
+      "Jupiter": [7, 29, 50], "Venus": [5, 27, 36], "Saturn": [8, 8, 31]
+    },
+    "cuspPrinted1": [8, 50, 59],
+    "_cusp1": "Printed '8s 50° 59''. Fifty degrees cannot sit inside a sign; the 7th cusp, printed 2s 5° 59', is exactly opposite 8s 5° 59', which is used.",
+    "lagna": [8, 5, 59],
+    "mc": [6, 11, 0],
+    "cusps": [[8, 5, 59], [9, 17, 39], [10, 29, 20], [0, 11, 0], [0, 29, 20], [1, 17, 39], [2, 5, 59], [3, 17, 39], [4, 29, 20], [6, 11, 0], [6, 29, 20], [7, 17, 39]],
+    "terminalSandhis": [[8, 26, 49], [10, 8, 29], [11, 20, 10], [0, 20, 10], [1, 8, 30], [1, 26, 49], [2, 26, 49], [4, 8, 29], [5, 20, 10], [6, 20, 10], [7, 8, 30], [7, 26, 49]],
+    "bhinnaByBhava": {
+      "Sun":     [2, 5, 2, 5, 3, 4, 4, 4, 6, 4, 7, 2],
+      "Moon":    [3, 5, 5, 4, 3, 7, 4, 3, 4, 4, 5, 2],
+      "Mars":    [4, 3, 3, 4, 2, 2, 3, 4, 3, 5, 5, 1],
+      "Mercury": [4, 6, 1, 6, 2, 4, 4, 6, 4, 7, 6, 4],
+      "Jupiter": [6, 5, 5, 4, 5, 4, 6, 5, 3, 5, 5, 3],
+      "Venus":   [3, 3, 3, 5, 6, 3, 2, 6, 6, 6, 6, 3],
+      "Saturn":  [1, 2, 4, 1, 5, 5, 2, 3, 3, 3, 7, 3]
+    },
+    "samudayaByBhava": [23, 29, 23, 29, 26, 29, 25, 31, 29, 34, 41, 18],
+    "natalKakshyas": [
+      { "planet": "Sun", "bhava": 11, "kakshya": 3, "point": "bindu" },
+      { "planet": "Moon", "bhava": 9, "kakshya": 6, "point": "bindu" },
+      { "planet": "Mars", "bhava": 1, "kakshya": 8, "point": "bindu" },
+      { "planet": "Mercury", "bhava": 12, "kakshya": 1, "point": "rekha" },
+      { "planet": "Jupiter", "bhava": 1, "kakshya": 2, "point": "bindu" },
+      { "planet": "Venus", "bhava": 10, "kakshya": 2, "point": "bindu" },
+      { "planet": "Saturn", "bhava": 1, "kakshya": 5, "point": "rekha" }
+    ]
+  }
+}

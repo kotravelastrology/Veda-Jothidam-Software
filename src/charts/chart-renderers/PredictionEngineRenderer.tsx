@@ -49,14 +49,14 @@ export function PredictionEngineRenderer({ data }: { data: PredictionEngineData 
     Success: '#32CD32'
   };
 
-  const confidenceColor = {
+  const confidenceColor: Record<string, string> = {
     'Very High': '#28a745',
     'High': '#17a2b8',
     'Medium': '#ffc107',
     'Low': '#dc3545'
   };
 
-  const confidenceEmoji = {
+  const confidenceEmoji: Record<string, string> = {
     'Very High': '⭐⭐⭐⭐',
     'High': '⭐⭐⭐',
     'Medium': '⭐⭐',
@@ -65,7 +65,7 @@ export function PredictionEngineRenderer({ data }: { data: PredictionEngineData 
 
   return (
     <div className={styles.container}>
-      <h3>🔮 Prediction Engine (ভবिष्यद्वाणी)</h3>
+      <h3>🔮 Prediction Engine (வாழ்க்கை நிகழ்வுக் கணிப்பு)</h3>
 
       {/* Accuracy Overview */}
       <div className={styles.accuracyBox}>

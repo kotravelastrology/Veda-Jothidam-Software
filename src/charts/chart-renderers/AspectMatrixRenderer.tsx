@@ -167,7 +167,7 @@ export function AspectMatrixRenderer({ report }: AspectMatrixRendererProps) {
 
       {/* Matrix Grid */}
       <div>
-        <h4 className="font-semibold text-ink mb-3">கிரக பார்ப்பு அட्डணை (Aspect Matrix Grid)</h4>
+        <h4 className="font-semibold text-ink mb-3">கிரகப் பார்வை அட்டவணை (Aspect Matrix Grid)</h4>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-sm">
             <thead>

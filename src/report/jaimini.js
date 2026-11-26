@@ -13,6 +13,7 @@
  */
 const { EXALTATION } = require('../chart/shadbala');
 const { equalDivisionVarga, EQUAL_DIVISION_VARGAS } = require('../chart/vargaChart');
+const { varnadaLagna } = require('../chart/specialLagnas');
 
 const RASI_NAMES = [
   'Mesha', 'Vrishabha', 'Mithuna', 'Karkataka', 'Simha', 'Kanya',
@@ -330,10 +331,9 @@ function calculateJaiminiLagnas(opts) {
 
   const vayuru = wrapRaw(timeTerm + navamsa0(moonLon));
 
-  const fold = (n) => (n % 2 !== 0 ? n : 13 - n);
-  const foldL = fold(lagna1);
-  const foldH = fold(hora);
-  const varnada = foldL % 2 === foldH % 2 ? wrapRaw(foldL + foldH) : 13 - Math.abs(foldL - foldH);
+  // BPHS ch.5 vv.10-13 (printed pp.65-66), tested on the book's own example in test-special-lagnas.js. The earlier port left an
+  // even total uncounted from Pisces (a Libra ascendant with the Hora Lagna in Scorpio gave Pisces; the book gives Aries).
+  const varnada = varnadaLagna(lagna1, hora).sign;
 
   const rashis = [janma, surya, chandra, amsa, bhava, bhaga, tara, karaka, ghatika,
     hora, pranapada, upapada, arudha, indu, sri, adarisha, vayuru, varnada];

@@ -14,40 +14,26 @@ version: '3.8'
 
 services:
   # ============================================================================
-  # FRONTEND SERVICE - Nginx reverse proxy + static files
+  # WEB APP - the Next.js program (Dockerfile.frontend)
+  # The old service served the static frontend/ folder through an nginx.prod.conf that was never in the repository; both are
+  # gone (2026-10-31). Put TLS in front of port 80 (a reverse proxy or the host's load balancer).
   # ============================================================================
   frontend:
-    image: nginx:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
     container_name: veda-frontend-prod
     ports:
-      - "80:80"
-      - "443:443"
+      - "80:3000"
     volumes:
-      # Static frontend files
-      - ./frontend:/usr/share/nginx/html:ro
-
-      # Nginx configuration
-      - ./nginx.prod.conf:/etc/nginx/nginx.conf:ro
-
-      # SSL certificates
-      - /etc/letsencrypt/live/yourdomain.com/fullchain.pem:/etc/nginx/ssl/cert.pem:ro
-      - /etc/letsencrypt/live/yourdomain.com/privkey.pem:/etc/nginx/ssl/key.pem:ro
-
-      # Logs
-      - /var/log/veda-jothidam/nginx:/var/log/nginx
+      # the saved charts (the library file)
+      - veda-library-prod:/data
 
     environment:
       TZ: UTC
 
     networks:
       - veda-network
-
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
 
     restart: always
 
@@ -56,10 +42,10 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 512M
+          memory: 1G
         reservations:
           cpus: '0.5'
-          memory: 256M
+          memory: 512M
 
     logging:
       driver: "json-file"
@@ -278,6 +264,8 @@ volumes:
   postgres-data-prod:
     driver: local
   redis-data-prod:
+    driver: local
+  veda-library-prod:
     driver: local
   # prometheus-data:
   #   driver: local

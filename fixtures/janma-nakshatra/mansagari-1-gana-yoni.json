@@ -1,0 +1,67 @@
+{
+  "id": "mansagari-1-gana-yoni",
+  "source": {
+    "title": "Maansagari, Volume I (P.K. Vasudev)",
+    "author": "Harji; P.K. Vasudev (English translation and commentary)",
+    "tradition": "Jataka classic (Parashari and Bhrigu schools)",
+    "file": "Jyotish_Mansagari Vol.1.pdf",
+    "pageLocus": "Chapter 1 \"Effects of birth Gana\" and \"Effects of Yoni\", printed pp.85-91 (PDF page = printed + 27; the scan has no text layer, so every page was read from its image; the book's own lists of the stars of each gana and yoni are on pp.85 and 87)."
+  },
+  "scope": "What the book says of a person of each of the 3 ganas (3 verses) and each of the 14 yonis (14 verses), with the book's own lists of the stars of each (Table-3 on p.85, the verses and Table-3A on p.87). The book's lists agree with the software's (ashtakootaTables.js), which test-janma-gana-yoni.js checks. The translator's notes under these verses speak of marriage compatibility and are his own; they are not reproduced. The English print is summarised; where it differs from the Sanskrit words printed above it, the note says so.",
+  "ganaStars": {
+    "page": 85,
+    "deva": [1, 5, 7, 8, 13, 15, 17, 22, 27],
+    "manushya": [2, 4, 6, 11, 12, 20, 21, 25, 26],
+    "rakshasa": [3, 9, 10, 14, 16, 18, 19, 23, 24]
+  },
+  "yoniStars": {
+    "page": 87,
+    "rows": [
+      { "bookName": "Ashwan (Horse)", "stars": [1, 24] },
+      { "bookName": "Gaja (Elephant)", "stars": [27, 2] },
+      { "bookName": "Chaga (Goat-Sheep)", "stars": [8, 3] },
+      { "bookName": "Sarpa (Serpent)", "stars": [4, 5] },
+      { "bookName": "Savana (Dog)", "stars": [6, 19] },
+      { "bookName": "Moosaka (Rat)", "stars": [10, 11] },
+      { "bookName": "Marjara (Cat)", "stars": [7, 9] },
+      { "bookName": "Go (Cow)", "stars": [26, 12] },
+      { "bookName": "Mahisha (Buffalo)", "stars": [15, 13] },
+      { "bookName": "Mriga (Deer)", "stars": [18, 17] },
+      { "bookName": "Vaigra (Tiger)", "stars": [14, 16] },
+      { "bookName": "Markata (Vanara, Monkey)", "stars": [20, 22] },
+      { "bookName": "Simha (Lion)", "stars": [23, 25] },
+      { "bookName": "Nakula (Mongoose)", "stars": [21], "alsoBook": "Abhijit, which this software does not count as a star" }
+    ]
+  },
+  "gana": [
+    {
+      "key": "deva", "bookName": "Deva Gana", "verses": "1", "page": 85, "pageEnd": 86,
+      "ta": "கொடையாளி (தானம் செய்பவன்), அறிவுடையவன், தூய உள்ளம், பிடிவாதம்; கற்றவர்களிடையே உயர்ந்தவன்.",
+      "note": "வசனத்தின் சமஸ்கிருதச் சொற்கள்: சுந்தர (அழகன்), தானசீல (கொடையாளி), மதிமான் (அறிவாளி), சரல (எளிய, நேர்மையான உள்ளம்), அல்பபோகி (சிறிதே நுகர்பவன்), மஹாப்ராஜ்ஞ (பேரறிவாளி); ஆங்கில அச்சில் 'அழகன்', 'சிறிதே நுகர்பவன்' இல்லை, 'பிடிவாதம்' (obstinate) என்பது சேர்க்கப்பட்டுள்ளது."
+    },
+    {
+      "key": "manushya", "bookName": "Manushya Gana", "verses": "2", "page": 86,
+      "ta": "மானம் உடையவன், செல்வன், அகன்ற கண்கள், வில்-அம்பு ஏந்துபவன் (வில்லாளி), குறி தவறாத வில் வீரன், வெண்ணிறம், ஊர் மக்கள் மீது அதிகாரம் உடையவன்."
+    },
+    {
+      "key": "rakshasa", "bookName": "Rakshasa Gana", "verses": "3", "page": 86,
+      "ta": "பித்து (உன்மாதம்) பிடிப்பவன், அச்சமூட்டும் தோற்றம், சண்டைப் பிரியம், கடுமையானவன், சிறுநீர் நோய், கடுமையாகப் பேசுபவன்."
+    }
+  ],
+  "yoni": [
+    { "key": "horse", "bookName": "Ashwini (Horse) Yoni", "verses": "1", "page": 88, "ta": "சுதந்திரமானவன், நற்குணங்கள் உடையவன்; வீரன், ஒளிமிக்கவன், இசையில் தேர்ச்சி, எஜமானனிடம் பக்தி." },
+    { "key": "elephant", "bookName": "Gaja (Elephant) Yoni", "verses": "2", "page": 89, "ta": "அரசனுக்குப் பிரியமானவன், வலிமை, இன்ப நாட்டம்; அரசனின் பதவியைப் பெருமைப்படுத்துவான்; எப்போதும் ஊக்கம்." },
+    { "key": "sheep", "bookName": "Mesha (Chaga) Yoni", "verses": "7", "page": 90, "ta": "மிகுந்த உணர்ச்சி வேகம், பெரும் போர் வீரன், முயற்சி, ஆடம்பரம், பிறருக்கு உதவுபவன்." },
+    { "key": "serpent", "bookName": "Sarpa (Serpent) Yoni", "verses": "4", "page": 89, "ta": "கடுஞ்சினம், இரக்கமின்மை, நன்றியின்மை, அமைதியின்மை, பெருந்தீனி." },
+    { "key": "dog", "bookName": "Savana (Dog) Yoni", "verses": "5", "page": 89, "ta": "உழைப்பு, ஊக்கம், வீரம்; உறவினருடன் வாதாடுவான்; தாய்-தந்தையிடம் பக்தி." },
+    { "key": "cat", "bookName": "Marjara (Cat) Yoni", "verses": "6", "page": 89, "ta": "வீரம், தன் வேலையில் திறமை; இனிப்பான உணவு, பானங்களை உண்பவன்; அச்சமற்றவன், தீய இயல்பு." },
+    { "key": "rat", "bookName": "Moosaka (Rat) Yoni", "verses": "8", "page": 90, "ta": "அறிவு, செல்வம், தன் வேலையில் ஈடுபாடு; எப்போதும் எச்சரிக்கை; எல்லோரையும் நம்பமாட்டான்." },
+    { "key": "cow", "bookName": "Go (Cow) Yoni", "verses": "3", "page": 89, "ta": "பெண்களின் அன்பைப் பெறுவான், எப்போதும் ஊக்கம், மிகுந்த பேச்சாற்றல், குறுகிய ஆயுள்." },
+    { "key": "buffalo", "bookName": "Mahisha (Buffalo) Yoni", "verses": "10", "page": 90, "ta": "போரில் வெல்லும் வீரன், பாசம், பல பிள்ளைகள்; வயிற்றுத் தொந்தரவு, குறைந்த அறிவு." },
+    { "key": "tiger", "bookName": "Vaigra (Tiger) Yoni", "verses": "11", "page": 90, "pageEnd": 91, "ta": "சுயமாகச் செல்வம் ஈட்டுவதில் திறமை, (மதத்தில்) தீட்சை வழங்குபவன், முயற்சி; தற்புகழ்ச்சி கொண்டவன்." },
+    { "key": "deer", "bookName": "Mriga (Deer) Yoni", "verses": "12", "page": 91, "ta": "சுதந்திரம், அமைதி, நல்லொழுக்கம், உண்மை பேசுபவன், உடன்பிறந்தோரிடம் பாசம், விவேகி; சண்டைக்குப் பயப்படுபவன்." },
+    { "key": "monkey", "bookName": "Vanara (Markata) Yoni", "verses": "13", "page": 91, "ta": "அமைதியற்ற இயல்பு, இனிப்பு உணவில் விருப்பம், செல்வத்தின் மீது ஆசை, சண்டைப் பிரியம், இன்ப நாட்டம்; பிள்ளைகள் உடையவன், துணிவுடையவன்." },
+    { "key": "mongoose", "bookName": "Nakula (Mongoose) Yoni", "verses": "14", "page": 91, "ta": "பிறருக்கு உதவுபவன், தன் வேலையில் திறமை, செல்வன், அறிவு; தாய்-தந்தைக்குப் பிரியமானவன்." },
+    { "key": "lion", "bookName": "Simha (Lion) Yoni", "verses": "9", "page": 90, "ta": "துறவி போன்ற பண்பு, நற்குணம், நல்லொழுக்கம், நற்பண்புகள்; பல குடும்பங்களுக்கு உணவளிப்பவன்." }
+  ]
+}

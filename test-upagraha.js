@@ -42,10 +42,24 @@ assert.equal(u.upagrahas.Dhuma.parent, 'Mars');
 // Dhuma sits exactly Sun + 133°20′ regardless of path.
 assert.ok(Math.abs(u.upagrahas.Dhuma.longitude - norm360(chart.grahas.Sun.longitude + 133 + 20 / 60)) < 1e-6);
 
-// Māndi lags Gulika (its instant is Gulika-start + 1/16 of the day) so its
-// longitude is further along the zodiac than Gulika's (same day arc).
-const gap = norm360(u.upagrahas.Mandi.longitude - u.upagrahas.Gulika.longitude);
-assert.ok(gap > 0 && gap < 40, `Mandi just after Gulika (gap ${gap.toFixed(2)}°)`);
+// BPHS ch.3 (Girish Chand Vol.1 p.60 notes): "Gulika is called Mandi also", so Mandi is Gulika.
+assert.equal(u.upagrahas.Mandi.longitude, u.upagrahas.Gulika.longitude);
+
+// Which sunrise: the PL9 sample (5 Oct 1990 04:30 IST, Chennai 13N05 80E17; a Thursday night birth, Dhruvanka 6). PL9 prints
+// Gulika 03:02 Leo. From the visible sunrise (upper limb, refraction) it is 02:36 Leo; from the Hindu sunrise (centre of the disc,
+// no refraction: G.K. Ojha, Predictive Astrology of the Hindus, printed pp.35-36) it is 03:02, PL9's figure.
+const { julianDay: jdOf } = require('@swisseph/node');
+const pl9 = (sunrise) => calculateUpagrahas({
+  sunLongitude: 0, birthJd: jdOf(1990, 10, 5, 4.5 - 5.5), year: 1990, month: 10, day: 5, utcOffsetMinutes: 330,
+  latitude: 13.0833, longitude: 80.2833, ayanamsha: 'Lahiri', sunrise,
+}).upagrahas.Gulika;
+const dm = (g) => `${g.rasi} ${Math.floor(g.degreeInSign)}:${String(Math.floor((g.degreeInSign % 1) * 60)).padStart(2, '0')}`;
+assert.equal(dm(pl9()), 'Simha 3:02', "the default, the Hindu sunrise, gives PL9's Gulika");
+assert.equal(dm(pl9('disc-centre')), 'Simha 3:02');
+assert.equal(dm(pl9('upper-limb')), 'Simha 2:36', 'from the visible sunrise');
+assert.throws(() => require('./src/contracts/chartContext').createChartContext({
+  year: 1990, month: 1, day: 1, hour: 0, latitude: 0, longitude: 0, utcOffsetMinutes: 0, ianaTimeZone: 'UTC', calendarMode: 'tirukanita', sunrise: 'noon',
+}), /Unsupported sunrise/);
 
 console.log(JSON.stringify({
   pass: true, birthPeriod: u.birthPeriod,

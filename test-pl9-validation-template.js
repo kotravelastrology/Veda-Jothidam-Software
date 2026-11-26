@@ -2,7 +2,7 @@
  * PL9 VALIDATION TEST TEMPLATE
  *
  * Instructions:
- * 1. Open PL9 and load chart (see PL9-VALIDATION-CHECKLIST.md)
+ * 1. Open PL9 and load chart (see docs/archive/PL9-VALIDATION-CHECKLIST.md)
  * 2. Extract Rasi positions and Ashtakavarga outputs
  * 3. Update this template with actual PL9 values
  * 4. Run: node test-pl9-validation-template.js

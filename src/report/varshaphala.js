@@ -25,8 +25,10 @@ const { calculateParashariChart, rasiFromLongitude } = require('../chart/parasha
 const { calculateSahams } = require('./sahams');
 const { calculateTajikaYogas, calculateExtendedTajikaYogas } = require('./tajikaYogas');
 const { panchaVargeeyaBala, tajikaAspectOnPoint } = require('./panchaVargeeyaBala');
+const { panchaVargeeyaBook } = require('./panchaVargeeyaBook');
 const { EXALTATION, MOOLATRIKONA, OWN_SIGNS } = require('../chart/shadbala');
 const { calculateCharaDasha } = require('./jaimini');
+const { selectVarsheshaBook } = require('./varsheshaBook');
 
 // ── Tripataki Chakra (vijayalur.com "Tri Pataki Chakra") ──────────────────
 // D = completed years + 1. Moon: D mod 9 (0→9) forward from natal Moon.
@@ -107,12 +109,13 @@ function findSolarReturnUtcMs(natalSunLon, birthUtcMs, yearsElapsed) {
   return (lo + hi) / 2;
 }
 
-function fmtIst(ms) {
-  const d = new Date(ms + 330 * 60000);
+function fmtIst(ms, offsetMinutes = 330) {
+  const d = new Date(ms + offsetMinutes * 60000);
   const p = (n) => String(n).padStart(2, '0');
   return {
     date: `${d.getUTCFullYear()}-${p(d.getUTCMonth() + 1)}-${p(d.getUTCDate())}`,
     time: `${p(d.getUTCHours())}:${p(d.getUTCMinutes())}`,
+    second: d.getUTCSeconds(),
   };
 }
 
@@ -213,7 +216,7 @@ function calculateVarshaNarayanaDasa(natalLagnaRasi0, yearsElapsed, varshaChart,
  * @param {object} birthInput BirthFormInput (year..minute, latitude, longitude, utcOffsetMinutes, ...)
  * @param {number} age completed years since birth (>=1)
  */
-function calculateVarshaphala(birthInput, age) {
+function calculateVarshaphala(birthInput, age, { varsheshaMethod = 'BOOK', strengthMethod = 'BOOK' } = {}) {
   const yearsElapsed = Math.max(1, Math.floor(age));
 
   // Natal chart → natal Sun sidereal longitude + natal Lagna rasi
@@ -225,11 +228,13 @@ function calculateVarshaphala(birthInput, age) {
 
   const birthUtcMs = Date.UTC(
     birthInput.year, birthInput.month - 1, birthInput.day,
-    birthInput.hour, birthInput.minute || 0, 0,
+    birthInput.hour, birthInput.minute || 0, birthInput.second || 0,
   ) - (birthInput.utcOffsetMinutes || 0) * 60000;
 
   const returnUtcMs = findSolarReturnUtcMs(natalSunLon, birthUtcMs, yearsElapsed);
-  const ist = fmtIst(returnUtcMs);
+  // the return's wall clock at the birth place (the time is shown to the minute, the chart is cast for the second: PL9's Ascendant, to the minute of arc, depends on it)
+  const wallOffset = birthInput.utcOffsetMinutes ?? 330;
+  const ist = fmtIst(returnUtcMs, wallOffset);
 
   // Varsha chart: same place, the solar-return date/time (given in IST → convert back with the birth offset)
   const varshaInput = {
@@ -239,7 +244,8 @@ function calculateVarshaphala(birthInput, age) {
     day: Number(ist.date.slice(8, 10)),
     hour: Number(ist.time.slice(0, 2)),
     minute: Number(ist.time.slice(3, 5)),
-    utcOffsetMinutes: 330, // fmtIst produced an IST wall-clock time
+    second: ist.second,
+    utcOffsetMinutes: wallOffset, // fmtIst produced the birth zone's wall-clock time
   };
   const varsha = calculateParashariChart({ input: varshaInput, ayanamsha: 'Lahiri', houseSystem: 'Placidus' });
 
@@ -253,7 +259,7 @@ function calculateVarshaphala(birthInput, age) {
 
   // Day/night at the solar return (Sun above horizon ≈ 6:00–18:00 local as a cheap proxy)
   const localHour = Number(ist.time.slice(0, 2)) + Number(ist.time.slice(3, 5)) / 60
-    + (birthInput.longitude - 82.5) / 15; // rough LMT correction from IST meridian
+    + (birthInput.longitude - (wallOffset / 60) * 15) / 15; // rough LMT correction from the zone's meridian
   const daytime = localHour >= 6 && localHour < 18;
 
   // ── Varshesha (year lord) — classical Panchadhikari + PVB selection ────────
@@ -294,10 +300,22 @@ function calculateVarshaphala(birthInput, age) {
     : withMalefic.length ? 'malefic aspect + highest PVB (no benefic-aspect candidate)'
     : withAny.length ? 'any aspect + highest PVB (no benefic/malefic-aspect candidate)'
     : 'highest PVB alone (no candidate aspects the Varsha Lagna)';
-  const varshesha = withBenefic.length ? pickBest(withBenefic)
+  const legacyVarshesha = withBenefic.length ? pickBest(withBenefic)
     : withMalefic.length ? pickBest(withMalefic)
     : withAny.length ? pickBest(withAny)
     : pickBest(uniqueCandidates);
+
+  // The Varshapati as Tajika Bhushana selects him (ch.1 v.34-37; src/report/varsheshaBook.js). The older "most roles" selection above is kept as
+  // `varsheshaSelection.legacy` and can be chosen with { varsheshaMethod: 'ROLES' }.
+  const bookSelection = selectVarsheshaBook({
+    isDay: daytime, varshaLagnaSign: varshaLagnaRasi0, janmaLagnaSign: natalLagnaRasi0, munthaSign: munthaRasi0,
+    varshaSigns: Object.fromEntries(SEVEN.map((p) => [p, varsha.grahas[p].rasiIndex])),
+    varshaSunSign: varshaSunRasi0, varshaMoonSign: varshaMoonRasi0,
+    birthSigns: Object.fromEntries(SEVEN.map((p) => [p, natal.grahas[p].rasiIndex])),
+    lordOfSign: (sign) => RASI_LORDS[sign],
+    strength: (p) => (strengthMethod === 'BOOK' ? panchaVargeeyaBook(p, candLon(p)).total : panchaVargeeyaBala(p, candLon(p))),
+  });
+  const varshesha = varsheshaMethod === 'ROLES' ? legacyVarshesha : bookSelection.planet;
   const patyayiniDasha = calculatePatyayiniDasha(
     { lagnaLon: varsha.lagna.longitude, planetLons },
     returnUtcMs,
@@ -327,6 +345,7 @@ function calculateVarshaphala(birthInput, age) {
     natal: {
       sunLongitude: Math.round(natalSunLon * 100) / 100,
       lagnaRasi: RASI_NAMES[natalLagnaRasi0],
+      lagnaDegree: Math.round((natal.lagna.longitude % 30) * 1e6) / 1e6,
       moonRasi: RASI_NAMES[natalMoonRasi0],
     },
     varshaChart: varsha, // full Parashari chart — wrap as { chart: varshaChart } for RasiChartRenderer
@@ -338,11 +357,16 @@ function calculateVarshaphala(birthInput, age) {
     },
     varshesha,
     varsheshaSelection: {
-      tier: varsheshaTier,
+      method: varsheshaMethod,
+      strengthMethod,
+      book: bookSelection,
+      legacy: { planet: legacyVarshesha, tier: varsheshaTier },
+      tier: varsheshaMethod === 'ROLES' ? varsheshaTier : `நூல் முறை (தாஜிக பூஷணம் அத்.1 பா.34-37): ${bookSelection.rule}`,
       candidates: uniqueCandidates.map((p) => ({
         planet: p,
         roles: roleLabels.filter((_, i) => roles[i] === p),
         pvb: panchaVargeeyaBala(p, planetLons[p] ?? 0),
+        pvbBook: panchaVargeeyaBook(p, planetLons[p] ?? 0),
         lagnaAspect: aspectOf(p),
       })),
     },
@@ -370,4 +394,4 @@ function calculateVarshaphala(birthInput, age) {
   };
 }
 
-module.exports = { calculateVarshaphala, calculateVarshaVimsottariDasa, calculateVarshaNarayanaDasa };
+module.exports = { findSolarReturnUtcMs, calculateVarshaphala, calculateVarshaVimsottariDasa, calculateVarshaNarayanaDasa };

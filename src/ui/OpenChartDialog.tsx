@@ -3,6 +3,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { getChartLibrary, SavedChart } from '../portal/ChartLibraryManager';
+import { readPrefs } from './screenPrefsStore';
+import { filterSavedCharts } from '../portal/chartSearch';
+import { useRememberParty, inputFromSaved } from './chartParty';
 
 interface OpenChartDialogProps {
   isOpen: boolean;
@@ -12,7 +15,9 @@ interface OpenChartDialogProps {
 
 export function OpenChartDialog({ isOpen, mode, onClose }: OpenChartDialogProps) {
   const router = useRouter();
+  const rememberParty = useRememberParty();
   const [charts, setCharts] = useState<SavedChart[]>([]);
+  const [query, setQuery] = useState('');
 
   const refresh = useCallback(() => {
     const all = getChartLibrary().getAllCharts(); // already sorted newest-first
@@ -27,7 +32,10 @@ export function OpenChartDialog({ isOpen, mode, onClose }: OpenChartDialogProps)
 
   const openChart = (id: string) => {
     onClose();
-    router.push(`/report?load=${encodeURIComponent(id)}`);
+    // The chart becomes the open chart on every page, then the worksheet shows it
+    const saved = getChartLibrary().getChart(id);
+    if (saved) rememberParty({ kind: 'form', input: inputFromSaved(saved.birthData), label: saved.name });
+    router.push(readPrefs().homeRoute);
   };
 
   const removeChart = (id: string) => {
@@ -49,13 +57,25 @@ export function OpenChartDialog({ isOpen, mode, onClose }: OpenChartDialogProps)
         </div>
 
         <div className="p-4 overflow-y-auto">
+          {mode === 'all' && (
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search by name, place, date or time"
+              aria-label="Search for charts"
+              className="w-full mb-3 px-3 py-2 border border-line rounded bg-surface text-ink"
+            />
+          )}
           {charts.length === 0 ? (
             <p className="text-ink-soft text-center py-10">
               No saved charts yet. Calculate a chart, then use File → Save.
             </p>
+          ) : filterSavedCharts(charts, query).length === 0 ? (
+            <p className="text-ink-soft text-center py-10">No saved chart matches &quot;{query.trim()}&quot;.</p>
           ) : (
             <ul className="divide-y divide-line">
-              {charts.map((c) => (
+              {filterSavedCharts(charts, mode === 'all' ? query : '').map((c: SavedChart) => (
                 <li key={c.id} className="flex items-center gap-3 py-3">
                   <button
                     onClick={() => openChart(c.id)}
