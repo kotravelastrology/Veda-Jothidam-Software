@@ -72,4 +72,22 @@ assert.equal(at(12, 'Leo', 'Sun').page, 105);
 assert.equal(at(12, 'Gemini', 'Sun').planetSign, 'Taurus');
 assert.equal(at(12, 'Aries', 'Sun').planetSign, 'Pisces');
 
+// OCR slips corrected against the page images (2026-11-26); the book's own misprints ("Tammasic", "victors", "fete") are kept
+const allEn = PLANET_IN_HOUSE.map((e) => e.en).join(' ');
+for (const slip of ['obstmctions', 'Dharm a', 'cams wealth', 'is Ml of', 'power horn', 'pow*', 'fives like', 'of hfe', 'rehgious', 'straggle from', 'Dhanna', 'get M success',
+  'lull care', 'lull of', 'firm government', 'firm wife', 'alter the marriage', 'alter marriage', 'ate death', 'aid earns', 'frees loss', 'inspect and', 'diumal']) {
+  assert.ok(!allEn.includes(slip), `OCR slip back: ${slip}`);
+}
+assert.ok(allEn.includes('rise of fete'), 'p.217 prints "fete"');
+assert.ok(at(6, 'Leo', 'Mars').en.startsWith('Defends the enemy'), 'p.108 prints "Defends"');
+
+// Tamil summaries say what the English says (reviewed pair by pair, 2026-11-26)
+assert.ok(!at(4, 'Aries', 'Mars').ta.includes('ஞானமும் அவசரமும்'), 'Aries Mars 4th must not carry the 5th-house text');
+assert.ok(at(6, 'Aries', 'Sun').ta.startsWith('கல்வியில் குறை'));
+assert.ok(at(3, 'Capricorn', 'Rahu').ta.includes('சகோதரர் வீட்டில் சில இழப்பு'));
+assert.ok(at(7, 'Virgo', 'Saturn').ta.includes('தாய் போன்ற உதவி'));
+for (const e of PLANET_IN_HOUSE) {
+  if (/self-pride|self-conceit|self conceit/.test(e.en)) assert.ok(!/தன்னம்பிக்கை/.test(e.ta), `${e.planet} ${e.lagna} house ${e.house}: self-pride is not self-confidence`);
+}
+
 console.log('test-bhrigu-planet-in-house ok');
