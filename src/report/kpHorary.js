@@ -96,7 +96,9 @@ function horaryCusps(ascendant, latitude, longitude, jdNear) {
   const h = calculateHouses(jd, latitude, longitude, HouseSystem.Placidus);
   const ay = trueAyanamsa(jd);
   const cusps = h.cusps.map((c, i) => (i === 0 ? c : norm(c - ay)));
-  cusps[1] = ascendant; // exactly the number's own, whatever the rounding of the search
+  // the number's own beginning, whatever the rounding of the search; the table keeps 9 decimals, so a start rounded down (353.333333333 for
+  // 23°20' Pisces) would sit a hair inside the previous sub and give its lord: 1e-7° (0.0004") in from the edge stays in the number's sub
+  cusps[1] = norm(ascendant + 1e-7);
   return cusps;
 }
 
@@ -133,8 +135,11 @@ function horaryChart(q) {
   const sub = TABLE[q.number - 1] ?? (() => { throw new RangeError('the number must be a whole number from 1 to 249'); })();
   const jdNear = julianDay(q.year, q.month, q.day, q.hour + (q.minute || 0) / 60 + (q.second || 0) / 3600 - (q.utcOffsetMinutes || 0) / 60);
   const cusps = horaryCusps(sub.from, q.latitude, q.longitude, jdNear);
-  const kp = calculateKpSystem({ year: q.year, month: q.month, day: q.day, hour: q.hour, minute: q.minute || 0, second: q.second || 0, latitude: q.latitude, longitude: q.longitude, utcOffsetMinutes: q.utcOffsetMinutes || 0 }, { cuspsSidereal: cusps });
-  return { number: q.number, sub, kp, ruling: horaryRulingPlanets(kp) };
+  const moment = { year: q.year, month: q.month, day: q.day, hour: q.hour, minute: q.minute || 0, second: q.second || 0, latitude: q.latitude, longitude: q.longitude, utcOffsetMinutes: q.utcOffsetMinutes || 0 };
+  const kp = calculateKpSystem(moment, { cuspsSidereal: cusps });
+  // the ruling planets are those of the moment of judgment, with the ascendant actually rising then, not the number's: Reader VI p.156,
+  // number 246 at 5.30 P.M. on 24-10-1967, takes "Ascendant is in Asvini, Kethu star, sign is Aries" (the number's is Pisces, Revati)
+  return { number: q.number, sub, kp, ruling: horaryRulingPlanets(calculateKpSystem(moment)) };
 }
 
 module.exports = { subTable, TABLE, ascendantOfNumber, instantOfAscendant, horaryCusps, horaryChart, horaryRulingPlanets, SOURCE, kpChain, houseForLongitude, planetSignificators };

@@ -32,7 +32,15 @@ assert.throws(() => H.ascendantOfNumber(1.5), /1 to 249/);
 // the cusps are those of the moment that ascendant rises at the place: opposite cusps are 180 apart, the first is the number's own
 const c = H.horaryChart({ number: 77, year: 2026, month: 9, day: 18, hour: 8, minute: 0, utcOffsetMinutes: 330, latitude: 13.0827, longitude: 80.2707 });
 const cu = c.kp.cusps;
-assert.ok(Math.abs(cu[0].longitude - H.ascendantOfNumber(77)) < 1e-9);
+assert.ok(Math.abs(cu[0].longitude - H.ascendantOfNumber(77)) < 1e-6);
+// and it falls inside the number's own sub for every number: the table keeps 9 decimals, and a start rounded down used to put 112 of the
+// 249 numbers in the sub before (Reader VI p.156: 246 is Pisces, Revati, Mars sub — the Lagna 23°20' must not give Moon)
+const SIGNS = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+for (let n = 1; n <= 249; n += 1) {
+  const row = H.TABLE[n - 1];
+  const first = H.horaryChart({ number: n, year: 1967, month: 10, day: 24, hour: 17, minute: 30, utcOffsetMinutes: 330, latitude: 13.0827, longitude: 80.2707 }).kp.cusps[0];
+  assert.deepStrictEqual([first.sign, first.starLord, first.sub], [SIGNS[row.sign], row.starLord, row.subLord], `number ${n}`);
+}
 assert.ok(Math.abs(((cu[6].longitude - cu[0].longitude + 360) % 360) - 180) < 1e-6);
 assert.ok(Math.abs(((cu[9].longitude - cu[3].longitude + 360) % 360) - 180) < 1e-6);
 for (let i = 1; i < 12; i += 1) assert.ok(((cu[i].longitude - cu[i - 1].longitude + 360) % 360) < 90, 'cusps run forward');
