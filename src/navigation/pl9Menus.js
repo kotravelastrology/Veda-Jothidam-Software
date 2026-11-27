@@ -92,8 +92,8 @@ const CHARTS_MENU = [
   { key: 'chart-lordships', label: 'Lordships', status: 'have', target: { route: '/lordships' } },
   { key: 'chart-interpreting-grahas', label: 'Interpreting Grahas', status: 'have', target: { route: '/interpreting-grahas' } },
   {
-    key: 'chart-deities', label: 'Planetary deities', status: 'pending',
-    target: { pending: 'Not built: the user guide does not describe this worksheet, and the library has no cited source for the planets\' deities yet.' },
+    // the books' deity lists side by side (Annamalai course book, BPHS 3.18, Hora Ratnam 1.115); PL9's own worksheet is not described
+    key: 'chart-deities', label: 'Planetary deities', status: 'partial', target: { route: '/graha-devata' },
   },
   { key: 'chart-aspects', label: 'Aspects on planets', status: 'have', target: { route: '/report?chart=aspect-matrix' } },
   { key: 'chart-dashas-nakshatra', label: 'Dashas - Nakshatra based', status: 'have', target: { route: '/report?chart=dasha-vimsottari' } },

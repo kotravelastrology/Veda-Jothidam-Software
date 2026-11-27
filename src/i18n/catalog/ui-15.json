@@ -42,5 +42,8 @@
  "அச்சு உரை": "Printout text",
  "முகப்பு உரை": "Cover text",
  "அடிக்குறிப்பு": "Footer",
- "முகப்பு உரை ஜோதிடர் விவரத்தின் கீழே வரும்; அடிக்குறிப்பு அச்சின் ஒவ்வொரு பக்கத்தின் கீழும் வரும்.": "The cover text comes under the astrologer's details; the footer comes at the foot of every printed page."
+ "முகப்பு உரை ஜோதிடர் விவரத்தின் கீழே வரும்; அடிக்குறிப்பு அச்சின் ஒவ்வொரு பக்கத்தின் கீழும் வரும்.": "The cover text comes under the astrologer's details; the footer comes at the foot of every printed page.",
+ "ஒவ்வொரு கிரகத்துக்கும் நூல்கள் சொல்லும் தேவதைகள், நூல் வாரியாகத் தனித்தனியே. அதிகம் விளக்கும் நூல் முதலில். இது ஒரு குறிப்பு அட்டவணை; எந்த ஜாதகத்துக்கும் எந்தத் தேவதையையும் பரிந்துரைக்கவில்லை.": "The deities each book gives for every planet, book by book. The book that explains most comes first. This is a reference table; it recommends no deity for any chart.",
+ "{0}, ப.{1}": "{0}, p.{1}",
+ "பிருஹத் பராசரரும் ஹோரா ரத்னமும் சூரியன் முதல் சனி வரை ஏழு கிரகங்களுக்கு ஒரே தேவதைகளைச் சொல்கின்றன. அண்ணாமலை நூலின் \"அதி தேவதை\" நிரல் சூரியன், சந்திரன், புதன், குரு, சுக்கிரன் ஆகிய ஐந்துக்கும் அவற்றோடு ஒத்துப்போகிறது. சனிக்கு அது பிரஜாபதி என்கிறது (பராசரர்: பிரம்மா). செவ்வாய்க்கு அது பூமி என்கிறது; பராசரரின் சுப்பிரமணியர் அந்நூலின் \"தேவதை\" நிரலில் உள்ளார்.": "BPHS and Hora Ratnam give the same deities for the seven planets from the Sun to Saturn. The Annamalai book's \"Adhi devata\" column agrees with them for five: the Sun, Moon, Mercury, Jupiter and Venus. For Saturn it has Prajapati (Parashara: Brahma). For Mars it has the Earth; Parashara's Subrahmanya is in that book's \"Deity\" column."
 }

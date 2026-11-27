@@ -233,6 +233,40 @@ const SOURCES = [
     },
   },
   {
+    id: 'ANNAMALAI_JOTHIDAVIYAL_PAPER1',
+    title: 'Jothidaviyal, M.A. first year, Paper I: Jothidaviyalin Adippadai',
+    titleTa: 'சோதிடவியல், முதுகலை முதலாம் ஆண்டு, தாள் I: சோதிடவியலின் அடிப்படை',
+    author: 'Annamalai University (Saptharishi Jothida Ariviyal Payirchi & Aaraichi Maiyam, Madurai)',
+    file: 'C73-annamalai-jothidaviyal-ma-year1-paper1-scan.pdf',
+    tradition: 'Tamil university course text',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'A university course book, scanned by the owner (44 pages, 2026-11-27; SHA-256 a2074e0c…). Cited by section and printed page '
+        + '(scan page 2 = printed p.32); short table values only. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'The university\'s terms for its course material have not been read.',
+    },
+  },
+  {
+    id: 'HORA_RATNAM_SANTHANAM',
+    title: 'Hora Ratnam',
+    titleTa: 'ஹோரா ரத்னம்',
+    author: 'Balabhadra (R. Santhanam, translation)',
+    file: 'Jyotish_Hora ratnam _Santhanam.pdf',
+    tradition: 'Parashari compendium (17th century)',
+    rights: {
+      status: 'RESTRICTED',
+      mayShip: false,
+      mayQuoteShort: true,
+      note: 'The Sanskrit text is old; R. Santhanam\'s English translation is a twentieth-century work. Cited by chapter, verse and printed page; '
+        + 'summarised in our own words. The PDF must not be bundled or redistributed.',
+      verified: false,
+      toConfirm: 'Publisher and edition terms have not been read.',
+    },
+  },
+  {
     id: 'KP_EZINE_BOSMIA_SERIES1',
     title: 'Compilation of Articles Published in KP-Ezine, Series 1',
     titleTa: 'கே.பி.-இ-ஜின் கட்டுரைத் தொகுப்பு, தொடர் 1',

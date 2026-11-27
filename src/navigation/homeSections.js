@@ -21,6 +21,7 @@ const HOME_SECTIONS = [
       link('/ashtakavarga', '🔢', 'அஷ்டகவர்க்கம்', 'Ashtakavarga'),
       link('/lordships', '👑', 'பாவாதிபதிகள்', 'Lordships'),
       link('/interpreting-grahas', '🪐', 'கிரக விளக்கம்', 'Interpreting grahas'),
+      link('/graha-devata', '🛕', 'கிரக தேவதைகள்', 'Planetary deities'),
       link('/house-analysis', '🏠', 'பாவ பலம்', 'House analysis'),
       link('/yoga-detection', '✨', 'யோகங்கள்', 'Yogas'),
       link('/vimshopaka', '⚖️', 'விம்சோபக பலம்', 'Vimshopaka'),
